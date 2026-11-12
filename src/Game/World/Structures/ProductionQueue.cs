@@ -9,7 +9,7 @@ public partial class ProductionQueue : ENode
     public ProductionQueue(ECustomNode owner) : base(owner)
     { }
 
-    public ProductionControl ProductionControl;
+    public ProductionControl ProductionControl { get; set; }
 
     // Structur.PAS:83
     public ProductionItem GetItem(int index)

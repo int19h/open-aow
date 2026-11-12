@@ -16,7 +16,7 @@ public partial class EntangleAbility : TouchAbility
     public EntangleAbility(ECustomNode owner) : base(owner)
     {
         AbilityId = 40;
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_entangleText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.EntangleText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }
 

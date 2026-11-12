@@ -15,7 +15,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     // CombatILTer.pas:105
     public new const int ClassId = 2228534;
 
-    public CombatImageLibraryTerrainShadow Shadow;
+    private CombatImageLibraryTerrainShadow _shadow;
 
     // CombatILTer.pas:99
     public override void Dispose()
@@ -57,13 +57,13 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     // CombatILTer.pas:141
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!_status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(visibilityList);
-            if (Shadow != null)
+            if (_shadow != null)
             {
-                var showPriority = Shadow.GetShowPriority();
-                visibilityList.AddSortChild(Shadow, showPriority);
+                var showPriority = _shadow.GetShowPriority();
+                visibilityList.AddSortChild(_shadow, showPriority);
             }
         }
     }
@@ -94,15 +94,15 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     // CombatILTer.pas:118
     public void DestroyShadow()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
             if (GetVisible())
             {
-                _resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(Shadow);
+                _resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
-            Shadow?.Dispose();
-            Shadow = null;
+            _shadow?.Dispose();
+            _shadow = null;
         }
     }
 
@@ -111,15 +111,15 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     {
         if (_resource.ImageSequenceList.GetImageSequence(40) != null)
         {
-            if (Shadow != null)
+            if (_shadow != null)
             {
                 DestroyShadow();
             }
 
             if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
             {
-                Shadow = new CombatImageLibraryTerrainShadow(null);
-                Shadow._terrain = this;
+                _shadow = new CombatImageLibraryTerrainShadow(null);
+                _shadow._terrain = this;
             }
         }
     }

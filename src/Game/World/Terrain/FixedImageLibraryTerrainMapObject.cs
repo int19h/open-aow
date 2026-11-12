@@ -43,8 +43,8 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
         }
     }
@@ -56,9 +56,9 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
+                TerrainType = info.TerrainType;
                 UpdateTerrain((MapLevel)Owner.Owner, _hexX, _hexY);
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {

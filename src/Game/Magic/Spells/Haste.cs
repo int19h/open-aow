@@ -16,7 +16,7 @@ public partial class Haste : UnitSpell
     public Haste(ECustomNode owner) : base(owner)
     {
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_hasteText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.HasteText);
         SpellId = 15;
         BaseManaCost = 5;
         ManaUpkeep = 2;

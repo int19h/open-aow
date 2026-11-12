@@ -32,25 +32,27 @@ public partial class Item : AbilityOwner
     // Army.PAS:4211
     public Item(ECustomNode owner) : base(owner)
     {
-        ItemGraphicsIndex = -1;
-        Description = new StringList();
+        _itemGraphicsIndex = -1;
+        _description = new StringList();
         LibraryId = -1;
         RefCount = 1;
     }
 
     public int ItemId;
     public string OwnerName = "";
-    public Set<ItemStatusElement> Status;
-    public int RefCount;
+
+    public Set<ItemStatusElement> Status { get; set; }
+    public int RefCount { get; private set; }
+
     public int LibraryId;
     public string LibraryName = "";
-    public int ObtainValue;
+    private int _obtainValue;
     public string Name = "";
     public ItemType ItemType;
-    public int SpellId;
-    public StringList Description;
-    public int ItemGraphicsIndex;
-    public bool Hidden;
+    private int _spellId;
+    private StringList _description;
+    private int _itemGraphicsIndex;
+    private bool _hidden;
     public ItemAvailability Availability;
     public sbyte Attack;
     public sbyte Defense;
@@ -71,27 +73,27 @@ public partial class Item : AbilityOwner
             AoWHSMap.Current.ItemControl.UnregisterItem(this);
         }
 
-        Description?.Dispose();
+        _description?.Dispose();
         base.Dispose();
     }
 
     // Army.PAS:4241
     public override void SetOwner(ECustomNode owner)
     {
-        if (owner != _owner)
+        if (owner != Owner)
         {
             AddRef();
-            if (_owner != null)
+            if (Owner != null)
             {
-                _owner.RemoveChild(this);
+                Owner.RemoveChild(this);
             }
 
-            _owner = owner;
-            if (_owner != null)
+            SetOwnerWithoutNotify(owner);
+            if (Owner != null)
             {
-                if (_owner.AddChild(this) == -1)
+                if (Owner.AddChild(this) == -1)
                 {
-                    _owner = null;
+                    SetOwnerWithoutNotify(null);
                 }
             }
 
@@ -106,10 +108,10 @@ public partial class Item : AbilityOwner
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
         {
-            stream.rwInteger(ref ItemGraphicsIndex, 7);
+            stream.rwInteger(ref _itemGraphicsIndex, 7);
         }
 
-        if (!stream.StorageMode().Contains(EngineServices.Text) || _owner is ItemLibrary || !GetLibraryItem())
+        if (!stream.StorageMode().Contains(EngineServices.Text) || Owner is ItemLibrary || !GetLibraryItem())
         {
             stream.rwString(ref OwnerName, 8);
         }
@@ -123,11 +125,11 @@ public partial class Item : AbilityOwner
             stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 13);
             stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 14);
             stream.rwData(Bytes.Of(ref ItemType, 1), 1, 15);
-            stream.rwBool(ref Hidden, 16);
+            stream.rwBool(ref _hidden, 16);
             stream.rwInteger(ref ItemId, 17);
-            stream.rwStrings(Description, 18);
-            stream.rwInteger(ref ObtainValue, 19);
-            stream.rwInteger(ref SpellId, 20);
+            stream.rwStrings(_description, 18);
+            stream.rwInteger(ref _obtainValue, 19);
+            stream.rwInteger(ref _spellId, 20);
             stream.rwIntegerEx(ref LibraryId, -1, 21);
             if (!stream.StorageMode().Contains(EngineServices.Text))
             {
@@ -174,7 +176,7 @@ public partial class Item : AbilityOwner
     {
         AddRef();
         base.SetArrayOwner(owner, index);
-        if (_owner != null)
+        if (Owner != null)
         {
             AddRef();
         }
@@ -231,16 +233,16 @@ public partial class Item : AbilityOwner
     public virtual bool CanUse(Hero hero, ref string reason)
     {
         bool result;
-        if (ItemType == ItemType.Scroll && SpellId != 0)
+        if (ItemType == ItemType.Scroll && _spellId != 0)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(SpellId) == -1)
+            if (AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
             {
                 result = true;
             }
             else
             {
                 result = false;
-                var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(_spellId);
                 reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
             }
         }
@@ -287,11 +289,11 @@ public partial class Item : AbilityOwner
             switch (ItemType)
             {
                 case ItemType.Scroll:
-                    AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(SpellId);
+                    AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
                     if (AoWHSMap.Current.SeatedPlayer == hero.Player)
                     {
                         AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                        var spell = AoWHSSet.Current.SpellControl.GetSpell(_spellId);
                         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellResearchedFormat), [spell.SpellName]);
                         AoWHSMap.Current.ShowMessage(format);
                     }
@@ -309,7 +311,7 @@ public partial class Item : AbilityOwner
     public virtual void Show(int X, int Y, in LockedSurface surface)
     {
         ItemGraphics graphics;
-        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(ItemGraphicsIndex);
+        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics != null)
         {
             graphics.AddRef();
@@ -344,9 +346,9 @@ public partial class Item : AbilityOwner
     // Army.PAS:4320
     public void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        if (_owner != null && _owner is ItemList)
+        if (Owner != null && Owner is ItemList)
         {
-            ((ItemList)_owner).GetLocation(ref X, ref Y, ref L);
+            ((ItemList)Owner).GetLocation(ref X, ref Y, ref L);
         }
         else
         {
@@ -364,7 +366,7 @@ public partial class Item : AbilityOwner
     {
         LibraryImage result;
         ItemGraphics graphics;
-        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(ItemGraphicsIndex);
+        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics != null)
         {
             graphics.AddRef();
@@ -415,7 +417,7 @@ public partial class Item : AbilityOwner
             }
             else
             {
-                if (_owner == null)
+                if (Owner == null)
                 {
                     this.Dispose();
                 }
@@ -430,7 +432,7 @@ public partial class Item : AbilityOwner
     // Army.PAS:4415
     public void SetItemGraphicsIndex(int value)
     {
-        ItemGraphicsIndex = value;
+        _itemGraphicsIndex = value;
     }
 
     // Army.PAS:4430
@@ -443,7 +445,7 @@ public partial class Item : AbilityOwner
         Damage = 0;
         itemType = value;
         ItemType = itemType;
-        ItemGraphicsIndex = AoWHSSet.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
+        _itemGraphicsIndex = AoWHSSet.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
         base.Clear();
     }
 
@@ -451,9 +453,9 @@ public partial class Item : AbilityOwner
     public int GetObtainValue()
     {
         int result;
-        if (ObtainValue > 10)
+        if (_obtainValue > 10)
         {
-            result = ObtainValue;
+            result = _obtainValue;
         }
         else
         {
@@ -526,16 +528,16 @@ public partial class Item : AbilityOwner
     // The editor drop message carries screen X/Y, level, and result.
     public struct DropMessage
     {
-        public int MessageId;
-        public int Sequence;
-        public EngineObject Sender;
-        public Int32Array3 Param;
-        public int PixelX;
-        public int PixelY;
-        public int MapLevel;
-        public int Reserved0;
-        public int Reserved1;
-        public int Result;
+        public int MessageId { get; }
+        public int Sequence { get; }
+        public EngineObject Sender { get; }
+        public Int32Array3 Param { get; }
+        public int PixelX { get; }
+        public int PixelY { get; }
+        public int MapLevel { get; }
+        public int Reserved0 { get; }
+        public int Reserved1 { get; }
+        public int Result { get; set; }
     }
 
     // intf_P2_04.inc:84

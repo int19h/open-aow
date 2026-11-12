@@ -135,7 +135,7 @@ because the frame oracle depends on them:
   `Rect?`, null for nil, with the virtual methods and their overrides as in the original
   (`BlitDisplayController`, `DataSurface.Create` (Delphi `TDataSurface`) and `CaptureSurface`, `LibraryImage.ShowDisplayController` (Delphi `TLibraryImage`) take the same).
   `CustomDisplayController.GetPrimarySurfaceRegion` (Delphi `TAbstractDC`) returns `Rect?` as well, and `DisplayController` (Delphi `TDisplayCtrl`) returns its
-  `_primarySurfaceRegion` where the original returns `@FPrimarySurfaceRgn`.
+  `PrimarySurfaceRegion` where the original returns `@FPrimarySurfaceRgn`.
   `SurfaceRectangleTests` pins these methods with and without a rectangle.
 
 ### 3.4 Surface classes in the port
@@ -169,7 +169,7 @@ AoWEPACK:
 | `FillChar(P^, n, v)`, `Move(S^, D^, n)` on pixels | `Span<byte>.Fill` and `CopyTo` on slices of the block |
 | an untyped `Pointer` and a pitch passed to a blitter | a `SurfaceView` (section 5.2), tables and encoded images as byte spans |
 | a `PRect` parameter, nil for the whole surface or no rectangle | `Rect?`, null for nil (section 3.3) |
-| a block of records grown with `ReallocMem` and shifted with `Move` (`HashList.FItems` (Delphi `THashList`) in `HashTabU`, `CustomImageLibrary._images` (Delphi `TCustomImageLibrary`), `ImageNode._images` (Delphi `TImageNode`), `FrameTableList._list` (Delphi `TFrameTableList`), `Matrix._data` (Delphi `TMatrix`) in `DisplayC`) | a `T[]` with the original's count and capacity, so the growth steps stay: `RtlUnit.ReallocArray` (size 0 gives null, as `ReallocMem` gives nil), `MoveElements` and `ClearElements` for `Move` and `FillChar` of records. `GraphicsArrayTests` pins them |
+| a block of records grown with `ReallocMem` and shifted with `Move` (`HashList.FItems` (Delphi `THashList`) in `HashTabU`, `CustomImageLibrary.Images` (Delphi `TCustomImageLibrary`), `ImageNode.Images` (Delphi `TImageNode`), `FrameTableList._list` (Delphi `TFrameTableList`), `Matrix.Data` (Delphi `TMatrix`) in `DisplayC`) | a `T[]` with the original's count and capacity, so the growth steps stay: `RtlUnit.ReallocArray` (size 0 gives null, as `ReallocMem` gives nil), `MoveElements` and `ClearElements` for `Move` and `FillChar` of records. `GraphicsArrayTests` pins them |
 | a function result `PPaletteEntry` (`Palette.GetEntry`) | a `ref` return |
 
 A probe `pointers` (section 10) exercises each row on the oracle compiler before the graphics units
@@ -383,7 +383,7 @@ differs (`RemapToPixelFormat`).
 
 ### 6.4 The bit mask
 
-`_maskData` holds `MaskHeight` rows of `Pitch = ((W + 31) shr 5) shl 2` bytes, each row whole
+`MaskData` holds `MaskHeight` rows of `Pitch = ((W + 31) shr 5) shl 2` bytes, each row whole
 dwords, the first pixel of a row in the most significant bit of its first dword (`AddBit` shifts
 left and flushes a dword every 32 bits, the last dword of a row is shifted up to fill). A `BitMask`
 draws white, a `Shadow` darkens (section 5.2).
@@ -447,9 +447,9 @@ one view of their rows:
 | `Picture08` | `_buffer`, the rows from byte 0, `View` | `_pitch` as section 6.1, `_pitch * DataHeight + 7` bytes |
 | `Picture16`, `TransparentPicture16` | `_buffer`, the rows from byte 0, `View` | `_pitch` as section 6.1, `_pitch * DataHeight + 7` bytes |
 | `Sprite16` | `_buffer`, the rows of the sprite rectangle from byte 0, `View` | `_pitch` from `SpriteWidth` as for `$10`, `_pitch * SpriteHeight + 7` bytes |
-| `RleSprite08` | `_data`, the encoded rows | `DataSize` bytes |
+| `RleSprite08` | `Data`, the encoded rows | `DataSize` bytes |
 | `RleSprite16`, `TransparentRleSprite16` | `_data`, the encoded rows (section 6.3) | `DataSize` bytes |
-| `BitMask`, `Shadow` | `_maskData` (section 6.4) | `_pitch * MaskHeight + 4` bytes |
+| `BitMask`, `Shadow` | `MaskData` (section 6.4) | `_pitch * MaskHeight + 4` bytes |
 
 The original allocates `FBuffer` 7 bytes larger than the rows and points `FBits` (`Picture08`) or
 `FData` (`Picture16`, `Sprite16`) at `FBuffer` rounded up to 8 bytes, for MMX. The alignment has
@@ -465,7 +465,7 @@ or `View` to the blitters. The decoders of section 5.2 take the encoded data and
 at every 4,096 bytes past `DataSize`) and write words and dwords little-endian at an index. A grab
 reads the grabbed surface through `SD.View()`, and the 8-bit grab of `RleSprite08` reads its
 bytes from `SD.Data` at `SD.DataIndex + Y * Pitch + X` (`RleSprite08GrabTests`). A library keeps
-its images in `_images`, an array of `ImageItem` (Delphi `TImageItem`) of the original's capacity, rounded up to 8
+its images in `Images`, an array of `ImageItem` (Delphi `TImageItem`) of the original's capacity, rounded up to 8
 less one, and an image node keeps its sub-images in an array of `LibraryImage` (section 3.5).
 
 `ImageDecodeTests` pins the classes on the installed libraries (every image of the 538 files: the

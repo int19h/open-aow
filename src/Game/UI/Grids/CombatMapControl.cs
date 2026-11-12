@@ -14,26 +14,26 @@ namespace Aow.Game.UI.Grids;
 // event methods occupy
 public partial class CombatMapControl : Component
 {
-    public SelectHSEvent _onSelected;
-    public SelectHSEvent _onDeselected;
-    public NotifyEvent<object> _onActivateHsm;
-    public NotifyEvent<object> _onDeactivateHsm;
-    public PlayerChangedEvent _onIncomeChanged;
-    public PlayerChangedEvent _onUpkeepChanged;
-    public PlayerChangedEvent _onGemsChanged;
-    public ShowMessageEvent _onShowMessage;
-    public TurnChangedEvent _onTurnChanged;
-    public PlayerChangedEvent _onPlayerChanged;
-    public PlayerChangedEvent _onSeatedPlayerChanged;
-    public OnExecuteEventLogEvent _onExecuteEventLog;
-    public MapChangedEvent _onMapChanged;
-    public PlayerChangedEvent _onLogbookChanged;
-    public NotifyEvent<object> _onActivateMap;
-    public NotifyEvent<object> _onDeActivateMap;
-    public SelectHSEvent _onMouseOverTarget;
-    public SelectCombatUnitEvent _onUnitChanged;
-    public CastCombatSpellEvent _onCastSpell;
-    public ActivateCombatAbilityEvent _onActivateAbility;
+    private SelectHSEvent _onSelected;
+    private SelectHSEvent _onDeselected;
+    private NotifyEvent<object> _onActivateHsm;
+    private NotifyEvent<object> _onDeactivateHsm;
+    private PlayerChangedEvent _onIncomeChanged;
+    private PlayerChangedEvent _onUpkeepChanged;
+    private PlayerChangedEvent _onGemsChanged;
+    private ShowMessageEvent _onShowMessage;
+    private TurnChangedEvent _onTurnChanged;
+    private PlayerChangedEvent _onPlayerChanged;
+    private PlayerChangedEvent _onSeatedPlayerChanged;
+    private OnExecuteEventLogEvent _onExecuteEventLog;
+    private MapChangedEvent _onMapChanged;
+    private PlayerChangedEvent _onLogbookChanged;
+    private NotifyEvent<object> _onActivateMap;
+    private NotifyEvent<object> _onDeActivateMap;
+    private SelectHSEvent _onMouseOverTarget;
+    private SelectCombatUnitEvent _onUnitChanged;
+    private CastCombatSpellEvent _onCastSpell;
+    private ActivateCombatAbilityEvent _onActivateAbility;
 
     // CMapCtrl.pas:117
     public override void Dispose()

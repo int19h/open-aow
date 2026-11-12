@@ -15,7 +15,7 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:993
     public PowerLeakEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_powerLeakText);
+        Name = AbilityRules.TranslateResourceString(GameText.PowerLeakText);
         EnchantmentType = GlobalEnchantmentType.PowerLeak;
         DispelMana = 25;
     }

@@ -32,19 +32,19 @@ public partial class Fire : ImageLibraryTerrainMapObject
 
     public new const int ClassId = 132990;
 
-    public Set<ModeElement> Mode;
+    private Set<ModeElement> _mode;
     public sbyte TurnsLeft;
     public byte Age;
-    public int _showPriority;
+    private int _showPriority;
     public sbyte Player;
-    public int ExplosionFrame;
+    private int _explosionFrame;
 
     // Structur.PAS:3402
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 5);
-        RwSet(ref Mode, 1, 6, stream.rwData, 0);
+        RwSet(ref _mode, 1, 6, stream.rwData, 0);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 7);
         stream.rwByte(ref Age, 8);
     }
@@ -57,8 +57,8 @@ public partial class Fire : ImageLibraryTerrainMapObject
         Age = 0;
         Player = 0;
         _showPriority = 1744830464;
-        Mode = Set<ModeElement>.Of(ModeElement.Expandable);
-        ExplosionFrame = 0;
+        _mode = Set<ModeElement>.Of(ModeElement.Expandable);
+        _explosionFrame = 0;
     }
 
     // Structur.PAS:3672
@@ -112,9 +112,9 @@ public partial class Fire : ImageLibraryTerrainMapObject
         int frame;
         int X = default;
         int Y = default;
-        if (ExplosionFrame != 0)
+        if (_explosionFrame != 0)
         {
-            frame = AoWHSMap.Current.Frame - ExplosionFrame;
+            frame = AoWHSMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
                 HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
@@ -124,7 +124,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             {
                 if (frame < -1000 || frame >= 0)
                 {
-                    ExplosionFrame = 0;
+                    _explosionFrame = 0;
                     base.Show(pixelXSurface, pixelYSurface, lockedSurface);
                 }
             }
@@ -217,7 +217,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3509
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!_status.Contains(MapObjectStatusElement.Visible) && ExplosionFrame != 0 && AoWHSMap.Current.Frame == ExplosionFrame)
+        if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && AoWHSMap.Current.Frame == _explosionFrame)
         {
             var hexX = GetHexX();
             AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[(hexX + AoWHSMap.Current.Frame) % 2]);
@@ -314,7 +314,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         if (_resource.ImageSequenceList.GetImageSequence(20) != null)
         {
-            ExplosionFrame = delay + AoWHSMap.Current.Frame;
+            _explosionFrame = delay + AoWHSMap.Current.Frame;
         }
     }
 
@@ -445,7 +445,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         // FireType
         public override void Dispose()
         {
-            if (_engine != null && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine != null && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 AoWHSSet.Current.FireControl.UnregisterFireResource(this);
             }
@@ -474,7 +474,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 132990;
 
         // Structur.PAS:3692
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameTables.s_fireText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameTables.FireText);
 
     }
 

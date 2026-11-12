@@ -25,7 +25,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
     public PbemPlayerControl(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte LocalPlayer;
+    private sbyte _localPlayer;
 
     // PlayerC.PAS:984
     public override void NewTurn(sbyte player)
@@ -39,7 +39,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
         }
         else
         {
-            if (AoWHSMap.Current.Players.LocalPlayers.Count > 1 || player != LocalPlayer)
+            if (AoWHSMap.Current.Players.LocalPlayers.Count > 1 || player != _localPlayer)
             {
                 AoWHSMap.Current.SetCurrentPlayer(player);
                 var players = AoWHSMap.Current.Players.GetPlayers(player);
@@ -102,7 +102,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
 
         if (test)
         {
-            LocalPlayer = (sbyte)player;
+            _localPlayer = (sbyte)player;
             var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
             AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
         }
@@ -210,7 +210,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 else
                 {
                     messageLog = new MessageEventLog(null);
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat) + ".", [AoWHSMap.Current.FileName]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat) + ".", [AoWHSMap.Current.FileName]);
                     messageLog.Message.Text = format;
                     AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
                     messageLog.Release();
@@ -265,7 +265,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
             try
             {
                 GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_gameSavedFormat), [((SaveGameEventLog)log).FileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.GameSavedFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowMessage(format);
                 failed = false;
             }
@@ -282,7 +282,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
         if (failed)
         {
             messageLog = new MessageEventLog(null);
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat) + ".", [((SaveGameEventLog)log).FileName]);
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat) + ".", [((SaveGameEventLog)log).FileName]);
             messageLog.Message.Text = format;
             AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
             messageLog.Release();
@@ -330,7 +330,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 var players = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
                 AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
                 GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_gameSavedFormat), [((SaveGameEventLog)log).FileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.GameSavedFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowMessage(format);
                 AoWHSMap.Current.SynchronizeBegin();
                 base.EndTurn(AoWHSMap.Current.CurrentPlayer);
@@ -339,7 +339,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowWarning(format);
                 failed = true;
             }
@@ -415,7 +415,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
     {
         bool restarted = default;
         MessageEventLog log = default;
-        LocalPlayer = AoWHSMap.Current.CurrentPlayer;
+        _localPlayer = AoWHSMap.Current.CurrentPlayer;
         var players = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
         if (GameTables.GameEngine.EmailGames.FindEmailGame(players.PbemSettings.EmailGame) == null)
         {
@@ -440,7 +440,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 SetSeatedPlayer(-1);
                 log = new MessageEventLog(null);
                 log.Buttons = MessageEventLogButtons.YesNo;
-                log.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+                log.Title = AbilityRules.TranslateResourceString(GameText.WarningText);
                 var pbemRestartCheat = AbilityRules.TranslateResourceString(s_pbemRestartCheatText);
                 log.Message.Text = pbemRestartCheat;
                 log.Message.Add("");
@@ -455,7 +455,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 if ((AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status & Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone)) == Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone))
                 {
                     log = new MessageEventLog(null);
-                    log.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+                    log.Title = AbilityRules.TranslateResourceString(GameText.WarningText);
                     log.Buttons = MessageEventLogButtons.YesNo;
                     var pbemGameEnded = AbilityRules.TranslateResourceString(s_pbemGameEndedText);
                     log.Message.Text = pbemGameEnded;
@@ -485,7 +485,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowWarning(format);
             }
         }

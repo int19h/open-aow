@@ -30,15 +30,15 @@ public partial class MapField : ECustomNode
     }
 
     internal HexSprite[] _hexSpriteList = [];
-    internal byte _capacity;
+    private byte _capacity;
     internal byte _count;
-    internal byte _staticCount;
-    internal Set<MapFieldStatusElement> _status;
-    internal sbyte _hexX;
-    internal sbyte _hexY;
-    internal sbyte _hexLevel;
-    internal sbyte _terrainType;
-    internal sbyte _overlayType;
+    private byte _staticCount;
+    private Set<MapFieldStatusElement> _status;
+    private sbyte _hexX;
+    private sbyte _hexY;
+    private sbyte _hexLevel;
+    private sbyte _terrainType;
+    private sbyte _overlayType;
 
     // HSEngine.pas:1907
     public override void Dispose()
@@ -53,7 +53,7 @@ public partial class MapField : ECustomNode
     // HSEngine.pas:1923
     public override void SetOwner(ECustomNode owner)
     {
-        _owner = owner;
+        SetOwnerWithoutNotify(owner);
     }
 
     // HSEngine.pas:2029
@@ -380,7 +380,7 @@ public partial class MapField : ECustomNode
         for (int I = 1; I <= 6; I++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
-            if (walk.X >= 0 && walk.X < ((MapLevel)Owner)._width && walk.Y >= 0 && ((MapLevel)Owner)._height > walk.Y)
+            if (walk.X >= 0 && walk.X < ((MapLevel)Owner).Width && walk.Y >= 0 && ((MapLevel)Owner).Height > walk.Y)
             {
                 info.HexNumber = (sbyte)s_oppositeHexDirectionTable[I - 1];
                 ((MapLevel)Owner).GetField(walk.X, walk.Y).NeighbourTerrainChanged(ref info);

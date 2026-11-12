@@ -14,7 +14,7 @@ public partial class ProductionItem : EngineObject
     public ProductionItem(ECustomNode owner) : base(owner)
     { }
 
-    public ProductionOrder Order = new UnknownOrder(0, 0, 0);
+    public ProductionOrder Order { get; set; } = new UnknownOrder(0, 0, 0);
 
     // Structur.PAS:63
     public override void ReadWrite(EStorageStream stream)
@@ -40,7 +40,7 @@ public partial class ProductionItem : EngineObject
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
         return result;
@@ -56,7 +56,7 @@ public partial class ProductionItem : EngineObject
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
         return result;

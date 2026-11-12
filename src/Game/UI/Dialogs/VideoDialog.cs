@@ -34,20 +34,23 @@ public partial class VideoDialog : DataModule
     public Panel T3LBPnl;
     public VerticalScrollBar VideoSB;
     public IvTranslator Translator;
-    public DisplayModeList DisplayModes;
-    public ScreenMode FullScreen;
-    public bool ModeChanged;
-    public int SceneWidth;
-    public int SceneHeight;
-    public int DisplayWidth;
-    public int DisplayHeight;
+    private DisplayModeList _displayModes;
+    private ScreenMode _fullScreen;
+
+    public bool ModeChanged { get; set; }
+
+    private int _sceneWidth;
+    private int _sceneHeight;
+
+    public int DisplayWidth { get; private set; }
+    public int DisplayHeight { get; private set; }
 
     // AoWVideoDlg.pas:366
     public void SetSceneSize(int W, int H)
     {
-        SceneWidth = W;
-        SceneHeight = H;
-        if (FullScreen == ScreenMode.Title)
+        _sceneWidth = W;
+        _sceneHeight = H;
+        if (_fullScreen == ScreenMode.Title)
         {
             ModeChanged = true;
         }
@@ -68,9 +71,9 @@ public partial class VideoDialog : DataModule
         DisplayModesLB.Items.Clear();
         var desktopWindow = AbilityRules.TranslateResourceString(s_desktopWindowText);
         DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
-        for (int I = 0, last = DisplayModes.Count - 1; I <= last; I++)
+        for (int I = 0, last = _displayModes.Count - 1; I <= last; I++)
         {
-            mode = DisplayModes.Items[I];
+            mode = _displayModes.Items[I];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 var fullScreen = AbilityRules.TranslateResourceString(s_fullScreenText);
@@ -91,14 +94,14 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:195
     public void VideoDlgWindowCreate()
     {
-        DisplayModes = new DisplayModeList();
-        ListDisplayModes(DisplayModes, 0, 0, 16);
+        _displayModes = new DisplayModeList();
+        ListDisplayModes(_displayModes, 0, 0, 16);
     }
 
     // AoWVideoDlg.pas:201
     public void VideoDlgWindowDestroy()
     {
-        DisplayModes?.Dispose();
+        _displayModes?.Dispose();
     }
 
     // AoWVideoDlg.pas:206
@@ -118,14 +121,14 @@ public partial class VideoDialog : DataModule
             I = ObjectToInt(DisplayModesLB.Items.Objects[DisplayModesLB.Selected]);
             if (I != -1)
             {
-                DisplayWidth = DisplayModes.Items[I].Width;
-                DisplayHeight = DisplayModes.Items[I].Height;
+                DisplayWidth = _displayModes.Items[I].Width;
+                DisplayHeight = _displayModes.Items[I].Height;
                 ChangeResolution(DisplayWidth, DisplayHeight);
-                FullScreen = ScreenMode.Game;
+                _fullScreen = ScreenMode.Game;
             }
             else
             {
-                FullScreen = ScreenMode.Windowed;
+                _fullScreen = ScreenMode.Windowed;
                 ChangeResolution(0, 0);
             }
         }
@@ -187,9 +190,9 @@ public partial class VideoDialog : DataModule
 
     internal static void SetSceneSize(VideoDialog dialog, int width, int height)
     {
-        dialog.SceneWidth = width;
-        dialog.SceneHeight = height;
-        if (dialog.FullScreen == ScreenMode.Title)
+        dialog._sceneWidth = width;
+        dialog._sceneHeight = height;
+        if (dialog._fullScreen == ScreenMode.Title)
         {
             dialog.ModeChanged = true;
         }
@@ -201,7 +204,7 @@ public partial class VideoDialog : DataModule
     {
         dialog.DisplayWidth = width;
         dialog.DisplayHeight = height;
-        if (dialog.FullScreen == ScreenMode.Game)
+        if (dialog._fullScreen == ScreenMode.Game)
         {
             dialog.ModeChanged = true;
         }
@@ -215,9 +218,9 @@ public partial class VideoDialog : DataModule
 
     internal static void SetVideoMode(VideoDialog dialog, ScreenMode fullScreen)
     {
-        if (fullScreen != dialog.FullScreen)
+        if (fullScreen != dialog._fullScreen)
         {
-            dialog.FullScreen = fullScreen;
+            dialog._fullScreen = fullScreen;
             dialog.ModeChanged = true;
         }
     }

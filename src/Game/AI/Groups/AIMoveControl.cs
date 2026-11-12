@@ -21,25 +21,26 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3911
     public AIMoveControl(ECustomNode owner) : base(owner)
     {
-        PathSettings = new MoveControlSettings(null);
+        _pathSettings = new MoveControlSettings(null);
         Clear();
     }
 
-    public AIMoveControlStatus Status;
-    public AIMoveControlSettings Settings;
-    public int ProcessCycles;
-    public SByteArray16By16 MovePointTable;
-    public SByteArray16By16 TransportMovePointTable;
-    public bool MultipleTransportGaps;
-    public AIMoveControlMode Mode;
-    public int State;
-    public MoveControlSettings PathSettings;
+    public AIMoveControlStatus Status { get; private set; }
+    public AIMoveControlSettings Settings { get; private set; }
+
+    private int _processCycles;
+    private SByteArray16By16 _movePointTable;
+    private SByteArray16By16 _transportMovePointTable;
+    private bool _multipleTransportGaps;
+    private AIMoveControlMode _mode;
+    private int _state;
+    private MoveControlSettings _pathSettings;
 
     // AIGroup.pas:3918
     public override void Dispose()
     {
         Clear();
-        PathSettings.Release();
+        _pathSettings.Release();
         base.Dispose();
     }
 
@@ -55,9 +56,9 @@ public partial class AIMoveControl : EngineObject
         }
 
         Status = AIMoveControlStatus.Idle;
-        ProcessCycles = 0;
-        PathSettings.Reset();
-        PathSettings.Mode = PathSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+        _processCycles = 0;
+        _pathSettings.Reset();
+        _pathSettings.Mode = _pathSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
     }
 
     // AIGroup.pas:3941
@@ -78,11 +79,11 @@ public partial class AIMoveControl : EngineObject
     public void ProcessCanMove()
     {
         int points;
-        switch (State)
+        switch (_state)
         {
             case 0:
-                PathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points != -1)
                 {
@@ -90,7 +91,7 @@ public partial class AIMoveControl : EngineObject
                 }
                 else
                 {
-                    State += 1;
+                    _state += 1;
                     if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessCanMove();
@@ -99,10 +100,10 @@ public partial class AIMoveControl : EngineObject
 
                 break;
             case 1:
-                PathSettings.MovePointsMax = Settings.MovePointsMax;
-                var canMove = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                _pathSettings.MovePointsMax = Settings.MovePointsMax;
+                var canMove = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 Settings.MovePoints = canMove;
-                Settings.TransportPath.Assign(PathSettings.Path);
+                Settings.TransportPath.Assign(_pathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
                 break;
         }
@@ -116,17 +117,17 @@ public partial class AIMoveControl : EngineObject
         {
             for (int overlay = -1; overlay <= 11; overlay++)
             {
-                points = MovePointTable[terrain][overlay - -1];
+                points = _movePointTable[terrain][overlay - -1];
                 if (points == -1)
                 {
-                    points = TransportMovePointTable[terrain][overlay - -1];
+                    points = _transportMovePointTable[terrain][overlay - -1];
                     if (points != -1)
                     {
                         points = 8;
                     }
                 }
 
-                PathSettings.MovePointTable[terrain][overlay - -1] = points;
+                _pathSettings.MovePointTable[terrain][overlay - -1] = points;
             }
         }
     }
@@ -192,7 +193,7 @@ public partial class AIMoveControl : EngineObject
             var item3 = path[lastGap];
             Settings.TransportDestination = item3;
             result = true;
-            MultipleTransportGaps = gaps > 1;
+            _multipleTransportGaps = gaps > 1;
         }
         else
         {
@@ -207,16 +208,16 @@ public partial class AIMoveControl : EngineObject
     {
         int points;
         MapCoordinate Location = default;
-        switch (State)
+        switch (_state)
         {
             case 0:
-                PathSettings.MovePointTable = MovePointTable;
-                PathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                _pathSettings.MovePointTable = _movePointTable;
+                _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points == -1)
                 {
-                    State += 1;
+                    _state += 1;
                     if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessTransporterCanMove();
@@ -230,25 +231,25 @@ public partial class AIMoveControl : EngineObject
                 break;
             case 1:
                 SelectCombinedTransporterArmyMpT();
-                PathSettings.MovePointsMax = Settings.MovePointsMax;
-                PathSettings.Mode = Settings.MoveMode + Set<MoveModeElement>.Of(MoveModeElement.AvoidArmies);
-                AoWHSMap.Current.MoveControl.ProcessMove(PathSettings);
-                if (PathSettings.Path.Count != 0)
+                _pathSettings.MovePointsMax = Settings.MovePointsMax;
+                _pathSettings.Mode = Settings.MoveMode + Set<MoveModeElement>.Of(MoveModeElement.AvoidArmies);
+                AoWHSMap.Current.MoveControl.ProcessMove(_pathSettings);
+                if (_pathSettings.Path.Count != 0)
                 {
-                    var item = PathSettings.Path[0];
-                    var fPathItem = PathSettings.Path[0];
-                    var item2 = PathSettings.Path[0];
-                    var movePoints = PathSettings.GetMovePoints(item2.X, fPathItem.Y, item.MapLevel);
+                    var item = _pathSettings.Path[0];
+                    var fPathItem = _pathSettings.Path[0];
+                    var item2 = _pathSettings.Path[0];
+                    var movePoints = _pathSettings.GetMovePoints(item2.X, fPathItem.Y, item.MapLevel);
                     Settings.MovePoints = movePoints;
-                    Settings.TransportPath.Assign(PathSettings.Path);
-                    if (CalculateTransportGaps(PathSettings.Path, MovePointTable))
+                    Settings.TransportPath.Assign(_pathSettings.Path);
+                    if (CalculateTransportGaps(_pathSettings.Path, _movePointTable))
                     {
-                        State = 2;
-                        PathSettings.MovePointTable = TransportMovePointTable;
+                        _state = 2;
+                        _pathSettings.MovePointTable = _transportMovePointTable;
                         Settings.Transporter.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
-                        PathSettings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
+                        _pathSettings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
                         ref var location = ref Settings.TransportSource;
-                        PathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
+                        _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
                         if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
@@ -267,11 +268,11 @@ public partial class AIMoveControl : EngineObject
 
                 break;
             case 2:
-                PathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 if (points == -1)
                 {
-                    State = 3;
+                    _state = 3;
                     if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessTransporterCanMove();
@@ -280,13 +281,13 @@ public partial class AIMoveControl : EngineObject
                 else
                 {
                     Settings.MovePoints += points;
-                    if (MultipleTransportGaps)
+                    if (_multipleTransportGaps)
                     {
                         // { Original repeats the first gap source before continuing. }
                         ref var location = ref Settings.TransportSource;
-                        PathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
+                        _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
-                        MultipleTransportGaps = false;
+                        _multipleTransportGaps = false;
                         if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
@@ -300,9 +301,9 @@ public partial class AIMoveControl : EngineObject
 
                 break;
             case 3:
-                PathSettings.MovePointTable = TransportMovePointTable;
-                PathSettings.MovePointsMax = Settings.MovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                _pathSettings.MovePointTable = _transportMovePointTable;
+                _pathSettings.MovePointsMax = Settings.MovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 if (points == -1)
                 {
                     Settings.MovePoints = -1;
@@ -311,13 +312,13 @@ public partial class AIMoveControl : EngineObject
                 else
                 {
                     Settings.MovePoints += points;
-                    if (MultipleTransportGaps)
+                    if (_multipleTransportGaps)
                     {
                         ref var location = ref Settings.TransportDestination;
-                        PathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
+                        _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
-                        MultipleTransportGaps = false;
-                        State = 2;
+                        _multipleTransportGaps = false;
+                        _state = 2;
                         if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
@@ -354,12 +355,12 @@ public partial class AIMoveControl : EngineObject
             Settings.BoardingPoint.X = -1;
             Settings.ArrivalPoint.X = -1;
             Settings.Status = AIMoveControlStatus.Processing;
-            MovePointTable = Settings.MovePointTable;
+            _movePointTable = Settings.MovePointTable;
             transporter = Settings.Transporter;
             if (transporter != null)
             {
                 var moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
-                TransportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
+                _transportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
             }
         }
     }
@@ -371,22 +372,22 @@ public partial class AIMoveControl : EngineObject
         Reset();
         Initialize(settings);
         Status = AIMoveControlStatus.Processing;
-        PathSettings.Reset();
-        PathSettings.SetSourcePosition(this.Settings.SourceX, this.Settings.SourceY, this.Settings.SourceL);
+        _pathSettings.Reset();
+        _pathSettings.SetSourcePosition(this.Settings.SourceX, this.Settings.SourceY, this.Settings.SourceL);
 
-        PathSettings.Player = Settings.Player;
-        PathSettings.SetDestinationPosition(Settings.DestinationX, Settings.DestinationY, Settings.DestinationL);
-        PathSettings.MovePointsMax = Settings.MovePointsMax;
-        PathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
-        PathSettings.Selection = Settings.Selection;
-        PathSettings.Mode = Settings.MoveMode;
+        _pathSettings.Player = Settings.Player;
+        _pathSettings.SetDestinationPosition(Settings.DestinationX, Settings.DestinationY, Settings.DestinationL);
+        _pathSettings.MovePointsMax = Settings.MovePointsMax;
+        _pathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
+        _pathSettings.Selection = Settings.Selection;
+        _pathSettings.Mode = Settings.MoveMode;
         if (Settings.Transporter == null)
         {
-            Mode = AIMoveControlMode.CanMove;
-            PathSettings.MovePointTable = MovePointTable;
+            _mode = AIMoveControlMode.CanMove;
+            _pathSettings.MovePointTable = _movePointTable;
             if (Settings.SourceL == Settings.DestinationL)
             {
-                State = 0;
+                _state = 0;
                 if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                 {
                     ProcessCanMove();
@@ -394,19 +395,19 @@ public partial class AIMoveControl : EngineObject
             }
             else
             {
-                State = 1;
+                _state = 1;
             }
 
             result = true;
         }
         else
         {
-            Mode = AIMoveControlMode.TransporterCanMove;
+            _mode = AIMoveControlMode.TransporterCanMove;
             var armyHexSprite = Settings.Transporter.Owner is HeroList ? null : Settings.Transporter.ArmyOwner.GetArmyHexSprite();
-            PathSettings.TransporterArmy = armyHexSprite;
+            _pathSettings.TransporterArmy = armyHexSprite;
             if (Settings.SourceL == Settings.DestinationL)
             {
-                State = 0;
+                _state = 0;
                 if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                 {
                     ProcessTransporterCanMove();
@@ -414,7 +415,7 @@ public partial class AIMoveControl : EngineObject
             }
             else
             {
-                State = 1;
+                _state = 1;
             }
 
             result = true;
@@ -444,8 +445,8 @@ public partial class AIMoveControl : EngineObject
     {
         if (Status == AIMoveControlStatus.Processing)
         {
-            ProcessCycles += 1;
-            switch (Mode)
+            _processCycles += 1;
+            switch (_mode)
             {
                 case AIMoveControlMode.CanMove:
                     ProcessCanMove();

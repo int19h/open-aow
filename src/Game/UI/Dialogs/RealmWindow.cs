@@ -190,7 +190,7 @@ public partial class RealmWindow : DataModule
                 C = (City)structure;
                 var name = C.GetName();
                 T2NameLB.Items.AddObject(name, C);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[C.Race]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[C.Race]);
                 T2RaceLB.Items.Add(raceNamesPlural);
                 T2IncomeLB.Items.Add(IntToStr(C.Income));
                 T2LevelLB.Items.Add(IntToStr(C.UpgradeLevel));

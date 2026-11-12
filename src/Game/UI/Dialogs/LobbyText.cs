@@ -2,14 +2,14 @@ namespace Aow.Game.UI.Dialogs;
 
 internal static class LobbyText
 {
-    internal static readonly string s_connectionLostText = "Connection Lost!";
+    internal static string ConnectionLostText { get; } = "Connection Lost!";
 
-    internal static readonly string s_chooseFactionText = "Choose a Faction";
+    internal static string ChooseFactionText { get; } = "Choose a Faction";
 
-    internal static readonly string s_cultOfStormsText = "The Cult of Storms";
+    internal static string CultOfStormsText { get; } = "The Cult of Storms";
 
-    internal static readonly string s_keepersText = "The Keepers";
+    internal static string KeepersText { get; } = "The Keepers";
 
-    internal static readonly string s_confirmText = "Confirm";
+    internal static string ConfirmText { get; } = "Confirm";
 
 }

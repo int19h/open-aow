@@ -23,8 +23,8 @@ public partial class PasswordDialog : DataModule
     public Label PasswordLbl;
     public Edit PasswordEdit;
     public IvTranslator Translator;
-    public ExecuteDoneEvent Done;
-    public PasswordEventLog PasswordEvent;
+    private ExecuteDoneEvent _done;
+    private PasswordEventLog _passwordEvent;
 
     // AoWPasswordDlg.pas:43
     public void Finish()
@@ -32,10 +32,10 @@ public partial class PasswordDialog : DataModule
         ExecuteDoneEvent done;
         PasswordEventLog eventValue;
         Dlg.Visible = false;
-        done = Done;
-        eventValue = PasswordEvent;
-        Done = null;
-        PasswordEvent = null;
+        done = _done;
+        eventValue = _passwordEvent;
+        _done = null;
+        _passwordEvent = null;
         if (done != null)
         {
             done(eventValue);
@@ -61,16 +61,16 @@ public partial class PasswordDialog : DataModule
     // AoWPasswordDlg.pas:58
     public void OKBtnClick()
     {
-        PasswordEvent.Password = PasswordEdit.Text;
-        PasswordEvent.PressedButton = PressedEventLogButton.Ok;
+        _passwordEvent.Password = PasswordEdit.Text;
+        _passwordEvent.PressedButton = PressedEventLogButton.Ok;
         Dlg.Visible = false;
     }
 
     // AoWPasswordDlg.pas:65
     public void CancelBtnClick()
     {
-        PasswordEvent.Password = "";
-        PasswordEvent.PressedButton = PressedEventLogButton.Cancel;
+        _passwordEvent.Password = "";
+        _passwordEvent.PressedButton = PressedEventLogButton.Cancel;
         Dlg.Visible = false;
     }
 
@@ -87,10 +87,10 @@ public partial class PasswordDialog : DataModule
     {
         PasswordEventLog log;
         dialog.Reset();
-        dialog.Done = done;
-        dialog.PasswordEvent = eventValue;
-        dialog.PasswordEvent.AddRef();
-        log = dialog.PasswordEvent;
+        dialog._done = done;
+        dialog._passwordEvent = eventValue;
+        dialog._passwordEvent.AddRef();
+        log = dialog._passwordEvent;
         dialog.TitleLbl.Text = log.Title;
         dialog.PasswordLbl.Text = log.Prompt;
         dialog.PasswordEdit.Text = log.Password;

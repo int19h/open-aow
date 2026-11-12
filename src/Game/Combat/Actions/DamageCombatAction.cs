@@ -30,7 +30,8 @@ public partial class DamageCombatAction : SingleTargetCombatAction
     public byte Damage;
     public PackedDamageTypes DamageTypes;
     public PackedDamageTypes Effects;
-    public byte DamageDone;
+
+    public byte DamageDone { get; protected set; }
 
     // Combat2.pas:777
     public override void ReadWrite(EStorageStream stream)

@@ -7,15 +7,16 @@ namespace Aow.Game.Draw;
 // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
 public partial class DirectDrawSurface : Surface
 {
-    protected internal NotifyEvent<object> _onSurfaceLost;
-    protected internal int _pixelFormatId;
-    protected internal int _width;
-    protected internal int _height;
-    protected internal Set<DirectDrawSurfaceCreationFlagsElement> _creationFlags;
-    protected internal Set<DirectDrawSurfaceStatusElement> _status;
-    protected internal int LockCount;
-    protected internal int RectangleLockCount;
-    protected internal LockedSurface LockedSurface;
+    private NotifyEvent<object> _onSurfaceLost;
+    private int _pixelFormatId;
+    private int _width;
+    private int _height;
+    private Set<DirectDrawSurfaceCreationFlagsElement> _creationFlags;
+    private Set<DirectDrawSurfaceStatusElement> _status;
+
+    protected internal int LockCount { get; }
+    protected internal int RectangleLockCount { get; }
+    protected internal LockedSurface LockedSurface { get; }
 
     // GFXE.pas:9279
     public override int GetPixelFormatId() => _pixelFormatId;

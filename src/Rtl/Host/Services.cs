@@ -29,7 +29,7 @@ public interface IShellService
 
 public sealed class RefusingShell : IShellService
 {
-    public static readonly RefusingShell Instance = new();
+    public static RefusingShell Instance { get; } = new();
 
     public void OpenUrl(string url) => throw new InvalidOperationException("No shell service opens " + url);
 }

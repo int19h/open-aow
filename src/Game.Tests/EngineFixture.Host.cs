@@ -30,7 +30,8 @@ public sealed partial class EngineFixture
         private readonly string _previousExecutable = Runtime.Application.ExeName;
         private readonly Action<string> _previousMessage = Runtime.MessageHandler;
         private readonly string _previousLocalization = LocalizationRuntime.StartupDirectory;
-        internal readonly List<Entry> Events = [];
+
+        internal List<Entry> Events { get; } = [];
 
         internal RecordingHost(string fault)
         {
@@ -56,11 +57,11 @@ public sealed partial class EngineFixture
             EngineHost.Engines = new List<GameEngine>();
             EngineHost.Plugins = new List<Engine.Plugin>();
             EngineHost.Packages = new StringList();
-            EngineHost.s_verifyEngineObjectEnabled = true;
+            EngineHost.VerifyEngineObjectEnabled = true;
             GameTables.GameEngine = null!;
             AoWHSSet.Current = null!;
             AoWHSMap.Current = null!;
-            GameEngine.s_hexSpriteEngineDebugChannel = CombatAbilityTables.s_combatDebugChannel = AbilityRules.s_aiDebugChannel = AbilityRules.s_temporaryDebugChannel = GameEngine.s_magicDebugChannel = 0;
+            GameEngine.HexSpriteEngineDebugChannel = CombatAbilityTables.CombatDebugChannel = AbilityRules.AiDebugChannel = AbilityRules.TemporaryDebugChannel = GameEngine.MagicDebugChannel = 0;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
@@ -73,11 +74,11 @@ public sealed partial class EngineFixture
         {
             ["AoWEngine"] = GameTables.GameEngine is not null,
             ["AoWHSSet"] = AoWHSSet.Current is not null,
-            ["HSEngineDID"] = GameEngine.s_hexSpriteEngineDebugChannel,
-            ["CombatDID"] = CombatAbilityTables.s_combatDebugChannel,
-            ["AIDID"] = AbilityRules.s_aiDebugChannel,
-            ["TMPDID"] = AbilityRules.s_temporaryDebugChannel,
-            ["MAGICDID"] = GameEngine.s_magicDebugChannel,
+            ["HSEngineDID"] = GameEngine.HexSpriteEngineDebugChannel,
+            ["CombatDID"] = CombatAbilityTables.CombatDebugChannel,
+            ["AIDID"] = AbilityRules.AiDebugChannel,
+            ["TMPDID"] = AbilityRules.TemporaryDebugChannel,
+            ["MAGICDID"] = GameEngine.MagicDebugChannel,
             ["BaseImageLibraryPath"] = Relative(ImageLibraries.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(AudioHost.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),

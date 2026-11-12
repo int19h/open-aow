@@ -32,9 +32,11 @@ public partial class FactionSelectionWindow : DataModule
     public Label DName;
     public Image DSphere;
     public IvTranslator Translator;
-    public int Fade;
-    public int FadeImage;
-    public int FadeDirection;
+
+    public int Fade { get; set; }
+    public int FadeImage { get; private set; }
+    public int FadeDirection { get; private set; }
+
     public ByteArray4 SelectionFlags;
 
     // AoWSelFactionWin.pas:63
@@ -124,7 +126,7 @@ public partial class FactionSelectionWindow : DataModule
         {
             DSphere.Visible = false;
             LSphere.Visible = false;
-            var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
+            var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
             TopLbl.Text = chooseFaction;
         }
     }
@@ -136,7 +138,7 @@ public partial class FactionSelectionWindow : DataModule
         {
             DSphere.Visible = true;
             LSphere.Visible = false;
-            var cultOfStorms = AbilityRules.TranslateResourceString(LobbyText.s_cultOfStormsText);
+            var cultOfStorms = AbilityRules.TranslateResourceString(LobbyText.CultOfStormsText);
             TopLbl.Text = cultOfStorms;
         }
     }
@@ -148,7 +150,7 @@ public partial class FactionSelectionWindow : DataModule
         {
             DSphere.Visible = false;
             LSphere.Visible = true;
-            var keepers = AbilityRules.TranslateResourceString(LobbyText.s_keepersText);
+            var keepers = AbilityRules.TranslateResourceString(LobbyText.KeepersText);
             TopLbl.Text = keepers;
         }
     }
@@ -177,7 +179,7 @@ public partial class FactionSelectionWindow : DataModule
                     LStart.Visible = false;
                     LSphere.Visible = false;
                     TopLbl.Visible = true;
-                    var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
+                    var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
                     TopLbl.Text = chooseFaction;
                     FactionPnl.ImageLibraryIndexTexture = 0;
                 }
@@ -191,7 +193,7 @@ public partial class FactionSelectionWindow : DataModule
                         DStart.Visible = false;
                         DSphere.Visible = false;
                         TopLbl.Visible = true;
-                        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
+                        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
                         TopLbl.Text = chooseFaction;
                         FactionPnl.ImageLibraryIndexTexture = 0;
                     }

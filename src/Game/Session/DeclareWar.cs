@@ -17,9 +17,9 @@ public sealed partial record DeclareWar : DiplomaticProposal
 
     public override int Icon => 9;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.s_declareWarText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.DeclareWarText);
 
-    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameTables.s_warText);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameTables.WarText);
 
     public override int MiddleIcon(DiplomaticAction action) => 0x15;
 

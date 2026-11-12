@@ -16,11 +16,11 @@ public partial class TokenManager : IDisposable
         _tokenPackageDistributor = CreateTokenPackageDistributor();
     }
 
-    internal TokenExecutor _tokenExecutor;
-    internal TokenPackageDistributor _tokenPackageDistributor;
-    internal object _owner;
-    internal List<TokenControl> _tokenControls;
-    internal NetworkMessageEvent _onMessage;
+    private TokenExecutor _tokenExecutor;
+    private TokenPackageDistributor _tokenPackageDistributor;
+    private object _owner;
+    private List<TokenControl> _tokenControls;
+    private NetworkMessageEvent _onMessage;
 
     // NetworkE.pas:1642
     public virtual TokenExecutor CreateTokenExecutor() => new TokenExecutor(this);
@@ -35,10 +35,10 @@ public partial class TokenManager : IDisposable
     public virtual void Initialize(PlayerCommunicator pc)
     {
         _tokenPackageDistributor.SetPC(pc);
-        if (pc._playerCommunicationControl.GetCount() > 0)
+        if (pc.PlayerCommunicationControl.GetCount() > 0)
         {
             ClearPlayers();
-            for (int I = 0, last = pc._playerCommunicationControl.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = pc.PlayerCommunicationControl.GetCount() - 1; I <= last; I++)
             {
                 CreatePlayer(I);
             }
@@ -64,11 +64,11 @@ public partial class TokenManager : IDisposable
         bool result;
         if (player < _tokenControls.Count && _tokenControls[player] != null)
         {
-            bool condition = _tokenExecutor._systemEvents.Count != 0 || (_tokenControls[player]).GetCount() != 0;
+            bool condition = _tokenExecutor.SystemEvents.Count != 0 || (_tokenControls[player]).GetCount() != 0;
             if (!condition)
             {
                 var item = _tokenControls[player];
-                condition = _tokenExecutor._prefetchTacticalBattle == item && _tokenExecutor._state.Contains(TokenExecutorState.Executing);
+                condition = _tokenExecutor.PrefetchTacticalBattle == item && _tokenExecutor.State.Contains(TokenExecutorState.Executing);
             }
 
             if (condition)

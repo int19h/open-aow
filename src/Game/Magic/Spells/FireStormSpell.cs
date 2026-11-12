@@ -12,7 +12,7 @@ public partial class FireStormSpell : StormSpell
     // Storms.pas:939
     public FireStormSpell(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.s_fireStormText);
+        SpellName = AbilityRules.TranslateResourceString(GameTables.FireStormText);
         SpellId = 3;
         BaseManaCost = 5;
         SpellLevel = 4;

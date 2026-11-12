@@ -11,7 +11,7 @@ public partial class EnterCaveEventLog : MessageEventLog
     public EnterCaveEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public Cave Cave;
+    public Cave Cave { get; set; }
 
     // Cave.pas:442
     public override bool Yes()

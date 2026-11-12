@@ -9,8 +9,8 @@ public partial class SmtpSender : Component
     public SmtpSender(Component owner) : base(owner)
     { }
 
-    public string Host = "";
-    public MailMessage Message;
+    public string Host { get; set; } = "";
+    public MailMessage Message { get; set; }
 
     // AoWSMTPDlg.pas:29
     public void SetWinsockLoaded(bool value)

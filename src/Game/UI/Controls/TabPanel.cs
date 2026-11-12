@@ -14,13 +14,14 @@ namespace Aow.Game.UI.Controls;
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
 public partial class TabPanel : Control
 {
-    public StringList _items;
-    public int _selected;
-    public InterfaceImageLibrary _imageLibraryButton;
-    public int _borderHeightSelected;
-    public int _imageLibraryIndexUp;
-    public int _imageLibraryIndexDown;
-    public List<Panel> Panels;
+    private StringList _items;
+    private int _selected;
+    private InterfaceImageLibrary _imageLibraryButton;
+    private int _borderHeightSelected;
+    private int _imageLibraryIndexUp;
+    private int _imageLibraryIndexDown;
+
+    public List<Panel> Panels { get; }
 
     // AoWTabPanel.pas:62
     public TabPanel(Component owner) : base(owner)
@@ -72,15 +73,15 @@ public partial class TabPanel : Control
         var imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
         var imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
         var count = _items.Count;
-        if ((imageLibraryButtonWidth.Width + imageLibraryButton.Width) * count > _winWidth)
+        if ((imageLibraryButtonWidth.Width + imageLibraryButton.Width) * count > WinWidth)
         {
             var imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
             var imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
             var fItemsCount = _items.Count;
-            _winWidth = (imageLibraryButton2.Width + imageLibraryButton3.Width) * fItemsCount;
+            SetWinWidthWithoutInvalidate((imageLibraryButton2.Width + imageLibraryButton3.Width) * fItemsCount);
         }
 
-        _winHeight = _imageLibraryButton[_imageLibraryIndexUp].Height;
+        SetWinHeightWithoutInvalidate(_imageLibraryButton[_imageLibraryIndexUp].Height);
         if (_items.Count <= _selected)
         {
             _selected = _items.Count - 1;
@@ -97,7 +98,7 @@ public partial class TabPanel : Control
         Rect oldClip = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -111,7 +112,7 @@ public partial class TabPanel : Control
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new Rect(_window._winLeft + _winLeft + _winWidth * I / fItemsCount, _window._winTop + _winTop, _winWidth / count, _winHeight);
+                        var rectangle = new Rect(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
@@ -120,14 +121,14 @@ public partial class TabPanel : Control
                             var textWidth = _font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[I];
-                            _font.SetText(_window._winLeft + _winLeft + _winWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, _window._winTop + _winTop + _borderHeight, item2, lockedSurface);
+                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeight, item2, lockedSurface);
                         }
                     }
                     else
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new Rect(_window._winLeft + _winLeft + _winWidth * I / fItemsCount, _window._winTop + _winTop, _winWidth / count, _winHeight);
+                        var rectangle = new Rect(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
@@ -136,7 +137,7 @@ public partial class TabPanel : Control
                             var textWidth = _font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[I];
-                            _font.SetText(_window._winLeft + _winLeft + _winWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, _window._winTop + _winTop + _borderHeightSelected, item2, lockedSurface);
+                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
@@ -159,13 +160,13 @@ public partial class TabPanel : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left)
             {
                 var count = _items.Count;
-                SetIndex((X - _window._winLeft - _winLeft) / (_winWidth / count));
+                SetIndex((X - Window.WinLeft - WinLeft) / (WinWidth / count));
             }
 
             if (_onMouseDown != null)
@@ -179,7 +180,7 @@ public partial class TabPanel : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight && Valid == true && _visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -194,7 +195,7 @@ public partial class TabPanel : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= _window._winLeft + _winLeft && X <= _window._winLeft + _winLeft + _winWidth - 1 && Y >= _window._winTop + _winTop && Y <= _window._winTop + _winTop + _winHeight - 1)
+        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             if (_onMouseMove != null)

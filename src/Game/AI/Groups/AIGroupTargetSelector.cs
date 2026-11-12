@@ -33,49 +33,59 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3041
     public AIGroupTargetSelector(ECustomNode owner) : base(owner)
     {
-        Recruitment = new AIGroupRecruitControl(null);
-        Production = new AIGroupProductionControl(null);
-        Cooperation = new AIGroupCooperationControl(null);
+        _recruitment = new AIGroupRecruitControl(null);
+        _production = new AIGroupProductionControl(null);
+        _cooperation = new AIGroupCooperationControl(null);
         Priorities = new PrioritySettings();
-        SpareUnits = new UnitUserList(null);
+        _spareUnits = new UnitUserList(null);
     }
 
-    public AIGroupTargetingStatus TargetStatus;
-    public AIGroupTask AIGroupTask;
-    public AIGroupRecruitControl Recruitment;
-    public AIGroupProductionControl Production;
-    public AIGroupCooperationControl Cooperation;
-    public Set<AIGroupTargetingModes> Mode;
-    public int MovesMin;
-    public AIGroupControlTarget Target;
-    public int Priority;
-    public UnitUserList SpareUnits;
-    public AIGroupControlTarget NextTarget;
-    public float BattleFieldFactor;
-    public float CurrentBattleFieldFactor;
-    public float BattleFieldMoveFactor;
-    public int BattleFieldRadius;
-    public Set<DamageType> DamageTypes;
-    public float Superiority;
-    public float NearSuperiority;
-    public float MoveDayFactor;
-    public int MinimumStrength;
-    public float MultiTargetFactor;
-    public float PathStrengthFactor;
-    public float CurrentPathStrengthFactor;
-    public int TargetLimit;
-    public bool AllowTransport;
-    public int ValidTargetLimit;
-    public PrioritySettings Priorities;
+    public AIGroupTargetingStatus TargetStatus { get; private set; }
+
+    private AIGroupTask _aiGroupTask;
+    private AIGroupRecruitControl _recruitment;
+    private AIGroupProductionControl _production;
+    private AIGroupCooperationControl _cooperation;
+
+    public Set<AIGroupTargetingModes> Mode { get; set; }
+
+    private int _movesMin;
+    private AIGroupControlTarget _target;
+    private int _priority;
+    private UnitUserList _spareUnits;
+    private AIGroupControlTarget _nextTarget;
+
+    public float BattleFieldFactor { get; set; }
+    public float CurrentBattleFieldFactor { get; set; }
+
+    private float _battleFieldMoveFactor;
+    private int _battleFieldRadius;
+    private Set<DamageType> _damageTypes;
+
+    public float Superiority { get; set; }
+    public float NearSuperiority { get; set; }
+    public float MoveDayFactor { get; set; }
+    public int MinimumStrength { get; set; }
+    public float MultiTargetFactor { get; set; }
+    public float PathStrengthFactor { get; set; }
+    public float CurrentPathStrengthFactor { get; set; }
+
+    private int _targetLimit;
+
+    public bool AllowTransport { get; private set; }
+
+    private int _validTargetLimit;
+
+    public PrioritySettings Priorities { get; }
 
     // AIGroup.pas:3051
     public override void Dispose()
     {
         DeactivatePlugin();
-        Recruitment.Release();
-        Production.Release();
-        Cooperation.Release();
-        SpareUnits?.Dispose();
+        _recruitment.Release();
+        _production.Release();
+        _cooperation.Release();
+        _spareUnits?.Dispose();
         base.Dispose();
     }
 
@@ -83,21 +93,21 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public override void Validate()
     {
         Troop troop;
-        for (int I = SpareUnits.Count - 1; I >= 0; I--)
+        for (int I = _spareUnits.Count - 1; I >= 0; I--)
         {
-            troop = SpareUnits.GetUnit(I);
+            troop = _spareUnits.GetUnit(I);
             if (GroupControl.Group.IndexOf(troop) == -1)
             {
-                SpareUnits.DeleteUnit(troop);
+                _spareUnits.DeleteUnit(troop);
             }
         }
 
         GroupControl.Targets.Validate();
-        if (State != 21 && Target != null)
+        if (State != 21 && _target != null)
         {
-            if (GroupControl.Targets._children.IndexOf(Target) == -1)
+            if (GroupControl.Targets._children.IndexOf(_target) == -1)
             {
-                Target = null;
+                _target = null;
                 if (State > 0 && State < 10)
                 {
                     State = 0;
@@ -121,12 +131,12 @@ public partial class AIGroupTargetSelector : AIGroupTask
         bool valid = default;
         GroupControl = control;
         GroupControl.Targets.Validate();
-        MovesMin = 50;
+        _movesMin = 50;
         for (int I = GroupControl.Group.Count - 1; I >= 0; I--)
         {
-            if (GroupControl.Group.GetUnit(I).GetMoves() < MovesMin)
+            if (GroupControl.Group.GetUnit(I).GetMoves() < _movesMin)
             {
-                MovesMin = GroupControl.Group.GetUnit(I).GetMoves();
+                _movesMin = GroupControl.Group.GetUnit(I).GetMoves();
             }
         }
 
@@ -191,12 +201,12 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         GroupControl.Targets._children.Sort(CompareTargetSetupPriority);
-        for (int I = GroupControl.Targets.Count - 1, last = TargetLimit + 1; I >= last; I--)
+        for (int I = GroupControl.Targets.Count - 1, last = _targetLimit + 1; I >= last; I--)
         {
             GroupControl.Targets.Delete(I);
         }
 
-        Target = null;
+        _target = null;
         TargetStatus = AIGroupTargetingStatus.Busy;
         return true;
     }
@@ -215,7 +225,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         UnitUserList required = default;
         AIGroup Group = default;
         MapCoordinate location = default;
-        aiGroupTask = AIGroupTask;
+        aiGroupTask = _aiGroupTask;
         if (aiGroupTask != null)
         {
             busy = aiGroupTask.MainProcess();
@@ -241,17 +251,17 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         I += 1;
                     }
 
-                    if (I < GroupControl.Targets.Count && GetValidTargets() < ValidTargetLimit)
+                    if (I < GroupControl.Targets.Count && GetValidTargets() < _validTargetLimit)
                     {
-                        Target = GroupControl.Targets.GetTargets(I);
-                        Priority = Target.DataA;
-                        strength = GetRequiredStrength(Target);
-                        superiority = GetRequiredCombatPredictorSuperiority(Target);
+                        _target = GroupControl.Targets.GetTargets(I);
+                        _priority = _target.DataA;
+                        strength = GetRequiredStrength(_target);
+                        superiority = GetRequiredCombatPredictorSuperiority(_target);
                         AoWHSMap.Current.AIExecutor.UseProcessTime(100);
                         busy = GroupControl.StrengthMax < strength;
                         if (!busy)
                         {
-                            GroupControl.SetupCP(Target);
+                            GroupControl.SetupCP(_target);
                             GroupControl.CombatPredictor.Execute();
                             busy = busy || Set<byte>.WithBounds(0, 255).With(2).With(4).With(8).Contains(GroupControl.CombatPredictor.Result);
                             busy = busy || GroupControl.CombatPredictor.GetSuperiority() < superiority;
@@ -261,14 +271,14 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         {
                             if ((Mode & Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce)) != Set<AIGroupTargetingModes>.Of())
                             {
-                                GroupControl.SetupCP(Target);
+                                GroupControl.SetupCP(_target);
                                 if (Mode.Contains(AIGroupTargetingModes.Cooperate))
                                 {
-                                    Cooperation.Setup(GroupControl, Target);
-                                    Cooperation.Superiority = superiority;
-                                    Cooperation.CooperateStrength = strength - GroupControl.StrengthMax;
-                                    Cooperation.Mode = AIGroupCooperationControl.CooperationMode.None;
-                                    ActivatePlugin(Cooperation);
+                                    _cooperation.Setup(GroupControl, _target);
+                                    _cooperation.Superiority = superiority;
+                                    _cooperation.CooperateStrength = strength - GroupControl.StrengthMax;
+                                    _cooperation.Mode = AIGroupCooperationControl.CooperationMode.None;
+                                    ActivatePlugin(_cooperation);
                                     State = 1;
                                 }
                                 else
@@ -297,11 +307,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         }
                         else
                         {
-                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
+                            _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
                             var movePointsMin = GroupControl.Group.GetMovePointsMin();
-                            if (Target.MovePoints < movePointsMin)
+                            if (_target.MovePoints < movePointsMin)
                             {
-                                Priority += Priorities.ImmediateBonus;
+                                _priority += Priorities.ImmediateBonus;
                             }
 
                             TargetProcessed();
@@ -315,30 +325,30 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 1:
-                    if (Cooperation.Complete)
+                    if (_cooperation.Complete)
                     {
-                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
-                        Priority += Priorities.CompleteCooperationPenalty;
-                        bool condition = Cooperation.GetCooperateMoveDays() == 0;
+                        _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
+                        _priority += Priorities.CompleteCooperationPenalty;
+                        bool condition = _cooperation.GetCooperateMoveDays() == 0;
                         if (condition)
                         {
                             var movePointsMin = GroupControl.Group.GetMovePointsMin();
-                            condition = Target.MovePoints < movePointsMin;
+                            condition = _target.MovePoints < movePointsMin;
                         }
 
                         if (condition)
                         {
-                            Priority += Priorities.ImmediateBonus;
+                            _priority += Priorities.ImmediateBonus;
                         }
 
                         TargetProcessed();
                     }
                     else
                     {
-                        if (Cooperation.Groups.Count != 0)
+                        if (_cooperation.Groups.Count != 0)
                         {
-                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
-                            Priority += Priorities.PartialCooperationPenalty;
+                            _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
+                            _priority += Priorities.PartialCooperationPenalty;
                         }
 
                         if (Mode.Contains(AIGroupTargetingModes.Recruit))
@@ -360,34 +370,34 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 2:
-                    Recruitment.Setup(GroupControl);
-                    var requiredCombatPredictorSuperiority = GetRequiredCombatPredictorSuperiority(Target);
-                    Recruitment.Superiority = requiredCombatPredictorSuperiority;
-                    var requiredStrength = GetRequiredStrength(Target);
-                    Recruitment.RecruitStrength = requiredStrength - GroupControl.StrengthMax;
-                    if (Target.Status.Contains(AIGroupTargetFlags.Cooperate))
+                    _recruitment.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority = GetRequiredCombatPredictorSuperiority(_target);
+                    _recruitment.Superiority = requiredCombatPredictorSuperiority;
+                    var requiredStrength = GetRequiredStrength(_target);
+                    _recruitment.RecruitStrength = requiredStrength - GroupControl.StrengthMax;
+                    if (_target.Status.Contains(AIGroupTargetFlags.Cooperate))
                     {
-                        var cooperatedStrength = Cooperation.GetCooperatedStrength();
-                        Recruitment.RecruitStrength -= cooperatedStrength;
+                        var cooperatedStrength = _cooperation.GetCooperatedStrength();
+                        _recruitment.RecruitStrength -= cooperatedStrength;
                     }
 
-                    Recruitment.Mode = AIGroupRecruitControlMode.None;
-                    ActivatePlugin(Recruitment);
+                    _recruitment.Mode = AIGroupRecruitControlMode.None;
+                    ActivatePlugin(_recruitment);
                     State = 3;
                     break;
                 case 3:
-                    if (Recruitment.Complete)
+                    if (_recruitment.Complete)
                     {
-                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Recruit);
-                        Priority += Priorities.CompleteRecruitmentPenalty;
+                        _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Recruit);
+                        _priority += Priorities.CompleteRecruitmentPenalty;
                         TargetProcessed();
                     }
                     else
                     {
-                        if (Recruitment.Units.Count != 0)
+                        if (_recruitment.Units.Count != 0)
                         {
-                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit);
-                            Priority += Priorities.PartialRecruitmentPenalty;
+                            _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit);
+                            _priority += Priorities.PartialRecruitmentPenalty;
                         }
 
                         if (Mode.Contains(AIGroupTargetingModes.Produce))
@@ -402,47 +412,47 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 4:
-                    Production.Setup(GroupControl);
-                    var requiredCombatPredictorSuperiority2 = GetRequiredCombatPredictorSuperiority(Target);
-                    Production.Superiority = requiredCombatPredictorSuperiority2;
-                    var requiredStrength2 = GetRequiredStrength(Target);
-                    Production.ProduceStrength = requiredStrength2 - GroupControl.StrengthMax;
-                    if (Target.Status.Contains(AIGroupTargetFlags.Cooperate))
+                    _production.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority2 = GetRequiredCombatPredictorSuperiority(_target);
+                    _production.Superiority = requiredCombatPredictorSuperiority2;
+                    var requiredStrength2 = GetRequiredStrength(_target);
+                    _production.ProduceStrength = requiredStrength2 - GroupControl.StrengthMax;
+                    if (_target.Status.Contains(AIGroupTargetFlags.Cooperate))
                     {
-                        var cooperatedStrength = Cooperation.GetCooperatedStrength();
-                        Production.ProduceStrength -= cooperatedStrength;
+                        var cooperatedStrength = _cooperation.GetCooperatedStrength();
+                        _production.ProduceStrength -= cooperatedStrength;
                     }
 
-                    if (Target.Status.Contains(AIGroupTargetFlags.Recruit))
+                    if (_target.Status.Contains(AIGroupTargetFlags.Recruit))
                     {
-                        var recruitedStrength = Recruitment.GetRecruitedStrength();
-                        Production.ProduceStrength -= recruitedStrength;
+                        var recruitedStrength = _recruitment.GetRecruitedStrength();
+                        _production.ProduceStrength -= recruitedStrength;
                     }
 
-                    Production.Mode = AIGroupProductionControlMode.None;
-                    ActivatePlugin(Production);
+                    _production.Mode = AIGroupProductionControlMode.None;
+                    ActivatePlugin(_production);
                     State = 5;
                     break;
                 case 5:
-                    if (Production.Complete)
+                    if (_production.Complete)
                     {
-                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
-                        time = Production.GetCompleteProductionTime();
+                        _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
+                        time = _production.GetCompleteProductionTime();
                         if (time > 0)
                         {
-                            Priority += Round(Priorities.ProductionDayPenalty * time);
+                            _priority += Round(Priorities.ProductionDayPenalty * time);
                         }
                     }
                     else
                     {
-                        if (Production.Productions.Count != 0)
+                        if (_production.Productions.Count != 0)
                         {
-                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
-                            Priority += Priorities.PartialProductionPenalty;
-                            time = Production.GetCompleteProductionTime();
+                            _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
+                            _priority += Priorities.PartialProductionPenalty;
+                            time = _production.GetCompleteProductionTime();
                             if (time > 0)
                             {
-                                Priority += Priorities.ProductionDayPenalty * time;
+                                _priority += Priorities.ProductionDayPenalty * time;
                             }
                         }
                     }
@@ -463,30 +473,30 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     }
                     else
                     {
-                        Target = GroupControl.Targets.GetTargets(I);
-                        if ((Target.Status & Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit, AIGroupTargetFlags.Produce, AIGroupTargetFlags.Cooperate)) != Set<AIGroupTargetFlags>.Of())
+                        _target = GroupControl.Targets.GetTargets(I);
+                        if ((_target.Status & Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit, AIGroupTargetFlags.Produce, AIGroupTargetFlags.Cooperate)) != Set<AIGroupTargetFlags>.Of())
                         {
-                            GroupControl.SetupCP(Target);
-                            if (Target.Status.Contains(AIGroupTargetFlags.Cooperate))
+                            GroupControl.SetupCP(_target);
+                            if (_target.Status.Contains(AIGroupTargetFlags.Cooperate))
                             {
-                                Cooperation.Setup(GroupControl, Target);
-                                var requiredCombatPredictorSuperiority3 = GetRequiredCombatPredictorSuperiority(Target);
-                                Cooperation.Superiority = requiredCombatPredictorSuperiority3;
-                                var requiredStrength3 = GetRequiredStrength(Target);
-                                Cooperation.CooperateStrength = requiredStrength3 - GroupControl.StrengthMax;
-                                Cooperation.Mode = AIGroupCooperationControl.CooperationMode.AutoCooperate;
-                                ActivatePlugin(Cooperation);
+                                _cooperation.Setup(GroupControl, _target);
+                                var requiredCombatPredictorSuperiority3 = GetRequiredCombatPredictorSuperiority(_target);
+                                _cooperation.Superiority = requiredCombatPredictorSuperiority3;
+                                var requiredStrength3 = GetRequiredStrength(_target);
+                                _cooperation.CooperateStrength = requiredStrength3 - GroupControl.StrengthMax;
+                                _cooperation.Mode = AIGroupCooperationControl.CooperationMode.AutoCooperate;
+                                ActivatePlugin(_cooperation);
                                 State = 11;
                             }
                             else
                             {
-                                if (Target.Status.Contains(AIGroupTargetFlags.Recruit))
+                                if (_target.Status.Contains(AIGroupTargetFlags.Recruit))
                                 {
                                     State = 12;
                                 }
                                 else
                                 {
-                                    if (Target.Status.Contains(AIGroupTargetFlags.Produce))
+                                    if (_target.Status.Contains(AIGroupTargetFlags.Produce))
                                     {
                                         State = 14;
                                     }
@@ -499,27 +509,27 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         }
                         else
                         {
-                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
+                            _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
                             State = 20;
                         }
                     }
 
                     break;
                 case 11:
-                    if (Cooperation.Complete)
+                    if (_cooperation.Complete)
                     {
-                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
+                        _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
                         State = 20;
                     }
                     else
                     {
-                        if (Target.Status.Contains(AIGroupTargetFlags.Recruit))
+                        if (_target.Status.Contains(AIGroupTargetFlags.Recruit))
                         {
                             State = 12;
                         }
                         else
                         {
-                            if (Target.Status.Contains(AIGroupTargetFlags.Produce))
+                            if (_target.Status.Contains(AIGroupTargetFlags.Produce))
                             {
                                 State = 14;
                             }
@@ -532,24 +542,24 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 12:
-                    Recruitment.Setup(GroupControl);
-                    var requiredCombatPredictorSuperiority4 = GetRequiredCombatPredictorSuperiority(Target);
-                    Recruitment.Superiority = requiredCombatPredictorSuperiority4;
-                    var requiredStrength4 = GetRequiredStrength(Target);
-                    Recruitment.RecruitStrength = requiredStrength4 - GroupControl.StrengthMax;
-                    Recruitment.Mode = AIGroupRecruitControlMode.AutoRecruit;
-                    ActivatePlugin(Recruitment);
+                    _recruitment.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority4 = GetRequiredCombatPredictorSuperiority(_target);
+                    _recruitment.Superiority = requiredCombatPredictorSuperiority4;
+                    var requiredStrength4 = GetRequiredStrength(_target);
+                    _recruitment.RecruitStrength = requiredStrength4 - GroupControl.StrengthMax;
+                    _recruitment.Mode = AIGroupRecruitControlMode.AutoRecruit;
+                    ActivatePlugin(_recruitment);
                     State += 1;
                     break;
                 case 13:
-                    if (Recruitment.Complete)
+                    if (_recruitment.Complete)
                     {
-                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
+                        _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
                         State = 20;
                     }
                     else
                     {
-                        if (Target.Status.Contains(AIGroupTargetFlags.Produce))
+                        if (_target.Status.Contains(AIGroupTargetFlags.Produce))
                         {
                             State = 14;
                         }
@@ -561,21 +571,21 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 14:
-                    Production.Setup(GroupControl);
-                    var requiredCombatPredictorSuperiority5 = GetRequiredCombatPredictorSuperiority(Target);
-                    Production.Superiority = requiredCombatPredictorSuperiority5;
-                    var requiredStrength5 = GetRequiredStrength(Target);
-                    Production.ProduceStrength = requiredStrength5 - GroupControl.StrengthMax;
-                    Production.Mode = AIGroupProductionControlMode.AutoProduce;
-                    ActivatePlugin(Production);
+                    _production.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority5 = GetRequiredCombatPredictorSuperiority(_target);
+                    _production.Superiority = requiredCombatPredictorSuperiority5;
+                    var requiredStrength5 = GetRequiredStrength(_target);
+                    _production.ProduceStrength = requiredStrength5 - GroupControl.StrengthMax;
+                    _production.Mode = AIGroupProductionControlMode.AutoProduce;
+                    ActivatePlugin(_production);
                     State = 20;
                     break;
                 case 20:
-                    if (Target.Status.Contains(AIGroupTargetFlags.Ready))
+                    if (_target.Status.Contains(AIGroupTargetFlags.Ready))
                     {
-                        if (Target.TransporterId != -1)
+                        if (_target.TransporterId != -1)
                         {
-                            var troop = AoWHSMap.Current.UnitControl.FindUnit(Target.TransporterId);
+                            var troop = AoWHSMap.Current.UnitControl.FindUnit(_target.TransporterId);
                             GroupControl.Group.AddTransporter(troop);
                         }
                         else
@@ -587,15 +597,15 @@ public partial class AIGroupTargetSelector : AIGroupTask
                             }
                         }
 
-                        if (AllowMultiTargets(Target))
+                        if (AllowMultiTargets(_target))
                         {
                             State = 30;
                         }
                         else
                         {
-                            GroupControl.Group.SetupTarget(Target, AIGroupTargetStatus.Execute, 0);
+                            GroupControl.Group.SetupTarget(_target, AIGroupTargetStatus.Execute, 0);
                             GroupControl.SetupME();
-                            GroupControl.ExecuteME(Target.Location.X, Target.Location.Y, Target.Location.MapLevel);
+                            GroupControl.ExecuteME(_target.Location.X, _target.Location.Y, _target.Location.MapLevel);
                             result = true;
                             State = 21;
                         }
@@ -635,7 +645,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 21:
-                    if (GroupControl.Targets._children.IndexOf(Target) == -1)
+                    if (GroupControl.Targets._children.IndexOf(_target) == -1)
                     {
                         GroupControl.Group.ResetTargetExpense();
                         TargetStatus = AIGroupTargetingStatus.TargetConquered;
@@ -649,16 +659,16 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 22:
-                    GroupControl.Group.SetupTarget(Target, AIGroupTargetStatus.Setup, 0);
+                    GroupControl.Group.SetupTarget(_target, AIGroupTargetStatus.Setup, 0);
                     TargetStatus = AIGroupTargetingStatus.SettingUpTarget;
                     Done();
                     break;
                 case 30:
-                    ValidateTargetRequirements(GroupControl.Group, Target, null, SpareUnits, MinimumStrength);
-                    if (SpareUnits.Count != 0)
+                    ValidateTargetRequirements(GroupControl.Group, _target, null, _spareUnits, MinimumStrength);
+                    if (_spareUnits.Count != 0)
                     {
-                        Target.Status = Target.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
-                        NextTarget = null;
+                        _target.Status = _target.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
+                        _nextTarget = null;
                         State = 31;
                     }
                     else
@@ -668,7 +678,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 31:
-                    I = GroupControl.Targets._children.IndexOf(NextTarget);
+                    I = GroupControl.Targets._children.IndexOf(_nextTarget);
                     while (I < GroupControl.Targets.Count && (I == -1 || GroupControl.Targets.GetTargets(I).TransporterId != -1 || !GroupControl.Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Valid)))
                     {
                         I += 1;
@@ -678,25 +688,25 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     {
                         required = new UnitUserList(null);
                         optional = new UnitUserList(null);
-                        NextTarget = GroupControl.Targets.GetTargets(I);
-                        if (ValidMultiTarget(SpareUnits, NextTarget, required, optional))
+                        _nextTarget = GroupControl.Targets.GetTargets(I);
+                        if (ValidMultiTarget(_spareUnits, _nextTarget, required, optional))
                         {
                             var group = GroupControl.Group;
                             var behavior = group.GroupClass.Behavior;
                             Group = AoWHSMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
 
                             Group.AddUnits(required);
-                            Group.SetupTarget(NextTarget, AIGroupTargetStatus.Execute, 0);
+                            Group.SetupTarget(_nextTarget, AIGroupTargetStatus.Execute, 0);
                             Group.Release();
-                            SpareUnits.Clear();
-                            SpareUnits.AddUnits(optional);
-                            if (SpareUnits.Count == 0)
+                            _spareUnits.Clear();
+                            _spareUnits.AddUnits(optional);
+                            if (_spareUnits.Count == 0)
                             {
                                 State = 32;
                             }
                         }
 
-                        NextTarget.Status = NextTarget.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
+                        _nextTarget.Status = _nextTarget.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
                         optional?.Dispose();
                         required?.Dispose();
                     }
@@ -707,9 +717,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 32:
-                    GroupControl.Group.SetupTarget(Target, AIGroupTargetStatus.Execute, 0);
+                    GroupControl.Group.SetupTarget(_target, AIGroupTargetStatus.Execute, 0);
                     GroupControl.SetupME();
-                    GroupControl.ExecuteME(Target.Location.X, Target.Location.Y, Target.Location.MapLevel);
+                    GroupControl.ExecuteME(_target.Location.X, _target.Location.Y, _target.Location.MapLevel);
                     State = 21;
                     result = true;
                     break;
@@ -825,18 +835,18 @@ public partial class AIGroupTargetSelector : AIGroupTask
         NearSuperiority = (float)1.25;
         MultiTargetFactor = (float)1.25;
         MoveDayFactor = (float)0.1;
-        SpareUnits.Clear();
+        _spareUnits.Clear();
         Mode = Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets, AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
-        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         BattleFieldFactor = 1;
         CurrentBattleFieldFactor = (float)0.8;
-        BattleFieldMoveFactor = 0;
-        BattleFieldRadius = 10;
-        ValidTargetLimit = 5;
+        _battleFieldMoveFactor = 0;
+        _battleFieldRadius = 10;
+        _validTargetLimit = 5;
         PathStrengthFactor = 1;
         CurrentPathStrengthFactor = (float)0.8;
         AllowTransport = false;
-        TargetLimit = 100;
+        _targetLimit = 100;
         this.Priorities.TargetFactor = 1;
         this.Priorities.ImmediateBonus = 500;
         this.Priorities.SetupBonus = 25;
@@ -857,18 +867,18 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public void ActivatePlugin(AIGroupTask aiGroupTask)
     {
         DeactivatePlugin();
-        AIGroupTask = aiGroupTask;
-        AIGroupTask.AddRef();
-        AIGroupTask.Activate(GroupControl);
+        _aiGroupTask = aiGroupTask;
+        _aiGroupTask.AddRef();
+        _aiGroupTask.Activate(GroupControl);
     }
 
     // AIGroup.pas:3181
     public void DeactivatePlugin()
     {
-        if (AIGroupTask != null)
+        if (_aiGroupTask != null)
         {
-            AIGroupTask.Release();
-            AIGroupTask = null;
+            _aiGroupTask.Release();
+            _aiGroupTask = null;
         }
     }
 
@@ -909,7 +919,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
         if (TargetOverlapFound(target, group))
         {
-            if (target.MovePoints <= MovesMin)
+            if (target.MovePoints <= _movesMin)
             {
                 priority += Priorities.NearOverlapPenalty;
             }
@@ -929,18 +939,18 @@ public partial class AIGroupTargetSelector : AIGroupTask
         switch ((int)AoWHSMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case (int)PlayerType.Cpu1:
-                ValidTargetLimit = 5;
+                _validTargetLimit = 5;
                 break;
             case (int)PlayerType.Cpu2:
-                ValidTargetLimit = 7;
+                _validTargetLimit = 7;
                 break;
             case (int)PlayerType.Cpu3:
             case (int)PlayerType.Cpu4:
             case (int)PlayerType.Cpu5:
-                ValidTargetLimit = 10;
+                _validTargetLimit = 10;
                 break;
             default:
-                ValidTargetLimit = 5;
+                _validTargetLimit = 5;
                 break;
         }
 
@@ -950,9 +960,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3265
     public void TargetProcessed()
     {
-        Target.DataA = Priority;
-        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
-        Target = null;
+        _target.DataA = _priority;
+        _target.Status = _target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
+        _target = null;
         State = 0;
     }
 
@@ -999,7 +1009,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         BattleFieldInfo info = default;
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), DamageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
@@ -1027,7 +1037,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             result = BattleFieldFactor;
         }
 
-        return (float)((double)result + Round((double)target.MovePoints * BattleFieldMoveFactor));
+        return (float)((double)result + Round((double)target.MovePoints * _battleFieldMoveFactor));
     }
 
     // AIGroup.pas:3325
@@ -1038,10 +1048,10 @@ public partial class AIGroupTargetSelector : AIGroupTask
         int pathStrength;
         if (((double)BattleFieldFactor > 0 || (double)CurrentBattleFieldFactor > 0) && target.Data.TargetType != AITargetType.Negotiate)
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), DamageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.Units = GroupControl.Group;
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
-            AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, BattleFieldRadius, ref info);
+            AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, _battleFieldRadius, ref info);
             result = Round((double)GetRequiredBattleFieldSuperiority(target) * (info.Strength - info.FriendlyStrength));
         }
         else
@@ -1123,11 +1133,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 strength = minimumStrength;
             }
 
-            strength -= requiredUnits.GetStrengthMax(DamageTypes);
+            strength -= requiredUnits.GetStrengthMax(_damageTypes);
             while (strength > 0 && optionalUnits.Count != 0)
             {
                 troop = optionalUnits.GetUnit(optionalUnits.Count - 1);
-                strength -= troop.GetStrengthMax(DamageTypes);
+                strength -= troop.GetStrengthMax(_damageTypes);
                 requiredUnits.AddUnit(troop);
                 optionalUnits.DeleteUnit(troop);
             }
@@ -1155,15 +1165,15 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public bool ValidMultiTarget(UnitList units, AIGroupControlTarget target, UnitList required, UnitList optional)
     {
         bool result;
-        if (!TargetOverlapFound(NextTarget, null) && (Target.Location.MapLevel != target.Location.MapLevel || HexGeometry.DeltaHexToRadius(Target.Location.X, Target.Location.Y, target.Location.X, target.Location.Y) > 1))
+        if (!TargetOverlapFound(_nextTarget, null) && (_target.Location.MapLevel != target.Location.MapLevel || HexGeometry.DeltaHexToRadius(_target.Location.X, _target.Location.Y, target.Location.X, target.Location.Y) > 1))
         {
-            result = ValidateTargetRequirements(SpareUnits, NextTarget, required, optional, MinimumStrength);
+            result = ValidateTargetRequirements(_spareUnits, _nextTarget, required, optional, MinimumStrength);
             bool condition = result;
             if (condition)
             {
-                var targetMana = Target.GetTargetMana();
+                var targetMana = _target.GetTargetMana();
                 var targetTargetMana = target.GetTargetMana();
-                var targetGold = Target.GetTargetGold();
+                var targetGold = _target.GetTargetGold();
                 var targetTargetGold = target.GetTargetGold();
                 condition = GroupControl.Group.RequestTargetExpense(targetGold + targetTargetGold, targetMana + targetTargetMana);
             }
@@ -1183,7 +1193,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     {
         string text = "";
         AIGroupControlTarget target;
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
         for (int I = 0, last = GroupControl.Targets.Count - 1; I <= last; I++)
         {
             target = GroupControl.Targets.GetTargets(I);
@@ -1218,7 +1228,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 text = text + "d";
             }
 
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, text);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, text);
         }
     }
 
@@ -1287,20 +1297,20 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
     public partial class PrioritySettings
     {
-        public float TargetFactor;
-        public int ImmediateBonus;
-        public int TransportPenalty;
-        public int FarOverlapPenalty;
-        public int NearOverlapPenalty;
-        public int SetupBonus;
-        public int ExecuteBonus;
-        public int CompleteCooperationPenalty;
-        public int PartialCooperationPenalty;
-        public int PartialRecruitmentPenalty;
-        public int CompleteRecruitmentPenalty;
-        public int MoveDayPenalty;
-        public int PartialProductionPenalty;
-        public int ProductionDayPenalty;
+        public float TargetFactor { get; set; }
+        public int ImmediateBonus { get; set; }
+        public int TransportPenalty { get; set; }
+        public int FarOverlapPenalty { get; set; }
+        public int NearOverlapPenalty { get; set; }
+        public int SetupBonus { get; set; }
+        public int ExecuteBonus { get; set; }
+        public int CompleteCooperationPenalty { get; set; }
+        public int PartialCooperationPenalty { get; set; }
+        public int PartialRecruitmentPenalty { get; set; }
+        public int CompleteRecruitmentPenalty { get; set; }
+        public int MoveDayPenalty { get; set; }
+        public int PartialProductionPenalty { get; set; }
+        public int ProductionDayPenalty { get; set; }
         // System.pas:111
 
     }

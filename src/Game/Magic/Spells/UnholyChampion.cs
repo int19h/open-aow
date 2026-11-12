@@ -15,7 +15,7 @@ public partial class UnholyChampion : UnitSpell
     // UnitSpells.pas:537
     public UnholyChampion(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_unholyChampionText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.UnholyChampionText);
         SpellId = 37;
         BaseManaCost = 5;
         SpellLevel = 2;

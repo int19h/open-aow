@@ -7,9 +7,9 @@ namespace Aow.Game.Draw.Images;
 //     collection of the blend mode, or the blend table itself for bmUser. }
 public struct ShowInfo
 {
-    public ShowMode ShowMode;
-    public BlendMode BlendMode;
-    public BlendValue Blend;
+    public ShowMode ShowMode { get; set; }
+    public BlendMode BlendMode { get; set; }
+    public BlendValue Blend { get; set; }
 
     // The file image: the mode bytes at 0 and 1, the padding at 2 and the percentage at 4. A
     // table writes 0 where the original wrote its address, which no reader of a file uses, and

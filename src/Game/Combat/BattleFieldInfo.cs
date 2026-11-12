@@ -9,18 +9,18 @@ namespace Aow.Game.Combat;
 
 public struct BattleFieldInfo
 {
-    public sbyte Player;
-    public sbyte IndependentRelation;
-    public Set<BattleFieldInfoRequestsElement> Requests;
-    public Set<DamageType> DamageTypes;
-    public ByteArray3 Reserved05;
-    public UnitList Units;
-    public Set<byte> FriendlyRelations;
-    public Set<byte> EnemyRelations;
-    public ByteArray2 Reserved0E;
-    public int FriendlyStrength;
-    public int Strength;
-    public int Reserved18;
+    public sbyte Player { get; private set; }
+    public sbyte IndependentRelation { get; }
+    public Set<BattleFieldInfoRequestsElement> Requests { get; set; }
+    public Set<DamageType> DamageTypes { get; private set; }
+    public ByteArray3 Reserved05 { get; }
+    public UnitList Units { get; set; }
+    public Set<byte> FriendlyRelations { get; set; }
+    public Set<byte> EnemyRelations { get; set; }
+    public ByteArray2 Reserved0E { get; }
+    public int FriendlyStrength { get; set; }
+    public int Strength { get; set; }
+    public int Reserved18 { get; }
 
     internal static void SetupBattleFieldInfo(ref BattleFieldInfo info, sbyte player, sbyte relation, Set<BattleFieldInfoRequestsElement> requests, Set<DamageType> damageTypes)
     {

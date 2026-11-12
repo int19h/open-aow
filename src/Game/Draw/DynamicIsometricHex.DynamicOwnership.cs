@@ -42,7 +42,7 @@ public partial class DynamicIsometricHex
             _hex.Dynamic = null;
             _hex = null;
         }
-        _owner = null;
+        SetOwnerWithoutNotify(null);
         base.Dispose();
     }
 }

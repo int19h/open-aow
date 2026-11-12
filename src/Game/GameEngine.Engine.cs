@@ -40,25 +40,29 @@ namespace Aow.Game;
 // FDebugIDs, FDebugEvents, FStartupDirectory, FOptions. Every engine is in the Engines list
 public partial class GameEngine : ENode
 {
-    internal int _messageCount;
-    internal List<EngineClass> _engineClasses;
-    internal Dictionary<int, EngineClass> _classTable;
-    internal EngineObjectEditorList _editors;
-    internal EControlStyleNode _controlNode;
-    public EngineComponent Component;
-    internal StringList _debugIds;
+    private int _messageCount;
+    private List<EngineClass> _engineClasses;
+    private Dictionary<int, EngineClass> _classTable;
+    private EngineObjectEditorList _editors;
+    private EControlStyleNode _controlNode;
 
-    internal EventStore<EngineDebugNotification> _debugEventsStore;
+    public EngineComponent Component { get; }
+
+    private StringList _debugIds;
+
+    internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
     internal event NotifyEvent<EngineDebugNotification> FDebugEvents
     {
-        add => _debugEventsStore.Add(value);
-        remove => _debugEventsStore.Remove(value);
+        add => DebugEventsStore.Add(value);
+        remove => DebugEventsStore.Remove(value);
     }
 
-    internal string _startupDirectory = "";
-    public Set<EngineUserElement> User;
-    internal Set<EngineModeElement> _options;
+    private string _startupDirectory = "";
+
+    public Set<EngineUserElement> User { get; private set; }
+
+    private Set<EngineModeElement> _options;
 
     // Create sets this before the instance exists. InitializeBeforeInherited reads it from the
     // base constructor, which runs before the body below.
@@ -88,7 +92,7 @@ public partial class GameEngine : ENode
     {
         UpdateStartupDirectory();
         _options = Set<EngineModeElement>.Of(VerifyClasses);
-        _debugEventsStore = new();
+        DebugEventsStore = new();
         _engineClasses = new List<EngineClass>();
         _classTable = new Dictionary<int, EngineClass>();
         _editors = new EngineObjectEditorList();
@@ -100,14 +104,14 @@ public partial class GameEngine : ENode
         EngineHost.Engines.Add(this);
         if (!s_fullConstruction) return;
 
-        _onHsmLoadedStore = new();
-        _onHsmCloseStore = new();
+        OnHsmLoadedStore = new();
+        OnHsmCloseStore = new();
         _onHssLoadedStore = new();
         _onHssCloseStore = new();
         RegisterEngineClasses([EngineClass.Of<MapContainer>(), EngineClass.Of<MapLevel>(), EngineClass.Of<HSMap>(), EngineClass.Of<HSSet>()]);
         RegisterEngineClasses([EngineClass.Of<MapObjectResource>(), EngineClass.Of<MultiHexMapObjectResource>()]);
         RegisterEngineClasses([EngineClass.Of<AbstractHexagon>(), EngineClass.Of<AbstractBorderHexagon>(), EngineClass.Of<AbstractRoad>()]);
-        s_hexSpriteEngineDebugChannel = RegisterDebugId("HS-Engine");
+        HexSpriteEngineDebugChannel = RegisterDebugId("HS-Engine");
         _hssFileName = "noname.hss";
         CreateHexSpriteSet();
 
@@ -134,10 +138,10 @@ public partial class GameEngine : ENode
         RegisterEventLog(this);
         RegisterAbilities(GameSet.AbilityControl);
         RegisterSpells(this);
-        CombatAbilityTables.s_combatDebugChannel = RegisterDebugId("Combat");
-        AbilityRules.s_aiDebugChannel = RegisterDebugId("AI");
-        AbilityRules.s_temporaryDebugChannel = RegisterDebugId("TMP");
-        s_magicDebugChannel = RegisterDebugId("MAGIC");
+        CombatAbilityTables.CombatDebugChannel = RegisterDebugId("Combat");
+        AbilityRules.AiDebugChannel = RegisterDebugId("AI");
+        AbilityRules.TemporaryDebugChannel = RegisterDebugId("TMP");
+        MagicDebugChannel = RegisterDebugId("MAGIC");
         Editors.RegisterClass(EditorClass.Of<MapObjectEditor>());
         LoadExternalPlugIns(StartupDirectory + "PLUGINS");
         EmailGames.Load();
@@ -154,20 +158,20 @@ public partial class GameEngine : ENode
             CloseHsm(null);
             UnregisterCoreSpells(this);
             UnregisterCoreAbilities(GameSet.AbilityControl);
-            _onHsmLoadedStore.Clear();
-            _onHsmCloseStore.Clear();
+            OnHsmLoadedStore.Clear();
+            OnHsmCloseStore.Clear();
             CloseHsm(null);
         }
 
         EngineHost.Engines.Remove(this);
-        _debugEventsStore.Clear();
+        DebugEventsStore.Clear();
         _debugIds?.Dispose();
         base.Dispose();
         _engineClasses?.Clear();
         if (_fullInstance || s_fullConstruction)
         {
-            _onHsmLoadedStore.Clear();
-            _onHsmCloseStore.Clear();
+            OnHsmLoadedStore.Clear();
+            OnHsmCloseStore.Clear();
             _onHssLoadedStore.Clear();
             _onHssCloseStore.Clear();
             Dictionary?.Dispose();
@@ -256,7 +260,7 @@ public partial class GameEngine : ENode
         ref EngineDebugNotification.DebugInfo info = ref notification.Info;
         info.Id = -1;
         info.Text = S;
-        _debugEventsStore.Raise(notification);
+        DebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8805
@@ -266,7 +270,7 @@ public partial class GameEngine : ENode
         ref EngineDebugNotification.DebugInfo info = ref notification.Info;
         info.Id = id;
         info.Text = S;
-        _debugEventsStore.Raise(notification);
+        DebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8819
@@ -718,8 +722,8 @@ public partial class GameEngine : ENode
 
     public event NotifyEvent<EngineDebugNotification> DebugEvents
     {
-        add => _debugEventsStore.Add(value);
-        remove => _debugEventsStore.Remove(value);
+        add => DebugEventsStore.Add(value);
+        remove => DebugEventsStore.Remove(value);
     }
 
     public string StartupDirectory { get => _startupDirectory; set => SetStartupDirectory(value); }
@@ -780,7 +784,7 @@ public partial class GameEngine : ENode
         }
     }
 
-    internal static GameEngine CopyEngine;
+    internal static GameEngine CopyEngine { get; }
 
     internal static void UnregisterMountain(GameEngine engine)
     {

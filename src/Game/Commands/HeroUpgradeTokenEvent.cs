@@ -25,7 +25,8 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     public sbyte Damage;
     public sbyte Moves;
     public sbyte Hits;
-    public AbilityOwner Abilities;
+
+    public AbilityOwner Abilities { get; }
 
     // Hero.PAS:7
     public override void Dispose()

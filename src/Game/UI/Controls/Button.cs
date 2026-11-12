@@ -9,7 +9,7 @@ public partial class Button : BaseButton
     public Button(Component owner) : base(owner)
     { }
 
-    public NotifyEvent<Button> _onClick;
+    private NotifyEvent<Button> _onClick;
 
     // AoWButton.pas:239
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
@@ -17,9 +17,9 @@ public partial class Button : BaseButton
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         Lit = false;
-        if (!_window.Handled)
+        if (!Window.Handled)
         {
-            if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+            if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
             {
                 Handled = true;
                 if (button == MouseButton.Left)
@@ -44,7 +44,7 @@ public partial class Button : BaseButton
         Handled = false;
         _checked = false;
         Lit = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left)
@@ -81,7 +81,7 @@ public partial class Button : BaseButton
         oldChecked = _checked;
         oldLit = Lit;
         Redraw = false;
-        if (_window.Handled || X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
+        if (Window.Handled || X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
         {
             _checked = false;
             Lit = false;

@@ -9,10 +9,10 @@ namespace Aow.Engine.Collections;
 
 public partial class ByteList : Persistent
 {
-    internal byte[] _list = [];
-    internal int _count;
-    internal int _capacity;
-    internal byte _default;
+    private byte[] _list = [];
+    private int _count;
+    private int _capacity;
+    private byte _default;
 
     // Engine.pas:3678
     internal byte Get(int index)

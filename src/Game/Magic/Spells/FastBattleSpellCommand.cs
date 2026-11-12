@@ -12,7 +12,7 @@ public partial class FastBattleSpellCommand : FastBattleCommand
     public FastBattleSpellCommand(int abilityId) : base(abilityId)
     { }
 
-    public int SpellId;
+    public int SpellId { get; set; }
 
     // Spells.PAS:1
     public override string GetName()

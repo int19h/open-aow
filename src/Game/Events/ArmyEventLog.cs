@@ -29,13 +29,18 @@ public partial class ArmyEventLog : EventLog
 
     public new const int ClassId = 131608;
 
-    public ArmyView ArmyView;
+    public ArmyView ArmyView { get; }
+
     public string ArmyText = "";
-    public StringCollection ArmyMessages;
+
+    public StringCollection ArmyMessages { get; }
+
     public int ArmyIcon;
-    public ByteList DamageValues;
-    public ByteList DamageTypes;
-    public bool GameOver;
+
+    public ByteList DamageValues { get; }
+    public ByteList DamageTypes { get; }
+
+    private bool _gameOver;
 
     // Army.PAS:150
     public override void Dispose()
@@ -57,7 +62,7 @@ public partial class ArmyEventLog : EventLog
         stream.rwInteger(ref ArmyIcon, 18);
         stream.rwStreamProc(19, DamageValues.LoadFromStream, DamageValues.SaveToStream);
         stream.rwStreamProc(20, DamageTypes.LoadFromStream, DamageTypes.SaveToStream);
-        stream.rwBool(ref GameOver, 21);
+        stream.rwBool(ref _gameOver, 21);
     }
 
     // Army.PAS:184
@@ -99,7 +104,7 @@ public partial class ArmyEventLog : EventLog
                     showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
                 }
 
-                showEvent = showEvent || GameOver;
+                showEvent = showEvent || _gameOver;
                 if (showEvent)
                 {
                     AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
@@ -162,7 +167,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:212
     public void ValidateGameOver()
     {
-        GameOver = LeaderKilled() || PartyDestroyed() && AoWHSMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1;
+        _gameOver = LeaderKilled() || PartyDestroyed() && AoWHSMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1;
     }
 
 }

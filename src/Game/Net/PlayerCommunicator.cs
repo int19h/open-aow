@@ -6,40 +6,42 @@ using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
-// _engine, FOnReceive, _receivedPackage, _sendStream, _receiveStream, _playerCommunicationControl, FOnProcess
+// _engine, FOnReceive, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, FOnProcess
 public partial class PlayerCommunicator : EngineObject
 {
-    internal GameEngine _engine;
+    private GameEngine _engine;
 
-    internal EventStore<PlayerCommunicator> _onReceiveStore;
+    internal EventStore<PlayerCommunicator> OnReceiveStore { get; }
 
     internal event NotifyEvent<PlayerCommunicator> FOnReceive
     {
-        add => _onReceiveStore.Add(value);
-        remove => _onReceiveStore.Remove(value);
+        add => OnReceiveStore.Add(value);
+        remove => OnReceiveStore.Remove(value);
     }
 
-    internal DataPackage _receivedPackage;
-    internal MemoryStream _sendStream;
-    internal MemoryStream _receiveStream;
-    internal PlayerCommunicationControl _playerCommunicationControl;
+    private DataPackage _receivedPackage;
 
-    internal EventStore<PlayerCommunicator> _onProcessStore;
+    internal MemoryStream SendStream { get; }
+    internal MemoryStream ReceiveStream { get; }
+
+    private PlayerCommunicationControl _playerCommunicationControl;
+
+    internal EventStore<PlayerCommunicator> OnProcessStore { get; }
 
     internal event NotifyEvent<PlayerCommunicator> FOnProcess
     {
-        add => _onProcessStore.Add(value);
-        remove => _onProcessStore.Remove(value);
+        add => OnProcessStore.Add(value);
+        remove => OnProcessStore.Remove(value);
     }
 
     // NetworkE.pas:605
     public PlayerCommunicator(ECustomNode owner) : base(owner)
     {
         _receivedPackage = null;
-        _onReceiveStore = new();
-        _sendStream = new MemoryStream();
-        _receiveStream = new MemoryStream();
-        _onProcessStore = new();
+        OnReceiveStore = new();
+        SendStream = new MemoryStream();
+        ReceiveStream = new MemoryStream();
+        OnProcessStore = new();
     }
 
     // NetworkE.pas:629
@@ -78,16 +80,16 @@ public partial class PlayerCommunicator : EngineObject
         {
         }
 
-        _onProcessStore.Raise(this);
+        OnProcessStore.Raise(this);
     }
 
     // NetworkE.pas:615
     public override void Dispose()
     {
-        _onReceiveStore.Clear();
-        _sendStream?.Dispose();
-        _receiveStream?.Dispose();
-        _onProcessStore.Clear();
+        OnReceiveStore.Clear();
+        SendStream?.Dispose();
+        ReceiveStream?.Dispose();
+        OnProcessStore.Clear();
         if (_playerCommunicationControl != null)
         {
             _playerCommunicationControl.Release();
@@ -102,17 +104,17 @@ public partial class PlayerCommunicator : EngineObject
     {
         bool result = default;
         EngineObject objectValue = default;
-        _receiveStream.Clear();
-        _receiveStream.Position = 0;
-        if (_playerCommunicationControl.ReceivePackageData(_receiveStream))
+        ReceiveStream.Clear();
+        ReceiveStream.Position = 0;
+        if (_playerCommunicationControl.ReceivePackageData(ReceiveStream))
         {
             try
             {
-                objectValue = _engine.RetrieveEngineObject(_receiveStream, null);
+                objectValue = _engine.RetrieveEngineObject(ReceiveStream, null);
                 if (objectValue is DataPackage)
                 {
                     _receivedPackage = (DataPackage)objectValue;
-                    _onReceiveStore.Raise(this);
+                    OnReceiveStore.Raise(this);
                     _receivedPackage.Release();
                 }
                 else
@@ -140,18 +142,18 @@ public partial class PlayerCommunicator : EngineObject
     {
         package._sender = sender;
         package._receiver = receiver;
-        _sendStream.Clear();
-        _engine.StoreEngineObject(_sendStream, package, null);
-        _sendStream.Position = 0;
-        return _playerCommunicationControl.SendPackageData(receiver, _sendStream);
+        SendStream.Clear();
+        _engine.StoreEngineObject(SendStream, package, null);
+        SendStream.Position = 0;
+        return _playerCommunicationControl.SendPackageData(receiver, SendStream);
     }
 
     public GameEngine Engine { get => _engine; set => _engine = value; }
 
     public event NotifyEvent<PlayerCommunicator> OnReceive
     {
-        add => _onReceiveStore.Add(value);
-        remove => _onReceiveStore.Remove(value);
+        add => OnReceiveStore.Add(value);
+        remove => OnReceiveStore.Remove(value);
     }
 
     public DataPackage ReceivedPackage { get => _receivedPackage; }
@@ -159,8 +161,8 @@ public partial class PlayerCommunicator : EngineObject
 
     public event NotifyEvent<PlayerCommunicator> OnProcess
     {
-        add => _onProcessStore.Add(value);
-        remove => _onProcessStore.Remove(value);
+        add => OnProcessStore.Add(value);
+        remove => OnProcessStore.Remove(value);
     }
 
 }

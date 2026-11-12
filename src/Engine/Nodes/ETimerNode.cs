@@ -12,9 +12,9 @@ public partial class ETimerNode : ECustomNode
     // Engine.pas:1836
     public new const int ClassId = 264;
 
-    internal int _tick;
-    internal int _count;
-    internal ListArray10 _timerLists;
+    private int _tick;
+    private int _count;
+    private ListArray10 _timerLists;
 
     // Engine.pas:1856
     internal int FindTimerList(EngineObject child)

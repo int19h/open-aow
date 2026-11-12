@@ -30,14 +30,16 @@ public partial class CombatUnit : CombatObject
     public CombatUnit(ECustomNode owner) : base(owner)
     {
         ControlMode = Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
-        UnitGraphicsResourceIndex = -1;
+        _unitGraphicsResourceIndex = -1;
     }
 
     public Troop Troop;
-    public CombatParty Party;
+    private CombatParty _party;
     public bool Disabled;
-    public Set<WallCombatFeaturesElement> WallCombatFeaturesValue;
-    public int UnitGraphicsResourceIndex;
+
+    public Set<WallCombatFeaturesElement> WallCombatFeaturesValue { get; private set; }
+
+    private int _unitGraphicsResourceIndex;
 
     // Combat.pas:1078
     public override void Dispose()
@@ -738,7 +740,7 @@ public partial class CombatUnit : CombatObject
         {
             if (U != null)
             {
-                party = Party;
+                party = _party;
                 if (party != null && Troop.Owner == party.Army)
                 {
                     Troop.SetOwner(null);
@@ -752,7 +754,7 @@ public partial class CombatUnit : CombatObject
             if (U != null)
             {
                 U.AddRef();
-                party = Party;
+                party = _party;
                 if (party != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
                 {
                     party.Army.AddUnit(Troop);
@@ -804,19 +806,19 @@ public partial class CombatUnit : CombatObject
     public void SetParty(CombatParty party)
     {
         CombatParty P;
-        if (party != Party)
+        if (party != _party)
         {
-            if (Party != null && Troop != null)
+            if (_party != null && Troop != null)
             {
                 Troop.SetOwner(null);
             }
 
-            Party = party;
-            P = Party;
+            _party = party;
+            P = _party;
             if (P != null && Troop != null)
             {
                 Troop.SetOwner(P.Army);
-                Party.Army.UpdateFormation();
+                _party.Army.UpdateFormation();
             }
         }
     }
@@ -856,13 +858,13 @@ public partial class CombatUnit : CombatObject
             index = -1;
         }
 
-        if (index != UnitGraphicsResourceIndex)
+        if (index != _unitGraphicsResourceIndex)
         {
             ReleaseUnitGraphicsResource();
             if (index != -1)
             {
                 AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
-                UnitGraphicsResourceIndex = index;
+                _unitGraphicsResourceIndex = index;
             }
         }
     }
@@ -871,11 +873,11 @@ public partial class CombatUnit : CombatObject
     public void ReleaseUnitGraphicsResource()
     {
         int index;
-        index = UnitGraphicsResourceIndex;
+        index = _unitGraphicsResourceIndex;
         if (index != -1)
         {
             AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
-            UnitGraphicsResourceIndex = -1;
+            _unitGraphicsResourceIndex = -1;
         }
     }
 

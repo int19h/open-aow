@@ -197,7 +197,7 @@ public sealed class ClassFamilyTests
             Assert.NotEqual(0, hex.OpenSides);
             var dynamic = hex.Dynamic;
             Assert.NotNull(dynamic);
-            Assert.Null(dynamic._owner);
+            Assert.Null(dynamic.Owner);
             Assert.Contains(dynamic, field.HexSpriteList.Take(field._count));
             Assert.Equal(field.HexX, dynamic.GetHexX());
             Assert.Equal(field.HexY, dynamic.GetHexY());

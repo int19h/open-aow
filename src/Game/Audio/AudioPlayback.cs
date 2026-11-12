@@ -336,9 +336,9 @@ public static class AudioPlayback
                 }
 
                 result.Looped = looped;
-                result._delay = delay;
+                result.Delay = delay;
                 result.Panning = panning;
-                result._callback = callback;
+                result.Callback = callback;
                 result.Volume = volume;
                 result.Execute();
             }

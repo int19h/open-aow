@@ -25,11 +25,11 @@ public partial class MapObjectResource : EngineResource
         SetLevel(26);
     }
 
-    protected internal GameEngine _engine;
+    private GameEngine _engine;
     protected internal int _showPriorityOffset;
-    protected internal ImageLibrary _imageLibrary;
-    protected internal ImageSequenceList _imageSequenceList;
-    protected internal TerrainList _terrainList;
+    private ImageLibrary _imageLibrary;
+    private ImageSequenceList _imageSequenceList;
+    private TerrainList _terrainList;
     protected internal byte _level;
     protected internal string _name = "";
 
@@ -105,7 +105,7 @@ public partial class MapObjectResource : EngineResource
             _engine = message.Payload.As<GameEngine>();
             if (_imageSequenceList != null)
             {
-                _imageSequenceList._imageLibraryManager = _engine._hexSpriteSet._imageLibraryManager;
+                _imageSequenceList.ImageLibraryManager = _engine.HexSpriteSet.ImageLibraryManager;
                 _imageSequenceList.LinkToImageLibrary();
             }
         }
@@ -257,7 +257,7 @@ public partial class MapObjectResource : EngineResource
 
         while (sequence != null)
         {
-            frame = sequence.GetFrameIndex(_engine._hexSpriteMap._frame, (int)offset);
+            frame = sequence.GetFrameIndex(_engine.HexSpriteMap.Frame, (int)offset);
             if (frame != -1)
             {
                 sequence.ImageLibrary.Get(frame).Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -277,7 +277,7 @@ public partial class MapObjectResource : EngineResource
             if (_terrainList.GetTerrain(I) >= 0)
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
-                _engine._hexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
+                _engine.HexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
             }
         }
     }
@@ -304,14 +304,14 @@ public partial class MapObjectResource : EngineResource
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
         while (walk.Radius <= radius)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 if (clear)
                 {
                     ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                placed = placed && PlaceResourceUser(_engine._hexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
+                placed = placed && PlaceResourceUser(_engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

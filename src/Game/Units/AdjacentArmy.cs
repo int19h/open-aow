@@ -16,9 +16,10 @@ public partial class AdjacentArmy : EngineObject
     }
 
     public MapCoordinate Location;
-    public int Moves;
-    public int MovePoints;
-    public MovePath Path;
+
+    public int Moves { get; set; }
+    public int MovePoints { get; set; }
+    public MovePath Path { get; }
 
     // AIGroup.pas:5051
     public override void Dispose()

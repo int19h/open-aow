@@ -27,7 +27,7 @@ public partial class PlayerMagicEventLog : EventLog
     public EventMode Mode;
     public MapCoordinate Location;
     public int SpellId;
-    public int Value;
+    private int _value;
     public string EnchantmentName = "";
 
     // Spells.PAS:1854
@@ -36,7 +36,7 @@ public partial class PlayerMagicEventLog : EventLog
         base.ReadWrite(stream);
         stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
         stream.rwInteger(ref SpellId, 21);
-        stream.rwInteger(ref Value, 22);
+        stream.rwInteger(ref _value, 22);
         stream.rwString(ref EnchantmentName, 23);
         stream.rwInteger(ref Location.Packed, 24);
     }
@@ -58,7 +58,7 @@ public partial class PlayerMagicEventLog : EventLog
                 }
                 else
                 {
-                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_removedFormat), [EnchantmentName]);
+                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RemovedFormat), [EnchantmentName]);
                 }
 
                 break;

@@ -53,14 +53,14 @@ public partial class FreezeWater : GlobalTargetSpell
     public override bool ValidTargetMapField(MapField field)
     {
         if (!base.ValidTargetMapField(field)) return false;
-        sbyte terrain = field._terrainType;
+        sbyte terrain = field.TerrainType;
         return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
     }
 
     public override bool ValidTargetSelectionMapField(MapField field)
     {
         if (!base.ValidTargetSelectionMapField(field)) return false;
-        sbyte terrain = field._terrainType;
+        sbyte terrain = field.TerrainType;
         if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) != null) return false;
         var army = ((AoWMapField)field).GetArmyHexSprite();
         return army == null || !army.VisibleForSeatedPlayer();

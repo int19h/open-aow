@@ -13,16 +13,16 @@ namespace Aow.Game.World.Map;
 // a terrain type on a map field
 public partial class MapObjectResourceTerrainControl : EngineObject
 {
-    internal GameEngine _hexSpriteEngine;
-    internal int _tries;
-    internal List<DelphiList> _resources;
-    internal Type _mapObjectClass;
+    private GameEngine _hexSpriteEngine;
+    private int _tries;
+    private List<DelphiList> _resources;
+    private Type _mapObjectClass;
 
     // HSEngine.pas:4522
     internal void Initialize()
     {
         Clear();
-        for (int I = 0, last = _hexSpriteEngine._hexSpriteSet.TerrainTypes.Count - 1; I <= last; I++)
+        for (int I = 0, last = _hexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; I <= last; I++)
         {
             var list = new DelphiList();
             _resources.Add(list);
@@ -129,7 +129,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
                 R = (MapObjectResource)list.List[random];
                 if (R != null)
                 {
-                    result = R.PlaceResourceUser(container._map, X, Y, L);
+                    result = R.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -165,7 +165,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
                 R = GetRandomResource(terrainType, classId);
                 if (R != null)
                 {
-                    result = R.PlaceResourceUser(container._map, X, Y, L);
+                    result = R.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -223,7 +223,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public void RegisterResource(MapObjectResource resource)
     {
         sbyte terrainType;
-        terrainType = resource._terrainList.GetTerrain(0);
+        terrainType = resource.TerrainList.GetTerrain(0);
         if (terrainType >= 0 && terrainType < _resources.Count)
         {
             if ((_resources[terrainType]).IndexOf(resource) != -1 || resource == null)

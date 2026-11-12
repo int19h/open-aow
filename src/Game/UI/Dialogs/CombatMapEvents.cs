@@ -22,7 +22,7 @@ public partial class CombatMapEvents : DataModule
     { }
 
     public CombatMapControl TCMap;
-    public int ChatHeight;
+    private int _chatHeight;
 
     // aowTCMapEvents.pas:105
     public void TCMapDeActivateMap()
@@ -36,9 +36,9 @@ public partial class CombatMapEvents : DataModule
         DialogHosts.ScannerWindow.Scanner.Sized = false;
         DialogHosts.ScannerWindow.Scanner.UpdateStep = -1;
 
-        if (ChatHeight > 0)
+        if (_chatHeight > 0)
         {
-            DialogHosts.ChatWindow.ChatWin.WinHeight = ChatHeight;
+            DialogHosts.ChatWindow.ChatWin.WinHeight = _chatHeight;
         }
 
         var chatWindow = DialogHosts.ChatWindow;
@@ -214,13 +214,13 @@ public partial class CombatMapEvents : DataModule
     public void TCMapTurnChanged()
     {
         var player = AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
-        DialogHosts.TaskBar.TCTurnButton._currentPlayer = player.PlayerRace;
-        if (DialogHosts.TaskBar.TCTurnButton._currentPlayer == -1)
+        DialogHosts.TaskBar.TCTurnButton.CurrentPlayer = player.PlayerRace;
+        if (DialogHosts.TaskBar.TCTurnButton.CurrentPlayer == -1)
         {
-            DialogHosts.TaskBar.TCTurnButton._currentPlayer = 12;
+            DialogHosts.TaskBar.TCTurnButton.CurrentPlayer = 12;
         }
 
-        DialogHosts.TaskBar.TCTurnButton._lastPlayer = -1;
+        DialogHosts.TaskBar.TCTurnButton.LastPlayer = -1;
 
         DialogHosts.General.Manager.OverlayPriority = 49;
         DialogHosts.TaskBar.TCPInd.Drawn = false;
@@ -324,7 +324,7 @@ public partial class CombatMapEvents : DataModule
                     ((StringCollection)window.AbilStat.Items).Clear();
                     if (info.DamageTypes.Contains(DamageType.Fire))
                     {
-                        string text = AbilityRules.TranslateResourceString(GameTables.s_fireText);
+                        string text = AbilityRules.TranslateResourceString(GameTables.FireText);
                         string text2 = AbilityRules.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilStat.Items).Add(text + " " + text2);
                     }
@@ -354,7 +354,7 @@ public partial class CombatMapEvents : DataModule
                     }
                     if (info.DamageTypes.Contains(DamageType.Death))
                     {
-                        string text11 = AbilityRules.TranslateResourceString(GameTables.s_deathText);
+                        string text11 = AbilityRules.TranslateResourceString(GameTables.DeathText);
                         string text12 = AbilityRules.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilStat.Items).Add(text11 + " " + text12);
                     }
@@ -404,7 +404,7 @@ public partial class CombatMapEvents : DataModule
                     ((StringCollection)window.AbilStat.Items).Clear();
                     if (Info.DamageTypes.Contains(DamageType.Fire))
                     {
-                        string text19 = AbilityRules.TranslateResourceString(GameTables.s_fireText);
+                        string text19 = AbilityRules.TranslateResourceString(GameTables.FireText);
                         string text20 = AbilityRules.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilStat.Items).Add(text19 + " " + text20);
                     }
@@ -434,7 +434,7 @@ public partial class CombatMapEvents : DataModule
                     }
                     if (Info.DamageTypes.Contains(DamageType.Death))
                     {
-                        string text29 = AbilityRules.TranslateResourceString(GameTables.s_deathText);
+                        string text29 = AbilityRules.TranslateResourceString(GameTables.DeathText);
                         string text30 = AbilityRules.TranslateResourceString(s_damageText);
                         ((StringCollection)window.AbilStat.Items).Add(text29 + " " + text30);
                     }

@@ -17,30 +17,39 @@ namespace Aow.Game.UI.Controls;
 // none)
 public partial class ListBox : Control
 {
-    public StringList _items;
-    public VerticalScrollBar _verticalScrollBar;
-    public int VisibleRows;
-    public int _selected;
-    public int UnusedPosition;
-    public AoWOnDrawItemEvent<ListBox> _onPreDrawItem;
-    public AoWOnDrawItemEvent<ListBox> _onDrawItem;
-    public int ScrollWidth;
-    public bool ScrollBarVisible;
-    public InterfaceImageLibrary _imageLibraryFrame;
-    public InterfaceImageLibrary _imageLibraryTextureNormal;
-    public InterfaceImageLibrary _imageLibraryTextureSelected;
-    public int _itemHeight;
-    public NotifyEvent<ListBox> _onDoubleClick;
-    public TextAlignment _textAlign;
-    public int FirstShownItem;
-    public byte TextOnly;
-    public int _imageLibraryIndexFrame;
-    public int _imageLibraryIndexTNormal;
-    public int _imageLibraryIndexTSelected;
-    public Menu _popupMenu;
-    public int DrawItem;
-    public Rect DrawItemRectangle;
-    public int HoverItem;
+    private StringList _items;
+    private VerticalScrollBar _verticalScrollBar;
+
+    public int VisibleRows { get; set; }
+
+    private int _selected;
+
+    public int UnusedPosition { get; private set; }
+
+    private AoWOnDrawItemEvent<ListBox> _onPreDrawItem;
+    private AoWOnDrawItemEvent<ListBox> _onDrawItem;
+    private int _scrollWidth;
+
+    public bool ScrollBarVisible { get; private set; }
+
+    private InterfaceImageLibrary _imageLibraryFrame;
+    private InterfaceImageLibrary _imageLibraryTextureNormal;
+    private InterfaceImageLibrary _imageLibraryTextureSelected;
+    private int _itemHeight;
+    private NotifyEvent<ListBox> _onDoubleClick;
+    private TextAlignment _textAlign;
+
+    public int FirstShownItem { get; private set; }
+
+    private byte _textOnly;
+    private int _imageLibraryIndexFrame;
+    private int _imageLibraryIndexTNormal;
+    private int _imageLibraryIndexTSelected;
+    private Menu _popupMenu;
+    private int _drawItem;
+    private Rect _drawItemRectangle;
+
+    public int HoverItem { get; set; }
 
     // AoWListBox.pas:107
     public ListBox(Component owner) : base(owner)
@@ -82,11 +91,11 @@ public partial class ListBox : Control
 
             if (_imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
             {
-                TextOnly = 0;
+                _textOnly = 0;
             }
             else
             {
-                TextOnly = 1;
+                _textOnly = 1;
             }
 
             Valid = true;
@@ -103,37 +112,37 @@ public partial class ListBox : Control
             _itemHeight = 10;
         }
 
-        switch (TextOnly)
+        switch (_textOnly)
         {
             case 0:
                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
+                    SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
                 var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                 var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > _winWidth)
+                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                    _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
+                    SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
                 var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                VisibleRows = (_winHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / _itemHeight;
-                ScrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
-                _masked = false;
+                VisibleRows = (WinHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / _itemHeight;
+                _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
+                Masked = false;
                 break;
             case 1:
-                VisibleRows = _winHeight / _itemHeight;
-                ScrollWidth = 0;
-                _masked = true;
+                VisibleRows = WinHeight / _itemHeight;
+                _scrollWidth = 0;
+                Masked = true;
                 break;
         }
 
@@ -166,33 +175,33 @@ public partial class ListBox : Control
         if (_verticalScrollBar != null)
         {
             UnusedPosition = -1;
-            if (_verticalScrollBar._window != _window)
+            if (_verticalScrollBar.Window != Window)
             {
-                _verticalScrollBar.SetWindow(_window);
+                _verticalScrollBar.SetWindow(Window);
             }
 
-            _verticalScrollBar.Priority = _priority + 1;
+            _verticalScrollBar.Priority = Priority + 1;
             _verticalScrollBar.SetFMin(0);
             var count = _items.Count;
             _verticalScrollBar.SetFMax(count - 1);
             _verticalScrollBar.SetFPosition(FirstShownItem);
             _verticalScrollBar.SetFNumber(VisibleRows);
-            _verticalScrollBar.WinHeight = _winHeight;
+            _verticalScrollBar.WinHeight = WinHeight;
             _verticalScrollBar.SetLarge(VisibleRows - 1);
-            _verticalScrollBar.Visible = _visible;
-            if (_verticalScrollBar._vanishWhenFull && _items.Count - 1 < VisibleRows)
+            _verticalScrollBar.Visible = Visible;
+            if (_verticalScrollBar.VanishWhenFull && _items.Count - 1 < VisibleRows)
             {
                 _verticalScrollBar.Visible = false;
             }
             else
             {
-                ScrollWidth = _verticalScrollBar._winWidth;
+                _scrollWidth = _verticalScrollBar.WinWidth;
             }
 
             _verticalScrollBar.Sized = false;
-            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar._winWidth;
-            _verticalScrollBar.WinTop = _winTop;
-            ScrollBarVisible = _verticalScrollBar._visible;
+            _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
+            _verticalScrollBar.WinTop = WinTop;
+            ScrollBarVisible = _verticalScrollBar.Visible;
         }
 
         base.SetSize();
@@ -202,11 +211,11 @@ public partial class ListBox : Control
     // { Update keeps the first item shown in step with the scroll bar }
     public override void Update()
     {
-        if (_visible && _verticalScrollBar != null && _items.Count > 0)
+        if (Visible && _verticalScrollBar != null && _items.Count > 0)
         {
-            if (_verticalScrollBar._position != FirstShownItem)
+            if (_verticalScrollBar.Position != FirstShownItem)
             {
-                FirstShownItem = _verticalScrollBar._position;
+                FirstShownItem = _verticalScrollBar.Position;
                 var count = _items.Count;
                 if (FirstShownItem + VisibleRows > count)
                 {
@@ -231,7 +240,7 @@ public partial class ListBox : Control
         base.SetVisible(value);
         if (_verticalScrollBar != null)
         {
-            _verticalScrollBar.Visible = _visible;
+            _verticalScrollBar.Visible = Visible;
         }
     }
 
@@ -247,7 +256,7 @@ public partial class ListBox : Control
         Rect oldClip = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -256,33 +265,33 @@ public partial class ListBox : Control
 
                 _font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
-                switch (TextOnly)
+                switch (_textOnly)
                 {
                     case 0:
-                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame3.Width, _window._winTop + _winTop + imageLibraryFrame2.Height, _winWidth - imageLibraryFrameWidth.Width - ScrollWidth, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        var rectangle2 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        L = _window._winLeft + _winLeft + imageLibraryFrame4.Width;
+                        L = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
                         var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        T = _window._winTop + _winTop + imageLibraryFrame5.Height;
+                        T = Window.WinTop + WinTop + imageLibraryFrame5.Height;
                         var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        H = _winHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
+                        H = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
                         var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        W = _winWidth - imageLibraryFrame8.Width - ScrollWidth;
+                        W = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
-                        L = _window._winLeft + _winLeft;
-                        T = _window._winTop + _winTop;
-                        H = _winHeight;
-                        W = _winWidth - ScrollWidth;
+                        L = Window.WinLeft + WinLeft;
+                        T = Window.WinTop + WinTop;
+                        H = WinHeight;
+                        W = WinWidth - _scrollWidth;
                         break;
                 }
 
@@ -301,22 +310,22 @@ public partial class ListBox : Control
                     var count = _items.Count;
                     if (FirstShownItem + I < count)
                     {
-                        DrawItem = FirstShownItem + I;
-                        DrawItemRectangle = new Rect(L, _itemHeight * I + T, L + W, (I + 1) * _itemHeight + T);
-                        if (DrawItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
+                        _drawItem = FirstShownItem + I;
+                        _drawItemRectangle = new Rect(L, _itemHeight * I + T, L + W, (I + 1) * _itemHeight + T);
+                        if (_drawItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
-                            DrawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
+                            _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
                         if (_onPreDrawItem != null)
                         {
-                            _onPreDrawItem(this, DrawItemRectangle, DrawItem, ref lockedSurface);
+                            _onPreDrawItem(this, _drawItemRectangle, _drawItem, ref lockedSurface);
                         }
 
                         if (FirstShownItem + I == _selected)
                         {
                             _font.Color = SelectedColor;
-                            if (TextOnly == 0)
+                            if (_textOnly == 0)
                             {
                                 var rectangle = new Rect(L, _itemHeight * I + T, W, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
@@ -349,7 +358,7 @@ public partial class ListBox : Control
 
                         if (_onDrawItem != null)
                         {
-                            _onDrawItem(this, DrawItemRectangle, DrawItem, ref lockedSurface);
+                            _onDrawItem(this, _drawItemRectangle, _drawItem, ref lockedSurface);
                         }
                     }
                 }
@@ -376,17 +385,17 @@ public partial class ListBox : Control
         int I;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (!_ownerComponent.Handled && X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth - ScrollWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (!OwnerComponent.Handled && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (TextOnly == 0)
+            if (_textOnly == 0)
             {
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                I = (Y - _window._winTop - _winTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
+                I = (Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
             }
             else
             {
-                I = (Y - _window._winTop - _winTop) / _itemHeight + FirstShownItem;
+                I = (Y - Window.WinTop - WinTop) / _itemHeight + FirstShownItem;
             }
 
             if (_items.Count > I)
@@ -454,7 +463,7 @@ public partial class ListBox : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth - ScrollWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -470,21 +479,21 @@ public partial class ListBox : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - ScrollWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
+        if (X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - _scrollWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
         {
             HoverItem = -1;
         }
         else
         {
             Handled = true;
-            if (TextOnly == 0)
+            if (_textOnly == 0)
             {
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                HoverItem = (Y - _window._winTop - _winTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
+                HoverItem = (Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
             }
             else
             {
-                HoverItem = (Y - _window._winTop - _winTop) / _itemHeight + FirstShownItem;
+                HoverItem = (Y - Window.WinTop - WinTop) / _itemHeight + FirstShownItem;
             }
 
             if (_onMouseMove != null)
@@ -578,10 +587,10 @@ public partial class ListBox : Control
         _verticalScrollBar = value;
         if (value != null)
         {
-            value.Priority = _priority;
+            value.Priority = Priority;
         }
 
-        Priority = _priority;
+        Priority = Priority;
         Sized = false;
     }
 
@@ -631,6 +640,8 @@ public partial class ListBox : Control
 
     [Published]
     public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }
+
+    internal void SetVerticalScrollBarWithoutLayout(VerticalScrollBar value) => _verticalScrollBar = value;
 
     [Published]
     public NotifyEvent<ListBox> OnDoubleClick { get => _onDoubleClick; set => _onDoubleClick = value; }

@@ -19,31 +19,31 @@ public partial class ItemExplorationSite : ExplorationSite
 {
     public ItemExplorationSite(ECustomNode owner) : base(owner)
     {
-        Items = new ExplorationSiteItemList(null);
-        ItemCount = 2;
+        _items = new ExplorationSiteItemList(null);
+        _itemCount = 2;
     }
 
     // ItemExpS.pas:102
     public new const int ClassId = 132083;
 
-    public byte ItemCount;
+    private byte _itemCount;
     // 0 user-defined, 4 random
-    public ExplorationSiteItemList Items;
+    private ExplorationSiteItemList _items;
 
     // ItemExpS.pas:95
     public override void Dispose()
     {
         base.Dispose();
-        Items?.Dispose();
-        Items = null;
+        _items?.Dispose();
+        _items = null;
     }
 
     // ItemExpS.pas:107
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Items, 8);
-        stream.rwData(Bytes.Of(ref ItemCount, 1), 1, 9);
+        stream.rwEObject(_items, 8);
+        stream.rwData(Bytes.Of(ref _itemCount, 1), 1, 9);
     }
 
     // ItemExpS.pas:88
@@ -52,7 +52,7 @@ public partial class ItemExplorationSite : ExplorationSite
     public override void Activate()
     {
         base.Activate();
-        Items.RegisterItems();
+        _items.RegisterItems();
     }
 
     // ItemExpS.pas:120
@@ -72,13 +72,13 @@ public partial class ItemExplorationSite : ExplorationSite
     }
 
     // ItemExpS.pas:125
-    public override bool GetExplored() => Items.Count == 0;
+    public override bool GetExplored() => _items.Count == 0;
 
     // ItemExpS.pas:146
     public override void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
     {
         base.SetupCombat(combat, army);
-        combat.Items = Items;
+        combat.Items = _items;
     }
 
     // ItemExpS.pas:152
@@ -99,9 +99,9 @@ public partial class ItemExplorationSite : ExplorationSite
             log.Location.Y = hexY;
             var hexLevel = GetHexLevel();
             log.Location.MapLevel = hexLevel;
-            for (int I = Items.Count - 1; I >= 0; I--)
+            for (int I = _items.Count - 1; I >= 0; I--)
             {
-                item = Items.GetItem(I);
+                item = _items.GetItem(I);
                 log.ItemIds.Add(item.ItemId);
                 var hexLevel2 = GetHexLevel();
                 var hexY2 = GetHexY();
@@ -124,21 +124,21 @@ public partial class ItemExplorationSite : ExplorationSite
     public virtual void Generate()
     {
         Item item;
-        if (ItemCount != 0)
+        if (_itemCount != 0)
         {
             RandSeed = AoWHSMap.Current.Random(16777215);
-            if (ItemCount == 4)
+            if (_itemCount == 4)
             {
-                ItemCount = (byte)(AoWHSMap.Current.Random(3) + 1);
+                _itemCount = (byte)(AoWHSMap.Current.Random(3) + 1);
             }
 
-            Items.Clear();
-            for (int itemOrdinal = 1, last = ItemCount; itemOrdinal <= last; itemOrdinal++)
+            _items.Clear();
+            for (int itemOrdinal = 1, last = _itemCount; itemOrdinal <= last; itemOrdinal++)
             {
                 item = AoWHSMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
                 if (item != null)
                 {
-                    item.Owner = Items;
+                    item.Owner = _items;
                 }
             }
         }

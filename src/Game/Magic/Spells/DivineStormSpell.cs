@@ -12,7 +12,7 @@ public partial class DivineStormSpell : StormSpell
     // Storms.pas:954
     public DivineStormSpell(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.s_divineStormText);
+        SpellName = AbilityRules.TranslateResourceString(GameTables.DivineStormText);
         SpellId = 6;
         BaseManaCost = 5;
         SpellLevel = 4;

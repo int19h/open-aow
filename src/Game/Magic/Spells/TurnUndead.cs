@@ -18,7 +18,7 @@ public partial class TurnUndead : CombatSpell
     // CombatSpells.pas:888
     public TurnUndead(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.TurnUndeadText);
         SpellId = 101;
         DamageMode = 1;
         ref var spellCombatInfo = ref CombatInfo;

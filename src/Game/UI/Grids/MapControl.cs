@@ -15,52 +15,52 @@ namespace Aow.Game.UI.Grids;
 
 public partial class MapControl : Component
 {
-    public MapObjectEvent<Army> OnSelectArmy;
-    public MapObjectEvent<Army> OnDeselectArmy;
-    public MapObjectEvent<Army> OnDoubleClickArmy;
-    public MapObjectEvent<Army> _onArmyChanged;
-    public MapObjectEvent<Army> _onArmyDestroyed;
-    public MapObjectEvent<Structure> OnSelectStructure;
-    public MapObjectEvent<Structure> OnDeselectStructure;
-    public MapObjectEvent<Structure> OnDoubleClickStructure;
-    public MapObjectEvent<Structure> _onStructureChanged;
-    public MapObjectEvent<Structure> _onStructureDestroyed;
-    public MapObjectEvent<ItemHexSprite> OnSelectItem;
-    public MapObjectEvent<ItemHexSprite> OnDeselectItem;
-    public MapObjectEvent<Troop> _onUnitChanged;
-    public MapObjectEvent<Troop> _onUnitDestroyed;
-    public MapObjectEvent<AbilityActivation> _onActivateAbility;
-    public NotifyEvent<object> _onDiplomaticChange;
-    public NotifyEvent<object> _onActivateHsm;
-    public NotifyEvent<object> _onDeactivateHsm;
-    public MapPlayerEvent _onIncomeChanged;
-    public MapPlayerEvent _onUpkeepChanged;
-    public MapPlayerEvent _onGemsChanged;
-    public MapPlayerEvent _onPlayerMagicChanged;
-    public NotifyEvent<object> _onGlobalMagicChanged;
-    public MapRefEvent<ShowMessageInfo> _onShowMessage;
-    public MapDayEvent OnChangeDay;
-    public NotifyEvent<sbyte> _onNewTurn;
-    public MapPlayerEvent _onPlayerChanged;
-    public MapPlayerEvent _onSeatedPlayerChanged;
-    public NotifyEvent<object> OnCombatEvent;
-    public MapExecuteLogEvent _onExecuteEventLog;
-    public MapRefEvent<MapChangedInfo> _onMapChanged;
-    public MapRefEvent<MapChangedInfo> _onScannerIconsChanged;
-    public NotifyEvent<object> _onMapSettingsChanged;
-    public MapPlayerEvent _onLogbookChanged;
-    public NotifyEvent<object> _onGameOver;
-    public MapPlayerEvent _onGameTerminated;
-    public MapPlayerEvent _onPlayerTerminated;
-    public NotifyEvent<object> _onActivateCombatMap;
-    public NotifyEvent<object> _onDeactivateCombatMap;
-    public MapTargetEvent _onTargetSelectionChange;
-    public NotifyEvent<object> _onViewPortChange;
-    public MapObjectEvent<SpellCaster> _onCastSpell;
-    public MapEndTurnEvent _onEndTurn;
-    public NotifyEvent<object> _onRelationsChanged;
-    public NotifyEvent<object> OnExitGameEvent;
-    public MapObjectEvent<HexSprite> _onHexSpriteChanged;
+    private MapObjectEvent<Army> _onSelectArmy;
+    private MapObjectEvent<Army> _onDeselectArmy;
+    private MapObjectEvent<Army> _onDoubleClickArmy;
+    private MapObjectEvent<Army> _onArmyChanged;
+    private MapObjectEvent<Army> _onArmyDestroyed;
+    private MapObjectEvent<Structure> _onSelectStructure;
+    private MapObjectEvent<Structure> _onDeselectStructure;
+    private MapObjectEvent<Structure> _onDoubleClickStructure;
+    private MapObjectEvent<Structure> _onStructureChanged;
+    private MapObjectEvent<Structure> _onStructureDestroyed;
+    private MapObjectEvent<ItemHexSprite> _onSelectItem;
+    private MapObjectEvent<ItemHexSprite> _onDeselectItem;
+    private MapObjectEvent<Troop> _onUnitChanged;
+    private MapObjectEvent<Troop> _onUnitDestroyed;
+    private MapObjectEvent<AbilityActivation> _onActivateAbility;
+    private NotifyEvent<object> _onDiplomaticChange;
+    private NotifyEvent<object> _onActivateHsm;
+    private NotifyEvent<object> _onDeactivateHsm;
+    private MapPlayerEvent _onIncomeChanged;
+    private MapPlayerEvent _onUpkeepChanged;
+    private MapPlayerEvent _onGemsChanged;
+    private MapPlayerEvent _onPlayerMagicChanged;
+    private NotifyEvent<object> _onGlobalMagicChanged;
+    private MapRefEvent<ShowMessageInfo> _onShowMessage;
+    private MapDayEvent _onChangeDay;
+    private NotifyEvent<sbyte> _onNewTurn;
+    private MapPlayerEvent _onPlayerChanged;
+    private MapPlayerEvent _onSeatedPlayerChanged;
+    private NotifyEvent<object> _onCombatEvent;
+    private MapExecuteLogEvent _onExecuteEventLog;
+    private MapRefEvent<MapChangedInfo> _onMapChanged;
+    private MapRefEvent<MapChangedInfo> _onScannerIconsChanged;
+    private NotifyEvent<object> _onMapSettingsChanged;
+    private MapPlayerEvent _onLogbookChanged;
+    private NotifyEvent<object> _onGameOver;
+    private MapPlayerEvent _onGameTerminated;
+    private MapPlayerEvent _onPlayerTerminated;
+    private NotifyEvent<object> _onActivateCombatMap;
+    private NotifyEvent<object> _onDeactivateCombatMap;
+    private MapTargetEvent _onTargetSelectionChange;
+    private NotifyEvent<object> _onViewPortChange;
+    private MapObjectEvent<SpellCaster> _onCastSpell;
+    private MapEndTurnEvent _onEndTurn;
+    private NotifyEvent<object> _onRelationsChanged;
+    private NotifyEvent<object> _onExitGameEvent;
+    private MapObjectEvent<HexSprite> _onHexSpriteChanged;
 
     // MapCtrl.pas:186
     public override void Dispose()
@@ -95,14 +95,14 @@ public partial class MapControl : Component
     // MapCtrl.pas:197
     public void LinkToHsm()
     {
-        AoWHSMap.Current._mouse.FOnDoubleClick += DoubleClick;
+        AoWHSMap.Current.Mouse.FOnDoubleClick += DoubleClick;
         AoWHSMap.Current.FNewDayEvents += ChangeDay;
         AoWHSMap.Current.FCurrentPlayerChangedEvents += PlayerChanged;
         AoWHSMap.Current.FNewTurnEvents += NewTurn;
         AoWHSMap.Current.FEndTurnEvents += EndTurn;
         AoWHSMap.Current.FSeatedPlayerChangedEvents += SeatedPlayerChanged;
-        AoWHSMap.Current._selection.FOnSelect += SelectHexSprite;
-        AoWHSMap.Current._selection.FOnDeselect += DeselectHexSprite;
+        AoWHSMap.Current.Selection.FOnSelect += SelectHexSprite;
+        AoWHSMap.Current.Selection.FOnDeselect += DeselectHexSprite;
         AoWHSMap.Current.FShowMessageEvents += ShowMessage;
         AoWHSMap.Current.FMapChangedEvents += MapChanged;
         AoWHSMap.Current.FScannerIconsChangedEvents += ScannerIconsChanged;
@@ -142,14 +142,14 @@ public partial class MapControl : Component
     // MapCtrl.pas:244
     public void ReleaseHsm()
     {
-        AoWHSMap.Current._mouse.FOnDoubleClick -= DoubleClick;
+        AoWHSMap.Current.Mouse.FOnDoubleClick -= DoubleClick;
         AoWHSMap.Current.FNewDayEvents -= ChangeDay;
         AoWHSMap.Current.FCurrentPlayerChangedEvents -= PlayerChanged;
         AoWHSMap.Current.FNewTurnEvents -= NewTurn;
         AoWHSMap.Current.FEndTurnEvents -= EndTurn;
         AoWHSMap.Current.FSeatedPlayerChangedEvents -= SeatedPlayerChanged;
-        AoWHSMap.Current._selection.FOnSelect -= SelectHexSprite;
-        AoWHSMap.Current._selection.FOnDeselect -= DeselectHexSprite;
+        AoWHSMap.Current.Selection.FOnSelect -= SelectHexSprite;
+        AoWHSMap.Current.Selection.FOnDeselect -= DeselectHexSprite;
         AoWHSMap.Current.FShowMessageEvents -= ShowMessage;
         AoWHSMap.Current.FMapChangedEvents -= MapChanged;
         AoWHSMap.Current.FScannerIconsChangedEvents -= ScannerIconsChanged;
@@ -217,21 +217,21 @@ public partial class MapControl : Component
     public void DoubleClick(object sender)
     {
         HexSprite hexSprite;
-        if (OnDoubleClickArmy != null)
+        if (_onDoubleClickArmy != null)
         {
             hexSprite = AoWHSMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
             if (hexSprite is ArmyHexSprite armyHexSprite)
             {
-                OnDoubleClickArmy(armyHexSprite.Army);
+                _onDoubleClickArmy(armyHexSprite.Army);
             }
         }
 
-        if (OnDoubleClickStructure != null)
+        if (_onDoubleClickStructure != null)
         {
             hexSprite = AoWHSMap.Current.Selection.FindClass(typeof(Structure));
             if (hexSprite is Structure structure)
             {
-                OnDoubleClickStructure(structure);
+                _onDoubleClickStructure(structure);
             }
         }
     }
@@ -291,19 +291,19 @@ public partial class MapControl : Component
         try
         {
             selection = AoWHSMap.Current.Selection;
-            if (OnSelectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() != null)
+            if (_onSelectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() != null)
             {
-                OnSelectArmy(armyHexSprite.Army);
+                _onSelectArmy(armyHexSprite.Army);
             }
 
-            if (OnSelectStructure != null && selection.EventHexSprite is Structure structure)
+            if (_onSelectStructure != null && selection.EventHexSprite is Structure structure)
             {
-                OnSelectStructure(structure);
+                _onSelectStructure(structure);
             }
 
-            if (OnSelectItem != null && selection.EventHexSprite is ItemHexSprite item)
+            if (_onSelectItem != null && selection.EventHexSprite is ItemHexSprite item)
             {
-                OnSelectItem(item);
+                _onSelectItem(item);
             }
         }
         catch
@@ -319,19 +319,19 @@ public partial class MapControl : Component
         try
         {
             selection = AoWHSMap.Current.Selection;
-            if (OnDeselectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
+            if (_onDeselectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
             {
-                OnDeselectArmy(armyHexSprite.Army);
+                _onDeselectArmy(armyHexSprite.Army);
             }
 
-            if (OnDeselectStructure != null && selection.EventHexSprite is Structure structure)
+            if (_onDeselectStructure != null && selection.EventHexSprite is Structure structure)
             {
-                OnDeselectStructure(structure);
+                _onDeselectStructure(structure);
             }
 
-            if (OnDeselectItem != null && selection.EventHexSprite is ItemHexSprite item)
+            if (_onDeselectItem != null && selection.EventHexSprite is ItemHexSprite item)
             {
-                OnDeselectItem(item);
+                _onDeselectItem(item);
             }
         }
         catch
@@ -361,9 +361,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnExitGameEvent != null)
+            if (_onExitGameEvent != null)
             {
-                OnExitGameEvent(this);
+                _onExitGameEvent(this);
             }
         }
         catch
@@ -522,9 +522,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnChangeDay != null)
+            if (_onChangeDay != null)
             {
-                OnChangeDay(AoWHSMap.Current.Day);
+                _onChangeDay(AoWHSMap.Current.Day);
             }
         }
         catch
@@ -538,9 +538,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnCombatEvent != null)
+            if (_onCombatEvent != null)
             {
-                OnCombatEvent(sender);
+                _onCombatEvent(sender);
             }
         }
         catch
@@ -870,13 +870,13 @@ public partial class MapControl : Component
     }
 
     [Published]
-    public MapObjectEvent<Army> OnArmySelected { get => OnSelectArmy; set => OnSelectArmy = value; }
+    public MapObjectEvent<Army> OnArmySelected { get => _onSelectArmy; set => _onSelectArmy = value; }
 
     [Published]
-    public MapObjectEvent<Army> OnArmyDeselected { get => OnDeselectArmy; set => OnDeselectArmy = value; }
+    public MapObjectEvent<Army> OnArmyDeselected { get => _onDeselectArmy; set => _onDeselectArmy = value; }
 
     [Published]
-    public MapObjectEvent<Army> OnArmyDoubleClick { get => OnDoubleClickArmy; set => OnDoubleClickArmy = value; }
+    public MapObjectEvent<Army> OnArmyDoubleClick { get => _onDoubleClickArmy; set => _onDoubleClickArmy = value; }
 
     [Published]
     public MapObjectEvent<Army> OnArmyChanged { get => _onArmyChanged; set => _onArmyChanged = value; }
@@ -885,13 +885,13 @@ public partial class MapControl : Component
     public MapObjectEvent<Army> OnArmyDestroyed { get => _onArmyDestroyed; set => _onArmyDestroyed = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureSelected { get => OnSelectStructure; set => OnSelectStructure = value; }
+    public MapObjectEvent<Structure> OnStructureSelected { get => _onSelectStructure; set => _onSelectStructure = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureDeselected { get => OnDeselectStructure; set => OnDeselectStructure = value; }
+    public MapObjectEvent<Structure> OnStructureDeselected { get => _onDeselectStructure; set => _onDeselectStructure = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureDoubleClick { get => OnDoubleClickStructure; set => OnDoubleClickStructure = value; }
+    public MapObjectEvent<Structure> OnStructureDoubleClick { get => _onDoubleClickStructure; set => _onDoubleClickStructure = value; }
 
     [Published]
     public MapObjectEvent<Structure> OnStructureChanged { get => _onStructureChanged; set => _onStructureChanged = value; }
@@ -924,7 +924,7 @@ public partial class MapControl : Component
     public MapRefEvent<ShowMessageInfo> OnShowMessage { get => _onShowMessage; set => _onShowMessage = value; }
 
     [Published]
-    public MapDayEvent OnDayChanged { get => OnChangeDay; set => OnChangeDay = value; }
+    public MapDayEvent OnDayChanged { get => _onChangeDay; set => _onChangeDay = value; }
 
     [Published]
     public MapPlayerEvent OnPlayerChanged { get => _onPlayerChanged; set => _onPlayerChanged = value; }
@@ -951,7 +951,7 @@ public partial class MapControl : Component
     public NotifyEvent<object> OnMapSettingsChanged { get => _onMapSettingsChanged; set => _onMapSettingsChanged = value; }
 
     [Published]
-    public NotifyEvent<object> OnCombat { get => OnCombatEvent; set => OnCombatEvent = value; }
+    public NotifyEvent<object> OnCombat { get => _onCombatEvent; set => _onCombatEvent = value; }
 
     [Published]
     public MapPlayerEvent OnLogbookChanged { get => _onLogbookChanged; set => _onLogbookChanged = value; }
@@ -981,10 +981,10 @@ public partial class MapControl : Component
     public NotifyEvent<object> OnDeactivateCombatMap { get => _onDeactivateCombatMap; set => _onDeactivateCombatMap = value; }
 
     [Published]
-    public MapObjectEvent<ItemHexSprite> OnItemsSelected { get => OnSelectItem; set => OnSelectItem = value; }
+    public MapObjectEvent<ItemHexSprite> OnItemsSelected { get => _onSelectItem; set => _onSelectItem = value; }
 
     [Published]
-    public MapObjectEvent<ItemHexSprite> OnItemsDeselected { get => OnDeselectItem; set => OnDeselectItem = value; }
+    public MapObjectEvent<ItemHexSprite> OnItemsDeselected { get => _onDeselectItem; set => _onDeselectItem = value; }
 
     [Published]
     public NotifyEvent<object> OnGameOver { get => _onGameOver; set => _onGameOver = value; }
@@ -1005,7 +1005,7 @@ public partial class MapControl : Component
     public NotifyEvent<object> OnDiplomaticChange { get => _onDiplomaticChange; set => _onDiplomaticChange = value; }
 
     [Published]
-    public NotifyEvent<object> OnExitGame { get => OnExitGameEvent; set => OnExitGameEvent = value; }
+    public NotifyEvent<object> OnExitGame { get => _onExitGameEvent; set => _onExitGameEvent = value; }
 
     public delegate void MapPlayerEvent(sbyte Player);
     public delegate void MapDayEvent(int Day);

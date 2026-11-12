@@ -5,7 +5,7 @@ namespace Aow.Game.UI.Windows;
 
 public partial class Window
 {
-    public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, _winLeft, _winTop, _winWidth, _winHeight);
+    public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, WinLeft, WinTop, WinWidth, WinHeight);
 
     // A book starts a page animation from the button handler. One wheel event turns one page, so a
     // second step in the same event does not restart that animation.
@@ -15,7 +15,7 @@ public partial class Window
     // one vertical scroll bar. Containing the pointer does not by itself consume the wheel.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || _windowManager == null || !_visible || !ContainsPoint(X, Y)) return false;
+        if (steps == 0 || _windowManager == null || !Visible || !ContainsPoint(X, Y)) return false;
         var child = TopWheelChild(X, Y);
         if (child != null && child.CheckMouseWheel(steps, shift, X, Y)) return true;
         if (TurnPages(steps)) return true;
@@ -30,8 +30,8 @@ public partial class Window
         bool turned = false;
         for (int i = 0; i < count; i++)
         {
-            if (!button._visible || !button._captureInput || button._onClick == null) break;
-            button._onClick(button);
+            if (!button.Visible || !button.CaptureInput || button.OnClick == null) break;
+            button.OnClick(button);
             turned = true;
             if (OneWheelTurnPerEvent) break;
         }

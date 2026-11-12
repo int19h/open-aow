@@ -21,12 +21,12 @@ public partial class ECustomOwner : ENode
 
     private protected ECustomOwner(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        _owner = owner;
+        SetOwnerWithoutNotify(owner);
         _controlStyle = base.GetControlStyle();
     }
 
-    internal GameEngine _engine;
-    internal Set<ControlStyleElement> _controlStyle;
+    private GameEngine _engine;
+    private Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:8262
     public override GameEngine GetEngine() => _engine;

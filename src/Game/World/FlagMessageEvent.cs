@@ -15,19 +15,19 @@ public partial class FlagMessageEvent : FlagEvent
 {
     public FlagMessageEvent(ECustomNode owner) : base(owner)
     {
-        Message = new StringList();
+        _message = new StringList();
     }
 
     // FlagEvents.pas:192
     public new const int ClassId = 132461;
 
-    public string HelpFileName = "";
-    public StringList Message;
+    private string _helpFileName = "";
+    private StringList _message;
 
     // FlagEvents.pas:186
     public override void Dispose()
     {
-        Message?.Dispose();
+        _message?.Dispose();
         base.Dispose();
     }
 
@@ -35,8 +35,8 @@ public partial class FlagMessageEvent : FlagEvent
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(Message, 40);
-        stream.rwString(ref HelpFileName, 41);
+        stream.rwStrings(_message, 40);
+        stream.rwString(ref _helpFileName, 41);
     }
 
     // FlagEvents.pas:180
@@ -48,8 +48,8 @@ public partial class FlagMessageEvent : FlagEvent
         if (AoWHSMap.Current.SeatedPlayer == player)
         {
             log = new FlagMessageEventLog(null);
-            log.HelpFileName = HelpFileName;
-            var text = Message.Text;
+            log.HelpFileName = _helpFileName;
+            var text = _message.Text;
             log.Message.Text = text;
             AoWHSMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
             log.Release();

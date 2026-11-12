@@ -26,26 +26,26 @@ public partial class WizardsTower : Structure
 {
     public WizardsTower(ECustomNode owner) : base(owner)
     {
-        GenerateSpell = true;
-        MagicSpheres = s_allMagicSpheres;
-        SpellLevel = 2;
+        _generateSpell = true;
+        _magicSpheres = s_allMagicSpheres;
+        _spellLevel = 2;
     }
 
     // WizardsTower.pas:84
     public new const int ClassId = 133278;
 
-    public bool GenerateSpell;
-    public Set<MagicSphere> MagicSpheres;
-    public byte SpellLevel;
+    private bool _generateSpell;
+    private Set<MagicSphere> _magicSpheres;
+    private byte _spellLevel;
     public int SpellId;
 
     // WizardsTower.pas:87
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref GenerateSpell, 30);
-        RwSet(ref MagicSpheres, 2, 31, stream.rwData, 0);
-        stream.rwByte(ref SpellLevel, 32);
+        stream.rwBool(ref _generateSpell, 30);
+        RwSet(ref _magicSpheres, 2, 31, stream.rwData, 0);
+        stream.rwByte(ref _spellLevel, 32);
         stream.rwData(Bytes.Of(ref SpellId, 4), 4, 33);
     }
 
@@ -78,7 +78,7 @@ public partial class WizardsTower : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1 && (GenerateSpell || SpellId == 0))
+        if (AoWHSMap.Current.Day == 1 && (_generateSpell || SpellId == 0))
         {
             GenerateSettings();
         }
@@ -171,7 +171,7 @@ public partial class WizardsTower : Structure
     // WizardsTower.pas:163
     public void GenerateSettings()
     {
-        SpellId = AoWHSSet.Current.SpellControl.GetRandomSpell(SpellLevel, SpellLevel, MagicSpheres);
+        SpellId = AoWHSSet.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
     }
 
     // WizardsTower.pas:174
@@ -246,7 +246,7 @@ public partial class WizardsTower : Structure
                 else
                 {
                     result = false;
-                    reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+                    reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
                 }
             }
             else

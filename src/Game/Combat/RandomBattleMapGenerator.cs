@@ -25,24 +25,25 @@ namespace Aow.Game.Combat;
 // samples. tag samples. resource lists. FHomePosition
 public partial class RandomBattleMapGenerator : IDisposable
 {
-    public ItemList Items;
+    public ItemList Items { get; private set; }
+
     // calls GetItem
-    public bool RandomTerrain;
-    public Int32Array20 NeighborWeights;
-    public Int32Array305 TerrainWeights;
-    public Int32Array308 TagWeights;
-    public SByteArray7 Terrain;
-    public SByteArray7 Tags;
-    public MapObjectResourceListArray286 Resources;
+    private bool _randomTerrain;
+    private Int32Array20 _neighborWeights;
+    private Int32Array305 _terrainWeights;
+    private Int32Array308 _tagWeights;
+    private SByteArray7 _terrain;
+    private SByteArray7 _tags;
+    private MapObjectResourceListArray286 _resources;
     // original allocates one extra list
-    public int HomePosition;
+    private int _homePosition;
 
     // AoWTC.pas:4149
     public virtual void Dispose()
     {
         for (int I = 0; I <= 285; I++)
         {
-            Resources[I]?.Clear();
+            _resources[I]?.Clear();
         }
     }
 
@@ -52,7 +53,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         for (int I = 0; I <= 285; I++)
         {
             var list = new List<MapObjectResource>();
-            Resources[I] = list;
+            _resources[I] = list;
         }
 
         for (int J = 0, last = AoWHSSet.Current.CombatResources.GetCount() - 1; J <= last; J++)
@@ -62,7 +63,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                 var mapObjectResource = AoWHSSet.Current.CombatResources.Resources[J];
                 var mapObjectResource2 = AoWHSSet.Current.CombatResources.Resources[J];
                 var mapObjectResource3 = AoWHSSet.Current.CombatResources.Resources[J];
-                Resources[(sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19 + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
+                _resources[(sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19 + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
             }
         }
 
@@ -123,27 +124,27 @@ public partial class RandomBattleMapGenerator : IDisposable
             randomTerrain = !(siteCombat || combat.ExplorationSite == 2);
         }
 
-        RandomTerrain = randomTerrain;
-        CombatPlacement.s_combatXLocation = X;
-        CombatPlacement.s_combatYLocation = Y;
-        CombatPlacement.s_combatLLocation = L;
+        _randomTerrain = randomTerrain;
+        CombatPlacement.CombatXLocation = X;
+        CombatPlacement.CombatYLocation = Y;
+        CombatPlacement.CombatLLocation = L;
         RandSeed = Y * 128 + X + L * 16384 + AoWHSMap.Current.InitialRandomSeed;
         I = 0;
         for (; I <= 6; I += 1)
         {
             HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
             var mapField = AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
-            Terrain[I] = mapField.TerrainType;
+            _terrain[I] = mapField.TerrainType;
             var combatTerrainTag = ((AoWMapField)AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K]).GetCombatTerrainTag();
-            Tags[I] = (sbyte)combatTerrainTag;
+            _tags[I] = (sbyte)combatTerrainTag;
         }
 
-        if (Terrain[0] == 0 || Terrain[0] == 9 || Terrain[0] == 10)
+        if (_terrain[0] == 0 || _terrain[0] == 9 || _terrain[0] == 10)
         {
             I = 1;
             for (; I <= 6; I += 1)
             {
-                Terrain[I] = Terrain[0];
+                _terrain[I] = _terrain[0];
             }
         }
         else
@@ -151,9 +152,9 @@ public partial class RandomBattleMapGenerator : IDisposable
             I = 1;
             for (; I <= 6; I += 1)
             {
-                if (Terrain[I] == 0 || Terrain[I] == 15 || Terrain[I] == 10 || Terrain[I] == 9)
+                if (_terrain[I] == 0 || _terrain[I] == 15 || _terrain[I] == 10 || _terrain[I] == 9)
                 {
-                    Terrain[I] = Terrain[0];
+                    _terrain[I] = _terrain[0];
                 }
             }
         }
@@ -186,18 +187,18 @@ public partial class RandomBattleMapGenerator : IDisposable
             {
                 if ((site.FixedTags & (1 << direction)) != 0)
                 {
-                    Tags[direction] = 127;
+                    _tags[direction] = 127;
                 }
             }
 
-            Tags[0] = 127;
+            _tags[0] = 127;
         }
         else if (bridge != null)
         {
             randomTerrain = false;
-            RandomTerrain = false;
+            _randomTerrain = false;
             fileName = fileName + "Br";
-            switch (Terrain[0])
+            switch (_terrain[0])
             {
                 case 10:
                     fileName = fileName + "UW";
@@ -229,10 +230,10 @@ public partial class RandomBattleMapGenerator : IDisposable
                     break;
             }
 
-            Tags[0] = 127;
+            _tags[0] = 127;
         }
 
-        if (Tags[0] != 127)
+        if (_tags[0] != 127)
         {
             fileName = fileName + "Blank000";
         }
@@ -532,7 +533,7 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                         if (Set<byte>.WithBounds(0, 255).WithRange(1, 7).Contains(shape))
                         {
-                            if (Tags[shape - 1] != 127 && weights[shape - 1] == 4)
+                            if (_tags[shape - 1] != 127 && weights[shape - 1] == 4)
                             {
                                 AoWHSSet.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, 0, 1);
                                 terrainBuffer[row * 65 + column] = 251;
@@ -549,7 +550,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                     I = shapeBuffer[row * 65 + column * 2];
                     if (I > 0)
                     {
-                        if (Tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2] == 251)
+                        if (_tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2] == 251)
                         {
                             I = 0;
                         }
@@ -557,15 +558,15 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                     if (I > 0)
                     {
-                        terrainType = Terrain[I - 1];
-                        tag = Tags[I - 1];
+                        terrainType = _terrain[I - 1];
+                        tag = _tags[I - 1];
                         I = 0;
                         for (; I <= 18; I += 1)
                         {
-                            weights[I] = TerrainWeights[terrainType * 19 + I];
+                            weights[I] = _terrainWeights[terrainType * 19 + I];
                             if (tag < 14)
                             {
-                                weights[I] += TagWeights[tag * 19 + I];
+                                weights[I] += _tagWeights[tag * 19 + I];
                             }
                         }
 
@@ -576,7 +577,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             tag = terrainBuffer[K * 65 + J];
                             if (tag <= 19)
                             {
-                                weights[tag] += NeighborWeights[tag];
+                                weights[tag] += _neighborWeights[tag];
                             }
 
                             switch (tag)
@@ -588,7 +589,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                                     break;
                                 case 14:
                                 case 16:
-                                    weights[11] += NeighborWeights[11];
+                                    weights[11] += _neighborWeights[11];
                                     break;
                             }
                         }
@@ -671,7 +672,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                     I = shapeBuffer[row * 65 + column * 2 + 1];
                     if (I > 0)
                     {
-                        if (Tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2 + 1] == 251)
+                        if (_tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2 + 1] == 251)
                         {
                             I = 0;
                         }
@@ -679,15 +680,15 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                     if (I > 0)
                     {
-                        terrainType = Terrain[I - 1];
-                        tag = Tags[I - 1];
+                        terrainType = _terrain[I - 1];
+                        tag = _tags[I - 1];
                         I = 0;
                         for (; I <= 18; I += 1)
                         {
-                            weights[I] = TerrainWeights[terrainType * 19 + I];
+                            weights[I] = _terrainWeights[terrainType * 19 + I];
                             if (tag < 14)
                             {
-                                weights[I] += TagWeights[tag * 19 + I];
+                                weights[I] += _tagWeights[tag * 19 + I];
                             }
                         }
 
@@ -698,7 +699,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             tag = terrainBuffer[K * 65 + J];
                             if (tag <= 19)
                             {
-                                weights[tag] += NeighborWeights[tag];
+                                weights[tag] += _neighborWeights[tag];
                             }
 
                             switch (tag)
@@ -710,7 +711,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                                     break;
                                 case 14:
                                 case 16:
-                                    weights[11] += NeighborWeights[11];
+                                    weights[11] += _neighborWeights[11];
                                     break;
                             }
                         }
@@ -803,13 +804,13 @@ public partial class RandomBattleMapGenerator : IDisposable
                         }
                         else
                         {
-                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = Terrain[I - 1];
+                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = _terrain[I - 1];
                             if (J > 0 && J < 19)
                             {
-                                if (Resources[Terrain[I - 1] * 19 + J].Count > 0)
+                                if (_resources[_terrain[I - 1] * 19 + J].Count > 0)
                                 {
-                                    var random = Random(Resources[Terrain[I - 1] * 19 + J].Count);
-                                    (Resources[Terrain[I - 1] * 19 + J][random]).PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
+                                    var random = Random(_resources[_terrain[I - 1] * 19 + J].Count);
+                                    (_resources[_terrain[I - 1] * 19 + J][random]).PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
                                 }
                             }
                         }
@@ -846,7 +847,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         BooleanArray8 used = default;
         TacticalBattleItemHexSprite itemHexSprite;
         direction = 32;
-        HomePosition = -1;
+        _homePosition = -1;
         units = new DelphiList();
         position = 0;
         for (; position <= 7; position += 1)
@@ -873,10 +874,10 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                             if (U.PositionGroup == 0)
                             {
-                                HomePosition = 0;
+                                _homePosition = 0;
                             }
 
-                            if (HomePosition == -1)
+                            if (_homePosition == -1)
                             {
                                 if (U.GetSide() == CombatSideIndex.Defender)
                                 {
@@ -886,7 +887,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 }
                             }
 
-                            if (HomePosition > 0 && U.PositionGroup == HomePosition)
+                            if (_homePosition > 0 && U.PositionGroup == _homePosition)
                             {
                                 U.PositionGroup = 0;
                             }
@@ -930,7 +931,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, position, ref J, ref temporary);
                         if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[J, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
                         {
-                            HomePosition = position;
+                            _homePosition = position;
                             CombatMap.Current.PositionStatus[position] = (int)CombatSideIndex.Neutral;
                             CombatMap.Current.PositionStatus[0] = 1;
                             position = 7;
@@ -1024,7 +1025,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         int hexY = default;
         unitHexSprite = new TacticalBattleUnitHexSprite(null);
         unitHexSprite.Initialize((TacticalBattleUnit)CombatMap.Current.Combat.Sides[(int)side].GetObjects(index));
-        if (unitHexSprite.Unit.PositionGroup == HomePosition)
+        if (unitHexSprite.Unit.PositionGroup == _homePosition)
         {
             unitHexSprite.Unit.PositionGroup = 0;
         }
@@ -1033,7 +1034,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         slot = unitHexSprite.Unit.PositionIndex;
         X = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).X;
         Y = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Y;
-        if (side == CombatSideIndex.Defender && RandomTerrain)
+        if (side == CombatSideIndex.Defender && _randomTerrain)
         {
             switch (position)
             {
@@ -1111,7 +1112,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             }
         }
 
-        if (!RandomTerrain)
+        if (!_randomTerrain)
         {
             unitHexSprite.SetDirection((byte)CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Tag);
         }
@@ -1162,174 +1163,174 @@ public partial class RandomBattleMapGenerator : IDisposable
     // AoWTC.pas:4667
     public void InitializeTables()
     {
-        NeighborWeights[1] = 500;
-        NeighborWeights[2] = 500;
-        NeighborWeights[4] = 1500;
-        NeighborWeights[5] = 200;
-        NeighborWeights[10] = 1500;
-        NeighborWeights[11] = 500;
-        NeighborWeights[17] = 2000;
-        NeighborWeights[18] = 1500;
-        TerrainWeights[19] = 2500;
-        TerrainWeights[20] = 0;
-        TerrainWeights[21] = 35;
-        TerrainWeights[22] = 0;
-        TerrainWeights[23] = 6;
-        TerrainWeights[24] = 2;
-        TerrainWeights[25] = 1;
-        TerrainWeights[26] = 2;
-        TerrainWeights[27] = 5;
-        TerrainWeights[29] = 90;
-        TerrainWeights[30] = 60;
-        TerrainWeights[31] = 2;
-        TerrainWeights[32] = 30;
-        TerrainWeights[33] = 10;
-        TerrainWeights[34] = 0;
-        TerrainWeights[35] = 3;
-        TerrainWeights[38] = 2500;
-        TerrainWeights[39] = 5;
-        TerrainWeights[40] = 0;
-        TerrainWeights[41] = 0;
-        TerrainWeights[42] = 6;
-        TerrainWeights[43] = 0;
-        TerrainWeights[44] = 5;
-        TerrainWeights[45] = 5;
-        TerrainWeights[46] = 2;
-        TerrainWeights[48] = 35;
-        TerrainWeights[49] = 20;
-        TerrainWeights[50] = 5;
-        TerrainWeights[51] = 30;
-        TerrainWeights[52] = 5;
-        TerrainWeights[53] = 2;
-        TerrainWeights[54] = 1;
-        TerrainWeights[57] = 2500;
-        TerrainWeights[58] = 8;
-        TerrainWeights[59] = 0;
-        TerrainWeights[60] = 0;
-        TerrainWeights[61] = 6;
-        TerrainWeights[62] = 0;
-        TerrainWeights[63] = 2;
-        TerrainWeights[64] = 2;
-        TerrainWeights[65] = 1;
-        TerrainWeights[67] = 15;
-        TerrainWeights[68] = 20;
-        TerrainWeights[69] = 2;
-        TerrainWeights[70] = 30;
-        TerrainWeights[71] = 5;
-        TerrainWeights[72] = 1;
-        TerrainWeights[73] = 1;
-        TerrainWeights[76] = 2500;
-        TerrainWeights[77] = 8;
-        TerrainWeights[78] = 0;
-        TerrainWeights[79] = 0;
-        TerrainWeights[80] = 6;
-        TerrainWeights[81] = 0;
-        TerrainWeights[82] = 2;
-        TerrainWeights[83] = 2;
-        TerrainWeights[84] = 1;
-        TerrainWeights[86] = 15;
-        TerrainWeights[87] = 20;
-        TerrainWeights[88] = 2;
-        TerrainWeights[89] = 20;
-        TerrainWeights[90] = 5;
-        TerrainWeights[91] = 1;
-        TerrainWeights[92] = 1;
-        TerrainWeights[95] = 2500;
-        TerrainWeights[96] = 5;
-        TerrainWeights[97] = 0;
-        TerrainWeights[98] = 1;
-        TerrainWeights[99] = 3;
-        TerrainWeights[100] = 0;
-        TerrainWeights[101] = 5;
-        TerrainWeights[102] = 5;
-        TerrainWeights[103] = 4;
-        TerrainWeights[105] = 10;
-        TerrainWeights[106] = 45;
-        TerrainWeights[107] = 5;
-        TerrainWeights[108] = 12;
-        TerrainWeights[109] = 10;
-        TerrainWeights[110] = 4;
-        TerrainWeights[111] = 3;
-        TerrainWeights[114] = 2500;
-        TerrainWeights[115] = 0;
-        TerrainWeights[116] = 0;
-        TerrainWeights[117] = 0;
-        TerrainWeights[118] = 0;
-        TerrainWeights[119] = 0;
-        TerrainWeights[120] = 0;
-        TerrainWeights[121] = 0;
-        TerrainWeights[122] = 0;
-        TerrainWeights[124] = 0;
-        TerrainWeights[125] = 0;
-        TerrainWeights[126] = 0;
-        TerrainWeights[127] = 0;
-        TerrainWeights[128] = 0;
-        TerrainWeights[129] = 0;
-        TerrainWeights[130] = 0;
-        TerrainWeights[228] = 2500;
-        TerrainWeights[229] = 0;
-        TerrainWeights[230] = 0;
-        TerrainWeights[231] = 0;
-        TerrainWeights[232] = 0;
-        TerrainWeights[233] = 10;
-        TerrainWeights[234] = 0;
-        TerrainWeights[235] = 0;
-        TerrainWeights[236] = 0;
-        TerrainWeights[238] = 30;
-        TerrainWeights[239] = 70;
-        TerrainWeights[240] = 4;
-        TerrainWeights[241] = 0;
-        TerrainWeights[242] = 50;
-        TerrainWeights[243] = 4;
-        TerrainWeights[244] = 10;
-        TerrainWeights[245] = 80;
-        TagWeights[20] = 800;
-        TagWeights[21] = 100;
-        TagWeights[29] = 300;
-        TagWeights[25] = 20;
-        TagWeights[26] = 40;
-        TagWeights[27] = 10;
-        TagWeights[40] = 900;
-        TagWeights[48] = 400;
-        TagWeights[44] = 20;
-        TagWeights[45] = 40;
-        TagWeights[46] = 10;
-        TagWeights[60] = 250;
-        TagWeights[61] = 200;
-        TagWeights[86] = 300;
-        TagWeights[80] = 500;
-        TagWeights[100] = 500;
-        TagWeights[105] = 200;
-        TagWeights[99] = 100;
-        TagWeights[120] = 250;
-        TagWeights[121] = 250;
-        TagWeights[122] = 100;
-        TagWeights[144] = 600;
-        TagWeights[147] = 250;
-        TagWeights[149] = 150;
-        TagWeights[164] = 250;
-        TagWeights[167] = 100;
-        TagWeights[163] = 200;
-        TagWeights[162] = 200;
-        TagWeights[181] = 500;
-        TagWeights[191] = 450;
-        TagWeights[200] = 150;
-        TagWeights[196] = 40;
-        TagWeights[197] = 20;
-        TagWeights[198] = 10;
-        TagWeights[211] = 450;
-        TagWeights[219] = 150;
-        TagWeights[215] = 20;
-        TagWeights[216] = 20;
-        TagWeights[217] = 40;
-        TagWeights[241] = 500;
-        TagWeights[239] = 200;
-        TagWeights[242] = 50;
-        TagWeights[244] = 20;
-        TagWeights[258] = 600;
-        TagWeights[261] = 350;
-        TagWeights[263] = 300;
-        TagWeights[181] = 600;
+        _neighborWeights[1] = 500;
+        _neighborWeights[2] = 500;
+        _neighborWeights[4] = 1500;
+        _neighborWeights[5] = 200;
+        _neighborWeights[10] = 1500;
+        _neighborWeights[11] = 500;
+        _neighborWeights[17] = 2000;
+        _neighborWeights[18] = 1500;
+        _terrainWeights[19] = 2500;
+        _terrainWeights[20] = 0;
+        _terrainWeights[21] = 35;
+        _terrainWeights[22] = 0;
+        _terrainWeights[23] = 6;
+        _terrainWeights[24] = 2;
+        _terrainWeights[25] = 1;
+        _terrainWeights[26] = 2;
+        _terrainWeights[27] = 5;
+        _terrainWeights[29] = 90;
+        _terrainWeights[30] = 60;
+        _terrainWeights[31] = 2;
+        _terrainWeights[32] = 30;
+        _terrainWeights[33] = 10;
+        _terrainWeights[34] = 0;
+        _terrainWeights[35] = 3;
+        _terrainWeights[38] = 2500;
+        _terrainWeights[39] = 5;
+        _terrainWeights[40] = 0;
+        _terrainWeights[41] = 0;
+        _terrainWeights[42] = 6;
+        _terrainWeights[43] = 0;
+        _terrainWeights[44] = 5;
+        _terrainWeights[45] = 5;
+        _terrainWeights[46] = 2;
+        _terrainWeights[48] = 35;
+        _terrainWeights[49] = 20;
+        _terrainWeights[50] = 5;
+        _terrainWeights[51] = 30;
+        _terrainWeights[52] = 5;
+        _terrainWeights[53] = 2;
+        _terrainWeights[54] = 1;
+        _terrainWeights[57] = 2500;
+        _terrainWeights[58] = 8;
+        _terrainWeights[59] = 0;
+        _terrainWeights[60] = 0;
+        _terrainWeights[61] = 6;
+        _terrainWeights[62] = 0;
+        _terrainWeights[63] = 2;
+        _terrainWeights[64] = 2;
+        _terrainWeights[65] = 1;
+        _terrainWeights[67] = 15;
+        _terrainWeights[68] = 20;
+        _terrainWeights[69] = 2;
+        _terrainWeights[70] = 30;
+        _terrainWeights[71] = 5;
+        _terrainWeights[72] = 1;
+        _terrainWeights[73] = 1;
+        _terrainWeights[76] = 2500;
+        _terrainWeights[77] = 8;
+        _terrainWeights[78] = 0;
+        _terrainWeights[79] = 0;
+        _terrainWeights[80] = 6;
+        _terrainWeights[81] = 0;
+        _terrainWeights[82] = 2;
+        _terrainWeights[83] = 2;
+        _terrainWeights[84] = 1;
+        _terrainWeights[86] = 15;
+        _terrainWeights[87] = 20;
+        _terrainWeights[88] = 2;
+        _terrainWeights[89] = 20;
+        _terrainWeights[90] = 5;
+        _terrainWeights[91] = 1;
+        _terrainWeights[92] = 1;
+        _terrainWeights[95] = 2500;
+        _terrainWeights[96] = 5;
+        _terrainWeights[97] = 0;
+        _terrainWeights[98] = 1;
+        _terrainWeights[99] = 3;
+        _terrainWeights[100] = 0;
+        _terrainWeights[101] = 5;
+        _terrainWeights[102] = 5;
+        _terrainWeights[103] = 4;
+        _terrainWeights[105] = 10;
+        _terrainWeights[106] = 45;
+        _terrainWeights[107] = 5;
+        _terrainWeights[108] = 12;
+        _terrainWeights[109] = 10;
+        _terrainWeights[110] = 4;
+        _terrainWeights[111] = 3;
+        _terrainWeights[114] = 2500;
+        _terrainWeights[115] = 0;
+        _terrainWeights[116] = 0;
+        _terrainWeights[117] = 0;
+        _terrainWeights[118] = 0;
+        _terrainWeights[119] = 0;
+        _terrainWeights[120] = 0;
+        _terrainWeights[121] = 0;
+        _terrainWeights[122] = 0;
+        _terrainWeights[124] = 0;
+        _terrainWeights[125] = 0;
+        _terrainWeights[126] = 0;
+        _terrainWeights[127] = 0;
+        _terrainWeights[128] = 0;
+        _terrainWeights[129] = 0;
+        _terrainWeights[130] = 0;
+        _terrainWeights[228] = 2500;
+        _terrainWeights[229] = 0;
+        _terrainWeights[230] = 0;
+        _terrainWeights[231] = 0;
+        _terrainWeights[232] = 0;
+        _terrainWeights[233] = 10;
+        _terrainWeights[234] = 0;
+        _terrainWeights[235] = 0;
+        _terrainWeights[236] = 0;
+        _terrainWeights[238] = 30;
+        _terrainWeights[239] = 70;
+        _terrainWeights[240] = 4;
+        _terrainWeights[241] = 0;
+        _terrainWeights[242] = 50;
+        _terrainWeights[243] = 4;
+        _terrainWeights[244] = 10;
+        _terrainWeights[245] = 80;
+        _tagWeights[20] = 800;
+        _tagWeights[21] = 100;
+        _tagWeights[29] = 300;
+        _tagWeights[25] = 20;
+        _tagWeights[26] = 40;
+        _tagWeights[27] = 10;
+        _tagWeights[40] = 900;
+        _tagWeights[48] = 400;
+        _tagWeights[44] = 20;
+        _tagWeights[45] = 40;
+        _tagWeights[46] = 10;
+        _tagWeights[60] = 250;
+        _tagWeights[61] = 200;
+        _tagWeights[86] = 300;
+        _tagWeights[80] = 500;
+        _tagWeights[100] = 500;
+        _tagWeights[105] = 200;
+        _tagWeights[99] = 100;
+        _tagWeights[120] = 250;
+        _tagWeights[121] = 250;
+        _tagWeights[122] = 100;
+        _tagWeights[144] = 600;
+        _tagWeights[147] = 250;
+        _tagWeights[149] = 150;
+        _tagWeights[164] = 250;
+        _tagWeights[167] = 100;
+        _tagWeights[163] = 200;
+        _tagWeights[162] = 200;
+        _tagWeights[181] = 500;
+        _tagWeights[191] = 450;
+        _tagWeights[200] = 150;
+        _tagWeights[196] = 40;
+        _tagWeights[197] = 20;
+        _tagWeights[198] = 10;
+        _tagWeights[211] = 450;
+        _tagWeights[219] = 150;
+        _tagWeights[215] = 20;
+        _tagWeights[216] = 20;
+        _tagWeights[217] = 40;
+        _tagWeights[241] = 500;
+        _tagWeights[239] = 200;
+        _tagWeights[242] = 50;
+        _tagWeights[244] = 20;
+        _tagWeights[258] = 600;
+        _tagWeights[261] = 350;
+        _tagWeights[263] = 300;
+        _tagWeights[181] = 600;
     }
 
     private static Int32Array48 s_defensePositionX = Int32Array48.From([32, 30, 34, 32, 28, 36, 30, 34, 34, 36, 32, 38, 30, 36, 32, 34, 36, 34, 38, 32, 36, 30, 34, 32, 32, 34, 30, 32, 36, 28, 34, 30, 30, 28, 32, 26, 34, 28, 32, 30, 28, 30, 26, 32, 28, 34, 30, 32]);

@@ -15,10 +15,10 @@ public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerAc
     // AI.pas:1610
     public ProcessEventLogAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        LogIndex = -1;
+        _logIndex = -1;
     }
 
-    public int LogIndex;
+    private int _logIndex;
 
     // AI.pas:1626
     public override bool Process()
@@ -28,19 +28,19 @@ public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerAc
         done = false;
         while (!Control.Player.GetBusy() && !done)
         {
-            if (LogIndex == -1)
+            if (_logIndex == -1)
             {
-                LogIndex = Control.Player.EventLogbook.FindFirstLog(131811, Control.Player.PlayerIndex, AoWHSMap.Current.Day - 1) + 1;
+                _logIndex = Control.Player.EventLogbook.FindFirstLog(131811, Control.Player.PlayerIndex, AoWHSMap.Current.Day - 1) + 1;
             }
             else
             {
-                LogIndex += 1;
+                _logIndex += 1;
             }
 
             var count = Control.Player.EventLogbook.GetCount();
-            if (LogIndex < count)
+            if (_logIndex < count)
             {
-                log = Control.Player.EventLogbook.GetLogs(LogIndex);
+                log = Control.Player.EventLogbook.GetLogs(_logIndex);
                 log.ExecuteAI(Control.Player.PlayerIndex);
             }
             else

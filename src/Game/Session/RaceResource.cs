@@ -28,21 +28,27 @@ public partial class RaceResource : EngineResource
     {
         UnitIndexes = new UnitIndexList();
         SpecialUnitIndexes = new UnitIndexList();
-        HeroNames = new StringList();
+        _heroNames = new StringList();
     }
 
-    public CustomImageLibrary FaceLibrary;
-    public CustomImageLibrary ImageLibrary;
-    public string ImageLibraryName = "";
-    public string Name = "";
+    private CustomImageLibrary _faceLibrary;
+
+    public CustomImageLibrary ImageLibrary { get; private set; }
+
+    private string _imageLibraryName = "";
+    private string _name = "";
     public string RaceName = "";
-    public string Description = "";
+    private string _description = "";
     public Set<Alignment> Alignments;
-    public int References;
-    public UnitIndexList UnitIndexes;
-    public int HeroUnitIndex;
-    public UnitIndexList SpecialUnitIndexes;
-    public StringList HeroNames;
+    private int _references;
+
+    public UnitIndexList UnitIndexes { get; }
+
+    private int _heroUnitIndex;
+
+    public UnitIndexList SpecialUnitIndexes { get; }
+
+    private StringList _heroNames;
 
     // PlayerC.PAS:1740
     public override void Dispose()
@@ -50,7 +56,7 @@ public partial class RaceResource : EngineResource
         ReleaseImageLibrary();
         UnitIndexes?.Dispose();
         SpecialUnitIndexes?.Dispose();
-        HeroNames?.Dispose();
+        _heroNames?.Dispose();
         base.Dispose();
     }
 
@@ -61,43 +67,43 @@ public partial class RaceResource : EngineResource
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 5);
+        stream.rwString(ref _name, 5);
         stream.rwString(ref RaceName, 6);
-        stream.rwString(ref Description, 7);
+        stream.rwString(ref _description, 7);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref ImageLibraryName, 8);
+            stream.rwString(ref _imageLibraryName, 8);
         }
 
         RwSet(ref Alignments, 1, 9, stream.rwData, 0);
         stream.rwStreamProc(10, UnitIndexes.LoadFromStream, UnitIndexes.SaveToStream);
         stream.rwStreamProc(11, SpecialUnitIndexes.LoadFromStream, SpecialUnitIndexes.SaveToStream);
-        stream.rwInteger(ref HeroUnitIndex, 12);
-        stream.rwStrings(HeroNames, 13);
+        stream.rwInteger(ref _heroUnitIndex, 12);
+        stream.rwStrings(_heroNames, 13);
     }
 
     // PlayerC.PAS:1798
     public override int AddRef()
     {
-        if (References == 0)
+        if (_references == 0)
         {
             LinkToImageLibrary();
         }
 
-        References += 1;
-        return References;
+        _references += 1;
+        return _references;
     }
 
     // PlayerC.PAS:1805
     public override int Release()
     {
-        References -= 1;
-        if (References == 0)
+        _references -= 1;
+        if (_references == 0)
         {
             ReleaseImageLibrary();
         }
 
-        return References;
+        return _references;
     }
 
     // PlayerC.PAS:1855
@@ -141,7 +147,7 @@ public partial class RaceResource : EngineResource
         LibraryImage result;
         CustomImageLibrary images;
         AddRef();
-        images = FaceLibrary;
+        images = _faceLibrary;
         if (images != null)
         {
             result = images.GetSafe(GetRaceIndex());
@@ -163,12 +169,12 @@ public partial class RaceResource : EngineResource
     {
         if (ImageLibrary == null)
         {
-            if (!IsEmpty(ImageLibraryName))
+            if (!IsEmpty(_imageLibraryName))
             {
-                ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+                ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
             }
 
-            FaceLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
+            _faceLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
         }
     }
 
@@ -178,13 +184,13 @@ public partial class RaceResource : EngineResource
         // { Original leaves the face library linked when the city library is nil. }
         if (ImageLibrary != null)
         {
-            if (!IsEmpty(ImageLibraryName))
+            if (!IsEmpty(_imageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+                AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
             }
 
             AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
-            FaceLibrary = null;
+            _faceLibrary = null;
             ImageLibrary = null;
         }
     }
@@ -192,11 +198,11 @@ public partial class RaceResource : EngineResource
     // PlayerC.PAS:1788
     public void SetImageLibraryName(string value)
     {
-        if (value != ImageLibraryName)
+        if (value != _imageLibraryName)
         {
             ReleaseImageLibrary();
-            ImageLibraryName = value;
-            if (References != 0)
+            _imageLibraryName = value;
+            if (_references != 0)
             {
                 LinkToImageLibrary();
             }
@@ -250,30 +256,30 @@ public partial class RaceResource : EngineResource
     public Alignment GetAlignment()
     {
         Alignment result;
-        if (Alignments == AlignmentTables.s_pureGoodAlignments)
+        if (Alignments == AlignmentTables.PureGoodAlignments)
         {
             return Alignment.PureGood;
         }
 
-        if (Alignments == AlignmentTables.s_goodAlignments)
+        if (Alignments == AlignmentTables.GoodAlignments)
         {
             result = Alignment.Good;
         }
         else
         {
-            if (Alignments == AlignmentTables.s_neutralAlignments)
+            if (Alignments == AlignmentTables.NeutralAlignments)
             {
                 result = Alignment.Neutral;
             }
             else
             {
-                if (Alignments == AlignmentTables.s_evilAlignments)
+                if (Alignments == AlignmentTables.EvilAlignments)
                 {
                     result = Alignment.Evil;
                 }
                 else
                 {
-                    if (Alignments == AlignmentTables.s_pureEvilAlignments)
+                    if (Alignments == AlignmentTables.PureEvilAlignments)
                     {
                         result = Alignment.PureEvil;
                     }

@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 // derived class's own field)
 public partial class BlendTable
 {
-    internal int _bits;
+    private int _bits;
     internal byte[] _table;
 
     // GFXE.pas:741

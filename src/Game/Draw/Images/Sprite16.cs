@@ -17,14 +17,14 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Sprite16(owner);
 
-    internal int _pitch;
-    internal byte[] _buffer;
-    internal int _transparentColor;
-    internal int _colorKey;
-    internal int _spriteX;
-    internal int _spriteY;
-    internal int _spriteWidth;
-    internal int _spriteHeight;
+    private int _pitch;
+    private byte[] _buffer;
+    private int _transparentColor;
+    private int _colorKey;
+    private int _spriteX;
+    private int _spriteY;
+    private int _spriteWidth;
+    private int _spriteHeight;
 
     // The rows of the sprite: FBuffer from its first byte, FPitch bytes apart.
     internal SurfaceView View => new(_buffer, 0, _pitch);
@@ -114,10 +114,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:4315
     public override void ReleaseDiscardableImageData()
     {
-        if (_dataLoaded)
+        if (DataLoaded)
         {
             _buffer = null;
-            _dataLoaded = false;
+            DataLoaded = false;
         }
     }
 
@@ -170,19 +170,19 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     public override int RemapToPixelFormat(int pixelFormatId)
     {
         int result = 0;
-        if (pixelFormatId != _pixelFormatId)
+        if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
                     PixelRemap.RemapSurface555To565(View, View, _spriteWidth, _spriteHeight);
                     _colorKey = PixelRemap.RemapPixelInfo(_colorKey, PixelFormats.pfRGB555, null, PixelFormats.pfRGB565, null);
-                    _pixelFormatId = PixelFormats.pfRGB565;
+                    PixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
                     PixelRemap.RemapSurface565To555(View, View, _spriteWidth, _spriteHeight);
                     _colorKey = PixelRemap.RemapPixelInfo(_colorKey, PixelFormats.pfRGB565, null, PixelFormats.pfRGB555, null);
-                    _pixelFormatId = PixelFormats.pfRGB555;
+                    PixelFormatId = PixelFormats.pfRGB555;
                     break;
                 default:
                     result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -253,12 +253,12 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
             if (H > 0)
             {
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
                     }
@@ -281,7 +281,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 {
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
                     }
@@ -356,14 +356,14 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
             if (H > 0)
             {
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        switch (_pixelFormatId)
+                        switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
                                 BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
@@ -380,7 +380,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        switch (_pixelFormatId)
+                        switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
                                 BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
@@ -400,9 +400,9 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 {
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        switch (_pixelFormatId)
+                        switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
                                 BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
@@ -419,7 +419,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        switch (_pixelFormatId)
+                        switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
                                 BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
@@ -492,7 +492,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 }
 
                 Clear();
-                _dataLoaded = true;
+                DataLoaded = true;
                 _dataWidth = gr.Right - gr.Left;
                 _dataHeight = gr.Bottom - gr.Top;
                 _width = _dataWidth;
@@ -500,7 +500,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 _fileName = ExtractFileName(grabInfo.FileName);
                 _fileIndex = grabInfo.FileIndex;
                 _storedPixelFormatId = lSD.PixelFormatId;
-                _pixelFormatId = _storedPixelFormatId;
+                PixelFormatId = _storedPixelFormatId;
                 _colorKey = _transparentColor;
                 LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, ref mr);
                 left = mr.Left;

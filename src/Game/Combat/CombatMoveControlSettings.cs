@@ -13,7 +13,7 @@ public partial class CombatMoveControlSettings : MoveControlSettings
     public CombatMoveControlSettings(ECustomNode owner) : base(owner)
     { }
 
-    public Set<CombatMoveModeElement> MoveFlags;
+    public Set<CombatMoveModeElement> MoveFlags { get; set; }
     // intf_P5_01.inc:63
 
 }

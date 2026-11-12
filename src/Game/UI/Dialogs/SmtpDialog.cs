@@ -38,11 +38,13 @@ public partial class SmtpDialog : DataModule
     public MailMessage IMSMessage;
     public SmtpSender IMSSMTP;
     public IvTranslator Translator;
-    public IMSSendThread Thread;
-    public ExecuteDoneEvent Done;
-    public SmtpEventLog Event;
-    public int Progress;
-    public bool Finished;
+    private IMSSendThread _thread;
+
+    public ExecuteDoneEvent Done { get; private set; }
+
+    private SmtpEventLog _event;
+    private int _progress;
+    private bool _finished;
 
     // AoWSMTPDlg.pas:115
     public void FinishDialog()
@@ -54,13 +56,13 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:134
     public void ResetProgress()
     {
-        Finished = false;
+        _finished = false;
         ProgressBar.Position = 0;
         var sendingEmailGame = AbilityRules.TranslateResourceString(s_sendingEmailGameText);
         SendingGameLbl.Text = sendingEmailGame;
         FailedPnl.Visible = false;
         SendPnl.Visible = true;
-        Progress = 0;
+        _progress = 0;
         ExitBtn.Visible = false;
     }
 
@@ -74,11 +76,11 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:154
     public void ImsThreadTerminatedEvent()
     {
-        Event.Success = Thread.FSuccess;
-        Finished = true;
-        if (Event.Success)
+        _event.Success = _thread.FSuccess;
+        _finished = true;
+        if (_event.Success)
         {
-            Progress = 100;
+            _progress = 100;
         }
     }
 
@@ -97,18 +99,18 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:171
     public void IMSSMTPProgress(int progress, int total)
     {
-        if (progress > Progress)
+        if (progress > _progress)
         {
-            Progress = progress;
+            _progress = progress;
         }
     }
 
     // AoWSMTPDlg.pas:176
     public void ProgressBarUpdate()
     {
-        if (ProgressBar.Position != Progress)
+        if (ProgressBar.Position != _progress)
         {
-            ProgressBar.Position = Progress;
+            ProgressBar.Position = _progress;
             ProgressBar.Drawn = false;
         }
     }
@@ -116,18 +118,18 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:185
     public void IMSSMTPError(ref string error)
     {
-        if (Event != null)
+        if (_event != null)
         {
-            Event.Error = error;
+            _event.Error = error;
         }
     }
 
     // AoWSMTPDlg.pas:190
     public void DlgUpdate()
     {
-        if (Finished)
+        if (_finished)
         {
-            if (Event.Success)
+            if (_event.Success)
             {
                 var gameSuccessfullySent = AbilityRules.TranslateResourceString(s_gameSuccessfullySentText);
                 SendingGameLbl.Text = gameSuccessfullySent;
@@ -165,11 +167,11 @@ public partial class SmtpDialog : DataModule
     {
         dialog.ResetProgress();
         dialog.Done = done;
-        dialog.Event = eventValue;
-        var smtpEventLog = dialog.Event;
+        dialog._event = eventValue;
+        var smtpEventLog = dialog._event;
         smtpEventLog.AddRef();
 
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_recipientFormat), [eventValue.ToAddress]);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
         dialog.RecipientLbl.Text = format;
         try
         {
@@ -193,8 +195,8 @@ public partial class SmtpDialog : DataModule
         }
         catch
         {
-            dialog.Event.Success = false;
-            dialog.Finished = true;
+            dialog._event.Success = false;
+            dialog._finished = true;
             dialog.Dlg.Visible = true;
         }
     }

@@ -27,48 +27,48 @@ public partial class TargetSelectionControl : IDisposable
     // change, target, text, title, cancel text, images
     public TargetSelectionControl()
     {
-        _onChangeStore = new();
+        OnChangeStore = new();
         HexNumbers = new SByteList();
         Text = new StringList();
     }
 
-    public CustomImageLibrary ImageLibrary;
-    public SByteList HexNumbers;
-    public Set<TargetSelectionStatusElement> Status;
-    public Set<TargetSelectionModeElement> TargetMode;
-    public ShowTargetSelectionEvent OnShow;
-    public ValidateTargetEvent OnValidateTarget;
-    public int Range;
-    public int SourceX;
-    public int SourceY;
-    public int SourceL;
-    public object Source;
+    public CustomImageLibrary ImageLibrary { get; private set; }
+    public SByteList HexNumbers { get; private set; }
+    public Set<TargetSelectionStatusElement> Status { get; set; }
+    public Set<TargetSelectionModeElement> TargetMode { get; set; }
+    public ShowTargetSelectionEvent OnShow { get; set; }
+    public ValidateTargetEvent OnValidateTarget { get; set; }
+    public int Range { get; set; }
+    public int SourceX { get; set; }
+    public int SourceY { get; set; }
+    public int SourceL { get; set; }
+    public object Source { get; set; }
 
-    internal EventStore<TargetSelectionControl> _onChangeStore;
+    internal EventStore<TargetSelectionControl> OnChangeStore { get; }
 
     public event NotifyEvent<TargetSelectionControl> FOnChange
     {
-        add => _onChangeStore.Add(value);
-        remove => _onChangeStore.Remove(value);
+        add => OnChangeStore.Add(value);
+        remove => OnChangeStore.Remove(value);
     }
 
-    public TargetSelectionChange Change;
-    public sbyte TargetX;
-    public sbyte TargetY;
-    public sbyte TargetL;
-    public StringCollection Text;
-    public string Title = "";
-    public string CancelText = "";
-    public int SourceUnitId;
-    public LibraryImage SourceImage;
-    public LibraryImage ValidTargetImage;
-    public LibraryImage InvalidTargetImage;
+    public TargetSelectionChange Change { get; private set; }
+    public sbyte TargetX { get; private set; }
+    public sbyte TargetY { get; private set; }
+    public sbyte TargetL { get; private set; }
+    public StringCollection Text { get; }
+    public string Title { get; set; } = "";
+    public string CancelText { get; set; } = "";
+    public int SourceUnitId { get; set; }
+    public LibraryImage SourceImage { get; set; }
+    public LibraryImage ValidTargetImage { get; set; }
+    public LibraryImage InvalidTargetImage { get; set; }
 
     // Structur.PAS:3793
     public virtual void Dispose()
     {
         Text?.Dispose();
-        _onChangeStore.Clear();
+        OnChangeStore.Clear();
         HexNumbers?.Dispose();
         HexNumbers = null;
         if (ImageLibrary != null)
@@ -83,7 +83,7 @@ public partial class TargetSelectionControl : IDisposable
     public void TriggerOnChangeEvent(TargetSelectionChange change)
     {
         Change = change;
-        _onChangeStore.Raise(this);
+        OnChangeStore.Raise(this);
         Change = TargetSelectionChange.None;
     }
 

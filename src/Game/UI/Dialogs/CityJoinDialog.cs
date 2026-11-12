@@ -33,19 +33,19 @@ public partial class CityJoinDialog : DataModule
     public ArnoLine CityPicLine;
     public Button CloseBtn;
     public IvTranslator Translator;
-    public sbyte Race;
-    public ExecuteDoneEvent Done;
-    public NegotiateRequestEventLog Event;
+    private sbyte _race;
+    private ExecuteDoneEvent _done;
+    private NegotiateRequestEventLog _event;
 
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {
         ExecuteDoneEvent done;
         NegotiateRequestEventLog log;
-        done = Done;
-        log = Event;
-        Done = null;
-        Event = null;
+        done = _done;
+        log = _event;
+        _done = null;
+        _event = null;
         if (done != null)
         {
             done(log);
@@ -62,7 +62,7 @@ public partial class CityJoinDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!Event.Accept(ref reason))
+        if (!_event.Accept(ref reason))
         {
             AoWHSMap.Current.ShowWarning(reason);
         }
@@ -77,7 +77,7 @@ public partial class CityJoinDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!Event.Reject(ref reason))
+        if (!_event.Reject(ref reason))
         {
             AoWHSMap.Current.ShowWarning(reason);
         }
@@ -98,7 +98,7 @@ public partial class CityJoinDialog : DataModule
     public void DlgDrawBack(LockedSurface surface)
     {
         LibraryImage face;
-        face = AoWHSSet.Current.RaceResources.GetRaceResource(Race).GetFace();
+        face = AoWHSSet.Current.RaceResources.GetRaceResource(_race).GetFace();
         if (face != null)
         {
             face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, surface);
@@ -131,15 +131,15 @@ public partial class CityJoinDialog : DataModule
     {
         NegotiateRequestEventLog log;
         City town;
-        dialog.Done = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        log = dialog.Event;
+        dialog._done = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        log = dialog._event;
         var text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;
         dialog.ApproachLbl.Text = log.Text;
         town = (City)AoWHSMap.Current.MapContainer.GetField(log.X, log.Y, log.MapLevel).FindNoneTransparentHexSprite(typeof(City));
-        dialog.Race = town.Race;
+        dialog._race = town.Race;
         var topCityActionImage = town.GetTopCityActionImage(null);
         dialog.CityPicLine.ImageTop = topCityActionImage;
         var middleCityActionImage = town.GetMiddleCityActionImage(null);

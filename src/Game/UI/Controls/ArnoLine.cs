@@ -10,22 +10,22 @@ namespace Aow.Game.UI.Controls;
 // top, middle, bottom, copied line image library
 public partial class ArnoLine : Control
 {
-    public LibraryImage _imageTop;
-    public LibraryImage _imageMiddle;
-    public LibraryImage _imageBottom;
-    public InterfaceImageLibrary LineLibrary;
+    private LibraryImage _imageTop;
+    private LibraryImage _imageMiddle;
+    private LibraryImage _imageBottom;
+    private InterfaceImageLibrary _lineLibrary;
 
     // AoWArnoLine.pas:47
     public override void Dispose()
     {
-        LineLibrary?.Dispose();
+        _lineLibrary?.Dispose();
         base.Dispose();
     }
 
     // AoWArnoLine.pas:41
     public ArnoLine(Component owner) : base(owner)
     {
-        LineLibrary = new InterfaceImageLibrary(this);
+        _lineLibrary = new InterfaceImageLibrary(this);
     }
 
     // AoWArnoLine.pas:53
@@ -33,13 +33,13 @@ public partial class ArnoLine : Control
     {
         if (_imageTop != null && _imageMiddle != null && _imageBottom != null)
         {
-            LineLibrary.Clear();
+            _lineLibrary.Clear();
             var copy = _imageTop.Copy();
-            LineLibrary.Add(copy);
+            _lineLibrary.Add(copy);
             var fImageMiddleCopy = _imageMiddle.Copy();
-            LineLibrary.Add(fImageMiddleCopy);
+            _lineLibrary.Add(fImageMiddleCopy);
             var fImageBottomCopy = _imageBottom.Copy();
-            LineLibrary.Add(fImageBottomCopy);
+            _lineLibrary.Add(fImageBottomCopy);
             Valid = true;
         }
 
@@ -49,7 +49,7 @@ public partial class ArnoLine : Control
     // AoWArnoLine.pas:93
     public override void SetSize()
     {
-        _winWidth = _imageTop.Width;
+        SetWinWidthWithoutInvalidate(_imageTop.Width);
         base.SetSize();
     }
 
@@ -59,7 +59,7 @@ public partial class ArnoLine : Control
         Rect oldClip = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -67,13 +67,13 @@ public partial class ArnoLine : Control
                 }
 
                 oldClip = lockedSurface.ClipRectangle;
-                if (_winTop > lockedSurface.ClipRectangle.Top)
+                if (WinTop > lockedSurface.ClipRectangle.Top)
                 {
-                    lockedSurface.ClipRectangle.Top = _winTop;
+                    lockedSurface.ClipRectangle.Top = WinTop;
                 }
 
-                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
-                LineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
+                var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                _lineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
                 if (_onDraw != null)
                 {
                     _onDraw(this, lockedSurface);

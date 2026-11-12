@@ -29,7 +29,8 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     // HolyG.pas:92
     public new const int ClassId = 131987;
 
-    public Set<HolySummoning> Mode;
+    public Set<HolySummoning> Mode { get; set; }
+
     public sbyte Player;
     public sbyte Duration;
     public sbyte OriginalOverlay;
@@ -178,7 +179,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
             if (condition)
             {
                 var alignment = troop.GetAlignment();
-                condition = AlignmentTables.s_pureEvilAlignments.Contains(alignment);
+                condition = AlignmentTables.PureEvilAlignments.Contains(alignment);
             }
 
             if (condition && !troop.GetAbilityEnabled(1))
@@ -276,7 +277,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
             if (condition)
             {
                 var alignment = troop.GetAlignment();
-                condition = AlignmentTables.s_pureEvilAlignments.Contains(alignment);
+                condition = AlignmentTables.PureEvilAlignments.Contains(alignment);
             }
 
             result = condition && !troop.GetAbilityEnabled(1);

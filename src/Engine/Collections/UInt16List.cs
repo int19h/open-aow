@@ -11,10 +11,10 @@ namespace Aow.Engine.Collections;
 
 public partial class UInt16List : Persistent
 {
-    internal ushort[] _list = [];
-    internal int _count;
-    internal int _capacity;
-    internal ushort _default;
+    private ushort[] _list = [];
+    private int _count;
+    private int _capacity;
+    private ushort _default;
 
     // Engine.pas:4336
     internal ushort Get(int index)

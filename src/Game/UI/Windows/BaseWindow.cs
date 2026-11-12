@@ -18,7 +18,8 @@ public partial class BaseWindow : WindowControl
     public BaseWindow(Component owner) : base(owner)
     { }
 
-    public object Buffer;
+    public object Buffer { get; }
+
     public bool _freeSurfaceOnHide;
     public WindowManager _windowManager;
     public NotifyEvent<BaseWindow> _onShow;
@@ -28,12 +29,12 @@ public partial class BaseWindow : WindowControl
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
         UIComponent C;
-        if (index > -1 && Valid && _visible)
+        if (index > -1 && Valid && Visible)
         {
             for (int I = index, last = Children.Count - 1; I <= last; I++)
             {
                 C = (UIComponent)Children[I];
-                if (C.Valid && C._visible && rectangle.Right >= C._winLeft && C._winLeft + C._winWidth >= rectangle.Left && rectangle.Bottom >= C._winTop && C._winTop + C._winHeight >= rectangle.Top && C != sender)
+                if (C.Valid && C.Visible && rectangle.Right >= C.WinLeft && C.WinLeft + C.WinWidth >= rectangle.Left && rectangle.Bottom >= C.WinTop && C.WinTop + C.WinHeight >= rectangle.Top && C != sender)
                 {
                     if (C is BaseWindow)
                     {
@@ -46,10 +47,10 @@ public partial class BaseWindow : WindowControl
                 }
             }
 
-            if (_ownerComponent != sender && _ownerComponent is BaseWindow)
+            if (OwnerComponent != sender && OwnerComponent is BaseWindow)
             {
-                var indexOf = _ownerComponent.Children.IndexOf(this);
-                _ownerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
+                var indexOf = OwnerComponent.Children.IndexOf(this);
+                OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
             }
         }
     }
@@ -69,10 +70,10 @@ public partial class BaseWindow : WindowControl
     //   place in FBackRect, and is put back at its place in the window order. }
     public override void SetVisible(bool value)
     {
-        if (value != _visible)
+        if (value != Visible)
         {
-            _visible = value;
-            if (!_visible)
+            SetVisibleWithoutUpdate(value);
+            if (!Visible)
             {
                 Hidden = true;
                 if (_onHide != null)
@@ -99,10 +100,10 @@ public partial class BaseWindow : WindowControl
 
                 if (!Hidden)
                 {
-                    BackRectangle.Right = _winWidth;
-                    BackRectangle.Bottom = _winHeight;
-                    BackRectangle.Top = _winTop;
-                    BackRectangle.Left = _winLeft;
+                    BackRectangle.Right = WinWidth;
+                    BackRectangle.Bottom = WinHeight;
+                    BackRectangle.Top = WinTop;
+                    BackRectangle.Left = WinLeft;
                 }
 
                 if (!Valid || !Aligned || !Sized)
@@ -119,9 +120,9 @@ public partial class BaseWindow : WindowControl
             }
         }
 
-        if (_visible)
+        if (Visible)
         {
-            SetPriority(_priority);
+            SetPriority(Priority);
         }
     }
 
@@ -142,17 +143,17 @@ public partial class BaseWindow : WindowControl
         Rect R = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
-                oldLeft = _winLeft;
-                oldTop = _winTop;
+                oldLeft = WinLeft;
+                oldTop = WinTop;
                 try
                 {
                     if (_doubleBuffered)
                     {
                         Drawn = !VerifyBackSurface(surface) && Drawn;
-                        _winLeft = 0;
-                        _winTop = 0;
+                        SetWinLeftWithoutInvalidate(0);
+                        SetWinTopWithoutInvalidate(0);
                         locked = BackSurface.Lock(ref lockedSurface) == 0;
                     }
                     else
@@ -187,7 +188,7 @@ public partial class BaseWindow : WindowControl
                         }
                         else
                         {
-                            if (_priority >= _windowManager._overlayPriority)
+                            if (Priority >= _windowManager.OverlayPriority)
                             {
                                 for (int J = 0, last = DrawCount - 1; J <= last; J++)
                                 {
@@ -211,12 +212,12 @@ public partial class BaseWindow : WindowControl
 
                     if (_doubleBuffered)
                     {
-                        if (_priority >= _windowManager._overlayPriority || !Drawn)
+                        if (Priority >= _windowManager.OverlayPriority || !Drawn)
                         {
                             for (int I = 0, lastI = Children.Count - 1; I <= lastI; I++)
                             {
                                 C = (UIComponent)Children[I];
-                                if (C.Valid && C._visible && (!Drawn || !C.Drawn))
+                                if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
                                 {
                                     if (!Drawn && C is BaseWindow)
                                     {
@@ -236,12 +237,12 @@ public partial class BaseWindow : WindowControl
                                     {
                                         if (SurfaceValid)
                                         {
-                                            R = new Rect(C._winLeft, C._winTop, C._winLeft + C._winWidth, C._winTop + C._winHeight);
+                                            R = new Rect(C.WinLeft, C.WinTop, C.WinLeft + C.WinWidth, C.WinTop + C.WinHeight);
                                             AddBlitRectangle(ref R, C);
                                         }
 
                                         C.FirstDraw = C.Drawn;
-                                        R = new Rect(_winLeft + C._winLeft, _winTop + C._winTop, _winLeft + C._winLeft + C._winWidth - 1, _winTop + C._winTop + C._winHeight - 1);
+                                        R = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth - 1, WinTop + C.WinTop + C.WinHeight - 1);
                                         InvalidateRectangle(I + 1, ref R, C);
                                     }
 
@@ -260,8 +261,8 @@ public partial class BaseWindow : WindowControl
                             BackSurface.Unlock();
                         }
 
-                        _winLeft = oldLeft;
-                        _winTop = oldTop;
+                        SetWinLeftWithoutInvalidate(oldLeft);
+                        SetWinTopWithoutInvalidate(oldTop);
                         try
                         {
                             if (SurfaceValid)
@@ -277,7 +278,7 @@ public partial class BaseWindow : WindowControl
                                     {
                                         D = BlitList[J];
                                         R = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right + 1, D.Rectangle.Bottom + 1);
-                                        if (!_masked)
+                                        if (!Masked)
                                         {
                                             BackSurface.BlitAreaClipped(surface, R, D.Rectangle.Left + oldLeft, D.Rectangle.Top + oldTop);
                                         }
@@ -334,12 +335,12 @@ public partial class BaseWindow : WindowControl
                         {
                             if (_onPreDrawSurface != null)
                             {
-                                _onPreDrawSurface(this, surface, _winLeft, _winTop);
+                                _onPreDrawSurface(this, surface, WinLeft, WinTop);
                             }
 
                             if (_onDrawSurface != null)
                             {
-                                _onDrawSurface(this, surface, _winLeft, _winTop);
+                                _onDrawSurface(this, surface, WinLeft, WinTop);
                             }
                         }
                         catch
@@ -373,16 +374,16 @@ public partial class BaseWindow : WindowControl
         Rect destinationRectangle = default;
         try
         {
-            oldLeft = _winLeft;
-            oldTop = _winTop;
+            oldLeft = WinLeft;
+            oldTop = WinTop;
             ok = true;
             if (_doubleBuffered)
             {
                 destinationSurfaceDescription = lockedSurface;
                 if (BackSurface == null)
                 {
-                    BackSurface = new DataSurface(_winWidth, _winHeight, lockedSurface.PixelFormatId, null);
-                    if (_masked)
+                    BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
+                    if (Masked)
                     {
                         BackSurface.Clear(_maskColor);
                     }
@@ -398,8 +399,8 @@ public partial class BaseWindow : WindowControl
                         {
                             BackSurface.Unlock();
                             BackSurface?.Dispose();
-                            BackSurface = new DataSurface(_winWidth, _winHeight, destinationSurfaceDescription.PixelFormatId, null);
-                            if (_masked)
+                            BackSurface = new DataSurface(WinWidth, WinHeight, destinationSurfaceDescription.PixelFormatId, null);
+                            if (Masked)
                             {
                                 BackSurface.Clear(_maskColor);
                             }
@@ -411,8 +412,8 @@ public partial class BaseWindow : WindowControl
 
                 if (BackSurface != null)
                 {
-                    _winLeft = 0;
-                    _winTop = 0;
+                    SetWinLeftWithoutInvalidate(0);
+                    SetWinTopWithoutInvalidate(0);
                 }
             }
 
@@ -422,7 +423,7 @@ public partial class BaseWindow : WindowControl
                 for (int I = 0, last = Children.Count - 1; I <= last; I++)
                 {
                     C = (UIComponent)Children[I];
-                    if (C.Valid && C._visible && (!Drawn || !C.Drawn))
+                    if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
                     {
                         C.Draw(lockedSurface);
                         C.Drawn = true;
@@ -436,20 +437,20 @@ public partial class BaseWindow : WindowControl
 
                 if (_doubleBuffered)
                 {
-                    _winLeft = oldLeft;
-                    _winTop = oldTop;
-                    sourceRectangle = new Rect(0, 0, _winWidth, _winHeight);
+                    SetWinLeftWithoutInvalidate(oldLeft);
+                    SetWinTopWithoutInvalidate(oldTop);
+                    sourceRectangle = new Rect(0, 0, WinWidth, WinHeight);
                     // { not used }
-                    destinationRectangle = new Rect(_winLeft, _winTop, _winLeft + _winWidth, _winTop + _winHeight);
+                    destinationRectangle = new Rect(WinLeft, WinTop, WinLeft + WinWidth, WinTop + WinHeight);
                     try
                     {
-                        if (_masked == true)
+                        if (Masked == true)
                         {
-                            LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, _winLeft, _winTop, _maskColor);
+                            LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, _maskColor);
                         }
                         else
                         {
-                            LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destinationSurfaceDescription, _winLeft, _winTop);
+                            LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop);
                         }
                     }
                     catch

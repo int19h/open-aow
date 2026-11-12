@@ -21,7 +21,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         EnchantmentIds = new Int32List();
     }
 
-    public Int32List EnchantmentIds;
+    public Int32List EnchantmentIds { get; }
 
     // AoWAb.PAS:3941
     public override void Dispose()

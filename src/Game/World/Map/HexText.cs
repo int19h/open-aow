@@ -3,28 +3,28 @@ namespace Aow.Game.World.Map;
 
 internal static class HexText
 {
-    internal static readonly string s_bridgeText = "Bridge";
+    internal static string BridgeText { get; } = "Bridge";
 
-    internal static readonly string s_invalidPlacementText = "Invalid Placement";
+    internal static string InvalidPlacementText { get; } = "Invalid Placement";
 
-    internal static readonly string s_selectedText = "selected";
+    internal static string SelectedText { get; } = "selected";
 
-    internal static readonly string s_transparentText = "Transparent";
+    internal static string TransparentText { get; } = "Transparent";
 
-    internal static readonly string s_loadingText = "Loading";
+    internal static string LoadingText { get; } = "Loading";
 
-    internal static readonly string s_closingText = "Closing";
+    internal static string ClosingText { get; } = "Closing";
 
-    internal static readonly string s_saveChangesFormat = "Save changes to %s";
+    internal static string SaveChangesFormat { get; } = "Save changes to %s";
 
-    internal static readonly string s_cutText = "Cu&t";
+    internal static string CutText { get; } = "Cu&t";
 
-    internal static readonly string s_pasteText = "&Paste";
+    internal static string PasteText { get; } = "&Paste";
 
-    internal static readonly string s_deleteText = "&Delete";
+    internal static string DeleteText { get; } = "&Delete";
 
-    internal static readonly string s_copyText = "&Copy";
+    internal static string CopyText { get; } = "&Copy";
 
-    internal static readonly string s_editText = "&Edit";
+    internal static string EditText { get; } = "&Edit";
 
 }

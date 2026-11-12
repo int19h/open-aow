@@ -78,11 +78,14 @@ public partial class TaskBar : DataModule
     public Button RelationsBtn;
     public CheckBox AutoBtn;
     public IvTranslator Translator;
-    public int IndicatorFrame;
-    public int IndicatorStep;
-    public short WorldClockDelay;
-    public short CombatClockDelay;
-    public short ChatFlash;
+    private int _indicatorFrame;
+    private int _indicatorStep;
+
+    public short WorldClockDelay { get; set; }
+
+    private short _combatClockDelay;
+
+    public short ChatFlash { get; set; }
 
     // AoWTBWindow.pas:122
     public void TurnButtonAnimDone()
@@ -232,18 +235,18 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:222
     public void CurPUpdate()
     {
-        IndicatorFrame += IndicatorStep;
-        if (IndicatorFrame > 4)
+        _indicatorFrame += _indicatorStep;
+        if (_indicatorFrame > 4)
         {
-            IndicatorStep = -1;
+            _indicatorStep = -1;
         }
 
-        if (IndicatorFrame < 1)
+        if (_indicatorFrame < 1)
         {
-            IndicatorStep = 1;
+            _indicatorStep = 1;
         }
 
-        CurP.CurrentImage = IndicatorFrame + 45;
+        CurP.CurrentImage = _indicatorFrame + 45;
         PInd.Drawn = false;
     }
 
@@ -299,18 +302,18 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:264
     public void TCCurPUpdate()
     {
-        IndicatorFrame += IndicatorStep;
-        if (IndicatorFrame > 4)
+        _indicatorFrame += _indicatorStep;
+        if (_indicatorFrame > 4)
         {
-            IndicatorStep = -1;
+            _indicatorStep = -1;
         }
 
-        if (IndicatorFrame < 1)
+        if (_indicatorFrame < 1)
         {
-            IndicatorStep = 1;
+            _indicatorStep = 1;
         }
 
-        TCCurP.CurrentImage = IndicatorFrame + 45;
+        TCCurP.CurrentImage = _indicatorFrame + 45;
         TCPInd.Drawn = false;
     }
 
@@ -397,10 +400,10 @@ public partial class TaskBar : DataModule
         ushort millisecond = default;
         if (TBCombat.Visible && CombatMap.Current != null)
         {
-            CombatClockDelay = (short)(CombatClockDelay - 1);
-            if (CombatClockDelay < 0)
+            _combatClockDelay = (short)(_combatClockDelay - 1);
+            if (_combatClockDelay < 0)
             {
-                CombatClockDelay = 900;
+                _combatClockDelay = 900;
                 DecodeTime(Time(), ref hour, ref minute, ref second, ref millisecond);
                 if (hour > 12)
                 {

@@ -15,7 +15,7 @@ public partial class Hatred : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:889
     public Hatred(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_hatredText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.HatredText);
         SpellId = 46;
         SpellType = SpellType.Global;
         BaseManaCost = 20;

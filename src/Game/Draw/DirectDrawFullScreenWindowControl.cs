@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 // its display. _display
 public partial class DirectDrawFullScreenWindowControl : WinControl
 {
-    internal CustomDisplay _display;
+    private CustomDisplay _display;
 
     // DisplayC.pas:1129
     protected internal override void MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)

@@ -34,23 +34,23 @@ public static class EngineHost
 
     internal static void ReleaseCrc32Table()
     {
-        s_crc32Table = [];
+        Crc32Table = [];
     }
 
-    internal static bool s_verifyEngineObjectEnabled;
+    internal static bool VerifyEngineObjectEnabled { get; set; }
 
-    public static List<GameEngine> Engines;
+    public static List<GameEngine> Engines { get; set; }
 
-    public static List<Plugin> Plugins;
+    public static List<Plugin> Plugins { get; set; }
 
-    public static StringList Packages;
+    public static StringList Packages { get; set; }
 
-    internal static int[] s_crc32Table = [];
+    internal static int[] Crc32Table { get; set; } = [];
 
     internal static void Initialize()
     {
-        s_crc32Table = [];
-        s_verifyEngineObjectEnabled = true;
+        Crc32Table = [];
+        VerifyEngineObjectEnabled = true;
         Engines = new List<GameEngine>();
         Plugins = new List<Plugin>();
         Packages = new StringList();

@@ -21,7 +21,7 @@ public partial class DispelMagic : UnitSpell
     // UnitSpells.pas:1000
     public DispelMagic(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
         SpellId = 8;
         BaseManaCost = 5;
         SpellLevel = 1;
@@ -92,12 +92,12 @@ public partial class DispelMagic : UnitSpell
             {
                 if (count > 0)
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_spellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     AoWHSMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.s_dispelMagicFailedText);
+                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText);
                     AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }

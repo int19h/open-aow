@@ -31,7 +31,7 @@ public partial class CursedAbility : DurationAbility
         data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
         if (data != null && data.Source == 1)
         {
-            result = AbilityRules.TranslateResourceString(GameText.s_deathMasteryText);
+            result = AbilityRules.TranslateResourceString(GameText.DeathMasteryText);
         }
         else
         {

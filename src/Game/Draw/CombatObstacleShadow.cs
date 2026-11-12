@@ -10,7 +10,7 @@ public partial class CombatObstacleShadow : HexSprite
     public CombatObstacleShadow(ECustomNode owner) : base(owner)
     { }
 
-    public CombatObstacle Obstacle;
+    public CombatObstacle Obstacle { get; set; }
 
     // CombatObstacle.pas:74
     public override int GetShowPriority() => (Obstacle.GetShowPriority() & 67108863) - 1677721600;

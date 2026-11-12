@@ -14,8 +14,8 @@ namespace Aow.Game.Magic.Spells;
 // enchantment ID, dispel chance. inherited spell ID, source unit ID, references
 public partial class DisjunctionSpellCaster : SpellCaster
 {
-    public int EnchantmentId;
-    public int DispelChance;
+    public int EnchantmentId { get; set; }
+    public int DispelChance { get; private set; }
 
     // GlobalSpells.pas:806
     public DisjunctionSpellCaster(ECustomNode owner) : base(owner)
@@ -47,7 +47,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
                         }
                     }
                 }
@@ -59,7 +59,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(s_cannotDispelWhenSpellWardIsActiveText);
+                reason = AbilityRules.TranslateResourceString(CannotDispelWhenSpellWardIsActiveText);
             }
         }
         else
@@ -197,6 +197,6 @@ public partial class DisjunctionSpellCaster : SpellCaster
         return result;
     }
 
-    internal static readonly string s_cannotDispelWhenSpellWardIsActiveText = "Cannot dispel when Spell Ward is active";
+    internal static string CannotDispelWhenSpellWardIsActiveText { get; } = "Cannot dispel when Spell Ward is active";
 
 }

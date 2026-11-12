@@ -12,15 +12,17 @@ namespace Aow.Game.Draw;
 public partial class DataSurface : Surface
 {
 
-    internal int _width;
-    internal int _height;
-    internal byte[] _memory;
-    internal byte _bitCount;
-    internal int _pitch;
-    internal int _pixelFormatId;
-    internal int _x;
-    internal int _y;
-    internal Palette _palette;
+    private int _width;
+    private int _height;
+    private byte[] _memory;
+    private byte _bitCount;
+    private int _pitch;
+    private int _pixelFormatId;
+
+    internal int X { get; private set; }
+    internal int Y { get; private set; }
+
+    private Palette _palette;
 
     // GFXE.pas:12387
     public DataSurface(int width, int height, int pixelFormatId, Palette palette)
@@ -86,14 +88,14 @@ public partial class DataSurface : Surface
                 {
                     Resize(W, H);
                     SetPalette(lockedSurface.Palette);
-                    _x = R.Value.Left;
-                    _y = R.Value.Top;
-                    BlitRects.BlitRectangle(lockedSurface.View(_y * lockedSurface.Pitch + (int)(((uint)(_x * _bitCount)) >> 3)), new SurfaceView(_memory, 0, _pitch), (int)(((uint)(_width * _bitCount)) >> 3), _height);
+                    X = R.Value.Left;
+                    Y = R.Value.Top;
+                    BlitRects.BlitRectangle(lockedSurface.View(Y * lockedSurface.Pitch + (int)(((uint)(X * _bitCount)) >> 3)), new SurfaceView(_memory, 0, _pitch), (int)(((uint)(_width * _bitCount)) >> 3), _height);
                 }
             }
             catch
             {
-                _x = 30;
+                X = 30;
             }
 
             surface.Unlock();

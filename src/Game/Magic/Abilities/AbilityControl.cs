@@ -25,7 +25,8 @@ public partial class AbilityControl : EngineObject
         }
     }
 
-    public List<Ability> Abilities;
+    public List<Ability> Abilities { get; }
+
     public AbilityTypeListArray5 AbilitiesByType;
 
     // Ability.PAS:2044

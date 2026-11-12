@@ -44,13 +44,13 @@ public sealed class EndTurnShortcutTests
     public void ShortcutDoesNothingWhileTheButtonAnimates()
     {
         using var play = new Play();
-        play.Button._animating = true;
+        play.Button.Animating = true;
 
         play.Press(69);
         play.Press(13);
 
         Assert.False(play.Button.Checked);
-        Assert.True(play.Button._animating);
+        Assert.True(play.Button.Animating);
         Assert.Equal(0, play.QueuedCount());
     }
 
@@ -103,7 +103,7 @@ public sealed class EndTurnShortcutTests
             Map.TokenManager.Initialize(Map.PlayerCommunicator);
             Window = new MapWindow(null!);
             Window.MainWindow = new Window(null!);
-            Window.MainWindow._visible = true;
+            Window.MainWindow.SetVisibleWithoutUpdate(true);
             Window.MainWindow.OnKeyDown = Window.MapWindowKeyDown;
             Window.MapViewer = new HexSpriteMapViewer(null!);
             TaskBar bar = new TaskBar(null!);
@@ -129,14 +129,14 @@ public sealed class EndTurnShortcutTests
 
         public EndTurnTokenEventMode QueuedMode()
         {
-            var events = Control()._events;
+            var events = Control().Events;
             Assert.Equal(1, events.Count);
             return Assert.IsType<EndTurnTokenEvent>(events.GetEvent(0)).Mode;
         }
 
         public void LeaveTurnWaiting()
         {
-            var events = Control()._events;
+            var events = Control().Events;
             while (events.Count != 0)
             {
                 events.Delete(0);

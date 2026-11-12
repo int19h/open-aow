@@ -9,15 +9,15 @@ public partial class SpellList : IDisposable
     // Spells.PAS:695
     public SpellList()
     {
-        Spells = new DelphiList<Spell>();
+        _spells = new DelphiList<Spell>();
     }
 
-    public DelphiList<Spell> Spells;
+    private DelphiList<Spell> _spells;
 
     // Spells.PAS:700
     public virtual void Dispose()
     {
-        Spells?.Dispose();
+        _spells?.Dispose();
     }
 
     // Spells.PAS:705
@@ -26,7 +26,7 @@ public partial class SpellList : IDisposable
         Spell result;
         if (index >= 0 && index < GetCount())
         {
-            result = Spells[index];
+            result = _spells[index];
         }
         else
         {
@@ -37,36 +37,36 @@ public partial class SpellList : IDisposable
     }
 
     // Spells.PAS:712
-    public int GetCount() => Spells.Count;
+    public int GetCount() => _spells.Count;
 
     // Spells.PAS:716
     public void Add(Spell spell)
     {
-        Spells.Add(spell);
+        _spells.Add(spell);
     }
 
     // Spells.PAS:720
     public void Delete(int index)
     {
-        Spells.Delete(index);
+        _spells.Delete(index);
     }
 
     // Spells.PAS:724
     public void Clear()
     {
-        Spells.Clear();
+        _spells.Clear();
     }
 
     // Spells.PAS:734
     public void SortOnName()
     {
-        Spells.Sort(CompareSpellNames);
+        _spells.Sort(CompareSpellNames);
     }
 
     // Spells.PAS:744
     public void SortOnLevel()
     {
-        Spells.Sort(CompareSpellLevels);
+        _spells.Sort(CompareSpellLevels);
     }
 
     public static int CompareSpellNames(Spell item1, Spell item2)

@@ -18,8 +18,9 @@ namespace Aow.Game.World;
 public partial class FlagControl : ControlStyleObject
 {
 
-    public RaceResourceList RaceResources;
-    public CustomImageLibrary Flags;
+    private RaceResourceList _raceResources;
+
+    public CustomImageLibrary Flags { get; set; }
 
     // PlayerC.PAS:1920
     public override void Dispose()
@@ -34,7 +35,7 @@ public partial class FlagControl : ControlStyleObject
     {
         var gameSet = (AoWHSSet)owner;
         Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
-        this.RaceResources = gameSet.RaceResources;
+        this._raceResources = gameSet.RaceResources;
 
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
     }
@@ -50,7 +51,7 @@ public partial class FlagControl : ControlStyleObject
         }
         else
         {
-            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset + 12].Show(X - 21, Y - 16, lockedSurface);
+            _raceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset + 12].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 
@@ -69,7 +70,7 @@ public partial class FlagControl : ControlStyleObject
         }
         else
         {
-            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset + 12].Show(X - 21, Y - 16, lockedSurface);
+            _raceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset + 12].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 
@@ -84,7 +85,7 @@ public partial class FlagControl : ControlStyleObject
         }
         else
         {
-            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset].Show(X - 21, Y - 16, lockedSurface);
+            _raceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 
@@ -103,7 +104,7 @@ public partial class FlagControl : ControlStyleObject
         }
         else
         {
-            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset].Show(X - 21, Y - 16, lockedSurface);
+            _raceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 

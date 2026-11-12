@@ -133,7 +133,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal((SourceWidth, SourceHeight), (whole.Width, whole.Height));
             for (int y = 0; y < SourceHeight; y++)
                 for (int x = 0; x < SourceWidth; x++) Assert.Equal(Source(x, y), whole.GetPixelInfo(x, y));
-            Assert.Equal((2, 2, 1, 1), (part.Width, part.Height, part._x, part._y));
+            Assert.Equal((2, 2, 1, 1), (part.Width, part.Height, part.X, part.Y));
             for (int y = 0; y < 2; y++)
                 for (int x = 0; x < 2; x++) Assert.Equal(Source(x + 1, y + 1), part.GetPixelInfo(x, y));
         }
@@ -187,7 +187,7 @@ public sealed class SurfaceRectangleTests
         sdl.SetPrimarySurfaceRegion(region);
         Assert.Equal(region, displayController.GetPrimarySurfaceRegion());
         Assert.Equal(region, sdl.GetPrimarySurfaceRegion());
-        Assert.Equal(region, displayController._primarySurfaceRegion);
+        Assert.Equal(region, displayController.PrimarySurfaceRegion);
     }
 
     private sealed class NullDisplayHost : Game.Host.IDisplayHost

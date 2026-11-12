@@ -89,12 +89,15 @@ public partial class FileDialogWindow : DataModule
     public Panel SavedInfo3;
     public Panel SavedInfo4;
     public IvTranslator Translator;
-    public string Directory = "";
-    public string LastFileName = "";
-    public SaveGameEventLog SaveEvent;
-    public ExecuteDoneEvent Done;
+
+    public string Directory { get; set; } = "";
+    public string LastFileName { get; set; } = "";
+
+    private SaveGameEventLog _saveEvent;
+    private ExecuteDoneEvent _done;
+
     // is the data pointer of FDone
-    public int Mode;
+    public int Mode { get; set; }
 
     // AoWFileDialog.pas:175
     // 0 load, 1 save, 2 select map
@@ -102,10 +105,10 @@ public partial class FileDialogWindow : DataModule
     {
         ExecuteDoneEvent done;
         SaveGameEventLog eventValue;
-        done = Done;
-        eventValue = SaveEvent;
-        Done = null;
-        SaveEvent = null;
+        done = _done;
+        eventValue = _saveEvent;
+        _done = null;
+        _saveEvent = null;
         if (done != null)
         {
             done(eventValue);
@@ -184,9 +187,9 @@ public partial class FileDialogWindow : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (SaveEvent != null)
+        if (_saveEvent != null)
         {
-            if (!SaveEvent.Mode.Contains(SaveGameEventLogModeElement.DisableCancel))
+            if (!_saveEvent.Mode.Contains(SaveGameEventLogModeElement.DisableCancel))
             {
                 FileDialog.Visible = false;
             }
@@ -425,9 +428,9 @@ public partial class FileDialogWindow : DataModule
                         }
                         else
                         {
-                            if (SaveEvent != null)
+                            if (_saveEvent != null)
                             {
-                                SaveEvent.FileName = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension, Directory);
+                                _saveEvent.FileName = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension, Directory);
                                 FileDialog.Visible = false;
                             }
                             else
@@ -610,7 +613,7 @@ public partial class FileDialogWindow : DataModule
                 var saveGameAs = AbilityRules.TranslateResourceString(s_saveGameAsText);
                 DialogHosts.FileDialogWindow.Title.Text = saveGameAs;
                 DialogHosts.FileDialogWindow.SFileName.Editable = true;
-                var save = AbilityRules.TranslateResourceString(GameText.s_saveText);
+                var save = AbilityRules.TranslateResourceString(GameText.SaveText);
                 DialogHosts.FileDialogWindow.Openbut.Text = save;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
@@ -808,11 +811,11 @@ public partial class FileDialogWindow : DataModule
 
     private static readonly string s_selectText = "Select";
 
-    internal static StringList Drives;
+    internal static StringList Drives { get; set; }
 
-    internal static StringList Directories;
+    internal static StringList Directories { get; set; }
 
-    internal static StringList Files;
+    internal static StringList Files { get; set; }
 
     internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {
@@ -875,7 +878,7 @@ public partial class FileDialogWindow : DataModule
         {
             if (GameTables.GameEngine.Campaign.ScenarioStarted)
             {
-                var loading = AbilityRules.TranslateResourceString(LayerText.s_loadingText);
+                var loading = AbilityRules.TranslateResourceString(LayerText.LoadingText);
                 var fileName = ExtractFileName(name);
                 DialogHosts.ProgressDialog.Title.Text = loading + " " + fileName + "...";
                 DialogHosts.ProgressDialog.StatusLbl.Text = "";
@@ -928,9 +931,9 @@ public partial class FileDialogWindow : DataModule
 
     internal static void ShowSaveGameEvent(FileDialogWindow dialog, SaveGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.Done = done;
-        dialog.SaveEvent = eventValue;
-        dialog.SaveEvent.AddRef();
+        dialog._done = done;
+        dialog._saveEvent = eventValue;
+        dialog._saveEvent.AddRef();
         dialog.Mode = 1;
         dialog.FileDialog.Visible = true;
         if (!IsEmpty(eventValue.Directory))

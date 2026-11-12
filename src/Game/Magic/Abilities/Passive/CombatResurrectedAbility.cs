@@ -11,7 +11,7 @@ public partial class CombatResurrectedAbility : AdjustableAbility
     // PassiveAb.pas:912
     public CombatResurrectedAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_resurrectedText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.ResurrectedText);
         AbilityId = 130;
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();

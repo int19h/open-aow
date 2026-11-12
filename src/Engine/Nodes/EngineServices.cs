@@ -60,10 +60,10 @@ public static class EngineServices
 
     public static int GetCrc32(ReadOnlySpan<byte> buffer, int size)
     {
-        if (EngineHost.s_crc32Table.Length == 0) BuildCrc32Table();
+        if (EngineHost.Crc32Table.Length == 0) BuildCrc32Table();
         int crc = -1;
         foreach (byte value in buffer[..size])
-            crc = EngineHost.s_crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+            crc = EngineHost.Crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
         return crc ^ -1;
     }
 
@@ -134,9 +134,9 @@ public static class EngineServices
     {
         int C;
         int polynomial;
-        if (EngineHost.s_crc32Table.Length == 0)
+        if (EngineHost.Crc32Table.Length == 0)
         {
-            EngineHost.s_crc32Table = new int[256];
+            EngineHost.Crc32Table = new int[256];
             polynomial = -306674912;
             for (int I = 0; I <= 255; I++)
             {
@@ -152,7 +152,7 @@ public static class EngineServices
                         C = (int)(((uint)C) >> 1);
                     }
 
-                    EngineHost.s_crc32Table[I] = C;
+                    EngineHost.Crc32Table[I] = C;
                 }
             }
         }

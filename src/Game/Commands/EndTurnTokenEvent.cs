@@ -50,7 +50,7 @@ public partial class EndTurnTokenEvent : TokenEvent
                 if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
                 {
                     var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                     var translatedText = AbilityRules.TranslateResourceString(s_finishedTheirTurnText);
                     AoWHSMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
                 }

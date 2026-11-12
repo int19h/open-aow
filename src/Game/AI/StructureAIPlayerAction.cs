@@ -15,16 +15,17 @@ public partial class StructureAIPlayerAction : AIPlayerAction
     // (phase, structure IDs)
     public StructureAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        StructureIds = new Int32List();
+        _structureIds = new Int32List();
     }
 
-    public new int _phase;
-    public Int32List StructureIds;
+    public new int Phase { get; protected set; }
+
+    private Int32List _structureIds;
 
     // Structur.PAS:3324
     public override void Dispose()
     {
-        StructureIds?.Dispose();
+        _structureIds?.Dispose();
         base.Dispose();
     }
 
@@ -38,7 +39,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
             for (int I = 0, last = AoWHSMap.Current.StructureControl.GetCount() - 1; I <= last; I++)
             {
                 var structure = AoWHSMap.Current.StructureControl.GetStructure(I);
-                StructureIds.Add(structure.StructureId);
+                _structureIds.Add(structure.StructureId);
             }
 
             result = true;
@@ -57,22 +58,22 @@ public partial class StructureAIPlayerAction : AIPlayerAction
         bool waiting;
         Structure structure;
         waiting = false;
-        while (!waiting && StructureIds.Count != 0 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !Control.Player.GetBusy())
+        while (!waiting && _structureIds.Count != 0 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !Control.Player.GetBusy())
         {
-            var item = StructureIds[StructureIds.Count - 1];
+            var item = _structureIds[_structureIds.Count - 1];
             structure = AoWHSMap.Current.StructureControl.FindId(item);
             if (structure != null)
             {
-                waiting = structure.ExecuteAI(Control.Player.PlayerIndex, _phase);
+                waiting = structure.ExecuteAI(Control.Player.PlayerIndex, Phase);
             }
 
             if (!waiting)
             {
-                StructureIds.Delete(StructureIds.Count - 1);
+                _structureIds.Delete(_structureIds.Count - 1);
             }
         }
 
-        return StructureIds.Count != 0;
+        return _structureIds.Count != 0;
     }
 
     // intf_P1_12.inc:8

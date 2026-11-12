@@ -23,7 +23,8 @@ public partial class PbemPlayerSettings : EngineObject
     }
 
     public Set<PbemPlayerStatusElement> Status;
-    public EmailGame EmailGame;
+
+    public EmailGame EmailGame { get; }
 
     // Player.PAS:243
     public override void Dispose()

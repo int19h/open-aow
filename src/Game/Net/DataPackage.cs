@@ -10,7 +10,8 @@ public partial class DataPackage : EngineObject
 {
     internal int _sender;
     internal int _receiver;
-    internal int _refCount;
+
+    internal int RefCount { get; private set; }
 
     // NetworkE.pas:592
     // { The original does not call the inherited ReadWrite. }
@@ -29,21 +30,21 @@ public partial class DataPackage : EngineObject
     // NetworkE.pas:566
     public DataPackage(ECustomNode owner) : base(owner)
     {
-        _refCount = 1;
+        RefCount = 1;
     }
 
     // NetworkE.pas:572
     public override int AddRef()
     {
-        _refCount += 1;
-        return _refCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // NetworkE.pas:578
     public override int Release()
     {
-        _refCount -= 1;
-        int result = _refCount;
+        RefCount -= 1;
+        int result = RefCount;
         if (result == 0)
         {
             Dispose();

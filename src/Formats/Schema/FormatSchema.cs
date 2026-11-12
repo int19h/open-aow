@@ -62,7 +62,7 @@ public sealed class FormatSchema
     /// Production leaves it null. <see cref="Current"/> is then the embedded schema after one null comparison.
     /// The persist path does not read this field.
     /// </summary>
-    internal static FormatSchema? Substituted;
+    internal static FormatSchema? Substituted { get; set; }
 
     public static FormatSchema Current => Substituted ?? s_embedded.Value;
 

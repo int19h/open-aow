@@ -31,12 +31,14 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     public int NextEnchantmentId;
-    public int UpdateCount;
-    public Set<GlobalEnchantmentType> ActiveEnchantments;
-    public GlobalEnchantmentList Enchantments;
+    private int _updateCount;
+
+    public Set<GlobalEnchantmentType> ActiveEnchantments { get; set; }
+    public GlobalEnchantmentList Enchantments { get; set; }
+
     public Int32Array9 DoubleSphereManaCount;
 
-    internal EventStore<GlobalMagicControl> _changedEventsStore;
+    private EventStore<GlobalMagicControl> _changedEventsStore;
 
     public event NotifyEvent<GlobalMagicControl> FChangedEvents
     {
@@ -147,14 +149,14 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2692
     public void BeginUpdate()
     {
-        UpdateCount += 1;
+        _updateCount += 1;
     }
 
     // Spells.PAS:2694
     public void EndUpdate()
     {
-        UpdateCount -= 1;
-        if (UpdateCount == 0)
+        _updateCount -= 1;
+        if (_updateCount == 0)
         {
             Update();
         }
@@ -163,7 +165,7 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2696
     public void TriggerChangedEvent()
     {
-        if (UpdateCount == 0)
+        if (_updateCount == 0)
         {
             _changedEventsStore.Raise(this);
         }

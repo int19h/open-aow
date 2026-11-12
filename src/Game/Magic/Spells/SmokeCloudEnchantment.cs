@@ -14,7 +14,7 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     // SmokeCloud.pas:99
     public new const int ClassId = 135748;
 
-    public SmokeCloud Cloud;
+    public SmokeCloud Cloud { get; set; }
 
     // SmokeCloud.pas:91
     public SmokeCloudEnchantment(ECustomNode owner) : base(owner)
@@ -51,7 +51,7 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     {
         if ((EnchantmentStatus.Image & 1) == 0) return false;
         bool result = base.Deactivate(player);
-        if ((Cloud._status.Image & 0x20) != 0) Cloud?.Dispose();
+        if ((Cloud.Status.Image & 0x20) != 0) Cloud?.Dispose();
         return result;
     }
 

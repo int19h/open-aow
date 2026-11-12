@@ -35,7 +35,7 @@ public partial class EngineObject : IDisposable, IPersistable
         SetOwner(owner);
     }
 
-    protected internal ECustomNode _owner;
+    private ECustomNode _owner;
 
     // Engine.pas:2487
     internal string GetEngineObjectPath()
@@ -211,7 +211,7 @@ public partial class EngineObject : IDisposable, IPersistable
         {
             for (var C = EngineClass; C.Type != typeof(EngineObject) && result == null; C = C.Parent)
             {
-                result = E._editors.FindEditor(C.ClassId);
+                result = E.Editors.FindEditor(C.ClassId);
             }
         }
 
@@ -297,6 +297,9 @@ public partial class EngineObject : IDisposable, IPersistable
     }
 
     public ECustomNode Owner { get => _owner; set => SetOwner(value); }
+
+    protected internal void SetOwnerWithoutNotify(ECustomNode value) => _owner = value;
+
     public string EngineObjectPath { get => GetEngineObjectPath(); }
     public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }
 

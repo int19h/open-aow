@@ -23,15 +23,15 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2489
     public EmailGameControl(ECustomNode owner) : base(owner)
     {
-        Games = new EmailGameList(null);
+        _games = new EmailGameList(null);
     }
 
-    public EmailGameList Games;
+    private EmailGameList _games;
 
     // Diplomacy.pas:2495
     public override void Dispose()
     {
-        Games?.Dispose();
+        _games?.Dispose();
         base.Dispose();
     }
 
@@ -39,7 +39,7 @@ public partial class EmailGameControl : EngineObject
     public int CreateUniqueLocalId()
     {
         int result = 1;
-        while (Games.IndexOfUniqueLocalId(result) != -1)
+        while (_games.IndexOfUniqueLocalId(result) != -1)
         {
             result += 1;
         }
@@ -51,13 +51,13 @@ public partial class EmailGameControl : EngineObject
     public void Load()
     {
         string fileName;
-        Games.Clear();
+        _games.Clear();
         fileName = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
         if (FileExists(fileName))
         {
             if (GetFileCrc32(fileName) == GameTables.GameEngine.Registry.GetEmailGamesCrc())
             {
-                GameTables.GameEngine.ReadFromFile(fileName, Games, null);
+                GameTables.GameEngine.ReadFromFile(fileName, _games, null);
             }
         }
     }
@@ -69,7 +69,7 @@ public partial class EmailGameControl : EngineObject
         try
         {
             fileName = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
-            GameTables.GameEngine.WriteToFile(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", Games, null);
+            GameTables.GameEngine.WriteToFile(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", _games, null);
             var fileCrc = GetFileCrc32(fileName);
             GameTables.GameEngine.Registry.SetEmailGamesCrc(fileCrc);
         }
@@ -83,10 +83,10 @@ public partial class EmailGameControl : EngineObject
     {
         EmailGame result;
         int index;
-        index = Games.IndexOfUniqueLocalId(game.UniqueLocalId);
-        if (index != -1 && game.UniqueId != 0 && Games.GetEmailGames(index).UniqueId == game.UniqueId)
+        index = _games.IndexOfUniqueLocalId(game.UniqueLocalId);
+        if (index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId)
         {
-            result = Games.GetEmailGames(index);
+            result = _games.GetEmailGames(index);
         }
         else
         {
@@ -148,7 +148,7 @@ public partial class EmailGameControl : EngineObject
         result.UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
         result.SecurityId = GenerateSecurityId();
         result.Name = name;
-        result.SetOwner(Games);
+        result.SetOwner(_games);
         Save();
         return result;
     }

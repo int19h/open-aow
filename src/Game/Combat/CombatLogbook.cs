@@ -15,18 +15,20 @@ public partial class CombatLogbook : EngineObject
     // Combat2.pas:349
     public CombatLogbook(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
         Actions = new CombatActionList(null);
         FinalData = new CombatData(null);
         InitialData = new CombatData(null);
         PlayerEliminated = false;
     }
 
-    public int RefCount;
-    public CombatData InitialData;
-    public CombatData FinalData;
-    public CombatActionList Actions;
-    public CombatResult CombatResult;
+    private int _refCount;
+
+    public CombatData InitialData { get; }
+    public CombatData FinalData { get; }
+    public CombatActionList Actions { get; }
+    public CombatResult CombatResult { get; }
+
     public bool PlayerEliminated;
 
     // Combat2.pas:359
@@ -52,16 +54,16 @@ public partial class CombatLogbook : EngineObject
     // Combat2.pas:384
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // Combat2.pas:387
     public override int Release()
     {
         int N;
-        RefCount -= 1;
-        N = RefCount;
+        _refCount -= 1;
+        N = _refCount;
         int result = N;
         if (N == 0)
         {

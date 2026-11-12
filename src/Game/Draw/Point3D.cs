@@ -6,5 +6,6 @@ public partial class Point3D
 {
     public int X;
     public int Y;
-    public int Z;
+
+    public int Z { get; set; }
 }

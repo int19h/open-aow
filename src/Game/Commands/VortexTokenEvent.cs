@@ -27,8 +27,8 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:1905
     public new const int ClassId = 135973;
 
-    public int Angle;
-    public Animation Animation;
+    private int _angle;
+    private Animation _animation;
     public ArmyId ArmyId;
 
     // GlobalTargetSpells.pas:1899
@@ -64,7 +64,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         Troop troopObject = default;
         if (value == 0)
         {
-            Angle = 0;
+            _angle = 0;
             var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
             AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
             AoWHSMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
@@ -74,7 +74,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
             }
 
             animation = new Animation(null);
-            Animation = animation;
+            _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
             animation.AnimationMap = AoWHSMap.Current;
@@ -89,7 +89,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 log = new ArmyEventLog(null);
                 log.ArmyText = AbilityRules.TranslateResourceString(s_vortexDamageText);
                 log._player = source.Player;
-                var vortex = AbilityRules.TranslateResourceString(GameText.s_vortexText);
+                var vortex = AbilityRules.TranslateResourceString(GameText.VortexText);
                 log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;
                 log.ArmyView.Setup(army.Army, 255);
@@ -151,7 +151,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 army.Army.EndUpdate();
             }
 
-            Animation?.Dispose();
+            _animation?.Dispose();
             result = false;
         }
         else
@@ -180,7 +180,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
             HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            Angle = this.Angle + 20 + Animation.FrameCounter / 5;
+            _angle = this._angle + 20 + _animation.FrameCounter / 5;
             RandSeed = AoWHSMap.Current.InitialRandomSeed;
             for (int I = 0; I <= 200; I++)
             {
@@ -191,7 +191,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                     height = -16;
                     xShift = 16;
                     var pi = Math.PI;
-                    angle = (float)((double)((double)-(direction + Angle) * pi) / 180);
+                    angle = (float)((double)((double)-(direction + _angle) * pi) / 180);
                     if (GameTables.GameEngine.AnimationDetail == 0)
                     {
                         count = 1;

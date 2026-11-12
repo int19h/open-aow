@@ -18,11 +18,12 @@ namespace Aow.Game.UI.Controls;
 // SurfaceValid
 public partial class UIComponent : Rtl.Component
 {
-    public int Color;
-    public int SelectedColor;
-    public bool Valid;
-    public bool Aligned;
-    public bool Sized;
+    public int Color { get; private set; }
+    public int SelectedColor { get; private set; }
+    public bool Valid { get; set; }
+    public bool Aligned { get; set; }
+    public bool Sized { get; set; }
+
     public int _cursor;
     public AoWOnDrawEvent<UIComponent> _onDraw;
     public AoWOnDrawEvent<UIComponent> _onPreDraw;
@@ -32,42 +33,57 @@ public partial class UIComponent : Rtl.Component
     public KeyPressEvent<UIComponent> _onKeyPress;
     public KeyEvent<UIComponent> _onKeyDown;
     public NotifyEvent<UIComponent> _onChange;
-    public bool MouseDown;
-    public bool _visible;
-    public bool Handled;
-    public int _winWidth;
-    public int _winHeight;
-    public int _winLeft;
-    public int _winTop;
+
+    public bool MouseDown { get; protected set; }
+
+    private bool _visible;
+
+    public bool Handled { get; set; }
+
+    private int _winWidth;
+    private int _winHeight;
+    private int _winLeft;
+    private int _winTop;
     public ImageLibraryFont _font;
     public string _text = "";
-    public bool Redraw;
+
+    public bool Redraw { get; set; }
+
     public int _borderWidth;
     public int _borderHeight;
-    public int _priority;
-    public bool Drawn;
-    public bool FirstDraw;
-    public bool MouseIn;
-    public int ToolTipCount;
+    private int _priority;
+
+    public bool Drawn { get; set; }
+    public bool FirstDraw { get; set; }
+    public bool MouseIn { get; protected set; }
+    public int ToolTipCount { get; protected set; }
+
     public int _radioIndex;
     public bool _checked;
     public int _ownerItem;
     public NotifyEvent<UIComponent> _onUpdate;
-    public bool _captureInput;
-    public AoWOnDebugEvent _onDebugMessage;
-    public UIComponent _ownerComponent;
-    public DelphiList Children;
-    public Alignment _alignment;
-    public bool _masked;
-    public List<DirtyRectangle> BlitList;
-    public List<DirtyRectangle> DrawList;
-    public int BlitCount;
-    public int DrawCount;
-    public int ToolTipLeft;
+    private bool _captureInput;
+    private AoWOnDebugEvent _onDebugMessage;
+    private UIComponent _ownerComponent;
+
+    public DelphiList Children { get; init; }
+
+    private Alignment _alignment;
+    private bool _masked;
+
+    public List<DirtyRectangle> BlitList { get; }
+    public List<DirtyRectangle> DrawList { get; }
+    public int BlitCount { get; protected set; }
+    public int DrawCount { get; protected set; }
+    public int ToolTipLeft { get; protected set; }
+
     public Rect OldRectangle;
-    public bool Hidden;
+
+    public bool Hidden { get; set; }
+
     public bool _doubleBuffered;
-    public bool SurfaceValid;
+
+    public bool SurfaceValid { get; set; }
 
     // AoWComp.pas:222
     public UIComponent(Rtl.Component owner) : base(owner)
@@ -137,56 +153,56 @@ public partial class UIComponent : Rtl.Component
     // AoWComp.pas:690
     public virtual void ReAlign()
     {
-        if (_ownerComponent != null && (_alignment._alignWidth != AlignWidth.None || _alignment._alignHeight != AlignHeight.None))
+        if (_ownerComponent != null && (_alignment.AlignWidth != AlignWidth.None || _alignment.AlignHeight != AlignHeight.None))
         {
-            switch (this._alignment._alignWidth)
+            switch (this._alignment.AlignWidth)
             {
                 case AlignWidth.Left:
-                    _winLeft = _ownerComponent._winWidth * this._alignment._leftOffsetPercent / 100 + this._alignment._leftOffset;
-                    if (_alignment._widthPercent > 0)
+                    _winLeft = _ownerComponent._winWidth * this._alignment.LeftOffsetPercent / 100 + this._alignment.LeftOffset;
+                    if (_alignment.WidthPercent > 0)
                     {
-                        _winWidth = _ownerComponent._winWidth * _alignment._widthPercent / 100;
+                        _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
                     }
 
                     break;
                 case AlignWidth.Right:
-                    if (this._alignment._widthPercent > 0)
+                    if (this._alignment.WidthPercent > 0)
                     {
-                        _winWidth = _ownerComponent._winWidth * this._alignment._widthPercent / 100;
+                        _winWidth = _ownerComponent._winWidth * this._alignment.WidthPercent / 100;
                     }
 
-                    _winLeft = _ownerComponent._winWidth - _alignment._rightOffset - _winWidth - _ownerComponent._winWidth * _alignment._rightOffsetPercent / 100;
+                    _winLeft = _ownerComponent._winWidth - _alignment.RightOffset - _winWidth - _ownerComponent._winWidth * _alignment.RightOffsetPercent / 100;
                     break;
                 case AlignWidth.Both:
-                    _winLeft = _ownerComponent._winWidth * this._alignment._leftOffsetPercent / 100 + this._alignment._leftOffset;
-                    _winWidth = _ownerComponent._winWidth - _winLeft - _alignment._rightOffset - _ownerComponent._winWidth * _alignment._rightOffsetPercent / 100;
+                    _winLeft = _ownerComponent._winWidth * this._alignment.LeftOffsetPercent / 100 + this._alignment.LeftOffset;
+                    _winWidth = _ownerComponent._winWidth - _winLeft - _alignment.RightOffset - _ownerComponent._winWidth * _alignment.RightOffsetPercent / 100;
                     break;
                 case AlignWidth.Center:
                     _winLeft = _ownerComponent._winWidth / 2 - _winWidth / 2;
                     break;
             }
 
-            switch (this._alignment._alignHeight)
+            switch (this._alignment.AlignHeight)
             {
                 case AlignHeight.Top:
-                    _winTop = _ownerComponent._winHeight * this._alignment._topOffsetPercent / 100 + this._alignment._topOffset;
-                    if (_alignment._heightPercent > 0)
+                    _winTop = _ownerComponent._winHeight * this._alignment.TopOffsetPercent / 100 + this._alignment.TopOffset;
+                    if (_alignment.HeightPercent > 0)
                     {
-                        _winHeight = _ownerComponent._winHeight * _alignment._heightPercent / 100;
+                        _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
                     }
 
                     break;
                 case AlignHeight.Bottom:
-                    if (this._alignment._heightPercent > 0)
+                    if (this._alignment.HeightPercent > 0)
                     {
-                        _winHeight = _ownerComponent._winHeight * this._alignment._heightPercent / 100;
+                        _winHeight = _ownerComponent._winHeight * this._alignment.HeightPercent / 100;
                     }
 
-                    _winTop = _ownerComponent._winHeight - _alignment._bottomOffset - _winHeight - _ownerComponent._winHeight * _alignment._bottomOffsetPercent / 100;
+                    _winTop = _ownerComponent._winHeight - _alignment.BottomOffset - _winHeight - _ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100;
                     break;
                 case AlignHeight.Both:
-                    _winTop = _ownerComponent._winHeight * this._alignment._topOffsetPercent / 100 + this._alignment._topOffset;
-                    _winHeight = _ownerComponent._winHeight - _winTop - _alignment._bottomOffset - _ownerComponent._winHeight * _alignment._bottomOffsetPercent / 100;
+                    _winTop = _ownerComponent._winHeight * this._alignment.TopOffsetPercent / 100 + this._alignment.TopOffset;
+                    _winHeight = _ownerComponent._winHeight - _winTop - _alignment.BottomOffset - _ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100;
                     break;
                 case AlignHeight.Center:
                     _winTop = _ownerComponent._winHeight / 2 - _winHeight / 2;
@@ -961,10 +977,25 @@ public partial class UIComponent : Rtl.Component
     }
 
     public int Priority { get => _priority; set => SetPriority(value); }
+
+    internal void SetPriorityWithoutReorder(int value) => _priority = value;
+
     public int WinLeft { get => _winLeft; set => SetWinLeft(value); }
+
+    protected internal void SetWinLeftWithoutInvalidate(int value) => _winLeft = value;
+
     public int WinTop { get => _winTop; set => SetWinTop(value); }
+
+    protected internal void SetWinTopWithoutInvalidate(int value) => _winTop = value;
+
     public int WinWidth { get => _winWidth; set => SetWidth(value); }
+
+    protected internal void SetWinWidthWithoutInvalidate(int value) => _winWidth = value;
+
     public int WinHeight { get => _winHeight; set => SetHeight(value); }
+
+    protected internal void SetWinHeightWithoutInvalidate(int value) => _winHeight = value;
+
     public int TextColor { get => Color; set => SetColor(value); }
     public int TextSelectedColor { get => SelectedColor; set => SetSelectedColor(value); }
     public UIComponent OwnerComponent { get => _ownerComponent; set => SetOwner(value); }
@@ -1000,6 +1031,8 @@ public partial class UIComponent : Rtl.Component
     [Published]
     [DefaultValue(true)]
     public bool Visible { get => _visible; set => SetVisible(value); }
+
+    protected internal void SetVisibleWithoutUpdate(bool value) => _visible = value;
 
     [Published]
     public AoWOnDebugEvent OnDebugMessage { get => _onDebugMessage; set => _onDebugMessage = value; }

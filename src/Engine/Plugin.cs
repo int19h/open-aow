@@ -12,9 +12,9 @@ namespace Aow.Engine;
 // the engines it is initialized for
 public partial class Plugin : IDisposable
 {
-    internal int _refCount;
-    internal List<GameEngine> _engines;
-    internal Int32List _counts;
+    private int _refCount;
+    private List<GameEngine> _engines;
+    private Int32List _counts;
 
     // Engine.pas:9144
     public Plugin()

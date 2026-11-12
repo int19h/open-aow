@@ -27,7 +27,8 @@ public partial class ChatWindow : DataModule
     public VerticalScrollBar NSBar;
     public VerticalScrollBar ChatSB;
     public IvTranslator Translator;
-    public bool ScrollPending;
+
+    public bool ScrollPending { get; set; }
 
     // AOWChatWin.pas:47
     public void MinClick()

@@ -16,7 +16,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     // GlobalTargetSpells.pas:2325
     public SmokeCloudSpell(ECustomNode owner) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(GameText.s_smokeCloudText);
+        this.SpellName = AbilityRules.TranslateResourceString(GameText.SmokeCloudText);
         SpellId = 74;
         BaseManaCost = 5;
         SpellLevel = 3;

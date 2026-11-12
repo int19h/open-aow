@@ -8,10 +8,10 @@ namespace Aow.Game.Draw.Images;
 
 public partial class FrameTableList : Persistent
 {
-    internal int[] _list;
+    private int[] _list;
     internal int _count;
-    internal int _capacity;
-    internal int _defaultValue;
+    private int _capacity;
+    private int _defaultValue;
 
     // ImageLib.pas:9434
     protected internal int Get(int index)

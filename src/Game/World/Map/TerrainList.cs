@@ -14,7 +14,7 @@ namespace Aow.Game.World.Map;
 public partial class TerrainList : IDisposable
 {
     internal int _count;
-    internal byte[] _list = [];
+    private byte[] _list = [];
 
     // HSEngine.pas:1411
     public virtual void Dispose()

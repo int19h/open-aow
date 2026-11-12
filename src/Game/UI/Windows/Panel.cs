@@ -15,15 +15,15 @@ namespace Aow.Game.UI.Windows;
 // position), _tabPanel, _window
 public partial class Panel : BaseWindow
 {
-    public int SavedLeft;
-    public int SavedTop;
-    public TabPanel _tabPanel;
-    public BaseWindow _window;
+    private int _savedLeft;
+    private int _savedTop;
+    private TabPanel _tabPanel;
+    private BaseWindow _window;
 
     // AoWPanel.pas:63
     public Panel(Component owner) : base(owner)
     {
-        _captureInput = true;
+        CaptureInput = true;
     }
 
     // AoWPanel.pas:69
@@ -43,9 +43,9 @@ public partial class Panel : BaseWindow
     //   MinHeight; the panel uses the window's window manager }
     public override void SetSize()
     {
-        if (!_visible && _tabPanel != null && _tabPanel._selected == _ownerItem)
+        if (!Visible && _tabPanel != null && _tabPanel.Selected == _ownerItem)
         {
-            _visible = true;
+            SetVisibleWithoutUpdate(true);
         }
 
         switch (WindowStyle)
@@ -54,92 +54,92 @@ public partial class Panel : BaseWindow
             case Style.Hollow:
                 var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > _winWidth)
+                if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                    _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
+                    SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > _winHeight)
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
+                    SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
-                if (_window._winWidth < _winLeft + _winWidth)
+                if (_window.WinWidth < WinLeft + WinWidth)
                 {
-                    _winLeft = _window._winWidth - _winWidth;
+                    SetWinLeftWithoutInvalidate(_window.WinWidth - WinWidth);
                 }
 
-                if (_winLeft < 0)
+                if (WinLeft < 0)
                 {
-                    _winLeft = 0;
-                    if (_window._winWidth < _winLeft + _winWidth)
+                    SetWinLeftWithoutInvalidate(0);
+                    if (_window.WinWidth < WinLeft + WinWidth)
                     {
-                        _winWidth = _window._winWidth - _winLeft;
+                        SetWinWidthWithoutInvalidate(_window.WinWidth - WinLeft);
                     }
                 }
 
-                if (_window._winHeight < _winTop + _winHeight)
+                if (_window.WinHeight < WinTop + WinHeight)
                 {
-                    _winTop = _window._winHeight - _winHeight;
+                    SetWinTopWithoutInvalidate(_window.WinHeight - WinHeight);
                 }
 
-                if (_winTop < 0)
+                if (WinTop < 0)
                 {
-                    _winTop = 0;
-                    if (_window._winHeight < _winTop + _winHeight)
+                    SetWinTopWithoutInvalidate(0);
+                    if (_window.WinHeight < WinTop + WinHeight)
                     {
-                        _winHeight = _window._winHeight - _winTop;
+                        SetWinHeightWithoutInvalidate(_window.WinHeight - WinTop);
                     }
                 }
 
                 break;
             case Style.Borderless:
             case Style.Blank:
-                if (_window._winWidth < _winLeft + _winWidth)
+                if (_window.WinWidth < WinLeft + WinWidth)
                 {
-                    _winLeft = _window._winWidth - _winWidth;
+                    SetWinLeftWithoutInvalidate(_window.WinWidth - WinWidth);
                 }
 
-                if (_winLeft < 0)
+                if (WinLeft < 0)
                 {
-                    _winLeft = 0;
-                    if (_window._winWidth < _winLeft + _winWidth)
+                    SetWinLeftWithoutInvalidate(0);
+                    if (_window.WinWidth < WinLeft + WinWidth)
                     {
-                        _winWidth = _window._winWidth - _winLeft;
+                        SetWinWidthWithoutInvalidate(_window.WinWidth - WinLeft);
                     }
                 }
 
-                if (_window._winHeight < _winTop + _winHeight)
+                if (_window.WinHeight < WinTop + WinHeight)
                 {
-                    _winTop = _window._winHeight - _winHeight;
+                    SetWinTopWithoutInvalidate(_window.WinHeight - WinHeight);
                 }
 
-                if (_winTop < 0)
+                if (WinTop < 0)
                 {
-                    _winTop = 0;
-                    if (_window._winHeight < _winTop + _winHeight)
+                    SetWinTopWithoutInvalidate(0);
+                    if (_window.WinHeight < WinTop + WinHeight)
                     {
-                        _winHeight = _window._winHeight - _winTop;
+                        SetWinHeightWithoutInvalidate(_window.WinHeight - WinTop);
                     }
                 }
 
                 break;
         }
 
-        if (_minWidth > 0 && _minWidth > _winWidth)
+        if (_minWidth > 0 && _minWidth > WinWidth)
         {
-            _winWidth = _minWidth;
+            SetWinWidthWithoutInvalidate(_minWidth);
         }
 
-        if (_minHeight > 0 && _minHeight > _winHeight)
+        if (_minHeight > 0 && _minHeight > WinHeight)
         {
-            _winHeight = _minHeight;
+            SetWinHeightWithoutInvalidate(_minHeight);
         }
 
         if (_window._windowManager != null)
@@ -150,7 +150,7 @@ public partial class Panel : BaseWindow
         SurfaceValid = false;
         if (WindowStyle == Style.Blank)
         {
-            _masked = true;
+            Masked = true;
         }
 
         base.SetSize();
@@ -185,12 +185,12 @@ public partial class Panel : BaseWindow
                     SetSize();
                 }
 
-                SavedLeft = _winLeft;
-                SavedTop = _winTop;
+                _savedLeft = WinLeft;
+                _savedTop = WinTop;
                 if (_window is Panel)
                 {
-                    _winLeft += _window._winLeft;
-                    _winTop += _window._winTop;
+                    SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                    SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 }
 
                 for (int I = 0, last = Children.Count - 1; I <= last; I++)
@@ -198,8 +198,8 @@ public partial class Panel : BaseWindow
                     ((UIComponent)Children[I]).Setup();
                 }
 
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
                 BlitCount = 0;
                 DrawCount = 0;
             }
@@ -216,14 +216,14 @@ public partial class Panel : BaseWindow
     public override void Update()
     {
         Rect R = default;
-        if (_visible)
+        if (Visible)
         {
-            SavedLeft = _winLeft;
-            SavedTop = _winTop;
+            _savedLeft = WinLeft;
+            _savedTop = WinTop;
             if (_window is Panel)
             {
-                _winLeft += _window._winLeft;
-                _winTop += _window._winTop;
+                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
             }
 
             if (_onUpdate != null)
@@ -236,48 +236,48 @@ public partial class Panel : BaseWindow
                 ((UIComponent)Children[I]).Update();
             }
 
-            _winLeft = SavedLeft;
-            _winTop = SavedTop;
-            if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != _winLeft || OldRectangle.Top != _winTop || OldRectangle.Right != _winWidth || OldRectangle.Bottom != _winHeight))
+            SetWinLeftWithoutInvalidate(_savedLeft);
+            SetWinTopWithoutInvalidate(_savedTop);
+            if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Right != WinWidth || OldRectangle.Bottom != WinHeight))
             {
-                if (_ownerComponent._ownerComponent._ownerComponent == null)
+                if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                 {
                     R = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
                 }
                 else
                 {
-                    R = new Rect(_ownerComponent._winLeft + OldRectangle.Left, _ownerComponent._winTop + OldRectangle.Top, _ownerComponent._winLeft + OldRectangle.Left + OldRectangle.Right - 1, _ownerComponent._winTop + OldRectangle.Top + OldRectangle.Bottom - 1);
+                    R = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
                 }
 
-                if (_masked)
+                if (Masked)
                 {
-                    _ownerComponent.AddDrawRectangle(ref R, this);
+                    OwnerComponent.AddDrawRectangle(ref R, this);
                 }
                 else
                 {
-                    _ownerComponent.AddBlitRectangle(ref R, this);
+                    OwnerComponent.AddBlitRectangle(ref R, this);
                 }
             }
 
-            OldRectangle.Left = _winLeft;
-            OldRectangle.Top = _winTop;
-            OldRectangle.Right = _winWidth;
-            OldRectangle.Bottom = _winHeight;
+            OldRectangle.Left = WinLeft;
+            OldRectangle.Top = WinTop;
+            OldRectangle.Right = WinWidth;
+            OldRectangle.Bottom = WinHeight;
         }
         else
         {
             if (Hidden)
             {
-                if (_ownerComponent._ownerComponent._ownerComponent == null)
+                if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                 {
-                    R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
+                    R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                 }
                 else
                 {
-                    R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
+                    R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                 }
 
-                _ownerComponent.AddDrawRectangle(ref R, this);
+                OwnerComponent.AddDrawRectangle(ref R, this);
                 Hidden = false;
             }
         }
@@ -296,21 +296,21 @@ public partial class Panel : BaseWindow
         int oldTop;
         UIComponent C;
         Rect R = default;
-        if (Valid && _visible && WindowStyle != Style.Blank)
+        if (Valid && Visible && WindowStyle != Style.Blank)
         {
             AddDrawRectangle(ref rectangle, sender);
         }
 
-        oldLeft = _winLeft;
-        oldTop = _winTop;
-        _winLeft += _ownerComponent._winLeft;
-        _winTop += _ownerComponent._winTop;
+        oldLeft = WinLeft;
+        oldTop = WinTop;
+        SetWinLeftWithoutInvalidate(WinLeft + (OwnerComponent.WinLeft));
+        SetWinTopWithoutInvalidate(WinTop + (OwnerComponent.WinTop));
         for (int I = index, last = Children.Count - 1; I <= last; I++)
         {
             C = (UIComponent)Children[I];
-            if (C._visible)
+            if (C.Visible)
             {
-                if (((_winLeft + C._winLeft >= rectangle.Left && _winLeft + C._winLeft <= rectangle.Right) || (_winLeft + C._winLeft <= rectangle.Left && rectangle.Left <= _winLeft + C._winLeft + C._winWidth)) && ((_winTop + C._winTop >= rectangle.Top && _winTop + C._winTop <= rectangle.Bottom) || (_winTop + C._winTop <= rectangle.Top && rectangle.Top <= _winTop + C._winTop + C._winHeight)) && C != sender)
+                if (((WinLeft + C.WinLeft >= rectangle.Left && WinLeft + C.WinLeft <= rectangle.Right) || (WinLeft + C.WinLeft <= rectangle.Left && rectangle.Left <= WinLeft + C.WinLeft + C.WinWidth)) && ((WinTop + C.WinTop >= rectangle.Top && WinTop + C.WinTop <= rectangle.Bottom) || (WinTop + C.WinTop <= rectangle.Top && rectangle.Top <= WinTop + C.WinTop + C.WinHeight)) && C != sender)
                 {
                     if (C is BaseWindow)
                     {
@@ -321,9 +321,9 @@ public partial class Panel : BaseWindow
                         if (C.Drawn)
                         {
                             C.Drawn = false;
-                            if (C._masked)
+                            if (C.Masked)
                             {
-                                R = new Rect(_winLeft + C._winLeft, _winTop + C._winTop, _winLeft + C._winLeft + C._winWidth, _winTop + C._winTop + C._winHeight);
+                                R = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth, WinTop + C.WinTop + C.WinHeight);
                                 AddDrawRectangle(ref R, this);
                             }
                         }
@@ -332,28 +332,28 @@ public partial class Panel : BaseWindow
             }
         }
 
-        if (_ownerComponent != sender)
+        if (OwnerComponent != sender)
         {
-            var indexOf = _ownerComponent.Children.IndexOf(this);
-            _ownerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
+            var indexOf = OwnerComponent.Children.IndexOf(this);
+            OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
         }
 
-        _winLeft = oldLeft;
-        _winTop = oldTop;
+        SetWinLeftWithoutInvalidate(oldLeft);
+        SetWinTopWithoutInvalidate(oldTop);
     }
 
     // AoWPanel.pas:82
     public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender)
     {
-        _ownerComponent.AddBlitRectangle(ref rectangle, this);
+        OwnerComponent.AddBlitRectangle(ref rectangle, this);
     }
 
     // AoWPanel.pas:87
     public override void AddDrawRectangle(ref Rect rectangle, UIComponent sender)
     {
-        if (_masked)
+        if (Masked)
         {
-            _ownerComponent.AddDrawRectangle(ref rectangle, this);
+            OwnerComponent.AddDrawRectangle(ref rectangle, this);
         }
 
         if (WindowStyle != Style.Blank)
@@ -366,7 +366,7 @@ public partial class Panel : BaseWindow
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
-        _window = (BaseWindow)_ownerComponent;
+        _window = (BaseWindow)OwnerComponent;
     }
 
     // AoWPanel.pas:191
@@ -374,10 +374,10 @@ public partial class Panel : BaseWindow
     //   set instead of cleared) }
     public override void SetVisible(bool value)
     {
-        if (value != _visible)
+        if (value != Visible)
         {
-            _visible = value;
-            if (!_visible)
+            SetVisibleWithoutUpdate(value);
+            if (!Visible)
             {
                 Hidden = true;
                 if (_onHide != null)
@@ -390,10 +390,10 @@ public partial class Panel : BaseWindow
                 Drawn = false;
                 if (!Hidden)
                 {
-                    BackRectangle.Right = _winWidth;
-                    BackRectangle.Bottom = _winHeight;
-                    BackRectangle.Top = _winTop;
-                    BackRectangle.Left = _winLeft;
+                    BackRectangle.Right = WinWidth;
+                    BackRectangle.Bottom = WinHeight;
+                    BackRectangle.Top = WinTop;
+                    BackRectangle.Left = WinLeft;
                     Hidden = true;
                 }
 
@@ -404,7 +404,7 @@ public partial class Panel : BaseWindow
             }
         }
 
-        if (_visible)
+        if (Visible)
         {
             if (!Valid || !Aligned || !Sized)
             {
@@ -414,7 +414,7 @@ public partial class Panel : BaseWindow
             ClearBlitList();
             ClearDrawList();
             Drawn = false;
-            SetPriority(_priority);
+            SetPriority(Priority);
         }
     }
 
@@ -435,7 +435,7 @@ public partial class Panel : BaseWindow
                 switch (WindowStyle)
                 {
                     case Style.Normal:
-                        var rectangle = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -443,50 +443,50 @@ public partial class Panel : BaseWindow
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new Rect(_winLeft + imageLibraryFrame4.Width, _winTop + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        var rectangle2 = new Rect(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        var rectangle3 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        var rectangle3 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        var rectangle4 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        var rectangle4 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }
 
                 blitRectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface.ClipRectangle.Right, lockedSurface.ClipRectangle.Bottom);
-                _ownerComponent.AddBlitRectangle(ref blitRectangle, this);
+                OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
             }
         }
 
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
-                SavedLeft = _winLeft;
-                SavedTop = _winTop;
-                _winLeft += _window._winLeft;
-                _winTop += _window._winTop;
-                if (_winLeft < lockedSurface.ClipRectangle.Right && _winLeft > lockedSurface.ClipRectangle.Left)
+                _savedLeft = WinLeft;
+                _savedTop = WinTop;
+                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                if (WinLeft < lockedSurface.ClipRectangle.Right && WinLeft > lockedSurface.ClipRectangle.Left)
                 {
-                    lockedSurface.ClipRectangle.Left = _winLeft;
+                    lockedSurface.ClipRectangle.Left = WinLeft;
                 }
 
-                if (_winTop < lockedSurface.ClipRectangle.Bottom && _winTop > lockedSurface.ClipRectangle.Top)
+                if (WinTop < lockedSurface.ClipRectangle.Bottom && WinTop > lockedSurface.ClipRectangle.Top)
                 {
-                    lockedSurface.ClipRectangle.Top = _winTop;
+                    lockedSurface.ClipRectangle.Top = WinTop;
                 }
 
-                if (_winLeft + _winWidth > lockedSurface.ClipRectangle.Left && _winLeft + _winWidth < lockedSurface.ClipRectangle.Right)
+                if (WinLeft + WinWidth > lockedSurface.ClipRectangle.Left && WinLeft + WinWidth < lockedSurface.ClipRectangle.Right)
                 {
-                    lockedSurface.ClipRectangle.Right = _winLeft + _winWidth;
+                    lockedSurface.ClipRectangle.Right = WinLeft + WinWidth;
                 }
 
-                if (_winTop + _winHeight > lockedSurface.ClipRectangle.Top && _winTop + _winHeight < lockedSurface.ClipRectangle.Bottom)
+                if (WinTop + WinHeight > lockedSurface.ClipRectangle.Top && WinTop + WinHeight < lockedSurface.ClipRectangle.Bottom)
                 {
-                    lockedSurface.ClipRectangle.Bottom = _winTop + _winHeight;
+                    lockedSurface.ClipRectangle.Bottom = WinTop + WinHeight;
                 }
 
                 if (SurfaceValid)
@@ -499,11 +499,11 @@ public partial class Panel : BaseWindow
                         lockedSurface.ClipRectangle = rectangle;
                         DrawBack();
                         lockedSurface.ClipRectangle = oldClip;
-                        _winLeft = SavedLeft;
-                        _winTop = SavedTop;
+                        SetWinLeftWithoutInvalidate(_savedLeft);
+                        SetWinTopWithoutInvalidate(_savedTop);
                         InvalidateRectangle(0, ref D.Rectangle, D.Owner);
-                        _winLeft += _window._winLeft;
-                        _winTop += _window._winTop;
+                        SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                        SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                     }
                 }
                 else
@@ -520,7 +520,7 @@ public partial class Panel : BaseWindow
                 for (int I = 0, lastI = Children.Count - 1; I <= lastI; I++)
                 {
                     C = (UIComponent)Children[I];
-                    if (C.Valid && C._visible && (!Drawn || !C.Drawn))
+                    if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
                     {
                         C.Drawn = false;
                         if (!Drawn && C is BaseWindow)
@@ -540,14 +540,14 @@ public partial class Panel : BaseWindow
                         DrawCount = 0;
                         if (!Drawn || !C.FirstDraw)
                         {
-                            blitRectangle = new Rect(_winLeft + C._winLeft, _winTop + C._winTop, _winLeft + C._winLeft + C._winWidth, _winTop + C._winTop + C._winHeight);
-                            _ownerComponent.AddBlitRectangle(ref blitRectangle, this);
-                            _winLeft = SavedLeft;
-                            _winTop = SavedTop;
-                            blitRectangle = new Rect(_window._winLeft + _winLeft + C._winLeft, _window._winTop + _winTop + C._winTop, _window._winLeft + _winLeft + C._winLeft + C._winWidth - 1, _window._winTop + _winTop + C._winTop + C._winHeight - 1);
+                            blitRectangle = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth, WinTop + C.WinTop + C.WinHeight);
+                            OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
+                            SetWinLeftWithoutInvalidate(_savedLeft);
+                            SetWinTopWithoutInvalidate(_savedTop);
+                            blitRectangle = new Rect(_window.WinLeft + WinLeft + C.WinLeft, _window.WinTop + WinTop + C.WinTop, _window.WinLeft + WinLeft + C.WinLeft + C.WinWidth - 1, _window.WinTop + WinTop + C.WinTop + C.WinHeight - 1);
                             InvalidateRectangle(I + 1, ref blitRectangle, C);
-                            _winLeft += _window._winLeft;
-                            _winTop += _window._winTop;
+                            SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                            SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                         }
                     }
                 }
@@ -559,8 +559,8 @@ public partial class Panel : BaseWindow
 
                 Drawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
                 SurfaceValid = true;
             }
         }
@@ -577,14 +577,14 @@ public partial class Panel : BaseWindow
     {
         UIComponent C = default;
         Handled = false;
-        if (_visible == true)
+        if (Visible == true)
         {
-            SavedLeft = _winLeft;
-            SavedTop = _winTop;
+            _savedLeft = WinLeft;
+            _savedTop = WinTop;
             if (_window != null)
             {
-                _winLeft += _window._winLeft;
-                _winTop += _window._winTop;
+                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 Handled = _window.Handled;
             }
 
@@ -592,7 +592,7 @@ public partial class Panel : BaseWindow
             {
                 C = (UIComponent)Children[I];
                 C.Handled = false;
-                if ((!Handled || C.Redraw) && C._visible == true && C._captureInput)
+                if ((!Handled || C.Redraw) && C.Visible == true && C.CaptureInput)
                 {
                     C.CheckMouseDown(button, shift, X, Y);
                 }
@@ -608,12 +608,12 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
                 Redraw = true;
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
                 if (_onMouseDown != null)
                 {
                     _onMouseDown(this, button, shift, X, Y);
@@ -621,8 +621,8 @@ public partial class Panel : BaseWindow
             }
             else
             {
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
             }
         }
     }
@@ -632,14 +632,14 @@ public partial class Panel : BaseWindow
     {
         UIComponent C = default;
         Handled = false;
-        if (_visible == true)
+        if (Visible == true)
         {
-            SavedLeft = _winLeft;
-            SavedTop = _winTop;
+            _savedLeft = WinLeft;
+            _savedTop = WinTop;
             if (_window != null)
             {
-                _winLeft += _window._winLeft;
-                _winTop += _window._winTop;
+                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 Handled = _window.Handled;
             }
 
@@ -647,7 +647,7 @@ public partial class Panel : BaseWindow
             {
                 C = (UIComponent)Children[I];
                 C.Handled = false;
-                if ((!Handled || C.Redraw == true) && C._visible == true && C._captureInput)
+                if ((!Handled || C.Redraw == true) && C.Visible == true && C.CaptureInput)
                 {
                     C.CheckMouseUp(button, shift, X, Y);
                 }
@@ -658,11 +658,11 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
                 if (_onMouseUp != null)
                 {
                     _onMouseUp(this, button, shift, X, Y);
@@ -670,8 +670,8 @@ public partial class Panel : BaseWindow
             }
             else
             {
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
             }
         }
     }
@@ -681,14 +681,14 @@ public partial class Panel : BaseWindow
     {
         UIComponent C = default;
         Handled = false;
-        if (_visible == true)
+        if (Visible == true)
         {
-            SavedLeft = _winLeft;
-            SavedTop = _winTop;
+            _savedLeft = WinLeft;
+            _savedTop = WinTop;
             if (_window != null)
             {
-                _winLeft += _window._winLeft;
-                _winTop += _window._winTop;
+                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
+                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 Handled = _window.Handled;
             }
 
@@ -696,7 +696,7 @@ public partial class Panel : BaseWindow
             {
                 C = (UIComponent)Children[I];
                 C.Handled = false;
-                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C._visible == true && C._captureInput)
+                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.Visible == true && C.CaptureInput)
                 {
                     C.CheckMouseMove(shift, X, Y);
                 }
@@ -707,11 +707,11 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
                 if (_onMouseMove != null)
                 {
                     _onMouseMove(this, shift, X, Y);
@@ -719,8 +719,8 @@ public partial class Panel : BaseWindow
             }
             else
             {
-                _winLeft = SavedLeft;
-                _winTop = SavedTop;
+                SetWinLeftWithoutInvalidate(_savedLeft);
+                SetWinTopWithoutInvalidate(_savedTop);
             }
         }
     }
@@ -765,7 +765,7 @@ public partial class Panel : BaseWindow
                 while (I < _tabPanel.Panels.Count)
                 {
                     P = _tabPanel.Panels[I];
-                    if (P._priority > _priority)
+                    if (P.Priority > Priority)
                     {
                         newIndex = I;
                         I = _tabPanel.Panels.Count;

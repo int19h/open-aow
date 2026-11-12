@@ -29,7 +29,8 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     // UnHolyG.pas:93
     public new const int ClassId = 131985;
 
-    public Set<UnholySummoning> Mode;
+    public Set<UnholySummoning> Mode { get; set; }
+
     public sbyte Player;
     public sbyte Duration;
     public sbyte OriginalOverlay;
@@ -176,7 +177,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
             if (condition)
             {
                 var alignment = troop.GetAlignment();
-                condition = AlignmentTables.s_pureGoodAlignments.Contains(alignment);
+                condition = AlignmentTables.PureGoodAlignments.Contains(alignment);
             }
 
             if (condition && !troop.GetAbilityEnabled(1))
@@ -278,7 +279,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
             if (condition)
             {
                 var alignment = troop.GetAlignment();
-                condition = AlignmentTables.s_pureGoodAlignments.Contains(alignment);
+                condition = AlignmentTables.PureGoodAlignments.Contains(alignment);
             }
 
             result = condition && !troop.GetAbilityEnabled(1);

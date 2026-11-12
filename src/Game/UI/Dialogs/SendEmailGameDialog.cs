@@ -39,8 +39,8 @@ public partial class SendEmailGameDialog : DataModule
     public Panel EditPnl;
     public Button Close;
     public IvTranslator Translator;
-    public ExecuteDoneEvent Done;
-    public SendEmailGameEventLog SendEvent;
+    private ExecuteDoneEvent _done;
+    private SendEmailGameEventLog _sendEvent;
 
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
@@ -48,10 +48,10 @@ public partial class SendEmailGameDialog : DataModule
         ExecuteDoneEvent done;
         EventLog eventValue;
         Dlg.Visible = false;
-        done = Done;
-        eventValue = SendEvent;
-        Done = null;
-        SendEvent = null;
+        done = _done;
+        eventValue = _sendEvent;
+        _done = null;
+        _sendEvent = null;
         if (done != null)
         {
             done(eventValue);
@@ -66,14 +66,14 @@ public partial class SendEmailGameDialog : DataModule
     // AoWSendEmailGameDlg.pas:77
     public void ShowSendDialog(SendEmailGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        Done = done;
-        SendEvent = eventValue;
-        SendEvent.AddRef();
-        var sendEmailGameEventLog = SendEvent;
-        var player = AoWHSMap.Current.Players.GetPlayers(SendEvent.SendPlayer);
+        _done = done;
+        _sendEvent = eventValue;
+        _sendEvent.AddRef();
+        var sendEmailGameEventLog = _sendEvent;
+        var player = AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        var nameEx = AoWHSMap.Current.Players.GetPlayers(SendEvent.SendPlayer).GetNameWithRace();
+        var nameEx = AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
         RecipientNameLbl.Text = format;
         if (sendEmailGameEventLog.Mode == 2)
@@ -103,12 +103,12 @@ public partial class SendEmailGameDialog : DataModule
     {
         if (AutomatedChk.Checked)
         {
-            SendEvent.Mode = 0;
+            _sendEvent.Mode = 0;
         }
 
         if (ManualChk.Checked)
         {
-            SendEvent.Mode = 1;
+            _sendEvent.Mode = 1;
         }
 
         Dlg.Visible = false;
@@ -117,14 +117,14 @@ public partial class SendEmailGameDialog : DataModule
     // AoWSendEmailGameDlg.pas:114
     public void ExitBtnClick()
     {
-        SendEvent.Mode = 2;
+        _sendEvent.Mode = 2;
         Dlg.Visible = false;
     }
 
     // AoWSendEmailGameDlg.pas:120
     public void EmailAddressEditChange()
     {
-        AoWHSMap.Current.Players.GetPlayers(SendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
+        AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
     }
 
     // AoWSendEmailGameDlg.pas:125

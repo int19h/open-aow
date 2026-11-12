@@ -8,5 +8,5 @@ public partial class UserEventLog : EventLog
     public UserEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public object Data;
+    public object Data { get; set; }
 }

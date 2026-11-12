@@ -43,35 +43,44 @@ public partial class PlayerMagicControl : EngineObject
         Enchantments = new EnchantmentList(null);
         PowerSources = new PowerSourceList(null);
         source = new ExternalPowerSource(null);
-        ExternalPowerSource = source;
+        _externalPowerSource = source;
         source.ExternalPowerControl = this;
         PowerSources.AddChild(source);
         ResearchPointsLeft = 0;
         ResearchSpellId = 0;
         ResearchPercentage = 50;
         Spheres = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.Secret);
-        NextEnchantmentId = 1;
+        _nextEnchantmentId = 1;
     }
 
-    public int NextEnchantmentId;
+    private int _nextEnchantmentId;
     public bool CheatEnabled;
-    public Player Player;
-    public int UpdateCount;
+
+    public Player Player { get; set; }
+
+    private int _updateCount;
     public int ExternalMana;
     public int ExternalPower;
-    public ExternalPowerSource ExternalPowerSource;
+    private ExternalPowerSource _externalPowerSource;
     public int Mana;
-    public Set<MagicSphere> Spheres;
+
+    public Set<MagicSphere> Spheres { get; private set; }
+
     public int ResearchPercentage;
-    public Int32List Spells;
+
+    public Int32List Spells { get; }
+
     public int ResearchSpellId;
     public int ResearchPointsLeft;
-    public EnchantmentList Enchantments;
-    public PowerSourceList PowerSources;
-    public Set<PlayerEnchantmentType> ActiveEnchantments;
-    public Set<PlayerEnchantmentType> EnemyEnchantments;
 
-    internal EventStore<PlayerMagicControl> _changedEventsStore;
+    public EnchantmentList Enchantments { get; init; }
+    public PowerSourceList PowerSources { get; }
+
+    public Set<PlayerEnchantmentType> ActiveEnchantments;
+
+    public Set<PlayerEnchantmentType> EnemyEnchantments { get; private set; }
+
+    private EventStore<PlayerMagicControl> _changedEventsStore;
 
     public event NotifyEvent<PlayerMagicControl> FChangedEvents
     {
@@ -87,7 +96,7 @@ public partial class PlayerMagicControl : EngineObject
             Spells?.Dispose();
             Enchantments?.Dispose();
             _changedEventsStore.Clear();
-            PowerSources.RemoveChild(ExternalPowerSource);
+            PowerSources.RemoveChild(_externalPowerSource);
             if (PowerSources.GetCount() != 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 try
@@ -101,7 +110,7 @@ public partial class PlayerMagicControl : EngineObject
 
             // { Original bug: the diagnostic exception is swallowed. }
             PowerSources?.Dispose();
-            ExternalPowerSource?.Dispose();
+            _externalPowerSource?.Dispose();
             base.Dispose();
         }
         catch
@@ -124,7 +133,7 @@ public partial class PlayerMagicControl : EngineObject
         stream.rwInteger(ref ExternalMana, 27);
         stream.rwInteger(ref ExternalPower, 28);
         stream.rwBool(ref CheatEnabled, 29);
-        stream.rwInteger(ref NextEnchantmentId, 30);
+        stream.rwInteger(ref _nextEnchantmentId, 30);
     }
 
     // Spells.PAS:2243
@@ -585,14 +594,14 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2231
     public void BeginUpdate()
     {
-        UpdateCount += 1;
+        _updateCount += 1;
     }
 
     // Spells.PAS:2233
     public void EndUpdate()
     {
-        UpdateCount -= 1;
-        if (UpdateCount == 0)
+        _updateCount -= 1;
+        if (_updateCount == 0)
         {
             Update();
         }
@@ -601,7 +610,7 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2235
     public void Update()
     {
-        if (UpdateCount == 0)
+        if (_updateCount == 0)
         {
             UpdateEnemyEnchantments();
             _changedEventsStore.Raise(this);
@@ -629,25 +638,25 @@ public partial class PlayerMagicControl : EngineObject
 
         if (enchantment.EnchantmentId == 0)
         {
-            if (NextEnchantmentId == 0)
+            if (_nextEnchantmentId == 0)
             {
-                NextEnchantmentId = 1;
+                _nextEnchantmentId = 1;
             }
 
-            id = (Player.PlayerIndex << 24) + NextEnchantmentId;
-            NextEnchantmentId += 1;
-            if (NextEnchantmentId > 1048575)
+            id = (Player.PlayerIndex << 24) + _nextEnchantmentId;
+            _nextEnchantmentId += 1;
+            if (_nextEnchantmentId > 1048575)
             {
-                NextEnchantmentId = 1;
+                _nextEnchantmentId = 1;
             }
 
             while (Enchantments.IndexOfId(id) != -1)
             {
-                id = (Player.PlayerIndex << 24) + NextEnchantmentId;
-                NextEnchantmentId += 1;
-                if (NextEnchantmentId > 1048575)
+                id = (Player.PlayerIndex << 24) + _nextEnchantmentId;
+                _nextEnchantmentId += 1;
+                if (_nextEnchantmentId > 1048575)
                 {
-                    NextEnchantmentId = 1;
+                    _nextEnchantmentId = 1;
                 }
             }
 
@@ -880,10 +889,10 @@ public partial class PlayerMagicControl : EngineObject
     // column C for a player enchantment or D for a global one. An entry holds the enchantment itself.
     private struct UpkeepCandidate
     {
-        public int Order;
-        public int Upkeep;
-        public Enchantment Enchantment;
-        public GlobalEnchantment GlobalEnchantment;
+        public int Order { get; init; }
+        public int Upkeep { get; init; }
+        public Enchantment Enchantment { get; init; }
+        public GlobalEnchantment GlobalEnchantment { get; init; }
     }
 
     public int AIOverrideUpkeep(int priority, int amount)

@@ -16,10 +16,10 @@ public sealed class EventLogConstructionTests
 {
     private sealed class EventListOwner : EventLogList
     {
-        internal EventLog? Last;
-        internal int Changes;
-        internal int DestroyEntries;
-        internal readonly List<string> Observations = [];
+        internal EventLog? Last { get; private set; }
+        internal int Changes { get; private set; }
+        internal int DestroyEntries { get; private set; }
+        internal List<string> Observations { get; } = [];
 
         internal EventListOwner() : base(null!)
         {
@@ -125,7 +125,7 @@ public sealed class EventLogConstructionTests
                         Assert.NotNull(value);
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.RefCount }));
                         GameTables.GameEngine.Dictionary = fixture.Dictionary;
-                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();
                         owner?.Dispose();

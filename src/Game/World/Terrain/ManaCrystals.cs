@@ -22,22 +22,22 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 {
     public ManaCrystals(ECustomNode owner) : base(owner)
     {
-        Size = 2;
-        Amount = 0;
+        _size = 2;
+        _amount = 0;
     }
 
     // ManaCrystals.pas:80
     public new const int ClassId = 132030;
 
-    public int Amount;
-    public byte Size;
+    private int _amount;
+    private byte _size;
 
     // ManaCrystals.pas:83
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Amount, 5);
-        stream.rwData(Bytes.Of(ref Size, 1), 1, 6);
+        stream.rwInteger(ref _amount, 5);
+        stream.rwData(Bytes.Of(ref _size, 1), 1, 6);
     }
 
     // ManaCrystals.pas:73
@@ -93,21 +93,21 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     // ManaCrystals.pas:90
     public void GenerateManaCrystalsAmount()
     {
-        if (Size == 4)
+        if (_size == 4)
         {
-            Size = (byte)(AoWHSMap.Current.Random(3) + 1);
+            _size = (byte)(AoWHSMap.Current.Random(3) + 1);
         }
 
-        switch (Size)
+        switch (_size)
         {
             case 1:
-                Amount = AoWHSMap.Current.Random(25) + 25;
+                _amount = AoWHSMap.Current.Random(25) + 25;
                 break;
             case 2:
-                Amount = AoWHSMap.Current.Random(25) + 50;
+                _amount = AoWHSMap.Current.Random(25) + 50;
                 break;
             case 3:
-                Amount = AoWHSMap.Current.Random(50) + 100;
+                _amount = AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
@@ -121,7 +121,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             case 0:
                 if (info.Player != 0)
                 {
-                    P = Amount / 5 + 15;
+                    P = _amount / 5 + 15;
                     if (priority < P)
                     {
                         priority = P;
@@ -156,11 +156,11 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         }
 
         var player = AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
-        player.MagicControl.SetMana(player.MagicControl.Mana + Amount);
+        player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
         log = new LocationTextEventLog(null);
         log._player = (sbyte)(byte)armyHexSprite.Army.Player;
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_manaCrystalsFoundFormat), [IntToStr(Amount)]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
         var hexLevel2 = GetHexLevel();
         var hexY2 = GetHexY();
         log.SetLocation(GetHexX(), hexY2, hexLevel2);

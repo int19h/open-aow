@@ -19,7 +19,7 @@ public partial class ProductionPlaceControl : ProductionControl
     public ProductionPlaceControl(ECustomNode owner) : base(owner)
     { }
 
-    public ProductionPlace ProductionPlace;
+    public ProductionPlace ProductionPlace { get; set; }
 
     // PrdPlace.pas:169
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
@@ -53,7 +53,7 @@ public partial class ProductionPlaceControl : ProductionControl
         log._player = productionPlace.Player;
         var name = Settings.Unit.GetName();
         var fProductionPlaceName = ProductionPlace.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producedFormat), [name, fProductionPlaceName]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducedFormat), [name, fProductionPlaceName]);
         var productionPlaceHexY = productionPlace.HexY;
         log.SetLocation(productionPlace.HexX, productionPlaceHexY, productionPlace.HexLevel);
         AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
@@ -73,7 +73,7 @@ public partial class ProductionPlaceControl : ProductionControl
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = ProductionPlace.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_installedFormat), [unitName, name]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.InstalledFormat), [unitName, name]);
         var hexY = productionPlace.HexY;
         log.SetLocation(productionPlace.HexX, hexY, productionPlace.HexLevel);
         AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);

@@ -19,9 +19,9 @@ public partial class PrisonersJoinEventLog : JoinEventLog
     public PrisonersJoinEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
+    public sbyte X { get; set; }
+    public sbyte Y { get; set; }
+    public sbyte MapLevel { get; set; }
 
     // Dungeon.pas:292
     public override bool Accept(ref string errorText)

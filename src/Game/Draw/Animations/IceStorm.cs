@@ -75,6 +75,6 @@ public partial class IceStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:368
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_iceStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.IceStormText);
 
 }

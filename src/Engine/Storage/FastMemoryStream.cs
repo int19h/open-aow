@@ -11,10 +11,10 @@ namespace Aow.Engine.Storage;
 // _memory, _size, _position, _capacity
 public partial class FastMemoryStream : Stream
 {
-    internal byte[] _memory = [];
-    internal int _size;
-    internal int _position;
-    internal int _capacity;
+    private byte[] _memory = [];
+    private int _size;
+    private int _position;
+    private int _capacity;
 
     public override bool CanRead => true;
 

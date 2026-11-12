@@ -20,13 +20,13 @@ public partial class NewHexSpriteMapSettings
         MapLevelClassId = 65794;
     }
 
-    public int Width;
-    public int Height;
-    public int Levels;
-    public string HssFileName = "";
-    public int HexSpriteMapClassId;
-    public int MapContainerClassId;
-    public int MapLevelClassId;
+    public int Width { get; }
+    public int Height { get; }
+    public int Levels { get; }
+    public string HssFileName { get; } = "";
+    public int HexSpriteMapClassId { get; }
+    public int MapContainerClassId { get; }
+    public int MapLevelClassId { get; }
     // HSEngine.pas:2802
 
 }

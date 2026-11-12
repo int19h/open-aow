@@ -10,9 +10,9 @@ public partial class UIComponent
 {
     private sealed class WheelLink
     {
-        public VerticalScrollBar Bar;
-        public Button Back;
-        public Button Forward;
+        public VerticalScrollBar Bar { get; set; }
+        public Button Back { get; set; }
+        public Button Forward { get; set; }
     }
 
     private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = new();

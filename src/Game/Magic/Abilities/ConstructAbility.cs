@@ -24,7 +24,7 @@ public partial class ConstructAbility : AdjustableAbility
         RegisterConstructionControl(new BuildRoadsControl(null));
     }
 
-    public ConstructionControlList ConstructionControls;
+    public ConstructionControlList ConstructionControls { get; }
 
     // AoWAb.PAS:5548
     public override void Dispose()

@@ -34,7 +34,7 @@ public partial class AoWHSMap
             WriteTokenLog("Map Session: " + MapName);
             int player = Current.Players.LocalHumanPlayers[0];
             WriteTokenLog("Local Player: " + RtlUnit.IntToStr(player));
-            WriteTokenLog("Local Race: " + AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace]));
+            WriteTokenLog("Local Race: " + AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace]));
             TokenEventLogging = true;
         }
         catch { }

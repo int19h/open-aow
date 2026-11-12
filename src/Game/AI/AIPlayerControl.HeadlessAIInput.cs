@@ -23,14 +23,14 @@ public partial class AIPlayerControl
                 {
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
-                        while (Action is null && Actions.Count != 0)
+                        while (_action is null && Actions.Count != 0)
                             if (!ActivateAction(0)) Actions.GetActions(0)?.Dispose();
-                        if (Action is not null)
+                        if (_action is not null)
                         {
-                            done = Action.Process();
+                            done = _action.Process();
                             if (!done)
                             {
-                                var action = Action;
+                                var action = _action;
                                 DeactivateAction();
                                 action?.Dispose();
                             }
@@ -49,16 +49,16 @@ public partial class AIPlayerControl
                 {
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
-                        while (Action is null && index != Actions.Count)
+                        while (_action is null && index != Actions.Count)
                         {
                             index++;
-                            ActionIndex++;
-                            if (ActionIndex >= Actions.Count) ActionIndex = 0;
-                            if (ActionIndex < Actions.Count) ActivateAction(ActionIndex);
+                            _actionIndex++;
+                            if (_actionIndex >= Actions.Count) _actionIndex = 0;
+                            if (_actionIndex < Actions.Count) ActivateAction(_actionIndex);
                         }
-                        if (Action is not null)
+                        if (_action is not null)
                         {
-                            done = Action.Process();
+                            done = _action.Process();
                             if (!done) DeactivateAction();
                         }
                     }

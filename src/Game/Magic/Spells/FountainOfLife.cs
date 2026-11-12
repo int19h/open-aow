@@ -20,7 +20,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
     // CitySpells.pas:649
     public FountainOfLife(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_fountainOfLifeText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.FountainOfLifeText);
         SpellId = 52;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;

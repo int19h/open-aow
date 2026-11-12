@@ -31,11 +31,14 @@ public partial class SetupSettings : ENode
     public int RandomSeed;
     public int DayLimit;
     public int TurnTime;
-    public RemotePlayerList RemotePlayers;
+
+    public RemotePlayerList RemotePlayers { get; }
+
     public byte ConnectionType;
     public byte TacticalBattleAvailability;
     public bool AlwaysViewTacticalBattle;
-    public string EmailGameName = "";
+
+    public string EmailGameName { get; set; } = "";
 
     // AoWSetup.pas:334
     public override void Dispose()

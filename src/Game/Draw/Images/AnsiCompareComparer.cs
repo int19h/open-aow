@@ -5,7 +5,7 @@ namespace Aow.Game.Draw.Images;
 // AnsiCompareStr equality. The soft hyphen matches NUL and U+02C6 matches ^.
 internal sealed class AnsiCompareComparer : IEqualityComparer<string>
 {
-    internal static readonly AnsiCompareComparer Instance = new();
+    internal static AnsiCompareComparer Instance { get; } = new();
 
     private AnsiCompareComparer()
     {

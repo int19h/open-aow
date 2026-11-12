@@ -14,14 +14,14 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class RosterTables
 {
-    internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertFile = new UnitEnchantmentAbility_Expand__TOriginalAssertText
+    internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertFile { get; } = new UnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 28,
         Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 65, 98, 46, 80, 65, 83, 0])
     };
 
-    internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertMessage = new UnitEnchantmentAbility_Expand__TOriginalAssertText
+    internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertMessage { get; } = new UnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
@@ -112,8 +112,8 @@ internal static class RosterTables
         return result;
     }
 
-    internal static EngineClass s_unitSelectionClass = EngineClass.Of<UnitUserList>();
+    internal static EngineClass UnitSelectionClass { get; } = EngineClass.Of<UnitUserList>();
 
-    internal static Set<HeroType> AllHeroTypes = Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant);
+    internal static Set<HeroType> AllHeroTypes { get; } = Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant);
 
 }

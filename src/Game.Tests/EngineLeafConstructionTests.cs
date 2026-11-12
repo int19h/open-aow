@@ -9,13 +9,12 @@ namespace Aow.Game.Tests;
 
 public sealed class EngineLeafConstructionTests
 {
-    private static T Field<T>(object value, string name) => (T)value.GetType()
-        .GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
+    private static T Field<T>(object value, string name) => (T)MemberNames.Field(value.GetType(), name)!.GetValue(value)!;
 
     private sealed class LeafOwner : EngineFixture.Owner
     {
 
-        internal readonly List<EngineObject> ObservedBeforeLeafBody = [];
+        internal List<EngineObject> ObservedBeforeLeafBody { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
@@ -121,24 +120,24 @@ public sealed class EngineLeafConstructionTests
 
     private sealed class ConvertedNode : ECustomNode
     {
-        internal int OwnerCalls;
+        private int _ownerCalls;
 
         internal ConvertedNode(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
 
         public override int GetCount() => 0;
     }
 
     private sealed class ConvertedSort : ESortNode
     {
-        internal int OwnerCalls;
+        private int _ownerCalls;
 
         internal ConvertedSort(ECustomNode owner) : base(owner) { }
 
         public override void SetOwner(ECustomNode owner)
         {
-            OwnerCalls++;
+            _ownerCalls++;
             base.SetOwner(owner);
             Items = new SortItem[1];
         }
@@ -175,7 +174,7 @@ public sealed class EngineLeafConstructionTests
             switch (value)
             {
                 case BitList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "_list").IsEmpty);
+                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "List").IsEmpty);
                     break;
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);

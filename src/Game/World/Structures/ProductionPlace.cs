@@ -29,33 +29,35 @@ public partial class ProductionPlace : PlayerStructure
         ProductionControl.ProductionPlace = this;
         if (GetMagicSphere() == MagicSphere.None)
         {
-            IncomeSource = new PlayerStructureIncomeSource(null);
-            IncomeSource.Setup(this);
-            DefenderLevel = 2;
+            _incomeSource = new PlayerStructureIncomeSource(null);
+            _incomeSource.Setup(this);
+            _defenderLevel = 2;
         }
         else
         {
-            PowerSource = new PlayerStructurePowerSource(null);
-            PowerSource.Setup(this);
-            DefenderLevel = 3;
+            _powerSource = new PlayerStructurePowerSource(null);
+            _powerSource.Setup(this);
+            _defenderLevel = 3;
         }
     }
 
     // PrdPlace.pas:291
     public new const int ClassId = 132026;
 
-    public PlayerStructurePowerSource PowerSource;
-    public PlayerStructureIncomeSource IncomeSource;
-    public ProductionPlaceControl ProductionControl;
+    private PlayerStructurePowerSource _powerSource;
+    private PlayerStructureIncomeSource _incomeSource;
+
+    public ProductionPlaceControl ProductionControl { get; }
+
     public byte RazedState;
-    public byte DefenderLevel;
+    private byte _defenderLevel;
 
     // PrdPlace.pas:283
     public override void Dispose()
     {
         base.Dispose();
-        PowerSource?.Dispose();
-        IncomeSource?.Dispose();
+        _powerSource?.Dispose();
+        _incomeSource?.Dispose();
         ProductionControl?.Dispose();
     }
 
@@ -64,7 +66,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         base.ReadWrite(stream);
         stream.rwEObject(ProductionControl, 8);
-        stream.rwData(Bytes.Of(ref DefenderLevel, 1), 1, 9);
+        stream.rwData(Bytes.Of(ref _defenderLevel, 1), 1, 9);
         stream.rwData(Bytes.Of(ref RazedState, 1), 1, 10);
     }
 
@@ -102,14 +104,14 @@ public partial class ProductionPlace : PlayerStructure
                 AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
             }
 
-            if (PowerSource != null)
+            if (_powerSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
             }
 
-            if (IncomeSource != null)
+            if (_incomeSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(IncomeSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
             }
         }
     }
@@ -124,14 +126,14 @@ public partial class ProductionPlace : PlayerStructure
                 AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
             }
 
-            if (PowerSource != null)
+            if (_powerSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
             }
 
-            if (IncomeSource != null)
+            if (_incomeSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(IncomeSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
             }
         }
 
@@ -160,7 +162,7 @@ public partial class ProductionPlace : PlayerStructure
         }
 
         // refresh after either state change
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // PrdPlace.pas:388
@@ -207,7 +209,7 @@ public partial class ProductionPlace : PlayerStructure
                 {
                     if (GetPower() != 0)
                     {
-                        result = AbilityRules.TranslateResourceString(GameText.s_generatingExtraPowerText);
+                        result = AbilityRules.TranslateResourceString(GameText.GeneratingExtraPowerText);
                     }
                     else
                     {
@@ -218,17 +220,17 @@ public partial class ProductionPlace : PlayerStructure
                 {
                     if (GetBaseIncome() != 0)
                     {
-                        result = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+                        result = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
                     }
                     else
                     {
-                        result = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+                        result = AbilityRules.TranslateResourceString(GameTables.NoneText);
                     }
                 }
             }
             else
             {
-                result = LowerCase(AbilityRules.TranslateResourceString(GameTables.s_noneText));
+                result = LowerCase(AbilityRules.TranslateResourceString(GameTables.NoneText));
             }
         }
         else
@@ -297,12 +299,12 @@ public partial class ProductionPlace : PlayerStructure
     public override void Update()
     {
         base.Update();
-        if (IncomeSource != null && Player >= 0)
+        if (_incomeSource != null && Player >= 0)
         {
             AoWHSMap.Current.Players.GetPlayers(Player).UpdateIncome();
         }
 
-        if (PowerSource != null && Player >= 0)
+        if (_powerSource != null && Player >= 0)
         {
             AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Update();
         }
@@ -332,14 +334,14 @@ public partial class ProductionPlace : PlayerStructure
             ProductionControl.PlayerChanged();
             if (Player != -1)
             {
-                if (PowerSource != null)
+                if (_powerSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
-                if (IncomeSource != null)
+                if (_incomeSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(IncomeSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
                 }
 
                 if (GetMagicSphere() == MagicSphere.None)
@@ -351,14 +353,14 @@ public partial class ProductionPlace : PlayerStructure
             base.SetPlayer(player);
             if (Player != -1)
             {
-                if (PowerSource != null)
+                if (_powerSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
 
-                if (IncomeSource != null)
+                if (_incomeSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(IncomeSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
                 }
 
                 if (GetMagicSphere() == MagicSphere.None)
@@ -420,7 +422,7 @@ public partial class ProductionPlace : PlayerStructure
             log = new ProductionPlaceEventLog(null);
             log._player = newPlayer;
             var editName = EditName();
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_structureCapturedFormat), [editName]);
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.StructureCapturedFormat), [editName]);
             log.HexX = HexX;
             log.HexY = HexY;
             log.HexLevel = HexLevel;
@@ -441,15 +443,15 @@ public partial class ProductionPlace : PlayerStructure
         int budget;
         int collection;
         UnitIndexList units;
-        if (DefenderLevel != 0)
+        if (_defenderLevel != 0)
         {
-            if (DefenderLevel == 4)
+            if (_defenderLevel == 4)
             {
-                DefenderLevel = (byte)(AoWHSMap.Current.Random(3) + 1);
+                _defenderLevel = (byte)(AoWHSMap.Current.Random(3) + 1);
             }
 
-            budget = (DefenderLevel - 2) * 25 + 25;
-            armyHexSprite = (ArmyHexSprite)_owner.FindOwnedChild(131607);
+            budget = (_defenderLevel - 2) * 25 + 25;
+            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             if (armyHexSprite != null)
             {
                 budget -= armyHexSprite.Army.ObtainValue(255);
@@ -470,7 +472,7 @@ public partial class ProductionPlace : PlayerStructure
 
                     var hexY = HexY;
                     AbilityRules.PlaceRandomUnits(HexX, hexY, HexLevel, 0, units, 4, budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
-                    armyHexSprite = ((AoWMapField)_owner).GetArmyHexSprite();
+                    armyHexSprite = ((AoWMapField)Owner).GetArmyHexSprite();
                     if (armyHexSprite != null && armyHexSprite.Army.Player == 0)
                     {
                         armyHexSprite.Army.SetBehavior(255, GroupBehavior.Guard);
@@ -509,11 +511,11 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (GetBaseIncome() > 0)
             {
-                names.Add(AbilityRules.TranslateResourceString(GameText.s_baseIncomeText));
+                names.Add(AbilityRules.TranslateResourceString(GameText.BaseIncomeText));
                 values.Add(IntToStr(GetBaseIncome()));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0)
                 {
-                    names.Add(AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText));
+                    names.Add(AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText));
                     values.Add(IntToStr(Round((double)GetBaseIncome() * 0.25)));
                 }
             }

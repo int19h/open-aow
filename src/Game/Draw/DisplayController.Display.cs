@@ -10,10 +10,10 @@ public partial class DisplayController
     public override int WaitForVerticalBlank()
     {
         var clock = RtlUnit.Clock;
-        double target = _lastVerticalBlank + _display._frameTime;
+        double target = _lastVerticalBlank + _display.FrameTime;
         clock.WaitUntil(target);
         _lastVerticalBlank = clock.ElapsedMilliseconds;
-        _lastVerticalBlankTime = (int)_lastVerticalBlank;
+        LastVerticalBlankTime = (int)_lastVerticalBlank;
         return 0;
     }
 

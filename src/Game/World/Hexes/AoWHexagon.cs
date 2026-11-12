@@ -250,7 +250,7 @@ public partial class AoWHexagon : Hexagon
         {
             if (message.MessageId == 65556)
             {
-                var terrain = _terrainList.Terrain[0];
+                var terrain = TerrainList.Terrain[0];
                 if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain))
                 {
                     return;

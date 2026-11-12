@@ -15,32 +15,32 @@ namespace Aow.Game.World.Map;
 // the map
 public partial class HexSpriteSelection : EControlStyleNode
 {
-    internal List<HexSprite> _locationHexSprite;
+    private List<HexSprite> _locationHexSprite;
 
-    internal EventStore<ECustomNode> _onSelectStore;
+    internal EventStore<ECustomNode> OnSelectStore { get; }
 
     internal event NotifyEvent<ECustomNode> FOnSelect
     {
-        add => _onSelectStore.Add(value);
-        remove => _onSelectStore.Remove(value);
+        add => OnSelectStore.Add(value);
+        remove => OnSelectStore.Remove(value);
     }
 
-    internal EventStore<ECustomNode> _onDeselectStore;
+    internal EventStore<ECustomNode> OnDeselectStore { get; }
 
     internal event NotifyEvent<ECustomNode> FOnDeselect
     {
-        add => _onDeselectStore.Add(value);
-        remove => _onDeselectStore.Remove(value);
+        add => OnDeselectStore.Add(value);
+        remove => OnDeselectStore.Remove(value);
     }
 
-    internal HexSprite _eventHexSprite;
+    private HexSprite _eventHexSprite;
 
     // HSEngine.pas:3681
     public HexSpriteSelection(ECustomNode owner) : base(owner)
     {
         _locationHexSprite = new List<HexSprite>();
-        _onSelectStore = new();
-        _onDeselectStore = new();
+        OnSelectStore = new();
+        OnDeselectStore = new();
     }
 
     // HSEngine.pas:3689
@@ -48,8 +48,8 @@ public partial class HexSpriteSelection : EControlStyleNode
     {
         base.Dispose();
         _locationHexSprite?.Clear();
-        _onSelectStore.Clear();
-        _onDeselectStore.Clear();
+        OnSelectStore.Clear();
+        OnDeselectStore.Clear();
     }
 
     // HSEngine.pas:3761
@@ -63,14 +63,14 @@ public partial class HexSpriteSelection : EControlStyleNode
     public void TriggerDeselectEvent(HexSprite hexSprite)
     {
         _eventHexSprite = hexSprite;
-        _onDeselectStore.Raise(Owner);
+        OnDeselectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3705
     public void TriggerSelectEvent(HexSprite hexSprite)
     {
         _eventHexSprite = hexSprite;
-        _onSelectStore.Raise(Owner);
+        OnSelectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3711
@@ -170,14 +170,14 @@ public partial class HexSpriteSelection : EControlStyleNode
 
     public event NotifyEvent<ECustomNode> OnSelect
     {
-        add => _onSelectStore.Add(value);
-        remove => _onSelectStore.Remove(value);
+        add => OnSelectStore.Add(value);
+        remove => OnSelectStore.Remove(value);
     }
 
     public event NotifyEvent<ECustomNode> OnDeselect
     {
-        add => _onDeselectStore.Add(value);
-        remove => _onDeselectStore.Remove(value);
+        add => OnDeselectStore.Add(value);
+        remove => OnDeselectStore.Remove(value);
     }
 
     public HexSprite EventHexSprite { get => _eventHexSprite; }

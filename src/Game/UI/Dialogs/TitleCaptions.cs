@@ -4,15 +4,15 @@ namespace Aow.Game.UI.Dialogs;
 
 internal static class TitleCaptions
 {
-    internal static readonly string s_titleNewGameText = "New Game";
+    private static readonly string s_titleNewGameText = "New Game";
 
-    internal static readonly string s_titleCampaignText = "Campaign";
+    private static readonly string s_titleCampaignText = "Campaign";
 
-    internal static readonly string s_titleTutorialText = "Tutorial";
+    private static readonly string s_titleTutorialText = "Tutorial";
 
-    internal static readonly string s_titleLoadGameText = "Load Game";
+    private static readonly string s_titleLoadGameText = "Load Game";
 
-    internal static readonly string s_titleExitText = "Exit";
+    private static readonly string s_titleExitText = "Exit";
 
     internal static StringArray5 TitleButtons = StringArray5.From([]);
 

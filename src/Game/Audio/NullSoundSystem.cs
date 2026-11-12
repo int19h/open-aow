@@ -22,9 +22,9 @@ public sealed class NullSoundSystem : SoundSystem
     protected internal override SampleClass SampleClass() => Samples;
     protected internal override SampleDataClass SampleDataClass() => SampleData.Descriptor;
 
-    protected internal override bool Activate(in SoundSettings value) { _settings = value; _status = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated); return true; }
+    protected internal override bool Activate(in SoundSettings value) { _settings = value; Status = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated); return true; }
 
-    protected internal override bool Deactivate() { _status = default; return true; }
+    protected internal override bool Deactivate() { Status = default; return true; }
 
     protected internal override void Process()
     {
@@ -59,7 +59,7 @@ public sealed class NullSoundSystem : SoundSystem
 
     public override bool StopSong() { _song = ""; return true; }
 
-    public override SongStatus BackupSongStatus() => new() { _fileName = _song };
+    public override SongStatus BackupSongStatus() => new() { FileName = _song };
 
     public override bool RestoreSongStatus(SongStatus status) { _song = status.FileName; return true; }
 

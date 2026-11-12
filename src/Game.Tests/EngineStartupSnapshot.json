@@ -25,10 +25,10 @@
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
       },
-      "Engine.EmailGames.Games": {
+      "Engine.EmailGames._games": {
         "Type": "Aow.Game.Net.EmailGameList"
       },
-      "Engine.EmailGames.Games._children": {
+      "Engine.EmailGames._games._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet": {
@@ -55,13 +55,13 @@
       "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._diskList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._diskList._hashTable": {
+      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._diskList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._ownedList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._ownedList._hashTable": {
+      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._ownedList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].SfxLibrary": {
@@ -976,25 +976,25 @@
       "Engine.GameSet.FireControl": {
         "Type": "Aow.Game.World.Terrain.FireControl"
       },
-      "Engine.GameSet.FireControl.Resources": {
+      "Engine.GameSet.FireControl._resources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Game.World.Terrain.Fire+Resource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.FlagControl": {
         "Type": "Aow.Game.World.FlagControl"
       },
-      "Engine.GameSet.FlagControl.RaceResources": {
+      "Engine.GameSet.FlagControl._raceResources": {
         "Type": "Aow.Game.Session.RaceResourceList"
       },
-      "Engine.GameSet.FlagControl.RaceResources._children": {
+      "Engine.GameSet.FlagControl._raceResources._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.HeroLibraries": {
         "Type": "Aow.Game.Units.HeroLibraryManager"
       },
-      "Engine.GameSet.HeroLibraries.Libraries": {
+      "Engine.GameSet.HeroLibraries._libraries": {
         "Type": "Aow.Engine.Nodes.ENode"
       },
-      "Engine.GameSet.HeroLibraries.Libraries._children": {
+      "Engine.GameSet.HeroLibraries._libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.HeroLibraries.SystemLibrary": {
@@ -75930,10 +75930,10 @@
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
       },
-      "Engine.EmailGames.Games": {
+      "Engine.EmailGames._games": {
         "Type": "Aow.Game.Net.EmailGameList"
       },
-      "Engine.EmailGames.Games._children": {
+      "Engine.EmailGames._games._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet": {
@@ -75960,13 +75960,13 @@
       "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._diskList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._diskList._hashTable": {
+      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._diskList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._ownedList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._ownedList._hashTable": {
+      "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences._imageLibraryManager._ownedList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].SfxLibrary": {
@@ -76881,25 +76881,25 @@
       "Engine.GameSet.FireControl": {
         "Type": "Aow.Game.World.Terrain.FireControl"
       },
-      "Engine.GameSet.FireControl.Resources": {
+      "Engine.GameSet.FireControl._resources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Game.World.Terrain.Fire+Resource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.FlagControl": {
         "Type": "Aow.Game.World.FlagControl"
       },
-      "Engine.GameSet.FlagControl.RaceResources": {
+      "Engine.GameSet.FlagControl._raceResources": {
         "Type": "Aow.Game.Session.RaceResourceList"
       },
-      "Engine.GameSet.FlagControl.RaceResources._children": {
+      "Engine.GameSet.FlagControl._raceResources._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.HeroLibraries": {
         "Type": "Aow.Game.Units.HeroLibraryManager"
       },
-      "Engine.GameSet.HeroLibraries.Libraries": {
+      "Engine.GameSet.HeroLibraries._libraries": {
         "Type": "Aow.Engine.Nodes.ENode"
       },
-      "Engine.GameSet.HeroLibraries.Libraries._children": {
+      "Engine.GameSet.HeroLibraries._libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.HeroLibraries.SystemLibrary": {
@@ -77534,10 +77534,10 @@
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
       },
-      "Engine.EmailGames.Games": {
+      "Engine.EmailGames._games": {
         "Type": "Aow.Game.Net.EmailGameList"
       },
-      "Engine.EmailGames.Games._children": {
+      "Engine.EmailGames._games._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.Registry": {
@@ -77673,10 +77673,10 @@
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
       },
-      "Engine.EmailGames.Games": {
+      "Engine.EmailGames._games": {
         "Type": "Aow.Game.Net.EmailGameList"
       },
-      "Engine.EmailGames.Games._children": {
+      "Engine.EmailGames._games._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.Registry": {
@@ -77739,13 +77739,13 @@
       "Engine._children[1]._imageLibraryManager._diskList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine._children[1]._imageLibraryManager._diskList._hashTable": {
+      "Engine._children[1]._imageLibraryManager._diskList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._children[1]._imageLibraryManager._ownedList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine._children[1]._imageLibraryManager._ownedList._hashTable": {
+      "Engine._children[1]._imageLibraryManager._ownedList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._children[1]._mapObjectResourceList": {
@@ -77956,10 +77956,10 @@
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
       },
-      "Engine.EmailGames.Games": {
+      "Engine.EmailGames._games": {
         "Type": "Aow.Game.Net.EmailGameList"
       },
-      "Engine.EmailGames.Games._children": {
+      "Engine.EmailGames._games._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet": {
@@ -77992,25 +77992,25 @@
       "Engine.GameSet.FireControl": {
         "Type": "Aow.Game.World.Terrain.FireControl"
       },
-      "Engine.GameSet.FireControl.Resources": {
+      "Engine.GameSet.FireControl._resources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Game.World.Terrain.Fire+Resource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.FlagControl": {
         "Type": "Aow.Game.World.FlagControl"
       },
-      "Engine.GameSet.FlagControl.RaceResources": {
+      "Engine.GameSet.FlagControl._raceResources": {
         "Type": "Aow.Game.Session.RaceResourceList"
       },
-      "Engine.GameSet.FlagControl.RaceResources._children": {
+      "Engine.GameSet.FlagControl._raceResources._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.HeroLibraries": {
         "Type": "Aow.Game.Units.HeroLibraryManager"
       },
-      "Engine.GameSet.HeroLibraries.Libraries": {
+      "Engine.GameSet.HeroLibraries._libraries": {
         "Type": "Aow.Engine.Nodes.ENode"
       },
-      "Engine.GameSet.HeroLibraries.Libraries._children": {
+      "Engine.GameSet.HeroLibraries._libraries._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.HeroLibraries.SystemLibrary": {
@@ -78034,13 +78034,13 @@
       "Engine.GameSet.ImageSequences._imageLibraryManager._diskList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine.GameSet.ImageSequences._imageLibraryManager._diskList._hashTable": {
+      "Engine.GameSet.ImageSequences._imageLibraryManager._diskList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.ImageSequences._imageLibraryManager._ownedList": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
-      "Engine.GameSet.ImageSequences._imageLibraryManager._ownedList._hashTable": {
+      "Engine.GameSet.ImageSequences._imageLibraryManager._ownedList.HashTable": {
         "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.ItemGraphicsResources": {

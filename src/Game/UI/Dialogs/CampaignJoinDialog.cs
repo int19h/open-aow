@@ -25,12 +25,15 @@ public partial class CampaignJoinDialog : DataModule
     public Panel CustomFacePnl;
     public UserDrawBox ScrollTextDB;
     public IvTranslator Translator;
-    public byte Stage;
-    public int Faction;
-    public Leader Leader;
-    public int ScrollDelay;
-    public int ScrollPosition;
-    public StringList ScrollText;
+
+    public byte Stage { get; set; }
+    public int Faction { get; set; }
+    public Leader Leader { get; private set; }
+
+    private int _scrollDelay;
+    private int _scrollPosition;
+
+    public StringList ScrollText { get; private set; }
 
     // AoWCampaignJoin.pas:160
     public void CustomizeLeader()
@@ -94,8 +97,8 @@ public partial class CampaignJoinDialog : DataModule
         LeaderTypePnl.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         ScrollTextDB.Visible = true;
-        ScrollDelay = 0;
-        ScrollPosition = 0;
+        _scrollDelay = 0;
+        _scrollPosition = 0;
         ScrollText.Clear();
     }
 
@@ -165,14 +168,14 @@ public partial class CampaignJoinDialog : DataModule
         if (Stage == 0)
         {
             var count = ScrollText.Count;
-            if (ScrollPosition < count * 20 + ScrollTextDB.WinHeight)
+            if (_scrollPosition < count * 20 + ScrollTextDB.WinHeight)
             {
-                ScrollDelay -= 1;
-                if (ScrollDelay <= 0)
+                _scrollDelay -= 1;
+                if (_scrollDelay <= 0)
                 {
-                    ScrollPosition += 1;
+                    _scrollPosition += 1;
                     ScrollTextDB.Drawn = false;
-                    ScrollDelay = 3;
+                    _scrollDelay = 3;
                 }
             }
             else
@@ -192,7 +195,7 @@ public partial class CampaignJoinDialog : DataModule
         lockedSurface.ClipRectangle.Top = CharGenPnl.WinTop + ScrollTextDB.WinTop;
         lockedSurface.ClipRectangle.Bottom = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight;
         X = CharGenPnl.WinLeft + ScrollTextDB.WinLeft + ScrollTextDB.WinWidth / 2;
-        Y = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight - ScrollPosition;
+        Y = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight - _scrollPosition;
         for (int I = 0, last = ScrollText.Count - 1; I <= last; I++)
         {
             var scrollText = ScrollText[I];
@@ -212,8 +215,8 @@ public partial class CampaignJoinDialog : DataModule
         dialog.LeaderTypePnl.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         dialog.ScrollTextDB.Visible = true;
-        dialog.ScrollDelay = 0;
-        dialog.ScrollPosition = 0;
+        dialog._scrollDelay = 0;
+        dialog._scrollPosition = 0;
         dialog.ScrollText.Clear();
     }
 

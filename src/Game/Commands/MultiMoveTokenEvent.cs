@@ -13,7 +13,8 @@ public partial class MultiMoveTokenEvent : TokenEvent
 {
     public new const int ClassId = 135442;
 
-    public TokenEventList Events;
+    public TokenEventList Events { get; }
+
     public bool Simultaneous;
 
     // MoveT.PAS:3293

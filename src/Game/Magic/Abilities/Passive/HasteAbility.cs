@@ -9,7 +9,7 @@ public partial class HasteAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1021
     public HasteAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_hasteText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.HasteText);
         AbilityId = 152;
     }
 }

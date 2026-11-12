@@ -23,7 +23,8 @@ public partial class SetupEvents : DataModule
 
     public GDPlay DPlay;
     public SetupControl SetupControl;
-    public bool LobbyGame;
+
+    public bool LobbyGame { get; }
 
     // aowSetupEvents.pas:61
     public void ClearChat()

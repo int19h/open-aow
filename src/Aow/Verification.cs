@@ -410,7 +410,7 @@ internal static class Verification
 
     private sealed class FakeClock : IClock
     {
-        public double Elapsed;
+        public double Elapsed { get; set; }
 
         public double ElapsedMilliseconds => Elapsed;
         public DateTime Now => new(2000, 1, 1);
@@ -426,9 +426,9 @@ internal static class Verification
         public List<(int, int)> Moves { get; } = [];
         public List<string> ConstructionTrace { get; } = [];
 
-        public Set<ShiftState> Shift;
-        public ushort ReleasedKey;
-        public int Doubles;
+        public Set<ShiftState> Shift { get; private set; }
+        public ushort ReleasedKey { get; private set; }
+        public int Doubles { get; private set; }
 
         public void KeyDown(ushort key, Set<ShiftState> shift) { Keys.Add(key); Shift = shift; }
 

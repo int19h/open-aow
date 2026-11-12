@@ -21,9 +21,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class GlobalTargetSpell : Spell
 {
 
-    public int CasterId;
-    public sbyte CasterPlayer;
-    public bool AboveGroundOnly;
+    private int _casterId;
+    private sbyte _casterPlayer;
+
+    public bool AboveGroundOnly { get; protected set; }
 
     // GlobalTargetSpells.pas:439
     public GlobalTargetSpell(ECustomNode owner) : base(owner)
@@ -44,7 +45,7 @@ public partial class GlobalTargetSpell : Spell
             if (layer != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);
             }
         }
 
@@ -59,8 +60,8 @@ public partial class GlobalTargetSpell : Spell
         base.Activate(source);
         if (CanActivate(source, ref messageText))
         {
-            CasterId = source.UnitId;
-            CasterPlayer = source.Player;
+            _casterId = source.UnitId;
+            _casterPlayer = source.Player;
             SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
             AoWHSMap.Current.TargetSelection.Activate();
             result = true;
@@ -116,10 +117,10 @@ public partial class GlobalTargetSpell : Spell
         targetSelection.Range = 12;
         targetSelection.FOnChange += OnTargetSelectionChange;
         targetSelection.OnShow = ShowTargetSelection;
-        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_selectTargetLocationForOnMapFormat), [SpellName]);
+        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
-        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
         targetSelection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
@@ -134,7 +135,7 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:475
     public virtual bool ValidTargetSelectionMapField(MapField field)
     {
-        if (AoWHSMap.Current.ExplorationEnabled && !((AoWMapField)field).GetExplored(CasterPlayer))
+        if (AoWHSMap.Current.ExplorationEnabled && !((AoWMapField)field).GetExplored(_casterPlayer))
         {
             // Preserve the result for callers.
             return false;
@@ -149,7 +150,7 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:492. The recovered view aliases this control.
     public virtual void OnTargetSelectionChange(TargetSelectionControl target)
     {
-        var caster = AoWHSMap.Current.UnitControl.FindUnit(CasterId);
+        var caster = AoWHSMap.Current.UnitControl.FindUnit(_casterId);
         if (caster is null || target.Change == TargetSelectionChange.Deactivated)
         {
             target.FOnChange -= OnTargetSelectionChange;
@@ -175,7 +176,7 @@ public partial class GlobalTargetSpell : Spell
             if (layer != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);
             }
         }
 
@@ -189,8 +190,8 @@ public partial class GlobalTargetSpell : Spell
         spell.ActivateStatic(caster);
         if (spell.CanActivate(caster, ref messageText))
         {
-            spell.CasterId = caster.UnitId;
-            spell.CasterPlayer = caster.Player;
+            spell._casterId = caster.UnitId;
+            spell._casterPlayer = caster.Player;
             spell.SetupTargetSelection(caster, AoWHSMap.Current.TargetSelection);
             AoWHSMap.Current.TargetSelection.Activate();
             result = true;

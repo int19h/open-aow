@@ -22,31 +22,37 @@ public partial class AIExecutor : EngineObject
     // AI.pas:559
     public AIExecutor(ECustomNode owner) : base(owner)
     {
-        Players = new ByteList();
+        _players = new ByteList();
         Player = -1;
-        ProcessTimeMode = AIExecutorProcessTimeMode.Static;
-        ProcessTime = 5000;
-        TokenCycles = 5;
+        _processTimeMode = AIExecutorProcessTimeMode.Static;
+        _processTime = 5000;
+        _tokenCycles = 5;
     }
 
-    public int ProcessCycles;
-    public ByteList Players;
-    public sbyte Player;
-    public int PlayerProcessCycles;
-    public Set<AIExecutorStatusElement> Status;
-    public bool TokenControlDone;
-    public AIExecutorProcessTimeMode ProcessTimeMode;
-    public int ProcessTime;
-    public int ProcessTimeUsed;
-    public int ProcessStarted;
-    public int TokenCycles;
-    public int TokenCycle;
-    public int LockCount;
+    public int ProcessCycles { get; set; }
+
+    private ByteList _players;
+
+    public sbyte Player { get; private set; }
+
+    private int _playerProcessCycles;
+
+    public Set<AIExecutorStatusElement> Status { get; private set; }
+
+    private bool _tokenControlDone;
+    private AIExecutorProcessTimeMode _processTimeMode;
+    private int _processTime;
+    private int _processTimeUsed;
+    private int _processStarted;
+    private int _tokenCycles;
+    private int _tokenCycle;
+
+    public int LockCount { get; private set; }
 
     // AI.pas:569
     public override void Dispose()
     {
-        Players?.Dispose();
+        _players?.Dispose();
         base.Dispose();
     }
 
@@ -55,13 +61,13 @@ public partial class AIExecutor : EngineObject
     {
         bool result;
         int used;
-        switch (ProcessTimeMode)
+        switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                used = ProcessTimeUsed;
+                used = _processTimeUsed;
                 if (used != 0)
                 {
-                    result = time <= ProcessTime - used;
+                    result = time <= _processTime - used;
                 }
                 else
                 {
@@ -70,7 +76,7 @@ public partial class AIExecutor : EngineObject
 
                 break;
             case AIExecutorProcessTimeMode.Dynamic:
-                if (ProcessTimeUsed != 0)
+                if (_processTimeUsed != 0)
                 {
                     result = time < GetProcessTimeLeft();
                 }
@@ -92,15 +98,15 @@ public partial class AIExecutor : EngineObject
     public int GetProcessTimeLeft()
     {
         int result;
-        switch (ProcessTimeMode)
+        switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                result = ProcessTime - ProcessTimeUsed;
+                result = _processTime - _processTimeUsed;
                 break;
             case AIExecutorProcessTimeMode.Dynamic:
                 // { Original behavior: the millisecond delta is multiplied by 1000. }
                 var elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
-                result = ProcessTime - (elapsedMilliseconds - ProcessStarted) * 1000;
+                result = _processTime - (elapsedMilliseconds - _processStarted) * 1000;
                 break;
             default:
                 result = -1;
@@ -114,13 +120,13 @@ public partial class AIExecutor : EngineObject
     public int GetProcessTimeElapsed()
     {
         int result;
-        switch (ProcessTimeMode)
+        switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                result = ProcessTimeUsed;
+                result = _processTimeUsed;
                 break;
             case AIExecutorProcessTimeMode.Dynamic:
-                result = (PixelFormats.GetElapsedMilliseconds() - ProcessStarted) * 1000;
+                result = (PixelFormats.GetElapsedMilliseconds() - _processStarted) * 1000;
                 break;
             default:
                 result = -1;
@@ -134,9 +140,9 @@ public partial class AIExecutor : EngineObject
     public bool ActivatePlayer(sbyte player)
     {
         bool result;
-        if (Players.IndexOf((byte)player) == -1)
+        if (_players.IndexOf((byte)player) == -1)
         {
-            Players.Add((byte)player);
+            _players.Add((byte)player);
             Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
             AoWHSMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
             if (Player == -1)
@@ -157,11 +163,11 @@ public partial class AIExecutor : EngineObject
     // AI.pas:630
     public void DeactivatePlayer(sbyte player)
     {
-        if (Players.IndexOf((byte)player) != -1)
+        if (_players.IndexOf((byte)player) != -1)
         {
-            Players.Remove((byte)player);
+            _players.Remove((byte)player);
             AoWHSMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
-            if (Players.Count == 0)
+            if (_players.Count == 0)
             {
                 Player = -1;
                 Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
@@ -174,7 +180,7 @@ public partial class AIExecutor : EngineObject
     {
         if (Status.Contains(AIExecutorStatusElement.Enabled) && AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
         {
-            TokenControlDone = true;
+            _tokenControlDone = true;
             if (AoWHSMap.Current.CurrentPlayer == 0 && AoWHSMap.Current.CombatMap == null)
             {
                 CaptureTokenCycles(5);
@@ -201,8 +207,8 @@ public partial class AIExecutor : EngineObject
         Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 937);
         Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
         AoWHSMap.Current.TokenManager.TokenExecutor.Lock();
-        TokenCycle = 0;
-        TokenCycles = cycles;
+        _tokenCycle = 0;
+        _tokenCycles = cycles;
     }
 
     // AI.pas:944
@@ -223,14 +229,14 @@ public partial class AIExecutor : EngineObject
         {
             Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
             AoWHSMap.Current.SynchronizeBegin();
-            ProcessTimeUsed = 0;
-            if (ProcessTimeMode == AIExecutorProcessTimeMode.Dynamic)
+            _processTimeUsed = 0;
+            if (_processTimeMode == AIExecutorProcessTimeMode.Dynamic)
             {
-                ProcessStarted = PixelFormats.GetElapsedMilliseconds();
+                _processStarted = PixelFormats.GetElapsedMilliseconds();
             }
             else
             {
-                ProcessStarted = 0;
+                _processStarted = 0;
             }
 
             try
@@ -241,8 +247,8 @@ public partial class AIExecutor : EngineObject
                         if (!AoWHSMap.Current.Players.GetPlayers(Player).GetBusy() && AoWHSMap.Current.TokenManager.PlayerReady(Player))
                         {
                             ProcessCycles += 1;
-                            AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, TokenControlDone);
-                            TokenControlDone = false;
+                            AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
+                            _tokenControlDone = false;
                         }
 
                         break;
@@ -252,12 +258,12 @@ public partial class AIExecutor : EngineObject
                             ProcessCycles += 1;
                             done = false;
                             I = 0;
-                            while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && I < Players.Count)
+                            while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && I < _players.Count)
                             {
-                                done = AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, TokenControlDone);
+                                done = AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                                 if (done)
                                 {
-                                    PlayerProcessCycles += 1;
+                                    _playerProcessCycles += 1;
                                     I = 0;
                                 }
                                 else
@@ -265,24 +271,24 @@ public partial class AIExecutor : EngineObject
                                     I += 1;
                                 }
 
-                                TokenControlDone = false;
-                                if (!done || AoWHSMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= PlayerProcessCycles)
+                                _tokenControlDone = false;
+                                if (!done || AoWHSMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
                                 {
-                                    index = Players.IndexOf((byte)Player);
+                                    index = _players.IndexOf((byte)Player);
                                     index += 1;
-                                    PlayerProcessCycles = 0;
+                                    _playerProcessCycles = 0;
                                     // { Original behavior: Index = Count is not wrapped here. }
-                                    if (index > Players.Count)
+                                    if (index > _players.Count)
                                     {
                                         index = 0;
                                     }
 
-                                    Player = (sbyte)Players[index];
+                                    Player = (sbyte)_players[index];
                                 }
                             }
 
-                            TokenCycle += 1;
-                            if (I >= Players.Count || TokenCycle >= TokenCycles)
+                            _tokenCycle += 1;
+                            if (I >= _players.Count || _tokenCycle >= _tokenCycles)
                             {
                                 TokenCyclesCaptured();
                             }

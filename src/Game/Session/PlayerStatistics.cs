@@ -13,9 +13,10 @@ public partial class PlayerStatistics : EngineObject
         TurnInfo = new TurnInfo(null);
     }
 
-    public TurnInfo TurnInfo;
-    public int UnitsKilled;
-    public int UnitsLost;
+    public TurnInfo TurnInfo { get; }
+
+    private int _unitsKilled;
+    private int _unitsLost;
 
     // Player.PAS:188
     public override void Dispose()
@@ -29,8 +30,8 @@ public partial class PlayerStatistics : EngineObject
     {
         base.ReadWrite(stream);
         stream.rwEObject(TurnInfo, 20);
-        stream.rwInteger(ref UnitsKilled, 21);
-        stream.rwInteger(ref UnitsLost, 22);
+        stream.rwInteger(ref _unitsKilled, 21);
+        stream.rwInteger(ref _unitsLost, 22);
     }
 
     // intf_P1_03.inc:133

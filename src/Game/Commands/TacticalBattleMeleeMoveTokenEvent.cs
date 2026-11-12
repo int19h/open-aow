@@ -20,8 +20,8 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 
     public new const int ClassId = 2236417;
 
-    public MeleeRound MeleeRound;
-    public int StrikeIndex;
+    private MeleeRound _meleeRound;
+    private int _strikeIndex;
 
     // CombatTE.pas:454
     public override MoveStatus LastMove()
@@ -73,9 +73,9 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            MeleeRound = new MeleeRound();
-                            MeleeRound.Calculate(Unit, PreviousUnit);
-                            if (MeleeRound.Count == 0)
+                            _meleeRound = new MeleeRound();
+                            _meleeRound.Calculate(Unit, PreviousUnit);
+                            if (_meleeRound.Count == 0)
                             {
                                 result = MoveStatus.Done;
                             }
@@ -125,7 +125,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                 case TokenStep.InitializeStrike:
                     try
                     {
-                        MeleeRound.GetMeleeStrike(StrikeIndex - 1, ref strike);
+                        _meleeRound.GetMeleeStrike(_strikeIndex - 1, ref strike);
                         if (strike.Side == CombatSideIndex.Defender && PreviousUnit.UnitHexSprite.ActionDone)
                         {
                             if (Strike.Damage > 0)
@@ -149,7 +149,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            MeleeRound.GetMeleeStrike(StrikeIndex - 1, ref strike);
+                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, ref strike);
                             if (strike.Side == CombatSideIndex.Attacker && Unit.UnitHexSprite.ActionDone)
                             {
                                 if (Strike.Damage > 0)
@@ -188,7 +188,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            MeleeRound.GetMeleeStrike(StrikeIndex - 1, ref strike);
+                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, ref strike);
                             if (strike.Side == CombatSideIndex.Attacker && PreviousUnit.UnitHexSprite.ActionDone)
                             {
                                 CombatMap.Current.Combat.ExecuteCombatAction(Strike);
@@ -240,9 +240,9 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 
             if (result == MoveStatus.Done)
             {
-                if (MeleeRound != null)
+                if (_meleeRound != null)
                 {
-                    MeleeRound?.Dispose();
+                    _meleeRound?.Dispose();
                 }
 
                 if (Strike != null)
@@ -278,9 +278,9 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
         bool locked;
         MeleeRound.Strike strike = default;
         locked = true;
-        while (locked && StrikeIndex < MeleeRound.Count)
+        while (locked && _strikeIndex < _meleeRound.Count)
         {
-            MeleeRound.GetMeleeStrike(StrikeIndex, ref strike);
+            _meleeRound.GetMeleeStrike(_strikeIndex, ref strike);
             if (strike.Side == CombatSideIndex.Attacker)
             {
                 locked = Unit.GetLocked();
@@ -292,11 +292,11 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 
             if (locked)
             {
-                StrikeIndex = StrikeIndex + 1;
+                _strikeIndex = _strikeIndex + 1;
             }
         }
 
-        if (StrikeIndex < MeleeRound.Count)
+        if (_strikeIndex < _meleeRound.Count)
         {
             Step = TokenStep.DelayStrike;
             Delay = 3;
@@ -318,8 +318,8 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
         }
 
         RandSeed = AoWHSMap.Current.Random(16777215);
-        Strike = MeleeRound.CreateStrikeCombatAction(StrikeIndex);
-        MeleeRound.GetMeleeStrike(StrikeIndex, ref strike);
+        Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
+        _meleeRound.GetMeleeStrike(_strikeIndex, ref strike);
         if (strike.Side == CombatSideIndex.Attacker)
         {
             if (Strike.Damage == 0)
@@ -343,7 +343,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
             }
         }
 
-        StrikeIndex = StrikeIndex + 1;
+        _strikeIndex = _strikeIndex + 1;
         Step = TokenStep.InitializeStrike;
     }
 

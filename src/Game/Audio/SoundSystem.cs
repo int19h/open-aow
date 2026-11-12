@@ -7,8 +7,9 @@ namespace Aow.Game.Audio;
 // (RegisterSoundSystem calls it on the class)
 public partial class SoundSystem : IDisposable
 {
-    protected internal int RefCount;
-    protected internal Set<SoundSystemStatusElement> _status;
+    protected internal int RefCount { get; private set; }
+
+    private Set<SoundSystemStatusElement> _status;
 
     // Sound.pas:115
     protected internal virtual SampleClass SampleClass()
@@ -189,7 +190,7 @@ public partial class SoundSystem : IDisposable
         }
     }
 
-    public Set<SoundSystemStatusElement> Status { get => _status; }
+    public Set<SoundSystemStatusElement> Status { get => _status; protected set => _status = value; }
     public int MusicVolume { get => GetMusicVolume(); }
     public int SfxVolume { get => GetSfxVolume(); }
     public bool PlayingSong { get => GetPlayingSong(); }

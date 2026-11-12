@@ -11,7 +11,7 @@ public partial class HolyChampionAbility : EnhancementAbility
     // PassiveAb.pas:484
     public HolyChampionAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_holyChampionText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.HolyChampionText);
         AbilityId = 146;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }
@@ -22,7 +22,7 @@ public partial class HolyChampionAbility : EnhancementAbility
         bool result = base.CanExpand(owner);
         if (result && owner is Troop)
         {
-            result = AlignmentTables.s_pureGoodAlignments.Contains(((Troop)owner).GetAlignment());
+            result = AlignmentTables.PureGoodAlignments.Contains(((Troop)owner).GetAlignment());
         }
 
         return result;

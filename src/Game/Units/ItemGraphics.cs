@@ -27,8 +27,8 @@ public partial class ItemGraphics : EngineResource
     public string ImageLibraryName = "";
     public int ImageIndex;
     public ItemType ItemType;
-    public CustomImageLibrary ImageLibrary;
-    public int RefCount;
+    private CustomImageLibrary _imageLibrary;
+    private int _refCount;
     public bool Hidden;
 
     // Army.PAS:5093
@@ -60,25 +60,25 @@ public partial class ItemGraphics : EngineResource
     // Army.PAS:5138
     public override int AddRef()
     {
-        if (RefCount == 0)
+        if (_refCount == 0)
         {
             LinkToImageLibrary();
         }
 
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // Army.PAS:5145
     public override int Release()
     {
-        RefCount -= 1;
-        if (RefCount == 0)
+        _refCount -= 1;
+        if (_refCount == 0)
         {
             ReleaseImageLibrary();
         }
 
-        return RefCount;
+        return _refCount;
     }
 
     // Army.PAS:5152
@@ -86,7 +86,7 @@ public partial class ItemGraphics : EngineResource
     {
         LibraryImage image;
         AddRef();
-        image = ImageLibrary[ImageIndex];
+        image = _imageLibrary[ImageIndex];
         Release();
         return image;
     }
@@ -100,25 +100,25 @@ public partial class ItemGraphics : EngineResource
         ReleaseImageLibrary();
         if (!IsEmpty(ImageLibraryName))
         {
-            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+            _imageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
         }
         else
         {
-            ImageLibrary = null;
+            _imageLibrary = null;
         }
     }
 
     // Army.PAS:5116
     public void ReleaseImageLibrary()
     {
-        if (ImageLibrary != null)
+        if (_imageLibrary != null)
         {
             if (!IsEmpty(ImageLibraryName))
             {
                 AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
             }
 
-            ImageLibrary = null;
+            _imageLibrary = null;
         }
     }
 
@@ -128,13 +128,13 @@ public partial class ItemGraphics : EngineResource
         if (!IsEmpty(ImageLibraryName))
         {
             AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
-            ImageLibrary = null;
+            _imageLibrary = null;
         }
 
         ImageLibraryName = value;
-        if (!IsEmpty(ImageLibraryName) && RefCount != 0)
+        if (!IsEmpty(ImageLibraryName) && _refCount != 0)
         {
-            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+            _imageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
         }
     }
 
@@ -142,9 +142,9 @@ public partial class ItemGraphics : EngineResource
     public LibraryImage GetItemImage()
     {
         LibraryImage result;
-        if (ImageLibrary != null)
+        if (_imageLibrary != null)
         {
-            result = ImageLibrary[ImageIndex];
+            result = _imageLibrary[ImageIndex];
         }
         else
         {

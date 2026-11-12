@@ -52,11 +52,11 @@ public partial class PlayerInfoWindow : DataModule
             if (AoWHSMap.Current.SeatedPlayer != 0)
             {
                 var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[player.PlayerRace]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                 DialogHosts.PlayerInfoWindow.Race.Text = raceNamesPlural;
             }
 
-            var day = AbilityRules.TranslateResourceString(GameText.s_dayText);
+            var day = AbilityRules.TranslateResourceString(GameText.DayText);
             DialogHosts.PlayerInfoWindow.Turn.Text = day + " " + IntToStr(AoWHSMap.Current.Day);
             raceIndex = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)

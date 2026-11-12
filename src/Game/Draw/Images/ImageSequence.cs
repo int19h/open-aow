@@ -12,27 +12,27 @@ namespace Aow.Game.Draw.Images;
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
 public partial class ImageSequence : IDisposable
 {
-    internal ImageSequenceList _owner;
+    private ImageSequenceList _owner;
     internal byte _layer;
-    internal ImageSequence _next;
-    internal CustomImageLibrary _imageLibrary;
-    internal string _imageLibraryName = "";
-    internal byte _sequenceSpeed;
+    private ImageSequence _next;
+    private CustomImageLibrary _imageLibrary;
+    private string _imageLibraryName = "";
+    private byte _sequenceSpeed;
     internal SequenceMode _sequenceMode;
-    internal FrameTableList _frameTable;
-    internal int _imageIndex;
+    private FrameTableList _frameTable;
+    private int _imageIndex;
     internal int _offsetX;
     internal int _offsetY;
-    internal int _lastFrame;
-    internal byte _speedCount;
-    internal int _frameCounter;
+    private int _lastFrame;
+    private byte _speedCount;
+    private int _frameCounter;
 
     // ImageLib.pas:8606
     internal void SetImageLibraryName(string value)
     {
         ReleaseImageLibrary();
         _imageLibraryName = value;
-        if (_owner._linked)
+        if (_owner.Linked)
         {
             LinkToImageLibrary();
         }
@@ -97,7 +97,7 @@ public partial class ImageSequence : IDisposable
             result = null;
             if (_frameTable != null && _frameTable._count != 0)
             {
-                result = _imageLibrary.GetSafe(_frameTable._list[0]);
+                result = _imageLibrary.GetSafe(_frameTable.List[0]);
             }
 
             if (_sequenceMode == SequenceMode.None)
@@ -238,7 +238,7 @@ public partial class ImageSequence : IDisposable
                         if (_frameTable.Count != 0)
                         {
                             result = result % _frameTable.Count;
-                            result = _frameTable._list[result];
+                            result = _frameTable.List[result];
                         }
                         else
                         {
@@ -293,7 +293,7 @@ public partial class ImageSequence : IDisposable
 
                         if (_frameTable.Count != 0)
                         {
-                            result = _frameTable._list[(_imageIndex + offset) % _frameTable.Count];
+                            result = _frameTable.List[(_imageIndex + offset) % _frameTable.Count];
                         }
                         else
                         {
@@ -342,7 +342,7 @@ public partial class ImageSequence : IDisposable
                         result = frame / (_sequenceSpeed + 1);
                         if (result < _frameTable.Count)
                         {
-                            result = _frameTable._list[result];
+                            result = _frameTable.List[result];
                         }
                         else
                         {
@@ -395,11 +395,11 @@ public partial class ImageSequence : IDisposable
 
         if (!IsEmpty(_imageLibraryName))
         {
-            _imageLibrary = _owner._imageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+            _imageLibrary = _owner.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
         }
         else
         {
-            _imageLibrary = _owner._imageLibrary;
+            _imageLibrary = _owner.ImageLibrary;
         }
     }
 
@@ -410,7 +410,7 @@ public partial class ImageSequence : IDisposable
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                _owner._imageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+                _owner.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
             }
 
             _imageLibrary = null;

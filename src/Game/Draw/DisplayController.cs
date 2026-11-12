@@ -9,14 +9,19 @@ namespace Aow.Game.Draw;
 public partial class DisplayController : CustomDisplayController
 {
 
-    internal int _lastFrameTime;
-    internal ushort _frameCount;
-    internal Set<DisplayControllerStatusElement> _status;
-    internal CustomDisplay _display;
-    internal Rect _primarySurfaceRegion;
-    internal Matrix _inverseMatrix;
-    internal bool _realizePaletteValue;
-    internal int _lastVerticalBlankTime;
+    private int _lastFrameTime;
+    private ushort _frameCount;
+
+    internal Set<DisplayControllerStatusElement> Status { get; set; }
+
+    private CustomDisplay _display;
+
+    internal Rect PrimarySurfaceRegion { get; private set; }
+
+    private Matrix _inverseMatrix;
+
+    internal bool RealizePaletteValue { get; private set; }
+    internal int LastVerticalBlankTime { get; private set; }
 
     public DisplayController(Component owner) : base(owner)
     {
@@ -26,7 +31,7 @@ public partial class DisplayController : CustomDisplayController
     // DisplayC.pas:1031
     public override void Dispose()
     {
-        if (_status.Contains(DisplayControllerStatusElement.Activated))
+        if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
             Deactivate();
         }
@@ -53,7 +58,7 @@ public partial class DisplayController : CustomDisplayController
         }
         else
         {
-            result = (int)GetDisplay()._bufferingScheme;
+            result = (int)GetDisplay().BufferingScheme;
         }
 
         return result;
@@ -92,15 +97,15 @@ public partial class DisplayController : CustomDisplayController
     // DisplayC.pas:675
     public override void SetPrimarySurfaceRegion(in Rect R)
     {
-        _primarySurfaceRegion = R;
+        PrimarySurfaceRegion = R;
     }
 
     // DisplayC.pas:680
     // The original returns @FPrimarySurfaceRgn, which is never nil.
-    public override Rect? GetPrimarySurfaceRegion() => _primarySurfaceRegion;
+    public override Rect? GetPrimarySurfaceRegion() => PrimarySurfaceRegion;
 
     // DisplayC.pas:685
-    public override Set<DisplayControllerStatusElement> GetStatus() => _status;
+    public override Set<DisplayControllerStatusElement> GetStatus() => Status;
 
     // DisplayC.pas:690
     public override int GetHPalette() => 0;
@@ -136,11 +141,11 @@ public partial class DisplayController : CustomDisplayController
     public override int Activate(CustomDisplay display)
     {
         int result;
-        if (!_status.Contains(DisplayControllerStatusElement.Activated))
+        if (!Status.Contains(DisplayControllerStatusElement.Activated))
         {
             _display = display;
-            _status = _status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
-            _display._currentFrameRate = _display._frameRate;
+            Status = Status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            _display.CurrentFrameRate = _display.FrameRate;
             InvalidateAll();
             result = 0;
         }
@@ -156,9 +161,9 @@ public partial class DisplayController : CustomDisplayController
     public override int Deactivate()
     {
         int result;
-        if (_status.Contains(DisplayControllerStatusElement.Activated))
+        if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
-            _status = _status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            Status = Status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
             if (_display != null)
             {
                 _display.DeactivateDisplayController();
@@ -186,7 +191,7 @@ public partial class DisplayController : CustomDisplayController
     {
         if (_display.Status.Contains(DisplayStatusElement.FrameLoopActive))
         {
-            _realizePaletteValue = true;
+            RealizePaletteValue = true;
         }
         else
         {
@@ -209,14 +214,14 @@ public partial class DisplayController : CustomDisplayController
     // DisplayC.pas:830
     public override int Hide()
     {
-        _status = _status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        Status = Status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:836
     public override int Show()
     {
-        _status = _status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        Status = Status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
@@ -269,18 +274,18 @@ public partial class DisplayController : CustomDisplayController
         int L;
         int off;
         bool ok;
-        P = X + matrix._width * Y;
-        if (matrix._data[P] != 0)
+        P = X + matrix.Width * Y;
+        if (matrix.Data[P] != 0)
         {
             h1 = 0;
             Q = P;
-            w1 = matrix._width - X;
+            w1 = matrix.Width - X;
             size1 = 0;
             do
             {
                 N = w1;
                 L = 0;
-                while (N != 0 && matrix._data[Q + L] != 0)
+                while (N != 0 && matrix.Data[Q + L] != 0)
                 {
                     L += 1;
                     N -= 1;
@@ -290,28 +295,28 @@ public partial class DisplayController : CustomDisplayController
                 if (ok)
                 {
                     h1 += 1;
-                    Q = Q + matrix._width;
+                    Q = Q + matrix.Width;
                     w1 = L;
                     size1 = h1 * L;
                 }
             }
-            while (!(!ok || h1 + Y == matrix._height));
+            while (!(!ok || h1 + Y == matrix.Height));
             bh = h1;
             bw = w1;
             w2 = 0;
             Q = P;
-            h2 = matrix._height - Y;
+            h2 = matrix.Height - Y;
             size2 = 0;
             do
             {
                 N = h2;
                 L = 0;
                 off = 0;
-                while (N != 0 && matrix._data[Q + off] != 0)
+                while (N != 0 && matrix.Data[Q + off] != 0)
                 {
                     L += 1;
                     N -= 1;
-                    off += matrix._width;
+                    off += matrix.Width;
                 }
 
                 ok = L * w2 >= size2;
@@ -323,7 +328,7 @@ public partial class DisplayController : CustomDisplayController
                     size2 = w2 * h2;
                 }
             }
-            while (!(!ok || w2 + X == matrix._width));
+            while (!(!ok || w2 + X == matrix.Width));
             if (size2 > size1)
             {
                 bw = w2;
@@ -348,8 +353,8 @@ public partial class DisplayController : CustomDisplayController
     {
         int W;
         int H;
-        W = (R.Right - R.Left + _inverseMatrix._width - 1) / _inverseMatrix._width;
-        H = (R.Bottom - R.Top + _inverseMatrix._height - 1) / _inverseMatrix._height;
+        W = (R.Right - R.Left + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
+        H = (R.Bottom - R.Top + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
         pixelX = W * bx;
         pixelY = H * by;
         bw = W;
@@ -361,8 +366,8 @@ public partial class DisplayController : CustomDisplayController
     {
         int W;
         int H;
-        W = (R.Right - R.Left + 1 + _inverseMatrix._width - 1) / _inverseMatrix._width;
-        H = (R.Bottom - R.Top + 1 + _inverseMatrix._height - 1) / _inverseMatrix._height;
+        W = (R.Right - R.Left + 1 + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
+        H = (R.Bottom - R.Top + 1 + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
         bx = (pixelX - R.Left) / W;
         by = (pixelY - R.Top) / H;
     }
@@ -387,7 +392,7 @@ public partial class DisplayController : CustomDisplayController
             R.Bottom = GetSurface(1).Height;
             GetBlockPositionOfPixel(X, Y, R, ref bx1, ref by1);
             GetBlockPositionOfPixel(X + W, Y + H, R, ref bx2, ref by2);
-            if (M._width > bx1 && M._height > by1 && by2 >= 0 && by1 >= 0)
+            if (M.Width > bx1 && M.Height > by1 && by2 >= 0 && by1 >= 0)
             {
                 if (bx1 < 0)
                 {
@@ -399,14 +404,14 @@ public partial class DisplayController : CustomDisplayController
                     by1 = 0;
                 }
 
-                if (M._width <= bx2)
+                if (M.Width <= bx2)
                 {
-                    bx2 = M._width - 1;
+                    bx2 = M.Width - 1;
                 }
 
-                if (M._height <= by2)
+                if (M.Height <= by2)
                 {
-                    by2 = M._height - 1;
+                    by2 = M.Height - 1;
                 }
 
                 X = bx1;
@@ -431,7 +436,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:1043
-    public int GetCurrentFrameRate() => _display._currentFrameRate;
+    public int GetCurrentFrameRate() => _display.CurrentFrameRate;
 
     // DisplayC.pas:1049
     // { Counts frames; every 5 frames the frame rate is measured. }
@@ -441,7 +446,7 @@ public partial class DisplayController : CustomDisplayController
         if (_frameCount >= 5)
         {
             T = PixelFormats.GetElapsedMilliseconds();
-            _display._currentFrameRate = Round((double)5000 / (T - _lastFrameTime + 1));
+            _display.CurrentFrameRate = Round((double)5000 / (T - _lastFrameTime + 1));
             _frameCount = 0;
             _lastFrameTime = T;
         }

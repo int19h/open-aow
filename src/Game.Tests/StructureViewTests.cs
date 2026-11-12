@@ -32,7 +32,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // stands on the field, so every action stops at that query.
     private sealed class ArmyOwner : EngineFixture.Owner
     {
-        internal int ArmyQueries;
+        internal int ArmyQueries { get; private set; }
 
         public override EngineObject FindOwnedChild(int classId)
         {
@@ -212,7 +212,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         private readonly AoWHSMap _previousMap = AoWHSMap.Current;
         private readonly bool _previousDebug = GameTables.GameEngine.Debug;
         private readonly List<Structure> _created = [];
-        internal readonly AoWHSMap Map;
+
+        internal AoWHSMap Map { get; }
 
         internal Scene()
         {

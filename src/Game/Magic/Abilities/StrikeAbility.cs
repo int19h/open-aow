@@ -24,7 +24,7 @@ public partial class StrikeAbility : AdjustableAbility
         MeleeRound = new MeleeRound();
     }
 
-    public MeleeRound MeleeRound;
+    public MeleeRound MeleeRound { get; }
 
     // AoWAb.PAS:1220
     public override void Dispose()

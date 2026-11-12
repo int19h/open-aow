@@ -8,9 +8,11 @@ namespace Aow.Game.Draw.Images;
 public partial class LibraryImagePalette : Persistent
 {
     internal int _index;
-    internal Palette _palette;
-    internal Palette _remapPaletteValue;
-    internal int _refCount;
+    private Palette _palette;
+
+    internal Palette RemapPaletteValue { get; private set; }
+
+    private int _refCount;
 
     // ImageLib.pas:7084
     public LibraryImagePalette()
@@ -47,18 +49,18 @@ public partial class LibraryImagePalette : Persistent
         else
         {
             PixelFormats.Color2PixelInfo(0, pixelFormatId, _palette);
-            if (_remapPaletteValue == null || pixelFormatId != _remapPaletteValue.PixelFormatId)
+            if (RemapPaletteValue == null || pixelFormatId != RemapPaletteValue.PixelFormatId)
             {
-                if (_remapPaletteValue == null)
+                if (RemapPaletteValue == null)
                 {
-                    _remapPaletteValue = new Palette();
+                    RemapPaletteValue = new Palette();
                 }
 
-                _remapPaletteValue.Assign(_palette);
-                _remapPaletteValue.Remap(pixelFormatId);
+                RemapPaletteValue.Assign(_palette);
+                RemapPaletteValue.Remap(pixelFormatId);
             }
 
-            result = _remapPaletteValue;
+            result = RemapPaletteValue;
         }
 
         return result;
@@ -70,14 +72,14 @@ public partial class LibraryImagePalette : Persistent
         if (source is LibraryImagePalette)
         {
             _palette.Assign(((LibraryImagePalette)source)._palette);
-            if (((LibraryImagePalette)source)._remapPaletteValue != null)
+            if (((LibraryImagePalette)source).RemapPaletteValue != null)
             {
-                if (_remapPaletteValue == null)
+                if (RemapPaletteValue == null)
                 {
-                    _remapPaletteValue = new Palette();
+                    RemapPaletteValue = new Palette();
                 }
 
-                _remapPaletteValue.Assign(((LibraryImagePalette)source)._remapPaletteValue);
+                RemapPaletteValue.Assign(((LibraryImagePalette)source).RemapPaletteValue);
             }
             else
             {
@@ -91,6 +93,6 @@ public partial class LibraryImagePalette : Persistent
 
     public int Index { get => _index; }
     public Palette Palette { get => _palette; }
-    public int RefCount { get => _refCount; }
+    public int RefCount { get => _refCount; internal set => _refCount = value; }
 
 }

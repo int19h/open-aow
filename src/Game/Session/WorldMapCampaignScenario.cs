@@ -16,13 +16,15 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     public string ImageLibrary = "";
     public string PathDescription = "";
     public string Description = "";
-    public bool Reserved20;
+    private bool _reserved20;
     // rwBool
     public int MapX;
     public int MapY;
-    public Int32List Paths;
-    public WMCampaignScenarioPageList IntroPages;
-    public WMCampaignScenarioPageList OutroPages;
+
+    public Int32List Paths { get; }
+    public WMCampaignScenarioPageList IntroPages { get; }
+    public WMCampaignScenarioPageList OutroPages { get; }
+
     public byte MapKind;
 
     // AoWVideoDlg.pas:295
@@ -45,7 +47,7 @@ public partial class WorldMapCampaignScenario : CampaignScenario
 
         stream.rwString(ref PathDescription, 13);
         stream.rwString(ref Description, 14);
-        stream.rwBool(ref Reserved20, 15);
+        stream.rwBool(ref _reserved20, 15);
         stream.rwInteger(ref MapX, 16);
         stream.rwInteger(ref MapY, 17);
         stream.rwEObject(IntroPages, 19);

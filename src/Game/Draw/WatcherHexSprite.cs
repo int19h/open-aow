@@ -23,18 +23,21 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1220
     public new const int ClassId = 132989;
 
-    public byte WatcherState;
-    public byte UnfogRadius;
-    public WatcherEnchantment Enchantment;
-    public int AnimationFrame;
-    public Int32List Unexplored;
-    public bool VisibleForSeatedPlayer;
+    public byte WatcherState { get; private set; }
+
+    private byte _unfogRadius;
+
+    public WatcherEnchantment Enchantment { get; }
+
+    private int _animationFrame;
+    private Int32List _unexplored;
+    private bool _visibleForSeatedPlayer;
 
     // GlobalTargetSpells.pas:1213
     public override void Dispose()
     {
         base.Dispose();
-        Unexplored?.Dispose();
+        _unexplored?.Dispose();
         Enchantment.Release();
     }
 
@@ -50,9 +53,9 @@ public partial class WatcherHexSprite : SingleHexSprite
     {
         Enchantment = new WatcherEnchantment(null);
         Enchantment.Watcher = this;
-        Unexplored = new Int32List();
-        VisibleForSeatedPlayer = false;
-        AnimationFrame = -1;
+        _unexplored = new Int32List();
+        _visibleForSeatedPlayer = false;
+        _animationFrame = -1;
     }
 
     // GlobalTargetSpells.pas:1422
@@ -110,21 +113,21 @@ public partial class WatcherHexSprite : SingleHexSprite
                 AoWHSSet.Current.SpellControl.GetSpell(57).CastImages.ShowLooped(1, X, Y, AoWHSMap.Current.Frame, lockedSurface);
             }
 
-            if (AnimationFrame != -1)
+            if (_animationFrame != -1)
             {
-                AnimationFrame += 1;
+                _animationFrame += 1;
                 // The original reads the shared AoWEngine animation detail. The map engine is
                 // not the global read by this routine.
                 if (GameTables.GameEngine.AnimationDetail == 2 && AoWHSMap.Current.ViewL == HexLevel)
                 {
-                    intensity = 100 - AnimationFrame;
+                    intensity = 100 - _animationFrame;
                     var hexY2 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY2, ref X, ref Y);
                     X = X - pixelXSurface - 8;
                     Y = Y - pixelYSurface;
-                    for (int I = Unexplored.Count - 1; I >= 0; I--)
+                    for (int I = _unexplored.Count - 1; I >= 0; I--)
                     {
-                        HexGeometry.HexNumberToPixel(Unexplored[I], ref pixelX, ref pixelY);
+                        HexGeometry.HexNumberToPixel(_unexplored[I], ref pixelX, ref pixelY);
                         pixelX += X;
                         pixelY += Y;
                         AoWHSSet.Current.GeneralImages[5].ShowBlended(pixelX, pixelY, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
@@ -138,14 +141,14 @@ public partial class WatcherHexSprite : SingleHexSprite
                     radius = Random(VisibilityRange() << 5);
                     angle = Random(360);
                     delay = Random(80);
-                    if (AnimationFrame - delay >= 0)
+                    if (_animationFrame - delay >= 0)
                     {
                         AbilityRules.PolarToCartesian(angle, radius, ref deltaX, ref deltaY);
-                        AoWHSSet.Current.SpellControl.GetSpell(57).CastImages.Show(0, X + deltaX, Y + deltaY, AnimationFrame - delay, lockedSurface);
+                        AoWHSSet.Current.SpellControl.GetSpell(57).CastImages.Show(0, X + deltaX, Y + deltaY, _animationFrame - delay, lockedSurface);
                     }
                 }
 
-                if (AnimationFrame == 100)
+                if (_animationFrame == 100)
                 {
                     StopAnimation();
                 }
@@ -266,10 +269,10 @@ public partial class WatcherHexSprite : SingleHexSprite
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        AnimationFrame = 0;
+        _animationFrame = 0;
         AoWHSMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
         AoWHSSet.Current.SpellControl.GetSpell(57).CastSounds.Play(0);
-        Unexplored.Clear();
+        _unexplored.Clear();
         if (AoWHSMap.Current.ExplorationEnabled)
         {
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
@@ -283,7 +286,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 {
                     if (!((AoWMapField)level.Field[walk.X, walk.Y]).GetExplored(AoWHSMap.Current.SeatedPlayer))
                     {
-                        Unexplored.Add(walk.HexNumber);
+                        _unexplored.Add(walk.HexNumber);
                     }
                 }
 
@@ -296,8 +299,8 @@ public partial class WatcherHexSprite : SingleHexSprite
     public void StopAnimation()
     {
         AoWHSMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
-        AnimationFrame = -1;
-        Unexplored.Clear();
+        _animationFrame = -1;
+        _unexplored.Clear();
     }
 
     // GlobalTargetSpells.pas:1305
@@ -333,21 +336,21 @@ public partial class WatcherHexSprite : SingleHexSprite
             radius = 0;
         }
 
-        if (radius != UnfogRadius)
+        if (radius != _unfogRadius)
         {
-            if (UnfogRadius != 0)
+            if (_unfogRadius != 0)
             {
                 var hexY = HexY;
                 var hexX = HexX;
-                AoWHSMap.Current.FogArea(hexX, hexY, HexLevel, UnfogRadius);
+                AoWHSMap.Current.FogArea(hexX, hexY, HexLevel, _unfogRadius);
             }
 
-            UnfogRadius = (byte)radius;
-            if (UnfogRadius != 0)
+            _unfogRadius = (byte)radius;
+            if (_unfogRadius != 0)
             {
                 var hexY = HexY;
                 var hexX = HexX;
-                AoWHSMap.Current.UnFogArea(hexX, hexY, HexLevel, UnfogRadius);
+                AoWHSMap.Current.UnFogArea(hexX, hexY, HexLevel, _unfogRadius);
             }
         }
     }
@@ -370,9 +373,9 @@ public partial class WatcherHexSprite : SingleHexSprite
     {
         bool visible;
         visible = Enchantment.VisibleForPlayer(AoWHSMap.Current.SeatedPlayer);
-        if (VisibleForSeatedPlayer ^ visible)
+        if (_visibleForSeatedPlayer ^ visible)
         {
-            VisibleForSeatedPlayer = visible;
+            _visibleForSeatedPlayer = visible;
             AoWHSMap.Current.GlobalMagicControl.TriggerChangedEvent();
         }
     }

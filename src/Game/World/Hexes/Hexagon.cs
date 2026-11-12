@@ -20,7 +20,8 @@ public partial class Hexagon : AbstractHexagon
     public new const int ClassId = 131410;
 
     protected internal ByteArray3 Transitions;
-    protected internal byte TransitionSides;
+
+    protected internal byte TransitionSides { get; protected set; }
 
     // Hexagon.pas:60
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)

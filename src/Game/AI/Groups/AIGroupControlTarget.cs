@@ -15,34 +15,37 @@ public partial class AIGroupControlTarget : EngineObject
     // AIGroup.pas:635
     public AIGroupControlTarget(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
         TransporterId = -1;
     }
 
-    public int RefCount;
-    public AITargetInfo Info;
+    private int _refCount;
+
+    public AITargetInfo Info { get; set; }
+
     public AITargetData Data;
     public MapCoordinate Location;
-    public int MovePoints;
-    public int TransporterId;
-    public Set<AIGroupTargetFlags> Status;
-    public int PathStrength;
-    public int DataA;
-    public int DataB;
+
+    public int MovePoints { get; set; }
+    public int TransporterId { get; set; }
+    public Set<AIGroupTargetFlags> Status { get; set; }
+    public int PathStrength { get; set; }
+    public int DataA { get; set; }
+    public int DataB { get; set; }
 
     // AIGroup.pas:642
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:648
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (_refCount == 0)
         {
             Dispose();
         }

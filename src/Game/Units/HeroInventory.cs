@@ -14,13 +14,13 @@ public partial class HeroInventory : ItemList
     // Hero.PAS:274
     public HeroInventory(ECustomNode owner) : base(null)
     {
-        _owner = owner;
+        SetOwnerWithoutNotify(owner);
     }
 
     // Hero.PAS:280
     public override void Dispose()
     {
-        _owner = null;
+        SetOwnerWithoutNotify(null);
         base.Dispose();
     }
 

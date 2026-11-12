@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 // (ProtectionTypes.)
 public partial class ProtectionAbility : EnhancementAbility
 {
-    public Set<DamageType> ProtectionTypes;
+    public Set<DamageType> ProtectionTypes { get; set; }
 
     // PassiveAb.pas:1446
     public ProtectionAbility(ECustomNode owner) : base(owner)

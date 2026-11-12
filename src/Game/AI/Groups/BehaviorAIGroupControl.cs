@@ -6,7 +6,7 @@ namespace Aow.Game.AI.Groups;
 // TargetSelector
 public partial class BehaviorAIGroupControl : AIGroupControl
 {
-    public AIGroupTargetSelector TargetSelector;
+    public AIGroupTargetSelector TargetSelector { get; }
 
     // BehaviorAG.pas:150
     public override void Dispose()

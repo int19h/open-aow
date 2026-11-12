@@ -18,11 +18,13 @@ public partial class RangedAttackAbility : AdjustableAbility
         AbilityType = AbilityType.Combat;
     }
 
-    public CombatRange RangeRangedAttack;
-    public sbyte DamageRangedAttack;
-    public sbyte AttackRangedAttack;
+    public CombatRange RangeRangedAttack { get; set; }
+    public sbyte DamageRangedAttack { get; set; }
+    public sbyte AttackRangedAttack { get; set; }
+
     public PackedDamageTypes DamageTypesRangedAttack;
-    public sbyte AttackRepeatRangedAttack;
+
+    public sbyte AttackRepeatRangedAttack { get; set; }
 
     // AoWAb.PAS:4694
     public override CombatMode GetCombatMode(AbilityOwner owner) => CombatRangeToCombatMode(GetRangeRangedAttack(owner));

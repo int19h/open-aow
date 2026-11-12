@@ -21,8 +21,8 @@ public partial class MultiLevelAbility : AdjustableAbility
         MaxLevel = 4;
     }
 
-    public int MaxLevel;
-    public Int32List LevelCosts;
+    public int MaxLevel { get; protected set; }
+    public Int32List LevelCosts { get; }
 
     // AoWAb.PAS:255
     public override void Dispose()
@@ -36,7 +36,7 @@ public partial class MultiLevelAbility : AdjustableAbility
 
     // AoWAb.PAS:317
     // { branch past the missing-data exit and nil-owner zero result }
-    public override EngineClass AbilityDataClass() => AbilityRules.s_multiLevelDataClass;
+    public override EngineClass AbilityDataClass() => AbilityRules.MultiLevelDataClass;
 
     public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(AbilityId))?.Level ?? 0;
     public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(AbilityId))?.Level ?? 0;

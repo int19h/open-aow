@@ -26,8 +26,9 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:57
     public new const int ClassId = 2229510;
 
-    public int HitPoints;
-    public bool PlaySound;
+    public int HitPoints { get; private set; }
+
+    private bool _playSound;
 
     // CombatStructure.pas:51
 
@@ -150,7 +151,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     SetHitPoints(HitPoints - executeDamageRole10);
                     break;
                 case 200708:
-                    PlaySound = message.Param[1].Int == 0;
+                    _playSound = message.Param[1].Int == 0;
                     AoWHSSet.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense11 = GetDefense();
@@ -201,9 +202,9 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            PlaySound = true;
+            _playSound = true;
             razed = false;
-            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
             if (structure != null)
             {
                 razed = structure.GetRazed();
@@ -285,7 +286,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         {
             if (value == 0)
             {
-                if (PlaySound && CombatMap.Current.PlaySounds)
+                if (_playSound && CombatMap.Current.PlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
@@ -299,7 +300,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
             }
             else
             {
-                if (PlaySound && CombatMap.Current.PlaySounds)
+                if (_playSound && CombatMap.Current.PlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
@@ -307,7 +308,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         }
 
         HitPoints = value;
-        PlaySound = true;
+        _playSound = true;
     }
 
     // CombatStructure.pas:23

@@ -18,25 +18,25 @@ public sealed class GraphicsArrayTests
     {
         using var library = new ImageLibrary(null!);
         library.SetImageReference(0, 5);
-        Assert.Equal(1, library._count);
-        Assert.Equal(7, library._capacity);
-        Assert.Equal(7, library._images.Length);
-        Assert.All(library._images.Skip(1), item => Assert.Equal(-1, item.Reference));
+        Assert.Equal(1, library.Count);
+        Assert.Equal(7, library.Capacity);
+        Assert.Equal(7, library.Images.Length);
+        Assert.All(library.Images.Skip(1), item => Assert.Equal(-1, item.Reference));
         library.SetImageReference(1, 6);
         library.SetImageReference(2, 7);
         library.InsertItem(1);
-        Assert.Equal(4, library._count);
-        Assert.Equal([5, 0, 6, 7, -1, -1, -1], library._images.Select(item => item.Reference));
+        Assert.Equal(4, library.Count);
+        Assert.Equal([5, 0, 6, 7, -1, -1, -1], library.Images.Select(item => item.Reference));
         library.SetImageReference(8, 9);
-        Assert.Equal(9, library._count);
-        Assert.Equal(15, library._capacity);
-        Assert.Equal([5, 0, 6, 7, -1, -1, -1, -1, 9, -1, -1, -1, -1, -1, -1], library._images.Select(item => item.Reference));
+        Assert.Equal(9, library.Count);
+        Assert.Equal(15, library.Capacity);
+        Assert.Equal([5, 0, 6, 7, -1, -1, -1, -1, 9, -1, -1, -1, -1, -1, -1], library.Images.Select(item => item.Reference));
         library.DeleteItem(0);
-        Assert.Equal(8, library._count);
-        Assert.Equal([0, 6, 7, -1, -1, -1, -1, 9, 0, -1, -1, -1, -1, -1, -1], library._images.Select(item => item.Reference));
+        Assert.Equal(8, library.Count);
+        Assert.Equal([0, 6, 7, -1, -1, -1, -1, 9, 0, -1, -1, -1, -1, -1, -1], library.Images.Select(item => item.Reference));
         library.SetCapacity(0);
-        Assert.Null(library._images);
-        Assert.Equal(0, library._count);
+        Assert.Null(library.Images);
+        Assert.Equal(0, library.Count);
     }
 
     // ImageLib.pas 1313 to 1397: Add grows the node to its count, Insert by one, both move the tail
@@ -50,25 +50,25 @@ public sealed class GraphicsArrayTests
         {
             node.Add(images[0]);
             node.Add(images[1]);
-            Assert.Equal((2, 2), (node._count, node._capacity));
+            Assert.Equal((2, 2), (node.Count, node.Capacity));
             node.Insert(1, images[2]);
-            Assert.Equal((3, 3), (node._count, node._capacity));
-            Assert.Equal(new LibraryImage[] { images[0], images[2], images[1] }, node._images);
+            Assert.Equal((3, 3), (node.Count, node.Capacity));
+            Assert.Equal(new LibraryImage[] { images[0], images[2], images[1] }, node.Images);
             node.Insert(0, images[3]);
-            Assert.Equal(new LibraryImage[] { images[3], images[0], images[2], images[1] }, node._images);
+            Assert.Equal(new LibraryImage[] { images[3], images[0], images[2], images[1] }, node.Images);
             node.Delete(1);
-            Assert.Equal(3, node._count);
-            Assert.Equal(new LibraryImage[] { images[3], images[2], images[1] }, node._images.Take(3));
+            Assert.Equal(3, node.Count);
+            Assert.Equal(new LibraryImage[] { images[3], images[2], images[1] }, node.Images.Take(3));
             Assert.Equal(1, node.IndexOf(images[2]));
             Assert.Equal(-1, node.IndexOf(images[0]));
             Assert.Same(images[1], node.GetImage(2));
             Assert.Null(node.GetSafeImage(3));
             node.SetCapacity(0);
-            Assert.Null(node._images);
+            Assert.Null(node.Images);
         }
         finally
         {
-            node._count = 0;
+            node.Count = 0;
             node.Dispose();
             foreach (var image in images) image.Dispose();
         }
@@ -122,20 +122,20 @@ public sealed class GraphicsArrayTests
     public void MatrixKeepsItsValuesRowByRow()
     {
         var matrix = new Matrix(4, 3);
-        Assert.Equal(12, matrix._data.Length);
-        Assert.All(matrix._data, value => Assert.Equal(0, value));
+        Assert.Equal(12, matrix.Data.Length);
+        Assert.All(matrix.Data, value => Assert.Equal(0, value));
         matrix.SetValue(1, 2, 5);
         matrix.SetValue(3, 0, 1);
         matrix.SetValue(4, 0, 1);
-        Assert.Equal(5, matrix._data[1 + 2 * 4]);
-        Assert.Equal(1, matrix._data[3]);
+        Assert.Equal(5, matrix.Data[1 + 2 * 4]);
+        Assert.Equal(1, matrix.Data[3]);
         Assert.Equal(2, matrix.GetValue(1, 2));
         Assert.Equal(1, matrix.GetValue(3, 0));
         Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetValue(4, 0));
         matrix.Dispose();
-        Assert.Null(matrix._data);
+        Assert.Null(matrix.Data);
         var empty = new Matrix(0, 3);
-        Assert.Null(empty._data);
+        Assert.Null(empty.Data);
         Assert.Throws<ArgumentOutOfRangeException>(() => empty.GetValue(0, 0));
     }
 

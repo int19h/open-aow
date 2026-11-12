@@ -112,7 +112,7 @@ public partial class AnimateHero : Spell
             {
                 if (source.Player == AoWHSMap.Current.SeatedPlayer)
                 {
-                    var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.s_noHeroAnswersYourCallText);
+                    var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.NoHeroAnswersYourCallText);
                     AoWHSMap.Current.ShowMessage(noHeroAnswersYourCall);
                     AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
                 }

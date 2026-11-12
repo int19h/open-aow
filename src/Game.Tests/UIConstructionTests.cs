@@ -20,7 +20,7 @@ public sealed class UIConstructionTests
 {
     private sealed class ComponentOwner : Component
     {
-        internal readonly List<string> Observations = [];
+        internal List<string> Observations { get; } = [];
 
         public override void Notification(Component child, Component.Operation operation)
         {
@@ -41,18 +41,18 @@ public sealed class UIConstructionTests
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
             GameTables.GameEngine = EngineFixture.Engine;
-            _loaded = GameTables.GameEngine._onHsmLoadedStore;
-            _closed = GameTables.GameEngine._onHsmCloseStore;
-            GameTables.GameEngine._onHsmLoadedStore = new EventStore<HSMap>();
-            GameTables.GameEngine._onHsmCloseStore = new EventStore<HSMap>();
+            _loaded = GameTables.GameEngine.OnHsmLoadedStore;
+            _closed = GameTables.GameEngine.OnHsmCloseStore;
+            GameTables.GameEngine.OnHsmLoadedStore = new EventStore<HSMap>();
+            GameTables.GameEngine.OnHsmCloseStore = new EventStore<HSMap>();
             AoWHSMap.Current = null!;
             CombatMap.Current = null!;
         }
 
         public void Dispose()
         {
-            GameTables.GameEngine._onHsmLoadedStore = _loaded;
-            GameTables.GameEngine._onHsmCloseStore = _closed;
+            GameTables.GameEngine.OnHsmLoadedStore = _loaded;
+            GameTables.GameEngine.OnHsmCloseStore = _closed;
             GameTables.GameEngine = _previousEngine;
             AoWHSMap.Current = _previousMap;
             CombatMap.Current = _previousCombat;
@@ -80,10 +80,10 @@ public sealed class UIConstructionTests
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
                     if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
-                    string key = current.Name + "." + field.Name;
+                    string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name is "_owner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = field.Name is "_engine" or "_hexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
@@ -261,7 +261,7 @@ public sealed class UIConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + GameTables.GameEngine._onHsmLoadedStore.Count + ":" + GameTables.GameEngine._onHsmCloseStore.Count);
+            states.Add("subscriptions:" + GameTables.GameEngine.OnHsmLoadedStore.Count + ":" + GameTables.GameEngine.OnHsmCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

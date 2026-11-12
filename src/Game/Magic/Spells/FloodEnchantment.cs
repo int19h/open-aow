@@ -28,7 +28,8 @@ public partial class FloodEnchantment : GlobalEnchantment
     public sbyte DispelPlayer;
     // alignment
     public int TurnsActive;
-    public FloodControl FloodControl;
+
+    public FloodControl FloodControl { get; }
 
     // GlobalEnchantmentSpells.pas:1234
     public override void Dispose()
@@ -61,7 +62,7 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1224
     public FloodEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_floodText);
+        Name = AbilityRules.TranslateResourceString(GameText.FloodText);
         EnchantmentType = GlobalEnchantmentType.Flood;
         FloodControl = new FloodControl(null);
         DispelMana = 100;

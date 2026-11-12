@@ -9,10 +9,11 @@ namespace Aow.Engine.Collections;
 
 public partial class BitList : Persistent
 {
-    internal Memory<byte> _list = Memory<byte>.Empty;
-    internal int _count;
-    internal int _capacity;
-    internal bool _default;
+    internal Memory<byte> List { get; set; } = Memory<byte>.Empty;
+
+    private int _count;
+    private int _capacity;
+    private bool _default;
 
     // Engine.pas:4743
     internal void SetCapacity(int newCapacity)
@@ -25,12 +26,12 @@ public partial class BitList : Persistent
         newCapacity = (newCapacity + 31) & ~31;
         if (newCapacity != _capacity)
         {
-            if (newCapacity == 0) _list = Memory<byte>.Empty;
+            if (newCapacity == 0) List = Memory<byte>.Empty;
             else
             {
                 var resized = new byte[(int)((uint)newCapacity >> 3)];
-                _list.Span[..Math.Min(_list.Length, resized.Length)].CopyTo(resized);
-                _list = resized;
+                List.Span[..Math.Min(List.Length, resized.Length)].CopyTo(resized);
+                List = resized;
             }
             _capacity = newCapacity;
             for (int I = _count; I <= newCapacity - 1; I++)
@@ -170,7 +171,7 @@ public partial class BitList : Persistent
             var bitList = (BitList)source;
             this._count = bitList._count;
             this.SetCapacity(bitList._count);
-            RtlUnit.Move(bitList._list.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), this._list.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), (int)(((uint)(this._count + 31)) >> 5) * 4);
+            RtlUnit.Move(bitList.List.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), this.List.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), (int)(((uint)(this._count + 31)) >> 5) * 4);
             this._default = bitList._default;
         }
         else
@@ -342,7 +343,7 @@ public partial class BitList : Persistent
     }
 
     // Engine.pas:4775
-    public bool Compare(BitList list) => list._count == _count && CompareMem(_list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), list._list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), (int)(((uint)(_count + 7)) >> 3));
+    public bool Compare(BitList list) => list._count == _count && CompareMem(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), list.List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), (int)(((uint)(_count + 7)) >> 3));
 
     // Engine.pas:4782
     public void LoadFromStream(Stream stream)
@@ -351,7 +352,7 @@ public partial class BitList : Persistent
         stream.ReadExactly(Bytes.Of(ref _default, 1));
         stream.ReadExactly(Bytes.Of(ref _count, 4));
         SetCapacity(_count);
-        stream.ReadExactly(_list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
+        stream.ReadExactly(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
     }
 
     // Engine.pas:4791
@@ -359,7 +360,7 @@ public partial class BitList : Persistent
     {
         stream.Write(Bytes.Of(ref _default, 1));
         stream.Write(Bytes.Of(ref _count, 4));
-        stream.Write(_list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
+        stream.Write(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }

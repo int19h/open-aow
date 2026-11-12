@@ -12,7 +12,7 @@ public partial class SingleHexSprite : HexSprite
     public SingleHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    internal byte _status;
+    private byte _status;
 
     // HXSPRITE.PAS:640
     public override void SetVisible(bool value)
@@ -54,7 +54,7 @@ public partial class SingleHexSprite : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner)._hexX, ((MapField)Owner)._hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
         return (GetLevel() << 26) + ((pixelY + 32) << 13) + (pixelX + 16);
     }
 
@@ -90,12 +90,12 @@ public partial class SingleHexSprite : HexSprite
             {
                 if (GetLevel() <= 15)
                 {
-                    ((MapLevel)mapField.Owner)._mapContainer._map._staticVisibleHexSprite.RemoveChild(this);
-                    ((MapLevel)mapField.Owner)._mapContainer._map._staticSceneInvalid = true;
+                    ((MapLevel)mapField.Owner).MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
+                    ((MapLevel)mapField.Owner).MapContainer.Map.StaticSceneInvalid = true;
                 }
                 else
                 {
-                    ((MapLevel)mapField.Owner)._mapContainer._map._dynamicVisibleHexSprite.RemoveChild(this);
+                    ((MapLevel)mapField.Owner).MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
                 }
             }
 
@@ -141,7 +141,7 @@ public partial class SingleHexSprite : HexSprite
     }
 
     // HXSPRITE.PAS:743
-    public virtual bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map._width && hexY < map._height && hexLevel < map._levelCount;
+    public virtual bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map.Width && hexY < map.Height && hexLevel < map.LevelCount;
 
     // HXSPRITE.PAS:757
     public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)

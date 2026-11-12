@@ -26,16 +26,19 @@ public partial class AIPlayerControl : EngineObject
     {
         Actions = new AIPlayerActionList(null);
         MoveExecutor = new AIMoveExecutor(null);
-        ProcessCyclesMax = 10;
+        _processCyclesMax = 10;
     }
 
-    public Player Player;
-    public AIPlayerActionList Actions;
-    public AIPlayerAction Action;
-    public int ActionIndex;
-    public int ProcessCyclesMax;
-    public AIMoveExecutor MoveExecutor;
-    public AIPlayerProcessPhase Phase;
+    public Player Player { get; set; }
+    public AIPlayerActionList Actions { get; private set; }
+
+    private AIPlayerAction _action;
+    private int _actionIndex;
+    private int _processCyclesMax;
+
+    public AIMoveExecutor MoveExecutor { get; private set; }
+    public AIPlayerProcessPhase Phase { get; private set; }
+
     public float DefenseStrengthMultiplier;
 
     // AI.pas:92
@@ -111,7 +114,7 @@ public partial class AIPlayerControl : EngineObject
     public void Reset()
     {
         Phase = AIPlayerProcessPhase.None;
-        ActionIndex = -1;
+        _actionIndex = -1;
         DeactivateAction();
         Actions.Clear();
     }
@@ -148,7 +151,7 @@ public partial class AIPlayerControl : EngineObject
         int result;
         if (!Player.SingleProcessCycle)
         {
-            result = ProcessCyclesMax;
+            result = _processCyclesMax;
         }
         else
         {
@@ -175,22 +178,22 @@ public partial class AIPlayerControl : EngineObject
         switch (Player.PlayerType)
         {
             case PlayerType.Cpu1:
-                ProcessCyclesMax = 5;
+                _processCyclesMax = 5;
                 break;
             case PlayerType.Cpu2:
-                ProcessCyclesMax = 7;
+                _processCyclesMax = 7;
                 break;
             case PlayerType.Cpu3:
-                ProcessCyclesMax = 9;
+                _processCyclesMax = 9;
                 break;
             case PlayerType.Cpu4:
-                ProcessCyclesMax = 9;
+                _processCyclesMax = 9;
                 break;
             case PlayerType.Cpu5:
-                ProcessCyclesMax = 9;
+                _processCyclesMax = 9;
                 break;
             case PlayerType.Independent:
-                ProcessCyclesMax = 3;
+                _processCyclesMax = 3;
                 break;
         }
     }
@@ -305,11 +308,11 @@ public partial class AIPlayerControl : EngineObject
     public bool ActivateAction(int index)
     {
         DeactivateAction();
-        Action = Actions.GetActions(index);
-        bool result = Action.Activate();
+        _action = Actions.GetActions(index);
+        bool result = _action.Activate();
         if (!result)
         {
-            Action = null;
+            _action = null;
         }
 
         return result;
@@ -319,11 +322,11 @@ public partial class AIPlayerControl : EngineObject
     public void DeactivateAction()
     {
         AIPlayerAction action;
-        action = Action;
+        action = _action;
         if (action != null)
         {
             action.Deactivate();
-            Action = null;
+            _action = null;
         }
     }
 

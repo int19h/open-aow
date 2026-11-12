@@ -22,19 +22,19 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1202
     public AutoProduceAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        Productions = new QuadItemList<ProductionControl>();
+        _productions = new QuadItemList<ProductionControl>();
     }
 
-    public int ProductionIndex;
-    public int State;
-    public int GoldUpkeep;
-    public int ManaUpkeep;
-    public QuadItemList<ProductionControl> Productions;
+    private int _productionIndex;
+    private int _state;
+    private int _goldUpkeep;
+    private int _manaUpkeep;
+    private QuadItemList<ProductionControl> _productions;
 
     // AI.pas:1208
     public override void Dispose()
     {
-        Productions?.Dispose();
+        _productions?.Dispose();
         base.Dispose();
     }
 
@@ -45,7 +45,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         int priority = default;
         AIBudget budget = default;
         ProductionControlList controls = default;
-        switch (State)
+        switch (_state)
         {
             case 0:
                 {
@@ -76,84 +76,84 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                             }
                         }
 
-                        GoldUpkeep = player.AIBudget.GoldUpkeep - Round((double)player.Income * 0.1);
-                        if (GoldUpkeep < 0)
+                        _goldUpkeep = player.AIBudget.GoldUpkeep - Round((double)player.Income * 0.1);
+                        if (_goldUpkeep < 0)
                         {
-                            GoldUpkeep = 0;
+                            _goldUpkeep = 0;
                         }
 
                         var manaIncome = player.MagicControl.GetManaIncome();
-                        ManaUpkeep = player.AIBudget.ManaUpkeep - Round((double)manaIncome * 0.1);
-                        if (ManaUpkeep < 0)
+                        _manaUpkeep = player.AIBudget.ManaUpkeep - Round((double)manaIncome * 0.1);
+                        if (_manaUpkeep < 0)
                         {
-                            ManaUpkeep = 0;
+                            _manaUpkeep = 0;
                         }
 
-                        if (player.PlayerIndex != 0 && (player.AIBudget.Gold > 25 || player.AIBudget.Mana > 25) && (GoldUpkeep > 0 || ManaUpkeep > 0))
+                        if (player.PlayerIndex != 0 && (player.AIBudget.Gold > 25 || player.AIBudget.Mana > 25) && (_goldUpkeep > 0 || _manaUpkeep > 0))
                         {
-                            ProductionIndex = -1;
-                            State += 1;
+                            _productionIndex = -1;
+                            _state += 1;
                         }
                         else
                         {
-                            State = -1;
+                            _state = -1;
                         }
                     }
                     else
                     {
-                        State = -1;
+                        _state = -1;
                     }
                 }
 
                 break;
             case 1:
-                while (State == 1)
+                while (_state == 1)
                 {
-                    ProductionIndex += 1;
+                    _productionIndex += 1;
                     controls = Control.Player.ProductionControls;
-                    if (ProductionIndex < controls.Count)
+                    if (_productionIndex < controls.Count)
                     {
-                        UpdateProductions(controls.GetPC(ProductionIndex));
+                        UpdateProductions(controls.GetPC(_productionIndex));
                     }
                     else
                     {
-                        Productions.Sort(CompareAutoProductions);
-                        if (Productions.Count != 0)
+                        _productions.Sort(CompareAutoProductions);
+                        if (_productions.Count != 0)
                         {
-                            State += 1;
+                            _state += 1;
                         }
                         else
                         {
-                            State = -1;
+                            _state = -1;
                         }
                     }
                 }
 
                 break;
             case 2:
-                while (State == 2 && !Control.Player.GetBusy())
+                while (_state == 2 && !Control.Player.GetBusy())
                 {
                     I = 0;
-                    priority = Round((double)Productions[0].Fourth * 0.8);
-                    while (I + 1 < Productions.Count && Productions[I + 1].Fourth >= priority)
+                    priority = Round((double)_productions[0].Fourth * 0.8);
+                    while (I + 1 < _productions.Count && _productions[I + 1].Fourth >= priority)
                     {
                         I += 1;
                     }
 
                     I = AoWHSMap.Current.Random(I + 1);
-                    var item = Productions[I];
-                    ExecuteProduce(Productions[I].First, item.Second);
-                    Productions.Delete(I);
-                    if (!(Productions.Count != 0 && (GoldUpkeep > 2 || ManaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
+                    var item = _productions[I];
+                    ExecuteProduce(_productions[I].First, item.Second);
+                    _productions.Delete(I);
+                    if (!(_productions.Count != 0 && (_goldUpkeep > 2 || _manaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
                     {
-                        State = -1;
+                        _state = -1;
                     }
                 }
 
                 break;
         }
 
-        return State != -1;
+        return _state != -1;
     }
 
     // AI.pas:1222
@@ -175,7 +175,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         priority = Control.UnitIndexToPriority(unitIndex);
                         if (priority != -1)
                         {
-                            Productions.AddABCD(control, I, 0, priority + bonus);
+                            _productions.AddABCD(control, I, 0, priority + bonus);
                         }
                     }
                 }
@@ -197,7 +197,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             mana = control.UnitProductionMana(index);
             goldUpkeep = control.UnitProductionGoldUpkeep(index);
             manaUpkeep = control.UnitProductionManaUpkeep(index);
-            if (goldUpkeep <= GoldUpkeep && manaUpkeep <= ManaUpkeep)
+            if (goldUpkeep <= _goldUpkeep && manaUpkeep <= _manaUpkeep)
             {
                 if (Control.Player.AIBudget.RequestProductionExpense(gold, goldUpkeep, mana, manaUpkeep))
                 {
@@ -208,8 +208,8 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(index);
                         var unitProductionGold = control.UnitProductionGold(index);
                         Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
-                        GoldUpkeep -= goldUpkeep;
-                        ManaUpkeep -= manaUpkeep;
+                        _goldUpkeep -= goldUpkeep;
+                        _manaUpkeep -= manaUpkeep;
                         result = true;
                     }
                 }

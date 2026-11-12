@@ -17,9 +17,9 @@ public partial class FleeLocation : MapObject
     // FleeLoc.pas:76
     public new const int ClassId = 2229544;
 
-    public bool Highlighted;
-    public int Alpha;
-    public int AlphaStep;
+    private bool _highlighted;
+    private int _alpha;
+    private int _alphaStep;
 
     // FleeLoc.pas:71
 
@@ -31,10 +31,10 @@ public partial class FleeLocation : MapObject
     {
         int X = default;
         int Y = default;
-        if (Alpha > 0)
+        if (_alpha > 0)
         {
             HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
-            _resource.ImageLibrary.Get(0).ShowBlended(X - pixelXSurface - 8, Y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Alpha]);
+            _resource.ImageLibrary.Get(0).ShowBlended(X - pixelXSurface - 8, Y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
         }
     }
 
@@ -61,14 +61,14 @@ public partial class FleeLocation : MapObject
     {
         base.Activate();
         CombatMap.Current.NewFrameEvents += NewFrame;
-        Highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
-        if (Highlighted)
+        _highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
+        if (_highlighted)
         {
-            Alpha = 50;
+            _alpha = 50;
         }
         else
         {
-            Alpha = 0;
+            _alpha = 0;
         }
 
         CombatMap.Current.FleeLocations.Add(this);
@@ -126,23 +126,23 @@ public partial class FleeLocation : MapObject
             }
         }
 
-        if (highlight != Highlighted)
+        if (highlight != _highlighted)
         {
-            Highlighted = highlight;
-            if (Highlighted)
+            _highlighted = highlight;
+            if (_highlighted)
             {
-                AlphaStep = 5;
+                _alphaStep = 5;
             }
             else
             {
-                AlphaStep = -5;
+                _alphaStep = -5;
             }
         }
         else
         {
-            if ((Alpha > 0 && AlphaStep < 0) || (Alpha < 50 && AlphaStep > 0))
+            if ((_alpha > 0 && _alphaStep < 0) || (_alpha < 50 && _alphaStep > 0))
             {
-                Alpha = Alpha + AlphaStep;
+                _alpha = _alpha + _alphaStep;
             }
         }
     }

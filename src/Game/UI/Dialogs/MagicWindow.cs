@@ -89,9 +89,9 @@ public partial class MagicWindow : DataModule
     public Panel T3ButtonPnl;
     public IvTranslator Translator;
     public Button Help;
-    public int EnchantmentSort;
-    public int GlobalEnchantmentSort;
-    public int PowerSort;
+    private int _enchantmentSort;
+    private int _globalEnchantmentSort;
+    private int _powerSort;
 
     // AoWMagic.pas:133
     public void SelectEnchantment(int index)
@@ -147,7 +147,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:167
     public void SortEnchantments()
     {
-        switch (EnchantmentSort)
+        switch (_enchantmentSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
@@ -173,7 +173,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:179
     public void SortGlobalEnchantments()
     {
-        switch (GlobalEnchantmentSort)
+        switch (_globalEnchantmentSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
@@ -199,7 +199,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:191
     public void SortPowerSources()
     {
-        switch (PowerSort)
+        switch (_powerSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
@@ -364,8 +364,8 @@ public partial class MagicWindow : DataModule
             {
                 if (spell.CastImages.GetImageSequence(10) != null)
                 {
-                    X = sender._window.WinLeft;
-                    Y = sender._window.WinTop + sender.WinTop;
+                    X = sender.Window.WinLeft;
+                    Y = sender.Window.WinTop + sender.WinTop;
                     spell.CastImages.Show(10, sender.WinLeft + X, Y, 0, surface);
                 }
             }
@@ -431,13 +431,13 @@ public partial class MagicWindow : DataModule
     public void EnchantmentSortBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (EnchantmentSort == 0)
+        if (_enchantmentSort == 0)
         {
-            EnchantmentSort = 1;
+            _enchantmentSort = 1;
         }
         else
         {
-            EnchantmentSort = 0;
+            _enchantmentSort = 0;
         }
 
         SortEnchantments();
@@ -447,13 +447,13 @@ public partial class MagicWindow : DataModule
     public void BindingSortBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (EnchantmentSort == 2)
+        if (_enchantmentSort == 2)
         {
-            EnchantmentSort = 3;
+            _enchantmentSort = 3;
         }
         else
         {
-            EnchantmentSort = 2;
+            _enchantmentSort = 2;
         }
 
         SortEnchantments();
@@ -463,13 +463,13 @@ public partial class MagicWindow : DataModule
     public void UpkeepSortBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (EnchantmentSort == 4)
+        if (_enchantmentSort == 4)
         {
-            EnchantmentSort = 5;
+            _enchantmentSort = 5;
         }
         else
         {
-            EnchantmentSort = 4;
+            _enchantmentSort = 4;
         }
 
         SortEnchantments();
@@ -479,13 +479,13 @@ public partial class MagicWindow : DataModule
     public void GlobalEnchantmentSortBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (GlobalEnchantmentSort == 0)
+        if (_globalEnchantmentSort == 0)
         {
-            GlobalEnchantmentSort = 1;
+            _globalEnchantmentSort = 1;
         }
         else
         {
-            GlobalEnchantmentSort = 0;
+            _globalEnchantmentSort = 0;
         }
 
         SortGlobalEnchantments();
@@ -496,13 +496,13 @@ public partial class MagicWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
-        if (GlobalEnchantmentSort == 0)
+        if (_globalEnchantmentSort == 0)
         {
-            GlobalEnchantmentSort = 1;
+            _globalEnchantmentSort = 1;
         }
         else
         {
-            GlobalEnchantmentSort = 0;
+            _globalEnchantmentSort = 0;
         }
 
         SortGlobalEnchantments();
@@ -513,13 +513,13 @@ public partial class MagicWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
-        if (GlobalEnchantmentSort == 0)
+        if (_globalEnchantmentSort == 0)
         {
-            GlobalEnchantmentSort = 1;
+            _globalEnchantmentSort = 1;
         }
         else
         {
-            GlobalEnchantmentSort = 0;
+            _globalEnchantmentSort = 0;
         }
 
         SortGlobalEnchantments();
@@ -529,13 +529,13 @@ public partial class MagicWindow : DataModule
     public void PowerSourceSortBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (PowerSort == 0)
+        if (_powerSort == 0)
         {
-            PowerSort = 1;
+            _powerSort = 1;
         }
         else
         {
-            PowerSort = 0;
+            _powerSort = 0;
         }
 
         SortPowerSources();
@@ -545,13 +545,13 @@ public partial class MagicWindow : DataModule
     public void PowerValueSortBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (PowerSort == 2)
+        if (_powerSort == 2)
         {
-            PowerSort = 3;
+            _powerSort = 3;
         }
         else
         {
-            PowerSort = 2;
+            _powerSort = 2;
         }
 
         SortPowerSources();
@@ -685,10 +685,10 @@ public partial class MagicWindow : DataModule
                 spell = AoWHSSet.Current.SpellControl.GetSpell(control.ResearchSpellId);
                 window.SpellName.Text = spell.SpellName;
                 var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
-                var level = AbilityRules.TranslateResourceString(GameText.s_levelText);
+                var level = AbilityRules.TranslateResourceString(GameText.LevelText);
                 window.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-                var castingCost = AbilityRules.TranslateResourceString(GameText.s_castingCostText);
-                var mana = AbilityRules.TranslateResourceString(GameText.s_manaText);
+                var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
+                var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
                 window.SpellCost.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
                 turns = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
@@ -698,7 +698,7 @@ public partial class MagicWindow : DataModule
                 }
                 else
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_turnsFormat), [(byte)63]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
                     window.ResearchTurnsLeft.Text = format;
                 }
 

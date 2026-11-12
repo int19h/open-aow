@@ -38,7 +38,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode
             text = text + "/Loc:(" + IntToStr(group.Location.X) + "," + IntToStr(group.Location.Y) + "," + IntToStr(group.Location.MapLevel) + ")";
             text = text + "/MP:" + IntToStr(group.MovePoints);
             text = text + "/MPBFS:" + IntToStr(group.PathStrength);
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, text);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, text);
         }
     }
 

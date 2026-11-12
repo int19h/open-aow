@@ -13,7 +13,7 @@ public partial class ExternalPowerSource : PowerSource
     public ExternalPowerSource(ECustomNode owner) : base(owner)
     { }
 
-    public PlayerMagicControl ExternalPowerControl;
+    public PlayerMagicControl ExternalPowerControl { get; set; }
 
     // Spells.PAS:1835
     public override string Name() => AbilityRules.TranslateResourceString(s_externalPowerText);

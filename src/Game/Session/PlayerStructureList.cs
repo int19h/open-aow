@@ -11,7 +11,7 @@ public partial class PlayerStructureList : EChangeNotifyEventList
     public PlayerStructureList(ECustomNode owner) : base(owner)
     { }
 
-    public Player Player;
+    public Player Player { get; set; }
 
     // Player.PAS:1
     public PlayerStructure GetStructure(int index) => (PlayerStructure)_children.List[index];

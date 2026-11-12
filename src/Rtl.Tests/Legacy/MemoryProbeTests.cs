@@ -6,8 +6,8 @@ public sealed class MemoryProbeTests
 {
     private struct Item
     {
-        public int First;
-        public int Second;
+        public int First { get; set; }
+        public int Second { get; set; }
     }
 
     [ProbeFact("integer-list-slots")]

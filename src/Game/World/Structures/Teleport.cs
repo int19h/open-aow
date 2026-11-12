@@ -25,26 +25,26 @@ public partial class Teleport : Structure
 {
     public Teleport(ECustomNode owner) : base(owner)
     {
-        DestinationX = 0;
-        DestinationY = 0;
-        DestinationL = 0;
+        _destinationX = 0;
+        _destinationY = 0;
+        _destinationL = 0;
     }
 
     // Teleport.pas:105
     public new const int ClassId = 131332;
 
-    public sbyte DestinationX;
-    public sbyte DestinationY;
-    public sbyte DestinationL;
+    private sbyte _destinationX;
+    private sbyte _destinationY;
+    private sbyte _destinationL;
     public Set<StateElement> State;
 
     // Teleport.pas:122
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 7);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 8);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 9);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 7);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 8);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 9);
         RwSet(ref State, 1, 10, stream.rwData, 0);
     }
 
@@ -54,7 +54,7 @@ public partial class Teleport : Structure
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (message.HexNumber == 0 && message.MessageId == 4416 && message.Param[1].As<MapField>().HexX == DestinationX && message.Param[1].As<MapField>().HexY == DestinationY && message.Param[1].As<MapField>().HexLevel == DestinationL)
+        if (message.HexNumber == 0 && message.MessageId == 4416 && message.Param[1].As<MapField>().HexX == _destinationX && message.Param[1].As<MapField>().HexY == _destinationY && message.Param[1].As<MapField>().HexLevel == _destinationL)
         {
             bool notFogEnabled = !AoWHSMap.Current.FogEnabled;
             if (!notFogEnabled)
@@ -65,7 +65,7 @@ public partial class Teleport : Structure
                 notFogEnabled = AoWHSMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, AoWHSMap.Current.SeatedPlayer);
             }
 
-            if (notFogEnabled || AoWHSMap.Current.VisibleForPlayer(DestinationX, DestinationY, DestinationL, AoWHSMap.Current.SeatedPlayer))
+            if (notFogEnabled || AoWHSMap.Current.VisibleForPlayer(_destinationX, _destinationY, _destinationL, AoWHSMap.Current.SeatedPlayer))
             {
                 AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
@@ -79,7 +79,7 @@ public partial class Teleport : Structure
     {
         if (info.HexNumber == 0 && !State.Contains(StateElement.Razed))
         {
-            var fieldValue = AoWHSMap.Current.MapContainer.GetField(DestinationX, DestinationY, DestinationL);
+            var fieldValue = AoWHSMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationL);
             ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)fieldValue, 0);
         }
     }
@@ -95,7 +95,7 @@ public partial class Teleport : Structure
     public override void Deactivate()
     {
         base.Deactivate();
-        _status = _status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status = Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         ((MapField)Owner).UpdateMapField();
     }
 
@@ -120,16 +120,16 @@ public partial class Teleport : Structure
             State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        this._imageIndex = GetTerrainTypeImage(TerrainType);
+        this.ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Teleport.pas:279
     public override bool ValidateMap(StringCollection messages)
     {
         bool result;
-        if (DestinationX == 0 || DestinationY == 0)
+        if (_destinationX == 0 || _destinationY == 0)
         {
-            messages.Add(AbilityRules.TranslateResourceString(GameText.s_warningText) + ": " + AbilityRules.TranslateResourceString(s_invalidLocationSpecifiedText));
+            messages.Add(AbilityRules.TranslateResourceString(GameText.WarningText) + ": " + AbilityRules.TranslateResourceString(s_invalidLocationSpecifiedText));
             result = false;
         }
         else
@@ -152,7 +152,7 @@ public partial class Teleport : Structure
         AoWHSMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         animation = new ImageSequenceAnimation(null);
         animation.SetImageSequence(AoWHSSet.Current.ImageSequences.ImageSequences[12]);
-        AoWHSMap.Current.PlaceHex(animation, DestinationX, DestinationY, DestinationL);
+        AoWHSMap.Current.PlaceHex(animation, _destinationX, _destinationY, _destinationL);
     }
 
     // Teleport.pas:185
@@ -161,9 +161,9 @@ public partial class Teleport : Structure
         AoWMapField field;
         ArmyHexSprite otherArmy;
         bool result = false;
-        if (DestinationL >= 0 && DestinationL < AoWHSMap.Current.MapContainer.LevelCount && DestinationX >= 0 && DestinationX < AoWHSMap.Current.MapContainer.Width && DestinationY >= 0 && DestinationY < AoWHSMap.Current.MapContainer.Height)
+        if (_destinationL >= 0 && _destinationL < AoWHSMap.Current.MapContainer.LevelCount && _destinationX >= 0 && _destinationX < AoWHSMap.Current.MapContainer.Width && _destinationY >= 0 && _destinationY < AoWHSMap.Current.MapContainer.Height)
         {
-            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(DestinationX, DestinationY, DestinationL);
+            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationL);
             if (armyHexSprite.Army.ValidTerrain(field.TerrainType, field.OverlayType))
             {
                 otherArmy = field.GetArmyHexSprite();
@@ -186,7 +186,7 @@ public partial class Teleport : Structure
         ArmyHexSprite armyHexSprite;
         armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         // { Original only checks destination X here; X=0 is rejected. }
-        return armyHexSprite != null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && DestinationX > 0;
+        return armyHexSprite != null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && _destinationX > 0;
     }
 
     // Teleport.pas:218
@@ -205,11 +205,11 @@ public partial class Teleport : Structure
             {
                 armyHexSprite.Army.ResetDestinationPosition();
                 path = new MovePath();
-                path.AddMapCoordinate(DestinationX, DestinationY, DestinationL);
+                path.AddMapCoordinate(_destinationX, _destinationY, _destinationL);
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 path.AddMapCoordinate(GetHexX(), hexY, hexLevel);
-                field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(DestinationX, DestinationY, DestinationL);
+                field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationL);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
                 {
@@ -249,7 +249,7 @@ public partial class Teleport : Structure
 
                     if (result && (byte)AoWHSMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
                     {
-                        AoWHSMap.Current.CenterViewTo(DestinationX, DestinationY, DestinationL);
+                        AoWHSMap.Current.CenterViewTo(_destinationX, _destinationY, _destinationL);
                         AoWHSMap.Current.SelectedArmy.Select(armyHexSprite);
                     }
                 }
@@ -257,8 +257,8 @@ public partial class Teleport : Structure
                 {
                     var playerLocal = field.GetPlayer();
                     var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(playerLocal);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_noWarDeclaredFormat), [raceNamesPlural]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     AoWHSMap.Current.ShowMessage(messageText);
                     result = false;
                 }
@@ -310,9 +310,9 @@ public partial class Teleport : Structure
         // Teleport.pas:45
 
         // Teleport.pas:302
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_teleportText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(TeleportText);
 
-        internal static readonly string s_teleportText = "Teleport";
+        internal static string TeleportText { get; } = "Teleport";
 
     }
 }

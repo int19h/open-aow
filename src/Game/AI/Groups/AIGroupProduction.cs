@@ -12,8 +12,8 @@ public partial class AIGroupProduction : EngineObject
     public AIGroupProduction(ECustomNode owner) : base(owner)
     { }
 
-    public Troop Troop;
-    public ProductionControl Control;
+    public Troop Troop { get; set; }
+    public ProductionControl Control { get; set; }
     // Engine.pas:524
 
 }

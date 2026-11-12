@@ -19,7 +19,7 @@ public partial class Leader : Hero
     public new const int ClassId = 131634;
 
     public byte SpherePicksMax;
-    public ByteList Spheres;
+    private ByteList _spheres;
 
     // Hero.PAS:2766
     public override void Dispose()
@@ -30,7 +30,7 @@ public partial class Leader : Hero
         }
 
         base.Dispose();
-        Spheres?.Dispose();
+        _spheres?.Dispose();
     }
 
     // Hero.PAS:2898
@@ -41,13 +41,13 @@ public partial class Leader : Hero
     {
         base.ReadWrite(stream);
         stream.rwByteEx(ref SpherePicksMax, 5, 45);
-        stream.rwStreamProc(46, Spheres.LoadFromStream, Spheres.SaveToStream);
+        stream.rwStreamProc(46, _spheres.LoadFromStream, _spheres.SaveToStream);
     }
 
     // Hero.PAS:2759
     public Leader(ECustomNode owner) : base(owner)
     {
-        Spheres = new ByteList();
+        _spheres = new ByteList();
         SpherePicksMax = 5;
     }
 
@@ -81,7 +81,7 @@ public partial class Leader : Hero
         base.Changed();
         if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            AoWHSMap.Current._onLeaderChangedStore.Raise(this);
+            AoWHSMap.Current.OnLeaderChangedStore.Raise(this);
         }
     }
 
@@ -283,9 +283,9 @@ public partial class Leader : Hero
         if (sphere != MagicSphere.Cosmos)
         {
             result = 0;
-            for (int I = Spheres.Count - 1; I >= 0; I--)
+            for (int I = _spheres.Count - 1; I >= 0; I--)
             {
-                if (Spheres.List[I] == (byte)sphere)
+                if (_spheres.List[I] == (byte)sphere)
                 {
                     result = (byte)(result + 1);
                 }
@@ -300,18 +300,18 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2812
-    public MagicSphere GetSpheres(int index) => (MagicSphere)Spheres.List[index];
+    public MagicSphere GetSpheres(int index) => (MagicSphere)_spheres.List[index];
 
     // Hero.PAS:2815
-    public int GetSphereCount() => Spheres.Count;
+    public int GetSphereCount() => _spheres.Count;
 
     // Hero.PAS:2818
     public void SetSpherePicksMax(byte value)
     {
         SpherePicksMax = value;
-        while (Spheres.Count > SpherePicksMax)
+        while (_spheres.Count > SpherePicksMax)
         {
-            Spheres.Delete(Spheres.Count - 1);
+            _spheres.Delete(_spheres.Count - 1);
         }
     }
 
@@ -319,7 +319,7 @@ public partial class Leader : Hero
     public bool CanAddSphere(MagicSphere sphere)
     {
         bool result;
-        if (Spheres.Count < SpherePicksMax)
+        if (_spheres.Count < SpherePicksMax)
         {
             if (sphere == MagicSphere.Cosmos)
             {
@@ -400,7 +400,7 @@ public partial class Leader : Hero
         bool result = CanAddSphere(sphere);
         if (result)
         {
-            Spheres.Add((byte)sphere);
+            _spheres.Add((byte)sphere);
         }
 
         return result;
@@ -410,9 +410,9 @@ public partial class Leader : Hero
     public bool DeleteSphereIndex(int index)
     {
         bool result;
-        if (index >= 0 && index < Spheres.Count)
+        if (index >= 0 && index < _spheres.Count)
         {
-            Spheres.Delete(index);
+            _spheres.Delete(index);
             result = true;
         }
         else
@@ -427,17 +427,17 @@ public partial class Leader : Hero
     public bool DeleteSphere(MagicSphere sphere)
     {
         int I;
-        I = Spheres.Count;
+        I = _spheres.Count;
         bool result = false;
         while (!result && I != 0)
         {
             I -= 1;
-            result = Spheres[I] == (byte)sphere;
+            result = _spheres[I] == (byte)sphere;
         }
 
         if (result)
         {
-            Spheres.Delete(I);
+            _spheres.Delete(I);
         }
 
         return result;
@@ -446,7 +446,7 @@ public partial class Leader : Hero
     // Hero.PAS:2883
     public void ClearSpheres()
     {
-        Spheres.Clear();
+        _spheres.Clear();
     }
 
 }

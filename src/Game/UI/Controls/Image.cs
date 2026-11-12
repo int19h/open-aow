@@ -14,24 +14,24 @@ public partial class Image : Control
     public Image(Component owner) : base(owner)
     { }
 
-    public bool _animate;
-    public int _animationFrameDelay;
-    public int FrameCount;
-    public int _animationStart;
-    public int _currentImage;
-    public int _animationEnd;
+    private bool _animate;
+    private int _animationFrameDelay;
+    private int _frameCount;
+    private int _animationStart;
+    private int _currentImage;
+    private int _animationEnd;
 
     // AoWImage.pas:79
     public override void SetSize()
     {
-        if (_winWidth == 0)
+        if (WinWidth == 0)
         {
-            _winWidth = _imageLibrary[_currentImage].Width;
+            SetWinWidthWithoutInvalidate(_imageLibrary[_currentImage].Width);
         }
 
-        if (_winHeight == 0)
+        if (WinHeight == 0)
         {
-            _winHeight = _imageLibrary[_currentImage].Height;
+            SetWinHeightWithoutInvalidate(_imageLibrary[_currentImage].Height);
         }
 
         base.SetSize();
@@ -41,15 +41,15 @@ public partial class Image : Control
     public override void Update()
     {
         int I;
-        if (_visible && _animate == true)
+        if (Visible && _animate == true)
         {
-            if (FrameCount > 0)
+            if (_frameCount > 0)
             {
-                FrameCount -= 1;
+                _frameCount -= 1;
             }
             else
             {
-                FrameCount = _animationFrameDelay;
+                _frameCount = _animationFrameDelay;
                 I = _currentImage + 1;
                 if (I > _animationEnd)
                 {
@@ -68,12 +68,12 @@ public partial class Image : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseDown != null)
             {
-                _onMouseDown(this, button, shift, X - _window._winLeft - _winLeft, Y - _window._winTop - _winTop);
+                _onMouseDown(this, button, shift, X - Window.WinLeft - WinLeft, Y - Window.WinTop - WinTop);
             }
         }
     }
@@ -83,9 +83,9 @@ public partial class Image : Control
     {
         Handled = false;
         Redraw = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseUp != null)
             {
                 _onMouseUp(this, button, shift, X, Y);
@@ -98,12 +98,12 @@ public partial class Image : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseMove != null)
             {
-                _onMouseMove(this, shift, X - _window._winLeft - _winLeft, Y - _window._winTop - _winTop);
+                _onMouseMove(this, shift, X - Window.WinLeft - WinLeft, Y - Window.WinTop - WinTop);
             }
         }
     }

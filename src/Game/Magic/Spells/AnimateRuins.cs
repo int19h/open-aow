@@ -46,7 +46,7 @@ public partial class AnimateRuins : CityTargetSpell
             log = new LocationTextEventLog(null);
             log._player = source.Player;
             var animateRuins = AbilityRules.TranslateResourceString(s_animateRuinsText);
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [animateRuins]);
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [animateRuins]);
             var hexLevel = targetCity.GetHexLevel();
             var hexY = targetCity.GetHexY();
             log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);

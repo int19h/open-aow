@@ -23,7 +23,8 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     // Mountain.pas:178
     public new const int ClassId = 131434;
 
-    public Set<RaisedMountainMode> Mode;
+    public Set<RaisedMountainMode> Mode { get; set; }
+
     public sbyte Player;
     public sbyte Duration;
     public sbyte OriginalOverlay;

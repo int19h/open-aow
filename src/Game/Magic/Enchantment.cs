@@ -55,7 +55,7 @@ public partial class Enchantment : EngineObject
     public virtual string GetName() => AbilityRules.TranslateResourceString(s_undefinedText);
 
     // Spells.PAS:1702
-    public virtual string GetBinding() => AbilityRules.TranslateResourceString(GameTables.s_noneText);
+    public virtual string GetBinding() => AbilityRules.TranslateResourceString(GameTables.NoneText);
 
     // Spells.PAS:1734
     public virtual void SetUpkeep(int value)
@@ -117,7 +117,7 @@ public partial class Enchantment : EngineObject
             else
             {
                 var binding = GetBinding();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_isOutOfSightFormat), [binding]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IsOutOfSightFormat), [binding]);
                 AoWHSMap.Current.ShowMessage(format);
             }
 

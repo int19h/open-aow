@@ -15,11 +15,11 @@ namespace Aow.Game.Magic.Spells;
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
 public partial class CityEnchantmentSpell : CityTargetSpell
 {
-    public CityEnchantmentId EnchantmentId;
-    public int EnchantmentSpellId;
-    public int AIPriority;
-    public int AIBudget;
-    public Set<CityEnchantmentCastSpellSituationElement> AICastSituation;
+    public CityEnchantmentId EnchantmentId { get; protected set; }
+    public int EnchantmentSpellId { get; protected set; }
+    public int AIPriority { get; protected set; }
+    public int AIBudget { get; protected set; }
+    public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected set; }
 
     // CitySpells.pas:554
     public CityEnchantmentSpell(ECustomNode owner) : base(owner)

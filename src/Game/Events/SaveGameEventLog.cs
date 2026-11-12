@@ -13,14 +13,14 @@ public partial class SaveGameEventLog : EventLog
     // EventLog.pas:874
     public SaveGameEventLog(ECustomNode owner) : base(owner)
     {
-        Title = AbilityRules.TranslateResourceString(GameText.s_saveText);
+        Title = AbilityRules.TranslateResourceString(GameText.SaveText);
         Mode = Set<SaveGameEventLogModeElement>.Of();
     }
 
-    public Set<SaveGameEventLogModeElement> Mode;
-    public string Directory = "";
-    public string DefaultName = "";
-    public string FileName = "";
-    public string Title = "";
+    public Set<SaveGameEventLogModeElement> Mode { get; }
+    public string Directory { get; set; } = "";
+    public string DefaultName { get; set; } = "";
+    public string FileName { get; set; } = "";
+    public string Title { get; set; } = "";
 
 }

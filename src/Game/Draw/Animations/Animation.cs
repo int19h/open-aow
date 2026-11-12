@@ -27,14 +27,17 @@ public partial class Animation : HexSprite
     public sbyte _hexX;
     public sbyte _hexY;
     public sbyte _hexLevel;
-    public byte AnimationLevel;
-    public Set<StateElement> State;
+
+    public byte AnimationLevel { get; set; }
+
+    private Set<StateElement> _state;
     public int FrameCounter;
     public Rect Dimensions;
-    public ShowAnimationEvent OnShow;
-    public NewFrameAnimationEvent OnNewFrame;
-    public int Tag;
-    public HSMap AnimationMap;
+
+    public ShowAnimationEvent OnShow { get; set; }
+    public NewFrameAnimationEvent OnNewFrame { get; set; }
+    public int Tag { get; set; }
+    public HSMap AnimationMap { get; set; }
 
     // Animation.pas:153
     public override Set<ControlStyleElement> GetControlStyle()
@@ -83,19 +86,19 @@ public partial class Animation : HexSprite
     {
         if (value)
         {
-            State = State + Set<StateElement>.Of(StateElement.Visible);
+            _state = _state + Set<StateElement>.Of(StateElement.Visible);
         }
         else
         {
-            State = State - Set<StateElement>.Of(StateElement.Visible);
+            _state = _state - Set<StateElement>.Of(StateElement.Visible);
         }
     }
 
     // Animation.pas:213
-    public override bool GetVisible() => State.Contains(StateElement.Visible);
+    public override bool GetVisible() => _state.Contains(StateElement.Visible);
 
     // Animation.pas:250
-    public override bool GetSelected() => State.Contains(StateElement.Selected);
+    public override bool GetSelected() => _state.Contains(StateElement.Selected);
 
     // Animation.pas:261
     public override sbyte GetHexX() => _hexX;
@@ -107,18 +110,18 @@ public partial class Animation : HexSprite
     public override sbyte GetHexLevel() => _hexLevel;
 
     // Animation.pas:227
-    public override bool GetEditMode() => State.Contains(StateElement.EditMode);
+    public override bool GetEditMode() => _state.Contains(StateElement.EditMode);
 
     // Animation.pas:232
     public override void SetEditMode(bool value)
     {
         if (value)
         {
-            State = State + Set<StateElement>.Of(StateElement.EditMode);
+            _state = _state + Set<StateElement>.Of(StateElement.EditMode);
         }
         else
         {
-            State = State - Set<StateElement>.Of(StateElement.EditMode);
+            _state = _state - Set<StateElement>.Of(StateElement.EditMode);
         }
     }
 
@@ -136,7 +139,7 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        if (!State.Contains(StateElement.Placed))
+        if (!_state.Contains(StateElement.Placed))
         {
             HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
@@ -148,7 +151,7 @@ public partial class Animation : HexSprite
                 PlaceUserOnMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
             }
 
-            State = State + Set<StateElement>.Of(StateElement.Placed);
+            _state = _state + Set<StateElement>.Of(StateElement.Placed);
         }
     }
 
@@ -157,7 +160,7 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        if (State.Contains(StateElement.Placed))
+        if (_state.Contains(StateElement.Placed))
         {
             HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
@@ -169,7 +172,7 @@ public partial class Animation : HexSprite
                 RemoveUserFromMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
             }
 
-            State = State - Set<StateElement>.Of(StateElement.Placed);
+            _state = _state - Set<StateElement>.Of(StateElement.Placed);
         }
     }
 
@@ -214,7 +217,7 @@ public partial class Animation : HexSprite
     public override void Activate()
     {
         base.Activate();
-        State = State + Set<StateElement>.Of(StateElement.Activated);
+        _state = _state + Set<StateElement>.Of(StateElement.Activated);
         if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
         {
             AnimationMap.NewFrameEvents += NewFrameEvent;
@@ -235,9 +238,9 @@ public partial class Animation : HexSprite
     public override void Deactivate()
     {
         base.Deactivate();
-        if (State.Contains(StateElement.Activated))
+        if (_state.Contains(StateElement.Activated))
         {
-            State = State - Set<StateElement>.Of(StateElement.Activated);
+            _state = _state - Set<StateElement>.Of(StateElement.Activated);
             if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
             {
                 AnimationMap.DynamicFixedVisibleHexSprite.RemoveChild(this);
@@ -259,9 +262,9 @@ public partial class Animation : HexSprite
     // Animation.pas:218
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!State.Contains(StateElement.Visible))
+        if (!_state.Contains(StateElement.Visible))
         {
-            State = State + Set<StateElement>.Of(StateElement.Visible);
+            _state = _state + Set<StateElement>.Of(StateElement.Visible);
             visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
@@ -270,14 +273,14 @@ public partial class Animation : HexSprite
     public override void Select()
     {
         base.Select();
-        State = State + Set<StateElement>.Of(StateElement.Selected);
+        _state = _state + Set<StateElement>.Of(StateElement.Selected);
     }
 
     // Animation.pas:244
     public override void Unselect()
     {
         base.Unselect();
-        State = State - Set<StateElement>.Of(StateElement.Selected);
+        _state = _state - Set<StateElement>.Of(StateElement.Selected);
     }
 
     // Animation.pas:286
@@ -359,7 +362,7 @@ public partial class Animation : HexSprite
     // Animation.pas:255
     public void SetDimensions(Rect R)
     {
-        if (!State.Contains(StateElement.Placed))
+        if (!_state.Contains(StateElement.Placed))
         {
             Dimensions = R;
         }

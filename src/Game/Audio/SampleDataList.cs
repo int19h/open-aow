@@ -13,7 +13,7 @@ public partial class SampleDataList : DelphiList<SampleData>
         SampleData result;
         int I;
         I = 0;
-        while (I != Count && CompareText(name, List[I]._name) != 0)
+        while (I != Count && CompareText(name, List[I].Name) != 0)
         {
             I += 1;
         }

@@ -93,7 +93,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
             {
                 // { Original formats this message with an unused enchantment-name argument. }
                 var name = enchantment.GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_dispelMagicFailedText), [name]);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText), [name]);
                 AoWHSMap.Current.ShowMessage(format);
             }
         }

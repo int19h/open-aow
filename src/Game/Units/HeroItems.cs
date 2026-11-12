@@ -17,13 +17,13 @@ public partial class HeroItems : ItemList
     // Hero.PAS:388
     public HeroItems(ECustomNode owner) : base(null)
     {
-        _owner = owner;
+        SetOwnerWithoutNotify(owner);
     }
 
     // Hero.PAS:394
     public override void Dispose()
     {
-        _owner = null;
+        SetOwnerWithoutNotify(null);
         base.Dispose();
     }
 

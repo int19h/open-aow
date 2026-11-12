@@ -6,7 +6,7 @@ namespace Aow.Game.Events;
 // list of -byte callback records
 public partial class ExecuteEventLogCallbackList : IDisposable
 {
-    public List<ExecuteEventLogInfo> List = [];
+    private List<ExecuteEventLogInfo> _list = [];
 
     // EventLog.pas:283
     public virtual void Dispose()
@@ -17,36 +17,36 @@ public partial class ExecuteEventLogCallbackList : IDisposable
     // EventLog.pas:277
     public ExecuteEventLogCallbackList()
     {
-        List = new List<ExecuteEventLogInfo>();
+        _list = new List<ExecuteEventLogInfo>();
     }
 
     // EventLog.pas:290
     public void Clear()
     {
-        while (List.Count != 0)
+        while (_list.Count != 0)
         {
-            Delete(List.Count - 1);
+            Delete(_list.Count - 1);
         }
     }
 
     // EventLog.pas:295
-    public int GetCount() => List.Count;
+    public int GetCount() => _list.Count;
 
     // EventLog.pas:300
-    public ref ExecuteEventLogInfo GetItem(int index) => ref CollectionsMarshal.AsSpan(List)[index];
+    public ref ExecuteEventLogInfo GetItem(int index) => ref CollectionsMarshal.AsSpan(_list)[index];
 
     // EventLog.pas:305
     public void Add(in ExecuteEventLogInfo info)
     {
-        List.Add(info);
+        _list.Add(info);
     }
 
     // EventLog.pas:314
     public void Delete(int index)
     {
-        if (index < List.Count)
+        if (index < _list.Count)
         {
-            List.RemoveAt(index);
+            _list.RemoveAt(index);
         }
     }
 

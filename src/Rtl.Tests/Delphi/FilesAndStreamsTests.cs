@@ -65,8 +65,8 @@ public sealed class FilesAndStreamsTests
 
     private sealed class MemoryFiles : IFileSystem
     {
-        internal MemoryStream Opened = new();
-        internal readonly List<string> Calls = [];
+        internal MemoryStream Opened { get; } = new();
+        internal List<string> Calls { get; } = [];
 
         public string CurrentDirectory => "fake";
 
@@ -121,7 +121,7 @@ public sealed class FilesAndStreamsTests
 
     private sealed class ShortStream : Stream
     {
-        internal int Calls;
+        internal int Calls { get; private set; }
 
         public override bool CanRead => true;
 

@@ -23,7 +23,7 @@ public partial class GenericWindow : BaseWindow
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
-        _windowManager = (WindowManager)_ownerComponent;
+        _windowManager = (WindowManager)OwnerComponent;
     }
 
     // AoWWinGeneric.pas:51

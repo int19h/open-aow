@@ -18,37 +18,37 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:1981
     public AIRecruitmentGroupFinder(ECustomNode owner) : base(owner)
     {
-        Selector = new AIMoveTargetSelector(null);
+        _selector = new AIMoveTargetSelector(null);
     }
 
-    public AIGroupControl Control;
-    public AIMoveTargetSelector Selector;
-    public int Range;
-    public int Step;
-    public int TargetRange;
-    public Set<ModeElement> Mode;
+    private AIGroupControl _control;
+    private AIMoveTargetSelector _selector;
+    private int _range;
+    private int _step;
+    private int _targetRange;
+    private Set<ModeElement> _mode;
 
     // AIGroup.pas:1987
     public override void Dispose()
     {
-        Selector?.Dispose();
+        _selector?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:1993
-    public override bool GetBusy() => Selector.Status == AIMoveTargetSelectorStatus.Searching;
+    public override bool GetBusy() => _selector.Status == AIMoveTargetSelectorStatus.Searching;
 
     // AIGroup.pas:2051
     public override bool Activate(AIGroupControl control)
     {
         base.Activate(control);
-        Control = control;
-        if (Mode.Contains(ModeElement.CalculateMovePathBfs))
+        _control = control;
+        if (_mode.Contains(ModeElement.CalculateMovePathBfs))
         {
-            Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
+            _selector.Mode = _selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
         }
 
-        Selector.Search(control);
+        _selector.Search(control);
         return true;
     }
 
@@ -56,9 +56,9 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     public override bool Process()
     {
         bool result;
-        if (Selector.Status == AIMoveTargetSelectorStatus.Searching)
+        if (_selector.Status == AIMoveTargetSelectorStatus.Searching)
         {
-            result = Selector.Process();
+            result = _selector.Process();
         }
         else
         {
@@ -77,13 +77,13 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     public virtual bool Setup(AIGroupControl control)
     {
         Reset();
-        Selector.SourceLocation = control.Location;
-        Selector.MovePointTable = control.MovePointTable;
-        Selector.TargetInfo.Player = control.Group.Player;
-        Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
-        Selector.TargetInfo.Mode = AITargetMode.Recruit;
-        Selector.MovePointsMax = 75;
-        Mode = Mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+        _selector.SourceLocation = control.Location;
+        _selector.MovePointTable = control.MovePointTable;
+        _selector.TargetInfo.Player = control.Group.Player;
+        _selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
+        _selector.TargetInfo.Mode = AITargetMode.Recruit;
+        _selector.MovePointsMax = 75;
+        _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
         return true;
     }
 
@@ -99,19 +99,19 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
             for (int I = armyHexSprite.Army.Count - 1; I >= 0; I--)
             {
                 troop = armyHexSprite.Army.GetUnit(I);
-                if (troop.Group != null && troop.Group.Leader == troop && troop.Group != Control.Group)
+                if (troop.Group != null && troop.Group.Leader == troop && troop.Group != _control.Group)
                 {
                     group = new AIRecruitmentGroup(null);
                     group.SetGroup(troop.Group);
                     group.Location = target.Location;
                     group.MovePoints = target.MovePoints;
                     group.TransporterId = target.TransporterId;
-                    if (Mode.Contains(ModeElement.CalculateMovePathBfs))
+                    if (_mode.Contains(ModeElement.CalculateMovePathBfs))
                     {
-                        group.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(Control.Group.Player, Control.Group.IndependentRelation, target.MovePath, TargetRange, Range, Step);
+                        group.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step);
                     }
 
-                    Control.RecruitmentGroupFoundEvent(group, ref searchDone);
+                    _control.RecruitmentGroupFoundEvent(group, ref searchDone);
                     group.Release();
                 }
             }
@@ -121,12 +121,12 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:2028
     public void Reset()
     {
-        Mode = Set<ModeElement>.Of();
-        Selector.Reset();
-        Selector.OnTargetFound = RecruitGroupFoundEvent;
-        Range = 8;
-        Step = 1;
-        TargetRange = 5;
+        _mode = Set<ModeElement>.Of();
+        _selector.Reset();
+        _selector.OnTargetFound = RecruitGroupFoundEvent;
+        _range = 8;
+        _step = 1;
+        _targetRange = 5;
     }
 
     public enum ModeElement : byte

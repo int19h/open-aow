@@ -21,9 +21,9 @@ public partial class IsometricHex : AbstractHexagon
     // IsoHex.pas:214
     public new const int ClassId = 131437;
 
-    protected internal DynamicIsometricHex Dynamic;
-    protected internal byte OpenSides;
-    protected internal byte Sides;
+    protected internal DynamicIsometricHex Dynamic { get; set; }
+    protected internal byte OpenSides { get; private set; }
+    protected internal byte Sides { get; protected set; }
 
     // IsoHex.pas:204
     public override void Dispose()

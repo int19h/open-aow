@@ -20,19 +20,22 @@ namespace Aow.Game.Combat;
 public partial class MeleeRound : IDisposable
 {
 
-    public int Count;
-    public int Capacity;
-    public Strike[] Strikes = [];
-    public CombatObject Attacker;
-    public CombatObject Defender;
-    public int AttackerDamageValue;
-    public int DefenderDamageValue;
-    public Troop AttackerUnit;
-    public Troop DefenderUnit;
-    public int AttackerStrikes;
-    public int DefenderStrikes;
-    public Set<DamageType> AttackerDamageTypes;
-    public Set<DamageType> DefenderDamageTypes;
+    public int Count { get; private set; }
+
+    private int _capacity;
+    private Strike[] _strikes = [];
+    private CombatObject _attacker;
+    private CombatObject _defender;
+    private int _attackerDamageValue;
+    private int _defenderDamageValue;
+    private Troop _attackerUnit;
+    private Troop _defenderUnit;
+    private int _attackerStrikes;
+    private int _defenderStrikes;
+
+    public Set<DamageType> AttackerDamageTypes { get; private set; }
+
+    private Set<DamageType> _defenderDamageTypes;
 
     // AoWAb.PAS:1492
     public virtual void Dispose()
@@ -43,26 +46,26 @@ public partial class MeleeRound : IDisposable
     // AoWAb.PAS:1498
     public void SetCapacity(int newCapacity)
     {
-        Capacity = newCapacity;
-        if (Capacity < Count)
+        _capacity = newCapacity;
+        if (_capacity < Count)
         {
-            Count = Capacity;
+            Count = _capacity;
         }
 
-        Array.Resize(ref Strikes, newCapacity);
+        Array.Resize(ref _strikes, newCapacity);
     }
 
     // AoWAb.PAS:1505
     public void SetCount(int newCount)
     {
-        if (newCount > Capacity)
+        if (newCount > _capacity)
         {
             SetCapacity(newCount);
         }
 
         if (newCount > Count)
         {
-            Strikes.AsSpan(Count, newCount - Count).Clear();
+            _strikes.AsSpan(Count, newCount - Count).Clear();
         }
 
         Count = newCount;
@@ -71,21 +74,21 @@ public partial class MeleeRound : IDisposable
     // AoWAb.PAS:1513
     public void GetMeleeStrike(int index, ref Strike strike)
     {
-        strike = Strikes[index];
+        strike = _strikes[index];
     }
 
     // AoWAb.PAS:1518
     public void Reset()
     {
         SetCount(0);
-        Attacker = null;
-        Defender = null;
-        AttackerUnit = null;
-        DefenderUnit = null;
-        AttackerDamageValue = -1;
-        DefenderDamageValue = -1;
-        AttackerStrikes = 0;
-        DefenderStrikes = 0;
+        _attacker = null;
+        _defender = null;
+        _attackerUnit = null;
+        _defenderUnit = null;
+        _attackerDamageValue = -1;
+        _defenderDamageValue = -1;
+        _attackerStrikes = 0;
+        _defenderStrikes = 0;
     }
 
     // AoWAb.PAS:1531
@@ -99,21 +102,21 @@ public partial class MeleeRound : IDisposable
         side = firstSide;
         attackerCount = 0;
         defenderCount = 0;
-        SetCount(AttackerStrikes + DefenderStrikes);
+        SetCount(_attackerStrikes + _defenderStrikes);
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if (side == CombatSideIndex.Attacker)
             {
-                source = AttackerUnit;
-                target = DefenderUnit;
+                source = _attackerUnit;
+                target = _defenderUnit;
             }
             else
             {
-                source = DefenderUnit;
-                target = AttackerUnit;
+                source = _defenderUnit;
+                target = _attackerUnit;
             }
 
-            ref Strike strike = ref Strikes[I];
+            ref Strike strike = ref _strikes[I];
             strike.Side = side;
             if (I == 0 || (I == 1 && side != firstSide))
             {
@@ -172,7 +175,7 @@ public partial class MeleeRound : IDisposable
             {
                 case CombatSideIndex.Attacker:
                     attackerCount += 1;
-                    if (DefenderStrikes != defenderCount)
+                    if (_defenderStrikes != defenderCount)
                     {
                         side = CombatSideIndex.Defender;
                     }
@@ -180,7 +183,7 @@ public partial class MeleeRound : IDisposable
                     break;
                 case CombatSideIndex.Defender:
                     defenderCount += 1;
-                    if (AttackerStrikes != attackerCount)
+                    if (_attackerStrikes != attackerCount)
                     {
                         side = CombatSideIndex.Attacker;
                     }
@@ -194,13 +197,13 @@ public partial class MeleeRound : IDisposable
     public void CalculateFreeUnitSwing(Troop attacker, Troop defender)
     {
         Reset();
-        AttackerUnit = attacker;
-        DefenderUnit = defender;
+        _attackerUnit = attacker;
+        _defenderUnit = defender;
         AttackerDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
-        DefenderDamageTypes = Set<DamageType>.Of();
+        _defenderDamageTypes = Set<DamageType>.Of();
         if (AttackerDamageTypes != Set<DamageType>.Of())
         {
-            AttackerStrikes = 1;
+            _attackerStrikes = 1;
             CalculateUnitStrikes(CombatSideIndex.Attacker);
         }
     }
@@ -210,33 +213,33 @@ public partial class MeleeRound : IDisposable
     {
         CombatSideIndex side;
         Reset();
-        AttackerUnit = attacker;
-        DefenderUnit = defender;
+        _attackerUnit = attacker;
+        _defenderUnit = defender;
         AttackerDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
         if (AttackerDamageTypes != Set<DamageType>.Of())
         {
-            AttackerStrikes = 2;
-            if (AttackerUnit.GetAbilityEnabled(115))
+            _attackerStrikes = 2;
+            if (_attackerUnit.GetAbilityEnabled(115))
             {
-                AttackerStrikes += 1;
+                _attackerStrikes += 1;
             }
         }
         else
         {
-            AttackerStrikes = 0;
+            _attackerStrikes = 0;
         }
 
-        DefenderDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
-        if (DefenderDamageTypes != Set<DamageType>.Of())
+        _defenderDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
+        if (_defenderDamageTypes != Set<DamageType>.Of())
         {
-            DefenderStrikes = 2;
+            _defenderStrikes = 2;
         }
         else
         {
-            DefenderStrikes = 0;
+            _defenderStrikes = 0;
         }
 
-        if (DefenderUnit.GetAbilityEnabled(116) && !AttackerUnit.GetAbilityEnabled(116) && DefenderStrikes != 0)
+        if (_defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0)
         {
             side = CombatSideIndex.Defender;
         }
@@ -259,21 +262,21 @@ public partial class MeleeRound : IDisposable
         side = firstSide;
         attackerCount = 0;
         defenderCount = 0;
-        SetCount(AttackerStrikes + DefenderStrikes);
+        SetCount(_attackerStrikes + _defenderStrikes);
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if (side == CombatSideIndex.Attacker)
             {
-                source = Attacker;
-                target = Defender;
+                source = _attacker;
+                target = _defender;
             }
             else
             {
-                source = Defender;
-                target = Attacker;
+                source = _defender;
+                target = _attacker;
             }
 
-            ref Strike strike = ref Strikes[I];
+            ref Strike strike = ref _strikes[I];
             strike.Side = side;
             if (I == 0 || (I == 1 && side != firstSide))
             {
@@ -332,7 +335,7 @@ public partial class MeleeRound : IDisposable
             {
                 case CombatSideIndex.Attacker:
                     attackerCount += 1;
-                    if (DefenderStrikes != defenderCount)
+                    if (_defenderStrikes != defenderCount)
                     {
                         side = CombatSideIndex.Defender;
                     }
@@ -340,7 +343,7 @@ public partial class MeleeRound : IDisposable
                     break;
                 case CombatSideIndex.Defender:
                     defenderCount += 1;
-                    if (AttackerStrikes != attackerCount)
+                    if (_attackerStrikes != attackerCount)
                     {
                         side = CombatSideIndex.Attacker;
                     }
@@ -355,33 +358,33 @@ public partial class MeleeRound : IDisposable
     {
         CombatSideIndex side;
         Reset();
-        Attacker = attacker;
-        Defender = defender;
+        _attacker = attacker;
+        _defender = defender;
         AttackerDamageTypes = CombatObject.MeleeDamageTypes(attacker);
         if (AttackerDamageTypes != Set<DamageType>.Of() && !attacker.GetLocked())
         {
-            AttackerStrikes = 2;
-            if (Attacker.GetAbilityEnabled(115))
+            _attackerStrikes = 2;
+            if (_attacker.GetAbilityEnabled(115))
             {
-                AttackerStrikes += 1;
+                _attackerStrikes += 1;
             }
         }
         else
         {
-            AttackerStrikes = 0;
+            _attackerStrikes = 0;
         }
 
-        DefenderDamageTypes = CombatObject.MeleeDamageTypes(defender);
-        if (DefenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked())
+        _defenderDamageTypes = CombatObject.MeleeDamageTypes(defender);
+        if (_defenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked())
         {
-            DefenderStrikes = 2;
+            _defenderStrikes = 2;
         }
         else
         {
-            DefenderStrikes = 0;
+            _defenderStrikes = 0;
         }
 
-        if (defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && DefenderStrikes != 0)
+        if (defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && _defenderStrikes != 0)
         {
             side = CombatSideIndex.Defender;
         }
@@ -397,16 +400,16 @@ public partial class MeleeRound : IDisposable
     public void CalculateSingleSide(CombatObject attacker, CombatObject defender)
     {
         Reset();
-        Attacker = attacker;
-        Defender = defender;
+        _attacker = attacker;
+        _defender = defender;
         AttackerDamageTypes = CombatObject.MeleeDamageTypes(attacker);
-        DefenderDamageTypes = Set<DamageType>.Of();
-        if (AttackerDamageTypes != Set<DamageType>.Of() && !Attacker.GetLocked())
+        _defenderDamageTypes = Set<DamageType>.Of();
+        if (AttackerDamageTypes != Set<DamageType>.Of() && !_attacker.GetLocked())
         {
-            AttackerStrikes = 2;
-            if (Attacker.GetAbilityEnabled(115))
+            _attackerStrikes = 2;
+            if (_attacker.GetAbilityEnabled(115))
             {
-                AttackerStrikes += 1;
+                _attackerStrikes += 1;
             }
         }
 
@@ -419,17 +422,17 @@ public partial class MeleeRound : IDisposable
         StrikeCombatAction result = null;
         if (index < Count)
         {
-            ref Strike strike = ref Strikes[index];
+            ref Strike strike = ref _strikes[index];
             switch (strike.Side)
             {
                 case CombatSideIndex.Attacker:
-                    if (!Attacker.GetLocked())
+                    if (!_attacker.GetLocked())
                     {
                         result = new StrikeCombatAction(null);
-                        var damage = Attacker.GetDamage();
-                        var attack = Attacker.GetAttack();
-                        result.Generate(Attacker, Defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
-                        if (Attacker.GetAbilityEnabled(118))
+                        var damage = _attacker.GetDamage();
+                        var attack = _attacker.GetAttack();
+                        result.Generate(_attacker, _defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
+                        if (_attacker.GetAbilityEnabled(118))
                         {
                             result.StrikeMode = result.StrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
                         }
@@ -437,13 +440,13 @@ public partial class MeleeRound : IDisposable
 
                     break;
                 case CombatSideIndex.Defender:
-                    if (!Defender.GetLocked())
+                    if (!_defender.GetLocked())
                     {
                         result = new StrikeCombatAction(null);
                         result.SetDefensive(true);
-                        var damage = Defender.GetDamage();
-                        var attack = Defender.GetAttack();
-                        result.Generate(Defender, Attacker, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), DefenderDamageTypes);
+                        var damage = _defender.GetDamage();
+                        var attack = _defender.GetAttack();
+                        result.Generate(_defender, _attacker, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), _defenderDamageTypes);
                     }
 
                     break;
@@ -460,23 +463,23 @@ public partial class MeleeRound : IDisposable
         int lifeStealingDamageValue;
         bool lifeStealing;
         CombatObject source;
-        AttackerDamageValue = 0;
-        DefenderDamageValue = 0;
+        _attackerDamageValue = 0;
+        _defenderDamageValue = 0;
         I = 0;
         lifeStealingDamageValue = 0;
-        source = Attacker;
+        source = _attacker;
         if (source != null)
         {
             lifeStealing = source.GetAbilityEnabled(118);
-            if (lifeStealing && Defender is CombatUnit && ((CombatUnit)Defender).Troop.GetUnitType() == UnitType.Machine)
+            if (lifeStealing && _defender is CombatUnit && ((CombatUnit)_defender).Troop.GetUnitType() == UnitType.Machine)
             {
                 lifeStealing = false;
             }
         }
         else
         {
-            lifeStealing = AttackerUnit.GetAbilityEnabled(118);
-            if (lifeStealing && DefenderUnit.GetUnitType() == UnitType.Machine)
+            lifeStealing = _attackerUnit.GetAbilityEnabled(118);
+            if (lifeStealing && _defenderUnit.GetUnitType() == UnitType.Machine)
             {
                 lifeStealing = false;
             }
@@ -484,32 +487,32 @@ public partial class MeleeRound : IDisposable
 
         while (I != Count)
         {
-            if (Strikes[I].Side == CombatSideIndex.Attacker)
+            if (_strikes[I].Side == CombatSideIndex.Attacker)
             {
-                AttackerDamageValue += Strikes[I].DamageValue;
-                if (Strikes[I].DamageValue > 100)
+                _attackerDamageValue += _strikes[I].DamageValue;
+                if (_strikes[I].DamageValue > 100)
                 {
                     lifeStealingDamageValue += 100;
                 }
                 else
                 {
-                    lifeStealingDamageValue += Strikes[I].DamageValue;
+                    lifeStealingDamageValue += _strikes[I].DamageValue;
                 }
             }
             else
             {
-                DefenderDamageValue += Strikes[I].DamageValue;
+                _defenderDamageValue += _strikes[I].DamageValue;
             }
 
             I += 1;
         }
 
-        if (lifeStealing && DefenderDamageValue > 0)
+        if (lifeStealing && _defenderDamageValue > 0)
         {
-            DefenderDamageValue -= lifeStealingDamageValue;
-            if (DefenderDamageValue <= 0)
+            _defenderDamageValue -= lifeStealingDamageValue;
+            if (_defenderDamageValue <= 0)
             {
-                DefenderDamageValue = 1;
+                _defenderDamageValue = 1;
             }
         }
     }
@@ -517,23 +520,23 @@ public partial class MeleeRound : IDisposable
     // AoWAb.PAS:1831
     public int GetAttackerDamageValue()
     {
-        if (AttackerDamageValue == -1)
+        if (_attackerDamageValue == -1)
         {
             CalculateDamageValue();
         }
 
-        return AttackerDamageValue;
+        return _attackerDamageValue;
     }
 
     // AoWAb.PAS:1837
     public int GetDefenderDamageValue()
     {
-        if (DefenderDamageValue == -1)
+        if (_defenderDamageValue == -1)
         {
             CalculateDamageValue();
         }
 
-        return DefenderDamageValue;
+        return _defenderDamageValue;
     }
 
     internal static int StatisticsToDamageValue(int attack, int damage, Set<DamageType> damageTypes, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)

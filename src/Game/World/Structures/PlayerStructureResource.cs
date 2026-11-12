@@ -17,10 +17,10 @@ public partial class PlayerStructureResource : StructureResource
 
     public new const int ClassId = 131917;
 
-    public bool Claimed;
-    public int FlagX;
-    public int FlagY;
-    public FlagControl FlagControl;
+    public bool Claimed { get; protected set; }
+    public int FlagX { get; private set; }
+    public int FlagY { get; private set; }
+    public FlagControl FlagControl { get; private set; }
 
     // Structur.PAS:2456
     public override void ReadWrite(EStorageStream stream)

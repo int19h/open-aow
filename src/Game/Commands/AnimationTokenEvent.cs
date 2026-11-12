@@ -17,27 +17,27 @@ public partial class AnimationTokenEvent : TokenEvent
     // Animation.pas:388
     public new const int ClassId = 135433;
 
-    public AnimationTokenEventState State;
-    public Animation Animation;
+    private AnimationTokenEventState _state;
+    private Animation _animation;
 
     // Animation.pas:399
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref Animation, null, 15);
+        stream.rwCreateEObject(ref _animation, null, 15);
     }
 
     // Animation.pas:405
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
-        if (Animation != null)
+        if (_animation != null)
         {
-            if (State == AnimationTokenEventState.Idle)
+            if (_state == AnimationTokenEventState.Idle)
             {
-                if (Animation.PlaceTokenEvent(this, tokenEvent))
+                if (_animation.PlaceTokenEvent(this, tokenEvent))
                 {
-                    State = AnimationTokenEventState.Playing;
+                    _state = AnimationTokenEventState.Playing;
                 }
                 else
                 {
@@ -45,16 +45,16 @@ public partial class AnimationTokenEvent : TokenEvent
                 }
             }
 
-            if (State == AnimationTokenEventState.Playing)
+            if (_state == AnimationTokenEventState.Playing)
             {
-                if (!Animation.ExecuteTokenEvent(this, tokenEvent))
+                if (!_animation.ExecuteTokenEvent(this, tokenEvent))
                 {
-                    Animation.RemoveTokenEvent(this, tokenEvent);
-                    State = AnimationTokenEventState.Done;
+                    _animation.RemoveTokenEvent(this, tokenEvent);
+                    _state = AnimationTokenEventState.Done;
                 }
             }
 
-            if (State == AnimationTokenEventState.Done)
+            if (_state == AnimationTokenEventState.Done)
             {
                 result = ExecuteResult.Done;
             }
@@ -70,12 +70,12 @@ public partial class AnimationTokenEvent : TokenEvent
     // Animation.pas:393
     public void Initialize(Animation animation)
     {
-        if (Animation != null)
+        if (_animation != null)
         {
-            Animation?.Dispose();
+            _animation?.Dispose();
         }
 
-        Animation = animation;
+        _animation = animation;
     }
 
 }

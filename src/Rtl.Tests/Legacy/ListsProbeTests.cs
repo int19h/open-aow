@@ -4,9 +4,13 @@ namespace Aow.Rtl.Tests;
 
 public sealed class ListsProbeTests
 {
-    private sealed class Item(int id, int key) { internal int Id = id, Key = key; }
+    private sealed class Item(int id, int key)
+    {
+        internal int Id { get; } = id;
+        internal int Key { get; set; } = key;
+    }
 
-    private sealed class ObjectId(int id) { internal int Id = id; }
+    private sealed class ObjectId(int id) { internal int Id { get; } = id; }
 
     [ProbeFact("lists")]
     public void ListsFixture()

@@ -37,11 +37,11 @@ public partial class NegotiateTokenEvent : TokenEvent
     public byte MapLevel;
     public ArmyId ArmyId;
     public sbyte Player;
-    public byte OwnerPlayer;
+    private byte _ownerPlayer;
     public ArmyHexSprite ArmyHexSprite;
     public NegotiateObject Object;
     public int MovePoints;
-    public byte Selection;
+    private byte _selection;
     public Set<NegotiateModeElement> Mode;
     public NegotiateResult Result;
     public int EventLogId;
@@ -71,7 +71,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         stream.rwByte(ref Y, 33);
         stream.rwByte(ref MapLevel, 34);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 35);
-        stream.rwByte(ref OwnerPlayer, 36);
+        stream.rwByte(ref _ownerPlayer, 36);
         stream.rwData(Bytes.Of(ref Object, 1), 1, 37);
         stream.rwInteger(ref MovePoints, 38);
         stream.rwInteger(ref Data1, 39);
@@ -88,7 +88,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         ArmyId = null;
         Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
         EventLogId = -1;
-        OwnerPlayer = 0;
+        _ownerPlayer = 0;
     }
 
     // Diplomacy.pas:247
@@ -114,7 +114,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         id = ArmyId;
         if (id != null)
         {
-            result = id.RetrieveArmy(ref ArmyHexSprite, ref Selection);
+            result = id.RetrieveArmy(ref ArmyHexSprite, ref _selection);
         }
         else
         {
@@ -123,7 +123,7 @@ public partial class NegotiateTokenEvent : TokenEvent
 
         if (result && X != 255)
         {
-            result = (byte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel)).GetPlayer() == OwnerPlayer;
+            result = (byte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel)).GetPlayer() == _ownerPlayer;
         }
         else
         {
@@ -159,7 +159,7 @@ public partial class NegotiateTokenEvent : TokenEvent
                 var hexY = ArmyHexSprite.HexY;
                 path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
                 path.List[0].Tag = (sbyte)MovePoints;
-                move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, Selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+                move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
                 AoWHSMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 move.Release();
@@ -180,7 +180,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             var hexY = ArmyHexSprite.HexY;
             path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
             path.List[0].Tag = (sbyte)MovePoints;
-            move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, Selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+            move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
             AoWHSMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             move.Release();

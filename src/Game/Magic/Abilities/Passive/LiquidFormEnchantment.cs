@@ -12,7 +12,7 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1357
     public LiquidFormEnchantment(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_liquidFormText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.LiquidFormText);
         AbilityId = 166;
     }
 

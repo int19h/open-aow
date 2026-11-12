@@ -23,11 +23,11 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
         var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            return AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
         var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_installFormat), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [unitName]);
     }
 
     public override string NameProgressive(ProductionControl control)
@@ -35,7 +35,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
         var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            return AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
         var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
@@ -51,7 +51,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
         return false;
     }
 

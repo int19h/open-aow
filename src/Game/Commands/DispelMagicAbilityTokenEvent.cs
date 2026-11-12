@@ -85,12 +85,12 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             {
                 if (count > 0)
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_spellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     AoWHSMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.s_dispelMagicFailedText);
+                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText);
                     AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }

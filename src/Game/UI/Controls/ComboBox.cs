@@ -20,42 +20,46 @@ namespace Aow.Game.UI.Controls;
 // OnDrawItem runs)
 public partial class ComboBox : Control
 {
-    public bool MouseDownOnField;
-    public bool Open;
-    public StringList _items;
-    public VerticalScrollBar _verticalScrollBar;
-    public int OpenListRows;
-    public int _numberVisible;
-    public int FirstShownItem;
-    public int _listBorderWidth;
-    public int _listBorderHeight;
-    public int _selected;
-    public int HoverItem;
-    public int _priorityOpened;
-    public int PriorityBeforeOpen;
-    public NotifyEvent<ComboBox> _onDrawItem;
-    public int ScrollBarWidth;
-    public bool ScrollBarVisible;
-    public InterfaceImageLibrary _imageLibraryEdit;
-    public InterfaceImageLibrary _imageLibraryFrame;
-    public InterfaceImageLibrary _imageLibraryTextureNormal;
-    public InterfaceImageLibrary _imageLibraryTextureSelected;
-    public int _itemHeight;
-    public NotifyEvent<ComboBox> _onOpen;
-    public NotifyEvent<ComboBox> _onClose;
-    public int _ileIndex;
-    public int _ilfIndex;
-    public int _imageLibraryTnIndex;
-    public int _imageLibraryTsIndex;
-    public int DrawItem;
-    public Rect DrawItemRectangle;
+    public bool MouseDownOnField { get; private set; }
+
+    private bool _open;
+    private StringList _items;
+    private VerticalScrollBar _verticalScrollBar;
+    private int _openListRows;
+    private int _numberVisible;
+    private int _firstShownItem;
+    private int _listBorderWidth;
+    private int _listBorderHeight;
+    private int _selected;
+    private int _hoverItem;
+    private int _priorityOpened;
+    private int _priorityBeforeOpen;
+    private NotifyEvent<ComboBox> _onDrawItem;
+    private int _scrollBarWidth;
+
+    public bool ScrollBarVisible { get; private set; }
+
+    private InterfaceImageLibrary _imageLibraryEdit;
+    private InterfaceImageLibrary _imageLibraryFrame;
+    private InterfaceImageLibrary _imageLibraryTextureNormal;
+    private InterfaceImageLibrary _imageLibraryTextureSelected;
+    private int _itemHeight;
+    private NotifyEvent<ComboBox> _onOpen;
+    private NotifyEvent<ComboBox> _onClose;
+    private int _ileIndex;
+    private int _ilfIndex;
+    private int _imageLibraryTnIndex;
+    private int _imageLibraryTsIndex;
+
+    public int DrawItem { get; private set; }
+    public Rect DrawItemRectangle { get; private set; }
 
     // AoWComboBox.pas:114
     public ComboBox(Component owner) : base(owner)
     {
         _items = new StringList();
         _items.OnChange = OnChangeText;
-        HoverItem = -1;
+        _hoverItem = -1;
     }
 
     // AoWComboBox.pas:122
@@ -101,21 +105,21 @@ public partial class ComboBox : Control
     //   item short of the open list's, and its top is taken from the first edit image (original) }
     public override void SetSize()
     {
-        Open = false;
+        _open = false;
         var imageLibraryEditWidth = _imageLibraryEdit[_ileIndex];
         var imageLibraryEdit = _imageLibraryEdit[_ileIndex + 2];
-        if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > _winWidth)
+        if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > WinWidth)
         {
             var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
             var imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 2];
-            _winWidth = imageLibraryEdit2.Width + imageLibraryEdit3.Width;
+            SetWinWidthWithoutInvalidate(imageLibraryEdit2.Width + imageLibraryEdit3.Width);
         }
 
-        OpenListRows = _numberVisible;
+        _openListRows = _numberVisible;
         var count = _items.Count;
-        if (OpenListRows > count)
+        if (_openListRows > count)
         {
-            OpenListRows = _items.Count;
+            _openListRows = _items.Count;
         }
 
         if (_items.Count <= _selected)
@@ -123,34 +127,34 @@ public partial class ComboBox : Control
             _selected = _items.Count - 1;
         }
 
-        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+        SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
         if (_verticalScrollBar != null)
         {
-            if (_verticalScrollBar._window != _window)
+            if (_verticalScrollBar.Window != Window)
             {
-                _verticalScrollBar.SetWindow(_window);
+                _verticalScrollBar.SetWindow(Window);
             }
 
-            _verticalScrollBar.Priority = _priority + 1;
+            _verticalScrollBar.Priority = Priority + 1;
             _verticalScrollBar.SetFMin(0);
             var fItemsCount = _items.Count;
             _verticalScrollBar.SetFMax(fItemsCount - 2);
-            _verticalScrollBar.SetFPosition(FirstShownItem);
-            _verticalScrollBar.SetFNumber(OpenListRows - 1);
+            _verticalScrollBar.SetFPosition(_firstShownItem);
+            _verticalScrollBar.SetFNumber(_openListRows - 1);
             var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
-            _verticalScrollBar.WinHeight = imageLibraryFrame.Height + (_itemHeight * OpenListRows + _borderHeight);
-            _verticalScrollBar.SetLarge(OpenListRows - 1);
-            _verticalScrollBar.Visible = Open;
-            if (_verticalScrollBar._vanishWhenFull && _items.Count - 1 < OpenListRows)
+            _verticalScrollBar.WinHeight = imageLibraryFrame.Height + (_itemHeight * _openListRows + _borderHeight);
+            _verticalScrollBar.SetLarge(_openListRows - 1);
+            _verticalScrollBar.Visible = _open;
+            if (_verticalScrollBar.VanishWhenFull && _items.Count - 1 < _openListRows)
             {
                 _verticalScrollBar.Visible = false;
             }
 
             _verticalScrollBar.Sized = false;
-            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar._winWidth;
+            _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
             var imageLibraryEditHeight = _imageLibraryEdit[0];
-            _verticalScrollBar.WinTop = imageLibraryEditHeight.Height + _winTop;
-            ScrollBarVisible = _verticalScrollBar._visible;
+            _verticalScrollBar.WinTop = imageLibraryEditHeight.Height + WinTop;
+            ScrollBarVisible = _verticalScrollBar.Visible;
         }
 
         base.SetSize();
@@ -161,18 +165,18 @@ public partial class ComboBox : Control
     public override void Update()
     {
         base.Update();
-        if (_visible)
+        if (Visible)
         {
-            Redraw = Open;
+            Redraw = _open;
             if (_verticalScrollBar != null && _items.Count > 0)
             {
-                if (_verticalScrollBar._position != FirstShownItem)
+                if (_verticalScrollBar.Position != _firstShownItem)
                 {
-                    FirstShownItem = _verticalScrollBar._position;
+                    _firstShownItem = _verticalScrollBar.Position;
                     var count = _items.Count;
-                    if (FirstShownItem + OpenListRows > count)
+                    if (_firstShownItem + _openListRows > count)
                     {
-                        FirstShownItem = _items.Count - OpenListRows;
+                        _firstShownItem = _items.Count - _openListRows;
                     }
 
                     Drawn = false;
@@ -185,9 +189,9 @@ public partial class ComboBox : Control
     public override void SetVisible(bool value)
     {
         base.SetVisible(value);
-        if (Open && _verticalScrollBar != null)
+        if (_open && _verticalScrollBar != null)
         {
-            _verticalScrollBar.Visible = _visible;
+            _verticalScrollBar.Visible = Visible;
         }
     }
 
@@ -200,7 +204,7 @@ public partial class ComboBox : Control
         Rect oldClip = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -209,71 +213,71 @@ public partial class ComboBox : Control
 
                 _font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
-                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_ileIndex, rectangle, ref lockedSurface);
                 if (_selected > -1 && _items.Count > _selected)
                 {
                     var item = _items[_selected];
-                    _font.SetText(_window._winLeft + _winLeft + _borderWidth, _window._winTop + _winTop + _borderHeight, item, lockedSurface);
+                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, item, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
-                if (Open == true)
+                if (_open == true)
                 {
                     var imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 1];
                     var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
                     var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
-                    var rectangle2 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop + imageLibraryEditHeight.Height, _winWidth, imageLibraryFrameHeight.Height + imageLibraryFrame.Height + _itemHeight * OpenListRows + _listBorderHeight);
+                    var rectangle2 = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop + imageLibraryEditHeight.Height, WinWidth, imageLibraryFrameHeight.Height + imageLibraryFrame.Height + _itemHeight * _openListRows + _listBorderHeight);
                     _imageLibraryFrame.DrawFrame(_ilfIndex, rectangle2, ref lockedSurface);
                     var imageLibraryFrameWidth = _imageLibraryFrame[_ilfIndex + 3];
                     var imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 4];
                     var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                     var imageLibraryFrame3 = _imageLibraryFrame[_ilfIndex + 1];
                     var imageLibraryFrame4 = _imageLibraryFrame[_ilfIndex + 3];
-                    var rectangle3 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame4.Width, _window._winTop + _winTop + imageLibraryEdit.Height + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _itemHeight * OpenListRows + _listBorderHeight);
+                    var rectangle3 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame4.Width, Window.WinTop + WinTop + imageLibraryEdit.Height + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _itemHeight * _openListRows + _listBorderHeight);
                     _imageLibraryTextureNormal.DrawTiled(_imageLibraryTnIndex, rectangle3, ref lockedSurface);
-                    if (HoverItem >= FirstShownItem && HoverItem < OpenListRows + FirstShownItem)
+                    if (_hoverItem >= _firstShownItem && _hoverItem < _openListRows + _firstShownItem)
                     {
                         var imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 3];
                         var imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 4];
                         var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
                         var imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                         var imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
-                        var rectangle4 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame8.Width, _window._winTop + _winTop + imageLibraryEdit2.Height + imageLibraryFrame7.Height + (HoverItem - FirstShownItem) * _itemHeight, _winWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, _itemHeight);
+                        var rectangle4 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame8.Width, Window.WinTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame7.Height + (_hoverItem - _firstShownItem) * _itemHeight, WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, _itemHeight);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryTsIndex, rectangle4, ref lockedSurface);
                     }
 
-                    if (_window._winLeft + _winLeft + _winWidth - ScrollBarWidth < oldClip.Right)
+                    if (Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth < oldClip.Right)
                     {
-                        lockedSurface.ClipRectangle.Right = _window._winLeft + _winLeft + _winWidth - ScrollBarWidth;
+                        lockedSurface.ClipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth;
                     }
 
-                    for (int I = 0, last = OpenListRows - 1; I <= last; I++)
+                    for (int I = 0, last = _openListRows - 1; I <= last; I++)
                     {
                         if (I < _items.Count)
                         {
-                            if (FirstShownItem + I == HoverItem)
+                            if (_firstShownItem + I == _hoverItem)
                             {
                                 _font.Color = SelectedColor;
                             }
 
                             var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
                             var imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
-                            var item = _items[FirstShownItem + I];
-                            _font.SetText(_window._winLeft + _winLeft + _listBorderWidth, _window._winTop + _winTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + _listBorderHeight + _itemHeight * I, item, lockedSurface);
-                            if (FirstShownItem + I == HoverItem)
+                            var item = _items[_firstShownItem + I];
+                            _font.SetText(Window.WinLeft + WinLeft + _listBorderWidth, Window.WinTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + _listBorderHeight + _itemHeight * I, item, lockedSurface);
+                            if (_firstShownItem + I == _hoverItem)
                             {
                                 _font.Color = Color;
                             }
 
-                            DrawItem = FirstShownItem + I;
+                            DrawItem = _firstShownItem + I;
                             var imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 1];
                             var imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 1];
                             var imageLibraryEdit4 = _imageLibraryEdit[_ileIndex + 1];
                             var imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                             var imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                             var imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
-                            DrawItemRectangle = new Rect(_window._winLeft + _winLeft + imageLibraryFrame9.Width, _window._winTop + _winTop + imageLibraryEdit4.Height + imageLibraryFrame7.Height + _itemHeight * I, _window._winLeft + _winLeft + imageLibraryFrame8.Width + _winWidth, _window._winTop + _winTop + imageLibraryEdit3.Height + imageLibraryFrame6.Height + (I + 1) * _itemHeight);
+                            DrawItemRectangle = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame9.Width, Window.WinTop + WinTop + imageLibraryEdit4.Height + imageLibraryFrame7.Height + _itemHeight * I, Window.WinLeft + WinLeft + imageLibraryFrame8.Width + WinWidth, Window.WinTop + WinTop + imageLibraryEdit3.Height + imageLibraryFrame6.Height + (I + 1) * _itemHeight);
                             if (_onDrawItem != null)
                             {
                                 _onDrawItem(this);
@@ -303,11 +307,11 @@ public partial class ComboBox : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        bool condition = X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1;
+        bool condition = X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1;
         if (condition)
         {
             var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-            condition = Y < _window._winTop + _winTop + imageLibraryEdit.Height;
+            condition = Y < Window.WinTop + WinTop + imageLibraryEdit.Height;
         }
 
         if (condition)
@@ -317,17 +321,17 @@ public partial class ComboBox : Control
             {
                 MouseDown = true;
                 MouseDownOnField = true;
-                if (Valid == true && _visible == true)
+                if (Valid == true && Visible == true)
                 {
-                    if (Open)
+                    if (_open)
                     {
-                        if (PriorityBeforeOpen != _priority)
+                        if (_priorityBeforeOpen != Priority)
                         {
-                            Priority = PriorityBeforeOpen;
+                            Priority = _priorityBeforeOpen;
                         }
 
-                        Open = false;
-                        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                        _open = false;
+                        SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                         if (_verticalScrollBar != null)
                         {
                             _verticalScrollBar.Visible = false;
@@ -340,59 +344,59 @@ public partial class ComboBox : Control
                     }
                     else
                     {
-                        PriorityBeforeOpen = _priority;
-                        if (_priorityOpened != _priority)
+                        _priorityBeforeOpen = Priority;
+                        if (_priorityOpened != Priority)
                         {
                             Priority = _priorityOpened;
                         }
 
-                        Open = true;
-                        if (_items.Count < OpenListRows)
+                        _open = true;
+                        if (_items.Count < _openListRows)
                         {
-                            OpenListRows = _items.Count;
+                            _openListRows = _items.Count;
                         }
 
                         var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
                         var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 1];
                         var imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 6];
-                        _winHeight = imageLibraryEditHeight.Height + _listBorderHeight + _itemHeight * OpenListRows + imageLibraryFrame.Height + imageLibraryFrameHeight.Height;
-                        if (_items.Count < FirstShownItem + OpenListRows)
+                        SetWinHeightWithoutInvalidate(imageLibraryEditHeight.Height + _listBorderHeight + _itemHeight * _openListRows + imageLibraryFrame.Height + imageLibraryFrameHeight.Height);
+                        if (_items.Count < _firstShownItem + _openListRows)
                         {
-                            FirstShownItem = _items.Count - OpenListRows;
+                            _firstShownItem = _items.Count - _openListRows;
                         }
 
                         Drawn = false;
-                        ScrollBarWidth = _imageLibraryFrame[_ilfIndex + 4].Width;
+                        _scrollBarWidth = _imageLibraryFrame[_ilfIndex + 4].Width;
                         ScrollBarVisible = false;
-                        if (_verticalScrollBar != null && OpenListRows > 0)
+                        if (_verticalScrollBar != null && _openListRows > 0)
                         {
-                            if (_priority + 1 != _verticalScrollBar._priority)
+                            if (Priority + 1 != _verticalScrollBar.Priority)
                             {
-                                _verticalScrollBar.Priority = _priority + 1;
+                                _verticalScrollBar.Priority = Priority + 1;
                             }
 
                             _verticalScrollBar.SetFMin(0);
                             var count = _items.Count;
                             _verticalScrollBar.SetFMax(count - 1);
-                            _verticalScrollBar.SetFPosition(FirstShownItem);
-                            _verticalScrollBar.SetFNumber(OpenListRows);
+                            _verticalScrollBar.SetFPosition(_firstShownItem);
+                            _verticalScrollBar.SetFNumber(_openListRows);
                             var imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 6];
-                            _verticalScrollBar.WinHeight = imageLibraryFrame2.Height + (_itemHeight * OpenListRows + _borderHeight);
+                            _verticalScrollBar.WinHeight = imageLibraryFrame2.Height + (_itemHeight * _openListRows + _borderHeight);
                             _verticalScrollBar.Visible = true;
-                            if (_verticalScrollBar._vanishWhenFull == true && _items.Count - 1 < OpenListRows)
+                            if (_verticalScrollBar.VanishWhenFull == true && _items.Count - 1 < _openListRows)
                             {
                                 _verticalScrollBar.Visible = false;
                             }
                             else
                             {
-                                ScrollBarWidth = _verticalScrollBar._winWidth;
+                                _scrollBarWidth = _verticalScrollBar.WinWidth;
                             }
 
-                            ScrollBarVisible = _verticalScrollBar._visible;
+                            ScrollBarVisible = _verticalScrollBar.Visible;
                             _verticalScrollBar.Sized = false;
-                            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar._winWidth;
+                            _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
                             var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                            _verticalScrollBar.WinTop = imageLibraryEdit.Height + _winTop;
+                            _verticalScrollBar.WinTop = imageLibraryEdit.Height + WinTop;
                             _verticalScrollBar.Drawn = false;
                         }
 
@@ -404,15 +408,15 @@ public partial class ComboBox : Control
                 }
                 else
                 {
-                    if (Open == true)
+                    if (_open == true)
                     {
-                        if (PriorityBeforeOpen != _priority)
+                        if (_priorityBeforeOpen != Priority)
                         {
-                            Priority = PriorityBeforeOpen;
+                            Priority = _priorityBeforeOpen;
                         }
 
-                        Open = false;
-                        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                        _open = false;
+                        SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                         if (_verticalScrollBar != null)
                         {
                             _verticalScrollBar.Visible = false;
@@ -433,21 +437,21 @@ public partial class ComboBox : Control
         }
         else
         {
-            if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+            if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
             {
                 Handled = true;
             }
             else
             {
-                if (Open)
+                if (_open)
                 {
-                    if (PriorityBeforeOpen != _priority)
+                    if (_priorityBeforeOpen != Priority)
                     {
-                        Priority = PriorityBeforeOpen;
+                        Priority = _priorityBeforeOpen;
                     }
 
-                    Open = false;
-                    _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                    _open = false;
+                    SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                     if (_verticalScrollBar != null)
                     {
                         _verticalScrollBar.Visible = false;
@@ -471,11 +475,11 @@ public partial class ComboBox : Control
         MouseDown = false;
         MouseDownOnField = false;
         Redraw = false;
-        bool condition = X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1;
+        bool condition = X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1;
         if (condition)
         {
             var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-            condition = Y < _window._winTop + _winTop + imageLibraryEdit.Height;
+            condition = Y < Window.WinTop + WinTop + imageLibraryEdit.Height;
         }
 
         if (condition)
@@ -488,29 +492,29 @@ public partial class ComboBox : Control
         }
         else
         {
-            if (button == MouseButton.Left && Valid == true && _visible == true && Open == true)
+            if (button == MouseButton.Left && Valid == true && Visible == true && _open == true)
             {
-                bool test = X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth;
+                bool test = X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth;
                 if (test)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                    test = Y > _window._winTop + _winTop + imageLibraryEdit.Height - 1;
+                    test = Y > Window.WinTop + WinTop + imageLibraryEdit.Height - 1;
                 }
 
-                if (test && Y < _window._winTop + _winTop + _winHeight)
+                if (test && Y < Window.WinTop + WinTop + WinHeight)
                 {
-                    if (X < _window._winLeft + _winLeft + _winWidth - ScrollBarWidth)
+                    if (X < Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth)
                     {
                         var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                        I = (Y - _window._winTop - _winTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + FirstShownItem;
+                        I = (Y - Window.WinTop - WinTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
                         if (I < _items.Count)
                         {
                             _selected = I;
                         }
 
-                        Open = false;
+                        _open = false;
                         Redraw = false;
-                        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                        SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                         if (_verticalScrollBar != null)
                         {
                             _verticalScrollBar.Visible = false;
@@ -530,9 +534,9 @@ public partial class ComboBox : Control
                 }
                 else
                 {
-                    Open = false;
+                    _open = false;
                     Redraw = false;
-                    _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                    SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                     if (_verticalScrollBar != null)
                     {
                         _verticalScrollBar.Visible = false;
@@ -554,25 +558,25 @@ public partial class ComboBox : Control
         int oldItem;
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        oldItem = HoverItem;
-        HoverItem = -1;
-        if (X >= _window._winLeft + _winLeft && X < _window._winLeft + _winLeft + _winWidth - ScrollBarWidth && Y >= _window._winTop + _winTop && Y < _window._winTop + _winTop + _winHeight)
+        oldItem = _hoverItem;
+        _hoverItem = -1;
+        if (X >= Window.WinLeft + WinLeft && X < Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth && Y >= Window.WinTop + WinTop && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (Open)
+            if (_open)
             {
                 var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
-                bool condition = Y >= _window._winTop + _winTop + _borderHeight + imageLibraryEditHeight.Height;
+                bool condition = Y >= Window.WinTop + WinTop + _borderHeight + imageLibraryEditHeight.Height;
                 if (condition)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                    condition = Y < _window._winTop + _winTop + imageLibraryEdit.Height + _borderHeight + _itemHeight * OpenListRows;
+                    condition = Y < Window.WinTop + WinTop + imageLibraryEdit.Height + _borderHeight + _itemHeight * _openListRows;
                 }
 
                 if (condition)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                    HoverItem = (Y - _window._winTop - _winTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + FirstShownItem;
+                    _hoverItem = (Y - Window.WinTop - WinTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
                 }
             }
 
@@ -582,7 +586,7 @@ public partial class ComboBox : Control
             }
         }
 
-        if (Open == true && oldItem != HoverItem)
+        if (_open == true && oldItem != _hoverItem)
         {
             Drawn = false;
             if (_verticalScrollBar != null)
@@ -700,7 +704,7 @@ public partial class ComboBox : Control
         _verticalScrollBar = value;
         if (value != null)
         {
-            value.Priority = _priority;
+            value.Priority = Priority;
         }
 
         Sized = false;

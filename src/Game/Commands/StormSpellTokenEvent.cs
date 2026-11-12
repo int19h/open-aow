@@ -21,7 +21,7 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
     // Storms.pas:730
     public new const int ClassId = 135937;
 
-    public Storm Storm;
+    private Storm _storm;
     public sbyte X;
     public sbyte Y;
     public sbyte MapLevel;
@@ -42,16 +42,16 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
         base.Process(source, value);
         if (value == 0)
         {
-            Storm = ((StormSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
-            Storm.InitializeStorm(source.Player, X, Y, MapLevel);
+            _storm = ((StormSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
+            _storm.InitializeStorm(source.Player, X, Y, MapLevel);
             AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 
-        if (!Storm.UpdateStorm())
+        if (!_storm.UpdateStorm())
         {
-            Storm.FinalizeStorm();
-            Storm?.Dispose();
-            Storm = null;
+            _storm.FinalizeStorm();
+            _storm?.Dispose();
+            _storm = null;
             result = false;
         }
         else

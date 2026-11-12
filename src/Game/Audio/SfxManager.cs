@@ -8,8 +8,8 @@ namespace Aow.Game.Audio;
 // subdirectories) relative to the search path
 public partial class SfxManager : Component
 {
-    internal string _searchPath = "";
-    internal SfxList _sfx;
+    private string _searchPath = "";
+    private SfxList _sfx;
 
     // Sound.pas:407
     public SfxManager(Component owner) : base(owner)

@@ -213,10 +213,11 @@ public partial class ScenarioSetup : DataModule
     public Label TacticalCombatLbl;
     public CheckBox AlwaysViewTCCB;
     public Label AlwaysViewTCLbl;
-    public int ValidateDelay;
-    public SetupControl SetupControl;
-    public int PingDelay;
-    public bool ChatScrollPending;
+
+    public int ValidateDelay { get; private set; }
+    public SetupControl SetupControl { get; set; }
+    public int PingDelay { get; private set; }
+    public bool ChatScrollPending { get; set; }
 
     // AoWScenSetup.pas:526
     public void Execute(SetupControl control)
@@ -232,9 +233,9 @@ public partial class ScenarioSetup : DataModule
         var remote = SetupControl.GetRemote();
         ChatFogPnl.Visible = !remote;
         var fSetupControlRemote = SetupControl.GetRemote();
-        ChatMemo._captureInput = fSetupControlRemote;
+        ChatMemo.CaptureInput = fSetupControlRemote;
         var remote2 = SetupControl.GetRemote();
-        ChatEdit._captureInput = remote2;
+        ChatEdit.CaptureInput = remote2;
         if (SetupControl.GetHost() && IsEmpty(SetupControl.Settings.MapName))
         {
             PickMap();
@@ -261,7 +262,7 @@ public partial class ScenarioSetup : DataModule
         if (SetupControl.Settings.ConnectionType == 2)
         {
             CustomizeLeadersLbl.TextColor = 8421504;
-            CustomizeLeaders._captureInput = false;
+            CustomizeLeaders.CaptureInput = false;
             PlayModeCB.Items.Clear();
             var classic = AbilityRules.TranslateResourceString(s_classicText);
             PlayModeCB.Items.AddObject(classic, IntToObject(1));
@@ -269,7 +270,7 @@ public partial class ScenarioSetup : DataModule
         else
         {
             CustomizeLeadersLbl.TextColor = AlliedVictoryLbl.TextColor;
-            CustomizeLeaders._captureInput = true;
+            CustomizeLeaders.CaptureInput = true;
             PlayModeCB.Items.Clear();
             var simultaneous = AbilityRules.TranslateResourceString(s_simultaneousText);
             PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
@@ -636,7 +637,7 @@ public partial class ScenarioSetup : DataModule
         }
         else
         {
-            var format = AbilityRules.Format(LowerCase(AbilityRules.TranslateResourceString(GameText.s_turnsFormat)), [IntToStr(TurnsSl.Position * 10)]);
+            var format = AbilityRules.Format(LowerCase(AbilityRules.TranslateResourceString(GameText.TurnsFormat)), [IntToStr(TurnsSl.Position * 10)]);
             TurnsVal.Text = format;
         }
     }
@@ -667,13 +668,13 @@ public partial class ScenarioSetup : DataModule
 
     internal static StringArray3 s_tacticalCombatAvailabilityTexts = StringArray3.From([]);
 
-    internal static readonly string s_classicText = "Classic";
+    private static readonly string s_classicText = "Classic";
 
     private static readonly string s_noLimitText = "No Limit";
 
     private static readonly string s_noTimerText = "No Timer";
 
-    internal static readonly string s_simultaneousText = "Simultaneous";
+    private static readonly string s_simultaneousText = "Simultaneous";
 
     private static readonly string s_minutesFormat = "%s minutes";
 
@@ -777,12 +778,12 @@ public partial class ScenarioSetup : DataModule
                 setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
                 if (player.PreferredRace != 255)
                 {
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[(sbyte)player.PreferredRace]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)player.PreferredRace]);
                     setup.PreferredRaceList.Items.Add(raceNamesPlural);
                 }
                 else
                 {
-                    var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+                    var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
                     setup.PreferredRaceList.Items.Add(none);
                 }
 
@@ -829,14 +830,14 @@ public partial class ScenarioSetup : DataModule
             if (setup.PreferredRaceCB.Visible)
             {
                 setup.PreferredRaceCB.Items.Clear();
-                var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+                var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
                 setup.PreferredRaceCB.Items.AddObject(none, IntToObject(-1));
                 for (int I = 0, last = setup.SetupControl.Settings.Count - 1; I <= last; I++)
                 {
                     if (!setup.SetupControl.Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.Fixed))
                     {
                         var settingRace = setup.SetupControl.Settings.GetSettings(I);
-                        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[settingRace.Race]);
+                        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
                         var setting = setup.SetupControl.Settings.GetSettings(I);
                         setup.PreferredRaceCB.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
                     }
@@ -877,16 +878,16 @@ public partial class ScenarioSetup : DataModule
                 switch (DialogHosts.SetupEvents.DPlay.ConnectionType)
                 {
                     case ConnectionType.TCP:
-                        connection = AbilityRules.TranslateResourceString(GameText.s_tcpIpLabel);
+                        connection = AbilityRules.TranslateResourceString(GameText.TcpIpLabel);
                         break;
                     case ConnectionType.IPX:
-                        connection = AbilityRules.TranslateResourceString(GameText.s_ipxText);
+                        connection = AbilityRules.TranslateResourceString(GameText.IpxText);
                         break;
                     case ConnectionType.Modem:
-                        connection = AbilityRules.TranslateResourceString(GameText.s_modemText);
+                        connection = AbilityRules.TranslateResourceString(GameText.ModemText);
                         break;
                     case ConnectionType.Serial:
-                        connection = AbilityRules.TranslateResourceString(GameText.s_serialText);
+                        connection = AbilityRules.TranslateResourceString(GameText.SerialText);
                         break;
                     default:
                         connection = "";
@@ -908,11 +909,11 @@ public partial class ScenarioSetup : DataModule
                 setup.HostNameLbl.Visible = true;
                 setup.FileNameLbl.Visible = true;
                 setup.PlayerNameLbl.Visible = true;
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_hostFormat), [connection, hostName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.HostFormat), [connection, hostName]);
                 setup.HostNameLbl.Text = format;
-                var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_playerNameFormat), [setup.SetupControl.RemotePlayer.Name]);
+                var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.PlayerNameFormat), [setup.SetupControl.RemotePlayer.Name]);
                 setup.PlayerNameLbl.Text = formattedText;
-                var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_fileNameFormat), [setup.SetupControl.Settings.MapName]);
+                var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.FileNameFormat), [setup.SetupControl.Settings.MapName]);
                 setup.FileNameLbl.Text = format2;
                 if (setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid)
                 {
@@ -930,7 +931,7 @@ public partial class ScenarioSetup : DataModule
                 setup.PlayerNameLbl.Visible = false;
             }
 
-            var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_scenarioFormat), [setup.SetupControl.Settings.FileName]);
+            var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ScenarioFormat), [setup.SetupControl.Settings.FileName]);
             setup.ScenarioLbl.Text = format3;
             DialogHosts.TitleWindow.TitleWin.Drawn = false;
         }
@@ -992,7 +993,7 @@ public partial class ScenarioSetup : DataModule
                     }
                     else
                     {
-                        playerName.Text = AbilityRules.TranslateResourceString(GameTables.s_humanText);
+                        playerName.Text = AbilityRules.TranslateResourceString(GameTables.HumanText);
                     }
                 }
                 else
@@ -1007,7 +1008,7 @@ public partial class ScenarioSetup : DataModule
             {
                 if (settings.Status.Contains(PlayerSetupStatusElement.Fixed))
                 {
-                    info.Text = AbilityRules.TranslateResourceString(GameText.s_fixedText);
+                    info.Text = AbilityRules.TranslateResourceString(GameText.FixedText);
                 }
                 else
                 {
@@ -1019,11 +1020,11 @@ public partial class ScenarioSetup : DataModule
                             // { Original compares race bytes, including the FF sentinel. }
                             if (setup.SetupControl.Settings.RemotePlayers.GetPlayers(I).PreferredRace == (byte)settings.Race)
                             {
-                                info.Text = AbilityRules.TranslateResourceString(GameText.s_takenText);
+                                info.Text = AbilityRules.TranslateResourceString(GameText.TakenText);
                             }
                             else
                             {
-                                info.Text = AbilityRules.TranslateResourceString(GameText.s_forcedText);
+                                info.Text = AbilityRules.TranslateResourceString(GameText.ForcedText);
                             }
                         }
                     }
@@ -1031,7 +1032,7 @@ public partial class ScenarioSetup : DataModule
                     {
                         if (settings.Behavior.Flags != 0)
                         {
-                            info.Text = AbilityRules.TranslateResourceString(GameText.s_takenText);
+                            info.Text = AbilityRules.TranslateResourceString(GameText.TakenText);
                         }
                         else
                         {
@@ -1095,7 +1096,7 @@ public partial class ScenarioSetup : DataModule
             behaviorBox.Visible = false;
             playerName.Visible = false;
             info.Visible = true;
-            info.Text = AbilityRules.TranslateResourceString(GameText.s_unavailableText);
+            info.Text = AbilityRules.TranslateResourceString(GameText.UnavailableText);
             fog.Visible = true;
         }
     }

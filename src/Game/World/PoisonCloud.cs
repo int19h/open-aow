@@ -20,7 +20,7 @@ public partial class PoisonCloud : MultiHexMapObject
 {
     public PoisonCloud(ECustomNode owner) : base(owner)
     {
-        Drifting = false;
+        _drifting = false;
     }
 
     // PoisonC.pas:64
@@ -28,9 +28,9 @@ public partial class PoisonCloud : MultiHexMapObject
 
     public sbyte Player;
     public int TurnsRemaining;
-    public bool Drifting;
-    public byte Direction;
-    public bool Updated;
+    private bool _drifting;
+    private byte _direction;
+    private bool _updated;
 
     // PoisonC.pas:149
     public override void ReadWrite(EStorageStream stream)
@@ -38,8 +38,8 @@ public partial class PoisonCloud : MultiHexMapObject
         base.ReadWrite(stream);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
         stream.rwInteger(ref TurnsRemaining, 16);
-        stream.rwBool(ref Drifting, 17);
-        stream.rwByte(ref Direction, 18);
+        stream.rwBool(ref _drifting, 17);
+        stream.rwByte(ref _direction, 18);
     }
 
     // PoisonC.pas:58
@@ -48,7 +48,7 @@ public partial class PoisonCloud : MultiHexMapObject
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Player && !Updated)
+        if (message.MessageId == 537001986 && message.Payload.Int == Player && !_updated)
         {
             UpdateCloud();
             return;
@@ -56,7 +56,7 @@ public partial class PoisonCloud : MultiHexMapObject
 
         if (message.MessageId == 537001987 && message.Payload.Int == Player)
         {
-            Updated = false;
+            _updated = false;
         }
     }
 
@@ -150,9 +150,9 @@ public partial class PoisonCloud : MultiHexMapObject
     public override void Activate()
     {
         base.Activate();
-        if (Direction == 0)
+        if (_direction == 0)
         {
-            Direction = (byte)(AoWHSMap.Current.Random(6) + 1);
+            _direction = (byte)(AoWHSMap.Current.Random(6) + 1);
         }
     }
 
@@ -283,30 +283,30 @@ public partial class PoisonCloud : MultiHexMapObject
         int oldHexY;
         if (TurnsRemaining != 1)
         {
-            Updated = true;
+            _updated = true;
             if (TurnsRemaining != 0)
             {
                 TurnsRemaining -= 1;
             }
 
-            if (Drifting)
+            if (_drifting)
             {
                 direction = 0;
                 directions = new ByteList();
                 valid = false;
-                directions.Add(Direction);
-                if (Direction != 1)
+                directions.Add(_direction);
+                if (_direction != 1)
                 {
-                    directions.Add((byte)(Direction - 1));
+                    directions.Add((byte)(_direction - 1));
                 }
                 else
                 {
                     directions.Add(6);
                 }
 
-                if (Direction != 6)
+                if (_direction != 6)
                 {
-                    directions.Add((byte)(Direction + 1));
+                    directions.Add((byte)(_direction + 1));
                 }
                 else
                 {
@@ -339,7 +339,7 @@ public partial class PoisonCloud : MultiHexMapObject
                 {
                     oldHexX = GetHexX();
                     oldHexY = GetHexY();
-                    Direction = (byte)direction;
+                    _direction = (byte)direction;
                     hexLevel = GetHexLevel();
                     var yhx = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);

@@ -11,7 +11,7 @@ public partial class UserWindow : Window
     public UserWindow(Component owner) : base(owner)
     { }
 
-    public DrawSurfaceExEvent _onCustomDrawSurface;
+    private DrawSurfaceExEvent _onCustomDrawSurface;
 
     // AowUserWindow.pas:29
     public override void DrawSurface(Surface surface)

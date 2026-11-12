@@ -33,18 +33,21 @@ public partial class AIMoveExecutor : EngineObject
     }
 
     public MapCoordinate Destination;
-    public AIMoveExecutorControl Control;
-    public Int32List ControlQueue;
-    public AIMoveExecutorMoveQueue Moves;
-    public AIMoveExecutorUnitList Units;
-    public AIMoveExecutorUnit Transporter;
-    public int MovePointsMax;
-    public Set<AIMoveExecutorModeElement> Mode;
-    public int State;
-    public AIMoveExecutorStatus Status;
-    public sbyte Player;
-    public int ProcessCycles;
-    public DoneEvent OnDone;
+
+    public AIMoveExecutorControl Control { get; private set; }
+    public Int32List ControlQueue { get; private set; }
+    public AIMoveExecutorMoveQueue Moves { get; private set; }
+    public AIMoveExecutorUnitList Units { get; private set; }
+    public AIMoveExecutorUnit Transporter { get; private set; }
+    public int MovePointsMax { get; private set; }
+    public Set<AIMoveExecutorModeElement> Mode { get; set; }
+    public int State { get; private set; }
+    public AIMoveExecutorStatus Status { get; set; }
+
+    private sbyte _player;
+    private int _processCycles;
+
+    public DoneEvent OnDone { get; set; }
 
     // AIGroup.pas:5985
     public override void Dispose()
@@ -106,13 +109,13 @@ public partial class AIMoveExecutor : EngineObject
     {
         MapCoordinate location = default;
         AIMoveExecutorUnit unitEntry;
-        if (Player == -1)
+        if (_player == -1)
         {
-            Player = troop.Player;
+            _player = troop.Player;
         }
         else
         {
-            if (Player != troop.Player)
+            if (_player != troop.Player)
             {
                 throw new InvalidOperationException("Player mismatch!");
             }
@@ -193,7 +196,7 @@ public partial class AIMoveExecutor : EngineObject
         State = 0;
         OnDone = null;
         ControlQueue.Clear();
-        Player = -1;
+        _player = -1;
         MovePointsMax = 200;
     }
 
@@ -359,7 +362,7 @@ public partial class AIMoveExecutor : EngineObject
                     }
                 }
 
-                AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(multiMove);
+                AoWHSMap.Current.TokenManager.GetTokenControl(_player).AddEvent(multiMove);
                 multiMove.Release();
                 Moves.Clear();
             }
@@ -440,7 +443,7 @@ public partial class AIMoveExecutor : EngineObject
             {
                 if (Status == AIMoveExecutorStatus.Busy)
                 {
-                    ProcessCycles += 1;
+                    _processCycles += 1;
                     if (State == 1)
                     {
                         ProcessExecuteMoves();
@@ -558,7 +561,7 @@ public partial class AIMoveExecutor : EngineObject
         if (Status != AIMoveExecutorStatus.Busy)
         {
             State = 0;
-            ProcessCycles = 0;
+            _processCycles = 0;
             Destination.X = X;
             Destination.Y = Y;
             Destination.MapLevel = L;

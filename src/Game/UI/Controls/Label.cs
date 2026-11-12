@@ -23,15 +23,15 @@ public partial class Label : Control
             Valid = true;
         }
 
-        _masked = true;
+        Masked = true;
         base.Validate();
     }
 
     // AoWLabel.pas:46
     public override void SetSize()
     {
-        _winWidth = _font.GetTextWidth(_text);
-        _winHeight = _font.GetTextHeight(_text);
+        SetWinWidthWithoutInvalidate(_font.GetTextWidth(_text));
+        SetWinHeightWithoutInvalidate(_font.GetTextHeight(_text));
         base.SetSize();
     }
 
@@ -40,7 +40,7 @@ public partial class Label : Control
     {
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -48,7 +48,7 @@ public partial class Label : Control
                 }
 
                 _font.Color = Color;
-                _font.SetText(_window._winLeft + _winLeft, _window._winTop + _winTop, _text, lockedSurface);
+                _font.SetText(Window.WinLeft + WinLeft, Window.WinTop + WinTop, _text, lockedSurface);
                 if (_onDraw != null)
                 {
                     _onDraw(this, lockedSurface);
@@ -66,9 +66,9 @@ public partial class Label : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseDown != null)
             {
                 _onMouseDown(this, button, shift, X, Y);
@@ -80,9 +80,9 @@ public partial class Label : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseUp != null)
             {
                 _onMouseUp(this, button, shift, X, Y);
@@ -95,9 +95,9 @@ public partial class Label : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseMove != null)
             {
                 _onMouseMove(this, shift, X, Y);

@@ -38,13 +38,18 @@ public partial class ProductionControl : EngineObject
         Clear();
     }
 
-    public NotifyEvent<object> OnChange;
-    public int UpdateCount;
-    public ProductionQueue Queue;
+    private NotifyEvent<object> _onChange;
+
+    public int UpdateCount { get; private set; }
+    public ProductionQueue Queue { get; }
+
     public bool LoopQueue;
-    public UnitProductionList UnitProductions;
+
+    public UnitProductionList UnitProductions { get; }
+
     public ProductionControlStatus Status;
-    public ProductionSettings Settings;
+
+    public ProductionSettings Settings { get; }
 
     // Structur.PAS:202
     public override void Dispose()
@@ -356,9 +361,9 @@ public partial class ProductionControl : EngineObject
     {
         if (UpdateCount == 0)
         {
-            if (OnChange != null)
+            if (_onChange != null)
             {
-                OnChange(this);
+                _onChange(this);
             }
         }
     }

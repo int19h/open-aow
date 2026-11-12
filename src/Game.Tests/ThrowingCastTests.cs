@@ -64,7 +64,7 @@ public sealed class ThrowingCastTests
     {
         var player = new Player(null!);
         var leader = new Leader(null!);
-        leader._owner = player.Heroes;
+        leader.SetOwnerWithoutNotify(player.Heroes);
         player.Leader = leader;
         sbyte x = 0;
         sbyte y = 0;
@@ -79,7 +79,7 @@ public sealed class ThrowingCastTests
         army.X = 4;
         army.Y = 6;
         army.MapLevel = 1;
-        leader._owner = army;
+        leader.SetOwnerWithoutNotify(army);
         player.GetLeaderLocation(ref x, ref y, ref level);
         Assert.Equal((sbyte)4, x);
         Assert.Equal((sbyte)6, y);
@@ -92,7 +92,7 @@ public sealed class ThrowingCastTests
         using var scope = new MapScope();
         var heroList = new HeroList(null!);
         var troop = new Troop(null!) { UnitId = 9 };
-        troop._owner = heroList;
+        troop.SetOwnerWithoutNotify(heroList);
         int source = -1;
         int count = -1;
         scope.Map.FOnActivateAbility += sender =>
@@ -109,7 +109,7 @@ public sealed class ThrowingCastTests
 
         var list = new UnitUserList(null!);
         var listed = new Troop(null!) { UnitId = 8 };
-        listed._owner = list;
+        listed.SetOwnerWithoutNotify(list);
         source = -1;
         Assert.True(ability.Activate(listed, ref reason));
         Assert.Equal(8, source);
@@ -135,7 +135,7 @@ public sealed class ThrowingCastTests
         var executor = new TokenExecutor(null!);
         Assert.Equal(ExecuteResult.DoneHalt, spell.Execute(executor));
 
-        executor._executeCount = 1;
+        executor.ExecuteCount = 1;
         ExecuteResult? later = null;
         var error = Record.Exception(() => later = spell.Execute(executor));
         Assert.IsNotType<InvalidCastException>(error);
@@ -155,14 +155,14 @@ public sealed class ThrowingCastTests
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
-            container._map = map;
-            map._mapContainer = container;
+            container.Map = map;
+            map.MapContainer = container;
             var combat = new TacticalBattle(null!);
             map.SetCombat(combat);
             combat.CombatData.WallType = 1;
             var field = container.MapLevels[0].Field[0, 0];
             var structure = new CombatStructure(null!);
-            structure._owner = field;
+            structure.SetOwnerWithoutNotify(field);
             field._hexSpriteList[0] = structure;
             field._count = 1;
             var ai = new BattleAI();
@@ -171,7 +171,7 @@ public sealed class ThrowingCastTests
             Assert.Equal(7, value);
 
             var door = new CityWallDoor(null!);
-            door._owner = field;
+            door.SetOwnerWithoutNotify(field);
             field._hexSpriteList[0] = door;
             value = 7;
             ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
@@ -193,8 +193,8 @@ public sealed class ThrowingCastTests
             var container = new MapContainer(null!);
             var level = new AoWMapLevel(container);
             level.CreateMapFieldList(7, 7);
-            container._map = scope.Map;
-            scope.Map._mapContainer = container;
+            container.Map = scope.Map;
+            scope.Map.MapContainer = container;
             var field = container.MapLevels[0].Field[3, 3];
             field.AddHexSprite(new ItemSite(), 0);
 
@@ -229,11 +229,11 @@ public sealed class ThrowingCastTests
         var container = new MapContainer(null!);
         var level = new MapLevel(container);
         level.CreateMapFieldList(1, 1);
-        container._map = scope.Map;
-        container._width = 1;
-        container._height = 1;
-        container._levelCount = 1;
-        scope.Map._mapContainer = container;
+        container.Map = scope.Map;
+        container.Width = 1;
+        container.Height = 1;
+        container.LevelCount = 1;
+        scope.Map.MapContainer = container;
 
         var tactical = new MoveControlSettings(null!);
         tactical.ArmyHexSprite = new TacticalBattleUnitHexSprite(null!);

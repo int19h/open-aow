@@ -282,7 +282,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
             return IsClosed |= AoWHSMap.Current.ExitPending;
         }
-        DialogHosts.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.s_confirmText), AbilityRules.TranslateResourceString(PopupWindows.s_quitCombatText), 6);
+        DialogHosts.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.ConfirmText), AbilityRules.TranslateResourceString(PopupWindows.QuitCombatText), 6);
         return false;
     }
 

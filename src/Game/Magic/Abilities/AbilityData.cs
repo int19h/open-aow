@@ -12,7 +12,7 @@ public partial class AbilityData : EngineObject
     public AbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public AbilityData Next;
+    public AbilityData Next { get; set; }
 
     // Ability.PAS:1234
     public override void ReadWrite(EStorageStream stream)

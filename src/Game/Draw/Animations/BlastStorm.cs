@@ -21,7 +21,7 @@ public partial class BlastStorm : Storm
     public BlastStorm(ECustomNode owner) : base(owner)
     { }
 
-    public CustomImageLibrary StormImages;
+    private CustomImageLibrary _stormImages;
 
     // Storms.pas:338
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -29,14 +29,14 @@ public partial class BlastStorm : Storm
         int X = default;
         int Y = default;
         int frame;
-        frame = FrameCounter % StormImages.Count;
+        frame = FrameCounter % _stormImages.Count;
         var hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
-        var stormImageWidth = StormImages[frame];
+        var stormImageWidth = _stormImages[frame];
         X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
-        var stormImageHeight = StormImages[frame];
+        var stormImageHeight = _stormImages[frame];
         Y = Y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
-        StormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
+        _stormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
     }
 
     // Storms.pas:358
@@ -62,16 +62,16 @@ public partial class BlastStorm : Storm
         Rect R = default;
         base.InitializeStorm(player, X, Y, L);
         var stormFileName = StormFileName();
-        StormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
+        _stormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         if (GetVisible())
         {
-            StormImages.LoadDiscardableImageData();
+            _stormImages.LoadDiscardableImageData();
         }
 
-        R.Left = -(int)(((uint)StormImages[0].Width) >> 1);
-        R.Right = (int)(((uint)StormImages[0].Width) >> 1);
-        R.Top = -(int)(((uint)StormImages[0].Height) >> 1);
-        R.Bottom = (int)(((uint)StormImages[0].Height) >> 1);
+        R.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
+        R.Right = (int)(((uint)_stormImages[0].Width) >> 1);
+        R.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
+        R.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
         SetDimensions(R);
         AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 4);
         if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 4))
@@ -125,7 +125,7 @@ public partial class BlastStorm : Storm
             }
         }
 
-        if (StormImages.Count == FrameCounter)
+        if (_stormImages.Count == FrameCounter)
         {
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
@@ -144,7 +144,7 @@ public partial class BlastStorm : Storm
     // Storms.pas:331
     public override void FinalizeStorm()
     {
-        StormImages.ReleaseDiscardableImageData();
+        _stormImages.ReleaseDiscardableImageData();
         var stormFileName = StormFileName();
         AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         base.FinalizeStorm();

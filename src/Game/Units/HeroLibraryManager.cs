@@ -20,16 +20,17 @@ public partial class HeroLibraryManager : EngineObject
     public HeroLibraryManager(ECustomNode owner) : base(owner)
     {
         SystemLibrary = new HeroLibrary(null);
-        Libraries = new ENode(null);
+        _libraries = new ENode(null);
     }
 
-    public HeroLibrary SystemLibrary;
-    public ENode Libraries;
+    public HeroLibrary SystemLibrary { get; }
+
+    private ENode _libraries;
 
     // Hero.PAS:2653
     public override void Dispose()
     {
-        Libraries?.Dispose();
+        _libraries?.Dispose();
         SystemLibrary?.Dispose();
         base.Dispose();
     }
@@ -60,17 +61,17 @@ public partial class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2677
-    public HeroLibrary GetLibrary(int index) => (HeroLibrary)Libraries._children.EObjects[index];
+    public HeroLibrary GetLibrary(int index) => (HeroLibrary)_libraries._children.EObjects[index];
 
     // Hero.PAS:2680
-    public int GetCount() => Libraries.GetCount();
+    public int GetCount() => _libraries.GetCount();
 
     // Hero.PAS:2683
     public void ReadUserLibraries()
     {
         HeroLibrary library;
-        Libraries.Clear();
-        Libraries.AddChild(SystemLibrary);
+        _libraries.Clear();
+        _libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
         foreach (var listed in FileBoundary.FindDocuments(GameTables.GameEngine.StartupDirectory + "User\\", DocumentKind.HeroList))
@@ -79,7 +80,7 @@ public partial class HeroLibraryManager : EngineObject
             try
             {
                 library.LoadFromFile(GameTables.GameEngine.StartupDirectory + "User\\" + listed);
-                library.SetOwner(Libraries);
+                library.SetOwner(_libraries);
             }
             catch
             {
@@ -92,7 +93,7 @@ public partial class HeroLibraryManager : EngineObject
     public void WriteUserLibraries()
     {
         HeroLibrary library;
-        for (int I = 1, last = Libraries.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = _libraries.GetCount() - 1; I <= last; I++)
         {
             library = GetLibrary(I);
             var name = library.GetName();
@@ -103,11 +104,11 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2713
     public int IndexOfLibraryName(string name)
     {
-        int result = Libraries.GetCount();
+        int result = _libraries.GetCount();
         while (result != 0)
         {
             result -= 1;
-            if (CompareText(name, ((HeroLibrary)Libraries._children.List[result]).LibraryName) == 0)
+            if (CompareText(name, ((HeroLibrary)_libraries._children.List[result]).LibraryName) == 0)
             {
                 return result;
             }
@@ -117,7 +118,7 @@ public partial class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2724
-    public int IndexOfLibrary(HeroLibrary library) => Libraries._children.IndexOf(library);
+    public int IndexOfLibrary(HeroLibrary library) => _libraries._children.IndexOf(library);
 
     // Hero.PAS:2727
     public Hero FindHero(string libraryName, int libraryId)
@@ -127,7 +128,7 @@ public partial class HeroLibraryManager : EngineObject
         index = IndexOfLibraryName(libraryName);
         if (index != -1)
         {
-            result = ((HeroLibrary)Libraries._children.List[index]).FindLibraryId(libraryId);
+            result = ((HeroLibrary)_libraries._children.List[index]).FindLibraryId(libraryId);
         }
         else
         {
@@ -151,7 +152,7 @@ public partial class HeroLibraryManager : EngineObject
 
         if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)
         {
-            result = new HeroLibrary(Libraries);
+            result = new HeroLibrary(_libraries);
             result.LibraryName = libraryName;
             result.SaveToFile(GameTables.GameEngine.StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
@@ -166,7 +167,7 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2750
     public void DeleteLibrary(int index)
     {
-        if (index < Libraries.GetCount() && index > 0)
+        if (index < _libraries.GetCount() && index > 0)
         {
             var name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.

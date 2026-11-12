@@ -14,14 +14,14 @@ internal static class CombatAbilityTables
 
     internal static Int32Array3 s_commandingStrengthAbilityIds = Int32Array3.From([29, 28, 148]);
 
-    internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertFile = new CombatPredictor_AddWall__TOriginalAssertText
+    internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertFile { get; } = new CombatPredictor_AddWall__TOriginalAssertText
     {
         RefCount = -1,
         Len = 38,
         Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 67, 111, 109, 98, 97, 116, 80, 114, 101, 100, 105, 99, 116, 111, 114, 46, 112, 97, 115, 0])
     };
 
-    internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertMessage = new CombatPredictor_AddWall__TOriginalAssertText
+    internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertMessage { get; } = new CombatPredictor_AddWall__TOriginalAssertText
     {
         RefCount = -1,
         Len = 23,
@@ -92,8 +92,8 @@ internal static class CombatAbilityTables
         return result;
     }
 
-    internal static int s_combatDebugChannel;
+    internal static int CombatDebugChannel { get; set; }
 
-    internal static EngineClass s_combatCasterClass = EngineClass.Of<CombatSpellCaster>();
+    internal static EngineClass CombatCasterClass { get; } = EngineClass.Of<CombatSpellCaster>();
 
 }

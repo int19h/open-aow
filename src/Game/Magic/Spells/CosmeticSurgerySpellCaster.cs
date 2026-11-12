@@ -15,8 +15,8 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
     public CosmeticSurgerySpellCaster(ECustomNode owner) : base(owner)
     { }
 
-    public int FaceIndex;
-    public int TargetUnitId;
+    public int FaceIndex { get; set; }
+    public int TargetUnitId { get; set; }
 
     // UnitSpells.pas:870
     public override bool CanCast(ref string reason) => base.CanCast(ref reason);

@@ -21,8 +21,9 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
 {
     public new const int ClassId = 135944;
 
-    public Int32List TargetUnitIds;
-    public UnitUserList TargetUnits;
+    public Int32List TargetUnitIds { get; }
+
+    private UnitUserList _targetUnits;
     public byte TargetPlayer;
     public Int32Array2 SpellData;
 
@@ -30,7 +31,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     public override void Dispose()
     {
         TargetUnitIds?.Dispose();
-        TargetUnits?.Dispose();
+        _targetUnits?.Dispose();
         base.Dispose();
     }
 
@@ -47,7 +48,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     public UnitSpellTokenEvent(ECustomNode owner) : base(owner)
     {
         TargetUnitIds = new Int32List();
-        TargetUnits = new UnitUserList(null);
+        _targetUnits = new UnitUserList(null);
     }
 
     // Spells.PAS:1159
@@ -81,7 +82,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
                     }
                 }
 
-                TargetUnits.AddUnit(target);
+                _targetUnits.AddUnit(target);
             }
             else
             {
@@ -100,13 +101,13 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         sbyte L = default;
         Troop target;
         base.Process(source, value);
-        if (TargetUnits.GetCount() != 0)
+        if (_targetUnits.GetCount() != 0)
         {
-            TargetUnits.GetUnit(0).GetLocation(ref X, ref Y, ref L);
+            _targetUnits.GetUnit(0).GetLocation(ref X, ref Y, ref L);
             AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, X, Y, L);
-            for (int I = 0, last = TargetUnits.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = _targetUnits.GetCount() - 1; I <= last; I++)
             {
-                target = TargetUnits.GetUnit(I);
+                target = _targetUnits.GetUnit(I);
                 target.AddRef();
                 if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, ref SpellData))
                 {

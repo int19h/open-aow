@@ -19,7 +19,7 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:752
     public WaterMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_waterMasteryText);
+        Name = AbilityRules.TranslateResourceString(GameText.WaterMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -47,7 +47,7 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
         {
             if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
                 var name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;

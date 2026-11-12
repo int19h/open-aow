@@ -40,9 +40,9 @@ public partial class ArmyInfoDialog : DataModule
     public Label DetailsLbl;
     public Label HeaderLbl;
     public IvTranslator Translator;
-    public bool UnitInfoShown;
-    public ExecuteDoneEvent OnClose;
-    public ArmyInfoEventLog Event;
+    private bool _unitInfoShown;
+    private ExecuteDoneEvent _onClose;
+    private ArmyInfoEventLog _event;
 
     // AoWArmyInfoDlg.pas:63
     public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
@@ -53,13 +53,13 @@ public partial class ArmyInfoDialog : DataModule
         Units.Alignment alignment;
         int X;
         int Y;
-        if (index < Event.ArmyView.GetCount())
+        if (index < _event.ArmyView.GetCount())
         {
             saveRectangle = lockedSurface.ClipRectangle;
             lockedSurface.ClipRectangle = R;
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
-            alignment = Event.ArmyView.GetUnit(index).GetAlignment();
+            alignment = _event.ArmyView.GetUnit(index).GetAlignment();
             if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
@@ -70,8 +70,8 @@ public partial class ArmyInfoDialog : DataModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            Event.ArmyView.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
-            if ((((int)(((uint)Event.Selection) >> index)) & 1) == 0)
+            _event.ArmyView.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
+            if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
                 image = DialogHosts.UIGraphics.UnitBGs[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
@@ -86,17 +86,17 @@ public partial class ArmyInfoDialog : DataModule
     {
         ArmyInfoEventLog eventValue;
         ExecuteDoneEvent notify;
-        if (UnitInfoShown)
+        if (_unitInfoShown)
         {
-            UnitInfoShown = false;
+            _unitInfoShown = false;
             DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
             DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
-        notify = OnClose;
-        eventValue = Event;
-        OnClose = null;
-        Event = null;
+        notify = _onClose;
+        eventValue = _event;
+        _onClose = null;
+        _event = null;
         if (notify != null)
         {
             notify(eventValue);
@@ -125,14 +125,14 @@ public partial class ArmyInfoDialog : DataModule
     // AoWArmyInfoDlg.pas:121
     public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = Event.ArmyView.GetCount();
+        var count = _event.ArmyView.GetCount();
         if (slot < count)
         {
-            var troop = Event.ArmyView.GetUnit(slot);
+            var troop = _event.ArmyView.GetUnit(slot);
             DialogHosts.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
-                UnitInfoShown = true;
+                _unitInfoShown = true;
                 DialogHosts.UnitWindow.ShowUnit();
                 DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
@@ -161,14 +161,14 @@ public partial class ArmyInfoDialog : DataModule
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
         I = 0;
-        while ((Event.Selection & (1 << I)) == 0 && I != Event.ArmyView.GetCount())
+        while ((_event.Selection & (1 << I)) == 0 && I != _event.ArmyView.GetCount())
         {
             I += 1;
         }
 
-        if (I < Event.ArmyView.GetCount())
+        if (I < _event.ArmyView.GetCount())
         {
-            Event.ArmyView.GetUnit(I).ShowFace(R, lockedSurface);
+            _event.ArmyView.GetUnit(I).ShowFace(R, lockedSurface);
         }
     }
 
@@ -189,15 +189,15 @@ public partial class ArmyInfoDialog : DataModule
 
     internal static void ShowArmyInfo(ArmyInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.OnClose = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
+        dialog._onClose = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
         var text = eventValue.Messages.Text;
         dialog.Message.Items.Text = text;
         dialog.Title.Text = eventValue.Title;
         dialog.HeaderLbl.Text = eventValue.Description;
         dialog.Dlg.Visible = true;
-        dialog.UnitInfoShown = false;
+        dialog._unitInfoShown = false;
     }
 
 }

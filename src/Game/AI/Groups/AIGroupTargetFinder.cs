@@ -20,13 +20,16 @@ public partial class AIGroupTargetFinder : AIGroupTask
         Selector = new AIMoveTargetSelector(null);
     }
 
-    public AIGroupControl Control;
-    public AIMoveTargetSelector Selector;
-    public Set<AIGroupTargetFinderModeElement> Mode;
-    public int Range;
-    public int TargetRange;
-    public int Step;
-    public Set<DamageType> DamageTypes;
+    private AIGroupControl _control;
+
+    public AIMoveTargetSelector Selector { get; }
+    public Set<AIGroupTargetFinderModeElement> Mode { get; set; }
+    public int Range { get; set; }
+
+    private int _targetRange;
+    private int _step;
+
+    public Set<DamageType> DamageTypes { get; private set; }
 
     // AIGroup.pas:1895
     public override void Dispose()
@@ -42,7 +45,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
     public override bool Activate(AIGroupControl control)
     {
         base.Activate(control);
-        Control = control;
+        _control = control;
         if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
         {
             Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
@@ -61,7 +64,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
             result = Selector.Process();
             if (!result)
             {
-                Control.Targets.SortOnPriority();
+                _control.Targets.SortOnPriority();
                 Done();
             }
         }
@@ -84,8 +87,8 @@ public partial class AIGroupTargetFinder : AIGroupTask
 
         DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         Range = 9;
-        TargetRange = 9;
-        Step = 4;
+        _targetRange = 9;
+        _step = 4;
         Mode = Set<AIGroupTargetFinderModeElement>.Of();
     }
 
@@ -114,7 +117,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
         newTarget.MovePoints = target.MovePoints;
         if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
         {
-            newTarget.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(Control.Group.Player, Control.Group.IndependentRelation, target.MovePath, TargetRange, Range, Step);
+            newTarget.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, Range, _step);
         }
 
         if (target.TransporterId != -1)
@@ -122,7 +125,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
             newTarget.TransporterId = target.TransporterId;
         }
 
-        Control.TargetFoundEvent(this, newTarget, ref searchDone);
+        _control.TargetFoundEvent(this, newTarget, ref searchDone);
         newTarget.Release();
     }
 

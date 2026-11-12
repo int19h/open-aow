@@ -24,10 +24,10 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            return AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
-        var format = control.UnitProductionGold(Index) != 0 ? GameText.s_produceFormat : GameText.s_summonFormat;
+        var format = control.UnitProductionGold(Index) != 0 ? GameText.ProduceFormat : GameText.SummonFormat;
         var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(format), [unitName]);
     }
@@ -37,10 +37,10 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            return AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
-        var format = control.UnitProductionGold(Index) != 0 ? GameText.s_producingFormat : GameText.s_summoningFormat;
+        var format = control.UnitProductionGold(Index) != 0 ? GameText.ProducingFormat : GameText.SummoningFormat;
         var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(format), [unitName]);
     }
@@ -60,13 +60,13 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+                reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
             }
         }
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
         }
 
         return result;
@@ -116,7 +116,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
     {
         var unit = control.CreateUnitProduction(Index);
         lines.Clear();
-        lines.Add(AbilityRules.TranslateResourceString(GameText.s_producingText));
+        lines.Add(AbilityRules.TranslateResourceString(GameText.ProducingText));
         lines.Add(unit.GetName());
         unit.Release();
     }

@@ -22,17 +22,20 @@ public partial class AIGroupRazeControl : AIGroupTask
     public AIGroupRazeControl(ECustomNode owner) : base(owner)
     { }
 
-    public AIGroupControl Control;
-    public Set<AIGroupRazeControlModeElement> Mode;
-    public Set<DamageType> DamageTypes;
-    public float StructureStrengthFactor;
-    public float CityStrengthFactor;
+    private AIGroupControl _control;
+
+    public Set<AIGroupRazeControlModeElement> Mode { get; set; }
+
+    private Set<DamageType> _damageTypes;
+    private float _structureStrengthFactor;
+
+    public float CityStrengthFactor { get; set; }
 
     // AGCPlugins.pas:101
     public override bool Activate(AIGroupControl control)
     {
         State = 0;
-        Control = control;
+        _control = control;
         return true;
     }
 
@@ -44,11 +47,11 @@ public partial class AIGroupRazeControl : AIGroupTask
         BattleFieldInfo info = default;
         if (State == 0)
         {
-            structure = (Structure)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
+            structure = (Structure)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
             if (structure != null && structure.GetRazeable())
             {
-                BattleFieldInfo.SetupBattleFieldInfo(ref info, Control.Group.Player, Control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), DamageTypes);
-                AoWHSMap.Current.RetrieveBattleFieldInfo(Control.Location.X, Control.Location.Y, Control.Location.MapLevel, 15, ref info);
+                BattleFieldInfo.SetupBattleFieldInfo(ref info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
+                AoWHSMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);
                 if (structure is City)
                 {
                     result = ValidateRazeCity((City)structure, info);
@@ -77,10 +80,10 @@ public partial class AIGroupRazeControl : AIGroupTask
     // AGCPlugins.pas:90
     public void Reset()
     {
-        DamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         Mode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.CannotDefend);
         CityStrengthFactor = 2;
-        StructureStrengthFactor = 2;
+        _structureStrengthFactor = 2;
     }
 
     // AGCPlugins.pas:98
@@ -93,14 +96,14 @@ public partial class AIGroupRazeControl : AIGroupTask
     // AGCPlugins.pas:108
     public void ExecuteRaze(Structure structure)
     {
-        structure.Raze(Control.Group.Player);
+        structure.Raze(_control.Group.Player);
     }
 
     // AGCPlugins.pas:111
     public bool ValidateRazeCity(City city, in BattleFieldInfo info)
     {
         bool result;
-        switch (AoWHSMap.Current.Races.GetRace(city.Race).GetPlayerRelation(Control.Group.Player))
+        switch (AoWHSMap.Current.Races.GetRace(city.Race).GetPlayerRelation(_control.Group.Player))
         {
             case Session.Status.Hostile:
             case Session.Status.Wary:
@@ -133,7 +136,7 @@ public partial class AIGroupRazeControl : AIGroupTask
             result = true;
         }
 
-        if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * StructureStrengthFactor) < info.Strength)
+        if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * _structureStrengthFactor) < info.Strength)
         {
             result = true;
         }

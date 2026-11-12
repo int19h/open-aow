@@ -16,12 +16,13 @@ public partial class MoveTokenEvent : TokenEvent
     {
         Path = new MovePath();
         MoveIndex = 0;
-        Status = MoveStatus.Idle;
+        _status = MoveStatus.Idle;
     }
 
-    public MoveStatus Status;
-    public MovePath Path;
-    public int MoveIndex;
+    private MoveStatus _status;
+
+    public MovePath Path { get; }
+    public int MoveIndex { get; protected set; }
 
     // MoveT.PAS:1958
     public override void Dispose()
@@ -42,54 +43,54 @@ public partial class MoveTokenEvent : TokenEvent
     {
         ExecuteResult result;
         base.Execute(tokenEvent);
-        if (Status == MoveStatus.Idle)
+        if (_status == MoveStatus.Idle)
         {
             if (Validate())
             {
-                Status = MoveStatus.Moving;
+                _status = MoveStatus.Moving;
                 InitializeMove();
                 AoWHSMap.Current.Random(1048575);
                 switch (Path.Count)
                 {
                     case >= 0 and <= 1:
-                        Status = MoveStatus.Done;
+                        _status = MoveStatus.Done;
                         break;
                     case 2:
-                        Status = LastMove();
+                        _status = LastMove();
                         break;
                     default:
-                        Status = DefaultMove();
+                        _status = DefaultMove();
                         break;
                 }
             }
             else
             {
-                Status = MoveStatus.Failed;
+                _status = MoveStatus.Failed;
             }
         }
         else
         {
-            if (Status == MoveStatus.Moving)
+            if (_status == MoveStatus.Moving)
             {
-                Status = ProcessMove();
+                _status = ProcessMove();
             }
         }
 
-        if (Status == MoveStatus.Done)
+        if (_status == MoveStatus.Done)
         {
             FinishMove();
             result = ExecuteResult.Done;
         }
         else
         {
-            if (Status == MoveStatus.Failed)
+            if (_status == MoveStatus.Failed)
             {
                 FinishMove();
                 result = ExecuteResult.DoneHalt;
             }
             else
             {
-                if (Status == MoveStatus.Finished)
+                if (_status == MoveStatus.Finished)
                 {
                     result = ExecuteResult.Done;
                 }
@@ -135,7 +136,7 @@ public partial class MoveTokenEvent : TokenEvent
     // MoveT.PAS:2010
     public virtual void FinishMove()
     {
-        Status = MoveStatus.Finished;
+        _status = MoveStatus.Finished;
     }
 
     // MoveT.PAS:1997

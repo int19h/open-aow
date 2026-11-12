@@ -24,7 +24,7 @@ public partial class AbilityOwner : CustomAbilityList
 
     }
 
-    public AbilityData AbilityData;
+    public AbilityData AbilityData { get; set; }
 
     // Ability.PAS:1762
     public override void ReadWrite(EStorageStream stream)

@@ -8,9 +8,9 @@ namespace Aow.Engine.Nodes;
 // the engine the component owns and frees.
 public partial class EngineComponent : Component
 {
-    internal NotifyEvent<object> _onRegisterClasses;
-    internal NotifyEvent<object> _onUnregisterClasses;
-    internal GameEngine _engine;
+    private NotifyEvent<object> _onRegisterClasses;
+    private NotifyEvent<object> _onUnregisterClasses;
+    private GameEngine _engine;
 
     // Engine.pas:8642
     public override void Loaded()

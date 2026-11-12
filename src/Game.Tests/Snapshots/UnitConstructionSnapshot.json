@@ -5,12 +5,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Troop",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -38,12 +38,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Troop",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -71,12 +71,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Troop",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -108,12 +108,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -131,12 +131,12 @@
             "Set\u00601.low": 0
           },
           "Troop.LegacyGroupBehavior": 0,
-          "HypotheticalUnit.Attack": 4,
-          "HypotheticalUnit.Damage": 3,
-          "HypotheticalUnit.Defense": 2,
-          "HypotheticalUnit.HitPoints": 5,
-          "HypotheticalUnit.Hits": 5,
-          "HypotheticalUnit.ImmunityTypes": {
+          "HypotheticalUnit._attack": 4,
+          "HypotheticalUnit._damage": 3,
+          "HypotheticalUnit._defense": 2,
+          "HypotheticalUnit._hitPoints": 5,
+          "HypotheticalUnit._hits": 5,
+          "HypotheticalUnit._immunityTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 256,
             "Set\u00601.b": 0,
@@ -146,7 +146,7 @@
             "Set\u00601.high": 9,
             "Set\u00601.low": 0
           },
-          "HypotheticalUnit.ProtectionTypes": {
+          "HypotheticalUnit._protectionTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -156,7 +156,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "HypotheticalUnit.Resistance": 3,
+          "HypotheticalUnit._resistance": 3,
           "CustomAbilityList.AbilityBits": [
             1,
             0,
@@ -171,12 +171,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -194,12 +194,12 @@
             "Set\u00601.low": 0
           },
           "Troop.LegacyGroupBehavior": 0,
-          "HypotheticalUnit.Attack": 4,
-          "HypotheticalUnit.Damage": 3,
-          "HypotheticalUnit.Defense": 2,
-          "HypotheticalUnit.HitPoints": 5,
-          "HypotheticalUnit.Hits": 5,
-          "HypotheticalUnit.ImmunityTypes": {
+          "HypotheticalUnit._attack": 4,
+          "HypotheticalUnit._damage": 3,
+          "HypotheticalUnit._defense": 2,
+          "HypotheticalUnit._hitPoints": 5,
+          "HypotheticalUnit._hits": 5,
+          "HypotheticalUnit._immunityTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 256,
             "Set\u00601.b": 0,
@@ -209,7 +209,7 @@
             "Set\u00601.high": 9,
             "Set\u00601.low": 0
           },
-          "HypotheticalUnit.ProtectionTypes": {
+          "HypotheticalUnit._protectionTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -219,7 +219,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "HypotheticalUnit.Resistance": 3,
+          "HypotheticalUnit._resistance": 3,
           "CustomAbilityList.AbilityBits": [
             1,
             0,
@@ -234,12 +234,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -257,12 +257,12 @@
             "Set\u00601.low": 0
           },
           "Troop.LegacyGroupBehavior": 0,
-          "HypotheticalUnit.Attack": 4,
-          "HypotheticalUnit.Damage": 3,
-          "HypotheticalUnit.Defense": 2,
-          "HypotheticalUnit.HitPoints": 5,
-          "HypotheticalUnit.Hits": 5,
-          "HypotheticalUnit.ImmunityTypes": {
+          "HypotheticalUnit._attack": 4,
+          "HypotheticalUnit._damage": 3,
+          "HypotheticalUnit._defense": 2,
+          "HypotheticalUnit._hitPoints": 5,
+          "HypotheticalUnit._hits": 5,
+          "HypotheticalUnit._immunityTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 256,
             "Set\u00601.b": 0,
@@ -272,7 +272,7 @@
             "Set\u00601.high": 9,
             "Set\u00601.low": 0
           },
-          "HypotheticalUnit.ProtectionTypes": {
+          "HypotheticalUnit._protectionTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -282,7 +282,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "HypotheticalUnit.Resistance": 3,
+          "HypotheticalUnit._resistance": 3,
           "CustomAbilityList.AbilityBits": [
             1,
             0,
@@ -301,12 +301,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -327,16 +327,16 @@
           "CustomAbilityList.AbilityBits": [],
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
-          "Hero.CastSpellInstantly": false,
+          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero.DeathDay": 0,
-          "Hero.DeathPlayer": 0,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero.Gender": 0,
+          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
@@ -388,7 +388,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero.MovePoints": 0,
+          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -412,12 +412,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -438,16 +438,16 @@
           "CustomAbilityList.AbilityBits": [],
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": "$owner",
-          "Hero.CastSpellInstantly": false,
+          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero.DeathDay": 0,
-          "Hero.DeathPlayer": 0,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero.Gender": 0,
+          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
@@ -499,7 +499,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero.MovePoints": 0,
+          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -523,12 +523,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -549,16 +549,16 @@
           "CustomAbilityList.AbilityBits": [],
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
-          "Hero.CastSpellInstantly": false,
+          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero.DeathDay": 0,
-          "Hero.DeathPlayer": 0,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero.Gender": 0,
+          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
@@ -610,7 +610,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero.MovePoints": 0,
+          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -638,12 +638,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -661,19 +661,19 @@
             "Set\u00601.low": 0
           },
           "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": "$ref:$.Leader.Spheres.ByteList._list",
+          "CustomAbilityList.AbilityBits": "$ref:$.Leader._spheres.ByteList._list",
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
-          "Hero.CastSpellInstantly": false,
+          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero.DeathDay": 0,
-          "Hero.DeathPlayer": 0,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero.Gender": 0,
+          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
@@ -725,7 +725,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero.MovePoints": 0,
+          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -743,7 +743,7 @@
           "Hero.UpgradePending": false,
           "Hero._usedSkillPoints": 0,
           "Leader.SpherePicksMax": 5,
-          "Leader.Spheres": {
+          "Leader._spheres": {
             "$type": "Aow.Engine.Collections.ByteList",
             "ByteList._capacity": 0,
             "ByteList._count": 0,
@@ -757,12 +757,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -780,19 +780,19 @@
             "Set\u00601.low": 0
           },
           "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": "$ref:$.Leader.Spheres.ByteList._list",
+          "CustomAbilityList.AbilityBits": "$ref:$.Leader._spheres.ByteList._list",
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": "$owner",
-          "Hero.CastSpellInstantly": false,
+          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero.DeathDay": 0,
-          "Hero.DeathPlayer": 0,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero.Gender": 0,
+          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
@@ -844,7 +844,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero.MovePoints": 0,
+          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -862,7 +862,7 @@
           "Hero.UpgradePending": false,
           "Hero._usedSkillPoints": 0,
           "Leader.SpherePicksMax": 5,
-          "Leader.Spheres": {
+          "Leader._spheres": {
             "$type": "Aow.Engine.Collections.ByteList",
             "ByteList._capacity": 0,
             "ByteList._count": 0,
@@ -876,12 +876,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -899,19 +899,19 @@
             "Set\u00601.low": 0
           },
           "Troop.LegacyGroupBehavior": 0,
-          "CustomAbilityList.AbilityBits": "$ref:$.Leader.Spheres.ByteList._list",
+          "CustomAbilityList.AbilityBits": "$ref:$.Leader._spheres.ByteList._list",
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
-          "Hero.CastSpellInstantly": false,
+          "Hero._castSpellInstantly": false,
           "Hero.CastingManaValue": 0,
           "Hero.CastingPoints": 0,
           "Hero.CastingProgress": 0,
           "Hero.CastingSpellId": 0,
-          "Hero.DeathDay": 0,
-          "Hero.DeathPlayer": 0,
+          "Hero._deathDay": 0,
+          "Hero._deathPlayer": 0,
           "Hero.Experience": 0,
           "Hero.FaceIndex": 0,
-          "Hero.Gender": 0,
+          "Hero._gender": 0,
           "Hero.HeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
@@ -963,7 +963,7 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "Hero.MovePoints": 0,
+          "Hero._movePoints": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -981,7 +981,7 @@
           "Hero.UpgradePending": false,
           "Hero._usedSkillPoints": 0,
           "Leader.SpherePicksMax": 5,
-          "Leader.Spheres": {
+          "Leader._spheres": {
             "$type": "Aow.Engine.Collections.ByteList",
             "ByteList._capacity": 0,
             "ByteList._count": 0,
@@ -999,12 +999,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -1026,12 +1026,12 @@
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
           "Unit.AbilityAttack": 0,
-          "Unit.AbilityDamage": 0,
-          "Unit.AbilityDefense": 0,
-          "Unit.AbilityResistance": 0,
-          "Unit.Experience": 0,
-          "Unit.HitPoints": 0,
-          "Unit.MovePoints": 0,
+          "Unit._abilityDamage": 0,
+          "Unit._abilityDefense": 0,
+          "Unit._abilityResistance": 0,
+          "Unit._experience": 0,
+          "Unit._hitPoints": 0,
+          "Unit._movePoints": 0,
           "Unit.UnitResource": null
         }
       },
@@ -1040,12 +1040,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -1067,12 +1067,12 @@
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": "$owner",
           "Unit.AbilityAttack": 0,
-          "Unit.AbilityDamage": 0,
-          "Unit.AbilityDefense": 0,
-          "Unit.AbilityResistance": 0,
-          "Unit.Experience": 0,
-          "Unit.HitPoints": 0,
-          "Unit.MovePoints": 0,
+          "Unit._abilityDamage": 0,
+          "Unit._abilityDefense": 0,
+          "Unit._abilityResistance": 0,
+          "Unit._experience": 0,
+          "Unit._hitPoints": 0,
+          "Unit._movePoints": 0,
           "Unit.UnitResource": null
         }
       },
@@ -1081,12 +1081,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -1108,12 +1108,12 @@
           "CustomAbilityList.AbilityCount": 0,
           "EngineObject._owner": null,
           "Unit.AbilityAttack": 0,
-          "Unit.AbilityDamage": 0,
-          "Unit.AbilityDefense": 0,
-          "Unit.AbilityResistance": 0,
-          "Unit.Experience": 0,
-          "Unit.HitPoints": 0,
-          "Unit.MovePoints": 0,
+          "Unit._abilityDamage": 0,
+          "Unit._abilityDefense": 0,
+          "Unit._abilityResistance": 0,
+          "Unit._experience": 0,
+          "Unit._hitPoints": 0,
+          "Unit._movePoints": 0,
           "Unit.UnitResource": null
         }
       },
@@ -1126,12 +1126,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -1154,7 +1154,7 @@
           "EngineObject._owner": null,
           "WallCombatant.HitPoints": 0,
           "WallCombatant.Hits": 0,
-          "WallCombatant.WallType": 0
+          "WallCombatant._wallType": 0
         }
       },
       "",
@@ -1162,12 +1162,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -1190,7 +1190,7 @@
           "EngineObject._owner": "$owner",
           "WallCombatant.HitPoints": 0,
           "WallCombatant.Hits": 0,
-          "WallCombatant.WallType": 0
+          "WallCombatant._wallType": 0
         }
       },
       "insert:2:0:0",
@@ -1198,12 +1198,12 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.AbilityData": null,
-          "Troop.DefensiveStrength": 0,
+          "Troop._defensiveStrength": 0,
           "Troop.Group": null,
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop.OffensiveStrength": {
+          "Troop._offensiveStrength": {
             "$type": "Aow.Engine.Buffers.ByteArray10",
             "ByteArray10._element0": 0
           },
@@ -1226,7 +1226,7 @@
           "EngineObject._owner": null,
           "WallCombatant.HitPoints": 0,
           "WallCombatant.Hits": 0,
-          "WallCombatant.WallType": 0
+          "WallCombatant._wallType": 0
         }
       },
       "insert:2:0:0"

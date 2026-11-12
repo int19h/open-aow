@@ -174,7 +174,7 @@ public abstract partial record DiplomaticProposal
         AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
         ShowTo(log, action.Target);
         log.Release();
-        AoWHSMap.Current._diplomaticRelationsChangedEventsStore.Raise(action);
+        AoWHSMap.Current.DiplomaticRelationsChangedEventsStore.Raise(action);
     }
 
     // Drops the target's logbook entry of the answered proposal.
@@ -200,19 +200,20 @@ public abstract partial record DiplomaticProposal
     protected static string Outcome(DiplomaticAction action, string proposed, string subject, string accepted, string otherwise) => action.Reaction switch
     {
         DiplomaticActionReaction.None => proposed,
-        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(s_rejectedFormat), [subject]),
+        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(RejectedFormat), [subject]),
         DiplomaticActionReaction.Accept => accepted,
-        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(s_ignoredFormat), [subject]),
+        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(IgnoredFormat), [subject]),
         _ => otherwise,
     };
 
     // The accepted line about Subject.
-    protected static string AcceptedLine(string subject) => AbilityRules.Format(AbilityRules.TranslateResourceString(s_acceptedFormat), [subject]);
+    protected static string AcceptedLine(string subject) => AbilityRules.Format(AbilityRules.TranslateResourceString(AcceptedFormat), [subject]);
 
     private static readonly string s_messageSentText = "Message sent";
-    internal static readonly string s_rejectedFormat = "%s rejected";
-    internal static readonly string s_acceptedFormat = "%s accepted";
-    internal static readonly string s_ignoredFormat = "%s ignored";
+
+    internal static string RejectedFormat { get; } = "%s rejected";
+    internal static string AcceptedFormat { get; } = "%s accepted";
+    internal static string IgnoredFormat { get; } = "%s ignored";
 
     private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog log, sbyte exclude)
     {

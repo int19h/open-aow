@@ -15,22 +15,23 @@ public partial class AIPlayerAction : EngineObject, IAIPlayerActionClass
     public AIPlayerAction(ECustomNode owner) : base(owner)
     { }
 
-    public int ProcessCycles;
-    public AIPlayerControl Control;
-    public AIPlayerProcessPhase _phase;
+    private int _processCycles;
+
+    public AIPlayerControl Control { get; set; }
+    public AIPlayerProcessPhase Phase { get; private set; }
 
     // AI.pas:4
     public virtual bool Setup(AIPlayerControl control, AIPlayerProcessPhase phase)
     {
         Control = control;
-        _phase = phase;
+        Phase = phase;
         return ActionClass.SupportedPhases.Contains(phase);
     }
 
     // AI.pas:17
     public virtual bool Activate()
     {
-        ProcessCycles = 0;
+        _processCycles = 0;
         return true;
     }
 
@@ -42,7 +43,7 @@ public partial class AIPlayerAction : EngineObject, IAIPlayerActionClass
     // AI.pas:11
     public virtual bool Process()
     {
-        ProcessCycles += 1;
+        _processCycles += 1;
         return false;
     }
 

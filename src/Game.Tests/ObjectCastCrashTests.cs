@@ -34,8 +34,8 @@ public sealed class ObjectCastCrashTests
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
-            container._map = Map;
-            Map._mapContainer = container;
+            container.Map = Map;
+            Map.MapContainer = container;
             Field = container.GetField(0, 0, 0);
             AoWHSMap.Current = Map;
         }
@@ -339,14 +339,14 @@ public sealed class ObjectCastCrashTests
         {
             var level = (MapLevel)scope.Field.Owner;
             var marker = new MapField(level);
-            marker._hexX = 20;
-            marker._hexY = 20;
+            marker.HexX = 20;
+            marker.HexY = 20;
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
-            holder._owner = marker;
+            holder.SetOwnerWithoutNotify(marker);
             var bridge = new HexBridge(holder);
             bridge._resource = new MapObjectResource(null!);
-            Assert.False(bridge.PlaceHex(scope.Map._mapContainer, 0, 0, 0));
+            Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(-1, marker.OverlayType);
         }
@@ -355,14 +355,14 @@ public sealed class ObjectCastCrashTests
         {
             var level = (MapLevel)scope.Field.Owner;
             var marker = new MapField(level);
-            marker._hexX = 20;
-            marker._hexY = 20;
+            marker.HexX = 20;
+            marker.HexY = 20;
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
-            holder._owner = level;
+            holder.SetOwnerWithoutNotify(level);
             var bridge = new HexBridge(holder);
             bridge._resource = new MapObjectResource(null!);
-            Assert.False(bridge.PlaceHex(scope.Map._mapContainer, 0, 0, 0));
+            Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(4, marker.OverlayType);
         }
@@ -391,8 +391,8 @@ public sealed class ObjectCastCrashTests
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(2, 1);
-            container._map = map;
-            map._mapContainer = container;
+            container.Map = map;
+            map.MapContainer = container;
             AoWHSMap.Current = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);

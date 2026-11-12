@@ -12,17 +12,18 @@ namespace Aow.Game.World.Map;
 // CenterScene, ChangeScene and SetSceneL
 public partial class HexSpriteMapViewer : Component
 {
-    internal Surface _staticSurface;
-    internal int _sceneWidth;
-    internal int _sceneHeight;
-    internal int _sceneX;
-    internal int _sceneY;
-    internal int _sceneL;
-    internal bool _staticSurfaceValid;
-    internal NotifyEvent<object> _onSceneChanged;
-    internal HSMap _hexSpriteMap;
+    private Surface _staticSurface;
+    private int _sceneWidth;
+    private int _sceneHeight;
+    private int _sceneX;
+    private int _sceneY;
+    private int _sceneL;
+    private bool _staticSurfaceValid;
+    private NotifyEvent<object> _onSceneChanged;
+    private HSMap _hexSpriteMap;
+
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
-    internal Surface _centeredSurface;
+    internal Surface CenteredSurface { get; private set; }
 
     // HSEngine.pas:4670
     public HexSpriteMapViewer(Component owner) : base(owner)
@@ -37,12 +38,12 @@ public partial class HexSpriteMapViewer : Component
     {
         if (_hexSpriteMap != null)
         {
-            _hexSpriteMap._onCenterView = null;
-            _hexSpriteMap._onViewLevel = null;
+            _hexSpriteMap.OnCenterView = null;
+            _hexSpriteMap.OnViewLevel = null;
         }
 
         _staticSurface?.Dispose();
-        _centeredSurface?.Dispose();
+        CenteredSurface?.Dispose();
         base.Dispose();
     }
 
@@ -53,9 +54,9 @@ public partial class HexSpriteMapViewer : Component
         if (_hexSpriteMap != null)
         {
             // { Install viewer callbacks on the assigned map. }
-            _hexSpriteMap._onCenterView = CenterScene;
-            _hexSpriteMap._onChangeView = ChangeScene;
-            _hexSpriteMap._onViewLevel = SetSceneL;
+            _hexSpriteMap.OnCenterView = CenterScene;
+            _hexSpriteMap.OnChangeView = ChangeScene;
+            _hexSpriteMap.OnViewLevel = SetSceneL;
         }
     }
 
@@ -102,7 +103,7 @@ public partial class HexSpriteMapViewer : Component
             }
 
             isDDraw = _staticSurface is DirectDrawSurface;
-            _hexSpriteMap._staticSceneInvalid = true;
+            _hexSpriteMap.StaticSceneInvalid = true;
             _staticSurfaceValid = false;
         }
 
@@ -156,9 +157,9 @@ public partial class HexSpriteMapViewer : Component
                 value = 0;
             }
 
-            if (value >= _hexSpriteMap._mapContainer._levelCount)
+            if (value >= _hexSpriteMap.MapContainer.LevelCount)
             {
-                value = _hexSpriteMap._mapContainer._levelCount - 1;
+                value = _hexSpriteMap.MapContainer.LevelCount - 1;
             }
 
             _sceneL = value;
@@ -267,10 +268,10 @@ public partial class HexSpriteMapViewer : Component
                     X = 0;
                     Y = 0;
                 }
-                else if (_centeredSurface != null)
+                else if (CenteredSurface != null)
                 {
-                    _centeredSurface?.Dispose();
-                    _centeredSurface = null;
+                    CenteredSurface?.Dispose();
+                    CenteredSurface = null;
                 }
 
                 VerifyStaticSurface(surface);
@@ -278,7 +279,7 @@ public partial class HexSpriteMapViewer : Component
                 R.Right = _sceneWidth + X;
                 R.Top = Y;
                 R.Bottom = _sceneHeight + Y;
-                if (M._staticSceneInvalid)
+                if (M.StaticSceneInvalid)
                 {
                     M.UpdateStaticScene();
                     M.UpdateDynamicScene();
@@ -397,22 +398,22 @@ public partial class HexSpriteMapViewer : Component
     // Port extension: the scene-sized surface that ShowScene draws on when the scene exceeds the map.
     public Surface VerifyCenteredSurface(Surface surface)
     {
-        if (_centeredSurface != null && _centeredSurface.GetPixelFormatId() != surface.GetPixelFormatId())
+        if (CenteredSurface != null && CenteredSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
-            _centeredSurface?.Dispose();
-            _centeredSurface = null;
+            CenteredSurface?.Dispose();
+            CenteredSurface = null;
         }
 
-        if (_centeredSurface == null)
+        if (CenteredSurface == null)
         {
-            _centeredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
+            CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
         }
-        else if (_centeredSurface.GetWidth() != _sceneWidth || _centeredSurface.GetHeight() != _sceneHeight)
+        else if (CenteredSurface.GetWidth() != _sceneWidth || CenteredSurface.GetHeight() != _sceneHeight)
         {
-            _centeredSurface.Resize(_sceneWidth, _sceneHeight);
+            CenteredSurface.Resize(_sceneWidth, _sceneHeight);
         }
 
-        return _centeredSurface;
+        return CenteredSurface;
     }
 
     // Port extension: fills the scene outside the centered map black and copies the map part of
@@ -428,7 +429,7 @@ public partial class HexSpriteMapViewer : Component
             target.Unlock(lockedSurface);
         }
 
-        _centeredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
+        CenteredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
     }
 
     // Port extension: fills every pixel of SD outside Inside black.

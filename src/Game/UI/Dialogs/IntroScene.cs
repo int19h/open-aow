@@ -13,10 +13,11 @@ public partial class IntroScene : DataModule
 
     public UserWindow Window;
     public VideoPlayer VideoPlayer;
-    public IDirectSoundBuffer SoundBuffer;
-    public int BufferSize;
-    public IDirectSound DirectSound;
-    public int StreamPosition;
+
+    public IDirectSoundBuffer SoundBuffer { get; }
+    public int BufferSize { get; }
+    public IDirectSound DirectSound { get; }
+    public int StreamPosition { get; }
 
     // AoWIntroScene.pas:173
     public void Finish()

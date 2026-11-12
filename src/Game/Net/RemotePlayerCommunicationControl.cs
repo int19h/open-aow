@@ -7,9 +7,11 @@ namespace Aow.Game.Net;
 // sends through OnSendData and hands what arrives to DataReceived
 public partial class RemotePlayerCommunicationControl : PlayerCommunicationControl
 {
-    internal int _localSystemId;
-    internal PackageDataList _packageDataList;
-    internal SendDataEvent _onSendData;
+    private int _localSystemId;
+
+    internal PackageDataList PackageDataList { get; }
+
+    private SendDataEvent _onSendData;
 
     // NetworkE.pas:819
     public override int GetLocalSystemId() => _localSystemId;
@@ -22,14 +24,14 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
         int id;
         bool unique;
         int result = 0;
-        for (int I = 0, last = _playerCommunicationSettingsList.Count - 1; I <= last; I++)
+        for (int I = 0, last = PlayerCommunicationSettingsList.Count - 1; I <= last; I++)
         {
-            id = _playerCommunicationSettingsList.Players[I]._systemId;
+            id = PlayerCommunicationSettingsList.Players[I]._systemId;
             unique = true;
             J = 0;
             while (J != I && unique)
             {
-                unique = id != _playerCommunicationSettingsList.Players[J]._systemId;
+                unique = id != PlayerCommunicationSettingsList.Players[J]._systemId;
                 J += 1;
             }
 
@@ -49,12 +51,12 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     public override bool ReceivePackageData(MemoryStream stream)
     {
         bool result;
-        if (_packageDataList.Count != 0)
+        if (PackageDataList.Count != 0)
         {
-            stream.SetLength(_packageDataList.PackageData[0].Length);
+            stream.SetLength(PackageDataList.PackageData[0].Length);
             var size = (int)stream.Length;
-            Move(_packageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
-            _packageDataList.Delete(0);
+            Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
+            PackageDataList.Delete(0);
             result = true;
         }
         else
@@ -78,7 +80,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
         }
         else
         {
-            systemId = _playerCommunicationSettingsList.Players[player]._systemId;
+            systemId = PlayerCommunicationSettingsList.Players[player]._systemId;
         }
 
         if (systemId != _localSystemId)
@@ -93,7 +95,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
 
         if (player == NetworkSession.AllPlayers || systemId == _localSystemId)
         {
-            _packageDataList.Add(stream);
+            PackageDataList.Add(stream);
         }
 
         return result;
@@ -102,32 +104,32 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     // NetworkE.pas:759
     public RemotePlayerCommunicationControl() : base()
     {
-        _packageDataList = new PackageDataList();
+        PackageDataList = new PackageDataList();
     }
 
     // NetworkE.pas:765
     public override void Dispose()
     {
-        _packageDataList?.Dispose();
+        PackageDataList?.Dispose();
         base.Dispose();
     }
 
     // NetworkE.pas:771
     public void Clear()
     {
-        _packageDataList.Clear();
+        PackageDataList.Clear();
     }
 
     // NetworkE.pas:803
     public void SetConnectionMode(int index, ConnectionMode mode)
     {
-        _playerCommunicationSettingsList.Players[index]._connectionMode = mode;
+        PlayerCommunicationSettingsList.Players[index]._connectionMode = mode;
     }
 
     // NetworkE.pas:808
     public void SetSystemId(int index, int systemId)
     {
-        _playerCommunicationSettingsList.Players[index]._systemId = systemId;
+        PlayerCommunicationSettingsList.Players[index]._systemId = systemId;
     }
 
     // NetworkE.pas:813
@@ -140,7 +142,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     // NetworkE.pas:837
     public void DataReceived(object data, int size, int systemId)
     {
-        _packageDataList.AddData(data, size);
+        PackageDataList.AddData(data, size);
     }
 
     // NetworkE.pas:842

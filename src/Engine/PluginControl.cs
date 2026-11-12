@@ -12,8 +12,8 @@ namespace Aow.Engine;
 // the list changes
 public partial class PluginControl : EngineObject
 {
-    internal GameEngine _engine;
-    internal StringList _usedPlugins;
+    private GameEngine _engine;
+    private StringList _usedPlugins;
 
     // Engine.pas:9279
     internal void SetUsedPlugins(StringCollection value)

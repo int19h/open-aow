@@ -19,7 +19,7 @@ public partial class LifeMastery : GlobalEnchantmentSpell
     public LifeMastery(ECustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_lifeMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
         SpellId = 61;
         BaseManaCost = 1;
         SpellLevel = 4;

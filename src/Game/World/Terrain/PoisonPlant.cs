@@ -34,7 +34,8 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     // PoisonP.pas:87
     public new const int ClassId = 131998;
 
-    public Set<PoisonPlantStatusElement> PlantStatus;
+    public Set<PoisonPlantStatusElement> PlantStatus { get; set; }
+
     public sbyte CasterPlayer;
     public sbyte DaysRemaining;
     public sbyte OriginalOverlay;
@@ -159,7 +160,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     }
 
     // PoisonP.pas:92
-    public bool PoisonPlantActive() => !Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)_terrainType);
+    public bool PoisonPlantActive() => !Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)TerrainType);
 
     // PoisonP.pas:105
     public bool CanDoDamage(UnitList units)

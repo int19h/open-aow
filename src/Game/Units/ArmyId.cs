@@ -19,12 +19,15 @@ public partial class ArmyId : EngineObject
         UnitIds = new Int32List();
     }
 
-    public Int32List UnitIds;
+    public Int32List UnitIds { get; }
+
     public sbyte Player;
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
-    public byte LocationFlag;
+
+    public sbyte X { get; set; }
+    public sbyte Y { get; set; }
+    public sbyte MapLevel { get; set; }
+
+    private byte _locationFlag;
 
     // Army.PAS:7
     public override void Dispose()

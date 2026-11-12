@@ -18,10 +18,10 @@ public partial class UnitSpellCaster : SpellCaster
         TargetUnits = new UnitUserList(null);
     }
 
-    public UnitUserList TargetUnits;
-    public byte SelectionMask;
-    public bool AllowMultipleTargets;
-    public byte ValidSelection;
+    public UnitUserList TargetUnits { get; }
+    public byte SelectionMask { get; private set; }
+    public bool AllowMultipleTargets { get; set; }
+    public byte ValidSelection { get; set; }
 
     // Spells.PAS:864
     public override void Dispose()
@@ -58,13 +58,13 @@ public partial class UnitSpellCaster : SpellCaster
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
                         }
                     }
                     else
                     {
                         result = false;
-                        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughChannelingPointsText);
+                        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughChannelingPointsText);
                     }
                 }
                 else
@@ -75,7 +75,7 @@ public partial class UnitSpellCaster : SpellCaster
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.s_noUnitSelectedText);
+                reason = AbilityRules.TranslateResourceString(GameText.NoUnitSelectedText);
             }
         }
         else

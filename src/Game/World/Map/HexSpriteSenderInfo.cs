@@ -6,7 +6,7 @@ namespace Aow.Game.World.Map;
 //     that asks (the sprite that changes the terrain, the mover) }
 public struct HexSpriteSenderInfo
 {
-    public object Sender;
-    public MapField MapField;
-    public sbyte HexNumber;
+    public object Sender { get; init; }
+    public MapField MapField { get; init; }
+    public sbyte HexNumber { get; set; }
 }

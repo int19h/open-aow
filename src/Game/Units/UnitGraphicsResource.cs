@@ -29,7 +29,7 @@ public partial class UnitGraphicsResource : EngineResource
     public UnitGraphicsResource(ECustomNode owner) : base(owner)
     {
         Sequences = new ImageSequenceList(null, null);
-        RefCount = 0;
+        _refCount = 0;
         var sfxLibrary = new SfxLibrary(null);
         SfxLibraries[0] = sfxLibrary;
         var sfxLibrary2 = new SfxLibrary(null);
@@ -43,18 +43,20 @@ public partial class UnitGraphicsResource : EngineResource
     }
 
     public string Name = "";
-    public int FaceIndex;
-    public CustomImageLibrary FaceImageLibrary;
-    public string FaceImageLibraryName = "";
-    public ImageSequenceList Sequences;
-    public int RefCount;
+    private int _faceIndex;
+    private CustomImageLibrary _faceImageLibrary;
+    private string _faceImageLibraryName = "";
+
+    public ImageSequenceList Sequences { get; }
+
+    private int _refCount;
     public byte MoveAnimationSpeed;
     public SfxLibraryArray5 SfxLibraries;
 
     // UnitHS.PAS:12
     public override void Dispose()
     {
-        if (RefCount != 0)
+        if (_refCount != 0)
         {
             ReleaseImageLibrary();
         }
@@ -78,11 +80,11 @@ public partial class UnitGraphicsResource : EngineResource
         stream.rwStreamProc(5, Sequences.LoadFromStream, Sequences.SaveToStream);
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            stream.rwString(ref FaceImageLibraryName, 6);
+            stream.rwString(ref _faceImageLibraryName, 6);
             stream.rwString(ref Name, 7);
         }
 
-        stream.rwInteger(ref FaceIndex, 8);
+        stream.rwInteger(ref _faceIndex, 8);
         stream.rwData(Bytes.Of(ref MoveAnimationSpeed, 1), 1, 10);
         stream.rwEObject(SfxLibraries[0], 15);
         stream.rwEObject(SfxLibraries[1], 16);
@@ -94,25 +96,25 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:66
     public override int AddRef()
     {
-        if (RefCount == 0)
+        if (_refCount == 0)
         {
             LinkToImageLibrary();
         }
 
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // UnitHS.PAS:72
     public override int Release()
     {
-        RefCount -= 1;
-        if (RefCount == 0 && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (AoWHSMap.Current == null || !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
+        _refCount -= 1;
+        if (_refCount == 0 && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (AoWHSMap.Current == null || !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
         {
             ReleaseImageLibrary();
         }
 
-        return RefCount;
+        return _refCount;
     }
 
     // UnitHS.PAS:31
@@ -121,7 +123,7 @@ public partial class UnitGraphicsResource : EngineResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            Sequences._imageLibraryManager = message.Payload.As<GameEngine>().HexSpriteSet.ImageLibraryManager;
+            Sequences.ImageLibraryManager = message.Payload.As<GameEngine>().HexSpriteSet.ImageLibraryManager;
         }
     }
 
@@ -152,43 +154,43 @@ public partial class UnitGraphicsResource : EngineResource
     public void LinkToImageLibrary()
     {
         Sequences.LinkToImageLibrary();
-        if (!IsEmpty(FaceImageLibraryName))
+        if (!IsEmpty(_faceImageLibraryName))
         {
-            FaceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
+            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
             return;
         }
 
-        FaceImageLibrary = null;
+        _faceImageLibrary = null;
     }
 
     // UnitHS.PAS:47
     public void ReleaseImageLibrary()
     {
         Sequences.ReleaseImageLibrary();
-        if (FaceImageLibrary != null)
+        if (_faceImageLibrary != null)
         {
-            if (!IsEmpty(FaceImageLibraryName))
+            if (!IsEmpty(_faceImageLibraryName))
             {
-                Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
+                Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
             }
 
-            FaceImageLibrary = null;
+            _faceImageLibrary = null;
         }
     }
 
     // UnitHS.PAS:57
     public void SetFaceImageLibraryName(string value)
     {
-        if (!IsEmpty(FaceImageLibraryName))
+        if (!IsEmpty(_faceImageLibraryName))
         {
-            Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
+            Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
         }
 
-        FaceImageLibraryName = value;
+        _faceImageLibraryName = value;
         // { Original releases the old library even when no reference is held. }
-        if (!IsEmpty(FaceImageLibraryName) && RefCount != 0)
+        if (!IsEmpty(_faceImageLibraryName) && _refCount != 0)
         {
-            FaceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
+            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
         }
     }
 
@@ -197,9 +199,9 @@ public partial class UnitGraphicsResource : EngineResource
     {
         LibraryImage result;
         AddRef();
-        if (FaceImageLibrary != null)
+        if (_faceImageLibrary != null)
         {
-            result = FaceImageLibrary.GetSafe(FaceIndex);
+            result = _faceImageLibrary.GetSafe(_faceIndex);
         }
         else
         {

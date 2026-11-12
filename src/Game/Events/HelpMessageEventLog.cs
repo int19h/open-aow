@@ -18,9 +18,9 @@ public partial class HelpMessageEventLog : EventLog
         Mode = 0;
     }
 
-    public StringList Message;
-    public string HelpFileName = "";
-    public byte Mode;
+    public StringList Message { get; }
+    public string HelpFileName { get; set; } = "";
+    public byte Mode { get; }
 
     // EventLog.pas:868
     public override void Dispose()

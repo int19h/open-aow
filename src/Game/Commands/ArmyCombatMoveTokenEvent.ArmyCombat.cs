@@ -17,7 +17,7 @@ public partial class ArmyCombatMoveTokenEvent
     {
         if ((HeadlessHooks.Tactical || FrameFixtureInputs.Tactical) && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
         {
-            CombatType = CombatType.Tactical;
+            _combatType = CombatType.Tactical;
             HeadlessHooks.TacticalSelections++;
         }
         CombatResult combatResult = default;
@@ -71,7 +71,7 @@ public partial class ArmyCombatMoveTokenEvent
 
         ArmyHexSprite.CancelMove();
         AoWHSMap.Current.LockGameOverEvent();
-        if (CombatType == CombatType.Fast)
+        if (_combatType == CombatType.Fast)
         {
             combat = AoWHSMap.Current.CreateCombat(131760);
         }
@@ -88,7 +88,7 @@ public partial class ArmyCombatMoveTokenEvent
         var fPathItem = Path[0];
         var item2 = Path[0];
         var hexX = ArmyHexSprite.GetHexX();
-        combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.X, fPathItem.Y, item2.MapLevel, CombatType == CombatType.Fast);
+        combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.X, fPathItem.Y, item2.MapLevel, _combatType == CombatType.Fast);
         combat.OnExecuted = CombatExecuted;
         message.MessageId = 4359;
         message.Param[0] = combat;
@@ -106,7 +106,7 @@ public partial class ArmyCombatMoveTokenEvent
         combat.Initialize();
         combat.Activate();
         combatResult = combat.Execute();
-        CombatMode = ArmyCombatMoveTokenEventMode.CombatExecuted;
+        _combatMode = ArmyCombatMoveTokenEventMode.CombatExecuted;
         if (combatResult != Game.Combat.CombatResult.Busy)
         {
             combat.Deactivate();
@@ -122,7 +122,7 @@ public partial class ArmyCombatMoveTokenEvent
                     log.Release();
                     AoWHSMap.Current.AIExecutor.Lock();
                     AoWHSMap.Current.LockGameOverEvent();
-                    CombatMode = ArmyCombatMoveTokenEventMode.RestoringHotSeat;
+                    _combatMode = ArmyCombatMoveTokenEventMode.RestoringHotSeat;
                 }
             }
 

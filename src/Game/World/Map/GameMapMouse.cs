@@ -11,24 +11,24 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public GameMapMouse() : base()
     {
         ResetRectangleSelection();
-        _rectangleSelectEventsStore = new();
+        RectangleSelectEventsStore = new();
     }
 
     public Rect SelectionRectangle;
 
-    internal EventStore<GameMapMouse> _rectangleSelectEventsStore;
+    internal EventStore<GameMapMouse> RectangleSelectEventsStore { get; }
 
     public event NotifyEvent<GameMapMouse> FRectangleSelectEvents
     {
-        add => _rectangleSelectEventsStore.Add(value);
-        remove => _rectangleSelectEventsStore.Remove(value);
+        add => RectangleSelectEventsStore.Add(value);
+        remove => RectangleSelectEventsStore.Remove(value);
     }
 
     // AoWHSMap.PAS:1057
     public override void Dispose()
     {
         base.Dispose();
-        _rectangleSelectEventsStore.Clear();
+        RectangleSelectEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:1123
@@ -182,7 +182,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
         }
 
         SelectionRectangle = R;
-        _rectangleSelectEventsStore.Raise(this);
+        RectangleSelectEventsStore.Raise(this);
         ResetRectangleSelection();
     }
 

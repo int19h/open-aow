@@ -9,20 +9,22 @@ public partial class UnitSelector : IDisposable
     public UnitSelector()
     {
         Units = new UnitUserList(null);
-        References = 1;
+        _references = 1;
         Canceled = false;
     }
 
-    public int References;
-    public sbyte Player;
-    public string Caption = "";
-    public UnitUserList Units;
-    public byte Selection;
-    public bool Canceled;
-    public byte Selectable;
-    public int SourceUnitId;
-    public NotifyEvent OnSelect;
-    public NotifyEvent OnCancel;
+    private int _references;
+
+    public sbyte Player { get; private set; }
+    public string Caption { get; set; } = "";
+    public UnitUserList Units { get; }
+    public byte Selection { get; private set; }
+    public bool Canceled { get; }
+    public byte Selectable { get; private set; }
+    public int SourceUnitId { get; private set; }
+
+    private NotifyEvent _onSelect;
+    private NotifyEvent _onCancel;
 
     // Ability.PAS:583
     public virtual void Dispose()
@@ -68,7 +70,7 @@ public partial class UnitSelector : IDisposable
         bool result;
         if (Selection == 0)
         {
-            error = AbilityRules.TranslateResourceString(GameText.s_noUnitSelectedText);
+            error = AbilityRules.TranslateResourceString(GameText.NoUnitSelectedText);
             result = false;
         }
         else
@@ -82,25 +84,25 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:651
     public virtual void Cancel()
     {
-        if (OnCancel != null)
+        if (_onCancel != null)
         {
-            OnCancel(this);
+            _onCancel(this);
         }
     }
 
     // Ability.PAS:589
     public int AddRef()
     {
-        References += 1;
-        return References;
+        _references += 1;
+        return _references;
     }
 
     // Ability.PAS:595
     public int Release()
     {
         int count;
-        References -= 1;
-        count = References;
+        _references -= 1;
+        count = _references;
         int result = count;
         if (count == 0)
         {
@@ -130,7 +132,7 @@ public partial class UnitSelector : IDisposable
     }
 
     // intf_P1_08.inc:65
-    public virtual bool Select() { OnSelect?.Invoke(this); return true; }
+    public virtual bool Select() { _onSelect?.Invoke(this); return true; }
 
     public delegate void NotifyEvent(UnitSelector Selector);
 }

@@ -9,6 +9,6 @@ public partial class SendEmailGameEventLog : EventLog
     public SendEmailGameEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public byte Mode;
-    public sbyte SendPlayer;
+    public byte Mode { get; set; }
+    public sbyte SendPlayer { get; set; }
 }

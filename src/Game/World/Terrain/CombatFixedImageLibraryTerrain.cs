@@ -43,8 +43,8 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
         }
     }
@@ -56,8 +56,8 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {

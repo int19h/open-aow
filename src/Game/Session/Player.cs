@@ -73,17 +73,17 @@ public partial class Player : EngineObject
         DiplomaticRelations.Player = this;
         LegacyNewRelations = new DiplomaticRelationList();
         ProductionControls = new ProductionControlList();
-        IncomeSources = new IncomeSourceList(null);
+        _incomeSources = new IncomeSourceList(null);
         LeaderSetup = new Leader(null);
         Status = PlayerStatus.Idle;
         GameOverStatus = GameOverStatus.None;
         FirstDaySeen = new Int32List();
         FirstDaySeen.Default = -1;
-        LastDaySeen = new Int32List();
-        LastDaySeen.Default = -1;
-        VictoryLocations = new PlayerStructureList(null);
+        _lastDaySeen = new Int32List();
+        _lastDaySeen.Default = -1;
+        _victoryLocations = new PlayerStructureList(null);
         KnownStructures = new PlayerStructureList(null);
-        Messages = new StringList();
+        _messages = new StringList();
         DiplomaticActions = new DiplomaticActionList(null);
         AIValidAttackPlayers = new BitList();
         PbemSettings = new PbemPlayerSettings(null);
@@ -96,9 +96,9 @@ public partial class Player : EngineObject
         ViewY = 255;
     }
 
-    public int UpdateCount;
+    private int _updateCount;
 
-    internal EventStore<Player> _gemsChangedEventsStore;
+    private EventStore<Player> _gemsChangedEventsStore;
 
     public event NotifyEvent<Player> FGemsChangedEvents
     {
@@ -106,7 +106,7 @@ public partial class Player : EngineObject
         remove => _gemsChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Player> _incomeChangedEventsStore;
+    private EventStore<Player> _incomeChangedEventsStore;
 
     public event NotifyEvent<Player> FIncomeChangedEvents
     {
@@ -114,7 +114,7 @@ public partial class Player : EngineObject
         remove => _incomeChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Player> _upkeepChangedEventsStore;
+    private EventStore<Player> _upkeepChangedEventsStore;
 
     public event NotifyEvent<Player> FUpkeepChangedEvents
     {
@@ -122,7 +122,7 @@ public partial class Player : EngineObject
         remove => _upkeepChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Player> _logbookChangedEventsStore;
+    private EventStore<Player> _logbookChangedEventsStore;
 
     public event NotifyEvent<Player> FLogbookChangedEvents
     {
@@ -130,44 +130,61 @@ public partial class Player : EngineObject
         remove => _logbookChangedEventsStore.Remove(value);
     }
 
-    public PlayerStructureList Structures;
-    public PlayerStructureList VictoryLocations;
-    public ProductionControlList ProductionControls;
-    public ArmyList Armies;
-    public bool SingleProcessCycle;
+    public PlayerStructureList Structures { get; }
+
+    private PlayerStructureList _victoryLocations;
+
+    public ProductionControlList ProductionControls { get; }
+    public ArmyList Armies { get; }
+    public bool SingleProcessCycle { get; private set; }
+
     public byte ViewX;
     public byte ViewY;
     public byte ViewL;
-    public string Password = "";
-    public StringList Messages;
-    public DiplomaticRelationList LegacyRelations;
-    public DiplomaticRelationList LegacyNewRelations;
-    public PlayerDiplomaticRelations DiplomaticRelations;
+    private string _password = "";
+    private StringList _messages;
+
+    public DiplomaticRelationList LegacyRelations { get; }
+    public DiplomaticRelationList LegacyNewRelations { get; }
+    public PlayerDiplomaticRelations DiplomaticRelations { get; }
+
     public GameOverStatus GameOverStatus;
     public PlayerStatus Status;
-    public int BusyCount;
-    public string Name = "";
+    private int _busyCount;
+
+    public string Name { get; set; } = "";
+
     public sbyte MoraleValue;
-    public PlayerMagicControl MagicControl;
-    public Leader LeaderSetup;
+
+    public PlayerMagicControl MagicControl { get; }
+    public Leader LeaderSetup { get; }
+
     public int Day;
-    public PlayerStatistics Statistics;
-    public IncomeSourceList IncomeSources;
-    public PlayerStructureList KnownStructures;
+
+    public PlayerStatistics Statistics { get; }
+
+    private IncomeSourceList _incomeSources;
+
+    public PlayerStructureList KnownStructures { get; }
+
     public int BaseHeroJoinLevel;
-    public int LastHeroJoinDay;
+    private int _lastHeroJoinDay;
     public int EmergingHeroId;
-    public int LastHeroEmergeDay;
-    public int HighestHeroLevel;
-    public HeroList Heroes;
-    public AIGroupList AIGroups;
-    public AIPlayerControl AIControl;
-    public AIBudgetManager AIBudget;
-    public DiplomaticActionList DiplomaticActions;
-    public BitList AIValidAttackPlayers;
-    public Int32List FirstDaySeen;
-    public Int32List LastDaySeen;
-    public PbemPlayerSettings PbemSettings;
+    private int _lastHeroEmergeDay;
+    private int _highestHeroLevel;
+
+    public HeroList Heroes { get; }
+    public AIGroupList AIGroups { get; }
+    public AIPlayerControl AIControl { get; }
+    public AIBudgetManager AIBudget { get; }
+    public DiplomaticActionList DiplomaticActions { get; private set; }
+    public BitList AIValidAttackPlayers { get; private set; }
+    public Int32List FirstDaySeen { get; }
+
+    private Int32List _lastDaySeen;
+
+    public PbemPlayerSettings PbemSettings { get; private set; }
+
     public bool HeroEmerging;
     public sbyte PlayerRace;
     public sbyte PlayerIndex;
@@ -177,15 +194,22 @@ public partial class Player : EngineObject
     public int InitialGold;
     public int BaseIncome;
     public int BaseHeroJoinDay;
-    public int HeroJoinDay;
+
+    public int HeroJoinDay { get; set; }
+
     public string Settings = "";
-    public string Description = "";
+    private string _description = "";
     public int Gems;
-    public int ArmyUpkeep;
-    public int MagicUpkeep;
-    public int Income;
+
+    public int ArmyUpkeep { get; private set; }
+
+    private int _magicUpkeep;
+
+    public int Income { get; private set; }
+
     public Leader Leader;
-    public EventLogbook EventLogbook;
+
+    public EventLogbook EventLogbook { get; }
 
     // Player.PAS:315
     public override void Dispose()
@@ -201,7 +225,7 @@ public partial class Player : EngineObject
             {
                 if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
-                    Assert(VictoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
+                    Assert(_victoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
                     Assert(Structures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
                     Assert(Armies.Count == 0, "Registered Player Armies not correctly cleared (TPlayer)", "Player.PAS", 328);
                 }
@@ -224,8 +248,8 @@ public partial class Player : EngineObject
             {
             }
 
-            Messages?.Dispose();
-            Messages = null;
+            _messages?.Dispose();
+            _messages = null;
             DiplomaticActions?.Dispose();
             DiplomaticActions = null;
             AIValidAttackPlayers?.Dispose();
@@ -293,7 +317,7 @@ public partial class Player : EngineObject
             try
             {
                 FirstDaySeen?.Dispose();
-                LastDaySeen?.Dispose();
+                _lastDaySeen?.Dispose();
             }
             catch
             {
@@ -313,8 +337,8 @@ public partial class Player : EngineObject
                 AIGroups?.Dispose();
                 AIBudget?.Dispose();
                 Structures?.Dispose();
-                VictoryLocations?.Dispose();
-                IncomeSources?.Dispose();
+                _victoryLocations?.Dispose();
+                _incomeSources?.Dispose();
                 KnownStructures?.Dispose();
             }
             catch
@@ -358,7 +382,7 @@ public partial class Player : EngineObject
             stream.rwString(ref Settings, 11);
         }
 
-        stream.rwString(ref Description, 12);
+        stream.rwString(ref _description, 12);
         stream.rwInteger(ref Gems, 16);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 18);
         if ((GameTables.GameEngine.Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || stream.StorageMode().Contains(StorageModeElement.TextOnly))
@@ -399,7 +423,7 @@ public partial class Player : EngineObject
             stream.rwEObject(EventLogbook, 23);
         }
 
-        stream.rwString(ref Password, 24);
+        stream.rwString(ref _password, 24);
         stream.rwData(Bytes.Of(ref GameOverStatus, 1), 1, 25);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
@@ -423,13 +447,13 @@ public partial class Player : EngineObject
 
         stream.rwEObject(MagicControl, 31);
         stream.rwStreamProc(32, FirstDaySeen.LoadFromStream, FirstDaySeen.SaveToStream);
-        stream.rwStreamProc(33, LastDaySeen.LoadFromStream, LastDaySeen.SaveToStream);
+        stream.rwStreamProc(33, _lastDaySeen.LoadFromStream, _lastDaySeen.SaveToStream);
         stream.rwInteger(ref Day, 34);
         stream.rwEObject(Statistics, 35);
         stream.rwInteger(ref BaseHeroJoinLevel, 36);
-        stream.rwInteger(ref LastHeroJoinDay, 37);
-        stream.rwInteger(ref LastHeroEmergeDay, 38);
-        stream.rwInteger(ref HighestHeroLevel, 39);
+        stream.rwInteger(ref _lastHeroJoinDay, 37);
+        stream.rwInteger(ref _lastHeroEmergeDay, 38);
+        stream.rwInteger(ref _highestHeroLevel, 39);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             SetRace(PlayerRace);
@@ -437,7 +461,7 @@ public partial class Player : EngineObject
             LegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
         }
 
-        stream.rwStrings(Messages, 40);
+        stream.rwStrings(_messages, 40);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             stream.rwStreamProc(41, LegacyRelations.LoadFromStream, LegacyRelations.SaveToStream);
@@ -469,7 +493,7 @@ public partial class Player : EngineObject
         if (message.MessageId == 536870920 && AoWHSMap.Current.Day == 0)
         {
             FirstDaySeen.Clear();
-            LastDaySeen.Clear();
+            _lastDaySeen.Clear();
         }
 
         if (message.MessageId == 537001989)
@@ -540,7 +564,7 @@ public partial class Player : EngineObject
     // Player.PAS:394
     public bool GetBusy()
     {
-        bool result = BusyCount != 0 || !AoWHSMap.Current.TokenManager.PlayerReady(PlayerIndex);
+        bool result = _busyCount != 0 || !AoWHSMap.Current.TokenManager.PlayerReady(PlayerIndex);
         result = result || (AoWHSMap.Current.Combat == null && AoWHSMap.Current.PlayMode == PlayMode.Turn && AoWHSMap.Current.CurrentPlayer != PlayerIndex);
         result = result || AoWHSMap.Current.Combat != null && AoWHSMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)AoWHSMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex;
         result = result || GameOverStatus != GameOverStatus.None || !GetLocal();
@@ -645,14 +669,14 @@ public partial class Player : EngineObject
             eventValue._player = PlayerIndex;
             if (value == GameOverStatus.Lost)
             {
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[PlayerRace]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[PlayerRace]);
                 var name = GetName();
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_gameOverDefeatMessageFormat), [IntToStr(AoWHSMap.Current.Day), raceNamesPlural, name]);
                 eventValue.Message.Text = format;
             }
             else
             {
-                var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[PlayerRace]);
+                var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[PlayerRace]);
                 var name = GetName();
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_gameOverVictoryMessageFormat), [IntToStr(AoWHSMap.Current.Day), raceNamesPluralText, name]);
                 eventValue.Message.Text = format;
@@ -758,20 +782,20 @@ public partial class Player : EngineObject
     // Player.PAS:547
     public void LockBusy()
     {
-        BusyCount += 1;
+        _busyCount += 1;
     }
 
     // Player.PAS:552
     public void UnlockBusy()
     {
-        Assert(BusyCount != 0, "Invalid busy counter usage", "Player.PAS", 554);
-        BusyCount -= 1;
+        Assert(_busyCount != 0, "Invalid busy counter usage", "Player.PAS", 554);
+        _busyCount -= 1;
     }
 
     // Player.PAS:558
     public void LogbookChangedEvent(object sender)
     {
-        if (UpdateCount == 0)
+        if (_updateCount == 0)
         {
             _logbookChangedEventsStore.Raise(this);
         }
@@ -780,7 +804,7 @@ public partial class Player : EngineObject
     // Player.PAS:563
     public void BeginUpdate()
     {
-        UpdateCount += 1;
+        _updateCount += 1;
         Structures.BeginUpdate();
         Armies.BeginUpdate();
         MagicControl.BeginUpdate();
@@ -789,8 +813,8 @@ public partial class Player : EngineObject
     // Player.PAS:571
     public void EndUpdate()
     {
-        UpdateCount -= 1;
-        if (UpdateCount == 0)
+        _updateCount -= 1;
+        if (_updateCount == 0)
         {
             _gemsChangedEventsStore.Raise(this);
             _upkeepChangedEventsStore.Raise(this);
@@ -816,7 +840,7 @@ public partial class Player : EngineObject
     public void SetGems(int value)
     {
         Gems = value;
-        if (UpdateCount == 0)
+        if (_updateCount == 0)
         {
             _gemsChangedEventsStore.Raise(this);
         }
@@ -831,9 +855,9 @@ public partial class Player : EngineObject
     public void UpdateIncome()
     {
         Income = BaseIncome;
-        for (int I = IncomeSources.Count - 1; I >= 0; I--)
+        for (int I = _incomeSources.Count - 1; I >= 0; I--)
         {
-            var income = ((IncomeSource)IncomeSources._children.List[I]).Income();
+            var income = ((IncomeSource)_incomeSources._children.List[I]).Income();
             Income += income;
         }
 
@@ -863,7 +887,7 @@ public partial class Player : EngineObject
             }
         }
 
-        if (UpdateCount == 0)
+        if (_updateCount == 0)
         {
             _incomeChangedEventsStore.Raise(this);
         }
@@ -872,10 +896,10 @@ public partial class Player : EngineObject
     // Player.PAS:614
     public void RegisterIncomeSource(IncomeSource source)
     {
-        if (IncomeSources._children.IndexOf(source) == -1)
+        if (_incomeSources._children.IndexOf(source) == -1)
         {
-            IncomeSources._children.Add(source);
-            if (UpdateCount == 0)
+            _incomeSources._children.Add(source);
+            if (_updateCount == 0)
             {
                 UpdateIncome();
             }
@@ -885,20 +909,20 @@ public partial class Player : EngineObject
     // Player.PAS:623
     public void UnregisterIncomeSource(IncomeSource source)
     {
-        if (IncomeSources._children.Remove(source) != -1 && UpdateCount == 0)
+        if (_incomeSources._children.Remove(source) != -1 && _updateCount == 0)
         {
             UpdateIncome();
         }
     }
 
     // Player.PAS:629
-    public int GetUpkeep() => ArmyUpkeep + MagicUpkeep;
+    public int GetUpkeep() => ArmyUpkeep + _magicUpkeep;
 
     // Player.PAS:634
     public void SetArmyUpkeep(int value)
     {
         ArmyUpkeep = value;
-        if (UpdateCount == 0)
+        if (_updateCount == 0)
         {
             _upkeepChangedEventsStore.Raise(this);
         }
@@ -907,8 +931,8 @@ public partial class Player : EngineObject
     // Player.PAS:640
     public void SetMagicUpkeep(int value)
     {
-        MagicUpkeep = value;
-        if (UpdateCount == 0)
+        _magicUpkeep = value;
+        if (_updateCount == 0)
         {
             _upkeepChangedEventsStore.Raise(this);
         }
@@ -941,7 +965,7 @@ public partial class Player : EngineObject
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.s_independentsText);
+            result = AbilityRules.TranslateResourceString(GameTables.IndependentsText);
         }
 
         return result;
@@ -954,7 +978,7 @@ public partial class Player : EngineObject
         if (PlayerIndex != 0)
         {
             var name = GetName();
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[PlayerRace]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[PlayerRace]);
             result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerNameWithRaceFormat), [name, raceNamesPlural]);
         }
         else
@@ -1057,7 +1081,7 @@ public partial class Player : EngineObject
     {
         int average;
         int maximum;
-        int result = LastHeroJoinDay;
+        int result = _lastHeroJoinDay;
         average = AoWHSMap.Current.Players.GetAverageHeroCount();
         maximum = AoWHSMap.Current.Players.GetMaxHeroCount();
         if (maximum > average && Heroes.Count == maximum)
@@ -1104,7 +1128,7 @@ public partial class Player : EngineObject
             }
         }
 
-        earliest = LastHeroEmergeDay + 5;
+        earliest = _lastHeroEmergeDay + 5;
         if (earliest > result)
         {
             result = earliest;
@@ -1116,7 +1140,7 @@ public partial class Player : EngineObject
     // Player.PAS:733
     public void ResetBaseHeroJoinDay()
     {
-        LastHeroJoinDay = AoWHSMap.Current.Day;
+        _lastHeroJoinDay = AoWHSMap.Current.Day;
     }
 
     // Player.PAS:738
@@ -1185,7 +1209,7 @@ public partial class Player : EngineObject
 
             if (locations.Count != 0)
             {
-                LastHeroEmergeDay = AoWHSMap.Current.Day;
+                _lastHeroEmergeDay = AoWHSMap.Current.Day;
                 RandSeed = AoWHSMap.Current.Random(1048575);
                 I = heroes.RandomChanceItemB(0);
                 Item = heroes[I];
@@ -1208,7 +1232,7 @@ public partial class Player : EngineObject
                 }
                 else
                 {
-                    log.LocationName = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+                    log.LocationName = AbilityRules.TranslateResourceString(GameTables.UnknownText);
                 }
 
                 EventLogbook.AddEvent(log);
@@ -1232,9 +1256,9 @@ public partial class Player : EngineObject
         int days;
         for (int I = Heroes.Count - 1; I >= 0; I--)
         {
-            if (Heroes.GetHero(I).GetLevel() > HighestHeroLevel)
+            if (Heroes.GetHero(I).GetLevel() > _highestHeroLevel)
             {
-                HighestHeroLevel = Heroes.GetHero(I).GetLevel();
+                _highestHeroLevel = Heroes.GetHero(I).GetLevel();
             }
         }
 
@@ -1244,9 +1268,9 @@ public partial class Player : EngineObject
             BaseHeroJoinLevel = AoWHSMap.Current.HeroControl.GetMinFreeHeroLevel();
         }
 
-        if (HighestHeroLevel != 0)
+        if (_highestHeroLevel != 0)
         {
-            BaseHeroJoinLevel = (BaseHeroJoinLevel + HighestHeroLevel + 1) / 2;
+            BaseHeroJoinLevel = (BaseHeroJoinLevel + _highestHeroLevel + 1) / 2;
         }
 
         if (Heroes.Count == GetHeroCountMax())
@@ -1494,9 +1518,9 @@ public partial class Player : EngineObject
         int result;
         if (player != PlayerIndex)
         {
-            if (player < LastDaySeen.Count)
+            if (player < _lastDaySeen.Count)
             {
-                result = LastDaySeen[player];
+                result = _lastDaySeen[player];
             }
             else
             {
@@ -1514,9 +1538,9 @@ public partial class Player : EngineObject
     // Player.PAS:1124
     public void PlayerSeen(sbyte player)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && (player >= LastDaySeen.Count || LastDaySeen[player] != AoWHSMap.Current.Day))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && (player >= _lastDaySeen.Count || _lastDaySeen[player] != AoWHSMap.Current.Day))
         {
-            LastDaySeen[player] = AoWHSMap.Current.Day;
+            _lastDaySeen[player] = AoWHSMap.Current.Day;
             if (GetFirstDaySeen(player) == -1)
             {
                 FirstDaySeen[player] = AoWHSMap.Current.Day;
@@ -1561,13 +1585,13 @@ public partial class Player : EngineObject
     // Player.PAS:1159
     public void RegisterVictoryLocation(PlayerStructure structure)
     {
-        VictoryLocations.AddChild(structure);
+        _victoryLocations.AddChild(structure);
     }
 
     // Player.PAS:1164
     public void UnregisterVictoryLocation(PlayerStructure structure)
     {
-        VictoryLocations.RemoveChild(structure);
+        _victoryLocations.RemoveChild(structure);
     }
 
     // Player.PAS:1169
@@ -1586,14 +1610,14 @@ public partial class Player : EngineObject
     public int CaptureLocationsLeft()
     {
         int result = 0;
-        for (int I = 0, last = VictoryLocations.Count - 1; I <= last; I++)
+        for (int I = 0, last = _victoryLocations.Count - 1; I <= last; I++)
         {
-            if (VictoryLocations.GetStructure(I).Player != PlayerIndex)
+            if (_victoryLocations.GetStructure(I).Player != PlayerIndex)
             {
-                bool condition = VictoryLocations.GetStructure(I).Player > 0;
+                bool condition = _victoryLocations.GetStructure(I).Player > 0;
                 if (condition)
                 {
-                    var structure = VictoryLocations.GetStructure(I);
+                    var structure = _victoryLocations.GetStructure(I);
                     condition = AoWHSMap.Current.Players.GetDiplomaticRelation(structure.Player, PlayerIndex) == DiplomaticRelation.Alliance;
                 }
 
@@ -1863,17 +1887,17 @@ public partial class Player : EngineObject
 
         public override int Icon => 46;
 
-        public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_threatenToAttackText);
+        public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(ThreatenToAttackText);
 
-        public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_threatText);
+        public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(ThreatText);
 
         public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
             text.Proposing(112);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        internal static readonly string s_threatenToAttackText = "Threaten to attack";
-        internal static readonly string s_threatText = "Threat";
+        internal static string ThreatenToAttackText { get; } = "Threaten to attack";
+        internal static string ThreatText { get; } = "Threat";
     }
 
     // Kind 5: the source pays the target a tribute.
@@ -1885,11 +1909,11 @@ public partial class Player : EngineObject
 
         public override int Icon => 48;
 
-        public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_makeTributeText);
+        public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(MakeTributeText);
 
         public override string LogText(DiplomaticAction action)
         {
-            var subject = AbilityRules.TranslateResourceString(s_tributeText);
+            var subject = AbilityRules.TranslateResourceString(TributeText);
             return Outcome(action, subject, subject, AcceptedLine(subject), "");
         }
 
@@ -1902,7 +1926,7 @@ public partial class Player : EngineObject
         {
             if (Gold == 0 && Mana == 0)
             {
-                errorText = AbilityRules.TranslateResourceString(s_noGoldManaSpecifiedText);
+                errorText = AbilityRules.TranslateResourceString(NoGoldManaSpecifiedText);
                 return false;
             }
 
@@ -1935,9 +1959,9 @@ public partial class Player : EngineObject
             }
         }
 
-        internal static readonly string s_makeTributeText = "Make tribute";
-        internal static readonly string s_noGoldManaSpecifiedText = "No gold/mana specified";
-        internal static readonly string s_tributeText = "Tribute";
+        internal static string MakeTributeText { get; } = "Make tribute";
+        internal static string NoGoldManaSpecifiedText { get; } = "No gold/mana specified";
+        internal static string TributeText { get; } = "Tribute";
     }
 
     // Kind 7: the source writes to the target in the name of the other player, offered between human
@@ -1958,7 +1982,7 @@ public partial class Player : EngineObject
             return AbilityRules.Format(AbilityRules.TranslateResourceString(s_sendMessageFormat), [name]);
         }
 
-        public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.s_diplomaticMessageText);
+        public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.DiplomaticMessageText);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
@@ -1982,8 +2006,8 @@ public partial class Player : EngineObject
 
         public override string LogText(DiplomaticAction action)
         {
-            var subject = AbilityRules.TranslateResourceString(GameText.s_breakAllianceText);
-            return Outcome(action, AbilityRules.TranslateResourceString(s_breakAllianceSuggestionText), subject, AcceptedLine(subject), "");
+            var subject = AbilityRules.TranslateResourceString(GameText.BreakAllianceText);
+            return Outcome(action, AbilityRules.TranslateResourceString(BreakAllianceSuggestionText), subject, AcceptedLine(subject), "");
         }
 
         public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
@@ -2032,7 +2056,8 @@ public partial class Player : EngineObject
                 : 0;
 
         private static readonly string s_suggestAllianceBreakFormat = "Suggest alliance break with %s";
-        internal static readonly string s_breakAllianceSuggestionText = "Break alliance suggestion";
+
+        internal static string BreakAllianceSuggestionText { get; } = "Break alliance suggestion";
     }
 
     // Kind 9: the source asks the target to declare war on the other player.
@@ -2052,8 +2077,8 @@ public partial class Player : EngineObject
 
         public override string LogText(DiplomaticAction action)
         {
-            var subject = AbilityRules.TranslateResourceString(GameText.s_declareWarText);
-            return Outcome(action, AbilityRules.TranslateResourceString(s_declareWarSuggestionText), subject, AcceptedLine(subject), "");
+            var subject = AbilityRules.TranslateResourceString(GameText.DeclareWarText);
+            return Outcome(action, AbilityRules.TranslateResourceString(DeclareWarSuggestionText), subject, AcceptedLine(subject), "");
         }
 
         public override int MiddleIcon(DiplomaticAction action) =>
@@ -2133,7 +2158,8 @@ public partial class Player : EngineObject
         }
 
         private static readonly string s_suggestWarFormat = "Suggest war with %s";
-        internal static readonly string s_declareWarSuggestionText = "Declare war suggestion";
+
+        internal static string DeclareWarSuggestionText { get; } = "Declare war suggestion";
     }
 
     // intf_P1_03.inc:248

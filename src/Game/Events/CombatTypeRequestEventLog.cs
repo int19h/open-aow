@@ -15,15 +15,17 @@ public partial class CombatTypeRequestEventLog : EventLog
     public CombatTypeRequestEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public CombatType CombatType;
-    public new sbyte _player;
-    public sbyte DefenderPlayer;
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
-    public EngineObject TokenEvent;
-    public bool CreateNewMove;
-    public ArmyId ArmyId;
+    public CombatType CombatType { get; private set; }
+    public sbyte Player { get; set; }
+    public sbyte DefenderPlayer { get; set; }
+    public sbyte X { get; set; }
+    public sbyte Y { get; set; }
+    public sbyte MapLevel { get; set; }
+
+    private EngineObject _tokenEvent;
+
+    public bool CreateNewMove { get; set; }
+    public ArmyId ArmyId { get; set; }
 
     // Combat2.pas:1
     public override void Dispose()
@@ -46,15 +48,15 @@ public partial class CombatTypeRequestEventLog : EventLog
     public void SetTokenEvent(TokenEvent tokenEvent)
     {
         // { Original releases the old token before retaining its replacement. }
-        if (TokenEvent != null)
+        if (_tokenEvent != null)
         {
-            TokenEvent.Release();
+            _tokenEvent.Release();
         }
 
-        TokenEvent = tokenEvent;
-        if (TokenEvent != null)
+        _tokenEvent = tokenEvent;
+        if (_tokenEvent != null)
         {
-            TokenEvent.AddRef();
+            _tokenEvent.AddRef();
         }
     }
 

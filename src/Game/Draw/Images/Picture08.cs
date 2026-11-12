@@ -18,8 +18,8 @@ public partial class Picture08 : Image08, ILibraryImageClass
     public Picture08(CustomImageLibrary owner) : base(owner)
     { }
 
-    internal int _pitch;
-    internal byte[] _buffer;
+    private int _pitch;
+    private byte[] _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
     internal SurfaceView View => new(_buffer, 0, _pitch);
@@ -96,10 +96,10 @@ public partial class Picture08 : Image08, ILibraryImageClass
     // ImageLib.pas:7350
     public override void ReleaseDiscardableImageData()
     {
-        if (_dataLoaded)
+        if (DataLoaded)
         {
             _buffer = null;
-            _dataLoaded = false;
+            DataLoaded = false;
         }
     }
 
@@ -138,7 +138,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
         {
             Clear();
             result = true;
-            _dataLoaded = true;
+            DataLoaded = true;
             _dataWidth = R.Right - R.Left;
             _dataHeight = R.Bottom - R.Top;
             _width = _dataWidth;
@@ -155,7 +155,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);
-                if (_owner != null)
+                if (Owner != null)
                 {
                     RegisterPalette();
                 }
@@ -197,7 +197,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
         if (bottom > lockedSurface.ClipRectangle.Bottom) height -= bottom - lockedSurface.ClipRectangle.Bottom;
         if (height <= 0) return;
 
-        bool loadedHere = !_dataLoaded;
+        bool loadedHere = !DataLoaded;
         if (loadedHere) LoadDiscardableImageData();
         var source = View.At(sourceX + sourceY * _pitch);
         var destination = lockedSurface.View(destinationX + destinationY * lockedSurface.Pitch);

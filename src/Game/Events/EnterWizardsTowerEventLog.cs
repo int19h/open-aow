@@ -12,6 +12,6 @@ public partial class EnterWizardsTowerEventLog : EventLog
     public EnterWizardsTowerEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public WizardsTower Tower;
+    public WizardsTower Tower { get; set; }
 
 }

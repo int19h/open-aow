@@ -40,7 +40,7 @@ public class SdlSoundSystem : SoundSystem
     protected internal override bool Activate(in SoundSettings value)
     {
         s_active = this;
-        _status = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated);
+        Status = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated);
         return SetSoundSettings(value);
     }
 
@@ -49,7 +49,7 @@ public class SdlSoundSystem : SoundSystem
         _output?.Dispose(); _output = null;
         Mixer.Dispose();
         State = SongState.Idle;
-        _status = default;
+        Status = default;
         if (s_active == this) s_active = null;
         return true;
     }
@@ -168,7 +168,7 @@ public class SdlSoundSystem : SoundSystem
         public bool Loop { get; init; }
         public int Volume { get; init; }
 
-        public SavedSong(string name) => _fileName = name;
+        public SavedSong(string name) => FileName = name;
     }
 
     public override SongStatus BackupSongStatus()

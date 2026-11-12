@@ -169,14 +169,14 @@ public partial class Arena : Structure
                 else
                 {
                     result = false;
-                    errorText = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+                    errorText = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
                 }
             }
         }
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GameText.s_noUnitSelectedText);
+            errorText = AbilityRules.TranslateResourceString(GameText.NoUnitSelectedText);
         }
 
         return result;
@@ -212,7 +212,7 @@ public partial class Arena : Structure
     {
         bool result;
         ArmyHexSprite army;
-        army = (ArmyHexSprite)_owner.FindOwnedChild(131607);
+        army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (army == null || army.Army.Player != player)
         {
             result = false;
@@ -235,7 +235,7 @@ public partial class Arena : Structure
         {
             log = new EnterArenaEventLog(null);
             log.Arena = this;
-            army = (ArmyHexSprite)_owner.FindOwnedChild(131607);
+            army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
             {
                 var troop = army.Army.GetUnit(I);

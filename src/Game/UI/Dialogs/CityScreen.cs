@@ -180,38 +180,38 @@ public partial class CityScreen : DataModule
     public Button PNext;
     public Button PPrev;
     public IvTranslator Translator;
-    public City City;
-    public CombatMap Preview;
-    public int ViewX;
-    public int ViewY;
-    public CityAction Action;
-    public int ProductionIndex;
-    public int QueueIndex;
-    public byte Mode;
-    public MigrationList Migrations;
-    public int MigrationSort;
-    public Int32List Images;
+    private City _city;
+    private CombatMap _preview;
+    private int _viewX;
+    private int _viewY;
+    private CityAction _action;
+    private int _productionIndex;
+    private int _queueIndex;
+    private byte _mode;
+    private MigrationList _migrations;
+    private int _migrationSort;
+    private Int32List _images;
 
     // AoWCityScreen.pas:748
     public void FreePreview()
     {
-        if (Preview != null)
+        if (_preview != null)
         {
-            Preview?.Dispose();
-            Preview = null;
+            _preview?.Dispose();
+            _preview = null;
         }
     }
 
     // AoWCityScreen.pas:757
     public void ReleaseImages()
     {
-        for (int I = Images.Count - 1; I >= 0; I--)
+        for (int I = _images.Count - 1; I >= 0; I--)
         {
-            var image = Images[I];
+            var image = _images[I];
             AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
-        Images.Clear();
+        _images.Clear();
     }
 
     // AoWCityScreen.pas:766
@@ -220,7 +220,7 @@ public partial class CityScreen : DataModule
         int graphics;
         graphics = AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
         AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
-        Images.Add(graphics);
+        _images.Add(graphics);
     }
 
     // AoWCityScreen.pas:775
@@ -250,7 +250,7 @@ public partial class CityScreen : DataModule
     public void Reset()
     {
         ReleaseImages();
-        Mode = 0;
+        _mode = 0;
         InfoPnl.Visible = true;
         InfoPnl2.Visible = true;
         ActivityPnl.Visible = false;
@@ -259,7 +259,7 @@ public partial class CityScreen : DataModule
         UpgradePnl.Visible = false;
         MigratePnl.Visible = false;
         CityBtn1.Visible = true;
-        var options = AbilityRules.TranslateResourceString(GameText.s_optionsText);
+        var options = AbilityRules.TranslateResourceString(GameText.OptionsText);
         CityBtn1.Text = options;
         CityBtn2.Visible = false;
         PPrev.Visible = !CityBtn2.Visible;
@@ -267,18 +267,18 @@ public partial class CityScreen : DataModule
         ShadowL.Visible = GameTables.GameEngine.AnimationDetail != 0;
         ShadowR.Visible = GameTables.GameEngine.AnimationDetail != 0;
         Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        MigrationSort = 0;
-        ProductionIndex = 0;
+        _migrationSort = 0;
+        _productionIndex = 0;
         QueueLB.Selected = -1;
         FreePreview();
-        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
+        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
         QueueLbl.Text = queue;
-        var repeat = AbilityRules.TranslateResourceString(GameText.s_repeatText);
+        var repeat = AbilityRules.TranslateResourceString(GameText.RepeatText);
         RepeatLbl.Text = repeat;
-        if (Migrations != null)
+        if (_migrations != null)
         {
-            Migrations?.Dispose();
-            Migrations = null;
+            _migrations?.Dispose();
+            _migrations = null;
         }
     }
 
@@ -286,28 +286,28 @@ public partial class CityScreen : DataModule
     public void CloseCity()
     {
         Reset();
-        City = null;
+        _city = null;
         DialogHosts.General.Manager.OverlayPriority = 0;
     }
 
     // AoWCityScreen.pas:836
     public void SetMode(byte mode)
     {
-        Mode = mode;
-        switch (Mode)
+        _mode = mode;
+        switch (_mode)
         {
             case 0:
                 InfoPnl.Visible = true;
                 InfoPnl2.Visible = true;
                 ActivityPnl.Visible = false;
                 ActivityPnl2.Visible = false;
-                var change = AbilityRules.TranslateResourceString(GameText.s_changeText);
+                var change = AbilityRules.TranslateResourceString(GameText.ChangeText);
                 CityBtn1.Text = change;
                 CityBtn1.Visible = true;
                 CityBtn2.Visible = false;
                 PPrev.Visible = !CityBtn2.Visible;
                 PNext.Visible = !CityBtn2.Visible;
-                var exit = AbilityRules.TranslateResourceString(GameText.s_exitText);
+                var exit = AbilityRules.TranslateResourceString(GameText.ExitText);
                 CityBtn3.Text = exit;
                 QueueLB.Selected = -1;
                 LPillar.Visible = true;
@@ -320,9 +320,9 @@ public partial class CityScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var info = AbilityRules.TranslateResourceString(GameText.s_infoText);
+                var info = AbilityRules.TranslateResourceString(GameText.InfoText);
                 CityBtn1.Text = info;
-                var done = AbilityRules.TranslateResourceString(GameText.s_doneText);
+                var done = AbilityRules.TranslateResourceString(GameText.DoneText);
                 CityBtn3.Text = done;
                 LPillar.Visible = false;
                 RPillar.Visible = false;
@@ -340,9 +340,9 @@ public partial class CityScreen : DataModule
                 ActivityPnl2.Visible = true;
                 LPillar.Visible = false;
                 RPillar.Visible = false;
-                var infoText = AbilityRules.TranslateResourceString(GameText.s_infoText);
+                var infoText = AbilityRules.TranslateResourceString(GameText.InfoText);
                 CityBtn1.Text = infoText;
-                var doneText = AbilityRules.TranslateResourceString(GameText.s_doneText);
+                var doneText = AbilityRules.TranslateResourceString(GameText.DoneText);
                 CityBtn3.Text = doneText;
                 MigrationRaceLB.CaptureInput = false;
                 MigrationTurnsLB.CaptureInput = false;
@@ -357,7 +357,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:892
     public void SortMigration()
     {
-        switch (MigrationSort)
+        switch (_migrationSort)
         {
             case 0:
                 StringSorting.SortStringsNumericalAscending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
@@ -393,7 +393,7 @@ public partial class CityScreen : DataModule
                 result = 43;
                 break;
             case CityAction.Fortify:
-                if (City.WallType == 0)
+                if (_city.WallType == 0)
                 {
                     result = 41;
                 }
@@ -438,10 +438,10 @@ public partial class CityScreen : DataModule
     public void SelectProduction(int index)
     {
         UnitProduction P;
-        P = City.Production.UnitProductions.GetItem(index);
+        P = _city.Production.UnitProductions.GetItem(index);
         if (P != null)
         {
-            ProductionIndex = index;
+            _productionIndex = index;
             if (P.Researched)
             {
                 SelectAction(CityAction.Produce);
@@ -465,7 +465,7 @@ public partial class CityScreen : DataModule
             MigrationTurnsLB.Selected = index;
             MigrationRelationLB.Selected = index;
             MigrateTurns.Text = IntToStr(item.Time);
-            var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[City.Race]);
+            var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
             MigrateInfo.Text = format;
             MigrateInfo.Text = MigrateInfo.Text + "   ";
@@ -492,12 +492,12 @@ public partial class CityScreen : DataModule
     public void SelectAction(CityAction action)
     {
         Unit U;
-        if (Mode != 1)
+        if (_mode != 1)
         {
             SetMode(1);
         }
 
-        Action = action;
+        _action = action;
         UpgradePnl.Visible = false;
         UnitPnl.Visible = false;
         MigratePnl.Visible = false;
@@ -507,57 +507,57 @@ public partial class CityScreen : DataModule
         UpgradeInfo.Text = "";
         CityBtn1.Visible = false;
         CityBtn2.Visible = false;
-        switch (Action)
+        switch (_action)
         {
             case CityAction.Trade:
                 CityBtn1.Visible = true;
-                var produceMerchandise = AbilityRules.TranslateResourceString(GameText.s_produceMerchandiseText);
+                var produceMerchandise = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
                 CityBtn1.Text = produceMerchandise;
-                var queueLocked = City.Production.GetQueueLocked();
+                var queueLocked = _city.Production.GetQueueLocked();
                 CityBtn2.Visible = !queueLocked;
-                var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
                 CityBtn2.Text = queue;
                 var cityTrade = AbilityRules.TranslateResourceString(s_cityTradeText);
                 UpgradeMemo.Items.Text = cityTrade;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 20;
-                var produceMerchandiseText = AbilityRules.TranslateResourceString(GameText.s_produceMerchandiseText);
+                var produceMerchandiseText = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
                 UpgradeLbl.Text = produceMerchandiseText;
                 break;
             case CityAction.Upgrade:
                 CityBtn1.Visible = true;
-                var upgrade = AbilityRules.TranslateResourceString(GameText.s_upgradeText);
+                var upgrade = AbilityRules.TranslateResourceString(GameText.UpgradeText);
                 CityBtn1.Text = upgrade;
-                var fProductionQueueLocked = City.Production.GetQueueLocked();
+                var fProductionQueueLocked = _city.Production.GetQueueLocked();
                 CityBtn2.Visible = !fProductionQueueLocked;
-                var queueText = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                var queueText = AbilityRules.TranslateResourceString(GameText.QueueText);
                 CityBtn2.Text = queueText;
                 var cityUpgrade = AbilityRules.TranslateResourceString(s_cityUpgradeText);
                 UpgradeMemo.Items.Text = cityUpgrade;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 23;
-                var upgradeCost = City.UpgradeCost();
+                var upgradeCost = _city.UpgradeCost();
                 UpgradeCost.Text = IntToStr(upgradeCost);
-                var upgradeTime = City.UpgradeTime();
+                var upgradeTime = _city.UpgradeTime();
                 UpgradeTurns.Text = IntToStr(upgradeTime);
-                var upgradeText = AbilityRules.TranslateResourceString(GameText.s_upgradeText);
+                var upgradeText = AbilityRules.TranslateResourceString(GameText.UpgradeText);
                 UpgradeLbl.Text = upgradeText;
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[City.Race]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNamesPlural, 5]);
                 UpgradeInfo.Text = format;
                 break;
             case CityAction.Fortify:
                 CityBtn1.Visible = true;
-                var fortify = AbilityRules.TranslateResourceString(GameText.s_fortifyText);
+                var fortify = AbilityRules.TranslateResourceString(GameText.FortifyText);
                 CityBtn1.Text = fortify;
-                var queueLocked2 = City.Production.GetQueueLocked();
+                var queueLocked2 = _city.Production.GetQueueLocked();
                 CityBtn2.Visible = !queueLocked2;
-                var queue3 = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                var queue3 = AbilityRules.TranslateResourceString(GameText.QueueText);
                 CityBtn2.Text = queue3;
                 var cityFortify = AbilityRules.TranslateResourceString(s_cityFortifyText);
                 UpgradeMemo.Items.Text = cityFortify;
                 UpgradePnl.Visible = true;
-                if (City.WallType == 0)
+                if (_city.WallType == 0)
                 {
                     UpgradePic.CurrentImage = 21;
                 }
@@ -566,11 +566,11 @@ public partial class CityScreen : DataModule
                     UpgradePic.CurrentImage = 22;
                 }
 
-                if (City.FortifyCost() > 0)
+                if (_city.FortifyCost() > 0)
                 {
-                    var fortifyCost = City.FortifyCost();
+                    var fortifyCost = _city.FortifyCost();
                     UpgradeCost.Text = IntToStr(fortifyCost);
-                    var fortifyTime = City.FortifyTime();
+                    var fortifyTime = _city.FortifyTime();
                     UpgradeTurns.Text = IntToStr(fortifyTime);
                 }
                 else
@@ -579,9 +579,9 @@ public partial class CityScreen : DataModule
                     UpgradeTurns.Text = "-";
                 }
 
-                var fortifyText = AbilityRules.TranslateResourceString(GameText.s_fortifyText);
+                var fortifyText = AbilityRules.TranslateResourceString(GameText.FortifyText);
                 UpgradeLbl.Text = fortifyText;
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[City.Race]);
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
                 var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNames, 5]);
                 UpgradeInfo.Text = formattedText;
                 break;
@@ -591,35 +591,35 @@ public partial class CityScreen : DataModule
                 break;
             case CityAction.Loot:
                 CityBtn1.Visible = true;
-                var loot = AbilityRules.TranslateResourceString(GameText.s_lootText);
+                var loot = AbilityRules.TranslateResourceString(GameText.LootText);
                 CityBtn1.Text = loot;
                 var cityLoot = AbilityRules.TranslateResourceString(s_cityLootText);
                 UpgradeMemo.Items.Text = cityLoot;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 25;
-                var lootText = AbilityRules.TranslateResourceString(GameText.s_lootText);
+                var lootText = AbilityRules.TranslateResourceString(GameText.LootText);
                 UpgradeLbl.Text = lootText;
-                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[City.Race]);
+                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
                 var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNamesText, -30]);
                 UpgradeInfo.Text = format2;
                 break;
             case CityAction.Raze:
                 CityBtn1.Visible = true;
-                var raze = AbilityRules.TranslateResourceString(GameText.s_razeText);
+                var raze = AbilityRules.TranslateResourceString(GameText.RazeText);
                 CityBtn1.Text = raze + "...";
                 var cityRaze = AbilityRules.TranslateResourceString(s_cityRazeText);
                 UpgradeMemo.Items.Text = cityRaze;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 26;
-                var razeText = AbilityRules.TranslateResourceString(GameText.s_razeText);
+                var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
                 UpgradeLbl.Text = razeText;
-                var raceNames3 = AbilityRules.TranslateResourceString(GameTables.s_raceNames[City.Race]);
+                var raceNames3 = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
                 var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames3, -30]);
                 UpgradeInfo.Text = format3;
                 break;
             case CityAction.Research:
             case CityAction.Produce:
-                U = City.Production.CreateUnitProduction(ProductionIndex);
+                U = _city.Production.CreateUnitProduction(_productionIndex);
                 UnitPnl.Visible = true;
                 var attack = U.GetAttack();
                 UAttack.Text = IntToStr(attack);
@@ -637,54 +637,54 @@ public partial class CityScreen : DataModule
                 var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
                 UMovesIcon.CurrentImage = moveTypesToInt32;
                 var alignment = U.GetAlignment();
-                var alignmentText = AbilityRules.TranslateResourceString(GameText.s_alignmentTexts[(int)alignment]);
-                var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_alignmentFormat), [alignmentText]);
+                var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
+                var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
                 UAlignment.Text = format4;
                 var unitLevel = U.GetUnitLevel();
-                var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_levelFormat), [IntToStr(unitLevel)]);
+                var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                 var upkeep = U.GetUpkeep();
-                var format6 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_upkeepFormat), [(int)upkeep]);
+                var format6 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
                 ULevel.Text = format5 + " / " + format6;
                 if (GameTables.GameEngine.Debug)
                 {
-                    var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), City.Player, 0);
+                    var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), _city.Player, 0);
                     AoWHSMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                 }
 
                 UAbilitiesLB.Items.Clear();
                 U.ListAbilities(UAbilitiesLB.Items);
-                if (Action == CityAction.Produce)
+                if (_action == CityAction.Produce)
                 {
                     CityBtn1.Visible = true;
-                    var produce = AbilityRules.TranslateResourceString(GameText.s_produceText);
+                    var produce = AbilityRules.TranslateResourceString(GameText.ProduceText);
                     CityBtn1.Text = produce;
-                    var queueLocked3 = City.Production.GetQueueLocked();
+                    var queueLocked3 = _city.Production.GetQueueLocked();
                     CityBtn2.Visible = !queueLocked3;
-                    var queue4 = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                    var queue4 = AbilityRules.TranslateResourceString(GameText.QueueText);
                     CityBtn2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_produceFormat), [name]);
+                    var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ProduceFormat), [name]);
                     UnitLbl.Text = format7;
-                    var unitProductionGold = City.Production.UnitProductionGold(ProductionIndex);
+                    var unitProductionGold = _city.Production.UnitProductionGold(_productionIndex);
                     UCost.Text = IntToStr(unitProductionGold);
-                    var unitProductionTime = City.Production.UnitProductionTime(ProductionIndex);
+                    var unitProductionTime = _city.Production.UnitProductionTime(_productionIndex);
                     UTurns.Text = IntToStr(unitProductionTime);
                 }
                 else
                 {
                     CityBtn1.Visible = true;
-                    var install = AbilityRules.TranslateResourceString(GameText.s_installText);
+                    var install = AbilityRules.TranslateResourceString(GameText.InstallText);
                     CityBtn1.Text = install;
-                    var queueLocked3 = City.Production.GetQueueLocked();
+                    var queueLocked3 = _city.Production.GetQueueLocked();
                     CityBtn2.Visible = !queueLocked3;
-                    var queue4 = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                    var queue4 = AbilityRules.TranslateResourceString(GameText.QueueText);
                     CityBtn2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_installFormat), [name]);
+                    var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [name]);
                     UnitLbl.Text = format7;
-                    var unitResearchGold = City.Production.UnitResearchGold(ProductionIndex);
+                    var unitResearchGold = _city.Production.UnitResearchGold(_productionIndex);
                     UCost.Text = IntToStr(unitResearchGold);
-                    var unitResearchTime = City.Production.UnitResearchTime(ProductionIndex);
+                    var unitResearchTime = _city.Production.UnitResearchTime(_productionIndex);
                     UTurns.Text = IntToStr(unitResearchTime);
                 }
 
@@ -700,101 +700,101 @@ public partial class CityScreen : DataModule
     public void UpdateInfo()
     {
         string reason;
-        var name = City.GetName();
+        var name = _city.GetName();
         StructName.Text = name;
         PopulationHdr.Items.Clear();
         var population = AbilityRules.TranslateResourceString(s_populationText);
         PopulationHdr.Items.Add(population + ":");
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[City.Race]);
+        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
         PopulationHdr.Items.Add(" " + raceNamesPlural);
-        var status = AbilityRules.TranslateResourceString(s_statusText);
+        var status = AbilityRules.TranslateResourceString(StatusText);
         PopulationHdr.Items.Add(status + ":");
-        var civilStatus = City.GetCivilStatus();
+        var civilStatus = _city.GetCivilStatus();
         var civilStatusText = AbilityRules.TranslateResourceString(s_civilStatusTexts[(int)civilStatus]);
         PopulationHdr.Items.Add(" " + civilStatusText);
         PopulationMemo.Items.Clear();
-        City.ListCivilStatusInfo(PopulationMemo.Items);
+        _city.ListCivilStatusInfo(PopulationMemo.Items);
         IncomeHdr.Items.Clear();
-        var income = AbilityRules.TranslateResourceString(GameText.s_incomeText);
+        var income = AbilityRules.TranslateResourceString(GameText.IncomeText);
         IncomeHdr.Items.Add(income);
-        var xGold = AbilityRules.TranslateResourceString(GameText.s_goldFormat);
-        var format = AbilityRules.Format(" " + xGold, [IntToStr(City.Income)]);
+        var xGold = AbilityRules.TranslateResourceString(GameText.GoldFormat);
+        var format = AbilityRules.Format(" " + xGold, [IntToStr(_city.Income)]);
         IncomeHdr.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
-        City.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
+        _city.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
         EnhancementsHdr.Items.Clear();
         var enhancements = AbilityRules.TranslateResourceString(s_enhancementsText);
         EnhancementsHdr.Items.Add(enhancements);
         EnhancementsMemo.Items.Clear();
-        City.ListEnhancementsInfo(EnhancementsMemo.Items);
-        if (Migrations != null)
+        _city.ListEnhancementsInfo(EnhancementsMemo.Items);
+        if (_migrations != null)
         {
-            Migrations?.Dispose();
-            Migrations = null;
+            _migrations?.Dispose();
+            _migrations = null;
         }
 
-        Migrations = City.CreateMigrationSelection();
-        var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[City.Race]);
+        _migrations = _city.CreateMigrationSelection();
+        var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
         CurrentRace.Text = raceNamesPluralText;
-        var playerRelation = AoWHSMap.Current.Races.GetRace(City.Race).GetPlayerRelation(City.Player);
-        var statusText = AbilityRules.TranslateResourceString(GameTables.s_statusTexts[(int)playerRelation]);
+        var playerRelation = AoWHSMap.Current.Races.GetRace(_city.Race).GetPlayerRelation(_city.Player);
+        var statusText = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
         CurrentRelation.Text = statusText;
         MigrationRaceLB.Items.Clear();
         MigrationTurnsLB.Items.Clear();
         MigrationRelationLB.Items.Clear();
-        if (Migrations != null)
+        if (_migrations != null)
         {
-            for (int I = 0, last = Migrations.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = _migrations.GetCount() - 1; I <= last; I++)
             {
-                var itemRace = Migrations.GetItems(I);
-                var raceNamesPlural3 = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[itemRace.Race]);
-                var migrationItem = Migrations.GetItems(I);
+                var itemRace = _migrations.GetItems(I);
+                var raceNamesPlural3 = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[itemRace.Race]);
+                var migrationItem = _migrations.GetItems(I);
                 MigrationRaceLB.Items.AddObject(raceNamesPlural3, migrationItem);
-                var itemTime = Migrations.GetItems(I);
+                var itemTime = _migrations.GetItems(I);
                 MigrationTurnsLB.Items.Add(IntToStr(itemTime.Time));
-                var itemRelation = Migrations.GetItems(I);
-                var status3 = AbilityRules.TranslateResourceString(GameTables.s_statusTexts[(int)itemRelation.Relation]);
+                var itemRelation = _migrations.GetItems(I);
+                var status3 = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)itemRelation.Relation]);
                 MigrationRelationLB.Items.Add(status3);
             }
         }
 
         SortMigration();
         QueueLB.Items.Clear();
-        for (int I = 0, last = City.Production.Queue.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = _city.Production.Queue.GetCount() - 1; I <= last; I++)
         {
-            var name2 = City.Production.Queue.GetItem(I).GetName();
+            var name2 = _city.Production.Queue.GetItem(I).GetName();
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
         }
 
-        for (int I = City.Production.Queue.GetCount(); I <= 4; I++)
+        for (int I = _city.Production.Queue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = AbilityRules.TranslateResourceString(GameText.s_emptyQueueText);
+            var emptyQueue = AbilityRules.TranslateResourceString(GameText.EmptyQueueText);
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
-        var count = City.Production.Queue.GetCount();
+        var count = _city.Production.Queue.GetCount();
         if (QueueLB.Selected >= count)
         {
-            var fQueueCount = City.Production.Queue.GetCount();
+            var fQueueCount = _city.Production.Queue.GetCount();
             QueueLB.Selected = fQueueCount - 1;
-            QueueIndex = QueueLB.Selected;
+            _queueIndex = QueueLB.Selected;
         }
 
-        LoopQueueBox.Checked = City.Production.LoopQueue;
-        if (City.GetActiveAction() != CityAction.None)
+        LoopQueueBox.Checked = _city.Production.LoopQueue;
+        if (_city.GetActiveAction() != CityAction.None)
         {
-            var nameProgressive = City.Production.Queue.GetItem(0).GetNameProgressive();
+            var nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
             ActiveAction.Text = nameProgressive;
-            if (City.Production.Settings.TurnsLeft != -1)
+            if (_city.Production.Settings.TurnsLeft != -1)
             {
-                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(City.Production.Settings.TurnsLeft);
+                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_city.Production.Settings.TurnsLeft);
                 ActiveActionTurns.Text = formatTurnsLeftString;
                 ActiveActionTurns.Visible = true;
                 ActiveActionTurns.TextColor = 6783862;
                 this.ActiveActionTurnsBar.Min = 0;
-                this.ActiveActionTurnsBar.Max = City.Production.Settings.TurnsTotal;
-                this.ActiveActionTurnsBar.Position = City.Production.Settings.TurnsTotal - City.Production.Settings.TurnsLeft;
+                this.ActiveActionTurnsBar.Max = _city.Production.Settings.TurnsTotal;
+                this.ActiveActionTurnsBar.Position = _city.Production.Settings.TurnsTotal - _city.Production.Settings.TurnsLeft;
 
                 ActiveActionTurnsBar.Visible = true;
             }
@@ -804,16 +804,16 @@ public partial class CityScreen : DataModule
                 ActiveActionTurnsBar.Visible = false;
             }
 
-            var activityImage = City.GetActiveOrder().ActivityImage(City);
+            var activityImage = _city.GetActiveOrder().ActivityImage(_city);
             CurrentActionImage.CurrentImage = activityImage;
         }
         else
         {
-            if (City.Production.Queue.GetCount() == 0)
+            if (_city.Production.Queue.GetCount() == 0)
             {
-                var producingMerchandise = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+                var producingMerchandise = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
                 ActiveAction.Text = producingMerchandise;
-                var defaultText = AbilityRules.TranslateResourceString(GameText.s_defaultText);
+                var defaultText = AbilityRules.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurns.TextColor = 6783862;
                 ActiveActionTurnsBar.Visible = false;
@@ -823,21 +823,21 @@ public partial class CityScreen : DataModule
             else
             {
                 reason = "";
-                var nameProgressive = City.Production.Queue.GetItem(0).GetNameProgressive();
+                var nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
                 ActiveAction.Text = nameProgressive;
-                var queue = City.Production.Queue.GetItem(0);
-                City.Production.CanExecuteProduction(queue, ref reason);
+                var queue = _city.Production.Queue.GetItem(0);
+                _city.Production.CanExecuteProduction(queue, ref reason);
                 ActiveActionTurns.Text = reason;
                 ActiveActionTurns.TextColor = 255;
                 ActiveActionTurnsBar.Visible = false;
-                var activityImage = City.Production.Queue.GetItem(0).Order.ActivityImage(City);
+                var activityImage = _city.Production.Queue.GetItem(0).Order.ActivityImage(_city);
                 CurrentActionImage.CurrentImage = activityImage;
             }
         }
 
-        if (Mode == 1 && Action != CityAction.None)
+        if (_mode == 1 && _action != CityAction.None)
         {
-            SelectAction(Action);
+            SelectAction(_action);
         }
 
         Dlg.Drawn = false;
@@ -854,9 +854,9 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:1207
     public void CityChanged(object sender)
     {
-        if (Dlg.Visible && sender == City)
+        if (Dlg.Visible && sender == _city)
         {
-            if (City.Player == AoWHSMap.Current.SeatedPlayer)
+            if (_city.Player == AoWHSMap.Current.SeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -875,49 +875,49 @@ public partial class CityScreen : DataModule
         ArmyHSList armies;
         RandomBattleMapGenerator generator;
         Reset();
-        City = city;
+        _city = city;
         UpdateInfo();
         SetMode(0);
         FreePreview();
-        for (int I = 0, last = City.Production.UnitProductions.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = _city.Production.UnitProductions.GetCount() - 1; I <= last; I++)
         {
-            LoadUnitImages(City.Production.UnitProductions.GetItem(I).UnitIndex);
+            LoadUnitImages(_city.Production.UnitProductions.GetItem(I).UnitIndex);
         }
 
         generator = new RandomBattleMapGenerator();
-        var hexLevel = City.GetHexLevel();
-        var hexY = City.GetHexY();
-        Preview = generator.RandomMap(null, City.GetHexX(), hexY, hexLevel);
+        var hexLevel = _city.GetHexLevel();
+        var hexY = _city.GetHexY();
+        _preview = generator.RandomMap(null, _city.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
         armies = new ArmyHSList(null);
-        City.ListArmies(armies);
+        _city.ListArmies(armies);
         for (int I = 0, last = armies.GetCount() - 1; I <= last; I++)
         {
             army = armies.GetArmyHexSprite(I);
             var armyHexY = army.GetHexY();
             var hexX = army.GetHexX();
-            var fCityHexY = City.GetHexY();
-            direction = HexGeometry.DeltaHexToHexNumber(City.GetHexX(), fCityHexY, hexX, armyHexY);
+            var fCityHexY = _city.GetHexY();
+            direction = HexGeometry.DeltaHexToHexNumber(_city.GetHexX(), fCityHexY, hexX, armyHexY);
             for (int J = 0, lastJ = army.Army.GetCount() - 1; J <= lastJ; J++)
             {
                 var troop = army.Army.GetUnit(J);
-                CombatMap.PlaceOverviewUnit(Preview, troop, direction, J);
+                CombatMap.PlaceOverviewUnit(_preview, troop, direction, J);
             }
         }
 
         armies?.Dispose();
-        var mapObject = Preview.CenterViewLocation;
-        if (Preview.CenterViewLocation != null)
+        var mapObject = _preview.CenterViewLocation;
+        if (_preview.CenterViewLocation != null)
         {
             var mapObjectHexY = mapObject.GetHexY();
-            HexGeometry.HexToPixel(mapObject.GetHexX(), mapObjectHexY, ref ViewX, ref ViewY);
-            ViewX = ViewX + 16 - MapView.WinWidth / 2;
-            ViewY = ViewY + 16 - MapView.WinHeight / 2;
+            HexGeometry.HexToPixel(mapObject.GetHexX(), mapObjectHexY, ref _viewX, ref _viewY);
+            _viewX = _viewX + 16 - MapView.WinWidth / 2;
+            _viewY = _viewY + 16 - MapView.WinHeight / 2;
         }
         else
         {
-            ViewX = 800;
-            ViewY = 800;
+            _viewX = 800;
+            _viewY = 800;
         }
 
         AoWHSMap.Current.TutorialControl.ShowMessage(56, true, true);
@@ -928,13 +928,13 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:292
     public void CityScreenCreate()
     {
-        Images = new Int32List();
+        _images = new Int32List();
     }
 
     // AoWCityScreen.pas:297
     public void CityScreenDestroy()
     {
-        Images?.Dispose();
+        _images?.Dispose();
     }
 
     // AoWCityScreen.pas:302
@@ -985,7 +985,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:343
     public void ProductionsUpdate(CheckBox sender, int slot)
     {
-        var unitProduction = City.Production.UnitProductions.GetItem(slot);
+        var unitProduction = _city.Production.UnitProductions.GetItem(slot);
         sender.CaptureInput = unitProduction != null;
     }
 
@@ -1002,7 +1002,7 @@ public partial class CityScreen : DataModule
     {
         string reason = "";
         sbyte race;
-        switch (Mode)
+        switch (_mode)
         {
             case 0:
                 SetMode(1);
@@ -1010,12 +1010,12 @@ public partial class CityScreen : DataModule
                 AoWHSMap.Current.TutorialControl.ShowMessage(57, true, true);
                 break;
             case 1:
-                switch (Action)
+                switch (_action)
                 {
                     case CityAction.Trade:
-                        if (City.CanTrade(false, ref reason))
+                        if (_city.CanTrade(false, ref reason))
                         {
-                            City.Trade(false);
+                            _city.Trade(false);
                             SetMode(0);
                         }
                         else
@@ -1025,9 +1025,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Loot:
-                        if (City.CanLoot(ref reason))
+                        if (_city.CanLoot(ref reason))
                         {
-                            City.Loot();
+                            _city.Loot();
                             SetMode(0);
                         }
                         else
@@ -1037,9 +1037,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Raze:
-                        if (City.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
+                        if (_city.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
                         {
-                            City.Raze(AoWHSMap.Current.SeatedPlayer);
+                            _city.Raze(AoWHSMap.Current.SeatedPlayer);
                             Dlg.Visible = false;
                         }
                         else
@@ -1049,9 +1049,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Upgrade:
-                        if (City.CanUpgrade(false, ref reason))
+                        if (_city.CanUpgrade(false, ref reason))
                         {
-                            City.Upgrade(false);
+                            _city.Upgrade(false);
                             SetMode(0);
                         }
                         else
@@ -1061,9 +1061,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Fortify:
-                        if (City.CanFortify(false, ref reason))
+                        if (_city.CanFortify(false, ref reason))
                         {
-                            City.Fortify(false);
+                            _city.Fortify(false);
                             SetMode(0);
                         }
                         else
@@ -1073,10 +1073,10 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Produce:
-                        if (City.CanProduce(ProductionIndex, false, ref reason))
+                        if (_city.CanProduce(_productionIndex, false, ref reason))
                         {
                             AoWHSMap.Current.TutorialControl.ShowMessage(59, true, true);
-                            City.Produce(ProductionIndex, false);
+                            _city.Produce(_productionIndex, false);
                             SetMode(0);
                         }
                         else
@@ -1086,9 +1086,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Research:
-                        if (City.CanResearch(ProductionIndex, false, ref reason))
+                        if (_city.CanResearch(_productionIndex, false, ref reason))
                         {
-                            City.Research(ProductionIndex, false);
+                            _city.Research(_productionIndex, false);
                             SetMode(0);
                         }
                         else
@@ -1099,10 +1099,10 @@ public partial class CityScreen : DataModule
                         break;
                     case CityAction.Migrate:
                         race = ((MigrationItem)MigrationRaceLB.Items.Objects[MigrationRaceLB.Selected]).Race;
-                        if (City.CanMigrate(race, ref reason))
+                        if (_city.CanMigrate(race, ref reason))
                         {
                             AoWHSMap.Current.TutorialControl.ShowMessage(66, true, true);
-                            City.Migrate(race);
+                            _city.Migrate(race);
                             SetMode(0);
                         }
 
@@ -1111,9 +1111,9 @@ public partial class CityScreen : DataModule
 
                 break;
             case 2:
-                if (QueueIndex != -1)
+                if (_queueIndex != -1)
                 {
-                    City.Production.DeleteProduction(QueueIndex);
+                    _city.Production.DeleteProduction(_queueIndex);
                 }
 
                 break;
@@ -1124,15 +1124,15 @@ public partial class CityScreen : DataModule
     public void CityBtn2Click()
     {
         string reason = "";
-        switch (Mode)
+        switch (_mode)
         {
             case 1:
-                switch (Action)
+                switch (_action)
                 {
                     case CityAction.Trade:
-                        if (City.CanTrade(true, ref reason))
+                        if (_city.CanTrade(true, ref reason))
                         {
-                            City.Trade(true);
+                            _city.Trade(true);
                         }
                         else
                         {
@@ -1141,9 +1141,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Upgrade:
-                        if (City.CanUpgrade(true, ref reason))
+                        if (_city.CanUpgrade(true, ref reason))
                         {
-                            City.Upgrade(true);
+                            _city.Upgrade(true);
                         }
                         else
                         {
@@ -1152,9 +1152,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Fortify:
-                        if (City.CanFortify(true, ref reason))
+                        if (_city.CanFortify(true, ref reason))
                         {
-                            City.Fortify(true);
+                            _city.Fortify(true);
                         }
                         else
                         {
@@ -1163,9 +1163,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Produce:
-                        if (City.CanProduce(ProductionIndex, true, ref reason))
+                        if (_city.CanProduce(_productionIndex, true, ref reason))
                         {
-                            City.Produce(ProductionIndex, true);
+                            _city.Produce(_productionIndex, true);
                         }
                         else
                         {
@@ -1174,9 +1174,9 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Research:
-                        if (City.CanResearch(ProductionIndex, true, ref reason))
+                        if (_city.CanResearch(_productionIndex, true, ref reason))
                         {
-                            City.Research(ProductionIndex, true);
+                            _city.Research(_productionIndex, true);
                         }
                         else
                         {
@@ -1188,9 +1188,9 @@ public partial class CityScreen : DataModule
 
                 break;
             case 2:
-                if (QueueIndex == 0)
+                if (_queueIndex == 0)
                 {
-                    if (City.Production.RetryProductionExecution(ref reason))
+                    if (_city.Production.RetryProductionExecution(ref reason))
                     {
                         SetMode(0);
                     }
@@ -1208,7 +1208,7 @@ public partial class CityScreen : DataModule
     public void CityBtn3Click()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (Mode == 0)
+        if (_mode == 0)
         {
             Dlg.Visible = false;
         }
@@ -1229,10 +1229,10 @@ public partial class CityScreen : DataModule
         UnitProduction P;
         R = new Rect(ActivityPnl.WinLeft + sender.WinLeft, ActivityPnl.WinTop + sender.WinTop, ActivityPnl2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPnl.WinTop + sender.WinTop + sender.WinHeight);
         // { Original uses two different panels. }
-        P = City.Production.UnitProductions.GetItem(slot);
+        P = _city.Production.UnitProductions.GetItem(slot);
         if (P != null)
         {
-            U = City.Production.CreateUnitProduction(slot);
+            U = _city.Production.CreateUnitProduction(slot);
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of();
             info.Animation = 0;
@@ -1273,13 +1273,13 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:508
     public void SortMigrationRacesClick()
     {
-        if (MigrationSort == 2)
+        if (_migrationSort == 2)
         {
-            MigrationSort = 3;
+            _migrationSort = 3;
         }
         else
         {
-            MigrationSort = 2;
+            _migrationSort = 2;
         }
 
         SortMigration();
@@ -1288,13 +1288,13 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:515
     public void SortMigrationTurnsClick()
     {
-        if (MigrationSort == 0)
+        if (_migrationSort == 0)
         {
-            MigrationSort = 1;
+            _migrationSort = 1;
         }
         else
         {
-            MigrationSort = 0;
+            _migrationSort = 0;
         }
 
         SortMigration();
@@ -1303,13 +1303,13 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:522
     public void SortMigrationRelationClick()
     {
-        if (MigrationSort == 4)
+        if (_migrationSort == 4)
         {
-            MigrationSort = 5;
+            _migrationSort = 5;
         }
         else
         {
-            MigrationSort = 4;
+            _migrationSort = 4;
         }
 
         SortMigration();
@@ -1318,7 +1318,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:529
     public void MigrationChange(ListBox sender)
     {
-        if (Mode != 2)
+        if (_mode != 2)
         {
             SelectMigration(sender.Selected);
         }
@@ -1337,7 +1337,7 @@ public partial class CityScreen : DataModule
     {
         Unit U;
         Rect R;
-        U = City.Production.CreateUnitProduction(ProductionIndex);
+        U = _city.Production.CreateUnitProduction(_productionIndex);
         if (U != null)
         {
             R = new Rect(UPictureFramePnl.WinLeft + sender.WinLeft + 2, UPictureFramePnl.WinTop + sender.WinTop + 2, UPictureFramePnl.WinLeft + sender.WinLeft + sender.WinWidth - 4, UPictureFramePnl.WinTop + sender.WinTop + sender.WinHeight - 2);
@@ -1350,40 +1350,40 @@ public partial class CityScreen : DataModule
     public void QueueLBChange(ListBox sender)
     {
         CityAction action;
-        var count = City.Production.Queue.GetCount();
-        if (QueueLB.Selected < count && Mode != 0)
+        var count = _city.Production.Queue.GetCount();
+        if (QueueLB.Selected < count && _mode != 0)
         {
             if (QueueLB.Selected != -1)
             {
-                QueueIndex = QueueLB.Selected;
-                var order = City.Production.Queue.GetItem(QueueIndex).Order;
+                _queueIndex = QueueLB.Selected;
+                var order = _city.Production.Queue.GetItem(_queueIndex).Order;
                 action = order.CityAction;
                 if (order is ProduceUnit produce)
                 {
-                    ProductionIndex = produce.Index;
-                    bool condition = ProductionIndex < 0;
+                    _productionIndex = produce.Index;
+                    bool condition = _productionIndex < 0;
                     if (!condition)
                     {
-                        var fUnitProductionsCount = City.Production.UnitProductions.GetCount();
-                        condition = ProductionIndex >= fUnitProductionsCount;
+                        var fUnitProductionsCount = _city.Production.UnitProductions.GetCount();
+                        condition = _productionIndex >= fUnitProductionsCount;
                     }
 
                     if (condition)
                     {
-                        ProductionIndex = 0;
+                        _productionIndex = 0;
                     }
                 }
 
                 SelectAction(action);
                 SetMode(2);
-                QueueLB.Selected = QueueIndex;
+                QueueLB.Selected = _queueIndex;
                 CityBtn1.Visible = true;
-                var delete = AbilityRules.TranslateResourceString(GameText.s_deleteText);
+                var delete = AbilityRules.TranslateResourceString(GameText.DeleteText);
                 CityBtn1.Text = delete;
-                if (QueueIndex == 0 && City.Production.Status == ProductionControlStatus.Waiting)
+                if (_queueIndex == 0 && _city.Production.Status == ProductionControlStatus.Waiting)
                 {
                     CityBtn2.Visible = true;
-                    var execute = AbilityRules.TranslateResourceString(GameText.s_executeText);
+                    var execute = AbilityRules.TranslateResourceString(GameText.ExecuteText);
                     CityBtn2.Text = execute;
                 }
                 else
@@ -1402,9 +1402,9 @@ public partial class CityScreen : DataModule
         }
         else
         {
-            if (Mode == 2)
+            if (_mode == 2)
             {
-                sender.Selected = QueueIndex;
+                sender.Selected = _queueIndex;
             }
             else
             {
@@ -1419,12 +1419,12 @@ public partial class CityScreen : DataModule
         UnitShowInfo info = default;
         Rect R;
         Unit U;
-        if (City.Production.Queue.GetCount() != 0)
+        if (_city.Production.Queue.GetCount() != 0)
         {
-            if (City.Production.Queue.GetItem(0).Order.UnitProductionIndex is int index)
+            if (_city.Production.Queue.GetItem(0).Order.UnitProductionIndex is int index)
             {
                 R = new Rect(ActiveActionPnl.WinLeft + sender.WinLeft, ActiveActionPnl.WinTop + sender.WinTop, ActiveActionPnl.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPnl.WinTop + sender.WinTop + sender.WinHeight);
-                U = City.Production.CreateUnitProduction(index);
+                U = _city.Production.CreateUnitProduction(index);
                 if (U != null)
                 {
                     info.Direction = 3;
@@ -1432,7 +1432,7 @@ public partial class CityScreen : DataModule
                     info.Animation = 0;
                     info.Frame = 0;
                     info.Looped = false;
-                    if (!City.Production.UnitProductions.GetItem(index).Researched)
+                    if (!_city.Production.UnitProductions.GetItem(index).Researched)
                     {
                         info.Direction = 5;
                     }
@@ -1447,7 +1447,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:626
     public void LoopQueueBoxChange()
     {
-        City.Production.SetLoopQueueTo(LoopQueueBox.Checked);
+        _city.Production.SetLoopQueueTo(LoopQueueBox.Checked);
     }
 
     // AoWCityScreen.pas:631
@@ -1455,7 +1455,7 @@ public partial class CityScreen : DataModule
     {
         Rect R;
         R = new Rect(IPPnl.WinLeft + sender.WinLeft, IPPnl.WinTop + sender.WinTop, IPPnl.WinLeft + sender.WinLeft + sender.WinWidth, IPPnl.WinTop + sender.WinTop + sender.WinHeight);
-        AoWHSSet.Current.RaceResources.GetRaceResource(City.Race).GetFace().ShowStretched(R, lockedSurface);
+        AoWHSSet.Current.RaceResources.GetRaceResource(_city.Race).GetFace().ShowStretched(R, lockedSurface);
     }
 
     // AoWCityScreen.pas:641
@@ -1466,42 +1466,42 @@ public partial class CityScreen : DataModule
         int W;
         int H;
         int width;
-        if (Preview != null)
+        if (_preview != null)
         {
             R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
             width = R.Right - R.Left;
             W = width;
             H = R.Bottom - R.Top;
-            var maxPixelX = Preview.GetMaxPixelX();
-            if (ViewX + W + 16 > maxPixelX)
+            var maxPixelX = _preview.GetMaxPixelX();
+            if (_viewX + W + 16 > maxPixelX)
             {
-                ViewX = Preview.GetMaxPixelX() - W - 16;
+                _viewX = _preview.GetMaxPixelX() - W - 16;
             }
 
-            var maxPixelY = Preview.GetMaxPixelY();
-            if (ViewY + H + 16 > maxPixelY)
+            var maxPixelY = _preview.GetMaxPixelY();
+            if (_viewY + H + 16 > maxPixelY)
             {
-                ViewY = Preview.GetMaxPixelY() - H - 16;
+                _viewY = _preview.GetMaxPixelY() - H - 16;
             }
 
-            if (ViewX < 16)
+            if (_viewX < 16)
             {
-                ViewX = 16;
+                _viewX = 16;
             }
 
-            if (ViewY < 16)
+            if (_viewY < 16)
             {
-                ViewY = 16;
+                _viewY = 16;
             }
 
             LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
-            Preview.SetExplorationEnabled(false);
-            Preview.SetFogEnabled(false);
-            Preview.SetViewPort(ViewX, ViewY, 0, width, R.Bottom - R.Top);
-            Preview.UpdateStaticScene();
-            Preview.UpdateDynamicScene();
-            Preview.DrawStaticScene(ref viewSurfaceDescription);
-            Preview.DrawDynamicScene(ref viewSurfaceDescription);
+            _preview.SetExplorationEnabled(false);
+            _preview.SetFogEnabled(false);
+            _preview.SetViewPort(_viewX, _viewY, 0, width, R.Bottom - R.Top);
+            _preview.UpdateStaticScene();
+            _preview.UpdateDynamicScene();
+            _preview.DrawStaticScene(ref viewSurfaceDescription);
+            _preview.DrawDynamicScene(ref viewSurfaceDescription);
         }
     }
 
@@ -1511,19 +1511,19 @@ public partial class CityScreen : DataModule
         switch (key)
         {
             case 37:
-                ViewX -= 16;
+                _viewX -= 16;
                 MapView.Drawn = false;
                 break;
             case 39:
-                ViewX += 16;
+                _viewX += 16;
                 MapView.Drawn = false;
                 break;
             case 38:
-                ViewY -= 16;
+                _viewY -= 16;
                 MapView.Drawn = false;
                 break;
             case 40:
-                ViewY += 16;
+                _viewY += 16;
                 MapView.Drawn = false;
                 break;
             case 27:
@@ -1536,7 +1536,7 @@ public partial class CityScreen : DataModule
     public void MapViewUpdate()
     {
         CombatMap preview;
-        preview = Preview;
+        preview = _preview;
         if (preview != null)
         {
             preview.NewFrame();
@@ -1573,7 +1573,7 @@ public partial class CityScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(City);
+        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
         index = start;
         index -= 1;
         if (index < 0)
@@ -1604,7 +1604,7 @@ public partial class CityScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(City);
+        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
         index = start + 1;
         if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
         {
@@ -1636,7 +1636,9 @@ public partial class CityScreen : DataModule
     private static readonly string s_enhancementsText = "Enhancements";
     private static readonly string s_migrateText = "Migrate";
     private static readonly string s_populationText = "Population";
-    internal static readonly string s_statusText = "Status";
+
+    internal static string StatusText { get; } = "Status";
+
     private static readonly string s_relationMinusFormat = "%s Relation %d";
     private static readonly string s_relationPlusFormat = "%s Relation +%d";
     internal static StringArray7 s_civilStatusTexts = StringArray7.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"]);

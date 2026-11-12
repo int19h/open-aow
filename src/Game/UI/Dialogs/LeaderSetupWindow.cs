@@ -184,12 +184,16 @@ public partial class LeaderSetupWindow : DataModule
     public Panel LeaderPnl;
     public ComboBox RaceCB;
     public IvTranslator Translator;
-    public LeaderSetupControl Setup;
-    public int Phase;
-    public int FixedSpheres;
-    public Leader Leader;
-    public int SelectedSort;
-    public int AvailableSort;
+
+    public LeaderSetupControl Setup { get; set; }
+
+    private int _phase;
+    private int _fixedSpheres;
+
+    public Leader Leader { get; set; }
+
+    private int _selectedSort;
+    private int _availableSort;
 
     // AoWLeaderSetup.pas:1050
     public void Execute(LeaderSetupControl control)
@@ -202,8 +206,8 @@ public partial class LeaderSetupWindow : DataModule
 
         Setup = control;
         Setup.AddRef();
-        SelectedSort = 0;
-        AvailableSort = 0;
+        _selectedSort = 0;
+        _availableSort = 0;
         LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
         LeaderPnl.ImageLibraryIndexTexture = 4;
         RaceCB.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
@@ -223,7 +227,7 @@ public partial class LeaderSetupWindow : DataModule
             RaceCB.Selected = indexOf;
         }
 
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[Setup.OriginalLeader.Race]);
+        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[Setup.OriginalLeader.Race]);
         SideNameLbl.Text = raceNamesPlural;
         ShieldL.CurrentImage = Setup.OriginalLeader.Race + 13;
         ShieldR.CurrentImage = Setup.OriginalLeader.Race + 13;
@@ -306,7 +310,7 @@ public partial class LeaderSetupWindow : DataModule
         UMoves.Text = IntToStr(moves);
         UAbilities.Items.Clear();
         leader.ListAbilities(UAbilities.Items);
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[leader.Race]);
+        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
         SideNameLbl.Text = raceNamesPlural;
         ShieldL.CurrentImage = leader.Race + 13;
         ShieldR.CurrentImage = leader.Race + 13;
@@ -364,7 +368,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:814
     public void SortSelectedAbilities()
     {
-        switch (SelectedSort)
+        switch (_selectedSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
@@ -384,7 +388,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:830
     public void SortAvailableAbilities()
     {
-        switch (AvailableSort)
+        switch (_availableSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
@@ -433,7 +437,7 @@ public partial class LeaderSetupWindow : DataModule
                 name = AoWHSSet.Current.AbilityControl.GetAbility(I).GetName(Leader);
                 if (Leader.HeroResource.Abilities.GetAbilitySetAt(I) && Leader.HeroResource.Abilities.GetAbLevel(I) == Leader.GetAbilityLevel(I))
                 {
-                    name = name + " (" + AbilityRules.TranslateResourceString(GameText.s_fixedText) + ")";
+                    name = name + " (" + AbilityRules.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";
                 }
                 else
@@ -474,7 +478,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:913
     public void SetPhase(int value)
     {
-        Phase = value;
+        _phase = value;
         Phase1Pnl.Visible = value == 1;
         Phase2Pnl.Visible = value == 2;
         Phase3Pnl.Visible = value == 3;
@@ -518,7 +522,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:895
     public void SetFixedSpheres(int value)
     {
-        FixedSpheres = value;
+        _fixedSpheres = value;
         UpdateSpheres();
     }
 
@@ -614,14 +618,14 @@ public partial class LeaderSetupWindow : DataModule
                 button.Visible = false;
             }
 
-            if (I < FixedSpheres)
+            if (I < _fixedSpheres)
             {
-                button._captureInput = false;
+                button.CaptureInput = false;
                 button.ImageLibraryIndexUp = button.ImageLibraryIndexUp + 1;
             }
             else
             {
-                button._captureInput = true;
+                button.CaptureInput = true;
             }
         }
 
@@ -631,67 +635,67 @@ public partial class LeaderSetupWindow : DataModule
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
             SelLife.ImageLibraryIndexUp = 27;
-            SelLife._captureInput = true;
+            SelLife.CaptureInput = true;
         }
         else
         {
             SelLife.ImageLibraryIndexUp = 28;
-            SelLife._captureInput = false;
+            SelLife.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Death))
         {
             SelDeath.ImageLibraryIndexUp = 30;
-            SelDeath._captureInput = true;
+            SelDeath.CaptureInput = true;
         }
         else
         {
             SelDeath.ImageLibraryIndexUp = 31;
-            SelDeath._captureInput = false;
+            SelDeath.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Fire))
         {
             SelFire.ImageLibraryIndexUp = 42;
-            SelFire._captureInput = true;
+            SelFire.CaptureInput = true;
         }
         else
         {
             SelFire.ImageLibraryIndexUp = 43;
-            SelFire._captureInput = false;
+            SelFire.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Water))
         {
             SelWater.ImageLibraryIndexUp = 39;
-            SelWater._captureInput = true;
+            SelWater.CaptureInput = true;
         }
         else
         {
             SelWater.ImageLibraryIndexUp = 40;
-            SelWater._captureInput = false;
+            SelWater.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Earth))
         {
             SelEarth.ImageLibraryIndexUp = 33;
-            SelEarth._captureInput = true;
+            SelEarth.CaptureInput = true;
         }
         else
         {
             SelEarth.ImageLibraryIndexUp = 34;
-            SelEarth._captureInput = false;
+            SelEarth.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Air))
         {
             SelAir.ImageLibraryIndexUp = 36;
-            SelAir._captureInput = true;
+            SelAir.CaptureInput = true;
         }
         else
         {
             SelAir.ImageLibraryIndexUp = 37;
-            SelAir._captureInput = false;
+            SelAir.CaptureInput = false;
         }
 
         SelLife.Drawn = false;
@@ -805,7 +809,7 @@ public partial class LeaderSetupWindow : DataModule
     public void PrevBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        switch (Phase)
+        switch (_phase)
         {
             case 1:
                 if (Setup.Mode.Contains(LeaderSetupModeElement.Campaign))
@@ -844,7 +848,7 @@ public partial class LeaderSetupWindow : DataModule
     public void NextBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        switch (Phase)
+        switch (_phase)
         {
             case 1:
                 SaveLeader();
@@ -904,7 +908,7 @@ public partial class LeaderSetupWindow : DataModule
         LeaderSetupControl setup;
         Rect R;
         setup = Setup;
-        if (Phase > 1)
+        if (_phase > 1)
         {
             var frame = sender;
             R = new Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
@@ -1060,7 +1064,7 @@ public partial class LeaderSetupWindow : DataModule
     public void ClearBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        switch (Phase)
+        switch (_phase)
         {
             case 1:
                 {
@@ -1097,7 +1101,7 @@ public partial class LeaderSetupWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         DialogHosts.TitleWindow.TitleWin.Drawn = false;
-        switch (Phase)
+        switch (_phase)
         {
             case 1:
                 {
@@ -1231,13 +1235,13 @@ public partial class LeaderSetupWindow : DataModule
     public void SelectedAbilitiesSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (SelectedSort == 0)
+        if (_selectedSort == 0)
         {
-            SelectedSort = 1;
+            _selectedSort = 1;
         }
         else
         {
-            SelectedSort = 0;
+            _selectedSort = 0;
         }
 
         SortSelectedAbilities();
@@ -1247,13 +1251,13 @@ public partial class LeaderSetupWindow : DataModule
     public void SelectedAbilitiesCostSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (SelectedSort == 2)
+        if (_selectedSort == 2)
         {
-            SelectedSort = 3;
+            _selectedSort = 3;
         }
         else
         {
-            SelectedSort = 2;
+            _selectedSort = 2;
         }
 
         SortSelectedAbilities();
@@ -1263,13 +1267,13 @@ public partial class LeaderSetupWindow : DataModule
     public void AvailableAbilitiesSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (AvailableSort == 0)
+        if (_availableSort == 0)
         {
-            AvailableSort = 1;
+            _availableSort = 1;
         }
         else
         {
-            AvailableSort = 0;
+            _availableSort = 0;
         }
 
         SortAvailableAbilities();
@@ -1279,13 +1283,13 @@ public partial class LeaderSetupWindow : DataModule
     public void AvailableAbilitiesCostSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (AvailableSort == 2)
+        if (_availableSort == 2)
         {
-            AvailableSort = 3;
+            _availableSort = 3;
         }
         else
         {
-            AvailableSort = 2;
+            _availableSort = 2;
         }
 
         SortAvailableAbilities();

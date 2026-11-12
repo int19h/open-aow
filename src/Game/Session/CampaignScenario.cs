@@ -17,7 +17,7 @@ public partial class CampaignScenario : EngineObject
     }
 
     public int Id;
-    public string Name = "";
+    private string _name = "";
     public string FileName = "";
 
     // Diplomacy.pas:2203
@@ -27,7 +27,7 @@ public partial class CampaignScenario : EngineObject
         stream.rwInteger(ref Id, 9);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref Name, 10);
+            stream.rwString(ref _name, 10);
             stream.rwString(ref FileName, 11);
         }
     }

@@ -19,7 +19,7 @@ public partial class ProductionPlaceResource : PlayerStructureResource
     // PrdPlace.pas:718
     public new const int ClassId = 132027;
 
-    public UnitIndexList Units;
+    public UnitIndexList Units { get; }
 
     // PrdPlace.pas:709
     public override void Dispose()

@@ -46,18 +46,18 @@ public partial class ItemsFoundDialog : DataModule
     public CheckBox Gnd5;
     public Button LeftBtn;
     public Button RightBtn;
-    public int ItemOffset;
-    public ExecuteDoneEvent OnDone;
-    public ItemExplorationSiteEventLog Event;
+    private int _itemOffset;
+    private ExecuteDoneEvent _onDone;
+    private ItemExplorationSiteEventLog _event;
 
     // AoWItemsFoundDlg.pas:80
     public Hero GetHero()
     {
         ArmyHexSprite army;
         Hero result = null;
-        if (Event != null)
+        if (_event != null)
         {
-            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Event.Location))).GetArmyHexSprite();
+            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _event.Location))).GetArmyHexSprite();
             if (army != null && army.Army.Player == AoWHSMap.Current.SeatedPlayer)
             {
                 result = army.Army.Hero(255, RosterTables.AllHeroTypes);
@@ -73,10 +73,10 @@ public partial class ItemsFoundDialog : DataModule
         ExecuteDoneEvent done;
         ItemExplorationSiteEventLog eventValue;
         Dlg.Visible = false;
-        done = OnDone;
-        eventValue = Event;
-        OnDone = null;
-        Event = null;
+        done = _onDone;
+        eventValue = _event;
+        _onDone = null;
+        _event = null;
         if (done != null)
         {
             done(eventValue);
@@ -91,7 +91,7 @@ public partial class ItemsFoundDialog : DataModule
     // AoWItemsFoundDlg.pas:62
     public void Reset()
     {
-        ItemOffset = 0;
+        _itemOffset = 0;
         PickupPnl.Visible = false;
         OKPnl.Visible = false;
     }
@@ -113,12 +113,12 @@ public partial class ItemsFoundDialog : DataModule
     {
         ItemExplorationSiteEventLog eventValue;
         Item item;
-        eventValue = Event;
+        eventValue = _event;
         if (eventValue != null)
         {
-            if (slot + ItemOffset < eventValue.ItemIds.Count)
+            if (slot + _itemOffset < eventValue.ItemIds.Count)
             {
-                var itemId = Event.ItemIds[slot + ItemOffset];
+                var itemId = _event.ItemIds[slot + _itemOffset];
                 item = AoWHSMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
@@ -142,7 +142,7 @@ public partial class ItemsFoundDialog : DataModule
             if (AoWHSMap.Current.GameType == GameType.Tutorial)
             {
                 eventValue = new TutorialMessageEventLog(null);
-                eventValue.HelpFileName = AbilityRules.TranslateResourceString(GameText.s_tutorialText);
+                eventValue.HelpFileName = AbilityRules.TranslateResourceString(GameText.TutorialText);
                 if (AoWHSMap.Current.TextControl.FindId(55) != null)
                 {
                     var id = AoWHSMap.Current.TextControl.FindId(55);
@@ -166,14 +166,14 @@ public partial class ItemsFoundDialog : DataModule
         if (button == MouseButton.Right)
         {
             box.PopupMenu = null;
-            if (ItemOffset + slot < Event.ItemIds.Count)
+            if (_itemOffset + slot < _event.ItemIds.Count)
             {
-                var itemId = Event.ItemIds[ItemOffset + slot];
+                var itemId = _event.ItemIds[_itemOffset + slot];
                 item = AoWHSMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
                     box.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
-                    ItemBanner.s_itemId = item.ItemId;
+                    ItemBanner.ItemId = item.ItemId;
                 }
             }
         }
@@ -182,9 +182,9 @@ public partial class ItemsFoundDialog : DataModule
     // AoWItemsFoundDlg.pas:155
     public void LeftBtnClick()
     {
-        if (ItemOffset > 0)
+        if (_itemOffset > 0)
         {
-            ItemOffset -= 1;
+            _itemOffset -= 1;
             Dlg.Drawn = false;
         }
     }
@@ -192,9 +192,9 @@ public partial class ItemsFoundDialog : DataModule
     // AoWItemsFoundDlg.pas:164
     public void RightBtnClick()
     {
-        if (ItemOffset + 5 < Event.ItemIds.Count)
+        if (_itemOffset + 5 < _event.ItemIds.Count)
         {
-            ItemOffset += 1;
+            _itemOffset += 1;
             Dlg.Drawn = false;
         }
     }
@@ -212,10 +212,10 @@ public partial class ItemsFoundDialog : DataModule
     {
         ItemExplorationSiteEventLog log;
         dialog.Reset();
-        dialog.OnDone = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        log = dialog.Event;
+        dialog._onDone = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        log = dialog._event;
         dialog.TitleLbl.Text = log.Title;
         var text = log.Messages.Text;
         dialog.MessageMemo.Items.Text = text;

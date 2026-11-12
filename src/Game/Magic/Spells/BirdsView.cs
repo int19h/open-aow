@@ -58,7 +58,7 @@ public partial class BirdsView : Spell
             source.GetLocation(ref X, ref Y, ref layer);
             if (layer != 0)
             {
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);
                 result = false;
             }
         }

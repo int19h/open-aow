@@ -54,7 +54,7 @@ internal static class LocalizationFrameChecks
             for (int index = 0; index < module.ComponentCount; index++)
             {
                 if (module.Components[index] is not Game.UI.Controls.Control control ||
-                    !control.Visible || control._window is not { Visible: true } || control._font is not { } font) continue;
+                    !control.Visible || control.Window is not { Visible: true } || control._font is not { } font) continue;
                 var texts = new List<string> { control._text };
                 if (control.GetType().GetProperty("Items")?.GetValue(control) is StringCollection items)
                     for (int item = 0; item < items.Count; item++) texts.Add(items[item]);

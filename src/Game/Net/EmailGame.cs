@@ -20,7 +20,8 @@ public partial class EmailGame : EngineObject
     public int UniqueId;
     public int SecurityId;
     public string EmailAddress = "";
-    public int LastDay;
+
+    public int LastDay { get; set; }
 
     // Diplomacy.pas:2465
     public override void ReadWrite(EStorageStream stream)

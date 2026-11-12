@@ -15,7 +15,7 @@ public partial class LiquidForm : UnitSpell
     // UnitSpells.pas:741
     public LiquidForm(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_liquidFormText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.LiquidFormText);
         SpellId = 49;
         BaseManaCost = 5;
         SpellLevel = 3;

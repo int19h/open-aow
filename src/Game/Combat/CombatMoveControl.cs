@@ -14,8 +14,8 @@ public partial class CombatMoveControl : MoveControl
     public CombatMoveControl(HSMap owner) : base(owner)
     { }
 
-    public TacticalBattleUnitHexSprite UnitHexSprite;
-    public Set<CombatMoveModeElement> MoveFlags;
+    public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
+    public Set<CombatMoveModeElement> MoveFlags { get; private set; }
 
     // AoWTC.pas:2716
     public override void ProcessMove(MoveControlSettings settings)

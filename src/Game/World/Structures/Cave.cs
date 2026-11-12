@@ -40,7 +40,7 @@ public partial class Cave : Structure
         Cave partner;
         oldEntrance = Entrance;
         Entrance = CaveEntrance.Idle;
-        if (_status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner != null)
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner != null)
         {
             if (!GetEditMode())
             {
@@ -122,7 +122,7 @@ public partial class Cave : Structure
     public override void Deactivate()
     {
         base.Deactivate();
-        _status = _status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status = Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         ((MapField)Owner).UpdateMapField();
     }
 
@@ -461,8 +461,8 @@ public partial class Cave : Structure
                 {
                     var player = field.GetPlayer();
                     var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_noWarDeclaredFormat), [raceNamesPlural]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     AoWHSMap.Current.ShowMessage(messageText);
                 }
 

@@ -26,26 +26,29 @@ public partial class AIMoveControlSettings : EngineObject
         Clear();
     }
 
-    public int RefCount;
-    public sbyte Player;
-    public int SourceX;
-    public int SourceY;
-    public int SourceL;
-    public int DestinationX;
-    public int DestinationY;
-    public int DestinationL;
+    public int RefCount { get; private set; }
+    public sbyte Player { get; private set; }
+    public int SourceX { get; private set; }
+    public int SourceY { get; private set; }
+    public int SourceL { get; private set; }
+    public int DestinationX { get; private set; }
+    public int DestinationY { get; private set; }
+    public int DestinationL { get; private set; }
+
     public SByteArray16By16 MovePointTable;
-    public NotifyEvent<object> OnDone;
-    public Troop Transporter;
-    public int MovePointsMax;
-    public int QuickMovePointsMax;
-    public Set<MoveModeElement> MoveMode;
-    public ArmyHexSprite ArmyHexSprite;
-    public int Selection;
-    public int ProcessCycles;
-    public AIMoveControlStatus Status;
-    public int MovePoints;
-    public MovePath TransportPath;
+
+    public NotifyEvent<object> OnDone { get; set; }
+    public Troop Transporter { get; set; }
+    public int MovePointsMax { get; private set; }
+    public int QuickMovePointsMax { get; private set; }
+    public Set<MoveModeElement> MoveMode { get; set; }
+    public ArmyHexSprite ArmyHexSprite { get; private set; }
+    public int Selection { get; private set; }
+    public int ProcessCycles { get; private set; }
+    public AIMoveControlStatus Status { get; set; }
+    public int MovePoints { get; set; }
+    public MovePath TransportPath { get; }
+
     public MapCoordinate BoardingPoint;
     public MapCoordinate ArrivalPoint;
     public MapCoordinate TransportSource;

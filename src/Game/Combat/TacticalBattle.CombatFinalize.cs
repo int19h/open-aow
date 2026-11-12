@@ -25,7 +25,7 @@ public partial class TacticalBattle
         if (CombatMap.Current != null)
         {
             CombatMap.Current.UnitSelection.Clear();
-            CombatMap.Current._selectEventsStore.Raise(this);
+            CombatMap.Current.SelectEventsStore.Raise(this);
             World.Map.AoWHSMap.Current.ReleaseCombatMap();
         }
         base.Finalize();

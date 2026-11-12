@@ -37,10 +37,11 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         private readonly StringList? _previousFileList = FileDialogWindow.Files;
         private readonly StringList? _previousDrives = FileDialogWindow.Drives;
 
-        internal SpellBook Spell = null!;
-        internal WorldMap World = null!;
-        internal FileDialogWindow Files = null!;
-        internal RealmWindow Realm = null!;
+        internal SpellBook Spell { get; } = null!;
+        internal WorldMap World { get; } = null!;
+        internal FileDialogWindow Files { get; } = null!;
+        internal RealmWindow Realm { get; } = null!;
+
         private UIGraphics _graphics = null!;
         private UIFonts _font = null!;
         private General _general = null!;
@@ -116,12 +117,12 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
 
     private void Show(Window window)
     {
-        _host.Spell.Dlg._visible = false;
-        _host.World.BookWin._visible = false;
-        _host.Files.FileDialog._visible = false;
-        _host.Realm.Dlg._visible = false;
-        DialogHosts.TitleWindow.TitleWin._visible = false;
-        window._visible = true;
+        _host.Spell.Dlg.SetVisibleWithoutUpdate(false);
+        _host.World.BookWin.SetVisibleWithoutUpdate(false);
+        _host.Files.FileDialog.SetVisibleWithoutUpdate(false);
+        _host.Realm.Dlg.SetVisibleWithoutUpdate(false);
+        DialogHosts.TitleWindow.TitleWin.SetVisibleWithoutUpdate(false);
+        window.SetVisibleWithoutUpdate(true);
     }
 
     [Fact]
@@ -132,30 +133,30 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         book.Mode = 4;
         book.Page = 0;
         book.PageKind = 0;
-        book.PrevBtn._visible = true;
-        book.NextBtn._visible = true;
-        book.PrevBtn._captureInput = true;
-        book.NextBtn._captureInput = true;
+        book.PrevBtn.SetVisibleWithoutUpdate(true);
+        book.NextBtn.SetVisibleWithoutUpdate(true);
+        book.PrevBtn.CaptureInput = true;
+        book.NextBtn.CaptureInput = true;
         book.Dlg.Animating = false;
         Assert.Same(book.PrevBtn, book.Dlg.PageBack);
         Assert.Same(book.NextBtn, book.Dlg.PageForward);
-        int x = book.Dlg._winLeft + 8;
-        int y = book.Dlg._winTop + 200;
+        int x = book.Dlg.WinLeft + 8;
+        int y = book.Dlg.WinTop + 200;
         Set<ShiftState> shift = default;
 
         Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-5, shift, x, y));
         Assert.Equal(1, book.Page);
         Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-1, shift, x, y));
         Assert.Equal(2, book.Page);
-        book.NextBtn._visible = false;
+        book.NextBtn.SetVisibleWithoutUpdate(false);
         Assert.False(book.Dlg.CheckMouseWheel(-1, shift, x, y));
         Assert.Equal(2, book.Page);
 
-        book.PrevBtn._visible = true;
-        book.PrevBtn._captureInput = true;
+        book.PrevBtn.SetVisibleWithoutUpdate(true);
+        book.PrevBtn.CaptureInput = true;
         Assert.True(book.Dlg.CheckMouseWheel(5, shift, x, y));
         Assert.Equal(1, book.Page);
-        book.PrevBtn._visible = false;
+        book.PrevBtn.SetVisibleWithoutUpdate(false);
         Assert.False(book.Dlg.CheckMouseWheel(1, shift, x, y));
         Assert.Equal(1, book.Page);
     }
@@ -166,35 +167,35 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         Show(_host.World.BookWin);
         var map = _host.World;
         map.BookAction = 0;
-        map.Back._captureInput = true;
-        map.Next._captureInput = true;
-        map.MemoL._items.Text = new string('a', 40) + " " + new string('b', 40);
-        map.leftSB._max = 40;
-        map.leftSB._numberVisible = 5;
-        map.leftSB._position = 0;
-        map.leftSB._visible = true;
+        map.Back.CaptureInput = true;
+        map.Next.CaptureInput = true;
+        map.MemoL.Items.Text = new string('a', 40) + " " + new string('b', 40);
+        map.leftSB.SetMaxUnclamped(40);
+        map.leftSB.SetNumberVisibleUnclamped(5);
+        map.leftSB.SetPositionUnclamped(0);
+        map.leftSB.SetVisibleWithoutUpdate(true);
         Assert.Same(map.Back, map.BookWin.PageBack);
         Assert.Same(map.Next, map.BookWin.PageForward);
-        int x = map.BookWin._winLeft + map.MemoL._winLeft + 20;
-        int y = map.BookWin._winTop + map.MemoL._winTop + 40;
+        int x = map.BookWin.WinLeft + map.MemoL.WinLeft + 20;
+        int y = map.BookWin.WinTop + map.MemoL.WinTop + 40;
         Set<ShiftState> shift = default;
 
         Assert.True(map.BookWin.CheckMouseWheel(-3, shift, x, y));
-        Assert.Equal(3, map.leftSB._position);
+        Assert.Equal(3, map.leftSB.Position);
         Assert.Equal(0, map.BookAction);
 
-        map.leftSB._max = 0;
-        map.leftSB._numberVisible = 1;
-        map.leftSB._position = 0;
-        map.leftSB._visible = false;
+        map.leftSB.SetMaxUnclamped(0);
+        map.leftSB.SetNumberVisibleUnclamped(1);
+        map.leftSB.SetPositionUnclamped(0);
+        map.leftSB.SetVisibleWithoutUpdate(false);
         Assert.True(map.BookWin.CheckMouseWheel(-5, shift, x, y));
-        Assert.Equal(0, map.leftSB._position);
+        Assert.Equal(0, map.leftSB.Position);
         Assert.Equal(2, map.BookAction);
 
         map.BookAction = 0;
-        map.Next._captureInput = true;
-        int emptyX = map.BookWin._winLeft + 300;
-        int emptyY = map.BookWin._winTop + 20;
+        map.Next.CaptureInput = true;
+        int emptyX = map.BookWin.WinLeft + 300;
+        int emptyY = map.BookWin.WinTop + 20;
         Assert.True(map.BookWin.CheckMouseWheel(-1, shift, emptyX, emptyY));
         Assert.Equal(2, map.BookAction);
     }
@@ -214,19 +215,19 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             dialog.DateLB.Items.Add("date" + i);
         }
 
-        dialog.SSBar._position = 0;
-        int x = dialog.FileDialog._winLeft + dialog.SavePnl._winLeft + dialog.SaveLBFr._winLeft + dialog.SaveLB._winLeft + 4;
-        int y = dialog.FileDialog._winTop + dialog.SavePnl._winTop + dialog.SaveLBFr._winTop + dialog.SaveLB._winTop + 8;
+        dialog.SSBar.SetPositionUnclamped(0);
+        int x = dialog.FileDialog.WinLeft + dialog.SavePnl.WinLeft + dialog.SaveLBFr.WinLeft + dialog.SaveLB.WinLeft + 4;
+        int y = dialog.FileDialog.WinTop + dialog.SavePnl.WinTop + dialog.SaveLBFr.WinTop + dialog.SaveLB.WinTop + 8;
         Set<ShiftState> shift = default;
         Assert.True(dialog.FileDialog.CheckMouseWheel(-1, shift, x, y));
-        Assert.Equal(1, dialog.SSBar._position);
+        Assert.Equal(1, dialog.SSBar.Position);
         Assert.Equal(1, dialog.SaveLB.ListOffset);
         dialog.DateLB.Update();
         Assert.Equal(1, dialog.DateLB.ListOffset);
 
-        int dateX = dialog.FileDialog._winLeft + dialog.SavePnl._winLeft + dialog.SaveLBFr._winLeft + dialog.DateLB._winLeft + 4;
+        int dateX = dialog.FileDialog.WinLeft + dialog.SavePnl.WinLeft + dialog.SaveLBFr.WinLeft + dialog.DateLB.WinLeft + 4;
         Assert.True(dialog.FileDialog.CheckMouseWheel(-1, shift, dateX, y));
-        Assert.Equal(2, dialog.SSBar._position);
+        Assert.Equal(2, dialog.SSBar.Position);
         Assert.Equal(2, dialog.SaveLB.ListOffset);
         dialog.DateLB.Update();
         Assert.Equal(2, dialog.DateLB.ListOffset);
@@ -237,15 +238,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     {
         Show(_host.Realm.Dlg);
         var realm = _host.Realm;
-        realm.T2Pnl._visible = true;
+        realm.T2Pnl.SetVisibleWithoutUpdate(true);
         Assert.Same(realm.CitySB, realm.T2NameLB.WheelScrollBar);
         realm.T2NameLB.Items.Clear();
         for (int i = 0; i < 12; i++) realm.T2NameLB.Items.Add("city" + i);
-        realm.CitySB._position = 0;
-        int x = realm.Dlg._winLeft + realm.T2Pnl._winLeft + realm.T2LBPnl._winLeft + realm.T2NameLB._winLeft + 4;
-        int y = realm.Dlg._winTop + realm.T2Pnl._winTop + realm.T2LBPnl._winTop + realm.T2NameLB._winTop + 8;
+        realm.CitySB.SetPositionUnclamped(0);
+        int x = realm.Dlg.WinLeft + realm.T2Pnl.WinLeft + realm.T2LBPnl.WinLeft + realm.T2NameLB.WinLeft + 4;
+        int y = realm.Dlg.WinTop + realm.T2Pnl.WinTop + realm.T2LBPnl.WinTop + realm.T2NameLB.WinTop + 8;
         Assert.True(realm.Dlg.CheckMouseWheel(-1, default, x, y));
-        Assert.Equal(1, realm.CitySB._position);
+        Assert.Equal(1, realm.CitySB.Position);
         Assert.Equal(1, realm.T2NameLB.ListOffset);
     }
 

@@ -17,14 +17,14 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4639
     public ItemControl(ECustomNode owner) : base(owner)
     {
-        Items = new List<Item>();
+        _items = new List<Item>();
         _onChangedStore = new();
         _onItemChangedStore = new();
     }
 
-    public List<Item> Items;
+    private List<Item> _items;
 
-    internal EventStore<ItemControl> _onChangedStore;
+    private EventStore<ItemControl> _onChangedStore;
 
     public event NotifyEvent<ItemControl> FOnChanged
     {
@@ -32,9 +32,9 @@ public partial class ItemControl : EngineObject
         remove => _onChangedStore.Remove(value);
     }
 
-    public int UpdateLock;
+    private int _updateLock;
 
-    internal EventStore<Item> _onItemChangedStore;
+    private EventStore<Item> _onItemChangedStore;
 
     public event NotifyEvent<Item> FOnItemChanged
     {
@@ -42,21 +42,21 @@ public partial class ItemControl : EngineObject
         remove => _onItemChangedStore.Remove(value);
     }
 
-    public int LastId;
-    public Set<StatusElement> Status;
+    private int _lastId;
+    private Set<StatusElement> _status;
 
     // Army.PAS:4647
     public override void Dispose()
     {
         BeginUpdate();
-        for (int I = Items.Count - 1; I >= 0; I--)
+        for (int I = _items.Count - 1; I >= 0; I--)
         {
-            UnregisterItem(Items[I]);
+            UnregisterItem(_items[I]);
         }
 
-        Items.Clear();
+        _items.Clear();
         Changed();
-        Items?.Clear();
+        _items?.Clear();
         _onItemChangedStore.Clear();
         _onChangedStore.Clear();
         base.Dispose();
@@ -68,13 +68,13 @@ public partial class ItemControl : EngineObject
         int id;
         Item Item = default;
         base.ReadWrite(stream);
-        stream.rwInteger(ref LastId, 9);
+        stream.rwInteger(ref _lastId, 9);
         if (stream.StorageMode().Contains(StorageModeElement.Compare))
         {
             id = 10;
-            for (int I = 0, last = Items.Count - 1; I <= last; I++)
+            for (int I = 0, last = _items.Count - 1; I <= last; I++)
             {
-                Item = Items[I];
+                Item = _items[I];
                 if (Item.Owner == null)
                 {
                     stream.rwCreateEObject(ref Item, null, id);
@@ -95,7 +95,7 @@ public partial class ItemControl : EngineObject
                         if (Item != null)
                         {
                             ValidateItem(Item);
-                            Items.Add(Item);
+                            _items.Add(Item);
                             Item.Status = Item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
                         }
 
@@ -107,13 +107,13 @@ public partial class ItemControl : EngineObject
                 if (stream.StorageMode().Contains(StorageModeElement.TextOnly) || stream.StorageMode().Contains(StorageModeElement.Write))
                 {
                     id = 10;
-                    for (int I = 0, last = Items.Count - 1; I <= last; I++)
+                    for (int I = 0, last = _items.Count - 1; I <= last; I++)
                     {
-                        if (Items[I].Owner == null)
+                        if (_items[I].Owner == null)
                         {
-                            Item item = Items[I];
+                            Item item = _items[I];
                             stream.rwCreateEObject(ref item, null, id);
-                            Items[I] = item;
+                            _items[I] = item;
                             id += 1;
                         }
                     }
@@ -123,22 +123,22 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4707
-    public Item GetItem(int index) => Items[index];
+    public Item GetItem(int index) => _items[index];
 
     // Army.PAS:4712
-    public int GetCount() => Items.Count;
+    public int GetCount() => _items.Count;
 
     // Army.PAS:4717
     public Item FindItem(int itemId)
     {
         int I;
-        I = Items.Count;
+        I = _items.Count;
         while (I != 0)
         {
             I -= 1;
-            if ((Items[I]).ItemId == itemId)
+            if ((_items[I]).ItemId == itemId)
             {
-                return Items[I];
+                return _items[I];
             }
         }
 
@@ -154,7 +154,7 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4738
     public void Changed()
     {
-        if (UpdateLock == 0)
+        if (_updateLock == 0)
         {
             _onChangedStore.Raise(this);
         }
@@ -163,14 +163,14 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4743
     public void BeginUpdate()
     {
-        UpdateLock += 1;
+        _updateLock += 1;
     }
 
     // Army.PAS:4748
     public void EndUpdate()
     {
-        UpdateLock -= 1;
-        if (UpdateLock == 0)
+        _updateLock -= 1;
+        if (_updateLock == 0)
         {
             Changed();
         }
@@ -183,19 +183,19 @@ public partial class ItemControl : EngineObject
         do
         {
             I = 0;
-            LastId += 1;
-            if (LastId > 268435455)
+            _lastId += 1;
+            if (_lastId > 268435455)
             {
-                LastId = 0;
+                _lastId = 0;
             }
 
-            while (I != Items.Count && (Items[I]).ItemId != LastId)
+            while (I != _items.Count && (_items[I]).ItemId != _lastId)
             {
                 I += 1;
             }
         }
-        while (!(I == Items.Count));
-        return LastId;
+        while (!(I == _items.Count));
+        return _lastId;
     }
 
     // Army.PAS:4766
@@ -213,7 +213,7 @@ public partial class ItemControl : EngineObject
         BeginUpdate();
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            (Items[I]).UpdateFromLibrary();
+            (_items[I]).UpdateFromLibrary();
         }
 
         EndUpdate();
@@ -233,9 +233,9 @@ public partial class ItemControl : EngineObject
 
             ValidateItem(item);
             item.Status = item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
-            Items.Add(item);
+            _items.Add(item);
             item.AddRef();
-            if (Status.Contains(StatusElement.Activated) && !item.Status.Contains(ItemStatusElement.Activated))
+            if (_status.Contains(StatusElement.Activated) && !item.Status.Contains(ItemStatusElement.Activated))
             {
                 item.Activate();
             }
@@ -249,7 +249,7 @@ public partial class ItemControl : EngineObject
     {
         if (item.Status.Contains(ItemStatusElement.Registered))
         {
-            Items.Remove(item);
+            _items.Remove(item);
             item.Status = item.Status - Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
             item.Release();
             Changed();
@@ -266,7 +266,7 @@ public partial class ItemControl : EngineObject
         list = new DoubleItemList<Item>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            item = Items[I];
+            item = _items[I];
             if (item.RefCount == 1 && types.Contains(item.ItemType))
             {
                 value = item.GetObtainValue();
@@ -305,7 +305,7 @@ public partial class ItemControl : EngineObject
         list = new DoubleItemList<Item>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            item = Items[I];
+            item = _items[I];
             if (types.Contains(item.ItemType) && item.RefCount == 1)
             {
                 list.AddAbility(item, (int)item.Availability);
@@ -357,12 +357,12 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4877
     public void Activate()
     {
-        if (!Status.Contains(StatusElement.Activated))
+        if (!_status.Contains(StatusElement.Activated))
         {
-            Status = Status + Set<StatusElement>.Of(StatusElement.Activated);
-            for (int I = Items.Count - 1; I >= 0; I--)
+            _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
+            for (int I = _items.Count - 1; I >= 0; I--)
             {
-                (Items[I]).Activate();
+                (_items[I]).Activate();
             }
         }
     }
@@ -370,12 +370,12 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4887
     public void Deactivate()
     {
-        if (Status.Contains(StatusElement.Activated))
+        if (_status.Contains(StatusElement.Activated))
         {
-            Status = Status - Set<StatusElement>.Of(StatusElement.Activated);
-            for (int I = Items.Count - 1; I >= 0; I--)
+            _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
+            for (int I = _items.Count - 1; I >= 0; I--)
             {
-                (Items[I]).Deactivate();
+                (_items[I]).Deactivate();
             }
         }
     }

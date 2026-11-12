@@ -19,7 +19,7 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     public PowerLeak(ECustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_powerLeakText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.PowerLeakText);
         SpellId = 48;
         BaseManaCost = 1;
         SpellLevel = 4;

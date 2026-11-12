@@ -22,13 +22,14 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
 
     public new const int ClassId = 2228488;
 
-    public TacticalBattleUnit Unit;
-    public UnitGraphicsResource UnitGraphics;
-    public int Frame;
-    public int OffsetX;
-    public int OffsetY;
-    public int SequenceIndex;
-    public int SequenceFrame;
+    public TacticalBattleUnit Unit { get; set; }
+    public UnitGraphicsResource UnitGraphics { get; set; }
+    public int Frame { get; set; }
+    public int OffsetX { get; set; }
+    public int OffsetY { get; set; }
+    public int SequenceIndex { get; set; }
+
+    private int _sequenceFrame;
 
     // AoWTC.pas:4007
     public override byte GetLevel() => 26;
@@ -51,7 +52,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
             sequence = AoWHSSet.Current.ImageSequences.ImageSequences[SequenceIndex];
             while (sequence != null)
             {
-                frame = sequence.GetUnloopedFrameIndex(SequenceFrame);
+                frame = sequence.GetUnloopedFrameIndex(_sequenceFrame);
                 if (frame != -1)
                 {
                     sequence.ImageLibrary[frame].Show(pixelXSurface + OffsetX - 5, pixelYSurface + OffsetY + 10, lockedSurface);
@@ -205,7 +206,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         }
 
         UnitGraphics.AddRef();
-        SequenceFrame = -1;
+        _sequenceFrame = -1;
     }
 
     // AoWTC.pas:3966
@@ -222,9 +223,9 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         ImageSequence sequence;
         sequence = AoWHSSet.Current.ImageSequences.ImageSequences[SequenceIndex];
         var totalSequenceFrames = sequence.GetTotalSequenceFrames();
-        if (SequenceFrame + 1 < totalSequenceFrames)
+        if (_sequenceFrame + 1 < totalSequenceFrames)
         {
-            SequenceFrame += 1;
+            _sequenceFrame += 1;
         }
     }
 

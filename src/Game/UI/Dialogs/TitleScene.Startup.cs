@@ -26,9 +26,9 @@ public partial class TitleScene
         DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;
-        RedrawBackground = true;
-        PressedButton = HoverButton = -1;
-        Font = CreditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
+        _redrawBackground = true;
+        _pressedButton = _hoverButton = -1;
+        _font = _creditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
         Window.WindowManager.ImageLibraryIndexTBack = 4;
         Window.Visible = true;
     }
@@ -44,13 +44,13 @@ public partial class TitleScene
 
     public void WindowMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
-        MouseX = x;
-        MouseY = y;
+        _mouseX = x;
+        _mouseY = y;
         MouseButton = button;
-        if (HitTest() == PressedButton)
+        if (HitTest() == _pressedButton)
         {
-            SelectedButton = PressedButton;
-            switch (SelectedButton)
+            _selectedButton = _pressedButton;
+            switch (_selectedButton)
             {
                 case 0:
                     Window.Visible = false;
@@ -88,6 +88,6 @@ public partial class TitleScene
                     break;
             }
         }
-        PressedButton = -1;
+        _pressedButton = -1;
     }
 }

@@ -76,17 +76,17 @@ public partial class FastBattleWindow : DataModule
     public UserDrawBox LShieldUser;
     public UserDrawBox RShieldUser;
     public IvTranslator Translator;
-    public byte Phase;
-    public int PhaseFrame;
-    public int AnimationFrame;
-    public CombatLogbook Logbook;
-    public int LeftShield;
-    public byte LeftOpacity;
-    public int RightShield;
-    public byte RightOpacity;
-    public CombatViewer Viewer;
-    public ExecuteDoneEvent Done;
-    public EventLog Event;
+    private byte _phase;
+    private int _phaseFrame;
+    private int _animationFrame;
+    private CombatLogbook _logbook;
+    private int _leftShield;
+    private byte _leftOpacity;
+    private int _rightShield;
+    private byte _rightOpacity;
+    private CombatViewer _viewer;
+    private ExecuteDoneEvent _done;
+    private EventLog _event;
 
     // FastCombatWin.pas:231
     public void GetPartyPosition(int index, ref int X, ref int Y)
@@ -133,9 +133,9 @@ public partial class FastBattleWindow : DataModule
         int position;
         Battle combat;
         CombatObject objectValue;
-        if (Viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            combat = Viewer.Combat;
+            combat = _viewer.Combat;
             for (int I = 0, last = combat.CombatData.GetCount() - 1; I <= last; I++)
             {
                 objectValue = combat.CombatData.GetObjects(I);
@@ -152,7 +152,7 @@ public partial class FastBattleWindow : DataModule
                     }
 
                     var combatObject = combat.CombatData.GetObjects(I);
-                    Viewer.ShowFieldObject(combatObject, AnimationFrame, 3, pixelX, pixelY, surface);
+                    _viewer.ShowFieldObject(combatObject, _animationFrame, 3, pixelX, pixelY, surface);
                 }
             }
         }
@@ -169,15 +169,15 @@ public partial class FastBattleWindow : DataModule
             CombatParty pb;
             bool wa;
             bool wb;
-            pa = Viewer.Combat.CombatData.Parties.GetParty((byte)A);
-            pb = Viewer.Combat.CombatData.Parties.GetParty((byte)B);
+            pa = _viewer.Combat.CombatData.Parties.GetParty((byte)A);
+            pb = _viewer.Combat.CombatData.Parties.GetParty((byte)B);
             wa = pa != null && pa.Wall != 0;
             wb = pb != null && pb.Wall != 0;
             return wa ^ wb;
         }
 
         Y -= 19;
-        if (Viewer.Combat.CombatData.WallType == 2)
+        if (_viewer.Combat.CombatData.WallType == 2)
         {
             image = 80;
         }
@@ -186,7 +186,7 @@ public partial class FastBattleWindow : DataModule
             image = 60;
         }
 
-        if (Viewer.Combat.CombatData.WallBreached)
+        if (_viewer.Combat.CombatData.WallBreached)
         {
             image += 10;
         }
@@ -251,7 +251,7 @@ public partial class FastBattleWindow : DataModule
             AoWHSSet.Current.CombatImages[image + 1].Show(X + 372, Y + 342, surface);
         }
 
-        var combatData = Viewer.Combat.CombatData;
+        var combatData = _viewer.Combat.CombatData;
         if (combatData.WallType != 0)
         {
             wall = combatData.Wall;
@@ -280,7 +280,7 @@ public partial class FastBattleWindow : DataModule
         int pixelX = default;
         int pixelY = default;
         int glow;
-        combat = Viewer.Combat;
+        combat = _viewer.Combat;
         UpdateShields();
         if (ModeLbl.Text != combat.CombatData.Header)
         {
@@ -293,8 +293,8 @@ public partial class FastBattleWindow : DataModule
             DrawWalls(X, Y + 20, surface);
         }
 
-        Viewer.ShowFightingObjects(AnimationFrame, X + 234, Y + 15, surface);
-        if (Phase == 2 || Phase == 3)
+        _viewer.ShowFightingObjects(_animationFrame, X + 234, Y + 15, surface);
+        if (_phase == 2 || _phase == 3)
         {
             for (int I = 0; I <= 7; I++)
             {
@@ -302,9 +302,9 @@ public partial class FastBattleWindow : DataModule
                 {
                     if (combat.CombatData.Parties.GetParty((byte)I).Army.GetCount() == 0)
                     {
-                        if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(Viewer.Logbook.FinalData.CombatResult))
+                        if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(_viewer.Logbook.FinalData.CombatResult))
                         {
-                            glow = PhaseFrame / 2;
+                            glow = _phaseFrame / 2;
                             glow = Math.Abs((glow + 7) % 15 - 7);
                             GetPartyPosition(I, ref pixelX, ref pixelY);
                             AoWHSSet.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
@@ -323,7 +323,7 @@ public partial class FastBattleWindow : DataModule
         int right;
         int leftOpacity;
         int rightOpacity;
-        data = Viewer.Combat.CombatData;
+        data = _viewer.Combat.CombatData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player == 0)
         {
             left = 12;
@@ -343,7 +343,7 @@ public partial class FastBattleWindow : DataModule
             leftOpacity = 100;
         }
 
-        if (Phase == 3)
+        if (_phase == 3)
         {
             leftOpacity = 100;
         }
@@ -367,22 +367,22 @@ public partial class FastBattleWindow : DataModule
             rightOpacity = 100;
         }
 
-        if (Phase == 3)
+        if (_phase == 3)
         {
             rightOpacity = 100;
         }
 
-        if (left != LeftShield || leftOpacity != LeftOpacity)
+        if (left != _leftShield || leftOpacity != _leftOpacity)
         {
-            LeftShield = left;
-            LeftOpacity = (byte)leftOpacity;
+            _leftShield = left;
+            _leftOpacity = (byte)leftOpacity;
             LShieldUser.Drawn = false;
         }
 
-        if (right != RightShield || rightOpacity != RightOpacity)
+        if (right != _rightShield || rightOpacity != _rightOpacity)
         {
-            RightShield = right;
-            RightOpacity = (byte)rightOpacity;
+            _rightShield = right;
+            _rightOpacity = (byte)rightOpacity;
             RShieldUser.Drawn = false;
         }
     }
@@ -392,12 +392,12 @@ public partial class FastBattleWindow : DataModule
     {
         ExecuteDoneEvent done;
         EventLog log;
-        Viewer.Finalize();
+        _viewer.Finalize();
         DialogHosts.General.Manager.OverlayPriority = 0;
-        done = Done;
-        log = Event;
-        Done = null;
-        Event = null;
+        done = _done;
+        log = _event;
+        _done = null;
+        _event = null;
         if (done != null)
         {
             done(log);
@@ -412,20 +412,20 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:549
     public void SetPhase(byte phase)
     {
-        Phase = phase;
-        PhaseFrame = 0;
+        _phase = phase;
+        _phaseFrame = 0;
     }
 
     // FastCombatWin.pas:389
     public void FastCombatWindowCreate()
     {
-        Viewer = new CombatViewer();
+        _viewer = new CombatViewer();
     }
 
     // FastCombatWin.pas:394
     public void FastCombatWindowDestroy()
     {
-        Viewer?.Dispose();
+        _viewer?.Dispose();
     }
 
     // FastCombatWin.pas:399
@@ -441,21 +441,21 @@ public partial class FastBattleWindow : DataModule
         LockedSurface lockedSurface = default;
         try
         {
-            if (!Viewer.Status.Contains(CombatViewerStatusElement.Paused))
+            if (!_viewer.Status.Contains(CombatViewerStatusElement.Paused))
             {
-                AnimationFrame += 1;
+                _animationFrame += 1;
             }
 
-            if (Phase == 1)
+            if (_phase == 1)
             {
-                Viewer.Update();
+                _viewer.Update();
             }
 
             if (surface.Lock(ref lockedSurface) >= 0)
             {
-                if (SequencePositionSld.Position != Viewer.Position)
+                if (SequencePositionSld.Position != _viewer.Position)
                 {
-                    SequencePositionSld.Position = Viewer.Position;
+                    SequencePositionSld.Position = _viewer.Position;
                 }
 
                 lockedSurface.ClipRectangle.Top = FCWin.WinTop + 24;
@@ -475,10 +475,10 @@ public partial class FastBattleWindow : DataModule
         int image;
         try
         {
-            switch (Phase)
+            switch (_phase)
             {
                 case 0:
-                    image = PhaseFrame / 2;
+                    image = _phaseFrame / 2;
                     if (image > 9)
                     {
                         image = 9;
@@ -496,7 +496,7 @@ public partial class FastBattleWindow : DataModule
                         GlowImage.Visible = true;
                     }
 
-                    if (PhaseFrame > 20)
+                    if (_phaseFrame > 20)
                     {
                         SetPhase(1);
                     }
@@ -514,8 +514,8 @@ public partial class FastBattleWindow : DataModule
                     }
 
                     {
-                        var endPosition = this.Viewer.GetEndPosition();
-                        if (this.Viewer.Position >= endPosition)
+                        var endPosition = this._viewer.GetEndPosition();
+                        if (this._viewer.Position >= endPosition)
                         {
                             SetPhase(2);
                         }
@@ -523,7 +523,7 @@ public partial class FastBattleWindow : DataModule
 
                     break;
                 case 2:
-                    image = 9 - PhaseFrame / 2;
+                    image = 9 - _phaseFrame / 2;
                     if (image < 0)
                     {
                         image = 0;
@@ -541,10 +541,10 @@ public partial class FastBattleWindow : DataModule
                         GlowImage.Visible = true;
                     }
 
-                    if (PhaseFrame > 20)
+                    if (_phaseFrame > 20)
                     {
                         SetPhase(3);
-                        PhaseFrame = 21;
+                        _phaseFrame = 21;
                     }
 
                     break;
@@ -559,7 +559,7 @@ public partial class FastBattleWindow : DataModule
             }
 
             FCWin.SurfaceValid = false;
-            PhaseFrame += 1;
+            _phaseFrame += 1;
         }
         catch
         {
@@ -572,7 +572,7 @@ public partial class FastBattleWindow : DataModule
     {
         CombatViewer viewer;
         DialogHosts.General.PlayButtonSound(0);
-        viewer = Viewer;
+        viewer = _viewer;
         if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(0);
@@ -585,7 +585,7 @@ public partial class FastBattleWindow : DataModule
     {
         CombatViewer viewer;
         DialogHosts.General.PlayButtonSound(0);
-        viewer = Viewer;
+        viewer = _viewer;
         if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(viewer.GetEndPosition() + 1);
@@ -597,9 +597,9 @@ public partial class FastBattleWindow : DataModule
     public void PauseBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (Viewer != null && Viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            Viewer.Pause();
+            _viewer.Pause();
         }
     }
 
@@ -607,9 +607,9 @@ public partial class FastBattleWindow : DataModule
     public void PlayBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (Viewer != null && Viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            Viewer.Play();
+            _viewer.Play();
         }
     }
 
@@ -617,7 +617,7 @@ public partial class FastBattleWindow : DataModule
     public void SequencePositionSldChange()
     {
         CombatViewer viewer;
-        viewer = Viewer;
+        viewer = _viewer;
         if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(SequencePositionSld.Position);
@@ -628,35 +628,35 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:516
     public void SequenceSpeedSldChange()
     {
-        if (Viewer != null)
+        if (_viewer != null)
         {
-            Viewer.SetSpeed((byte)(20 - SequenceSpeedSld.Position));
+            _viewer.SetSpeed((byte)(20 - SequenceSpeedSld.Position));
         }
     }
 
     // FastCombatWin.pas:521
     public void LShieldUserDraw(UIComponent sender, LockedSurface surface)
     {
-        if (LeftOpacity == 100)
+        if (_leftOpacity == 100)
         {
-            DialogHosts.UIGraphics.Shields[LeftShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
+            DialogHosts.UIGraphics.Shields[_leftShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.UIGraphics.Shields[LeftShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[LeftOpacity]);
+            DialogHosts.UIGraphics.Shields[_leftShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
         }
     }
 
     // FastCombatWin.pas:530
     public void RShieldUserDraw(UIComponent sender, LockedSurface surface)
     {
-        if (RightOpacity == 100)
+        if (_rightOpacity == 100)
         {
-            DialogHosts.UIGraphics.Shields[RightShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
+            DialogHosts.UIGraphics.Shields[_rightShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.UIGraphics.Shields[RightShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[RightOpacity]);
+            DialogHosts.UIGraphics.Shields[_rightShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
         }
     }
 
@@ -677,13 +677,13 @@ public partial class FastBattleWindow : DataModule
 
     internal static void ShowCombatEvent(FastBattleWindow dialog, CombatEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog.Event == null, "", "FastCombatWin.pas", 159);
+        Assert(dialog._event == null, "", "FastCombatWin.pas", 159);
         DialogHosts.General.Manager.OverlayPriority = 49;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        dialog.Done = done;
-        dialog.Logbook = eventValue.Logbook;
-        InitializeCombatDialog(dialog, dialog.Logbook);
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        dialog._done = done;
+        dialog._logbook = eventValue.Logbook;
+        InitializeCombatDialog(dialog, dialog._logbook);
         dialog.FCWin.Visible = true;
     }
 
@@ -695,9 +695,9 @@ public partial class FastBattleWindow : DataModule
         Battle combat;
         CombatParty party;
         Image image;
-        dialog.Viewer.Initialize(logbook);
-        combat = dialog.Viewer.Combat;
-        dialog.AnimationFrame = 0;
+        dialog._viewer.Initialize(logbook);
+        combat = dialog._viewer.Combat;
+        dialog._animationFrame = 0;
         for (int I = 0; I <= 7; I++)
         {
             switch (I)
@@ -759,7 +759,7 @@ public partial class FastBattleWindow : DataModule
             // { Original refreshes both side labels inside the party loop. }
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player == 0)
             {
-                var independents = AbilityRules.TranslateResourceString(ScenarioText.s_independentsText);
+                var independents = AbilityRules.TranslateResourceString(ScenarioText.IndependentsText);
                 dialog.LSideLbl.Text = independents;
             }
             else
@@ -772,7 +772,7 @@ public partial class FastBattleWindow : DataModule
 
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).Player == 0)
             {
-                var independents = AbilityRules.TranslateResourceString(ScenarioText.s_independentsText);
+                var independents = AbilityRules.TranslateResourceString(ScenarioText.IndependentsText);
                 dialog.RSideLbl.Text = independents;
             }
             else
@@ -784,12 +784,12 @@ public partial class FastBattleWindow : DataModule
             }
         }
 
-        dialog.Viewer.Play();
+        dialog._viewer.Play();
         dialog.FCWin.Drawn = false;
-        var endPosition = dialog.Viewer.GetEndPosition();
+        var endPosition = dialog._viewer.GetEndPosition();
         dialog.SequencePositionSld.Max = endPosition;
-        dialog.SequenceSpeedSld.Position = 20 - dialog.Viewer.Delay;
-        if (dialog.Viewer.GetEndPosition() != -1)
+        dialog.SequenceSpeedSld.Position = 20 - dialog._viewer.Delay;
+        if (dialog._viewer.GetEndPosition() != -1)
         {
             dialog.SetPhase(0);
         }

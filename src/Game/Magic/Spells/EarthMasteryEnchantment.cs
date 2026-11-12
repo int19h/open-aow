@@ -19,7 +19,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1820
     public EarthMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_earthMasteryText);
+        Name = AbilityRules.TranslateResourceString(GameText.EarthMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -57,7 +57,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         {
             if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
-                reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat), [Name]);
+                reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat), [Name]);
                 result = false;
             }
         }

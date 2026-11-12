@@ -27,9 +27,10 @@ public partial class HexSpriteMapKeyboard : EngineObject
     public HexSpriteMapKeyboard(ECustomNode owner) : base(owner)
     { }
 
-    public string CheatText = "";
-    public HexSpriteMapKeyboardMode Mode;
-    public int LockCount;
+    private string _cheatText = "";
+
+    public HexSpriteMapKeyboardMode Mode { get; private set; }
+    public int LockCount { get; private set; }
 
     // AoWHSMap.PAS:946
     public virtual void KeyDown(ref ushort key, Set<ShiftState> shift)
@@ -195,15 +196,15 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
                     break;
                 case HexSpriteMapKeyboardMode.Cheat:
-                    CheatText = CheatText + Cp1252.Text((byte)key);
+                    _cheatText = _cheatText + Cp1252.Text((byte)key);
                     I = 10;
                     complete = false;
                     prefix = false;
                     while (I != 0 && !complete)
                     {
                         I -= 1;
-                        prefix = prefix || CompareText(CheatText, RtlUnit.Copy(s_cheatNames[I], 1, CheatText.Length)) == 0;
-                        complete = CompareText(CheatText, s_cheatNames[I]) == 0;
+                        prefix = prefix || CompareText(_cheatText, RtlUnit.Copy(s_cheatNames[I], 1, _cheatText.Length)) == 0;
+                        complete = CompareText(_cheatText, s_cheatNames[I]) == 0;
                     }
 
                     if (complete && AoWHSMap.Current.SeatedPlayer != -1 && !AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetBusy())
@@ -213,7 +214,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
                         cheat.CheatId = I;
                         AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(cheat);
                         cheat.Release();
-                        CheatText = "";
+                        _cheatText = "";
                         Mode = HexSpriteMapKeyboardMode.Default;
                     }
                     else
@@ -221,7 +222,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
                         if (!prefix)
                         {
                             Mode = HexSpriteMapKeyboardMode.Default;
-                            CheatText = "";
+                            _cheatText = "";
                         }
                     }
 
@@ -233,7 +234,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;
-            CheatText = "";
+            _cheatText = "";
         }
     }
 

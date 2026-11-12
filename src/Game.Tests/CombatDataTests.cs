@@ -9,21 +9,21 @@ public sealed class CombatDataTests
 {
     private sealed class ObservedNode() : ENode(null!)
     {
-        internal int DestroyCount;
+        internal int DestroyCount { get; private set; }
 
         public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
     private sealed class ObservedList : ByteList
     {
-        internal int DestroyCount;
+        internal int DestroyCount { get; private set; }
 
         public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
     private sealed class ObservedChild(ECustomNode owner) : CombatObject(owner)
     {
-        internal int DestroyCount;
+        internal int DestroyCount { get; private set; }
 
         public override void Dispose() { DestroyCount++; base.Dispose(); }
     }

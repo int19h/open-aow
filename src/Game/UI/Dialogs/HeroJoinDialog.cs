@@ -41,17 +41,17 @@ public partial class HeroJoinDialog : DataModule
     public Label DetailsLbl;
     public Memo JoinMemo;
     public IvTranslator Translator;
-    public ExecuteDoneEvent Done;
-    public JoinEventLog JoinEvent;
-    public bool DetailsOpen;
-    public byte Selection;
-    public UnitUserList Units;
-    public Troop FaceUnit;
+    private ExecuteDoneEvent _done;
+    private JoinEventLog _joinEvent;
+    private bool _detailsOpen;
+    private byte _selection;
+    private UnitUserList _units;
+    private Troop _faceUnit;
 
     // AoWHeroJoinDlg.pas:68
     public bool ValidateJoin()
     {
-        bool result = JoinEvent.Validate();
+        bool result = _joinEvent.Validate();
         if (!result)
         {
             Dlg.Visible = false;
@@ -65,18 +65,18 @@ public partial class HeroJoinDialog : DataModule
     {
         EventLog eventValue;
         ExecuteDoneEvent done;
-        Units.Clear();
-        if (DetailsOpen)
+        _units.Clear();
+        if (_detailsOpen)
         {
-            DetailsOpen = false;
+            _detailsOpen = false;
             DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
             DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
-        done = Done;
-        eventValue = JoinEvent;
-        Done = null;
-        JoinEvent = null;
+        done = _done;
+        eventValue = _joinEvent;
+        _done = null;
+        _joinEvent = null;
         if (done != null)
         {
             done(eventValue);
@@ -96,13 +96,13 @@ public partial class HeroJoinDialog : DataModule
         int Y;
         Rect oldClip;
         UnitShowInfo info;
-        if (index < Units.GetCount())
+        if (index < _units.GetCount())
         {
             oldClip = surface.ClipRectangle;
             surface.ClipRectangle = R;
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
-            alignment = Units.GetUnit(index).GetAlignment();
+            alignment = _units.GetUnit(index).GetAlignment();
             if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
                 var image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
@@ -112,8 +112,8 @@ public partial class HeroJoinDialog : DataModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            Units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
-            if ((((int)(((uint)Selection) >> index)) & 1) == 0)
+            _units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
+            if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
                 var image = DialogHosts.UIGraphics.UnitBGs[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
@@ -126,13 +126,13 @@ public partial class HeroJoinDialog : DataModule
     // AoWHeroJoinDlg.pas:122
     public void HeroJoinDlgCreate()
     {
-        Units = new UnitUserList(null);
+        _units = new UnitUserList(null);
     }
 
     // AoWHeroJoinDlg.pas:127
     public void HeroJoinDlgDestroy()
     {
-        Units?.Dispose();
+        _units?.Dispose();
     }
 
     // AoWHeroJoinDlg.pas:132
@@ -142,7 +142,7 @@ public partial class HeroJoinDialog : DataModule
         if (ValidateJoin())
         {
             DialogHosts.General.PlayButtonSound(0);
-            if (!JoinEvent.Accept(ref reason))
+            if (!_joinEvent.Accept(ref reason))
             {
                 AoWHSMap.Current.ShowWarning(reason);
             }
@@ -160,7 +160,7 @@ public partial class HeroJoinDialog : DataModule
         if (ValidateJoin())
         {
             DialogHosts.General.PlayButtonSound(0);
-            if (!JoinEvent.Reject(ref reason))
+            if (!_joinEvent.Reject(ref reason))
             {
                 AoWHSMap.Current.ShowWarning(reason);
             }
@@ -191,9 +191,9 @@ public partial class HeroJoinDialog : DataModule
             R.Right = FaceFrame.WinWidth + R.Left;
             R.Top = FaceFrame.WinTop + Dlg.WinTop;
             R.Bottom = FaceFrame.WinHeight + R.Top;
-            if (FaceUnit.GetFace() != null)
+            if (_faceUnit.GetFace() != null)
             {
-                FaceUnit.GetFace().ShowStretched(R, surface);
+                _faceUnit.GetFace().ShowStretched(R, surface);
             }
         }
     }
@@ -218,14 +218,14 @@ public partial class HeroJoinDialog : DataModule
     {
         if (ValidateJoin())
         {
-            var count = Units.GetCount();
+            var count = _units.GetCount();
             if (slot < count)
             {
-                var troop = Units.GetUnit(slot);
+                var troop = _units.GetUnit(slot);
                 DialogHosts.General.SelectedUnit = troop;
                 if (button == MouseButton.Left)
                 {
-                    DetailsOpen = true;
+                    _detailsOpen = true;
                     DialogHosts.UnitWindow.ShowUnit();
                     DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
                 }
@@ -252,14 +252,14 @@ public partial class HeroJoinDialog : DataModule
     {
         if (dialog.ValidateJoin())
         {
-            dialog.Units.Clear();
-            dialog.FaceUnit = AoWHSMap.Current.UnitControl.FindUnit(dialog.JoinEvent.FirstUnitId);
-            dialog.JoinEvent.ListJoinUnits(dialog.Units, ref dialog.Selection);
-            var level = ((Hero)dialog.FaceUnit).GetLevel();
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_levelFormat), [IntToStr(level)]);
+            dialog._units.Clear();
+            dialog._faceUnit = AoWHSMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
+            dialog._joinEvent.ListJoinUnits(dialog._units, ref dialog._selection);
+            var level = ((Hero)dialog._faceUnit).GetLevel();
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
             dialog.HeroLevel.Text = format;
-            dialog.HeroName.Text = ((Hero)dialog.FaceUnit).HeroName;
-            var text = dialog.JoinEvent.JoinMessage.Text;
+            dialog.HeroName.Text = ((Hero)dialog._faceUnit).HeroName;
+            var text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
         }
     }
@@ -267,13 +267,13 @@ public partial class HeroJoinDialog : DataModule
     internal static void ShowHeroJoin(HeroJoinDialog dialog, HeroJoinEventLog eventValue, ExecuteDoneEvent done)
     {
         ResetHeroJoin(dialog);
-        dialog.JoinEvent = eventValue;
-        dialog.JoinEvent.AddRef();
-        dialog.Done = done;
-        var accept = AbilityRules.TranslateResourceString(GameText.s_acceptText);
+        dialog._joinEvent = eventValue;
+        dialog._joinEvent.AddRef();
+        dialog._done = done;
+        var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftBtn.Text = accept;
         dialog.MiddleBtn.Visible = false;
-        var cancel = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
         dialog.RightBtn.Text = cancel;
         UpdateHeroJoin(dialog);
         dialog.Dlg.Visible = true;
@@ -282,14 +282,14 @@ public partial class HeroJoinDialog : DataModule
     internal static void ShowHeroNegotiation(HeroJoinDialog dialog, NegotiateRequestEventLog eventValue, ExecuteDoneEvent done)
     {
         ResetHeroJoin(dialog);
-        dialog.JoinEvent = eventValue;
-        dialog.JoinEvent.AddRef();
-        dialog.Done = done;
-        var accept = AbilityRules.TranslateResourceString(GameText.s_acceptText);
+        dialog._joinEvent = eventValue;
+        dialog._joinEvent.AddRef();
+        dialog._done = done;
+        var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftBtn.Text = accept;
-        var attack = AbilityRules.TranslateResourceString(GameText.s_attackText);
+        var attack = AbilityRules.TranslateResourceString(GameText.AttackText);
         dialog.MiddleBtn.Text = attack;
-        var cancel = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
         dialog.RightBtn.Text = cancel;
         UpdateHeroJoin(dialog);
         dialog.Dlg.Visible = true;
@@ -305,13 +305,13 @@ public partial class HeroJoinDialog : DataModule
     internal static void ShowPrisonerHero(HeroJoinDialog dialog, PrisonersJoinEventLog eventValue, ExecuteDoneEvent done)
     {
         ResetHeroJoin(dialog);
-        dialog.JoinEvent = eventValue;
-        dialog.JoinEvent.AddRef();
-        dialog.Done = done;
-        var accept = AbilityRules.TranslateResourceString(GameText.s_acceptText);
+        dialog._joinEvent = eventValue;
+        dialog._joinEvent.AddRef();
+        dialog._done = done;
+        var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftBtn.Text = accept;
         dialog.MiddleBtn.Visible = false;
-        var reject = AbilityRules.TranslateResourceString(GameText.s_rejectText);
+        var reject = AbilityRules.TranslateResourceString(GameText.RejectText);
         dialog.RightBtn.Text = reject;
         UpdateHeroJoin(dialog);
         dialog.Dlg.Visible = true;

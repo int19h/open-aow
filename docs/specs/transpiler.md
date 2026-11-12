@@ -365,7 +365,7 @@ pointer to a record whose provenance the resolver cannot see is an error that an
 The survey found none in the set, so the rule is there for upstream changes.
 
 Pointers to records in arrays and allocated blocks (the 15 types: the engine's item lists with
-`ReallocMem`, `MeleeRound.Strikes` (Delphi `TMeleeRound`), palette entries, hash items, `CallBackEvent` (Delphi `TCallBackEvent`) through
+`ReallocMem`, `MeleeRound._strikes` (Delphi `TMeleeRound`), palette entries, hash items, `CallBackEvent` (Delphi `TCallBackEvent`) through
 `New`) are `Ptr<T>` over the backing array (section 5.8). `@FItems^[I]` is `Ptr<T>.To(FItems.Array,
 I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<Entry>` into the `T[]` that
 the addressable static array became. A pointer into one of these outlives a call by design and

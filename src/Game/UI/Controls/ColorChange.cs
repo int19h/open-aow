@@ -5,6 +5,6 @@ namespace Aow.Game.UI.Controls;
 // the color of a wrapped line. FHasColor, FColor
 public partial class ColorChange
 {
-    public bool HasColor;
-    public int Color;
+    public bool HasColor { get; set; }
+    public int Color { get; set; }
 }

@@ -4,5 +4,5 @@ namespace Aow.Game.UI.Controls;
 
 public partial class FileTime
 {
-    public double Time;
+    public double Time { get; set; }
 }

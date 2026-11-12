@@ -24,8 +24,9 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
     public new const int ClassId = 131836;
 
     public sbyte Player;
-    public ExitGameCallBack ExitCallback;
-    public ExitGameMode ExitMode;
+
+    public ExitGameCallBack ExitCallback { get; set; }
+    public ExitGameMode ExitMode { get; set; }
 
     // MoveT.PAS:3249
     public override void ReadWrite(EStorageStream stream)

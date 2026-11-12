@@ -18,10 +18,10 @@ public partial class CombatSide : ENode
     {
     }
 
-    public byte SideIndex;
-    public CombatSide Opponent;
-    public int Strength;
-    public int ConquerCount;
+    public byte SideIndex { get; set; }
+    public CombatSide Opponent { get; set; }
+    public int Strength { get; private set; }
+    public int ConquerCount { get; private set; }
 
     // Combat.pas:6002
     public override void ReadWrite(EStorageStream stream)
@@ -84,11 +84,11 @@ public partial class CombatSide : ENode
         string S;
         if (SideIndex == 0)
         {
-            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.s_combatDebugChannel, "--- Combat Side Attacker ---");
+            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.CombatDebugChannel, "--- Combat Side Attacker ---");
         }
         else
         {
-            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.s_combatDebugChannel, "--- Combat Side Defender ---");
+            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.CombatDebugChannel, "--- Combat Side Defender ---");
         }
 
         for (int I = 0, last = _children.Count - 1; I <= last; I++)
@@ -97,7 +97,7 @@ public partial class CombatSide : ENode
             var targetPriority = GetObjects(I).GetTargetPriority();
             var targetStrength = GetObjects(I).GetTargetStrength();
             S = "(" + IntToStr(I) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
-            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.s_combatDebugChannel, S);
+            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.CombatDebugChannel, S);
         }
     }
 

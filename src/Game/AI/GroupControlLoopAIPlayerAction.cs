@@ -17,8 +17,8 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
     {
     }
 
-    public int GroupProcessCycles;
-    public AIGroupControl GroupControl;
+    private int _groupProcessCycles;
+    private AIGroupControl _groupControl;
 
     // AI.pas:1124
     public override void Dispose()
@@ -49,14 +49,14 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
         bool done;
         int I;
         AIGroupControl control;
-        GroupProcessCycles += 1;
+        _groupProcessCycles += 1;
         try
         {
             busy = false;
             done = false;
             while (!done && !busy && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
-                if (GroupControl == null)
+                if (_groupControl == null)
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
                     I = 0;
@@ -75,7 +75,7 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
                     }
                 }
 
-                control = GroupControl;
+                control = _groupControl;
                 if (control != null)
                 {
                     busy = control.Process(true);
@@ -104,20 +104,20 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
     public void ActivateGroupControl(AIGroup group)
     {
         DeactivateGroupControl();
-        GroupControl = group.CreateGroupControl();
-        GroupControl.Activate();
+        _groupControl = group.CreateGroupControl();
+        _groupControl.Activate();
     }
 
     // AI.pas:1143
     public void DeactivateGroupControl()
     {
         AIGroupControl control;
-        control = GroupControl;
+        control = _groupControl;
         if (control != null)
         {
             control.Deactivate();
-            GroupControl?.Dispose();
-            GroupControl = null;
+            _groupControl?.Dispose();
+            _groupControl = null;
         }
     }
 

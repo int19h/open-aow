@@ -16,7 +16,7 @@ public partial class IsometricHexResource : AbstractHexagonResource
     // IsoHex.pas:268
     public new const int ClassId = 131438;
 
-    protected internal byte DynamicLevel;
+    protected internal byte DynamicLevel { get; protected set; }
 
     // IsoHex.pas:262
 
@@ -38,7 +38,7 @@ public partial class IsometricHexResource : AbstractHexagonResource
         MapObject result = (MapObject)mapField.FindOwnedHexSprite(typeof(IsometricHex));
         if (result != null)
         {
-            if (result.GetTerrain(0) != _terrainList.GetTerrain(0))
+            if (result.GetTerrain(0) != TerrainList.GetTerrain(0))
             {
                 result.SetResource(this);
                 mapField.UpdateTerrainType();

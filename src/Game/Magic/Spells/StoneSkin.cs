@@ -15,7 +15,7 @@ public partial class StoneSkin : UnitSpell
     // UnitSpells.pas:256
     public StoneSkin(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_stoneSkinText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.StoneSkinText);
         SpellId = 17;
         BaseManaCost = 5;
         SpellLevel = 1;

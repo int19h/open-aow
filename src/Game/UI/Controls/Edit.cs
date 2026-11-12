@@ -19,26 +19,28 @@ namespace Aow.Game.UI.Controls;
 // counted from FFirstChar). FRedraw is the input focus
 public partial class Edit : Control
 {
-    public int _maxChars;
-    public byte _cursorChar;
-    public byte _passWordChar;
-    public bool CursorShown;
-    public int _blinkDelay;
-    public int BlinkCount;
-    public int ShownChars;
-    public int FirstChar;
-    public bool _editable;
-    public InterfaceImageLibrary _imageLibraryEdit;
-    public NotifyEvent<Edit> _onExit;
-    public NotifyEvent<Edit> _onReturn;
-    public int _imageLibraryIndex;
-    public int CursorPosition;
+    private int _maxChars;
+    private byte _cursorChar;
+    private byte _passWordChar;
+    private bool _cursorShown;
+    private int _blinkDelay;
+    private int _blinkCount;
+    private int _shownChars;
+
+    public int FirstChar { get; set; }
+
+    private bool _editable;
+    private InterfaceImageLibrary _imageLibraryEdit;
+    private NotifyEvent<Edit> _onExit;
+    private NotifyEvent<Edit> _onReturn;
+    private int _imageLibraryIndex;
+    private int _cursorPosition;
 
     // AoWEdit.pas:79
     public Edit(Component owner) : base(owner)
     {
         _cursorChar = 124;
-        CursorShown = true;
+        _cursorShown = true;
         _editable = true;
     }
 
@@ -63,29 +65,29 @@ public partial class Edit : Control
     {
         var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex];
         var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
-        if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > _winWidth)
+        if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > WinWidth)
         {
             var imageLibraryEdit2 = _imageLibraryEdit[_imageLibraryIndex];
             var imageLibraryEdit3 = _imageLibraryEdit[_imageLibraryIndex + 2];
-            _winWidth = imageLibraryEdit2.Width + imageLibraryEdit3.Width;
+            SetWinWidthWithoutInvalidate(imageLibraryEdit2.Width + imageLibraryEdit3.Width);
         }
 
-        _winHeight = _imageLibraryEdit[_imageLibraryIndex].Height;
+        SetWinHeightWithoutInvalidate(_imageLibraryEdit[_imageLibraryIndex].Height);
         FirstChar = 1;
-        if (_text.Length < CursorPosition)
+        if (_text.Length < _cursorPosition)
         {
-            CursorPosition = _text.Length;
+            _cursorPosition = _text.Length;
         }
 
-        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > _winWidth - 2 * _borderWidth - 1)
+        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > WinWidth - 2 * _borderWidth - 1)
         {
-            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > _winWidth - 2 * _borderWidth - 1)
+            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > WinWidth - 2 * _borderWidth - 1)
             {
                 FirstChar += 1;
             }
         }
 
-        ShownChars = _text.Length - FirstChar + 1;
+        _shownChars = _text.Length - FirstChar + 1;
         base.SetSize();
     }
 
@@ -93,20 +95,20 @@ public partial class Edit : Control
     public override void Update()
     {
         base.Update();
-        if (_visible && _editable && _blinkDelay > 0 && Redraw == true)
+        if (Visible && _editable && _blinkDelay > 0 && Redraw == true)
         {
-            BlinkCount += 1;
-            if (BlinkCount > _blinkDelay)
+            _blinkCount += 1;
+            if (_blinkCount > _blinkDelay)
             {
                 Drawn = false;
-                BlinkCount = 0;
-                if (CursorShown == true)
+                _blinkCount = 0;
+                if (_cursorShown == true)
                 {
-                    CursorShown = false;
+                    _cursorShown = false;
                 }
                 else
                 {
-                    CursorShown = true;
+                    _cursorShown = true;
                 }
             }
         }
@@ -119,44 +121,44 @@ public partial class Edit : Control
         Rect oldClip = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
                     _onPreDraw(this, lockedSurface);
                 }
 
-                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
                 oldClip = lockedSurface.ClipRectangle;
                 var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
-                if (_window._winLeft + _winLeft + _winWidth - imageLibraryEditWidth.Width < oldClip.Right)
+                if (Window.WinLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
-                    lockedSurface.ClipRectangle.Right = _window._winLeft + _winLeft + _winWidth - imageLibraryEdit.Width;
+                    lockedSurface.ClipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
                 }
 
                 _font.Color = Color;
                 if (_passWordChar == 0)
                 {
-                    _font.SetText(_window._winLeft + _winLeft + _borderWidth, _window._winTop + _winTop + _borderHeight, Copy(_text, FirstChar, ShownChars), lockedSurface);
+                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, Copy(_text, FirstChar, _shownChars), lockedSurface);
                 }
                 else
                 {
                     S = "";
-                    for (int I = 0, last = ShownChars - 1; I <= last; I++)
+                    for (int I = 0, last = _shownChars - 1; I <= last; I++)
                     {
                         S = S + Cp1252.Text(_passWordChar);
                     }
 
-                    _font.SetText(_window._winLeft + _winLeft + _borderWidth, _window._winTop + _winTop + _borderHeight, S, lockedSurface);
+                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, S, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
-                if (_editable && Redraw == true && CursorShown == true)
+                if (_editable && Redraw == true && _cursorShown == true)
                 {
-                    var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, CursorPosition));
-                    _font.SetText(_window._winLeft + _winLeft + _borderWidth + textWidth, _window._winTop + _winTop + _borderHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, _cursorPosition));
+                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth + textWidth, Window.WinTop + WinTop + _borderHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 if (_onDraw != null)
@@ -181,10 +183,10 @@ public partial class Edit : Control
         Handled = false;
         MouseDown = false;
         oldRedraw = Redraw;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (Valid == true && _visible == true)
+            if (Valid == true && Visible == true)
             {
                 if (button == MouseButton.Left)
                 {
@@ -194,34 +196,34 @@ public partial class Edit : Control
                     }
 
                     var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, _text.Length));
-                    if (X > _window._winLeft + _winLeft + _borderWidth + textWidth)
+                    if (X > Window.WinLeft + WinLeft + _borderWidth + textWidth)
                     {
                         FirstChar = 1;
-                        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > _winWidth - 2 * _borderWidth - 1)
+                        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > WinWidth - 2 * _borderWidth - 1)
                         {
-                            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > _winWidth - 2 * _borderWidth - 1)
+                            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > WinWidth - 2 * _borderWidth - 1)
                             {
                                 FirstChar += 1;
                             }
                         }
 
-                        CursorPosition = _text.Length - FirstChar + 1;
+                        _cursorPosition = _text.Length - FirstChar + 1;
                     }
                     else
                     {
                         I = 0;
                         W = _font.GetTextWidth(Copy(_text, FirstChar, I + 1));
-                        while (X > _window._winLeft + _winLeft + _borderWidth + W && _text.Length > I + FirstChar - 1)
+                        while (X > Window.WinLeft + WinLeft + _borderWidth + W && _text.Length > I + FirstChar - 1)
                         {
                             I += 1;
                             W = _font.GetTextWidth(Copy(_text, FirstChar, I + 1));
                         }
 
-                        CursorPosition = I;
+                        _cursorPosition = I;
                     }
 
-                    CursorShown = _editable;
-                    BlinkCount = 0;
+                    _cursorShown = _editable;
+                    _blinkCount = 0;
                     Drawn = false;
                 }
 
@@ -233,9 +235,9 @@ public partial class Edit : Control
         }
         else
         {
-            if (CursorShown)
+            if (_cursorShown)
             {
-                CursorShown = false;
+                _cursorShown = false;
                 if (_onExit != null)
                 {
                     _onExit(this);
@@ -255,7 +257,7 @@ public partial class Edit : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -270,12 +272,12 @@ public partial class Edit : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (_visible && X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_editable == true)
             {
-                _window._cursor = -4;
+                Window._cursor = -4;
             }
 
             if (_onMouseMove != null)
@@ -292,22 +294,22 @@ public partial class Edit : Control
         bool scroll;
         Handled = Redraw;
         scroll = true;
-        if (_editable && Redraw == true && Valid == true && _visible == true)
+        if (_editable && Redraw == true && Valid == true && Visible == true)
         {
-            CursorShown = true;
+            _cursorShown = true;
             switch (key)
             {
                 case 8:
-                    if (CursorPosition > 0)
+                    if (_cursorPosition > 0)
                     {
-                        _text = Copy(_text, 1, CursorPosition + FirstChar - 2) + Copy(_text, CursorPosition + FirstChar, _text.Length - CursorPosition - FirstChar + 1);
-                        CursorPosition = CursorPosition + FirstChar - 2;
+                        _text = Copy(_text, 1, _cursorPosition + FirstChar - 2) + Copy(_text, _cursorPosition + FirstChar, _text.Length - _cursorPosition - FirstChar + 1);
+                        _cursorPosition = _cursorPosition + FirstChar - 2;
                     }
 
                     FirstChar = 1;
                     break;
                 case 13:
-                    CursorShown = false;
+                    _cursorShown = false;
                     Redraw = false;
                     if (_onReturn != null)
                     {
@@ -323,9 +325,9 @@ public partial class Edit : Control
                     C = key;
                     if (_text.Length < _maxChars || _maxChars == 0)
                     {
-                        _text = Copy(_text, 1, FirstChar + CursorPosition - 1) + Cp1252.Text(C) + Copy(_text, FirstChar + CursorPosition, _text.Length - CursorPosition - FirstChar + 1);
-                        CursorPosition += 1;
-                        CursorPosition = CursorPosition + FirstChar - 1;
+                        _text = Copy(_text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(C) + Copy(_text, FirstChar + _cursorPosition, _text.Length - _cursorPosition - FirstChar + 1);
+                        _cursorPosition += 1;
+                        _cursorPosition = _cursorPosition + FirstChar - 1;
                         FirstChar = 1;
                     }
 
@@ -334,20 +336,20 @@ public partial class Edit : Control
 
             if (scroll == true)
             {
-                while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > _winWidth - 2 * _borderWidth - 1)
+                while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > WinWidth - 2 * _borderWidth - 1)
                 {
                     FirstChar += 1;
-                    CursorPosition -= 1;
+                    _cursorPosition -= 1;
                 }
 
-                ShownChars = _text.Length - FirstChar + 1;
-                if (CursorPosition < 0)
+                _shownChars = _text.Length - FirstChar + 1;
+                if (_cursorPosition < 0)
                 {
-                    CursorPosition = 0;
+                    _cursorPosition = 0;
                 }
             }
 
-            BlinkCount = 0;
+            _blinkCount = 0;
             Drawn = false;
             if (_onKeyPress != null)
             {
@@ -431,31 +433,31 @@ public partial class Edit : Control
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         Handled = Redraw;
-        if (!_editable || !Redraw || !Valid || !_visible) return;
+        if (!_editable || !Redraw || !Valid || !Visible) return;
         switch (key)
         {
             case 37:
-                if (CursorPosition > 0) CursorPosition--;
+                if (_cursorPosition > 0) _cursorPosition--;
                 else if (FirstChar > 1) FirstChar--;
                 break;
             case 39:
-                if (ShownChars > CursorPosition) CursorPosition++;
-                else if (FirstChar + ShownChars < _text.Length) FirstChar++;
+                if (_shownChars > _cursorPosition) _cursorPosition++;
+                else if (FirstChar + _shownChars < _text.Length) FirstChar++;
                 break;
             case 46:
-                if (CursorPosition < _text.Length)
+                if (_cursorPosition < _text.Length)
                 {
-                    _text = Copy(_text, 1, CursorPosition + FirstChar - 1) +
-                        Copy(_text, CursorPosition + FirstChar + 1, _text.Length - CursorPosition - FirstChar);
-                    CursorPosition += FirstChar - 1;
+                    _text = Copy(_text, 1, _cursorPosition + FirstChar - 1) +
+                        Copy(_text, _cursorPosition + FirstChar + 1, _text.Length - _cursorPosition - FirstChar);
+                    _cursorPosition += FirstChar - 1;
                     FirstChar = 1;
                 }
                 break;
         }
-        ShownChars = _text.Length - FirstChar + 1;
-        CursorPosition = Math.Max(CursorPosition, 0);
-        CursorShown = true;
-        BlinkCount = 0;
+        _shownChars = _text.Length - FirstChar + 1;
+        _cursorPosition = Math.Max(_cursorPosition, 0);
+        _cursorShown = true;
+        _blinkCount = 0;
         Drawn = false;
         _onKeyDown?.Invoke(this, ref key, shift);
         _onChange?.Invoke(this);

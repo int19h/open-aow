@@ -145,7 +145,7 @@ public sealed class BlitterTests
     private sealed class Recorder(string routine)
     {
         private uint _combined = 2166136261;
-        public int Cases;
+        private int _cases;
 
         public void Add(byte[] buffer, bool fault)
         {
@@ -153,7 +153,7 @@ public sealed class BlitterTests
             foreach (byte b in buffer) hash = unchecked((hash ^ b) * 16777619);
             hash = unchecked((hash ^ (fault ? 1u : 0u)) * 16777619);
             _combined = unchecked((_combined ^ hash) * 16777619);
-            Cases++;
+            _cases++;
         }
 
         public void Run(byte[] buffer, Action call)
@@ -167,7 +167,7 @@ public sealed class BlitterTests
             Add(buffer, fault);
         }
 
-        public string Result => $"{routine} {Cases} {_combined:X8}";
+        public string Result => $"{routine} {_cases} {_combined:X8}";
     }
 
     // The area of a rectangle of `height` rows of `pitch` bytes at alignment `align`, in a block

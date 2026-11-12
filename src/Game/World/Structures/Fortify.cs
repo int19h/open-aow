@@ -17,7 +17,7 @@ public sealed partial record Fortify : ProductionOrder
     public override CityAction CityAction => CityAction.Fortify;
 
     public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.s_fortifyText) : base.Name(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.FortifyText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) =>
         control.ProductionCity() != null ? AbilityRules.TranslateResourceString(s_fortifyingText) : base.NameProgressive(control);
@@ -35,7 +35,7 @@ public sealed partial record Fortify : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
         return false;
     }
 

@@ -10,8 +10,8 @@ public partial class CustomFixedVisibleHexSprite : FixedVisibleHexSprite
     public CustomFixedVisibleHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    internal int _showPriority;
-    internal OnShowHSEvent _onShow;
+    private int _showPriority;
+    private OnShowHSEvent _onShow;
 
     // HXSPRITE.PAS:800
     public override int GetShowPriority() => _showPriority;

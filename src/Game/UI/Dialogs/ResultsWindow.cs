@@ -61,81 +61,84 @@ public partial class ResultsWindow : DataModule
     public CheckBox ManaCB;
     public Label ManaLbl;
     public IvTranslator Translator;
-    public int MaxTurns;
-    public int MaxGold;
-    public int MaxMana;
-    public int MaxArmies;
-    public int UnusedMaximum;
-    public int MaxHeroes;
-    public int MaxStructures;
-    public int MaxStrength;
-    public ByteList Players;
-    public List<CheckBox> Controls;
+    private int _maxTurns;
+    private int _maxGold;
+    private int _maxMana;
+    private int _maxArmies;
+
+    public int UnusedMaximum { get; private set; }
+
+    private int _maxHeroes;
+    private int _maxStructures;
+    private int _maxStrength;
+
+    public ByteList Players { get; private set; }
+    public List<CheckBox> Controls { get; private set; }
 
     // AoWResultsWin.pas:93
     public void UpdateSelection()
     {
         PlayerStatistics stats;
-        MaxTurns = 1;
-        MaxGold = 1;
-        MaxMana = 1;
-        MaxArmies = 1;
+        _maxTurns = 1;
+        _maxGold = 1;
+        _maxMana = 1;
+        _maxArmies = 1;
         UnusedMaximum = 1;
-        MaxHeroes = 1;
-        MaxStructures = 1;
-        MaxStrength = 1;
+        _maxHeroes = 1;
+        _maxStructures = 1;
+        _maxStrength = 1;
         for (int I = 0, last = Players.Count - 1; I <= last; I++)
         {
             var player = Players[I];
             stats = AoWHSMap.Current.Players.GetPlayers(player).Statistics;
             var count = stats.TurnInfo.GetCount();
-            if (MaxTurns < count)
+            if (_maxTurns < count)
             {
-                MaxTurns = stats.TurnInfo.GetCount();
+                _maxTurns = stats.TurnInfo.GetCount();
             }
 
             for (int J = 0, lastJ = stats.TurnInfo.GetCount() - 1; J <= lastJ; J++)
             {
                 var turnInfo = stats.TurnInfo.GetTurnInfo(J);
-                if (MaxArmies < turnInfo.ArmyStrength)
+                if (_maxArmies < turnInfo.ArmyStrength)
                 {
-                    MaxArmies = stats.TurnInfo.GetTurnInfo(J).ArmyStrength;
+                    _maxArmies = stats.TurnInfo.GetTurnInfo(J).ArmyStrength;
                 }
 
                 var fTurnInfoTurnInfo = stats.TurnInfo.GetTurnInfo(J);
-                if (MaxGold < fTurnInfoTurnInfo.Gold)
+                if (_maxGold < fTurnInfoTurnInfo.Gold)
                 {
-                    MaxGold = stats.TurnInfo.GetTurnInfo(J).Gold;
+                    _maxGold = stats.TurnInfo.GetTurnInfo(J).Gold;
                 }
 
                 var turnInfo2 = stats.TurnInfo.GetTurnInfo(J);
-                if (MaxMana < turnInfo2.Mana)
+                if (_maxMana < turnInfo2.Mana)
                 {
-                    MaxMana = stats.TurnInfo.GetTurnInfo(J).Mana;
+                    _maxMana = stats.TurnInfo.GetTurnInfo(J).Mana;
                 }
 
                 var turnInfo3 = stats.TurnInfo.GetTurnInfo(J);
-                if (MaxHeroes < turnInfo3.Heroes)
+                if (_maxHeroes < turnInfo3.Heroes)
                 {
-                    MaxHeroes = stats.TurnInfo.GetTurnInfo(J).Heroes;
+                    _maxHeroes = stats.TurnInfo.GetTurnInfo(J).Heroes;
                 }
 
                 var turnInfo4 = stats.TurnInfo.GetTurnInfo(J);
-                if (MaxStructures < turnInfo4.Structures)
+                if (_maxStructures < turnInfo4.Structures)
                 {
-                    MaxStructures = stats.TurnInfo.GetTurnInfo(J).Structures;
+                    _maxStructures = stats.TurnInfo.GetTurnInfo(J).Structures;
                 }
 
                 var superiority = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
-                if (MaxStrength < superiority)
+                if (_maxStrength < superiority)
                 {
-                    MaxStrength = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
+                    _maxStrength = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
                 }
             }
         }
 
         var turn = AbilityRules.TranslateResourceString(s_turnText);
-        TurnLbl.Text = turn + " " + IntToStr(MaxTurns);
+        TurnLbl.Text = turn + " " + IntToStr(_maxTurns);
     }
 
     // AoWResultsWin.pas:250
@@ -247,9 +250,9 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxGold, R, surface);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxGold, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(MaxGold);
+        KeyMax.Text = IntToStr(_maxGold);
     }
 
     // AoWResultsWin.pas:175
@@ -265,9 +268,9 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxMana, R, surface);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxMana, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(MaxMana);
+        KeyMax.Text = IntToStr(_maxMana);
     }
 
     // AoWResultsWin.pas:190
@@ -283,9 +286,9 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxHeroes, R, surface);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxHeroes, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(MaxHeroes);
+        KeyMax.Text = IntToStr(_maxHeroes);
     }
 
     // AoWResultsWin.pas:205
@@ -301,9 +304,9 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxArmies, R, surface);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxArmies, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(MaxArmies);
+        KeyMax.Text = IntToStr(_maxArmies);
     }
 
     // AoWResultsWin.pas:220
@@ -319,9 +322,9 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxStructures, R, surface);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStructures, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(MaxStructures);
+        KeyMax.Text = IntToStr(_maxStructures);
     }
 
     // AoWResultsWin.pas:235
@@ -337,10 +340,10 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxStrength, R, surface);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStrength, R, surface);
         values?.Dispose();
         // { Original strength graph labels the structures maximum. }
-        KeyMax.Text = IntToStr(MaxStructures);
+        KeyMax.Text = IntToStr(_maxStructures);
     }
 
     // AoWResultsWin.pas:270

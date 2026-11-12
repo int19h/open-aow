@@ -9,18 +9,19 @@ public partial class CombatSpellCaster : EngineObject
     // Spells.PAS:793
     public CombatSpellCaster(ECustomNode owner) : base(owner)
     {
-        CombatCasterRefCount = 1;
+        _combatCasterRefCount = 1;
     }
 
-    public int CombatCasterSpellId;
-    public int CombatCasterSourceId;
-    public int CombatCasterRefCount;
+    public int CombatCasterSpellId { get; set; }
+    public int CombatCasterSourceId { get; set; }
+
+    private int _combatCasterRefCount;
 
     // Spells.PAS:798
     public override int AddRef()
     {
-        CombatCasterRefCount += 1;
-        return CombatCasterRefCount;
+        _combatCasterRefCount += 1;
+        return _combatCasterRefCount;
     }
 
     // Spells.PAS:803
@@ -28,8 +29,8 @@ public partial class CombatSpellCaster : EngineObject
     {
         int count;
         int releasedCount;
-        CombatCasterRefCount -= 1;
-        count = CombatCasterRefCount;
+        _combatCasterRefCount -= 1;
+        count = _combatCasterRefCount;
         releasedCount = count;
         if (count == 0)
         {

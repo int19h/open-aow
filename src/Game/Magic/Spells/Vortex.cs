@@ -18,7 +18,7 @@ public partial class Vortex : GlobalTargetSpell
     // GlobalTargetSpells.pas:2069
     public Vortex(ECustomNode owner) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(GameText.s_vortexText);
+        this.SpellName = AbilityRules.TranslateResourceString(GameText.VortexText);
         SpellId = 70;
         AboveGroundOnly = false;
     }

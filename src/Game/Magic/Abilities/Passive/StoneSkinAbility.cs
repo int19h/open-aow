@@ -9,7 +9,7 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1029
     public StoneSkinAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_stoneSkinText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.StoneSkinText);
         AbilityId = 153;
     }
 
@@ -24,7 +24,7 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
         if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            result = AbilityRules.TranslateResourceString(GameText.s_earthMasteryText);
+            result = AbilityRules.TranslateResourceString(GameText.EarthMasteryText);
         }
         else
         {

@@ -19,7 +19,7 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:89
     public new const int ClassId = 131411;
 
-    protected internal CustomImageLibrary TransitionLibrary;
+    protected internal CustomImageLibrary TransitionLibrary { get; private set; }
 
     // Hexagon.pas:83
 
@@ -29,7 +29,7 @@ public partial class HexagonResource : AbstractHexagonResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            TransitionLibrary = _engine.HexSpriteSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "HexTrans.ILB");
+            TransitionLibrary = Engine.HexSpriteSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "HexTrans.ILB");
         }
 
         if (message.MessageId == 65621)
@@ -49,7 +49,7 @@ public partial class HexagonResource : AbstractHexagonResource
         MapObject result = (MapObject)mapField.FindOwnedChild(ResourceUserClassId());
         if (result != null)
         {
-            if (result.GetTerrain(0) != _terrainList.GetTerrain(0))
+            if (result.GetTerrain(0) != TerrainList.GetTerrain(0))
             {
                 result.SetResource(this);
                 mapField.UpdateTerrainType();
@@ -79,7 +79,7 @@ public partial class HexagonResource : AbstractHexagonResource
     public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Hexagon hex)
     {
         byte sides;
-        _imageLibrary[0].Show(pixelX, pixelY, lockedSurface);
+        ImageLibrary[0].Show(pixelX, pixelY, lockedSurface);
         if ((hex.TransitionSides & 7) != 0)
         {
             sides = hex.TransitionSides;

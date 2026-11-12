@@ -33,7 +33,7 @@ public partial class HarmonyEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:913
     public HarmonyEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_harmonyText);
+        Name = AbilityRules.TranslateResourceString(GameText.HarmonyText);
         EnchantmentType = GlobalEnchantmentType.Harmony;
         DispelMana = 50;
     }

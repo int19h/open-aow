@@ -96,7 +96,7 @@ public partial class ControlWindow : DataModule
     public IvTranslator Translator;
     public Label PartyActionLbl1;
     public Label PartyActionLbl2;
-    public byte Selection;
+    private byte _selection;
 
     // AOWControlWin.pas:294
     public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
@@ -161,7 +161,7 @@ public partial class ControlWindow : DataModule
     public void Unit1ChkChange(CheckBox sender)
     {
         CheckStart();
-        AoWHSMap.Current.SelectedArmy.SetSelection(Selection);
+        AoWHSMap.Current.SelectedArmy.SetSelection(_selection);
         CheckEnd();
         if (sender.Checked)
         {
@@ -176,60 +176,60 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:354
     public void CheckStart()
     {
-        Selection = 0;
+        _selection = 0;
         if (!Unit1Chk.Checked && DialogHosts.General.SelectedUnits[0] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[0]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[0]));
         }
 
         if (!Unit2Chk.Checked && DialogHosts.General.SelectedUnits[1] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[1]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[1]));
         }
 
         if (!Unit3Chk.Checked && DialogHosts.General.SelectedUnits[2] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[2]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[2]));
         }
 
         if (!Unit4Chk.Checked && DialogHosts.General.SelectedUnits[3] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[3]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[3]));
         }
 
         if (!Unit5Chk.Checked && DialogHosts.General.SelectedUnits[4] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[4]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[4]));
         }
 
         if (!Unit6Chk.Checked && DialogHosts.General.SelectedUnits[5] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[5]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[5]));
         }
 
         if (!Unit7Chk.Checked && DialogHosts.General.SelectedUnits[6] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[6]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[6]));
         }
 
         if (!Unit8Chk.Checked && DialogHosts.General.SelectedUnits[7] != -1)
         {
-            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[7]));
+            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[7]));
         }
     }
 
     // AOWControlWin.pas:375
     public void CheckEnd()
     {
-        Selection = AoWHSMap.Current.SelectedArmy.GetSelection();
-        Unit1Chk.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
-        Unit2Chk.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
-        Unit3Chk.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
-        Unit4Chk.Checked = DialogHosts.General.SelectedUnits[3] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[3])) == 0;
-        Unit5Chk.Checked = DialogHosts.General.SelectedUnits[4] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[4])) == 0;
-        Unit6Chk.Checked = DialogHosts.General.SelectedUnits[5] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[5])) == 0;
-        Unit7Chk.Checked = DialogHosts.General.SelectedUnits[6] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[6])) == 0;
-        Unit8Chk.Checked = DialogHosts.General.SelectedUnits[7] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[7])) == 0;
+        _selection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        Unit1Chk.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
+        Unit2Chk.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
+        Unit3Chk.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
+        Unit4Chk.Checked = DialogHosts.General.SelectedUnits[3] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[3])) == 0;
+        Unit5Chk.Checked = DialogHosts.General.SelectedUnits[4] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[4])) == 0;
+        Unit6Chk.Checked = DialogHosts.General.SelectedUnits[5] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[5])) == 0;
+        Unit7Chk.Checked = DialogHosts.General.SelectedUnits[6] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[6])) == 0;
+        Unit8Chk.Checked = DialogHosts.General.SelectedUnits[7] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[7])) == 0;
         if (Unit1Chk.Checked)
         {
             Unit1Frame.ImageLibraryIndexFrame = 26;
@@ -321,7 +321,7 @@ public partial class ControlWindow : DataModule
         if (button == MouseButton.Right)
         {
             CheckStart();
-            AoWHSMap.Current.SelectedArmy.SetSelection((byte)~Selection);
+            AoWHSMap.Current.SelectedArmy.SetSelection((byte)~_selection);
             CheckEnd();
         }
     }

@@ -7,8 +7,7 @@ namespace Aow.Game.Tests;
 
 internal static class SweepFailureFixture
 {
-    internal static readonly string[] Names =
-    [
+    internal static string[] Names { get; } = [
         "Aow.Game.World.Structures.City",
         "Aow.Game.Magic.Spells.HolyGroundSpell",
         "Aow.Game.Magic.Spells.UnholyGroundSpell",
@@ -20,12 +19,13 @@ internal static class SweepFailureFixture
 
     private sealed class FailureOwner(bool reject) : EngineFixture.Owner
     {
-        internal readonly List<string> Events = [];
-        internal EngineObject? Last;
+        internal List<string> Events { get; } = [];
+
+        private EngineObject? _last;
 
         public override int AddChild(EngineObject child)
         {
-            Last = child;
+            _last = child;
             Events.Add("insert:" + ReferenceEquals(this, child.Owner));
             base.AddChild(child);
             if (reject) throw new InvalidDataException("owner rejects after insertion");
@@ -34,7 +34,7 @@ internal static class SweepFailureFixture
 
         public override int RemoveChild(EngineObject child)
         {
-            Events.Add("remove:" + ReferenceEquals(Last, child));
+            Events.Add("remove:" + ReferenceEquals(_last, child));
             int index = Members.IndexOf(child);
             base.RemoveChild(child);
             return index;

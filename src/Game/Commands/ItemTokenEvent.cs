@@ -21,7 +21,7 @@ public partial class ItemTokenEvent : TokenEvent
     public new const int ClassId = 131698;
 
     public int ItemId;
-    public byte Action;
+    private byte _action;
     // 0 = use
     public int HeroId;
 
@@ -30,7 +30,7 @@ public partial class ItemTokenEvent : TokenEvent
     {
         base.ReadWrite(stream);
         stream.rwInteger(ref ItemId, 20);
-        stream.rwData(Bytes.Of(ref Action, 1), 1, 21);
+        stream.rwData(Bytes.Of(ref _action, 1), 1, 21);
         stream.rwInteger(ref HeroId, 22);
     }
 
@@ -46,7 +46,7 @@ public partial class ItemTokenEvent : TokenEvent
         item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
-            switch (Action)
+            switch (_action)
             {
                 case 0:
                     hero = AoWHSMap.Current.HeroControl.FindId(HeroId);

@@ -56,8 +56,8 @@ public partial class MultiWindow : DataModule
     public Button EmailSettingsBtn;
     public Button HeatNetBtn;
     public IvTranslator Translator;
-    public string PendingMap = "";
-    public int MenuHeight;
+    private string _pendingMap = "";
+    private int _menuHeight;
 
     // AOWMultiWin.pas:362
     public int ConnectProvider(ConnectionType kind)
@@ -206,9 +206,9 @@ public partial class MultiWindow : DataModule
             {
                 MultiPnl.Visible = false;
                 DialogHosts.SetupEvents.SetupControl.SetupHost(DialogHosts.SetupEvents.DPlay.PlayerName, 1, DialogHosts.SetupEvents.DPlay.PlayerID);
-                if (!IsEmpty(PendingMap))
+                if (!IsEmpty(_pendingMap))
                 {
-                    DialogHosts.SetupEvents.SetupControl.PickMap(PendingMap);
+                    DialogHosts.SetupEvents.SetupControl.PickMap(_pendingMap);
                 }
 
                 DialogHosts.ScenarioSetup.Execute(DialogHosts.SetupEvents.SetupControl);
@@ -248,9 +248,9 @@ public partial class MultiWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         MultiPnl.Visible = false;
         DialogHosts.SetupEvents.SetupControl.SetupHost("", 0, 0);
-        if (!IsEmpty(PendingMap))
+        if (!IsEmpty(_pendingMap))
         {
-            DialogHosts.SetupEvents.SetupControl.PickMap(PendingMap);
+            DialogHosts.SetupEvents.SetupControl.PickMap(_pendingMap);
         }
 
         DialogHosts.ScenarioSetup.Execute(DialogHosts.SetupEvents.SetupControl);
@@ -305,9 +305,9 @@ public partial class MultiWindow : DataModule
         {
             MultiPnl.Visible = false;
             DialogHosts.SetupEvents.SetupControl.SetupHost("", 2, 0);
-            if (!IsEmpty(PendingMap))
+            if (!IsEmpty(_pendingMap))
             {
-                DialogHosts.SetupEvents.SetupControl.PickMap(PendingMap);
+                DialogHosts.SetupEvents.SetupControl.PickMap(_pendingMap);
             }
 
             DialogHosts.ScenarioSetup.Execute(DialogHosts.SetupEvents.SetupControl);
@@ -344,7 +344,7 @@ public partial class MultiWindow : DataModule
 
     private static readonly string s_playerGameFormat = "%s's Game";
 
-    internal static int SessionRefreshDelay;
+    internal static int SessionRefreshDelay { get; private set; }
 
     internal const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 

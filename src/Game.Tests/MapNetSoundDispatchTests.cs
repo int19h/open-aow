@@ -12,19 +12,19 @@ public sealed class MapNetSoundDispatchTests
 {
     private sealed class ConvertedField(ECustomNode owner) : MapField(owner)
     {
-        internal int OwnerCalls;
+        private int _ownerCalls;
 
-        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
     }
 
     private sealed class ConvertedMap(ECustomNode owner) : HSMap(owner)
     {
-        internal int MouseCalls;
+        internal int MouseCalls { get; private set; }
 
         public override HexSpriteMapMouse CreateMouse()
         {
-            Assert.Null(_selection);
-            Assert.Null(_timer);
+            Assert.Null(Selection);
+            Assert.Null(Timer);
             MouseCalls++;
             return new HexSpriteMapMouse();
         }
@@ -48,9 +48,9 @@ public sealed class MapNetSoundDispatchTests
     {
         using var converted = new ConvertedMap(null!);
         Assert.Equal(1, converted.MouseCalls);
-        Assert.Same(converted, converted.Mouse._hexSpriteMap);
-        Assert.NotNull(converted._selection);
-        Assert.NotNull(converted._timer);
+        Assert.Same(converted, converted.Mouse.HexSpriteMap);
+        Assert.NotNull(converted.Selection);
+        Assert.NotNull(converted.Timer);
     }
 
     [Fact]
@@ -77,13 +77,13 @@ public sealed class MapNetSoundDispatchTests
     public void LegacyMouseStartsWithEmptyEvents()
     {
         var mouse = new GameMapMouse();
-        Assert.Equal(0, mouse._onUpStore.Count);
-        Assert.Equal(0, mouse._onDownStore.Count);
-        Assert.Equal(0, mouse._onMoveStore.Count);
-        Assert.Equal(0, mouse._onDoubleClickStore.Count);
-        Assert.Equal(0, mouse._onCaptureChangedStore.Count);
-        Assert.Equal(int.MinValue, mouse._x);
-        Assert.Equal(int.MinValue, mouse._y);
+        Assert.Equal(0, mouse.OnUpStore.Count);
+        Assert.Equal(0, mouse.OnDownStore.Count);
+        Assert.Equal(0, mouse.OnMoveStore.Count);
+        Assert.Equal(0, mouse.OnDoubleClickStore.Count);
+        Assert.Equal(0, mouse.OnCaptureChangedStore.Count);
+        Assert.Equal(int.MinValue, mouse.X);
+        Assert.Equal(int.MinValue, mouse.Y);
         mouse.Dispose();
     }
 

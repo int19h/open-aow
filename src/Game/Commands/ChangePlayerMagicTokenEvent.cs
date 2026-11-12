@@ -23,7 +23,7 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
     public ChangePlayerMagicTokenEventMode Mode;
     public byte PlayerIndex;
     public int Value;
-    public int ExtraValue;
+    private int _extraValue;
 
     // Spells.PAS:2448
     public override void ReadWrite(EStorageStream stream)
@@ -32,7 +32,7 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
         stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
         stream.rwByte(ref PlayerIndex, 21);
         stream.rwInteger(ref Value, 22);
-        stream.rwInteger(ref ExtraValue, 23);
+        stream.rwInteger(ref _extraValue, 23);
     }
 
     // Spells.PAS:2456

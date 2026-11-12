@@ -9,8 +9,8 @@ public sealed class TerrainChangedNotification
 
     public struct TerrainChangedInfo
     {
-        public Rect Rectangle;
-        public int Level;
-        public MapLevel MapLevel;
+        public Rect Rectangle { get; set; }
+        public int Level { get; set; }
+        public MapLevel MapLevel { get; set; }
     }
 }

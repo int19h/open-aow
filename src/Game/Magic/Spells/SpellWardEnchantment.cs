@@ -13,7 +13,7 @@ public partial class SpellWardEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1935
     public SpellWardEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_spellWardText);
+        Name = AbilityRules.TranslateResourceString(GameText.SpellWardText);
         EnchantmentType = GlobalEnchantmentType.SpellWard;
         DispelMana = 50;
     }

@@ -23,7 +23,7 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
         TargetUnitIds = new Int32List();
     }
 
-    public Int32List TargetUnitIds;
+    public Int32List TargetUnitIds { get; }
 
     // AIGroup.pas:1436
     public override void Dispose()

@@ -22,7 +22,7 @@ public partial class PestilenceStorm : Storm
 
     public new const int ClassId = 135745;
 
-    public PoisonCloud.Resource CloudResource;
+    private PoisonCloud.Resource _cloudResource;
 
     // Storms.pas:644
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -36,7 +36,7 @@ public partial class PestilenceStorm : Storm
         HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
         X = X - pixelXSurface + 8;
         Y = Y - pixelYSurface;
-        sequence = CloudResource.ImageSequenceList.ImageSequences[0];
+        sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
         while (sequence != null)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
@@ -80,7 +80,7 @@ public partial class PestilenceStorm : Storm
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect R = default;
-        CloudResource = (PoisonCloud.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(135744);
+        _cloudResource = (PoisonCloud.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(135744);
         base.InitializeStorm(player, X, Y, L);
         R.Left = -80;
         R.Right = 96;
@@ -104,7 +104,7 @@ public partial class PestilenceStorm : Storm
         int frame;
         PoisonCloud cloud;
         NewFrame();
-        sequence = CloudResource.ImageSequenceList.ImageSequences[0];
+        sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
         frame = -1;
         while (sequence != null && frame == -1)
         {
@@ -114,7 +114,7 @@ public partial class PestilenceStorm : Storm
 
         if (frame == -1)
         {
-            cloud = (PoisonCloud)CloudResource.CreateResourceUser();
+            cloud = (PoisonCloud)_cloudResource.CreateResourceUser();
             cloud.TurnsRemaining = 3;
             cloud.Player = AoWHSMap.Current.CurrentPlayer;
             var hexLevel = GetHexLevel();
@@ -148,6 +148,6 @@ public partial class PestilenceStorm : Storm
     // Animation.pas:43
 
     // Storms.pas:639
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_pestilenceStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.PestilenceStormText);
 
 }

@@ -11,18 +11,22 @@ namespace Aow.Game.Draw.Images;
 public partial class CustomImageLibrary : Component
 {
 
-    internal Set<ImageLibraryStatusElement> _status;
-    internal NotifyEvent<object> _onChange;
-    internal byte _changeLock;
-    internal bool _reloading;
-    internal bool _loadOnDemand;
-    internal string _loadedFileName = "";
-    internal string _fileName = "";
-    internal int _dataOffset;
-    internal int _capacity;
-    internal int _count;
-    internal ImageItem[] _images;
-    internal PaletteManager _paletteManager;
+    private Set<ImageLibraryStatusElement> _status;
+    private NotifyEvent<object> _onChange;
+    private byte _changeLock;
+    private bool _reloading;
+    private bool _loadOnDemand;
+    private string _loadedFileName = "";
+    private string _fileName = "";
+    private int _dataOffset;
+
+    internal int Capacity { get; private set; }
+
+    private int _count;
+
+    internal ImageItem[] Images { get; private set; }
+
+    private PaletteManager _paletteManager;
 
     // ImageLib.pas:9699
     internal void SetCapacity(int newCapacity)
@@ -32,22 +36,22 @@ public partial class CustomImageLibrary : Component
             newCapacity = newCapacity | 7;
         }
 
-        if (newCapacity != _capacity)
+        if (newCapacity != Capacity)
         {
-            _images = ReallocArray(_images, newCapacity);
-            if (newCapacity > _capacity)
+            Images = ReallocArray(Images, newCapacity);
+            if (newCapacity > Capacity)
             {
-                ClearElements(_images, _capacity, newCapacity - _capacity);
-                for (int I = _capacity; I <= newCapacity - 1; I++)
+                ClearElements(Images, Capacity, newCapacity - Capacity);
+                for (int I = Capacity; I <= newCapacity - 1; I++)
                 {
-                    _images[I].Reference = -1;
+                    Images[I].Reference = -1;
                 }
             }
 
-            _capacity = newCapacity;
-            if (_capacity < _count)
+            Capacity = newCapacity;
+            if (Capacity < _count)
             {
-                _count = _capacity;
+                _count = Capacity;
             }
         }
     }
@@ -56,7 +60,7 @@ public partial class CustomImageLibrary : Component
     internal void SetCount(int value)
     {
         _count = value;
-        if (_count > _capacity)
+        if (_count > Capacity)
         {
             SetCapacity(_count);
         }
@@ -140,8 +144,8 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9775
     internal void DeleteItem(int index)
     {
-        MoveElements(_images, index + 1, _images, index, _count - index - 1);
-        ClearElements(_images, _count - 1, 1);
+        MoveElements(Images, index + 1, Images, index, _count - index - 1);
+        ClearElements(Images, _count - 1, 1);
         _count -= 1;
         SetModified(true);
     }
@@ -150,8 +154,8 @@ public partial class CustomImageLibrary : Component
     internal void InsertItem(int index)
     {
         SetCount(_count + 1);
-        MoveElements(_images, index, _images, index + 1, _count - index - 1);
-        ClearElements(_images, index, 1);
+        MoveElements(Images, index, Images, index + 1, _count - index - 1);
+        ClearElements(Images, index, 1);
     }
 
     // ImageLib.pas:9877
@@ -214,9 +218,9 @@ public partial class CustomImageLibrary : Component
     {
         for (int I = _count - 1; I >= 0; I--)
         {
-            if (_images[I].Image != null)
+            if (Images[I].Image != null)
             {
-                _images[I].Image?.Dispose();
+                Images[I].Image?.Dispose();
             }
         }
 
@@ -367,11 +371,11 @@ public partial class CustomImageLibrary : Component
             int last = _count - 1;
             for (; I <= last; I += 1)
             {
-                if (_images[I].Image != null || _images[I].Reference != -1)
+                if (Images[I].Image != null || Images[I].Reference != -1)
                 {
                     stream.Write(Bytes.Of(ref I, 4));
-                    LibraryImage.WriteImageToStream(_images[I].Image, stream, swap);
-                    stream.Write(Bytes.Of(ref _images[I].Reference, 4));
+                    LibraryImage.WriteImageToStream(Images[I].Image, stream, swap);
+                    stream.Write(Bytes.Of(ref Images[I].Reference, 4));
                 }
             }
 
@@ -492,7 +496,7 @@ public partial class CustomImageLibrary : Component
     public void UpdateImageItemSettings(int index)
     {
         LibraryImage image;
-        image = _images[index].Image;
+        image = Images[index].Image;
         if (image != null && image.ImageClass.ClassId == 256)
         {
             ((ImageNode)image).UpdateDimensions();
@@ -520,9 +524,9 @@ public partial class CustomImageLibrary : Component
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            if (_images[I].Image != null)
+            if (Images[I].Image != null)
             {
-                _images[I].Image.SetReloadingEnabled(false);
+                Images[I].Image.SetReloadingEnabled(false);
             }
         }
 
@@ -537,7 +541,7 @@ public partial class CustomImageLibrary : Component
         {
             for (int I = 0, last = _count - 1; I <= last; I++)
             {
-                image = _images[I].Image;
+                image = Images[I].Image;
                 if (image != null)
                 {
                     image.ReleaseDiscardableImageData();
@@ -552,7 +556,7 @@ public partial class CustomImageLibrary : Component
         LibraryImage image;
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            image = _images[I].Image;
+            image = Images[I].Image;
             if (image != null)
             {
                 image.LoadDiscardableImageData();
@@ -561,7 +565,7 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:9884
-    public bool IsReference(int index) => index >= 0 && index < _count && _images[index].Image == null && _images[index].Reference != -1;
+    public bool IsReference(int index) => index >= 0 && index < _count && Images[index].Image == null && Images[index].Reference != -1;
 
     // ImageLib.pas:9922
     public bool ImageExist(int index)
@@ -570,13 +574,13 @@ public partial class CustomImageLibrary : Component
         int R;
         if (index < _count && index >= 0)
         {
-            result = _images[index].Image != null;
+            result = Images[index].Image != null;
             if (!result)
             {
-                R = _images[index].Reference;
+                R = Images[index].Reference;
                 if (R >= 0 && R < _count)
                 {
-                    result = _images[R].Image != null;
+                    result = Images[R].Image != null;
                 }
                 else
                 {
@@ -593,7 +597,7 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:9942
-    public int GetImageReference(int index) => _images[index].Reference;
+    public int GetImageReference(int index) => Images[index].Reference;
 
     // ImageLib.pas:9947
     public void SetImageReference(int index, int value)
@@ -605,15 +609,15 @@ public partial class CustomImageLibrary : Component
 
         if (value != -1)
         {
-            if (_images[index].Image != null)
+            if (Images[index].Image != null)
             {
-                _images[index].Image.Dispose();
+                Images[index].Image.Dispose();
             }
 
-            _images[index].Image = null;
+            Images[index].Image = null;
         }
 
-        _images[index].Reference = value;
+        Images[index].Reference = value;
         UpdateImageItemSettings(index);
         SetModified(true);
     }
@@ -683,9 +687,9 @@ public partial class CustomImageLibrary : Component
     {
         if (index < _count)
         {
-            if (_images[index].Image != null)
+            if (Images[index].Image != null)
             {
-                _images[index].Image?.Dispose();
+                Images[index].Image?.Dispose();
             }
 
             DeleteItem(index);
@@ -702,9 +706,9 @@ public partial class CustomImageLibrary : Component
         int result = IndexOf(image);
         if (result != -1)
         {
-            if (_images[result].Image != null)
+            if (Images[result].Image != null)
             {
-                _images[result].Image?.Dispose();
+                Images[result].Image?.Dispose();
             }
 
             DeleteItem(result);
@@ -721,7 +725,7 @@ public partial class CustomImageLibrary : Component
     public int IndexOf(LibraryImage image)
     {
         int result = 0;
-        while (result < _count && image != _images[result].Image)
+        while (result < _count && image != Images[result].Image)
         {
             result += 1;
         }
@@ -738,11 +742,11 @@ public partial class CustomImageLibrary : Component
     public LibraryImage GetImage(int index)
     {
         LibraryImage result;
-        if (_images[index].Image != null)
+        if (Images[index].Image != null)
         {
-            result = _images[index].Image;
+            result = Images[index].Image;
             result.SetOwner(null);
-            _images[index].Image = null;
+            Images[index].Image = null;
             SetModified(true);
             if (_changeLock == 0)
             {
@@ -765,13 +769,13 @@ public partial class CustomImageLibrary : Component
             SetCount(index + 1);
         }
 
-        if (_images[index].Image != null)
+        if (Images[index].Image != null)
         {
-            _images[index].Image.Dispose();
+            Images[index].Image.Dispose();
         }
 
-        _images[index].Image = image;
-        _images[index].Reference = -1;
+        Images[index].Image = image;
+        Images[index].Reference = -1;
         UpdateImageItemSettings(index);
         if (image != null)
         {
@@ -812,7 +816,7 @@ public partial class CustomImageLibrary : Component
     {
         int I;
         I = 0;
-        while (I != _count && _images[I].Image == null)
+        while (I != _count && Images[I].Image == null)
         {
             I += 1;
         }
@@ -849,7 +853,7 @@ public partial class CustomImageLibrary : Component
             }
             else
             {
-                result = ((ImageNode)image)._count;
+                result = ((ImageNode)image).Count;
             }
         }
         else
@@ -865,13 +869,13 @@ public partial class CustomImageLibrary : Component
     {
         LibraryImage result;
         LibraryImage image;
-        image = _images[index].Image;
+        image = Images[index].Image;
         if (image == null)
         {
-            index = _images[index].Reference;
+            index = Images[index].Reference;
             if (index != -1)
             {
-                image = _images[index].Image;
+                image = Images[index].Image;
             }
         }
 
@@ -879,7 +883,7 @@ public partial class CustomImageLibrary : Component
         {
             if (image.ImageClass.ClassId == 256)
             {
-                result = ((ImageNode)image)._images[subIndex];
+                result = ((ImageNode)image).Images[subIndex];
             }
             else
             {
@@ -937,21 +941,21 @@ public partial class CustomImageLibrary : Component
     public LibraryImage GetSubImage(int index, int subIndex)
     {
         ImageNode node;
-        LibraryImage result = _images[index].Image;
+        LibraryImage result = Images[index].Image;
         if (result != null)
         {
             if (result.ImageClass.ClassId == 256)
             {
                 node = (ImageNode)result;
-                if (subIndex >= 0 && subIndex < node._count)
+                if (subIndex >= 0 && subIndex < node.Count)
                 {
-                    result = node._images[subIndex];
+                    result = node.Images[subIndex];
                     result.SetOwner(null);
                     node.Delete(subIndex);
-                    if (node._count == 1)
+                    if (node.Count == 1)
                     {
                         var image = node.GetImage(0);
-                        _images[index].Image = image;
+                        Images[index].Image = image;
                         node.Delete(0);
                         node?.Dispose();
                     }
@@ -968,7 +972,7 @@ public partial class CustomImageLibrary : Component
                 if (subIndex == 0)
                 {
                     result.SetOwner(null);
-                    _images[index].Image = null;
+                    Images[index].Image = null;
                     SetModified(true);
                 }
                 else
@@ -988,7 +992,7 @@ public partial class CustomImageLibrary : Component
         ImageNode node;
         if (index < _count)
         {
-            old = _images[index].Image;
+            old = Images[index].Image;
         }
         else
         {
@@ -1000,15 +1004,15 @@ public partial class CustomImageLibrary : Component
             if (old.ImageClass.ClassId == 256)
             {
                 node = (ImageNode)old;
-                if (subIndex >= 0 && subIndex < node._count)
+                if (subIndex >= 0 && subIndex < node.Count)
                 {
-                    old = node._images[subIndex];
+                    old = node.Images[subIndex];
                     if (old != null)
                     {
                         old.Dispose();
                     }
 
-                    node._images[subIndex] = image;
+                    node.Images[subIndex] = image;
                     image.SetOwner(this);
                     SetModified(true);
                 }
@@ -1026,7 +1030,7 @@ public partial class CustomImageLibrary : Component
                     node = new ImageNode(this);
                     node.Add(old);
                     node.Add(image);
-                    _images[index].Image = node;
+                    Images[index].Image = node;
                     image.SetOwner(this);
                     SetModified(true);
                 }
@@ -1048,16 +1052,16 @@ public partial class CustomImageLibrary : Component
     public void DeleteSub(int index, int subIndex)
     {
         ImageNode node;
-        node = (ImageNode)_images[index].Image;
+        node = (ImageNode)Images[index].Image;
         if (node != null)
         {
             if (node.ImageClass.ClassId != 256)
             {
                 node.GetImage(subIndex).Dispose();
                 node.Delete(subIndex);
-                if (node._count == 1)
+                if (node.Count == 1)
                 {
-                    _images[index].Image = node._images[0];
+                    Images[index].Image = node.Images[0];
                     node.Delete(0);
                     node.Dispose();
                 }
@@ -1069,7 +1073,7 @@ public partial class CustomImageLibrary : Component
                 if (subIndex == 0)
                 {
                     node?.Dispose();
-                    _images[index].Image = null;
+                    Images[index].Image = null;
                 }
             }
         }
@@ -1081,7 +1085,7 @@ public partial class CustomImageLibrary : Component
         int result;
         LibraryImage old;
         ImageNode node;
-        old = _images[index].Image;
+        old = Images[index].Image;
         if (old != null)
         {
             if (old.ImageClass.ClassId == 256)
@@ -1098,7 +1102,7 @@ public partial class CustomImageLibrary : Component
                 if (old == image)
                 {
                     old?.Dispose();
-                    _images[index].Image = null;
+                    Images[index].Image = null;
                     SetModified(true);
                     result = 0;
                 }
@@ -1121,7 +1125,7 @@ public partial class CustomImageLibrary : Component
     {
         int result;
         LibraryImage old;
-        old = _images[index].Image;
+        old = Images[index].Image;
         if (old != null)
         {
             if (old.ImageClass.ClassId == 256)
@@ -1153,7 +1157,7 @@ public partial class CustomImageLibrary : Component
     {
         LibraryImage old;
         ImageNode node;
-        old = _images[index].Image;
+        old = Images[index].Image;
         if (old != null)
         {
             if (old.ImageClass.ClassId == 256)
@@ -1166,7 +1170,7 @@ public partial class CustomImageLibrary : Component
             {
                 node = new ImageNode(this);
                 node.Add(old);
-                _images[index].Image = node;
+                Images[index].Image = node;
                 node.Insert(subIndex, image);
                 image.SetOwner(this);
                 SetModified(true);
@@ -1183,7 +1187,7 @@ public partial class CustomImageLibrary : Component
     {
         LibraryImage old;
         ImageNode node;
-        old = _images[index].Image;
+        old = Images[index].Image;
         if (old != null)
         {
             if (old.ImageClass.ClassId == 256)
@@ -1196,7 +1200,7 @@ public partial class CustomImageLibrary : Component
             {
                 node = new ImageNode(this);
                 node.Add(old);
-                _images[index].Image = node;
+                Images[index].Image = node;
                 image.SetOwner(this);
                 SetModified(true);
             }
@@ -1212,12 +1216,12 @@ public partial class CustomImageLibrary : Component
     {
         bool result;
         LibraryImage image;
-        image = _images[index].Image;
+        image = Images[index].Image;
         if (image != null && subIndex >= 0)
         {
             if (image.ImageClass.ClassId == 256)
             {
-                result = subIndex < ((ImageNode)image)._count;
+                result = subIndex < ((ImageNode)image).Count;
             }
             else
             {
@@ -1279,7 +1283,8 @@ public partial class CustomImageLibrary : Component
 
     public struct ImageItem
     {
-        public LibraryImage Image;
+        public LibraryImage Image { get; set; }
+
         public int Reference;
     }
 

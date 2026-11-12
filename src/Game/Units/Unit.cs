@@ -26,14 +26,16 @@ public partial class Unit : Troop
     public Unit(ECustomNode owner) : base(owner)
     { }
 
-    public byte Experience;
-    public sbyte MovePoints;
-    public sbyte HitPoints;
-    public UnitResource UnitResource;
-    public sbyte AbilityAttack;
-    public sbyte AbilityDefense;
-    public sbyte AbilityResistance;
-    public sbyte AbilityDamage;
+    private byte _experience;
+    private sbyte _movePoints;
+    private sbyte _hitPoints;
+
+    public UnitResource UnitResource { get; set; }
+    public sbyte AbilityAttack { get; set; }
+
+    private sbyte _abilityDefense;
+    private sbyte _abilityResistance;
+    private sbyte _abilityDamage;
 
     // Unit.PAS:2132
     public override void ReadWrite(EStorageStream stream)
@@ -41,9 +43,9 @@ public partial class Unit : Troop
         short resourceIndex = default;
         UnitResource resource;
         base.ReadWrite(stream);
-        stream.rwByte(ref Experience, 7);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MovePoints), 8);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 9);
+        stream.rwByte(ref _experience, 7);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 8);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hitPoints), 9);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of())
         {
             if (stream.StorageMode().Contains(StorageModeElement.Compare))
@@ -86,9 +88,9 @@ public partial class Unit : Troop
     {
         base.Changed();
         AbilityAttack = this.GetAbilityAttackAll();
-        AbilityDefense = this.GetAbilityDefenseAll();
-        AbilityResistance = this.GetAbilityResistanceAll();
-        AbilityDamage = this.GetAbilityDamageAll();
+        _abilityDefense = this.GetAbilityDefenseAll();
+        _abilityResistance = this.GetAbilityResistanceAll();
+        _abilityDamage = this.GetAbilityDamageAll();
     }
 
     // Unit.PAS:2079
@@ -144,7 +146,7 @@ public partial class Unit : Troop
     {
         var rank = GetRank();
         var morale = GetMorale();
-        sbyte result = (sbyte)(RankTables.s_rankDefense[(int)rank] + (UnitResource.Defense + AbilityDefense) + Hero.s_moraleDefense[(int)morale]);
+        sbyte result = (sbyte)(RankTables.s_rankDefense[(int)rank] + (UnitResource.Defense + _abilityDefense) + Hero.s_moraleDefense[(int)morale]);
         if (result < 1)
         {
             result = 1;
@@ -162,7 +164,7 @@ public partial class Unit : Troop
     public override sbyte GetDamage()
     {
         var rank = GetRank();
-        sbyte result = (sbyte)(RankTables.s_rankDamage[(int)rank] + (UnitResource.Damage + AbilityDamage));
+        sbyte result = (sbyte)(RankTables.s_rankDamage[(int)rank] + (UnitResource.Damage + _abilityDamage));
         if (result < 1)
         {
             result = 1;
@@ -181,7 +183,7 @@ public partial class Unit : Troop
     {
         var morale = GetMorale();
         var rank = GetRank();
-        sbyte result = (sbyte)(Hero.s_moraleResistance[(int)morale] + (UnitResource.Resistance + AbilityResistance) + RankTables.s_rankResistance[(int)rank]);
+        sbyte result = (sbyte)(Hero.s_moraleResistance[(int)morale] + (UnitResource.Resistance + _abilityResistance) + RankTables.s_rankResistance[(int)rank]);
         if (result < 1)
         {
             result = 1;
@@ -206,7 +208,7 @@ public partial class Unit : Troop
     public override sbyte GetMoves() => UnitResource.Moves;
 
     // Unit.PAS:1930
-    public override sbyte GetMovePoints() => MovePoints;
+    public override sbyte GetMovePoints() => _movePoints;
 
     // Unit.PAS:1937
     public override void SetMovePoints(sbyte value)
@@ -221,11 +223,11 @@ public partial class Unit : Troop
             value = 0;
         }
 
-        MovePoints = value;
+        _movePoints = value;
     }
 
     // Unit.PAS:1943
-    public override sbyte GetHitPoints() => HitPoints;
+    public override sbyte GetHitPoints() => _hitPoints;
 
     // Unit.PAS:1945
     public override void SetHitPoints(sbyte value)
@@ -240,7 +242,7 @@ public partial class Unit : Troop
             value = 0;
         }
 
-        HitPoints = value;
+        _hitPoints = value;
         UpdateDefensiveStrength();
     }
 
@@ -328,7 +330,7 @@ public partial class Unit : Troop
     }
 
     // Unit.PAS:1986
-    public override int GetExperience() => Experience;
+    public override int GetExperience() => _experience;
 
     // Unit.PAS:1988
     public override void SetExperience(int value)
@@ -342,7 +344,7 @@ public partial class Unit : Troop
             value = 255;
         }
 
-        Experience = (byte)value;
+        _experience = (byte)value;
         newRank = GetRank();
         if (oldRank != newRank)
         {
@@ -362,9 +364,9 @@ public partial class Unit : Troop
         int result;
         int level;
         level = UnitResource.Level;
-        if (Experience >= level * 2)
+        if (_experience >= level * 2)
         {
-            if (Experience >= level * 6)
+            if (_experience >= level * 6)
             {
                 result = 0;
             }
@@ -442,9 +444,9 @@ public partial class Unit : Troop
     public Rank GetRank()
     {
         Rank result;
-        if (Experience >= UnitResource.Level * 2)
+        if (_experience >= UnitResource.Level * 2)
         {
-            if (Experience >= UnitResource.Level * 6)
+            if (_experience >= UnitResource.Level * 6)
             {
                 result = Rank.Gold;
             }
@@ -469,7 +471,7 @@ public partial class Unit : Troop
             switch (value)
             {
                 case Rank.None:
-                    Experience = 0;
+                    _experience = 0;
                     break;
                 case Rank.Silver:
                     SetExperience(UnitResource.Level * 2);
@@ -498,8 +500,8 @@ public partial class Unit : Troop
                     UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
                 }
 
-                HitPoints = GetHits();
-                MovePoints = GetMoves();
+                _hitPoints = GetHits();
+                _movePoints = GetMoves();
             }
         }
     }

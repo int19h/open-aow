@@ -16,14 +16,17 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     { }
 
     public MapCoordinate Location;
-    public MapCoordinate Destination;
-    public AIMoveExecutorTransportStatus TransportStatus;
+    private MapCoordinate _destination;
+
+    public AIMoveExecutorTransportStatus TransportStatus { get; private set; }
+
     public MapCoordinate BoardingPoint;
     public MapCoordinate ArrivalPoint;
     public MapCoordinate TransportSource;
     public MapCoordinate TransportDestination;
-    public sbyte Player;
-    public bool Grouped;
+
+    public sbyte Player { get; private set; }
+    public bool Grouped { get; private set; }
 
     // AIGroup.pas:4527
     public void Setup(AIMoveExecutorUnit transporter)
@@ -32,10 +35,10 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
         Location.Y = transporter.Location.Y;
         Location.MapLevel = transporter.Location.MapLevel;
         Location.Tag = 0;
-        Destination.X = transporter.Destination.X;
-        Destination.Y = transporter.Destination.Y;
-        Destination.MapLevel = transporter.Destination.MapLevel;
-        Destination.Tag = 0;
+        _destination.X = transporter.Destination.X;
+        _destination.Y = transporter.Destination.Y;
+        _destination.MapLevel = transporter.Destination.MapLevel;
+        _destination.Tag = 0;
         Grouped = false;
         Player = transporter.Troop.Player;
         TransportStatus = transporter.TransportStatus;
@@ -47,7 +50,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     }
 
     // AIGroup.pas:4547
-    public bool CanAdd(AIMoveExecutorUnit unitEntry) => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) && Unsafe.As<MapCoordinate, int>(ref Destination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Destination) && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (Unsafe.As<MapCoordinate, int>(ref BoardingPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.BoardingPoint) && Unsafe.As<MapCoordinate, int>(ref ArrivalPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.ArrivalPoint) && Unsafe.As<MapCoordinate, int>(ref TransportSource) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportSource) && Unsafe.As<MapCoordinate, int>(ref TransportDestination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportDestination)));
+    public bool CanAdd(AIMoveExecutorUnit unitEntry) => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) && Unsafe.As<MapCoordinate, int>(ref _destination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Destination) && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (Unsafe.As<MapCoordinate, int>(ref BoardingPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.BoardingPoint) && Unsafe.As<MapCoordinate, int>(ref ArrivalPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.ArrivalPoint) && Unsafe.As<MapCoordinate, int>(ref TransportSource) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportSource) && Unsafe.As<MapCoordinate, int>(ref TransportDestination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportDestination)));
 
     // AIGroup.pas:4559
     public void RetrieveArmy(byte selection, ref ArmyHexSprite army, ref byte armySelection)

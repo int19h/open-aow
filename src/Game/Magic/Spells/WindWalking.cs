@@ -15,7 +15,7 @@ public partial class WindWalking : UnitSpell
     // UnitSpells.pas:702
     public WindWalking(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_windWalkingText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.WindWalkingText);
         SpellId = 43;
         BaseManaCost = 5;
         SpellLevel = 3;

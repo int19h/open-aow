@@ -6,9 +6,10 @@ namespace Aow.Game.Net;
 // no transport
 public partial class PlayerCommunicationControl : IDisposable
 {
-    internal int _refCount;
-    internal PlayerCommunicator _playerCommunicator;
-    internal PlayerCommunicationSettingsList _playerCommunicationSettingsList;
+    internal int RefCount { get; private set; }
+
+    private PlayerCommunicator _playerCommunicator;
+    private PlayerCommunicationSettingsList _playerCommunicationSettingsList;
 
     // NetworkE.pas:549
     public virtual int GetLocalSystemId() => 1;
@@ -38,7 +39,7 @@ public partial class PlayerCommunicationControl : IDisposable
     // NetworkE.pas:468
     public PlayerCommunicationControl()
     {
-        _refCount = 1;
+        RefCount = 1;
         _playerCommunicationSettingsList = new PlayerCommunicationSettingsList(null);
     }
 
@@ -51,14 +52,14 @@ public partial class PlayerCommunicationControl : IDisposable
     // NetworkE.pas:481
     public void AddRef()
     {
-        _refCount += 1;
+        RefCount += 1;
     }
 
     // NetworkE.pas:486
     public void Release()
     {
-        _refCount -= 1;
-        if (_refCount == 0)
+        RefCount -= 1;
+        if (RefCount == 0)
         {
             Dispose();
         }

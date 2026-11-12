@@ -257,7 +257,7 @@ the same input give identical saves. What the recovery verified about the origin
   fixed costs. The wall-clock branch (`AI.pas:598, 962`) is dead code and stays so in the port.
 - Combat. With no human in a battle, `SetupCombat` falls back to `ctFast` (`MoveT.PAS:2692,
   2710-2711`), so all-CPU runs exercise fast combat only. The recovery's `--tactical` runs forced
-  `ArmyCombatMoveTokenEvent.CombatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
+  `ArmyCombatMoveTokenEvent._combatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
   `TacticalCombat.HostPlayer` (Delphi `TTacticalCombat`) to 0 in `Execute`, because without a human it stays -1
   (`AoWTC.pas:5103-5107`). The harness has the same option (`--tactical`), applied at the same two
   points, so the tactical resolver is covered by the `heroes` tactical runs.

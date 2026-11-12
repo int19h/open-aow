@@ -15,7 +15,7 @@ public sealed class ArmySpriteConstructionTests
 {
     private sealed class ArmyOwner() : EngineFixture.Owner
     {
-        internal readonly List<string> Events = [];
+        internal List<string> Events { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
@@ -55,7 +55,7 @@ public sealed class ArmySpriteConstructionTests
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-                AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
@@ -81,7 +81,7 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+            AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
             loaded?.Dispose();
             source.Dispose();
         }

@@ -15,7 +15,8 @@ public partial class CampaignScenarioPage : EngineObject
     public string ImageLibrary = "";
     public int ImageIndex;
     public string Heading = "";
-    public StringList Text;
+
+    public StringList Text { get; }
 
     // AoWVideoDlg.pas:257
     public override void Dispose()

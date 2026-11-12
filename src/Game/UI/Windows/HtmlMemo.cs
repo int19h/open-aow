@@ -14,51 +14,53 @@ namespace Aow.Game.UI.Windows;
 // (the size of the back surface)
 public partial class HtmlMemo : BaseWindow
 {
-    public DelphiList UnusedList;
-    public List<ChangeInfo> Changes;
-    public StringList Lines;
-    public StringList _items;
-    public VerticalScrollBar _verticalScrollBar;
-    public string _fileName = "";
-    public int ScrollWidth;
-    public bool BackDrawn;
-    public InterfaceImageLibrary Images;
-    public int TopItem;
-    public List<ImageLibraryFont> Fonts;
-    public BaseWindow _window;
-    public int TextWidth;
-    public int TextHeight;
+    private DelphiList _unusedList;
+
+    public List<ChangeInfo> Changes { get; }
+
+    private StringList _lines;
+    private StringList _items;
+    private VerticalScrollBar _verticalScrollBar;
+    private string _fileName = "";
+    private int _scrollWidth;
+    private bool _backDrawn;
+    private InterfaceImageLibrary _images;
+    private int _topItem;
+    private List<ImageLibraryFont> _fonts;
+    private BaseWindow _window;
+    private int _textWidth;
+    private int _textHeight;
 
     // AoWHTMLMemo.pas:93
     public HtmlMemo(Component owner) : base(owner)
     {
-        Lines = new StringList();
+        _lines = new StringList();
         _items = new StringList();
         _items.OnChange = OnChangeText;
         Changes = new List<ChangeInfo>();
-        UnusedList = new DelphiList();
-        Fonts = new List<ImageLibraryFont>();
-        Images = new InterfaceImageLibrary(this);
+        _unusedList = new DelphiList();
+        _fonts = new List<ImageLibraryFont>();
+        _images = new InterfaceImageLibrary(this);
     }
 
     // AoWHTMLMemo.pas:105
     public override void Dispose()
     {
-        Lines.Dispose();
+        _lines.Dispose();
         _items.Dispose();
-        UnusedList?.Dispose();
+        _unusedList?.Dispose();
         for (int I = 0, last = Changes.Count - 1; I <= last; I++)
         {
         }
 
-        for (int I = 0, last = Fonts.Count - 1; I <= last; I++)
+        for (int I = 0, last = _fonts.Count - 1; I <= last; I++)
         {
-            (Fonts[I])?.Dispose();
+            (_fonts[I])?.Dispose();
         }
 
-        Fonts?.Clear();
+        _fonts?.Clear();
         Changes?.Clear();
-        Images?.Dispose();
+        _images?.Dispose();
         base.Dispose();
     }
 
@@ -88,7 +90,7 @@ public partial class HtmlMemo : BaseWindow
         int V;
         void NewLine()
         {
-            Lines.Add("");
+            _lines.Add("");
             H = H + ci.Height;
             lineIndex += 1;
         }
@@ -106,8 +108,8 @@ public partial class HtmlMemo : BaseWindow
                 I = 0;
                 start = 0;
                 length = S.Length;
-                var line = Lines[lineIndex];
-                W = _font.GetTextWidth(line) + _borderWidth * 2 + ScrollWidth;
+                var line = _lines[lineIndex];
+                W = _font.GetTextWidth(line) + _borderWidth * 2 + _scrollWidth;
                 while (I < length)
                 {
                     if (S[I - 1] == 32 || I == length - 1)
@@ -119,17 +121,17 @@ public partial class HtmlMemo : BaseWindow
 
                         word = Copy(S, start + 1, I - start);
                         tw = _font.GetTextWidth(word);
-                        if (W + tw > _winWidth)
+                        if (W + tw > WinWidth)
                         {
                             NewLine();
-                            var line2 = Lines[lineIndex];
-                            Lines[lineIndex] = line2 + word;
-                            W = _borderWidth * 2 + ScrollWidth + tw;
+                            var line2 = _lines[lineIndex];
+                            _lines[lineIndex] = line2 + word;
+                            W = _borderWidth * 2 + _scrollWidth + tw;
                         }
                         else
                         {
-                            var line2 = Lines[lineIndex];
-                            Lines[lineIndex] = line2 + word;
+                            var line2 = _lines[lineIndex];
+                            _lines[lineIndex] = line2 + word;
                             W = W + tw;
                         }
 
@@ -228,21 +230,21 @@ public partial class HtmlMemo : BaseWindow
             }
         }
 
-        ScrollWidth = 0;
+        _scrollWidth = 0;
         if (_verticalScrollBar != null)
         {
-            ScrollWidth = _verticalScrollBar.WinWidth;
-            _verticalScrollBar.Position = TopItem;
+            _scrollWidth = _verticalScrollBar.WinWidth;
+            _verticalScrollBar.Position = _topItem;
         }
 
-        H = TextHeight;
-        Lines.Clear();
+        H = _textHeight;
+        _lines.Clear();
         state = IntegerParseMode.None;
         if (_items.Count > 0 && UpperCase(Copy(_items[0], 1, 5)) == "<INT>")
         {
-            Lines.Add("");
+            _lines.Add("");
             H = _borderHeight * 2;
-            Images.Clear();
+            _images.Clear();
             for (int I = 0, last = Changes.Count - 1; I <= last; I++)
             {
             }
@@ -302,7 +304,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Font:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = Lines[lineIndex];
+                                var line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 ci.Font = Copy(item, tagStart + 1, J - tagStart);
@@ -331,7 +333,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.ItemHeight:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = Lines[lineIndex];
+                                var line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 try
@@ -359,7 +361,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Color:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = Lines[lineIndex];
+                                var line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 if (J - tagStart == 6)
@@ -399,7 +401,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Space:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = Lines[lineIndex];
+                                var line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 try
@@ -432,7 +434,7 @@ public partial class HtmlMemo : BaseWindow
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
                                 S = UpperCase(Copy(item, tagStart + 1, J - tagStart));
-                                var line = Lines[lineIndex];
+                                var line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 if (S == "RIGHT")
@@ -471,7 +473,7 @@ public partial class HtmlMemo : BaseWindow
                                 if (FileExists(ExtractFilePath(RtlUnit.Application.ExeName) + Copy(item, tagStart + 1, J - tagStart)))
                                 {
                                     var filePath = ExtractFilePath(RtlUnit.Application.ExeName);
-                                    Images.LoadFromFile(filePath + Copy(item, tagStart + 1, J - tagStart));
+                                    _images.LoadFromFile(filePath + Copy(item, tagStart + 1, J - tagStart));
                                 }
 
                                 _imageLibraryIndexTexture = 0;
@@ -543,23 +545,23 @@ public partial class HtmlMemo : BaseWindow
             H = H + ci.Height;
         }
 
-        if (_winWidth - ScrollWidth != TextWidth || TextHeight != H)
+        if (WinWidth - _scrollWidth != _textWidth || _textHeight != H)
         {
-            TextWidth = _winWidth - ScrollWidth;
-            TextHeight = H;
-            if (TextHeight < _winHeight)
+            _textWidth = WinWidth - _scrollWidth;
+            _textHeight = H;
+            if (_textHeight < WinHeight)
             {
-                TextHeight = _winHeight;
+                _textHeight = WinHeight;
             }
 
             if (BackSurface != null)
             {
-                BackSurface.Resize(TextWidth, TextHeight);
+                BackSurface.Resize(_textWidth, _textHeight);
             }
         }
 
         SurfaceValid = false;
-        BackDrawn = false;
+        _backDrawn = false;
         if (_verticalScrollBar != null)
         {
             if (_window != _verticalScrollBar.Window)
@@ -568,17 +570,17 @@ public partial class HtmlMemo : BaseWindow
             }
 
             _verticalScrollBar.Min = 0;
-            _verticalScrollBar.Max = TextHeight;
-            _verticalScrollBar.Priority = _priority + 1;
-            _verticalScrollBar.Position = TopItem;
-            _verticalScrollBar.NumberVisible = _winHeight;
-            _verticalScrollBar.WinHeight = _winHeight;
-            _verticalScrollBar.LargeChange = _winHeight;
+            _verticalScrollBar.Max = _textHeight;
+            _verticalScrollBar.Priority = Priority + 1;
+            _verticalScrollBar.Position = _topItem;
+            _verticalScrollBar.NumberVisible = WinHeight;
+            _verticalScrollBar.WinHeight = WinHeight;
+            _verticalScrollBar.LargeChange = WinHeight;
             _verticalScrollBar.SmallChange = 20;
-            _verticalScrollBar.Visible = _visible;
+            _verticalScrollBar.Visible = Visible;
             _verticalScrollBar.Sized = false;
-            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar.WinWidth;
-            _verticalScrollBar.WinTop = _winTop;
+            _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
+            _verticalScrollBar.WinTop = WinTop;
         }
 
         base.SetSize();
@@ -589,11 +591,11 @@ public partial class HtmlMemo : BaseWindow
     public override void Update()
     {
         Rect R;
-        if (_visible)
+        if (Visible)
         {
-            if (_verticalScrollBar != null && Lines.Count > 0)
+            if (_verticalScrollBar != null && _lines.Count > 0)
             {
-                if (_verticalScrollBar.Position != TopItem)
+                if (_verticalScrollBar.Position != _topItem)
                 {
                     SetListOff(_verticalScrollBar.Position);
                 }
@@ -608,25 +610,25 @@ public partial class HtmlMemo : BaseWindow
         }
 
         base.Update();
-        if (_visible && _masked && !SurfaceValid)
+        if (Visible && Masked && !SurfaceValid)
         {
-            if (_ownerComponent._ownerComponent._ownerComponent == null)
+            if (OwnerComponent.OwnerComponent.OwnerComponent == null)
             {
-                R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
+                R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
             }
             else
             {
-                R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
+                R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
             }
 
-            _ownerComponent.AddDrawRectangle(ref R, this);
+            OwnerComponent.AddDrawRectangle(ref R, this);
         }
     }
 
     // AoWHTMLMemo.pas:122
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
-        if (Valid && _visible)
+        if (Valid && Visible)
         {
             AddDrawRectangle(ref rectangle, sender);
         }
@@ -636,7 +638,7 @@ public partial class HtmlMemo : BaseWindow
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
-        _window = (BaseWindow)_ownerComponent;
+        _window = (BaseWindow)OwnerComponent;
     }
 
     // AoWHTMLMemo.pas:584
@@ -659,12 +661,12 @@ public partial class HtmlMemo : BaseWindow
         DirtyRectangle R = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
-                oldLeft = _winLeft;
-                oldTop = _winTop;
-                _winLeft = 0;
-                _winTop = 0;
+                oldLeft = WinLeft;
+                oldTop = WinTop;
+                SetWinLeftWithoutInvalidate(0);
+                SetWinTopWithoutInvalidate(0);
                 if (BackSurface != null)
                 {
                     if (BackSurface.PixelFormatId != lockedSurface.PixelFormatId)
@@ -676,15 +678,15 @@ public partial class HtmlMemo : BaseWindow
 
                 if (BackSurface == null)
                 {
-                    BackSurface = new DataSurface(TextWidth, TextHeight, lockedSurface.PixelFormatId, null);
-                    BackDrawn = false;
+                    BackSurface = new DataSurface(_textWidth, _textHeight, lockedSurface.PixelFormatId, null);
+                    _backDrawn = false;
                 }
 
-                if (!BackDrawn)
+                if (!_backDrawn)
                 {
-                    if (Images.Count <= _imageLibraryIndexTexture)
+                    if (_images.Count <= _imageLibraryIndexTexture)
                     {
-                        if (_masked)
+                        if (Masked)
                         {
                             BackSurface.Clear(_maskColor);
                         }
@@ -698,8 +700,8 @@ public partial class HtmlMemo : BaseWindow
                     else
                     {
                         BackSurface.Lock(ref backSurfaceDescription);
-                        var rectangle = new Rect(0, 0, TextWidth, TextHeight);
-                        Images.DrawTiled(_imageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
+                        var rectangle = new Rect(0, 0, _textWidth, _textHeight);
+                        _images.DrawTiled(_imageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
                     }
 
                     Line = 1;
@@ -709,7 +711,7 @@ public partial class HtmlMemo : BaseWindow
                     X = _borderWidth;
                     Y = _borderHeight;
                     lh = 10;
-                    for (int I = 0, last = Lines.Count - 1; I <= last; I++)
+                    for (int I = 0, last = _lines.Count - 1; I <= last; I++)
                     {
                         position = 0;
                         switch (align)
@@ -721,7 +723,7 @@ public partial class HtmlMemo : BaseWindow
                                 X = 0;
                                 break;
                             case TextAlignment.Right:
-                                X = TextWidth - _borderWidth;
+                                X = _textWidth - _borderWidth;
                                 break;
                         }
 
@@ -732,23 +734,23 @@ public partial class HtmlMemo : BaseWindow
                                 switch (align)
                                 {
                                     case TextAlignment.Left:
-                                        var line = Lines[I];
+                                        var line = _lines[I];
                                         _font.SetText(X, Y, Copy(line, position + 1, ci.Position - position), backSurfaceDescription);
-                                        var line2 = Lines[I];
+                                        var line2 = _lines[I];
                                         X = X + _font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
                                         break;
                                     case TextAlignment.Center:
-                                        var line3 = Lines[I];
+                                        var line3 = _lines[I];
                                         var textWidth = _font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
-                                        var line4 = Lines[I];
-                                        _font.SetText(TextWidth / 2 - textWidth / 2, Y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
+                                        var line4 = _lines[I];
+                                        _font.SetText(_textWidth / 2 - textWidth / 2, Y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
                                         break;
                                     case TextAlignment.Right:
-                                        var line5 = Lines[I];
+                                        var line5 = _lines[I];
                                         var fontTextWidth = _font.GetTextWidth(Copy(line5, position + 1, ci.Position - position));
-                                        var line6 = Lines[I];
+                                        var line6 = _lines[I];
                                         _font.SetText(X - fontTextWidth, Y, Copy(line6, position + 1, ci.Position - position), backSurfaceDescription);
-                                        var line7 = Lines[I];
+                                        var line7 = _lines[I];
                                         X = X - _font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
                                         break;
                                 }
@@ -776,7 +778,7 @@ public partial class HtmlMemo : BaseWindow
                                         X = 0;
                                         break;
                                     case TextAlignment.Right:
-                                        X = TextWidth - _borderWidth;
+                                        X = _textWidth - _borderWidth;
                                         break;
                                 }
                             }
@@ -795,24 +797,24 @@ public partial class HtmlMemo : BaseWindow
                             switch (align)
                             {
                                 case TextAlignment.Left:
-                                    var lineLength = Lines[I];
-                                    var line = Lines[I];
+                                    var lineLength = _lines[I];
+                                    var line = _lines[I];
                                     _font.SetText(X, Y, Copy(line, position + 1, lineLength.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Center:
-                                    var line2 = Lines[I];
-                                    var line3 = Lines[I];
+                                    var line2 = _lines[I];
+                                    var line3 = _lines[I];
                                     var textWidth = _font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
-                                    var line4 = Lines[I];
-                                    var line5 = Lines[I];
-                                    _font.SetText(TextWidth / 2 - textWidth / 2, Y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
+                                    var line4 = _lines[I];
+                                    var line5 = _lines[I];
+                                    _font.SetText(_textWidth / 2 - textWidth / 2, Y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Right:
-                                    var line6 = Lines[I];
-                                    var line7 = Lines[I];
+                                    var line6 = _lines[I];
+                                    var line7 = _lines[I];
                                     var fontTextWidth = _font.GetTextWidth(Copy(line7, position + 1, line6.Length - position));
-                                    var line8 = Lines[I];
-                                    var line9 = Lines[I];
+                                    var line8 = _lines[I];
+                                    var line9 = _lines[I];
                                     _font.SetText(X - fontTextWidth, Y, Copy(line9, position + 1, line8.Length - position), backSurfaceDescription);
                                     break;
                             }
@@ -822,11 +824,11 @@ public partial class HtmlMemo : BaseWindow
                     }
 
                     BackSurface.Unlock();
-                    BackDrawn = true;
+                    _backDrawn = true;
                 }
 
-                _winLeft = oldLeft;
-                _winTop = oldTop;
+                SetWinLeftWithoutInvalidate(oldLeft);
+                SetWinTopWithoutInvalidate(oldTop);
                 if (_onPreDraw != null)
                 {
                     _onPreDraw(this, lockedSurface);
@@ -838,28 +840,28 @@ public partial class HtmlMemo : BaseWindow
                     for (int I = 0, last = DrawCount - 1; I <= last; I++)
                     {
                         R = DrawList[I];
-                        if (_ownerComponent._winLeft + _winLeft > R.Rectangle.Left)
+                        if (OwnerComponent.WinLeft + WinLeft > R.Rectangle.Left)
                         {
-                            R.Rectangle.Left = _ownerComponent._winLeft + _winLeft;
+                            R.Rectangle.Left = OwnerComponent.WinLeft + WinLeft;
                         }
 
-                        if (_ownerComponent._winTop + _winTop > R.Rectangle.Top)
+                        if (OwnerComponent.WinTop + WinTop > R.Rectangle.Top)
                         {
-                            R.Rectangle.Top = _ownerComponent._winTop + _winTop;
+                            R.Rectangle.Top = OwnerComponent.WinTop + WinTop;
                         }
 
-                        if (_ownerComponent._winLeft + _winLeft + _winWidth < R.Rectangle.Right)
+                        if (OwnerComponent.WinLeft + WinLeft + WinWidth < R.Rectangle.Right)
                         {
-                            R.Rectangle.Right = _ownerComponent._winLeft + _winLeft + _winWidth;
+                            R.Rectangle.Right = OwnerComponent.WinLeft + WinLeft + WinWidth;
                         }
 
-                        if (_ownerComponent._winTop + _winTop + _winHeight < R.Rectangle.Bottom)
+                        if (OwnerComponent.WinTop + WinTop + WinHeight < R.Rectangle.Bottom)
                         {
-                            R.Rectangle.Bottom = _ownerComponent._winTop + _winTop + _winHeight;
+                            R.Rectangle.Bottom = OwnerComponent.WinTop + WinTop + WinHeight;
                         }
 
-                        sourceR = new Rect(R.Rectangle.Left - _ownerComponent._winLeft - _winLeft, TopItem + R.Rectangle.Top - _ownerComponent._winTop - _winTop, R.Rectangle.Right - _ownerComponent._winLeft - _winLeft, TopItem + R.Rectangle.Bottom - _ownerComponent._winTop - _winTop);
-                        if (_masked)
+                        sourceR = new Rect(R.Rectangle.Left - OwnerComponent.WinLeft - WinLeft, _topItem + R.Rectangle.Top - OwnerComponent.WinTop - WinTop, R.Rectangle.Right - OwnerComponent.WinLeft - WinLeft, _topItem + R.Rectangle.Bottom - OwnerComponent.WinTop - WinTop);
+                        if (Masked)
                         {
                             LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, R.Rectangle.Left, R.Rectangle.Top, _maskColor);
                         }
@@ -871,14 +873,14 @@ public partial class HtmlMemo : BaseWindow
                 }
                 else
                 {
-                    sourceR = new Rect(0, TopItem, _winWidth, TopItem + _winHeight);
-                    if (_masked)
+                    sourceR = new Rect(0, _topItem, WinWidth, _topItem + WinHeight);
+                    if (Masked)
                     {
-                        LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window._winLeft + _winLeft, _window._winTop + _winTop, _maskColor);
+                        LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop, _maskColor);
                     }
                     else
                     {
-                        LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window._winLeft + _winLeft, _window._winTop + _winTop);
+                        LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop);
                     }
                 }
 
@@ -918,7 +920,7 @@ public partial class HtmlMemo : BaseWindow
             _verticalScrollBar = value;
             if (_verticalScrollBar != null)
             {
-                _verticalScrollBar.Priority = _priority;
+                _verticalScrollBar.Priority = Priority;
             }
 
             Sized = false;
@@ -928,9 +930,9 @@ public partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:156
     public void SetListOff(int value)
     {
-        if (value != TopItem)
+        if (value != _topItem)
         {
-            TopItem = value;
+            _topItem = value;
             SurfaceValid = false;
         }
     }
@@ -955,11 +957,11 @@ public partial class HtmlMemo : BaseWindow
         fileName = ExtractFilePath(RtlUnit.Application.ExeName) + fileName;
         font = null;
         I = 0;
-        while (I < Fonts.Count && font == null)
+        while (I < _fonts.Count && font == null)
         {
-            if ((Fonts[I]).FileName == fileName)
+            if ((_fonts[I]).FileName == fileName)
             {
-                font = Fonts[I];
+                font = _fonts[I];
             }
 
             I += 1;
@@ -970,7 +972,7 @@ public partial class HtmlMemo : BaseWindow
             font = new ImageLibraryFont(this);
             font.FontColorPaletteIndex = 1;
             font.LoadFromFile(fileName);
-            Fonts.Add(font);
+            _fonts.Add(font);
         }
 
         if (font != null)
@@ -982,7 +984,7 @@ public partial class HtmlMemo : BaseWindow
     }
 
     public StringList Items { get => _items; set => SetFStrings(value); }
-    public int ListOffset { get => TopItem; set => SetListOff(value); }
+    public int ListOffset { get => _topItem; set => SetListOff(value); }
 
     [Published]
     public BaseWindow Window { get => _window; set => SetWindow(value); }
@@ -1093,12 +1095,12 @@ public partial class HtmlMemo : BaseWindow
     // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
     public partial class ChangeInfo
     {
-        public int Height;
-        public int Color;
-        public string Font = "";
-        public TextAlignment Align;
-        public int Position;
-        public int Line;
-        public int Spacing;
+        public int Height { get; set; }
+        public int Color { get; set; }
+        public string Font { get; set; } = "";
+        public TextAlignment Align { get; set; }
+        public int Position { get; set; }
+        public int Line { get; set; }
+        public int Spacing { get; set; }
     }
 }

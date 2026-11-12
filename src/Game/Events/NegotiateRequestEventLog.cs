@@ -33,11 +33,13 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     public sbyte X;
     public sbyte Y;
     public sbyte MapLevel;
-    public int MovePoints;
+
+    public int MovePoints { get; set; }
+
     public ArmyId ArmyId;
     public NegotiateObject Object;
-    public int Data1;
-    public int Data2;
+    private int _data1;
+    private int _data2;
 
     // Diplomacy.pas:270
     public override void Dispose()
@@ -60,8 +62,8 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 41);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 42);
         stream.rwData(Bytes.Of(ref Object, 1), 1, 43);
-        stream.rwInteger(ref Data1, 44);
-        stream.rwInteger(ref Data2, 45);
+        stream.rwInteger(ref _data1, 44);
+        stream.rwInteger(ref _data2, 45);
         stream.rwCreateEObject(ref ArmyId, null, 46);
     }
 
@@ -127,8 +129,8 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         eventValue.X = (byte)X;
         eventValue.Y = (byte)Y;
         eventValue.MapLevel = (byte)MapLevel;
-        eventValue.Data1 = Data1;
-        eventValue.Data2 = Data2;
+        eventValue.Data1 = _data1;
+        eventValue.Data2 = _data2;
         id = ArmyId;
         if (id != null)
         {

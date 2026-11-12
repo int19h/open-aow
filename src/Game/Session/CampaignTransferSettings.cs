@@ -30,8 +30,8 @@ public partial class CampaignTransferSettings : EngineObject
         Heroes = new HeroList(null);
         Items = new ItemList(null);
         Units = new UnitList(null);
-        Spells = new Int32List();
-        ResearchPercentage = 50;
+        _spells = new Int32List();
+        _researchPercentage = 50;
         SelectedHeroes = new Int32List();
         SelectedItems = new Int32List();
         SelectedUnits = new Int32List();
@@ -39,23 +39,26 @@ public partial class CampaignTransferSettings : EngineObject
     }
 
     public Leader Leader;
-    public HeroList Heroes;
-    public ItemList Items;
-    public UnitList Units;
-    public int ResearchPercentage;
-    public Int32List Spells;
-    public int ResearchSpellId;
-    public int ResearchPointsLeft;
-    public Int32List SelectedHeroes;
-    public Int32List SelectedItems;
-    public Int32List SelectedUnits;
-    public int SelectedTransferGold;
-    public int SelectedTransferMana;
-    public ByteList SelectedSpheres;
-    public int TransferPointsMax;
-    public int TransferGoldMax;
-    public int TransferManaMax;
-    public int TransferPointsLeft;
+
+    public HeroList Heroes { get; }
+    public ItemList Items { get; }
+    public UnitList Units { get; }
+
+    private int _researchPercentage;
+    private Int32List _spells;
+    private int _researchSpellId;
+    private int _researchPointsLeft;
+
+    public Int32List SelectedHeroes { get; }
+    public Int32List SelectedItems { get; }
+    public Int32List SelectedUnits { get; }
+    public int SelectedTransferGold { get; private set; }
+    public int SelectedTransferMana { get; private set; }
+    public ByteList SelectedSpheres { get; }
+    public int TransferPointsMax { get; private set; }
+    public int TransferGoldMax { get; private set; }
+    public int TransferManaMax { get; private set; }
+    public int TransferPointsLeft { get; private set; }
 
     // Diplomacy.pas:1750
     public override void Dispose()
@@ -65,7 +68,7 @@ public partial class CampaignTransferSettings : EngineObject
         Items?.Dispose();
         Units?.Dispose();
         SelectedSpheres?.Dispose();
-        Spells?.Dispose();
+        _spells?.Dispose();
         // { Original bug: the three selected-index lists are never freed. }
         base.Dispose();
     }
@@ -78,10 +81,10 @@ public partial class CampaignTransferSettings : EngineObject
         stream.rwEObject(Heroes, 20);
         stream.rwEObject(Items, 21);
         stream.rwEObject(Units, 22);
-        stream.rwStreamProc(23, Spells.LoadFromStream, Spells.SaveToStream);
-        stream.rwInteger(ref ResearchSpellId, 24);
-        stream.rwInteger(ref ResearchPointsLeft, 25);
-        stream.rwInteger(ref ResearchPercentage, 26);
+        stream.rwStreamProc(23, _spells.LoadFromStream, _spells.SaveToStream);
+        stream.rwInteger(ref _researchSpellId, 24);
+        stream.rwInteger(ref _researchPointsLeft, 25);
+        stream.rwInteger(ref _researchPercentage, 26);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             leader = null;
@@ -111,7 +114,7 @@ public partial class CampaignTransferSettings : EngineObject
         Heroes.Clear();
         Items.Clear();
         Units.Clear();
-        Spells.Clear();
+        _spells.Clear();
     }
 
     // Diplomacy.pas:1797
@@ -276,11 +279,11 @@ public partial class CampaignTransferSettings : EngineObject
                 }
             }
 
-            ResearchPercentage = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
+            _researchPercentage = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
             var players = AoWHSMap.Current.Players.GetPlayers(player);
-            Spells.Assign(players.MagicControl.Spells);
-            ResearchSpellId = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
-            ResearchPointsLeft = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
+            _spells.Assign(players.MagicControl.Spells);
+            _researchSpellId = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
+            _researchPointsLeft = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
             RandSeed = AoWHSMap.Current.Random(16777215);
             GenerateTransferUnits(units);
             units?.Dispose();
@@ -569,12 +572,12 @@ public partial class CampaignTransferSettings : EngineObject
 
             if (GameTables.GameEngine.Campaign.CompletedScenarios.Count != 0)
             {
-                AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage = ResearchPercentage;
+                AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage = _researchPercentage;
             }
 
-            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = ResearchSpellId;
-            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = ResearchPointsLeft;
-            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(Spells);
+            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
+            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
+            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
             var players = AoWHSMap.Current.Players.GetPlayers(player);
             players.InitialGold += SelectedTransferGold;
             var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);

@@ -36,16 +36,22 @@ public partial class Campaign : EngineObject
         DifficultyLevel = CampaignDifficultyLevel.Normal;
     }
 
-    public string Name = "";
-    public MemoryStream Stream;
-    public AoWCampaignScenarioList Scenarios;
-    public Int32List CompletedScenarios;
-    public ByteList RaceHistory;
+    private string _name = "";
+
+    public MemoryStream Stream { get; }
+    public AoWCampaignScenarioList Scenarios { get; }
+    public Int32List CompletedScenarios { get; }
+    public ByteList RaceHistory { get; }
+
     public bool ScenarioStarted;
-    public CampaignTransferSettings TransferSettings;
+
+    public CampaignTransferSettings TransferSettings { get; }
+
     public int CurrentScenarioId;
-    public int NextScenarioId;
-    public string FileName = "";
+
+    public int NextScenarioId { get; private set; }
+    public string FileName { get; set; } = "";
+
     public CampaignDifficultyLevel DifficultyLevel;
     public PlayMode PlayMode;
 
@@ -83,7 +89,7 @@ public partial class Campaign : EngineObject
 
         stream.rwEObject(TransferSettings, 7);
         stream.rwEObject(Scenarios, 10);
-        stream.rwString(ref Name, 12);
+        stream.rwString(ref _name, 12);
         stream.rwInteger(ref CurrentScenarioId, 13);
         stream.rwStreamProc(14, CompletedScenarios.LoadFromStream, CompletedScenarios.SaveToStream);
         stream.rwBool(ref ScenarioStarted, 15);

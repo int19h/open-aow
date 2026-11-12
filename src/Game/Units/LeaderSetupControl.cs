@@ -19,18 +19,19 @@ public partial class LeaderSetupControl : EngineObject
         Items = new Int32List();
         OriginalLeader = new Leader(null);
         Leader = new Leader(null);
-        RefCount = 1;
+        _refCount = 1;
         Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Look, LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres);
         OnDone = null;
     }
 
-    public int RefCount;
-    public Leader Leader;
-    public Set<LeaderSetupModeElement> Mode;
-    public Leader OriginalLeader;
-    public Int32List Items;
-    public LeaderSetupStatus Status;
-    public NotifyEvent<LeaderSetupControl> OnDone;
+    private int _refCount;
+
+    public Leader Leader { get; }
+    public Set<LeaderSetupModeElement> Mode { get; set; }
+    public Leader OriginalLeader { get; init; }
+    public Int32List Items { get; }
+    public LeaderSetupStatus Status { get; set; }
+    public NotifyEvent<LeaderSetupControl> OnDone { get; set; }
 
     // Player.PAS:1766
     public override void Dispose()
@@ -44,15 +45,15 @@ public partial class LeaderSetupControl : EngineObject
     // Player.PAS:1774
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // Player.PAS:1780
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
+        _refCount -= 1;
+        int result = _refCount;
         if (result == 0)
         {
             Dispose();

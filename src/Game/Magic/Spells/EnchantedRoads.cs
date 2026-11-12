@@ -18,7 +18,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:571
     public EnchantedRoads(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_enchantedRoadsText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.EnchantedRoadsText);
         SpellId = 44;
         SpellType = SpellType.Global;
         BaseManaCost = 1;

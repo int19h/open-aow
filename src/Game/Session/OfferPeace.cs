@@ -16,12 +16,12 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
 
     public override int Icon => 8;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_offerPeaceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(OfferPeaceText);
 
     public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateResourceString(s_peaceOfferText);
-        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(GameTables.s_peaceText);
+        var subject = AbilityRules.TranslateResourceString(PeaceOfferText);
+        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(GameTables.PeaceText);
         return Outcome(action, subject, subject, accepted, "");
     }
 
@@ -131,6 +131,6 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         return 0;
     }
 
-    internal static readonly string s_offerPeaceText = "Offer peace";
-    internal static readonly string s_peaceOfferText = "Peace offer";
+    internal static string OfferPeaceText { get; } = "Offer peace";
+    internal static string PeaceOfferText { get; } = "Peace offer";
 }

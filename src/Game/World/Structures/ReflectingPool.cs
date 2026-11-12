@@ -14,13 +14,13 @@ public partial class ReflectingPool : PlayerStructure
 {
     public ReflectingPool(ECustomNode owner) : base(owner)
     {
-        CenterFrame = -1;
+        _centerFrame = -1;
     }
 
     // ReflectingPool.pas:58
     public new const int ClassId = 132670;
 
-    public int CenterFrame;
+    private int _centerFrame;
 
     // ReflectingPool.pas:80
     public override void ReadWrite(EStorageStream stream)
@@ -119,9 +119,9 @@ public partial class ReflectingPool : PlayerStructure
         int range;
         int X = default;
         int Y = default;
-        if (_status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            if (_status.Contains(MapObjectStatusElement.Activated) && AoWHSMap.Current.SeatedPlayer != -1)
+            if (Status.Contains(MapObjectStatusElement.Activated) && AoWHSMap.Current.SeatedPlayer != -1)
             {
                 if (PoolVisionPlayer(AoWHSMap.Current.SeatedPlayer))
                 {
@@ -172,7 +172,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         int X = default;
         int Y = default;
-        if (_status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             for (int P = 1, last = AoWHSMap.Current.Players.Count - 1; P <= last; P++)
             {
@@ -215,17 +215,17 @@ public partial class ReflectingPool : PlayerStructure
         PlayerStructure pool = default;
         if (AoWHSMap.Current.SeatedPlayer == Player)
         {
-            CenterFrame += 1;
-            if (CenterFrame % 8 == 0)
+            _centerFrame += 1;
+            if (_centerFrame % 8 == 0)
             {
                 list = new PlayerStructureList(null);
                 ListReflectingPools(ref list);
                 list.RemoveChild(this);
                 list.SortStable(ComparePools);
                 var count = list.Count;
-                if (CenterFrame / 8 < count)
+                if (_centerFrame / 8 < count)
                 {
-                    pool = list.GetStructure(CenterFrame / 8);
+                    pool = list.GetStructure(_centerFrame / 8);
                     var hexLevel = pool.GetHexLevel();
                     var hexY = pool.GetHexY();
                     var hexX = pool.GetHexX();
@@ -253,17 +253,17 @@ public partial class ReflectingPool : PlayerStructure
     public void ActivatePoolCentering()
     {
         DeactivatePoolCentering();
-        CenterFrame = 0;
+        _centerFrame = 0;
         AoWHSMap.Current.NewFrameEvents += NewFrame;
     }
 
     // ReflectingPool.pas:134
     public void DeactivatePoolCentering()
     {
-        if (CenterFrame != -1)
+        if (_centerFrame != -1)
         {
             AoWHSMap.Current.NewFrameEvents -= NewFrame;
-            CenterFrame = -1;
+            _centerFrame = -1;
         }
     }
 

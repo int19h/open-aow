@@ -14,14 +14,14 @@ public partial class Frame : Control
     public Frame(Component owner) : base(owner)
     { }
 
-    public FrameType _frameType;
-    public InterfaceImageLibrary _imageLibraryFrame;
-    public InterfaceImageLibrary _imageLibraryTexture;
-    public InterfaceImageLibrary _imageLibraryLine;
-    public int _imageLibraryIndexFrame;
-    public int _imageLibraryIndexLine;
-    public int _imageLibraryIndexTexture;
-    public Menu _popupMenu;
+    private FrameType _frameType;
+    private InterfaceImageLibrary _imageLibraryFrame;
+    private InterfaceImageLibrary _imageLibraryTexture;
+    private InterfaceImageLibrary _imageLibraryLine;
+    private int _imageLibraryIndexFrame;
+    private int _imageLibraryIndexLine;
+    private int _imageLibraryIndexTexture;
+    private Menu _popupMenu;
 
     // AoWFrame.pas:63
     public override void Validate()
@@ -79,46 +79,46 @@ public partial class Frame : Control
             case FrameType.HollowBox:
                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
+                    SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
                 var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > _winWidth)
+                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                    _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
+                    SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
                 break;
             case FrameType.HorizontalLine:
-                _winHeight = _imageLibraryLine[_imageLibraryIndexLine].Height;
+                SetWinHeightWithoutInvalidate(_imageLibraryLine[_imageLibraryIndexLine].Height);
                 var imageLibraryLineWidth = _imageLibraryLine[_imageLibraryIndexLine];
                 var imageLibraryLine = _imageLibraryLine[_imageLibraryIndexLine + 2];
-                if (imageLibraryLineWidth.Width + imageLibraryLine.Width > _winWidth)
+                if (imageLibraryLineWidth.Width + imageLibraryLine.Width > WinWidth)
                 {
                     var imageLibraryLine2 = _imageLibraryLine[_imageLibraryIndexLine];
                     var imageLibraryLine3 = _imageLibraryLine[_imageLibraryIndexLine + 2];
-                    _winWidth = imageLibraryLine2.Width + imageLibraryLine3.Width;
+                    SetWinWidthWithoutInvalidate(imageLibraryLine2.Width + imageLibraryLine3.Width);
                 }
 
                 break;
             case FrameType.VertLine:
                 var imageLibraryLineHeight = _imageLibraryLine[_imageLibraryIndexLine];
                 var imageLibraryLine4 = _imageLibraryLine[_imageLibraryIndexLine + 2];
-                if (imageLibraryLineHeight.Height + imageLibraryLine4.Height > _winHeight)
+                if (imageLibraryLineHeight.Height + imageLibraryLine4.Height > WinHeight)
                 {
                     var imageLibraryLine2 = _imageLibraryLine[_imageLibraryIndexLine];
                     var imageLibraryLine3 = _imageLibraryLine[_imageLibraryIndexLine + 2];
-                    _winHeight = imageLibraryLine2.Height + imageLibraryLine3.Height;
+                    SetWinHeightWithoutInvalidate(imageLibraryLine2.Height + imageLibraryLine3.Height);
                 }
 
-                _winWidth = _imageLibraryLine[_imageLibraryIndexLine].Width;
+                SetWinWidthWithoutInvalidate(_imageLibraryLine[_imageLibraryIndexLine].Width);
                 break;
         }
 
@@ -130,7 +130,7 @@ public partial class Frame : Control
     {
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -140,19 +140,19 @@ public partial class Frame : Control
                 switch (_frameType)
                 {
                     case FrameType.VertLine:
-                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryLine.DrawVerticalStrip(_imageLibraryIndexLine, rectangle, ref lockedSurface);
                         break;
                     case FrameType.HorizontalLine:
-                        var rectangle2 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        var rectangle2 = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryLine.DrawHorizontalStrip(_imageLibraryIndexLine, rectangle2, ref lockedSurface);
                         break;
                     case FrameType.HollowBox:
-                        var rectangle3 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        var rectangle3 = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case FrameType.FilledBox:
-                        var rectangle4 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        var rectangle4 = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle4, ref lockedSurface);
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -160,7 +160,7 @@ public partial class Frame : Control
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle5 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame4.Width, _window._winTop + _winTop + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        var rectangle5 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame4.Width, Window.WinTop + WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle5, ref lockedSurface);
                         break;
                 }
@@ -182,7 +182,7 @@ public partial class Frame : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseDown != null)
@@ -199,26 +199,26 @@ public partial class Frame : Control
                 {
                     if (_popupMenu.Hidden)
                     {
-                        if (_popupMenu.MenuLeft + _popupMenu._winWidth > _popupMenu._windowManager._winWidth)
+                        if (_popupMenu.MenuLeft + _popupMenu.WinWidth > _popupMenu._windowManager.WinWidth)
                         {
-                            _popupMenu.WinLeft = X - _popupMenu._winWidth;
+                            _popupMenu.WinLeft = X - _popupMenu.WinWidth;
                         }
 
-                        if (_popupMenu.MenuTop + _popupMenu._winHeight > _popupMenu._windowManager._winHeight)
+                        if (_popupMenu.MenuTop + _popupMenu.WinHeight > _popupMenu._windowManager.WinHeight)
                         {
-                            _popupMenu.WinTop = Y - _popupMenu._winHeight;
+                            _popupMenu.WinTop = Y - _popupMenu.WinHeight;
                         }
                     }
                     else
                     {
-                        if (_popupMenu._winLeft + _popupMenu._winWidth > _popupMenu._windowManager._winWidth)
+                        if (_popupMenu.WinLeft + _popupMenu.WinWidth > _popupMenu._windowManager.WinWidth)
                         {
-                            _popupMenu.WinLeft = X - _popupMenu._winWidth;
+                            _popupMenu.WinLeft = X - _popupMenu.WinWidth;
                         }
 
-                        if (_popupMenu._winTop + _popupMenu._winHeight > _popupMenu._windowManager._winHeight)
+                        if (_popupMenu.WinTop + _popupMenu.WinHeight > _popupMenu._windowManager.WinHeight)
                         {
-                            _popupMenu.WinTop = Y - _popupMenu._winHeight;
+                            _popupMenu.WinTop = Y - _popupMenu.WinHeight;
                         }
                     }
                 }
@@ -232,7 +232,7 @@ public partial class Frame : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             if (_onMouseUp != null)
             {
@@ -245,7 +245,7 @@ public partial class Frame : Control
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             if (_onMouseMove != null)
             {

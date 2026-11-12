@@ -21,22 +21,22 @@ public partial class Gems : ImageLibraryTerrainMapObject
 {
     public Gems(ECustomNode owner) : base(owner)
     {
-        GenerateMode = GemsGenerateMode.Normal;
-        Amount = 0;
+        _generateMode = GemsGenerateMode.Normal;
+        _amount = 0;
     }
 
     // Gems.pas:53
     public new const int ClassId = 132014;
 
-    public int Amount;
-    public GemsGenerateMode GenerateMode;
+    private int _amount;
+    private GemsGenerateMode _generateMode;
 
     // Gems.pas:56
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Amount, 5);
-        stream.rwData(Bytes.Of(ref GenerateMode, 1), 1, 6);
+        stream.rwInteger(ref _amount, 5);
+        stream.rwData(Bytes.Of(ref _generateMode, 1), 1, 6);
     }
 
     // Gems.pas:46
@@ -83,21 +83,21 @@ public partial class Gems : ImageLibraryTerrainMapObject
     // Gems.pas:63
     public void GenerateGemsAmount()
     {
-        if (GenerateMode == GemsGenerateMode.Random)
+        if (_generateMode == GemsGenerateMode.Random)
         {
-            GenerateMode = (GemsGenerateMode)(AoWHSMap.Current.Random(3) + 1);
+            _generateMode = (GemsGenerateMode)(AoWHSMap.Current.Random(3) + 1);
         }
 
-        switch (GenerateMode)
+        switch (_generateMode)
         {
             case GemsGenerateMode.Low:
-                Amount = AoWHSMap.Current.Random(25) + 25;
+                _amount = AoWHSMap.Current.Random(25) + 25;
                 break;
             case GemsGenerateMode.Normal:
-                Amount = AoWHSMap.Current.Random(25) + 50;
+                _amount = AoWHSMap.Current.Random(25) + 50;
                 break;
             case GemsGenerateMode.High:
-                Amount = AoWHSMap.Current.Random(50) + 100;
+                _amount = AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
@@ -111,7 +111,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
             case >= AITargetMode.Attack and <= AITargetMode.Attack:
                 if (info.Player != 0)
                 {
-                    value = Amount / 5 + 15;
+                    value = _amount / 5 + 15;
                     if (value > priority)
                     {
                         priority = value;
@@ -143,11 +143,11 @@ public partial class Gems : ImageLibraryTerrainMapObject
             }
 
             var player = AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
-            player.SetGems(player.Gems + Amount);
+            player.SetGems(player.Gems + _amount);
 
             eventValue = new LocationTextEventLog(null);
             eventValue._player = armyHexSprite.Army.Player;
-            eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_goldFoundFormat), [IntToStr(Amount)]);
+            eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_goldFoundFormat), [IntToStr(_amount)]);
             var hexLevel2 = GetHexLevel();
             var hexY2 = GetHexY();
             eventValue.SetLocation(GetHexX(), hexY2, hexLevel2);

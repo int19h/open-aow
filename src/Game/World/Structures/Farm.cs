@@ -54,7 +54,7 @@ public partial class Farm : PlayerCropStructure
         }
 
         UpdateCrops();
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Farm.pas:59
@@ -64,7 +64,7 @@ public partial class Farm : PlayerCropStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producingIncomeFormat), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -115,15 +115,15 @@ public partial class Farm : PlayerCropStructure
     public override bool CanPlaceCrop(MapField field) => field.TerrainType != 5 && base.CanPlaceCrop(field);
 
     // Farm.pas:87
-    public override bool CropsEnabled() => base.CropsEnabled() && _terrainType != 5;
+    public override bool CropsEnabled() => base.CropsEnabled() && TerrainType != 5;
 
     // Farm.pas:97
     public override void UpdateCrops()
     {
         int count;
-        if (!GetEditMode() && _status.Contains(MapObjectStatusElement.Activated))
+        if (!GetEditMode() && Status.Contains(MapObjectStatusElement.Activated))
         {
-            if (GetRazed() || _terrainType == 5)
+            if (GetRazed() || TerrainType == 5)
             {
                 count = 0;
             }

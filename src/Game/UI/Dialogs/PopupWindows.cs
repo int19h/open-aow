@@ -98,8 +98,8 @@ public partial class PopupWindows : DataModule
         switch (sender.SelectedItem)
         {
             case 0:
-                var quitCombat = AbilityRules.TranslateResourceString(s_quitCombatText);
-                var confirm = AbilityRules.TranslateResourceString(LobbyText.s_confirmText);
+                var quitCombat = AbilityRules.TranslateResourceString(QuitCombatText);
+                var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
                 DialogHosts.ConfirmationDialog.Confirm(confirm, quitCombat, 6);
                 break;
         }
@@ -134,7 +134,7 @@ public partial class PopupWindows : DataModule
         {
             case 0:
                 DialogHosts.ConfirmationDialog.Confirm(
-                    AbilityRules.TranslateResourceString(LobbyText.s_confirmText),
+                    AbilityRules.TranslateResourceString(LobbyText.ConfirmText),
                     AbilityRules.TranslateResourceString(s_surrenderYourEmpireText), 4);
                 break;
             case 1:
@@ -161,7 +161,9 @@ public partial class PopupWindows : DataModule
     private static readonly string s_playersOnMapFormat = "Players on map: %s";
     private static readonly string s_surrenderYourEmpireText = "Surrender your empire?";
     private static readonly string s_turnModeFormat = "Turn mode: %s";
-    internal static readonly string s_quitCombatText = "Surrender your forces?";
+
+    internal static string QuitCombatText { get; } = "Surrender your forces?";
+
     private static readonly string s_mapSettingsText = "Scenario Info:";
     private static readonly string s_dayLimitFormat = "Turn Limit: %s";
 

@@ -35,26 +35,36 @@ public partial class CombatObject : EngineObject
         CombatPlayer = -1;
     }
 
-    public Battle Combat;
+    public Battle Combat { get; set; }
+
     public byte Id;
-    public QuadItemList<CombatObject> Targets;
-    public QuadItemList<CombatObject> TargetedBy;
-    public int CombatValue;
-    public int WallCombatValue;
-    public int IncomingCombatValue;
-    public int IncomingWallCombatValue;
-    public int TargetCount;
-    public int WallTargetCount;
-    public int AttackerCount;
-    public int WallAttackerCount;
-    public int TargetPriority;
-    public bool TargetPriorityInvalid;
-    public int TargetStrength;
-    public bool TargetStrengthInvalid;
+
+    public QuadItemList<CombatObject> Targets { get; }
+    public QuadItemList<CombatObject> TargetedBy { get; }
+    public int CombatValue { get; private set; }
+
+    private int _wallCombatValue;
+
+    public int IncomingCombatValue { get; private set; }
+    public int IncomingWallCombatValue { get; private set; }
+
+    private int _targetCount;
+    private int _wallTargetCount;
+
+    public int AttackerCount { get; private set; }
+
+    private int _wallAttackerCount;
+
+    public int TargetPriority { get; protected set; }
+    public bool TargetPriorityInvalid { get; protected set; }
+    public int TargetStrength { get; protected set; }
+    public bool TargetStrengthInvalid { get; private set; }
+
     public sbyte CombatPlayer;
     public byte Position;
     public Set<CombatObjectStatusElement> Status;
-    public Set<CombatObjectControlModeElement> ControlMode;
+
+    public Set<CombatObjectControlModeElement> ControlMode { get; set; }
 
     // Combat.pas:1930
     public override void Dispose()
@@ -605,21 +615,21 @@ public partial class CombatObject : EngineObject
     {
         Assert(Targets.IndexOfItemA(target) == -1, "target already exists use update target", "Combat.pas", 5473);
         CombatValue += combatValue;
-        WallCombatValue += wallCombatValue;
+        _wallCombatValue += wallCombatValue;
         Targets.AddABCD(target, combatValue, wallCombatValue, damageValue);
         target.TargetedBy.AddABCD(this, combatValue, wallCombatValue, damageValue);
         target.IncomingCombatValue += combatValue;
         target.IncomingWallCombatValue += wallCombatValue;
         if (combatValue > 0)
         {
-            TargetCount += 1;
+            _targetCount += 1;
             target.AttackerCount += 1;
         }
 
         if (wallCombatValue > 0)
         {
-            WallTargetCount += 1;
-            target.WallAttackerCount += 1;
+            _wallTargetCount += 1;
+            target._wallAttackerCount += 1;
         }
 
         TargetsChanged();
@@ -638,16 +648,16 @@ public partial class CombatObject : EngineObject
             combatValue = Targets.List[index].Second;
             damageValue = Targets.List[index].Third;
             CombatValue -= combatValue;
-            WallCombatValue -= damageValue;
+            _wallCombatValue -= damageValue;
             Targets.Delete(index);
             if (combatValue > 0)
             {
-                TargetCount -= 1;
+                _targetCount -= 1;
             }
 
             if (damageValue > 0)
             {
-                WallTargetCount -= 1;
+                _wallTargetCount -= 1;
             }
 
             TargetsChanged();
@@ -664,7 +674,7 @@ public partial class CombatObject : EngineObject
 
                 if (damageValue > 0)
                 {
-                    target.WallAttackerCount -= 1;
+                    target._wallAttackerCount -= 1;
                 }
 
                 target.TargetsChanged();

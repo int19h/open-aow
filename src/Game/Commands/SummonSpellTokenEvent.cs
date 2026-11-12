@@ -20,7 +20,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     // SummonSpells.pas:171
     public new const int ClassId = 135947;
 
-    public UnitIndexList UnitIndices;
+    public UnitIndexList UnitIndices { get; }
 
     // SummonSpells.pas:165
     public override void Dispose()

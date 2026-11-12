@@ -9,7 +9,7 @@ public partial class FuryAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1160
     public FuryAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_furyText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.FuryText);
         AbilityId = 156;
     }
 

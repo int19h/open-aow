@@ -15,11 +15,12 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     public CityOverlayHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public City City;
-    public int ModeStartFrame;
-    public OverlayMode Mode;
-    public ShellAnimationPhase ShellAnimation;
-    public int ShellEndFrame;
+    public City City { get; set; }
+    public int ModeStartFrame { get; private set; }
+    public OverlayMode Mode { get; private set; }
+
+    private ShellAnimationPhase _shellAnimation;
+    private int _shellEndFrame;
 
     // City.pas:718
     public override int GetShowPriority() => City.GetShowPriority() + 134217728;
@@ -92,31 +93,31 @@ public partial class CityOverlayHexSprite : SingleHexSprite
                 {
                     intensity = 50;
                     index = sequence.GetFrameIndex(0, 0);
-                    if (ShellEndFrame != -1 && AoWHSMap.Current.Frame < ShellEndFrame)
+                    if (_shellEndFrame != -1 && AoWHSMap.Current.Frame < _shellEndFrame)
                     {
-                        switch (ShellAnimation)
+                        switch (_shellAnimation)
                         {
                             case ShellAnimationPhase.Setup:
-                                frame = ShellEndFrame - AoWHSMap.Current.Frame;
+                                frame = _shellEndFrame - AoWHSMap.Current.Frame;
                                 if (frame <= 50)
                                 {
                                     intensity = 50 - frame;
                                 }
                                 else
                                 {
-                                    ShellEndFrame = -1;
+                                    _shellEndFrame = -1;
                                 }
 
                                 break;
                             case ShellAnimationPhase.Fade:
-                                frame = ShellEndFrame - AoWHSMap.Current.Frame;
+                                frame = _shellEndFrame - AoWHSMap.Current.Frame;
                                 if (frame <= 20)
                                 {
                                     intensity = intensity + (10 - Math.Abs(frame - 10)) * 3;
                                 }
                                 else
                                 {
-                                    ShellEndFrame = -1;
+                                    _shellEndFrame = -1;
                                 }
 
                                 break;
@@ -137,15 +138,15 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     // City.pas:721
     public void PlaySetupShellAnimation()
     {
-        ShellAnimation = ShellAnimationPhase.Setup;
-        ShellEndFrame = AoWHSMap.Current.Frame + 50;
+        _shellAnimation = ShellAnimationPhase.Setup;
+        _shellEndFrame = AoWHSMap.Current.Frame + 50;
     }
 
     // City.pas:727
     public void PlayFadeShellAnimation()
     {
-        ShellAnimation = ShellAnimationPhase.Fade;
-        ShellEndFrame = AoWHSMap.Current.Frame + 20;
+        _shellAnimation = ShellAnimationPhase.Fade;
+        _shellEndFrame = AoWHSMap.Current.Frame + 20;
     }
 
     // City.pas:815

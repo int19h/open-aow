@@ -24,36 +24,46 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6375
     public AIMoveTargetSelector(ECustomNode owner) : base(owner)
     {
-        Settings = new MoveControlSettings(null);
-        Targets = new MoveTargetList(null);
-        BufferedTargets = new MoveTargetList(null);
+        _settings = new MoveControlSettings(null);
+        _targets = new MoveTargetList(null);
+        _bufferedTargets = new MoveTargetList(null);
         Units = new UnitUserList(null);
     }
 
-    public int State;
-    public MoveTargetList Targets;
-    public AIMoveTargetSelectorStatus Status;
-    public MoveControlSettings Settings;
-    public Set<AIMoveTargetSelectorModeElement> Mode;
-    public MoveTargetList BufferedTargets;
-    public MoveTargetFoundEvent OnTargetFound;
-    public int ProcessCycles;
-    public SByteArray16By16 TransportMovePointTable;
+    private int _state;
+    private MoveTargetList _targets;
+
+    public AIMoveTargetSelectorStatus Status { get; private set; }
+
+    private MoveControlSettings _settings;
+
+    public Set<AIMoveTargetSelectorModeElement> Mode { get; set; }
+
+    private MoveTargetList _bufferedTargets;
+
+    public MoveTargetFoundEvent OnTargetFound { get; set; }
+    public int ProcessCycles { get; private set; }
+
+    private SByteArray16By16 _transportMovePointTable;
     public MapCoordinate SourceLocation;
     public AITargetInfo TargetInfo;
     public SByteArray16By16 MovePointTable;
-    public int MovePointsMax;
-    public int MovePointsMin;
-    public Troop Transporter;
-    public UnitUserList Units;
-    public AIGroupControl Control;
+
+    public int MovePointsMax { get; set; }
+    public int MovePointsMin { get; set; }
+
+    private Troop _transporter;
+
+    public UnitUserList Units { get; }
+
+    private AIGroupControl _control;
 
     // AIGroup.pas:6384
     public override void Dispose()
     {
-        Settings.Release();
-        Targets?.Dispose();
-        BufferedTargets?.Dispose();
+        _settings.Release();
+        _targets?.Dispose();
+        _bufferedTargets?.Dispose();
         Units?.Dispose();
         base.Dispose();
     }
@@ -61,17 +71,17 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6393
     public void SetTransporter(Troop transporter)
     {
-        if (transporter != Transporter)
+        if (transporter != _transporter)
         {
-            if (Transporter != null)
+            if (_transporter != null)
             {
-                Transporter.Release();
+                _transporter.Release();
             }
 
-            Transporter = transporter;
-            if (Transporter != null)
+            _transporter = transporter;
+            if (_transporter != null)
             {
-                Transporter.AddRef();
+                _transporter.AddRef();
             }
         }
     }
@@ -79,7 +89,7 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6403
     public void Reset()
     {
-        State = 0;
+        _state = 0;
         Status = AIMoveTargetSelectorStatus.Idle;
         OnTargetFound = null;
         ProcessCycles = 0;
@@ -90,7 +100,7 @@ public partial class AIMoveTargetSelector : EngineObject
         MovePointsMin = 100;
         SetTransporter(null);
         SourceLocation.Packed = 16777215;
-        Targets.Clear();
+        _targets.Clear();
         Mode = Set<AIMoveTargetSelectorModeElement>.Of();
         Units.Clear();
     }
@@ -127,7 +137,7 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6439
     public void Done()
     {
-        State = -1;
+        _state = -1;
         Status = AIMoveTargetSelectorStatus.Done;
     }
 
@@ -149,16 +159,16 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6456
     public bool ProcessBufferedTargets()
     {
-        if (BufferedTargets.Count != 0)
+        if (_bufferedTargets.Count != 0)
         {
-            TriggerTargetFound(BufferedTargets.GetTarget(0));
-            var target = BufferedTargets.GetTarget(0);
-            Targets.AddChild(target);
-            var fBufferedTargetsTarget = BufferedTargets.GetTarget(0);
-            BufferedTargets.RemoveChild(fBufferedTargetsTarget);
+            TriggerTargetFound(_bufferedTargets.GetTarget(0));
+            var target = _bufferedTargets.GetTarget(0);
+            _targets.AddChild(target);
+            var fBufferedTargetsTarget = _bufferedTargets.GetTarget(0);
+            _bufferedTargets.RemoveChild(fBufferedTargetsTarget);
         }
 
-        return BufferedTargets.Count != 0 && State != -1;
+        return _bufferedTargets.Count != 0 && _state != -1;
     }
 
     // AIGroup.pas:6467
@@ -169,34 +179,34 @@ public partial class AIMoveTargetSelector : EngineObject
         MoveTarget target;
         bool valid;
         int I;
-        if (BufferedTargets.Count != 0)
+        if (_bufferedTargets.Count != 0)
         {
             gaps = new Int32List();
-            target = BufferedTargets.GetTarget(0);
-            Transporter.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+            target = _bufferedTargets.GetTarget(0);
+            _transporter.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
             if (ListMovementGaps(AoWHSMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
-                Settings.Reset();
-                this.Settings.Player = TargetInfo.Player;
-                this.Settings.Mode = this.Settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-                this.Settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
+                _settings.Reset();
+                this._settings.Player = TargetInfo.Player;
+                this._settings.Mode = this._settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                this._settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
 
-                Settings.MovePointsMax = MovePointsMax;
-                Settings.MovePointTable = TransportMovePointTable;
+                _settings.MovePointsMax = MovePointsMax;
+                _settings.MovePointTable = _transportMovePointTable;
                 I = gaps.Count;
                 valid = true;
                 while (I != 0 && valid)
                 {
                     I -= 1;
-                    Settings.ResetState();
+                    _settings.ResetState();
                     var item = gaps[I];
                     var fMovePathItem = target.MovePath[item];
                     var gapsItem = gaps[I];
                     var item2 = target.MovePath[gapsItem];
                     var item3 = gaps[I];
                     var item4 = target.MovePath[item3];
-                    Settings.SetDestinationPosition(item4.X, item2.Y, fMovePathItem.MapLevel);
-                    valid = AoWHSMap.Current.MoveControl.CanMove(Settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
+                    _settings.SetDestinationPosition(item4.X, item2.Y, fMovePathItem.MapLevel);
+                    valid = AoWHSMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
             }
             else
@@ -207,14 +217,14 @@ public partial class AIMoveTargetSelector : EngineObject
             if (valid)
             {
                 TriggerTargetFound(target);
-                Targets.AddChild(target);
+                _targets.AddChild(target);
             }
 
-            BufferedTargets.RemoveChild(target);
+            _bufferedTargets.RemoveChild(target);
             gaps?.Dispose();
         }
 
-        return BufferedTargets.Count != 0 && State != -1;
+        return _bufferedTargets.Count != 0 && _state != -1;
     }
 
     // AIGroup.pas:6514
@@ -229,31 +239,31 @@ public partial class AIMoveTargetSelector : EngineObject
         MoveTarget target;
         AITargetData data = default;
         yield = false;
-        switch (State)
+        switch (_state)
         {
             case 0:
                 if (MovePointsMax != 0)
                 {
-                    BufferedTargets.Clear();
-                    Settings.Reset();
-                    this.Settings.Player = TargetInfo.Player;
-                    this.Settings.Mode = this.Settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-                    this.Settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
+                    _bufferedTargets.Clear();
+                    _settings.Reset();
+                    this._settings.Player = TargetInfo.Player;
+                    this._settings.Mode = this._settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                    this._settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
 
-                    Settings.MovePointsMax = MovePointsMax;
-                    Settings.MovePointTable = MovePointTable;
-                    Settings.Units.AddUnits(Units);
-                    State = 1;
+                    _settings.MovePointsMax = MovePointsMax;
+                    _settings.MovePointTable = MovePointTable;
+                    _settings.Units.AddUnits(Units);
+                    _state = 1;
                 }
                 else
                 {
-                    State = 10;
+                    _state = 10;
                 }
 
                 yield = false;
                 break;
             case 1:
-                AoWHSMap.Current.MoveControl.Activate(Settings);
+                AoWHSMap.Current.MoveControl.Activate(_settings);
                 processing = true;
                 while (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
                 {
@@ -262,14 +272,14 @@ public partial class AIMoveTargetSelector : EngineObject
 
                 yield = processing;
                 AoWHSMap.Current.MoveControl.Deactivate();
-                if (Settings.Status != MoveControlSettingsStatus.Processing)
+                if (_settings.Status != MoveControlSettingsStatus.Processing)
                 {
-                    State = 2;
+                    _state = 2;
                 }
 
                 break;
             case 2:
-                settings = Settings;
+                settings = _settings;
                 found = false;
                 I = settings.ProcessedMapFields.Count;
                 while (I > 0 && !found)
@@ -279,7 +289,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
-                        if (Targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(Control, TargetInfo, ref data))
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, ref data))
                         {
                             target = new MoveTarget(null);
                             var fieldMapCoordinate = field.GetMapCoordinate();
@@ -290,18 +300,18 @@ public partial class AIMoveTargetSelector : EngineObject
                             if (Mode.Contains(AIMoveTargetSelectorModeElement.CreateMovePaths))
                             {
                                 target.MovePath = new MovePath();
-                                AoWHSMap.Current.MoveControl.Activate(Settings);
+                                AoWHSMap.Current.MoveControl.Activate(_settings);
                                 AoWHSMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                                 if (target.MovePath.Count != 0)
                                 {
-                                    BufferedTargets.AddChild(target);
+                                    _bufferedTargets.AddChild(target);
                                 }
 
                                 AoWHSMap.Current.MoveControl.Deactivate();
                             }
                             else
                             {
-                                BufferedTargets.AddChild(target);
+                                _bufferedTargets.AddChild(target);
                             }
 
                             target.Release();
@@ -312,47 +322,47 @@ public partial class AIMoveTargetSelector : EngineObject
                     settings.ProcessedMapFields.Delete(I);
                 }
 
-                if (Settings.ProcessedMapFields.Count == 0)
+                if (_settings.ProcessedMapFields.Count == 0)
                 {
-                    BufferedTargets.SortOnMovePoints();
-                    State = 3;
+                    _bufferedTargets.SortOnMovePoints();
+                    _state = 3;
                 }
 
                 yield = false;
                 break;
             case 3:
-                if (!ProcessBufferedTargets() && State == 3)
+                if (!ProcessBufferedTargets() && _state == 3)
                 {
-                    State = 10;
+                    _state = 10;
                 }
 
                 yield = false;
                 break;
             case 10:
-                if (MovePointsMin > 0 && Transporter != null)
+                if (MovePointsMin > 0 && _transporter != null)
                 {
-                    BufferedTargets.Clear();
-                    Settings.Reset();
-                    this.Settings.Player = TargetInfo.Player;
-                    this.Settings.Mode = this.Settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
-                    this.Settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
+                    _bufferedTargets.Clear();
+                    _settings.Reset();
+                    this._settings.Player = TargetInfo.Player;
+                    this._settings.Mode = this._settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
+                    this._settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
 
-                    Settings.MovePointsMax = MovePointsMin;
-                    Settings.MovePointTable = MovePointTable;
-                    Settings.Units.AddUnits(Units);
-                    Transporter.CreateMovePointTable(ref TransportMovePointTable);
+                    _settings.MovePointsMax = MovePointsMin;
+                    _settings.MovePointTable = MovePointTable;
+                    _settings.Units.AddUnits(Units);
+                    _transporter.CreateMovePointTable(ref _transportMovePointTable);
                     for (int terrain = 0; terrain <= 15; terrain++)
                     {
                         for (int overlay = -1; overlay <= 11; overlay++)
                         {
-                            if (Settings.MovePointTable[terrain][overlay - -1] == -1 && TransportMovePointTable[terrain][overlay - -1] != -1)
+                            if (_settings.MovePointTable[terrain][overlay - -1] == -1 && _transportMovePointTable[terrain][overlay - -1] != -1)
                             {
-                                Settings.MovePointTable[terrain][overlay - -1] = 8;
+                                _settings.MovePointTable[terrain][overlay - -1] = 8;
                             }
                         }
                     }
 
-                    State = 11;
+                    _state = 11;
                 }
                 else
                 {
@@ -362,20 +372,20 @@ public partial class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 11:
-                AoWHSMap.Current.MoveControl.Activate(Settings);
+                AoWHSMap.Current.MoveControl.Activate(_settings);
                 while (AoWHSMap.Current.MoveControl.Process() && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
                 {
                 }
 
                 AoWHSMap.Current.MoveControl.Deactivate();
-                if (Settings.Status != MoveControlSettingsStatus.Processing)
+                if (_settings.Status != MoveControlSettingsStatus.Processing)
                 {
-                    State = 12;
+                    _state = 12;
                 }
 
                 break;
             case 12:
-                settings = Settings;
+                settings = _settings;
                 found = false;
                 I = settings.ProcessedMapFields.Count;
                 while (I > 0 && !found)
@@ -385,19 +395,19 @@ public partial class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
-                        if (Targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(Control, TargetInfo, ref data) && MovePointTable[field.TerrainType][field.OverlayType - -1] >= 0)
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, ref data) && MovePointTable[field.TerrainType][field.OverlayType - -1] >= 0)
                         {
                             target = new MoveTarget(null);
                             var fieldMapCoordinate = field.GetMapCoordinate();
                             target.Location.Packed = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
-                            target.TransporterId = Transporter.UnitId;
+                            target.TransporterId = _transporter.UnitId;
                             target.Data = data;
                             target.MovePath = new MovePath();
-                            AoWHSMap.Current.MoveControl.Activate(Settings);
+                            AoWHSMap.Current.MoveControl.Activate(_settings);
                             AoWHSMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                             AoWHSMap.Current.MoveControl.Deactivate();
-                            BufferedTargets.AddChild(target);
+                            _bufferedTargets.AddChild(target);
                             target.Release();
                             found = true;
                         }
@@ -406,16 +416,16 @@ public partial class AIMoveTargetSelector : EngineObject
                     settings.ProcessedMapFields.Delete(I);
                 }
 
-                if (Settings.ProcessedMapFields.Count == 0)
+                if (_settings.ProcessedMapFields.Count == 0)
                 {
-                    BufferedTargets.SortOnMovePoints();
-                    State = 13;
+                    _bufferedTargets.SortOnMovePoints();
+                    _state = 13;
                 }
 
                 yield = false;
                 break;
             case 13:
-                if (!ProcessBufferedTransportTargets() && State == 13)
+                if (!ProcessBufferedTransportTargets() && _state == 13)
                 {
                     Done();
                 }
@@ -433,36 +443,36 @@ public partial class AIMoveTargetSelector : EngineObject
         try
         {
             yield = false;
-            while (!yield && State != -1 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+            while (!yield && _state != -1 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
                 yield = ProcessStates();
             }
         }
         catch
         {
-            State = -1;
+            _state = -1;
         }
 
-        return State != -1;
+        return _state != -1;
     }
 
     // AIGroup.pas:6690
     public bool Search(AIGroupControl control)
     {
         bool result;
-        if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation.Packed != 16777215 && (MovePointsMax > 0 || (MovePointsMin > 0 && Transporter != null)))
+        if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation.Packed != 16777215 && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter != null)))
         {
             if (MovePointsMax > 0)
             {
-                State = 0;
+                _state = 0;
             }
             else
             {
-                State = 10;
+                _state = 10;
             }
 
             ProcessCycles = 0;
-            Control = control;
+            _control = control;
             Status = AIMoveTargetSelectorStatus.Searching;
             result = true;
         }

@@ -13,7 +13,7 @@ public partial class UnitSelectionActivation : AbilityActivation
         UnitSelector = null;
     }
 
-    public UnitSelector UnitSelector;
+    public UnitSelector UnitSelector { get; private set; }
 
     // Ability.PAS:696
     public override void Dispose()

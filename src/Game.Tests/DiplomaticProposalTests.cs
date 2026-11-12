@@ -105,7 +105,7 @@ public sealed class DiplomaticProposalTests
             "01070013010200020A00140405000000520202000219001A010000"),
     ];
 
-    public static readonly TheoryData<int> CaseIndexes = new(Enumerable.Range(0, s_cases.Length));
+    public static TheoryData<int> CaseIndexes { get; } = new(Enumerable.Range(0, s_cases.Length));
 
     // The proposal each case reads as, built by hand.
     private static DiplomaticProposal Expected(byte kind, int gold, int mana) => kind switch
@@ -357,24 +357,24 @@ public sealed class DiplomaticProposalTests
         string Answer(string none, string subject, string accepted, string otherwise) => reaction switch
         {
             DiplomaticActionReaction.None => none,
-            DiplomaticActionReaction.Reject => FormatText(DiplomaticProposal.s_rejectedFormat, subject),
+            DiplomaticActionReaction.Reject => FormatText(DiplomaticProposal.RejectedFormat, subject),
             DiplomaticActionReaction.Accept => accepted,
-            DiplomaticActionReaction.Ignore => FormatText(DiplomaticProposal.s_ignoredFormat, subject),
+            DiplomaticActionReaction.Ignore => FormatText(DiplomaticProposal.IgnoredFormat, subject),
             _ => otherwise,
         };
         return kind switch
         {
-            0 => Translate(GameTables.s_warText),
-            2 => Answer(Translate(ProposeAlliance.s_allianceProposalText), Translate(ProposeAlliance.s_allianceProposalText),
-                sourceSeated ? FormatText(DiplomaticProposal.s_acceptedFormat, Translate(ProposeAlliance.s_allianceProposalText)) : Translate(ProposeAlliance.s_madeAllianceText), Translate(ProposeAlliance.s_allianceProposalText)),
-            1 => Answer(Translate(OfferPeace.s_peaceOfferText), Translate(OfferPeace.s_peaceOfferText),
-                sourceSeated ? FormatText(DiplomaticProposal.s_acceptedFormat, Translate(OfferPeace.s_peaceOfferText)) : Translate(GameTables.s_peaceText), ""),
-            5 => Answer(Translate(Player.MakeTribute.s_tributeText), Translate(Player.MakeTribute.s_tributeText), FormatText(DiplomaticProposal.s_acceptedFormat, Translate(Player.MakeTribute.s_tributeText)), ""),
-            9 => Answer(Translate(Player.SuggestWarDeclaration.s_declareWarSuggestionText), Translate(GameText.s_declareWarText), FormatText(DiplomaticProposal.s_acceptedFormat, Translate(GameText.s_declareWarText)), ""),
-            8 => Answer(Translate(Player.SuggestAllianceBreak.s_breakAllianceSuggestionText), Translate(GameText.s_breakAllianceText), FormatText(DiplomaticProposal.s_acceptedFormat, Translate(GameText.s_breakAllianceText)), ""),
-            6 => Translate(BreakAlliance.s_allianceBrokenText),
-            3 or 7 => Translate(GameText.s_diplomaticMessageText),
-            4 => Translate(Player.ThreatenToAttack.s_threatText),
+            0 => Translate(GameTables.WarText),
+            2 => Answer(Translate(ProposeAlliance.AllianceProposalText), Translate(ProposeAlliance.AllianceProposalText),
+                sourceSeated ? FormatText(DiplomaticProposal.AcceptedFormat, Translate(ProposeAlliance.AllianceProposalText)) : Translate(ProposeAlliance.MadeAllianceText), Translate(ProposeAlliance.AllianceProposalText)),
+            1 => Answer(Translate(OfferPeace.PeaceOfferText), Translate(OfferPeace.PeaceOfferText),
+                sourceSeated ? FormatText(DiplomaticProposal.AcceptedFormat, Translate(OfferPeace.PeaceOfferText)) : Translate(GameTables.PeaceText), ""),
+            5 => Answer(Translate(Player.MakeTribute.TributeText), Translate(Player.MakeTribute.TributeText), FormatText(DiplomaticProposal.AcceptedFormat, Translate(Player.MakeTribute.TributeText)), ""),
+            9 => Answer(Translate(Player.SuggestWarDeclaration.DeclareWarSuggestionText), Translate(GameText.DeclareWarText), FormatText(DiplomaticProposal.AcceptedFormat, Translate(GameText.DeclareWarText)), ""),
+            8 => Answer(Translate(Player.SuggestAllianceBreak.BreakAllianceSuggestionText), Translate(GameText.BreakAllianceText), FormatText(DiplomaticProposal.AcceptedFormat, Translate(GameText.BreakAllianceText)), ""),
+            6 => Translate(BreakAlliance.AllianceBrokenText),
+            3 or 7 => Translate(GameText.DiplomaticMessageText),
+            4 => Translate(Player.ThreatenToAttack.ThreatText),
             _ => "DiplomaticActionEventLog",
         };
     }
@@ -382,13 +382,13 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:505 GetName, for the kinds that name no other player.
     private static string OldName(byte kind) => kind switch
     {
-        0 => AbilityRules.TranslateResourceString(GameText.s_declareWarText),
-        1 => AbilityRules.TranslateResourceString(OfferPeace.s_offerPeaceText),
-        2 => AbilityRules.TranslateResourceString(ProposeAlliance.s_proposeAllianceText),
-        3 => AbilityRules.TranslateResourceString(SendMessage.s_sendMessageText),
-        4 => AbilityRules.TranslateResourceString(Player.ThreatenToAttack.s_threatenToAttackText),
-        5 => AbilityRules.TranslateResourceString(Player.MakeTribute.s_makeTributeText),
-        6 => AbilityRules.TranslateResourceString(GameText.s_breakAllianceText),
+        0 => AbilityRules.TranslateResourceString(GameText.DeclareWarText),
+        1 => AbilityRules.TranslateResourceString(OfferPeace.OfferPeaceText),
+        2 => AbilityRules.TranslateResourceString(ProposeAlliance.ProposeAllianceText),
+        3 => AbilityRules.TranslateResourceString(SendMessage.SendMessageText),
+        4 => AbilityRules.TranslateResourceString(Player.ThreatenToAttack.ThreatenToAttackText),
+        5 => AbilityRules.TranslateResourceString(Player.MakeTribute.MakeTributeText),
+        6 => AbilityRules.TranslateResourceString(GameText.BreakAllianceText),
         _ => "",
     };
 
@@ -473,7 +473,7 @@ public sealed class DiplomaticProposalTests
                 checks += 5;
                 string error = "";
                 Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null!) { Proposal = proposal }, ref error));
-                Assert.Equal(kind == 5 ? AbilityRules.TranslateResourceString(Player.MakeTribute.s_noGoldManaSpecifiedText) : "", error);
+                Assert.Equal(kind == 5 ? AbilityRules.TranslateResourceString(Player.MakeTribute.NoGoldManaSpecifiedText) : "", error);
                 Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null!), ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })

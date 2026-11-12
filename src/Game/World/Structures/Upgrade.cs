@@ -17,7 +17,7 @@ public sealed partial record Upgrade : ProductionOrder
     public override CityAction CityAction => CityAction.Upgrade;
 
     public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.s_upgradeText) : base.Name(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.UpgradeText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) =>
         control.ProductionCity() != null ? AbilityRules.TranslateResourceString(s_upgradingText) : base.NameProgressive(control);
@@ -35,7 +35,7 @@ public sealed partial record Upgrade : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
         return false;
     }
 

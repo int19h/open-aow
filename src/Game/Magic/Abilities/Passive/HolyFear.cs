@@ -26,7 +26,7 @@ public partial class HolyFear : DurationAbility
         var durationAbilityData = (DurationAbilityData)owner.GetAbilityData(AbilityId);
         if (durationAbilityData.Source == 1)
         {
-            result = AbilityRules.TranslateResourceString(GameText.s_lifeMasteryText);
+            result = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
         }
         else
         {

@@ -17,8 +17,8 @@ public partial class House : CombatStructure
 
     public new const int ClassId = 2229522;
 
-    public int Race;
-    public int FlagId;
+    private int _race;
+    private int _flagId;
 
     // House.pas:45
     public override void Activate()
@@ -27,30 +27,30 @@ public partial class House : CombatStructure
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
             if (structure != null)
             {
                 if (structure is City)
                 {
-                    Race = ((City)structure).Race;
+                    _race = ((City)structure).Race;
                 }
                 else
                 {
-                    Race = 0;
+                    _race = 0;
                 }
 
                 if (structure.Player == -1)
                 {
-                    FlagId = -1;
+                    _flagId = -1;
                 }
                 else
                 {
-                    FlagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                    _flagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                 }
 
-                if (FlagId == -1)
+                if (_flagId == -1)
                 {
-                    FlagId = 32;
+                    _flagId = 32;
                 }
             }
         }
@@ -120,7 +120,7 @@ public partial class House : CombatStructure
                     break;
             }
 
-            sequence = _resource.ImageSequenceList.GetImageSequence(terrainOffset + Race);
+            sequence = _resource.ImageSequenceList.GetImageSequence(terrainOffset + _race);
             if (sequence != null)
             {
                 do
@@ -135,7 +135,7 @@ public partial class House : CombatStructure
                                 {
                                     var hexX2 = GetHexX();
                                     var hexY2 = GetHexY();
-                                    AoWHSSet.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)FlagId, lockedSurface, false);
+                                    AoWHSSet.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)_flagId, lockedSurface, false);
                                 }
                             }
 
@@ -170,7 +170,7 @@ public partial class House : CombatStructure
             HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
-            sequence = _resource.ImageSequenceList.GetImageSequence(Race + 60);
+            sequence = _resource.ImageSequenceList.GetImageSequence(_race + 60);
             if (sequence != null)
             {
                 do

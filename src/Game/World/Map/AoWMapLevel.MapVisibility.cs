@@ -12,7 +12,7 @@ public partial class AoWMapLevel
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
         while (walk.Radius <= radius)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < _width && walk.Y < _height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < Width && walk.Y < Height)
                 yield return (AoWMapField)GetField(walk.X, walk.Y);
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
@@ -48,8 +48,8 @@ public partial class AoWMapLevel
     {
         if (field.GetExplored(player)) return false;
         field.SetExplored(player, true);
-        var map = (GameMap)_map;
-        if (map.ExplorationEnabled && map.SeatedPlayer == player) _map.InvalidateStaticScene(field.HexX, field.HexY, _hexLevel);
+        var map = (GameMap)Map;
+        if (map.ExplorationEnabled && map.SeatedPlayer == player) Map.InvalidateStaticScene(field.HexX, field.HexY, HexLevel);
         return true;
     }
 

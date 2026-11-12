@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 // FPackageDataList. The control of a game on one system: what is sent is received again
 public partial class LocalPlayerCommunicationControl : PlayerCommunicationControl
 {
-    internal PackageDataList _packageDataList;
+    internal PackageDataList PackageDataList { get; }
 
     // NetworkE.pas:709
     public override int GetSystemCount() => 1;
@@ -18,12 +18,12 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     public override bool ReceivePackageData(MemoryStream stream)
     {
         bool result;
-        if (_packageDataList.Count != 0)
+        if (PackageDataList.Count != 0)
         {
-            stream.SetLength(_packageDataList.PackageData[0].Length);
+            stream.SetLength(PackageDataList.PackageData[0].Length);
             var size = (int)stream.Length;
-            Move(_packageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
-            _packageDataList.Delete(0);
+            Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
+            PackageDataList.Delete(0);
             result = true;
         }
         else
@@ -37,44 +37,44 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     // NetworkE.pas:737
     public override bool SendPackageData(int player, MemoryStream stream)
     {
-        _packageDataList.Add(stream);
+        PackageDataList.Add(stream);
         return true;
     }
 
     // NetworkE.pas:697
     public LocalPlayerCommunicationControl() : base()
     {
-        _packageDataList = new PackageDataList();
+        PackageDataList = new PackageDataList();
     }
 
     // NetworkE.pas:703
     public override void Dispose()
     {
-        _packageDataList?.Dispose();
+        PackageDataList?.Dispose();
         base.Dispose();
     }
 
     // NetworkE.pas:719
     public void Clear()
     {
-        _packageDataList.Clear();
+        PackageDataList.Clear();
     }
 
     // NetworkE.pas:743
     public new void Setup(int count)
     {
         base.Setup(count);
-        for (int I = _playerCommunicationSettingsList.Count - 1; I >= 0; I--)
+        for (int I = PlayerCommunicationSettingsList.Count - 1; I >= 0; I--)
         {
             var localSystemId = GetLocalSystemId();
-            _playerCommunicationSettingsList.Players[I]._systemId = localSystemId;
+            PlayerCommunicationSettingsList.Players[I]._systemId = localSystemId;
         }
     }
 
     // NetworkE.pas:752
     public void SetConnectionMode(int index, ConnectionMode mode)
     {
-        _playerCommunicationSettingsList.Players[index]._connectionMode = mode;
+        PlayerCommunicationSettingsList.Players[index]._connectionMode = mode;
     }
 
 }

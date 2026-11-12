@@ -52,13 +52,13 @@ public static partial class Blit
     // The low blue bit is cleared on the high member of each opaque pair.
     private ref struct RleBlend
     {
-        public ReadOnlySpan<byte> Data;
-        public SurfaceView Destination;
-        public int DataPosition;
-        public int Count;
-        public int DestinationOffset;
-        public int Key;
-        public bool Rgb565;
+        public ReadOnlySpan<byte> Data { get; init; }
+        public SurfaceView Destination { get; init; }
+        public int DataPosition { get; set; }
+        public int Count { get; set; }
+        public int DestinationOffset { get; set; }
+        public int Key { get; init; }
+        public bool Rgb565 { get; init; }
 
         private void Scalar()
         {

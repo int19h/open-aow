@@ -35,7 +35,7 @@ public sealed class OfflineStubTests
         Field(typeof(DialogHosts), nameof(DialogHosts.HelpWindow)),
     ];
 
-    private static FieldInfo Field(Type type, string name) => type.GetField(name, BindingFlags.Public | BindingFlags.Static)!;
+    private static FieldInfo Field(Type type, string name) => MemberNames.Field(type, name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)!;
 
     private sealed class SavedGlobals : IDisposable
     {
@@ -280,7 +280,7 @@ public sealed class OfflineStubTests
         var library = new CustomImageLibrary(null!);
         var images = new CustomImageLibrary.ImageItem[128];
         for (int i = 0; i < 128; i++) images[i] = new() { Image = recorder, Reference = -1 };
-        SetField(library, "_images", images);
+        SetField(library, "Images", images);
         SetField(library, "_count", 128);
         var level = new MapLevel(null!);
         SetField(level, "_width", 2);
@@ -318,25 +318,19 @@ public sealed class OfflineStubTests
 
     private static void SetField(object target, string name, object? value)
     {
-        for (Type? type = target.GetType(); type is not null; type = type.BaseType)
-            if (type.GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } field)
-            {
-                field.SetValue(target, value);
-                return;
-            }
-        throw new MissingFieldException(name);
+        (MemberNames.Field(target.GetType(), name) ?? throw new MissingFieldException(name)).SetValue(target, value);
     }
 
     private sealed class RecordingImage() : LibraryImage(null!)
     {
-        public readonly List<(int, int)> Calls = [];
+        public List<(int, int)> Calls { get; } = [];
 
         public override void Show(int x, int y, in LockedSurface surface) => Calls.Add((x, y));
     }
 
     private sealed class FinishedAnimation() : Animation(null!)
     {
-        public bool Finished;
+        public bool Finished { get; private set; }
 
         public override void Dispose() => Finished = true;
     }

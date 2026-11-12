@@ -69,8 +69,11 @@ internal static unsafe class SdlVerification
 
     private sealed class Sink : IDisplayEvents
     {
-        public int Keys, KeyUps, FocusChanges, CloseQueries;
-        public bool AllowClose;
+        public int Keys { get; private set; }
+        public int KeyUps { get; private set; }
+        public int FocusChanges { get; private set; }
+        public int CloseQueries { get; private set; }
+        public bool AllowClose { get; set; }
 
         public void Reset() => Keys = KeyUps = FocusChanges = CloseQueries = 0;
 

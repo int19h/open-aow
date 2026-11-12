@@ -82,7 +82,7 @@ public partial class PowerDialog : DataModule
         }
         else
         {
-            var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+            var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
             SpellName.Text = none;
             ResearchLeft.Text = "-";
         }
@@ -159,7 +159,7 @@ public partial class PowerDialog : DataModule
             FormatArg value = (FormatArg)((byte)49);
             return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
         }
-        string s2 = AbilityRules.TranslateResourceString(GameText.s_turnsFormat);
+        string s2 = AbilityRules.TranslateResourceString(GameText.TurnsFormat);
         FormatArg value2 = (FormatArg)(RtlUnit.IntToStr(turns));
         return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
     }

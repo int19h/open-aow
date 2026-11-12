@@ -19,35 +19,43 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryIndexDecrementDown, _imageLibraryIndexBack, _thumbImageIndex
 public partial class ScrollBar : Control
 {
-    public bool _vanishWhenFull;
-    public InterfaceImageLibrary _imageLibraryImageIncrement;
-    public InterfaceImageLibrary _imageLibraryIDecrement;
-    public InterfaceImageLibrary _imageLibraryTileBack;
-    public InterfaceImageLibrary _imageLibraryLineBack;
-    public InterfaceImageLibrary _thumbImage;
-    public InterfaceImageLibrary _thumbStrip;
-    public int TrackLength;
-    public int ThumbLength;
-    public int _min;
-    public int _max;
-    public int _smallChange;
-    public int _largeChange;
-    public int _position;
-    public int PositionCount;
-    public byte HeldUpdateCount;
-    public byte HeldPart;
-    public byte _delay;
-    public int TrackClickTarget;
-    public int _numberVisible;
-    public int UnusedValue;
-    public Style ScrollType;
-    public ScrollBarThumbStyle ThumbStyle;
-    public int _imageLibraryIndexIncrementUp;
-    public int _imageLibraryIndexIncrementDown;
-    public int _imageLibraryIndexDecrementUp;
-    public int _imageLibraryIndexDecrementDown;
-    public int _imageLibraryIndexBack;
-    public int _thumbImageIndex;
+    private bool _vanishWhenFull;
+    private InterfaceImageLibrary _imageLibraryImageIncrement;
+    private InterfaceImageLibrary _imageLibraryIDecrement;
+    private InterfaceImageLibrary _imageLibraryTileBack;
+    private InterfaceImageLibrary _imageLibraryLineBack;
+    private InterfaceImageLibrary _thumbImage;
+    private InterfaceImageLibrary _thumbStrip;
+
+    public int TrackLength { get; protected set; }
+    public int ThumbLength { get; protected set; }
+
+    private int _min;
+    private int _max;
+    private int _smallChange;
+    private int _largeChange;
+    private int _position;
+
+    public int PositionCount { get; set; }
+    public byte HeldUpdateCount { get; protected set; }
+    public byte HeldPart { get; protected set; }
+
+    private byte _delay;
+
+    public int TrackClickTarget { get; protected set; }
+
+    private int _numberVisible;
+
+    public int UnusedValue { get; }
+    public Style ScrollType { get; private set; }
+    public ScrollBarThumbStyle ThumbStyle { get; private set; }
+
+    private int _imageLibraryIndexIncrementUp;
+    private int _imageLibraryIndexIncrementDown;
+    private int _imageLibraryIndexDecrementUp;
+    private int _imageLibraryIndexDecrementDown;
+    private int _imageLibraryIndexBack;
+    private int _thumbImageIndex;
 
     // AoWVScroll.pas:130
     public ScrollBar(Rtl.Component owner) : base(owner)
@@ -144,7 +152,7 @@ public partial class ScrollBar : Control
     //   was clicked }
     public override void Update()
     {
-        if (_visible && HeldUpdateCount > 0)
+        if (Visible && HeldUpdateCount > 0)
         {
             if (HeldUpdateCount < _delay)
             {
@@ -413,11 +421,17 @@ public partial class ScrollBar : Control
     [Published]
     public int Min { get => _min; set => SetFMin(value); }
 
+    internal void SetMinUnclamped(int value) => _min = value;
+
     [Published]
     public int Max { get => _max; set => SetFMax(value); }
 
+    internal void SetMaxUnclamped(int value) => _max = value;
+
     [Published]
     public int SmallChange { get => _smallChange; set => SetSmall(value); }
+
+    internal void SetSmallChangeUnclamped(int value) => _smallChange = value;
 
     [Published]
     public int LargeChange { get => _largeChange; set => SetLarge(value); }
@@ -425,8 +439,12 @@ public partial class ScrollBar : Control
     [Published]
     public int Position { get => _position; set => SetFPosition(value); }
 
+    protected internal void SetPositionUnclamped(int value) => _position = value;
+
     [Published]
     public int NumberVisible { get => _numberVisible; set => SetFNumber(value); }
+
+    protected internal void SetNumberVisibleUnclamped(int value) => _numberVisible = value;
 
     [Published]
     public bool VanishWhenFull { get => _vanishWhenFull; set => _vanishWhenFull = value; }
@@ -434,8 +452,12 @@ public partial class ScrollBar : Control
     [Published]
     public InterfaceImageLibrary ImageLibraryImageIncrement { get => _imageLibraryImageIncrement; set => SetImageLibraryIncrement(value); }
 
+    internal void SetImageLibraryImageIncrementWithoutInvalidate(InterfaceImageLibrary value) => _imageLibraryImageIncrement = value;
+
     [Published]
     public InterfaceImageLibrary ImageLibraryIDecrement { get => _imageLibraryIDecrement; set => SetImageLibraryDecrement(value); }
+
+    internal void SetImageLibraryIDecrementWithoutInvalidate(InterfaceImageLibrary value) => _imageLibraryIDecrement = value;
 
     [Published]
     public InterfaceImageLibrary ImageLibraryTileBack { get => _imageLibraryTileBack; set => SetImageLibraryBack(value); }

@@ -23,7 +23,7 @@ public partial class LightningStorm : Storm
 
     public new const int ClassId = 135739;
 
-    public CustomImageLibrary StormImages;
+    private CustomImageLibrary _stormImages;
 
     // Storms.pas:429
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -31,16 +31,16 @@ public partial class LightningStorm : Storm
         int X = default;
         int Y = default;
         int frame;
-        frame = FrameCounter % StormImages.Count;
-        if (StormImages[frame] != null)
+        frame = FrameCounter % _stormImages.Count;
+        if (_stormImages[frame] != null)
         {
             var hexY = GetHexY();
             HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
-            var stormImageWidth = StormImages[frame];
+            var stormImageWidth = _stormImages[frame];
             X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
-            var stormImageHeight = StormImages[frame];
+            var stormImageHeight = _stormImages[frame];
             Y = Y - stormImageHeight.Height + 32 + 40;
-            StormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
+            _stormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
         }
     }
 
@@ -66,15 +66,15 @@ public partial class LightningStorm : Storm
     {
         Rect R = default;
         base.InitializeStorm(player, X, Y, L);
-        StormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        _stormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         if (GetVisible())
         {
-            StormImages.LoadDiscardableImageData();
+            _stormImages.LoadDiscardableImageData();
         }
 
-        R.Left = -(int)(((uint)StormImages[0].Width) >> 1);
-        R.Right = (int)(((uint)StormImages[0].Width) >> 1);
-        R.Top = -StormImages[0].Height + 32;
+        R.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
+        R.Right = (int)(((uint)_stormImages[0].Width) >> 1);
+        R.Top = -_stormImages[0].Height + 32;
         R.Bottom = 32;
         SetDimensions(R);
         AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 2);
@@ -86,12 +86,12 @@ public partial class LightningStorm : Storm
     {
         bool result;
         NewFrame();
-        if (StormImages.GetSafe(FrameCounter) != null)
+        if (_stormImages.GetSafe(FrameCounter) != null)
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }
 
-        if (StormImages.Count == FrameCounter)
+        if (_stormImages.Count == FrameCounter)
         {
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
@@ -109,7 +109,7 @@ public partial class LightningStorm : Storm
     // Storms.pas:459
     public override void FinalizeStorm()
     {
-        StormImages.ReleaseDiscardableImageData();
+        _stormImages.ReleaseDiscardableImageData();
         AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
@@ -117,6 +117,6 @@ public partial class LightningStorm : Storm
     // Animation.pas:43
 
     // Storms.pas:424
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_lightningStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.LightningStormText);
 
 }

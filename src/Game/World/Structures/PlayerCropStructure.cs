@@ -18,23 +18,24 @@ public partial class PlayerCropStructure : PlayerStructure
 
     public PlayerCropStructure(ECustomNode owner) : base(owner)
     {
-        ChangingCrops = false;
-        IncomeSource = new PlayerStructureIncomeSource(null);
-        IncomeSource.Setup(this);
+        _changingCrops = false;
+        _incomeSource = new PlayerStructureIncomeSource(null);
+        _incomeSource.Setup(this);
     }
 
     // Crops.pas:284
     public new const int ClassId = 131918;
 
-    public byte Income;
-    public bool ChangingCrops;
-    public PlayerStructureIncomeSource IncomeSource;
+    public byte Income { get; private set; }
+
+    private bool _changingCrops;
+    private PlayerStructureIncomeSource _incomeSource;
 
     // Crops.pas:278
     public override void Dispose()
     {
         base.Dispose();
-        IncomeSource?.Dispose();
+        _incomeSource?.Dispose();
     }
 
     // Crops.pas:270
@@ -42,7 +43,7 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:528
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting, HexSpriteMapStatusElement.Activated).IsSubsetOf(AoWHSMap.Current.Status) && !ChangingCrops)
+        if (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting, HexSpriteMapStatusElement.Activated).IsSubsetOf(AoWHSMap.Current.Status) && !_changingCrops)
         {
             UpdateCrops();
         }
@@ -67,7 +68,7 @@ public partial class PlayerCropStructure : PlayerStructure
         player = Player;
         if (player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(player).RegisterIncomeSource(IncomeSource);
+            AoWHSMap.Current.Players.GetPlayers(player).RegisterIncomeSource(_incomeSource);
         }
 
         if (!GetEditMode())
@@ -84,7 +85,7 @@ public partial class PlayerCropStructure : PlayerStructure
         player = Player;
         if (player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(player).UnregisterIncomeSource(IncomeSource);
+            AoWHSMap.Current.Players.GetPlayers(player).UnregisterIncomeSource(_incomeSource);
         }
 
         base.Deactivate();
@@ -163,14 +164,14 @@ public partial class PlayerCropStructure : PlayerStructure
         {
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(IncomeSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
             }
 
             base.SetPlayer(player);
             UpdateCrops();
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(IncomeSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
             }
         }
     }
@@ -232,7 +233,7 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:401
     public virtual void UpdateCrops()
     {
-        if (!GetEditMode() && _status.Contains(MapObjectStatusElement.Activated))
+        if (!GetEditMode() && Status.Contains(MapObjectStatusElement.Activated))
         {
             if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
@@ -285,7 +286,7 @@ public partial class PlayerCropStructure : PlayerStructure
     public void SetIncome(byte value)
     {
         sbyte player;
-        if (value != this.Income && this._status.Contains(MapObjectStatusElement.Activated))
+        if (value != this.Income && this.Status.Contains(MapObjectStatusElement.Activated))
         {
             this.Income = value;
             player = this.Player;
@@ -358,9 +359,9 @@ public partial class PlayerCropStructure : PlayerStructure
         DelphiList crops;
         Crop crop;
         UInt16List locations;
-        if (_status.Contains(MapObjectStatusElement.PlacedOnMap) && !ChangingCrops)
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && !_changingCrops)
         {
-            ChangingCrops = true;
+            _changingCrops = true;
             mapLevel = (MapLevel)Owner.Owner;
             crops = new DelphiList();
             locations = new UInt16List();
@@ -425,7 +426,7 @@ public partial class PlayerCropStructure : PlayerStructure
             // { Original frees and clears the recursion guard only on normal completion. }
             crops?.Dispose();
             locations?.Dispose();
-            ChangingCrops = false;
+            _changingCrops = false;
             CropsChanged();
         }
     }

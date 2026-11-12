@@ -15,8 +15,8 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     public Image08(CustomImageLibrary owner) : base(owner)
     { }
 
-    internal bool _ownPalette;
-    internal LibraryImagePalette _imagePalette;
+    private bool _ownPalette;
+    private LibraryImagePalette _imagePalette;
     internal Palette _remapPalette;
 
     // ImageLib.pas:7152
@@ -42,10 +42,10 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         else
         {
             stream.ReadExactly(Bytes.Of(ref index, 4));
-            _imagePalette = _owner._paletteManager.LinkToPalette(index);
+            _imagePalette = Owner.PaletteManager.LinkToPalette(index);
         }
 
-        _remapPalette = _imagePalette._palette;
+        _remapPalette = _imagePalette.Palette;
     }
 
     // ImageLib.pas:7179
@@ -67,12 +67,12 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     public virtual void RegisterPalette()
     {
         LibraryImagePalette old;
-        if (_ownPalette && _imagePalette != null && _owner != null)
+        if (_ownPalette && _imagePalette != null && Owner != null)
         {
             old = _imagePalette;
-            _imagePalette = _owner._paletteManager.RegisterPalette(_imagePalette._palette);
+            _imagePalette = Owner.PaletteManager.RegisterPalette(_imagePalette.Palette);
             old?.Dispose();
-            _remapPalette = _imagePalette._palette;
+            _remapPalette = _imagePalette.Palette;
             _ownPalette = false;
         }
     }
@@ -85,9 +85,9 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         {
             P = new LibraryImagePalette();
             P.Assign(_imagePalette);
-            _owner._paletteManager.UnregisterPalette(_imagePalette._index);
+            Owner.PaletteManager.UnregisterPalette(_imagePalette._index);
             _imagePalette = P;
-            _remapPalette = _imagePalette._palette;
+            _remapPalette = _imagePalette.Palette;
             _ownPalette = true;
         }
     }
@@ -101,15 +101,15 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
             _imagePalette = new LibraryImagePalette();
         }
 
-        _imagePalette._palette.Assign(palette);
-        _remapPalette = _imagePalette._palette;
+        _imagePalette.Palette.Assign(palette);
+        _remapPalette = _imagePalette.Palette;
         _ownPalette = true;
     }
 
     // ImageLib.pas:7227
     public override void SetOwner(CustomImageLibrary owner)
     {
-        if (owner != _owner)
+        if (owner != Owner)
         {
             UnregisterPalette();
             base.SetOwner(owner);

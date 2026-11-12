@@ -29,13 +29,17 @@ public partial class ArmyInfoEventLog : EventLog
 
     public new const int ClassId = 131817;
 
-    public ArmyView ArmyView;
+    public ArmyView ArmyView { get; }
+
     public byte Selection;
-    public StringCollection Messages;
+
+    public StringCollection Messages { get; }
+
     public string Title = "";
     public string Text = "";
     public string Description = "";
-    public Set<ExecuteTrigger> Triggers;
+
+    public Set<ExecuteTrigger> Triggers { get; set; }
 
     // Army.PAS:263
     public override void Dispose()

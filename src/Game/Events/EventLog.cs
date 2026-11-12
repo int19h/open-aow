@@ -26,7 +26,8 @@ public partial class EventLog : EngineObject
     public int _day = AoWHSMap.Current is { } map ? map.Day : 0;
     public int Id;
     public sbyte _player = AoWHSMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
-    public int RefCount;
+
+    public int RefCount { get; private set; }
 
     // EventLog.pas:334
     public override void SetOwner(ECustomNode owner)

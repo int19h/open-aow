@@ -20,7 +20,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
     public FireMastery(ECustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_fireMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.FireMasteryText);
         SpellId = 63;
         BaseManaCost = 1;
         SpellLevel = 4;

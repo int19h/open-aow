@@ -13,7 +13,7 @@ public partial class RazeStructureEventLog : MessageEventLog
     public RazeStructureEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public Structure Structure;
+    public Structure Structure { get; set; }
 
     // Structur.PAS:3086
     // (Structure)

@@ -42,5 +42,5 @@ public partial class AbstractRoadResource : MapObjectResource
     }
 
     // MAPOBJ.PAS:869
-    public virtual RoadControl GetRoadControl() => _engine._hexSpriteSet._roadControl;
+    public virtual RoadControl GetRoadControl() => Engine.HexSpriteSet.RoadControl;
 }

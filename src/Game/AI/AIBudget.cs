@@ -73,7 +73,7 @@ public partial class AIBudget : EngineObject
     // AI.pas:1678
     public virtual void OutputDebugInfo()
     {
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
     }
 
     // AI.pas:1675

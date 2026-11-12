@@ -32,19 +32,23 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
 
     public new const int ClassId = 131915;
 
-    public bool TerrainBound;
-    public bool ConnectRoads;
-    public byte FlagType;
+    public bool TerrainBound { get; protected set; }
+    public bool ConnectRoads { get; protected set; }
+    public byte FlagType { get; private set; }
+
     public string SelectSfx = "";
-    public bool SelectSfxLooped;
-    public StringCollection Description;
+    private bool _selectSfxLooped;
+
+    public StringCollection Description { get; }
+
     public int ScannerIcon;
-    public bool Razeable;
-    public bool CastsShadow;
-    public byte RebuildGold;
-    public byte RebuildDays;
-    public UnitIndexListCollection Defenders;
-    public int RazeDefenderBudget;
+
+    public bool Razeable { get; protected set; }
+    public bool CastsShadow { get; protected set; }
+    public byte RebuildGold { get; protected set; }
+    public byte RebuildDays { get; protected set; }
+    public UnitIndexListCollection Defenders { get; }
+    public int RazeDefenderBudget { get; protected set; }
 
     // Structur.PAS:1904
     public override void Dispose()
@@ -58,7 +62,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref SelectSfxLooped, 20);
+        stream.rwBool(ref _selectSfxLooped, 20);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
             stream.rwString(ref SelectSfx, 21);
@@ -89,9 +93,9 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         {
             index = structure.ImageIndex;
             offset = ((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16;
-            if (_imageSequenceList != null)
+            if (ImageSequenceList != null)
             {
-                sequence = (ImageSequence)_imageSequenceList.List[index];
+                sequence = (ImageSequence)ImageSequenceList.List[index];
                 while (sequence != null)
                 {
                     frameIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, offset);
@@ -112,14 +116,14 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
             }
             else
             {
-                _imageLibrary[index].ShowTransparent(X + _imageOffsetX, Y + _imageOffsetY, lockedSurface);
+                ImageLibrary[index].ShowTransparent(X + _imageOffsetX, Y + _imageOffsetY, lockedSurface);
             }
         }
         else
         {
-            if (_imageSequenceList == null)
+            if (ImageSequenceList == null)
             {
-                _imageLibrary[structure.ImageIndex].Show(X, Y, lockedSurface);
+                ImageLibrary[structure.ImageIndex].Show(X, Y, lockedSurface);
             }
             else
             {
@@ -132,9 +136,9 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     public void CalculatePadIndex()
     {
         FlagType = 0;
-        for (int I = 0, last = _terrainList.Count - 1; I <= last; I++)
+        for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
         {
-            if (_terrainList.Terrain[I] >= 0)
+            if (TerrainList.Terrain[I] >= 0)
             {
                 FlagType = (byte)(FlagType + 1);
             }

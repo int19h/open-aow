@@ -35,8 +35,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -47,7 +47,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "EChangeNotifyNode._children": {
@@ -59,13 +59,13 @@
             "EngineObject._owner": null
           },
           "ArmyHexSprite.MoveSteps": 0,
-          "ArmyHexSprite.UnitIndex": 0,
-          "ArmyHexSprite.UnitYOffset": 0,
+          "ArmyHexSprite._unitIndex": 0,
+          "ArmyHexSprite._unitYOffset": 0,
           "EngineObject._owner": null,
           "UnitHexSprite.Direction": 3,
           "UnitHexSprite.FlagId": 0,
           "UnitHexSprite.MoveStep": -1,
-          "UnitHexSprite.Shadow": null,
+          "UnitHexSprite._shadow": null,
           "UnitHexSprite._showPriority": 1744830464,
           "UnitHexSprite.Status": 0,
           "UnitHexSprite.UnitGraphicsResource": null
@@ -121,8 +121,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -133,7 +133,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "EChangeNotifyNode._children": {
@@ -145,13 +145,13 @@
             "EngineObject._owner": null
           },
           "ArmyHexSprite.MoveSteps": 0,
-          "ArmyHexSprite.UnitIndex": 0,
-          "ArmyHexSprite.UnitYOffset": 0,
+          "ArmyHexSprite._unitIndex": 0,
+          "ArmyHexSprite._unitYOffset": 0,
           "EngineObject._owner": "$owner",
           "UnitHexSprite.Direction": 3,
           "UnitHexSprite.FlagId": 0,
           "UnitHexSprite.MoveStep": -1,
-          "UnitHexSprite.Shadow": null,
+          "UnitHexSprite._shadow": null,
           "UnitHexSprite._showPriority": 1744830464,
           "UnitHexSprite.Status": 0,
           "UnitHexSprite.UnitGraphicsResource": null
@@ -163,13 +163,13 @@
             "$type": "Aow.Game.Draw.ArmyHexSprite",
             "ArmyHexSprite.Army": null,
             "ArmyHexSprite.MoveSteps": 0,
-            "ArmyHexSprite.UnitIndex": 0,
-            "ArmyHexSprite.UnitYOffset": 0,
+            "ArmyHexSprite._unitIndex": 0,
+            "ArmyHexSprite._unitYOffset": 0,
             "EngineObject._owner": "$owner",
             "UnitHexSprite.Direction": 0,
             "UnitHexSprite.FlagId": 0,
             "UnitHexSprite.MoveStep": 0,
-            "UnitHexSprite.Shadow": null,
+            "UnitHexSprite._shadow": null,
             "UnitHexSprite._showPriority": 0,
             "UnitHexSprite.Status": 0,
             "UnitHexSprite.UnitGraphicsResource": null

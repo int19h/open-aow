@@ -11,7 +11,7 @@ public partial class MigrationItem : EngineObject
     public MigrationItem(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte Race;
-    public int Time;
-    public Status Relation;
+    public sbyte Race { get; set; }
+    public int Time { get; set; }
+    public Status Relation { get; set; }
 }

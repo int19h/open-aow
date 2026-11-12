@@ -30,7 +30,7 @@ public partial class MapObjectResourceList : EResourceList
             R = (MapObjectResource)_children.List[I];
             if (R.EngineClass.ClassId == classId)
             {
-                if (terrainList == null || R._terrainList.CompareTerrain(terrainList, mode))
+                if (terrainList == null || R.TerrainList.CompareTerrain(terrainList, mode))
                 {
                     result = true;
                     list.Add(R);

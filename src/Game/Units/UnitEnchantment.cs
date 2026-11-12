@@ -161,7 +161,7 @@ public partial class UnitEnchantment : Enchantment
             else
             {
                 var binding = GetBinding();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_isOutOfSightFormat), [binding]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IsOutOfSightFormat), [binding]);
                 AoWHSMap.Current.ShowMessage(format);
             }
         }

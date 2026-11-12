@@ -27,18 +27,22 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
     // AoWTC.pas:5227
     public new const int ClassId = 2228486;
 
-    public bool Done;
-    public bool Cancelled;
-    public int Frame;
-    public int AbilityIndex;
-    public int SpellIndex;
+    public bool Done { get; set; }
+    public bool Cancelled { get; set; }
+    public int Frame { get; private set; }
+    public int AbilityIndex { get; set; }
+    public int SpellIndex { get; set; }
+
     public Point3DList Path;
-    public int Variant;
+
+    public int Variant { get; set; }
+
     public int TargetX;
     public int TargetY;
-    public CombatObject Target;
-    public CombatAction CombatAction;
-    public BattleEffectType EffectType;
+
+    public CombatObject Target { get; set; }
+    public CombatAction CombatAction { get; set; }
+    public BattleEffectType EffectType { get; set; }
 
     // AoWTC.pas:5221
     public override void Dispose()

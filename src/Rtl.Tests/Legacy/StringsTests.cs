@@ -7,7 +7,7 @@ public sealed class StringsTests
 {
     private sealed class TrackObject : IDisposable
     {
-        internal bool Destroyed;
+        internal bool Destroyed { get; private set; }
 
         public void Dispose() => Destroyed = true;
     }

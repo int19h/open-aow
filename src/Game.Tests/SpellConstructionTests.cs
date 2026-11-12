@@ -155,7 +155,7 @@ public sealed partial class SpellConstructionTests
             Assert.Same(raw, Assert.Single(owner.Members));
             Assert.Equal(SpellType.Global, raw.SpellType);
             Assert.Equal(1, raw.ResearchCost);
-            Assert.Same(fixture.Manager, raw.CastImages._imageLibraryManager);
+            Assert.Same(fixture.Manager, raw.CastImages.ImageLibraryManager);
         }
         finally { raw.Dispose(); }
         Assert.Empty(owner.Members);

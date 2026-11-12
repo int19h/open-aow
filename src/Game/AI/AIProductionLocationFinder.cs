@@ -20,12 +20,14 @@ public partial class AIProductionLocationFinder : AIGroupTask
         Selector = new AIMoveTargetSelector(null);
     }
 
-    public AIGroupControl Control;
-    public AIMoveTargetSelector Selector;
-    public Set<ModeElement> Mode;
-    public int Range;
-    public int Step;
-    public int TargetRange;
+    private AIGroupControl _control;
+
+    public AIMoveTargetSelector Selector { get; }
+
+    private Set<ModeElement> _mode;
+    private int _range;
+    private int _step;
+    private int _targetRange;
 
     // AIGroup.pas:2309
     public override void Dispose()
@@ -41,8 +43,8 @@ public partial class AIProductionLocationFinder : AIGroupTask
     public override bool Activate(AIGroupControl control)
     {
         base.Activate(control);
-        Control = control;
-        if (Mode.Contains(ModeElement.CalculateMovePathBfs))
+        _control = control;
+        if (_mode.Contains(ModeElement.CalculateMovePathBfs))
         {
             Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
         }
@@ -82,7 +84,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
         Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
         Selector.TargetInfo.Mode = AITargetMode.Produce;
         Selector.MovePointsMax = 75;
-        Mode = Mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+        _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
         return true;
     }
 
@@ -92,19 +94,19 @@ public partial class AIProductionLocationFinder : AIGroupTask
         AIGroupProductionLocation location;
         ProductionControl control;
         control = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel)).GetProductionControl();
-        if (Control.ProductionLocations.IndexOfPC(control) == -1)
+        if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
             location = new AIGroupProductionLocation(null);
             location.ProductionControl = control;
             location.Location = target.Location;
             location.MovePoints = target.MovePoints;
             location.TransporterId = target.TransporterId;
-            if (Mode.Contains(ModeElement.CalculateMovePathBfs))
+            if (_mode.Contains(ModeElement.CalculateMovePathBfs))
             {
-                location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(Control.Group.Player, Control.Group.IndependentRelation, target.MovePath, TargetRange, Range, Step);
+                location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step);
             }
 
-            Control.ProductionLocationFoundEvent(location, ref searchDone);
+            _control.ProductionLocationFoundEvent(location, ref searchDone);
             location.Release();
         }
     }
@@ -114,10 +116,10 @@ public partial class AIProductionLocationFinder : AIGroupTask
     {
         Selector.Clear();
         Selector.OnTargetFound = ProductionLocationFoundEvent;
-        Mode = Set<ModeElement>.Of();
-        Range = 8;
-        Step = 1;
-        TargetRange = 5;
+        _mode = Set<ModeElement>.Of();
+        _range = 8;
+        _step = 1;
+        _targetRange = 5;
     }
 
     public enum ModeElement : byte

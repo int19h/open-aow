@@ -15,7 +15,7 @@ public partial class FireAura : UnitSpell
     // UnitSpells.pas:616
     public FireAura(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_fireAuraText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.FireAuraText);
         SpellId = 40;
         BaseManaCost = 5;
         SpellLevel = 2;

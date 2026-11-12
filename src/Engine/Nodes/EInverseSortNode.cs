@@ -20,7 +20,7 @@ public partial class EInverseSortNode : ESortNode
             Grow();
         }
 
-        if (_sorted)
+        if (Sorted)
         {
             I = _count;
             while (I > 0 && sortValue < Items[I - 1].SortValue)
@@ -51,12 +51,12 @@ public partial class EInverseSortNode : ESortNode
     // Engine.pas:1658
     public override void Sort()
     {
-        if (!_sorted && _count > 0)
+        if (!Sorted && _count > 0)
         {
             InverseSortItems(Items, 0, _count - 1);
         }
 
-        _sorted = true;
+        Sorted = true;
     }
 
     private static void InverseSortItems(Span<SortItem> sortList, int L, int R)

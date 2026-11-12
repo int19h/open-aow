@@ -35,7 +35,7 @@ public sealed class RleSprite08GrabTests
         }
     }
 
-    private static byte[] Encoded(RleSprite08 image) => image._data.AsSpan(0, image._dataSize).ToArray();
+    private static byte[] Encoded(RleSprite08 image) => image.Data.AsSpan(0, image._dataSize).ToArray();
 
     [Fact]
     public void GrabEncodesTheOpaqueRectangle()

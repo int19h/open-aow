@@ -2,20 +2,20 @@ namespace Aow.Game.UI.Dialogs;
 
 internal static class LayerText
 {
-    internal static readonly string s_fileNotFoundText = "File not found";
+    internal static string FileNotFoundText { get; } = "File not found";
 
-    internal static readonly string s_loadingText = "Loading";
+    internal static string LoadingText { get; } = "Loading";
 
-    internal static readonly string s_backgroundText = "Background";
+    internal static string BackgroundText { get; } = "Background";
 
-    internal static readonly string s_campaignText = "Campaign";
+    internal static string CampaignText { get; } = "Campaign";
 
-    internal static readonly string s_surfaceText = "Surface";
+    internal static string SurfaceText { get; } = "Surface";
 
-    internal static readonly string s_cavernsText = "Caverns";
+    internal static string CavernsText { get; } = "Caverns";
 
-    internal static readonly string s_depthsText = "Depths";
+    internal static string DepthsText { get; } = "Depths";
 
-    internal static readonly string s_factionText = "Choose a Faction";
+    internal static string FactionText { get; } = "Choose a Faction";
 
 }

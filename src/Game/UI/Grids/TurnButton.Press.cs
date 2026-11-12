@@ -22,9 +22,9 @@ public partial class TurnButton
         }
 
         Drawn = false;
-        if (OnPlayerChange != null)
+        if (_onPlayerChange != null)
         {
-            OnPlayerChange(this);
+            _onPlayerChange(this);
         }
 
         return true;

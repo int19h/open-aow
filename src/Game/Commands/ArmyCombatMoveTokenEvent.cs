@@ -31,15 +31,15 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
     public new const int ClassId = 135426;
 
-    public ArmyCombatMoveTokenEventMode CombatMode;
-    public CombatType CombatType;
-    public bool IgnoreDefenders;
+    private ArmyCombatMoveTokenEventMode _combatMode;
+    private CombatType _combatType;
+    private bool _ignoreDefenders;
 
     // MoveT.PAS:2513
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref CombatType, 1), 1, 50);
+        stream.rwData(Bytes.Of(ref _combatType, 1), 1, 50);
     }
 
     // MoveT.PAS:3085
@@ -47,33 +47,33 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     {
         // { Retain Result assignment and place combat execution first. }
         MoveStatus result = MoveStatus.Moving;
-        if (CombatMode == ArmyCombatMoveTokenEventMode.RestoringHotSeat)
+        if (_combatMode == ArmyCombatMoveTokenEventMode.RestoringHotSeat)
         {
             return MoveStatus.Moving;
         }
 
-        if (CombatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
+        if (_combatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
         {
             result = MoveStatus.Moving;
         }
         else
         {
-            if (CombatMode == ArmyCombatMoveTokenEventMode.CancelCombat)
+            if (_combatMode == ArmyCombatMoveTokenEventMode.CancelCombat)
             {
                 result = MoveStatus.Done;
             }
             else
             {
-                if (CombatMode != ArmyCombatMoveTokenEventMode.RequestingCombatType)
+                if (_combatMode != ArmyCombatMoveTokenEventMode.RequestingCombatType)
                 {
-                    if (CombatMode != ArmyCombatMoveTokenEventMode.SetupReady)
+                    if (_combatMode != ArmyCombatMoveTokenEventMode.SetupReady)
                     {
                         result = base.ProcessMove();
                     }
 
-                    if (CombatMode == ArmyCombatMoveTokenEventMode.SetupReady)
+                    if (_combatMode == ArmyCombatMoveTokenEventMode.SetupReady)
                     {
-                        if (CombatType != CombatType.None)
+                        if (_combatType != CombatType.None)
                         {
                             ExecuteCombat();
                             if (ArmyHexSprite == null)
@@ -111,7 +111,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     {
         bool result;
         AoWMapField field;
-        if (MoveIndex == 1 && CombatMode != ArmyCombatMoveTokenEventMode.CombatExecuted)
+        if (MoveIndex == 1 && _combatMode != ArmyCombatMoveTokenEventMode.CombatExecuted)
         {
             if (ArmyHexSprite.GetMoveStatus() != -1)
             {
@@ -161,11 +161,11 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         AoWMapField field;
         sbyte player;
         int direction;
-        if (MoveIndex == 1 && CombatMode == ArmyCombatMoveTokenEventMode.Moving)
+        if (MoveIndex == 1 && _combatMode == ArmyCombatMoveTokenEventMode.Moving)
         {
             field = GetMapField(Path[0]);
             player = field.GetPlayer();
-            if (player != -1 && player != ArmyHexSprite.Army.Player && !IgnoreDefenders)
+            if (player != -1 && player != ArmyHexSprite.Army.Player && !_ignoreDefenders)
             {
                 direction = GetDirection(MoveIndex + 1);
                 if (direction == 0)
@@ -229,10 +229,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         CombatTypeRequestEventLog request;
         ArmyCombatMoveTokenEvent move;
         request = (CombatTypeRequestEventLog)log;
-        CombatType = request.CombatType;
+        _combatType = request.CombatType;
         if (request.CreateNewMove)
         {
-            if (CombatType != CombatType.None)
+            if (_combatType != CombatType.None)
             {
                 flow = new CombatFlowControlTokenEvent(null);
                 flow.Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.ActivateTacticalBattle, CombatFlowControlModeElement.EnableTurnTimer);
@@ -241,7 +241,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                     flow.Mode = flow.Mode + Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch);
                 }
 
-                flow.Player = request._player;
+                flow.Player = request.Player;
                 AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(flow);
                 flow.Release();
                 if (request.ArmyId.RetrieveArmy(ref ArmyHexSprite, ref Selection))
@@ -260,7 +260,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                     if (move != null)
                     {
                         // { created combat move }
-                        move.CombatType = ((CombatTypeRequestEventLog)log).CombatType;
+                        move._combatType = ((CombatTypeRequestEventLog)log).CombatType;
                         AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(move);
                         move.Release();
                     }
@@ -283,7 +283,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         }
         else
         {
-            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
         }
     }
 
@@ -317,7 +317,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         RestoreHotSeatMode();
         AoWHSMap.Current.AIExecutor.Unlock();
         AoWHSMap.Current.UnlockGameOverEvent();
-        CombatMode = ArmyCombatMoveTokenEventMode.Moving;
+        _combatMode = ArmyCombatMoveTokenEventMode.Moving;
         AoWHSMap.Current.SynchronizeEnd();
     }
 
@@ -325,9 +325,9 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     public void ShowHotSeatPlayerCallback(EventLog log)
     {
         AoWHSMap.Current.SetSeatedPlayer(((NewTurnEventLog)log).TurnPlayer);
-        if (CombatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
+        if (_combatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
         {
-            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
         }
     }
 
@@ -341,14 +341,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         CombatTypeRequestEventLog request = default;
         NewTurnEventLog log = default;
         field = GetMapField(Path[0]);
-        if (CombatType == CombatType.None)
+        if (_combatType == CombatType.None)
         {
             if (AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local)
             {
                 if (GameTables.GameEngine.Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysFastBattle)
                 {
-                    CombatType = CombatType.Fast;
-                    CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                    _combatType = CombatType.Fast;
+                    _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                 }
                 else
                 {
@@ -369,19 +369,19 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                         if (condition)
                         {
-                            CombatType = CombatType.Tactical;
-                            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                            _combatType = CombatType.Tactical;
+                            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                         }
                         else
                         {
-                            CombatType = CombatType.Fast;
-                            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                            _combatType = CombatType.Fast;
+                            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                         }
                     }
                     else
                     {
                         // { Set the mode in both branches, as in the original. }
-                        CombatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
+                        _combatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
                     }
                 }
             }
@@ -391,8 +391,8 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 {
                     if (GameTables.GameEngine.Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysFastBattle)
                     {
-                        CombatType = CombatType.Fast;
-                        CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                        _combatType = CombatType.Fast;
+                        _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                     }
                     else
                     {
@@ -413,19 +413,19 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                             if (condition)
                             {
-                                CombatType = CombatType.Tactical;
-                                CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                _combatType = CombatType.Tactical;
+                                _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                             }
                             else
                             {
-                                CombatType = CombatType.Fast;
-                                CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                _combatType = CombatType.Fast;
+                                _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                             }
                         }
                         else
                         {
                             // { Set the mode in both branches, as in the original. }
-                            CombatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
+                            _combatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
                         }
                     }
                 }
@@ -442,8 +442,8 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                     {
                         if (GameTables.GameEngine.Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysFastBattle)
                         {
-                            CombatType = CombatType.Fast;
-                            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                            _combatType = CombatType.Fast;
+                            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                         }
                         else
                         {
@@ -464,19 +464,19 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                                 if (test)
                                 {
-                                    CombatType = CombatType.Tactical;
-                                    CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                    _combatType = CombatType.Tactical;
+                                    _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                                 }
                                 else
                                 {
-                                    CombatType = CombatType.Fast;
-                                    CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                    _combatType = CombatType.Fast;
+                                    _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                                 }
                             }
                             else
                             {
                                 // { Set the mode in both branches, as in the original. }
-                                CombatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
+                                _combatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
                             }
                         }
                     }
@@ -503,11 +503,11 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                                 switch (AoWHSMap.Current.VictoryMode)
                                 {
                                     case 0:
-                                        CombatType = CombatType.Fast;
-                                        CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                        _combatType = CombatType.Fast;
+                                        _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                                         break;
                                     case 2:
-                                        CombatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
+                                        _combatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
                                         break;
                                     case 1:
                                         bool passed = AoWHSMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && field.GetPlayer() > 0;
@@ -519,20 +519,20 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                                         if (passed)
                                         {
-                                            CombatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
+                                            _combatMode = ArmyCombatMoveTokenEventMode.RequestingCombatType;
                                         }
                                         else
                                         {
-                                            CombatType = CombatType.Fast;
-                                            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                            _combatType = CombatType.Fast;
+                                            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                                         }
 
                                         break;
                                     default:
                                         {
                                             // { The original tests the always-available case before the human-only case. }
-                                            CombatType = CombatType.Fast;
-                                            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                            _combatType = CombatType.Fast;
+                                            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                                         }
 
                                         break;
@@ -540,14 +540,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                             }
                             else
                             {
-                                CombatType = CombatType.Fast;
-                                CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                                _combatType = CombatType.Fast;
+                                _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                             }
                         }
                         else
                         {
-                            CombatType = CombatType.Fast;
-                            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                            _combatType = CombatType.Fast;
+                            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
                         }
                     }
                 }
@@ -555,10 +555,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         }
         else
         {
-            CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+            _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
         }
 
-        if (CombatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType || (CombatType == CombatType.Tactical && CombatMode == ArmyCombatMoveTokenEventMode.SetupReady))
+        if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType || (_combatType == CombatType.Tactical && _combatMode == ArmyCombatMoveTokenEventMode.SetupReady))
         {
             combat = new Combat.Battle(null);
             var hexY = ArmyHexSprite.GetHexY();
@@ -585,15 +585,15 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
             if (!combat.DefendersAvailable() || !combat.PlayerTypeInvolved(Set<PlayerType>.Of(PlayerType.Human)))
             {
-                CombatType = CombatType.Fast;
-                CombatMode = ArmyCombatMoveTokenEventMode.SetupReady;
+                _combatType = CombatType.Fast;
+                _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
             }
 
             combat?.Dispose();
         }
 
         // { Original uses connection type here too. }
-        if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network && CombatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
+        if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network && _combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
         {
             AoWHSMap.Current.DisableTurnTimer();
             AoWHSMap.Current.AIExecutor.Lock();
@@ -616,7 +616,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             if (AoWHSMap.Current.SeatedPlayer == Player)
             {
                 request = new CombatTypeRequestEventLog(null);
-                request._player = ArmyHexSprite.Army.Player;
+                request.Player = ArmyHexSprite.Army.Player;
                 request.DefenderPlayer = field.GetPlayer();
                 request.X = field.HexX;
                 request.Y = field.HexY;
@@ -626,7 +626,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 request.ArmyId = ArmyHexSprite.Army.CreateId(Selection);
                 if (GameTables.GameEngine.Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.Choose)
                 {
-                    if (AoWHSMap.Current.SeatedPlayer != request._player)
+                    if (AoWHSMap.Current.SeatedPlayer != request.Player)
                     {
                         var hexLevel = ArmyHexSprite.GetHexLevel();
                         var hexY = ArmyHexSprite.GetHexY();
@@ -662,10 +662,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 ArmyHexSprite = null;
             }
 
-            CombatMode = ArmyCombatMoveTokenEventMode.CancelCombat;
+            _combatMode = ArmyCombatMoveTokenEventMode.CancelCombat;
         }
 
-        if (CombatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
+        if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
         {
             log = new NewTurnEventLog(null);
             log.TurnPlayer = field.GetPlayer();
@@ -677,9 +677,9 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         }
         else
         {
-            if (CombatMode == ArmyCombatMoveTokenEventMode.SetupReady && CombatType == CombatType.Tactical && AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
+            if (_combatMode == ArmyCombatMoveTokenEventMode.SetupReady && _combatType == CombatType.Tactical && AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
             {
-                CombatMode = ArmyCombatMoveTokenEventMode.SetupHotSeat;
+                _combatMode = ArmyCombatMoveTokenEventMode.SetupHotSeat;
                 log = new NewTurnEventLog(null);
                 log.TurnPlayer = field.GetPlayer();
                 log.Mode = NewTurnEventLogMode.Dialog;
@@ -690,16 +690,16 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             }
         }
 
-        if (CombatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
+        if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
         {
             ArmyHexSprite.PauseMove();
             request = new CombatTypeRequestEventLog(null);
-            request._player = ArmyHexSprite.Army.Player;
+            request.Player = ArmyHexSprite.Army.Player;
             request.DefenderPlayer = field.GetPlayer();
             request.X = field.HexX;
             request.Y = field.HexY;
             request.MapLevel = field.HexLevel;
-            if (AoWHSMap.Current.SeatedPlayer != request._player)
+            if (AoWHSMap.Current.SeatedPlayer != request.Player)
             {
                 var hexLevel = ArmyHexSprite.GetHexLevel();
                 var hexY = ArmyHexSprite.GetHexY();
@@ -752,7 +752,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                             move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, (sbyte)combat.CombatData.X, (sbyte)combat.CombatData.Y, (sbyte)combat.CombatData.MapLevel, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (move != null)
                             {
-                                ((ArmyCombatMoveTokenEvent)move).IgnoreDefenders = true;
+                                ((ArmyCombatMoveTokenEvent)move)._ignoreDefenders = true;
                             }
                         }
 

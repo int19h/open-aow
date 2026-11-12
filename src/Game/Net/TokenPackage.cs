@@ -10,7 +10,7 @@ public partial class TokenPackage : DataPackage
     // NetworkE.pas:1100
     public new const int ClassId = ClassIdTokenPackage;
 
-    internal TokenEventList _tokenEvents;
+    private TokenEventList _tokenEvents;
 
     // NetworkE.pas:1105
     public override void ReadWrite(EStorageStream stream)

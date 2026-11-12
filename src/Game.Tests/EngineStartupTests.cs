@@ -22,12 +22,12 @@ public sealed class EngineStartupTests
         "Aow.Game.Combat.CombatMap.Effects",
         "Aow.Game.Combat.CombatMap.FleeLocations",
         "Aow.Game.Combat.CombatMap.Walls",
-        "Aow.Game.Combat.BattleAI.Allies",
-        "Aow.Game.Combat.BattleAI.Enemies",
-        "Aow.Game.Combat.BattleAI.Moves",
-        "Aow.Game.Combat.BattleAI.Units",
-        "Aow.Game.Combat.BattleAI.Walls",
-        "Aow.Game.Commands.CombatMoveTokenEvent.Objects",
+        "Aow.Game.Combat.BattleAI._allies",
+        "Aow.Game.Combat.BattleAI._enemies",
+        "Aow.Game.Combat.BattleAI._moves",
+        "Aow.Game.Combat.BattleAI._units",
+        "Aow.Game.Combat.BattleAI._walls",
+        "Aow.Game.Commands.CombatMoveTokenEvent._objects",
         "Aow.Game.Draw.BlendTableList._list",
         "Aow.Game.Draw.DisplayModeList._list",
         "Aow.Game.Draw.Images.PaletteManager._palettes",
@@ -37,7 +37,7 @@ public sealed class EngineStartupTests
         "Aow.Game.Magic.Abilities.AbilityControl.Abilities",
         "Aow.Game.Magic.Spells.SpellControl.RegisteredSpells",
         "Aow.Game.Net.PackageDataList._list",
-        "Aow.Game.Net.TokenExecutor._tacticalBattleList",
+        "Aow.Game.Net.TokenExecutor.TacticalBattleList",
         "Aow.Game.Net.TokenManager._tokenControls",
         "Aow.Game.UI.Controls.Memo.ColorList",
         "Aow.Game.UI.Controls.MenuBar.Menus",
@@ -46,17 +46,17 @@ public sealed class EngineStartupTests
         "Aow.Game.UI.Controls.UIComponent.DrawList",
         "Aow.Game.UI.Dialogs.General.Abilities",
         "Aow.Game.UI.Dialogs.ResultsWindow.Controls",
-        "Aow.Game.UI.Dialogs.TitleScene.Credits",
+        "Aow.Game.UI.Dialogs.TitleScene._credits",
         "Aow.Game.UI.Windows.Menu.SubMenus",
         "Aow.Game.UI.Windows.HtmlMemo.Changes",
-        "Aow.Game.UI.Windows.HtmlMemo.Fonts",
-        "Aow.Game.Units.ItemControl.Items",
+        "Aow.Game.UI.Windows.HtmlMemo._fonts",
+        "Aow.Game.Units.ItemControl._items",
         "Aow.Game.Units.UnitControl.Units",
         "Aow.Game.World.Map.AoWHSMap.Effects",
         "Aow.Game.World.Map.HexSpriteSelection._locationHexSprite",
         "Aow.Game.World.Map.MapObjectResourceTerrainControl._resources",
         "Aow.Game.World.PadControl.PadResources",
-        "Aow.Game.World.Terrain.FireControl.Resources",
+        "Aow.Game.World.Terrain.FireControl._resources",
     };
 
     private static bool IsGenericList(object value)
@@ -66,12 +66,12 @@ public sealed class EngineStartupTests
     }
 
     private static bool ConvertedListField(FieldInfo field) =>
-        ConvertedListFields.Contains((field.DeclaringType?.FullName ?? "") + "." + field.Name);
+        ConvertedListFields.Contains((field.DeclaringType?.FullName ?? "") + "." + MemberNames.Of(field));
 
     // These fields were hash tables. The walk records the dictionary type and does not enter its entries.
     private static readonly HashSet<string> ConvertedDictionaryFields = new(StringComparer.Ordinal)
     {
-        "Aow.Game.Draw.Images.ImageLibraryManagerList._hashTable",
+        "Aow.Game.Draw.Images.ImageLibraryManagerList.HashTable",
         "Aow.Game.GameEngine._classTable",
         "Aow.Game.Units.UnitControl.UnitTable",
     };
@@ -83,7 +83,7 @@ public sealed class EngineStartupTests
     }
 
     private static bool ConvertedDictionaryField(FieldInfo field) =>
-        ConvertedDictionaryFields.Contains((field.DeclaringType?.FullName ?? "") + "." + field.Name);
+        ConvertedDictionaryFields.Contains((field.DeclaringType?.FullName ?? "") + "." + MemberNames.Of(field));
 
     [Fact]
     public async Task RealStartupSideEffectsStateAndFourFailuresMatchBaseCommit()
@@ -212,13 +212,13 @@ public sealed class EngineStartupTests
                     if (items[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
             }
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
-                foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
+                foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
                     if (field.Name == "_owner" || field.GetValue(value) is not object child) continue;
                     if (LegacyRoots.Contains(child.GetType())
                         || (IsGenericList(child) && ConvertedListField(field))
                         || (IsDictionary(child) && ConvertedDictionaryField(field)))
-                        Visit(child, path + "." + field.Name);
+                        Visit(child, path + "." + MemberNames.Of(field));
                 }
         }
         Visit(root, "Engine");

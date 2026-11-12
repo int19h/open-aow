@@ -39,7 +39,7 @@ public sealed class UncheckedOwnerCastTests
         public PlacedUnit(int id, UnitList list) : base(null!)
         {
             UnitId = id;
-            _owner = list;
+            SetOwnerWithoutNotify(list);
         }
     }
 
@@ -215,7 +215,7 @@ public sealed class UncheckedOwnerCastTests
         var caster = new DisjunctionSpellCaster(null!) { CasterSourceId = 42, EnchantmentId = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(AbilityRules.TranslateResourceString(DisjunctionSpellCaster.s_cannotDispelWhenSpellWardIsActiveText), reason);
+        Assert.Equal(AbilityRules.TranslateResourceString(DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveText), reason);
 
         scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));

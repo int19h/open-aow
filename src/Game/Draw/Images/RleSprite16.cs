@@ -19,12 +19,12 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new RleSprite16(owner);
 
-    internal int _colorKey;
-    internal byte[] _data;
-    internal int _spriteX;
-    internal int _spriteY;
-    internal int _spriteWidth;
-    internal int _spriteHeight;
+    private int _colorKey;
+    private byte[] _data;
+    private int _spriteX;
+    private int _spriteY;
+    private int _spriteWidth;
+    private int _spriteHeight;
 
     // ImageLib.pas:2881
     public RleSprite16(CustomImageLibrary owner) : base(owner)
@@ -93,10 +93,10 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:2936
     public override void ReleaseDiscardableImageData()
     {
-        if (_dataLoaded)
+        if (DataLoaded)
         {
             _data = null;
-            _dataLoaded = false;
+            DataLoaded = false;
         }
     }
 
@@ -147,17 +147,17 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     public override int RemapToPixelFormat(int pixelFormatId)
     {
         int result = 0;
-        if (pixelFormatId != _pixelFormatId)
+        if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
                     RemapRle555To565(_data, _spriteHeight, _colorKey);
-                    _pixelFormatId = PixelFormats.pfRGB565;
+                    PixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
                     RemapRle565To555(_data, _spriteHeight, _colorKey);
-                    _pixelFormatId = PixelFormats.pfRGB555;
+                    PixelFormatId = PixelFormats.pfRGB555;
                     break;
                 default:
                     result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -174,10 +174,10 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:3012
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             LoadDiscardableImageData();
-            if (lockedSurface.PixelFormatId == _pixelFormatId)
+            if (lockedSurface.PixelFormatId == PixelFormatId)
             {
                 BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
@@ -198,7 +198,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         }
         else
         {
-            if (lockedSurface.PixelFormatId == _pixelFormatId)
+            if (lockedSurface.PixelFormatId == PixelFormatId)
             {
                 BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
@@ -218,15 +218,15 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // { ShowTransparent shows the sprite blended 50% }
     public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             LoadDiscardableImageData();
-            if (lockedSurface.PixelFormatId != _pixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+            if (lockedSurface.PixelFormatId != PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
             {
                 throw new NotSupportedException("Surface pixel format not supported!");
             }
 
-            switch (_pixelFormatId)
+            switch (PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
                     BlendRle565(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
@@ -243,12 +243,12 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         }
         else
         {
-            if (lockedSurface.PixelFormatId != _pixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+            if (lockedSurface.PixelFormatId != PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
             {
                 throw new NotSupportedException("Surface pixel format not supported!");
             }
 
-            switch (_pixelFormatId)
+            switch (PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
                     BlendRle565(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
@@ -358,7 +358,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                 }
 
                 Clear();
-                _dataLoaded = true;
+                DataLoaded = true;
                 _dataWidth = gr.Right - gr.Left;
                 _dataHeight = gr.Bottom - gr.Top;
                 _width = _dataWidth;
@@ -366,7 +366,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                 _fileName = ExtractFileName(grabInfo.FileName);
                 _fileIndex = grabInfo.FileIndex;
                 _storedPixelFormatId = lSD.PixelFormatId;
-                _pixelFormatId = _storedPixelFormatId;
+                PixelFormatId = _storedPixelFormatId;
                 position = 0;
                 skip = 0;
                 LockedSurface.MinimizeTransparentRectangle(lSD, gr, _colorKey, ref mr);

@@ -40,24 +40,35 @@ public partial class AIGroupControl : EngineObject
         CombatPredictor = new CombatPredictor();
     }
 
-    public int ProcessCycles;
-    public AIGroup Group;
-    public Set<StatusElement> Status;
+    private int _processCycles;
+
+    public AIGroup Group { get; set; }
+
+    private Set<StatusElement> _status;
     public MapCoordinate Location;
     public Army Army;
-    public ArmyHexSprite ArmyHexSprite;
+
+    public ArmyHexSprite ArmyHexSprite { get; private set; }
+
     public byte Selection;
-    public AIGroupControlTargetList Targets;
-    public Int32Array10 Strength;
-    public int StrengthMax;
+
+    public AIGroupControlTargetList Targets { get; }
+
+    private Int32Array10 _strength;
+
+    public int StrengthMax { get; private set; }
+
     public SByteArray16By16 MovePointTable;
-    public Set<DamageType> ImmunityTypes;
-    public CombatPredictor CombatPredictor;
-    public AIMoveExecutor MoveExecutor;
-    public AIRecruitmentGroupList RecruitmentGroups;
-    public AIGroupProductionLocationList ProductionLocations;
-    public AIGroupTask AIGroupTask;
-    public int State;
+    private Set<DamageType> _immunityTypes;
+
+    public CombatPredictor CombatPredictor { get; }
+    public AIMoveExecutor MoveExecutor { get; private set; }
+    public AIRecruitmentGroupList RecruitmentGroups { get; }
+    public AIGroupProductionLocationList ProductionLocations { get; }
+
+    private AIGroupTask _aiGroupTask;
+
+    public int State { get; set; }
 
     // AIGroup.pas:983
     public override void Dispose()
@@ -223,14 +234,14 @@ public partial class AIGroupControl : EngineObject
         State = 0;
         MoveExecutor = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
         AoWHSMap.Current.AIExecutor.UseProcessTime(100);
-        Status = Status + Set<StatusElement>.Of(StatusElement.Activated);
+        _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
     }
 
     // AIGroup.pas:1222
     public virtual void Deactivate()
     {
         MoveExecutor.OnDone = null;
-        Status = Status - Set<StatusElement>.Of(StatusElement.Activated);
+        _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
     }
 
     // AIGroup.pas:1101
@@ -300,9 +311,9 @@ public partial class AIGroupControl : EngineObject
         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
             damageType = (DamageType)damageTypeOrdinal;
-            if (damageTypes.Contains(damageType) && result < Strength[(int)damageType])
+            if (damageTypes.Contains(damageType) && result < _strength[(int)damageType])
             {
-                result = Strength[(int)damageType];
+                result = _strength[(int)damageType];
             }
         }
 
@@ -315,11 +326,11 @@ public partial class AIGroupControl : EngineObject
         DamageType damageType;
         Troop troop;
         SByteArray16By16 movePointTable = default;
-        if (Group.Status.Contains(AIGroupStatusElement.Changed) || ProcessCycles == 1)
+        if (Group.Status.Contains(AIGroupStatusElement.Changed) || _processCycles == 1)
         {
-            ImmunityTypes = AbilityRules.s_allDamageTypes;
+            _immunityTypes = AbilityRules.s_allDamageTypes;
             StrengthMax = 0;
-            Strength = default;
+            _strength = default;
             if (Group.Count != 0)
             {
                 FillBytes(Bytes.Of(ref MovePointTable, 256), 1);
@@ -332,14 +343,14 @@ public partial class AIGroupControl : EngineObject
             for (int I = Group.Count - 1; I >= 0; I--)
             {
                 troop = Group.GetUnit(I);
-                ImmunityTypes = troop.GetImmunityTypes() & ImmunityTypes;
+                _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(ref movePointTable);
                 AbilityRules.MaximizeMovePointTable(Bytes.Of(ref MovePointTable), Bytes.Of(ref movePointTable));
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
                     damageType = (DamageType)damageTypeOrdinal;
                     var strength = troop.GetStrength(damageType);
-                    Strength[(int)damageType] += strength;
+                    _strength[(int)damageType] += strength;
                 }
 
                 var strengthMax = troop.GetStrengthMax(AbilityRules.s_allDamageTypes);
@@ -438,18 +449,18 @@ public partial class AIGroupControl : EngineObject
     public void ActivatePlugin(AIGroupTask aiGroupTask)
     {
         DeactivatePlugin();
-        AIGroupTask = aiGroupTask;
-        AIGroupTask.AddRef();
-        AIGroupTask.Activate(this);
+        _aiGroupTask = aiGroupTask;
+        _aiGroupTask.AddRef();
+        _aiGroupTask.Activate(this);
     }
 
     // AIGroup.pas:1236
     public void DeactivatePlugin()
     {
-        if (this.AIGroupTask != null)
+        if (this._aiGroupTask != null)
         {
-            this.AIGroupTask.Release();
-            this.AIGroupTask = null;
+            this._aiGroupTask.Release();
+            this._aiGroupTask = null;
         }
     }
 
@@ -479,7 +490,7 @@ public partial class AIGroupControl : EngineObject
     {
         bool result;
         bool busy;
-        ProcessCycles += 1;
+        _processCycles += 1;
         if (Validate())
         {
             try
@@ -487,9 +498,9 @@ public partial class AIGroupControl : EngineObject
                 busy = false;
                 while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
-                    if (AIGroupTask != null)
+                    if (_aiGroupTask != null)
                     {
-                        busy = AIGroupTask.MainProcess();
+                        busy = _aiGroupTask.MainProcess();
                         if (!busy)
                         {
                             DeactivatePlugin();

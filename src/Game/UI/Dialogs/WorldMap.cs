@@ -93,17 +93,18 @@ public partial class WorldMap : DataModule
     public IvTranslator Translator;
     public VerticalScrollBar leftSB;
     public VerticalScrollBar rightSB;
-    public int StarImageValue;
-    public int StarStep;
-    public int StarIntensity;
-    public int PathFrame;
-    public int PathDelay;
-    public int PawnTicks;
-    public int EnemyDelay;
-    public bool DescriptionHandled;
-    public EngineObject BookContext;
-    public NotifyEvent<object> OnBookClosed;
-    public byte BookAction;
+    private int _starImageValue;
+    private int _starStep;
+    private int _starIntensity;
+    private int _pathFrame;
+    private int _pathDelay;
+    private int _pawnTicks;
+    private int _enemyDelay;
+    private bool _descriptionHandled;
+
+    public EngineObject BookContext { get; set; }
+    public NotifyEvent<object> OnBookClosed { get; set; }
+    public byte BookAction { get; set; }
 
     // AoWWorldMap.pas:152
     public WorldMapCampaign GetCampaign() => (WorldMapCampaign)GameTables.GameEngine.Campaign;
@@ -149,22 +150,22 @@ public partial class WorldMap : DataModule
                         var campaign9 = GetCampaign();
                         var campaignPage3 = GetCampaignPage(campaignScenario4.OutroPages, campaign9.Page + 1);
                         MemoR.Items.Assign(campaignPage3.Text);
-                        StarIntensity = 50;
-                        StarStep = 1;
+                        _starIntensity = 50;
+                        _starStep = 1;
                         var campaign10 = GetCampaign();
                         switch (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign10.CurrentScenarioId).MapKind)
                         {
                             case 0:
                                 WorldPnl.ImageLibraryIndexTexture = 0;
-                                StarImageValue = 13;
+                                _starImageValue = 13;
                                 break;
                             case 1:
                                 WorldPnl.ImageLibraryIndexTexture = 10;
-                                StarImageValue = 14;
+                                _starImageValue = 14;
                                 break;
                             case 2:
                                 WorldPnl.ImageLibraryIndexTexture = 11;
-                                StarImageValue = 15;
+                                _starImageValue = 15;
                                 break;
                         }
 
@@ -310,7 +311,7 @@ public partial class WorldMap : DataModule
                     {
                         Path1.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path1.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
+                        Path1.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[0];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
@@ -329,7 +330,7 @@ public partial class WorldMap : DataModule
                     {
                         Path2.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path2.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
+                        Path2.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[1];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
@@ -348,7 +349,7 @@ public partial class WorldMap : DataModule
                     {
                         Path3.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path3.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
+                        Path3.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[2];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
@@ -394,7 +395,7 @@ public partial class WorldMap : DataModule
                     }
                     else
                     {
-                        PawnTicks = 20;
+                        _pawnTicks = 20;
                         BookWin.Visible = false;
                         SetBtn.Visible = false;
                         ShowBtn.Visible = false;
@@ -737,23 +738,23 @@ public partial class WorldMap : DataModule
             Path3.Drawn = false;
             PPawn.Drawn = false;
             EPawn.Drawn = false;
-            PathDelay -= 1;
-            if (PathDelay < 1)
+            _pathDelay -= 1;
+            if (_pathDelay < 1)
             {
-                PathDelay = 5;
-                frame = 1 - PathFrame;
-                PathFrame = frame;
+                _pathDelay = 5;
+                frame = 1 - _pathFrame;
+                _pathFrame = frame;
                 var campaign = GetCampaign();
                 Path1.CurrentImage = campaign.Faction * 3 + (frame + 2);
                 var campaign2 = GetCampaign();
-                Path2.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
+                Path2.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                 var campaign3 = GetCampaign();
-                Path3.CurrentImage = campaign3.Faction * 3 + (PathFrame + 2);
+                Path3.CurrentImage = campaign3.Faction * 3 + (_pathFrame + 2);
             }
 
             if (GetCampaign().State == 5)
             {
-                if (PawnTicks > 0)
+                if (_pawnTicks > 0)
                 {
                     var campaign = GetCampaign();
                     var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.NextScenarioId);
@@ -761,14 +762,14 @@ public partial class WorldMap : DataModule
                     var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                     var campaign3 = GetCampaign();
                     var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId);
-                    PPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - PawnTicks) / 19 + campaignScenario3.MapX - 25;
+                    PPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
                     var campaign4 = GetCampaign();
                     var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.NextScenarioId);
                     var campaign5 = GetCampaign();
                     var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign5.CurrentScenarioId);
                     var campaign6 = GetCampaign();
                     var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
-                    PPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - PawnTicks) / 19 + campaignScenario6.MapY - 65;
+                    PPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
                     if (this.PPawn.WinTop > EPawn.WinTop)
                     {
                         this.PPawn.Priority = 10;
@@ -782,8 +783,8 @@ public partial class WorldMap : DataModule
                 }
                 else
                 {
-                    PawnTicks = 20;
-                    EnemyDelay = 30;
+                    _pawnTicks = 20;
+                    _enemyDelay = 30;
                     var campaign = GetCampaign();
                     campaign.State += 1;
                     var campaign2 = GetCampaign();
@@ -795,18 +796,18 @@ public partial class WorldMap : DataModule
                         DescLbl.Text = campaignScenario2.Description;
                         this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
 
-                        DescriptionHandled = true;
+                        _descriptionHandled = true;
                     }
                 }
 
-                PawnTicks -= 1;
+                _pawnTicks -= 1;
             }
 
             if (GetCampaign().State == 6)
             {
-                if (PawnTicks > 0)
+                if (_pawnTicks > 0)
                 {
-                    DescriptionHandled = true;
+                    _descriptionHandled = true;
                     var campaign = GetCampaign();
                     var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[3];
                     startIndex = GetCampaign().Scenarios.IndexOfId(path);
@@ -818,11 +819,11 @@ public partial class WorldMap : DataModule
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
-                        EPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - PawnTicks) / 19 + campaignScenario3.MapX - 25;
+                        EPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
                         var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
                         var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
-                        EPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - PawnTicks) / 19 + campaignScenario6.MapY - 65;
+                        EPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
                         if (this.PPawn.WinTop > EPawn.WinTop)
                         {
                             this.PPawn.Priority = 10;
@@ -837,9 +838,9 @@ public partial class WorldMap : DataModule
                 }
                 else
                 {
-                    if (EnemyDelay > 0)
+                    if (_enemyDelay > 0)
                     {
-                        EnemyDelay -= 1;
+                        _enemyDelay -= 1;
                     }
                     else
                     {
@@ -849,7 +850,7 @@ public partial class WorldMap : DataModule
                     }
                 }
 
-                PawnTicks -= 1;
+                _pawnTicks -= 1;
             }
         }
     }
@@ -955,11 +956,11 @@ public partial class WorldMap : DataModule
             {
                 if (GetCampaign().Faction == 0)
                 {
-                    description = AbilityRules.TranslateResourceString(LobbyText.s_cultOfStormsText);
+                    description = AbilityRules.TranslateResourceString(LobbyText.CultOfStormsText);
                 }
                 else
                 {
-                    description = AbilityRules.TranslateResourceString(LobbyText.s_keepersText);
+                    description = AbilityRules.TranslateResourceString(LobbyText.KeepersText);
                 }
             }
         }
@@ -976,7 +977,7 @@ public partial class WorldMap : DataModule
             this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
         }
 
-        DescriptionHandled = true;
+        _descriptionHandled = true;
         pawn.Handled = false;
     }
 
@@ -998,7 +999,7 @@ public partial class WorldMap : DataModule
             }
         }
 
-        DescriptionHandled = true;
+        _descriptionHandled = true;
     }
 
     // AoWWorldMap.pas:661
@@ -1019,7 +1020,7 @@ public partial class WorldMap : DataModule
             }
         }
 
-        DescriptionHandled = true;
+        _descriptionHandled = true;
     }
 
     // AoWWorldMap.pas:679
@@ -1040,13 +1041,13 @@ public partial class WorldMap : DataModule
             }
         }
 
-        DescriptionHandled = true;
+        _descriptionHandled = true;
     }
 
     // AoWWorldMap.pas:697
     public void WorldPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (!DescriptionHandled)
+        if (!_descriptionHandled)
         {
             if (GetCampaign().State == 1)
             {
@@ -1057,7 +1058,7 @@ public partial class WorldMap : DataModule
             }
         }
 
-        DescriptionHandled = false;
+        _descriptionHandled = false;
     }
 
     // AoWWorldMap.pas:706
@@ -1072,7 +1073,7 @@ public partial class WorldMap : DataModule
 
         if (WorldPnl.Visible)
         {
-            PawnTicks = 20;
+            _pawnTicks = 20;
             var campaign = GetCampaign();
             campaign.State += 1;
             UpdateCampaignState();
@@ -1159,22 +1160,22 @@ public partial class WorldMap : DataModule
     public void QuitBtnClick()
     {
         var quitCampaign = AbilityRules.TranslateResourceString(s_quitCampaignText);
-        var confirm = AbilityRules.TranslateResourceString(LobbyText.s_confirmText);
+        var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
         DialogHosts.ConfirmationDialog.Confirm(confirm, quitCampaign, 5);
     }
 
     // AoWWorldMap.pas:791
     public void StarImgUpdate()
     {
-        StarIntensity += StarStep;
-        if (StarIntensity + StarStep > 100)
+        _starIntensity += _starStep;
+        if (_starIntensity + _starStep > 100)
         {
-            StarStep = -1;
+            _starStep = -1;
         }
 
-        if (StarIntensity + StarStep < 50)
+        if (_starIntensity + _starStep < 50)
         {
-            StarStep = 1;
+            _starStep = 1;
         }
 
         StarImg.Drawn = false;
@@ -1183,7 +1184,7 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:800
     public void StarImgDraw(LockedSurface surface)
     {
-        DialogHosts.UIGraphics.WorldMap[StarImageValue].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[StarIntensity]);
+        DialogHosts.UIGraphics.WorldMap[_starImageValue].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
     }
 
     // AoWWorldMap.pas:806
@@ -1288,8 +1289,8 @@ public partial class WorldMap : DataModule
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         DialogHosts.TitleWindow.TitlePnl.Visible = false;
         dialog.WorldPnl.Visible = true;
-        dialog.PathFrame = 0;
-        dialog.PathDelay = 5;
+        dialog._pathFrame = 0;
+        dialog._pathDelay = 5;
         dialog.DescLbl.Text = "";
         DialogHosts.General.Manager.OverlayPriority = 249;
         AudioHost.SongPlayer.Stop(false);

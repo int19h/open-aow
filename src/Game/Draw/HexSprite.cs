@@ -66,13 +66,13 @@ public partial class HexSprite : EngineObject
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte GetHexX() => ((MapField)Owner)._hexX;
+    public virtual sbyte GetHexX() => ((MapField)Owner).HexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte GetHexY() => ((MapField)Owner)._hexY;
+    public virtual sbyte GetHexY() => ((MapField)Owner).HexY;
 
     // HXSPRITE.PAS:97
-    public virtual sbyte GetHexLevel() => (sbyte)((MapLevel)Owner.Owner)._hexLevel;
+    public virtual sbyte GetHexLevel() => (sbyte)((MapLevel)Owner.Owner).HexLevel;
 
     // HXSPRITE.PAS:102
     public virtual int GetMapCoordinate() => GetHexX() + (GetHexY() << 8) + (GetHexLevel() << 16);
@@ -207,7 +207,7 @@ public partial class HexSprite : EngineObject
         mapField = (MapField)Owner;
         if (mapField != null)
         {
-            ((GameEngine)((MapLevel)mapField.Owner).Engine)._hexSpriteMap._hexSpriteChangedEventsStore.Raise(this);
+            ((GameEngine)((MapLevel)mapField.Owner).Engine).HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
         }
     }
 
@@ -243,11 +243,11 @@ public partial class HexSprite : EngineObject
     // HXSPRITE.PAS:82
     public virtual void GetBaseHex(ref int mapCoordinate)
     {
-        mapCoordinate = ((MapField)Owner)._hexX + (((MapField)Owner)._hexY << 8) + (((MapLevel)Owner.Owner)._hexLevel << 16);
+        mapCoordinate = ((MapField)Owner).HexX + (((MapField)Owner).HexY << 8) + (((MapLevel)Owner.Owner).HexLevel << 16);
     }
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)((MapLevel)Owner.Owner).Engine)._hexSpriteMap._status.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)((MapLevel)Owner.Owner).Engine).HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()
@@ -257,7 +257,7 @@ public partial class HexSprite : EngineObject
     // HXSPRITE.PAS:111
     public virtual void Unselect()
     {
-        ((MapLevel)Owner.Owner)._map._selection.Unselect(this);
+        ((MapLevel)Owner.Owner).Map.Selection.Unselect(this);
     }
 
     // HXSPRITE.PAS:17
@@ -360,7 +360,7 @@ public partial class HexSprite : EngineObject
                 Y = (int)(((uint)(minYOdd + maxYOdd)) >> 1);
             }
 
-            _owner = mapL.GetField(X, Y);
+            SetOwnerWithoutNotify(mapL.GetField(X, Y));
             X = minX;
             int last = maxX;
             for (; X <= last; X += 1)
@@ -384,7 +384,7 @@ public partial class HexSprite : EngineObject
                 }
             }
 
-            ((MapField)_owner).SetHexNumberOfHexSprite(this, 0);
+            ((MapField)Owner).SetHexNumberOfHexSprite(this, 0);
             result = true;
         }
         else
@@ -407,7 +407,7 @@ public partial class HexSprite : EngineObject
         int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
-        mapL = (MapLevel)_owner.Owner;
+        mapL = (MapLevel)Owner.Owner;
         HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
         HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
         if (!((minX & 1) != 0))
@@ -505,7 +505,7 @@ public partial class HexSprite : EngineObject
             }
         }
 
-        _owner = null;
+        SetOwnerWithoutNotify(null);
     }
 
     // HXSPRITE.PAS:362
