@@ -35,7 +35,7 @@ public partial class LightningStorm : Storm
         if (_stormImages[frame] != null)
         {
             var hexY = GetHexY();
-            HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+            HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
             var stormImageWidth = _stormImages[frame];
             X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
             var stormImageHeight = _stormImages[frame];
@@ -47,7 +47,7 @@ public partial class LightningStorm : Storm
     // Storms.pas:487
     public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType.Lightning, X, Y, L, 0, 1, ref info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType.Lightning, X, Y, L, 0, 1, out info);
     }
 
     // Storms.pas:478

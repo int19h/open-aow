@@ -191,7 +191,7 @@ public partial class TerrainList : IDisposable
             if (GetTerrain(I) >= 0)
             {
                 HexGeometry.HexNumberToHex(I, ref hexX, ref hexY);
-                HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 1);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 1);
                 while (walk.HexNumber != 7)
                 {
                     hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);

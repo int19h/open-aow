@@ -65,7 +65,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
         int X = default;
         int Y = default;
         var hexY = HexY;
-        HexGeometry.HexToPixel(HexX, hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(HexX, hexY, out X, out Y);
         X = X - pixelXSurface + 16;
         Y = Y - pixelYSurface + 16;
         var hexX = HexX;

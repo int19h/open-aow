@@ -489,7 +489,7 @@ public partial class MapCoordinateList : Persistent
         void Connect(MapCoordinate mapCoordinate)
         {
             HexNumberWalkData walk = default;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, mapCoordinate.X, mapCoordinate.Y, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, mapCoordinate.X, mapCoordinate.Y, 1);
             while (walk.Radius <= 1)
             {
                 for (int I = 0, last = locations.Count - 1; I <= last; I++)

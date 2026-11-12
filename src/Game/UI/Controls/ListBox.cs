@@ -17,7 +17,7 @@ namespace Aow.Game.UI.Controls;
 // none)
 public partial class ListBox : Control
 {
-    private StringList _items;
+    private readonly StringList _items;
     private VerticalScrollBar _verticalScrollBar;
 
     public int VisibleRows { get; set; }

@@ -14,7 +14,7 @@ namespace Aow.Game.UI.Controls;
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
 public partial class TabPanel : Control
 {
-    private StringList _items;
+    private readonly StringList _items;
     private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
     private int _borderHeightSelected;

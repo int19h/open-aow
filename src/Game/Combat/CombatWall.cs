@@ -27,7 +27,7 @@ public partial class CombatWall : CombatObject
 
     private byte _wallType;
     private byte _hitPoints;
-    private bool _locked;
+    private readonly bool _locked;
 
     // Combat.pas:1724
     public override void ReadWrite(StorageStream stream)

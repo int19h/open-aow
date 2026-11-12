@@ -22,7 +22,7 @@ public partial class ComboBox : Control
 {
 
     private bool _open;
-    private StringList _items;
+    private readonly StringList _items;
     private VerticalScrollBar _verticalScrollBar;
     private int _openListRows;
     private int _numberVisible;

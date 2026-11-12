@@ -50,7 +50,7 @@ public partial class AIGroupRazeControl : AIGroupTask
             structure = (Structure)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
             if (structure != null && structure.GetRazeable())
             {
-                BattleFieldInfo.SetupBattleFieldInfo(ref info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
+                BattleFieldInfo.SetupBattleFieldInfo(out info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
                 StrategicMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);
                 if (structure is City)
                 {

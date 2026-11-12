@@ -98,7 +98,7 @@ public partial class Tornado : GlobalTargetSpell
         army.Army.CreateMovePointTable(selection, Bytes.Of(ref table));
         var hexY = army.HexY;
         var hexX = army.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 10);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);
         mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 15)
         {

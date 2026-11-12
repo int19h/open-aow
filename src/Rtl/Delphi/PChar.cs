@@ -49,7 +49,7 @@ public static partial class RtlUnit
         }
     }
 
-    public static void SetString(ref string value, Ptr<byte> source, int length) => value = length <= 0 ? ""
+    public static void SetString(out string value, Ptr<byte> source, int length) => value = length <= 0 ? ""
         : source.IsNull ? new string('\0', length) : Cp1252.Decode(source.AsSpan(length));
 
     public static string FromPChar(Ptr<byte> value) => value.IsNull ? "" : Cp1252.Decode(value.AsSpan(StrLen(value)));

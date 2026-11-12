@@ -14,7 +14,7 @@ public partial class IsometricHex
         var field = Owner;
         var level = field.Owner;
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, field.HexX, field.HexY, 1);
         while (walk.HexNumber <= 6)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

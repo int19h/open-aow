@@ -38,7 +38,7 @@ public partial class WaterHex : LowerIsometricHex
     {
         var field = Owner;
         int x = 0, y = 0;
-        HexGeometry.HexToPixel(field.HexX, field.HexY, ref x, ref y);
+        HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         x -= xSurface + 8;
         y -= ySurface;
         var library = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

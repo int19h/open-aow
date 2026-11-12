@@ -42,7 +42,7 @@ public partial class TownGate : CityTargetSpell
         sbyte Y = default;
         sbyte L = default;
         ImageSequenceAnimation A;
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation.Packed);
         army.Army.ResetDestinationPosition();
@@ -152,7 +152,7 @@ public partial class TownGate : CityTargetSpell
                 selection = 255;
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             found = false;
             level = StrategicMap.Current.MapContainer.GetMapLevel(L);
             while (walk.Radius < 4 && !found)

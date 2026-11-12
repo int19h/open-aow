@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Windows;
 // that fit)
 public partial class ToolTip : GenericWindow
 {
-    private StringList _items;
+    private readonly StringList _items;
     [Published]
     public event NotifyEvent<ToolTip> OnDrawItem;
     private bool _toolTipStatic;
@@ -25,7 +25,7 @@ public partial class ToolTip : GenericWindow
 
     public Rect ControlRectangle { get; set; }
 
-    private StringList _lines;
+    private readonly StringList _lines;
 
     // AOWToolTip.pas:62
     public ToolTip(Component owner) : base(owner)

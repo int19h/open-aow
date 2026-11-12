@@ -71,7 +71,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         MapField field;
         ImageSequenceAnimation animation;
         base.Process(source, value);
-        source.GetLocation(ref X, ref Y, ref layer);
+        source.GetLocation(out X, out Y, out layer);
         ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation.Packed);
         army.MoveTo(field, 0);

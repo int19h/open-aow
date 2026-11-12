@@ -348,7 +348,7 @@ public sealed class PersistCorpusTests
 
     // Both loads stop on a nested error, so a dropped part fails the comparison instead of
     // vanishing from both sides.
-    private static void Stop(string message, ref bool continueLoad) => continueLoad = false;
+    private static void Stop(string message, out bool continueLoad) => continueLoad = false;
 
     private static void Load(EngineObject objectValue, byte[] image)
     {

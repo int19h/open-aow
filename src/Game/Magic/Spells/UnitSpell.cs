@@ -447,7 +447,7 @@ public partial class UnitSpell : Spell
             control.Range = 0;
         }
 
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         control.SourceX = X;
         control.SourceY = Y;
         control.SourceL = L;

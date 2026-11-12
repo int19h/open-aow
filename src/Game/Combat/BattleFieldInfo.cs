@@ -19,7 +19,7 @@ public struct BattleFieldInfo
     public int FriendlyStrength { get; set; }
     public int Strength { get; set; }
 
-    internal static void SetupBattleFieldInfo(ref BattleFieldInfo info, sbyte player, sbyte relation, Set<BattleFieldInfoRequestsElement> requests, Set<DamageType> damageTypes)
+    internal static void SetupBattleFieldInfo(out BattleFieldInfo info, sbyte player, sbyte relation, Set<BattleFieldInfoRequestsElement> requests, Set<DamageType> damageTypes)
     {
         info = default;
         info.Player = player;

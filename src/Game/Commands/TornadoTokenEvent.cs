@@ -250,7 +250,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         int last;
         if (StrategicMap.Current.ViewL == Location.MapLevel)
         {
-            HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = this._angle + 20 + _animation.FrameCounter / 5;

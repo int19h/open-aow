@@ -20,7 +20,7 @@ public sealed class JsonMember(string name, JsonValue value)
 {
     public string Name { get; } = name;
     public JsonValue Value { get; set; } = value;
-    public TextSpan NameSpan { get; set; }
+    public TextSpan NameSpan { get; init; }
 }
 
 public sealed class JsonObject : JsonValue
@@ -56,7 +56,7 @@ public enum ArrayLayout
 public sealed class JsonArray : JsonValue
 {
     public List<JsonValue> Items { get; } = [];
-    public ArrayLayout Layout { get; set; }
+    public ArrayLayout Layout { get; init; }
     public override string KindName => "array";
 
     public JsonArray Add(JsonValue value)

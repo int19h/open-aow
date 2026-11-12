@@ -53,7 +53,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
         var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
-        EngineMessage.InitializeMessage(ref message, 537002241, this);
+        EngineMessage.InitializeMessage(out message, 537002241, this);
         StrategicMap.Current.SendMessage(ref message, this);
         return true;
     }
@@ -111,7 +111,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                     if ((mapLevel.GetField(X, Y).FieldFlags & mask) != 0)
                     {
                         border = false;
-                        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 1);
+                        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 1);
                         while (walk.Radius == 1 && !border)
                         {
                             if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y >= 0 && walk.Y < mapLevel.Height)

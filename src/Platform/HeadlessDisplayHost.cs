@@ -11,9 +11,9 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
 {
     public (int Width, int Height) ClientSize { get; private set; } = (width, height);
     public bool Fullscreen { get; set; }
-    public bool HasFocus { get; set; } = true;
+    public bool HasFocus { get; } = true;
     public long Frame { get; private set; }
-    public (int X, int Y) Mouse { get; set; } = (-1, -1);
+    public (int X, int Y) Mouse { get; init; } = (-1, -1);
 
     private readonly InputMapper _input = new();
 

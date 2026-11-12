@@ -15,7 +15,7 @@ public partial class UpperIsometricHex
         int pixelX = default;
         int pixelY = default;
         int variant;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

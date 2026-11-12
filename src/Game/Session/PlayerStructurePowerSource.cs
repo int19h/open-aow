@@ -21,7 +21,7 @@ public partial class PlayerStructurePowerSource : PowerSource
     public override int Power() => _structure.GetPower();
 
     // Structur.PAS:2519
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = _structure.HexX;
         Y = _structure.HexY;

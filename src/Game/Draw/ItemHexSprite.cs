@@ -63,7 +63,7 @@ public partial class ItemHexSprite : SingleHexSprite
         int pixelX = default;
         int pixelY = default;
         HexSprite hexSprite;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         int result = 1744830464 + ((pixelY + 33) << 13) + (pixelX + 16);
         hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite != null)
@@ -84,7 +84,7 @@ public partial class ItemHexSprite : SingleHexSprite
         int pixelY = default;
         if (!GetSelected() || (StrategicMap.Current.Frame & 6) != 6)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             GamePack.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);
         }
     }

@@ -167,7 +167,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             int x = -1, y = -1;
             Display.GetMousePosition(ref x, ref y);
             Rect rectangle = default;
-            GetCursorRectangle(x, y, ref rectangle);
+            GetCursorRectangle(x, y, out rectangle);
             FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
@@ -189,7 +189,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private int CursorIndex => FCursor == 9999 && StrategicMap.Current is not null ? StrategicMap.Current.Mouse.Cursor : FCursor;
 
-    public void GetCursorRectangle(int x, int y, ref Rect rectangle)
+    public void GetCursorRectangle(int x, int y, out Rect rectangle)
     {
         rectangle = default;
         if (x == -1) return;
@@ -197,10 +197,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         {
             if (image is null) return;
             Rect bounds = default;
-            image.GetVisualDimensions(ref bounds);
+            image.GetVisualDimensions(out bounds);
             bounds.Left += x + dx; bounds.Right += x + dx;
             bounds.Top += y + dy; bounds.Bottom += y + dy;
-            RtlUnit.UnionRect(ref _cursorBounds, _cursorBounds, bounds);
+            RtlUnit.UnionRect(out _cursorBounds, _cursorBounds, bounds);
         }
         _cursorBounds = default;
         if (StrategicMap.Current is not null)

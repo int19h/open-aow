@@ -38,7 +38,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
         sbyte L = default;
         if (executeCount == 0)
         {
-            source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(out X, out Y, out L);
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
             StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
             var animation = new Animation(null);
@@ -77,7 +77,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
         for (int x = map.ViewHexX; x <= maxX; x++)
         {
             int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, map.ViewHexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(x, map.ViewHexY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)

@@ -377,7 +377,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
                 point = new Point3D();
                 effect.Path.Add(point);
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref point.X, ref point.Y);
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out point.X, out point.Y);
                 point.X = Random(20) + point.X + 6;
                 point.Y = Random(20) + point.Y - 20;
             }
@@ -424,7 +424,7 @@ public partial class CityWall : CombatImageLibraryTerrain
         int pixelX = default;
         int pixelY = default;
         int terrainOffset;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         var hexY = GetHexY();

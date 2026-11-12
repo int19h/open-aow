@@ -64,7 +64,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                 {
                     var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
                     HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, I, ref hexX, ref hexY);
-                    HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                    HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _targetImages[2].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface + 2, lockedSurface);
                 }
             }
@@ -100,7 +100,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                         var count = Selection.RangedPath.Count;
                         var rangedPath = Selection.RangedPath[count - 1];
                         var fRangedPathCount = Selection.RangedPath.Count;
-                        HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, rangedPath.Y, ref X, ref Y);
+                        HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, rangedPath.Y, out X, out Y);
                         {
                             for (int I = 0; I <= 11; I++)
                             {
@@ -108,7 +108,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                 var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, X, Y);
                                 var hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
                                 HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.BreathHexNumber[deltaHexToHexNumber2 * 12 + I - 12], ref hexX, ref hexY);
-                                HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                                HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                             }
                         }
@@ -133,9 +133,9 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                                 var count2 = Selection.RangedPath.Count;
                                                 var rangedPathY = Selection.RangedPath[count2 - 1];
                                                 var count3 = Selection.RangedPath.Count;
-                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
+                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, out X, out Y);
                                                 HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
-                                                HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                                                HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                                             }
                                         }
@@ -149,9 +149,9 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                                 var count2 = Selection.RangedPath.Count;
                                                 var rangedPathY = Selection.RangedPath[count2 - 1];
                                                 var count3 = Selection.RangedPath.Count;
-                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
+                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, out X, out Y);
                                                 HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
-                                                HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                                                HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                                             }
                                         }
@@ -199,8 +199,8 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                     var obstacle = Selection.Obstacles[I];
                     var rangedPath = Selection.RangedPath[obstacle.PathIndex];
                     var obstacle2 = Selection.Obstacles[I];
-                    HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, rangedPath.Y, ref hexX, ref hexY);
-                    HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                    HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, rangedPath.Y, out hexX, out hexY);
+                    HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
                     GameTables.GameEngine.CombatFont.Color = 0;
                     var obstacle3 = Selection.Obstacles[I];

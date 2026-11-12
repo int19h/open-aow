@@ -60,7 +60,7 @@ public partial class UnitResource : TroopResource
     public sbyte Level;
     public UnitType UnitType;
     public UnitGender Gender;
-    public AbilityOwnerArray3 Abilities;
+    public readonly AbilityOwnerArray3 Abilities;
     private byte _transportCapacity;
 
     public StringList Description { get; }

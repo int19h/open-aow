@@ -17,5 +17,5 @@ public partial class IntroScene
     public void WindowHide() { }
 
     public void WindowUpdate() => Finish();
-    public void WindowDrawSurfaceEx(Surface surface, ref bool handled) => handled = true;
+    public void WindowDrawSurfaceEx(Surface surface, out bool handled) => handled = true;
 }

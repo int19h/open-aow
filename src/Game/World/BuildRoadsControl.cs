@@ -17,7 +17,7 @@ public partial class BuildRoadsControl : ConstructionControl
     }
 
     // AoWAb.PAS:5458
-    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
+    public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
         text = AbilityRules.TranslateResourceString(s_buildRoadText);
         gold = 0;
@@ -31,7 +31,7 @@ public partial class BuildRoadsControl : ConstructionControl
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        troop.GetLocation(ref X, ref Y, ref L);
+        troop.GetLocation(out X, out Y, out L);
         if (L == 0)
         {
             result = base.CanConstruct(troop, ref reason);

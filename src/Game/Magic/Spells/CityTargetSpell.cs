@@ -96,7 +96,7 @@ public partial class CityTargetSpell : Spell
         level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
         var hexY = targetCity.GetHexY();
         var hexX = targetCity.GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < targetCity.Resource.TerrainList.Count)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height && targetCity.Resource.TerrainList.Used[walk.HexNumber])
@@ -155,7 +155,7 @@ public partial class CityTargetSpell : Spell
         targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         targetSelection.SourceX = X;
         targetSelection.SourceY = Y;
         targetSelection.SourceL = L;
@@ -209,7 +209,7 @@ public partial class CityTargetSpell : Spell
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
-            source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(out X, out Y, out L);
             found = (City)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
             result = targetCity != found;
         }

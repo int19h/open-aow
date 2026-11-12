@@ -32,7 +32,7 @@ public partial class BirdsView : Spell
         sbyte layer = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        source.GetLocation(ref X, ref Y, ref layer);
+        source.GetLocation(out X, out Y, out layer);
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             var birdsViewHexSprite = new BirdsViewHexSprite(null);
@@ -55,7 +55,7 @@ public partial class BirdsView : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            source.GetLocation(ref X, ref Y, ref layer);
+            source.GetLocation(out X, out Y, out layer);
             if (layer != 0)
             {
                 messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);

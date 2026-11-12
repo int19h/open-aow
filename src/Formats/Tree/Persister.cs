@@ -26,10 +26,10 @@ public interface IPersistableFactory
 }
 
 /// <summary>
-/// The load's error handler. <paramref name="continueLoad"/> starts true.
-/// The handler sets it false to stop the load. A null handler continues.
+/// The load's error handler. The handler sets <paramref name="continueLoad"/> true to go on
+/// or false to stop the load. A null handler continues.
 /// </summary>
-public delegate void LoadErrorHandler(string message, ref bool continueLoad);
+public delegate void LoadErrorHandler(string message, out bool continueLoad);
 
 /// <summary>
 /// The children of one node, in stored order. A stored child has its owner, is not shared and

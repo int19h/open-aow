@@ -24,7 +24,7 @@ public partial class MoveSettings : EngineObject
     public int MovePoints { get; set; }
     public int Moves { get; set; }
 
-    private int _priority;
+    private readonly int _priority;
 
     public int Selection { get; set; }
     public int MovePosition { get; set; }

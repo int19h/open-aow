@@ -19,7 +19,7 @@ public partial class Leader : Hero
     public new const int ClassId = 131634;
 
     public byte SpherePicksMax;
-    private ByteList _spheres;
+    private readonly ByteList _spheres;
 
     // Hero.PAS:2766
     public override void Dispose()
@@ -256,7 +256,7 @@ public partial class Leader : Hero
         bool placed;
         level = message.Param[0].As<MapLevel>();
         L = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref X, ref Y);
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out X, out Y);
         if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             placed = Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of()) != null;

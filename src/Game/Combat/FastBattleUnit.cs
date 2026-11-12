@@ -39,7 +39,7 @@ public partial class FastBattleUnit : CombatUnit
     }
 
     // AIGroup.pas:6862
-    public override void GetTargetCombatValueDamageValue(CombatObject target, ref int combatValue, ref int damageValue)
+    public override void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
         Troop troop;
         AbilityTypeList abilities;

@@ -189,7 +189,7 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(6, continued.Number);
         var stopped = new Sample { Number = 1 };
         var createdError = Assert.Throws<ConversionException>(() =>
-            TreeReader.Read(created, stopped, new TestFactory(), static (string _, ref bool cont) => cont = false));
+            TreeReader.Read(created, stopped, new TestFactory(), static (string _, out bool cont) => cont = false));
         Assert.Equal(Codes.Required, createdError.Diagnostic.Code);
         Assert.Equal("root.Made.Extra", createdError.Diagnostic.Path);
         Assert.Equal(1, stopped.Number);
@@ -210,7 +210,7 @@ public sealed class TreeTests : FormatsTest
         refused.Fixed.Number = 4;
         var refusedFixed = refused.Fixed;
         var fixedError = Assert.Throws<ConversionException>(() =>
-            TreeReader.Read(parent, refused, new TestFactory(), static (string _, ref bool cont) => cont = false));
+            TreeReader.Read(parent, refused, new TestFactory(), static (string _, out bool cont) => cont = false));
         Assert.Equal(Codes.Type, fixedError.Diagnostic.Code);
         Assert.Equal("root.Fixed.N", fixedError.Diagnostic.Path);
         Assert.Same(refusedFixed, refused.Fixed);

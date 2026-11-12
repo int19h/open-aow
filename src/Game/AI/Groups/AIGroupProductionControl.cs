@@ -51,7 +51,7 @@ public partial class AIGroupProductionControl : AIGroupTask
 
     private Set<DamageType> _damageTypes;
     private readonly int[] _produceStrengths = new int[10];
-    private int _priorityRange;
+    private readonly int _priorityRange;
     private bool _multiple;
     private int _groupId;
 

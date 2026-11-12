@@ -14,7 +14,7 @@ public partial class AIPlayerActionManager : EngineObject
         _registeredClasses = new DelphiList<AIPlayerActionClass>();
     }
 
-    private DelphiList<AIPlayerActionClass> _registeredClasses;
+    private readonly DelphiList<AIPlayerActionClass> _registeredClasses;
 
     // AI.pas:42
     public override void Dispose()

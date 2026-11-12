@@ -262,7 +262,7 @@ public partial class PartyJoinDialog : DataModule
         {
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
-            dialog._joinEvent.ListJoinUnits(dialog._units, ref dialog._selection);
+            dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
             var text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
         }

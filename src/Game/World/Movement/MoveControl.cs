@@ -65,7 +65,7 @@ public partial class MoveControl : IDisposable
     public MapCoordinateList GapStarts { get; init; }
     public MapCoordinateList GapEnds { get; init; }
 
-    private MapCoordinateList _directRoute;
+    private readonly MapCoordinateList _directRoute;
     private int _exploredMask;
 
     public MoveControlSettings Settings { get; set; }

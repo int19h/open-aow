@@ -9,8 +9,8 @@ public partial class Matrix : IDisposable
 {
     internal byte[] Data { get; private set; }
 
-    private byte _width;
-    private byte _height;
+    private readonly byte _width;
+    private readonly byte _height;
 
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }

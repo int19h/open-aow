@@ -106,13 +106,13 @@ public partial class UnitEnchantment : Enchantment
     }
 
     // AoWAb.PAS:859
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (source != null)
         {
-            source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(out X, out Y, out L);
         }
         else
         {
@@ -147,7 +147,7 @@ public partial class UnitEnchantment : Enchantment
         sbyte hexY = default;
         sbyte hexLevel = default;
         ArmyHexSprite armyHexSprite;
-        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        GetLocation(out hexX, out hexY, out hexLevel);
         if (hexX != -1)
         {
             if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))

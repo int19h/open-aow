@@ -150,7 +150,7 @@ public partial class CombatFire : SingleHexSprite
         int imageIndex;
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sequence = GamePack.Current.ImageSequences.GetImageSequence(60);

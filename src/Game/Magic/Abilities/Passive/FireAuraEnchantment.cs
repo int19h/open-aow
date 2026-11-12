@@ -25,7 +25,7 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            troop.GetLocation(ref X, ref Y, ref L);
+            troop.GetLocation(out X, out Y, out L);
             if (X != -1)
             {
                 var mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);

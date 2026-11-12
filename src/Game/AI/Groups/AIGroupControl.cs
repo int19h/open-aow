@@ -136,11 +136,11 @@ public partial class AIGroupControl : EngineObject
         bool result;
         if (!Group.Status.Contains(AIGroupStatusElement.Done))
         {
-            Group.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
+            Group.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Location)).GetArmyHexSprite();
-                RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, ref Army, ref Selection);
+                RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out Army, out Selection);
                 UpdateGroupChanges();
                 result = true;
             }
@@ -191,7 +191,7 @@ public partial class AIGroupControl : EngineObject
             while (!found && I != 0)
             {
                 I -= 1;
-                Group.GetUnit(I).GetLocation(ref X, ref Y, ref L);
+                Group.GetUnit(I).GetLocation(out X, out Y, out L);
                 found = X != Location.X || Y != Location.Y || L != Location.MapLevel;
             }
 
@@ -203,7 +203,7 @@ public partial class AIGroupControl : EngineObject
                 I = Group.Count - 1;
                 for (; I >= 0; I -= 1)
                 {
-                    Group.GetUnit(I).GetLocation(ref unitX, ref unitY, ref unitL);
+                    Group.GetUnit(I).GetLocation(out unitX, out unitY, out unitL);
                     if (X == unitX && Y == unitY && L == unitL)
                     {
                         group.AddUnit(Group.GetUnit(I));
@@ -343,7 +343,7 @@ public partial class AIGroupControl : EngineObject
             {
                 troop = Group.GetUnit(I);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
-                troop.CreateMovePointTable(ref movePointTable);
+                troop.CreateMovePointTable(out movePointTable);
                 AbilityRules.MaximizeMovePointTable(Bytes.Of(ref MovePointTable), Bytes.Of(ref movePointTable));
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
@@ -361,7 +361,7 @@ public partial class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1040
-    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, ref Army army, ref byte selection)
+    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army army, out byte selection)
     {
         bool result;
         ArmyHexSprite armyHexSprite;
@@ -547,7 +547,7 @@ public partial class AIGroupControl : EngineObject
             troop = player.Armies.GetArmy(I).Transporter(255);
             if (troop != null && (troop.Group == null || troop.Group.EngineClass.ClassId == 136295))
             {
-                troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+                troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
                 distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {

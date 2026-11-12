@@ -21,7 +21,7 @@ public partial class UserWindow : Window
         handled = false;
         if (OnCustomDrawSurface != null)
         {
-            OnCustomDrawSurface(surface, ref handled);
+            OnCustomDrawSurface(surface, out handled);
         }
 
         if (!handled)
@@ -150,5 +150,5 @@ public partial class UserWindow : Window
         remove => ((BaseWindow)this).OnShow -= EventSlot.Remove<BaseWindow, UserWindow>(this, slot: nameof(OnShow), value: value);
     }
 
-    public delegate void DrawSurfaceExEvent(Surface Surface, ref bool Handled);
+    public delegate void DrawSurfaceExEvent(Surface Surface, out bool Handled);
 }

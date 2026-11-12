@@ -11,7 +11,7 @@ namespace Aow.Game.World.Map;
 
 public static class HexGeometry
 {
-    internal static void HVtoHex(int h, int v, ref int x, ref int y)
+    internal static void HVtoHex(int h, int v, out int x, out int y)
     {
         x = h + v;
         y = v - h >> 1;
@@ -65,24 +65,24 @@ public static class HexGeometry
             switch (side)
             {
                 case 0:
-                    HVtoHex(R, position - R, ref newHexX, ref newHexY);
+                    HVtoHex(R, position - R, out newHexX, out newHexY);
                     break;
                 case 1:
                     newHexX = R;
                     newHexY = position - (R + 1) / 2;
                     break;
                 case 2:
-                    HVtoHex(-position, R, ref newHexX, ref newHexY);
+                    HVtoHex(-position, R, out newHexX, out newHexY);
                     break;
                 case 3:
-                    HVtoHex(-R, R - position, ref newHexX, ref newHexY);
+                    HVtoHex(-R, R - position, out newHexX, out newHexY);
                     break;
                 case 4:
                     newHexX = -R;
                     newHexY = -position + R / 2;
                     break;
                 case 5:
-                    HVtoHex(position, -R, ref newHexX, ref newHexY);
+                    HVtoHex(position, -R, out newHexX, out newHexY);
                     break;
             }
         }
@@ -104,7 +104,7 @@ public static class HexGeometry
         newHexX = newHexX + hexX;
     }
 
-    internal static void TranslateHex(int fromHexX, int fromHexY, int toHexX, int toHexY, int hexX, int hexY, ref int newHexX, ref int newHexY)
+    internal static void TranslateHex(int fromHexX, int fromHexY, int toHexX, int toHexY, int hexX, int hexY, out int newHexX, out int newHexY)
     {
         int dX;
         int dY;
@@ -132,7 +132,7 @@ public static class HexGeometry
         newHexY = hexY + dY;
     }
 
-    internal static void TranslateZeroHex(int hexX, int hexY, int deltaHexX, int deltaHexY, ref int newHexX, ref int newHexY)
+    internal static void TranslateZeroHex(int hexX, int hexY, int deltaHexX, int deltaHexY, out int newHexX, out int newHexY)
     {
         if ((hexX & 1) != 0 && (deltaHexX & 1) != 0)
         {
@@ -248,24 +248,24 @@ public static class HexGeometry
             switch (side)
             {
                 case 0:
-                    HVtoHex(R, position - R, ref hexX, ref hexY);
+                    HVtoHex(R, position - R, out hexX, out hexY);
                     break;
                 case 1:
                     hexX = R;
                     hexY = position - (R + 1) / 2;
                     break;
                 case 2:
-                    HVtoHex(-position, R, ref hexX, ref hexY);
+                    HVtoHex(-position, R, out hexX, out hexY);
                     break;
                 case 3:
-                    HVtoHex(-R, R - position, ref hexX, ref hexY);
+                    HVtoHex(-R, R - position, out hexX, out hexY);
                     break;
                 case 4:
                     hexX = -R;
                     hexY = -position + R / 2;
                     break;
                 case 5:
-                    HVtoHex(position, -R, ref hexX, ref hexY);
+                    HVtoHex(position, -R, out hexX, out hexY);
                     break;
             }
         }
@@ -274,7 +274,7 @@ public static class HexGeometry
     internal static void HexNumberToPixel(int hexNumber, ref int pixelX, ref int pixelY)
     {
         HexNumberToHex(hexNumber, ref pixelX, ref pixelY);
-        HexToPixel(pixelX, pixelY, ref pixelX, ref pixelY);
+        HexToPixel(pixelX, pixelY, out pixelX, out pixelY);
         pixelX -= 8;
     }
 
@@ -284,7 +284,7 @@ public static class HexGeometry
 
     private static readonly ImmutableArray<ImmutableArray<int>> s_hexNumberToHexTable = [[0, 0], [0, -1], [1, -1], [1, 0], [0, 1], [-1, 0], [-1, -1], [0, -2], [1, -2], [2, -1], [2, 0], [2, 1], [1, 1], [0, 2], [-1, 1], [-2, 1], [-2, 0], [-2, -1], [-1, -2], [0, -3], [1, -3], [2, -2], [3, -2], [3, -1], [3, 0], [3, 1], [2, 2], [1, 2], [0, 3], [-1, 2], [-2, 2], [-3, 1], [-3, 0], [-3, -1], [-3, -2], [-2, -2], [-1, -3]];
 
-    internal static void PixelToHex(int horizontal, int vertical, ref int x, ref int y)
+    internal static void PixelToHex(int horizontal, int vertical, out int x, out int y)
     {
         int column = horizontal - 8 >> 5;
         x = column;
@@ -301,7 +301,7 @@ public static class HexGeometry
 
     internal static int PixelToHexNumber(int pixelX, int pixelY)
     {
-        PixelToHex(pixelX, pixelY, ref pixelX, ref pixelY);
+        PixelToHex(pixelX, pixelY, out pixelX, out pixelY);
         return HexToHexNumber(pixelX, pixelY);
     }
 
@@ -391,7 +391,7 @@ public static class HexGeometry
         return result;
     }
 
-    internal static void HexToHV(int hexX, int hexY, ref int H, ref int V)
+    internal static void HexToHV(int hexX, int hexY, out int H, out int V)
     {
         H = HexToH(hexX, hexY);
         V = HexToV(hexX, hexY);
@@ -408,7 +408,7 @@ public static class HexGeometry
         R = HexToRadius(hexX, hexY);
         if (R != 0)
         {
-            HexToHV(hexX, hexY, ref H, ref V);
+            HexToHV(hexX, hexY, out H, out V);
             if (R == H)
             {
                 side = 0;
@@ -471,7 +471,7 @@ public static class HexGeometry
 
     internal static int DeltaHexToHexNumber(int x1, int y1, int x2, int y2)
     {
-        TranslateHex(x1, y1, 0, 0, x2, y2, ref x2, ref y2);
+        TranslateHex(x1, y1, 0, 0, x2, y2, out x2, out y2);
         return HexToHexNumber(x2, y2);
     }
 
@@ -553,7 +553,7 @@ public static class HexGeometry
         return result;
     }
 
-    internal static void HexToPixel(int hexX, int hexY, ref int pixelX, ref int pixelY)
+    internal static void HexToPixel(int hexX, int hexY, out int pixelX, out int pixelY)
     {
         pixelX = hexX * 32 + 8;
         pixelY = hexY * 32 + (hexX & 1) * 16;

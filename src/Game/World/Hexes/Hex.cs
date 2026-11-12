@@ -29,7 +29,7 @@ public partial class Hex : AbstractHexagon
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         ((HexagonResource)_resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
     }
 
@@ -126,7 +126,7 @@ public partial class Hex : AbstractHexagon
         TransitionSides = (byte)(TransitionSides & SideClear[side]);
         mapLevel = Owner.Owner;
         HexGeometry.HexNumberToHex(SideHexNumber[side], ref nHexX, ref nHexY);
-        HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, ref nHexX, ref nHexY);
+        HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, out nHexX, out nHexY);
         if (nHexX >= 0 && nHexY >= 0 && mapLevel.Width > nHexX && mapLevel.Height > nHexY)
         {
             neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;

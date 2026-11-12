@@ -87,7 +87,7 @@ public partial class HeroEmergeEventLog : EventLog
         U = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (U != null)
         {
-            U.GetLocation(ref X, ref Y, ref L);
+            U.GetLocation(out X, out Y, out L);
             if (X != -1)
             {
                 CenterViewTo(X, Y, L);

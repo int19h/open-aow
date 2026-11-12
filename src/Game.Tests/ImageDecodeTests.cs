@@ -260,10 +260,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             foreach (var rectangle in new[] { whole, inset })
                             {
                                 Rect found = default;
-                                hash.Add(Read(() => { LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, ref found); return 0; }));
+                                hash.Add(Read(() => { LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, out found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                                 found = default;
-                                hash.Add(Read(() => { BitMask.MinimizeInverseTransparentRectangle(lockedSurface, rectangle, key, ref found); return 0; }));
+                                hash.Add(Read(() => { BitMask.MinimizeInverseTransparentRectangle(lockedSurface, rectangle, key, out found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                             }
                             RectangleList? list = null;

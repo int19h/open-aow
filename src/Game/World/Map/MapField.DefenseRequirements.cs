@@ -7,7 +7,7 @@ namespace Aow.Game.World.Map;
 
 public partial class MapField
 {
-    public bool GetAITarget(AIGroupControl control, in AITargetInfo info, ref AITargetData data)
+    public bool GetAITarget(AIGroupControl control, in AITargetInfo info, out AITargetData data)
     {
         var query = new AITargetQuery { Info = info };
         var message = new MapFieldMessage { MessageId = 0x1200, Result = 0 };
@@ -19,7 +19,7 @@ public partial class MapField
         return data.Priority != 0;
     }
 
-    public void GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements)
+    public void GetDefenseRequirements(sbyte player, out DefenseRequirements requirements)
     {
         var query = new DefenseRequirementsQuery();
         var message = new MapFieldMessage { MessageId = 0x1127, Result = 0 };

@@ -220,7 +220,7 @@ public partial class StorageReader : StorageStream
                 _stream.Position = _dataStart + offset;
             }
 
-            LoadStringFromStream(ref value, _stream);
+            LoadStringFromStream(out value, _stream);
         }
         else
         {
@@ -552,7 +552,7 @@ public partial class StorageReader : StorageStream
         }
     }
 
-    internal static void LoadStringFromStream(ref string value, Stream stream)
+    internal static void LoadStringFromStream(out string value, Stream stream)
     {
         int length = 0;
         byte b = 0;

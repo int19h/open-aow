@@ -27,7 +27,7 @@ public partial class WindowManager : UIComponent
     private int _borderRight;
     private int _borderBottom;
     private int _oldCursor;
-    private int _defaultCursor;
+    private readonly int _defaultCursor;
     [Published]
     public event NotifyEvent<WindowManager> OnChangeCursor;
     private int _imageLibraryIndexTBack;

@@ -13,8 +13,8 @@ public partial class UnitIndexListCollection : IDisposable
         _collectionSize = 8;
     }
 
-    private int _collectionSize;
-    private UnitIndexList _units;
+    private readonly int _collectionSize;
+    private readonly UnitIndexList _units;
 
     // Unit.PAS:2419
     public virtual void Dispose()

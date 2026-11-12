@@ -34,7 +34,7 @@ public partial class FleeLocation : MapObject
         int Y = default;
         if (_alpha > 0)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
             _resource.ImageLibrary.Get(0).ShowBlended(X - pixelXSurface - 8, Y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
         }
     }

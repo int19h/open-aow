@@ -282,7 +282,7 @@ public partial class CombatTerrain : TerrainMapObject
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
         pixelXSurface = X - pixelXSurface;
         pixelYSurface = Y - pixelYSurface;
         _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));

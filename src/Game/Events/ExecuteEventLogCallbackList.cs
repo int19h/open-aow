@@ -6,7 +6,7 @@ namespace Aow.Game.Events;
 // list of -byte callback records
 public partial class ExecuteEventLogCallbackList : IDisposable
 {
-    private List<ExecuteEventLogInfo> _list = [];
+    private readonly List<ExecuteEventLogInfo> _list = [];
 
     // EventLog.pas:283
     public virtual void Dispose()

@@ -62,9 +62,9 @@ public partial class ConstructStructureTokenEvent : TokenEvent
             resource = control.StructureResource(troop);
             if (resource != null)
             {
-                troop.GetLocation(ref X, ref Y, ref L);
+                troop.GetLocation(out X, out Y, out L);
                 level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-                HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
@@ -85,7 +85,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                 structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L);
                 if (structure != null)
                 {
-                    control.GetInfo(troop, ref text, ref gold, ref days);
+                    control.GetInfo(troop, out text, out gold, out days);
                     structure.ExecuteBuild(troop, days);
                     var players = StrategicMap.Current.Players.GetPlayers(troop.Player);
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);

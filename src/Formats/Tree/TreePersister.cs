@@ -22,7 +22,7 @@ sealed class LoadErrorPolicy
         if (_handler is not null)
         {
             string message = error.Message.Length == 0 ? "Error Reading EObject" : error.Message;
-            _handler(message, ref continueLoad);
+            _handler(message, out continueLoad);
         }
         if (!continueLoad) _stopped = true;
         return !_stopped;

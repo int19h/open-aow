@@ -42,11 +42,11 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         internal FileDialogWindow Files { get; } = null!;
         internal RealmWindow Realm { get; } = null!;
 
-        private UIGraphics _graphics = null!;
-        private UIFonts _font = null!;
-        private General _general = null!;
-        private TitleWindow _title = null!;
-        private UnitBanner _banner = null!;
+        private readonly UIGraphics _graphics = null!;
+        private readonly UIFonts _font = null!;
+        private readonly General _general = null!;
+        private readonly TitleWindow _title = null!;
+        private readonly UnitBanner _banner = null!;
 
         public Host()
         {

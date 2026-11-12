@@ -80,7 +80,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     }
 
     // AIGroup.pas:4484
-    public bool RetrieveArmy(ref ArmyHexSprite army, ref byte selection)
+    public bool RetrieveArmy(out ArmyHexSprite army, out byte selection)
     {
         bool result;
         int index;

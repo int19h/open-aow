@@ -34,7 +34,7 @@ public partial class CombatRoad : AbstractRoad
         CustomImageLibrary images;
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         X = X - pixelXSurface - 8;
         Y = Y - pixelYSurface;
         images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;

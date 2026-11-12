@@ -60,7 +60,7 @@ public partial class PlayerMagicControl : EngineObject
     private int _updateCount;
     public int ExternalMana;
     public int ExternalPower;
-    private ExternalPowerSource _externalPowerSource;
+    private readonly ExternalPowerSource _externalPowerSource;
     public int Mana;
 
     public int ResearchPercentage;
@@ -77,7 +77,7 @@ public partial class PlayerMagicControl : EngineObject
 
     public Set<PlayerEnchantmentType> EnemyEnchantments { get; private set; }
 
-    private EventStore<PlayerMagicControl> _changedEventsStore;
+    private readonly EventStore<PlayerMagicControl> _changedEventsStore;
 
     public event NotifyEvent<PlayerMagicControl> Changed
     {
@@ -285,7 +285,7 @@ public partial class PlayerMagicControl : EngineObject
                 log = new PlayerMagicEventLog(null);
                 log._player = Player.PlayerIndex;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
-                Enchantments.GetEnchantments(index).GetLocation(ref log.Location.X, ref log.Location.Y, ref log.Location.MapLevel);
+                Enchantments.GetEnchantments(index).GetLocation(out log.Location.X, out log.Location.Y, out log.Location.MapLevel);
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex).EventLogbook.AddEvent(log);
                 log.Release();

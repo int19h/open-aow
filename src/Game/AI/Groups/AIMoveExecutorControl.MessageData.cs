@@ -10,6 +10,6 @@ public partial class AIMoveExecutorControl
         sbyte level, Set<CreateMoveModeElement> mode)
     {
         byte result = 0;
-        return CreateMove(army, selection, x, y, level, mode, ref result);
+        return CreateMove(army, selection, x, y, level, mode, out result);
     }
 }

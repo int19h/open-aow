@@ -167,7 +167,7 @@ public partial class UIComponent : Rtl.Component
 
     public DelphiList<UIComponent> Children { get; init; }
 
-    private Alignment _alignment;
+    private readonly Alignment _alignment;
     private bool _masked;
 
     public List<DirtyRectangle> BlitList { get; }

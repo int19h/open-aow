@@ -21,8 +21,8 @@ public partial class SongList : EngineObject
         _songNames = new StringList();
     }
 
-    private StringList _songs;
-    private StringList _songNames;
+    private readonly StringList _songs;
+    private readonly StringList _songNames;
 
     // Sound.pas:813
     internal void SetSongs(StringList value)

@@ -37,7 +37,7 @@ public partial class ImageSequenceAnimation : Animation
         base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         if (GetHexLevel() == AnimationMap.ViewL)
         {
-            HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
             pixelXSurface = X - pixelXSurface + 16 + PixelXOffset;
             pixelYSurface = Y - pixelYSurface + 16 + PixelYOffset;
             if (!Looped)
@@ -96,8 +96,8 @@ public partial class ImageSequenceAnimation : Animation
         sequence = ImageSequence;
         while (sequence != null)
         {
-            sequence.GetDimensions(ref R);
-            UnionRect(ref Dimensions, Dimensions, R);
+            sequence.GetDimensions(out R);
+            UnionRect(out Dimensions, Dimensions, R);
             sequence = sequence.Next;
         }
 

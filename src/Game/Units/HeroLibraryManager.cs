@@ -25,7 +25,7 @@ public partial class HeroLibraryManager : EngineObject
 
     public HeroLibrary SystemLibrary { get; }
 
-    private ENode _libraries;
+    private readonly ENode _libraries;
 
     // Hero.PAS:2653
     public override void Dispose()

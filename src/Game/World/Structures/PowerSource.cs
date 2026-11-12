@@ -17,7 +17,7 @@ public partial class PowerSource : EngineObject
     public virtual int Power() => 0;
 
     // Spells.PAS:1790
-    public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = -1;
         Y = -1;
@@ -30,7 +30,7 @@ public partial class PowerSource : EngineObject
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        GetLocation(ref X, ref Y, ref L);
+        GetLocation(out X, out Y, out L);
         if (X != -1)
         {
             StrategicMap.Current.CenterViewTo(X, Y, L);

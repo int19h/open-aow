@@ -42,7 +42,7 @@ public partial class TwinkleAnimation : Animation
         int angle;
         int index;
         oldSeed = RandSeed;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
         pixelXSurface = X - pixelXSurface + 16;
         pixelYSurface = Y - pixelYSurface + 16;
         var hexX = GetHexX();
@@ -75,7 +75,7 @@ public partial class TwinkleAnimation : Animation
                     angle += FrameCounter * 4;
                 }
 
-                AbilityRules.PolarToCartesian(angle, radius, ref deltaX, ref deltaY);
+                AbilityRules.PolarToCartesian(angle, radius, out deltaX, out deltaY);
                 sequence = _imageSequence;
                 while (sequence != null)
                 {

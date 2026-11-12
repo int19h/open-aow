@@ -52,7 +52,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         _images[_imageIndex].ShowClipped(X - pixelXSurface - 8, Y - pixelYSurface - 8, lockedSurface);
     }
 

@@ -41,7 +41,7 @@ public partial class AIMoveExecutorArmyList : ENode, IChildList<AIMoveExecutorAr
             entry = this[I];
             if (army.GetHexX() == entry.Location.X && army.GetHexY() == entry.Location.Y && army.GetHexLevel() == entry.Location.MapLevel)
             {
-                entry.RetrieveArmy(255, ref foundArmy, ref foundSelection);
+                entry.RetrieveArmy(255, out foundArmy, out foundSelection);
                 if (army == foundArmy && foundSelection == selection)
                 {
                     return I;

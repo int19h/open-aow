@@ -30,15 +30,15 @@ public partial class AIMoveTargetSelector : EngineObject
     }
 
     private int _state;
-    private MoveTargetList _targets;
+    private readonly MoveTargetList _targets;
 
     public AIMoveTargetSelectorStatus Status { get; private set; }
 
-    private MoveControlSettings _settings;
+    private readonly MoveControlSettings _settings;
 
     public Set<AIMoveTargetSelectorModeElement> Mode { get; set; }
 
-    private MoveTargetList _bufferedTargets;
+    private readonly MoveTargetList _bufferedTargets;
 
     public event MoveTargetFoundEvent OnTargetFound;
 
@@ -182,7 +182,7 @@ public partial class AIMoveTargetSelector : EngineObject
         {
             gaps = new Int32List();
             target = _bufferedTargets.GetTarget(0);
-            _transporter.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+            _transporter.GetLocation(out location.X, out location.Y, out location.MapLevel);
             if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
                 _settings.Reset();
@@ -288,7 +288,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, ref data))
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data))
                         {
                             target = new MoveTarget(null);
                             var fieldMapCoordinate = field.GetMapCoordinate();
@@ -349,7 +349,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     _settings.MovePointsMax = MovePointsMin;
                     _settings.MovePointTable = MovePointTable;
                     _settings.Units.AddUnits(Units);
-                    _transporter.CreateMovePointTable(ref _transportMovePointTable);
+                    _transporter.CreateMovePointTable(out _transportMovePointTable);
                     for (int terrain = 0; terrain <= 15; terrain++)
                     {
                         for (int overlay = -1; overlay <= 11; overlay++)
@@ -394,7 +394,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, ref data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
                         {
                             target = new MoveTarget(null);
                             var fieldMapCoordinate = field.GetMapCoordinate();

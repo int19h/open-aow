@@ -70,7 +70,7 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
         X = Location.X;
         if (X != -1)
         {
-            result = StrategicMap.Current.MapContainer.GetField(X, Location.Y, Location.MapLevel).GetAITarget(control, Info, ref data);
+            result = StrategicMap.Current.MapContainer.GetField(X, Location.Y, Location.MapLevel).GetAITarget(control, Info, out data);
         }
         else
         {
@@ -87,7 +87,7 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
     public int GetTargetMana() => 0;
 
     // AIGroup.pas:676
-    public void GetDebugInfo(ref string text)
+    public void GetDebugInfo(out string text)
     {
         text = "Target(" + IntToStr(Location.X) + "," + IntToStr(Location.Y) + "," + IntToStr(Location.MapLevel) + "): Prio:" + IntToStr(Data.Priority);
         if (TransporterId != -1)

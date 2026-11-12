@@ -231,7 +231,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                             message.Param[0] = _unit;
                                             message.Result = -1;
                                             var path = effect.Path[0];
-                                            HexGeometry.PixelToHex(effect.Path[0].X, path.Y, ref endX, ref endY);
+                                            HexGeometry.PixelToHex(effect.Path[0].X, path.Y, out endX, out endY);
                                             {
                                                 I = 0;
                                                 for (; I <= 6; I += 1)
@@ -253,14 +253,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     if (effect.Frame != -1 && effect.Path[effect.Frame].Z == 15)
                                     {
                                         var path = effect.Path[effect.Frame];
-                                        HexGeometry.PixelToHex(effect.Path[effect.Frame].X, path.Y, ref X, ref Y);
+                                        HexGeometry.PixelToHex(effect.Path[effect.Frame].X, path.Y, out X, out Y);
                                         hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
                                         if (hexSprite != null)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
                                             effect.CombatAction = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
                                             var hexY = hexSprite.HexY;
-                                            HexGeometry.HexToPixel(hexSprite.HexX, hexY, ref I, ref X);
+                                            HexGeometry.HexToPixel(hexSprite.HexX, hexY, out I, out X);
                                             if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
                                             {
                                                 CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value, false);
@@ -555,7 +555,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         {
                                                                             I = ((DamageCombatAction)effect.CombatAction).Damage;
                                                                             var hexY = ((TacticalBattleUnit)effect.Target).UnitHexSprite.HexY;
-                                                                            HexGeometry.HexToPixel(((TacticalBattleUnit)effect.Target).UnitHexSprite.HexX, hexY, ref X, ref Y);
+                                                                            HexGeometry.HexToPixel(((TacticalBattleUnit)effect.Target).UnitHexSprite.HexX, hexY, out X, out Y);
                                                                             if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
                                                                             {
                                                                                 CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value, false);
@@ -597,7 +597,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         var count = effect.Path.Count;
                                                                         var path = effect.Path[count - 1];
                                                                         var fPathCount = effect.Path.Count;
-                                                                        HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, path.Y, ref endX, ref endY);
+                                                                        HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, path.Y, out endX, out endY);
                                                                         if (effect.CombatAction != null && effect.Target != null)
                                                                         {
                                                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
@@ -923,8 +923,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
                 HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref J, ref K);
                 var hexY2 = _unit.UnitHexSprite.HexY;
-                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY2, ref x1, ref y1);
-                HexGeometry.HexToPixel(J, K, ref x2, ref y2);
+                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY2, out x1, out y1);
+                HexGeometry.HexToPixel(J, K, out x2, out y2);
                 sweep = _strikeIndex;
                 if ((double)sweep > 9)
                 {
@@ -1003,7 +1003,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     TargetY = 29;
                 }
 
-                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 switch (_effectType)
                 {
                     case BattleEffectType.Geyser:
@@ -1041,7 +1041,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                 break;
             case BattleEffectType.Winds:
-                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 point = new Point3D();
                 point.X = x2 + 16;
                 point.Y = y2 + 16;
@@ -1095,7 +1095,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     }
                 }
 
-                HexGeometry.HexToPixel(J, K, ref deltaX, ref deltaY);
+                HexGeometry.HexToPixel(J, K, out deltaX, out deltaY);
                 CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                 {
                     I = 0;
@@ -1187,7 +1187,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 }
 
                 HexGeometry.CenterHexNumberToHex(TargetX, TargetY, RandomHex[_strikeIndex % I], ref deltaX, ref deltaY);
-                HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
+                HexGeometry.HexToPixel(deltaX, deltaY, out x2, out y2);
                 CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
                 x1 = Random(20) + 6;
                 y1 = Random(20) + 6;
@@ -1212,8 +1212,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
             case BattleEffectType.Chain:
                 var hexY6 = _unit.UnitHexSprite.HexY;
-                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY6, ref x1, ref y1);
-                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY6, out x1, out y1);
+                HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, ref effect.Path);
                 var count20 = effect.Path.Count;
                 effect.Path[count20 - 1].Z = 16;
@@ -1233,7 +1233,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     x1 = x2 + 16;
                     y1 = y2 + 16;
                     var hexY4 = target.UnitHexSprite.HexY;
-                    HexGeometry.HexToPixel(target.UnitHexSprite.HexX, hexY4, ref x2, ref y2);
+                    HexGeometry.HexToPixel(target.UnitHexSprite.HexX, hexY4, out x2, out y2);
                     EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, ref effect.Path);
                     I -= 1;
                     var hexY5 = target.UnitHexSprite.HexY;
@@ -1244,7 +1244,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
             case BattleEffectType.Swarm:
                 var hexY7 = _unit.UnitHexSprite.HexY;
-                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY7, ref x1, ref y1);
+                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY7, out x1, out y1);
                 var random3 = Random(360);
                 var random4 = Random(20);
                 var random5 = Random(20);
@@ -1269,7 +1269,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     }
                 }
 
-                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 var count21 = effect.Path.Count;
                 var path13 = effect.Path[count21 - 1];
                 var count22 = effect.Path.Count;
@@ -1342,7 +1342,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 }
 
                 effect.Target = target;
-                HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
+                HexGeometry.HexToPixel(deltaX, deltaY, out x2, out y2);
                 if (_strikeIndex == 0)
                 {
                     CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
@@ -1386,7 +1386,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                 break;
             case BattleEffectType.FrostBeam:
-                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 effect.TargetX = TargetX;
                 effect.TargetY = TargetY;
                 CombatMap.Current.CenterViewTo(TargetX - 3, TargetY - 3, 0);
@@ -1431,7 +1431,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     if (StrategicMap.Current.Random(100) < obstacle.Chance)
                     {
                         var path = effect.Path[obstacle.PathIndex];
-                        HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, ref J, ref K);
+                        HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, out J, out K);
                         if (effect.EffectType == BattleEffectType.Breath)
                         {
                             hitObject = null;
@@ -1529,7 +1529,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         case 100:
                             extraEffect = CombatMap.Current.AddEffect(BattleEffectType.SFOverlay);
                             var hexY = _unit.UnitHexSprite.HexY;
-                            HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY, ref x1, ref y1);
+                            HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY, out x1, out y1);
                             while (extraEffect.Path.Count < effect.Path.Count)
                             {
                                 point = new Point3D();

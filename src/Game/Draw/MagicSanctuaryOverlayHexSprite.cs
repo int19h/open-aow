@@ -34,7 +34,7 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
         int pixelX = default;
         int pixelY = default;
         int framesLeft;
-        HexGeometry.HexToPixel(Structure._hexX, Structure._hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Structure._hexX, Structure._hexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sequence = Structure._resource.ImageSequenceList.GetImageSequence(19);

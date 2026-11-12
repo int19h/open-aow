@@ -53,7 +53,7 @@ public struct HexNumberWalkData
         }
     }
 
-    internal static void InitializeHexNumberWalk(ref HexNumberWalkData walk, int hexX, int hexY, int radius)
+    internal static void InitializeHexNumberWalk(out HexNumberWalkData walk, int hexX, int hexY, int radius)
     {
         if (radius == 0)
         {

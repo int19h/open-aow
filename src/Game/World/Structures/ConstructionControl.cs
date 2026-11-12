@@ -14,7 +14,7 @@ public partial class ConstructionControl : EngineObject
     { }
 
     // AoWAb.PAS:5494
-    public virtual void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
+    public virtual void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
         text = "";
         gold = 0;
@@ -28,7 +28,7 @@ public partial class ConstructionControl : EngineObject
         int gold = default;
         int days = default;
         string text = "";
-        GetInfo(troop, ref text, ref gold, ref days);
+        GetInfo(troop, out text, out gold, out days);
         if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
             reason = AbilityRules.TranslateResourceString(s_notEnoughGoldText);

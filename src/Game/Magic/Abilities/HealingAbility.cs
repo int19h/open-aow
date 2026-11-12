@@ -363,7 +363,7 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3659
     public override EngineClass AbilityDataClass() => s_healingDataClass;
 
-    private static EngineClass s_healingDataClass = EngineClass.Of<HealingAbilityData>();
+    private static readonly EngineClass s_healingDataClass = EngineClass.Of<HealingAbilityData>();
     private static readonly string s_healingText = "Healing";
 
 }

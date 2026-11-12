@@ -20,7 +20,7 @@ public partial class MagicSanctuary : Structure
     // MagicSanctuary.pas:124
     public new const int ClassId = 133274;
 
-    private MagicSanctuaryOverlayHexSprite _overlayHexSprite;
+    private readonly MagicSanctuaryOverlayHexSprite _overlayHexSprite;
 
     // MagicSanctuary.pas:117
     public override void Dispose()

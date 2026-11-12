@@ -27,9 +27,9 @@ public partial class MapObjectResource : EngineResource
 
     private GameEngine _engine;
     protected internal int _showPriorityOffset;
-    private ImageLibrary _imageLibrary;
+    private readonly ImageLibrary _imageLibrary;
     private ImageSequenceList _imageSequenceList;
-    private TerrainList _terrainList;
+    private readonly TerrainList _terrainList;
     protected internal byte _level;
     protected internal string _name = "";
 
@@ -223,7 +223,7 @@ public partial class MapObjectResource : EngineResource
         int pixelX = default;
         int pixelY = default;
         MapObject result = (MapObject)CreateResourceUser();
-        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
         pixelX += 16;
         pixelY += 16;
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
@@ -299,9 +299,9 @@ public partial class MapObjectResource : EngineResource
         mapLevel = message.Param[0].As<MapLevel>();
         hexLevel = message.Data[1];
         radius = message.Param[1].Int;
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref hexX, ref hexY);
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out hexX, out hexY);
         clear = message.Param[2].Int == 1;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)

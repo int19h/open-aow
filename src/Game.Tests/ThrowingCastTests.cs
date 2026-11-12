@@ -69,7 +69,7 @@ public sealed class ThrowingCastTests
         sbyte x = 0;
         sbyte y = 0;
         sbyte level = 0;
-        player.GetLeaderLocation(ref x, ref y, ref level);
+        player.GetLeaderLocation(out x, out y, out level);
         Assert.Equal((sbyte)-1, x);
         Assert.Equal((sbyte)-1, y);
         Assert.Equal((sbyte)-1, level);
@@ -80,7 +80,7 @@ public sealed class ThrowingCastTests
         army.Y = 6;
         army.MapLevel = 1;
         leader.SetOwnerWithoutNotify(army);
-        player.GetLeaderLocation(ref x, ref y, ref level);
+        player.GetLeaderLocation(out x, out y, out level);
         Assert.Equal((sbyte)4, x);
         Assert.Equal((sbyte)6, y);
         Assert.Equal((sbyte)1, level);

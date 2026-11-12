@@ -60,7 +60,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
             playSound = false;
             StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
             level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
@@ -160,7 +160,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         int frame;
         if (StrategicMap.Current.ViewL == Location.MapLevel)
         {
-            HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             switch (GameTables.GameEngine.Registry.GetDetailLevel())

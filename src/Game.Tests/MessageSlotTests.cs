@@ -109,12 +109,12 @@ public sealed class MessageSlotTests
     {
         using GameEngine engine = new GameEngine(null!);
         EngineMessage message = default;
-        EngineMessage.InitializeMessage(ref message, 0x20000008, engine);
+        EngineMessage.InitializeMessage(out message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
-        EngineMessage.InitializeMessage(ref message, 0x20020002, engine);
+        EngineMessage.InitializeMessage(out message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);

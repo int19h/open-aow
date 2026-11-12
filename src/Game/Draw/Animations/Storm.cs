@@ -60,7 +60,7 @@ public partial class Storm : Animation
     }
 
     // Storms.pas:242
-    public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, ref MapCoordinate target, ref StormDamageInfo info)
+    public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, ref MapCoordinate target, out StormDamageInfo info)
     {
         StormDamageInfo candidate;
         HexNumberWalkData walk = default;
@@ -71,7 +71,7 @@ public partial class Storm : Animation
         bool result = false;
         info = default;
         candidate = default;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= range)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

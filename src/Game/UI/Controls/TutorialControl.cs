@@ -23,7 +23,7 @@ public partial class TutorialControl : EngineObject
         _shownMessages = new Int32List();
     }
 
-    private Int32List _shownMessages;
+    private readonly Int32List _shownMessages;
 
     // AoWHSMap.PAS:6
     public override void Dispose()

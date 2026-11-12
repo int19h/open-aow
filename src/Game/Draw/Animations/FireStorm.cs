@@ -32,7 +32,7 @@ public partial class FireStorm : Storm
         int frame;
         ImageSequence sequence;
         var hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
         X = X - pixelXSurface + 8;
         Y = Y - pixelYSurface;
         sequence = GamePack.Current.ImageSequences.ImageSequences[0];
@@ -51,7 +51,7 @@ public partial class FireStorm : Storm
     // Storms.pas:603
     public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType.Fire, X, Y, L, 0, 2, ref info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType.Fire, X, Y, L, 0, 2, out info);
     }
 
     // Storms.pas:594

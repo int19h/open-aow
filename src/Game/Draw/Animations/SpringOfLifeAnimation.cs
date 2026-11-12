@@ -25,6 +25,6 @@ public partial class SpringOfLifeAnimation : Animation
     // Spring.pas:59
     public override Set<AnimationControlModeElement> AnimationControlMode() => s_springMode;
 
-    private static Set<AnimationControlModeElement> s_springMode = Set<AnimationControlModeElement>.FromMask(17uL);
+    private static readonly Set<AnimationControlModeElement> s_springMode = Set<AnimationControlModeElement>.FromMask(17uL);
 
 }

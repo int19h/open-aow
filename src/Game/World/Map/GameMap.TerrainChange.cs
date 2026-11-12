@@ -13,7 +13,7 @@ public partial class GameMap
         saved.SetCount(terrain._count);
         var mapLevel = _mapContainer.GetMapLevel(level);
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         bool InRange() => terrain.GetUsed(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height;
         while (walk.HexNumber < terrain._count)
         {
@@ -28,13 +28,13 @@ public partial class GameMap
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         while (walk.HexNumber < terrain._count && result)
         {
             if (InRange()) result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrain(sender);
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         while (walk.HexNumber < terrain._count)
         {
             if (InRange())

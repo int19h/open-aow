@@ -21,7 +21,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     private MapCoordinate _fortifyLocation;
     private int _enemyStrength;
     private int _requiredStrength;
-    private AIGroupTargetSelector _targetSelector;
+    private readonly AIGroupTargetSelector _targetSelector;
 
     // MainAG.pas:262
     public override void Dispose()
@@ -562,7 +562,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         var moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
         settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
         StrategicMap.Current.MoveControl.ProcessMove(settings);
-        BattleFieldInfo.SetupBattleFieldInfo(ref info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+        BattleFieldInfo.SetupBattleFieldInfo(out info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         message.MessageId = 4360;
         message.Param[0] = query;

@@ -17,9 +17,9 @@ public partial class TokenManager : IDisposable
     }
 
     private TokenExecutor _tokenExecutor;
-    private TokenPackageDistributor _tokenPackageDistributor;
-    private object _owner;
-    private List<TokenControl> _tokenControls;
+    private readonly TokenPackageDistributor _tokenPackageDistributor;
+    private readonly object _owner;
+    private readonly List<TokenControl> _tokenControls;
     public event NetworkMessageEvent OnMessage;
 
     // NetworkE.pas:1642

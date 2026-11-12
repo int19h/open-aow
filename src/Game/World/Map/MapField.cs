@@ -312,7 +312,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
         bool done;
         int I;
         int level;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         I = _count - 1;
         // { Preserve the original stack slot. }
         done = false;
@@ -387,7 +387,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
         info.MapField = this;
         info.TerrainType = _terrainType;
         info.OverlayType = _overlayType;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         for (int I = 1; I <= 6; I++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

@@ -123,7 +123,7 @@ internal static class TacticalTables
             case >= 86 and <= 90:
                 var xyz = new Point3D();
                 path.Add(xyz);
-                HexGeometry.HexToPixel(x2, y2, ref X, ref Y);
+                HexGeometry.HexToPixel(x2, y2, out X, out Y);
                 path[0].X = X + 12;
                 path[0].Y = Y + 12;
                 obstacles.Clear();
@@ -165,7 +165,7 @@ internal static class TacticalTables
                             case BattleEffectType.Winds:
                                 var xyz2 = new Point3D();
                                 path.Add(xyz2);
-                                HexGeometry.HexToPixel(x2, y2, ref X, ref Y);
+                                HexGeometry.HexToPixel(x2, y2, out X, out Y);
                                 path[0].X = X + 12;
                                 path[0].Y = Y + 12;
                                 obstacles.Clear();
@@ -208,8 +208,8 @@ internal static class TacticalTables
         CityWall wall;
         path.Clear();
         obstacles.Clear();
-        HexGeometry.HexToPixel(x1, y1, ref X, ref Y);
-        HexGeometry.HexToPixel(x2, y2, ref lastX, ref lastY);
+        HexGeometry.HexToPixel(x1, y1, out X, out Y);
+        HexGeometry.HexToPixel(x2, y2, out lastX, out lastY);
         X += 13;
         Y += 13;
         lastX = lastX + 13 + offsetX;
@@ -262,16 +262,16 @@ internal static class TacticalTables
         lastX = 0;
         lastY = 0;
         point = path[0];
-        HexGeometry.PixelToHex(point.X, point.Y, ref startX, ref startY);
+        HexGeometry.PixelToHex(point.X, point.Y, out startX, out startY);
         var count = path.Count;
         point = path[count - 1];
-        HexGeometry.PixelToHex(point.X, point.Y, ref endX, ref endY);
+        HexGeometry.PixelToHex(point.X, point.Y, out endX, out endY);
         I = 0;
         int last = path.Count - 1;
         for (; I <= last; I += 1)
         {
             point = path[I];
-            HexGeometry.PixelToHex(point.X, point.Y, ref X, ref Y);
+            HexGeometry.PixelToHex(point.X, point.Y, out X, out Y);
             if ((X != startX || Y != startY) && (X != endX || Y != endY))
             {
                 steps = 0;
@@ -372,7 +372,7 @@ internal static class TacticalTables
                     switch (steps)
                     {
                         case 1:
-                            HexGeometry.HexToPixel(X, Y, ref A, ref B);
+                            HexGeometry.HexToPixel(X, Y, out A, out B);
                             A = point.X + 11 - A;
                             if (A > 23)
                             {

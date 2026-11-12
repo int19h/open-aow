@@ -317,7 +317,7 @@ public partial class SetupEvents : DataModule
 
     private static readonly string s_youWereEjectedByHostText = "You were ejected by the host.";
 
-    private static GUID s_applicationGuid = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
+    private static readonly GUID s_applicationGuid = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
 
     private static readonly string s_warningText = "Warning";
 

@@ -125,7 +125,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                 case TokenStep.InitializeStrike:
                     try
                     {
-                        _meleeRound.GetMeleeStrike(_strikeIndex - 1, ref strike);
+                        _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
                         if (strike.Side == CombatSideIndex.Defender && PreviousUnit.UnitHexSprite.ActionDone)
                         {
                             if (Strike.Damage > 0)
@@ -133,7 +133,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                                 Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                 TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 var hexY = Unit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref X, ref Y);
+                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out X, out Y);
                                 if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
                                 {
                                     CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes.Value - Strike.Effects.Value, false);
@@ -149,7 +149,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, ref strike);
+                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
                             if (strike.Side == CombatSideIndex.Attacker && Unit.UnitHexSprite.ActionDone)
                             {
                                 if (Strike.Damage > 0)
@@ -157,7 +157,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                                     PreviousUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                     TacticalBattleUnit.MakeHitBlood(PreviousUnit, Strike.Damage);
                                     var hexY = PreviousUnit.UnitHexSprite.HexY;
-                                    HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, ref X, ref Y);
+                                    HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out X, out Y);
                                     if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
                                     {
                                         CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes.Value - Strike.Effects.Value, false);
@@ -188,7 +188,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, ref strike);
+                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
                             if (strike.Side == CombatSideIndex.Attacker && PreviousUnit.UnitHexSprite.ActionDone)
                             {
                                 CombatMap.Current.Combat.ExecuteCombatAction(Strike);
@@ -280,7 +280,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
         locked = true;
         while (locked && _strikeIndex < _meleeRound.Count)
         {
-            _meleeRound.GetMeleeStrike(_strikeIndex, ref strike);
+            _meleeRound.GetMeleeStrike(_strikeIndex, out strike);
             if (strike.Side == CombatSideIndex.Attacker)
             {
                 locked = Unit.GetLocked();
@@ -319,7 +319,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 
         RandSeed = StrategicMap.Current.Random(16777215);
         Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
-        _meleeRound.GetMeleeStrike(_strikeIndex, ref strike);
+        _meleeRound.GetMeleeStrike(_strikeIndex, out strike);
         if (strike.Side == CombatSideIndex.Attacker)
         {
             if (Strike.Damage == 0)

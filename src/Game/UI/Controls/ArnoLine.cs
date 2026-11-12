@@ -13,7 +13,7 @@ public partial class ArnoLine : Control
     private LibraryImage _imageTop;
     private LibraryImage _imageMiddle;
     private LibraryImage _imageBottom;
-    private InterfaceImageLibrary _lineLibrary;
+    private readonly InterfaceImageLibrary _lineLibrary;
 
     // AoWArnoLine.pas:47
     public override void Dispose()

@@ -94,7 +94,7 @@ public partial class CombatObject : EngineObject
     }
 
     // Combat.pas:5524
-    public virtual void GetTargetCombatValueDamageValue(CombatObject target, ref int combatValue, ref int damageValue)
+    public virtual void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
         combatValue = 0;
         damageValue = 0;
@@ -350,7 +350,7 @@ public partial class CombatObject : EngineObject
         int wallCombatValue;
         if (objectValue.GetSide() != GetSide())
         {
-            GetTargetCombatValueDamageValue(objectValue, ref combatValue, ref damageValue);
+            GetTargetCombatValueDamageValue(objectValue, out combatValue, out damageValue);
             if (Combat.CombatData.WallType != 0)
             {
                 wallCombatValue = GetTargetWallCombatValue(objectValue);
@@ -712,7 +712,7 @@ public partial class CombatObject : EngineObject
             target = side.GetObjects(I);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                GetTargetCombatValueDamageValue(target, ref combatValue, ref damageValue);
+                GetTargetCombatValueDamageValue(target, out combatValue, out damageValue);
                 if (Combat.CombatData.WallType != 0)
                 {
                     wallCombatValue = GetTargetWallCombatValue(target);

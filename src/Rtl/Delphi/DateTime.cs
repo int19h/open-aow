@@ -60,13 +60,13 @@ public static partial class RtlUnit
         DateTime date = Epoch.AddDays(days); year = date.Year; month = date.Month; day = date.Day;
     }
 
-    public static void DecodeTime(double value, ref ushort hour, ref ushort minute, ref ushort second, ref ushort millisecond)
+    public static void DecodeTime(double value, out ushort hour, out ushort minute, out ushort second, out ushort millisecond)
     {
         DecodeTime(value, out int h, out int n, out int s, out int ms);
         hour = (ushort)h; minute = (ushort)n; second = (ushort)s; millisecond = (ushort)ms;
     }
 
-    public static void DecodeDate(double value, ref ushort year, ref ushort month, ref ushort day)
+    public static void DecodeDate(double value, out ushort year, out ushort month, out ushort day)
     {
         DecodeDate(value, out int y, out int m, out int d);
         year = (ushort)y; month = (ushort)m; day = (ushort)d;

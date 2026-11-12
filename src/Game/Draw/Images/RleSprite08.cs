@@ -94,7 +94,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     }
 
     // ImageLib.pas:7553
-    public override void GetVisualDimensions(ref Rect R)
+    public override void GetVisualDimensions(out Rect R)
     {
         R.Left = _xshift + _rleLeft;
         R.Right = R.Left + _rleWidth;
@@ -296,7 +296,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                     _fileIndex = grabInfo.FileIndex;
                     position = 0;
                     count = 0;
-                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, _transparentColor, ref minRectangle);
+                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, _transparentColor, out minRectangle);
                     left = minRectangle.Left;
                     _rleLeft = left - R.Left;
                     top = minRectangle.Top;

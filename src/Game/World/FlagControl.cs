@@ -18,7 +18,7 @@ namespace Aow.Game.World;
 public partial class FlagControl : ControlStyleObject
 {
 
-    private RaceResourceList _raceResources;
+    private readonly RaceResourceList _raceResources;
 
     public CustomImageLibrary Flags { get; set; }
 

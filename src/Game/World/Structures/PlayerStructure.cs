@@ -35,7 +35,7 @@ public partial class PlayerStructure : Structure
     public sbyte Player;
     public byte ProductionPriority;
     private byte _flagId;
-    private BitList _victoryLocations;
+    private readonly BitList _victoryLocations;
 
     public byte UnfogRange { get; protected set; }
 
@@ -85,7 +85,7 @@ public partial class PlayerStructure : Structure
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (_flagId != 63 && (!StrategicMap.Current.FogEnabled || !Fogged))
@@ -694,7 +694,7 @@ public partial class PlayerStructure : Structure
         different = false;
         count = GetTerrainCount();
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count && !different)
         {
             if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

@@ -29,7 +29,7 @@ public partial class PlayerCropStructure : PlayerStructure
     public byte Income { get; private set; }
 
     private bool _changingCrops;
-    private PlayerStructureIncomeSource _incomeSource;
+    private readonly PlayerStructureIncomeSource _incomeSource;
 
     // Crops.pas:278
     public override void Dispose()

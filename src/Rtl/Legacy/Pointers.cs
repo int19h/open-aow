@@ -133,7 +133,7 @@ public interface IPointerBox
 
 public sealed class PtrBox<T> : IPointerBox
 {
-    public Ptr<T> Pointer;
+    public readonly Ptr<T> Pointer;
 
     public PtrBox(Ptr<T> pointer)
     {

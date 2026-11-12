@@ -146,7 +146,7 @@ public partial class ItemExplorationSite : ExplorationSite
 
     private static readonly string s_itemsExploredFormat = "\"From the %s\",\"you recovered the following items:\"";
     private static readonly string s_itemsFoundText = "Items Found";
-    private static Set<ItemType> s_itAll = Set<ItemType>.FromMask(127uL);
+    private static readonly Set<ItemType> s_itAll = Set<ItemType>.FromMask(127uL);
 
     // ItemExpS.pas:32
 

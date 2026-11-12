@@ -64,7 +64,7 @@ public partial class ConstructDialog : DataModule
         for (int I = 0, last = ability.ConstructionControls.Count - 1; I <= last; I++)
         {
             control = ability.ConstructionControls.GetConstructionControl(I);
-            control.GetInfo(U, ref name, ref gold, ref days);
+            control.GetInfo(U, out name, out gold, out days);
             ConstructionList.Items.AddObject(name, control);
             if (gold != 0)
             {

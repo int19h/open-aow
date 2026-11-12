@@ -14,7 +14,7 @@ public partial class EventLogbook : EngineObject
     // EventLog.pas:532
     public new const int ClassId = 131808;
 
-    private EventLogList _events;
+    private readonly EventLogList _events;
 
     public sbyte Player { get; set; }
 

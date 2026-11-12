@@ -161,17 +161,17 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     }
 
     private Set<HexSpriteSetStatusElement> _status;
-    private HexControl _hexControl;
-    private RoadControl _roadControl;
+    private readonly HexControl _hexControl;
+    private readonly RoadControl _roadControl;
     private GameEngine _activatedEngine;
 
     public GameEngine ActivatedEngine { get => _activatedEngine; }
 
-    private MapObjectResourceList _mapObjectResourceList;
-    private ResourceEditSettings _resourceEditSettings;
+    private readonly MapObjectResourceList _mapObjectResourceList;
+    private readonly ResourceEditSettings _resourceEditSettings;
     private ImageLibraryManager _imageLibraryManager;
     private SfxManager _sfxManager;
-    private PluginControl _pluginControl;
+    private readonly PluginControl _pluginControl;
     private string _name = "";
     private StringList _terrainTypes;
     private StringList _overlayTypes;
@@ -189,7 +189,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         HeroLibraries?.Dispose();
         EngineMessage message = default;
         _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
-        EngineMessage.InitializeMessage(ref message, 66564, this);
+        EngineMessage.InitializeMessage(out message, 66564, this);
         if (_activatedEngine != null && _activatedEngine.ControlNode != null)
         {
             _activatedEngine.ControlNode.MessageProc(ref message, this);
@@ -207,7 +207,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         _imageLibraryManager = null;
         _sfxManager?.Dispose();
         _sfxManager = null;
-        EngineMessage.InitializeMessage(ref message, 66565, this);
+        EngineMessage.InitializeMessage(out message, 66565, this);
         if (_activatedEngine != null && _activatedEngine.ControlNode != null)
         {
             _activatedEngine.ControlNode.MessageProc(ref message, this);
@@ -319,12 +319,12 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     public void Activate(bool edit)
     {
         EngineMessage message = default;
-        EngineMessage.InitializeMessage(ref message, 66560, this);
+        EngineMessage.InitializeMessage(out message, 66560, this);
         GetEngine().ControlNode.MessageProc(ref message, this);
         _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
         if (edit)
         {
-            EngineMessage.InitializeMessage(ref message, 66562, this);
+            EngineMessage.InitializeMessage(out message, 66562, this);
             GetEngine().ControlNode.MessageProc(ref message, this);
             _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
         }
@@ -336,12 +336,12 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         EngineMessage message = default;
         if (_status.Contains(HexSpriteSetStatusElement.Activated))
         {
-            EngineMessage.InitializeMessage(ref message, 66561, this);
+            EngineMessage.InitializeMessage(out message, 66561, this);
             GetEngine().ControlNode.MessageProc(ref message, this);
             _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
             if (_status.Contains(HexSpriteSetStatusElement.Editting))
             {
-                EngineMessage.InitializeMessage(ref message, 66563, this);
+                EngineMessage.InitializeMessage(out message, 66563, this);
                 GetEngine().ControlNode.MessageProc(ref message, this);
                 _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
             }

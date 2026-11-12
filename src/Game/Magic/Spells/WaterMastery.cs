@@ -33,7 +33,7 @@ public partial class WaterMastery : GlobalEnchantmentSpell
         sbyte L = default;
         // { Original ignores the event step. }
         base.ExecuteTokenEvent(eventValue, source, 0);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Water);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         CastSounds.Play(0);

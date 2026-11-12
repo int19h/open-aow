@@ -21,7 +21,7 @@ public class Control : Component
     public void Hide() => throw new NotImplementedException("VCL.Hide");
     public void Show() => throw new NotImplementedException("VCL.Show");
 
-    public Control? Parent;
+    public readonly Control? Parent;
 
     public virtual void Invalidate() => throw new NotImplementedException("VCL.Invalidate");
     protected internal virtual void Paint() => throw new NotImplementedException("VCL.Paint");

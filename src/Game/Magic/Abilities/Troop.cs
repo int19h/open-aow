@@ -567,7 +567,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             morale = GetRelationValue(player, independentRelation);
             if (race != -1)
             {
-                GetLocation(ref hexX, ref hexY, ref hexLevel);
+                GetLocation(out hexX, out hexY, out hexLevel);
                 if (hexX != -1)
                 {
                     rawTerrain = (byte)StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType;
@@ -952,7 +952,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
     // Unit.PAS:152
     // { A stack-argument assembler routine gets an EBP frame; remove it before jumping. }
-    public void RetrieveDamageInfo(sbyte attack, sbyte damage, Set<DamageType> damageTypes, ref int damageValue, ref int obtainValue)
+    public void RetrieveDamageInfo(sbyte attack, sbyte damage, Set<DamageType> damageTypes, out int damageValue, out int obtainValue)
     {
         int maxDamage;
         maxDamage = GetHitPoints() * 100;
@@ -987,11 +987,11 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     internal UnitList UnitListOwner => Owner as UnitList;
 
     // Unit.PAS:189
-    public void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
+    public void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         if (Owner is UnitList)
         {
-            UnitListOwner.GetLocation(ref hexX, ref hexY, ref hexLevel);
+            UnitListOwner.GetLocation(out hexX, out hexY, out hexLevel);
         }
         else
         {
@@ -1415,7 +1415,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sbyte hexY = default;
         sbyte hexLevel = default;
         MapField mapField;
-        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        GetLocation(out hexX, out hexY, out hexLevel);
         if (hexX != -1)
         {
             mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1430,7 +1430,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:922
-    public void CreateMovePointTable(ref MovePointTable table)
+    public void CreateMovePointTable(out MovePointTable table)
     {
         Set<MoveType> moves;
         int points;
@@ -1561,7 +1561,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         HexNumberWalkData walk = default;
         MapField field;
         level = mapField.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, mapField.HexX, mapField.HexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, mapField.HexX, mapField.HexY, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
@@ -1665,7 +1665,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sbyte hexLevel = default;
         MapField field;
         FrozenWaterHexSprite ice;
-        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        GetLocation(out hexX, out hexY, out hexLevel);
         if (hexX > -1)
         {
             field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1744,7 +1744,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         doubleDamage = GetAbilityEnabled(23);
         if (!doubleDamage && moves.Contains(MoveType.Flying))
         {
-            GetLocation(ref hexX, ref hexY, ref hexLevel);
+            GetLocation(out hexX, out hexY, out hexLevel);
             if (hexX != -1)
             {
                 field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1821,7 +1821,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public int MovePointCost(sbyte terrainType, sbyte overlayType)
     {
         MovePointTable table = default;
-        CreateMovePointTable(ref table);
+        CreateMovePointTable(out table);
         return table[terrainType][overlayType - MovementTables.FirstOverlay];
     }
 
@@ -2005,7 +2005,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             result = 4;
         }
 
-        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        GetLocation(out hexX, out hexY, out hexLevel);
         if (hexLevel != 0 && !GetAbilityEnabled(39) || hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
         {
             result = (int)(((uint)(result + 1)) >> 1);
@@ -2074,7 +2074,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         HexNumberWalkData walk = default;
         ArmyHexSprite armyHexSprite;
         ArmyHexSprite result = null;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (result == null && (walk.Radius == 0 || mode.Contains(UnitPlaceModeElement.ScanArea)) && walk.Radius < 30)
         {
             if (CanPlace(walk.X, walk.Y, L, player, mode))

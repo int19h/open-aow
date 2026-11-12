@@ -183,7 +183,7 @@ public partial class Arena : Structure
     }
 
     // Arena.pas:194
-    public bool TrainUnits(sbyte player, Int32List units, ref string errorText)
+    public bool TrainUnits(sbyte player, Int32List units, out string errorText)
     {
         bool result;
         ArenaTokenEvent tokenEvent;

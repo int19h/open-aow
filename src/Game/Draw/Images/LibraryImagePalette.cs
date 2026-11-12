@@ -8,7 +8,7 @@ namespace Aow.Game.Draw.Images;
 public partial class LibraryImagePalette : Persistent
 {
     internal int _index;
-    private Palette _palette;
+    private readonly Palette _palette;
 
     internal Palette RemapPaletteValue { get; private set; }
 

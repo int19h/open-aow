@@ -144,7 +144,7 @@ public partial class DisjunctionDialog : DataModule
 
             if (_mapX == -1)
             {
-                _caster.GetSource().GetLocation(ref _mapX, ref _mapY, ref _mapL);
+                _caster.GetSource().GetLocation(out _mapX, out _mapY, out _mapL);
             }
 
             UpdateChance();
@@ -280,7 +280,7 @@ public partial class DisjunctionDialog : DataModule
         R = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HexGeometry.HexToPixel(_mapX, _mapY, ref X, ref Y);
+        HexGeometry.HexToPixel(_mapX, _mapY, out X, out Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -293,7 +293,7 @@ public partial class DisjunctionDialog : DataModule
             Y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, R, out mapSurfaceDescription);
         StrategicMap.Current.SetViewPort(X, Y, _mapL, R.Right - R.Left, R.Bottom - R.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

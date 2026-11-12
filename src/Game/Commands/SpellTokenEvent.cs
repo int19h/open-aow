@@ -57,7 +57,7 @@ public partial class SpellTokenEvent : TokenEvent
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
         sbyte x = 0, y = 0, l = 0;
-        GetSource().GetLocation(ref x, ref y, ref l);
+        GetSource().GetLocation(out x, out y, out l);
         var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         spell.PlayDefaultCastEffects(GetSource().Player, x, y, l);
     }

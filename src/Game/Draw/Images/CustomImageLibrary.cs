@@ -26,7 +26,7 @@ public partial class CustomImageLibrary : Component
 
     internal ImageItem[] Images { get; private set; }
 
-    private PaletteManager _paletteManager;
+    private readonly PaletteManager _paletteManager;
 
     // ImageLib.pas:9699
     internal void SetCapacity(int newCapacity)

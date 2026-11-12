@@ -24,9 +24,9 @@ public partial class ItemControl : EngineObject
         _onItemChangedStore = new();
     }
 
-    private List<Item> _items;
+    private readonly List<Item> _items;
 
-    private EventStore<ItemControl> _onChangedStore;
+    private readonly EventStore<ItemControl> _onChangedStore;
 
     public event NotifyEvent<ItemControl> Changed
     {
@@ -36,7 +36,7 @@ public partial class ItemControl : EngineObject
 
     private int _updateLock;
 
-    private EventStore<Item> _onItemChangedStore;
+    private readonly EventStore<Item> _onItemChangedStore;
 
     public event NotifyEvent<Item> ItemChanged
     {

@@ -9,8 +9,8 @@ public partial class SongPlayer : IDisposable
 {
     private string _currentSong = "";
     private Set<StatusElement> _status;
-    private StringList _songs;
-    private StringList _songNames;
+    private readonly StringList _songs;
+    private readonly StringList _songNames;
     private int _currentIndex;
     public event NotifyEvent<SongPlayer> OnSongChange;
 

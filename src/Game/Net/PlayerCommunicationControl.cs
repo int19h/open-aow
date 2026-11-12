@@ -9,7 +9,7 @@ public partial class PlayerCommunicationControl : IDisposable
     internal int RefCount { get; private set; }
 
     private PlayerCommunicator _playerCommunicator;
-    private PlayerCommunicationSettingsList _playerCommunicationSettingsList;
+    private readonly PlayerCommunicationSettingsList _playerCommunicationSettingsList;
 
     // NetworkE.pas:549
     public virtual int GetLocalSystemId() => 1;

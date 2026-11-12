@@ -166,7 +166,7 @@ public sealed class StringRoutineTests
             foreach (int length in new[] { -1, 0, text.Length })
             {
                 string value = "old";
-                RtlUnit.SetString(ref value, pointer, length);
+                RtlUnit.SetString(out value, pointer, length);
                 Assert.Equal(RtlUnit.SetString(pointer, length), value);
             }
         }
@@ -174,7 +174,7 @@ public sealed class StringRoutineTests
         foreach (int length in new[] { -1, 0, 3 })
         {
             string value = "old";
-            RtlUnit.SetString(ref value, default, length);
+            RtlUnit.SetString(out value, default, length);
             Assert.Equal(RtlUnit.SetString(default, length), value);
         }
     }

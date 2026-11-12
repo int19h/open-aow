@@ -105,7 +105,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     private int _updateCount;
 
-    private EventStore<Player> _gemsChangedEventsStore;
+    private readonly EventStore<Player> _gemsChangedEventsStore;
 
     public event NotifyEvent<Player> GemsChanged
     {
@@ -113,7 +113,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         remove => _gemsChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Player> _incomeChangedEventsStore;
+    private readonly EventStore<Player> _incomeChangedEventsStore;
 
     public event NotifyEvent<Player> IncomeChanged
     {
@@ -121,7 +121,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         remove => _incomeChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Player> _upkeepChangedEventsStore;
+    private readonly EventStore<Player> _upkeepChangedEventsStore;
 
     public event NotifyEvent<Player> UpkeepChanged
     {
@@ -129,7 +129,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         remove => _upkeepChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Player> _logbookChangedEventsStore;
+    private readonly EventStore<Player> _logbookChangedEventsStore;
 
     public event NotifyEvent<Player> LogbookChanged
     {
@@ -139,7 +139,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     public PlayerStructureList Structures { get; }
 
-    private PlayerStructureList _victoryLocations;
+    private readonly PlayerStructureList _victoryLocations;
 
     public ProductionControlList ProductionControls { get; }
     public ArmyList Armies { get; }
@@ -170,7 +170,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     public PlayerStatistics Statistics { get; }
 
-    private IncomeSourceList _incomeSources;
+    private readonly IncomeSourceList _incomeSources;
 
     public PlayerStructureList KnownStructures { get; }
 
@@ -188,7 +188,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     public BitList AIValidAttackPlayers { get; private set; }
     public Int32List FirstDaySeen { get; }
 
-    private Int32List _lastDaySeen;
+    private readonly Int32List _lastDaySeen;
 
     public PbemPlayerSettings PbemSettings { get; private set; }
 
@@ -409,7 +409,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         {
             if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
-                StrategicMap.Current.GetViewCenter(ref X, ref Y, ref L);
+                StrategicMap.Current.GetViewCenter(out X, out Y, out L);
                 ViewX = (byte)X;
                 ViewY = (byte)Y;
                 ViewL = (byte)L;
@@ -1556,11 +1556,11 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     }
 
     // Player.PAS:1134
-    public void GetLeaderLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public void GetLeaderLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         if (Leader != null && Leader.UnitListOwner != null)
         {
-            Leader.UnitListOwner.GetLocation(ref X, ref Y, ref L);
+            Leader.UnitListOwner.GetLocation(out X, out Y, out L);
         }
         else
         {

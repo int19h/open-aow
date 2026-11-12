@@ -32,10 +32,10 @@ public partial class AIBudgetManager : EngineObject
     public Player Player { get; set; }
     public AIBudgetList Budgets { get; }
 
-    private float _goldIncomeFactor;
-    private float _manaIncomeFactor;
-    private float _goldReserveFactor;
-    private float _manaReserveFactor;
+    private readonly float _goldIncomeFactor;
+    private readonly float _manaIncomeFactor;
+    private readonly float _goldReserveFactor;
+    private readonly float _manaReserveFactor;
     public int ProductionGoldUpkeep;
     public int ProductionManaUpkeep;
     public int GoldUpkeep;

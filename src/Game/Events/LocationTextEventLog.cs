@@ -34,7 +34,7 @@ public partial class LocationTextEventLog : TextEventLog
     }
 
     // EventLog.pas:740
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = HexX;
         Y = HexY;

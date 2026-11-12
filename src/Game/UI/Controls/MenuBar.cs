@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Controls;
 // a click on the item last selected then does nothing)
 public partial class MenuBar : Control
 {
-    private StringList _items;
+    private readonly StringList _items;
     private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
     private int _lastSelected;

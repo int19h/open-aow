@@ -70,7 +70,7 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1408
-    public override void GetTargetCombatValueDamageValue(CombatObject target, ref int combatValue, ref int damageValue)
+    public override void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
         Troop U;
         AbilityTypeList abilities;

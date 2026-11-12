@@ -33,7 +33,7 @@ public partial class PestilenceStorm : Storm
         int blend;
         ImageSequence sequence;
         var hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
         X = X - pixelXSurface + 8;
         Y = Y - pixelYSurface;
         sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
@@ -62,7 +62,7 @@ public partial class PestilenceStorm : Storm
     // Storms.pas:725
     public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType.Pestilence, X, Y, L, 0, 2, ref info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType.Pestilence, X, Y, L, 0, 2, out info);
     }
 
     // Storms.pas:716

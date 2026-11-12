@@ -197,7 +197,7 @@ public class SdlSoundSystem : SoundSystem
 
 internal class SdlSampleData : SampleData
 {
-    public WaveData Wave { get; private set; } = new(44100, 1, []);
+    public WaveData Wave { get; } = new(44100, 1, []);
 
     public static new SdlSampleData Create(string name) =>
         ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, value));

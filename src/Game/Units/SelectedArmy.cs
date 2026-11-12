@@ -35,7 +35,7 @@ public partial class SelectedArmy : MoveSelector
 
     private SelectedArmyMode _mode;
     private int _roadBuilderId;
-    private Int32List _selectedUnitGraphics;
+    private readonly Int32List _selectedUnitGraphics;
 
     public bool IgnoreMouseDown { get; set; }
 
@@ -596,13 +596,13 @@ public partial class SelectedArmy : MoveSelector
         armies = new ArmyHSList(null);
         R = sender.SelectionRectangle;
         level = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewL);
-        HexGeometry.PixelToHex(R.Left, R.Top, ref x1, ref y1);
-        HexGeometry.PixelToHex(R.Right, R.Bottom, ref x2, ref y2);
+        HexGeometry.PixelToHex(R.Left, R.Top, out x1, out y1);
+        HexGeometry.PixelToHex(R.Right, R.Bottom, out x2, out y2);
         for (int X = x1 - 1, last = x2 + 1; X <= last; X++)
         {
             for (int Y = y1 - 1, lastY = y2 + 1; Y <= lastY; Y++)
             {
-                HexGeometry.HexToPixel(X, Y, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(X, Y, out pixelX, out pixelY);
                 pixelX += 16;
                 pixelY += 16;
                 if (X >= 0 && X < level.Width && Y > 0 && Y < level.Height && pixelX >= R.Left && pixelX < R.Right && pixelY >= R.Top && pixelY < R.Bottom)

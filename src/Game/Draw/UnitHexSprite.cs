@@ -146,7 +146,7 @@ public partial class UnitHexSprite : HexSprite
         field = Owner;
         field.RemoveChild(this);
         level = field.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, field.HexX, field.HexY, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
@@ -169,7 +169,7 @@ public partial class UnitHexSprite : HexSprite
         {
             field = Owner;
             level = field.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, field.HexX, field.HexY, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
@@ -223,7 +223,7 @@ public partial class UnitHexSprite : HexSprite
     {
         int X = default;
         int Y = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+        HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
         return PlaceHex(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
     }
 
@@ -309,7 +309,7 @@ public partial class UnitHexSprite : HexSprite
         int Y = default;
         if (!Moving())
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+            HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
             if (Owner.HexX != X || Owner.HexY != Y)
             {
                 result = false;
@@ -352,11 +352,11 @@ public partial class UnitHexSprite : HexSprite
         {
             HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref X, ref Y);
             field = Owner.Owner.GetField(X, Y);
-            HexGeometry.HexToPixel(X, Y, ref X, ref Y);
+            HexGeometry.HexToPixel(X, Y, out X, out Y);
         }
         else
         {
-            HexGeometry.HexToPixel(field.HexX, field.HexY, ref X, ref Y);
+            HexGeometry.HexToPixel(field.HexX, field.HexY, out X, out Y);
         }
 
         hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
@@ -366,7 +366,7 @@ public partial class UnitHexSprite : HexSprite
             _showPriority = hexSprite.GetShowPriority() + 2;
         }
 
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         SortMapField(Owner.Owner.Map.MapContainer, X - 18, Y - 32, Owner.HexLevel, 64, 64);
     }
 

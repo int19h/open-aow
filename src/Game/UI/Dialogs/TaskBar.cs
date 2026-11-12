@@ -342,7 +342,7 @@ public partial class TaskBar : DataModule
                 else
                 {
                     WorldClockDelay = 900;
-                    DecodeTime(Time(), ref hour, ref minute, ref second, ref millisecond);
+                    DecodeTime(Time(), out hour, out minute, out second, out millisecond);
                     if (hour > 12)
                     {
                         hour = (ushort)(hour - 12);
@@ -378,7 +378,7 @@ public partial class TaskBar : DataModule
             if (_combatClockDelay < 0)
             {
                 _combatClockDelay = 900;
-                DecodeTime(Time(), ref hour, ref minute, ref second, ref millisecond);
+                DecodeTime(Time(), out hour, out minute, out second, out millisecond);
                 if (hour > 12)
                 {
                     hour = (ushort)(hour - 12);

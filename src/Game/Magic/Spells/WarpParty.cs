@@ -103,7 +103,7 @@ public partial class WarpParty : Spell
         army.Army.CreateMovePointTable(255, Bytes.Of(ref table));
         var hexY = army.HexY;
         var hexX = army.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 10);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);
         level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 20)
         {
@@ -126,7 +126,7 @@ public partial class WarpParty : Spell
                 level = StrategicMap.Current.MapContainer.MapLevels[L];
                 var armyHexY = army.HexY;
                 var armyHexX = army.HexX;
-                HexNumberWalkData.InitializeHexNumberWalk(ref walk, armyHexX, armyHexY, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, 0);
                 while (walk.Radius < 10)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

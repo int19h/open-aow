@@ -129,7 +129,7 @@ public partial class TokenExecutor : IDisposable
         int result = default;
         if (OnGetSyncValue != null)
         {
-            OnGetSyncValue(ref result);
+            OnGetSyncValue(out result);
         }
         else
         {
@@ -413,7 +413,7 @@ public partial class TokenExecutor : IDisposable
         remove => OnActivateTacticalBattleStore.Remove(value);
     }
 
-    public delegate void GetSyncValueEvent(ref int Value);
+    public delegate void GetSyncValueEvent(out int Value);
     public delegate void TokenEventEvent(TokenEvent TE);
 
 }

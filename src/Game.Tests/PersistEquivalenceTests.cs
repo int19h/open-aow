@@ -920,7 +920,7 @@ public sealed class PersistEquivalenceTests
                     Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
                 var treeError = Assert.Throws<InvalidOperationException>(() =>
                     TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
-                        static (string _, ref bool cont) => cont = false));
+                        static (string _, out bool cont) => cont = false));
                 Assert.Equal("hatred failed", streamError.Message);
                 Assert.Equal("hatred failed", treeError.Message);
             }
@@ -981,7 +981,7 @@ public sealed class PersistEquivalenceTests
                 Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
             var treeError = Assert.Throws<InvalidOperationException>(() =>
                 TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
-                    static (string _, ref bool cont) => cont = false));
+                    static (string _, out bool cont) => cont = false));
             Assert.Equal("enchantments failed", streamError.Message);
             Assert.Equal("enchantments failed", treeError.Message);
             Assert.Same(stoppedList, stopped.Enchantments);

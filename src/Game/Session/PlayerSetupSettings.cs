@@ -62,14 +62,14 @@ public partial class PlayerSetupSettings : EngineObject
         Leader = new Leader(null);
     }
 
-    private static SetupPlayerBehavior s_defaultBehavior = new SetupPlayerBehavior
+    private static readonly SetupPlayerBehavior s_defaultBehavior = new SetupPlayerBehavior
     {
         PlayerType = 0,
         Reserved = default,
         Flags = 0
     };
 
-    private static SetupPlayerBehavior s_defaultOriginalBehavior = new SetupPlayerBehavior
+    private static readonly SetupPlayerBehavior s_defaultOriginalBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = default,

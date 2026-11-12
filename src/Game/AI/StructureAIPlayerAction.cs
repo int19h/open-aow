@@ -20,7 +20,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
 
     public int Phase { get; protected set; }
 
-    private Int32List _structureIds;
+    private readonly Int32List _structureIds;
 
     // Structur.PAS:3324
     public override void Dispose()

@@ -12,7 +12,7 @@ public partial class EChangeNotifyEventList : EChangeNotifyNode
         _eventsStore = new();
     }
 
-    private EventStore<EChangeNotifyEventList> _eventsStore;
+    private readonly EventStore<EChangeNotifyEventList> _eventsStore;
 
     // Engine.pas:8131
     public override void Dispose()

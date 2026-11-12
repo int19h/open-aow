@@ -17,7 +17,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
     private sbyte _x;
     private sbyte _y;
     private sbyte _layer;
-    private Int32List _hexes;
+    private readonly Int32List _hexes;
     private int _frame;
 
     // GlobalSpells.pas:205
@@ -55,7 +55,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
             if (GameTables.GameEngine.AnimationDetail == 2 && StrategicMap.Current.ViewL == _layer)
             {
                 intensity = 60 - Math.Abs(_frame * 3 - 60);
-                HexGeometry.HexToPixel(this._x, this._y, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(this._x, this._y, out pixelX, out pixelY);
                 pixelX = pixelX - pixelXSurface - 8;
                 pixelY -= pixelYSurface;
                 for (int I = _hexes.Count - 1; I >= 0; I--)
@@ -76,7 +76,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
                 delay = Random(20);
                 if (_frame - delay >= 0)
                 {
-                    AbilityRules.PolarToCartesian(direction, radius, ref X, ref Y);
+                    AbilityRules.PolarToCartesian(direction, radius, out X, out Y);
                     GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + X, pixelY + Y, _frame - delay, lockedSurface);
                 }
             }
@@ -99,7 +99,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         _frame = 0;
         GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
         StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, this._x, this._y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, this._x, this._y, 0);
         level = StrategicMap.Current.MapContainer.MapLevels[_layer];
         while (walk.Radius <= radius)
         {

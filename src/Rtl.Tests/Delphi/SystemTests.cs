@@ -134,7 +134,7 @@ public sealed class SystemTests
         Assert.Equal("", StrPas(default));
         Assert.Equal("ab\0cd", SetString(pointer, 5));
         string value = "";
-        SetString(ref value, pointer + 1, 3);
+        SetString(out value, pointer + 1, 3);
         Assert.Equal("b\0c", value);
         pointer[1] = 99;
         Assert.Equal("b\0c", value);
@@ -180,7 +180,7 @@ public sealed class SystemTests
         ReallocMem(ref pointer, 1);
         Assert.Equal(new[] { 1 }, pointer.Array);
         var alias = pointer;
-        FreeMem(ref pointer);
+        FreeMem(out pointer);
         Assert.True(pointer.IsNull);
         Assert.Equal(1, alias.Value);
         New<PackedRecord>(out var record);
@@ -207,10 +207,10 @@ public sealed class SystemTests
         Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], new byte[1], 2));
         Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], 2, 0));
         Assert.Throws<ArgumentOutOfRangeException>(() => CompareMem(new byte[1], new byte[1], 2));
-        Dispose(ref record);
+        Dispose(out record);
         Assert.True(record.IsNull);
-        FreeMem(ref pointer);
-        Dispose(ref record);
+        FreeMem(out pointer);
+        Dispose(out record);
         ReallocMem(ref pointer, 0);
         Assert.True(pointer.IsNull);
     }

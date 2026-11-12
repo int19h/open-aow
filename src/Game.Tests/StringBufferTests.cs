@@ -11,7 +11,7 @@ public sealed class StringBufferTests
     private static void Read(int shape, ref string text, Stream stream)
     {
         if (shape == 0) GameEngine.StringFromStream(ref text, stream);
-        else if (shape == 1) StorageReader.LoadStringFromStream(ref text, stream);
+        else if (shape == 1) StorageReader.LoadStringFromStream(out text, stream);
         else LibraryDrawing.ReadStringFromStream(ref text, stream);
     }
 

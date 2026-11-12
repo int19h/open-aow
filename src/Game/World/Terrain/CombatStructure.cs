@@ -294,7 +294,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
                 point = new Point3D();
                 effect.Path.Add(point);
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref point.X, ref point.Y);
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out point.X, out point.Y);
                 point.X = Random(20) + point.X + 6;
                 point.Y = Random(20) + point.Y - 20;
             }

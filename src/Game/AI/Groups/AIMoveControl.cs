@@ -33,7 +33,7 @@ public partial class AIMoveControl : EngineObject
     private bool _multipleTransportGaps;
     private AIMoveControlMode _mode;
     private int _state;
-    private MoveControlSettings _pathSettings;
+    private readonly MoveControlSettings _pathSettings;
 
     // AIGroup.pas:3918
     public override void Dispose()
@@ -242,7 +242,7 @@ public partial class AIMoveControl : EngineObject
                     {
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
-                        Settings.Transporter.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
+                        Settings.Transporter.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
                         _pathSettings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
                         ref var location = ref Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);

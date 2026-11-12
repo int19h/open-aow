@@ -41,7 +41,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     public ByteList DefaultRelations { get; }
 
     // TStatus values
-    private Int32List _playerRelations;
+    private readonly Int32List _playerRelations;
     public bool Enabled;
 
     // Ability.PAS:221

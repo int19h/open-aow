@@ -227,7 +227,7 @@ internal sealed class FrameFixture
                         if (click.Hex is int hex && click.Hy is int hy)
                         {
                             var mapWindow = DialogHosts.MapWindow;
-                            HexGeometry.HexToPixel(hex, hy, ref inputX, ref inputY);
+                            HexGeometry.HexToPixel(hex, hy, out inputX, out inputY);
                             inputX += 28 + mapWindow.MainWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MainWindow.WinTop - mapWindow.MapViewer.SceneY;
                             if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hex},{hy} is outside the map view at {inputX},{inputY}");
@@ -285,7 +285,7 @@ internal sealed class FrameFixture
                 {
                     var hero = world.HeroControl.GetHero(i);
                     sbyte x = -1, y = -1, level = -1;
-                    hero.GetLocation(ref x, ref y, ref level);
+                    hero.GetLocation(out x, out y, out level);
                     object[] Items(ItemList list) => Enumerable.Range(0, list.GetCount())
                         .Select(index => list.GetItem(index))
                         .OfType<Item>()
@@ -337,7 +337,7 @@ internal sealed class FrameFixture
                     if (data.GetObjects(i) is TacticalBattleUnit unit && unit.UnitHexSprite is { } sprite)
                     {
                         int x = 0, y = 0;
-                        HexGeometry.HexToPixel(sprite.GetHexX(), sprite.GetHexY(), ref x, ref y);
+                        HexGeometry.HexToPixel(sprite.GetHexX(), sprite.GetHexY(), out x, out y);
                         units.Add(new
                         {
                             FID = unit.Id,

@@ -116,7 +116,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
         {
             effect = null;
             var pathY = Path[Frame];
-            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y, ref I, ref J);
+            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y, out I, out J);
             if (CombatMap.Current.MapContainer.MapLevels[0].Field[I, J].TerrainType == 0)
             {
                 effect = CombatMap.Current.AddEffect(BattleEffectType.HitWater);
@@ -206,7 +206,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                             var pathY = Path[Frame];
                             var pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, ref I, ref J);
+                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out I, out J);
                             CombatMap.Current.MakeVisible(I, J, 0, 2);
                         }
 
@@ -268,7 +268,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                             var pathY = Path[Frame];
                             var pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, ref I, ref J);
+                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out I, out J);
                             CombatMap.Current.MakeVisible(I, J, 0, 2);
                         }
 
@@ -423,7 +423,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 }
 
                                 J = Random(5) + 5;
-                                HexGeometry.HexToPixel(TargetX, TargetY, ref K, ref X);
+                                HexGeometry.HexToPixel(TargetX, TargetY, out K, out X);
                                 {
                                     I = 0;
                                     int last = J;
@@ -459,7 +459,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                                 break;
                             case >= 1000 and <= 1029:
-                                HexGeometry.HexToPixel(TargetX, TargetY, ref K, ref X);
+                                HexGeometry.HexToPixel(TargetX, TargetY, out K, out X);
                                 J = Random(5) + 5;
                                 {
                                     I = 0;
@@ -761,7 +761,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case >= 151 and <= 169:
                             case >= 210 and <= 229:
                                 var path5 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path5.Y, ref X, ref Y);
+                                HexGeometry.PixelToHex(Path[0].X, path5.Y, out X, out Y);
                                 message.MessageId = 200720;
                                 message.Param[0] = 1;
                                 message.Result = -1;
@@ -778,7 +778,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             case >= 170 and <= 184:
                             case >= 195 and <= 209:
                                 var path6 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path6.Y, ref X, ref Y);
+                                HexGeometry.PixelToHex(Path[0].X, path6.Y, out X, out Y);
                                 message.MessageId = 200720;
                                 message.Param[0] = 2;
                                 message.Result = -1;
@@ -794,7 +794,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 break;
                             case >= 185 and <= 194:
                                 var path7 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path7.Y, ref X, ref Y);
+                                HexGeometry.PixelToHex(Path[0].X, path7.Y, out X, out Y);
                                 message.MessageId = 200720;
                                 message.Param[0] = 3;
                                 message.Result = -1;
@@ -810,7 +810,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 break;
                             case 230:
                                 var path8 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path8.Y, ref X, ref Y);
+                                HexGeometry.PixelToHex(Path[0].X, path8.Y, out X, out Y);
                                 message.MessageId = 200721;
                                 message.Result = -1;
                                 {
@@ -851,7 +851,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         var count8 = Path.Count;
                                         var path = Path[count8 - 1];
                                         var count9 = Path.Count;
-                                        HexGeometry.PixelToHex(Path[count9 - 1].X, path.Y, ref J, ref K);
+                                        HexGeometry.PixelToHex(Path[count9 - 1].X, path.Y, out J, out K);
                                         var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[J, K];
                                         ((TacticalBattleUnit)Target).UnitHexSprite.MoveTo(mapField, 0);
                                         ((TacticalBattleUnit)Target).UnitHexSprite.OffsetX = 0;
@@ -948,7 +948,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                                 J = Random(6) + 10;
                                 var hexY = ((TacticalBattleUnit)Target).UnitHexSprite.GetHexY();
-                                HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, ref K, ref X);
+                                HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out K, out X);
                                 {
                                     I = 1;
                                     int last = J - 1;
@@ -1015,7 +1015,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 if (Frame == 125)
                                 {
                                     var path = Path[0];
-                                    HexGeometry.PixelToHex(Path[0].X, path.Y, ref I, ref J);
+                                    HexGeometry.PixelToHex(Path[0].X, path.Y, out I, out J);
                                     CombatMap.Current.CenterViewTo(I, J - 3, 0);
                                 }
 
@@ -1162,7 +1162,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref J, ref K);
                                     // { Original swaps the converted hex coordinates. }
-                                    HexGeometry.HexToPixel(J, K, ref X, ref Y);
+                                    HexGeometry.HexToPixel(J, K, out X, out Y);
                                     unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[J, K].FindOwnedChild(2228484);
                                     if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != Target.GetSide())
                                     {
@@ -1301,7 +1301,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                             var pathY = Path[Frame];
                             var pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, ref I, ref J);
+                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out I, out J);
                             CombatMap.Current.MakeVisible(I, J, 0, 3);
                         }
 
@@ -1616,7 +1616,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                             var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
-                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, ref J, ref K);
+                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, out J, out K);
                                             J = Random(20) + (J + 6);
                                             K = Random(20) + (K + 6);
                                             EffectPaths.MakeLinePath(J, K - 100, J, K, 50, ref effect.Path);
@@ -1637,7 +1637,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.PrayerGlow);
                                             var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
-                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, ref J, ref K);
+                                            HexGeometry.HexToPixel(((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, out J, out K);
                                             var xyz = new Point3D();
                                             effect.Path.Add(xyz);
                                             effect.Path[0].X = J + 16;

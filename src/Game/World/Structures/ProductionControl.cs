@@ -304,13 +304,13 @@ public partial class ProductionControl : EngineObject
     {
         ProductionTokenEvent eventValue;
         eventValue = new ProductionTokenEvent(null);
-        GetLocation(ref eventValue.X, ref eventValue.Y, ref eventValue.MapLevel);
+        GetLocation(out eventValue.X, out eventValue.Y, out eventValue.MapLevel);
         eventValue.Player = GetPlayer();
         return eventValue;
     }
 
     // Structur.PAS:776
-    public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = -1;
         Y = -1;

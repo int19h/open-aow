@@ -92,7 +92,7 @@ public partial class Enchantment : EngineObject
     public virtual int GetAIUpkeepPriority() => 0;
 
     // Spells.PAS:1704
-    public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = -1;
         Y = -1;
@@ -106,7 +106,7 @@ public partial class Enchantment : EngineObject
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        GetLocation(ref X, ref Y, ref L);
+        GetLocation(out X, out Y, out L);
         if (X != -1)
         {
             if (StrategicMap.Current.Visible(X, Y, L, 0))

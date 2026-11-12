@@ -213,7 +213,7 @@ public partial class MoveSelector : IDisposable
                                         imageIndex = direction + 41;
                                     }
 
-                                    HexGeometry.HexToPixel(x1, y1, ref pixelX, ref pixelY);
+                                    HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     if (CurrentMove == I || CurrentMove == -1)
                                     {
                                         GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
@@ -237,7 +237,7 @@ public partial class MoveSelector : IDisposable
                                         imageIndex = 48;
                                     }
 
-                                    HexGeometry.HexToPixel(x1, y1, ref pixelX, ref pixelY);
+                                    HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     if (pointsLeft - settings.Path[J].Tag != 0 && settings.Path[J + 1].MapLevel == Map.ViewL)
                                     {
@@ -250,7 +250,7 @@ public partial class MoveSelector : IDisposable
                                             imageIndex = 48;
                                         }
 
-                                        HexGeometry.HexToPixel(x2, y2, ref pixelX, ref pixelY);
+                                        HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
                                         GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     }
                                 }
@@ -265,7 +265,7 @@ public partial class MoveSelector : IDisposable
                                         imageIndex = 48;
                                     }
 
-                                    HexGeometry.HexToPixel(x1, y1, ref pixelX, ref pixelY);
+                                    HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     if (pointsLeft - settings.Path[J].Tag <= settings.MovePoints)
                                     {
@@ -276,7 +276,7 @@ public partial class MoveSelector : IDisposable
                                         imageIndex = 48;
                                     }
 
-                                    HexGeometry.HexToPixel(x2, y2, ref pixelX, ref pixelY);
+                                    HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                 }
                             }
@@ -291,7 +291,7 @@ public partial class MoveSelector : IDisposable
                         var fPathItem = settings.Path[0];
                         var item2 = settings.Path[0];
                         mapField = Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
-                        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, ref pixelX, ref pixelY);
+                        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
                         pixelY = pixelY - Map.ViewPixelY - 8;
                         if (settings.MovePoints < settings.PathMovePoints)
@@ -325,7 +325,7 @@ public partial class MoveSelector : IDisposable
                         if (J > 0 && J < settings.Path.Count - 1 && settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewL)
                         {
                             var item = settings.Path[J];
-                            HexGeometry.HexToPixel(settings.Path[J].X, item.Y, ref pixelX, ref pixelY);
+                            HexGeometry.HexToPixel(settings.Path[J].X, item.Y, out pixelX, out pixelY);
                             pixelX = pixelX - Map.ViewPixelX - 8;
                             pixelY = pixelY - Map.ViewPixelY - 8;
                             imageIndex = 41;
@@ -348,7 +348,7 @@ public partial class MoveSelector : IDisposable
                         var fPathItem = settings.Path[0];
                         var item2 = settings.Path[0];
                         mapField = Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
-                        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, ref pixelX, ref pixelY);
+                        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
                         pixelY = pixelY - Map.ViewPixelY - 8;
                         GamePack.Current.CursorImages[41].Show(pixelX, pixelY, surface);

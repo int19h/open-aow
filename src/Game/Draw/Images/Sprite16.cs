@@ -103,7 +103,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:4294
-    public override void GetVisualDimensions(ref Rect R)
+    public override void GetVisualDimensions(out Rect R)
     {
         R.Left = _xshift + _spriteX;
         R.Right = R.Left + _spriteWidth;
@@ -502,7 +502,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 _storedPixelFormatId = lSD.PixelFormatId;
                 PixelFormatId = _storedPixelFormatId;
                 _colorKey = _transparentColor;
-                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, ref mr);
+                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, out mr);
                 left = mr.Left;
                 _spriteX = left - gr.Left;
                 top = mr.Top;

@@ -186,7 +186,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:162
-    public override void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
+    public override void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         MapCoordinate location = default;
         location.Packed = GetLocation();
@@ -256,14 +256,14 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
             leader = Leader;
             if (leader == troop)
             {
-                leader.GetLocation(ref x1, ref y1, ref l1);
+                leader.GetLocation(out x1, out y1, out l1);
                 Leader = null;
                 LeaderId = -1;
                 I = Count;
                 while (I != 0 && Leader == null)
                 {
                     I -= 1;
-                    this[I].GetLocation(ref x2, ref y2, ref l2);
+                    this[I].GetLocation(out x2, out y2, out l2);
                     if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
                         SetLeader(this[I]);
@@ -328,7 +328,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         // { Reach the leader through its field. }
         if (Leader != null)
         {
-            Leader.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+            Leader.GetLocation(out location.X, out location.Y, out location.MapLevel);
             location.Tag = 0;
         }
         else
@@ -394,7 +394,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         locations = new MapCoordinateList();
         for (int I = Count - 1; I >= 0; I--)
         {
-            GetUnit(I).GetLocation(ref X, ref Y, ref L);
+            GetUnit(I).GetLocation(out X, out Y, out L);
             locations.Add(HexGeometry.PackMapCoordinate(X, Y, L));
         }
 
@@ -648,8 +648,8 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         sbyte l2 = default;
         if (Leader != null)
         {
-            GetLocation(ref x1, ref y1, ref l1);
-            troop.GetLocation(ref x2, ref y2, ref l2);
+            GetLocation(out x1, out y1, out l1);
+            troop.GetLocation(out x2, out y2, out l2);
             if (l1 == l2 && HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) <= 2)
             {
                 AddUnit(troop);

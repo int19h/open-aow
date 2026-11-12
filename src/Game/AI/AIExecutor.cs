@@ -31,7 +31,7 @@ public partial class AIExecutor : EngineObject
 
     public int ProcessCycles { get; set; }
 
-    private ByteList _players;
+    private readonly ByteList _players;
 
     public sbyte Player { get; private set; }
 
@@ -40,8 +40,8 @@ public partial class AIExecutor : EngineObject
     public Set<AIExecutorStatusElement> Status { get; private set; }
 
     private bool _tokenControlDone;
-    private AIExecutorProcessTimeMode _processTimeMode;
-    private int _processTime;
+    private readonly AIExecutorProcessTimeMode _processTimeMode;
+    private readonly int _processTime;
     private int _processTimeUsed;
     private int _processStarted;
     private int _tokenCycles;

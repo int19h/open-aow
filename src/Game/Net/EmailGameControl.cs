@@ -26,7 +26,7 @@ public partial class EmailGameControl : EngineObject
         _games = new EmailGameList(null);
     }
 
-    private EmailGameList _games;
+    private readonly EmailGameList _games;
 
     // Diplomacy.pas:2495
     public override void Dispose()

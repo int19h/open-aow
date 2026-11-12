@@ -13,7 +13,7 @@ namespace Aow.Engine;
 public partial class PluginControl : EngineObject
 {
     private GameEngine _engine;
-    private StringList _usedPlugins;
+    private readonly StringList _usedPlugins;
 
     // Engine.pas:9279
     internal void SetUsedPlugins(StringCollection value)

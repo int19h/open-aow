@@ -19,7 +19,7 @@ public partial class PlayerStructureIncomeSource : IncomeSource
     public override int Income() => _structure.GetIncome();
 
     // Structur.PAS:2496
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = _structure.HexX;
         Y = _structure.HexY;

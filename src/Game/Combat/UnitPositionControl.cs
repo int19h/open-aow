@@ -39,7 +39,7 @@ public partial class UnitPositionControl : EngineObject
         if (message.MessageId == 65541)
         {
             L = message.Data[1];
-            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref X, ref Y);
+            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out X, out Y);
             if (CombatMap.Current.MapContainer.GetField(X, Y, L).TerrainType != 15)
             {
                 hexSprite = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);

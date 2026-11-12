@@ -12,7 +12,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     private bool _linked;
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
     private ImageLibraryManager _imageLibraryManager;
-    private CustomImageLibrary _imageLibrary;
+    private readonly CustomImageLibrary _imageLibrary;
 
     // ImageLib.pas:8903
     public ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary)
@@ -429,7 +429,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     }
 
     // ImageLib.pas:9247
-    public void GetDimensions(int index, ref Rect R)
+    public void GetDimensions(int index, out Rect R)
     {
         ImageSequence sequence;
         Rect sr = default;
@@ -442,8 +442,8 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             sequence = List[index];
             while (sequence != null)
             {
-                sequence.GetDimensions(ref sr);
-                UnionRect(ref R, R, sr);
+                sequence.GetDimensions(out sr);
+                UnionRect(out R, R, sr);
                 sequence = sequence.Next;
             }
         }

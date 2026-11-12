@@ -138,7 +138,7 @@ public partial class Altar : PlayerStructure
             storm = CreateStorm();
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
-            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, ref damage))
+            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, out damage))
             {
                 value = damage.EnemyDamage - damage.FriendlyDamage;
                 if ((double)value > (double)TargetMana() * 0.75)
@@ -147,13 +147,13 @@ public partial class Altar : PlayerStructure
                     var targetMana = TargetMana();
                     if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.AIBudget.DefaultBudget, true))
                     {
-                        BattleFieldInfo.SetupBattleFieldInfo(ref friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
                         var hexLevel2 = GetHexLevel();
                         var hexY2 = GetHexY();
                         var hexX = GetHexX();
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
-                        BattleFieldInfo.SetupBattleFieldInfo(ref enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         var hexLevel3 = GetHexLevel();
                         var hexY3 = GetHexY();
                         var hexX2 = GetHexX();

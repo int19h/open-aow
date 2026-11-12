@@ -253,7 +253,7 @@ public class StringList : StringCollection
     public override int Add(string value)
     {
         int i = count;
-        if (Sorted && Find(value, ref i))
+        if (Sorted && Find(value, out i))
         {
             if (Duplicates == Duplicates.Ignore) return i;
             if (Duplicates == Duplicates.Error) Error("String list does not allow duplicates", 0);
@@ -277,7 +277,7 @@ public class StringList : StringCollection
     public override void Exchange(int first, int second) { Check(first); Check(second); Changing(); (items[first], items[second]) = (items[second], items[first]); Changed(); }
 
     // CLASSES.PAS TStringList.Find. dupAccept keeps searching to the left.
-    public bool Find(string value, ref int index)
+    public bool Find(string value, out int index)
     {
         bool result = false; int low = 0, high = count - 1;
         while (low <= high)
@@ -294,7 +294,7 @@ public class StringList : StringCollection
     {
         if (!Sorted) return base.IndexOf(value);
         int index = 0;
-        return Find(value, ref index) ? index : -1;
+        return Find(value, out index) ? index : -1;
     }
 
     // CLASSES.PAS TStringList.Sort and QuickSort.

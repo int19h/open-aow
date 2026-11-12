@@ -113,7 +113,7 @@ public partial class CombatChoice : DataModule
         R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HexGeometry.HexToPixel(_request.X, _request.Y, ref X, ref Y);
+        HexGeometry.HexToPixel(_request.X, _request.Y, out X, out Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -126,7 +126,7 @@ public partial class CombatChoice : DataModule
             Y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, R, out viewSurfaceDescription);
         StrategicMap.Current.SetViewPort(X, Y, _request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

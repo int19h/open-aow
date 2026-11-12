@@ -44,7 +44,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     if (Armies.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Idle)
                     {
                         settings = new AIMoveControlSettings(null);
-                        Armies.GetArmies(I).RetrieveArmy(255, ref armyHexSprite, ref selection);
+                        Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out selection);
                         settings.Setup(armyHexSprite, selection, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
                         settings.Transporter = Executor.Transporter.Troop;
                         settings.OnDone += CalculateTransportPathCallback;
@@ -490,7 +490,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         if (transporting != 0)
         {
             settings = new MoveControlSettings(null);
-            army.RetrieveArmy(transporting, ref armyHexSprite, ref selection);
+            army.RetrieveArmy(transporting, out armyHexSprite, out selection);
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
             settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
@@ -537,7 +537,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         if (transporting == 0 && others != 0)
         {
             settings = new MoveControlSettings(null);
-            army.RetrieveArmy(others, ref armyHexSprite, ref selection);
+            army.RetrieveArmy(others, out armyHexSprite, out selection);
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
             settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
@@ -627,7 +627,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             if (found)
             {
                 settings = new MoveControlSettings(null);
-                Armies.GetArmies(I).RetrieveArmy(255, ref armyHexSprite, ref selection);
+                Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out selection);
                 settings.SetupArmy(armyHexSprite, selection);
                 settings.SetSourcePosition(_meetingPoint.X, _meetingPoint.Y, _meetingPoint.MapLevel);
                 settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);

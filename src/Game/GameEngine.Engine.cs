@@ -41,10 +41,10 @@ namespace Aow.Game;
 public partial class GameEngine : ENode
 {
     private int _messageCount;
-    private List<EngineClass> _engineClasses;
-    private Dictionary<int, EngineClass> _classTable;
-    private EngineObjectEditorList _editors;
-    private EControlStyleNode _controlNode;
+    private readonly List<EngineClass> _engineClasses;
+    private readonly Dictionary<int, EngineClass> _classTable;
+    private readonly EngineObjectEditorList _editors;
+    private readonly EControlStyleNode _controlNode;
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
@@ -65,7 +65,7 @@ public partial class GameEngine : ENode
     private static bool s_fullConstruction;
 
     // The map and game dispose work runs only after Create's constructor finishes.
-    private bool _fullInstance;
+    private readonly bool _fullInstance;
 
     // Engine.pas:8814
     public override GameEngine GetEngine() => this;
@@ -236,7 +236,7 @@ public partial class GameEngine : ENode
     public void ResetMessageCount()
     {
         EngineMessage message = default;
-        InitializeMessage(ref message, 1, this, _messageCount + 1);
+        InitializeMessage(out message, 1, this, _messageCount + 1);
         MessageProc(ref message, this);
         _messageCount = 0;
     }
@@ -305,7 +305,7 @@ public partial class GameEngine : ENode
     public void ActivateEngineObject(EngineObject objectValue)
     {
         EngineMessage message = default;
-        EngineMessage.InitializeMessage(ref message, 536870920, this);
+        EngineMessage.InitializeMessage(out message, 536870920, this);
         message.Payload = this;
         objectValue.MessageProc(ref message, this);
     }
@@ -650,7 +650,7 @@ public partial class GameEngine : ENode
 
     internal const EngineModeElement VerifyClasses = 0;
 
-    private static void InitializeMessage(ref EngineMessage message, int messageId, EngineObject sender, int sequence)
+    private static void InitializeMessage(out EngineMessage message, int messageId, EngineObject sender, int sequence)
     {
         message = default;
         message.MessageId = messageId;

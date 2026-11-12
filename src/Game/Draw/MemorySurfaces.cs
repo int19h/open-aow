@@ -19,7 +19,7 @@ internal static class MemorySurfaces
             Palette = palette,
             ClipRectangle = new Rect(0, 0, w, h)
         };
-        PixelFormatIdToMask(format, ref lockedSurface.RMask, ref lockedSurface.GMask, ref lockedSurface.BMask, ref lockedSurface.AMask);
+        PixelFormatIdToMask(format, out lockedSurface.RMask, out lockedSurface.GMask, out lockedSurface.BMask, out lockedSurface.AMask);
         return lockedSurface;
     }
 
@@ -41,7 +41,7 @@ internal static class MemorySurfaces
         return result;
     }
 
-    private static int PixelFormatIdToMask(int pixelFormatId, ref int rMask, ref int gMask, ref int bMask, ref int mask)
+    private static int PixelFormatIdToMask(int pixelFormatId, out int rMask, out int gMask, out int bMask, out int mask)
     {
         Span<byte> order = stackalloc byte[4];
         Span<int> masks = stackalloc int[4];

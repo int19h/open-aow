@@ -12,7 +12,7 @@ public partial class TacticalBattlePlayer : CombatPlayer
     public bool Auto { get; private set; }
     public bool EndTurn { get; }
 
-    private sbyte _index;
+    private readonly sbyte _index;
 
     public int LastX { get; set; }
     public int LastY { get; set; }

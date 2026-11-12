@@ -30,7 +30,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
-    private List<HexSprite> _locationHexSprite;
+    private readonly List<HexSprite> _locationHexSprite;
 
     internal EventStore<ECustomNode> OnSelectStore { get; }
 
@@ -162,7 +162,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
         SelectLocation(pixelX, pixelY, hexLevel);
     }
 
