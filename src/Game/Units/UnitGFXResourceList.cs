@@ -7,8 +7,16 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-public partial class UnitGFXResourceList : EResourceList
+public partial class UnitGFXResourceList : EResourceList, IChildList<UnitGraphicsResource>
 {
+    // The unit graphics in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a UnitGraphicsResource, so the cast never fails.
+    public new UnitGraphicsResource this[int index] => (UnitGraphicsResource)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is UnitGraphicsResource;
+
+    int IChildSink<UnitGraphicsResource>.AddChild(UnitGraphicsResource child) => AddChild(child);
+
     // UnitHS.PAS:133
     public UnitGFXResourceList(ECustomNode owner) : base(owner)
     {
@@ -21,7 +29,7 @@ public partial class UnitGFXResourceList : EResourceList
         UnitGraphicsResource result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (UnitGraphicsResource)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -39,7 +47,7 @@ public partial class UnitGFXResourceList : EResourceList
         {
             if (_children.List[I] != null)
             {
-                list.AddObject(((UnitGraphicsResource)Children[I]).Name, IntToObject(I));
+                list.AddObject(this[I].Name, IntToObject(I));
             }
         }
     }

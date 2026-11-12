@@ -210,7 +210,7 @@ public sealed class UncheckedOwnerCastTests
             _enchantmentId = 7,
             EnchantmentType = GlobalEnchantmentType.Flood,
         };
-        scope.Map.GlobalMagicControl.Enchantments._children.Add(enchantment);
+        scope.Map.GlobalMagicControl.Enchantments.AddChild(enchantment);
         scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.SpellWard);
         var caster = new DisjunctionSpellCaster(null!) { CasterSourceId = 42, EnchantmentId = 7 };
         string reason = "";

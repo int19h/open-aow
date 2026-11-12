@@ -8,8 +8,16 @@ namespace Aow.Game.World.Map;
 
 // A map level owns its fields in row order. The fields are its children.
 // Field size and neighbour offsets keep the recovered layout values.
-public partial class MapLevel : ECustomNode
+public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<MapContainer>
 {
+    // The container the level belongs to. AcceptsOwner admits only a container, so the cast never
+    // fails.
+    public new MapContainer Owner { get => (MapContainer)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is MapContainer;
+
+    void IOwnedSink<MapContainer>.SetOwner(MapContainer owner) => SetOwner(owner);
+
     // HSEngine.pas:2837
     public new const int ClassId = 65794;
 
@@ -43,7 +51,7 @@ public partial class MapLevel : ECustomNode
         if (message.MessageId == 536870920)
         {
             Engine = message.Payload.As<GameEngine>();
-            _mapContainer = (MapContainer)Owner;
+            _mapContainer = Owner;
             _map = _mapContainer.Map;
         }
         else

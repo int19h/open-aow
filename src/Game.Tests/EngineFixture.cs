@@ -138,12 +138,41 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
+    internal sealed class ContainerOwner(Owner recorder) : MapContainer(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    // A map makes its selection and visibility lists in its constructor. They stay its own
+    // children, and forwarding starts once the map is built.
+    internal sealed class MapOwner : HSMap, IForwarder
+    {
+        private readonly Owner _recorder;
+
+        public MapOwner(Owner recorder) : base(null!)
+        {
+            _recorder = recorder;
+        }
+
+        public Owner Recorder => _recorder;
+
+        public override int AddChild(EngineObject child) => _recorder is null ? base.AddChild(child) : _recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => _recorder is null ? base.RemoveChild(child) : _recorder.RemoveChild(child);
+    }
+
     // The owner a construction test passes for the type: the recorder itself, or an owner of the
     // type's owner type that forwards to it.
     internal static ECustomNode OwnerFor(Type type, Owner recorder) =>
         recorder is null ? null!
         : typeof(Draw.HexSprite).IsAssignableFrom(type) ? new FieldOwner(recorder)
         : typeof(MapField).IsAssignableFrom(type) ? new LevelOwner(recorder)
+        : typeof(MapLevel).IsAssignableFrom(type) ? new ContainerOwner(recorder)
+        : typeof(MapContainer).IsAssignableFrom(type) || typeof(VisibilityList).IsAssignableFrom(type) || typeof(HexSpriteSelection).IsAssignableFrom(type) ? new MapOwner(recorder)
         : typeof(Session.Race).IsAssignableFrom(type) ? new RaceListOwner(recorder)
         : typeof(World.Structures.ProductionItem).IsAssignableFrom(type) ? new QueueOwner(recorder)
         : recorder;

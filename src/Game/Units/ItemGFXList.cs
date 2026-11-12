@@ -6,8 +6,16 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, engine, control style
-public partial class ItemGFXList : EResourceList
+public partial class ItemGFXList : EResourceList, IChildList<ItemGraphics>
 {
+    // The item graphics in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a ItemGraphics, so the cast never fails.
+    public new ItemGraphics this[int index] => (ItemGraphics)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is ItemGraphics;
+
+    int IChildSink<ItemGraphics>.AddChild(ItemGraphics child) => AddChild(child);
+
     // Army.PAS:5176
     public ItemGFXList(ECustomNode owner) : base(owner)
     {
@@ -20,7 +28,7 @@ public partial class ItemGFXList : EResourceList
         ItemGraphics result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (ItemGraphics)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -38,7 +46,7 @@ public partial class ItemGFXList : EResourceList
         I = 0;
         while (result == -1 && I != _children.Count)
         {
-            if (_children.List[I] != null && ((ItemGraphics)_children.List[I]).ItemType == itemType)
+            if (_children.List[I] != null && this[I].ItemType == itemType)
             {
                 result = I;
             }

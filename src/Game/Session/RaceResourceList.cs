@@ -5,8 +5,16 @@ using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
-public partial class RaceResourceList : EResourceList
+public partial class RaceResourceList : EResourceList, IChildList<RaceResource>
 {
+    // The race resource in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a RaceResource, so the cast never fails.
+    public new RaceResource this[int index] => (RaceResource)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is RaceResource;
+
+    int IChildSink<RaceResource>.AddChild(RaceResource child) => AddChild(child);
+
     // PlayerC.PAS:1890
     public RaceResourceList(ECustomNode owner) : base(owner)
     {
@@ -19,7 +27,7 @@ public partial class RaceResourceList : EResourceList
         RaceResource result;
         if (index < GetCount() && index >= 0)
         {
-            result = (RaceResource)_children.List[index];
+            result = this[index];
         }
         else
         {

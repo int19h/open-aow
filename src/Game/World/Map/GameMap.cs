@@ -176,7 +176,7 @@ public partial class GameMap : HSMap
 
                 for (int X = 0, last = DynamicFixedVisibleHexSprite.Count - 1; X <= last; X++)
                 {
-                    ((HexSprite)DynamicFixedVisibleHexSprite.GetChild(X)).MakeVisible(DynamicVisibleHexSprite);
+                    DynamicFixedVisibleHexSprite[X].MakeVisible(DynamicVisibleHexSprite);
                 }
 
                 DynamicVisibleHexSprite.Sort();

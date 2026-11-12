@@ -4,15 +4,27 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Engine.Nodes;
 
 // resources with unique ids
-public partial class EResourceList : ECustomOwner
+public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
 {
     public new const int ClassId = 1025;
+
+    // The resource in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a resource, so the cast never fails.
+    public EngineResource this[int index] => (EngineResource)_children.List[index];
+
+    // A resource list takes resources only. A list of one kind of resource narrows that through
+    // AcceptsResource, and cannot widen it.
+    protected sealed override bool AcceptsChild(EngineObject child) => child is EngineResource resource && AcceptsResource(resource);
+
+    protected virtual bool AcceptsResource(EngineResource resource) => true;
+
+    int IChildSink<EngineResource>.AddChild(EngineResource child) => AddChild(child);
 
     public EResourceList(ECustomNode owner) : base(owner)
     { }
 
     // Engine.pas:8573
-    protected internal EngineResource GetResource(int index) => (EngineResource)_children.List[index];
+    protected internal EngineResource GetResource(int index) => this[index];
 
     // Engine.pas:8578
     public virtual void ResourceChanged()
@@ -29,13 +41,13 @@ public partial class EResourceList : ECustomOwner
         I = 0;
         while (!found && I != this._children.Count)
         {
-            found = this._children.List[I] != null && id == ((EngineResource)this._children.List[I])._resourceId;
+            found = this._children.List[I] != null && id == this[I]._resourceId;
             I += 1;
         }
 
         if (found)
         {
-            result = (EngineResource)this._children.List[I - 1];
+            result = this[I - 1];
         }
         else
         {

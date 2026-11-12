@@ -48,7 +48,7 @@ public partial class AbstractRoad : MapObject
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                if (((AbstractRoadResource)_resource).GetRoadControl().Place((MapContainer)Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
+                if (((AbstractRoadResource)_resource).GetRoadControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
                 {
                     Dispose();
                 }

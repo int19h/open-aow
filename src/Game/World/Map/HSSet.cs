@@ -18,10 +18,18 @@ namespace Aow.Game.World.Map;
 // uses (an.hss file, THSEngine.LoadHSS). ReadWrite stores the name (id 4), the map object
 // resources (5), the resource edit settings (6) and the plug-ins (7). the type name lists are
 // filled by the game (TAoWHSSet.Create) and not stored
-public partial class HSSet : ECustomOwner
+public partial class HSSet : ECustomOwner, IChildList<HSSetChild>
 {
     // HSEngine.pas:3394
     public new const int ClassId = 66049;
+
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only the kinds of HSSetChild, so the read never fails.
+    public HSSetChild this[int index] => HSSetChild.Of(_children.List[index]);
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is EResourceList or MapObjectResourceTerrainControl or ControlStyleObject;
+
+    int IChildSink<HSSetChild>.AddChild(HSSetChild child) => AddChild(child.Node);
 
     public HSSet(ECustomNode owner) : this(null, owner) { }
 

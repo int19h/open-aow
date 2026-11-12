@@ -9,8 +9,23 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-public partial class MapContainer : ENode
+public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, IOwnedSink<HSMap>
 {
+    // The level in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a level, so the cast never fails.
+    public MapLevel this[int index] => (MapLevel)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is MapLevel;
+
+    int IChildSink<MapLevel>.AddChild(MapLevel child) => AddChild(child);
+
+    // The map the container belongs to. AcceptsOwner admits only a map, so the cast never fails.
+    public new HSMap Owner { get => (HSMap)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is HSMap;
+
+    void IOwnedSink<HSMap>.SetOwner(HSMap owner) => SetOwner(owner);
+
     // HSEngine.pas:3208
     public new const int ClassId = 65795;
 
@@ -24,7 +39,7 @@ public partial class MapContainer : ENode
     public override void SetOwner(ECustomNode owner)
     {
         base.SetOwner(owner);
-        _map = (HSMap)owner;
+        _map = Owner;
     }
 
     // HSEngine.pas:3203
@@ -39,7 +54,7 @@ public partial class MapContainer : ENode
         base.ReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            _map = (HSMap)Owner;
+            _map = Owner;
             _engine = stream.Engine;
             _map.MapContainer = this;
         }
@@ -58,7 +73,7 @@ public partial class MapContainer : ENode
     // HSEngine.pas:3197
     public override void MainReadWrite(EStorageStream stream)
     {
-        if (!((HSMap)Owner).Status.Contains(HexSpriteMapStatusElement.PreviewMode))
+        if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))
         {
             base.MainReadWrite(stream);
         }
@@ -103,8 +118,8 @@ public partial class MapContainer : ENode
     {
         if (index >= 0 && index < _children.Count)
         {
-            ((MapLevel)_children.List[index]).DestroyHexSprite();
-            ((MapLevel)_children.List[index])?.Dispose();
+            this[index].DestroyHexSprite();
+            this[index]?.Dispose();
             _levelCount -= 1;
         }
     }
@@ -166,19 +181,19 @@ public partial class MapContainer : ENode
     {
         for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
-            ((MapLevel)_children.List[I]).UpdateTerrain();
+            this[I].UpdateTerrain();
         }
     }
 
     // HSEngine.pas:3224
-    public MapLevel GetMapLevel(int index) => (MapLevel)_children.List[index];
+    public MapLevel GetMapLevel(int index) => this[index];
 
     // HSEngine.pas:3331
     public void Loaded()
     {
         for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
-            ((MapLevel)_children.List[I]).Loaded();
+            this[I].Loaded();
         }
     }
 
@@ -187,7 +202,7 @@ public partial class MapContainer : ENode
     {
         for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
-            ((MapLevel)_children.List[I]).Activate();
+            this[I].Activate();
         }
     }
 

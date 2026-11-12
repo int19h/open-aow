@@ -123,7 +123,7 @@ public partial class TokenEventList : EngineObject
     public void Insert(int index, TokenEvent tokenEvent)
     {
         tokenEvent.AddRef();
-        List._children.Insert(index, tokenEvent);
+        List.InsertChild(index, tokenEvent);
     }
 
     public int Count { get => GetCount(); }

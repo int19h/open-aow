@@ -77,9 +77,9 @@ internal static class FrameFixtureChecks
             Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
 
             var players = new PlayerList(null!) { _children = new EngineObjectList() };
-            players._children.Add(new Player(null!) { Status = PlayerStatus.Playing });
-            players._children.Add(new Player(null!) { Status = PlayerStatus.Terminated });
-            players._children.Add(new Player(null!) { Status = PlayerStatus.Playing });
+            players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
+            players.AddChild(new Player(null!) { Status = PlayerStatus.Terminated });
+            players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
             AoWHSMap.Current = new AoWHSMap(null!);
             AoWHSMap.Current.Players = players;
             TaskBar bar = new TaskBar(null)

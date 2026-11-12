@@ -95,9 +95,11 @@ public sealed class MapNetSoundFailureTests
     public void PlainDynamicLevelRemainsPublishedUntilDestroy()
     {
         var owner = new SoundOwner();
-        var level = new MapLevel(owner);
+        // A level takes a container as its owner. This one passes membership on to the recorder.
+        var container = new EngineFixture.ContainerOwner(owner);
+        var level = new MapLevel(container);
         Assert.Same(level, Assert.Single(owner.Members));
-        Assert.Same(owner, level.Owner);
+        Assert.Same(container, level.Owner);
         Assert.Equal(0, level.Count);
         Assert.Equal(["insert"], owner.Events);
         level.Dispose();
@@ -111,10 +113,11 @@ public sealed class MapNetSoundFailureTests
         foreach (var descriptor in new[] { EngineClass.Of<AoWMapLevel>(), EngineClass.Of<CombatMapLevel>() })
         {
             var owner = new SoundOwner();
-            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(owner));
+            var container = new EngineFixture.ContainerOwner(owner);
+            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(container));
             Assert.IsType(descriptor.Type, level);
             Assert.Same(level, Assert.Single(owner.Members));
-            Assert.Same(owner, level.Owner);
+            Assert.Same(container, level.Owner);
             Assert.Equal(0, level.Count);
             level.Dispose();
             Assert.Empty(owner.Members);

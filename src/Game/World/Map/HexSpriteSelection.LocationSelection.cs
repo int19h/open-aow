@@ -13,9 +13,9 @@ public partial class HexSpriteSelection
         MapField mapField;
         int I;
         HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
-        if (hexX >= 0 && ((HSMap)Owner).MapContainer.Width > hexX && ((HSMap)Owner).MapContainer.Height > hexY && hexY >= 0)
+        if (hexX >= 0 && Owner.MapContainer.Width > hexX && Owner.MapContainer.Height > hexY && hexY >= 0)
         {
-            mapField = ((HSMap)Owner).MapContainer.GetField(hexX, hexY, lHitPoints);
+            mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
             I = mapField.Count;
             result = false;
             while (!result && I != 0)
@@ -41,7 +41,7 @@ public partial class HexSpriteSelection
         HexSprite hexSprite;
         int I;
         HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
-        mapField = ((HSMap)Owner).MapContainer.GetField(hexX, hexY, lHitPoints);
+        mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
         I = FindLocationHexSpriteIndex(mapField) - 1;
         hexSprite = null;
         if (I < 0)

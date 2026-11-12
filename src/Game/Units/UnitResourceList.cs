@@ -5,8 +5,16 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class UnitResourceList : EResourceList
+public partial class UnitResourceList : EResourceList, IChildList<UnitResource>
 {
+    // The unit resource in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a UnitResource, so the cast never fails.
+    public new UnitResource this[int index] => (UnitResource)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is UnitResource;
+
+    int IChildSink<UnitResource>.AddChild(UnitResource child) => AddChild(child);
+
     // UnitRes.PAS:206
     public UnitResourceList(ECustomNode owner) : base(owner)
     {
@@ -19,7 +27,7 @@ public partial class UnitResourceList : EResourceList
         UnitResource result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (UnitResource)_children.List[index];
+            result = this[index];
         }
         else
         {

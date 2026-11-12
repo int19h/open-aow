@@ -40,9 +40,17 @@ namespace Aow.Game;
 // { Interface declaration run owned by P2. }
 // Version, Registry, GameMap, GameSet, CombatFont, FDebugMode, AnimationDetail, Demo,
 // Campaign, EmailGames, Dictionary, Language
-public partial class GameEngine : ENode
+public partial class GameEngine : ENode, IChildList<GameEngineChild>
 {
     public new const int ClassId = 131073;
+
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only the kinds of GameEngineChild, so the read never fails.
+    public GameEngineChild this[int index] => GameEngineChild.Of(_children.List[index]);
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is EControlStyleNode or HSSet or HSMap;
+
+    int IChildSink<GameEngineChild>.AddChild(GameEngineChild child) => AddChild(child.Node);
 
     public int Version { get; private set; }
     public GameSettings Registry { get; set; }
