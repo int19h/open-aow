@@ -450,7 +450,6 @@ public sealed class PersistRefusalTests
         "Resource",
         "Race",
         "RaceList",
-        "RaceResource",
         "RaceResourceList",
         "RaiseTerrain",
         "RaiseTerrainTokenEvent",

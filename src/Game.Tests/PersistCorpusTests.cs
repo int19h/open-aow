@@ -27,7 +27,8 @@ public sealed class PersistCorpusTests
     // These subclasses are in the installed scenarios and saves. TRaidAG, TScoutAG and the other
     // behavior groups are absent from those files. Items prove the bit array of
     // TCustomAbilityList, the ability-id list and the keyed ability data, item controls the keyed
-    // items, and the relation and tutorial lists the byte and integer lists with a stored default.
+    // items, the relation and tutorial lists the byte and integer lists with a stored default, and
+    // race resources the unit index lists.
     // Class id 80 is shared with TEObject, so a created object is not named TAbilityList.
     // TSetupSettings is not a member of a map, campaign, hero list or save. Storm and animation
     // sprites are absent from these files.
@@ -35,7 +36,7 @@ public sealed class PersistCorpusTests
     [
         "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "NormalAIGroup", "SkirmishAIGroup",
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
-        "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl",
+        "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl", "RaceResource",
     ];
 
     private static readonly string[] s_watched =
@@ -49,6 +50,7 @@ public sealed class PersistCorpusTests
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
         "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl",
         "CommandAbilityData", "CommandedAbilityData", "PossessedAbilityData", "ItemExplorationSiteEventLog",
+        "RaceResource",
     ];
 
     private readonly ITestOutputHelper _output;
@@ -80,13 +82,16 @@ public sealed class PersistCorpusTests
                 var found = GameFiles.Classify(bytes, Path.GetExtension(path));
                 if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null) continue;
                 var imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
-                Assert.Equal(3, ((JsonInteger)imported.Document["$version"]!).Value);
+                Assert.Equal(4, ((JsonInteger)imported.Document["$version"]!).Value);
                 var fromVersion1 = GameFiles.Read(GameFiles.Write(Version1Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
                 var fromVersion2 = GameFiles.Read(GameFiles.Write(Version2Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
+                var fromVersion3 = GameFiles.Read(GameFiles.Write(Version3Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
                 // Import decodes with FormatSchema.Current. The version 2 step decodes the 39 pinned
-                // properties through embedded codec specs, so the two documents are not one codec compared with itself.
+                // properties and the version 3 step the 16 pinned properties through embedded codec
+                // specs, so the documents are not one codec compared with itself.
                 EqualJson(imported.Document, fromVersion1, relative + " version 1 migration");
                 EqualJson(imported.Document, fromVersion2, relative + " version 2 migration");
+                EqualJson(imported.Document, fromVersion3, relative + " version 3 migration");
                 var root = (JsonObject)imported.Document["root"]!;
                 var classValue = found.Profile.RootHasClass
                     ? schema.Get(((JsonString)root["$class"]!).Value)
@@ -426,6 +431,9 @@ public sealed class PersistCorpusTests
         if (expected.AsSpan().SequenceEqual(actual)) return;
         Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
     }
+
+    private static JsonObject Version3Document(byte[] file, FileProfile profile, string kind, string relative) =>
+        VersionDocument(file, profile: profile, kind: kind, relative: relative, schema: ListMigration.Version3, version: 3);
 
     private static JsonObject Version2Document(byte[] file, FileProfile profile, string kind, string relative) =>
         VersionDocument(file, profile, kind, relative, RecordMigration.Version2, 2);

@@ -402,16 +402,27 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             if (objectValue["values"] is not JsonArray values) throw context.Fail(Codes.MissingMember, name + " needs values.", objectValue, path);
             array = values;
             if (objectValue["$reserved"] is JsonValue reserved)
-            {
-                if (reserved is not JsonString hex || !HexText.IsLowerHex(hex.Value) || hex.Value.Length != 2)
-                    throw context.Fail(Codes.Type, "$reserved is one lowercase hexadecimal byte.", reserved, path.Member("$reserved"));
-                residue = HexText.Decode(hex.Value)[0];
-                int used = count & 7;
-                if (used == 0 || (residue & (byte)~(0xFF << used)) != 0)
-                    throw context.Fail(Codes.Range, "$reserved keeps only the bits past the count.", reserved, path.Member("$reserved"));
-            }
+                residue = ReadResidue(reserved, count, context, path.Member("$reserved"));
         }
         else throw context.Fail(Codes.Type, name + " is an array of bit indices.", value, path, value.KindName);
+        return (ReadIndices(array, count, context, path, name), residue);
+    }
+
+    /// <summary>The residue byte of <c>$reserved</c>: one lowercase hex byte that sets only bits past the count.</summary>
+    internal static byte ReadResidue(JsonValue reserved, int count, EncodeContext context, DocumentNodePath path)
+    {
+        if (reserved is not JsonString hex || !HexText.IsLowerHex(hex.Value) || hex.Value.Length != 2)
+            throw context.Fail(Codes.Type, "$reserved is one lowercase hexadecimal byte.", reserved, path);
+        byte residue = HexText.Decode(hex.Value)[0];
+        int used = count & 7;
+        if (used == 0 || (residue & (byte)~(0xFF << used)) != 0)
+            throw context.Fail(Codes.Range, "$reserved keeps only the bits past the count.", reserved, path);
+        return residue;
+    }
+
+    /// <summary>Set bit indices: ascending, each once, each below the count.</summary>
+    internal static int[] ReadIndices(JsonArray array, int count, EncodeContext context, DocumentNodePath path, string name)
+    {
         if (array.Items.Count > context.Limits.CollectionItems)
             throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, null, "at most " + context.Limits.CollectionItems + " items");
         var indices = new int[array.Items.Count];
@@ -430,7 +441,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             previous = index;
             indices[i] = index;
         }
-        return (indices, residue);
+        return indices;
     }
 
     private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, DecodeContext context, DocumentNodePath path)
@@ -480,10 +491,7 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         if (end - start != 1) throw Mismatch(context, start, site, "A raw boolean is stored in " + (end - start) + " bytes.");
-        byte value = context.Data[start];
-        if (value == 0) return new JsonBoolean(false);
-        if (value == 1) return new JsonBoolean(true);
-        return new JsonInteger(value);
+        return Value(context.Data[start]);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -515,6 +523,14 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
         }
         throw site.Mismatch((site.Property?.Name ?? "The value") + " is a boolean.", value);
     }
+
+    /// <summary>The document value of a raw boolean byte: false, true, or the integer of any other byte.</summary>
+    internal static JsonValue Value(byte value) => value switch
+    {
+        0 => new JsonBoolean(false),
+        1 => new JsonBoolean(true),
+        _ => new JsonInteger(value),
+    };
 
     internal static byte ByteOf(EncodeContext context, JsonValue value, DocumentNodePath path, string name)
     {

@@ -1,6 +1,8 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
 
@@ -80,6 +82,22 @@ public partial class RaceResource : EngineResource
         stream.Payload(11, SpecialUnitIndexes.LoadFromStream, SpecialUnitIndexes.SaveToStream);
         stream.Int32(ref _heroUnitIndex, 12);
         stream.Lines(_heroNames, 13);
+    }
+
+    // The tree form of ReadWrite. The image library name is stored on every game path, which
+    // never sets the text-only mode.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _name = persister.String("Name", _name);
+        RaceName = persister.String("RaceName", RaceName);
+        _description = persister.String("Description", _description);
+        _imageLibraryName = persister.String("ImageLibraryName", _imageLibraryName);
+        Alignments = persister.Set("Alignments", Alignments);
+        PersistSupport.UnitIndexList(persister, "UnitIndexes", UnitIndexes);
+        PersistSupport.UnitIndexList(persister, "SpecialUnitIndexes", SpecialUnitIndexes);
+        _heroUnitIndex = persister.Int32("HeroUnitIndex", _heroUnitIndex);
+        PersistSupport.Lines(persister, "HeroNames", _heroNames);
     }
 
     // PlayerC.PAS:1798
