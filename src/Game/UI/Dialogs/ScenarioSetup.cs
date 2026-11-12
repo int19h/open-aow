@@ -25,113 +25,113 @@ public partial class ScenarioSetup : DataModule
     { }
 
     public Memo ChatMemo;
-    public VerticalScrollBar ChatSB;
+    public VerticalScrollBar ChatScrollBar;
     public Edit ChatEdit;
     public ListBox PlayerList;
-    public Button PickScenarioBtn;
-    public Button StartBtn;
-    public Panel ScenSetupPnl;
-    public Image R1PlayerIcon;
-    public ComboBox R1PlayerCB;
-    public HorizontalScrollBar TurnTimeSl;
-    public Label TurnTimeVal;
-    public HorizontalScrollBar TurnsSl;
-    public Label TurnsVal;
-    public ComboBox PlayModeCB;
-    public Label R1InfoLbl;
-    public ComboBox R1BehaviorCB;
-    public ComboBox R3BehaviorCB;
-    public Image R3PlayerIcon;
-    public Label R3PlayerLbl;
-    public ComboBox R3PlayerCB;
-    public Label R3InfoLbl;
-    public ComboBox R2BehaviorCB;
-    public Image R2PlayerIcon;
-    public Label R2InfoLbl;
-    public ComboBox R2PlayerCB;
-    public Label R2PlayerLbl;
-    public Label R4InfoLbl;
-    public Label R4PlayerLbl;
-    public ComboBox R4PlayerCB;
-    public Image R4PlayerIcon;
-    public Image R5PlayerIcon;
-    public ComboBox R5PlayerCB;
-    public ComboBox R5BehaviorCB;
-    public Label R5InfoLbl;
-    public Label R5PlayerLbl;
-    public ComboBox R6BehaviorCB;
-    public Image R6PlayerIcon;
-    public Label R6PlayerLbl;
-    public ComboBox R6PlayerCB;
-    public Label R6InfoLbl;
-    public ComboBox R7BehaviorCB;
-    public Image R7PlayerIcon;
-    public Label R7PlayerLbl;
-    public ComboBox R7PlayerCB;
-    public Label R7InfoLbl;
-    public Label R8InfoLbl;
-    public Label R8PlayerLbl;
-    public ComboBox R8BehaviorCB;
-    public ComboBox R8PlayerCB;
-    public Image R8PlayerIcon;
-    public Image R9PlayerIcon;
-    public ComboBox R9PlayerCB;
-    public ComboBox R9BehaviorCB;
-    public Label R9InfoLbl;
-    public Label R9PlayerLbl;
-    public ComboBox R10BehaviorCB;
-    public Image R10PlayerIcon;
-    public Label R10PlayerLbl;
-    public ComboBox R10PlayerCB;
-    public Label R10InfoLbl;
-    public ComboBox R11BehaviorCB;
-    public Image R11PlayerIcon;
-    public Label R11PlayerLbl;
-    public ComboBox R11PlayerCB;
-    public Label R11InfoLbl;
-    public Label R12InfoLbl;
-    public Label R12PlayerLbl;
-    public ComboBox R12BehaviorCB;
-    public ComboBox R12PlayerCB;
-    public Image R12PlayerIcon;
-    public ComboBox PreferredRaceCB;
-    public Label PreferredRaceLbl;
-    public CheckBox CustomizeLeaders;
-    public Label CustomizeLeadersLbl;
-    public Button EjectBtn;
-    public ComboBox R4BehaviorCB;
-    public Panel R1FogPnl;
-    public Label R1PlayerLbl;
-    public Panel R2FogPnl;
-    public Panel R3FogPnl;
-    public Panel R4FogPnl;
-    public Panel R8FogPnl;
-    public Panel R7FogPnl;
-    public Panel R6FogPnl;
-    public Panel R5FogPnl;
-    public Panel R12FogPnl;
-    public Panel R11FogPnl;
-    public Panel R10FogPnl;
-    public Panel R9FogPnl;
+    public Button PickScenarioButton;
+    public Button StartButton;
+    public Panel ScenarioSetupPanel;
+    public Image Side1PlayerIcon;
+    public ComboBox Side1PlayerComboBox;
+    public HorizontalScrollBar TurnTimeSlider;
+    public Label TurnTimeValueLabel;
+    public HorizontalScrollBar TurnsSlider;
+    public Label TurnsValueLabel;
+    public ComboBox PlayModeComboBox;
+    public Label Side1InfoLabel;
+    public ComboBox Side1BehaviorComboBox;
+    public ComboBox Side3BehaviorComboBox;
+    public Image Side3PlayerIcon;
+    public Label Side3PlayerLabel;
+    public ComboBox Side3PlayerComboBox;
+    public Label Side3InfoLabel;
+    public ComboBox Side2BehaviorComboBox;
+    public Image Side2PlayerIcon;
+    public Label Side2InfoLabel;
+    public ComboBox Side2PlayerComboBox;
+    public Label Side2PlayerLabel;
+    public Label Side4InfoLabel;
+    public Label Side4PlayerLabel;
+    public ComboBox Side4PlayerComboBox;
+    public Image Side4PlayerIcon;
+    public Image Side5PlayerIcon;
+    public ComboBox Side5PlayerComboBox;
+    public ComboBox Side5BehaviorComboBox;
+    public Label Side5InfoLabel;
+    public Label Side5PlayerLabel;
+    public ComboBox Side6BehaviorComboBox;
+    public Image Side6PlayerIcon;
+    public Label Side6PlayerLabel;
+    public ComboBox Side6PlayerComboBox;
+    public Label Side6InfoLabel;
+    public ComboBox Side7BehaviorComboBox;
+    public Image Side7PlayerIcon;
+    public Label Side7PlayerLabel;
+    public ComboBox Side7PlayerComboBox;
+    public Label Side7InfoLabel;
+    public Label Side8InfoLabel;
+    public Label Side8PlayerLabel;
+    public ComboBox Side8BehaviorComboBox;
+    public ComboBox Side8PlayerComboBox;
+    public Image Side8PlayerIcon;
+    public Image Side9PlayerIcon;
+    public ComboBox Side9PlayerComboBox;
+    public ComboBox Side9BehaviorComboBox;
+    public Label Side9InfoLabel;
+    public Label Side9PlayerLabel;
+    public ComboBox Side10BehaviorComboBox;
+    public Image Side10PlayerIcon;
+    public Label Side10PlayerLabel;
+    public ComboBox Side10PlayerComboBox;
+    public Label Side10InfoLabel;
+    public ComboBox Side11BehaviorComboBox;
+    public Image Side11PlayerIcon;
+    public Label Side11PlayerLabel;
+    public ComboBox Side11PlayerComboBox;
+    public Label Side11InfoLabel;
+    public Label Side12InfoLabel;
+    public Label Side12PlayerLabel;
+    public ComboBox Side12BehaviorComboBox;
+    public ComboBox Side12PlayerComboBox;
+    public Image Side12PlayerIcon;
+    public ComboBox PreferredRaceComboBox;
+    public Label PreferredRaceLabel;
+    public CheckBox CustomizeLeadersCheckBox;
+    public Label CustomizeLeadersLabel;
+    public Button EjectButton;
+    public ComboBox Side4BehaviorComboBox;
+    public Panel Side1FogPanel;
+    public Label Side1PlayerLabel;
+    public Panel Side2FogPanel;
+    public Panel Side3FogPanel;
+    public Panel Side4FogPanel;
+    public Panel Side8FogPanel;
+    public Panel Side7FogPanel;
+    public Panel Side6FogPanel;
+    public Panel Side5FogPanel;
+    public Panel Side12FogPanel;
+    public Panel Side11FogPanel;
+    public Panel Side10FogPanel;
+    public Panel Side9FogPanel;
     public ListBox PreferredRaceList;
     public ListBox PingList;
-    public VerticalScrollBar PlayerListSB;
-    public Panel SettingsFogPnl;
-    public CheckBox Exploration;
-    public Label ScenarioLbl;
-    public Label HostNameLbl;
-    public Label PlayerNameLbl;
-    public Label FileNameLbl;
-    public Button MakeHostBtn;
-    public Panel RestartSettingsFogPnl;
-    public Image ChatFogPnl;
-    public CheckBox LeadersOnMapCB;
-    public CheckBox AlliedVictoryCB;
-    public Label AlliedVictoryLbl;
-    public ComboBox TacticalCombatCB;
-    public Label TacticalCombatLbl;
-    public CheckBox AlwaysViewTCCB;
-    public Label AlwaysViewTCLbl;
+    public VerticalScrollBar PlayerListScrollBar;
+    public Panel SettingsFogPanel;
+    public CheckBox ExplorationCheckBox;
+    public Label ScenarioLabel;
+    public Label HostNameLabel;
+    public Label PlayerNameLabel;
+    public Label FileNameLabel;
+    public Button MakeHostButton;
+    public Panel RestartSettingsFogPanel;
+    public Image ChatFogImage;
+    public CheckBox LeadersOnMapCheckBox;
+    public CheckBox AlliedVictoryCheckBox;
+    public Label AlliedVictoryLabel;
+    public ComboBox TacticalCombatComboBox;
+    public Label TacticalCombatLabel;
+    public CheckBox AlwaysViewTacticalCombatCheckBox;
+    public Label AlwaysViewTacticalCombatLabel;
 
     public int ValidateDelay { get; private set; }
     public SetupControl SetupControl { get; set; }
@@ -143,14 +143,14 @@ public partial class ScenarioSetup : DataModule
     {
         byte availability;
         SetupControl = control;
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        ScenSetupPnl.Visible = true;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        ScenarioSetupPanel.Visible = true;
         ChatMemo.Items.Clear();
         ChatEdit.Text = "";
         ValidateDelay = 100;
         PingDelay = 15;
         var remote = SetupControl.GetRemote();
-        ChatFogPnl.Visible = !remote;
+        ChatFogImage.Visible = !remote;
         var fSetupControlRemote = SetupControl.GetRemote();
         ChatMemo.CaptureInput = fSetupControlRemote;
         var remote2 = SetupControl.GetRemote();
@@ -162,39 +162,39 @@ public partial class ScenarioSetup : DataModule
 
         if (SetupControl.GetRemote())
         {
-            TacticalCombatCB.Visible = true;
-            TacticalCombatLbl.Visible = true;
-            TacticalCombatCB.Items.Clear();
+            TacticalCombatComboBox.Visible = true;
+            TacticalCombatLabel.Visible = true;
+            TacticalCombatComboBox.Items.Clear();
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
                 availability = (byte)availabilityOrdinal;
                 var tacticalBattleAvailability = AbilityRules.TranslateResourceString(s_tacticalCombatAvailabilityTexts[availability]);
-                TacticalCombatCB.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
+                TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
             }
         }
         else
         {
-            TacticalCombatCB.Visible = false;
-            TacticalCombatLbl.Visible = false;
+            TacticalCombatComboBox.Visible = false;
+            TacticalCombatLabel.Visible = false;
         }
 
         if (SetupControl.Settings.ConnectionType == 2)
         {
-            CustomizeLeadersLbl.TextColor = 8421504;
-            CustomizeLeaders.CaptureInput = false;
-            PlayModeCB.Items.Clear();
+            CustomizeLeadersLabel.TextColor = 8421504;
+            CustomizeLeadersCheckBox.CaptureInput = false;
+            PlayModeComboBox.Items.Clear();
             var classic = AbilityRules.TranslateResourceString(s_classicText);
-            PlayModeCB.Items.AddObject(classic, IntToObject(1));
+            PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
         else
         {
-            CustomizeLeadersLbl.TextColor = AlliedVictoryLbl.TextColor;
-            CustomizeLeaders.CaptureInput = true;
-            PlayModeCB.Items.Clear();
+            CustomizeLeadersLabel.TextColor = AlliedVictoryLabel.TextColor;
+            CustomizeLeadersCheckBox.CaptureInput = true;
+            PlayModeComboBox.Items.Clear();
             var simultaneous = AbilityRules.TranslateResourceString(s_simultaneousText);
-            PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
+            PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
             var classic = AbilityRules.TranslateResourceString(s_classicText);
-            PlayModeCB.Items.AddObject(classic, IntToObject(1));
+            PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
 
         bool condition = AudioHost.SongPlayer.CurrentIndex == -1;
@@ -217,7 +217,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:579
     public void CloseSetup()
     {
-        ScenSetupPnl.Visible = false;
+        ScenarioSetupPanel.Visible = false;
         SetupControl = null;
     }
 
@@ -225,7 +225,7 @@ public partial class ScenarioSetup : DataModule
     public void PickMap()
     {
         DialogHosts.FileDialogWindow.Mode = 2;
-        DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+        DialogHosts.FileDialogWindow.Window.Visible = true;
     }
 
     // AoWScenSetup.pas:257
@@ -253,13 +253,13 @@ public partial class ScenarioSetup : DataModule
                     }
                 }
 
-                if (DialogHosts.SetupEvents.DPlay.Connected)
+                if (DialogHosts.SetupEvents.DirectPlay.Connected)
                 {
-                    DialogHosts.SetupEvents.DPlay.CloseSession();
+                    DialogHosts.SetupEvents.DirectPlay.CloseSession();
                 }
             }
 
-            DialogHosts.SetupEvents.DPlay.DisConnect();
+            DialogHosts.SetupEvents.DirectPlay.DisConnect();
             CloseSetup();
             if (DialogHosts.SetupEvents.LobbyGame)
             {
@@ -294,15 +294,15 @@ public partial class ScenarioSetup : DataModule
             {
                 if (SetupControl.Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.Invalid)
                 {
-                    DialogHosts.UIFonts.Age8s.Color = 255;
-                    DialogHosts.UIFonts.Age8s.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
+                    DialogHosts.UIFonts.Age8Shadow.Color = 255;
+                    DialogHosts.UIFonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
                 }
                 else
                 {
                     if (SetupControl.Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.InvalidMap)
                     {
-                        DialogHosts.UIFonts.Age8s.Color = 32768;
-                        DialogHosts.UIFonts.Age8s.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
+                        DialogHosts.UIFonts.Age8Shadow.Color = 32768;
+                        DialogHosts.UIFonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
                     }
                 }
             }
@@ -319,9 +319,9 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:364
     public void PreferredRaceCBChange()
     {
-        if (PreferredRaceCB.Selected >= 0)
+        if (PreferredRaceComboBox.Selected >= 0)
         {
-            var objectValue = PreferredRaceCB.Items.Objects[PreferredRaceCB.Selected];
+            var objectValue = PreferredRaceComboBox.Items.Objects[PreferredRaceComboBox.Selected];
             SetupControl.SetPreferredRace((byte)ObjectToInt(objectValue));
         }
     }
@@ -365,9 +365,9 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:392
     public void PlayerListSBChange()
     {
-        PlayerList.ListOffset = PlayerListSB.Position;
-        PingList.ListOffset = PlayerListSB.Position;
-        PreferredRaceList.ListOffset = PlayerListSB.Position;
+        PlayerList.ListOffset = PlayerListScrollBar.Position;
+        PingList.ListOffset = PlayerListScrollBar.Position;
+        PreferredRaceList.ListOffset = PlayerListScrollBar.Position;
     }
 
     // AoWScenSetup.pas:399
@@ -379,7 +379,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:404
     public void TurnTimeSlChange()
     {
-        SetupControl.SetTurnTimeLimitation(TurnTimeSl.Position);
+        SetupControl.SetTurnTimeLimitation(TurnTimeSlider.Position);
         UpdateTurnTime();
     }
 
@@ -400,13 +400,13 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:415
     public void TurnsSlChange()
     {
-        if (TurnsSl.Position == 0)
+        if (TurnsSlider.Position == 0)
         {
-            SetupControl.SetTurnLimitation(TurnsSl.Position);
+            SetupControl.SetTurnLimitation(TurnsSlider.Position);
         }
         else
         {
-            SetupControl.SetTurnLimitation(TurnsSl.Position * 10);
+            SetupControl.SetTurnLimitation(TurnsSlider.Position * 10);
         }
 
         UpdateTurnLimit();
@@ -415,13 +415,13 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:422
     public void PlayModeCBChange()
     {
-        var objectValue = PlayModeCB.Items.Objects[PlayModeCB.Selected];
+        var objectValue = PlayModeComboBox.Items.Objects[PlayModeComboBox.Selected];
         SetupControl.SetPlayMode((byte)ObjectToInt(objectValue));
-        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWScenSetup.pas:428
-    public void RacePlayerCBChange(ComboBox sender, int slot)
+    public void SidePlayerComboBoxChange(ComboBox sender, int slot)
     {
         SetupPlayerBehavior behavior = default;
         ComboBox combo;
@@ -433,23 +433,23 @@ public partial class ScenarioSetup : DataModule
             SetupControl.SetPlayerId(indexOfRace, behavior, true);
         }
 
-        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWScenSetup.pas:437
-    public void RaceBehaviorCBChange(ComboBox sender, int slot)
+    public void SideBehaviorComboBoxChange(ComboBox sender, int slot)
     {
         ComboBox control;
         control = sender;
         var indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
         SetupControl.SetPlayerBehavior(indexOfRace, (byte)control.Selected);
-        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWScenSetup.pas:444
     public void LeadersOnMapCBChange(CheckBox sender)
     {
-        SetupControl.SetLeadersOnMap(LeadersOnMapCB.Checked);
+        SetupControl.SetLeadersOnMap(LeadersOnMapCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
@@ -463,7 +463,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:450
     public void CustomizeLeadersChange(CheckBox sender)
     {
-        SetupControl.SetCustomizeLeaders(CustomizeLeaders.Checked);
+        SetupControl.SetCustomizeLeaders(CustomizeLeadersCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
@@ -477,7 +477,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:456
     public void AlliedVictoryCBChange(CheckBox sender)
     {
-        SetupControl.SetAlliedVictory(AlliedVictoryCB.Checked);
+        SetupControl.SetAlliedVictory(AlliedVictoryCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
@@ -491,7 +491,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:462
     public void ExplorationChange(CheckBox sender)
     {
-        SetupControl.SetExplorationEnabled(Exploration.Checked);
+        SetupControl.SetExplorationEnabled(ExplorationCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
@@ -505,7 +505,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:468
     public void AlwaysViewTCCBChange()
     {
-        SetupControl.SetAlwaysViewTacticalBattle(AlwaysViewTCCB.Checked);
+        SetupControl.SetAlwaysViewTacticalBattle(AlwaysViewTacticalCombatCheckBox.Checked);
     }
 
     // AoWScenSetup.pas:473
@@ -519,7 +519,7 @@ public partial class ScenarioSetup : DataModule
     {
         if (ChatScrollPending)
         {
-            ChatSB.Position = ChatSB.Max + 1 - ChatSB.NumberVisible;
+            ChatScrollBar.Position = ChatScrollBar.Max + 1 - ChatScrollBar.NumberVisible;
             ChatScrollPending = false;
         }
     }
@@ -527,37 +527,37 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:492
     public void TacticalCombatCBChange()
     {
-        var objectValue = TacticalCombatCB.Items.Objects[TacticalCombatCB.Selected];
+        var objectValue = TacticalCombatComboBox.Items.Objects[TacticalCombatComboBox.Selected];
         SetupControl.SetTacticalBattleAvailability((byte)ObjectToInt(objectValue));
     }
 
     // AoWScenSetup.pas:498
     public void UpdateTurnTime()
     {
-        if (TurnTimeSl.Position == 0)
+        if (TurnTimeSlider.Position == 0)
         {
             var noTimer = AbilityRules.TranslateResourceString(s_noTimerText);
-            TurnTimeVal.Text = LowerCase(noTimer);
+            TurnTimeValueLabel.Text = LowerCase(noTimer);
         }
         else
         {
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_minutesFormat), [IntToStr(TurnTimeSl.Position)]);
-            TurnTimeVal.Text = format;
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_minutesFormat), [IntToStr(TurnTimeSlider.Position)]);
+            TurnTimeValueLabel.Text = format;
         }
     }
 
     // AoWScenSetup.pas:504
     public void UpdateTurnLimit()
     {
-        if (TurnsSl.Position == 0)
+        if (TurnsSlider.Position == 0)
         {
             var noLimit = AbilityRules.TranslateResourceString(s_noLimitText);
-            TurnsVal.Text = LowerCase(noLimit);
+            TurnsValueLabel.Text = LowerCase(noLimit);
         }
         else
         {
-            var format = AbilityRules.Format(LowerCase(AbilityRules.TranslateResourceString(GameText.TurnsFormat)), [IntToStr(TurnsSl.Position * 10)]);
-            TurnsVal.Text = format;
+            var format = AbilityRules.Format(LowerCase(AbilityRules.TranslateResourceString(GameText.TurnsFormat)), [IntToStr(TurnsSlider.Position * 10)]);
+            TurnsValueLabel.Text = format;
         }
     }
 
@@ -570,18 +570,18 @@ public partial class ScenarioSetup : DataModule
             PingList.Selected = index;
             PreferredRaceList.Selected = index;
             bool condition = SetupControl.GetHost() && ObjectToInt(PlayerList.Items.Objects[PlayerList.Selected]) != SetupControl.RemotePlayer.RemoteId;
-            EjectBtn.Visible = condition;
+            EjectButton.Visible = condition;
             var objectValue = PlayerList.Items.Objects[PlayerList.Selected];
             var canSetHostRemoteId = SetupControl.CanSetHostRemoteId(ObjectToInt(objectValue));
-            MakeHostBtn.Visible = canSetHostRemoteId;
+            MakeHostButton.Visible = canSetHostRemoteId;
         }
         else
         {
             PlayerList.Selected = -1;
             PingList.Selected = -1;
             PreferredRaceList.Selected = -1;
-            EjectBtn.Visible = false;
-            MakeHostBtn.Visible = false;
+            EjectButton.Visible = false;
+            MakeHostButton.Visible = false;
         }
     }
 
@@ -599,7 +599,7 @@ public partial class ScenarioSetup : DataModule
 
     internal static void HideScenarioSetup(ScenarioSetup setup)
     {
-        setup.ScenSetupPnl.Visible = false;
+        setup.ScenarioSetupPanel.Visible = false;
         setup.SetupControl = null;
     }
 
@@ -607,14 +607,14 @@ public partial class ScenarioSetup : DataModule
     {
         byte B;
         setup.SetupControl = control;
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        setup.ScenSetupPnl.Visible = true;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        setup.ScenarioSetupPanel.Visible = true;
         setup.ChatMemo.Items.Clear();
         setup.ChatEdit.Text = "";
         setup.ValidateDelay = 100;
         setup.PingDelay = 15;
         var remote = setup.SetupControl.GetRemote();
-        setup.ChatFogPnl.Visible = !remote;
+        setup.ChatFogImage.Visible = !remote;
         var fSetupControlRemote = setup.SetupControl.GetRemote();
         setup.ChatMemo.CaptureInput = fSetupControlRemote;
         var remote2 = setup.SetupControl.GetRemote();
@@ -626,39 +626,39 @@ public partial class ScenarioSetup : DataModule
 
         if (setup.SetupControl.GetRemote())
         {
-            setup.TacticalCombatCB.Visible = true;
-            setup.TacticalCombatLbl.Visible = true;
-            setup.TacticalCombatCB.Items.Clear();
+            setup.TacticalCombatComboBox.Visible = true;
+            setup.TacticalCombatLabel.Visible = true;
+            setup.TacticalCombatComboBox.Items.Clear();
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
                 B = (byte)bOrdinal;
                 var tacticalBattleAvailability = AbilityRules.TranslateResourceString(s_tacticalCombatAvailabilityTexts[B]);
-                setup.TacticalCombatCB.Items.AddObject(tacticalBattleAvailability, IntToObject(B));
+                setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(B));
             }
         }
         else
         {
-            setup.TacticalCombatCB.Visible = false;
-            setup.TacticalCombatLbl.Visible = false;
+            setup.TacticalCombatComboBox.Visible = false;
+            setup.TacticalCombatLabel.Visible = false;
         }
 
         if (setup.SetupControl.Settings.ConnectionType == 2)
         {
-            setup.CustomizeLeadersLbl.TextColor = 8421504;
-            setup.CustomizeLeaders.CaptureInput = false;
-            setup.PlayModeCB.Items.Clear();
+            setup.CustomizeLeadersLabel.TextColor = 8421504;
+            setup.CustomizeLeadersCheckBox.CaptureInput = false;
+            setup.PlayModeComboBox.Items.Clear();
             var classic = AbilityRules.TranslateResourceString(s_classicText);
-            setup.PlayModeCB.Items.AddObject(classic, IntToObject(1));
+            setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
         else
         {
-            setup.CustomizeLeadersLbl.TextColor = setup.AlliedVictoryLbl.TextColor;
-            setup.CustomizeLeaders.CaptureInput = true;
-            setup.PlayModeCB.Items.Clear();
+            setup.CustomizeLeadersLabel.TextColor = setup.AlliedVictoryLabel.TextColor;
+            setup.CustomizeLeadersCheckBox.CaptureInput = true;
+            setup.PlayModeComboBox.Items.Clear();
             var simultaneous = AbilityRules.TranslateResourceString(s_simultaneousText);
-            setup.PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
+            setup.PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
             var classic = AbilityRules.TranslateResourceString(s_classicText);
-            setup.PlayModeCB.Items.AddObject(classic, IntToObject(1));
+            setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
 
         bool condition = AudioHost.SongPlayer.CurrentIndex != -1;
@@ -710,47 +710,47 @@ public partial class ScenarioSetup : DataModule
             }
 
             var count = setup.PlayerList.Items.Count;
-            setup.PlayerListSB.Max = count - 1;
+            setup.PlayerListScrollBar.Max = count - 1;
             setup.SelectPlayer(setup.PlayerList.Selected);
-            setup.CustomizeLeaders.Checked = setup.SetupControl.Settings.CustomizeLeaders;
-            var indexOfObject = setup.PlayModeCB.Items.IndexOfObject(IntToObject(setup.SetupControl.Settings.PlayMode));
-            setup.PlayModeCB.Selected = indexOfObject;
-            setup.Exploration.Checked = setup.SetupControl.Settings.ExplorationEnabled;
-            setup.TurnTimeSl.Position = setup.SetupControl.Settings.TurnTime;
+            setup.CustomizeLeadersCheckBox.Checked = setup.SetupControl.Settings.CustomizeLeaders;
+            var indexOfObject = setup.PlayModeComboBox.Items.IndexOfObject(IntToObject(setup.SetupControl.Settings.PlayMode));
+            setup.PlayModeComboBox.Selected = indexOfObject;
+            setup.ExplorationCheckBox.Checked = setup.SetupControl.Settings.ExplorationEnabled;
+            setup.TurnTimeSlider.Position = setup.SetupControl.Settings.TurnTime;
             if (setup.SetupControl.Settings.DayLimit != 0)
             {
-                setup.TurnsSl.Position = setup.SetupControl.Settings.DayLimit / 10;
+                setup.TurnsSlider.Position = setup.SetupControl.Settings.DayLimit / 10;
             }
             else
             {
-                setup.TurnsSl.Position = 0;
+                setup.TurnsSlider.Position = 0;
             }
 
             setup.UpdateTurnLimit();
             setup.UpdateTurnTime();
             bool condition = setup.SetupControl.GetHost() && setup.SetupControl.GetPlayerSetupValid();
-            setup.StartBtn.Visible = condition;
+            setup.StartButton.Visible = condition;
             var host = setup.SetupControl.GetHost();
-            setup.PickScenarioBtn.Visible = host;
+            setup.PickScenarioButton.Visible = host;
             var fSetupControlHost = setup.SetupControl.GetHost();
-            setup.SettingsFogPnl.Visible = !fSetupControlHost;
-            setup.RestartSettingsFogPnl.Visible = !setup.SettingsFogPnl.Visible && setup.SetupControl.Settings.MapDay != 0;
-            setup.LeadersOnMapCB.Checked = setup.SetupControl.Settings.LeadersOnMap;
-            setup.AlliedVictoryCB.Checked = setup.SetupControl.Settings.AlliedVictory;
-            var itemsIndexOfObject = setup.TacticalCombatCB.Items.IndexOfObject(IntToObject(setup.SetupControl.Settings.TacticalBattleAvailability));
-            setup.TacticalCombatCB.Selected = itemsIndexOfObject;
-            setup.AlwaysViewTCCB.Visible = setup.TacticalCombatCB.Visible && setup.SetupControl.Settings.TacticalBattleAvailability != 0;
-            setup.AlwaysViewTCCB.Checked = setup.SetupControl.Settings.AlwaysViewTacticalBattle;
-            setup.AlwaysViewTCLbl.Visible = setup.AlwaysViewTCCB.Visible;
+            setup.SettingsFogPanel.Visible = !fSetupControlHost;
+            setup.RestartSettingsFogPanel.Visible = !setup.SettingsFogPanel.Visible && setup.SetupControl.Settings.MapDay != 0;
+            setup.LeadersOnMapCheckBox.Checked = setup.SetupControl.Settings.LeadersOnMap;
+            setup.AlliedVictoryCheckBox.Checked = setup.SetupControl.Settings.AlliedVictory;
+            var itemsIndexOfObject = setup.TacticalCombatComboBox.Items.IndexOfObject(IntToObject(setup.SetupControl.Settings.TacticalBattleAvailability));
+            setup.TacticalCombatComboBox.Selected = itemsIndexOfObject;
+            setup.AlwaysViewTacticalCombatCheckBox.Visible = setup.TacticalCombatComboBox.Visible && setup.SetupControl.Settings.TacticalBattleAvailability != 0;
+            setup.AlwaysViewTacticalCombatCheckBox.Checked = setup.SetupControl.Settings.AlwaysViewTacticalBattle;
+            setup.AlwaysViewTacticalCombatLabel.Visible = setup.AlwaysViewTacticalCombatCheckBox.Visible;
             var remote = setup.SetupControl.GetRemote();
-            setup.PreferredRaceLbl.Visible = remote;
+            setup.PreferredRaceLabel.Visible = remote;
             var fSetupControlRemote = setup.SetupControl.GetRemote();
-            setup.PreferredRaceCB.Visible = fSetupControlRemote;
-            if (setup.PreferredRaceCB.Visible)
+            setup.PreferredRaceComboBox.Visible = fSetupControlRemote;
+            if (setup.PreferredRaceComboBox.Visible)
             {
-                setup.PreferredRaceCB.Items.Clear();
+                setup.PreferredRaceComboBox.Items.Clear();
                 var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
-                setup.PreferredRaceCB.Items.AddObject(none, IntToObject(-1));
+                setup.PreferredRaceComboBox.Items.AddObject(none, IntToObject(-1));
                 for (int I = 0, last = setup.SetupControl.Settings.Count - 1; I <= last; I++)
                 {
                     if (!setup.SetupControl.Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.Fixed))
@@ -758,43 +758,43 @@ public partial class ScenarioSetup : DataModule
                         var settingRace = setup.SetupControl.Settings.GetSettings(I);
                         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
                         var setting = setup.SetupControl.Settings.GetSettings(I);
-                        setup.PreferredRaceCB.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
+                        setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
                     }
                 }
 
-                var comboBox = setup.PreferredRaceCB;
+                var comboBox = setup.PreferredRaceComboBox;
                 comboBox.NumberVisible = 5;
                 comboBox.Sized = false;
                 comboBox.Selected = comboBox.Items.IndexOfObject(IntToObject((sbyte)setup.SetupControl.RemotePlayer.PreferredRace));
             }
 
             var indexOfRace = control.Settings.IndexOfRace(0);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace), setup.R1PlayerCB, setup.R1BehaviorCB, setup.R1PlayerIcon, setup.R1PlayerLbl, setup.R1InfoLbl, setup.R1FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace), setup.Side1PlayerComboBox, setup.Side1BehaviorComboBox, setup.Side1PlayerIcon, setup.Side1PlayerLabel, setup.Side1InfoLabel, setup.Side1FogPanel);
             var fSettingsIndexOfRace = control.Settings.IndexOfRace(1);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(fSettingsIndexOfRace), setup.R2PlayerCB, setup.R2BehaviorCB, setup.R2PlayerIcon, setup.R2PlayerLbl, setup.R2InfoLbl, setup.R2FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(fSettingsIndexOfRace), setup.Side2PlayerComboBox, setup.Side2BehaviorComboBox, setup.Side2PlayerIcon, setup.Side2PlayerLabel, setup.Side2InfoLabel, setup.Side2FogPanel);
             var indexOfRace2 = control.Settings.IndexOfRace(2);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace2), setup.R3PlayerCB, setup.R3BehaviorCB, setup.R3PlayerIcon, setup.R3PlayerLbl, setup.R3InfoLbl, setup.R3FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace2), setup.Side3PlayerComboBox, setup.Side3BehaviorComboBox, setup.Side3PlayerIcon, setup.Side3PlayerLabel, setup.Side3InfoLabel, setup.Side3FogPanel);
             var indexOfRace3 = control.Settings.IndexOfRace(3);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace3), setup.R4PlayerCB, setup.R4BehaviorCB, setup.R4PlayerIcon, setup.R4PlayerLbl, setup.R4InfoLbl, setup.R4FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace3), setup.Side4PlayerComboBox, setup.Side4BehaviorComboBox, setup.Side4PlayerIcon, setup.Side4PlayerLabel, setup.Side4InfoLabel, setup.Side4FogPanel);
             var indexOfRace4 = control.Settings.IndexOfRace(4);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace4), setup.R5PlayerCB, setup.R5BehaviorCB, setup.R5PlayerIcon, setup.R5PlayerLbl, setup.R5InfoLbl, setup.R5FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace4), setup.Side5PlayerComboBox, setup.Side5BehaviorComboBox, setup.Side5PlayerIcon, setup.Side5PlayerLabel, setup.Side5InfoLabel, setup.Side5FogPanel);
             var indexOfRace5 = control.Settings.IndexOfRace(5);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace5), setup.R6PlayerCB, setup.R6BehaviorCB, setup.R6PlayerIcon, setup.R6PlayerLbl, setup.R6InfoLbl, setup.R6FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace5), setup.Side6PlayerComboBox, setup.Side6BehaviorComboBox, setup.Side6PlayerIcon, setup.Side6PlayerLabel, setup.Side6InfoLabel, setup.Side6FogPanel);
             var indexOfRace6 = control.Settings.IndexOfRace(6);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace6), setup.R7PlayerCB, setup.R7BehaviorCB, setup.R7PlayerIcon, setup.R7PlayerLbl, setup.R7InfoLbl, setup.R7FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace6), setup.Side7PlayerComboBox, setup.Side7BehaviorComboBox, setup.Side7PlayerIcon, setup.Side7PlayerLabel, setup.Side7InfoLabel, setup.Side7FogPanel);
             var indexOfRace7 = control.Settings.IndexOfRace(7);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace7), setup.R8PlayerCB, setup.R8BehaviorCB, setup.R8PlayerIcon, setup.R8PlayerLbl, setup.R8InfoLbl, setup.R8FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace7), setup.Side8PlayerComboBox, setup.Side8BehaviorComboBox, setup.Side8PlayerIcon, setup.Side8PlayerLabel, setup.Side8InfoLabel, setup.Side8FogPanel);
             var indexOfRace8 = control.Settings.IndexOfRace(8);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace8), setup.R9PlayerCB, setup.R9BehaviorCB, setup.R9PlayerIcon, setup.R9PlayerLbl, setup.R9InfoLbl, setup.R9FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace8), setup.Side9PlayerComboBox, setup.Side9BehaviorComboBox, setup.Side9PlayerIcon, setup.Side9PlayerLabel, setup.Side9InfoLabel, setup.Side9FogPanel);
             var indexOfRace9 = control.Settings.IndexOfRace(9);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace9), setup.R10PlayerCB, setup.R10BehaviorCB, setup.R10PlayerIcon, setup.R10PlayerLbl, setup.R10InfoLbl, setup.R10FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace9), setup.Side10PlayerComboBox, setup.Side10BehaviorComboBox, setup.Side10PlayerIcon, setup.Side10PlayerLabel, setup.Side10InfoLabel, setup.Side10FogPanel);
             var indexOfRace10 = control.Settings.IndexOfRace(10);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace10), setup.R11PlayerCB, setup.R11BehaviorCB, setup.R11PlayerIcon, setup.R11PlayerLbl, setup.R11InfoLbl, setup.R11FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace10), setup.Side11PlayerComboBox, setup.Side11BehaviorComboBox, setup.Side11PlayerIcon, setup.Side11PlayerLabel, setup.Side11InfoLabel, setup.Side11FogPanel);
             var indexOfRace11 = control.Settings.IndexOfRace(11);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace11), setup.R12PlayerCB, setup.R12BehaviorCB, setup.R12PlayerIcon, setup.R12PlayerLbl, setup.R12InfoLbl, setup.R12FogPnl);
+            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace11), setup.Side12PlayerComboBox, setup.Side12BehaviorComboBox, setup.Side12PlayerIcon, setup.Side12PlayerLabel, setup.Side12InfoLabel, setup.Side12FogPanel);
             if (setup.SetupControl.GetRemote())
             {
-                switch (DialogHosts.SetupEvents.DPlay.ConnectionType)
+                switch (DialogHosts.SetupEvents.DirectPlay.ConnectionType)
                 {
                     case ConnectionType.TCP:
                         connection = AbilityRules.TranslateResourceString(GameText.TcpIpLabel);
@@ -825,34 +825,34 @@ public partial class ScenarioSetup : DataModule
                     hostName = "?";
                 }
 
-                setup.HostNameLbl.Visible = true;
-                setup.FileNameLbl.Visible = true;
-                setup.PlayerNameLbl.Visible = true;
+                setup.HostNameLabel.Visible = true;
+                setup.FileNameLabel.Visible = true;
+                setup.PlayerNameLabel.Visible = true;
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.HostFormat), [connection, hostName]);
-                setup.HostNameLbl.Text = format;
+                setup.HostNameLabel.Text = format;
                 var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.PlayerNameFormat), [setup.SetupControl.RemotePlayer.Name]);
-                setup.PlayerNameLbl.Text = formattedText;
+                setup.PlayerNameLabel.Text = formattedText;
                 var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.FileNameFormat), [setup.SetupControl.Settings.MapName]);
-                setup.FileNameLbl.Text = format2;
+                setup.FileNameLabel.Text = format2;
                 if (setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid)
                 {
-                    setup.FileNameLbl.TextColor = 255;
+                    setup.FileNameLabel.TextColor = 255;
                 }
                 else
                 {
-                    setup.FileNameLbl.TextColor = 10329501;
+                    setup.FileNameLabel.TextColor = 10329501;
                 }
             }
             else
             {
-                setup.HostNameLbl.Visible = false;
-                setup.FileNameLbl.Visible = false;
-                setup.PlayerNameLbl.Visible = false;
+                setup.HostNameLabel.Visible = false;
+                setup.FileNameLabel.Visible = false;
+                setup.PlayerNameLabel.Visible = false;
             }
 
             var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ScenarioFormat), [setup.SetupControl.Settings.FileName]);
-            setup.ScenarioLbl.Text = format3;
-            DialogHosts.TitleWindow.TitleWin.Drawn = false;
+            setup.ScenarioLabel.Text = format3;
+            DialogHosts.TitleWindow.MainWindow.Drawn = false;
         }
     }
 

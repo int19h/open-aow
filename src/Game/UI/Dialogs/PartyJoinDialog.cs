@@ -20,12 +20,12 @@ public partial class PartyJoinDialog : DataModule
     public PartyJoinDialog(Component owner) : base(owner)
     { }
 
-    public Panel UnitPnl;
-    public Button MiddleBtn;
-    public Label Title;
-    public Button RightBtn;
-    public Button LeftBtn;
-    public Window Dlg;
+    public Panel UnitPanel;
+    public Button MiddleButton;
+    public Label TitleLabel;
+    public Button RightButton;
+    public Button LeftButton;
+    public Window Window;
     public Memo JoinMemo;
     public Image FaceFrame;
     private ExecuteDoneEvent _done;
@@ -41,7 +41,7 @@ public partial class PartyJoinDialog : DataModule
         bool result = _joinEvent.Validate();
         if (!result)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
 
         return result;
@@ -56,8 +56,8 @@ public partial class PartyJoinDialog : DataModule
         if (_detailsOpen)
         {
             _detailsOpen = false;
-            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
-            DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.MainWindow.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
+            DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
         done = _done;
@@ -90,9 +90,9 @@ public partial class PartyJoinDialog : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             alignment = _units.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
-                var image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                var image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -102,7 +102,7 @@ public partial class PartyJoinDialog : DataModule
             _units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.UIGraphics.UnitBGs[7];
+                var image = DialogHosts.UIGraphics.UnitBackgrounds[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -111,13 +111,13 @@ public partial class PartyJoinDialog : DataModule
     }
 
     // AoWPartyJoin.pas:127
-    public void PartyJoinDlgCreate()
+    public void PartyJoinDialogCreate()
     {
         _units = new UnitUserList(null);
     }
 
     // AoWPartyJoin.pas:132
-    public void PartyJoinDlgDestroy()
+    public void PartyJoinDialogDestroy()
     {
         _units?.Dispose();
     }
@@ -135,7 +135,7 @@ public partial class PartyJoinDialog : DataModule
             }
             else
             {
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
     }
@@ -153,7 +153,7 @@ public partial class PartyJoinDialog : DataModule
             }
             else
             {
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
     }
@@ -164,7 +164,7 @@ public partial class PartyJoinDialog : DataModule
         if (ValidateJoin())
         {
             DialogHosts.General.PlayButtonSound(0);
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -174,7 +174,7 @@ public partial class PartyJoinDialog : DataModule
         if (ValidateJoin())
         {
             DialogHosts.General.PlayButtonSound(0);
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -184,9 +184,9 @@ public partial class PartyJoinDialog : DataModule
         Rect R = default;
         if (ValidateJoin())
         {
-            R.Left = FaceFrame.WinLeft + Dlg.WinLeft;
+            R.Left = FaceFrame.WinLeft + Window.WinLeft;
             R.Right = FaceFrame.WinWidth + R.Left;
-            R.Top = FaceFrame.WinTop + Dlg.WinTop;
+            R.Top = FaceFrame.WinTop + Window.WinTop;
             R.Bottom = FaceFrame.WinHeight + R.Top;
             if (_faceUnit != null)
             {
@@ -204,9 +204,9 @@ public partial class PartyJoinDialog : DataModule
         Rect R = default;
         if (ValidateJoin())
         {
-            R.Left = sender.WinLeft + UnitPnl.WinLeft + 1;
+            R.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
             R.Right = sender.WinWidth + R.Left;
-            R.Top = sender.WinTop + UnitPnl.WinTop;
+            R.Top = sender.WinTop + UnitPanel.WinTop;
             R.Bottom = sender.WinHeight + R.Top;
 
             DrawUnit(slot, R, ref surface);
@@ -227,7 +227,7 @@ public partial class PartyJoinDialog : DataModule
                 {
                     _detailsOpen = true;
                     DialogHosts.UnitWindow.ShowUnit();
-                    DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                    DialogHosts.UnitWindow.MainWindow.Priority = Window.Priority + 1;
                 }
             }
         }
@@ -244,17 +244,17 @@ public partial class PartyJoinDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
     internal static void ResetPartyJoin(PartyJoinDialog dialog)
     {
-        dialog.LeftBtn.Visible = true;
-        dialog.MiddleBtn.Visible = true;
-        dialog.RightBtn.Visible = true;
+        dialog.LeftButton.Visible = true;
+        dialog.MiddleButton.Visible = true;
+        dialog.RightButton.Visible = true;
         var partyJoin = AbilityRules.TranslateResourceString(ScenarioText.PartyJoinText);
-        dialog.Title.Text = partyJoin;
+        dialog.TitleLabel.Text = partyJoin;
     }
 
     internal static void UpdatePartyJoin(PartyJoinDialog dialog)
@@ -272,16 +272,16 @@ public partial class PartyJoinDialog : DataModule
     internal static void ShowPartyJoin(PartyJoinDialog dialog, NegotiateRequestEventLog eventValue, ExecuteDoneEvent done)
     {
         ResetPartyJoin(dialog);
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog._done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
-        dialog.LeftBtn.Text = accept;
+        dialog.LeftButton.Text = accept;
         var attack = AbilityRules.TranslateResourceString(GameText.AttackText);
-        dialog.MiddleBtn.Text = attack;
+        dialog.MiddleButton.Text = attack;
         var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
-        dialog.RightBtn.Text = cancel;
+        dialog.RightButton.Text = cancel;
         UpdatePartyJoin(dialog);
         AoWHSMap.Current.TutorialControl.ShowMessage(70, true, true);
     }
@@ -289,17 +289,17 @@ public partial class PartyJoinDialog : DataModule
     internal static void ShowPrisonersJoin(PartyJoinDialog dialog, PrisonersJoinEventLog eventValue, ExecuteDoneEvent done)
     {
         ResetPartyJoin(dialog);
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
         var prisonerLiberation = AbilityRules.TranslateResourceString(Dungeon.PrisonerLiberationText);
-        dialog.Title.Text = prisonerLiberation;
+        dialog.TitleLabel.Text = prisonerLiberation;
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
         dialog._done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
-        dialog.LeftBtn.Text = accept;
-        dialog.MiddleBtn.Visible = false;
+        dialog.LeftButton.Text = accept;
+        dialog.MiddleButton.Visible = false;
         var reject = AbilityRules.TranslateResourceString(GameText.RejectText);
-        dialog.RightBtn.Text = reject;
+        dialog.RightButton.Text = reject;
         UpdatePartyJoin(dialog);
     }
 

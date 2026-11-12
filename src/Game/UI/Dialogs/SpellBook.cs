@@ -26,111 +26,111 @@ public partial class SpellBook : DataModule
     public SpellBook(Component owner) : base(owner)
     { }
 
-    public Label LeftHeader;
+    public Label LeftHeaderLabel;
     public Panel LeftSpellPage;
-    public Panel S1Pnl;
-    public Label S1Spell;
-    public Label S1Class;
-    public Memo S1Memo;
-    public Label S1Cost;
-    public Image S1Icn;
-    public Panel S2Pnl;
-    public Label S2Spell;
-    public Label S2Class;
-    public Memo S2Memo;
-    public Label S2Cost;
-    public Image S2Icn;
-    public Panel S3Pnl;
-    public Label S3Spell;
-    public Label S3Class;
-    public Memo S3Memo;
-    public Label S3Cost;
-    public Image S3Icn;
-    public Panel S4Pnl;
-    public Label S4Spell;
-    public Label S4Class;
-    public Memo S4Memo;
-    public Label S4Cost;
-    public Image S4Icn;
-    public Label RightHeader;
+    public Panel Spell1Panel;
+    public Label Spell1SpellLabel;
+    public Label Spell1ClassLabel;
+    public Memo Spell1Memo;
+    public Label Spell1CostLabel;
+    public Image Spell1Icon;
+    public Panel Spell2Panel;
+    public Label Spell2SpellLabel;
+    public Label Spell2ClassLabel;
+    public Memo Spell2Memo;
+    public Label Spell2CostLabel;
+    public Image Spell2Icon;
+    public Panel Spell3Panel;
+    public Label Spell3SpellLabel;
+    public Label Spell3ClassLabel;
+    public Memo Spell3Memo;
+    public Label Spell3CostLabel;
+    public Image Spell3Icon;
+    public Panel Spell4Panel;
+    public Label Spell4SpellLabel;
+    public Label Spell4ClassLabel;
+    public Memo Spell4Memo;
+    public Label Spell4CostLabel;
+    public Image Spell4Icon;
+    public Label RightHeaderLabel;
     public Panel RightSpellPage;
-    public Panel S5Pnl;
-    public Label S5Spell;
-    public Label S5Class;
-    public Memo S5Memo;
-    public Label S5Cost;
-    public Image S5Icn;
-    public Panel S6Pnl;
-    public Label S6Spell;
-    public Label S6Class;
-    public Memo S6Memo;
-    public Label S6Cost;
-    public Image S6Icn;
-    public Panel S7Pnl;
-    public Label S7Spell;
-    public Label S7Class;
-    public Memo S7Memo;
-    public Label S7Cost;
-    public Image S7Icn;
-    public Panel S8Pnl;
-    public Label S8Spell;
-    public Label S8Class;
-    public Memo S8Memo;
-    public Label S8Cost;
-    public Image S8Icn;
-    public Button S1Btn;
-    public Label CurrentPointsLbl;
-    public Label Line;
-    public Label CastingPointsMaxLbl;
-    public Button GlobalBtn;
-    public Button UnitBtn;
-    public Button CombatBtn;
-    public Button InfoBtn;
-    public Button PrevBtn;
-    public Button NextBtn;
-    public Button S2Btn;
-    public Button S3Btn;
-    public Button S4Btn;
-    public Button S5btn;
-    public Button S6Btn;
-    public Button S7Btn;
-    public Button S8Btn;
+    public Panel Spell5Panel;
+    public Label Spell5SpellLabel;
+    public Label Spell5ClassLabel;
+    public Memo Spell5Memo;
+    public Label Spell5CostLabel;
+    public Image Spell5Icon;
+    public Panel Spell6Panel;
+    public Label Spell6SpellLabel;
+    public Label Spell6ClassLabel;
+    public Memo Spell6Memo;
+    public Label Spell6CostLabel;
+    public Image Spell6Icon;
+    public Panel Spell7Panel;
+    public Label Spell7SpellLabel;
+    public Label Spell7ClassLabel;
+    public Memo Spell7Memo;
+    public Label Spell7CostLabel;
+    public Image Spell7Icon;
+    public Panel Spell8Panel;
+    public Label Spell8SpellLabel;
+    public Label Spell8ClassLabel;
+    public Memo Spell8Memo;
+    public Label Spell8CostLabel;
+    public Image Spell8Icon;
+    public Button Spell1Button;
+    public Label CurrentPointsLabel;
+    public Label SlashLabel;
+    public Label CastingPointsMaxLabel;
+    public Button GlobalButton;
+    public Button UnitButton;
+    public Button CombatButton;
+    public Button InfoButton;
+    public Button PreviousButton;
+    public Button NextButton;
+    public Button Spell2Button;
+    public Button Spell3Button;
+    public Button Spell4Button;
+    public Button Spell5Button;
+    public Button Spell6Button;
+    public Button Spell7Button;
+    public Button Spell8Button;
     public Panel CastingPage;
-    public Panel CastingPnl;
-    public Label CastingSpell;
-    public Label CastingClass;
+    public Panel CastingPanel;
+    public Label CastingSpellLabel;
+    public Label CastingClassLabel;
     public Memo CastingMemo;
-    public Label CastingCost;
+    public Label CastingCostLabel;
     public Panel LeftInfoPage;
-    public Label CastingStatus;
-    public Label CastingPointsLbl;
-    public Button CastingBtn;
-    public Button Sel4;
-    public Button Sel3;
-    public Button Sel2;
-    public Button Sel1;
-    public Button Sel5;
-    public Button Sel6;
-    public Button Sel7;
-    public Label SpellBookLbl;
-    public Label NameLbl;
-    public Label ManaPoolLbl;
-    public BookWindow Dlg;
-    public Label NoneCastingLbl;
+    public Label CastingStatusLabel;
+    public Label CastingPointsLabel;
+    public Button CastingButton;
+    public Button Sphere4Button;
+    public Button Sphere3Button;
+    public Button Sphere2Button;
+    public Button Sphere1Button;
+    public Button Sphere5Button;
+    public Button Sphere6Button;
+    public Button Sphere7Button;
+    public Label SpellBookLabel;
+    public Label NameLabel;
+    public Label ManaPoolLabel;
+    public BookWindow Book;
+    public Label NoneCastingLabel;
     public Panel ResearchPage;
-    public Label ResearchName;
-    public Label ResearchClass;
+    public Label ResearchNameLabel;
+    public Label ResearchClassLabel;
     public Memo ResearchMemo;
-    public Label ResearchCost;
-    public Label ResearchStatus;
-    public Label ResearchNone;
-    public Panel ResearchPnl;
-    public Label ResearchLbl;
+    public Label ResearchCostLabel;
+    public Label ResearchStatusLabel;
+    public Label ResearchNoneLabel;
+    public Panel ResearchPanel;
+    public Label ResearchLabel;
     public Panel RightInfoPage;
-    public Label ResearchPointsLbl;
-    public Label ResearchManaPoolLbl;
-    public Label ResearchBookLbl;
-    public Button CancelResearchBtn;
+    public Label ResearchPointsLabel;
+    public Label ResearchManaPoolLabel;
+    public Label ResearchBookLabel;
+    public Button CancelResearchButton;
 
     public byte Mode { get; set; }
     // world casting, combat casting, research, researched
@@ -171,7 +171,7 @@ public partial class SpellBook : DataModule
 
         DialogHosts.General.Manager.OverlayPriority = 0;
         DialogHosts.General.Manager.DrawOverlay = true;
-        DialogHosts.MagicWindow.Dlg.Drawn = false;
+        DialogHosts.MagicWindow.Window.Drawn = false;
     }
 
     // AoWSpellBook.pas:405
@@ -205,16 +205,16 @@ public partial class SpellBook : DataModule
         _hero = null;
         ResearchPage.Visible = true;
         CastingPage.Visible = true;
-        GlobalBtn.Visible = true;
-        GlobalBtn.ImageLibraryIndexDown = 17;
-        GlobalBtn.ImageLibraryIndexLit = 18;
-        GlobalBtn.ImageLibraryIndexUp = 16;
-        CombatBtn.Visible = true;
-        UnitBtn.Visible = true;
-        InfoBtn.Visible = true;
-        CurrentPointsLbl.Visible = true;
-        CastingPointsMaxLbl.Visible = true;
-        Line.Visible = true;
+        GlobalButton.Visible = true;
+        GlobalButton.ImageLibraryIndexDown = 17;
+        GlobalButton.ImageLibraryIndexLit = 18;
+        GlobalButton.ImageLibraryIndexUp = 16;
+        CombatButton.Visible = true;
+        UnitButton.Visible = true;
+        InfoButton.Visible = true;
+        CurrentPointsLabel.Visible = true;
+        CastingPointsMaxLabel.Visible = true;
+        SlashLabel.Visible = true;
     }
 
     // AoWSpellBook.pas:439
@@ -229,12 +229,12 @@ public partial class SpellBook : DataModule
         {
             case 1:
                 var count = _spells.GetCount();
-                NextBtn.Visible = count - (Page + 1) * 8 > 0;
-                PrevBtn.Visible = Page != 0;
+                NextButton.Visible = count - (Page + 1) * 8 > 0;
+                PreviousButton.Visible = Page != 0;
                 break;
             case 0:
-                NextBtn.Visible = false;
-                PrevBtn.Visible = false;
+                NextButton.Visible = false;
+                PreviousButton.Visible = false;
                 break;
         }
     }
@@ -254,15 +254,15 @@ public partial class SpellBook : DataModule
                     _spells.SortOnLevel();
                     var spellType = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchSpellFormat), [spellType]);
-                    LeftHeader.Text = format;
+                    LeftHeaderLabel.Text = format;
                     var spellTypeText = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchSpellFormat), [spellTypeText]);
-                    RightHeader.Text = formattedText;
+                    RightHeaderLabel.Text = formattedText;
                     // { Original overwrites the type-specific headers. }
                     var researchSpell = AbilityRules.TranslateResourceString(s_researchSpellText);
-                    LeftHeader.Text = researchSpell;
+                    LeftHeaderLabel.Text = researchSpell;
                     var researchSpellText = AbilityRules.TranslateResourceString(s_researchSpellText);
-                    RightHeader.Text = researchSpellText;
+                    RightHeaderLabel.Text = researchSpellText;
                     break;
                 case 0:
                     _spells.Clear();
@@ -270,10 +270,10 @@ public partial class SpellBook : DataModule
                     _spells.SortOnLevel();
                     var spellType3 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
                     var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType3]);
-                    LeftHeader.Text = format2;
+                    LeftHeaderLabel.Text = format2;
                     var spellType4 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
                     var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType4]);
-                    RightHeader.Text = format3;
+                    RightHeaderLabel.Text = format3;
                     break;
                 case 1:
                     _spells.Clear();
@@ -281,10 +281,10 @@ public partial class SpellBook : DataModule
                     _spells.SortOnLevel();
                     var spellType5 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
                     var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType5]);
-                    LeftHeader.Text = format4;
+                    LeftHeaderLabel.Text = format4;
                     var spellType6 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
                     var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType6]);
-                    RightHeader.Text = format5;
+                    RightHeaderLabel.Text = format5;
                     break;
             }
 
@@ -304,21 +304,21 @@ public partial class SpellBook : DataModule
             }
 
             Spell = _spells.GetSpell(Page * 8);
-            ShowSpellEntry(Spell, S1Pnl, S1Btn, S1Spell, S1Class, S1Cost, S1Memo, S1Icn);
+            ShowSpellEntry(Spell, Spell1Panel, Spell1Button, Spell1SpellLabel, Spell1ClassLabel, Spell1CostLabel, Spell1Memo, Spell1Icon);
             Spell = _spells.GetSpell(Page * 8 + 1);
-            ShowSpellEntry(Spell, S2Pnl, S2Btn, S2Spell, S2Class, S2Cost, S2Memo, S2Icn);
+            ShowSpellEntry(Spell, Spell2Panel, Spell2Button, Spell2SpellLabel, Spell2ClassLabel, Spell2CostLabel, Spell2Memo, Spell2Icon);
             Spell = _spells.GetSpell(Page * 8 + 2);
-            ShowSpellEntry(Spell, S3Pnl, S3Btn, S3Spell, S3Class, S3Cost, S3Memo, S3Icn);
+            ShowSpellEntry(Spell, Spell3Panel, Spell3Button, Spell3SpellLabel, Spell3ClassLabel, Spell3CostLabel, Spell3Memo, Spell3Icon);
             Spell = _spells.GetSpell(Page * 8 + 3);
-            ShowSpellEntry(Spell, S4Pnl, S4Btn, S4Spell, S4Class, S4Cost, S4Memo, S4Icn);
+            ShowSpellEntry(Spell, Spell4Panel, Spell4Button, Spell4SpellLabel, Spell4ClassLabel, Spell4CostLabel, Spell4Memo, Spell4Icon);
             Spell = _spells.GetSpell(Page * 8 + 4);
-            ShowSpellEntry(Spell, S5Pnl, S5btn, S5Spell, S5Class, S5Cost, S5Memo, S5Icn);
+            ShowSpellEntry(Spell, Spell5Panel, Spell5Button, Spell5SpellLabel, Spell5ClassLabel, Spell5CostLabel, Spell5Memo, Spell5Icon);
             Spell = _spells.GetSpell(Page * 8 + 5);
-            ShowSpellEntry(Spell, S6Pnl, S6Btn, S6Spell, S6Class, S6Cost, S6Memo, S6Icn);
+            ShowSpellEntry(Spell, Spell6Panel, Spell6Button, Spell6SpellLabel, Spell6ClassLabel, Spell6CostLabel, Spell6Memo, Spell6Icon);
             Spell = _spells.GetSpell(Page * 8 + 6);
-            ShowSpellEntry(Spell, S7Pnl, S7Btn, S7Spell, S7Class, S7Cost, S7Memo, S7Icn);
+            ShowSpellEntry(Spell, Spell7Panel, Spell7Button, Spell7SpellLabel, Spell7ClassLabel, Spell7CostLabel, Spell7Memo, Spell7Icon);
             Spell = _spells.GetSpell(Page * 8 + 7);
-            ShowSpellEntry(Spell, S8Pnl, S8Btn, S8Spell, S8Class, S8Cost, S8Memo, S8Icn);
+            ShowSpellEntry(Spell, Spell8Panel, Spell8Button, Spell8SpellLabel, Spell8ClassLabel, Spell8CostLabel, Spell8Memo, Spell8Icon);
             if (Mode == 0)
             {
                 _playerPages.Count = AoWHSMap.Current.SeatedPlayer + 1;
@@ -329,13 +329,13 @@ public partial class SpellBook : DataModule
             if (PageKind == 1)
             {
                 var count = _spells.GetCount();
-                NextBtn.Visible = count - (Page + 1) * 8 > 0;
-                PrevBtn.Visible = Page != 0;
+                NextButton.Visible = count - (Page + 1) * 8 > 0;
+                PreviousButton.Visible = Page != 0;
             }
         }
         else
         {
-            Dlg.Visible = false;
+            Book.Visible = false;
         }
     }
 
@@ -364,25 +364,25 @@ public partial class SpellBook : DataModule
                 switch (I)
                 {
                     case 0:
-                        button = Sel1;
+                        button = Sphere1Button;
                         break;
                     case 1:
-                        button = Sel2;
+                        button = Sphere2Button;
                         break;
                     case 2:
-                        button = Sel3;
+                        button = Sphere3Button;
                         break;
                     case 3:
-                        button = Sel4;
+                        button = Sphere4Button;
                         break;
                     case 4:
-                        button = Sel5;
+                        button = Sphere5Button;
                         break;
                     case 5:
-                        button = Sel6;
+                        button = Sphere6Button;
                         break;
                     case 6:
-                        button = Sel7;
+                        button = Sphere7Button;
                         break;
                     default:
                         button = null;
@@ -432,88 +432,88 @@ public partial class SpellBook : DataModule
                 }
             }
 
-            NameLbl.Text = _hero.HeroName;
+            NameLabel.Text = _hero.HeroName;
             var player = AoWHSMap.Current.Players.GetPlayers(Player);
             var manaPool = AbilityRules.TranslateResourceString(s_manaPoolText);
-            ManaPoolLbl.Text = manaPool + ": " + IntToStr(player.MagicControl.Mana);
+            ManaPoolLabel.Text = manaPool + ": " + IntToStr(player.MagicControl.Mana);
             var castingPoints = _hero.GetCastingPoints();
             var castingPointsText = AbilityRules.TranslateResourceString(GameText.CastingPointsText);
             var castingPointsMax = _hero.GetCastingPointsMax();
-            CastingPointsLbl.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
-            ResearchManaPoolLbl.Text = ManaPoolLbl.Text;
+            CastingPointsLabel.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
+            ResearchManaPoolLabel.Text = ManaPoolLabel.Text;
             var netPowerToResearch = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetNetPowerToResearch();
             var researchPoints = AbilityRules.TranslateResourceString(s_researchPointsText);
-            ResearchPointsLbl.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
+            ResearchPointsLabel.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
             {
-                CurrentPointsLbl.Text = "";
-                CastingPointsMaxLbl.Text = "";
-                SpellBookLbl.Visible = false;
-                ResearchBookLbl.Visible = true;
+                CurrentPointsLabel.Text = "";
+                CastingPointsMaxLabel.Text = "";
+                SpellBookLabel.Visible = false;
+                ResearchBookLabel.Visible = true;
                 CastingPage.Visible = false;
                 control = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl;
                 if (control.ResearchSpellId != 0)
                 {
-                    ResearchPnl.Visible = true;
-                    ResearchNone.Visible = false;
+                    ResearchPanel.Visible = true;
+                    ResearchNoneLabel.Visible = false;
                     spell = AoWHSSet.Current.SpellControl.GetSpell(control.ResearchSpellId);
                     var currentlyResearching = AbilityRules.TranslateResourceString(s_currentlyResearchingText);
-                    ResearchLbl.Text = currentlyResearching + ":";
+                    ResearchLabel.Text = currentlyResearching + ":";
                     ResearchMemo.Items = spell.SpellText;
-                    ResearchName.Text = spell.SpellName;
+                    ResearchNameLabel.Text = spell.SpellName;
                     var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
                     var level = AbilityRules.TranslateResourceString(GameText.LevelText);
-                    ResearchClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                    ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                     var castingMana = _hero.CastingMana(spell);
                     var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
                     var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
-                    ResearchCost.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
+                    ResearchCostLabel.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
                     if (control.GetResearchTurnsLeft() < 999)
                     {
                         var formatTurnsLeftString = DurationText.FormatTurnsLeftString(control.GetResearchTurnsLeft());
-                        ResearchStatus.Text = formatTurnsLeftString;
+                        ResearchStatusLabel.Text = formatTurnsLeftString;
                     }
                     else
                     {
                         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
-                        ResearchStatus.Text = format;
+                        ResearchStatusLabel.Text = format;
                     }
 
                     var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
-                    CancelResearchBtn.Text = cancel;
-                    ResearchStatus.Visible = true;
+                    CancelResearchButton.Text = cancel;
+                    ResearchStatusLabel.Visible = true;
                 }
                 else
                 {
                     if (Mode == 3)
                     {
-                        ResearchPnl.Visible = true;
-                        ResearchNone.Visible = false;
+                        ResearchPanel.Visible = true;
+                        ResearchNoneLabel.Visible = false;
                         spell = AoWHSSet.Current.SpellControl.GetSpell(_researchedSpell);
                         var researched = AbilityRules.TranslateResourceString(s_researchedText);
-                        ResearchLbl.Text = researched + ":";
+                        ResearchLabel.Text = researched + ":";
                         ResearchMemo.Items = spell.SpellText;
-                        ResearchName.Text = spell.SpellName;
+                        ResearchNameLabel.Text = spell.SpellName;
                         var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
                         var level = AbilityRules.TranslateResourceString(GameText.LevelText);
-                        ResearchClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                        ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                         var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
                         var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
-                        ResearchCost.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
-                        ResearchStatus.Visible = false;
+                        ResearchCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+                        ResearchStatusLabel.Visible = false;
                         var research = AbilityRules.TranslateResourceString(s_researchText);
-                        CancelResearchBtn.Text = research;
+                        CancelResearchButton.Text = research;
                         var researchNewSpell = AbilityRules.TranslateResourceString(s_researchNewSpellText);
-                        CancelResearchBtn.ToolTipText.Text = researchNewSpell;
+                        CancelResearchButton.ToolTipText.Text = researchNewSpell;
                     }
                     else
                     {
-                        ResearchPnl.Visible = false;
-                        ResearchNone.Visible = true;
+                        ResearchPanel.Visible = false;
+                        ResearchNoneLabel.Visible = true;
                         var research = AbilityRules.TranslateResourceString(s_researchText);
-                        CancelResearchBtn.Text = research;
+                        CancelResearchButton.Text = research;
                         var cancelSpellResearch = AbilityRules.TranslateResourceString(s_cancelSpellResearchText);
-                        CancelResearchBtn.ToolTipText.Text = cancelSpellResearch;
+                        CancelResearchButton.ToolTipText.Text = cancelSpellResearch;
                     }
                 }
             }
@@ -522,50 +522,50 @@ public partial class SpellBook : DataModule
                 if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
                 {
                     var fHeroCastingPoints = _hero.GetCastingPoints();
-                    CurrentPointsLbl.Text = IntToStr(fHeroCastingPoints);
+                    CurrentPointsLabel.Text = IntToStr(fHeroCastingPoints);
                     var fHeroCastingPointsMax = _hero.GetCastingPointsMax();
-                    CastingPointsMaxLbl.Text = IntToStr(fHeroCastingPointsMax);
-                    SpellBookLbl.Visible = true;
-                    ResearchBookLbl.Visible = false;
+                    CastingPointsMaxLabel.Text = IntToStr(fHeroCastingPointsMax);
+                    SpellBookLabel.Visible = true;
+                    ResearchBookLabel.Visible = false;
                     ResearchPage.Visible = false;
                     if (_hero.Casting())
                     {
-                        NoneCastingLbl.Visible = false;
+                        NoneCastingLabel.Visible = false;
                         spell = AoWHSSet.Current.SpellControl.GetSpell(_hero.CastingSpellId);
-                        CastingSpell.Text = spell.SpellName;
+                        CastingSpellLabel.Text = spell.SpellName;
                         var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
                         var level = AbilityRules.TranslateResourceString(GameText.LevelText);
-                        CastingClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                        CastingClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                         var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
                         var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
-                        CastingCost.Text = castingCost + ": " + IntToStr(_hero.CastingProgress) + " " + mana;
+                        CastingCostLabel.Text = castingCost + ": " + IntToStr(_hero.CastingProgress) + " " + mana;
                         CastingMemo.Items = spell.SpellText;
                         var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_hero.CastingTurnsLeft());
-                        CastingStatus.Text = "(" + formatTurnsLeftString + ")";
-                        CastingPnl.Visible = true;
+                        CastingStatusLabel.Text = "(" + formatTurnsLeftString + ")";
+                        CastingPanel.Visible = true;
                         if (_hero.CastingReady())
                         {
-                            CastingBtn.Visible = true;
+                            CastingButton.Visible = true;
                             var castingReady = AbilityRules.TranslateResourceString(s_castingReadyText);
-                            CastingStatus.Text = castingReady;
+                            CastingStatusLabel.Text = castingReady;
                         }
                         else
                         {
-                            CastingBtn.Visible = false;
+                            CastingButton.Visible = false;
                             var formatTurnsLeftString2 = DurationText.FormatTurnsLeftString(_hero.CastingTurnsLeft());
-                            CastingStatus.Text = "(" + formatTurnsLeftString2 + ")";
+                            CastingStatusLabel.Text = "(" + formatTurnsLeftString2 + ")";
                         }
                     }
                     else
                     {
-                        CastingPnl.Visible = false;
-                        NoneCastingLbl.Visible = true;
+                        CastingPanel.Visible = false;
+                        NoneCastingLabel.Visible = true;
                     }
                 }
                 else
                 {
-                    CastingPnl.Visible = false;
-                    NoneCastingLbl.Visible = true;
+                    CastingPanel.Visible = false;
+                    NoneCastingLabel.Visible = true;
                 }
             }
         }
@@ -702,7 +702,7 @@ public partial class SpellBook : DataModule
                         }
                         else
                         {
-                            Dlg.Visible = false;
+                            Book.Visible = false;
                         }
                     }
 
@@ -712,7 +712,7 @@ public partial class SpellBook : DataModule
                     {
                         if (_hero.CastSpell(spell.SpellId, ref reason))
                         {
-                            Dlg.Visible = false;
+                            Book.Visible = false;
                         }
                         else
                         {
@@ -735,7 +735,7 @@ public partial class SpellBook : DataModule
                 case 1:
                     if (_hero.CastCombatSpell(spell.SpellId, ref reason))
                     {
-                        Dlg.Visible = false;
+                        Book.Visible = false;
                     }
                     else
                     {
@@ -747,14 +747,14 @@ public partial class SpellBook : DataModule
         }
         else
         {
-            Dlg.Visible = false;
+            Book.Visible = false;
         }
     }
 
     // AoWSpellBook.pas:415
     public void PlayerChanged(sbyte player)
     {
-        if (Dlg.Visible && player == AoWHSMap.Current.SeatedPlayer)
+        if (Book.Visible && player == AoWHSMap.Current.SeatedPlayer)
         {
             UpdateSpellPages();
             UpdateInfoPages();
@@ -764,7 +764,7 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:421
     public void UnitChanged(Troop U)
     {
-        if (Dlg.Visible && (U == null || (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode) && U == _hero)))
+        if (Book.Visible && (U == null || (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode) && U == _hero)))
         {
             UpdateSpellPages();
             UpdateInfoPages();
@@ -775,14 +775,14 @@ public partial class SpellBook : DataModule
     public void ShowResearch()
     {
         Reset();
-        CastingPointsMaxLbl.Visible = false;
-        CurrentPointsLbl.Visible = false;
-        Line.Visible = false;
-        GlobalBtn.ImageLibraryIndexDown = 14;
-        GlobalBtn.ImageLibraryIndexLit = 15;
-        GlobalBtn.ImageLibraryIndexUp = 13;
-        CombatBtn.Visible = false;
-        UnitBtn.Visible = false;
+        CastingPointsMaxLabel.Visible = false;
+        CurrentPointsLabel.Visible = false;
+        SlashLabel.Visible = false;
+        GlobalButton.ImageLibraryIndexDown = 14;
+        GlobalButton.ImageLibraryIndexLit = 15;
+        GlobalButton.ImageLibraryIndexUp = 13;
+        CombatButton.Visible = false;
+        UnitButton.Visible = false;
         if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0)
         {
             SetPageKind(0);
@@ -810,11 +810,11 @@ public partial class SpellBook : DataModule
         if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
             Reset();
-            GlobalBtn.ImageLibraryIndexDown = 14;
-            GlobalBtn.ImageLibraryIndexLit = 15;
-            GlobalBtn.ImageLibraryIndexUp = 13;
-            CombatBtn.Visible = false;
-            UnitBtn.Visible = false;
+            GlobalButton.ImageLibraryIndexDown = 14;
+            GlobalButton.ImageLibraryIndexLit = 15;
+            GlobalButton.ImageLibraryIndexUp = 13;
+            CombatButton.Visible = false;
+            UnitButton.Visible = false;
             _researchedSpell = 0;
             SetPageKind(1);
             Mode = 2;
@@ -909,7 +909,7 @@ public partial class SpellBook : DataModule
         Mode = 1;
         if (ValidateHero())
         {
-            GlobalBtn.Visible = true;
+            GlobalButton.Visible = true;
             if (_hero.Casting())
             {
                 SetPageKind(0);
@@ -972,7 +972,7 @@ public partial class SpellBook : DataModule
         }
 
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Book.Visible = false;
     }
 
     // AoWSpellBook.pas:222
@@ -980,8 +980,8 @@ public partial class SpellBook : DataModule
     {
         Page += 1;
         UpdateSpellPages();
-        Dlg.StartAnimation(PageTurnMode.Left);
-        Dlg.PageTurn.Speed = 25;
+        Book.StartAnimation(PageTurnMode.Left);
+        Book.PageTurn.Speed = 25;
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
     }
 
@@ -990,8 +990,8 @@ public partial class SpellBook : DataModule
     {
         Page -= 1;
         UpdateSpellPages();
-        Dlg.StartAnimation(PageTurnMode.Right);
-        Dlg.PageTurn.Speed = 25;
+        Book.StartAnimation(PageTurnMode.Right);
+        Book.PageTurn.Speed = 25;
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
     }
 
@@ -1015,7 +1015,7 @@ public partial class SpellBook : DataModule
     }
 
     // AoWSpellBook.pas:249
-    public void SelectSpellBtnClick(int slot)
+    public void SpellButtonClick(int slot)
     {
         SelectSpell(_spells.GetSpell(Page * 8 + slot));
     }
@@ -1027,11 +1027,11 @@ public partial class SpellBook : DataModule
         {
             if (PageKind == 0)
             {
-                Dlg.StartAnimation(PageTurnMode.Left);
+                Book.StartAnimation(PageTurnMode.Left);
             }
             else
             {
-                Dlg.StartAnimation(PageTurnMode.Right);
+                Book.StartAnimation(PageTurnMode.Right);
             }
 
             AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -1049,11 +1049,11 @@ public partial class SpellBook : DataModule
         {
             if (PageKind == 0 || _spellType == SpellType.Global)
             {
-                Dlg.StartAnimation(PageTurnMode.Left);
+                Book.StartAnimation(PageTurnMode.Left);
             }
             else
             {
-                Dlg.StartAnimation(PageTurnMode.Right);
+                Book.StartAnimation(PageTurnMode.Right);
             }
 
             AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -1069,7 +1069,7 @@ public partial class SpellBook : DataModule
     {
         if (_spellType != SpellType.Combat || Page != 0 || PageKind != 1)
         {
-            Dlg.StartAnimation(PageTurnMode.Left);
+            Book.StartAnimation(PageTurnMode.Left);
             AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             _spellType = SpellType.Combat;
             Page = 0;
@@ -1083,7 +1083,7 @@ public partial class SpellBook : DataModule
     {
         if (PageKind != 0)
         {
-            Dlg.StartAnimation(PageTurnMode.Right);
+            Book.StartAnimation(PageTurnMode.Right);
             AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             SetPageKind(0);
         }
@@ -1101,7 +1101,7 @@ public partial class SpellBook : DataModule
                 case 0:
                     if (_hero.CastSpell(_hero.CastingSpellId, ref reason))
                     {
-                        Dlg.Visible = false;
+                        Book.Visible = false;
                     }
                     else
                     {
@@ -1207,11 +1207,11 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:369
     public void DlgUpdate()
     {
-        if (Dlg.Visible)
+        if (Book.Visible)
         {
             if (!ValidateHero())
             {
-                Dlg.Visible = false;
+                Book.Visible = false;
             }
         }
     }
@@ -1226,7 +1226,7 @@ public partial class SpellBook : DataModule
                 DialogHosts.General.CombatUnit.SelectAbility(-1);
             }
 
-            Dlg.Visible = false;
+            Book.Visible = false;
         }
     }
 
@@ -1234,7 +1234,7 @@ public partial class SpellBook : DataModule
     public void ShowBook()
     {
         DialogHosts.General.Manager.OverlayPriority = 49;
-        Dlg.Visible = true;
+        Book.Visible = true;
     }
 
     private static readonly string s_cancelSpellResearchText = "Cancels current spell research";

@@ -12,7 +12,7 @@ public partial class CombatScanner : DataModule
     public CombatScanner(Component owner) : base(owner)
     { }
 
-    public Window TCScannerWin;
+    public Window CombatScannerWindow;
     public Scanner Scanner;
 
     // AoWTCScanner.pas:38
@@ -32,14 +32,14 @@ public partial class CombatScanner : DataModule
     // AoWTCScanner.pas:51
     public void TCScannerWinDrag()
     {
-        this.TCScannerWin.Alignment.RightOffset = this.TCScannerWin.WindowManager.WinWidth - this.TCScannerWin.WinLeft - this.TCScannerWin.WinWidth;
-        this.TCScannerWin.Alignment.TopOffset = this.TCScannerWin.WinTop;
+        this.CombatScannerWindow.Alignment.RightOffset = this.CombatScannerWindow.WindowManager.WinWidth - this.CombatScannerWindow.WinLeft - this.CombatScannerWindow.WinWidth;
+        this.CombatScannerWindow.Alignment.TopOffset = this.CombatScannerWindow.WinTop;
     }
 
     // AoWTCScanner.pas:60
     public void SMinIconClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        TCScannerWin.Visible = false;
+        CombatScannerWindow.Visible = false;
     }
 }

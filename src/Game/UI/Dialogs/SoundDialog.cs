@@ -17,25 +17,25 @@ public partial class SoundDialog : DataModule
     public SoundDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public ListBox SongLB;
-    public Panel PlayListPnl;
-    public ListBox PlayLB;
-    public Button AddBtn;
-    public Button RemoveBtn;
-    public Button PlayBtn;
-    public Label CurrentSongLbl;
-    public Panel MainPnl;
-    public CheckBox SQCB1;
-    public CheckBox SQCB2;
-    public CheckBox SQCB3;
-    public CheckBox SQCB4;
-    public CheckBox MusicEnabledChk;
-    public CheckBox SFXEnabledChk;
-    public HorizontalScrollBar MusicVolume;
-    public HorizontalScrollBar SFXVolume;
-    public VerticalScrollBar SongSB;
-    public CheckBox DirectSoundEnabledChk;
+    public Window Window;
+    public ListBox SongList;
+    public Panel PlayListPanel;
+    public ListBox PlayList;
+    public Button AddButton;
+    public Button RemoveButton;
+    public Button PlayButton;
+    public Label CurrentSongLabel;
+    public Panel MainPanel;
+    public CheckBox SoundQualityNoneCheckBox;
+    public CheckBox SoundQualityLowCheckBox;
+    public CheckBox SoundQualityMediumCheckBox;
+    public CheckBox SoundQualityHighCheckBox;
+    public CheckBox MusicEnabledCheckBox;
+    public CheckBox EffectsEnabledCheckBox;
+    public HorizontalScrollBar MusicVolumeSlider;
+    public HorizontalScrollBar EffectsVolumeSlider;
+    public VerticalScrollBar SongScrollBar;
+    public CheckBox DirectSoundEnabledCheckBox;
 
     public int SoundQuality { get; set; }
 
@@ -45,32 +45,32 @@ public partial class SoundDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWSoundDlg.pas:114
     public void MusicVolumeChange()
     {
-        AudioPlayback.SetMusicVolume(MusicVolume.Position);
+        AudioPlayback.SetMusicVolume(MusicVolumeSlider.Position);
     }
 
     // AoWSoundDlg.pas:119
     public void SFXVolumeChange()
     {
-        AudioPlayback.SetSfxVolume(SFXVolume.Position);
+        AudioPlayback.SetSfxVolume(EffectsVolumeSlider.Position);
     }
 
     // AoWSoundDlg.pas:124
     public void RemoveBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        AudioHost.SongPlayer.Songs.Delete(PlayLB.Selected);
+        AudioHost.SongPlayer.Songs.Delete(PlayList.Selected);
         if (AudioHost.SongPlayer.CurrentIndex == -1)
         {
             var count = AudioHost.SongPlayer.Songs.Count;
-            if (PlayLB.Selected < count)
+            if (PlayList.Selected < count)
             {
-                AudioHost.SongPlayer.Play(PlayLB.Selected);
+                AudioHost.SongPlayer.Play(PlayList.Selected);
             }
             else
             {
@@ -88,55 +88,55 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:134
     public void SoundSetup()
     {
-        PlayLB.Items.Clear();
+        PlayList.Items.Clear();
         for (int I = 0, last = AudioHost.SongPlayer.SongNames.Count - 1; I <= last; I++)
         {
             var songName = AudioHost.SongPlayer.SongNames[I];
-            PlayLB.Items.Add(songName);
+            PlayList.Items.Add(songName);
         }
 
-        PlayLB.Selected = AudioHost.SongPlayer.CurrentIndex;
-        PlayLB.Sized = false;
-        if (PlayLB.Selected == -1)
+        PlayList.Selected = AudioHost.SongPlayer.CurrentIndex;
+        PlayList.Sized = false;
+        if (PlayList.Selected == -1)
         {
-            RemoveBtn.Visible = false;
-            PlayBtn.Visible = false;
-            CurrentSongLbl.Text = "";
+            RemoveButton.Visible = false;
+            PlayButton.Visible = false;
+            CurrentSongLabel.Text = "";
         }
         else
         {
-            RemoveBtn.Visible = true;
-            PlayBtn.Visible = true;
-            var songName = AudioHost.SongPlayer.SongNames[PlayLB.Selected];
-            CurrentSongLbl.Text = songName;
+            RemoveButton.Visible = true;
+            PlayButton.Visible = true;
+            var songName = AudioHost.SongPlayer.SongNames[PlayList.Selected];
+            CurrentSongLabel.Text = songName;
         }
 
-        MainPnl.Drawn = false;
-        PlayListPnl.Drawn = false;
-        MusicEnabledChk.Checked = Settings.MusicEnabled;
-        SFXEnabledChk.Checked = Settings.SfxEnabled;
-        DirectSoundEnabledChk.Checked = Settings.UseDirectSound;
-        SQCB1.Checked = SoundQuality == 0;
-        SQCB2.Checked = SoundQuality == 1;
-        SQCB3.Checked = SoundQuality == 2;
-        SQCB4.Checked = SoundQuality == 3;
+        MainPanel.Drawn = false;
+        PlayListPanel.Drawn = false;
+        MusicEnabledCheckBox.Checked = Settings.MusicEnabled;
+        EffectsEnabledCheckBox.Checked = Settings.SfxEnabled;
+        DirectSoundEnabledCheckBox.Checked = Settings.UseDirectSound;
+        SoundQualityNoneCheckBox.Checked = SoundQuality == 0;
+        SoundQualityLowCheckBox.Checked = SoundQuality == 1;
+        SoundQualityMediumCheckBox.Checked = SoundQuality == 2;
+        SoundQualityHighCheckBox.Checked = SoundQuality == 3;
     }
 
     // AoWSoundDlg.pas:165
     public void PlayBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        PlayLB.Drawn = false;
-        AudioHost.SongPlayer.Play(PlayLB.Selected);
+        PlayList.Drawn = false;
+        AudioHost.SongPlayer.Play(PlayList.Selected);
     }
 
     // AoWSoundDlg.pas:172
     public void SongChange()
     {
         var songName = AudioHost.SongPlayer.SongNames[AudioHost.SongPlayer.CurrentIndex];
-        CurrentSongLbl.Text = songName;
-        MainPnl.Drawn = false;
-        PlayLB.Drawn = false;
+        CurrentSongLabel.Text = songName;
+        MainPanel.Drawn = false;
+        PlayList.Drawn = false;
     }
 
     // AoWSoundDlg.pas:179
@@ -144,7 +144,7 @@ public partial class SoundDialog : DataModule
     {
         string directory;
         SearchRec search = default;
-        SongLB.Items.Clear();
+        SongList.Items.Clear();
         s_songFiles.Clear();
         SetCurrentDir(GameTables.GameEngine.StartupDirectory + "\\Songs");
         directory = GetCurrentDir();
@@ -163,7 +163,7 @@ public partial class SoundDialog : DataModule
                     {
                         s_songFiles.Add("Songs\\" + search.Name);
                         var songName = AudioPlayback.GetSongName("Songs\\" + search.Name);
-                        SongLB.Items.Add(songName);
+                        SongList.Items.Add(songName);
                     }
                 }
             }
@@ -171,18 +171,18 @@ public partial class SoundDialog : DataModule
         }
 
         FindClose(ref search);
-        StringSorting.SortStringsAscending(SongLB.Items, [s_songFiles]);
-        SongLB.Selected = -1;
-        SongLB.ListOffset = 0;
-        SongSB.Position = 0;
+        StringSorting.SortStringsAscending(SongList.Items, [s_songFiles]);
+        SongList.Selected = -1;
+        SongList.ListOffset = 0;
+        SongScrollBar.Position = 0;
     }
 
     // AoWSoundDlg.pas:206
     public void SongLBChange()
     {
-        if (SongLB.Selected > -1)
+        if (SongList.Selected > -1)
         {
-            AddBtn.Visible = true;
+            AddButton.Visible = true;
         }
     }
 
@@ -190,19 +190,19 @@ public partial class SoundDialog : DataModule
     public void AddBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var songFile = s_songFiles[SongLB.Selected];
+        var songFile = s_songFiles[SongList.Selected];
         AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
 
     // AoWSoundDlg.pas:218
-    public void SoundDlgWindowCreate()
+    public void SoundDialogCreate()
     {
         s_songFiles = new StringList();
     }
 
     // AoWSoundDlg.pas:223
-    public void SoundDlgWindowDestroy()
+    public void SoundDialogDestroy()
     {
         s_songFiles?.Dispose();
     }
@@ -210,23 +210,23 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:228
     public void PlayLBChange()
     {
-        if (PlayLB.Selected > -1)
+        if (PlayList.Selected > -1)
         {
-            RemoveBtn.Visible = true;
-            PlayBtn.Visible = true;
+            RemoveButton.Visible = true;
+            PlayButton.Visible = true;
         }
     }
 
     // AoWSoundDlg.pas:237
     public void SQCB1Change(CheckBox sender)
     {
-        if (SQCB1.Checked)
+        if (SoundQualityNoneCheckBox.Checked)
         {
             AudioPlayback.ReleaseSoundSystem();
             SoundQuality = 0;
-            CurrentSongLbl.Text = "";
-            PlayLB.Drawn = false;
-            MainPnl.Drawn = false;
+            CurrentSongLabel.Text = "";
+            PlayList.Drawn = false;
+            MainPanel.Drawn = false;
         }
 
         if (sender.Checked)
@@ -242,7 +242,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:251
     public void SQCB2Change(CheckBox sender)
     {
-        if (SQCB2.Checked)
+        if (SoundQualityLowCheckBox.Checked)
         {
             SoundQuality = 1;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
@@ -272,7 +272,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:273
     public void SQCB3Change(CheckBox sender)
     {
-        if (SQCB3.Checked)
+        if (SoundQualityMediumCheckBox.Checked)
         {
             SoundQuality = 2;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
@@ -302,7 +302,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:295
     public void SQCB4Change(CheckBox sender)
     {
-        if (SQCB4.Checked)
+        if (SoundQualityHighCheckBox.Checked)
         {
             SoundQuality = 3;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
@@ -334,14 +334,14 @@ public partial class SoundDialog : DataModule
     {
         if (AudioHost.SongPlayer.CurrentIndex == index)
         {
-            DialogHosts.UIGraphics.SoundWin[2].ShowClipped(R.Left, R.Top, lockedSurface);
+            DialogHosts.UIGraphics.SoundWindow[2].ShowClipped(R.Left, R.Top, lockedSurface);
         }
     }
 
     // AoWSoundDlg.pas:322
     public void MusicEnabledChkChange(CheckBox sender)
     {
-        Settings.MusicEnabled = MusicEnabledChk.Checked;
+        Settings.MusicEnabled = MusicEnabledCheckBox.Checked;
         SetMusicEnabled(Settings.MusicEnabled);
         if (Settings.MusicEnabled && SoundQuality != 0)
         {
@@ -361,7 +361,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:331
     public void SFXEnabledChkChange(CheckBox sender)
     {
-        Settings.SfxEnabled = SFXEnabledChk.Checked;
+        Settings.SfxEnabled = EffectsEnabledCheckBox.Checked;
         SetSfxEnabled(Settings.SfxEnabled);
         if (sender.Checked)
         {
@@ -376,7 +376,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:339
     public void DirectSoundEnabledChkChange(CheckBox sender)
     {
-        Settings.UseDirectSound = DirectSoundEnabledChk.Checked;
+        Settings.UseDirectSound = DirectSoundEnabledCheckBox.Checked;
         if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
         {
             SetSoundSettings(Settings);
@@ -403,7 +403,7 @@ public partial class SoundDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 

@@ -20,29 +20,29 @@ public partial class FastBattleWindow : DataModule
     public FastBattleWindow(Component owner) : base(owner)
     { }
 
-    public Window FCWin;
-    public Label LSideLbl;
-    public Label RSideLbl;
-    public Panel Party1Pnl;
-    public Image Party1Bg;
-    public Panel Party2Pnl;
-    public Image Party2Bg;
-    public Panel Party3Pnl;
-    public Image Party3Bg;
-    public Panel Party4Pnl;
-    public Image Party4Bg;
-    public Panel Party5Pnl;
-    public Image Party5Bg;
-    public Panel Party6Pnl;
-    public Image Party6Bg;
-    public Panel Party7Pnl;
-    public Image Party7Bg;
-    public HorizontalScrollBar SequencePositionSld;
-    public HorizontalScrollBar SequenceSpeedSld;
+    public Window MainWindow;
+    public Label LeftSideLabel;
+    public Label RightSideLabel;
+    public Panel Party1Panel;
+    public Image Party1Background;
+    public Panel Party2Panel;
+    public Image Party2Background;
+    public Panel Party3Panel;
+    public Image Party3Background;
+    public Panel Party4Panel;
+    public Image Party4Background;
+    public Panel Party5Panel;
+    public Image Party5Background;
+    public Panel Party6Panel;
+    public Image Party6Background;
+    public Panel Party7Panel;
+    public Image Party7Background;
+    public HorizontalScrollBar SequencePositionSlider;
+    public HorizontalScrollBar SequenceSpeedSlider;
     public Image GlowImage;
-    public Label ModeLbl;
-    public UserDrawBox LShieldUser;
-    public UserDrawBox RShieldUser;
+    public Label ModeLabel;
+    public UserDrawBox LeftShieldView;
+    public UserDrawBox RightShieldView;
     private byte _phase;
     private int _phaseFrame;
     private int _animationFrame;
@@ -61,33 +61,33 @@ public partial class FastBattleWindow : DataModule
         switch (index)
         {
             case 0:
-                X = Party1Pnl.WinLeft;
-                Y = Party1Pnl.WinTop;
+                X = Party1Panel.WinLeft;
+                Y = Party1Panel.WinTop;
                 break;
             case 1:
             case 7:
-                X = Party2Pnl.WinLeft;
-                Y = Party2Pnl.WinTop;
+                X = Party2Panel.WinLeft;
+                Y = Party2Panel.WinTop;
                 break;
             case 2:
-                X = Party3Pnl.WinLeft;
-                Y = Party3Pnl.WinTop;
+                X = Party3Panel.WinLeft;
+                Y = Party3Panel.WinTop;
                 break;
             case 3:
-                X = Party4Pnl.WinLeft;
-                Y = Party4Pnl.WinTop;
+                X = Party4Panel.WinLeft;
+                Y = Party4Panel.WinTop;
                 break;
             case 4:
-                X = Party5Pnl.WinLeft;
-                Y = Party5Pnl.WinTop;
+                X = Party5Panel.WinLeft;
+                Y = Party5Panel.WinTop;
                 break;
             case 5:
-                X = Party6Pnl.WinLeft;
-                Y = Party6Pnl.WinTop;
+                X = Party6Panel.WinLeft;
+                Y = Party6Panel.WinTop;
                 break;
             case 6:
-                X = Party7Pnl.WinLeft;
-                Y = Party7Pnl.WinTop;
+                X = Party7Panel.WinLeft;
+                Y = Party7Panel.WinTop;
                 break;
         }
     }
@@ -249,9 +249,9 @@ public partial class FastBattleWindow : DataModule
         int glow;
         combat = _viewer.Combat;
         UpdateShields();
-        if (ModeLbl.Text != combat.CombatData.Header)
+        if (ModeLabel.Text != combat.CombatData.Header)
         {
-            ModeLbl.Text = combat.CombatData.Header;
+            ModeLabel.Text = combat.CombatData.Header;
         }
 
         DrawParties(X, Y + 20, surface);
@@ -343,14 +343,14 @@ public partial class FastBattleWindow : DataModule
         {
             _leftShield = left;
             _leftOpacity = (byte)leftOpacity;
-            LShieldUser.Drawn = false;
+            LeftShieldView.Drawn = false;
         }
 
         if (right != _rightShield || rightOpacity != _rightOpacity)
         {
             _rightShield = right;
             _rightOpacity = (byte)rightOpacity;
-            RShieldUser.Drawn = false;
+            RightShieldView.Drawn = false;
         }
     }
 
@@ -384,13 +384,13 @@ public partial class FastBattleWindow : DataModule
     }
 
     // FastCombatWin.pas:389
-    public void FastCombatWindowCreate()
+    public void FastBattleWindowCreate()
     {
         _viewer = new CombatViewer();
     }
 
     // FastCombatWin.pas:394
-    public void FastCombatWindowDestroy()
+    public void FastBattleWindowDestroy()
     {
         _viewer?.Dispose();
     }
@@ -399,7 +399,7 @@ public partial class FastBattleWindow : DataModule
     public void CloseButClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FCWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // FastCombatWin.pas:405
@@ -420,13 +420,13 @@ public partial class FastBattleWindow : DataModule
 
             if (surface.Lock(ref lockedSurface) >= 0)
             {
-                if (SequencePositionSld.Position != _viewer.Position)
+                if (SequencePositionSlider.Position != _viewer.Position)
                 {
-                    SequencePositionSld.Position = _viewer.Position;
+                    SequencePositionSlider.Position = _viewer.Position;
                 }
 
-                lockedSurface.ClipRectangle.Top = FCWin.WinTop + 24;
-                DrawCombat(FCWin.WinLeft + 10, FCWin.WinTop + 10, ref lockedSurface);
+                lockedSurface.ClipRectangle.Top = MainWindow.WinTop + 24;
+                DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, ref lockedSurface);
                 surface.Unlock();
             }
         }
@@ -519,13 +519,13 @@ public partial class FastBattleWindow : DataModule
                     if (GlowImage.Visible)
                     {
                         GlowImage.Visible = false;
-                        FCWin.Drawn = false;
+                        MainWindow.Drawn = false;
                     }
 
                     break;
             }
 
-            FCWin.SurfaceValid = false;
+            MainWindow.SurfaceValid = false;
             _phaseFrame += 1;
         }
         catch
@@ -587,7 +587,7 @@ public partial class FastBattleWindow : DataModule
         viewer = _viewer;
         if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            viewer.SetPosition(SequencePositionSld.Position);
+            viewer.SetPosition(SequencePositionSlider.Position);
             SetPhase(1);
         }
     }
@@ -597,7 +597,7 @@ public partial class FastBattleWindow : DataModule
     {
         if (_viewer != null)
         {
-            _viewer.SetSpeed((byte)(20 - SequenceSpeedSld.Position));
+            _viewer.SetSpeed((byte)(20 - SequenceSpeedSlider.Position));
         }
     }
 
@@ -606,11 +606,11 @@ public partial class FastBattleWindow : DataModule
     {
         if (_leftOpacity == 100)
         {
-            DialogHosts.UIGraphics.Shields[_leftShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
+            DialogHosts.UIGraphics.Shields[_leftShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.UIGraphics.Shields[_leftShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
+            DialogHosts.UIGraphics.Shields[_leftShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
         }
     }
 
@@ -619,11 +619,11 @@ public partial class FastBattleWindow : DataModule
     {
         if (_rightOpacity == 100)
         {
-            DialogHosts.UIGraphics.Shields[_rightShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
+            DialogHosts.UIGraphics.Shields[_rightShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.UIGraphics.Shields[_rightShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
+            DialogHosts.UIGraphics.Shields[_rightShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
         }
     }
 
@@ -638,7 +638,7 @@ public partial class FastBattleWindow : DataModule
     {
         if (key == 27 || key == 32)
         {
-            FCWin.Visible = false;
+            MainWindow.Visible = false;
         }
     }
 
@@ -651,7 +651,7 @@ public partial class FastBattleWindow : DataModule
         dialog._done = done;
         dialog._logbook = eventValue.Logbook;
         InitializeCombatDialog(dialog, dialog._logbook);
-        dialog.FCWin.Visible = true;
+        dialog.MainWindow.Visible = true;
     }
 
     internal static void InitializeCombatDialog(FastBattleWindow dialog, CombatLogbook logbook)
@@ -670,29 +670,29 @@ public partial class FastBattleWindow : DataModule
             switch (I)
             {
                 case 0:
-                    image = dialog.Party1Bg;
+                    image = dialog.Party1Background;
                     break;
                 case 1:
-                    image = dialog.Party2Bg;
+                    image = dialog.Party2Background;
                     break;
                 case 2:
-                    image = dialog.Party3Bg;
+                    image = dialog.Party3Background;
                     break;
                 case 3:
-                    image = dialog.Party4Bg;
+                    image = dialog.Party4Background;
                     break;
                 case 4:
-                    image = dialog.Party5Bg;
+                    image = dialog.Party5Background;
                     break;
                 case 5:
-                    image = dialog.Party6Bg;
+                    image = dialog.Party6Background;
                     break;
                 case 6:
-                    image = dialog.Party7Bg;
+                    image = dialog.Party7Background;
                     break;
                 case 7:
                     // { Original reuses the second background for the eighth party. }
-                    image = dialog.Party2Bg;
+                    image = dialog.Party2Background;
                     break;
                 default:
                     image = null;
@@ -727,35 +727,35 @@ public partial class FastBattleWindow : DataModule
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player == 0)
             {
                 var independents = AbilityRules.TranslateResourceString(ScenarioText.IndependentsText);
-                dialog.LSideLbl.Text = independents;
+                dialog.LeftSideLabel.Text = independents;
             }
             else
             {
                 var player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
                 raceIndex = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
                 var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(raceIndex);
-                dialog.LSideLbl.Text = raceResource.RaceName;
+                dialog.LeftSideLabel.Text = raceResource.RaceName;
             }
 
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).Player == 0)
             {
                 var independents = AbilityRules.TranslateResourceString(ScenarioText.IndependentsText);
-                dialog.RSideLbl.Text = independents;
+                dialog.RightSideLabel.Text = independents;
             }
             else
             {
                 var player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
                 raceIndex = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
                 var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(raceIndex);
-                dialog.RSideLbl.Text = raceResource.RaceName;
+                dialog.RightSideLabel.Text = raceResource.RaceName;
             }
         }
 
         dialog._viewer.Play();
-        dialog.FCWin.Drawn = false;
+        dialog.MainWindow.Drawn = false;
         var endPosition = dialog._viewer.GetEndPosition();
-        dialog.SequencePositionSld.Max = endPosition;
-        dialog.SequenceSpeedSld.Position = 20 - dialog._viewer.Delay;
+        dialog.SequencePositionSlider.Max = endPosition;
+        dialog.SequenceSpeedSlider.Position = 20 - dialog._viewer.Delay;
         if (dialog._viewer.GetEndPosition() != -1)
         {
             dialog.SetPhase(0);

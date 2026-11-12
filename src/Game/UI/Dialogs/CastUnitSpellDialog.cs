@@ -19,26 +19,26 @@ public partial class CastUnitSpellDialog : DataModule
     public CastUnitSpellDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Panel UnitPnl;
-    public Panel TopPnl;
-    public Label SpellUpkeepLbl;
-    public Label SpellManaLbl;
-    public Label CastingManaLbl;
-    public Label SpellNameLbl;
-    public Label CasterNameLbl;
-    public Label CastingPointsLbl;
-    public CheckBox U1;
-    public CheckBox U2;
-    public CheckBox U3;
-    public CheckBox U4;
-    public CheckBox U5;
-    public CheckBox U6;
-    public CheckBox U7;
-    public CheckBox U8;
-    public Image SpellFr;
+    public Window Window;
+    public Panel UnitPanel;
+    public Panel TopPanel;
+    public Label SpellUpkeepLabel;
+    public Label SpellManaLabel;
+    public Label CastingManaLabel;
+    public Label SpellNameLabel;
+    public Label CasterNameLabel;
+    public Label CastingPointsLabel;
+    public CheckBox Unit1CheckBox;
+    public CheckBox Unit2CheckBox;
+    public CheckBox Unit3CheckBox;
+    public CheckBox Unit4CheckBox;
+    public CheckBox Unit5CheckBox;
+    public CheckBox Unit6CheckBox;
+    public CheckBox Unit7CheckBox;
+    public CheckBox Unit8CheckBox;
+    public Image SpellFrame;
     public Image FaceFrame;
-    public Label SelectionInfoLbl;
+    public Label SelectionInfoLabel;
 
     public UnitSpellCaster Caster { get; set; }
 
@@ -61,9 +61,9 @@ public partial class CastUnitSpellDialog : DataModule
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             surface.ClipRectangle = rectangle;
             alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
-                var image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                var image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
             }
 
@@ -73,7 +73,7 @@ public partial class CastUnitSpellDialog : DataModule
             Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
             if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.UIGraphics.UnitBGs[7];
+                var image = DialogHosts.UIGraphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
             }
 
@@ -85,7 +85,7 @@ public partial class CastUnitSpellDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWCastUnitSpellDlg.pas:117
@@ -96,7 +96,7 @@ public partial class CastUnitSpellDialog : DataModule
         if (Caster.CanCast(ref reason))
         {
             Caster.Cast();
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
         else
         {
@@ -114,9 +114,9 @@ public partial class CastUnitSpellDialog : DataModule
         {
             if (U.GetFace() != null)
             {
-                R.Left = this.FaceFrame.WinLeft + TopPnl.WinLeft;
+                R.Left = this.FaceFrame.WinLeft + TopPanel.WinLeft;
                 R.Right = R.Left + this.FaceFrame.WinWidth;
-                R.Top = this.FaceFrame.WinTop + TopPnl.WinTop;
+                R.Top = this.FaceFrame.WinTop + TopPanel.WinTop;
                 R.Bottom = R.Top + this.FaceFrame.WinHeight;
 
                 U.GetFace().ShowStretched(R, surface);
@@ -139,10 +139,10 @@ public partial class CastUnitSpellDialog : DataModule
             spell = AoWHSSet.Current.SpellControl.GetSpell(Caster.CasterSpellId);
             if (spell != null)
             {
-                R.Left = this.SpellFr.WinLeft + TopPnl.WinLeft;
-                R.Right = R.Left + this.SpellFr.WinWidth;
-                R.Top = this.SpellFr.WinTop + TopPnl.WinTop;
-                R.Bottom = R.Top + this.SpellFr.WinHeight;
+                R.Left = this.SpellFrame.WinLeft + TopPanel.WinLeft;
+                R.Right = R.Left + this.SpellFrame.WinWidth;
+                R.Top = this.SpellFrame.WinTop + TopPanel.WinTop;
+                R.Bottom = R.Top + this.SpellFrame.WinHeight;
 
                 if (spell.CastImages.GetImageSequence(10) != null)
                 {
@@ -161,11 +161,11 @@ public partial class CastUnitSpellDialog : DataModule
     // AoWCastUnitSpellDlg.pas:219
     public void DlgUpdate()
     {
-        if (Dlg.Visible && Caster != null)
+        if (Window.Visible && Caster != null)
         {
             if (!Caster.Valid())
             {
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
     }
@@ -177,25 +177,25 @@ public partial class CastUnitSpellDialog : DataModule
         Caster.SetSelection((byte)(sender.Checked
             ? Caster.AllowMultipleTargets ? Caster.SelectionMask | bit : bit
             : Caster.SelectionMask & ~bit));
-        var checks = new[] { U1, U2, U3, U4, U5, U6, U7, U8 };
+        var checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
         for (int i = 0; i < checks.Length; i++) checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;
         if (Caster.SelectionMask != oldSelection)
             DialogHosts.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
         if (Caster.SelectionMask == 0)
         {
-            SelectionInfoLbl.Text = "";
+            SelectionInfoLabel.Text = "";
             return;
         }
         string reason = "";
-        SelectionInfoLbl.TextColor = Caster.CanCast(ref reason) ? 0 : 149;
+        SelectionInfoLabel.TextColor = Caster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLbl.Text = AbilityRules.TranslateResourceString(s_requiredManaText) +
+        SelectionInfoLabel.Text = AbilityRules.TranslateResourceString(s_requiredManaText) +
             ": " + IntToStr(Caster.GetRequiredMana());
     }
 
     // AoWCastUnitSpellDlg.pas:183
     public void U1PreDraw(CheckBox sender, LockedSurface surface, int slot) =>
-        DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
+        DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref surface);
 
     private static readonly string s_requiredManaText = "Required Mana";
 }

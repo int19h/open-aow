@@ -17,49 +17,49 @@ public partial class CombatUnitInfo : DataModule
     public CombatUnitInfo(Component owner) : base(owner)
     { }
 
-    public Window TCUnitWin;
-    public Image UMovesIcon;
-    public Label UAttack;
-    public Label UDefense;
-    public Label UMoves;
-    public Label UDamage;
-    public Label UResistance;
-    public Label UHits;
-    public Memo UnitName;
-    public ListBox UAbilLB;
-    public Label AbilNameLbl;
-    public Panel TCUnitPnl;
-    public ListBox USelAbilLb;
-    public Panel TCAbilPnl;
-    public Label AbilAttLbl;
-    public ListBox AbilStat;
-    public Label AbilDamLbl;
-    public Label TargetULbl;
-    public Panel TargetSelPnl;
-    public Panel NoTargetPnl;
-    public Gauge UnitHits;
-    public Gauge UnitMana;
-    public Image AMovesIcon;
-    public Label AAttack;
-    public Label ADefense;
-    public Label AMoves;
-    public Label ADamage;
-    public Label AResistance;
-    public Label AHits;
-    public Panel UnitFr;
+    public Window MainWindow;
+    public Image UnitMovesIcon;
+    public Label UnitAttackLabel;
+    public Label UnitDefenseLabel;
+    public Label UnitMovesLabel;
+    public Label UnitDamageLabel;
+    public Label UnitResistanceLabel;
+    public Label UnitHitsLabel;
+    public Memo UnitNameMemo;
+    public ListBox UnitAbilityList;
+    public Label AbilityNameLabel;
+    public Panel CombatUnitPanel;
+    public ListBox TargetAbilityList;
+    public Panel CombatAbilityPanel;
+    public Label AbilityAttackLabel;
+    public ListBox AbilityStatisticsList;
+    public Label AbilityDamageLabel;
+    public Label TargetUnitLabel;
+    public Panel TargetSelectPanel;
+    public Panel NoTargetPanel;
+    public Gauge UnitHitsGauge;
+    public Gauge UnitManaGauge;
+    public Image TargetMovesIcon;
+    public Label TargetAttackLabel;
+    public Label TargetDefenseLabel;
+    public Label TargetMovesLabel;
+    public Label TargetDamageLabel;
+    public Label TargetResistanceLabel;
+    public Label TargetHitsLabel;
+    public Panel UnitFramePanel;
 
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()
     {
-        this.TCUnitWin.Alignment.RightOffset = this.TCUnitWin.WindowManager.WinWidth - this.TCUnitWin.WinLeft - this.TCUnitWin.WinWidth;
-        this.TCUnitWin.Alignment.BottomOffset = this.TCUnitWin.WindowManager.WinHeight - this.TCUnitWin.WinTop - this.TCUnitWin.WinHeight;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.BottomOffset = this.MainWindow.WindowManager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
     }
 
     // AoWTCUnit.pas:116
     public void MinClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        TCUnitWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AoWTCUnit.pas:123
@@ -84,11 +84,11 @@ public partial class CombatUnitInfo : DataModule
 
             if (condition)
             {
-                UAbilLB.TextColor = 16777215;
+                UnitAbilityList.TextColor = 16777215;
             }
             else
             {
-                UAbilLB.TextColor = 12632256;
+                UnitAbilityList.TextColor = 12632256;
             }
         }
     }
@@ -98,16 +98,16 @@ public partial class CombatUnitInfo : DataModule
     {
         if (DialogHosts.General.CombatUnit != null)
         {
-            DialogHosts.General.CombatUnit.Unit.Troop.Show(TCUnitPnl.WinLeft - 10, TCUnitPnl.WinTop - 2, lockedSurface, DialogHosts.General.UnitShowInfo);
+            DialogHosts.General.CombatUnit.Unit.Troop.Show(CombatUnitPanel.WinLeft - 10, CombatUnitPanel.WinTop - 2, lockedSurface, DialogHosts.General.UnitShowInfo);
         }
     }
 
     // AoWTCUnit.pas:146
     public void UAbilLBUpdate()
     {
-        if (UAbilLB.HoverItem != UAbilLB.Selected)
+        if (UnitAbilityList.HoverItem != UnitAbilityList.Selected)
         {
-            UAbilLB.Selected = UAbilLB.HoverItem;
+            UnitAbilityList.Selected = UnitAbilityList.HoverItem;
         }
     }
 
@@ -115,19 +115,19 @@ public partial class CombatUnitInfo : DataModule
     public void UAbilLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability ability;
-        if (UAbilLB.Selected > -1)
+        if (UnitAbilityList.Selected > -1)
         {
             if (button == MouseButton.Left)
             {
-                var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
+                var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
                 var selectAbility = DialogHosts.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
-                UAbilLB.Selected = selectAbility;
+                UnitAbilityList.Selected = selectAbility;
             }
             else
             {
                 if (button == MouseButton.Right && DialogHosts.General.CombatUnit != null)
                 {
-                    var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
+                    var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
                     ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (ability != null)
                     {
@@ -144,11 +144,11 @@ public partial class CombatUnitInfo : DataModule
     {
         if (DialogHosts.General.CombatUnit != null)
         {
-            if (DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints != 0 && UAbilLB.HoverItem < DialogHosts.General.CombatUnit.CombatAbilityCount)
+            if (DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < DialogHosts.General.CombatUnit.CombatAbilityCount)
             {
-                var ability = DialogHosts.General.CombatUnit.Abilities[UAbilLB.HoverItem];
+                var ability = DialogHosts.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
                 var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
-                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[UAbilLB.HoverItem]).Ability != 52)
+                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[UnitAbilityList.HoverItem]).Ability != 52)
                 {
                     return;
                 }
@@ -160,7 +160,7 @@ public partial class CombatUnitInfo : DataModule
                 }
             }
 
-            UAbilLB.HoverItem = -1;
+            UnitAbilityList.HoverItem = -1;
         }
     }
 
@@ -189,6 +189,6 @@ public partial class CombatUnitInfo : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        TCUnitWin.Visible = false;
+        MainWindow.Visible = false;
     }
 }

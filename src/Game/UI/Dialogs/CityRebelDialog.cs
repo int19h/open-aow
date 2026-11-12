@@ -15,7 +15,7 @@ public partial class CityRebelDialog : DataModule
     public CityRebelDialog(Component owner) : base(owner)
     { }
 
-    public Window RebelWin;
+    public Window RebelWindow;
     public Label CityNameLabel;
     private ExecuteDoneEvent _onClose;
     private CityRebellionEventLog _event;
@@ -44,7 +44,7 @@ public partial class CityRebelDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        RebelWin.Visible = false;
+        RebelWindow.Visible = false;
     }
 
     // AoWCityRebelDlg.pas:66
@@ -66,7 +66,7 @@ public partial class CityRebelDialog : DataModule
     {
         if (key == 27 || key == 32)
         {
-            RebelWin.Visible = false;
+            RebelWindow.Visible = false;
         }
     }
 
@@ -76,7 +76,7 @@ public partial class CityRebelDialog : DataModule
         dialog._event = eventValue;
         dialog._event.AddRef();
         dialog.CityNameLabel.Text = dialog._event.CityName;
-        dialog.RebelWin.Visible = true;
+        dialog.RebelWindow.Visible = true;
     }
 
 }

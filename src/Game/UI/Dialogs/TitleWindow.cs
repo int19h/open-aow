@@ -13,10 +13,10 @@ public partial class TitleWindow : DataModule
     public TitleWindow(Component owner) : base(owner)
     { }
 
-    public Window TitleWin;
-    public Panel TitlePnl;
-    public Panel SplashPnl;
-    public InterfaceImageLibrary DemoIL;
+    public Window MainWindow;
+    public Panel TitlePanel;
+    public Panel SplashPanel;
+    public InterfaceImageLibrary DemoImages;
     private int _splashTimer;
 
     public int SplashStage { get; private set; }
@@ -24,9 +24,9 @@ public partial class TitleWindow : DataModule
     // AOWTitleWindow.pas:66
     public void HideSplash()
     {
-        DemoIL.ReleaseDiscardableImageData();
-        SplashPnl.Visible = false;
-        TitleWin.Visible = false;
+        DemoImages.ReleaseDiscardableImageData();
+        SplashPanel.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AOWTitleWindow.pas:73
@@ -35,11 +35,11 @@ public partial class TitleWindow : DataModule
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyMode();
-        TitleWin.Visible = true;
-        TitlePnl.Visible = false;
-        SplashPnl.ImageLibraryTexture = DemoIL;
-        SplashPnl.ImageLibraryIndexTexture = 0;
-        SplashPnl.Visible = true;
+        MainWindow.Visible = true;
+        TitlePanel.Visible = false;
+        SplashPanel.ImageLibraryTexture = DemoImages;
+        SplashPanel.ImageLibraryIndexTexture = 0;
+        SplashPanel.Visible = true;
         _splashTimer = 450;
         SplashStage = 0;
     }
@@ -48,7 +48,7 @@ public partial class TitleWindow : DataModule
     public void ShowExitSplash()
     {
         InitializeSplash();
-        SplashPnl.ImageLibraryIndexTexture = 2;
+        SplashPanel.ImageLibraryIndexTexture = 2;
         SplashStage = 10;
         _splashTimer = 300;
     }
@@ -67,7 +67,7 @@ public partial class TitleWindow : DataModule
         AudioHost.SongPlayer.Songs.Clear();
         AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
         AudioHost.SongPlayer.Play(0);
-        SplashPnl.ImageLibraryIndexTexture = 0;
+        SplashPanel.ImageLibraryIndexTexture = 0;
         _splashTimer = 450;
     }
 
@@ -75,16 +75,16 @@ public partial class TitleWindow : DataModule
     public void TitleWinDrawSurface(Surface surface, int X, int Y)
     {
         LockedSurface lockedSurface = default;
-        if (DialogHosts.FactionSelectionWindow.FactionPnl.Visible && DialogHosts.FactionSelectionWindow.Fade >= 0)
+        if (DialogHosts.FactionSelectionWindow.FactionPanel.Visible && DialogHosts.FactionSelectionWindow.Fade >= 0)
         {
             surface.Lock(ref lockedSurface);
             if (DialogHosts.FactionSelectionWindow.FadeDirection == 0)
             {
-                DialogHosts.UIGraphics.FactionWin[DialogHosts.FactionSelectionWindow.FadeImage].ShowBlended(DialogHosts.FactionSelectionWindow.FactionPnl.WinLeft, DialogHosts.FactionSelectionWindow.FactionPnl.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - DialogHosts.FactionSelectionWindow.Fade]);
+                DialogHosts.UIGraphics.FactionWindow[DialogHosts.FactionSelectionWindow.FadeImage].ShowBlended(DialogHosts.FactionSelectionWindow.FactionPanel.WinLeft, DialogHosts.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - DialogHosts.FactionSelectionWindow.Fade]);
             }
             else
             {
-                DialogHosts.UIGraphics.FactionWin[DialogHosts.FactionSelectionWindow.FadeImage].ShowBlended(DialogHosts.FactionSelectionWindow.FactionPnl.WinLeft, DialogHosts.FactionSelectionWindow.FactionPnl.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[DialogHosts.FactionSelectionWindow.Fade]);
+                DialogHosts.UIGraphics.FactionWindow[DialogHosts.FactionSelectionWindow.FadeImage].ShowBlended(DialogHosts.FactionSelectionWindow.FactionPanel.WinLeft, DialogHosts.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[DialogHosts.FactionSelectionWindow.Fade]);
             }
 
             surface.Unlock();
@@ -94,7 +94,7 @@ public partial class TitleWindow : DataModule
     // AOWTitleWindow.pas:61
     public void TitlePnlDrawBack(LockedSurface lockedSurface)
     {
-        DialogHosts.UIGraphics.FactionWin[0].Show(DialogHosts.FactionSelectionWindow.FactionPnl.WinLeft, DialogHosts.FactionSelectionWindow.FactionPnl.WinTop, lockedSurface);
+        DialogHosts.UIGraphics.FactionWindow[0].Show(DialogHosts.FactionSelectionWindow.FactionPanel.WinLeft, DialogHosts.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface);
     }
 
     // AOWTitleWindow.pas:115
@@ -133,7 +133,7 @@ public partial class TitleWindow : DataModule
     internal static void ShowExitSplash(TitleWindow dialog)
     {
         ShowSplash(dialog);
-        dialog.SplashPnl.ImageLibraryIndexTexture = 2;
+        dialog.SplashPanel.ImageLibraryIndexTexture = 2;
         dialog.SplashStage = 10;
         dialog._splashTimer = 300;
     }
@@ -143,11 +143,11 @@ public partial class TitleWindow : DataModule
         VideoDialog.SetVideoSize(DialogHosts.VideoDialog, 640, 480);
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyBtnClick();
-        dialog.TitleWin.Visible = true;
-        dialog.TitlePnl.Visible = false;
-        dialog.SplashPnl.ImageLibraryTexture = dialog.DemoIL;
-        dialog.SplashPnl.ImageLibraryIndexTexture = 0;
-        dialog.SplashPnl.Visible = true;
+        dialog.MainWindow.Visible = true;
+        dialog.TitlePanel.Visible = false;
+        dialog.SplashPanel.ImageLibraryTexture = dialog.DemoImages;
+        dialog.SplashPanel.ImageLibraryIndexTexture = 0;
+        dialog.SplashPanel.Visible = true;
         dialog._splashTimer = 450;
         dialog.SplashStage = 0;
     }

@@ -108,7 +108,7 @@ public sealed class EndTurnShortcutTests
             Window.MapViewer = new HexSpriteMapViewer(null!);
             TaskBar bar = new TaskBar(null!);
             Button = new TurnButton(null!);
-            bar.TurnButton = Button;
+            bar.WorldTurnButton = Button;
             Button.OnChange = _ => bar.TurnButtonChange();
             DialogHosts.TaskBar = bar;
         }

@@ -31,36 +31,36 @@ public partial class WorldMap : DataModule
     public WorldMap(Component owner) : base(owner)
     { }
 
-    public Memo MemoL;
-    public Image PicR;
-    public Panel WorldPnl;
-    public Image Path1;
-    public Image Path2;
-    public Image Path3;
-    public Image PPawn;
-    public Image EPawn;
-    public Label DescLbl;
-    public Button Back;
-    public Button Next;
-    public Button Cancel;
-    public Button BookStart;
-    public Label LabelL;
-    public Memo MemoR;
-    public Label LabelR;
-    public Image PicL;
-    public BookWindow BookWin;
-    public Panel InfoPnl;
-    public Button QuitBtn;
-    public Button ShowBtn;
-    public Label SelectLbl;
-    public Image StarImg;
-    public Frame HeroPnl;
-    public Frame Ally1Pnl;
-    public Frame Ally2Pnl;
-    public Frame Ally3Pnl;
-    public Button SetBtn;
-    public VerticalScrollBar leftSB;
-    public VerticalScrollBar rightSB;
+    public Memo LeftPageMemo;
+    public Image RightPagePicture;
+    public Panel WorldPanel;
+    public Image Path1Image;
+    public Image Path2Image;
+    public Image Path3Image;
+    public Image PlayerPawnImage;
+    public Image EnemyPawnImage;
+    public Label DescriptionLabel;
+    public Button BackButton;
+    public Button NextButton;
+    public Button CancelButton;
+    public Button BookStartButton;
+    public Label LeftPageLabel;
+    public Memo RightPageMemo;
+    public Label RightPageLabel;
+    public Image LeftPagePicture;
+    public BookWindow Book;
+    public Panel InfoPanel;
+    public Button QuitButton;
+    public Button ShowButton;
+    public Label SelectLabel;
+    public Image StarImage;
+    public Frame HeroFrame;
+    public Frame Ally1Frame;
+    public Frame Ally2Frame;
+    public Frame Ally3Frame;
+    public Button SetButton;
+    public VerticalScrollBar LeftPageScrollBar;
+    public VerticalScrollBar RightPageScrollBar;
     private int _starImageValue;
     private int _starStep;
     private int _starIntensity;
@@ -102,37 +102,37 @@ public partial class WorldMap : DataModule
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                         var campaign3 = GetCampaign();
                         var campaignPage = GetCampaignPage(campaignScenario.OutroPages, campaign3.Page);
-                        LabelL.Text = campaignPage.Heading;
+                        LeftPageLabel.Text = campaignPage.Heading;
                         var campaign4 = GetCampaign();
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
                         var campaign5 = GetCampaign();
                         var worldMapCampaignPage = GetCampaignPage(campaignScenario2.OutroPages, campaign5.Page + 1);
-                        LabelR.Text = worldMapCampaignPage.Heading;
+                        RightPageLabel.Text = worldMapCampaignPage.Heading;
                         var campaign6 = GetCampaign();
                         var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
                         var campaign7 = GetCampaign();
                         var campaignPage2 = GetCampaignPage(campaignScenario3.OutroPages, campaign7.Page);
-                        MemoL.Items.Assign(campaignPage2.Text);
+                        LeftPageMemo.Items.Assign(campaignPage2.Text);
                         var campaign8 = GetCampaign();
                         var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign8.CurrentScenarioId);
                         var campaign9 = GetCampaign();
                         var campaignPage3 = GetCampaignPage(campaignScenario4.OutroPages, campaign9.Page + 1);
-                        MemoR.Items.Assign(campaignPage3.Text);
+                        RightPageMemo.Items.Assign(campaignPage3.Text);
                         _starIntensity = 50;
                         _starStep = 1;
                         var campaign10 = GetCampaign();
                         switch (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign10.CurrentScenarioId).MapKind)
                         {
                             case 0:
-                                WorldPnl.ImageLibraryIndexTexture = 0;
+                                WorldPanel.ImageLibraryIndexTexture = 0;
                                 _starImageValue = 13;
                                 break;
                             case 1:
-                                WorldPnl.ImageLibraryIndexTexture = 10;
+                                WorldPanel.ImageLibraryIndexTexture = 10;
                                 _starImageValue = 14;
                                 break;
                             case 2:
-                                WorldPnl.ImageLibraryIndexTexture = 11;
+                                WorldPanel.ImageLibraryIndexTexture = 11;
                                 _starImageValue = 15;
                                 break;
                         }
@@ -142,7 +142,7 @@ public partial class WorldMap : DataModule
                         var campaign12 = GetCampaign();
                         if (IsEmpty(GetCampaignPage(campaignScenario5.OutroPages, campaign12.Page).ImageLibrary))
                         {
-                            PicL.ImageLibrary = null;
+                            LeftPagePicture.ImageLibrary = null;
                         }
                         else
                         {
@@ -150,16 +150,16 @@ public partial class WorldMap : DataModule
                             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
                             var campaignPage4 = GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page);
-                            DialogHosts.UIGraphics.BookPL.LoadFromFile(campaignPage4.ImageLibrary);
-                            PicL.ImageLibrary = DialogHosts.UIGraphics.BookPL;
+                            DialogHosts.UIGraphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
+                            LeftPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookLeftPage;
                             var campaign15 = GetCampaign();
                             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                             var campaign16 = GetCampaign();
                             var campaignPage5 = GetCampaignPage(campaignScenario7.OutroPages, campaign16.Page);
-                            PicL.CurrentImage = campaignPage5.ImageIndex;
-                            PicL.WinWidth = 0;
-                            PicL.WinHeight = 0;
-                            PicL.Visible = true;
+                            LeftPagePicture.CurrentImage = campaignPage5.ImageIndex;
+                            LeftPagePicture.WinWidth = 0;
+                            LeftPagePicture.WinHeight = 0;
+                            LeftPagePicture.Visible = true;
                         }
 
                         var campaign17 = GetCampaign();
@@ -167,7 +167,7 @@ public partial class WorldMap : DataModule
                         var campaign18 = GetCampaign();
                         if (IsEmpty(GetCampaignPage(campaignScenario8.OutroPages, campaign18.Page + 1).ImageLibrary))
                         {
-                            PicR.ImageLibrary = null;
+                            RightPagePicture.ImageLibrary = null;
                         }
                         else
                         {
@@ -175,23 +175,23 @@ public partial class WorldMap : DataModule
                             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
                             var campaignPage4 = GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page + 1);
-                            DialogHosts.UIGraphics.BookPR.LoadFromFile(campaignPage4.ImageLibrary);
-                            PicR.ImageLibrary = DialogHosts.UIGraphics.BookPR;
+                            DialogHosts.UIGraphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
+                            RightPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookRightPage;
                             var campaign15 = GetCampaign();
                             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                             var campaign16 = GetCampaign();
                             var campaignPage5 = GetCampaignPage(campaignScenario7.OutroPages, campaign16.Page + 1);
-                            PicR.CurrentImage = campaignPage5.ImageIndex;
-                            PicR.WinWidth = 0;
-                            PicR.WinHeight = 0;
-                            PicR.Visible = true;
+                            RightPagePicture.CurrentImage = campaignPage5.ImageIndex;
+                            RightPagePicture.WinWidth = 0;
+                            RightPagePicture.WinHeight = 0;
+                            RightPagePicture.Visible = true;
                         }
 
                         var campaign19 = GetCampaign();
-                        Back.Visible = campaign19.Page > 0;
+                        BackButton.Visible = campaign19.Page > 0;
                         if (GetCampaign().Page == 8)
                         {
-                            Next.Visible = false;
+                            NextButton.Visible = false;
                         }
                         else
                         {
@@ -207,24 +207,24 @@ public partial class WorldMap : DataModule
                                 test = GetCampaignPage(campaignScenario7.OutroPages, campaign16.Page + 2).Text.Count > 0;
                             }
 
-                            Next.Visible = test;
+                            NextButton.Visible = test;
                         }
 
-                        BookStart.Visible = !Next.Visible;
-                        Cancel.Visible = false;
-                        var bookWindow = BookWin;
+                        BookStartButton.Visible = !NextButton.Visible;
+                        CancelButton.Visible = false;
+                        var bookWindow = Book;
                         bookWindow.Hidden = true;
                         bookWindow.Visible = true;
 
-                        SetBtn.Visible = false;
-                        ShowBtn.Visible = false;
-                        QuitBtn.Visible = false;
-                        if (BookWin.BackSurface != null)
+                        SetButton.Visible = false;
+                        ShowButton.Visible = false;
+                        QuitButton.Visible = false;
+                        if (Book.BackSurface != null)
                         {
-                            BookWin.BackSurface.Clear(BookWin._maskColor);
+                            Book.BackSurface.Clear(Book._maskColor);
                         }
 
-                        if (DialogHosts.TitleWindow.TitleWin.Visible)
+                        if (DialogHosts.TitleWindow.MainWindow.Visible)
                         {
                             DialogHosts.General.Manager.OverlayPriority = 249;
                         }
@@ -238,107 +238,107 @@ public partial class WorldMap : DataModule
 
                     break;
                 case 1:
-                    SetBtn.Visible = true;
-                    ShowBtn.Visible = true;
-                    QuitBtn.Visible = true;
-                    BookWin.Visible = false;
-                    PPawn.Visible = true;
-                    EPawn.Visible = true;
+                    SetButton.Visible = true;
+                    ShowButton.Visible = true;
+                    QuitButton.Visible = true;
+                    Book.Visible = false;
+                    PlayerPawnImage.Visible = true;
+                    EnemyPawnImage.Visible = true;
                     var campaign20 = GetCampaign();
                     var campaignScenario9 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign20.CurrentScenarioId);
-                    PPawn.WinLeft = campaignScenario9.MapX - 25;
+                    PlayerPawnImage.WinLeft = campaignScenario9.MapX - 25;
                     var campaign21 = GetCampaign();
                     var campaignScenario10 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign21.CurrentScenarioId);
-                    PPawn.WinTop = campaignScenario10.MapY - 65;
+                    PlayerPawnImage.WinTop = campaignScenario10.MapY - 65;
                     var campaign22 = GetCampaign();
                     var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign22.CurrentScenarioId).Paths[3];
                     index = GetCampaign().Scenarios.IndexOfId(path);
                     if (index != -1)
                     {
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        EPawn.WinLeft = campaignScenario.MapX - 25;
+                        EnemyPawnImage.WinLeft = campaignScenario.MapX - 25;
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        EPawn.WinTop = campaignScenario2.MapY - 65;
+                        EnemyPawnImage.WinTop = campaignScenario2.MapY - 65;
                     }
 
                     {
-                        if (this.PPawn.WinTop > EPawn.WinTop)
+                        if (this.PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                         {
-                            this.PPawn.Priority = 10;
-                            EPawn.Priority = 5;
+                            this.PlayerPawnImage.Priority = 10;
+                            EnemyPawnImage.Priority = 5;
                         }
                         else
                         {
-                            this.PPawn.Priority = 5;
-                            EPawn.Priority = 10;
+                            this.PlayerPawnImage.Priority = 5;
+                            EnemyPawnImage.Priority = 10;
                         }
                     }
 
                     var campaign23 = GetCampaign();
                     if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign23.CurrentScenarioId).Paths[0] > -1)
                     {
-                        Path1.Visible = true;
+                        Path1Image.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path1.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                        Path1Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[0];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        Path1.WinLeft = campaignScenario.MapX;
+                        Path1Image.WinLeft = campaignScenario.MapX;
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        Path1.WinTop = campaignScenario2.MapY;
+                        Path1Image.WinTop = campaignScenario2.MapY;
                     }
                     else
                     {
-                        Path1.Visible = false;
+                        Path1Image.Visible = false;
                     }
 
                     var campaign24 = GetCampaign();
                     if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign24.CurrentScenarioId).Paths[1] > -1)
                     {
-                        Path2.Visible = true;
+                        Path2Image.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path2.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                        Path2Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[1];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        Path2.WinLeft = campaignScenario.MapX;
+                        Path2Image.WinLeft = campaignScenario.MapX;
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        Path2.WinTop = campaignScenario2.MapY;
+                        Path2Image.WinTop = campaignScenario2.MapY;
                     }
                     else
                     {
-                        Path2.Visible = false;
+                        Path2Image.Visible = false;
                     }
 
                     var campaign25 = GetCampaign();
                     if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign25.CurrentScenarioId).Paths[2] > -1)
                     {
-                        Path3.Visible = true;
+                        Path3Image.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path3.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                        Path3Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[2];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        Path3.WinLeft = campaignScenario.MapX;
+                        Path3Image.WinLeft = campaignScenario.MapX;
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                        Path3.WinTop = campaignScenario2.MapY;
+                        Path3Image.WinTop = campaignScenario2.MapY;
                     }
                     else
                     {
-                        Path3.Visible = false;
+                        Path3Image.Visible = false;
                     }
 
-                    if (!Path1.Visible && !Path2.Visible && !Path3.Visible)
+                    if (!Path1Image.Visible && !Path2Image.Visible && !Path3Image.Visible)
                     {
-                        DialogHosts.TitleWindow.TitlePnl.Visible = false;
-                        DialogHosts.TitleWindow.TitlePnl.Redraw = false;
-                        DialogHosts.TitleWindow.TitleWin.Visible = false;
+                        DialogHosts.TitleWindow.TitlePanel.Visible = false;
+                        DialogHosts.TitleWindow.TitlePanel.Redraw = false;
+                        DialogHosts.TitleWindow.MainWindow.Visible = false;
                         DialogHosts.TaskBar.TaskWindow.Visible = false;
-                        WorldPnl.Visible = false;
-                        BookWin.Visible = false;
+                        WorldPanel.Visible = false;
+                        Book.Visible = false;
                         GameTables.GameEngine.CloseCampaign();
                         DialogHosts.TitleScene.ResetScene();
                         WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
@@ -356,18 +356,18 @@ public partial class WorldMap : DataModule
 
                     if (passed)
                     {
-                        SetBtn.Visible = false;
-                        ShowBtn.Visible = false;
-                        QuitBtn.Visible = false;
+                        SetButton.Visible = false;
+                        ShowButton.Visible = false;
+                        QuitButton.Visible = false;
                         ShowIntroPages(GetCampaign().NextScenarioId);
                     }
                     else
                     {
                         _pawnTicks = 20;
-                        BookWin.Visible = false;
-                        SetBtn.Visible = false;
-                        ShowBtn.Visible = false;
-                        QuitBtn.Visible = false;
+                        Book.Visible = false;
+                        SetButton.Visible = false;
+                        ShowButton.Visible = false;
+                        QuitButton.Visible = false;
                         var campaign2 = GetCampaign();
                         campaign2.State += 1;
                         UpdateCampaignState();
@@ -376,9 +376,9 @@ public partial class WorldMap : DataModule
                     break;
                 case 3:
                     DialogHosts.CampaignTransferDialog.Execute();
-                    SetBtn.Visible = false;
-                    ShowBtn.Visible = false;
-                    QuitBtn.Visible = false;
+                    SetButton.Visible = false;
+                    ShowButton.Visible = false;
+                    QuitButton.Visible = false;
                     break;
                 case 4:
                     var campaign27 = GetCampaign();
@@ -420,15 +420,15 @@ public partial class WorldMap : DataModule
                         var campaign4 = GetCampaign();
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
                         General.LoadGame(DialogHosts.General, FileBoundary.ReadName(campaignScenario.FileName));
-                        DialogHosts.TitleWindow.TitlePnl.Visible = true;
-                        WorldPnl.Visible = false;
+                        DialogHosts.TitleWindow.TitlePanel.Visible = true;
+                        WorldPanel.Visible = false;
                         GetCampaign().SetupScenario();
                         General.StartGame(DialogHosts.General);
-                        DialogHosts.WorldMap.DescLbl.Text = "";
+                        DialogHosts.WorldMap.DescriptionLabel.Text = "";
                     }
                     else
                     {
-                        DialogHosts.WorldMap.DescLbl.Text = "";
+                        DialogHosts.WorldMap.DescriptionLabel.Text = "";
                         GetCampaign().State = 0;
                         UpdateCampaignState();
                     }
@@ -448,70 +448,70 @@ public partial class WorldMap : DataModule
         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign = GetCampaign();
         var campaignPage = GetCampaignPage(campaignScenario.IntroPages, campaign.Page);
-        LabelL.Text = campaignPage.Heading;
+        LeftPageLabel.Text = campaignPage.Heading;
         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign2 = GetCampaign();
         var worldMapCampaignPage = GetCampaignPage(campaignScenario2.IntroPages, campaign2.Page + 1);
-        LabelR.Text = worldMapCampaignPage.Heading;
+        RightPageLabel.Text = worldMapCampaignPage.Heading;
         var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign3 = GetCampaign();
         var campaignPage2 = GetCampaignPage(campaignScenario3.IntroPages, campaign3.Page);
-        MemoL.Items.Assign(campaignPage2.Text);
+        LeftPageMemo.Items.Assign(campaignPage2.Text);
         var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign4 = GetCampaign();
         var campaignPage3 = GetCampaignPage(campaignScenario4.IntroPages, campaign4.Page + 1);
-        MemoR.Items.Assign(campaignPage3.Text);
-        leftSB.Position = 0;
-        rightSB.Position = 0;
+        RightPageMemo.Items.Assign(campaignPage3.Text);
+        LeftPageScrollBar.Position = 0;
+        RightPageScrollBar.Position = 0;
         var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign5 = GetCampaign();
         if (IsEmpty(GetCampaignPage(campaignScenario5.IntroPages, campaign5.Page).ImageLibrary))
         {
-            PicL.ImageLibrary = null;
+            LeftPagePicture.ImageLibrary = null;
         }
         else
         {
             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
             var campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page);
-            DialogHosts.UIGraphics.BookPL.LoadFromFile(campaignPage4.ImageLibrary);
-            PicL.ImageLibrary = DialogHosts.UIGraphics.BookPL;
+            DialogHosts.UIGraphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
+            LeftPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookLeftPage;
             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign7 = GetCampaign();
             var campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page);
-            PicL.CurrentImage = campaignPage5.ImageIndex;
-            PicL.WinWidth = 0;
-            PicL.WinHeight = 0;
-            PicL.Visible = true;
+            LeftPagePicture.CurrentImage = campaignPage5.ImageIndex;
+            LeftPagePicture.WinWidth = 0;
+            LeftPagePicture.WinHeight = 0;
+            LeftPagePicture.Visible = true;
         }
 
         var campaignScenario8 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign8 = GetCampaign();
         if (IsEmpty(GetCampaignPage(campaignScenario8.IntroPages, campaign8.Page + 1).ImageLibrary))
         {
-            PicR.ImageLibrary = null;
+            RightPagePicture.ImageLibrary = null;
         }
         else
         {
             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
             var campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page + 1);
-            DialogHosts.UIGraphics.BookPR.LoadFromFile(campaignPage4.ImageLibrary);
-            PicR.ImageLibrary = DialogHosts.UIGraphics.BookPR;
+            DialogHosts.UIGraphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
+            RightPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookRightPage;
             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign7 = GetCampaign();
             var campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page + 1);
-            PicR.CurrentImage = campaignPage5.ImageIndex;
-            PicR.WinWidth = 0;
-            PicR.WinHeight = 0;
-            PicR.Visible = true;
+            RightPagePicture.CurrentImage = campaignPage5.ImageIndex;
+            RightPagePicture.WinWidth = 0;
+            RightPagePicture.WinHeight = 0;
+            RightPagePicture.Visible = true;
         }
 
         var campaign9 = GetCampaign();
-        Back.Visible = campaign9.Page > 0;
+        BackButton.Visible = campaign9.Page > 0;
         if (GetCampaign().Page == 8)
         {
-            Next.Visible = false;
+            NextButton.Visible = false;
         }
         else
         {
@@ -525,22 +525,22 @@ public partial class WorldMap : DataModule
                 condition = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page + 2).Text.Count > 0;
             }
 
-            Next.Visible = condition;
+            NextButton.Visible = condition;
         }
 
-        bool test = !Next.Visible || GetCampaign().State == 10;
-        BookStart.Visible = test;
-        Cancel.Visible = WorldPnl.Visible;
-        var bookWindow = BookWin;
+        bool test = !NextButton.Visible || GetCampaign().State == 10;
+        BookStartButton.Visible = test;
+        CancelButton.Visible = WorldPanel.Visible;
+        var bookWindow = Book;
         bookWindow.Hidden = true;
         bookWindow.Visible = true;
 
-        if (BookWin.BackSurface != null)
+        if (Book.BackSurface != null)
         {
-            BookWin.BackSurface.Clear(BookWin._maskColor);
+            Book.BackSurface.Clear(Book._maskColor);
         }
 
-        if (DialogHosts.TitleWindow.TitleWin.Visible)
+        if (DialogHosts.TitleWindow.MainWindow.Visible)
         {
             DialogHosts.General.Manager.OverlayPriority = 249;
         }
@@ -551,7 +551,7 @@ public partial class WorldMap : DataModule
     {
         int picks = default;
         LeaderSetupControl control = default;
-        WorldPnl.Visible = false;
+        WorldPanel.Visible = false;
         picks = GetCampaign().TransferSettings.Leader.SpherePicksMax;
         control = new LeaderSetupControl(null);
         var campaign = GetCampaign();
@@ -560,16 +560,16 @@ public partial class WorldMap : DataModule
         control.OriginalLeader.Assign(control.Leader, GameTables.GameEngine);
         control.Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
         DialogHosts.LeaderSetupWindow.Execute(control);
-        DialogHosts.LeaderSetupWindow.ClearBtn.Visible = false;
-        DialogHosts.LeaderSetupWindow.DefaultBtn.Visible = false;
-        DialogHosts.LeaderSetupWindow.PrevBtn.Visible = false;
+        DialogHosts.LeaderSetupWindow.ClearButton.Visible = false;
+        DialogHosts.LeaderSetupWindow.DefaultButton.Visible = false;
+        DialogHosts.LeaderSetupWindow.PreviousButton.Visible = false;
         DialogHosts.LeaderSetupWindow.SetFixedSpheres(picks);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
         DialogHosts.LeaderSetupWindow.Phase3Header.Text = format;
         control.OnDone = SpheresDone;
         control.Release();
-        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.WorldMap;
-        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryIndexTexture = 0;
+        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.WorldMap;
+        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;
     }
 
     // AoWWorldMap.pas:386
@@ -586,7 +586,7 @@ public partial class WorldMap : DataModule
                 GetCampaign().TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
             }
 
-            WorldPnl.Visible = true;
+            WorldPanel.Visible = true;
             var campaign = GetCampaign();
             campaign.State += 1;
             UpdateCampaignState();
@@ -620,9 +620,9 @@ public partial class WorldMap : DataModule
     {
         GetCampaign().State = 0;
         GetCampaign().Page = 0;
-        InfoPnl.Visible = false;
+        InfoPanel.Visible = false;
         var showInfo = AbilityRules.TranslateResourceString(s_showInfoText);
-        ShowBtn.Text = showInfo;
+        ShowButton.Text = showInfo;
     }
 
     // AoWWorldMap.pas:151
@@ -661,16 +661,16 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:442
     public void BackClick()
     {
-        Back.CaptureInput = false;
-        Next.CaptureInput = false;
-        var button = BookStart;
+        BackButton.CaptureInput = false;
+        NextButton.CaptureInput = false;
+        var button = BookStartButton;
         button.CaptureInput = false;
         button.Visible = false;
 
-        this.BookWin.Drawn = false;
-        if (this.BookWin.BackSurface != null)
+        this.Book.Drawn = false;
+        if (this.Book.BackSurface != null)
         {
-            this.BookWin.BackSurface.Clear(this.BookWin._maskColor);
+            this.Book.BackSurface.Clear(this.Book._maskColor);
         }
 
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -686,9 +686,9 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:461
     public void NextStartClick()
     {
-        Back.CaptureInput = false;
-        Next.CaptureInput = false;
-        BookStart.CaptureInput = false;
+        BackButton.CaptureInput = false;
+        NextButton.CaptureInput = false;
+        BookStartButton.CaptureInput = false;
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
         BookAction = 2;
     }
@@ -699,13 +699,13 @@ public partial class WorldMap : DataModule
         int frame;
         int startIndex;
         int endIndex;
-        if (WorldPnl.Visible && !BookWin.Visible)
+        if (WorldPanel.Visible && !Book.Visible)
         {
-            Path1.Drawn = false;
-            Path2.Drawn = false;
-            Path3.Drawn = false;
-            PPawn.Drawn = false;
-            EPawn.Drawn = false;
+            Path1Image.Drawn = false;
+            Path2Image.Drawn = false;
+            Path3Image.Drawn = false;
+            PlayerPawnImage.Drawn = false;
+            EnemyPawnImage.Drawn = false;
             _pathDelay -= 1;
             if (_pathDelay < 1)
             {
@@ -713,11 +713,11 @@ public partial class WorldMap : DataModule
                 frame = 1 - _pathFrame;
                 _pathFrame = frame;
                 var campaign = GetCampaign();
-                Path1.CurrentImage = campaign.Faction * 3 + (frame + 2);
+                Path1Image.CurrentImage = campaign.Faction * 3 + (frame + 2);
                 var campaign2 = GetCampaign();
-                Path2.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                Path2Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
                 var campaign3 = GetCampaign();
-                Path3.CurrentImage = campaign3.Faction * 3 + (_pathFrame + 2);
+                Path3Image.CurrentImage = campaign3.Faction * 3 + (_pathFrame + 2);
             }
 
             if (GetCampaign().State == 5)
@@ -730,23 +730,23 @@ public partial class WorldMap : DataModule
                     var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                     var campaign3 = GetCampaign();
                     var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId);
-                    PPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
+                    PlayerPawnImage.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
                     var campaign4 = GetCampaign();
                     var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.NextScenarioId);
                     var campaign5 = GetCampaign();
                     var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign5.CurrentScenarioId);
                     var campaign6 = GetCampaign();
                     var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
-                    PPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
-                    if (this.PPawn.WinTop > EPawn.WinTop)
+                    PlayerPawnImage.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
+                    if (this.PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                     {
-                        this.PPawn.Priority = 10;
-                        EPawn.Priority = 5;
+                        this.PlayerPawnImage.Priority = 10;
+                        EnemyPawnImage.Priority = 5;
                     }
                     else
                     {
-                        this.PPawn.Priority = 5;
-                        EPawn.Priority = 10;
+                        this.PlayerPawnImage.Priority = 5;
+                        EnemyPawnImage.Priority = 10;
                     }
                 }
                 else
@@ -757,12 +757,12 @@ public partial class WorldMap : DataModule
                     campaign.State += 1;
                     var campaign2 = GetCampaign();
                     var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.NextScenarioId);
-                    if (DescLbl.Text != campaignScenario.Description)
+                    if (DescriptionLabel.Text != campaignScenario.Description)
                     {
                         var campaign3 = GetCampaign();
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.NextScenarioId);
-                        DescLbl.Text = campaignScenario2.Description;
-                        this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
+                        DescriptionLabel.Text = campaignScenario2.Description;
+                        this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
 
                         _descriptionHandled = true;
                     }
@@ -787,20 +787,20 @@ public partial class WorldMap : DataModule
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
-                        EPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
+                        EnemyPawnImage.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
                         var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
                         var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
-                        EPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
-                        if (this.PPawn.WinTop > EPawn.WinTop)
+                        EnemyPawnImage.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
+                        if (this.PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                         {
-                            this.PPawn.Priority = 10;
-                            EPawn.Priority = 5;
+                            this.PlayerPawnImage.Priority = 10;
+                            EnemyPawnImage.Priority = 5;
                         }
                         else
                         {
-                            this.PPawn.Priority = 5;
-                            EPawn.Priority = 10;
+                            this.PlayerPawnImage.Priority = 5;
+                            EnemyPawnImage.Priority = 10;
                         }
                     }
                 }
@@ -826,11 +826,11 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:566
     public void Path1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!BookWin.Visible)
+        if (!Book.Visible)
         {
             if (GetCampaign().State == 1)
             {
-                DescLbl.Text = "";
+                DescriptionLabel.Text = "";
                 SelectCampaignPath(GetCampaign(), 0);
                 UpdateCampaignState();
             }
@@ -840,11 +840,11 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:578
     public void Path2MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!BookWin.Visible)
+        if (!Book.Visible)
         {
             if (GetCampaign().State == 1)
             {
-                DescLbl.Text = "";
+                DescriptionLabel.Text = "";
                 SelectCampaignPath(GetCampaign(), 1);
                 UpdateCampaignState();
             }
@@ -854,11 +854,11 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:590
     public void Path3MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!BookWin.Visible)
+        if (!Book.Visible)
         {
             if (GetCampaign().State == 1)
             {
-                DescLbl.Text = "";
+                DescriptionLabel.Text = "";
                 SelectCampaignPath(GetCampaign(), 2);
                 UpdateCampaignState();
             }
@@ -939,10 +939,10 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:624. The label update both pawn moves share.
     private void ShowPawnDescription(Image pawn, string description)
     {
-        if (DescLbl.Text != description && !IsEmpty(description))
+        if (DescriptionLabel.Text != description && !IsEmpty(description))
         {
-            DescLbl.Text = description;
-            this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
+            DescriptionLabel.Text = description;
+            this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
         }
 
         _descriptionHandled = true;
@@ -959,11 +959,11 @@ public partial class WorldMap : DataModule
             var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[0];
             index = GetCampaign().Scenarios.IndexOfId(path);
             var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-            if (DescLbl.Text != campaignScenario.PathDescription)
+            if (DescriptionLabel.Text != campaignScenario.PathDescription)
             {
                 var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                DescLbl.Text = campaignScenario2.PathDescription;
-                this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
+                DescriptionLabel.Text = campaignScenario2.PathDescription;
+                this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
             }
         }
 
@@ -980,11 +980,11 @@ public partial class WorldMap : DataModule
             var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[1];
             index = GetCampaign().Scenarios.IndexOfId(path);
             var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-            if (DescLbl.Text != campaignScenario.PathDescription)
+            if (DescriptionLabel.Text != campaignScenario.PathDescription)
             {
                 var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                DescLbl.Text = campaignScenario2.PathDescription;
-                this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
+                DescriptionLabel.Text = campaignScenario2.PathDescription;
+                this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
             }
         }
 
@@ -1001,11 +1001,11 @@ public partial class WorldMap : DataModule
             var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[2];
             index = GetCampaign().Scenarios.IndexOfId(path);
             var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-            if (DescLbl.Text != campaignScenario.PathDescription)
+            if (DescriptionLabel.Text != campaignScenario.PathDescription)
             {
                 var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
-                DescLbl.Text = campaignScenario2.PathDescription;
-                this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
+                DescriptionLabel.Text = campaignScenario2.PathDescription;
+                this.DescriptionLabel.WinTop = 460 - this.DescriptionLabel.WinHeight;
             }
         }
 
@@ -1019,9 +1019,9 @@ public partial class WorldMap : DataModule
         {
             if (GetCampaign().State == 1)
             {
-                if (!IsEmpty(this.DescLbl.Text))
+                if (!IsEmpty(this.DescriptionLabel.Text))
                 {
-                    this.DescLbl.Text = "";
+                    this.DescriptionLabel.Text = "";
                 }
             }
         }
@@ -1032,14 +1032,14 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:706
     public void BookStartClick()
     {
-        BookWin.Visible = false;
+        Book.Visible = false;
         AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        if (!WorldPnl.Visible)
+        if (!WorldPanel.Visible)
         {
             DialogHosts.General.Manager.OverlayPriority = 0;
         }
 
-        if (WorldPnl.Visible)
+        if (WorldPanel.Visible)
         {
             _pawnTicks = 20;
             var campaign = GetCampaign();
@@ -1049,12 +1049,12 @@ public partial class WorldMap : DataModule
     }
 
     // AoWWorldMap.pas:720
-    public void BookWinAnimDone()
+    public void BookAnimationDone()
     {
-        Back.CaptureInput = true;
-        Next.CaptureInput = true;
-        BookStart.CaptureInput = true;
-        BookWin.Hidden = true;
+        BackButton.CaptureInput = true;
+        NextButton.CaptureInput = true;
+        BookStartButton.CaptureInput = true;
+        Book.Hidden = true;
     }
 
     // AoWWorldMap.pas:729
@@ -1070,14 +1070,14 @@ public partial class WorldMap : DataModule
         switch (BookAction)
         {
             case 3:
-                BookWin.StartAnimation((PageTurnMode)1);
+                Book.StartAnimation((PageTurnMode)1);
                 var campaign = GetCampaign();
                 campaign.Page -= 2;
                 UpdateCampaignState();
                 BookAction = 0;
                 break;
             case 4:
-                BookWin.StartAnimation(0);
+                Book.StartAnimation(0);
                 var campaign2 = GetCampaign();
                 campaign2.Page += 2;
                 UpdateCampaignState();
@@ -1091,36 +1091,36 @@ public partial class WorldMap : DataModule
                 break;
         }
 
-        if (BookStart.Visible != s_bookStartVisible)
+        if (BookStartButton.Visible != s_bookStartVisible)
         {
-            R = new Rect(BookWin.WinLeft + BookStart.WinLeft, BookWin.WinTop + BookStart.WinTop, BookWin.WinLeft + BookStart.WinLeft + BookStart.WinWidth, BookWin.WinTop + BookStart.WinTop + BookStart.WinHeight);
-            DialogHosts.General.Manager.AddDrawRectangle(ref R, BookWin);
-            s_bookStartVisible = BookStart.Visible;
+            R = new Rect(Book.WinLeft + BookStartButton.WinLeft, Book.WinTop + BookStartButton.WinTop, Book.WinLeft + BookStartButton.WinLeft + BookStartButton.WinWidth, Book.WinTop + BookStartButton.WinTop + BookStartButton.WinHeight);
+            DialogHosts.General.Manager.AddDrawRectangle(ref R, Book);
+            s_bookStartVisible = BookStartButton.Visible;
         }
     }
 
     // AoWWorldMap.pas:764
     public void ShowBtnClick()
     {
-        if (InfoPnl.Visible)
+        if (InfoPanel.Visible)
         {
             UpdateCampaignState();
-            SelectLbl.Visible = true;
-            InfoPnl.Visible = false;
+            SelectLabel.Visible = true;
+            InfoPanel.Visible = false;
             var showInfo = AbilityRules.TranslateResourceString(s_showInfoText);
-            ShowBtn.Text = showInfo;
+            ShowButton.Text = showInfo;
         }
         else
         {
-            SelectLbl.Visible = false;
-            PPawn.Visible = false;
-            EPawn.Visible = false;
-            Path1.Visible = false;
-            Path2.Visible = false;
-            Path3.Visible = false;
-            InfoPnl.Visible = true;
+            SelectLabel.Visible = false;
+            PlayerPawnImage.Visible = false;
+            EnemyPawnImage.Visible = false;
+            Path1Image.Visible = false;
+            Path2Image.Visible = false;
+            Path3Image.Visible = false;
+            InfoPanel.Visible = true;
             var hideInfo = AbilityRules.TranslateResourceString(s_hideInfoText);
-            ShowBtn.Text = hideInfo;
+            ShowButton.Text = hideInfo;
         }
     }
 
@@ -1146,20 +1146,20 @@ public partial class WorldMap : DataModule
             _starStep = 1;
         }
 
-        StarImg.Drawn = false;
+        StarImage.Drawn = false;
     }
 
     // AoWWorldMap.pas:800
     public void StarImgDraw(LockedSurface surface)
     {
-        DialogHosts.UIGraphics.WorldMap[_starImageValue].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
+        DialogHosts.UIGraphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.WinLeft + StarImage.WinLeft, WorldPanel.WinTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
     }
 
     // AoWWorldMap.pas:806
     public void Ally1PnlPreDraw(LockedSurface surface)
     {
         Rect R;
-        R = new Rect(InfoPnl.WinLeft + Ally1Pnl.WinLeft, InfoPnl.WinTop + Ally1Pnl.WinTop, InfoPnl.WinLeft + Ally1Pnl.WinLeft + Ally1Pnl.WinWidth, InfoPnl.WinTop + Ally1Pnl.WinTop + Ally1Pnl.WinHeight);
+        R = new Rect(InfoPanel.WinLeft + Ally1Frame.WinLeft, InfoPanel.WinTop + Ally1Frame.WinTop, InfoPanel.WinLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.WinTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 0)
         {
             var raceHistory = GetCampaign().RaceHistory[0];
@@ -1171,7 +1171,7 @@ public partial class WorldMap : DataModule
     public void Ally2PnlPreDraw(LockedSurface surface)
     {
         Rect R;
-        R = new Rect(InfoPnl.WinLeft + Ally2Pnl.WinLeft, InfoPnl.WinTop + Ally2Pnl.WinTop, InfoPnl.WinLeft + Ally2Pnl.WinLeft + Ally2Pnl.WinWidth, InfoPnl.WinTop + Ally2Pnl.WinTop + Ally2Pnl.WinHeight);
+        R = new Rect(InfoPanel.WinLeft + Ally2Frame.WinLeft, InfoPanel.WinTop + Ally2Frame.WinTop, InfoPanel.WinLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.WinTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 1)
         {
             var raceHistory = GetCampaign().RaceHistory[1];
@@ -1183,7 +1183,7 @@ public partial class WorldMap : DataModule
     public void Ally3PnlPreDraw(LockedSurface surface)
     {
         Rect R;
-        R = new Rect(InfoPnl.WinLeft + Ally3Pnl.WinLeft, InfoPnl.WinTop + Ally3Pnl.WinTop, InfoPnl.WinLeft + Ally3Pnl.WinLeft + Ally3Pnl.WinWidth, InfoPnl.WinTop + Ally3Pnl.WinTop + Ally3Pnl.WinHeight);
+        R = new Rect(InfoPanel.WinLeft + Ally3Frame.WinLeft, InfoPanel.WinTop + Ally3Frame.WinTop, InfoPanel.WinLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.WinTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 2)
         {
             var raceHistory = GetCampaign().RaceHistory[2];
@@ -1195,7 +1195,7 @@ public partial class WorldMap : DataModule
     public void HeroPnlPreDraw(LockedSurface surface)
     {
         Rect R;
-        R = new Rect(InfoPnl.WinLeft + HeroPnl.WinLeft, InfoPnl.WinTop + HeroPnl.WinTop, InfoPnl.WinLeft + HeroPnl.WinLeft + HeroPnl.WinWidth, InfoPnl.WinTop + HeroPnl.WinTop + HeroPnl.WinHeight);
+        R = new Rect(InfoPanel.WinLeft + HeroFrame.WinLeft, InfoPanel.WinTop + HeroFrame.WinTop, InfoPanel.WinLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.WinTop + HeroFrame.WinTop + HeroFrame.WinHeight);
         if (GetCampaign().TransferSettings.Leader != null)
         {
             GetCampaign().TransferSettings.Leader.ShowFace(R, surface);
@@ -1205,7 +1205,7 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:854
     public void SetBtnClick()
     {
-        DialogHosts.CampaignSettingsDialog.Dlg.Visible = true;
+        DialogHosts.CampaignSettingsDialog.Window.Visible = true;
     }
 
     // AoWWorldMap.pas:859
@@ -1254,12 +1254,12 @@ public partial class WorldMap : DataModule
         string song = "";
         dialog.ResetCampaign();
         GameTables.GameEngine.CloseHsm(null);
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        DialogHosts.TitleWindow.TitlePnl.Visible = false;
-        dialog.WorldPnl.Visible = true;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        DialogHosts.TitleWindow.TitlePanel.Visible = false;
+        dialog.WorldPanel.Visible = true;
         dialog._pathFrame = 0;
         dialog._pathDelay = 5;
-        dialog.DescLbl.Text = "";
+        dialog.DescriptionLabel.Text = "";
         DialogHosts.General.Manager.OverlayPriority = 249;
         AudioHost.SongPlayer.Stop(false);
         SetCurrentDir(GameTables.GameEngine.StartupDirectory);
@@ -1276,9 +1276,9 @@ public partial class WorldMap : DataModule
 
         AudioPlayback.PlaySong(song, 1, 0, true);
         var campaign2 = dialog.GetCampaign();
-        dialog.PPawn.CurrentImage = campaign2.Faction + 7;
+        dialog.PlayerPawnImage.CurrentImage = campaign2.Faction + 7;
         var campaign3 = dialog.GetCampaign();
-        dialog.EPawn.CurrentImage = 8 - campaign3.Faction;
+        dialog.EnemyPawnImage.CurrentImage = 8 - campaign3.Faction;
         dialog.UpdateCampaignState();
     }
 

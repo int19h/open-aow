@@ -19,39 +19,39 @@ public partial class TaskBar : DataModule
     { }
 
     public Window TaskWindow;
-    public MenuBar StartMenuBar;
-    public Edit TBMessEdit;
-    public Label WGILbl;
-    public Label WGTLbl;
-    public TurnButton TurnButton;
-    public Button ConButton;
-    public Button StructButton;
-    public Button ChatBtn;
-    public Label TimeLbl;
-    public Frame PInd;
-    public Image CurP;
-    public Panel TBWorld;
-    public MenuBar TCStartBar;
-    public Edit TCMsg;
-    public TurnButton TCTurnButton;
-    public Button TCScannerBtn;
-    public Button TCUnitBtn;
-    public Label TCTimeLbl;
-    public Frame TCPInd;
-    public Image TCCurP;
-    public Panel TBCombat;
-    public Button TCChatBtn;
-    public Label WGSign;
-    public Label WMILbl;
-    public Label WMTLbl;
-    public Label WMTSign;
-    public Label TGILbl;
-    public Label TGTLbl;
-    public Label TGSign;
-    public Label TMILbl;
-    public Label TMTLbl;
-    public Label TMTSign;
-    public CheckBox AutoBtn;
+    public MenuBar WorldStartMenuBar;
+    public Edit WorldMessageEdit;
+    public Label WorldGoldIncomeLabel;
+    public Label WorldGoldTotalLabel;
+    public TurnButton WorldTurnButton;
+    public Button PartyButton;
+    public Button StructureButton;
+    public Button ChatButton;
+    public Label WorldTimeLabel;
+    public Frame PlayerIndicatorFrame;
+    public Image CurrentPlayerImage;
+    public Panel WorldPanel;
+    public MenuBar CombatStartMenuBar;
+    public Edit CombatMessageEdit;
+    public TurnButton CombatTurnButton;
+    public Button CombatScannerButton;
+    public Button CombatUnitButton;
+    public Label CombatTimeLabel;
+    public Frame CombatPlayerIndicatorFrame;
+    public Image CombatCurrentPlayerImage;
+    public Panel CombatPanel;
+    public Button CombatChatButton;
+    public Label WorldGoldSignLabel;
+    public Label WorldManaIncomeLabel;
+    public Label WorldManaTotalLabel;
+    public Label WorldManaSignLabel;
+    public Label CombatGoldIncomeLabel;
+    public Label CombatGoldTotalLabel;
+    public Label CombatGoldSignLabel;
+    public Label CombatManaIncomeLabel;
+    public Label CombatManaTotalLabel;
+    public Label CombatManaSignLabel;
+    public CheckBox AutoCombatCheckBox;
     private int _indicatorFrame;
     private int _indicatorStep;
 
@@ -62,9 +62,9 @@ public partial class TaskBar : DataModule
     public short ChatFlash { get; set; }
 
     // AoWTBWindow.pas:122
-    public void TurnButtonAnimDone()
+    public void WorldTurnButtonAnimationDone()
     {
-        TurnButton.Checked = false;
+        WorldTurnButton.Checked = false;
         if (CombatMap.Current != null)
         {
             CombatMap.Current.EndTurnPending = true;
@@ -82,8 +82,8 @@ public partial class TaskBar : DataModule
     public void OVButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.RealmWindow.Dlg.Visible = !DialogHosts.RealmWindow.Dlg.Visible;
-        if (DialogHosts.RealmWindow.Dlg.Visible)
+        DialogHosts.RealmWindow.Window.Visible = !DialogHosts.RealmWindow.Window.Visible;
+        if (DialogHosts.RealmWindow.Window.Visible)
         {
             DialogHosts.RealmWindow.UpdateOverview();
         }
@@ -100,7 +100,7 @@ public partial class TaskBar : DataModule
     public void StructButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.InfoWindow.InfoWin.Visible = !DialogHosts.InfoWindow.InfoWin.Visible;
+        DialogHosts.InfoWindow.MainWindow.Visible = !DialogHosts.InfoWindow.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:153
@@ -111,19 +111,19 @@ public partial class TaskBar : DataModule
     }
 
     // AoWTBWindow.pas:159
-    public void UnitBtnClick()
+    public void UnitButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.UnitWindow.UnitWin.Visible = true;
+        DialogHosts.UnitWindow.MainWindow.Visible = true;
     }
 
     // AoWTBWindow.pas:165
     public void InfoBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.PlayerInfoWindow.PInfoWin.Visible)
+        if (DialogHosts.PlayerInfoWindow.MainWindow.Visible)
         {
-            DialogHosts.PlayerInfoWindow.PInfoWin.Visible = false;
+            DialogHosts.PlayerInfoWindow.MainWindow.Visible = false;
         }
         else
         {
@@ -147,7 +147,7 @@ public partial class TaskBar : DataModule
     public void ChatBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ChatWindow.ChatWin.Visible = !DialogHosts.ChatWindow.ChatWin.Visible;
+        DialogHosts.ChatWindow.MainWindow.Visible = !DialogHosts.ChatWindow.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:188
@@ -156,12 +156,12 @@ public partial class TaskBar : DataModule
         if (!AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).SingleProcessCycle)
         {
             var endTurn = AoWHSMap.Current.EndTurn();
-            TurnButton.Checked = endTurn;
+            WorldTurnButton.Checked = endTurn;
         }
         else
         {
             var cancelEndTurn = AoWHSMap.Current.CancelEndTurn();
-            TurnButton.Checked = !cancelEndTurn;
+            WorldTurnButton.Checked = !cancelEndTurn;
         }
     }
 
@@ -183,20 +183,20 @@ public partial class TaskBar : DataModule
                         race = 12;
                     }
 
-                    DialogHosts.UIGraphics.TBWin[race + 32].ShowClipped(PInd.WinLeft + 3 + position * 5, PInd.WinTop + 2, surface);
+                    DialogHosts.UIGraphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + position * 5, PlayerIndicatorFrame.WinTop + 2, surface);
                     if (AoWHSMap.Current.PlayMode == PlayMode.Turn)
                     {
                         if (I == AoWHSMap.Current.CurrentPlayer)
                         {
-                            CurP.WinLeft = PInd.WinLeft + 2 + position * 5;
-                            CurP.WinTop = PInd.WinTop + 11;
+                            CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + position * 5;
+                            CurrentPlayerImage.WinTop = PlayerIndicatorFrame.WinTop + 11;
                         }
                     }
                     else
                     {
                         if (AoWHSMap.Current.Players.GetPlayers(I).SingleProcessCycle)
                         {
-                            DialogHosts.UIGraphics.TBWin[50].ShowClipped(PInd.WinLeft + 2 + position * 5, PInd.WinTop + 11, surface);
+                            DialogHosts.UIGraphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + position * 5, PlayerIndicatorFrame.WinTop + 11, surface);
                         }
                     }
 
@@ -220,17 +220,17 @@ public partial class TaskBar : DataModule
             _indicatorStep = 1;
         }
 
-        CurP.CurrentImage = _indicatorFrame + 45;
-        PInd.Drawn = false;
+        CurrentPlayerImage.CurrentImage = _indicatorFrame + 45;
+        PlayerIndicatorFrame.Drawn = false;
     }
 
     // AoWTBWindow.pas:231
     public void TCTurnButtonChange()
     {
-        if (TCTurnButton.Checked)
+        if (CombatTurnButton.Checked)
         {
             var endTurn = CombatMap.Current.EndTurn(false);
-            TCTurnButton.Checked = endTurn;
+            CombatTurnButton.Checked = endTurn;
         }
         else
         {
@@ -239,10 +239,10 @@ public partial class TaskBar : DataModule
     }
 
     // AoWTBWindow.pas:237
-    public void TCTurnButtonAnimDone()
+    public void CombatTurnButtonAnimationDone()
     {
         DialogHosts.General.Manager.OverlayPriority = 0;
-        TCTurnButton.Checked = false;
+        CombatTurnButton.Checked = false;
         CombatMap.Current.EndTurnPending = true;
     }
 
@@ -262,11 +262,11 @@ public partial class TaskBar : DataModule
                 race = 12;
             }
 
-            DialogHosts.UIGraphics.TBWin[race + 32].ShowClipped(TCPInd.WinLeft + 3 + position * 5, TCPInd.WinTop + 2, surface);
+            DialogHosts.UIGraphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + position * 5, CombatPlayerIndicatorFrame.WinTop + 2, surface);
             if (CombatMap.Current.Combat.CombatData.TurnOrder[I] == CombatMap.Current.CurrentCombatPlayer)
             {
-                TCCurP.WinLeft = TCPInd.WinLeft + 2 + position * 5;
-                TCCurP.WinTop = TCPInd.WinTop + 11;
+                CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + position * 5;
+                CombatCurrentPlayerImage.WinTop = CombatPlayerIndicatorFrame.WinTop + 11;
             }
 
             position += 1;
@@ -287,15 +287,15 @@ public partial class TaskBar : DataModule
             _indicatorStep = 1;
         }
 
-        TCCurP.CurrentImage = _indicatorFrame + 45;
-        TCPInd.Drawn = false;
+        CombatCurrentPlayerImage.CurrentImage = _indicatorFrame + 45;
+        CombatPlayerIndicatorFrame.Drawn = false;
     }
 
     // AoWTBWindow.pas:273
     public void TCScannerBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.CombatScanner.TCScannerWin.Visible = !DialogHosts.CombatScanner.TCScannerWin.Visible;
+        DialogHosts.CombatScanner.CombatScannerWindow.Visible = !DialogHosts.CombatScanner.CombatScannerWindow.Visible;
     }
 
     // AoWTBWindow.pas:279
@@ -312,7 +312,7 @@ public partial class TaskBar : DataModule
         ushort minute = default;
         ushort second = default;
         ushort millisecond = default;
-        if (TBWorld.Visible && AoWHSMap.Current != null)
+        if (WorldPanel.Visible && AoWHSMap.Current != null)
         {
             WorldClockDelay = (short)(WorldClockDelay - 1);
             if (WorldClockDelay < 0)
@@ -324,20 +324,20 @@ public partial class TaskBar : DataModule
                     second = (ushort)(AoWHSMap.Current.GetTurnTimeLeft() % 60000 / 1000);
                     if (minute == 0 && second > 0 && second <= 10)
                     {
-                        TimeLbl.TextColor = 255;
+                        WorldTimeLabel.TextColor = 255;
                     }
                     else
                     {
-                        TimeLbl.TextColor = 0;
+                        WorldTimeLabel.TextColor = 0;
                     }
 
-                    TimeLbl.Text = IntToStr(minute) + ":";
+                    WorldTimeLabel.Text = IntToStr(minute) + ":";
                     if (second < 10)
                     {
-                        TimeLbl.Text = TimeLbl.Text + "0";
+                        WorldTimeLabel.Text = WorldTimeLabel.Text + "0";
                     }
 
-                    TimeLbl.Text = TimeLbl.Text + IntToStr(second);
+                    WorldTimeLabel.Text = WorldTimeLabel.Text + IntToStr(second);
                 }
                 else
                 {
@@ -353,13 +353,13 @@ public partial class TaskBar : DataModule
                         hour = 12;
                     }
 
-                    TimeLbl.Text = IntToStr(hour) + ":";
+                    WorldTimeLabel.Text = IntToStr(hour) + ":";
                     if (minute < 10)
                     {
-                        TimeLbl.Text = TimeLbl.Text + "0";
+                        WorldTimeLabel.Text = WorldTimeLabel.Text + "0";
                     }
 
-                    TimeLbl.Text = TimeLbl.Text + IntToStr(minute);
+                    WorldTimeLabel.Text = WorldTimeLabel.Text + IntToStr(minute);
                 }
             }
         }
@@ -372,7 +372,7 @@ public partial class TaskBar : DataModule
         ushort minute = default;
         ushort second = default;
         ushort millisecond = default;
-        if (TBCombat.Visible && CombatMap.Current != null)
+        if (CombatPanel.Visible && CombatMap.Current != null)
         {
             _combatClockDelay = (short)(_combatClockDelay - 1);
             if (_combatClockDelay < 0)
@@ -389,13 +389,13 @@ public partial class TaskBar : DataModule
                     hour = 12;
                 }
 
-                TCTimeLbl.Text = IntToStr(hour) + ":";
+                CombatTimeLabel.Text = IntToStr(hour) + ":";
                 if (minute < 10)
                 {
-                    TCTimeLbl.Text = TCTimeLbl.Text + "0";
+                    CombatTimeLabel.Text = CombatTimeLabel.Text + "0";
                 }
 
-                TCTimeLbl.Text = TCTimeLbl.Text + IntToStr(minute);
+                CombatTimeLabel.Text = CombatTimeLabel.Text + IntToStr(minute);
             }
         }
     }
@@ -404,7 +404,7 @@ public partial class TaskBar : DataModule
     public void OV2BtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.MagicWindow.Dlg.Visible)
+        if (DialogHosts.MagicWindow.Window.Visible)
         {
             MagicWindow.HideMagic(DialogHosts.MagicWindow);
         }
@@ -418,7 +418,7 @@ public partial class TaskBar : DataModule
     public void TCUnitBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.CombatUnitInfo.TCUnitWin.Visible = !DialogHosts.CombatUnitInfo.TCUnitWin.Visible;
+        DialogHosts.CombatUnitInfo.MainWindow.Visible = !DialogHosts.CombatUnitInfo.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:350
@@ -432,9 +432,9 @@ public partial class TaskBar : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         var relationWindow = DialogHosts.RelationWindow;
-        if (relationWindow.RelWin.Visible)
+        if (relationWindow.MainWindow.Visible)
         {
-            relationWindow.RelWin.Visible = false;
+            relationWindow.MainWindow.Visible = false;
         }
         else
         {
@@ -472,21 +472,21 @@ public partial class TaskBar : DataModule
     }
 
     // AoWTBWindow.pas:377
-    public void AutoBtn2Click()
+    public void AutoCombatCheckBoxChange()
     {
         if (CombatMap.Current.SeatedCombatPlayer > -1)
         {
-            CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer).SetAuto(AutoBtn.Checked);
+            CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer).SetAuto(AutoCombatCheckBox.Checked);
         }
     }
 
     internal static void ShowMagicWindow(MagicWindow window)
     {
-        if (!window.Dlg.Visible)
+        if (!window.Window.Visible)
         {
             MagicWindow.RefreshMagicWindow(window);
             MagicWindow.RefreshGlobalMagic(window);
         }
-        window.Dlg.Visible = true;
+        window.Window.Visible = true;
     }
 }

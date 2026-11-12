@@ -11,12 +11,12 @@ public partial class Pop3Dialog : DataModule
     public Pop3Dialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public ListBox FoundEmailGames;
-    public Panel ExitPnl;
-    public Panel StartExitPnl;
+    public Window Window;
+    public ListBox FoundEmailGamesList;
+    public Panel ExitPanel;
+    public Panel StartExitPanel;
     public Edit LocalEmailAddressEdit;
-    public Label AttachmentDirectoryLbl;
+    public Label AttachmentDirectoryLabel;
 
     public bool Searching { get; private set; }
 
@@ -27,23 +27,23 @@ public partial class Pop3Dialog : DataModule
     {
         _checkDelay = 30;
         Searching = false;
-        FoundEmailGames.Items.Clear();
-        ExitPnl.Visible = true;
-        StartExitPnl.Visible = false;
+        FoundEmailGamesList.Items.Clear();
+        ExitPanel.Visible = true;
+        StartExitPanel.Visible = false;
     }
 
     // AoWPOP3Dlg.pas:73
     public void UpdateSelection()
     {
-        if (FoundEmailGames.Items.Count != 0 && FoundEmailGames.Selected != -1)
+        if (FoundEmailGamesList.Items.Count != 0 && FoundEmailGamesList.Selected != -1)
         {
-            StartExitPnl.Visible = true;
-            ExitPnl.Visible = false;
+            StartExitPanel.Visible = true;
+            ExitPanel.Visible = false;
         }
         else
         {
-            StartExitPnl.Visible = false;
-            ExitPnl.Visible = true;
+            StartExitPanel.Visible = false;
+            ExitPanel.Visible = true;
         }
     }
 
@@ -62,14 +62,14 @@ public partial class Pop3Dialog : DataModule
         LocalEmailAddressEdit.Text = localEmailAddress;
         var attachmentDirectory = GameTables.GameEngine.Registry.GetAttachmentDirectory();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_attachmentDirectoryFormat), [attachmentDirectory]);
-        AttachmentDirectoryLbl.Text = "(" + format + ")";
-        Dlg.Visible = true;
+        AttachmentDirectoryLabel.Text = "(" + format + ")";
+        Window.Visible = true;
     }
 
     // AoWPOP3Dlg.pas:130
-    public void CancelBtnClick()
+    public void CancelButtonClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWPOP3Dlg.pas:135
@@ -99,7 +99,7 @@ public partial class Pop3Dialog : DataModule
     // AoWPOP3Dlg.pas:147
     public void ExitBtnClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWPOP3Dlg.pas:152
@@ -111,9 +111,9 @@ public partial class Pop3Dialog : DataModule
     // AoWPOP3Dlg.pas:157
     public void StartBtnClick()
     {
-        if (FoundEmailGames.Selected != -1)
+        if (FoundEmailGamesList.Selected != -1)
         {
-            var item = FoundEmailGames.Items[FoundEmailGames.Selected];
+            var item = FoundEmailGamesList.Items[FoundEmailGamesList.Selected];
             General.LoadGame(DialogHosts.General, GameTables.GameEngine.StartupDirectory + "EmailIn\\" + item);
             General.StartGame(DialogHosts.General);
         }
@@ -124,7 +124,7 @@ public partial class Pop3Dialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 

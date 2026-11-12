@@ -14,8 +14,8 @@ public partial class HelpWindow : DataModule
     public HelpWindow(Component owner) : base(owner)
     { }
 
-    public Window HelpWin;
-    public VerticalScrollBar HelpSB;
+    public Window MainWindow;
+    public VerticalScrollBar HelpScrollBar;
     public Memo HeaderMemo;
     public Memo HelpMemo;
     private ExecuteDoneEvent _done;
@@ -78,13 +78,13 @@ public partial class HelpWindow : DataModule
             }
         }
 
-        HelpWin.Visible = true;
+        MainWindow.Visible = true;
     }
 
     // aowHelpWin.pas:100
     public void CloseBtnClick()
     {
-        HelpWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // aowHelpWin.pas:105
@@ -96,23 +96,23 @@ public partial class HelpWindow : DataModule
     // aowHelpWin.pas:110
     public void HelpWinResize()
     {
-        this.HelpWin.Alignment.LeftOffset = this.HelpWin.WinLeft;
-        this.HelpWin.Alignment.TopOffset = this.HelpWin.WinTop;
-        this.HelpWin.Alignment.AlignHeight = AlignHeight.Top;
-        this.HelpWin.Alignment.AlignWidth = AlignWidth.Left;
+        this.MainWindow.Alignment.LeftOffset = this.MainWindow.WinLeft;
+        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
+        this.MainWindow.Alignment.AlignHeight = AlignHeight.Top;
+        this.MainWindow.Alignment.AlignWidth = AlignWidth.Left;
     }
 
     internal static void ShowHelp(int helpId)
     {
         StringList lines;
-        if (DialogHosts.HelpWindow.HelpWin.Visible)
+        if (DialogHosts.HelpWindow.MainWindow.Visible)
         {
             DialogHosts.HelpWindow.FinishDialog();
         }
 
         lines = new StringList();
         AoWHSSet.Current.TextControl.RetrieveText(helpId, lines);
-        DialogHosts.HelpWindow.HelpSB.Position = 0;
+        DialogHosts.HelpWindow.HelpScrollBar.Position = 0;
         DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
         if (lines.Count > 0)
         {
@@ -132,7 +132,7 @@ public partial class HelpWindow : DataModule
             DialogHosts.HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        DialogHosts.HelpWindow.HelpWin.Visible = true;
+        DialogHosts.HelpWindow.MainWindow.Visible = true;
         lines?.Dispose();
     }
 

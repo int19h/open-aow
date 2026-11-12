@@ -16,11 +16,11 @@ public partial class SendEmailGameDialog : DataModule
     public SendEmailGameDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
+    public Window Window;
     public Edit EmailAddressEdit;
-    public CheckBox ManualChk;
-    public CheckBox AutomatedChk;
-    public Label RecipientNameLbl;
+    public CheckBox ManualCheckBox;
+    public CheckBox AutomatedCheckBox;
+    public Label RecipientNameLabel;
     private ExecuteDoneEvent _done;
     private SendEmailGameEventLog _sendEvent;
 
@@ -29,7 +29,7 @@ public partial class SendEmailGameDialog : DataModule
     {
         ExecuteDoneEvent done;
         EventLog eventValue;
-        Dlg.Visible = false;
+        Window.Visible = false;
         done = _done;
         eventValue = _sendEvent;
         _done = null;
@@ -57,21 +57,21 @@ public partial class SendEmailGameDialog : DataModule
         // { Original reuses the resource-string temporary for the formatted text. }
         var nameEx = AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
-        RecipientNameLbl.Text = format;
+        RecipientNameLabel.Text = format;
         if (sendEmailGameEventLog.Mode == 2)
         {
             var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
-            AutomatedChk.Checked = !IsEmpty(smtpServer);
+            AutomatedCheckBox.Checked = !IsEmpty(smtpServer);
             var fRegistrySmtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
-            ManualChk.Checked = IsEmpty(fRegistrySmtpServer);
+            ManualCheckBox.Checked = IsEmpty(fRegistrySmtpServer);
         }
         else
         {
-            AutomatedChk.Checked = sendEmailGameEventLog.Mode == 0;
-            ManualChk.Checked = sendEmailGameEventLog.Mode == 1;
+            AutomatedCheckBox.Checked = sendEmailGameEventLog.Mode == 0;
+            ManualCheckBox.Checked = sendEmailGameEventLog.Mode == 1;
         }
 
-        Dlg.Visible = true;
+        Window.Visible = true;
     }
 
     // AoWSendEmailGameDlg.pas:102
@@ -83,24 +83,24 @@ public partial class SendEmailGameDialog : DataModule
     // AoWSendEmailGameDlg.pas:107
     public void OKBtnClick()
     {
-        if (AutomatedChk.Checked)
+        if (AutomatedCheckBox.Checked)
         {
             _sendEvent.Mode = 0;
         }
 
-        if (ManualChk.Checked)
+        if (ManualCheckBox.Checked)
         {
             _sendEvent.Mode = 1;
         }
 
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWSendEmailGameDlg.pas:114
     public void ExitBtnClick()
     {
         _sendEvent.Mode = 2;
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWSendEmailGameDlg.pas:120
@@ -114,7 +114,7 @@ public partial class SendEmailGameDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 

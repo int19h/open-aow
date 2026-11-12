@@ -19,62 +19,62 @@ public partial class InfoWindow : DataModule
     public InfoWindow(Component owner) : base(owner)
     { }
 
-    public Window InfoWin;
-    public Label Title;
-    public Button MainBtn;
-    public ArnoLine StructLine;
-    public Label StructNameLbl;
-    public Panel ProductionPlacePnl;
+    public Window MainWindow;
+    public Label TitleLabel;
+    public Button MainButton;
+    public ArnoLine StructureLine;
+    public Label StructureNameLabel;
+    public Panel ProductionPlacePanel;
     public Memo ActiveActionMemo;
-    public Panel SignPnl;
-    public Memo SignText;
+    public Panel SignPanel;
+    public Memo SignTextMemo;
     public Panel CityPanel;
-    public Label CityRaceLbl;
-    public Panel CityBorderPnl;
-    public Image ProdOrb;
-    public Panel SingleButPnl;
-    public Memo SBmemo;
-    public Panel AltarPnl;
-    public Gauge Bar;
-    public Label GemLbl;
-    public Label ChargePcntLbl;
-    public Label DayLbl;
-    public Image LShield;
-    public Panel NotYoursPnl;
+    public Label CityRaceLabel;
+    public Panel CityBorderPanel;
+    public Image ProductionOrb;
+    public Panel SingleButtonPanel;
+    public Memo SingleButtonMemo;
+    public Panel AltarPanel;
+    public Gauge AltarChargeBar;
+    public Label GemLabel;
+    public Label ChargePercentLabel;
+    public Label DayLabel;
+    public Image OwnerShield;
+    public Panel NotYoursPanel;
     public Memo NotYoursMemo;
-    public Label OwnerRaceLbl;
-    public Label ProdOrbTurnsLbl;
-    public Image ProdOrbTime;
-    public Panel ConstructionPnl;
+    public Label OwnerRaceLabel;
+    public Label ProductionOrbTurnsLabel;
+    public Image ProductionOrbTimeImage;
+    public Panel ConstructionPanel;
     public Memo ConstructionMemo;
-    public Label ConstructionDaysLeftLbl;
-    public Panel RazePnl;
-    public Button RazeBtn;
-    public Label CivilStatusLbl;
+    public Label ConstructionDaysLeftLabel;
+    public Panel RazePanel;
+    public Button RazeButton;
+    public Label CivilStatusLabel;
     public Image RaceRelationIcon;
-    public Label CityIncomeLbl;
-    public Label CityLevelLbl;
+    public Label CityIncomeLabel;
+    public Label CityLevelLabel;
     public Image IncomeTypeIcon;
-    public Label IncomeValueLbl;
+    public Label IncomeValueLabel;
     public Memo ActiveCityActionMemo;
-    public Label IncomeLbl;
-    public Label ProductionWarningLbl;
-    public Label CurrentActivityWarningLbl;
-    public Panel IncomePnl;
+    public Label IncomeLabel;
+    public Label ProductionWarningLabel;
+    public Label CurrentActivityWarningLabel;
+    public Panel IncomePanel;
     public Image IncomeTypeImage;
-    public Label IncomeAmountLbl;
+    public Label IncomeAmountLabel;
     public Memo IncomeMemo;
-    public Panel ItemPnl;
-    public Label ItemsInBagLbl;
-    public ListBox ItembagLB;
-    public VerticalScrollBar ItembagSB;
+    public Panel ItemPanel;
+    public Label ItemsInBagLabel;
+    public ListBox ItemBagList;
+    public VerticalScrollBar ItemBagScrollBar;
     public Memo ItemBagMemo;
-    public Panel ExplorationSitePnl;
-    public Memo ESMemo;
-    public Label ESLbl;
-    public Label ESStatusLbl;
-    public Label PopulationRaceLbl;
-    public Label PopulationLbl;
+    public Panel ExplorationSitePanel;
+    public Memo ExplorationSiteMemo;
+    public Label ExplorationSiteLabel;
+    public Label ExplorationSiteStatusLabel;
+    public Label PopulationRaceLabel;
+    public Label PopulationLabel;
 
     public ItemHexSprite ItemBag { get; set; }
     // Renderers of the structure views (Structure.Views.cs): the panel of each InfoPanel key and the
@@ -85,23 +85,23 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:137
     public void InfoWinResize()
     {
-        this.InfoWin.Alignment.RightOffset = this.InfoWin._windowManager.WinWidth - this.InfoWin.WinLeft - this.InfoWin.WinWidth;
-        this.InfoWin.Alignment.TopOffset = this.InfoWin.WinTop;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow._windowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
     }
 
     // AoWInfoWin.pas:146
     public void MinClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        InfoWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AoWInfoWin.pas:152
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        InfoWin.Visible = false;
-        DialogHosts.TaskBar.StructButton.Visible = false;
+        MainWindow.Visible = false;
+        DialogHosts.TaskBar.StructureButton.Visible = false;
     }
 
     // AoWInfoWin.pas:159
@@ -183,7 +183,7 @@ public partial class InfoWindow : DataModule
                         var hero = army.Army.Hero(255, RosterTables.AllHeroTypes);
                         DialogHosts.General.SelectedUnit = hero;
                         DialogHosts.UnitWindow.ShowUnit();
-                        DialogHosts.UnitWindow.UnitTab.Selected = 2;
+                        DialogHosts.UnitWindow.UnitTabs.Selected = 2;
                     }
                 }
             }
@@ -196,9 +196,9 @@ public partial class InfoWindow : DataModule
         if (ItemBag != null)
         {
             // { Original uses the scroll offset for every row. }
-            if (ItemBag.Items.Count > ItembagLB.ListOffset)
+            if (ItemBag.Items.Count > ItemBagList.ListOffset)
             {
-                ItemBag.Items.GetItem(ItembagLB.ListOffset).Show(drawRectangle.Left + 10, drawRectangle.Top + 10, surface);
+                ItemBag.Items.GetItem(ItemBagList.ListOffset).Show(drawRectangle.Left + 10, drawRectangle.Top + 10, surface);
             }
         }
     }
@@ -212,77 +212,77 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:236
     public void ESSBChange()
     {
-        ESMemo.Drawn = false;
-        InfoWin.Drawn = false;
+        ExplorationSiteMemo.Drawn = false;
+        MainWindow.Drawn = false;
     }
 
     internal static void SetStructureHeader(InfoWindow dialog, Structure structure)
     {
         var name = structure.GetName();
-        dialog.StructNameLbl.Text = name;
+        dialog.StructureNameLabel.Text = name;
         if (structure.GetBottomBorderImage() != null)
         {
             var topBorderImage = structure.GetTopBorderImage();
-            dialog.StructLine.ImageTop = topBorderImage;
+            dialog.StructureLine.ImageTop = topBorderImage;
             var middleBorderImage = structure.GetMiddleBorderImage();
-            dialog.StructLine.ImageMiddle = middleBorderImage;
+            dialog.StructureLine.ImageMiddle = middleBorderImage;
             var bottomBorderImage = structure.GetBottomBorderImage();
-            dialog.StructLine.ImageBottom = bottomBorderImage;
+            dialog.StructureLine.ImageBottom = bottomBorderImage;
         }
 
-        dialog.StructLine.Visible = true;
+        dialog.StructureLine.Visible = true;
     }
 
     internal static void ShowMineInfo(InfoWindow dialog, Mine structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.IncomePnl.Visible = true;
+        dialog.IncomePanel.Visible = true;
         var description = structure.GetDescription();
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 31;
         var income = structure.GetIncome();
-        dialog.IncomeAmountLbl.Text = IntToStr(income);
-        dialog.RazePnl.Visible = true;
+        dialog.IncomeAmountLabel.Text = IntToStr(income);
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowPowerNodeInfo(InfoWindow dialog, PowerNode structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.IncomePnl.Visible = true;
+        dialog.IncomePanel.Visible = true;
         var description = structure.GetDescription();
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         var power = structure.GetPower();
-        dialog.IncomeAmountLbl.Text = IntToStr(power);
-        dialog.RazePnl.Visible = true;
+        dialog.IncomeAmountLabel.Text = IntToStr(power);
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowProductionIncome(InfoWindow dialog, ProductionPlace structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.IncomePnl.Visible = true;
+        dialog.IncomePanel.Visible = true;
         var description = structure.GetDescription();
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         var power = structure.GetPower();
-        dialog.IncomeAmountLbl.Text = IntToStr(power);
-        dialog.RazePnl.Visible = true;
+        dialog.IncomeAmountLabel.Text = IntToStr(power);
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowFarmInfo(InfoWindow dialog, Farm structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
-        dialog.SBmemo.Items.Add("");
+        dialog.SingleButtonMemo.Items.Assign(description);
+        dialog.SingleButtonMemo.Items.Add("");
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IncomeFormat), [IntToStr(structure.Income)]);
-        dialog.SBmemo.Items.Add(format);
-        dialog.RazePnl.Visible = true;
+        dialog.SingleButtonMemo.Items.Add(format);
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowSignInfo(InfoWindow dialog, Sign structure)
@@ -290,69 +290,69 @@ public partial class InfoWindow : DataModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         DialogHosts.General.Sign = structure;
-        dialog.SignPnl.Visible = true;
-        dialog.SignText.Items.Assign(structure.Text);
+        dialog.SignPanel.Visible = true;
+        dialog.SignTextMemo.Items.Assign(structure.Text);
     }
 
     internal static void ShowTeleportInfo(InfoWindow dialog, Teleport structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = DialogHosts.General.Structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
-        dialog.SBmemo.Sized = false;
+        dialog.SingleButtonMemo.Items.Assign(description);
+        dialog.SingleButtonMemo.Sized = false;
         var canTeleport = structure.CanTeleport(AoWHSMap.Current.SeatedPlayer);
-        dialog.MainBtn.Visible = canTeleport;
+        dialog.MainButton.Visible = canTeleport;
         var teleport = AbilityRules.TranslateResourceString(Teleport.Resource.TeleportText);
-        dialog.MainBtn.Text = teleport;
-        dialog.RazePnl.Visible = dialog.MainBtn.Visible;
+        dialog.MainButton.Text = teleport;
+        dialog.RazePanel.Visible = dialog.MainButton.Visible;
     }
 
     internal static void ShowTowerInfo(InfoWindow dialog, WizardsTower structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
+        dialog.SingleButtonMemo.Items.Assign(description);
         var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
-        dialog.MainBtn.Visible = canEnter;
+        dialog.MainButton.Visible = canEnter;
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
-        dialog.MainBtn.Text = enter;
+        dialog.MainButton.Text = enter;
     }
 
     internal static void ShowArenaInfo(InfoWindow dialog, Arena structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
+        dialog.SingleButtonMemo.Items.Assign(description);
         var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
-        dialog.MainBtn.Visible = canEnter;
+        dialog.MainButton.Visible = canEnter;
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
-        dialog.MainBtn.Text = enter;
+        dialog.MainButton.Text = enter;
     }
 
     internal static void ShowCaveInfo(InfoWindow dialog, Cave structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
+        dialog.SingleButtonMemo.Items.Assign(description);
         var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
-        dialog.MainBtn.Visible = canEnter;
+        dialog.MainButton.Visible = canEnter;
         switch (structure.Entrance)
         {
             case CaveEntrance.Up:
                 var goUp = AbilityRules.TranslateResourceString(GameText.GoUpText);
-                dialog.MainBtn.Text = goUp;
+                dialog.MainButton.Text = goUp;
                 break;
             case CaveEntrance.Down:
                 var goDown = AbilityRules.TranslateResourceString(GameText.GoDownText);
-                dialog.MainBtn.Text = goDown;
+                dialog.MainButton.Text = goDown;
                 break;
         }
     }
@@ -361,80 +361,80 @@ public partial class InfoWindow : DataModule
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
-        dialog.RazePnl.Visible = true;
+        dialog.SingleButtonMemo.Items.Assign(description);
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowExplorationInfo(InfoWindow dialog, ExplorationSite structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.ExplorationSitePnl.Visible = true;
+        dialog.ExplorationSitePanel.Visible = true;
         var description = DialogHosts.General.Structure.GetDescription();
-        dialog.ESMemo.Items.Assign(description);
+        dialog.ExplorationSiteMemo.Items.Assign(description);
         var status = AbilityRules.TranslateResourceString(CityScreen.StatusText);
-        dialog.ESLbl.Text = status + ":";
+        dialog.ExplorationSiteLabel.Text = status + ":";
         if (structure.GetExplored())
         {
             var explored = AbilityRules.TranslateResourceString(GameText.ExploredText);
-            dialog.ESStatusLbl.Text = explored;
+            dialog.ExplorationSiteStatusLabel.Text = explored;
         }
         else
         {
             var unexplored = AbilityRules.TranslateResourceString(GameText.UnexploredText);
-            dialog.ESStatusLbl.Text = unexplored;
+            dialog.ExplorationSiteStatusLabel.Text = unexplored;
         }
 
         var canSearch = ((ExplorationSite)DialogHosts.General.Structure).CanSearch(AoWHSMap.Current.SeatedPlayer);
-        dialog.MainBtn.Visible = canSearch;
+        dialog.MainButton.Visible = canSearch;
         var search = AbilityRules.TranslateResourceString(GameText.SearchText);
-        dialog.MainBtn.Text = search;
+        dialog.MainButton.Text = search;
     }
 
     internal static void ShowAltarInfo(InfoWindow dialog, Altar structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.AltarPnl.Visible = true;
+        dialog.AltarPanel.Visible = true;
         if (structure.GetTargeting())
         {
             var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
-            dialog.MainBtn.Text = cancel;
+            dialog.MainButton.Text = cancel;
         }
         else
         {
             var target = AbilityRules.TranslateResourceString(GameText.TargetText);
-            dialog.MainBtn.Text = target;
+            dialog.MainButton.Text = target;
         }
 
-        dialog.MainBtn.Visible = true;
+        dialog.MainButton.Visible = true;
         var rechargeDays = structure.GetRechargeDays();
-        dialog.Bar.Max = rechargeDays;
-        dialog.Bar.Position = structure.RechargeDays;
+        dialog.AltarChargeBar.Max = rechargeDays;
+        dialog.AltarChargeBar.Position = structure.RechargeDays;
         var structureRechargeDays = structure.GetRechargeDays();
-        dialog.ChargePcntLbl.Text = IntToStr(Round((double)(structure.RechargeDays * 100) / structureRechargeDays)) + "%";
+        dialog.ChargePercentLabel.Text = IntToStr(Round((double)(structure.RechargeDays * 100) / structureRechargeDays)) + "%";
         var rechargeDays2 = structure.GetRechargeDays();
-        dialog.DayLbl.Text = IntToStr(rechargeDays2 - structure.RechargeDays);
+        dialog.DayLabel.Text = IntToStr(rechargeDays2 - structure.RechargeDays);
         var targetMana = structure.TargetMana();
-        dialog.GemLbl.Text = IntToStr(targetMana);
-        dialog.RazePnl.Visible = true;
+        dialog.GemLabel.Text = IntToStr(targetMana);
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowWarCityInfo(InfoWindow dialog, City structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
-        dialog.SBmemo.Items.Add("");
-        dialog.SBmemo.Items.Add("");
-        dialog.SBmemo.Items.Add("");
-        dialog.SBmemo.Items.Add("");
-        dialog.SBmemo.Items.Add("");
-        dialog.SBmemo.Items.Add("");
+        dialog.SingleButtonPanel.Visible = true;
+        dialog.SingleButtonMemo.Items.Add("");
+        dialog.SingleButtonMemo.Items.Add("");
+        dialog.SingleButtonMemo.Items.Add("");
+        dialog.SingleButtonMemo.Items.Add("");
+        dialog.SingleButtonMemo.Items.Add("");
+        dialog.SingleButtonMemo.Items.Add("");
         var statusWarMode = AbilityRules.TranslateResourceString(GameText.StatusWarModeText);
-        dialog.SBmemo.Items.Add(statusWarMode);
+        dialog.SingleButtonMemo.Items.Add(statusWarMode);
     }
 
     internal static void ShowCityInfo(InfoWindow dialog, City structure)
@@ -443,23 +443,23 @@ public partial class InfoWindow : DataModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
-        dialog.MainBtn.Text = enter;
-        dialog.MainBtn.Visible = true;
+        dialog.MainButton.Text = enter;
+        dialog.MainButton.Visible = true;
         DialogHosts.General.City = structure;
         dialog.CityPanel.Visible = true;
-        dialog.ProductionWarningLbl.Visible = false;
+        dialog.ProductionWarningLabel.Visible = false;
         dialog.ActiveCityActionMemo.Items.Clear();
         var name = DialogHosts.General.City.GetName();
-        dialog.StructNameLbl.Text = name;
+        dialog.StructureNameLabel.Text = name;
         var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[DialogHosts.General.City.Race]);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RaceFormat), [raceNames]);
-        dialog.CityRaceLbl.Text = format;
-        dialog.CityLevelLbl.Text = IntToStr(structure.UpgradeLevel);
-        dialog.CityIncomeLbl.Text = IntToStr(structure.Income);
+        dialog.CityRaceLabel.Text = format;
+        dialog.CityLevelLabel.Text = IntToStr(structure.UpgradeLevel);
+        dialog.CityIncomeLabel.Text = IntToStr(structure.Income);
         var civilStatus = structure.GetCivilStatus();
         var civilStatusText = AbilityRules.TranslateResourceString(CityScreen.s_civilStatusTexts[(int)civilStatus]);
         var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StatusFormat), [civilStatusText]);
-        dialog.CivilStatusLbl.Text = formattedText;
+        dialog.CivilStatusLabel.Text = formattedText;
         if (structure.Production.Queue.GetCount() != 0)
         {
             structure.Production.Queue.GetItem(0).Order.ActivityLines(structure.Production, dialog.ActiveCityActionMemo.Items);
@@ -483,8 +483,8 @@ public partial class InfoWindow : DataModule
                 {
                     var queue = structure.Production.Queue.GetItem(0);
                     structure.Production.CanExecuteProduction(queue, ref reason);
-                    dialog.ProductionWarningLbl.Text = reason;
-                    dialog.ProductionWarningLbl.Visible = true;
+                    dialog.ProductionWarningLabel.Text = reason;
+                    dialog.ProductionWarningLabel.Visible = true;
                 }
             }
         }
@@ -497,7 +497,7 @@ public partial class InfoWindow : DataModule
 
         var playerRelation = AoWHSMap.Current.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
         dialog.RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
-        dialog.RazePnl.Visible = true;
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowProductionInfo(InfoWindow dialog, ProductionPlace structure)
@@ -506,21 +506,21 @@ public partial class InfoWindow : DataModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
-        dialog.MainBtn.Text = enter;
-        dialog.MainBtn.Visible = true;
+        dialog.MainButton.Text = enter;
+        dialog.MainButton.Visible = true;
         DialogHosts.General.ProductionPlace = (ProductionPlace)DialogHosts.General.Structure;
-        dialog.ProductionPlacePnl.Visible = true;
+        dialog.ProductionPlacePanel.Visible = true;
         DialogHosts.General.ProductionControl = DialogHosts.General.ProductionPlace.ProductionControl;
-        dialog.CurrentActivityWarningLbl.Visible = false;
+        dialog.CurrentActivityWarningLabel.Visible = false;
         dialog.ActiveActionMemo.Items.Clear();
-        dialog.IncomeLbl.Visible = true;
+        dialog.IncomeLabel.Visible = true;
         dialog.IncomeTypeIcon.Visible = true;
-        dialog.IncomeValueLbl.Visible = true;
+        dialog.IncomeValueLabel.Visible = true;
         if (structure.GetMagicSphere() != MagicSphere.None)
         {
             dialog.IncomeTypeIcon.CurrentImage = 33;
             var power = structure.GetPower();
-            dialog.IncomeValueLbl.Text = IntToStr(power);
+            dialog.IncomeValueLabel.Text = IntToStr(power);
         }
         else
         {
@@ -528,19 +528,19 @@ public partial class InfoWindow : DataModule
             {
                 dialog.IncomeTypeIcon.CurrentImage = 31;
                 var income = structure.GetIncome();
-                dialog.IncomeValueLbl.Text = IntToStr(income);
+                dialog.IncomeValueLabel.Text = IntToStr(income);
             }
             else
             {
-                dialog.IncomeLbl.Visible = false;
+                dialog.IncomeLabel.Visible = false;
                 dialog.IncomeTypeIcon.Visible = false;
-                dialog.IncomeValueLbl.Visible = false;
+                dialog.IncomeValueLabel.Visible = false;
             }
         }
 
-        dialog.ProductionPlacePnl.Visible = true;
+        dialog.ProductionPlacePanel.Visible = true;
         var name = structure.GetName();
-        dialog.StructNameLbl.Text = name;
+        dialog.StructureNameLabel.Text = name;
         if (structure.ProductionControl.Queue.GetCount() != 0)
         {
             structure.ProductionControl.Queue.GetItem(0).Order.ActivityLines(structure.ProductionControl, dialog.ActiveActionMemo.Items);
@@ -565,8 +565,8 @@ public partial class InfoWindow : DataModule
                 {
                     var queue = structure.ProductionControl.Queue.GetItem(0);
                     structure.ProductionControl.CanExecuteProduction(queue, ref reason);
-                    dialog.CurrentActivityWarningLbl.Text = reason;
-                    dialog.CurrentActivityWarningLbl.Visible = true;
+                    dialog.CurrentActivityWarningLabel.Text = reason;
+                    dialog.CurrentActivityWarningLabel.Visible = true;
                 }
             }
         }
@@ -593,16 +593,16 @@ public partial class InfoWindow : DataModule
             }
         }
 
-        dialog.RazePnl.Visible = true;
+        dialog.RazePanel.Visible = true;
     }
 
     internal static void ShowBuildingInfo(InfoWindow dialog, Structure structure)
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.ConstructionPnl.Visible = true;
+        dialog.ConstructionPanel.Visible = true;
         var formatDaysLeftString = DurationText.FormatDaysLeftString(structure.BuildingDays);
-        dialog.ConstructionDaysLeftLbl.Text = formatDaysLeftString;
+        dialog.ConstructionDaysLeftLabel.Text = formatDaysLeftString;
         var description = structure.GetDescription();
         dialog.ConstructionMemo.Items.Assign(description);
     }
@@ -612,7 +612,7 @@ public partial class InfoWindow : DataModule
         string text;
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         if (structure is City)
         {
             var name = structure.GetName();
@@ -624,9 +624,9 @@ public partial class InfoWindow : DataModule
         }
 
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LiesInRuinsFormat), [text]);
-        dialog.SBmemo.Items.Text = format;
-        dialog.SBmemo.Items.Insert(0, "");
-        dialog.SBmemo.Items.Insert(0, "");
+        dialog.SingleButtonMemo.Items.Text = format;
+        dialog.SingleButtonMemo.Items.Insert(0, "");
+        dialog.SingleButtonMemo.Items.Insert(0, "");
     }
 
     internal static void ShowOtherPlayerInfo(InfoWindow dialog, PlayerStructure structure)
@@ -634,13 +634,13 @@ public partial class InfoWindow : DataModule
         int raceIndex;
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.NotYoursPnl.Visible = true;
+        dialog.NotYoursPanel.Visible = true;
         if (structure is City && structure.Player == 0)
         {
-            dialog.PopulationRaceLbl.Visible = true;
+            dialog.PopulationRaceLabel.Visible = true;
             var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[((City)structure).Race]);
-            dialog.PopulationRaceLbl.Text = raceNamesPlural;
-            dialog.PopulationLbl.Visible = true;
+            dialog.PopulationRaceLabel.Text = raceNamesPlural;
+            dialog.PopulationLabel.Visible = true;
             dialog.NotYoursMemo.Items.Clear();
         }
         else
@@ -658,15 +658,15 @@ public partial class InfoWindow : DataModule
             }
 
             var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[raceIndex]);
-            dialog.OwnerRaceLbl.Text = raceNamesPlural;
-            dialog.OwnerRaceLbl.Visible = true;
-            dialog.LShield.CurrentImage = raceIndex + 26;
-            dialog.LShield.Visible = true;
+            dialog.OwnerRaceLabel.Text = raceNamesPlural;
+            dialog.OwnerRaceLabel.Visible = true;
+            dialog.OwnerShield.CurrentImage = raceIndex + 26;
+            dialog.OwnerShield.Visible = true;
         }
         else
         {
-            dialog.OwnerRaceLbl.Visible = false;
-            dialog.LShield.Visible = false;
+            dialog.OwnerRaceLabel.Visible = false;
+            dialog.OwnerShield.Visible = false;
         }
     }
 
@@ -674,9 +674,9 @@ public partial class InfoWindow : DataModule
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        dialog.SingleButPnl.Visible = true;
+        dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
-        dialog.SBmemo.Items.Assign(description);
+        dialog.SingleButtonMemo.Items.Assign(description);
     }
 
 }

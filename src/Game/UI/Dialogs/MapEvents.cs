@@ -65,25 +65,25 @@ public partial class MapEvents : DataModule
             if (army == DialogHosts.General.UnitList)
             {
                 TheMapArmySelected(army);
-                if (DialogHosts.UnitWindow.UnitWin.Visible)
+                if (DialogHosts.UnitWindow.MainWindow.Visible)
                 {
                     DialogHosts.UnitWindow.ShowUnit();
                 }
 
-                if (DialogHosts.UnitBanner.BannerPopup.Visible)
+                if (DialogHosts.UnitBanner.BannerMenu.Visible)
                 {
                     DialogHosts.UnitBanner.BannerPopupShow();
                 }
             }
 
-            if (AoWHSMap.Current.SeatedPlayer == army.Player && DialogHosts.RealmWindow.Dlg.Visible && DialogHosts.RealmWindow.HeaderTab.Selected == 3)
+            if (AoWHSMap.Current.SeatedPlayer == army.Player && DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
             {
                 DialogHosts.RealmWindow.UpdateOverview();
             }
         }
         else
         {
-            if (DialogHosts.RealmWindow.Dlg.Visible && DialogHosts.RealmWindow.HeaderTab.Selected == 3)
+            if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
             {
                 DialogHosts.RealmWindow.UpdateOverview();
             }
@@ -95,29 +95,29 @@ public partial class MapEvents : DataModule
     {
         DialogHosts.General.Abilities.Clear();
         DialogHosts.General.UnitList = null;
-        DialogHosts.ControlWindow.MovesLbl.Text = "";
+        DialogHosts.ControlWindow.MovesLabel.Text = "";
         DialogHosts.ControlWindow.MoveIcon.Visible = false;
-        DialogHosts.ControlWindow.Emp1Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp1Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp2Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp2Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp3Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp3Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp4Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp4Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp5Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp5Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp6Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp6Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp7Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp7Chk.Visible = true;
-        DialogHosts.ControlWindow.Emp8Fr.Visible = true;
-        DialogHosts.ControlWindow.Emp8Chk.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot1Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck1Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot2Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck2Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot3Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck3Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot4Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck4Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot5Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck5Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot6Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck6Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot7Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck7Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptySlot8Frame.Visible = true;
+        DialogHosts.ControlWindow.EmptyCheck8Frame.Visible = true;
         DialogHosts.ControlWindow.MainWindow.Visible = false;
-        DialogHosts.TaskBar.ConButton.Visible = false;
-        if (DialogHosts.UnitWindow.UnitWin.Visible)
+        DialogHosts.TaskBar.PartyButton.Visible = false;
+        if (DialogHosts.UnitWindow.MainWindow.Visible)
         {
-            DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
     }
 
@@ -129,7 +129,7 @@ public partial class MapEvents : DataModule
             TheMapArmyDeselected();
         }
 
-        if (DialogHosts.RealmWindow.Dlg.Visible && DialogHosts.RealmWindow.HeaderTab.Selected == 3)
+        if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
         {
             DialogHosts.RealmWindow.UpdateOverview();
         }
@@ -167,14 +167,14 @@ public partial class MapEvents : DataModule
     {
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            DialogHosts.TaskBar.TurnButton.LastPlayer = -1;
+            DialogHosts.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
 
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dayFormat), [day]);
-        DialogHosts.PlayerInfoWindow.Turn.Text = format;
+        DialogHosts.PlayerInfoWindow.TurnLabel.Text = format;
         DialogHosts.MapEvents.TheMapGemsChanged(AoWHSMap.Current.SeatedPlayer);
         DialogHosts.MapEvents.TheMapIncomeChanged(AoWHSMap.Current.SeatedPlayer);
-        if (DialogHosts.RealmWindow.Dlg.Visible)
+        if (DialogHosts.RealmWindow.Window.Visible)
         {
             DialogHosts.RealmWindow.UpdateOverview();
         }
@@ -187,8 +187,8 @@ public partial class MapEvents : DataModule
         {
             if (cancelled)
             {
-                DialogHosts.TaskBar.TurnButton.Drawn = false;
-                DialogHosts.TaskBar.TurnButton.ButtonChecked = false;
+                DialogHosts.TaskBar.WorldTurnButton.Drawn = false;
+                DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
             }
             else
             {
@@ -196,7 +196,7 @@ public partial class MapEvents : DataModule
             }
         }
 
-        DialogHosts.TaskBar.PInd.Drawn = false;
+        DialogHosts.TaskBar.PlayerIndicatorFrame.Drawn = false;
     }
 
     // aowMapEvents.pas:198
@@ -256,23 +256,23 @@ public partial class MapEvents : DataModule
             if (!update)
             {
                 // { The original clears both income signs when the gold display is cleared. }
-                DialogHosts.TaskBar.WGTLbl.Text = "";
-                DialogHosts.TaskBar.WGSign.Text = "";
-                DialogHosts.TaskBar.WMTSign.Text = "";
+                DialogHosts.TaskBar.WorldGoldTotalLabel.Text = "";
+                DialogHosts.TaskBar.WorldGoldSignLabel.Text = "";
+                DialogHosts.TaskBar.WorldManaSignLabel.Text = "";
             }
             else
             {
                 var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-                DialogHosts.TaskBar.WGTLbl.Text = IntToStr(playerLocal.Gems);
-                if (DialogHosts.RealmWindow.Dlg.Visible && DialogHosts.RealmWindow.HeaderTab.Selected == 0)
+                DialogHosts.TaskBar.WorldGoldTotalLabel.Text = IntToStr(playerLocal.Gems);
+                if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 0)
                 {
                     DialogHosts.RealmWindow.UpdateOverview();
                 }
             }
 
-            DialogHosts.TaskBar.TGTLbl.Text = DialogHosts.TaskBar.WGTLbl.Text;
-            DialogHosts.TaskBar.TGSign.Text = DialogHosts.TaskBar.WGSign.Text;
-            DialogHosts.TaskBar.TMTSign.Text = DialogHosts.TaskBar.WMTSign.Text;
+            DialogHosts.TaskBar.CombatGoldTotalLabel.Text = DialogHosts.TaskBar.WorldGoldTotalLabel.Text;
+            DialogHosts.TaskBar.CombatGoldSignLabel.Text = DialogHosts.TaskBar.WorldGoldSignLabel.Text;
+            DialogHosts.TaskBar.CombatManaSignLabel.Text = DialogHosts.TaskBar.WorldManaSignLabel.Text;
         }
     }
 
@@ -319,7 +319,7 @@ public partial class MapEvents : DataModule
 
             if (!update)
             {
-                DialogHosts.TaskBar.WGILbl.Text = "";
+                DialogHosts.TaskBar.WorldGoldIncomeLabel.Text = "";
             }
             else
             {
@@ -327,28 +327,28 @@ public partial class MapEvents : DataModule
                 netIncome = AoWHSMap.Current.Players.GetPlayers(player).Income - upkeep;
                 if (netIncome >= 0)
                 {
-                    DialogHosts.TaskBar.WGSign.Text = "+";
-                    DialogHosts.TaskBar.WGSign.TextColor = 7864183;
-                    DialogHosts.TaskBar.WGILbl.TextColor = 7864183;
+                    DialogHosts.TaskBar.WorldGoldSignLabel.Text = "+";
+                    DialogHosts.TaskBar.WorldGoldSignLabel.TextColor = 7864183;
+                    DialogHosts.TaskBar.WorldGoldIncomeLabel.TextColor = 7864183;
                 }
                 else
                 {
-                    DialogHosts.TaskBar.WGSign.Text = "-";
-                    DialogHosts.TaskBar.WGSign.TextColor = 119;
-                    DialogHosts.TaskBar.WGILbl.TextColor = 119;
+                    DialogHosts.TaskBar.WorldGoldSignLabel.Text = "-";
+                    DialogHosts.TaskBar.WorldGoldSignLabel.TextColor = 119;
+                    DialogHosts.TaskBar.WorldGoldIncomeLabel.TextColor = 119;
                 }
 
-                DialogHosts.TaskBar.WGILbl.Text = IntToStr(Math.Abs(netIncome));
-                if (DialogHosts.RealmWindow.Dlg.Visible && DialogHosts.RealmWindow.HeaderTab.Selected == 0)
+                DialogHosts.TaskBar.WorldGoldIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
+                if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 0)
                 {
                     DialogHosts.RealmWindow.UpdateOverview();
                 }
             }
 
-            DialogHosts.TaskBar.TGILbl.Text = DialogHosts.TaskBar.WGILbl.Text;
-            DialogHosts.TaskBar.TGSign.Text = DialogHosts.TaskBar.WGSign.Text;
-            DialogHosts.TaskBar.TGSign.TextColor = DialogHosts.TaskBar.WGSign.TextColor;
-            DialogHosts.TaskBar.TGILbl.TextColor = DialogHosts.TaskBar.WGILbl.TextColor;
+            DialogHosts.TaskBar.CombatGoldIncomeLabel.Text = DialogHosts.TaskBar.WorldGoldIncomeLabel.Text;
+            DialogHosts.TaskBar.CombatGoldSignLabel.Text = DialogHosts.TaskBar.WorldGoldSignLabel.Text;
+            DialogHosts.TaskBar.CombatGoldSignLabel.TextColor = DialogHosts.TaskBar.WorldGoldSignLabel.TextColor;
+            DialogHosts.TaskBar.CombatGoldIncomeLabel.TextColor = DialogHosts.TaskBar.WorldGoldIncomeLabel.TextColor;
         }
     }
 
@@ -409,35 +409,35 @@ public partial class MapEvents : DataModule
 
             if (!update)
             {
-                DialogHosts.TaskBar.WMTLbl.Text = "";
-                DialogHosts.TaskBar.WMILbl.Text = "";
+                DialogHosts.TaskBar.WorldManaTotalLabel.Text = "";
+                DialogHosts.TaskBar.WorldManaIncomeLabel.Text = "";
             }
             else
             {
                 var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
-                DialogHosts.TaskBar.WMTLbl.Text = IntToStr(playerLocal.MagicControl.Mana);
+                DialogHosts.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
                 netIncome = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - AoWHSMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
                 {
-                    DialogHosts.TaskBar.WMTSign.Text = "+";
-                    DialogHosts.TaskBar.WMTSign.TextColor = 7864183;
-                    DialogHosts.TaskBar.WMILbl.TextColor = 7864183;
+                    DialogHosts.TaskBar.WorldManaSignLabel.Text = "+";
+                    DialogHosts.TaskBar.WorldManaSignLabel.TextColor = 7864183;
+                    DialogHosts.TaskBar.WorldManaIncomeLabel.TextColor = 7864183;
                 }
                 else
                 {
-                    DialogHosts.TaskBar.WMTSign.Text = "-";
-                    DialogHosts.TaskBar.WMTSign.TextColor = 119;
-                    DialogHosts.TaskBar.WMILbl.TextColor = 119;
+                    DialogHosts.TaskBar.WorldManaSignLabel.Text = "-";
+                    DialogHosts.TaskBar.WorldManaSignLabel.TextColor = 119;
+                    DialogHosts.TaskBar.WorldManaIncomeLabel.TextColor = 119;
                 }
 
-                DialogHosts.TaskBar.WMILbl.Text = IntToStr(Math.Abs(netIncome));
+                DialogHosts.TaskBar.WorldManaIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
             }
 
-            DialogHosts.TaskBar.TMTLbl.Text = DialogHosts.TaskBar.WMTLbl.Text;
-            DialogHosts.TaskBar.TMILbl.Text = DialogHosts.TaskBar.WMILbl.Text;
-            DialogHosts.TaskBar.TMTSign.Text = DialogHosts.TaskBar.WMTSign.Text;
-            DialogHosts.TaskBar.TMTSign.TextColor = DialogHosts.TaskBar.WMTSign.TextColor;
-            DialogHosts.TaskBar.TMILbl.TextColor = DialogHosts.TaskBar.WMILbl.TextColor;
+            DialogHosts.TaskBar.CombatManaTotalLabel.Text = DialogHosts.TaskBar.WorldManaTotalLabel.Text;
+            DialogHosts.TaskBar.CombatManaIncomeLabel.Text = DialogHosts.TaskBar.WorldManaIncomeLabel.Text;
+            DialogHosts.TaskBar.CombatManaSignLabel.Text = DialogHosts.TaskBar.WorldManaSignLabel.Text;
+            DialogHosts.TaskBar.CombatManaSignLabel.TextColor = DialogHosts.TaskBar.WorldManaSignLabel.TextColor;
+            DialogHosts.TaskBar.CombatManaIncomeLabel.TextColor = DialogHosts.TaskBar.WorldManaIncomeLabel.TextColor;
         }
     }
 
@@ -470,16 +470,16 @@ public partial class MapEvents : DataModule
         {
             DialogHosts.General.HideWindows();
             DialogHosts.General.Manager.OverlayPriority = 0;
-            DialogHosts.TaskBar.CurP.Visible = false;
+            DialogHosts.TaskBar.CurrentPlayerImage.Visible = false;
             DialogHosts.TaskBar.WorldClockDelay = 0;
-            DialogHosts.TaskBar.TurnButton.CurrentPlayer = 12;
-            DialogHosts.TaskBar.TurnButton.LastPlayer = DialogHosts.TaskBar.TurnButton.CurrentPlayer;
-            DialogHosts.TaskBar.TurnButton.AnimationFrame = DialogHosts.TaskBar.TurnButton.CurrentPlayer * 7;
+            DialogHosts.TaskBar.WorldTurnButton.CurrentPlayer = 12;
+            DialogHosts.TaskBar.WorldTurnButton.LastPlayer = DialogHosts.TaskBar.WorldTurnButton.CurrentPlayer;
+            DialogHosts.TaskBar.WorldTurnButton.AnimationFrame = DialogHosts.TaskBar.WorldTurnButton.CurrentPlayer * 7;
         }
         else
         {
             DialogHosts.General.ShowWindows();
-            var turnButton = DialogHosts.TaskBar.TurnButton;
+            var turnButton = DialogHosts.TaskBar.WorldTurnButton;
             if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
             {
                 if (player > -1)
@@ -499,9 +499,9 @@ public partial class MapEvents : DataModule
                 turnButton.LastPlayer = -1;
             }
 
-            DialogHosts.TaskBar.CurP.Visible = AoWHSMap.Current.PlayMode == PlayMode.Turn;
+            DialogHosts.TaskBar.CurrentPlayerImage.Visible = AoWHSMap.Current.PlayMode == PlayMode.Turn;
             DialogHosts.PlayerInfoWindow.UpdatePlayer();
-            if (DialogHosts.RealmWindow.Dlg.Visible)
+            if (DialogHosts.RealmWindow.Window.Visible)
             {
                 DialogHosts.RealmWindow.UpdateOverview();
             }
@@ -510,15 +510,15 @@ public partial class MapEvents : DataModule
         TheMapGemsChanged(player);
         TheMapIncomeChanged(player);
         TheMapPlayerMagicChanged(player);
-        DialogHosts.TaskBar.PInd.Drawn = false;
+        DialogHosts.TaskBar.PlayerIndicatorFrame.Drawn = false;
         DialogHosts.PlayerInfoWindow.UpdateEvents();
     }
 
     // aowMapEvents.pas:440
     public void TheMapShowMessage(ref ShowMessageInfo info)
     {
-        DialogHosts.TaskBar.TBMessEdit.TextColor = info.Color;
-        DialogHosts.TaskBar.TBMessEdit.Text = info.Text;
+        DialogHosts.TaskBar.WorldMessageEdit.TextColor = info.Color;
+        DialogHosts.TaskBar.WorldMessageEdit.Text = info.Text;
     }
 
     // aowMapEvents.pas:446
@@ -531,7 +531,7 @@ public partial class MapEvents : DataModule
             DialogHosts.ProductionScreen.PlaceChanged(structure);
         }
 
-        if (DialogHosts.RealmWindow.Dlg.Visible && DialogHosts.RealmWindow.HeaderTab.Selected < 3)
+        if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected < 3)
         {
             DialogHosts.RealmWindow.UpdateOverview();
         }
@@ -542,7 +542,7 @@ public partial class MapEvents : DataModule
     {
         if (DialogHosts.General.Sign != null)
         {
-            DialogHosts.General.Sign.ChangeText(AoWHSMap.Current.SeatedPlayer, DialogHosts.InfoWindow.SignText.Items);
+            DialogHosts.General.Sign.ChangeText(AoWHSMap.Current.SeatedPlayer, DialogHosts.InfoWindow.SignTextMemo.Items);
         }
 
         DialogHosts.General.Structure = null;
@@ -550,10 +550,10 @@ public partial class MapEvents : DataModule
         DialogHosts.General.ProductionPlace = null;
         DialogHosts.General.ProductionControl = null;
         DialogHosts.General.Sign = null;
-        DialogHosts.InfoWindow.StructNameLbl.Text = "";
-        DialogHosts.InfoWindow.StructLine.Visible = false;
-        DialogHosts.InfoWindow.InfoWin.Visible = false;
-        DialogHosts.TaskBar.StructButton.Visible = false;
+        DialogHosts.InfoWindow.StructureNameLabel.Text = "";
+        DialogHosts.InfoWindow.StructureLine.Visible = false;
+        DialogHosts.InfoWindow.MainWindow.Visible = false;
+        DialogHosts.TaskBar.StructureButton.Visible = false;
     }
 
     // aowMapEvents.pas:467
@@ -564,9 +564,9 @@ public partial class MapEvents : DataModule
             TheMapStructureDeselected();
         }
 
-        if (DialogHosts.RealmWindow.Dlg.Visible)
+        if (DialogHosts.RealmWindow.Window.Visible)
         {
-            if (DialogHosts.RealmWindow.HeaderTab.Selected == 2 || DialogHosts.RealmWindow.HeaderTab.Selected == 1)
+            if (DialogHosts.RealmWindow.HeaderTabs.Selected == 2 || DialogHosts.RealmWindow.HeaderTabs.Selected == 1)
             {
                 DialogHosts.RealmWindow.UpdateOverview();
             }
@@ -605,12 +605,12 @@ public partial class MapEvents : DataModule
     {
         if (U == DialogHosts.General.SelectedUnit)
         {
-            if (DialogHosts.UnitWindow.UnitWin.Visible)
+            if (DialogHosts.UnitWindow.MainWindow.Visible)
             {
                 DialogHosts.UnitWindow.ShowUnit();
             }
 
-            if (DialogHosts.UnitBanner.BannerPopup.Visible)
+            if (DialogHosts.UnitBanner.BannerMenu.Visible)
             {
                 DialogHosts.UnitBanner.BannerPopupShow();
             }
@@ -643,7 +643,7 @@ public partial class MapEvents : DataModule
     }
 
     // aowMapEvents.pas:507
-    public void TheMapHSChanged(HexSprite hexSprite)
+    public void TheMapHexSpriteChanged(HexSprite hexSprite)
     {
         if (hexSprite is ItemHexSprite)
         {
@@ -664,7 +664,7 @@ public partial class MapEvents : DataModule
     }
 
     // aowMapEvents.pas:518
-    public void TheMapStructureDblClick(Structure structure)
+    public void TheMapStructureDoubleClick(Structure structure)
     {
         if (structure == DialogHosts.General.Structure && structure != null)
         {
@@ -676,7 +676,7 @@ public partial class MapEvents : DataModule
     }
 
     // aowMapEvents.pas:176. The offline transport has no connection to release.
-    public void TheMapDeactivateHSM()
+    public void TheMapDeactivateHexSpriteMap()
     {
         try
         {
@@ -703,16 +703,16 @@ public partial class MapEvents : DataModule
     private static void ShowStructureInfo(InfoWindow dialog, Structure structure)
     {
         InfoWindow.StructurePanels[structure.InfoPanel(AoWHSMap.Current.SeatedPlayer)].Invoke(dialog, structure);
-        if (!DialogHosts.TaskBar.StructButton.Visible)
+        if (!DialogHosts.TaskBar.StructureButton.Visible)
         {
-            DialogHosts.InfoWindow.InfoWin.Visible = true;
+            DialogHosts.InfoWindow.MainWindow.Visible = true;
         }
-        DialogHosts.TaskBar.StructButton.Visible = true;
+        DialogHosts.TaskBar.StructureButton.Visible = true;
     }
 
     private static void UpdateStructureInfo(InfoWindow dialog, Structure structure)
     {
-        if (!dialog.InfoWin.Visible)
+        if (!dialog.MainWindow.Visible)
         {
             return;
         }
@@ -734,48 +734,48 @@ public partial class MapEvents : DataModule
     {
         ResetStructureInfo(dialog);
         string text = AbilityRules.TranslateResourceString(s_itemBagText);
-        dialog.Title.Text = text;
+        dialog.TitleLabel.Text = text;
         dialog.ItemBag = items;
-        dialog.ItemPnl.Visible = true;
-        dialog.InfoWin.Visible = true;
-        dialog.StructNameLbl.Text = "";
+        dialog.ItemPanel.Visible = true;
+        dialog.MainWindow.Visible = true;
+        dialog.StructureNameLabel.Text = "";
         LibraryImage imageTop = DialogHosts.UIGraphics.MiscArt[35];
-        dialog.StructLine.ImageTop = imageTop;
+        dialog.StructureLine.ImageTop = imageTop;
         LibraryImage imageMiddle = DialogHosts.UIGraphics.MiscArt[36];
-        dialog.StructLine.ImageMiddle = imageMiddle;
+        dialog.StructureLine.ImageMiddle = imageMiddle;
         LibraryImage imageBottom = DialogHosts.UIGraphics.MiscArt[37];
-        dialog.StructLine.ImageBottom = imageBottom;
+        dialog.StructureLine.ImageBottom = imageBottom;
         ArmyHexSprite armyHexSprite = ((AoWMapField)items.Owner).GetArmyHexSprite();
         if (armyHexSprite != null && armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer)
         {
             dialog.ItemBagMemo.Visible = false;
             Hero hero = armyHexSprite.Army.Hero(255, RosterTables.AllHeroTypes);
-            dialog.MainBtn.Visible = hero != null;
+            dialog.MainButton.Visible = hero != null;
             string text2 = AbilityRules.TranslateResourceString(s_pickupText);
-            dialog.MainBtn.Text = text2;
-            dialog.ItembagLB.Visible = true;
-            ((StringCollection)dialog.ItembagLB.Items).Clear();
-            dialog.ItembagSB.Visible = true;
+            dialog.MainButton.Text = text2;
+            dialog.ItemBagList.Visible = true;
+            ((StringCollection)dialog.ItemBagList.Items).Clear();
+            dialog.ItemBagScrollBar.Visible = true;
             int i = 0;
             for (int number = items.Items.Count - 1; i <= number; i++)
             {
-                ((StringCollection)dialog.ItembagLB.Items).Add("");
+                ((StringCollection)dialog.ItemBagList.Items).Add("");
             }
-            dialog.ItemsInBagLbl.Visible = true;
+            dialog.ItemsInBagLabel.Visible = true;
         }
         else
         {
             dialog.ItemBagMemo.Visible = true;
-            dialog.ItembagLB.Visible = false;
-            dialog.ItemsInBagLbl.Visible = false;
-            dialog.ItembagSB.Visible = false;
-            dialog.MainBtn.Visible = false;
+            dialog.ItemBagList.Visible = false;
+            dialog.ItemsInBagLabel.Visible = false;
+            dialog.ItemBagScrollBar.Visible = false;
+            dialog.MainButton.Visible = false;
         }
     }
 
     private static void UpdateItemSelection(InfoWindow dialog, ItemHexSprite items)
     {
-        if (dialog.InfoWin.Visible && items == dialog.ItemBag)
+        if (dialog.MainWindow.Visible && items == dialog.ItemBag)
         {
             ShowItemSelection(dialog, dialog.ItemBag);
         }
@@ -783,32 +783,32 @@ public partial class MapEvents : DataModule
 
     internal static void ResetStructureInfo(InfoWindow dialog)
     {
-        dialog.StructLine.Visible = true;
-        dialog.StructLine.Sized = false;
-        dialog.InfoWin.Aligned = false;
+        dialog.StructureLine.Visible = true;
+        dialog.StructureLine.Sized = false;
+        dialog.MainWindow.Aligned = false;
         dialog.CityPanel.Visible = false;
-        dialog.CityBorderPnl.Visible = false;
-        dialog.ProductionPlacePnl.Visible = false;
-        dialog.SignPnl.Visible = false;
-        dialog.NotYoursPnl.Visible = false;
-        dialog.SingleButPnl.Visible = false;
-        dialog.MainBtn.Visible = true;
-        dialog.RazeBtn.Visible = true;
-        dialog.ExplorationSitePnl.Visible = false;
-        dialog.AltarPnl.Visible = false;
-        dialog.IncomePnl.Visible = false;
-        dialog.ItemPnl.Visible = false;
-        dialog.ConstructionPnl.Visible = false;
-        dialog.ProdOrb.Visible = false;
-        dialog.ProdOrbTime.Visible = false;
-        dialog.ProdOrbTurnsLbl.Visible = false;
-        dialog.RazePnl.Visible = false;
-        dialog.MainBtn.Visible = false;
-        ((StringCollection)dialog.SBmemo.Items).Clear();
-        dialog.PopulationRaceLbl.Visible = false;
-        dialog.PopulationLbl.Visible = false;
+        dialog.CityBorderPanel.Visible = false;
+        dialog.ProductionPlacePanel.Visible = false;
+        dialog.SignPanel.Visible = false;
+        dialog.NotYoursPanel.Visible = false;
+        dialog.SingleButtonPanel.Visible = false;
+        dialog.MainButton.Visible = true;
+        dialog.RazeButton.Visible = true;
+        dialog.ExplorationSitePanel.Visible = false;
+        dialog.AltarPanel.Visible = false;
+        dialog.IncomePanel.Visible = false;
+        dialog.ItemPanel.Visible = false;
+        dialog.ConstructionPanel.Visible = false;
+        dialog.ProductionOrb.Visible = false;
+        dialog.ProductionOrbTimeImage.Visible = false;
+        dialog.ProductionOrbTurnsLabel.Visible = false;
+        dialog.RazePanel.Visible = false;
+        dialog.MainButton.Visible = false;
+        ((StringCollection)dialog.SingleButtonMemo.Items).Clear();
+        dialog.PopulationRaceLabel.Visible = false;
+        dialog.PopulationLabel.Visible = false;
         string text = AbilityRules.TranslateResourceString(GameText.StructureText);
-        dialog.Title.Text = text;
+        dialog.TitleLabel.Text = text;
     }
 
     private static void ShowTargetSelection(TargetSelectionDialog dialog, TargetSelectionControl control, TargetSelectionChange change)
@@ -817,31 +817,31 @@ public partial class MapEvents : DataModule
         {
             case TargetSelectionChange.Activated:
                 {
-                    dialog.HeaderLbl.Text = control.Title;
-                    dialog.MainBtn.Text = control.CancelText;
+                    dialog.HeaderLabel.Text = control.Title;
+                    dialog.MainButton.Text = control.CancelText;
                     ((Persistent)dialog.DefaultMemo.Items).Assign((Persistent)(object)control.Text);
-                    dialog.Dlg.Visible = true;
+                    dialog.Window.Visible = true;
                     if (!control.TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
                     {
                         string text = AbilityRules.TranslateResourceString(UnlimitedText);
-                        dialog.TargetLbl.Text = RtlUnit.LowerCase(text);
+                        dialog.TargetLabel.Text = RtlUnit.LowerCase(text);
                     }
                     else
                     {
-                        dialog.TargetLbl.Text = RtlUnit.IntToStr(control.Range);
+                        dialog.TargetLabel.Text = RtlUnit.IntToStr(control.Range);
                     }
-                    dialog.BorderImage.ImageTop = control.SourceImage;
-                    dialog.BorderImage.ImageMiddle = control.ValidTargetImage;
-                    dialog.BorderImage.ImageBottom = control.InvalidTargetImage;
+                    dialog.BorderLine.ImageTop = control.SourceImage;
+                    dialog.BorderLine.ImageMiddle = control.ValidTargetImage;
+                    dialog.BorderLine.ImageBottom = control.InvalidTargetImage;
                     DialogHosts.General.Manager.OverlayPriority = 49;
                     Window mapWindow = DialogHosts.MapWindow.MainWindow;
                     mapWindow._modal = true;
                     mapWindow.Priority = 500;
-                    DialogHosts.ScannerWindow.MainWindow.Priority = dialog.Dlg.Priority;
+                    DialogHosts.ScannerWindow.MainWindow.Priority = dialog.Window.Priority;
                     break;
                 }
             case TargetSelectionChange.Deactivated:
-                dialog.Dlg.Visible = false;
+                dialog.Window.Visible = false;
                 DialogHosts.MapWindow.MainWindow.Priority = 0;
                 DialogHosts.MapWindow.MainWindow._modal = false;
                 DialogHosts.ScannerWindow.MainWindow.Priority = 10;
@@ -862,11 +862,11 @@ public partial class MapEvents : DataModule
         if (hero != null)
         {
             string name = hero.GetName();
-            dialog.CasterNameLbl.Text = name;
+            dialog.CasterNameLabel.Text = name;
             sbyte castingPoints = hero.GetCastingPoints();
             string text = AbilityRules.TranslateResourceString(GameText.CastingPointsText);
             sbyte castingPointsMax = hero.GetCastingPointsMax();
-            dialog.CastingPointsLbl.Text = string.Concat(new string[5]
+            dialog.CastingPointsLabel.Text = string.Concat(new string[5]
             {
                 text,
                 ": ",
@@ -876,11 +876,11 @@ public partial class MapEvents : DataModule
             });
         }
         Spell spell = AoWHSSet.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
-        dialog.SpellNameLbl.Text = spell.SpellName;
+        dialog.SpellNameLabel.Text = spell.SpellName;
         int number = hero.CastingMana(spell);
         string text2 = AbilityRules.TranslateResourceString(GameText.CastingCostText);
         string text3 = AbilityRules.TranslateResourceString(GameText.ManaText);
-        dialog.SpellManaLbl.Text = string.Concat(new string[5]
+        dialog.SpellManaLabel.Text = string.Concat(new string[5]
         {
             text2,
             ": ",
@@ -890,7 +890,7 @@ public partial class MapEvents : DataModule
         });
         string text4 = AbilityRules.TranslateResourceString(s_upkeepText);
         string text5 = AbilityRules.TranslateResourceString(GameText.ManaText);
-        dialog.SpellUpkeepLbl.Text = string.Concat(new string[5]
+        dialog.SpellUpkeepLabel.Text = string.Concat(new string[5]
         {
             text4,
             ": ",
@@ -900,35 +900,35 @@ public partial class MapEvents : DataModule
         });
         Player players = AoWHSMap.Current.Players.GetPlayers(hero.Player);
         string text6 = AbilityRules.TranslateResourceString(GameText.ManaText);
-        dialog.CastingManaLbl.Text = text6 + ": " + RtlUnit.IntToStr(players.MagicControl.Mana);
-        dialog.U1.Checked = false;
-        dialog.U2.Checked = false;
-        dialog.U3.Checked = false;
-        dialog.U4.Checked = false;
-        dialog.U5.Checked = false;
-        dialog.U6.Checked = false;
-        dialog.U7.Checked = false;
-        dialog.U8.Checked = false;
-        dialog.SelectionInfoLbl.Text = "";
-        dialog.Dlg.Visible = true;
+        dialog.CastingManaLabel.Text = text6 + ": " + RtlUnit.IntToStr(players.MagicControl.Mana);
+        dialog.Unit1CheckBox.Checked = false;
+        dialog.Unit2CheckBox.Checked = false;
+        dialog.Unit3CheckBox.Checked = false;
+        dialog.Unit4CheckBox.Checked = false;
+        dialog.Unit5CheckBox.Checked = false;
+        dialog.Unit6CheckBox.Checked = false;
+        dialog.Unit7CheckBox.Checked = false;
+        dialog.Unit8CheckBox.Checked = false;
+        dialog.SelectionInfoLabel.Text = "";
+        dialog.Window.Visible = true;
     }
 
     private static void RefreshRelations(RelationWindow dialog)
     {
-        if (!dialog.RelWin.Visible)
+        if (!dialog.MainWindow.Visible)
         {
             return;
         }
         dialog.FillPlayers();
-        dialog.RelPnl.Aligned = false;
-        dialog.RelWin.Drawn = false;
+        dialog.RelationPanel.Aligned = false;
+        dialog.MainWindow.Drawn = false;
         if (dialog.SelectedPlayer != -1)
         {
             dialog.HighlightPlayer(dialog.SelectedPlayer);
         }
         if (dialog.InfoPlayer != -1)
         {
-            if (dialog.RNewActionPnl.Visible)
+            if (dialog.NewActionPanel.Visible)
             {
                 dialog.ShowPlayerActions(dialog.InfoPlayer);
             }
@@ -949,13 +949,13 @@ public partial class MapEvents : DataModule
 
     private static void HideItemSelection(InfoWindow window)
     {
-        window.InfoWin.Visible = false;
+        window.MainWindow.Visible = false;
         window.ItemBag = null;
     }
 
     private static void MagicPlayerChanged(MagicWindow window, sbyte player)
     {
-        if (window.Dlg.Visible && player == AoWHSMap.Current.SeatedPlayer)
+        if (window.Window.Visible && player == AoWHSMap.Current.SeatedPlayer)
         {
             MagicWindow.RefreshMagicWindow(window);
         }
@@ -963,7 +963,7 @@ public partial class MapEvents : DataModule
 
     private static void GlobalMagicChanged(MagicWindow window)
     {
-        if (window.Dlg.Visible)
+        if (window.Window.Visible)
         {
             MagicWindow.RefreshGlobalMagic(window);
         }

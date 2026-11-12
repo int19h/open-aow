@@ -14,10 +14,10 @@ public partial class TutorialWindow : DataModule
     public TutorialWindow(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
+    public Window Window;
     public Memo MessageMemo;
     public Memo HeaderMemo;
-    public VerticalScrollBar AbVSB;
+    public VerticalScrollBar AbilityScrollBar;
     private ExecuteDoneEvent _done;
     private EventLog _event;
 
@@ -50,20 +50,20 @@ public partial class TutorialWindow : DataModule
     // AoWTutorialWin.pas:44
     public void CloseClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     internal static void ShowTutorialMessage(TutorialWindow dialog)
     {
         if (dialog.MessageMemo.Items.Count > 0)
         {
-            dialog.Dlg.Visible = true;
+            dialog.Window.Visible = true;
         }
     }
 
     internal static void ShowTutorialEvent(TutorialWindow dialog, TutorialMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
-        dialog.AbVSB.Position = 0;
+        dialog.AbilityScrollBar.Position = 0;
         dialog.FinishDialog();
         dialog._event = eventValue;
         dialog._event.AddRef();
@@ -87,12 +87,12 @@ public partial class TutorialWindow : DataModule
             dialog.MessageMemo.Items.Delete(0);
         }
 
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
     internal static void ShowFlagMessage(TutorialWindow dialog, FlagMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
-        dialog.AbVSB.Position = 0;
+        dialog.AbilityScrollBar.Position = 0;
         dialog.FinishDialog();
         dialog._event = eventValue;
         dialog._event.AddRef();
@@ -101,7 +101,7 @@ public partial class TutorialWindow : DataModule
         dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
         dialog.MessageMemo.Items.Clear();
         dialog.MessageMemo.Items.AddStrings(eventValue.Message);
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
 }

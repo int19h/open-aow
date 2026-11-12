@@ -13,19 +13,19 @@ public partial class ScannerWindow : DataModule
     { }
 
     public Window MainWindow;
-    public TabPanel ScannerTab;
-    public CheckBox BuildingCheck;
-    public CheckBox ArmyCheck;
-    public CheckBox NaturalCheck;
+    public TabPanel ScannerTabs;
+    public CheckBox BuildingCheckBox;
+    public CheckBox ArmyCheckBox;
+    public CheckBox NaturalCheckBox;
     public Scanner Scanner;
-    public Label STitleLabel;
+    public Label TitleLabel;
 
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
         if (AoWHSMap.Current != null)
         {
-            switch (ScannerTab.Selected)
+            switch (ScannerTabs.Selected)
             {
                 case 0:
                     Scanner.UpdateStep = -1;
@@ -46,7 +46,7 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:61
     public void ArmyCheckChange(CheckBox sender)
     {
-        Scanner.SetArmies(ArmyCheck.Checked);
+        Scanner.SetArmies(ArmyCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
@@ -60,7 +60,7 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:67
     public void BuildingCheckChange(CheckBox sender)
     {
-        Scanner.SetBuildings(BuildingCheck.Checked);
+        Scanner.SetBuildings(BuildingCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
@@ -74,7 +74,7 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:73
     public void NaturalCheckChange(CheckBox sender)
     {
-        Scanner.SetNaturals(NaturalCheck.Checked);
+        Scanner.SetNaturals(NaturalCheckBox.Checked);
         if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);

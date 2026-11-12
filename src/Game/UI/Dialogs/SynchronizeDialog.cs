@@ -16,12 +16,12 @@ public partial class SynchronizeDialog : DataModule
     public SynchronizeDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Image LShield;
-    public Label PlayerName;
-    public Label PlayerRace;
-    public Label Turn;
-    public Image RShield;
+    public Window Window;
+    public Image LeftShield;
+    public Label PlayerNameLabel;
+    public Label PlayerRaceLabel;
+    public Label TurnLabel;
+    public Image RightShield;
 
     // AoWSyncDlg.pas:45
     public PlayerSetupSettings GetPlayerSetup()
@@ -49,7 +49,7 @@ public partial class SynchronizeDialog : DataModule
         settings = GetPlayerSetup();
         if (settings != null)
         {
-            R = new Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
+            R = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
             settings.Leader.ShowFace(R, surface);
         }
     }
@@ -69,20 +69,20 @@ public partial class SynchronizeDialog : DataModule
                 if (I != -1)
                 {
                     var player = DialogHosts.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(I);
-                    PlayerName.Text = player.Name;
+                    PlayerNameLabel.Text = player.Name;
                 }
                 else
                 {
-                    PlayerName.Text = settings.Leader.HeroName;
+                    PlayerNameLabel.Text = settings.Leader.HeroName;
                 }
             }
             else
             {
-                PlayerName.Text = settings.Leader.HeroName;
+                PlayerNameLabel.Text = settings.Leader.HeroName;
             }
 
             var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
-            PlayerRace.Text = raceNamesPlural;
+            PlayerRaceLabel.Text = raceNamesPlural;
             Day = AoWHSMap.Current.Day;
             if (Day == 0)
             {
@@ -90,9 +90,9 @@ public partial class SynchronizeDialog : DataModule
             }
 
             var day = AbilityRules.TranslateResourceString(GameText.DayText);
-            Turn.Text = day + " " + IntToStr(Day);
-            LShield.CurrentImage = settings.Race + 26;
-            RShield.CurrentImage = settings.Race + 26;
+            TurnLabel.Text = day + " " + IntToStr(Day);
+            LeftShield.CurrentImage = settings.Race + 26;
+            RightShield.CurrentImage = settings.Race + 26;
         }
     }
 }

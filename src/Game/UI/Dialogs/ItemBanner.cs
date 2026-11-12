@@ -14,18 +14,18 @@ public partial class ItemBanner : DataModule
     public ItemBanner(Component owner) : base(owner)
     { }
 
-    public Label ItemNameLbl;
-    public Menu IBannerPopup;
+    public Label ItemNameLabel;
+    public Menu BannerMenu;
     public Image AttackIcon;
     public Image DefenseIcon;
     public Image DamageIcon;
     public Image ResistanceIcon;
-    public Label Attack;
-    public Label Defense;
-    public Label Damage;
-    public Label Resistance;
-    public UserDrawBox DrawBox;
-    public ListBox AbLB;
+    public Label AttackLabel;
+    public Label DefenseLabel;
+    public Label DamageLabel;
+    public Label ResistanceLabel;
+    public UserDrawBox ItemView;
+    public ListBox AbilityList;
 
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()
@@ -36,26 +36,26 @@ public partial class ItemBanner : DataModule
         item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
-            ItemNameLbl.Text = item.OwnerName;
+            ItemNameLabel.Text = item.OwnerName;
             AttackIcon.Visible = false;
             DamageIcon.Visible = false;
             DefenseIcon.Visible = false;
             ResistanceIcon.Visible = false;
-            Attack.Visible = false;
-            Damage.Visible = false;
-            Defense.Visible = false;
-            Resistance.Visible = false;
+            AttackLabel.Visible = false;
+            DamageLabel.Visible = false;
+            DefenseLabel.Visible = false;
+            ResistanceLabel.Visible = false;
             X = 30;
             Y = 100;
             if (item.Attack != 0)
             {
-                Attack.Text = IntToStr(item.Attack);
-                Attack.Visible = true;
+                AttackLabel.Text = IntToStr(item.Attack);
+                AttackLabel.Visible = true;
                 AttackIcon.Visible = true;
                 AttackIcon.WinLeft = X + 10;
-                Attack.WinLeft = X + 30;
+                AttackLabel.WinLeft = X + 30;
                 AttackIcon.WinTop = Y;
-                Attack.WinTop = Y + 5;
+                AttackLabel.WinTop = Y + 5;
                 X += 50;
                 if (X == 130)
                 {
@@ -66,13 +66,13 @@ public partial class ItemBanner : DataModule
 
             if (item.Damage != 0)
             {
-                Damage.Text = IntToStr(item.Damage);
-                Damage.Visible = true;
+                DamageLabel.Text = IntToStr(item.Damage);
+                DamageLabel.Visible = true;
                 DamageIcon.Visible = true;
                 DamageIcon.WinLeft = X + 10;
-                Damage.WinLeft = X + 30;
+                DamageLabel.WinLeft = X + 30;
                 DamageIcon.WinTop = Y;
-                Damage.WinTop = Y + 5;
+                DamageLabel.WinTop = Y + 5;
                 X += 50;
                 if (X == 130)
                 {
@@ -83,13 +83,13 @@ public partial class ItemBanner : DataModule
 
             if (item.Defense != 0)
             {
-                Defense.Text = IntToStr(item.Defense);
-                Defense.Visible = true;
+                DefenseLabel.Text = IntToStr(item.Defense);
+                DefenseLabel.Visible = true;
                 DefenseIcon.Visible = true;
                 DefenseIcon.WinLeft = X + 10;
-                Defense.WinLeft = X + 30;
+                DefenseLabel.WinLeft = X + 30;
                 DefenseIcon.WinTop = Y;
-                Defense.WinTop = Y + 5;
+                DefenseLabel.WinTop = Y + 5;
                 X += 50;
                 if (X == 130)
                 {
@@ -100,13 +100,13 @@ public partial class ItemBanner : DataModule
 
             if (item.Resistance != 0)
             {
-                Resistance.Text = IntToStr(item.Resistance);
-                Resistance.Visible = true;
+                ResistanceLabel.Text = IntToStr(item.Resistance);
+                ResistanceLabel.Visible = true;
                 ResistanceIcon.Visible = true;
                 ResistanceIcon.WinLeft = X + 10;
-                Resistance.WinLeft = X + 30;
+                ResistanceLabel.WinLeft = X + 30;
                 ResistanceIcon.WinTop = Y;
-                Resistance.WinTop = Y + 5;
+                ResistanceLabel.WinTop = Y + 5;
                 X += 50;
                 if (X == 130)
                 {
@@ -120,23 +120,23 @@ public partial class ItemBanner : DataModule
                 Y += 20;
             }
 
-            AbLB.Items.Clear();
-            AbLB.Alignment.TopOffset = Y + 10;
+            AbilityList.Items.Clear();
+            AbilityList.Alignment.TopOffset = Y + 10;
             X = 1;
             for (; X <= 169; X += 1)
             {
                 if (item.GetAbEnabled(X))
                 {
                     var name = AoWHSSet.Current.AbilityControl.GetAbility(X).GetName(item);
-                    AbLB.Items.AddObject(name, IntToObject(X));
+                    AbilityList.Items.AddObject(name, IntToObject(X));
                 }
             }
 
-            var count = AbLB.Items.Count;
-            IBannerPopup.WinHeight = count * AbLB.ItemHeight + (Y + 50);
-            if (IBannerPopup.WinHeight > 200)
+            var count = AbilityList.Items.Count;
+            BannerMenu.WinHeight = count * AbilityList.ItemHeight + (Y + 50);
+            if (BannerMenu.WinHeight > 200)
             {
-                IBannerPopup.WinHeight = 200;
+                BannerMenu.WinHeight = 200;
             }
         }
     }
@@ -146,7 +146,7 @@ public partial class ItemBanner : DataModule
     {
         if (button == 1)
         {
-            DialogHosts.ItemBanner.IBannerPopup.Visible = false;
+            DialogHosts.ItemBanner.BannerMenu.Visible = false;
         }
     }
 
@@ -157,7 +157,7 @@ public partial class ItemBanner : DataModule
         item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
-            item.Show(DrawBox.WinLeft, DrawBox.WinTop, lockedSurface);
+            item.Show(ItemView.WinLeft, ItemView.WinTop, lockedSurface);
         }
     }
 

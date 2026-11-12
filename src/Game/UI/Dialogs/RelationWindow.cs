@@ -24,101 +24,101 @@ public partial class RelationWindow : DataModule
     public RelationWindow(Component owner) : base(owner)
     { }
 
-    public Window RelWin;
-    public Image RShield;
-    public Image LShield;
-    public Panel RelPnl;
-    public Panel RIncomingPnl;
-    public Image P1I;
-    public Image P2I;
-    public Image P3I;
-    public Image P4I;
-    public Image P5I;
-    public Image P6I;
-    public Image P7I;
-    public Image P8I;
-    public Image P9I;
-    public Image P10I;
-    public Image P11I;
-    public Image P12I;
-    public Image R1I;
-    public Image R2I;
-    public Image R3I;
-    public Image R4I;
-    public Image R5I;
-    public Image R6I;
-    public Image R7I;
-    public Image R8I;
-    public Image R9I;
-    public Image R10I;
-    public Image R11I;
-    public Image R12I;
+    public Window MainWindow;
+    public Image RightShield;
+    public Image LeftShield;
+    public Panel RelationPanel;
+    public Panel IncomingPanel;
+    public Image Player1Image;
+    public Image Player2Image;
+    public Image Player3Image;
+    public Image Player4Image;
+    public Image Player5Image;
+    public Image Player6Image;
+    public Image Player7Image;
+    public Image Player8Image;
+    public Image Player9Image;
+    public Image Player10Image;
+    public Image Player11Image;
+    public Image Player12Image;
+    public Image Race1Image;
+    public Image Race2Image;
+    public Image Race3Image;
+    public Image Race4Image;
+    public Image Race5Image;
+    public Image Race6Image;
+    public Image Race7Image;
+    public Image Race8Image;
+    public Image Race9Image;
+    public Image Race10Image;
+    public Image Race11Image;
+    public Image Race12Image;
     public Image FaceShadow;
-    public Memo MMemo;
-    public Image MIcon;
-    public Panel RMsgEditPnl;
-    public Panel RSBribePnl;
-    public Memo SMemo;
-    public HorizontalScrollBar SBGoldSlid;
-    public Panel ActionPnl;
-    public Panel LInfoPlayerPnl;
-    public Panel RNewActionPnl;
-    public Label APlayer;
-    public Panel LInfoRacePnl;
-    public Label ARace2;
-    public Image AAlignment;
-    public Label AAlignmentLbl;
-    public CheckBox P1CB;
-    public CheckBox P2CB;
-    public CheckBox P3CB;
-    public CheckBox P4CB;
-    public CheckBox P5CB;
-    public CheckBox P6CB;
-    public CheckBox P7CB;
-    public CheckBox P8CB;
-    public CheckBox P9CB;
-    public CheckBox P10CB;
-    public CheckBox P11CB;
-    public CheckBox P12CB;
-    public Image FaceFr;
-    public CheckBox R1CB;
-    public CheckBox R2CB;
-    public CheckBox R3CB;
-    public CheckBox R4CB;
-    public CheckBox R5CB;
-    public CheckBox R6CB;
-    public CheckBox R7CB;
-    public CheckBox R8CB;
-    public CheckBox R9CB;
-    public CheckBox R10CB;
-    public CheckBox R11CB;
-    public CheckBox R12CB;
-    public Image PlyrGlow;
-    public Label NoContact;
-    public Button ASelect;
-    public ListBox ActionsLB;
-    public Image APlyrIcon;
-    public Label APlyrType;
-    public Image PlStatIcn;
-    public Label PlStatLbl;
-    public Label PlStatV;
-    public Image RlRelIcn;
-    public Label RlRelV;
-    public Label MBGoldBribeV;
-    public Label MBManaBribeV;
-    public Label SBGoldV;
-    public Label SBManaV;
-    public HorizontalScrollBar SBManaSlid;
-    public Image SBIcon;
-    public Label BribeHeaderLbl;
-    public Panel RMsgRecPnl;
-    public Memo RMMemo;
-    public Label RMHeaderLbl;
-    public Panel IncommingInfoPnl;
-    public Memo IIMemo;
-    public Image IIIcon;
-    public Label OfTheLbl;
-    public Label PRaceLbl;
+    public Memo IncomingMemo;
+    public Image IncomingIcon;
+    public Panel MessageEditPanel;
+    public Panel SendBribePanel;
+    public Memo SendMessageMemo;
+    public HorizontalScrollBar BribeGoldSlider;
+    public Panel ActionPanel;
+    public Panel PlayerInfoPanel;
+    public Panel NewActionPanel;
+    public Label PlayerNameLabel;
+    public Panel RaceInfoPanel;
+    public Label RaceNameLabel;
+    public Image AlignmentImage;
+    public Label AlignmentLabel;
+    public CheckBox Player1CheckBox;
+    public CheckBox Player2CheckBox;
+    public CheckBox Player3CheckBox;
+    public CheckBox Player4CheckBox;
+    public CheckBox Player5CheckBox;
+    public CheckBox Player6CheckBox;
+    public CheckBox Player7CheckBox;
+    public CheckBox Player8CheckBox;
+    public CheckBox Player9CheckBox;
+    public CheckBox Player10CheckBox;
+    public CheckBox Player11CheckBox;
+    public CheckBox Player12CheckBox;
+    public Image FaceFrame;
+    public CheckBox Race1CheckBox;
+    public CheckBox Race2CheckBox;
+    public CheckBox Race3CheckBox;
+    public CheckBox Race4CheckBox;
+    public CheckBox Race5CheckBox;
+    public CheckBox Race6CheckBox;
+    public CheckBox Race7CheckBox;
+    public CheckBox Race8CheckBox;
+    public CheckBox Race9CheckBox;
+    public CheckBox Race10CheckBox;
+    public CheckBox Race11CheckBox;
+    public CheckBox Race12CheckBox;
+    public Image PlayerGlow;
+    public Label NoContactLabel;
+    public Button SelectActionButton;
+    public ListBox ActionsList;
+    public Image PlayerTypeIcon;
+    public Label PlayerTypeLabel;
+    public Image PlayerStatusIcon;
+    public Label PlayerStatusLabel;
+    public Label PlayerStatusValueLabel;
+    public Image RaceRelationIcon;
+    public Label RaceRelationValueLabel;
+    public Label ReceivedGoldLabel;
+    public Label ReceivedManaLabel;
+    public Label BribeGoldValueLabel;
+    public Label BribeManaValueLabel;
+    public HorizontalScrollBar BribeManaSlider;
+    public Image SendBribeIcon;
+    public Label BribeHeaderLabel;
+    public Panel ReceivedMessagePanel;
+    public Memo ReceivedMessageMemo;
+    public Label ReceivedMessageHeaderLabel;
+    public Panel IncomingInfoPanel;
+    public Memo IncomingInfoMemo;
+    public Image IncomingInfoIcon;
+    public Label OfTheLabel;
+    public Label PlayerRaceLabel;
 
     public int SelectedIndex { get; private set; }
 
@@ -181,8 +181,8 @@ public partial class RelationWindow : DataModule
         }
 
         var indexOf = Players.IndexOf(AoWHSMap.Current.SeatedPlayer);
-        PlyrGlow.Alignment.LeftOffset = indexOf * 51 - 37 + 51;
-        PlyrGlow.Aligned = false;
+        PlayerGlow.Alignment.LeftOffset = indexOf * 51 - 37 + 51;
+        PlayerGlow.Aligned = false;
     }
 
     // AoWRelations.pas:241
@@ -222,7 +222,7 @@ public partial class RelationWindow : DataModule
         FillPlayers();
         _glowIntensity = 50;
         _glowIncreasing = false;
-        RelWin.Visible = true;
+        MainWindow.Visible = true;
         if (ControlAt(player + 23) is CheckBox playerCheck)
         {
             playerCheck.Checked = true;
@@ -243,9 +243,9 @@ public partial class RelationWindow : DataModule
     public void ResetChecks()
     {
         SelectedIndex = -1;
-        RelPnl.Aligned = false;
-        RelWin.Drawn = false;
-        PlyrGlow.Alignment.TopOffset = 10;
+        RelationPanel.Aligned = false;
+        MainWindow.Drawn = false;
+        PlayerGlow.Alignment.TopOffset = 10;
         for (int I = 0; I <= 11; I++)
         {
             var check = FChecks[I];
@@ -268,18 +268,18 @@ public partial class RelationWindow : DataModule
         ClearActions();
         HighlightPlayer(player);
         ShowPlayerInformation(player);
-        selected = ActionsLB.Selected;
+        selected = ActionsList.Selected;
         AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).ListDiplomaticActions(player, ref _actions);
         for (int I = 0, last = _actions.GetCount() - 1; I <= last; I++)
         {
             var name = _actions.GetDiplomaticActions(I).GetName(AoWHSMap.Current.SeatedPlayer);
             var diplomaticAction = _actions.GetDiplomaticActions(I);
-            ActionsLB.Items.AddObject(name, diplomaticAction);
+            ActionsList.Items.AddObject(name, diplomaticAction);
         }
 
-        ActionsLB.Selected = selected;
+        ActionsList.Selected = selected;
         ActionsLBChange();
-        ActionPnl.Visible = true;
+        ActionPanel.Visible = true;
     }
 
     // AoWRelations.pas:309
@@ -289,93 +289,93 @@ public partial class RelationWindow : DataModule
         InfoPlayer = player;
         InfoRace = -1;
         FaceShadow.Visible = true;
-        NoContact.Visible = false;
-        PlStatV.Visible = true;
-        PlStatIcn.Visible = true;
-        PlStatLbl.Visible = true;
-        LInfoPlayerPnl.Visible = true;
-        LInfoRacePnl.Visible = false;
+        NoContactLabel.Visible = false;
+        PlayerStatusValueLabel.Visible = true;
+        PlayerStatusIcon.Visible = true;
+        PlayerStatusLabel.Visible = true;
+        PlayerInfoPanel.Visible = true;
+        RaceInfoPanel.Visible = false;
         var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player);
-        LShield.CurrentImage = playerPlayerRace.PlayerRace + 26;
-        LShield.Visible = true;
-        RShield.CurrentImage = LShield.CurrentImage;
-        RShield.Visible = true;
+        LeftShield.CurrentImage = playerPlayerRace.PlayerRace + 26;
+        LeftShield.Visible = true;
+        RightShield.CurrentImage = LeftShield.CurrentImage;
+        RightShield.Visible = true;
         var firstDaySeen = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFirstDaySeen(player);
-        NoContact.Visible = firstDaySeen == -1;
-        APlayer.Visible = !NoContact.Visible;
-        OfTheLbl.Visible = APlayer.Visible;
-        PRaceLbl.Visible = APlayer.Visible;
+        NoContactLabel.Visible = firstDaySeen == -1;
+        PlayerNameLabel.Visible = !NoContactLabel.Visible;
+        OfTheLabel.Visible = PlayerNameLabel.Visible;
+        PlayerRaceLabel.Visible = PlayerNameLabel.Visible;
         if (AoWHSMap.Current.Players.GetPlayers(player).GetFirstDaySeen(AoWHSMap.Current.SeatedPlayer) != -1)
         {
             if (player != AoWHSMap.Current.SeatedPlayer)
             {
                 relation = AoWHSMap.Current.Players.GetDiplomaticRelation(player, AoWHSMap.Current.SeatedPlayer);
                 var diplomaticRelation = AbilityRules.TranslateResourceString(GameTables.s_diplomaticRelationTexts[(int)relation]);
-                PlStatV.Text = diplomaticRelation;
+                PlayerStatusValueLabel.Text = diplomaticRelation;
                 if (relation != DiplomaticRelation.Unknown)
                 {
-                    PlStatIcn.CurrentImage = (int)relation + 8;
+                    PlayerStatusIcon.CurrentImage = (int)relation + 8;
                 }
                 else
                 {
-                    PlStatIcn.CurrentImage = 50;
+                    PlayerStatusIcon.CurrentImage = 50;
                 }
             }
             else
             {
-                PlStatIcn.Visible = false;
-                PlStatLbl.Visible = false;
-                PlStatV.Visible = false;
+                PlayerStatusIcon.Visible = false;
+                PlayerStatusLabel.Visible = false;
+                PlayerStatusValueLabel.Visible = false;
             }
         }
         else
         {
-            PlStatIcn.Visible = false;
+            PlayerStatusIcon.Visible = false;
             var noContact = AbilityRules.TranslateResourceString(s_noContactText);
-            PlStatV.Text = noContact;
+            PlayerStatusValueLabel.Text = noContact;
         }
 
         var name = AoWHSMap.Current.Players.GetPlayers(player).GetName();
-        APlayer.Text = name;
-        OfTheLbl.Text = DialogHosts.PlayerInfoWindow.LeadL.Text;
+        PlayerNameLabel.Text = name;
+        OfTheLabel.Text = DialogHosts.PlayerInfoWindow.OfTheLabel.Text;
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
-        PRaceLbl.Text = raceNamesPlural;
+        PlayerRaceLabel.Text = raceNamesPlural;
         var playerPlayerType = AoWHSMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of(PlayerType.Human, PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(playerPlayerType.PlayerType))
         {
             switch (AoWHSMap.Current.Players.GetPlayers(player).PlayerType)
             {
                 case PlayerType.Cpu1:
-                    APlyrIcon.CurrentImage = 1;
+                    PlayerTypeIcon.CurrentImage = 1;
                     break;
                 case PlayerType.Cpu2:
-                    APlyrIcon.CurrentImage = 2;
+                    PlayerTypeIcon.CurrentImage = 2;
                     break;
                 case PlayerType.Cpu3:
-                    APlyrIcon.CurrentImage = 3;
+                    PlayerTypeIcon.CurrentImage = 3;
                     break;
                 case PlayerType.Cpu4:
-                    APlyrIcon.CurrentImage = 4;
+                    PlayerTypeIcon.CurrentImage = 4;
                     break;
                 case PlayerType.Cpu5:
-                    APlyrIcon.CurrentImage = 5;
+                    PlayerTypeIcon.CurrentImage = 5;
                     break;
                 default:
-                    APlyrIcon.CurrentImage = 0;
+                    PlayerTypeIcon.CurrentImage = 0;
                     break;
             }
 
-            APlyrIcon.Visible = true;
+            PlayerTypeIcon.Visible = true;
         }
         else
         {
-            APlyrIcon.Visible = false;
+            PlayerTypeIcon.Visible = false;
         }
 
         var player2 = AoWHSMap.Current.Players.GetPlayers(player);
         var playerType = AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[(int)player2.PlayerType]);
-        APlyrType.Text = playerType;
+        PlayerTypeLabel.Text = playerType;
     }
 
     // AoWRelations.pas:370
@@ -392,7 +392,7 @@ public partial class RelationWindow : DataModule
             check.Checked = true;
             if (AoWHSMap.Current.SeatedPlayer == player)
             {
-                PlyrGlow.Alignment.TopOffset = check.Alignment.TopOffset;
+                PlayerGlow.Alignment.TopOffset = check.Alignment.TopOffset;
             }
         }
 
@@ -494,38 +494,38 @@ public partial class RelationWindow : DataModule
     {
         InfoPlayer = -1;
         InfoRace = (sbyte)race;
-        LShield.Visible = false;
-        RShield.Visible = false;
+        LeftShield.Visible = false;
+        RightShield.Visible = false;
         FaceShadow.Visible = true;
-        ActionPnl.Visible = true;
-        LInfoPlayerPnl.Visible = false;
-        LInfoRacePnl.Visible = true;
+        ActionPanel.Visible = true;
+        PlayerInfoPanel.Visible = false;
+        RaceInfoPanel.Visible = true;
         var playerRelation = AoWHSMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(AoWHSMap.Current.SeatedPlayer);
-        RlRelIcn.CurrentImage = (int)playerRelation + 11;
+        RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
         var playerRelation2 = AoWHSMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(AoWHSMap.Current.SeatedPlayer);
         var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
-        RlRelV.Text = status;
+        RaceRelationValueLabel.Text = status;
         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)race]);
-        ARace2.Text = raceNamesPlural;
+        RaceNameLabel.Text = raceNamesPlural;
         switch (race)
         {
             case >= 0 and <= 3:
                 var neutral = AbilityRules.TranslateResourceString(GameTables.NeutralText);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [neutral]);
-                AAlignmentLbl.Text = format;
-                AAlignment.CurrentImage = 33;
+                AlignmentLabel.Text = format;
+                AlignmentImage.CurrentImage = 33;
                 break;
             case >= 4 and <= 7:
                 var good = AbilityRules.TranslateResourceString(s_goodText);
                 var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [good]);
-                AAlignmentLbl.Text = formattedText;
-                AAlignment.CurrentImage = 31;
+                AlignmentLabel.Text = formattedText;
+                AlignmentImage.CurrentImage = 31;
                 break;
             case >= 8 and <= 11:
                 var evil = AbilityRules.TranslateResourceString(s_evilText);
                 var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [evil]);
-                AAlignmentLbl.Text = format2;
-                AAlignment.CurrentImage = 35;
+                AlignmentLabel.Text = format2;
+                AlignmentImage.CurrentImage = 35;
                 break;
         }
     }
@@ -641,39 +641,39 @@ public partial class RelationWindow : DataModule
     public void ClearActions()
     {
         SetAction(null);
-        RNewActionPnl.Visible = true;
-        RIncomingPnl.Visible = false;
-        RMsgEditPnl.Visible = false;
-        RSBribePnl.Visible = false;
-        RMsgRecPnl.Visible = false;
-        IncommingInfoPnl.Visible = false;
+        NewActionPanel.Visible = true;
+        IncomingPanel.Visible = false;
+        MessageEditPanel.Visible = false;
+        SendBribePanel.Visible = false;
+        ReceivedMessagePanel.Visible = false;
+        IncomingInfoPanel.Visible = false;
         _actions.Clear();
-        ActionsLB.Items.Clear();
-        SMemo.Items.Clear();
-        MMemo.Items.Clear();
+        ActionsList.Items.Clear();
+        SendMessageMemo.Items.Clear();
+        IncomingMemo.Items.Clear();
         ActionsLBChange();
     }
 
     // AoWRelations.pas:540
-    public void RelWindowCreate()
+    public void RelationWindowCreate()
     {
         _actions = new DiplomaticActionList(null);
         Races = new Int32List();
         Players = new Int32List();
         FImages =
         [
-            P1I, P2I, P3I, P4I, P5I, P6I, P7I, P8I, P9I, P10I, P11I, P12I,
-            R1I, R2I, R3I, R4I, R5I, R6I, R7I, R8I, R9I, R10I, R11I, R12I,
+            Player1Image, Player2Image, Player3Image, Player4Image, Player5Image, Player6Image, Player7Image, Player8Image, Player9Image, Player10Image, Player11Image, Player12Image,
+            Race1Image, Race2Image, Race3Image, Race4Image, Race5Image, Race6Image, Race7Image, Race8Image, Race9Image, Race10Image, Race11Image, Race12Image,
         ];
         FChecks =
         [
-            P1CB, P2CB, P3CB, P4CB, P5CB, P6CB, P7CB, P8CB, P9CB, P10CB, P11CB, P12CB,
-            R1CB, R2CB, R3CB, R4CB, R5CB, R6CB, R7CB, R8CB, R9CB, R10CB, R11CB, R12CB,
+            Player1CheckBox, Player2CheckBox, Player3CheckBox, Player4CheckBox, Player5CheckBox, Player6CheckBox, Player7CheckBox, Player8CheckBox, Player9CheckBox, Player10CheckBox, Player11CheckBox, Player12CheckBox,
+            Race1CheckBox, Race2CheckBox, Race3CheckBox, Race4CheckBox, Race5CheckBox, Race6CheckBox, Race7CheckBox, Race8CheckBox, Race9CheckBox, Race10CheckBox, Race11CheckBox, Race12CheckBox,
         ];
     }
 
     // AoWRelations.pas:596
-    public void RelWindowDestroy()
+    public void RelationWindowDestroy()
     {
         _actions?.Dispose();
         FImages?.Clear();
@@ -686,7 +686,7 @@ public partial class RelationWindow : DataModule
     public void ExitClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        RelWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AoWRelations.pas:610
@@ -702,8 +702,8 @@ public partial class RelationWindow : DataModule
             DialogHosts.General.PlayButtonSound(2);
         }
 
-        RelPnl.Aligned = false;
-        RelWin.Drawn = false;
+        RelationPanel.Aligned = false;
+        MainWindow.Drawn = false;
         if (sender._checked && sender is CheckBox)
         {
             if (_action == null)
@@ -731,7 +731,7 @@ public partial class RelationWindow : DataModule
             DialogHosts.General.PlayButtonSound(2);
         }
 
-        RelPnl.Aligned = false;
+        RelationPanel.Aligned = false;
         if (_action == null)
         {
             ClearActions();
@@ -756,7 +756,7 @@ public partial class RelationWindow : DataModule
             Player = (sbyte)Players[slot];
             if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFirstDaySeen(Player) == -1)
             {
-                DialogHosts.UIGraphics.RelWin[28].ShowClipped(component.WinLeft, component.WinTop, surface);
+                DialogHosts.UIGraphics.RelationWindow[28].ShowClipped(component.WinLeft, component.WinTop, surface);
             }
             else
             {
@@ -768,7 +768,7 @@ public partial class RelationWindow : DataModule
             }
 
             var player = AoWHSMap.Current.Players.GetPlayers(Player);
-            DialogHosts.UIGraphics.RelWin[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, surface);
+            DialogHosts.UIGraphics.RelationWindow[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, surface);
         }
     }
 
@@ -787,9 +787,9 @@ public partial class RelationWindow : DataModule
             R = new Rect(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
             AoWHSSet.Current.RaceResources.GetRaceResource(race).GetFace().ShowStretched(R, surface);
             action = _action;
-            if (action == null && RNewActionPnl.Visible && ActionsLB.Selected != -1)
+            if (action == null && NewActionPanel.Visible && ActionsList.Selected != -1)
             {
-                action = (DiplomaticAction)ActionsLB.Items.Objects[ActionsLB.Selected];
+                action = (DiplomaticAction)ActionsList.Items.Objects[ActionsList.Selected];
             }
 
             if (action != null)
@@ -832,7 +832,7 @@ public partial class RelationWindow : DataModule
                                 image = 50;
                             }
 
-                            DialogHosts.UIGraphics.RelWin[image].Show(component.WinLeft, component.WinTop + 8, surface);
+                            DialogHosts.UIGraphics.RelationWindow[image].Show(component.WinLeft, component.WinTop + 8, surface);
                         }
                     }
                 }
@@ -842,7 +842,7 @@ public partial class RelationWindow : DataModule
                 if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                 {
                     var playerRelation = AoWHSMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player);
-                    DialogHosts.UIGraphics.RelWin[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, surface);
+                    DialogHosts.UIGraphics.RelationWindow[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, surface);
                 }
             }
         }
@@ -860,7 +860,7 @@ public partial class RelationWindow : DataModule
             {
                 raceIndex = Races[slot - 20];
                 var playerRelation = AoWHSMap.Current.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
-                DialogHosts.UIGraphics.RelWin[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, surface);
+                DialogHosts.UIGraphics.RelationWindow[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, surface);
             }
         }
     }
@@ -931,20 +931,20 @@ public partial class RelationWindow : DataModule
             }
         }
 
-        PlyrGlow.Drawn = false;
+        PlayerGlow.Drawn = false;
     }
 
     // AoWRelations.pas:763
     public void PlyrGlowDraw(LockedSurface surface)
     {
-        DialogHosts.UIGraphics.RelWin[44].ShowBlended(PlyrGlow.WinLeft, PlyrGlow.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_glowIntensity]);
+        DialogHosts.UIGraphics.RelationWindow[44].ShowBlended(PlayerGlow.WinLeft, PlayerGlow.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_glowIntensity]);
     }
 
     // AoWRelations.pas:768
     public void FaceFrPreDraw(LockedSurface surface)
     {
         Rect R;
-        R = new Rect(FaceFr.WinLeft + 1, FaceFr.WinTop, FaceFr.WinLeft + FaceFr.WinWidth, FaceFr.WinTop + FaceFr.WinHeight);
+        R = new Rect(FaceFrame.WinLeft + 1, FaceFrame.WinTop, FaceFrame.WinLeft + FaceFrame.WinWidth, FaceFrame.WinTop + FaceFrame.WinHeight);
         if (_action == null)
         {
             if (SelectedPlayer != -1)
@@ -956,7 +956,7 @@ public partial class RelationWindow : DataModule
             }
             else
             {
-                AoWHSSet.Current.RaceResources.GetRaceResource(SelectedRace).GetFace().Show(FaceFr.WinLeft + 1, FaceFr.WinTop + 3, surface);
+                AoWHSSet.Current.RaceResources.GetRaceResource(SelectedRace).GetFace().Show(FaceFrame.WinLeft + 1, FaceFrame.WinTop + 3, surface);
             }
         }
         else
@@ -989,13 +989,13 @@ public partial class RelationWindow : DataModule
     // AoWRelations.pas:794. The offer enters the proposal when the player sends it (MsgSendActionBtn).
     public void SBGoldSlidChange()
     {
-        SBGoldV.Text = IntToStr(SBGoldSlid.Position);
+        BribeGoldValueLabel.Text = IntToStr(BribeGoldSlider.Position);
     }
 
     // AoWRelations.pas:800
     public void SBManaSlidChange()
     {
-        SBManaV.Text = IntToStr(SBManaSlid.Position);
+        BribeManaValueLabel.Text = IntToStr(BribeManaSlider.Position);
     }
 
     // AoWRelations.pas:806
@@ -1008,9 +1008,9 @@ public partial class RelationWindow : DataModule
     public void ASelectClick()
     {
         string reason = "";
-        if (ActionsLB.Selected != -1)
+        if (ActionsList.Selected != -1)
         {
-            SetAction((DiplomaticAction)ActionsLB.Items.Objects[ActionsLB.Selected]);
+            SetAction((DiplomaticAction)ActionsList.Items.Objects[ActionsList.Selected]);
             var view = _action.Proposal.View;
             if (view == ProposalView.Notice || view == ProposalView.Threat)
             {
@@ -1021,32 +1021,32 @@ public partial class RelationWindow : DataModule
             }
             else if (view == ProposalView.Offer)
             {
-                RNewActionPnl.Visible = false;
-                SBIcon.Visible = true;
-                RSBribePnl.Visible = true;
-                SBGoldSlid.Position = 0;
-                SBManaSlid.Position = 0;
+                NewActionPanel.Visible = false;
+                SendBribeIcon.Visible = true;
+                SendBribePanel.Visible = true;
+                BribeGoldSlider.Position = 0;
+                BribeManaSlider.Position = 0;
                 var playerGems = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-                SBGoldSlid.Max = playerGems.Gems;
+                BribeGoldSlider.Max = playerGems.Gems;
                 var playerMagicControl = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-                SBManaSlid.Max = playerMagicControl.MagicControl.Mana;
+                BribeManaSlider.Max = playerMagicControl.MagicControl.Mana;
                 SBManaSlidChange();
                 SBGoldSlidChange();
                 var name = _action.GetName(AoWHSMap.Current.SeatedPlayer);
-                BribeHeaderLbl.Text = name;
+                BribeHeaderLabel.Text = name;
                 if (_action.Proposal.Icon >= 0)
                 {
-                    SBIcon.CurrentImage = _action.Proposal.Icon;
+                    SendBribeIcon.CurrentImage = _action.Proposal.Icon;
                 }
                 else
                 {
-                    SBIcon.Visible = false;
+                    SendBribeIcon.Visible = false;
                 }
             }
             else if (view == ProposalView.Message)
             {
-                RNewActionPnl.Visible = false;
-                RMsgEditPnl.Visible = true;
+                NewActionPanel.Visible = false;
+                MessageEditPanel.Visible = true;
             }
         }
     }
@@ -1054,18 +1054,18 @@ public partial class RelationWindow : DataModule
     // AoWRelations.pas:851
     public void ActionsLBChange()
     {
-        RelPnl.Drawn = false;
-        if (ActionsLB.Selected != -1)
+        RelationPanel.Drawn = false;
+        if (ActionsList.Selected != -1)
         {
-            ASelect.ImageLibraryIndexDown = 37;
-            ASelect.ImageLibraryIndexLit = 40;
-            ASelect.ImageLibraryIndexUp = 34;
+            SelectActionButton.ImageLibraryIndexDown = 37;
+            SelectActionButton.ImageLibraryIndexLit = 40;
+            SelectActionButton.ImageLibraryIndexUp = 34;
         }
         else
         {
-            ASelect.ImageLibraryIndexDown = 46;
-            ASelect.ImageLibraryIndexLit = 49;
-            ASelect.ImageLibraryIndexUp = 43;
+            SelectActionButton.ImageLibraryIndexDown = 46;
+            SelectActionButton.ImageLibraryIndexLit = 49;
+            SelectActionButton.ImageLibraryIndexUp = 43;
         }
     }
 
@@ -1078,9 +1078,9 @@ public partial class RelationWindow : DataModule
         }
 
         ShowPlayerActions(_action.Target);
-        RNewActionPnl.Visible = true;
-        RSBribePnl.Visible = false;
-        RMsgEditPnl.Visible = false;
+        NewActionPanel.Visible = true;
+        SendBribePanel.Visible = false;
+        MessageEditPanel.Visible = false;
     }
 
     // AoWRelations.pas:877
@@ -1094,7 +1094,7 @@ public partial class RelationWindow : DataModule
     }
 
     // AoWRelations.pas:882
-    public void MsgSendActionBtn()
+    public void SendActionButtonClick()
     {
         string reason = "";
         sbyte player;
@@ -1102,7 +1102,7 @@ public partial class RelationWindow : DataModule
         action = _action;
         if (action != null)
         {
-            action.Proposal = action.Proposal.WithOffer(SBGoldSlid.Position, SBManaSlid.Position);
+            action.Proposal = action.Proposal.WithOffer(BribeGoldSlider.Position, BribeManaSlider.Position);
             if (action.Send(ref reason))
             {
                 player = _action.Target;
@@ -1122,14 +1122,14 @@ public partial class RelationWindow : DataModule
     }
 
     // AoWRelations.pas:901
-    public void ReplyBtnClick()
+    public void ReplyButtonClick()
     {
         DiplomaticAction action;
         action = AoWHSMap.Current.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), _action.Source, -1);
         ClearActions();
         SetAction(action);
-        RNewActionPnl.Visible = false;
-        RMsgEditPnl.Visible = true;
+        NewActionPanel.Visible = false;
+        MessageEditPanel.Visible = true;
     }
 
     // AoWRelations.pas:912
@@ -1162,7 +1162,7 @@ public partial class RelationWindow : DataModule
     {
         if (key == 27)
         {
-            RelWin.Visible = false;
+            MainWindow.Visible = false;
         }
     }
 
@@ -1197,30 +1197,30 @@ public partial class RelationWindow : DataModule
                 var from = proposal.SignedAsOtherPlayer ? dialog._action.OtherPlayer : dialog._action.Source;
                 dialog.HighlightPlayer(from);
                 dialog.ShowPlayerInformation(from);
-                dialog.RNewActionPnl.Visible = false;
-                dialog.RMsgRecPnl.Visible = true;
+                dialog.NewActionPanel.Visible = false;
+                dialog.ReceivedMessagePanel.Visible = true;
                 var text = proposal.MessageText;
-                dialog.RMMemo.Items.Text = text;
+                dialog.ReceivedMessageMemo.Items.Text = text;
                 var name = AoWHSMap.Current.Players.GetPlayers(from).GetName();
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.MessageFormat), [name]);
-                dialog.RMHeaderLbl.Text = format;
+                dialog.ReceivedMessageHeaderLabel.Text = format;
             }
             else if (view == ProposalView.Offer)
             {
-                dialog.RNewActionPnl.Visible = false;
+                dialog.NewActionPanel.Visible = false;
                 if (dialog._action.Reaction == DiplomaticActionReaction.None)
                 {
                     dialog.HighlightPlayer(dialog._action.Source);
                     dialog.ShowPlayerInformation(dialog._action.Source);
-                    dialog.RIncomingPnl.Visible = true;
+                    dialog.IncomingPanel.Visible = true;
                     var (_, gold, mana) = proposal.ToFields();
-                    dialog.MBGoldBribeV.Text = IntToStr(gold);
-                    dialog.MBManaBribeV.Text = IntToStr(mana);
+                    dialog.ReceivedGoldLabel.Text = IntToStr(gold);
+                    dialog.ReceivedManaLabel.Text = IntToStr(mana);
                     var text2 = proposal.MessageText;
-                    dialog.MMemo.Items.Text = text2;
+                    dialog.IncomingMemo.Items.Text = text2;
                     if (proposal.Icon >= 0)
                     {
-                        dialog.MIcon.CurrentImage = proposal.Icon;
+                        dialog.IncomingIcon.CurrentImage = proposal.Icon;
                     }
                 }
                 else
@@ -1229,13 +1229,13 @@ public partial class RelationWindow : DataModule
                     {
                         dialog.HighlightPlayer(dialog._action.Target);
                         dialog.ShowPlayerInformation(dialog._action.Target);
-                        dialog.RNewActionPnl.Visible = false;
-                        dialog.IncommingInfoPnl.Visible = true;
+                        dialog.NewActionPanel.Visible = false;
+                        dialog.IncomingInfoPanel.Visible = true;
                         var text2 = proposal.MessageText;
-                        dialog.IIMemo.Items.Text = text2;
+                        dialog.IncomingInfoMemo.Items.Text = text2;
                         if (proposal.Icon >= 0)
                         {
-                            dialog.IIIcon.CurrentImage = proposal.Icon;
+                            dialog.IncomingInfoIcon.CurrentImage = proposal.Icon;
                         }
                     }
                     else
@@ -1265,13 +1265,13 @@ public partial class RelationWindow : DataModule
                     {
                         dialog.HighlightPlayer(dialog._action.Source);
                         dialog.ShowPlayerInformation(dialog._action.Source);
-                        dialog.RNewActionPnl.Visible = false;
-                        dialog.IncommingInfoPnl.Visible = true;
+                        dialog.NewActionPanel.Visible = false;
+                        dialog.IncomingInfoPanel.Visible = true;
                         var text2 = proposal.MessageText;
-                        dialog.IIMemo.Items.Text = text2;
+                        dialog.IncomingInfoMemo.Items.Text = text2;
                         if (proposal.Icon >= 0)
                         {
-                            dialog.IIIcon.CurrentImage = proposal.Icon;
+                            dialog.IncomingInfoIcon.CurrentImage = proposal.Icon;
                         }
                     }
                     else
@@ -1285,13 +1285,13 @@ public partial class RelationWindow : DataModule
             {
                 dialog.HighlightPlayer(dialog._action.Source);
                 dialog.ShowPlayerInformation(dialog._action.Source);
-                dialog.RNewActionPnl.Visible = false;
-                dialog.IncommingInfoPnl.Visible = true;
+                dialog.NewActionPanel.Visible = false;
+                dialog.IncomingInfoPanel.Visible = true;
                 var text3 = proposal.MessageText;
-                dialog.IIMemo.Items.Text = text3;
+                dialog.IncomingInfoMemo.Items.Text = text3;
                 if (proposal.Icon >= 0)
                 {
-                    dialog.IIIcon.CurrentImage = proposal.Icon;
+                    dialog.IncomingInfoIcon.CurrentImage = proposal.Icon;
                 }
             }
         }

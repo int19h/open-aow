@@ -25,7 +25,7 @@ public partial class MapEvents : ILayoutModule
         theMap.OnArmyDestroyed = TheMapArmyDestroyed;
         theMap.OnStructureSelected = TheMapStructureSelected;
         theMap.OnStructureDeselected = _ => TheMapStructureDeselected();
-        theMap.OnStructureDoubleClick = TheMapStructureDblClick;
+        theMap.OnStructureDoubleClick = TheMapStructureDoubleClick;
         theMap.OnStructureChanged = TheMapStructureChanged;
         theMap.OnStructureDestroyed = TheMapStructureDestroyed;
         theMap.OnUnitChanged = TheMapUnitChanged;
@@ -36,7 +36,7 @@ public partial class MapEvents : ILayoutModule
         theMap.OnShowMessage = TheMapShowMessage;
         theMap.OnDayChanged = TheMapDayChanged;
         theMap.OnEndTurn = TheMapEndTurn;
-        theMap.OnHexSpriteChanged = TheMapHSChanged;
+        theMap.OnHexSpriteChanged = TheMapHexSpriteChanged;
         theMap.OnSeatedPlayerChanged = TheMapSeatedPlayerChanged;
         theMap.OnMapChanged = TheMapMapChanged;
         theMap.OnScannerIconsChanged = TheMapScannerIconsChanged;
@@ -62,7 +62,7 @@ public partial class MapEvents : ILayoutModule
 
     private void Layout_TheMapDeactivateHSM_10()
     {
-        TheMapDeactivateHSM();
+        TheMapDeactivateHexSpriteMap();
     }
 
     private void Layout_TheMapGlobalMagicChanged_17()

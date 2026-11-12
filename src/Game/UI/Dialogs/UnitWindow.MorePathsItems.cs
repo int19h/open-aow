@@ -25,20 +25,20 @@ public partial class UnitWindow
                 if (check.Tag != -1) hero.SwapItem(selected.Tag, check.Tag);
                 else
                 {
-                    HeroItemPosition position = check == Head ? HeroItemPosition.HeadSlot :
-                        check == Torso ? HeroItemPosition.TorsoSlot :
-                        check == Attack ? HeroItemPosition.AttackSlot :
-                        check == Defend ? HeroItemPosition.DefenseSlot :
-                        check == RingR ? HeroItemPosition.RightRingSlot :
-                        check == RingL ? HeroItemPosition.LeftRingSlot :
-                        check == BP1 ? HeroItemPosition.InventorySlot1 :
-                        check == BP2 ? HeroItemPosition.InventorySlot2 :
-                        check == BP3 ? HeroItemPosition.InventorySlot3 :
-                        check == BP4 ? HeroItemPosition.InventorySlot4 :
-                        check == BP5 ? HeroItemPosition.InventorySlot5 :
-                        check == BP6 ? HeroItemPosition.InventorySlot6 :
-                        check == BP7 ? HeroItemPosition.InventorySlot7 :
-                        check == BP8 ? HeroItemPosition.InventorySlot8 : HeroItemPosition.Ground;
+                    HeroItemPosition position = check == HeadSlotCheckBox ? HeroItemPosition.HeadSlot :
+                        check == TorsoSlotCheckBox ? HeroItemPosition.TorsoSlot :
+                        check == AttackSlotCheckBox ? HeroItemPosition.AttackSlot :
+                        check == DefendSlotCheckBox ? HeroItemPosition.DefenseSlot :
+                        check == RightRingCheckBox ? HeroItemPosition.RightRingSlot :
+                        check == LeftRingCheckBox ? HeroItemPosition.LeftRingSlot :
+                        check == Backpack1CheckBox ? HeroItemPosition.InventorySlot1 :
+                        check == Backpack2CheckBox ? HeroItemPosition.InventorySlot2 :
+                        check == Backpack3CheckBox ? HeroItemPosition.InventorySlot3 :
+                        check == Backpack4CheckBox ? HeroItemPosition.InventorySlot4 :
+                        check == Backpack5CheckBox ? HeroItemPosition.InventorySlot5 :
+                        check == Backpack6CheckBox ? HeroItemPosition.InventorySlot6 :
+                        check == Backpack7CheckBox ? HeroItemPosition.InventorySlot7 :
+                        check == Backpack8CheckBox ? HeroItemPosition.InventorySlot8 : HeroItemPosition.Ground;
                     hero.PlaceItem(selected.Tag, position);
                 }
                 check.Checked = false;
@@ -55,12 +55,12 @@ public partial class UnitWindow
                 {
                     _cursorImage = item.GetImage();
                     _itemType = item.ItemType;
-                    ItemUseBtn.Visible = item.ItemType == ItemType.Scroll;
+                    ItemUseButton.Visible = item.ItemType == ItemType.Scroll;
                 }
                 else
                 {
                     _itemType = ItemType.Use;
-                    ItemUseBtn.Visible = false;
+                    ItemUseButton.Visible = false;
                 }
                 _blinkDelay = 2;
                 _itemVisible = true;
@@ -78,9 +78,9 @@ public partial class UnitWindow
     private void ClearItemSelection()
     {
         s_selectedItem = null;
-        UnitWin.Cursor = 0;
+        MainWindow.Cursor = 0;
         _itemType = ItemType.Use;
-        ItemUseBtn.Visible = false;
+        ItemUseButton.Visible = false;
         _itemVisible = false;
     }
 }

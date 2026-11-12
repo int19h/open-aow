@@ -24,9 +24,9 @@ public partial class PyreScreen : DataModule
     public PyreScreen(Component owner) : base(owner)
     { }
 
-    public Panel DeadPnl;
-    public Image LeaderFaceFr;
-    public UserDrawBox PyreAnimation;
+    public Panel DeadPanel;
+    public Image LeaderFaceFrame;
+    public UserDrawBox PyreAnimationView;
     private object _animation;
 
     public SongStatus SavedSongStatus { get; set; }
@@ -50,7 +50,7 @@ public partial class PyreScreen : DataModule
     {
         ClearFire();
         DialogHosts.UIGraphics.PyreFrames.ReleaseDiscardableImageData();
-        DialogHosts.PyreScreen.DeadPnl.Visible = false;
+        DialogHosts.PyreScreen.DeadPanel.Visible = false;
         ShowResults(DialogHosts.ResultsWindow);
     }
 
@@ -76,12 +76,12 @@ public partial class PyreScreen : DataModule
         }
 
         DialogHosts.UIGraphics.PyreFrames.LoadDiscardableImageData();
-        DialogHosts.TitleWindow.TitlePnl.Visible = false;
-        DialogHosts.PyreScreen.DeadPnl.Visible = true;
+        DialogHosts.TitleWindow.TitlePanel.Visible = false;
+        DialogHosts.PyreScreen.DeadPanel.Visible = true;
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyMode();
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
         SetCurrentDir(ExtractFileDir(RtlUnit.Application.ExeName));
     }
 
@@ -102,9 +102,9 @@ public partial class PyreScreen : DataModule
         Rect R = default;
         if (AoWHSMap.Current != null)
         {
-            R.Left = DeadPnl.WinLeft + LeaderFaceFr.WinLeft + 45;
+            R.Left = DeadPanel.WinLeft + LeaderFaceFrame.WinLeft + 45;
             R.Right = R.Left + 103;
-            R.Top = DeadPnl.WinTop + LeaderFaceFr.WinTop + 35;
+            R.Top = DeadPanel.WinTop + LeaderFaceFrame.WinTop + 35;
             R.Bottom = R.Top + 128;
             AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Leader.ShowFace(R, lockedSurface);
         }
@@ -113,8 +113,8 @@ public partial class PyreScreen : DataModule
     // AOWPyreScrn.pas:69
     public void PyreAnimationUpdate()
     {
-        PyreAnimation.Drawn = false;
-        DeadPnl.Drawn = false;
+        PyreAnimationView.Drawn = false;
+        DeadPanel.Drawn = false;
         _animationFrame += 1;
         if (_animationFrame > 450)
         {
@@ -134,15 +134,15 @@ public partial class PyreScreen : DataModule
         int Y;
         int frame;
         string text;
-        X = PyreAnimation.WinWidth / 2;
-        Y = PyreAnimation.WinHeight + 20 - _animationFrame / 2;
+        X = PyreAnimationView.WinWidth / 2;
+        Y = PyreAnimationView.WinHeight + 20 - _animationFrame / 2;
         if (Y < 400)
         {
             Y = 400;
         }
 
-        Y += DeadPnl.WinTop;
-        X += DeadPnl.WinLeft;
+        Y += DeadPanel.WinTop;
+        X += DeadPanel.WinLeft;
         switch (AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
@@ -152,14 +152,14 @@ public partial class PyreScreen : DataModule
                     frame = 0;
                 }
 
-                DialogHosts.UIGraphics.PyreFrames[frame].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, lockedSurface);
+                DialogHosts.UIGraphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
                 text = AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_yourReignHasEndedText);
-                DialogHosts.UIFonts.Font15BlackBrown.SetTextCentered(X, Y, text, lockedSurface);
+                DialogHosts.UIFonts.Age15BlackOnBrown.SetTextCentered(X, Y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
-                DialogHosts.UIGraphics.VictoryFrames[0].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, lockedSurface);
+                DialogHosts.UIGraphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
                 text = AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_youWereVictoriousText);
-                DialogHosts.UIFonts.Font15WhiteGrey.SetTextCentered(X, Y, text, lockedSurface);
+                DialogHosts.UIFonts.Age15WhiteOnGrey.SetTextCentered(X, Y, text, lockedSurface);
                 break;
         }
     }
@@ -196,7 +196,7 @@ public partial class PyreScreen : DataModule
         }
 
         AudioPlayback.SetMusicVolume(0);
-        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position, 1);
+        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position, 1);
         window.Players.Clear();
         for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
@@ -216,17 +216,17 @@ public partial class PyreScreen : DataModule
         if (GameTables.GameEngine.Campaign != null && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
             var replay = AbilityRules.TranslateResourceString(s_replayText);
-            window.ContinueBtn.Text = replay;
-            window.ExitBtn.Visible = true;
+            window.ContinueButton.Text = replay;
+            window.ExitButton.Visible = true;
         }
         else
         {
             var continueText = AbilityRules.TranslateResourceString(s_continueText);
-            window.ContinueBtn.Text = continueText;
-            window.ExitBtn.Visible = false;
+            window.ContinueButton.Text = continueText;
+            window.ExitButton.Visible = false;
         }
 
-        DialogHosts.ResultsWindow.ResultsPnl.Visible = true;
+        DialogHosts.ResultsWindow.ResultsPanel.Visible = true;
     }
 
     internal static void ClearPyre(PyreScreen dialog)

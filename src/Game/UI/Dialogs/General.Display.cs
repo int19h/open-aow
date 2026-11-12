@@ -12,14 +12,14 @@ public partial class General
 
     public void ManagerUpdate()
     {
-        var unit = DialogHosts.UnitBanner.BannerPopup;
+        var unit = DialogHosts.UnitBanner.BannerMenu;
         if (unit.ShowPending && !unit.Visible)
         {
             unit.WinLeft = unit.MenuLeft;
             unit.WinTop = unit.MenuTop;
             unit.Visible = true;
         }
-        var info = DialogHosts.InfoBanner.BannerPopup;
+        var info = DialogHosts.InfoBanner.BannerMenu;
         if (info.ShowPending && !info.Visible)
         {
             info.WinLeft = info.MenuLeft;
@@ -37,9 +37,9 @@ public partial class General
     public void MapProgress(string message, int progression)
     {
         var progress = DialogHosts.ProgressDialog;
-        progress.StatusLbl.Text = message;
-        progress.Bar.Position = progression;
-        progress.ProgDlg.SurfaceValid = false;
+        progress.StatusLabel.Text = message;
+        progress.ProgressBar.Position = progression;
+        progress.Window.SurfaceValid = false;
         var display = GameHost.MainForm?.Display;
         if (display?.ActiveDisplayController is { } displayController)
         {

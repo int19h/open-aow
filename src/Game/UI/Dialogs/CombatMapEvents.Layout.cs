@@ -21,16 +21,16 @@ public partial class CombatMapEvents : ILayoutModule
         tcMap.Name = "TCMap";
         tcMap.OnSelected = TCMapSelected;
         tcMap.OnDeselected = TCMapDeselected;
-        tcMap.OnMouseOverTarget = TCMapMouseOverTarget;
-        tcMap.OnUnitChanged = TCMapUnitChanged;
-        tcMap.OnShowMessage = TCMapShowMessage;
+        tcMap.OnMouseOverTarget = CombatMapMouseOverTarget;
+        tcMap.OnUnitChanged = CombatMapUnitChanged;
+        tcMap.OnShowMessage = CombatMapShowMessage;
         tcMap.OnTurnChanged = Layout_TCMapTurnChanged_1;
-        tcMap.OnSeatedPlayerChanged = TCMapSeatedPlayerChanged;
-        tcMap.OnMapChanged = TCMapMapChanged;
+        tcMap.OnSeatedPlayerChanged = CombatMapSeatedPlayerChanged;
+        tcMap.OnMapChanged = CombatMapMapChanged;
         tcMap.OnActivateMap = _ => Layout_TCMapActivateMap_2();
         tcMap.OnDeActivateMap = _ => Layout_TCMapDeActivateMap_3();
-        tcMap.OnCastSpell = TCMapCastSpell;
-        tcMap.OnActivateAbility = TCMapActivateAbility;
+        tcMap.OnCastSpell = CombatMapCastSpell;
+        tcMap.OnActivateAbility = CombatMapActivateAbility;
         session.EndRead(tcMap);
         session.EndRead(this);
         Loaded();
@@ -40,16 +40,16 @@ public partial class CombatMapEvents : ILayoutModule
 
     private void Layout_TCMapTurnChanged_1(int p0)
     {
-        TCMapTurnChanged();
+        CombatMapTurnChanged();
     }
 
     private void Layout_TCMapActivateMap_2()
     {
-        TCMapActivateMap();
+        CombatMapActivateMap();
     }
 
     private void Layout_TCMapDeActivateMap_3()
     {
-        TCMapDeActivateMap();
+        CombatMapDeactivateMap();
     }
 }

@@ -17,7 +17,7 @@ public partial class PopupWindows : DataModule
     public PopupWindows(Component owner) : base(owner)
     { }
 
-    public Menu OverViewsMenu;
+    public Menu OverviewsMenu;
 
     // AoWPWindows.pas:61
     public void SettingsMenuSelect(Menu sender)
@@ -31,7 +31,7 @@ public partial class PopupWindows : DataModule
                 ShowSoundSettings(DialogHosts.SoundDialog);
                 break;
             case 2:
-                DialogHosts.GamePlayDialog.Root.Visible = true;
+                DialogHosts.GamePlayDialog.Window.Visible = true;
                 break;
             case 3:
                 DialogHosts.General.ResetLayout();
@@ -40,7 +40,7 @@ public partial class PopupWindows : DataModule
                 EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
                 break;
             case 5:
-                DialogHosts.ConfirmationDialog.DebugWin.Visible = true;
+                DialogHosts.ConfirmationDialog.DebugWindow.Visible = true;
                 break;
         }
     }
@@ -52,11 +52,11 @@ public partial class PopupWindows : DataModule
         {
             case 0:
                 DialogHosts.FileDialogWindow.Mode = 0;
-                DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+                DialogHosts.FileDialogWindow.Window.Visible = true;
                 break;
             case 1:
                 DialogHosts.FileDialogWindow.Mode = 1;
-                DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+                DialogHosts.FileDialogWindow.Window.Visible = true;
                 break;
         }
     }
@@ -157,10 +157,10 @@ public partial class PopupWindows : DataModule
 
     private static void ShowSoundSettings(SoundDialog dialog)
     {
-        dialog.AddBtn.Visible = false;
+        dialog.AddButton.Visible = false;
         dialog.FindFiles();
         dialog.SoundSetup();
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
     internal static void ShowInformationBook(WorldMap dialog, ShowBookEventLog eventValue, ExecuteDoneEvent done)
@@ -171,19 +171,19 @@ public partial class PopupWindows : DataModule
         {
             dialog.BookContext.AddRef();
         }
-        dialog.LabelL.Text = AoWHSMap.Current.MapName;
-        ((StringCollection)dialog.MemoL.Items).Clear();
-        ((StringCollection)dialog.MemoL.Items).AddStrings((StringCollection)(object)AoWHSMap.Current.Description);
+        dialog.LeftPageLabel.Text = AoWHSMap.Current.MapName;
+        ((StringCollection)dialog.LeftPageMemo.Items).Clear();
+        ((StringCollection)dialog.LeftPageMemo.Items).AddStrings((StringCollection)(object)AoWHSMap.Current.Description);
         string text = AbilityRules.TranslateResourceString(s_mapSettingsText);
-        dialog.LabelR.Text = text;
-        ((StringCollection)dialog.MemoR.Items).Clear();
+        dialog.RightPageLabel.Text = text;
+        ((StringCollection)dialog.RightPageMemo.Items).Clear();
         if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.None)
         {
             string text2 = AbilityRules.TranslateResourceString(s_conquerMapText);
             string s = AbilityRules.TranslateResourceString(s_objectiveFormat);
             FormatArg value = (FormatArg)(text2);
             string text3 = AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
-            ((StringCollection)dialog.MemoR.Items).Add(text3);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text3);
         }
         else
         {
@@ -191,14 +191,14 @@ public partial class PopupWindows : DataModule
             string s2 = AbilityRules.TranslateResourceString(s_objectiveFormat);
             FormatArg value2 = (FormatArg)(text4);
             string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
-            ((StringCollection)dialog.MemoR.Items).Add(text5);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text5);
         }
         if (AoWHSMap.Current.DayLimit > 0)
         {
             string s3 = AbilityRules.TranslateResourceString(s_dayLimitFormat);
             FormatArg value3 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.DayLimit));
             string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref value3));
-            ((StringCollection)dialog.MemoR.Items).Add(text6);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text6);
         }
         if (AoWHSMap.Current.AlliedVictory)
         {
@@ -206,7 +206,7 @@ public partial class PopupWindows : DataModule
             string s4 = AbilityRules.TranslateResourceString(s_alliedVictoryFormat);
             FormatArg value4 = (FormatArg)(text7);
             string text8 = AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref value4));
-            ((StringCollection)dialog.MemoR.Items).Add(text8);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text8);
         }
         else
         {
@@ -214,21 +214,21 @@ public partial class PopupWindows : DataModule
             string s5 = AbilityRules.TranslateResourceString(s_alliedVictoryFormat);
             FormatArg value5 = (FormatArg)(text9);
             string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref value5));
-            ((StringCollection)dialog.MemoR.Items).Add(text10);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text10);
         }
         int count = AoWHSMap.Current.Players.GetCount();
         string s6 = AbilityRules.TranslateResourceString(s_playersOnMapFormat);
         FormatArg value6 = (FormatArg)(RtlUnit.IntToStr(count - 1));
         string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref value6));
-        ((StringCollection)dialog.MemoR.Items).Add(text11);
+        ((StringCollection)dialog.RightPageMemo.Items).Add(text11);
         string s7 = AbilityRules.TranslateResourceString(s_maximumSphereLevelFormat);
         FormatArg value7 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.SphereCount));
         string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref value7));
-        ((StringCollection)dialog.MemoR.Items).Add(text12);
+        ((StringCollection)dialog.RightPageMemo.Items).Add(text12);
         string s8 = AbilityRules.TranslateResourceString(s_maximumPlayerHeroesFormat);
         FormatArg value8 = (FormatArg)(RtlUnit.IntToStr((int)AoWHSMap.Current.HeroCountMax));
         string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref value8));
-        ((StringCollection)dialog.MemoR.Items).Add(text13);
+        ((StringCollection)dialog.RightPageMemo.Items).Add(text13);
         if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.RequestCombatType)
         {
             string text14 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)AoWHSMap.Current.ConnectionType]);
@@ -236,7 +236,7 @@ public partial class PopupWindows : DataModule
             string s9 = AbilityRules.TranslateResourceString(s_gameTypeFormat);
             FormatArg value9 = (FormatArg)(text14 + "/" + text15);
             string text16 = AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref value9));
-            ((StringCollection)dialog.MemoR.Items).Add(text16);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text16);
         }
         else
         {
@@ -244,24 +244,24 @@ public partial class PopupWindows : DataModule
             string s10 = AbilityRules.TranslateResourceString(s_gameTypeFormat);
             FormatArg value10 = (FormatArg)(text17);
             string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref value10));
-            ((StringCollection)dialog.MemoR.Items).Add(text18);
+            ((StringCollection)dialog.RightPageMemo.Items).Add(text18);
         }
         string text19 = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)AoWHSMap.Current.PlayMode]);
         string s11 = AbilityRules.TranslateResourceString(s_turnModeFormat);
         FormatArg value11 = (FormatArg)(text19);
         string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref value11));
-        ((StringCollection)dialog.MemoR.Items).Add(text20);
-        dialog.PicL.Visible = false;
-        dialog.PicR.Visible = false;
-        dialog.MemoL.Visible = true;
-        dialog.MemoR.Visible = true;
-        dialog.Back.Visible = false;
-        dialog.Cancel.Visible = false;
-        dialog.Next.Visible = false;
-        dialog.BookWin.Visible = true;
-        if (dialog.BookWin.BackSurface != null)
+        ((StringCollection)dialog.RightPageMemo.Items).Add(text20);
+        dialog.LeftPagePicture.Visible = false;
+        dialog.RightPagePicture.Visible = false;
+        dialog.LeftPageMemo.Visible = true;
+        dialog.RightPageMemo.Visible = true;
+        dialog.BackButton.Visible = false;
+        dialog.CancelButton.Visible = false;
+        dialog.NextButton.Visible = false;
+        dialog.Book.Visible = true;
+        if (dialog.Book.BackSurface != null)
         {
-            dialog.BookWin.BackSurface.Clear(dialog.BookWin._maskColor);
+            dialog.Book.BackSurface.Clear(dialog.Book._maskColor);
         }
         DialogHosts.General.Manager.OverlayPriority = 49;
     }

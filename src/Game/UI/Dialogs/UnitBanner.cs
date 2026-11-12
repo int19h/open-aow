@@ -14,16 +14,16 @@ public partial class UnitBanner : DataModule
     public UnitBanner(Component owner) : base(owner)
     { }
 
-    public Label UnitNameLbl;
+    public Label UnitNameLabel;
     public Image MovesIcon;
-    public Label Attack;
-    public Label Defense;
-    public Label Moves;
-    public Label Damage;
-    public Label Resistance;
-    public Label Hits;
-    public Menu BannerPopup;
-    public ListBox AbLB;
+    public Label AttackLabel;
+    public Label DefenseLabel;
+    public Label MovesLabel;
+    public Label DamageLabel;
+    public Label ResistanceLabel;
+    public Label HitsLabel;
+    public Menu BannerMenu;
+    public ListBox AbilityList;
 
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()
@@ -32,55 +32,55 @@ public partial class UnitBanner : DataModule
         if (DialogHosts.General.SelectedUnit != null)
         {
             var name = DialogHosts.General.SelectedUnit.GetName();
-            UnitNameLbl.Text = name;
-            BannerPopup.Aligned = false;
+            UnitNameLabel.Text = name;
+            BannerMenu.Aligned = false;
             var hitPoints = DialogHosts.General.SelectedUnit.GetHitPoints();
             var hits = DialogHosts.General.SelectedUnit.GetHits();
-            Hits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
+            HitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
             var movePoints = DialogHosts.General.SelectedUnit.GetMovePoints();
             var moves = DialogHosts.General.SelectedUnit.GetMoves();
-            Moves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
+            MovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
             var attack = DialogHosts.General.SelectedUnit.GetAttack();
-            Attack.Text = IntToStr(attack);
+            AttackLabel.Text = IntToStr(attack);
             var damage = DialogHosts.General.SelectedUnit.GetDamage();
-            Damage.Text = IntToStr(damage);
+            DamageLabel.Text = IntToStr(damage);
             var defense = DialogHosts.General.SelectedUnit.GetDefense();
-            Defense.Text = IntToStr(defense);
+            DefenseLabel.Text = IntToStr(defense);
             var resistance = DialogHosts.General.SelectedUnit.GetResistance();
-            Resistance.Text = IntToStr(resistance);
+            ResistanceLabel.Text = IntToStr(resistance);
             var moveTypes = DialogHosts.General.SelectedUnit.GetMoveTypes();
             var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
             MovesIcon.CurrentImage = moveTypesToInt32;
-            AbLB.Items.Clear();
+            AbilityList.Items.Clear();
             DialogHosts.General.BuildAbilities();
             for (int I = 0, last = DialogHosts.General.Abilities.Count - 1; I <= last; I++)
             {
                 A = DialogHosts.General.Abilities[I];
                 var name2 = AoWHSSet.Current.AbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.SelectedUnit);
-                AbLB.Items.Add(name2);
+                AbilityList.Items.Add(name2);
             }
 
-            AbLB.Selected = -1;
-            this.AbLB.HoverItem = -1;
-            this.AbLB.ListOffset = 0;
+            AbilityList.Selected = -1;
+            this.AbilityList.HoverItem = -1;
+            this.AbilityList.ListOffset = 0;
         }
     }
 
     // AoWUnitBanner.pas:80
     public void AbLBUpdate()
     {
-        if (AbLB.HoverItem != AbLB.Selected)
+        if (AbilityList.HoverItem != AbilityList.Selected)
         {
-            AbLB.Selected = AbLB.HoverItem;
+            AbilityList.Selected = AbilityList.HoverItem;
         }
     }
 
     // AoWUnitBanner.pas:85
     public void AbLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (DialogHosts.General.SelectedUnit != null && AbLB.HoverItem >= DialogHosts.General.ActiveAbilityCount)
+        if (DialogHosts.General.SelectedUnit != null && AbilityList.HoverItem >= DialogHosts.General.ActiveAbilityCount)
         {
-            AbLB.HoverItem = -1;
+            AbilityList.HoverItem = -1;
         }
     }
 
@@ -89,7 +89,7 @@ public partial class UnitBanner : DataModule
     {
         if (button == 1)
         {
-            DialogHosts.UnitBanner.BannerPopup.Visible = false;
+            DialogHosts.UnitBanner.BannerMenu.Visible = false;
         }
     }
 
@@ -99,15 +99,15 @@ public partial class UnitBanner : DataModule
         string reason = "";
         if (DialogHosts.General.SelectedUnit != null)
         {
-            if (AbLB.Selected > -1 && AbLB.Selected < DialogHosts.General.ActiveAbilityCount)
+            if (AbilityList.Selected > -1 && AbilityList.Selected < DialogHosts.General.ActiveAbilityCount)
             {
-                var ability = DialogHosts.General.Abilities[AbLB.Selected];
+                var ability = DialogHosts.General.Abilities[AbilityList.Selected];
                 AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.SelectedUnit, ref reason);
-                BannerPopup.Visible = false;
+                BannerMenu.Visible = false;
             }
             else
             {
-                AbLB.Selected = -1;
+                AbilityList.Selected = -1;
             }
         }
     }

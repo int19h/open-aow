@@ -276,7 +276,7 @@ internal sealed class FrameFixture
             if (fixture._values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
             TaskBar taskbar = DialogHosts.TaskBar;
             var controls = DialogHosts.ControlWindow;
-            File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text, controls.Unit2Chk.Text, controls.MovesLbl.Text }) + "\n");
+            File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text }) + "\n");
             var selected = AoWHSMap.Current?.SelectedArmy?.GetArmyHexSprite();
             if (AoWHSMap.Current is { } world)
             {
@@ -384,7 +384,7 @@ internal sealed class FrameFixture
                 foreach (string saved in JsonSerializer.Deserialize<string[]>(savedFiles)!)
                     File.Copy(Path.Combine(output, "user", saved), Path.Combine(output, "saved-" + Path.GetFileName(saved)), true);
             File.WriteAllText(Path.Combine(output, "taskbar.json"), JsonSerializer.Serialize(
-                new[] { taskbar.WGTLbl, taskbar.WGILbl, taskbar.WMTLbl, taskbar.WMILbl, taskbar.TGTLbl, taskbar.TGILbl, taskbar.TMTLbl, taskbar.TMILbl }
+                new[] { taskbar.WorldGoldTotalLabel, taskbar.WorldGoldIncomeLabel, taskbar.WorldManaTotalLabel, taskbar.WorldManaIncomeLabel, taskbar.CombatGoldTotalLabel, taskbar.CombatGoldIncomeLabel, taskbar.CombatManaTotalLabel, taskbar.CombatManaIncomeLabel }
                     .Select(c => new
                     {
                         name = c.Name,

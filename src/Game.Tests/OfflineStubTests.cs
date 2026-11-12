@@ -67,7 +67,7 @@ public sealed class OfflineStubTests
 
     private static SetupEvents OfflineSetupEvents()
     {
-        var events = new SetupEvents(null!) { DPlay = new GDPlay { PlayerName = "No Name" } };
+        var events = new SetupEvents(null!) { DirectPlay = new GDPlay { PlayerName = "No Name" } };
         events.SetupControl = new SetupControl(events);
         DialogHosts.SetupEvents = events;
         return events;
@@ -123,7 +123,7 @@ public sealed class OfflineStubTests
         window.Setup = control;
         window.Leader = new Leader(null!) { HeroName = "Gorbag" };
         window.Leader.SetHeroResourceIndex(0);
-        window.LeaderPnl.Visible = true;
+        window.LeaderPanel.Visible = true;
 
         window.Finish();
 
@@ -131,12 +131,12 @@ public sealed class OfflineStubTests
         Assert.Equal(LeaderSetupControl.LeaderSetupStatus.Done, control.Status);
         Assert.Equal("Gorbag", control.OriginalLeader.HeroName);
         Assert.Null(window.Setup);
-        Assert.False(window.LeaderPnl.Visible);
-        Assert.Equal("No Name", events.DPlay.PlayerName);
+        Assert.False(window.LeaderPanel.Visible);
+        Assert.Equal("No Name", events.DirectPlay.PlayerName);
 
         events.SetupControl.Status = Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
         events.UpdatePlayerName("Remote");
-        Assert.Equal("No Name", events.DPlay.PlayerName);
+        Assert.Equal("No Name", events.DirectPlay.PlayerName);
     }
 
     // Row 6: AOWMultiWin.pas Execute shows a provider button only for a provider that DirectPlay
@@ -148,16 +148,16 @@ public sealed class OfflineStubTests
         using var saved = new SavedGlobals();
         OfflineSetupEvents();
         var window = NewGameWindow();
-        window.TCPBtn.Visible = false;
-        window.IPXBtn.Visible = true;
+        window.TcpButton.Visible = false;
+        window.IpxButton.Visible = true;
 
         window.Execute("");
 
-        Assert.True(window.MultiPnl.Visible);
+        Assert.True(window.MultiPanel.Visible);
         Assert.True(window.GamePanel.Visible);
-        Assert.True(window.TCPBtn.Visible);
-        Assert.False(window.IPXBtn.Visible);
-        Assert.True(DialogHosts.TitleWindow.TitleWin.Visible);
+        Assert.True(window.TcpButton.Visible);
+        Assert.False(window.IpxButton.Visible);
+        Assert.True(DialogHosts.TitleWindow.MainWindow.Visible);
     }
 
     // AOWMultiWin.pas:200 and 215: Find and Host connect the TCP/IP provider first. The offline
@@ -170,24 +170,24 @@ public sealed class OfflineStubTests
         var window = NewGameWindow();
         var setup = Populate(new ScenarioSetup(null!));
         DialogHosts.ScenarioSetup = setup;
-        setup.ScenSetupPnl.Visible = false;
+        setup.ScenarioSetupPanel.Visible = false;
         var messages = new List<string>();
         Runtime.MessageHandler = messages.Add;
         window.Execute("");
         window.TCPBtnClick();
-        window.TCPName.Text = "Gorbag";
+        window.TcpNameEdit.Text = "Gorbag";
 
         window.FindClick();
         window.HostClick();
 
         Assert.Equal([MultiWindow.NetworkPlayNotAvailableText, MultiWindow.NetworkPlayNotAvailableText], messages);
         Assert.Equal("Network play is not available in this version.", MultiWindow.NetworkPlayNotAvailableText);
-        Assert.True(window.MultiPnl.Visible);
-        Assert.True(window.TCPPnl.Visible);
+        Assert.True(window.MultiPanel.Visible);
+        Assert.True(window.TcpPanel.Visible);
         Assert.False(window.GamePanel.Visible);
-        Assert.False(window.JoinPnl.Visible);
-        Assert.False(setup.ScenSetupPnl.Visible);
-        Assert.Equal("No Name", events.DPlay.PlayerName);
+        Assert.False(window.JoinPanel.Visible);
+        Assert.False(setup.ScenarioSetupPanel.Visible);
+        Assert.Equal("No Name", events.DirectPlay.PlayerName);
     }
 
     // Row 3: AoWScenSetup.pas:257 closes the setup and returns to the New Game window.
@@ -200,16 +200,16 @@ public sealed class OfflineStubTests
         var setup = Populate(new ScenarioSetup(null!));
         DialogHosts.ScenarioSetup = setup;
         setup.SetupControl = new SetupControl(setup);
-        setup.ScenSetupPnl.Visible = true;
-        window.MultiPnl.Visible = false;
-        window.TCPBtn.Visible = false;
+        setup.ScenarioSetupPanel.Visible = true;
+        window.MultiPanel.Visible = false;
+        window.TcpButton.Visible = false;
 
         setup.ExitGameClick();
 
-        Assert.False(setup.ScenSetupPnl.Visible);
+        Assert.False(setup.ScenarioSetupPanel.Visible);
         Assert.Null(setup.SetupControl);
-        Assert.True(window.MultiPnl.Visible);
-        Assert.True(window.TCPBtn.Visible);
+        Assert.True(window.MultiPanel.Visible);
+        Assert.True(window.TcpButton.Visible);
     }
 
     // Row 1: AOWMultiWin.pas:103 hides the New Game window and hands over to the title scene.
@@ -221,13 +221,13 @@ public sealed class OfflineStubTests
         OfflineSetupEvents();
         var window = NewGameWindow();
         DialogHosts.TitleScene = new TitleScene(null!);
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        window.MultiPnl.Visible = true;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        window.MultiPanel.Visible = true;
 
-        var error = Record.Exception(window.CloseBtnClick);
+        var error = Record.Exception(window.BackButtonClick);
 
-        Assert.False(DialogHosts.TitleWindow.TitleWin.Visible);
-        Assert.False(window.MultiPnl.Visible);
+        Assert.False(DialogHosts.TitleWindow.MainWindow.Visible);
+        Assert.False(window.MultiPanel.Visible);
         Assert.IsNotType<NotImplementedException>(error);
         Assert.Contains(nameof(TitleScene.ShowScene), error?.StackTrace ?? "");
     }
@@ -253,7 +253,7 @@ public sealed class OfflineStubTests
 
         menu.SelectedItem = 0;
         popups.HelpMenuSelect(menu);
-        Assert.True(help.HelpWin.Visible);
+        Assert.True(help.MainWindow.Visible);
         Assert.Equal("Topic 507", help.HeaderMemo.Items[0]);
         Assert.Equal("Body 507", help.HelpMemo.Items[0]);
 

@@ -19,10 +19,10 @@ public partial class CombatChoice : DataModule
     public CombatChoice(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Button FightBtn;
-    public Button CancelBtn;
-    public CheckBox TCchk;
+    public Window Window;
+    public Button FightButton;
+    public Button CancelButton;
+    public CheckBox TacticalCombatCheckBox;
     public UserDrawBox MapView;
     private CombatTypeRequestEventLog _request;
     private NotifyEvent<object> _onDone;
@@ -53,14 +53,14 @@ public partial class CombatChoice : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         _request.Select(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // TCFCDlg.pas:64
     public void FightBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // TCFCDlg.pas:70
@@ -110,7 +110,7 @@ public partial class CombatChoice : DataModule
         Rect R;
         int W;
         int H;
-        R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
+        R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         HexGeometry.HexToPixel(_request.X, _request.Y, ref X, ref Y);
@@ -154,7 +154,7 @@ public partial class CombatChoice : DataModule
             _request.Select((CombatType)2);
         }
 
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // TCFCDlg.pas:139
@@ -165,14 +165,14 @@ public partial class CombatChoice : DataModule
             _request.Select((CombatType)1);
         }
 
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     internal static void ShowCombatType(CombatChoice dialog, CombatTypeRequestEventLog eventValue, ExecuteDoneEvent done)
     {
         if (DialogHosts.ConfirmationDialog.SkipCombatChoice)
         {
-            if (dialog.TCchk.Checked)
+            if (dialog.TacticalCombatCheckBox.Checked)
             {
                 eventValue.Select((CombatType)2);
             }
@@ -189,7 +189,7 @@ public partial class CombatChoice : DataModule
             dialog._request.AddRef();
             dialog._onDone = RebindDelegate<NotifyEvent<object>>(done);
             DialogHosts.General.Manager.OverlayPriority = 49;
-            if (dialog.TCchk.Checked)
+            if (dialog.TacticalCombatCheckBox.Checked)
             {
                 eventValue.Select((CombatType)2);
             }
@@ -200,17 +200,17 @@ public partial class CombatChoice : DataModule
 
             if (AoWHSMap.Current.Players.GetPlayers(dialog._request.Player).PlayerType == PlayerType.Human)
             {
-                dialog.CancelBtn.Visible = true;
-                dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Left;
+                dialog.CancelButton.Visible = true;
+                dialog.FightButton.Alignment.AlignWidth = AlignWidth.Left;
             }
             else
             {
-                dialog.CancelBtn.Visible = false;
-                dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Center;
+                dialog.CancelButton.Visible = false;
+                dialog.FightButton.Alignment.AlignWidth = AlignWidth.Center;
             }
 
-            dialog.Dlg.ReAlign();
-            dialog.Dlg.Visible = true;
+            dialog.Window.ReAlign();
+            dialog.Window.Visible = true;
             AoWHSMap.Current.TutorialControl.ShowMessage(61, true, true);
         }
     }

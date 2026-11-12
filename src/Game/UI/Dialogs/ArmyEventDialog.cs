@@ -22,10 +22,10 @@ public partial class ArmyEventDialog : DataModule
     public ArmyEventDialog(Component owner) : base(owner)
     { }
 
-    public Window ArmyEventWin;
-    public Panel UnitPnl;
-    public Label EventText;
-    public Image DamagePic;
+    public Window ArmyEventWindow;
+    public Panel UnitPanel;
+    public Label EventTextLabel;
+    public Image DamagePicture;
     private ExecuteDoneEvent _onClose;
     private ArmyEventLog _event;
     private int _frame;
@@ -146,13 +146,13 @@ public partial class ArmyEventDialog : DataModule
     }
 
     // AoWArmyEventDlg.pas:171
-    public void ArmyEventDlgCreate()
+    public void ArmyEventDialogCreate()
     {
         _units = new ByteList();
     }
 
     // AoWArmyEventDlg.pas:176
-    public void ArmyEventDlgDestroy()
+    public void ArmyEventDialogDestroy()
     {
         _units?.Dispose();
     }
@@ -161,7 +161,7 @@ public partial class ArmyEventDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        ArmyEventWin.Visible = false;
+        ArmyEventWindow.Visible = false;
     }
 
     // AoWArmyEventDlg.pas:187
@@ -172,14 +172,14 @@ public partial class ArmyEventDialog : DataModule
             _frame += 1;
         }
 
-        DrawUnits(ArmyEventWin.WinLeft + 203, ArmyEventWin.WinTop + 100, lockedSurface);
+        DrawUnits(ArmyEventWindow.WinLeft + 203, ArmyEventWindow.WinTop + 100, lockedSurface);
     }
 
     // AoWArmyEventDlg.pas:193
     public void UnitPnlUpdate()
     {
-        UnitPnl.Drawn = false;
-        ArmyEventWin.Drawn = false;
+        UnitPanel.Drawn = false;
+        ArmyEventWindow.Drawn = false;
     }
 
     // AoWArmyEventDlg.pas:198
@@ -193,7 +193,7 @@ public partial class ArmyEventDialog : DataModule
     {
         if (key == 27 || key == 32)
         {
-            ArmyEventWin.Visible = false;
+            ArmyEventWindow.Visible = false;
         }
     }
 
@@ -207,9 +207,9 @@ public partial class ArmyEventDialog : DataModule
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;
-        dialog.DamagePic.CurrentImage = log.ArmyIcon;
+        dialog.DamagePicture.CurrentImage = log.ArmyIcon;
         var text = log.ArmyMessages.Text;
-        dialog.EventText.Text = text;
+        dialog.EventTextLabel.Text = text;
         army = log.ArmyView;
         dialog._units.Clear();
         for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
@@ -225,7 +225,7 @@ public partial class ArmyEventDialog : DataModule
             }
         }
 
-        dialog.ArmyEventWin.Visible = true;
+        dialog.ArmyEventWindow.Visible = true;
         dialog._frame = 0;
     }
 

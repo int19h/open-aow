@@ -19,110 +19,110 @@ public partial class RealmWindow : DataModule
     public RealmWindow(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public TabPanel HeaderTab;
-    public Panel T2Pnl;
-    public Panel T2LBPnl;
-    public Panel T4Pnl;
-    public Panel T4LBPnl;
-    public ListBox T2NameLB;
-    public ListBox T2RaceLB;
-    public ListBox T2IncomeLB;
-    public ListBox T2LevelLB;
-    public ListBox T2WallLB;
-    public ListBox T2SizeLB;
-    public ListBox T2EncLB;
-    public ListBox T2ActLB;
-    public ListBox T2RelLB;
-    public ListBox T2MorLB;
-    public VerticalScrollBar CitySB;
-    public ListBox T3Name;
-    public ListBox T3ActLB;
-    public VerticalScrollBar PlaceSB;
-    public Gauge UnitGg;
-    public ListBox Unit1LB;
-    public ListBox Unit2LB;
-    public ListBox Unit3LB;
-    public ListBox Unit4LB;
-    public ListBox Unit5LB;
-    public ListBox Unit6LB;
-    public ListBox Unit7LB;
-    public ListBox Unit8LB;
+    public Window Window;
+    public TabPanel HeaderTabs;
+    public Panel CityPanel;
+    public Panel CityListPanel;
+    public Panel PartyPanel;
+    public Panel PartyListPanel;
+    public ListBox CityNameList;
+    public ListBox CityRaceList;
+    public ListBox CityIncomeList;
+    public ListBox CityLevelList;
+    public ListBox CityWallList;
+    public ListBox CitySizeList;
+    public ListBox CityEnchantmentList;
+    public ListBox CityActionList;
+    public ListBox CityRelationList;
+    public ListBox CityMoraleList;
+    public VerticalScrollBar CityScrollBar;
+    public ListBox PlaceNameList;
+    public ListBox PlaceActionList;
+    public VerticalScrollBar PlaceScrollBar;
+    public Gauge UnitGauge;
+    public ListBox Unit1List;
+    public ListBox Unit2List;
+    public ListBox Unit3List;
+    public ListBox Unit4List;
+    public ListBox Unit5List;
+    public ListBox Unit6List;
+    public ListBox Unit7List;
+    public ListBox Unit8List;
     private ListBox[] _partyLists;
-    public VerticalScrollBar PartySb;
-    public ListBox T5Name;
-    public ListBox T5Health;
-    public ListBox T5Level;
-    public Panel T5HeroInf;
-    public VerticalScrollBar HeroSB;
-    public Memo IncomeMem;
-    public VerticalScrollBar IncomeSB;
-    public Label Income;
-    public VerticalScrollBar UpkeepSB;
-    public Label Upkeep;
-    public Label NetInc;
-    public Label Treasury;
-    public Memo IncomeValue;
-    public Memo UpkeepValue;
+    public VerticalScrollBar PartyScrollBar;
+    public ListBox HeroNameList;
+    public ListBox HeroHealthList;
+    public ListBox HeroLevelList;
+    public Panel HeroHeroInfoPanel;
+    public VerticalScrollBar HeroScrollBar;
+    public Memo IncomeMemo;
+    public VerticalScrollBar IncomeScrollBar;
+    public Label IncomeLabel;
+    public VerticalScrollBar UpkeepScrollBar;
+    public Label UpkeepLabel;
+    public Label NetIncomeLabel;
+    public Label TreasuryLabel;
+    public Memo IncomeValueMemo;
+    public Memo UpkeepValueMemo;
 
     // AoWRealm.pas:238
     public void UpdateIncome()
     {
         int value;
         var playerGems = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-        Treasury.Text = IntToStr(playerGems.Gems);
+        TreasuryLabel.Text = IntToStr(playerGems.Gems);
         var upkeep = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetUpkeep();
         var playerIncome = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-        NetInc.Text = IntToStr(playerIncome.Income - upkeep);
+        NetIncomeLabel.Text = IntToStr(playerIncome.Income - upkeep);
         var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-        Income.Text = IntToStr(player.Income);
+        IncomeLabel.Text = IntToStr(player.Income);
         var upkeep2 = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetUpkeep();
-        Upkeep.Text = IntToStr(upkeep2);
-        IncomeMem.Items.Clear();
-        IncomeValue.Items.Clear();
-        UpkeepValue.Items.Clear();
+        UpkeepLabel.Text = IntToStr(upkeep2);
+        IncomeMemo.Items.Clear();
+        IncomeValueMemo.Items.Clear();
+        UpkeepValueMemo.Items.Clear();
         value = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).BaseIncome;
         if (value != 0)
         {
             var externalIncome = AbilityRules.TranslateResourceString(s_externalIncomeText);
-            IncomeMem.Items.Add(externalIncome);
-            IncomeValue.Items.Add(IntToStr(value));
+            IncomeMemo.Items.Add(externalIncome);
+            IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = CityIncome(AoWHSMap.Current.SeatedPlayer);
         if (value != 0)
         {
             var cities = AbilityRules.TranslateResourceString(s_citiesText);
-            IncomeMem.Items.Add(cities);
-            IncomeValue.Items.Add(IntToStr(value));
+            IncomeMemo.Items.Add(cities);
+            IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = FarmIncome(AoWHSMap.Current.SeatedPlayer);
         if (value != 0)
         {
             var farms = AbilityRules.TranslateResourceString(s_farmsText);
-            IncomeMem.Items.Add(farms);
-            IncomeValue.Items.Add(IntToStr(value));
+            IncomeMemo.Items.Add(farms);
+            IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = MineIncome(AoWHSMap.Current.SeatedPlayer);
         if (value != 0)
         {
             var mines = AbilityRules.TranslateResourceString(s_minesText);
-            IncomeMem.Items.Add(mines);
-            IncomeValue.Items.Add(IntToStr(value));
+            IncomeMemo.Items.Add(mines);
+            IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = BuildersGuildIncome(AoWHSMap.Current.SeatedPlayer);
         if (value != 0)
         {
             var buildersGuilds = AbilityRules.TranslateResourceString(s_buildersGuildsText);
-            IncomeMem.Items.Add(buildersGuilds);
-            IncomeValue.Items.Add(IntToStr(value));
+            IncomeMemo.Items.Add(buildersGuilds);
+            IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         var playerArmyUpkeep = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
-        UpkeepValue.Items.Add(IntToStr(playerArmyUpkeep.ArmyUpkeep));
+        UpkeepValueMemo.Items.Add(IntToStr(playerArmyUpkeep.ArmyUpkeep));
     }
 
     // AoWRealm.pas:178
@@ -130,16 +130,16 @@ public partial class RealmWindow : DataModule
     {
         PlayerStructure structure;
         City C;
-        T2NameLB.Items.Clear();
-        T2RaceLB.Items.Clear();
-        T2IncomeLB.Items.Clear();
-        T2LevelLB.Items.Clear();
-        T2WallLB.Items.Clear();
-        T2SizeLB.Items.Clear();
-        T2MorLB.Items.Clear();
-        T2RelLB.Items.Clear();
-        T2ActLB.Items.Clear();
-        T2EncLB.Items.Clear();
+        CityNameList.Items.Clear();
+        CityRaceList.Items.Clear();
+        CityIncomeList.Items.Clear();
+        CityLevelList.Items.Clear();
+        CityWallList.Items.Clear();
+        CitySizeList.Items.Clear();
+        CityMoraleList.Items.Clear();
+        CityRelationList.Items.Clear();
+        CityActionList.Items.Clear();
+        CityEnchantmentList.Items.Clear();
         for (int I = 0, last = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1; I <= last; I++)
         {
             structure = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(I);
@@ -147,71 +147,71 @@ public partial class RealmWindow : DataModule
             {
                 C = (City)structure;
                 var name = C.GetName();
-                T2NameLB.Items.AddObject(name, C);
+                CityNameList.Items.AddObject(name, C);
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[C.Race]);
-                T2RaceLB.Items.Add(raceNamesPlural);
-                T2IncomeLB.Items.Add(IntToStr(C.Income));
-                T2LevelLB.Items.Add(IntToStr(C.UpgradeLevel));
+                CityRaceList.Items.Add(raceNamesPlural);
+                CityIncomeList.Items.Add(IntToStr(C.Income));
+                CityLevelList.Items.Add(IntToStr(C.UpgradeLevel));
                 switch (C.WallType)
                 {
                     case 1:
-                        T2WallLB.Items.Add("1");
+                        CityWallList.Items.Add("1");
                         break;
                     case 2:
-                        T2WallLB.Items.Add("2");
+                        CityWallList.Items.Add("2");
                         break;
                     default:
-                        T2WallLB.Items.Add("-");
+                        CityWallList.Items.Add("-");
                         break;
                 }
 
                 switch (C.GetCivilStatus())
                 {
                     case City.CivilStatus.Unrest:
-                        T2MorLB.Items.Add("1");
+                        CityMoraleList.Items.Add("1");
                         break;
                     case City.CivilStatus.Stable:
-                        T2MorLB.Items.Add("2");
+                        CityMoraleList.Items.Add("2");
                         break;
                     case City.CivilStatus.Content:
-                        T2MorLB.Items.Add("3");
+                        CityMoraleList.Items.Add("3");
                         break;
                     case City.CivilStatus.Cheerful:
-                        T2MorLB.Items.Add("4");
+                        CityMoraleList.Items.Add("4");
                         break;
                     default:
-                        T2MorLB.Items.Add("-");
+                        CityMoraleList.Items.Add("-");
                         break;
                 }
 
                 switch ((int)AoWHSMap.Current.Races.GetRace(C.Race).GetPlayerRelation(AoWHSMap.Current.SeatedPlayer) & 127)
                 {
                     case 0:
-                        T2RelLB.Items.Add("0");
+                        CityRelationList.Items.Add("0");
                         break;
                     case 1:
-                        T2RelLB.Items.Add("1");
+                        CityRelationList.Items.Add("1");
                         break;
                     case 2:
-                        T2RelLB.Items.Add("2");
+                        CityRelationList.Items.Add("2");
                         break;
                     case 3:
-                        T2RelLB.Items.Add("3");
+                        CityRelationList.Items.Add("3");
                         break;
                     case 4:
-                        T2RelLB.Items.Add("4");
+                        CityRelationList.Items.Add("4");
                         break;
                     default:
-                        T2RelLB.Items.Add("-");
+                        CityRelationList.Items.Add("-");
                         break;
                 }
 
                 var activeOrder = C.GetActiveOrder();
-                T2ActLB.Items.Add(activeOrder != null ? activeOrder.RealmActivity(C) : "-");
+                CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(C) : "-");
 
-                T2EncLB.Items.Add("-");
+                CityEnchantmentList.Items.Add("-");
                 var size = C.GetSize();
-                T2SizeLB.Items.Add(IntToStr(size));
+                CitySizeList.Items.Add(IntToStr(size));
             }
         }
     }
@@ -220,17 +220,17 @@ public partial class RealmWindow : DataModule
     public void UpdatePlaces()
     {
         PlayerStructure place;
-        T3Name.Items.Clear();
-        T3ActLB.Items.Clear();
+        PlaceNameList.Items.Clear();
+        PlaceActionList.Items.Clear();
         for (int I = 0, last = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1; I <= last; I++)
         {
             place = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(I);
             if (!(place is City))
             {
                 var editName = place.EditName();
-                T3Name.Items.AddObject(editName, place);
+                PlaceNameList.Items.AddObject(editName, place);
                 var currentActivityText = place.GetCurrentActivityText();
-                T3ActLB.Items.Add(currentActivityText);
+                PlaceActionList.Items.Add(currentActivityText);
             }
         }
     }
@@ -239,9 +239,9 @@ public partial class RealmWindow : DataModule
     public void UpdateHeroes()
     {
         Troop U;
-        T5Name.Items.Clear();
-        T5Health.Items.Clear();
-        T5Level.Items.Clear();
+        HeroNameList.Items.Clear();
+        HeroHealthList.Items.Clear();
+        HeroLevelList.Items.Clear();
         for (int I = 0, last = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
         {
             for (int J = 0, lastJ = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
@@ -251,20 +251,20 @@ public partial class RealmWindow : DataModule
                 {
                     var army = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(I);
                     var name = U.GetName();
-                    T5Name.Items.AddObject(name, army);
+                    HeroNameList.Items.AddObject(name, army);
                     var hitPoints = U.GetHitPoints();
                     var hits = U.GetHits();
-                    T5Health.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), U);
+                    HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), U);
                     var level = ((Hero)U).GetLevel();
-                    T5Level.Items.Add(IntToStr(level));
+                    HeroLevelList.Items.Add(IntToStr(level));
                 }
             }
         }
 
-        if (T5Name.Items.Count > 0 && T5Name.Selected == -1)
+        if (HeroNameList.Items.Count > 0 && HeroNameList.Selected == -1)
         {
-            T5Name.Selected = 0;
-            HeroListChange(T5Name);
+            HeroNameList.Selected = 0;
+            HeroListChange(HeroNameList);
         }
     }
 
@@ -278,11 +278,11 @@ public partial class RealmWindow : DataModule
     {
         if (AoWHSMap.Current.SeatedPlayer == -1)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
         else
         {
-            switch (HeaderTab.Selected)
+            switch (HeaderTabs.Selected)
             {
                 case 0:
                     UpdateIncome();
@@ -317,30 +317,30 @@ public partial class RealmWindow : DataModule
             lockedSurface.ClipRectangle.Left = drawRectangle.Left + 2;
             lockedSurface.ClipRectangle.Top = drawRectangle.Top + 1;
             lockedSurface.ClipRectangle.Right = drawRectangle.Right - 2;
-            lockedSurface.ClipRectangle.Bottom = drawRectangle.Top + Unit1LB.ItemHeight - 6;
-            if (drawRectangle.Bottom - drawRectangle.Top < Unit1LB.ItemHeight - 6)
+            lockedSurface.ClipRectangle.Bottom = drawRectangle.Top + Unit1List.ItemHeight - 6;
+            if (drawRectangle.Bottom - drawRectangle.Top < Unit1List.ItemHeight - 6)
             {
                 lockedSurface.ClipRectangle.Bottom = drawRectangle.Bottom;
             }
 
             U = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).GetUnit(column);
-            if ((int)U.GetAlignment() < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((int)U.GetAlignment() < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
                 var alignment = U.GetAlignment();
-                var unitBackground = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                var unitBackground = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 unitBackground.ShowClipped(drawRectangle.Left - (unitBackground.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (unitBackground.Height - (drawRectangle.Bottom - drawRectangle.Top - 10)) / 2, lockedSurface);
             }
 
             var previewImage = U.GetPreviewImage();
             var uPreviewImage = U.GetPreviewImage();
-            U.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1LB.ItemHeight - 10)) / 2, lockedSurface, DialogHosts.General.UnitShowInfo);
-            var gauge = UnitGg;
+            U.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1List.ItemHeight - 10)) / 2, lockedSurface, DialogHosts.General.UnitShowInfo);
+            var gauge = UnitGauge;
             gauge.Visible = true;
             gauge.Max = U.GetHits();
             gauge.Position = U.GetHitPoints();
-            gauge.WinLeft = drawRectangle.Left - T4LBPnl.WinLeft + 5;
+            gauge.WinLeft = drawRectangle.Left - PartyListPanel.WinLeft + 5;
             gauge.WinWidth = drawRectangle.Right - drawRectangle.Left - 10;
-            gauge.WinTop = drawRectangle.Top + Unit1LB.ItemHeight - T4LBPnl.WinTop - 9;
+            gauge.WinTop = drawRectangle.Top + Unit1List.ItemHeight - PartyListPanel.WinTop - 9;
             // { Original sizes and draws the gauge directly. }
             gauge.SetSize();
             gauge.Draw(lockedSurface);
@@ -354,22 +354,22 @@ public partial class RealmWindow : DataModule
     public void OWMinIconClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWRealm.pas:388
     public void T2WallLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        string text = T2WallLB.Items[drawItem];
+        string text = CityWallList.Items[drawItem];
         switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
         {
             case 49:
-                var listBoxIcon = DialogHosts.UIGraphics.LBIcons[7];
-                DialogHosts.UIGraphics.LBIcons[7].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+                var listBoxIcon = DialogHosts.UIGraphics.ListIcons[7];
+                DialogHosts.UIGraphics.ListIcons[7].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
                 break;
             case 50:
-                var listBoxIconWidth = DialogHosts.UIGraphics.LBIcons[8];
-                DialogHosts.UIGraphics.LBIcons[8].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIconWidth.Width / 2, drawRectangle.Top, lockedSurface);
+                var listBoxIconWidth = DialogHosts.UIGraphics.ListIcons[8];
+                DialogHosts.UIGraphics.ListIcons[8].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIconWidth.Width / 2, drawRectangle.Top, lockedSurface);
                 break;
         }
     }
@@ -388,16 +388,16 @@ public partial class RealmWindow : DataModule
     }
 
     // AoWRealm.pas:409
-    public void PartyVSBChange()
+    public void PartyScrollBarChange()
     {
-        Unit1LB.ListOffset = PartySb.Position;
-        Unit2LB.ListOffset = PartySb.Position;
-        Unit3LB.ListOffset = PartySb.Position;
-        Unit4LB.ListOffset = PartySb.Position;
-        Unit5LB.ListOffset = PartySb.Position;
-        Unit6LB.ListOffset = PartySb.Position;
-        Unit7LB.ListOffset = PartySb.Position;
-        Unit8LB.ListOffset = PartySb.Position;
+        Unit1List.ListOffset = PartyScrollBar.Position;
+        Unit2List.ListOffset = PartyScrollBar.Position;
+        Unit3List.ListOffset = PartyScrollBar.Position;
+        Unit4List.ListOffset = PartyScrollBar.Position;
+        Unit5List.ListOffset = PartyScrollBar.Position;
+        Unit6List.ListOffset = PartyScrollBar.Position;
+        Unit7List.ListOffset = PartyScrollBar.Position;
+        Unit8List.ListOffset = PartyScrollBar.Position;
     }
 
     // AoWRealm.pas:421
@@ -405,12 +405,12 @@ public partial class RealmWindow : DataModule
     {
         if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetCount() > 0)
         {
-            listBox.PopupMenu = DialogHosts.UnitBanner.BannerPopup;
+            listBox.PopupMenu = DialogHosts.UnitBanner.BannerMenu;
             var troop = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetUnit(slot);
             DialogHosts.General.SelectedUnit = troop;
             var armyHexSprite = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetArmyHexSprite();
             AoWHSMap.Current.Select(armyHexSprite, true);
-            Dlg.Priority = Dlg.Priority;
+            Window.Priority = Window.Priority;
         }
         else
         {
@@ -418,7 +418,7 @@ public partial class RealmWindow : DataModule
             listBox.Selected = -1;
         }
 
-        _partyLists ??= [Unit1LB, Unit2LB, Unit3LB, Unit4LB, Unit5LB, Unit6LB, Unit7LB, Unit8LB];
+        _partyLists ??= [Unit1List, Unit2List, Unit3List, Unit4List, Unit5List, Unit6List, Unit7List, Unit8List];
         for (int index = 0; index < _partyLists.Length; index++)
         {
             if (index != slot)
@@ -432,10 +432,10 @@ public partial class RealmWindow : DataModule
     public void T2MorLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
         int icon;
-        string text = T2MorLB.Items[drawItem];
+        string text = CityMoraleList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
-        var listBoxIcon = DialogHosts.UIGraphics.LBIcons[icon + 9];
-        DialogHosts.UIGraphics.LBIcons[icon + 9].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+        var listBoxIcon = DialogHosts.UIGraphics.ListIcons[icon + 9];
+        DialogHosts.UIGraphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
     }
 
     // AoWRealm.pas:457
@@ -444,7 +444,7 @@ public partial class RealmWindow : DataModule
         HexSprite sprite;
         if (button == MouseButton.Right && sender.Selected != -1)
         {
-            sprite = (HexSprite)T2NameLB.Items.Objects[sender.Selected];
+            sprite = (HexSprite)CityNameList.Items.Objects[sender.Selected];
             var hexLevel = sprite.GetHexLevel();
             var hexY = sprite.GetHexY();
             var hexX = sprite.GetHexX();
@@ -460,16 +460,16 @@ public partial class RealmWindow : DataModule
     public void CityListChange(ListBox sender)
     {
         var listBox = sender;
-        T2NameLB.Selected = listBox.Selected;
-        T2RaceLB.Selected = listBox.Selected;
-        T2IncomeLB.Selected = listBox.Selected;
-        T2LevelLB.Selected = listBox.Selected;
-        T2WallLB.Selected = listBox.Selected;
-        T2SizeLB.Selected = listBox.Selected;
-        T2RelLB.Selected = listBox.Selected;
-        T2MorLB.Selected = listBox.Selected;
-        T2ActLB.Selected = listBox.Selected;
-        T2EncLB.Selected = listBox.Selected;
+        CityNameList.Selected = listBox.Selected;
+        CityRaceList.Selected = listBox.Selected;
+        CityIncomeList.Selected = listBox.Selected;
+        CityLevelList.Selected = listBox.Selected;
+        CityWallList.Selected = listBox.Selected;
+        CitySizeList.Selected = listBox.Selected;
+        CityRelationList.Selected = listBox.Selected;
+        CityMoraleList.Selected = listBox.Selected;
+        CityActionList.Selected = listBox.Selected;
+        CityEnchantmentList.Selected = listBox.Selected;
     }
 
     // AoWRealm.pas:486
@@ -477,7 +477,7 @@ public partial class RealmWindow : DataModule
     {
         if (sender.Selected != -1)
         {
-            var city = T2NameLB.Items.Objects[sender.Selected];
+            var city = CityNameList.Items.Objects[sender.Selected];
             DialogHosts.CityScreen.ShowCity((City)city);
         }
     }
@@ -487,14 +487,14 @@ public partial class RealmWindow : DataModule
     {
         if (sender.Selected != -1)
         {
-            if (T3Name.Items.Objects[sender.Selected] is ProductionPlace)
+            if (PlaceNameList.Items.Objects[sender.Selected] is ProductionPlace)
             {
-                var productionPlace = T3Name.Items.Objects[sender.Selected];
+                var productionPlace = PlaceNameList.Items.Objects[sender.Selected];
                 DialogHosts.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
             }
             else
             {
-                var hexSprite = T3Name.Items.Objects[sender.Selected];
+                var hexSprite = PlaceNameList.Items.Objects[sender.Selected];
                 AoWHSMap.Current.Select((HexSprite)hexSprite, true);
             }
         }
@@ -506,7 +506,7 @@ public partial class RealmWindow : DataModule
         HexSprite sprite;
         if (button == MouseButton.Right && sender.Selected != -1)
         {
-            sprite = (HexSprite)T3Name.Items.Objects[sender.Selected];
+            sprite = (HexSprite)PlaceNameList.Items.Objects[sender.Selected];
             var hexLevel = sprite.GetHexLevel();
             var hexY = sprite.GetHexY();
             var hexX = sprite.GetHexX();
@@ -524,7 +524,7 @@ public partial class RealmWindow : DataModule
         var listBox = sender;
         if (listBox.Selected != -1)
         {
-            var armyHexSprite = ((Army)T5Name.Items.Objects[listBox.Selected]).GetArmyHexSprite();
+            var armyHexSprite = ((Army)HeroNameList.Items.Objects[listBox.Selected]).GetArmyHexSprite();
             AoWHSMap.Current.Select(armyHexSprite, true);
         }
     }
@@ -537,7 +537,7 @@ public partial class RealmWindow : DataModule
         list = sender;
         if (list.Selected != -1)
         {
-            sprite = ((Army)T5Name.Items.Objects[list.Selected]).GetArmyHexSprite();
+            sprite = ((Army)HeroNameList.Items.Objects[list.Selected]).GetArmyHexSprite();
             var hexLevel = sprite.GetHexLevel();
             var hexY = sprite.GetHexY();
             var hexX = sprite.GetHexX();
@@ -554,11 +554,11 @@ public partial class RealmWindow : DataModule
     {
         int index;
         DialogHosts.General.PlayButtonSound(0);
-        index = T5Name.Selected;
+        index = HeroNameList.Selected;
         if (index != -1)
         {
             // { evaluate the index before the receiver chain }
-            var hero = T5Health.Items.Objects[index << 0];
+            var hero = HeroHealthList.Items.Objects[index << 0];
             DialogHosts.General.SelectedUnit = (Hero)hero;
             DialogHosts.UnitWindow.ShowUnit();
         }
@@ -568,33 +568,33 @@ public partial class RealmWindow : DataModule
     public void T2LevelLBDoubleClick()
     {
         DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Dlg.Visible = true;
+        DialogHosts.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:555
     public void T2WallLBDoubleClick()
     {
         DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Dlg.Visible = true;
+        DialogHosts.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:561
     public void T2RaceLBDoubleClick()
     {
         DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Dlg.Visible = true;
+        DialogHosts.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:567
     public void T2ActLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
         byte icon;
-        string text = T2ActLB.Items[drawItem];
+        string text = CityActionList.Items[drawItem];
         icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
         if (icon != 45)
         {
-            var listBoxIcon = DialogHosts.UIGraphics.LBIcons[icon - 23];
-            DialogHosts.UIGraphics.LBIcons[icon - 23].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+            var listBoxIcon = DialogHosts.UIGraphics.ListIcons[icon - 23];
+            DialogHosts.UIGraphics.ListIcons[icon - 23].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
         }
     }
 
@@ -602,40 +602,40 @@ public partial class RealmWindow : DataModule
     public void T2ActLBDoubleClick()
     {
         DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Dlg.Visible = true;
+        DialogHosts.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:583
     public void T2RelLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
         int icon;
-        string text = T2RelLB.Items[drawItem];
+        string text = CityRelationList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
-        var listBoxIcon = DialogHosts.UIGraphics.LBIcons[icon + 14];
-        DialogHosts.UIGraphics.LBIcons[icon + 14].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+        var listBoxIcon = DialogHosts.UIGraphics.ListIcons[icon + 14];
+        DialogHosts.UIGraphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
     }
 
     // AoWRealm.pas:592
     public void OverWindowResize()
     {
-        this.Dlg.Alignment.AlignWidth = AlignWidth.Left;
-        this.Dlg.Alignment.AlignHeight = AlignHeight.Top;
-        this.Dlg.Alignment.LeftOffset = this.Dlg.WinLeft;
-        this.Dlg.Alignment.TopOffset = this.Dlg.WinTop;
+        this.Window.Alignment.AlignWidth = AlignWidth.Left;
+        this.Window.Alignment.AlignHeight = AlignHeight.Top;
+        this.Window.Alignment.LeftOffset = this.Window.WinLeft;
+        this.Window.Alignment.TopOffset = this.Window.WinTop;
     }
 
     // AoWRealm.pas:603
-    public void T2SBChange()
+    public void CityScrollBarChange()
     {
-        T2NameLB.ListOffset = CitySB.Position;
-        T2RaceLB.ListOffset = CitySB.Position;
-        T2IncomeLB.ListOffset = CitySB.Position;
-        T2LevelLB.ListOffset = CitySB.Position;
-        T2WallLB.ListOffset = CitySB.Position;
-        T2SizeLB.ListOffset = CitySB.Position;
-        T2RelLB.ListOffset = CitySB.Position;
-        T2MorLB.ListOffset = CitySB.Position;
-        T2ActLB.ListOffset = CitySB.Position;
+        CityNameList.ListOffset = CityScrollBar.Position;
+        CityRaceList.ListOffset = CityScrollBar.Position;
+        CityIncomeList.ListOffset = CityScrollBar.Position;
+        CityLevelList.ListOffset = CityScrollBar.Position;
+        CityWallList.ListOffset = CityScrollBar.Position;
+        CitySizeList.ListOffset = CityScrollBar.Position;
+        CityRelationList.ListOffset = CityScrollBar.Position;
+        CityMoraleList.ListOffset = CityScrollBar.Position;
+        CityActionList.ListOffset = CityScrollBar.Position;
     }
 
     // AoWRealm.pas:616
@@ -643,14 +643,14 @@ public partial class RealmWindow : DataModule
     {
         ListBox list;
         list = sender;
-        T3Name.Selected = list.Selected;
-        T3ActLB.Selected = list.Selected;
+        PlaceNameList.Selected = list.Selected;
+        PlaceActionList.Selected = list.Selected;
     }
 
     // AoWRealm.pas:625
-    public void T3SBChange()
+    public void PlaceScrollBarChange()
     {
-        T3Name.ListOffset = PlaceSB.Position;
+        PlaceNameList.ListOffset = PlaceScrollBar.Position;
     }
 
     // AoWRealm.pas:630
@@ -659,16 +659,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 0);
     }
 
@@ -678,16 +678,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2RaceLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityRaceList);
+        lists.Add(CityNameList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 0);
     }
 
@@ -697,16 +697,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2IncomeLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityIncomeList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 2);
     }
 
@@ -716,16 +716,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2LevelLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityLevelList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -735,16 +735,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2WallLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityWallList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -754,16 +754,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2SizeLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CitySizeList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -773,16 +773,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2RelLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityRelationList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -792,16 +792,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2MorLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2ActLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityMoraleList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityActionList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -811,16 +811,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2ActLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2EncLB);
+        lists.Add(CityActionList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityEnchantmentList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -830,16 +830,16 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T2EncLB);
-        lists.Add(T2NameLB);
-        lists.Add(T2RaceLB);
-        lists.Add(T2IncomeLB);
-        lists.Add(T2LevelLB);
-        lists.Add(T2WallLB);
-        lists.Add(T2SizeLB);
-        lists.Add(T2RelLB);
-        lists.Add(T2MorLB);
-        lists.Add(T2ActLB);
+        lists.Add(CityEnchantmentList);
+        lists.Add(CityNameList);
+        lists.Add(CityRaceList);
+        lists.Add(CityIncomeList);
+        lists.Add(CityLevelList);
+        lists.Add(CityWallList);
+        lists.Add(CitySizeList);
+        lists.Add(CityRelationList);
+        lists.Add(CityMoraleList);
+        lists.Add(CityActionList);
         DialogHosts.General.SortLists(ref lists, 0);
     }
 
@@ -849,8 +849,8 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T3Name);
-        lists.Add(T3ActLB);
+        lists.Add(PlaceNameList);
+        lists.Add(PlaceActionList);
         DialogHosts.General.SortLists(ref lists, 0);
     }
 
@@ -859,18 +859,18 @@ public partial class RealmWindow : DataModule
     {
         ListBox list;
         list = sender;
-        T5Name.Selected = list.Selected;
-        T5Health.Selected = list.Selected;
-        T5Level.Selected = list.Selected;
+        HeroNameList.Selected = list.Selected;
+        HeroHealthList.Selected = list.Selected;
+        HeroLevelList.Selected = list.Selected;
     }
 
     // AoWRealm.pas:841
-    public void HeroVSBChange()
+    public void HeroScrollBarChange()
     {
         // { Original bug: the hero scrollbar moves T3Name instead of T5Name. }
-        T3Name.ListOffset = HeroSB.Position;
-        T5Health.ListOffset = HeroSB.Position;
-        T5Level.ListOffset = HeroSB.Position;
+        PlaceNameList.ListOffset = HeroScrollBar.Position;
+        HeroHealthList.ListOffset = HeroScrollBar.Position;
+        HeroLevelList.ListOffset = HeroScrollBar.Position;
     }
 
     // AoWRealm.pas:849
@@ -879,11 +879,11 @@ public partial class RealmWindow : DataModule
         int index;
         Hero hero;
         Rect R;
-        index = T5Name.Selected;
+        index = HeroNameList.Selected;
         if (index > -1)
         {
-            hero = (Hero)T5Health.Items.Objects[index << 0];
-            R = new Rect(T5HeroInf.WinLeft + 1, T5HeroInf.WinTop + 1, T5HeroInf.WinLeft + T5HeroInf.WinWidth - 1, T5HeroInf.WinTop + T5HeroInf.WinHeight - 1);
+            hero = (Hero)HeroHealthList.Items.Objects[index << 0];
+            R = new Rect(HeroHeroInfoPanel.WinLeft + 1, HeroHeroInfoPanel.WinTop + 1, HeroHeroInfoPanel.WinLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.WinTop + HeroHeroInfoPanel.WinHeight - 1);
             if (hero.GetFace() != null)
             {
                 hero.ShowFace(R, lockedSurface);
@@ -908,9 +908,9 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T5Name);
-        lists.Add(T5Health);
-        lists.Add(T5Level);
+        lists.Add(HeroNameList);
+        lists.Add(HeroHealthList);
+        lists.Add(HeroLevelList);
         DialogHosts.General.SortLists(ref lists, 0);
     }
 
@@ -920,9 +920,9 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T5Health);
-        lists.Add(T5Name);
-        lists.Add(T5Level);
+        lists.Add(HeroHealthList);
+        lists.Add(HeroNameList);
+        lists.Add(HeroLevelList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
@@ -932,9 +932,9 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T5Level);
-        lists.Add(T5Name);
-        lists.Add(T5Health);
+        lists.Add(HeroLevelList);
+        lists.Add(HeroNameList);
+        lists.Add(HeroHealthList);
         DialogHosts.General.SortLists(ref lists, 2);
     }
 
@@ -973,7 +973,7 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:936
     public void OverWindowShow()
     {
-        if (T4Pnl.Visible)
+        if (PartyPanel.Visible)
         {
             T4PnlShow();
         }
@@ -982,7 +982,7 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:941
     public void OverWindowHide()
     {
-        if (T4Pnl.Visible)
+        if (PartyPanel.Visible)
         {
             T4PnlHide();
         }
@@ -991,7 +991,7 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:946
     public void IncomeSBChange()
     {
-        IncomeValue.ListOffset = IncomeSB.Position;
+        IncomeValueMemo.ListOffset = IncomeScrollBar.Position;
     }
 
     // AoWRealm.pas:951
@@ -1000,27 +1000,27 @@ public partial class RealmWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T3ActLB);
-        lists.Add(T3Name);
+        lists.Add(PlaceActionList);
+        lists.Add(PlaceNameList);
         DialogHosts.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:962
     public void UpkeepSBChange()
     {
-        UpkeepValue.ListOffset = UpkeepSB.Position;
+        UpkeepValueMemo.ListOffset = UpkeepScrollBar.Position;
     }
 
     // AoWRealm.pas:967
     public void DlgShow()
     {
-        DialogHosts.General.RegisterDialog(Dlg);
+        DialogHosts.General.RegisterDialog(Window);
     }
 
     // AoWRealm.pas:972
     public void DlgHide()
     {
-        DialogHosts.General.UnregisterDialog(Dlg);
+        DialogHosts.General.UnregisterDialog(Window);
     }
 
     // AoWRealm.pas:977

@@ -18,24 +18,24 @@ public partial class PowerDialog : DataModule
     public PowerDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label NetMana;
-    public Label ResearchLeft;
-    public Label SpellName;
-    public Label Power;
-    public Label Mana;
-    public Label Research;
+    public Window Window;
+    public Label NetManaLabel;
+    public Label ResearchLeftLabel;
+    public Label SpellNameLabel;
+    public Label PowerLabel;
+    public Label ManaLabel;
+    public Label ResearchLabel;
     public HorizontalScrollBar PowerSlider;
 
     // AoWPowerDlg.pas:70
     public void Execute()
     {
         PlayerMagicControl control;
-        Dlg.Visible = true;
+        Window.Visible = true;
         control = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl;
         PowerSlider.Position = control.ResearchPercentage;
         var netPower = control.GetNetPower();
-        Power.Text = IntToStr(netPower);
+        PowerLabel.Text = IntToStr(netPower);
         UpdatePower();
     }
 
@@ -58,28 +58,28 @@ public partial class PowerDialog : DataModule
         {
             turns = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
             var spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
-            SpellName.Text = spell.SpellName;
+            SpellNameLabel.Text = spell.SpellName;
             var formatTurnsString = FormatTurnsString(turns);
-            ResearchLeft.Text = formatTurnsString;
+            ResearchLeftLabel.Text = formatTurnsString;
         }
         else
         {
             var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
-            SpellName.Text = none;
-            ResearchLeft.Text = "-";
+            SpellNameLabel.Text = none;
+            ResearchLeftLabel.Text = "-";
         }
 
-        NetMana.Text = IntToStr(manaPower) + "-" + IntToStr(upkeep) + "=" + IntToStr(manaPower - upkeep);
-        Mana.Text = IntToStr(manaPower);
-        Research.Text = IntToStr(researchPower);
-        Dlg.Drawn = false;
+        NetManaLabel.Text = IntToStr(manaPower) + "-" + IntToStr(upkeep) + "=" + IntToStr(manaPower - upkeep);
+        ManaLabel.Text = IntToStr(manaPower);
+        ResearchLabel.Text = IntToStr(researchPower);
+        Window.Drawn = false;
     }
 
     // AoWPowerDlg.pas:61
     public void CancelBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWPowerDlg.pas:67
@@ -94,7 +94,7 @@ public partial class PowerDialog : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -127,7 +127,7 @@ public partial class PowerDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 

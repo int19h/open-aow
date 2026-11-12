@@ -21,74 +21,74 @@ public partial class UnitWindow : DataModule
     public UnitWindow(Component owner) : base(owner)
     { }
 
-    public Window UnitWin;
-    public TabPanel UnitTab;
-    public Button BCloseBtn;
-    public Memo T2Memo;
+    public Window MainWindow;
+    public TabPanel UnitTabs;
+    public Button BottomCloseButton;
+    public Memo InfoMemo;
     public Image ManaIcon;
-    public Label Mana;
-    public ListBox T1AbilityLB;
-    public Button T1UseBut;
-    public ListBox T1TypeLB;
-    public ListBox T1SrcLB;
-    public VerticalScrollBar T1SBar;
-    public VerticalScrollBar T2SBar;
-    public Panel T2Text;
-    public Panel T2Leader;
-    public Button Sel4;
-    public Panel SelPnl;
-    public Button Sel3;
-    public Button Sel2;
-    public Button Sel1;
-    public Button Sel5;
-    public Button Sel6;
-    public Button Sel7;
-    public Image AAlignment;
-    public Label AAlignmentLbl;
-    public Image TypeIcn;
-    public Label TypeV;
-    public Label SphereLbl;
-    public Panel T3Panel;
-    public CheckBox BP1;
-    public CheckBox BP2;
-    public CheckBox BP3;
-    public CheckBox BP4;
-    public CheckBox BP5;
-    public CheckBox BP6;
-    public CheckBox BP7;
-    public CheckBox BP8;
-    public CheckBox Head;
-    public CheckBox Torso;
-    public CheckBox Attack;
-    public CheckBox Defend;
-    public CheckBox RingL;
-    public CheckBox RingR;
-    public CheckBox Gnd3;
-    public CheckBox Gnd2;
-    public CheckBox Gnd1;
-    public CheckBox Gnd4;
-    public CheckBox Gnd5;
-    public Button DisbandBtn;
-    public Button ItemUseBtn;
-    public Label UnitName;
-    public Image UMovesIcon;
-    public Label UAttack;
-    public Label UDefense;
-    public Label UMoves;
-    public Label UDamage;
-    public Label UResistance;
-    public Label UHits;
-    public Label Level;
-    public Label MoraleLbl;
+    public Label ManaLabel;
+    public ListBox AbilityAbilityList;
+    public Button AbilityUseButton;
+    public ListBox AbilityTypeList;
+    public ListBox AbilitySourceList;
+    public VerticalScrollBar AbilityScrollBar;
+    public VerticalScrollBar InfoScrollBar;
+    public Panel InfoTextPanel;
+    public Panel InfoLeaderPanel;
+    public Button Sphere4Button;
+    public Panel SpherePanel;
+    public Button Sphere3Button;
+    public Button Sphere2Button;
+    public Button Sphere1Button;
+    public Button Sphere5Button;
+    public Button Sphere6Button;
+    public Button Sphere7Button;
+    public Image AlignmentImage;
+    public Label AlignmentLabel;
+    public Image TypeIcon;
+    public Label TypeValueLabel;
+    public Label SphereLabel;
+    public Panel InventoryPanel;
+    public CheckBox Backpack1CheckBox;
+    public CheckBox Backpack2CheckBox;
+    public CheckBox Backpack3CheckBox;
+    public CheckBox Backpack4CheckBox;
+    public CheckBox Backpack5CheckBox;
+    public CheckBox Backpack6CheckBox;
+    public CheckBox Backpack7CheckBox;
+    public CheckBox Backpack8CheckBox;
+    public CheckBox HeadSlotCheckBox;
+    public CheckBox TorsoSlotCheckBox;
+    public CheckBox AttackSlotCheckBox;
+    public CheckBox DefendSlotCheckBox;
+    public CheckBox LeftRingCheckBox;
+    public CheckBox RightRingCheckBox;
+    public CheckBox Ground3CheckBox;
+    public CheckBox Ground2CheckBox;
+    public CheckBox Ground1CheckBox;
+    public CheckBox Ground4CheckBox;
+    public CheckBox Ground5CheckBox;
+    public Button DisbandButton;
+    public Button ItemUseButton;
+    public Label UnitNameLabel;
+    public Image UnitMovesIcon;
+    public Label UnitAttackLabel;
+    public Label UnitDefenseLabel;
+    public Label UnitMovesLabel;
+    public Label UnitDamageLabel;
+    public Label UnitResistanceLabel;
+    public Label UnitHitsLabel;
+    public Label LevelLabel;
+    public Label MoraleLabel;
     public Image UpkeepIcon;
-    public Label UpKeep;
-    public Button GroundL;
-    public Button GroundR;
-    public Image RelationIcn;
-    public Label RelationV;
-    public Label XP;
-    public Button PNext;
-    public Button PPrev;
+    public Label UpkeepLabel;
+    public Button GroundPreviousButton;
+    public Button GroundNextButton;
+    public Image RelationIcon;
+    public Label RelationValueLabel;
+    public Label ExperienceLabel;
+    public Button NextUnitButton;
+    public Button PreviousUnitButton;
     private int _highlight;
     private ItemType _itemType;
     private int _highlightStep;
@@ -103,16 +103,16 @@ public partial class UnitWindow : DataModule
     public void UpdateGround(int offset)
     {
         Troop U;
-        Gnd1.Tag = -1;
-        Gnd2.Tag = -1;
-        Gnd3.Tag = -1;
-        Gnd4.Tag = -1;
-        Gnd5.Tag = -1;
-        Gnd1.Checked = false;
-        Gnd2.Checked = false;
-        Gnd3.Checked = false;
-        Gnd4.Checked = false;
-        Gnd5.Checked = false;
+        Ground1CheckBox.Tag = -1;
+        Ground2CheckBox.Tag = -1;
+        Ground3CheckBox.Tag = -1;
+        Ground4CheckBox.Tag = -1;
+        Ground5CheckBox.Tag = -1;
+        Ground1CheckBox.Checked = false;
+        Ground2CheckBox.Checked = false;
+        Ground3CheckBox.Checked = false;
+        Ground4CheckBox.Checked = false;
+        Ground5CheckBox.Checked = false;
         U = DialogHosts.General.SelectedUnit;
         if (U != null)
         {
@@ -133,41 +133,41 @@ public partial class UnitWindow : DataModule
                         _groundOffset = 0;
                     }
 
-                    GroundL.Visible = _groundOffset > 0;
-                    GroundR.Visible = _groundOffset + 5 <= _groundCount;
+                    GroundPreviousButton.Visible = _groundOffset > 0;
+                    GroundNextButton.Visible = _groundOffset + 5 <= _groundCount;
                     var count = ((Hero)U).GetItemsOnGround().Count;
                     if (_groundOffset < count)
                     {
                         var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset);
-                        Gnd1.Tag = item.ItemId;
+                        Ground1CheckBox.Tag = item.ItemId;
                     }
 
                     var count2 = ((Hero)U).GetItemsOnGround().Count;
                     if (_groundOffset + 1 < count2)
                     {
                         var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 1);
-                        Gnd2.Tag = item.ItemId;
+                        Ground2CheckBox.Tag = item.ItemId;
                     }
 
                     var count3 = ((Hero)U).GetItemsOnGround().Count;
                     if (_groundOffset + 2 < count3)
                     {
                         var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 2);
-                        Gnd3.Tag = item.ItemId;
+                        Ground3CheckBox.Tag = item.ItemId;
                     }
 
                     var count4 = ((Hero)U).GetItemsOnGround().Count;
                     if (_groundOffset + 3 < count4)
                     {
                         var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 3);
-                        Gnd4.Tag = item.ItemId;
+                        Ground4CheckBox.Tag = item.ItemId;
                     }
 
                     var count5 = ((Hero)U).GetItemsOnGround().Count;
                     if (_groundOffset + 4 < count5)
                     {
                         var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 4);
-                        Gnd5.Tag = item.ItemId;
+                        Ground5CheckBox.Tag = item.ItemId;
                     }
                 }
             }
@@ -179,7 +179,7 @@ public partial class UnitWindow : DataModule
     {
         bool enabled;
         Ability A;
-        var objectValue = T1AbilityLB.Items.Objects[drawItem];
+        var objectValue = AbilityAbilityList.Items.Objects[drawItem];
         A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
         if (AoWHSMap.Current.CombatMap == null)
         {
@@ -190,16 +190,16 @@ public partial class UnitWindow : DataModule
             bool condition = A != null && DialogHosts.General.CombatUnit != null;
             if (condition)
             {
-                var objectValue2 = T1AbilityLB.Items.Objects[drawItem];
+                var objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
                 condition = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(DialogHosts.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
-                var objectValue2 = T1AbilityLB.Items.Objects[drawItem];
+                var objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
                 var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
-                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[drawItem]) == 52) || DialogHosts.General.CombatUnit.Unit.Troop.GetMoves() == DialogHosts.General.CombatUnit.Unit.MovePoints;
+                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || DialogHosts.General.CombatUnit.Unit.Troop.GetMoves() == DialogHosts.General.CombatUnit.Unit.MovePoints;
             }
 
             enabled = test;
@@ -225,80 +225,80 @@ public partial class UnitWindow : DataModule
     public void T1AbilityLBChange(ListBox sender)
     {
         Ability A;
-        T1AbilityLB.Selected = sender.Selected;
-        T1TypeLB.Selected = sender.Selected;
-        T1SrcLB.Selected = sender.Selected;
+        AbilityAbilityList.Selected = sender.Selected;
+        AbilityTypeList.Selected = sender.Selected;
+        AbilitySourceList.Selected = sender.Selected;
         if (AoWHSMap.Current.CombatMap == null)
         {
-            if (DialogHosts.General.SelectedUnit.Player == AoWHSMap.Current.SeatedPlayer && T1AbilityLB.Selected > -1)
+            if (DialogHosts.General.SelectedUnit.Player == AoWHSMap.Current.SeatedPlayer && AbilityAbilityList.Selected > -1)
             {
-                var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (A != null && A.GetEnabled(DialogHosts.General.SelectedUnit))
                 {
                     if (AoWHSMap.Current.CombatMap == null)
                     {
                         var controlType = A.GetControlType(DialogHosts.General.SelectedUnit);
-                        T1UseBut.Visible = controlType.Contains(AbilityControlTypeElement.Action);
+                        AbilityUseButton.Visible = controlType.Contains(AbilityControlTypeElement.Action);
                     }
                     else
                     {
-                        var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                        var objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                         bool condition = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(DialogHosts.General.SelectedUnit) != CombatMode.None;
                         if (condition)
                         {
-                            var objectValue3 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                            var objectValue3 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                             condition = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(DialogHosts.General.SelectedUnit) != CombatMode.Melee;
                         }
 
-                        T1UseBut.Visible = condition;
+                        AbilityUseButton.Visible = condition;
                     }
 
-                    if (T1UseBut.Visible)
+                    if (AbilityUseButton.Visible)
                     {
                         var name = A.GetName(DialogHosts.General.SelectedUnit);
                         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_useFormat), [name]);
-                        T1UseBut.Text = format;
+                        AbilityUseButton.Text = format;
                     }
                 }
                 else
                 {
-                    T1UseBut.Visible = false;
+                    AbilityUseButton.Visible = false;
                 }
             }
             else
             {
-                T1UseBut.Visible = false;
+                AbilityUseButton.Visible = false;
             }
         }
         else
         {
-            bool condition = T1AbilityLB.Selected > -1 && DialogHosts.General.CombatUnit != null;
+            bool condition = AbilityAbilityList.Selected > -1 && DialogHosts.General.CombatUnit != null;
             if (condition)
             {
-                var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 condition = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(DialogHosts.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
-                var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
-                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || DialogHosts.General.CombatUnit.Unit.Troop.GetMoves() == DialogHosts.General.CombatUnit.Unit.MovePoints;
+                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || DialogHosts.General.CombatUnit.Unit.Troop.GetMoves() == DialogHosts.General.CombatUnit.Unit.MovePoints;
             }
 
             if (test)
             {
-                T1UseBut.Visible = true;
-                var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                AbilityUseButton.Visible = true;
+                var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 var name = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(DialogHosts.General.CombatUnit.Unit.Troop);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_useFormat), [name]);
-                T1UseBut.Text = format;
+                AbilityUseButton.Text = format;
             }
             else
             {
-                T1UseBut.Visible = false;
+                AbilityUseButton.Visible = false;
             }
         }
     }
@@ -306,8 +306,8 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:562
     public void T1SbarChange()
     {
-        T1AbilityLB.ListOffset = T1SBar.Position;
-        T1TypeLB.ListOffset = T1SBar.Position;
+        AbilityAbilityList.ListOffset = AbilityScrollBar.Position;
+        AbilityTypeList.ListOffset = AbilityScrollBar.Position;
     }
 
     // AoWUnitWindow.pas:568
@@ -321,10 +321,10 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:575
     public void UnitWinResize()
     {
-        this.UnitWin.Alignment.LeftOffset = this.UnitWin.WinLeft;
-        this.UnitWin.Alignment.TopOffset = this.UnitWin.WinTop;
-        this.UnitWin.Alignment.AlignHeight = AlignHeight.Top;
-        this.UnitWin.Alignment.AlignWidth = AlignWidth.Left;
+        this.MainWindow.Alignment.LeftOffset = this.MainWindow.WinLeft;
+        this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
+        this.MainWindow.Alignment.AlignHeight = AlignHeight.Top;
+        this.MainWindow.Alignment.AlignWidth = AlignWidth.Left;
     }
 
     // AoWUnitWindow.pas:586
@@ -336,7 +336,7 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:591
     public void UnitWinUpdate()
     {
-        if (UnitWin.Visible)
+        if (MainWindow.Visible)
         {
             _highlight += _highlightStep;
             if (_highlight > 100 || _highlight < 50)
@@ -348,20 +348,20 @@ public partial class UnitWindow : DataModule
             switch (_itemType)
             {
                 case ItemType.Attack:
-                    Attack.Drawn = false;
+                    AttackSlotCheckBox.Drawn = false;
                     break;
                 case ItemType.Defense:
-                    Defend.Drawn = false;
+                    DefendSlotCheckBox.Drawn = false;
                     break;
                 case ItemType.Head:
-                    Head.Drawn = false;
+                    HeadSlotCheckBox.Drawn = false;
                     break;
                 case ItemType.Torso:
-                    Torso.Drawn = false;
+                    TorsoSlotCheckBox.Drawn = false;
                     break;
                 case ItemType.Ring:
-                    RingL.Drawn = false;
-                    RingR.Drawn = false;
+                    LeftRingCheckBox.Drawn = false;
+                    RightRingCheckBox.Drawn = false;
                     break;
             }
 
@@ -383,11 +383,11 @@ public partial class UnitWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T1AbilityLB);
-        lists.Add(T1TypeLB);
-        lists.Add(T1SrcLB);
+        lists.Add(AbilityAbilityList);
+        lists.Add(AbilityTypeList);
+        lists.Add(AbilitySourceList);
         DialogHosts.General.SortLists(ref lists, 0);
-        T1UseBut.Visible = false;
+        AbilityUseButton.Visible = false;
     }
 
     // AoWUnitWindow.pas:631
@@ -396,11 +396,11 @@ public partial class UnitWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T1TypeLB);
-        lists.Add(T1AbilityLB);
-        lists.Add(T1SrcLB);
+        lists.Add(AbilityTypeList);
+        lists.Add(AbilityAbilityList);
+        lists.Add(AbilitySourceList);
         DialogHosts.General.SortLists(ref lists, 0);
-        T1UseBut.Visible = false;
+        AbilityUseButton.Visible = false;
     }
 
     // AoWUnitWindow.pas:642
@@ -409,11 +409,11 @@ public partial class UnitWindow : DataModule
         DelphiList lists;
         DialogHosts.General.PlayButtonSound(0);
         lists = new DelphiList();
-        lists.Add(T1SrcLB);
-        lists.Add(T1AbilityLB);
-        lists.Add(T1TypeLB);
+        lists.Add(AbilitySourceList);
+        lists.Add(AbilityAbilityList);
+        lists.Add(AbilityTypeList);
         DialogHosts.General.SortLists(ref lists, 0);
-        T1UseBut.Visible = false;
+        AbilityUseButton.Visible = false;
     }
 
     // AoWUnitWindow.pas:653
@@ -422,7 +422,7 @@ public partial class UnitWindow : DataModule
         Ability A;
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+        var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
         A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
         if (A != null && A.GetEnabled(DialogHosts.General.SelectedUnit))
         {
@@ -432,7 +432,7 @@ public partial class UnitWindow : DataModule
                 {
                     if (A.Activate(DialogHosts.General.SelectedUnit, ref reason))
                     {
-                        UnitWin.Visible = false;
+                        MainWindow.Visible = false;
                     }
                     else
                     {
@@ -447,10 +447,10 @@ public partial class UnitWindow : DataModule
             {
                 if (DialogHosts.General.CombatUnit != null && DialogHosts.General.CombatUnit.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer)
                 {
-                    var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                     if (DialogHosts.General.CombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
                     {
-                        UnitWin.Visible = false;
+                        MainWindow.Visible = false;
                     }
                 }
             }
@@ -506,7 +506,7 @@ public partial class UnitWindow : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        UnitWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AoWUnitWindow.pas:730
@@ -538,7 +538,7 @@ public partial class UnitWindow : DataModule
                 var checkBox = component;
                 if (item.GetImage() != null)
                 {
-                    item.GetImage().ShowClipped(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface);
+                    item.GetImage().ShowClipped(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface);
                 }
             }
         }
@@ -595,7 +595,7 @@ public partial class UnitWindow : DataModule
                     }
                     else
                     {
-                        sender.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
+                        sender.PopupMenu = DialogHosts.ItemBanner.BannerMenu;
                     }
 
                     ItemBanner.ItemId = sender.Tag;
@@ -618,7 +618,7 @@ public partial class UnitWindow : DataModule
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == 0)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            DialogHosts.UIGraphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -629,7 +629,7 @@ public partial class UnitWindow : DataModule
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)1)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            DialogHosts.UIGraphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -640,7 +640,7 @@ public partial class UnitWindow : DataModule
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)2)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            DialogHosts.UIGraphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -651,7 +651,7 @@ public partial class UnitWindow : DataModule
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)3)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            DialogHosts.UIGraphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -662,7 +662,7 @@ public partial class UnitWindow : DataModule
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)4)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            DialogHosts.UIGraphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -678,9 +678,9 @@ public partial class UnitWindow : DataModule
     public void T1AbilityLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability A;
-        if (button == MouseButton.Right && DialogHosts.General.SelectedUnit != null && T1AbilityLB.Selected != -1)
+        if (button == MouseButton.Right && DialogHosts.General.SelectedUnit != null && AbilityAbilityList.Selected != -1)
         {
-            var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+            var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
             A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
@@ -696,7 +696,7 @@ public partial class UnitWindow : DataModule
         switch (key)
         {
             case 27:
-                UnitWin.Visible = false;
+                MainWindow.Visible = false;
                 break;
         }
     }

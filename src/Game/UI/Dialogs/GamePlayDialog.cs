@@ -19,28 +19,28 @@ public partial class GamePlayDialog : DataModule
     public GamePlayDialog(Component owner) : base(owner)
     { }
 
-    public Window Root;
-    public CheckBox AutoSaveCB;
-    public CheckBox SkipIntroCB;
+    public Window Window;
+    public CheckBox AutoSaveCheckBox;
+    public CheckBox SkipIntroCheckBox;
     public Edit PasswordEdit;
-    public ComboBox CombatResolveModeCB;
-    public CheckBox Classic1CB;
-    public CheckBox Classic2CB;
-    public CheckBox Classic3CB;
-    public CheckBox Classic4CB;
-    public CheckBox Classic5CB;
-    public CheckBox Classic6CB;
-    public CheckBox Sim1CB;
-    public CheckBox Sim2CB;
-    public CheckBox Sim3CB;
-    public CheckBox Sim4CB;
-    public CheckBox Sim5CB;
-    public CheckBox Sim6CB;
-    public CheckBox Classic7CB;
-    public CheckBox Sim7CB;
-    public ComboBox MovementSpeedCB;
-    public CheckBox Classic8CB;
-    public CheckBox Sim8CB;
+    public ComboBox CombatResolveModeComboBox;
+    public CheckBox Classic1CheckBox;
+    public CheckBox Classic2CheckBox;
+    public CheckBox Classic3CheckBox;
+    public CheckBox Classic4CheckBox;
+    public CheckBox Classic5CheckBox;
+    public CheckBox Classic6CheckBox;
+    public CheckBox Simultaneous1CheckBox;
+    public CheckBox Simultaneous2CheckBox;
+    public CheckBox Simultaneous3CheckBox;
+    public CheckBox Simultaneous4CheckBox;
+    public CheckBox Simultaneous5CheckBox;
+    public CheckBox Simultaneous6CheckBox;
+    public CheckBox Classic7CheckBox;
+    public CheckBox Simultaneous7CheckBox;
+    public ComboBox MovementSpeedComboBox;
+    public CheckBox Classic8CheckBox;
+    public CheckBox Simultaneous8CheckBox;
     private string _newPassword = "";
 
     // AoWGamePlayDlg.pas:200
@@ -79,13 +79,13 @@ public partial class GamePlayDialog : DataModule
             DialogHosts.MessageDialog.MessageMemo.Items.Add("");
             var confirmationFailed = AbilityRules.TranslateResourceString(s_confirmationFailedText);
             DialogHosts.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
-            DialogHosts.MessageDialog.OKPnl.Visible = true;
-            DialogHosts.MessageDialog.Dlg.Visible = true;
+            DialogHosts.MessageDialog.OKPanel.Visible = true;
+            DialogHosts.MessageDialog.Window.Visible = true;
         }
     }
 
     // AoWGamePlayDlg.pas:95
-    public void GamePlayDlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void WindowKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {
@@ -96,45 +96,45 @@ public partial class GamePlayDialog : DataModule
     }
 
     // AoWGamePlayDlg.pas:100
-    public void GamePlayDlgShow()
+    public void WindowShow()
     {
         GameSettings.CombatResolveMode mode;
         Set<WindowPopupEvent> events;
         var autoSave = GameTables.GameEngine.Registry.GetAutoSave();
-        AutoSaveCB.Checked = autoSave;
+        AutoSaveCheckBox.Checked = autoSave;
         var skipIntro = GameTables.GameEngine.Registry.GetSkipIntro();
-        SkipIntroCB.Checked = skipIntro;
+        SkipIntroCheckBox.Checked = skipIntro;
         var movementSpeed = GameTables.GameEngine.Registry.GetMovementSpeed();
-        MovementSpeedCB.Selected = (int)movementSpeed;
-        CombatResolveModeCB.Items.Clear();
+        MovementSpeedComboBox.Selected = (int)movementSpeed;
+        CombatResolveModeComboBox.Items.Clear();
         for (int modeOrdinal = (int)(GameSettings.CombatResolveMode)0; modeOrdinal <= (int)(GameSettings.CombatResolveMode)2; modeOrdinal++)
         {
             mode = (GameSettings.CombatResolveMode)modeOrdinal;
             var combatResolveMode = AbilityRules.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
-            CombatResolveModeCB.Items.AddObject(combatResolveMode, IntToObject((int)mode));
+            CombatResolveModeComboBox.Items.AddObject(combatResolveMode, IntToObject((int)mode));
         }
 
         var fRegistryCombatResolveMode = GameTables.GameEngine.Registry.GetCombatResolveMode();
-        var indexOfObject = CombatResolveModeCB.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
-        CombatResolveModeCB.Selected = indexOfObject;
+        var indexOfObject = CombatResolveModeComboBox.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
+        CombatResolveModeComboBox.Selected = indexOfObject;
         events = GameTables.GameEngine.Registry.GetClassicWindowPopupEvents();
-        Classic1CB.Checked = events.Contains(WindowPopupEvent.Combat);
-        Classic2CB.Checked = events.Contains(WindowPopupEvent.Diplomacy);
-        Classic3CB.Checked = events.Contains(WindowPopupEvent.SpellResearched);
-        Classic4CB.Checked = events.Contains(WindowPopupEvent.SpellReady);
-        Classic5CB.Checked = events.Contains(WindowPopupEvent.Rebellion);
-        Classic6CB.Checked = events.Contains(WindowPopupEvent.PartyDamage);
-        Classic7CB.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
-        Classic8CB.Checked = events.Contains(WindowPopupEvent.HeroJoin);
+        Classic1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
+        Classic2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
+        Classic3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
+        Classic4CheckBox.Checked = events.Contains(WindowPopupEvent.SpellReady);
+        Classic5CheckBox.Checked = events.Contains(WindowPopupEvent.Rebellion);
+        Classic6CheckBox.Checked = events.Contains(WindowPopupEvent.PartyDamage);
+        Classic7CheckBox.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
+        Classic8CheckBox.Checked = events.Contains(WindowPopupEvent.HeroJoin);
         events = GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents();
-        Sim1CB.Checked = events.Contains(WindowPopupEvent.Combat);
-        Sim2CB.Checked = events.Contains(WindowPopupEvent.Diplomacy);
-        Sim3CB.Checked = events.Contains(WindowPopupEvent.SpellResearched);
-        Sim4CB.Checked = events.Contains(WindowPopupEvent.SpellReady);
-        Sim5CB.Checked = events.Contains(WindowPopupEvent.Rebellion);
-        Sim6CB.Checked = events.Contains(WindowPopupEvent.PartyDamage);
-        Sim7CB.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
-        Sim8CB.Checked = events.Contains(WindowPopupEvent.HeroJoin);
+        Simultaneous1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
+        Simultaneous2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
+        Simultaneous3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
+        Simultaneous4CheckBox.Checked = events.Contains(WindowPopupEvent.SpellReady);
+        Simultaneous5CheckBox.Checked = events.Contains(WindowPopupEvent.Rebellion);
+        Simultaneous6CheckBox.Checked = events.Contains(WindowPopupEvent.PartyDamage);
+        Simultaneous7CheckBox.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
+        Simultaneous8CheckBox.Checked = events.Contains(WindowPopupEvent.HeroJoin);
         var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
         PasswordEdit.Text = player.Settings;
     }
@@ -172,109 +172,109 @@ public partial class GamePlayDialog : DataModule
                     DialogHosts.MessageDialog.MessageMemo.Items.Add("");
                     var couldNotChangePassword = AbilityRules.TranslateResourceString(s_couldNotChangePasswordText);
                     DialogHosts.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
-                    DialogHosts.MessageDialog.OKPnl.Visible = true;
-                    DialogHosts.MessageDialog.Dlg.Visible = true;
+                    DialogHosts.MessageDialog.OKPanel.Visible = true;
+                    DialogHosts.MessageDialog.Window.Visible = true;
                 }
             }
         }
 
-        GameTables.GameEngine.Registry.SetAutoSave(AutoSaveCB.Checked);
-        GameTables.GameEngine.Registry.SetSkipIntro(SkipIntroCB.Checked);
-        GameTables.GameEngine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedCB.Selected);
-        var objectValue = CombatResolveModeCB.Items.Objects[CombatResolveModeCB.Selected];
+        GameTables.GameEngine.Registry.SetAutoSave(AutoSaveCheckBox.Checked);
+        GameTables.GameEngine.Registry.SetSkipIntro(SkipIntroCheckBox.Checked);
+        GameTables.GameEngine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedComboBox.Selected);
+        var objectValue = CombatResolveModeComboBox.Items.Objects[CombatResolveModeComboBox.Selected];
         GameTables.GameEngine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
         events = Set<WindowPopupEvent>.Of();
-        if (Classic1CB.Checked)
+        if (Classic1CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
         }
 
-        if (Classic2CB.Checked)
+        if (Classic2CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
         }
 
-        if (Classic3CB.Checked)
+        if (Classic3CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
         }
 
-        if (Classic4CB.Checked)
+        if (Classic4CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
         }
 
-        if (Classic5CB.Checked)
+        if (Classic5CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
         }
 
-        if (Classic6CB.Checked)
+        if (Classic6CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
         }
 
-        if (Classic7CB.Checked)
+        if (Classic7CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
         }
 
-        if (Classic8CB.Checked)
+        if (Classic8CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
         GameTables.GameEngine.Registry.SetClassicWindowPopupEvents(events);
         events = Set<WindowPopupEvent>.Of();
-        if (Sim1CB.Checked)
+        if (Simultaneous1CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
         }
 
-        if (Sim2CB.Checked)
+        if (Simultaneous2CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
         }
 
-        if (Sim3CB.Checked)
+        if (Simultaneous3CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
         }
 
-        if (Sim4CB.Checked)
+        if (Simultaneous4CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
         }
 
-        if (Sim5CB.Checked)
+        if (Simultaneous5CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
         }
 
-        if (Sim6CB.Checked)
+        if (Simultaneous6CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
         }
 
-        if (Sim7CB.Checked)
+        if (Simultaneous7CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
         }
 
-        if (Sim8CB.Checked)
+        if (Simultaneous8CheckBox.Checked)
         {
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
         GameTables.GameEngine.Registry.SetSimultaneousWindowPopupEvents(events);
-        Root.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWGamePlayDlg.pas:194
     public void CancelClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Root.Visible = false;
+        Window.Visible = false;
     }
 
     private static readonly string s_confirmationFailedText = "Confirmation failed";

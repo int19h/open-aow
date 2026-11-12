@@ -5,10 +5,10 @@ public partial class WorldMap
     public override void Loaded()
     {
         base.Loaded();
-        if (BookWin != null)
+        if (Book != null)
         {
-            BookWin.PageBack = Back;
-            BookWin.PageForward = Next;
+            Book.PageBack = BackButton;
+            Book.PageForward = NextButton;
         }
     }
 }

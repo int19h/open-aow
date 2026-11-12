@@ -15,10 +15,10 @@ public partial class MessageReceiveDialog : DataModule
     public MessageReceiveDialog(Component owner) : base(owner)
     { }
 
-    public Window MsgReceiveWin;
+    public Window Window;
     public Memo MessageMemo;
-    public Image LShield;
-    public Image RShield;
+    public Image LeftShield;
+    public Image RightShield;
     public Memo HeaderMemo;
     private ExecuteDoneEvent _done;
     private EventLog _event;
@@ -47,7 +47,7 @@ public partial class MessageReceiveDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        MsgReceiveWin.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWMsgReceiveDlg.pas:47
@@ -66,9 +66,9 @@ public partial class MessageReceiveDialog : DataModule
         var fMessageText = ((GameOverEventLog)eventValue).Message.Text;
         dialog.MessageMemo.Items.Text = fMessageText;
         var player = AoWHSMap.Current.Players.GetPlayers(eventValue._player);
-        dialog.LShield.CurrentImage = player.PlayerRace + 13;
-        dialog.RShield.CurrentImage = dialog.LShield.CurrentImage;
-        dialog.MsgReceiveWin.Visible = true;
+        dialog.LeftShield.CurrentImage = player.PlayerRace + 13;
+        dialog.RightShield.CurrentImage = dialog.LeftShield.CurrentImage;
+        dialog.Window.Visible = true;
     }
 
 }

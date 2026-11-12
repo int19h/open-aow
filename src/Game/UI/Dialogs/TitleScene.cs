@@ -29,12 +29,12 @@ public partial class TitleScene : DataModule
     public TitleScene(Component owner) : base(owner)
     { }
 
-    public ImageLibrary TitleSceneIL;
+    public ImageLibrary TitleSceneImages;
     public UserWindow Window;
-    public Memo LegalNotice;
-    public Label StrLbl;
-    public Label NameLbl;
-    public Label Version;
+    public Memo LegalNoticeMemo;
+    public Label DemoNoticeLabel;
+    public Label NameLabel;
+    public Label VersionLabel;
     private int _frame;
     private int _totalFrame;
 
@@ -210,40 +210,40 @@ public partial class TitleScene : DataModule
             switch (page)
             {
                 case 0:
-                    if (TitleSceneIL[4] != null)
+                    if (TitleSceneImages[4] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneIL[4];
-                        var titleSceneImageLibraryWidth = TitleSceneIL[4];
-                        TitleSceneIL[4].Show(X - 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2, surface);
+                        var titleSceneImageLibraryHeight = TitleSceneImages[4];
+                        var titleSceneImageLibraryWidth = TitleSceneImages[4];
+                        TitleSceneImages[4].Show(X - 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2, surface);
                     }
 
-                    if (TitleSceneIL[5] != null)
+                    if (TitleSceneImages[5] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneIL[5];
-                        var titleSceneImageLibraryWidth = TitleSceneIL[5];
-                        TitleSceneIL[5].Show(X + 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2, surface);
+                        var titleSceneImageLibraryHeight = TitleSceneImages[5];
+                        var titleSceneImageLibraryWidth = TitleSceneImages[5];
+                        TitleSceneImages[5].Show(X + 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2, surface);
                     }
 
                     break;
                 case 1:
                     var northAmerica = AbilityRules.TranslateResourceString(s_northAmericaText);
-                    var titleSceneImageLibrary = TitleSceneIL[6];
+                    var titleSceneImageLibrary = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(X - 75, Y - titleSceneImageLibrary.Height / 2 - 20, northAmerica, surface);
                     var europe = AbilityRules.TranslateResourceString(s_europeText);
-                    var titleSceneImageLibrary2 = TitleSceneIL[6];
+                    var titleSceneImageLibrary2 = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneImageLibrary2.Height / 2 - 20, europe, surface);
-                    if (TitleSceneIL[6] != null)
+                    if (TitleSceneImages[6] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneIL[6];
-                        var titleSceneImageLibraryWidth = TitleSceneIL[6];
-                        TitleSceneIL[6].Show(X - 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
+                        var titleSceneImageLibraryHeight = TitleSceneImages[6];
+                        var titleSceneImageLibraryWidth = TitleSceneImages[6];
+                        TitleSceneImages[6].Show(X - 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
                     }
 
-                    if (TitleSceneIL[2] != null)
+                    if (TitleSceneImages[2] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneIL[2];
-                        var titleSceneImageLibraryWidth = TitleSceneIL[2];
-                        TitleSceneIL[2].Show(X + 75 + 15 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
+                        var titleSceneImageLibraryHeight = TitleSceneImages[2];
+                        var titleSceneImageLibraryWidth = TitleSceneImages[2];
+                        TitleSceneImages[2].Show(X + 75 + 15 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
                     }
 
                     break;
@@ -299,7 +299,7 @@ public partial class TitleScene : DataModule
         if (_redrawBackground)
         {
             R = _sceneRectangle;
-            var titleSceneImageLibrary = TitleSceneIL[0];
+            var titleSceneImageLibrary = TitleSceneImages[0];
             R.Top += titleSceneImageLibrary.Height;
             PixelFormats.ColorFillSurfaceDescription(R, 0, surface);
         }
@@ -311,10 +311,10 @@ public partial class TitleScene : DataModule
             frame = 0;
         }
 
-        frame = -((frame + 490) % TitleSceneIL[0].Width);
-        TitleSceneIL[0].Show(frame, Y, surface);
-        var titleSceneImageLibraryWidth = TitleSceneIL[0];
-        TitleSceneIL[0].Show(frame + titleSceneImageLibraryWidth.Width, Y, surface);
+        frame = -((frame + 490) % TitleSceneImages[0].Width);
+        TitleSceneImages[0].Show(frame, Y, surface);
+        var titleSceneImageLibraryWidth = TitleSceneImages[0];
+        TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, Y, surface);
         if (!_showCredits && _frame > 25)
         {
             if (_frame < 75)
@@ -333,21 +333,21 @@ public partial class TitleScene : DataModule
                 }
             }
 
-            var titleSceneImageLibrary = TitleSceneIL[1];
+            var titleSceneImageLibrary = TitleSceneImages[1];
             X = (_sceneRectangle.Right - _sceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
             if (frame < 100)
             {
                 var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(frame);
-                TitleSceneIL[1].ShowBlended(X, Y + 10, surface, lookupTable);
+                TitleSceneImages[1].ShowBlended(X, Y + 10, surface, lookupTable);
             }
             else
             {
-                TitleSceneIL[3].Show(X, Y + 10, surface);
+                TitleSceneImages[3].Show(X, Y + 10, surface);
             }
         }
 
         spacing = 120;
-        X = (TitleSceneIL[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2 - 320;
+        X = (TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2 - 320;
         for (int I = 0; I <= 4; I++)
         {
             if (I == _pressedButton && I == HitTest())
@@ -366,18 +366,18 @@ public partial class TitleScene : DataModule
                 }
             }
 
-            TitleSceneIL[I * 3 + 10 + image].Show(X + spacing * I, Y + 355, surface);
+            TitleSceneImages[I * 3 + 10 + image].Show(X + spacing * I, Y + 355, surface);
             if (I == HitTest())
             {
                 _font.Color = 16777215;
                 var translatedText = AbilityRules.TranslateResourceString(TitleCaptions.TitleButtons[I]);
-                var titleSceneImageLibrary = TitleSceneIL[10];
+                var titleSceneImageLibrary = TitleSceneImages[10];
                 _font.SetTextCentered(X + spacing * I + titleSceneImageLibrary.Width / 2, Y + 445, translatedText, surface);
             }
 
             if (GameTables.GameEngine.AnimationDetail == 2)
             {
-                TitleSceneIL[25].Show(X + spacing * I, Y + 355, surface);
+                TitleSceneImages[25].Show(X + spacing * I, Y + 355, surface);
             }
         }
 
@@ -439,13 +439,13 @@ public partial class TitleScene : DataModule
         if (_sceneRectangle.Bottom - 125 < _mouseY && _mouseY < _sceneRectangle.Bottom)
         {
             spacing = 120;
-            X = (TitleSceneIL[10].Width + (_sceneRectangle.Left + _sceneRectangle.Right)) / 2 - 320;
+            X = (TitleSceneImages[10].Width + (_sceneRectangle.Left + _sceneRectangle.Right)) / 2 - 320;
             result = 5;
             found = false;
             while (result != 0 && !found)
             {
                 result -= 1;
-                found = spacing * result + X < _mouseX && TitleSceneIL[10].Width + X + spacing * result > _mouseX;
+                found = spacing * result + X < _mouseX && TitleSceneImages[10].Width + X + spacing * result > _mouseX;
             }
 
             if (!found)
@@ -472,12 +472,12 @@ public partial class TitleScene : DataModule
                 DrawScene(ref lockedSurface);
                 if (GameTables.GameEngine.RegisteredVersion() && !_showCredits)
                 {
-                    LegalNotice.Draw(lockedSurface);
-                    StrLbl.Draw(lockedSurface);
-                    NameLbl.Draw(lockedSurface);
+                    LegalNoticeMemo.Draw(lockedSurface);
+                    DemoNoticeLabel.Draw(lockedSurface);
+                    NameLabel.Draw(lockedSurface);
                 }
 
-                Version.Draw(lockedSurface);
+                VersionLabel.Draw(lockedSurface);
                 surface.Unlock();
             }
 
@@ -495,10 +495,10 @@ public partial class TitleScene : DataModule
         StringList lines;
         ResetScene();
         var registeredTo = GameTables.GameEngine.RegisteredTo();
-        NameLbl.Text = registeredTo;
+        NameLabel.Text = registeredTo;
         var versionString = GameTables.GameEngine.GetVersionString();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_versionFormat), [versionString]);
-        Version.Text = format;
+        VersionLabel.Text = format;
         _credits = new List<StringList>();
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_designerAndDirectorText));
@@ -617,7 +617,7 @@ public partial class TitleScene : DataModule
     public void WindowUpdate()
     {
         Window.SurfaceValid = false;
-        if (!DialogHosts.FileDialogWindow.FileDialog.Visible && !DialogHosts.ProgressDialog.ProgDlg.Visible)
+        if (!DialogHosts.FileDialogWindow.Window.Visible && !DialogHosts.ProgressDialog.Window.Visible)
         {
             AdvanceFrame();
         }
@@ -691,23 +691,23 @@ public partial class TitleScene : DataModule
 
     private static void ShowFactionSelection(FactionSelectionWindow dialog)
     {
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        DialogHosts.FactionSelectionWindow.FactionPnl.Visible = true;
-        dialog.TopLbl.Visible = true;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        DialogHosts.FactionSelectionWindow.FactionPanel.Visible = true;
+        dialog.TopLabel.Visible = true;
         var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
-        dialog.TopLbl.Text = chooseFaction;
-        dialog.LName.Visible = false;
-        dialog.LText.Visible = false;
-        dialog.LBack.Visible = false;
-        dialog.LStart.Visible = false;
-        dialog.LSphere.Visible = false;
-        dialog.DName.Visible = false;
-        dialog.DText.Visible = false;
-        dialog.DBack.Visible = false;
-        dialog.DStart.Visible = false;
-        dialog.DSphere.Visible = false;
+        dialog.TopLabel.Text = chooseFaction;
+        dialog.LightNameLabel.Visible = false;
+        dialog.LightTextMemo.Visible = false;
+        dialog.LightBackButton.Visible = false;
+        dialog.LightStartButton.Visible = false;
+        dialog.LightSphereImage.Visible = false;
+        dialog.DarkNameLabel.Visible = false;
+        dialog.DarkTextMemo.Visible = false;
+        dialog.DarkBackButton.Visible = false;
+        dialog.DarkStartButton.Visible = false;
+        dialog.DarkSphereImage.Visible = false;
         dialog.Fade = -1;
-        dialog.FactionPnl.ImageLibraryIndexTexture = 0;
+        dialog.FactionPanel.ImageLibraryIndexTexture = 0;
         dialog.SelectionFlags[0] = 0;
     }
 
@@ -716,14 +716,14 @@ public partial class TitleScene : DataModule
         if (!controller.WindowsHidden)
         {
             controller.WindowsHidden = true;
-            controller.InfoVisible = DialogHosts.PlayerInfoWindow.PInfoWin.Visible;
-            controller.RealmVisible = DialogHosts.RealmWindow.Dlg.Visible;
-            controller.MagicVisible = DialogHosts.MagicWindow.Dlg.Visible;
+            controller.InfoVisible = DialogHosts.PlayerInfoWindow.MainWindow.Visible;
+            controller.RealmVisible = DialogHosts.RealmWindow.Window.Visible;
+            controller.MagicVisible = DialogHosts.MagicWindow.Window.Visible;
             controller.UnitVisible = DialogHosts.ControlWindow.MainWindow.Visible;
-            controller.TargetVisible = DialogHosts.ChatWindow.ChatWin.Visible;
+            controller.TargetVisible = DialogHosts.ChatWindow.MainWindow.Visible;
             controller.ScannerVisible = DialogHosts.ScannerWindow.MainWindow.Visible;
-            controller.ControlVisible = DialogHosts.UnitWindow.UnitWin.Visible;
-            controller.ChatVisible = DialogHosts.InfoWindow.InfoWin.Visible;
+            controller.ControlVisible = DialogHosts.UnitWindow.MainWindow.Visible;
+            controller.ChatVisible = DialogHosts.InfoWindow.MainWindow.Visible;
             controller.MapVisible = DialogHosts.MapWindow.MainWindow.Visible;
             for (int I = 0, last = DialogHosts.General.Manager.Children.Count - 1; I <= last; I++)
             {
@@ -744,11 +744,11 @@ public partial class TitleScene : DataModule
 
         var loading = AbilityRules.TranslateResourceString(s_loadingText);
         var fileNameLocal = ExtractFileName(fileName);
-        DialogHosts.ProgressDialog.Title.Text = loading + ": " + fileNameLocal + "...";
-        DialogHosts.ProgressDialog.StatusLbl.Text = "";
-        DialogHosts.ProgressDialog.Bar.Position = 0;
-        DialogHosts.ProgressDialog.Bar.Max = 100;
-        DialogHosts.ProgressDialog.ProgDlg.Visible = true;
+        DialogHosts.ProgressDialog.TitleLabel.Text = loading + ": " + fileNameLocal + "...";
+        DialogHosts.ProgressDialog.StatusLabel.Text = "";
+        DialogHosts.ProgressDialog.ProgressBar.Position = 0;
+        DialogHosts.ProgressDialog.ProgressBar.Max = 100;
+        DialogHosts.ProgressDialog.Window.Visible = true;
         if (!DialogHosts.TitleScene.Window.Visible)
         {
             controller.Manager.OverlayPriority = 5000;
@@ -764,7 +764,7 @@ public partial class TitleScene : DataModule
         }
 
         controller.Manager.OverlayPriority = 0;
-        DialogHosts.ProgressDialog.ProgDlg.Visible = false;
+        DialogHosts.ProgressDialog.Window.Visible = false;
     }
 
     private static void StartGame(General controller)
@@ -796,18 +796,18 @@ public partial class TitleScene : DataModule
         }
 
         AudioHost.SongPlayer.Play(0);
-        AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
-        DialogHosts.TaskBar.StartMenuBar.Items.Clear();
+        AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position);
+        DialogHosts.TaskBar.WorldStartMenuBar.Items.Clear();
         var background = AbilityRules.TranslateResourceString(s_backgroundText);
-        DialogHosts.TaskBar.StartMenuBar.Items.Add(background);
+        DialogHosts.TaskBar.WorldStartMenuBar.Items.Add(background);
         if (GameTables.GameEngine.Campaign != null)
         {
             var campaign = AbilityRules.TranslateResourceString(s_campaignText);
-            DialogHosts.TaskBar.StartMenuBar.Items.Add(campaign);
+            DialogHosts.TaskBar.WorldStartMenuBar.Items.Add(campaign);
         }
 
         DialogHosts.TitleScene.Window.Visible = false;
-        DialogHosts.TitleWindow.TitleWin.Visible = false;
+        DialogHosts.TitleWindow.MainWindow.Visible = false;
         DialogHosts.TaskBar.TaskWindow.Visible = true;
         DialogHosts.MapWindow.MainWindow.Visible = true;
         DialogHosts.ScannerWindow.MainWindow.Visible = true;
@@ -815,29 +815,29 @@ public partial class TitleScene : DataModule
         DialogHosts.ScannerWindow.Scanner.SetMap(AoWHSMap.Current);
         var mapLevel = AoWHSMap.Current.MapContainer.MapLevels[0];
         DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel);
-        DialogHosts.TaskBar.TurnButton.ButtonChecked = false;
-        DialogHosts.TaskBar.ChatBtn.Visible = DialogHosts.SetupEvents.DPlay.Connected;
+        DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
+        DialogHosts.TaskBar.ChatButton.Visible = DialogHosts.SetupEvents.DirectPlay.Connected;
         controller.Manager.Aligned = false;
         DialogHosts.ScannerWindow.Scanner.PreviousWidth = 0;
         DialogHosts.ScannerWindow.Scanner.Incremental = false;
         DialogHosts.ScannerWindow.Scanner.Sized = false;
-        DialogHosts.ScannerWindow.ScannerTab.Items.Clear();
+        DialogHosts.ScannerWindow.ScannerTabs.Items.Clear();
         var surface = AbilityRules.TranslateResourceString(s_surfaceText);
-        DialogHosts.ScannerWindow.ScannerTab.Items.Add(surface);
+        DialogHosts.ScannerWindow.ScannerTabs.Items.Add(surface);
         if (AoWHSMap.Current.MapContainer.LevelCount > 1)
         {
             var caverns = AbilityRules.TranslateResourceString(s_cavernsText);
-            DialogHosts.ScannerWindow.ScannerTab.Items.Add(caverns);
+            DialogHosts.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
         if (AoWHSMap.Current.MapContainer.LevelCount > 2)
         {
             var depths = AbilityRules.TranslateResourceString(s_depthsText);
-            DialogHosts.ScannerWindow.ScannerTab.Items.Add(depths);
+            DialogHosts.ScannerWindow.ScannerTabs.Items.Add(depths);
         }
 
-        DialogHosts.ScannerWindow.ScannerTab.Selected = 0;
-        DialogHosts.ScannerWindow.ScannerTab.Sized = false;
+        DialogHosts.ScannerWindow.ScannerTabs.Selected = 0;
+        DialogHosts.ScannerWindow.ScannerTabs.Sized = false;
         DialogHosts.ScannerWindow.Scanner.SetTWidth(0);
         DialogHosts.ScannerWindow.Scanner.SetTHeight(0);
         DialogHosts.ScannerWindow.Scanner.SetTLeft(-1);
@@ -857,13 +857,13 @@ public partial class TitleScene : DataModule
         DialogHosts.PlayerInfoWindow.UpdatePlayer();
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            var turnButton = DialogHosts.TaskBar.TurnButton;
+            var turnButton = DialogHosts.TaskBar.WorldTurnButton;
             if (AoWHSMap.Current.SeatedPlayer == -1)
             {
                 turnButton.CurrentPlayer = 12;
                 turnButton.LastPlayer = 12;
                 turnButton.AnimationFrame = turnButton.CurrentPlayer * 7;
-                DialogHosts.TaskBar.AutoBtn.Visible = false;
+                DialogHosts.TaskBar.AutoCombatCheckBox.Visible = false;
             }
             else
             {
@@ -875,12 +875,12 @@ public partial class TitleScene : DataModule
 
                 turnButton.CurrentPlayer = turnButton.LastPlayer;
                 turnButton.AnimationFrame = turnButton.LastPlayer * 7;
-                DialogHosts.TaskBar.AutoBtn.Visible = AoWHSMap.Current.PlayMode == PlayMode.Simultaneous;
+                DialogHosts.TaskBar.AutoCombatCheckBox.Visible = AoWHSMap.Current.PlayMode == PlayMode.Simultaneous;
             }
         }
 
         DialogHosts.TaskBar.WorldClockDelay = 0;
-        DialogHosts.TaskBar.ChatBtn.TextColor = 14;
+        DialogHosts.TaskBar.ChatButton.TextColor = 14;
         DialogHosts.TaskBar.ChatFlash = 0;
         DialogHosts.VideoDialog.ChangeResolution(DialogHosts.VideoDialog.DisplayWidth, DialogHosts.VideoDialog.DisplayHeight);
     }
@@ -896,7 +896,7 @@ public partial class TitleScene : DataModule
         SetCurrentDir(GameTables.GameEngine.StartupDirectory);
         HideGameWindows(DialogHosts.General);
         DialogHosts.TaskBar.TaskWindow.Visible = false;
-        DialogHosts.TitleWindow.TitleWin.Visible = false;
+        DialogHosts.TitleWindow.MainWindow.Visible = false;
         DialogHosts.TitleScene.ResetScene();
         WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
     }
@@ -933,7 +933,7 @@ public partial class TitleScene : DataModule
         }
 
         DialogHosts.General.Manager.OverlayPriority = 0;
-        scene.TitleSceneIL.LoadDiscardableImageData();
+        scene.TitleSceneImages.LoadDiscardableImageData();
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyMode();
@@ -942,8 +942,8 @@ public partial class TitleScene : DataModule
         scene._redrawBackground = true;
         scene._pressedButton = -1;
         scene._hoverButton = -1;
-        scene._font = DialogHosts.UIFonts.Font15WhiteGrey;
-        scene._creditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
+        scene._font = DialogHosts.UIFonts.Age15WhiteOnGrey;
+        scene._creditsFont = DialogHosts.UIFonts.Age15WhiteOnGrey;
         scene.Window.WindowManager.SetImageLibraryIndex(4);
         scene.Window.Visible = true;
     }

@@ -28,9 +28,9 @@ internal static class LocalizationFrameChecks
             dictionary.Close();
         }
         var coverage = new List<object>();
-        var fonts = new[] { DialogHosts.UIFonts.Age8, DialogHosts.UIFonts.Age10, DialogHosts.UIFonts.Age16s,
-            DialogHosts.UIFonts.Age10s, DialogHosts.UIFonts.Age8s, DialogHosts.UIFonts.Sessis14G, DialogHosts.UIFonts.Font15WhiteGrey,
-            DialogHosts.UIFonts.Font15BlackBrown, DialogHosts.UIFonts.Age10LB, DialogHosts.UIFonts.Age10b, DialogHosts.UIFonts.Age10bs };
+        var fonts = new[] { DialogHosts.UIFonts.Age8, DialogHosts.UIFonts.Age10, DialogHosts.UIFonts.Age16Shadow,
+            DialogHosts.UIFonts.Age10Shadow, DialogHosts.UIFonts.Age8Shadow, DialogHosts.UIFonts.Age14Gold, DialogHosts.UIFonts.Age15WhiteOnGrey,
+            DialogHosts.UIFonts.Age15BlackOnBrown, DialogHosts.UIFonts.Age10List, DialogHosts.UIFonts.Age10Bold, DialogHosts.UIFonts.Age10BoldShadow };
         foreach (var font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
@@ -38,12 +38,12 @@ internal static class LocalizationFrameChecks
         }
         string undead = AbilityRules.TranslateResourceString("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
-        string mapCaption = DialogHosts.ScannerWindow.STitleLabel.Text;
+        string mapCaption = DialogHosts.ScannerWindow.TitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = DialogHosts.FileDialogWindow?.Title?.Text ?? "";
+        var dialogTitle = DialogHosts.FileDialogWindow?.TitleLabel?.Text ?? "";
         var required = new SortedSet<string>(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.

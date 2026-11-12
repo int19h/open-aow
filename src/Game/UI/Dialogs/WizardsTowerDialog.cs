@@ -21,12 +21,12 @@ public partial class WizardsTowerDialog : DataModule
     public WizardsTowerDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label SpellName;
-    public Label SpellClass;
-    public Label SpellCost;
+    public Window Window;
+    public Label SpellNameLabel;
+    public Label SpellClassLabel;
+    public Label SpellCostLabel;
     public Memo ResearchMemo;
-    public Label PriceLbl;
+    public Label PriceLabel;
     private ExecuteDoneEvent _onClose;
     private EnterWizardsTowerEventLog _event;
 
@@ -35,7 +35,7 @@ public partial class WizardsTowerDialog : DataModule
     {
         EnterWizardsTowerEventLog eventValue;
         ExecuteDoneEvent notify;
-        Dlg.Visible = false;
+        Window.Visible = false;
         notify = _onClose;
         eventValue = _event;
         _onClose = null;
@@ -57,7 +57,7 @@ public partial class WizardsTowerDialog : DataModule
     public void CancelBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWWizardsTowerDlg.pas:73
@@ -71,7 +71,7 @@ public partial class WizardsTowerDialog : DataModule
         }
         else
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -108,7 +108,7 @@ public partial class WizardsTowerDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -124,29 +124,29 @@ public partial class WizardsTowerDialog : DataModule
         {
             var buyCost = dialog._event.Tower.BuyCost();
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
-            dialog.PriceLbl.Text = format + ".";
+            dialog.PriceLabel.Text = format + ".";
             spell = AoWHSSet.Current.SpellControl.GetSpell(tower.SpellId);
-            dialog.SpellName.Text = spell.SpellName;
+            dialog.SpellNameLabel.Text = spell.SpellName;
             var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
             var level = AbilityRules.TranslateResourceString(GameText.LevelText);
-            dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+            dialog.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
             var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
             var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
-            dialog.SpellCost.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+            dialog.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
             var text = spell.SpellText.Text;
             dialog.ResearchMemo.Items.Text = text;
         }
         else
         {
-            dialog.PriceLbl.Text = "";
+            dialog.PriceLabel.Text = "";
             var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
-            dialog.SpellName.Text = none;
-            dialog.SpellClass.Text = "";
-            dialog.SpellCost.Text = "";
+            dialog.SpellNameLabel.Text = none;
+            dialog.SpellClassLabel.Text = "";
+            dialog.SpellCostLabel.Text = "";
             dialog.ResearchMemo.Items.Text = "";
         }
 
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
 }

@@ -11,14 +11,14 @@ public partial class UIFonts : DataModule
 
     public ImageLibraryFont Age8;
     public ImageLibraryFont Age10;
-    public ImageLibraryFont Age16s;
-    public ImageLibraryFont Age10s;
-    public ImageLibraryFont Age8s;
-    public ImageLibraryFont Sessis14G;
-    public ImageLibraryFont Font15WhiteGrey;
-    public ImageLibraryFont Font15BlackBrown;
-    public ImageLibraryFont Age10LB;
-    public ImageLibraryFont Age10b;
-    public ImageLibraryFont Age10bs;
-    public ImageLibraryFont TBarNumber;
+    public ImageLibraryFont Age16Shadow;
+    public ImageLibraryFont Age10Shadow;
+    public ImageLibraryFont Age8Shadow;
+    public ImageLibraryFont Age14Gold;
+    public ImageLibraryFont Age15WhiteOnGrey;
+    public ImageLibraryFont Age15BlackOnBrown;
+    public ImageLibraryFont Age10List;
+    public ImageLibraryFont Age10Bold;
+    public ImageLibraryFont Age10BoldShadow;
+    public ImageLibraryFont TaskbarDigits;
 }

@@ -20,17 +20,17 @@ public partial class ArenaDialog : DataModule
     public ArenaDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Panel UnitPnl;
-    public CheckBox U1;
-    public CheckBox U2;
-    public CheckBox U3;
-    public CheckBox U4;
-    public CheckBox U5;
-    public CheckBox U6;
-    public CheckBox U7;
-    public CheckBox U8;
-    public Label SelectionInfoLbl;
+    public Window Window;
+    public Panel UnitPanel;
+    public CheckBox Unit1CheckBox;
+    public CheckBox Unit2CheckBox;
+    public CheckBox Unit3CheckBox;
+    public CheckBox Unit4CheckBox;
+    public CheckBox Unit5CheckBox;
+    public CheckBox Unit6CheckBox;
+    public CheckBox Unit7CheckBox;
+    public CheckBox Unit8CheckBox;
+    public Label SelectionInfoLabel;
     public UserDrawBox MapView;
     private EnterArenaEventLog _event;
     private ExecuteDoneEvent _onClose;
@@ -50,9 +50,9 @@ public partial class ArenaDialog : DataModule
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             alignment = U.GetAlignment();
-            if ((byte)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((byte)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
-                image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -62,7 +62,7 @@ public partial class ArenaDialog : DataModule
             U.Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
             {
-                image = DialogHosts.UIGraphics.UnitBGs[7];
+                image = DialogHosts.UIGraphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -101,7 +101,7 @@ public partial class ArenaDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWArenaDlg.pas:158
@@ -111,7 +111,7 @@ public partial class ArenaDialog : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (_event.Train(ref reason))
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
         else
         {
@@ -132,14 +132,14 @@ public partial class ArenaDialog : DataModule
             _event.SetSelection((byte)(_event.Selection & ~(1 << slot)));
         }
 
-        U1.Checked = (_event.Selection & 1) != 0;
-        U2.Checked = (_event.Selection & 2) != 0;
-        U3.Checked = (_event.Selection & 4) != 0;
-        U4.Checked = (_event.Selection & 8) != 0;
-        U5.Checked = (_event.Selection & 16) != 0;
-        U6.Checked = (_event.Selection & 32) != 0;
-        U7.Checked = (_event.Selection & 64) != 0;
-        U8.Checked = (_event.Selection & 128) != 0;
+        Unit1CheckBox.Checked = (_event.Selection & 1) != 0;
+        Unit2CheckBox.Checked = (_event.Selection & 2) != 0;
+        Unit3CheckBox.Checked = (_event.Selection & 4) != 0;
+        Unit4CheckBox.Checked = (_event.Selection & 8) != 0;
+        Unit5CheckBox.Checked = (_event.Selection & 16) != 0;
+        Unit6CheckBox.Checked = (_event.Selection & 32) != 0;
+        Unit7CheckBox.Checked = (_event.Selection & 64) != 0;
+        Unit8CheckBox.Checked = (_event.Selection & 128) != 0;
         if ((_event.Trainable & (1 << slot)) != 0)
         {
             if (sender.Checked)
@@ -156,26 +156,26 @@ public partial class ArenaDialog : DataModule
         {
             if (_event.CanTrain(ref reason))
             {
-                SelectionInfoLbl.TextColor = 0;
+                SelectionInfoLabel.TextColor = 0;
             }
             else
             {
-                SelectionInfoLbl.TextColor = 149;
+                SelectionInfoLabel.TextColor = 149;
             }
 
             var selectionInfo = _event.GetSelectionInfo();
-            SelectionInfoLbl.Text = selectionInfo;
+            SelectionInfoLabel.Text = selectionInfo;
         }
         else
         {
-            SelectionInfoLbl.Text = "";
+            SelectionInfoLabel.Text = "";
         }
     }
 
     // AoWArenaDlg.pas:196
     public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref lockedSurface);
+        DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
     }
 
     // AoWArenaDlg.pas:201
@@ -193,7 +193,7 @@ public partial class ArenaDialog : DataModule
         Rect R;
         int W;
         int H;
-        R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
+        R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var hexY = _event.Arena.GetHexY();
@@ -235,7 +235,7 @@ public partial class ArenaDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -247,20 +247,20 @@ public partial class ArenaDialog : DataModule
         dialog._event = eventValue;
         dialog._event.AddRef();
         DialogHosts.General.Manager.OverlayPriority = 49;
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
     internal static void ResetArena(ArenaDialog dialog)
     {
-        dialog.U1.Checked = false;
-        dialog.U2.Checked = false;
-        dialog.U3.Checked = false;
-        dialog.U4.Checked = false;
-        dialog.U5.Checked = false;
-        dialog.U6.Checked = false;
-        dialog.U7.Checked = false;
-        dialog.U8.Checked = false;
-        dialog.SelectionInfoLbl.Text = "";
+        dialog.Unit1CheckBox.Checked = false;
+        dialog.Unit2CheckBox.Checked = false;
+        dialog.Unit3CheckBox.Checked = false;
+        dialog.Unit4CheckBox.Checked = false;
+        dialog.Unit5CheckBox.Checked = false;
+        dialog.Unit6CheckBox.Checked = false;
+        dialog.Unit7CheckBox.Checked = false;
+        dialog.Unit8CheckBox.Checked = false;
+        dialog.SelectionInfoLabel.Text = "";
     }
 
 }

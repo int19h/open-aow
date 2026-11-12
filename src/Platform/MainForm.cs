@@ -81,8 +81,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         CombatClasses.Register(GameTables.GameEngine);
         GameTables.GameEngine.InitializeHexSpriteSet(GameTables.GameEngine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
         _windowState = GameTables.GameEngine.Registry.GetMainWindowState();
-        DialogHosts.SoundDialog.MusicVolume.Position = GameTables.GameEngine.Registry.GetMusicVolume();
-        DialogHosts.SoundDialog.SFXVolume.Position = GameTables.GameEngine.Registry.GetSfxVolume();
+        DialogHosts.SoundDialog.MusicVolumeSlider.Position = GameTables.GameEngine.Registry.GetMusicVolume();
+        DialogHosts.SoundDialog.EffectsVolumeSlider.Position = GameTables.GameEngine.Registry.GetSfxVolume();
         DialogHosts.SoundDialog.Settings.MusicEnabled = GameTables.GameEngine.Registry.GetMusicEnabled();
         DialogHosts.SoundDialog.Settings.SfxEnabled = GameTables.GameEngine.Registry.GetSfxEnabled();
         DialogHosts.SoundDialog.Settings.UseDirectSound = GameTables.GameEngine.Registry.GetUseDirectSound();
@@ -99,8 +99,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (DialogHosts.SoundDialog.SoundQuality != 0)
         {
             AudioPlayback.InitializeSoundSystem("SDL", DialogHosts.SoundDialog.Settings);
-            AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
-            AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.SFXVolume.Position);
+            AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position);
+            AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.EffectsVolumeSlider.Position);
         }
         VideoDialog.SetVideoSize(DialogHosts.VideoDialog, GameTables.GameEngine.Registry.GetDisplayWidth(), GameTables.GameEngine.Registry.GetDisplayHeight());
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, _host.Fullscreen ? VideoDialog.ScreenMode.Game : VideoDialog.ScreenMode.Windowed);
@@ -108,9 +108,9 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         DialogHosts.General.Manager.WinHeight = Display.BackSurfaceHeight;
         DialogHosts.General.Manager.Aligned = false;
         var name = GameTables.GameEngine.Registry.GetString(0);
-        if (!RtlUnit.IsEmpty(name)) { DialogHosts.MultiWindow.TCPName.Text = name; DialogHosts.MultiWindow.IPXName.Text = name; }
+        if (!RtlUnit.IsEmpty(name)) { DialogHosts.MultiWindow.TcpNameEdit.Text = name; DialogHosts.MultiWindow.IpxNameEdit.Text = name; }
         var address = GameTables.GameEngine.Registry.GetString(1);
-        if (!RtlUnit.IsEmpty(address)) DialogHosts.MultiWindow.IPEdit.Text = address;
+        if (!RtlUnit.IsEmpty(address)) DialogHosts.MultiWindow.IPAddressEdit.Text = address;
         WindowActions.RestoreWindowLayout(DialogHosts.General);
         RtlUnit.SetCurrentDir(GameTables.GameEngine.StartupDirectory);
         GameTables.GameEngine.CombatFont = DialogHosts.UIFonts.Age8;
@@ -157,8 +157,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             case 1: GameHost.DeferredSetupAction = 0; DialogHosts.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
             case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(DialogHosts.FileDialogWindow); break;
         }
-        if (DialogHosts.SetupEvents.DPlay.DPlay is not null)
-            DialogHosts.SetupEvents.DPlay.CheckMessages();
+        if (DialogHosts.SetupEvents.DirectPlay.DPlay is not null)
+            DialogHosts.SetupEvents.DirectPlay.CheckMessages();
         AudioPlayback.ProcessSound();
         try { AoWHSMap.Current?.NewFrame(); }
         catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
@@ -181,7 +181,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 finally { back.Unlock(); }
             }
             FLastCursorRectangle = rectangle;
-            DialogHosts.ConfirmationDialog.FrameLbl.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
+            DialogHosts.ConfirmationDialog.FrameRateLabel.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
         }
         if (AoWHSMap.Current is not null && AoWHSMap.Current.ExitPending) DialogHosts.General.ReturnToTitle();
         VideoDialog.ApplyVideoSettings(DialogHosts.VideoDialog);
@@ -298,8 +298,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             DialogHosts.General.SaveLayout();
             var registry = GameTables.GameEngine.Registry;
             registry.SetMainWindowState(_windowState);
-            registry.SetString(0, DialogHosts.MultiWindow.TCPName.Text);
-            registry.SetString(1, DialogHosts.MultiWindow.IPEdit.Text);
+            registry.SetString(0, DialogHosts.MultiWindow.TcpNameEdit.Text);
+            registry.SetString(1, DialogHosts.MultiWindow.IPAddressEdit.Text);
             registry.SetDisplayWidth(DialogHosts.VideoDialog.DisplayWidth);
             registry.SetDisplayHeight(DialogHosts.VideoDialog.DisplayHeight);
             registry.SetDisplayMode(_host.Fullscreen ? 1 : 0);
@@ -307,8 +307,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             registry.SetSfxEnabled(DialogHosts.SoundDialog.Settings.SfxEnabled);
             registry.SetMusicEnabled(DialogHosts.SoundDialog.Settings.MusicEnabled);
             registry.SetSoundQuality(DialogHosts.SoundDialog.SoundQuality);
-            registry.SetSfxVolume(DialogHosts.SoundDialog.SFXVolume.Position);
-            registry.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
+            registry.SetSfxVolume(DialogHosts.SoundDialog.EffectsVolumeSlider.Position);
+            registry.SetMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position);
         }
         if (GameHost.MainForm == this) GameHost.MainForm = null;
     }

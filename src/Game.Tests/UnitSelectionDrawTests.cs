@@ -27,11 +27,11 @@ public sealed class UnitSelectionDrawTests
         try
         {
             // The layout (UnitSelectionDialog.Layout.cs) makes each slot a check box with this handler.
-            dialog.UnitPnl = new Panel(dialog);
-            dialog.U1 = new CheckBox(dialog) { OnPreDraw = (sender, surface) => dialog.U1PreDraw(sender, surface, 0) };
+            dialog.UnitPanel = new Panel(dialog);
+            dialog.Unit1CheckBox = new CheckBox(dialog) { OnPreDraw = (sender, surface) => dialog.U1PreDraw(sender, surface, 0) };
             dialog.Event = new HealingUnitSelector();
             LockedSurface lockedSurface = default;
-            dialog.U1.OnPreDraw(dialog.U1, lockedSurface);
+            dialog.Unit1CheckBox.OnPreDraw(dialog.Unit1CheckBox, lockedSurface);
         }
         finally
         {
