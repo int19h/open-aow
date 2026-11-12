@@ -24,7 +24,9 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     { }
 
     private int _transparentColor;
-    private int _reserved;
+    // Four bytes of unknown meaning after the transparent colour in the sprite's image data. The
+    // original reads and writes them and uses them nowhere else. They round trip unchanged.
+    private int _unknownBytes;
 
     internal byte[] Data { get; private set; }
 
@@ -111,7 +113,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         stream.ReadExactly(Bytes.Of(ref _rleLeft, 4));
         stream.ReadExactly(Bytes.Of(ref _rleTop, 4));
         stream.ReadExactly(Bytes.Of(ref _transparentColor, 4));
-        stream.ReadExactly(Bytes.Of(ref _reserved, 4));
+        stream.ReadExactly(Bytes.Of(ref _unknownBytes, 4));
     }
 
     // ImageLib.pas:7572
@@ -123,7 +125,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         stream.Write(Bytes.Of(ref _rleLeft, 4));
         stream.Write(Bytes.Of(ref _rleTop, 4));
         stream.Write(Bytes.Of(ref _transparentColor, 4));
-        stream.Write(Bytes.Of(ref _reserved, 4));
+        stream.Write(Bytes.Of(ref _unknownBytes, 4));
     }
 
     // ImageLib.pas:7583

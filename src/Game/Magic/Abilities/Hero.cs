@@ -2532,7 +2532,7 @@ public partial class Hero : Troop
     private static readonly string s_castingInProgressFormat = "Casting %s...";
     private static readonly string s_cannotCastSpellInCombatText = "Cannot cast spell in combat";
     private static readonly string s_notEnoughChannelingPointsText = "Not enough channeling points";
-    private static readonly ImmutableArray<HeroLevel> s_heroExperienceTable = [new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 25 }, new HeroLevel { DailyExperience = 1, Experience = 25 }];
+    private static readonly ImmutableArray<HeroLevel> s_heroExperienceTable = [new HeroLevel(DailyExperience: 1, Experience: 15), new HeroLevel(DailyExperience: 1, Experience: 15), new HeroLevel(DailyExperience: 1, Experience: 20), new HeroLevel(DailyExperience: 1, Experience: 20), new HeroLevel(DailyExperience: 1, Experience: 25), new HeroLevel(DailyExperience: 1, Experience: 25)];
 
     internal static ReadOnlySpan<sbyte> MoraleResistance => [-2, -1, 0, 0, 0];
     internal static ReadOnlySpan<sbyte> MoraleDefense => [-2, -1, 0, 0, 0];

@@ -23,7 +23,7 @@ public partial class SampleData : IDisposable
 
     // Sound.pas:683
     // { Sound data from memory; it is not put in SampleDataList. }
-    protected SampleData(ConstructionContext context, in WaveFormatEx format, object data, int size)
+    protected SampleData(ConstructionContext context, in WaveFormat format, object data, int size)
     {
         context.Capture(this);
         _name = "";
@@ -60,7 +60,7 @@ public partial class SampleData : IDisposable
         ConstructionContext.Create(name, static (context, value) => new SampleData(context, value));
 
     // Sound.pas:61
-    public static SampleData Create(in WaveFormatEx format, object data, int size) =>
+    public static SampleData Create(in WaveFormat format, object data, int size) =>
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new SampleData(context, value.format, value.data, value.size));
 

@@ -8,6 +8,7 @@ public enum Flag : byte { First, Second, Third }
 [InlineArray(6)]
 public struct ByteArray6 { private byte _element0; }
 
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 12)]
 public struct SampleRecord
 {

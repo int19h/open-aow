@@ -15,6 +15,7 @@ public sealed class PointerViewTests
         Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(text));
     }
 
+    [StoredLayout]
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     private struct Pair
     {

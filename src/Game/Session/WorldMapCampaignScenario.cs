@@ -16,8 +16,9 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     public string ImageLibrary = "";
     public string PathDescription = "";
     public string Description = "";
-    private bool _reserved20;
-    // rwBool
+    // A Boolean of unknown meaning that the original stores at id 15 and never reads. It round
+    // trips unchanged.
+    private bool _unknownFlag;
     public int MapX;
     public int MapY;
 
@@ -47,7 +48,7 @@ public partial class WorldMapCampaignScenario : CampaignScenario
 
         stream.String(ref PathDescription, 13);
         stream.String(ref Description, 14);
-        stream.Boolean(ref _reserved20, 15);
+        stream.Boolean(ref _unknownFlag, 15);
         stream.Int32(ref MapX, 16);
         stream.Int32(ref MapY, 17);
         stream.Object(IntroPages, 19);

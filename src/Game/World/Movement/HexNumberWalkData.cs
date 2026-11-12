@@ -1,30 +1,19 @@
 // Translated from HSEngine.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
 // { State of a walk around a centre hexagon (InitHNWalk, WalkToNextHN): the hexagon numbers
 //     ring after ring, 6 * Radius hexagons on ring Radius }
-[StructLayout(LayoutKind.Explicit, Size = 32)]
 public struct HexNumberWalkData
 {
-    [FieldOffset(0)]
     public int Side;
-    [FieldOffset(4)]
     public int Step;
-    [FieldOffset(8)]
     public int HexNumber;
-    [FieldOffset(12)]
     public int Radius;
-    [FieldOffset(16)]
     public int X;
-    [FieldOffset(20)]
     public int Y;
-    [FieldOffset(24)]
     public int CenterX;
-    [FieldOffset(28)]
     public int CenterY;
 
     internal static void WalkToNextHexNumber(ref HexNumberWalkData walk)

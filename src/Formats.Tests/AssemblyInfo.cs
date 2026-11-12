@@ -21,6 +21,7 @@ internal static class UnitMappings
     }
 }
 
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 8)]
 internal struct SampleBehavior
 {
@@ -28,6 +29,7 @@ internal struct SampleBehavior
     [FieldOffset(4)] public int Flags;
 }
 
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 1)]
 internal struct SamplePacked
 {
@@ -40,6 +42,7 @@ internal struct SamplePacked
     }
 }
 
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 14)]
 internal struct EveryWidth
 {

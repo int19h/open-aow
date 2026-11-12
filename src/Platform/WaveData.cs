@@ -1,5 +1,5 @@
 using System.Buffers.Binary;
-using Aow.Rtl;
+using Aow.Game.Audio;
 
 namespace Aow.Platform;
 
@@ -16,7 +16,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             throw new InvalidDataException("Expected RIFF WAVE data.");
         long end = 8L + BinaryPrimitives.ReadUInt32LittleEndian(bytes[4..]);
         if (end > bytes.Length || end < 12) throw new InvalidDataException("Truncated RIFF data.");
-        WaveFormatEx format = default;
+        WaveFormat format = default;
         bool haveFormat = false, haveData = false;
         ReadOnlySpan<byte> data = default;
         for (long offset = 12; offset + 8 <= end;)
@@ -29,11 +29,12 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             if (bytes.Slice(at, 4).SequenceEqual("fmt "u8))
             {
                 if (chunk.Length < 16) throw new InvalidDataException("Truncated WAVE format.");
-                format.wFormatTag = BinaryPrimitives.ReadUInt16LittleEndian(chunk);
-                format.nChannels = BinaryPrimitives.ReadUInt16LittleEndian(chunk[2..]);
-                format.nSamplesPerSec = BinaryPrimitives.ReadInt32LittleEndian(chunk[4..]);
-                format.nBlockAlign = BinaryPrimitives.ReadUInt16LittleEndian(chunk[12..]);
-                format.wBitsPerSample = BinaryPrimitives.ReadUInt16LittleEndian(chunk[14..]);
+                format = new WaveFormat(
+                    FormatTag: BinaryPrimitives.ReadUInt16LittleEndian(chunk),
+                    Channels: BinaryPrimitives.ReadUInt16LittleEndian(chunk[2..]),
+                    SamplesPerSecond: BinaryPrimitives.ReadInt32LittleEndian(chunk[4..]),
+                    BlockAlign: BinaryPrimitives.ReadUInt16LittleEndian(chunk[12..]),
+                    BitsPerSample: BinaryPrimitives.ReadUInt16LittleEndian(chunk[14..]));
                 haveFormat = true;
             }
             else if (bytes.Slice(at, 4).SequenceEqual("data"u8)) { data = chunk; haveData = true; }
@@ -43,18 +44,18 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
         return Decode(format, data);
     }
 
-    public static WaveData Decode(in WaveFormatEx format, ReadOnlySpan<byte> data)
+    public static WaveData Decode(in WaveFormat format, ReadOnlySpan<byte> data)
     {
-        int channels = format.nChannels, bits = format.wBitsPerSample;
-        if (channels is not (1 or 2) || format.nSamplesPerSec <= 0 ||
-            !((format.wFormatTag == 1 && bits is 8 or 16) || (format.wFormatTag == 7 && bits == 8)) ||
-            format.nBlockAlign != channels * (bits / 8) || data.Length % format.nBlockAlign != 0)
+        int channels = format.Channels, bits = format.BitsPerSample;
+        if (channels is not (1 or 2) || format.SamplesPerSecond <= 0 ||
+            !((format.FormatTag == 1 && bits is 8 or 16) || (format.FormatTag == 7 && bits == 8)) ||
+            format.BlockAlign != channels * (bits / 8) || data.Length % format.BlockAlign != 0)
             throw new InvalidDataException("Unsupported or invalid WAVE format.");
         var samples = new float[data.Length / (bits / 8)];
         for (int i = 0; i < samples.Length; i++)
-            samples[i] = format.wFormatTag == 7 ? MuLaw(data[i]) / 32768f :
+            samples[i] = format.FormatTag == 7 ? MuLaw(data[i]) / 32768f :
                 bits == 8 ? (data[i] - 128) / 128f : BinaryPrimitives.ReadInt16LittleEndian(data[(i * 2)..]) / 32768f;
-        return new(format.nSamplesPerSec, channels, samples);
+        return new(format.SamplesPerSecond, channels, samples);
     }
 
     private static int MuLaw(byte input)

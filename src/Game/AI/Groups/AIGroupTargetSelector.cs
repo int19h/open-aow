@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -1010,7 +1009,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
             StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetDefenseRequirements(GroupControl.Group.Player, out strengths);
-            result += StrengthInfoMax(Bytes.Of(ref strengths)) / 2;
+            result += StrengthInfoMax(strengths.DamageStrengths) / 2;
         }
         else
         {
@@ -1270,15 +1269,15 @@ public partial class AIGroupTargetSelector : AIGroupTask
         return test;
     }
 
-    private static int StrengthInfoMax(ReadOnlySpan<byte> strengths)
+    private static int StrengthInfoMax(ReadOnlySpan<int> strengths)
     {
         int number = 0;
         for (int i = 0; i <= 9; i++)
         {
             DamageType damageType = (DamageType)i;
-            if (MemoryMarshal.Cast<byte, int>(strengths)[(int)damageType] > number)
+            if (strengths[(int)damageType] > number)
             {
-                number = MemoryMarshal.Cast<byte, int>(strengths)[(int)damageType];
+                number = strengths[(int)damageType];
             }
         }
         return number;

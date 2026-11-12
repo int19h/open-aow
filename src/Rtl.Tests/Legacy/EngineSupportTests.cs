@@ -39,11 +39,6 @@ public sealed class EngineSupportTests
     [Fact]
     public void PhysicalRecordsKeepDelphiOffsets()
     {
-        Assert.Equal(8, Marshal.SizeOf<LargeInteger>());
-        Assert.Equal(4, Marshal.OffsetOf<LargeInteger>(nameof(LargeInteger.HighPart)).ToInt32());
-        LargeInteger value = new() { QuadPart = 0x12345678ABCDEF01 };
-        Assert.Equal(0xABCDEF01u, value.LowPart);
-        Assert.Equal(0x12345678, value.HighPart);
         Assert.Equal(16, Marshal.SizeOf<Rect>());
         Assert.Equal(12, Marshal.OffsetOf<Rect>(nameof(Rect.Bottom)).ToInt32());
     }

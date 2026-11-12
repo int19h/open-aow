@@ -271,7 +271,11 @@ can pass:
   cast.
 - Sets of up to 64 elements become flags enums or a `ulong`. Larger sets become a bitset struct.
 - Class instance size and field offsets do not matter in the port, except where the code reads
-  records from data files. Those records get explicit layout.
+  records from data files. Only a transient type that reads or writes a format (a file record, a
+  native interop record, a wire message) has a fixed or explicit layout, and it carries
+  `[StoredLayout]`. Game data uses natural layout and is mapped to such a type at the I/O
+  boundary. The product test `LayoutRuleTests` and the layout check of the private gate hold this
+  (issue #192).
 
 The transpiler reports what it cannot translate as a `TODO` comment in the output and as a line in a
 report file. `translate_readwrite.py` in the `aow` repository does the same. The transpiler is

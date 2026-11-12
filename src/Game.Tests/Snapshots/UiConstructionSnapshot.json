@@ -10283,7 +10283,16 @@
               "UnitShowInfo.Direction": 0,
               "UnitShowInfo.Frame": 0,
               "UnitShowInfo.Looped": false,
-              "UnitShowInfo.OverlaysImage": 0
+              "UnitShowInfo.Overlays": {
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitOverlayModesElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Set\u00601.a": 0,
+                "Set\u00601.b": 0,
+                "Set\u00601.bounded": false,
+                "Set\u00601.c": 0,
+                "Set\u00601.d": 0,
+                "Set\u00601.high": 0,
+                "Set\u00601.low": 0
+              }
             },
             "General.UnitVisible": false,
             "General.WindowsHidden": false,
@@ -12485,7 +12494,16 @@
             "SoundDialog.Settings": {
               "$type": "Aow.Game.Audio.SoundSettings",
               "SoundSettings.MusicEnabled": false,
-              "SoundSettings.OutputModeImage": 0,
+              "SoundSettings.OutputMode": {
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Audio.SoundOutputModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Set\u00601.a": 0,
+                "Set\u00601.b": 0,
+                "Set\u00601.bounded": false,
+                "Set\u00601.c": 0,
+                "Set\u00601.d": 0,
+                "Set\u00601.high": 0,
+                "Set\u00601.low": 0
+              },
               "SoundSettings.SampleRate": 0,
               "SoundSettings.SampleVoices": 0,
               "SoundSettings.SfxEnabled": false,
@@ -13356,7 +13374,16 @@
               "UnitShowInfo.Direction": 0,
               "UnitShowInfo.Frame": 0,
               "UnitShowInfo.Looped": false,
-              "UnitShowInfo.OverlaysImage": 0
+              "UnitShowInfo.Overlays": {
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitOverlayModesElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Set\u00601.a": 0,
+                "Set\u00601.b": 0,
+                "Set\u00601.bounded": false,
+                "Set\u00601.c": 0,
+                "Set\u00601.d": 0,
+                "Set\u00601.high": 0,
+                "Set\u00601.low": 0
+              }
             }
           }
         }

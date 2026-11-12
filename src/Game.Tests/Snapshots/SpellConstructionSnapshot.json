@@ -1187,11 +1187,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": -1,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1250,11 +1268,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1317,11 +1353,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
           "SpellCombatInfo.Damage": 3,
-          "SpellCombatInfo.DamageTypesImage": 1,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 1,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 8,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1380,11 +1434,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1421,11 +1493,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 4,
-          "SpellCombatInfo.DamageTypesImage": 4,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 4,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 3,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1484,11 +1574,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1525,11 +1633,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 2,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 4,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1588,11 +1714,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1629,11 +1773,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1692,11 +1854,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1797,11 +1977,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 4,
-          "SpellCombatInfo.DamageTypesImage": 32,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 32,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1860,11 +2058,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1901,11 +2117,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 3,
-          "SpellCombatInfo.DamageTypesImage": 32,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 32,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -1964,11 +2198,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2005,11 +2257,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 7,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 512,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 512,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2068,11 +2338,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2199,11 +2487,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 6,
-          "SpellCombatInfo.DamageTypesImage": 257,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 257,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2262,11 +2568,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2303,11 +2627,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 1,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 1,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 3,
           "SpellCombatInfo.Range": 4,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2366,11 +2708,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2407,11 +2767,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 4,
-          "SpellCombatInfo.DamageTypesImage": 129,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 129,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2470,11 +2848,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2511,11 +2907,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
           "SpellCombatInfo.Damage": 3,
-          "SpellCombatInfo.DamageTypesImage": 2,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 3,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2574,11 +2988,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2615,11 +3047,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 128,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 128,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2678,11 +3128,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2719,11 +3187,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 5,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 384,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 384,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 2,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 3,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2782,11 +3268,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2823,11 +3327,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": -1,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 1
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 1,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2886,11 +3408,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2927,11 +3467,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 4,
-          "SpellCombatInfo.DamageTypesImage": 128,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 128,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 3,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -2990,11 +3548,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3031,11 +3607,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 5,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 512,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 512,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 3,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3094,11 +3688,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3193,11 +3805,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 8,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3256,11 +3886,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3297,11 +3945,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": -1,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3360,11 +4026,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3427,11 +4111,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 64,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 64,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 3,
           "SpellCombatInfo.Range": 8,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3490,11 +4192,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3531,11 +4251,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 1,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 1,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 3,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3594,11 +4332,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3635,11 +4391,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 384,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 384,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3698,11 +4472,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3739,11 +4531,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 512,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 512,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3802,11 +4612,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3869,11 +4697,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 4,
-          "SpellCombatInfo.DamageTypesImage": 64,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 64,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3932,11 +4778,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -3973,11 +4837,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 5,
           "SpellCombatInfo.Damage": 2,
-          "SpellCombatInfo.DamageTypesImage": 128,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 128,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 6,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4036,11 +4918,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4077,11 +4977,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 2,
-          "SpellCombatInfo.DamageTypesImage": 1,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 1,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 5,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4140,11 +5058,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4231,11 +5167,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 32,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 32,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": -1,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4294,11 +5248,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4335,11 +5307,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 384,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 384,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 5,
           "SpellCombatInfo.Range": -1,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4398,11 +5388,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4439,11 +5447,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 64,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 64,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 1,
         "EngineObject._owner": "$owner",
@@ -4502,11 +5528,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4607,11 +5651,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 7,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 128,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 128,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 1,
         "EngineObject._owner": "$owner",
@@ -4670,11 +5732,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4711,11 +5791,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
           "SpellCombatInfo.Damage": 5,
-          "SpellCombatInfo.DamageTypesImage": 128,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 128,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 1,
           "SpellCombatInfo.Range": 12,
           "SpellCombatInfo.RepeatCount": 1,
-          "SpellCombatInfo.TargetTypesImage": 2
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 2,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 1,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",
@@ -4774,11 +5872,29 @@
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
           "SpellCombatInfo.Damage": 0,
-          "SpellCombatInfo.DamageTypesImage": 0,
+          "SpellCombatInfo.DamageTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "SpellCombatInfo.Radius": 0,
           "SpellCombatInfo.Range": 0,
           "SpellCombatInfo.RepeatCount": 0,
-          "SpellCombatInfo.TargetTypesImage": 0
+          "SpellCombatInfo.TargetTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatTargetTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          }
         },
         "CombatSpell.DamageMode": 0,
         "EngineObject._owner": "$owner",

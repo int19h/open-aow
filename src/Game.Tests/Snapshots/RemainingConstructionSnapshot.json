@@ -1120,10 +1120,7 @@
                 "$type": "Aow.Game.AI.AITargetInfo",
                 "AITargetInfo.IndependentRelation": 0,
                 "AITargetInfo.Mode": 0,
-                "AITargetInfo.Player": 0,
-                "AITargetInfo.Reserved03": 0,
-                "AITargetInfo.Reserved04": 0,
-                "AITargetInfo.Reserved08": 0
+                "AITargetInfo.Player": 0
               },
               "AIMoveTargetSelector._targets": {
                 "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -2222,10 +2219,7 @@
                 "$type": "Aow.Game.AI.AITargetInfo",
                 "AITargetInfo.IndependentRelation": 0,
                 "AITargetInfo.Mode": 0,
-                "AITargetInfo.Player": 0,
-                "AITargetInfo.Reserved03": 0,
-                "AITargetInfo.Reserved04": 0,
-                "AITargetInfo.Reserved08": 0
+                "AITargetInfo.Player": 0
               },
               "AIMoveTargetSelector._targets": {
                 "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -42004,7 +41998,7 @@
               "Int32List._default": -1,
               "Int32List._list": []
             },
-            "WorldMapCampaignScenario._reserved20": false
+            "WorldMapCampaignScenario._unknownFlag": false
           }
         }
       },
@@ -42408,7 +42402,7 @@
               "Int32List._default": -1,
               "Int32List._list": []
             },
-            "WorldMapCampaignScenario._reserved20": false
+            "WorldMapCampaignScenario._unknownFlag": false
           }
         }
       },
@@ -42431,7 +42425,7 @@
               "WorldMapCampaignScenario.OutroPages": null,
               "WorldMapCampaignScenario.PathDescription": "",
               "WorldMapCampaignScenario.Paths": null,
-              "WorldMapCampaignScenario._reserved20": false
+              "WorldMapCampaignScenario._unknownFlag": false
             }
           }
         ]

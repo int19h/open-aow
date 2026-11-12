@@ -130,10 +130,7 @@ public partial class PropertyTable : IDisposable
             Array.Resize(ref _stack, _stackCapacity);
         }
 
-        ref Settings propertySettings = ref _stack[_stackCount];
-        propertySettings.First = _first;
-        propertySettings.NextIndex = _nextIndex;
-        propertySettings.MaxId = _maxId;
+        _stack[_stackCount] = new Settings(First: _first, NextIndex: _nextIndex, MaxId: _maxId);
 
         _stackCount += 1;
         _nextIndex = _count;
@@ -146,10 +143,7 @@ public partial class PropertyTable : IDisposable
     {
         _stackCount -= 1;
         _count = _first;
-        ref Settings propertySettings = ref _stack[_stackCount];
-        _first = propertySettings.First;
-        _nextIndex = propertySettings.NextIndex;
-        _maxId = propertySettings.MaxId;
+        (_first, _nextIndex, _maxId) = _stack[_stackCount];
     }
 
     // Engine.pas:2361
@@ -252,6 +246,7 @@ public partial class PropertyTable : IDisposable
     public int Count { get => _count; }
     public int First { get => _first; }
 
+    [StoredLayout]
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     public struct Item
     {
@@ -261,14 +256,6 @@ public partial class PropertyTable : IDisposable
         public int Offset;
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 12)]
-    public struct Settings
-    {
-        [FieldOffset(0)]
-        public int First;
-        [FieldOffset(4)]
-        public int NextIndex;
-        [FieldOffset(8)]
-        public int MaxId;
-    }
+    // The table state that BackupSettings saves and RestoreSettings brings back.
+    public readonly record struct Settings(int First, int NextIndex, int MaxId);
 }

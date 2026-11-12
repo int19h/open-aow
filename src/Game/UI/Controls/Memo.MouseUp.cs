@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
@@ -36,7 +35,7 @@ public partial class Memo
             }
             if (_editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
             {
-                if (Unsafe.As<bool, byte>(ref _editable) == 1)
+                if (_editable)
                 {
                     Redraw = true;
                     _blink = true;

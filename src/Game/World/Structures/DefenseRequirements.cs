@@ -1,19 +1,19 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Engine.Buffers;
+
+using Aow.Game.Combat;
 
 namespace Aow.Game.World.Structures;
 
-[StructLayout(LayoutKind.Explicit, Size = 40)]
+// The strength a location needs against each of the ten damage types. A city sets only the
+// physical strength.
 public struct DefenseRequirements
 {
-    [FieldOffset(0)]
-    public Array28<byte> Reserved00;
-    [FieldOffset(28)]
-    public int Strength;
-    [FieldOffset(32)]
-    public Array8<byte> Reserved20;
-    [FieldOffset(0)]
     public Array10<int> DamageStrengths;
+
+    public int Strength
+    {
+        readonly get => DamageStrengths[(int)DamageType.Physical];
+        set => DamageStrengths[(int)DamageType.Physical] = value;
+    }
 }

@@ -2,12 +2,15 @@
 using System.Runtime.InteropServices;
 using Aow.Engine.Buffers;
 
+using Aow.Rtl;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Images;
 
 // { The header of an .ILB file (24 bytes). Up to version 3 the images follow it; from version 4
 //     on the image index (HeaderSize to IndexEnd) is followed by the discardable image data. }
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 24)]
 public struct ImageLibraryHeader
 {

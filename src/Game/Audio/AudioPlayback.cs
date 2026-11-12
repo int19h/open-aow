@@ -400,7 +400,7 @@ public static class AudioPlayback
         return result;
     }
 
-    public static SampleData CreateSampleData(ReadOnlySpan<WaveFormatEx> format, object data, int size)
+    public static SampleData CreateSampleData(ReadOnlySpan<WaveFormat> format, object data, int size)
     {
         SampleData result;
         if (AudioHost.SoundSystem != null)

@@ -1,6 +1,4 @@
 // Translated from Engine.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -16,7 +14,10 @@ public partial class BitList : Persistent
 
     private int _count;
     private int _capacity;
-    private bool _default;
+    // The default as its stored Boolean byte. A loaded byte other than 0 and 1 stays as it is: a
+    // nonzero byte fills new bits, Get past the end reads its low bit, and the comparisons with an
+    // item compare the whole byte, as the original's Boolean comparisons do.
+    private byte _default;
 
     // Engine.pas:4743
     internal void SetCapacity(int newCapacity)
@@ -39,7 +40,7 @@ public partial class BitList : Persistent
             _capacity = newCapacity;
             for (int I = _count; I <= newCapacity - 1; I++)
             {
-                Put(I, _default);
+                Put(I, _default != 0);
             }
         }
     }
@@ -64,7 +65,7 @@ public partial class BitList : Persistent
             _count = newCount;
             for (int I = oldCount, last = _count - 1; I <= last; I++)
             {
-                Put(I, _default);
+                Put(I, _default != 0);
             }
         }
         else
@@ -79,7 +80,7 @@ public partial class BitList : Persistent
         string result = "";
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            if (Get(I) != _default)
+            if (DefaultByte(Get(I)) != _default)
             {
                 result = result + IntToStr(I) + ",";
             }
@@ -115,7 +116,7 @@ public partial class BitList : Persistent
 
             if (!IsEmpty(item))
             {
-                Put(StrToInt(item), !_default);
+                Put(StrToInt(item), _default == 0);
             }
 
             P = Pos(",", S);
@@ -338,7 +339,7 @@ public partial class BitList : Persistent
     {
         for (int I = _count - 1; I >= 0; I--)
         {
-            if (this[I] == _default)
+            if (DefaultByte(this[I]) == _default)
             {
                 Delete(I);
             }
@@ -360,14 +361,13 @@ public partial class BitList : Persistent
 
     /// <summary>The image <see cref="SaveToStream"/> writes, the default as its stored byte.</summary>
     internal BitListImage SaveImage() =>
-        new(Unsafe.As<bool, byte>(ref _default), _count, List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)).ToArray());
+        new(_default, _count, List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)).ToArray());
 
     /// <summary><see cref="LoadFromStream"/> from a stored image. A default byte other than 0 and 1 stays that byte.</summary>
     internal void LoadImage(BitListImage image)
     {
         Clear();
-        byte stored = image.Default;
-        _default = Unsafe.As<byte, bool>(ref stored);
+        _default = image.Default;
         _count = image.Count;
         SetCapacity(_count);
         image.Bits.CopyTo(List.Span);
@@ -383,13 +383,15 @@ public partial class BitList : Persistent
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
-    public bool Default { get => _default; set => _default = value; }
+    public bool Default { get => _default != 0; set => _default = DefaultByte(value); }
 
     public bool this[int index] { get => Get(index); set => Put(index, value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
     public int BitsSet { get => GetBitsSet(); }
     public int BitsCleared { get => GetBitsCleared(); }
+
+    private static byte DefaultByte(bool item) => item ? (byte)1 : (byte)0;
 
     // Engine.pas:4613
     protected internal static void Error(string message, int data)

@@ -1,6 +1,4 @@
 // Translated from ManaCrystals.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Game.AI;
@@ -173,14 +171,10 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 
     // { ManaCrystals of AoWEPACK.dpl: recovered bodies and original instance layouts.
     //   Remaining inherited declaration constraints are documented at local ABI adapters. }
-    [StructLayout(LayoutKind.Explicit, Size = 3)]
     public struct CrystalAIInfo
     {
-        [FieldOffset(0)]
         public sbyte Player;
-        [FieldOffset(1)]
         public sbyte OtherPlayer;
-        [FieldOffset(2)]
         public byte Kind;
     }
 

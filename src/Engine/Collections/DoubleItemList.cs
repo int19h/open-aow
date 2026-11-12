@@ -605,12 +605,9 @@ public partial class DoubleItemList : Persistent
         EngineServices.Fill(buffer, count, value);
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 8)]
     public struct DoubleItem
     {
-        [FieldOffset(0)]
         public int First;
-        [FieldOffset(4)]
         public int Second;
     }
 
