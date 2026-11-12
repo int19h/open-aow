@@ -36,12 +36,12 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     }
 
     // Spells.PAS:1136
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
-        stream.rwData(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 31);
-        stream.rwByte(ref TargetPlayer, 32);
+        stream.Payload(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
+        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 31);
+        stream.Byte(ref TargetPlayer, 32);
     }
 
     // Spells.PAS:1120

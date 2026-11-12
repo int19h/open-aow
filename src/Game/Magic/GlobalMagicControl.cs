@@ -54,12 +54,12 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2677
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Enchantments, 10);
-        stream.rwInteger(ref NextEnchantmentId, 11);
-        stream.rwData(MemoryMarshal.AsBytes((Span<int>)DoubleSphereManaCount).Slice(0, 36), 36, 0);
+        stream.Object(Enchantments, 10);
+        stream.Int32(ref NextEnchantmentId, 11);
+        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)DoubleSphereManaCount).Slice(0, 36), 36, 0);
         UpdateActiveEnchantments();
     }
 
@@ -67,7 +67,7 @@ public partial class GlobalMagicControl : EngineObject
     {
         base.PersistFields(persister);
         persister.Object("Enchantments", Enchantments);
-        persister.Int32("NextEnchantmentID", ref NextEnchantmentId);
+        NextEnchantmentId = persister.Int32("NextEnchantmentID", NextEnchantmentId);
         PersistSupport.Int32Array(persister, "DoubleSphereManaCount", DoubleSphereManaCount);
         UpdateActiveEnchantments();
     }

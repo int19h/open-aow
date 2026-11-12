@@ -6,10 +6,10 @@ public partial class GameSettings
     internal bool GetFileDialogSortByDate()
     {
         bool byDate = false;
-        rwBool("OpenAoW", "File Dialog Sort By Date", ref byDate, ReadWriteMode.Read);
+        Boolean("OpenAoW", "File Dialog Sort By Date", ref byDate, ReadWriteMode.Read);
         return byDate;
     }
 
     internal void SetFileDialogSortByDate(bool byDate) =>
-        rwBool("OpenAoW", "File Dialog Sort By Date", ref byDate, ReadWriteMode.Write);
+        Boolean("OpenAoW", "File Dialog Sort By Date", ref byDate, ReadWriteMode.Write);
 }

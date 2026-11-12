@@ -54,36 +54,41 @@ public interface IChildCollection
     void Place(int slot, IPersistable child);
 }
 
-/// <summary>One value of a variable-length list. The call stores exactly one value.</summary>
+/// <summary>
+/// One value of a variable-length list. The call stores exactly one value. A value call takes the
+/// value to save and returns the value loaded, or the same value on save.
+/// </summary>
 public interface IItemSlot
 {
-    void Int32(ref int value);
+    int Int32(int value);
 
-    void Byte(ref byte value);
+    byte Byte(byte value);
 
-    void SByte(ref sbyte value);
+    sbyte SByte(sbyte value);
 
-    void UInt16(ref ushort value);
+    ushort UInt16(ushort value);
 
-    void Int16(ref short value);
+    short Int16(short value);
 
-    void UInt32(ref uint value);
+    uint UInt32(uint value);
 
-    void Boolean(ref bool value);
+    bool Boolean(bool value);
 
-    void String(ref string value);
+    string String(string value);
 
     void Record(Action<IPersister> body);
 
-    void Object(ref IPersistable? value);
+    IPersistable? Object(IPersistable? value);
 }
 
-/// <summary>Transfers one list item in either direction.</summary>
-public delegate void ItemTransfer<T>(IItemSlot slot, ref T value);
+/// <summary>Transfers one list item in either direction. It returns the item to keep.</summary>
+public delegate T ItemTransfer<T>(IItemSlot slot, T value);
 
 /// <summary>
 /// One symmetric serializer. A call names a member by its schema name and runs for both
-/// directions. On load, an absent member takes the fallback. On save, a value equal to the
+/// directions. A value call takes the value to save and returns the value loaded, or the same
+/// value on save, so the caller assigns the result: <c>Gold = persister.Int32("Gold", Gold)</c>.
+/// On load, an absent member takes the fallback. On save, a value equal to the
 /// fallback is omitted. <see cref="Boolean"/> is present only when true. An empty string or an
 /// empty list is omitted. <see cref="Bytes"/> of length zero is omitted, and an absent value
 /// leaves the caller's span unchanged. <see cref="Enum{TEnum}"/> and <see cref="Set{E}"/> are
@@ -105,25 +110,25 @@ public interface IPersister
     /// <summary>True on load when the member is present. False on save.</summary>
     bool Has(string name);
 
-    void Int32(string name, ref int value, int fallback = 0);
+    int Int32(string name, int value, int fallback = 0);
 
-    void Byte(string name, ref byte value, byte fallback = 0);
+    byte Byte(string name, byte value, byte fallback = 0);
 
-    void SByte(string name, ref sbyte value, sbyte fallback = 0);
+    sbyte SByte(string name, sbyte value, sbyte fallback = 0);
 
-    void UInt16(string name, ref ushort value, ushort fallback = 0);
+    ushort UInt16(string name, ushort value, ushort fallback = 0);
 
-    void Int16(string name, ref short value, short fallback = 0);
+    short Int16(string name, short value, short fallback = 0);
 
-    void UInt32(string name, ref uint value, uint fallback = 0);
+    uint UInt32(string name, uint value, uint fallback = 0);
 
-    void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
+    TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
 
-    void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum;
+    Set<E> Set<E>(string name, Set<E> value) where E : unmanaged, Enum;
 
-    void Boolean(string name, ref bool value);
+    bool Boolean(string name, bool value);
 
-    void String(string name, ref string value);
+    string String(string name, string value);
 
     void Lines(string name, IList<string> lines);
 
@@ -131,21 +136,21 @@ public interface IPersister
 
     void Bytes(string name, Span<byte> data);
 
-    /// <summary>An rwData integer. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
-    void RawInt32(string name, ref int value);
+    /// <summary>An rwData integer. The value is stored even when it is zero. An absent member on load returns the caller's value.</summary>
+    int RawInt32(string name, int value);
 
-    /// <summary>An rwData byte. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
-    void RawByte(string name, ref byte value);
+    /// <summary>An rwData byte. The value is stored even when it is zero. An absent member on load returns the caller's value.</summary>
+    byte RawByte(string name, byte value);
 
-    /// <summary>An rwData signed byte. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
-    void RawSByte(string name, ref sbyte value);
+    /// <summary>An rwData signed byte. The value is stored even when it is zero. An absent member on load returns the caller's value.</summary>
+    sbyte RawSByte(string name, sbyte value);
 
     /// <summary>
     /// An rwData bool. The byte is stored even when false. 0 and 1 load as false and true.
     /// Any other byte stays that byte, so a stored 02 writes back as 02.
-    /// An absent member on load leaves the caller's value.
+    /// An absent member on load returns the caller's value.
     /// </summary>
-    void RawBool(string name, ref bool value);
+    bool RawBool(string name, bool value);
 
     /// <summary>
     /// A counted bit array stored by rwData. The length is <c>(count + 7) &gt;&gt; 3</c>.
@@ -156,13 +161,13 @@ public interface IPersister
 
     void Object(string name, IPersistable objectValue);
 
-    void Created(string name, ref IPersistable? objectValue);
+    IPersistable? Created(string name, IPersistable? objectValue);
 
-    void Created<T>(string name, ref T? objectValue) where T : class, IPersistable;
+    T? Created<T>(string name, T? objectValue) where T : class, IPersistable;
 
     void Children(string name, IChildCollection children);
 
-    void Reference(string name, string domain, ref int key, int fallback = 0);
+    int Reference(string name, string domain, int key, int fallback = 0);
 
     void Record(string name, Action<IPersister> body);
 

@@ -21,10 +21,10 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
     public bool Successful;
 
     // AoWAb.PAS:2927
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref Successful, 20);
+        stream.Boolean(ref Successful, 20);
     }
 
     // AoWAb.PAS:2938

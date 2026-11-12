@@ -67,10 +67,10 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:244
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref Entrance, 1), 1, 6);
+        stream.Bytes(Bytes.Of(ref Entrance, 1), 1, 6);
     }
 
     // Cave.pas:128

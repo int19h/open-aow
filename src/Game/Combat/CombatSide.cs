@@ -32,7 +32,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     public int ConquerCount { get; private set; }
 
     // Combat.pas:6002
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
     }

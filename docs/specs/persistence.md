@@ -9,8 +9,8 @@ engine image and the format of the original files, and the disk format is the po
 (`own-formats.md`). Section 5 was revised on 2026-11-07 for PE-1, step 1 of the exit from the
 image (`persistence-tree.md`).
 
-The persistence code itself is transpiled, not rewritten: `PropertyTable` (Delphi `TPropertyTable`), `EStorageStream` (Delphi `TEStorageStream`),
-`EReadStorageStream` (Delphi `TEReadStorageStream`), `EWriteStorageStream` (Delphi `TEWriteStorageStream`), `CompareStorageStream` (Delphi `TCompareStorageStream`),
+The persistence code itself is transpiled, not rewritten: `PropertyTable` (Delphi `TPropertyTable`), `StorageStream` (Delphi `TEStorageStream`),
+`StorageReader` (Delphi `TEReadStorageStream`), `StorageWriter` (Delphi `TEWriteStorageStream`), Delphi `TCompareStorageStream`,
 `TranslateStorageStream` (Delphi `TTranslateStorageStream`) and `CompressStream` (Delphi `TCompressStream`) are classes of the Engine unit, and every game
 class's `ReadWrite` is in the rules packages. This document exists so that the shim provides what
 that code needs, so that test tooling can read the files, and so that the first milestone has a
@@ -53,8 +53,8 @@ Integer ClassID     class id of the root object (AoWHSMap is 131089)
 ```
 
 `HSEngine.LoadHsmFromStream` (Delphi `THSEngine`) seeks to `Header.Size`, creates the root from the class id through
-`CreateEngineObject`, and calls `Engine.ReadEngineObject` (Delphi `TEngine`), which creates a `EReadStorageStream` on the
-stream and calls `rwEObject(root, 0)`.
+`CreateEngineObject`, and calls `Engine.ReadEngineObject` (Delphi `TEngine`), which creates a `StorageReader` on the
+stream and calls `Object(root, 0)` (Delphi `rwEObject`).
 
 ### 1.3 Property table
 
@@ -324,6 +324,6 @@ byte of a file:
 
 1. Whether the AoWModel units can be transpiled as they are or need a small adapter for the
    reduced engine's API differences. Decided when M1a starts.
-2. Multiplayer desync checks (`CompareStorageStream`) and localization
-   (`TranslateStorageStream`) are transpiled but have no test until networking and localization
-   are in scope.
+2. Multiplayer desync checks (Delphi `TCompareStorageStream`, which the port does not have) and
+   localization (`TranslateStorageStream`) have no test of their own until networking and
+   localization are in scope.

@@ -50,15 +50,15 @@ public partial class ArmyInfoEventLog : EventLog
     }
 
     // Army.PAS:273
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(ArmyView, 15);
-        stream.rwStrings(Messages, 16);
-        stream.rwData(Bytes.Of(ref Selection, 1), 1, 17);
-        stream.rwString(ref Title, 18);
-        stream.rwString(ref Text, 19);
-        stream.rwString(ref Description, 20);
+        stream.Object(ArmyView, 15);
+        stream.Lines(Messages, 16);
+        stream.Bytes(Bytes.Of(ref Selection, 1), 1, 17);
+        stream.String(ref Title, 18);
+        stream.String(ref Text, 19);
+        stream.String(ref Description, 20);
     }
 
     // Army.PAS:287

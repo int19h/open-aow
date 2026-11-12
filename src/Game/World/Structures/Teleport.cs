@@ -39,13 +39,13 @@ public partial class Teleport : Structure
     public Set<StateElement> State;
 
     // Teleport.pas:122
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 7);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 8);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 9);
-        RwSet(ref State, 1, 10, stream.rwData, 0);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 7);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 8);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 9);
+        TransferSet(ref State, 1, 10, stream.Bytes, 0);
     }
 
     // Teleport.pas:97

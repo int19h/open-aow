@@ -13,11 +13,11 @@ public partial class PlayerCommunicationSettings : EngineObject
     internal int _systemId;
 
     // NetworkE.pas:452
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref _connectionMode, 1), 1, 5);
-        stream.rwInteger(ref _systemId, 6);
+        stream.Bytes(Bytes.Of(ref _connectionMode, 1), 1, 5);
+        stream.Int32(ref _systemId, 6);
     }
 
     // NetworkE.pas:446

@@ -30,10 +30,10 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     }
 
     // SummonSpells.pas:176
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(30, UnitIndices.LoadFromStream, UnitIndices.SaveToStream);
+        stream.Payload(30, UnitIndices.LoadFromStream, UnitIndices.SaveToStream);
     }
 
     // SummonSpells.pas:159

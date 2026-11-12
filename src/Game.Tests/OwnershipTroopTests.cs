@@ -28,7 +28,7 @@ public sealed class OwnershipTroopTests
     private static byte[] Image(EngineObject objectValue)
     {
         using var memory = new MemoryStream();
-        using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))
+        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
             objectValue.MainReadWrite(writer);
         }
@@ -39,7 +39,7 @@ public sealed class OwnershipTroopTests
     private static void Load(EngineObject objectValue, byte[] image)
     {
         using var memory = new MemoryStream(image);
-        using var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
+        using var reader = new StorageReader(memory, EngineFixture.Engine, false);
         objectValue.MainReadWrite(reader);
     }
 

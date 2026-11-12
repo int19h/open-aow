@@ -24,16 +24,16 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
     public int FaceIndex;
 
     // AoWAb.PAS:895
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref FaceIndex, 25);
+        stream.Int32(ref FaceIndex, 25);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("FaceIndex", ref FaceIndex);
+        FaceIndex = persister.Int32("FaceIndex", FaceIndex);
     }
 
     // AoWAb.PAS:901

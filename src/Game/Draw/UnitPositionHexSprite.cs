@@ -34,12 +34,12 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     private byte _direction;
 
     // AoWTC.pas:5060
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _position), 25);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _index), 26);
-        stream.rwByte(ref _direction, 27);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _position), 25);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _index), 26);
+        stream.Byte(ref _direction, 27);
     }
 
     // AoWTC.pas:5008

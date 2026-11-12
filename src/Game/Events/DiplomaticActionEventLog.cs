@@ -39,10 +39,10 @@ public partial class DiplomaticActionEventLog : EventLog
     }
 
     // Diplomacy.pas:1202
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref Action, null, 20);
+        stream.Created(ref Action, null, 20);
     }
 
     // Diplomacy.pas:1182

@@ -15,10 +15,10 @@ public partial class TokenEventList : EngineObject
     internal TokenEventReferenceList List { get; }
 
     // NetworkE.pas:1000
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(List, 5);
+        stream.Object(List, 5);
     }
 
     // NetworkE.pas:982

@@ -21,13 +21,13 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
     public int PatrolStrength;
 
     // IndependentAG.pas:304
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref PatrolFrom.Packed, 40);
-        stream.rwInteger(ref PatrolTo.Packed, 41);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PreviousHeading), 42);
-        stream.rwInteger(ref PatrolStrength, 43);
+        stream.Int32(ref PatrolFrom.Packed, 40);
+        stream.Int32(ref PatrolTo.Packed, 41);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PreviousHeading), 42);
+        stream.Int32(ref PatrolStrength, 43);
     }
 
     // IndependentAG.pas:285

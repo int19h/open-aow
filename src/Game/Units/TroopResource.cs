@@ -22,10 +22,10 @@ public partial class TroopResource : EngineResource
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // UnitRes.PAS:37
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref UnitGraphicsResourceIndex, 8);
+        stream.Int32(ref UnitGraphicsResourceIndex, 8);
     }
 
     // UnitRes.PAS:66

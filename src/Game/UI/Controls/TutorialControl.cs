@@ -30,10 +30,10 @@ public partial class TutorialControl : EngineObject
     }
 
     // AoWHSMap.PAS:11
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(20, _shownMessages.LoadFromStream, _shownMessages.SaveToStream);
+        stream.Payload(20, _shownMessages.LoadFromStream, _shownMessages.SaveToStream);
     }
 
     // AoWHSMap.PAS:16

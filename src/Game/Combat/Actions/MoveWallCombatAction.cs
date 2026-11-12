@@ -18,11 +18,11 @@ public partial class MoveWallCombatAction : CombatAction
     public byte InsideWall;
 
     // Combat2.pas:1075
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref CombatObjectId, 1), 1, 20);
-        stream.rwData(Bytes.Of(ref InsideWall, 1), 1, 21);
+        stream.Bytes(Bytes.Of(ref CombatObjectId, 1), 1, 20);
+        stream.Bytes(Bytes.Of(ref InsideWall, 1), 1, 21);
     }
 
     // Combat2.pas:1082

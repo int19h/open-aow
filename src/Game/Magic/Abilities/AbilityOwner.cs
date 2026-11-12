@@ -27,7 +27,7 @@ public partial class AbilityOwner : CustomAbilityList
     public AbilityData AbilityData { get; set; }
 
     // Ability.PAS:1762
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         AbilityData previous = default;
         AbilityData data = default;
@@ -40,11 +40,11 @@ public partial class AbilityOwner : CustomAbilityList
             {
                 previous = null;
                 ids = new Int32List();
-                stream.rwStreamProc(49, ids.LoadFromStream, ids.SaveToStream);
+                stream.Payload(49, ids.LoadFromStream, ids.SaveToStream);
                 for (int I = 0, last = ids.Count - 1; I <= last; I++)
                 {
                     var item = ids[I];
-                    stream.rwCreateEObject(ref data, null, item + 50);
+                    stream.Created(ref data, null, item + 50);
                     if (previous != null)
                     {
                         previous.Next = data;
@@ -74,12 +74,12 @@ public partial class AbilityOwner : CustomAbilityList
                         data = data.Next;
                     }
 
-                    stream.rwStreamProc(49, ids.LoadFromStream, ids.SaveToStream);
+                    stream.Payload(49, ids.LoadFromStream, ids.SaveToStream);
                     data = AbilityData;
                     while (data != null)
                     {
                         var abilityId = data.GetAbilityId();
-                        stream.rwCreateEObject(ref data, null, abilityId + 50);
+                        stream.Created(ref data, null, abilityId + 50);
                         data = data.Next;
                     }
 
@@ -94,7 +94,7 @@ public partial class AbilityOwner : CustomAbilityList
                     while (data != null)
                     {
                         var abilityId = data.GetAbilityId();
-                        stream.rwCreateEObject(ref data, null, abilityId + 50);
+                        stream.Created(ref data, null, abilityId + 50);
                         data = data.Next;
                     }
                 }

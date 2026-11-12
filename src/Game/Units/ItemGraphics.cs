@@ -35,26 +35,26 @@ public partial class ItemGraphics : EngineResource
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Army.PAS:5167
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref ImageLibraryName, 6);
+            stream.String(ref ImageLibraryName, 6);
         }
 
-        stream.rwInteger(ref ImageIndex, 7);
-        stream.rwData(Bytes.Of(ref ItemType, 1), 1, 8);
-        stream.rwBool(ref Hidden, 9);
+        stream.Int32(ref ImageIndex, 7);
+        stream.Bytes(Bytes.Of(ref ItemType, 1), 1, 8);
+        stream.Boolean(ref Hidden, 9);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.String("ImageLibraryName", ref ImageLibraryName);
-        persister.Int32("ImageIndex", ref ImageIndex);
-        persister.Enum("ItemType", ref ItemType);
-        persister.Boolean("Hidden", ref Hidden);
+        ImageLibraryName = persister.String("ImageLibraryName", ImageLibraryName);
+        ImageIndex = persister.Int32("ImageIndex", ImageIndex);
+        ItemType = persister.Enum("ItemType", ItemType);
+        Hidden = persister.Boolean("Hidden", Hidden);
     }
 
     // Army.PAS:5138

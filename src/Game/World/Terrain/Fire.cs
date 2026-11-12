@@ -39,13 +39,13 @@ public partial class Fire : ImageLibraryTerrainMapObject
     private int _explosionFrame;
 
     // Structur.PAS:3402
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 5);
-        RwSet(ref _mode, 1, 6, stream.rwData, 0);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 7);
-        stream.rwByte(ref Age, 8);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 5);
+        TransferSet(ref _mode, 1, 6, stream.Bytes, 0);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 7);
+        stream.Byte(ref Age, 8);
     }
 
     // Structur.PAS:3386
@@ -453,10 +453,10 @@ public partial class Fire : ImageLibraryTerrainMapObject
         }
 
         // Structur.PAS:3707
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwData(Bytes.Of(ref FireType, 1), 1, 20);
+            stream.Bytes(Bytes.Of(ref FireType, 1), 1, 20);
         }
 
         // Structur.PAS:3713

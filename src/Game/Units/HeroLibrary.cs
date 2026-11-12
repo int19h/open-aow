@@ -19,11 +19,11 @@ public partial class HeroLibrary : HeroList
     private int _nextLibraryId;
 
     // Hero.PAS:2639
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref LibraryName, 20);
-        stream.rwInteger(ref _nextLibraryId, 21);
+        stream.String(ref LibraryName, 20);
+        stream.Int32(ref _nextLibraryId, 21);
     }
 
     // Hero.PAS:2592

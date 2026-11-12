@@ -117,20 +117,20 @@ public partial class PlayerMagicControl : EngineObject
 
     // Spells.PAS:1947
     // { Original bug: cleanup errors are silently swallowed. }
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Mana, 20);
-        stream.rwIntegerEx(ref ResearchPercentage, 50, 21);
-        stream.rwStreamProc(22, Spells.LoadFromStream, Spells.SaveToStream);
-        stream.rwInteger(ref ResearchSpellId, 23);
-        stream.rwInteger(ref ResearchPointsLeft, 24);
-        stream.rwEObject(Enchantments, 25);
-        RwSet(ref ActiveEnchantments, 1, 26, stream.rwData, 0);
-        stream.rwInteger(ref ExternalMana, 27);
-        stream.rwInteger(ref ExternalPower, 28);
-        stream.rwBool(ref CheatEnabled, 29);
-        stream.rwInteger(ref _nextEnchantmentId, 30);
+        stream.Int32(ref Mana, 20);
+        stream.Int32(ref ResearchPercentage, 50, 21);
+        stream.Payload(22, Spells.LoadFromStream, Spells.SaveToStream);
+        stream.Int32(ref ResearchSpellId, 23);
+        stream.Int32(ref ResearchPointsLeft, 24);
+        stream.Object(Enchantments, 25);
+        TransferSet(ref ActiveEnchantments, 1, 26, stream.Bytes, 0);
+        stream.Int32(ref ExternalMana, 27);
+        stream.Int32(ref ExternalPower, 28);
+        stream.Boolean(ref CheatEnabled, 29);
+        stream.Int32(ref _nextEnchantmentId, 30);
     }
 
     // Spells.PAS:2243

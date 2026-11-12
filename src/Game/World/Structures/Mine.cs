@@ -37,10 +37,10 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:172
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref State, 1), 1, 20);
+        stream.Bytes(Bytes.Of(ref State, 1), 1, 20);
     }
 
     // Mine.pas:69

@@ -17,10 +17,10 @@ public partial class NewCombatTurnCombatAction : CombatAction
     public byte CombatPlayer;
 
     // Combat2.pas:985
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref CombatPlayer, 20);
+        stream.Byte(ref CombatPlayer, 20);
     }
 
     // Combat2.pas:991

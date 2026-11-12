@@ -75,23 +75,23 @@ public partial class UnitGraphicsResource : EngineResource
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // UnitHS.PAS:116
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(5, Sequences.LoadFromStream, Sequences.SaveToStream);
+        stream.Payload(5, Sequences.LoadFromStream, Sequences.SaveToStream);
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            stream.rwString(ref _faceImageLibraryName, 6);
-            stream.rwString(ref Name, 7);
+            stream.String(ref _faceImageLibraryName, 6);
+            stream.String(ref Name, 7);
         }
 
-        stream.rwInteger(ref _faceIndex, 8);
-        stream.rwData(Bytes.Of(ref MoveAnimationSpeed, 1), 1, 10);
-        stream.rwEObject(SfxLibraries[0], 15);
-        stream.rwEObject(SfxLibraries[1], 16);
-        stream.rwEObject(SfxLibraries[2], 17);
-        stream.rwEObject(SfxLibraries[3], 18);
-        stream.rwEObject(SfxLibraries[4], 19);
+        stream.Int32(ref _faceIndex, 8);
+        stream.Bytes(Bytes.Of(ref MoveAnimationSpeed, 1), 1, 10);
+        stream.Object(SfxLibraries[0], 15);
+        stream.Object(SfxLibraries[1], 16);
+        stream.Object(SfxLibraries[2], 17);
+        stream.Object(SfxLibraries[3], 18);
+        stream.Object(SfxLibraries[4], 19);
     }
 
     // UnitHS.PAS:66

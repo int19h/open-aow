@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Text;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
@@ -18,10 +17,10 @@ public sealed class StorageStreamConstructionTests
         internal string Name = "";
         internal string Detail = "";
 
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
-            stream.rwString(ref Name, 7);
-            stream.rwString(ref Detail, 9);
+            stream.String(ref Name, 7);
+            stream.String(ref Detail, 9);
         }
     }
 
@@ -49,69 +48,46 @@ public sealed class StorageStreamConstructionTests
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
-    [InlineData(5)]
-    [InlineData(6)]
-    [InlineData(7)]
     public void ConstructionKeepsTypeBorrowedStreamAndPrivateState(int kind)
     {
         using var memory = Memory([0x55, 0]);
         memory.Position = 1;
         GameEngine engine = new GameEngine(null!);
-        EStorageStream stream;
+        StorageStream stream;
         stream = kind switch
         {
-            0 => new EStorageStream(memory, engine),
-            1 => new EReadStorageStream(memory, engine, true),
-            2 => new EReadTextStorageStream(memory, engine, 1),
-            3 => new EWriteStorageStream(memory, engine, true),
-            4 => new EWriteTextStorageStream(memory, engine),
-            5 => new ExportTextStream(memory, engine),
-            6 => new TranslateStorageStream(engine),
+            0 => new StorageStream(memory, engine),
+            1 => new StorageReader(memory, engine, true),
+            2 => new StorageWriter(memory, engine, true),
+            3 => new TranslateStorageStream(engine),
             _ => new TranslateTextStream(engine)
         };
-        Type[] types = [typeof(EStorageStream), typeof(EReadStorageStream),
-            typeof(EReadTextStorageStream), typeof(EWriteStorageStream),
-            typeof(EWriteTextStorageStream), typeof(ExportTextStream),
-            typeof(TranslateStorageStream), typeof(TranslateTextStream)];
+        Type[] types = [typeof(StorageStream), typeof(StorageReader),
+            typeof(StorageWriter), typeof(TranslateStorageStream), typeof(TranslateTextStream)];
         try
         {
             Assert.IsType(types[kind], stream);
             Assert.Same(engine, stream.Engine);
-            if (kind >= 6) Assert.Null(stream.Stream);
+            if (kind >= 3) Assert.Null(stream.Stream);
             else Assert.Same(memory, stream.Stream);
-            Assert.False(Field<bool>(stream, "FErrorHandled"));
+            Assert.False(Field<bool>(stream, "_errorHandled"));
             Assert.Null(stream.OnError);
             Assert.Null(stream.OnProgress);
-            Assert.Equal(kind is >= 1 and <= 2 ? 2L : 1L, memory.Position);
+            Assert.Equal(kind == 1 ? 2L : 1L, memory.Position);
             if (kind == 0) Assert.Null(stream.PropertyTable);
             else Assert.Equal(0, stream.PropertyTable.Count);
-            if (stream is EReadStorageStream reader)
+            if (stream is StorageReader reader)
             {
-                Assert.Equal(2, reader.DataBase);
-                Assert.True(Field<bool>(reader, "FPartial"));
+                Assert.Equal(2, reader.DataStart);
+                Assert.True(Field<bool>(reader, "_partial"));
             }
-            if (stream is EWriteStorageStream)
+            if (stream is StorageWriter)
             {
-                Assert.True(Field<bool>(stream, "FPartial"));
-                var buffer = Field<BufferStream>(stream, "FBuffer");
+                Assert.True(Field<bool>(stream, "_partial"));
+                var buffer = Field<BufferStream>(stream, "_buffer");
                 Assert.NotSame(memory, buffer);
                 Assert.Equal(0L, buffer.Position);
                 Assert.Equal(0L, buffer.Length);
-            }
-            if (stream is EWriteTextStorageStream or EReadTextStorageStream)
-                Assert.Equal("", Field<string>(stream, "FPath"));
-            if (stream is EWriteTextStorageStream)
-            {
-                var buffer = Field<BufferStream>(stream, "FBuffer");
-                Assert.NotSame(memory, buffer);
-                Assert.Equal(0L, buffer.Length);
-                Assert.Equal(0L, buffer.Position);
-            }
-            if (stream is EReadTextStorageStream)
-            {
-                Assert.Equal(1, Field<int>(stream, "FSize"));
-                foreach (string field in new[] { "FText", "FSections", "FValues" })
-                    Assert.Equal(0, Field<StringList>(stream, field).Count);
             }
             if (stream is TranslateTextStream translator) Assert.Null(translator.FDictionary);
         }
@@ -133,60 +109,27 @@ public sealed class StorageStreamConstructionTests
     {
         using var memory = new MemoryStream();
         var source = new StoredObject { Name = "Oak", Detail = "Hill" };
-        var writer = new EWriteStorageStream(memory, null!, partial);
+        var writer = new StorageWriter(memory, null!, partial);
         Assert.Equal(0L, memory.Length);
-        writer.rwEObject(source, 4);
+        writer.Object(source, 4);
         Assert.Equal(0L, memory.Length);
         writer.Dispose();
         byte[] bytes = memory.ToArray();
         Assert.Equal("0104000207000904034F616B0448696C6C", Convert.ToHexString(bytes));
         memory.Position = 0;
-        var reader = new EReadStorageStream(memory, null!, partial);
+        var reader = new StorageReader(memory, null!, partial);
         var loaded = new StoredObject();
         try
         {
-            Assert.Equal(partial, Field<bool>(reader, "FPartial"));
-            reader.rwEObject(loaded, 4);
+            Assert.Equal(partial, Field<bool>(reader, "_partial"));
+            reader.Object(loaded, 4);
             Assert.Equal(source.Name, loaded.Name);
             Assert.Equal(source.Detail, loaded.Detail);
         }
         finally { reader.Dispose(); }
         using var second = new MemoryStream();
-        var rewritten = new EWriteStorageStream(second, null!, partial);
-        rewritten.rwEObject(loaded, 4);
-        rewritten.Dispose();
-        Assert.Equal(bytes, second.ToArray());
-        loaded.Dispose();
-        source.Dispose();
-    }
-
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void TextRoundTripKeepsText(bool export)
-    {
-        using var memory = new MemoryStream();
-        var source = new StoredObject { Name = "Oak", Detail = "Hill" };
-        EWriteTextStorageStream writer = export ? new ExportTextStream(memory, null!)
-            : new EWriteTextStorageStream(memory, null!);
-        writer.rwEObject(source, 4);
-        writer.Dispose();
-        byte[] bytes = memory.ToArray();
-        Assert.Equal(export ? "\r\n[:4:]\r\n[7]=|Oak|\r\n[9]=|Hill|\r\n"
-            : "\r\n[:4:]\r\n[7]=Oak\r\n[9]=Hill\r\n", Encoding.Latin1.GetString(bytes));
-        memory.Position = 0;
-        var reader = new EReadTextStorageStream(memory, null!, 0);
-        var loaded = new StoredObject();
-        try
-        {
-            reader.rwEObject(loaded, 4);
-            Assert.Equal(export ? "|Oak|" : source.Name, loaded.Name);
-            Assert.Equal(export ? "|Hill|" : source.Detail, loaded.Detail);
-        }
-        finally { reader.Dispose(); }
-        using var second = new MemoryStream();
-        var rewritten = new EWriteTextStorageStream(second, null!);
-        rewritten.rwEObject(loaded, 4);
+        var rewritten = new StorageWriter(second, null!, partial);
+        rewritten.Object(loaded, 4);
         rewritten.Dispose();
         Assert.Equal(bytes, second.ToArray());
         loaded.Dispose();
@@ -201,7 +144,7 @@ public sealed class StorageStreamConstructionTests
         memory.Position = 0;
         var error = Assert.Throws<EndOfStreamException>(() =>
         {
-            _ = new EReadStorageStream(memory, null!, false);
+            _ = new StorageReader(memory, null!, false);
         });
         Assert.Equal("Stream read error", ((Exception)error).Message);
         Assert.Equal(2L, memory.Position);
@@ -213,21 +156,9 @@ public sealed class StorageStreamConstructionTests
     public void OrdinaryMemoryStreamShortReadThrows()
     {
         using var memory = Memory([1, 7]);
-        var error = Assert.Throws<EndOfStreamException>(() => new EReadStorageStream(memory, null!, false));
+        var error = Assert.Throws<EndOfStreamException>(() => new StorageReader(memory, null!, false));
         Assert.Equal("Unable to read beyond the end of the stream.", error.Message);
         Assert.Equal(memory.Length, memory.Position);
-    }
-
-    [Fact]
-    public void MalformedTextConstructionKeepsFailure()
-    {
-        using var memory = Memory("[::]\r\n[]=broken\r\n"u8);
-        var error = Assert.Throws<FormatException>(() => new EReadTextStorageStream(memory, null!, 0));
-        Assert.Equal("'' is not a valid integer value", ((Exception)error).Message);
-        Assert.Equal(memory.Length, memory.Position);
-        long end = memory.Position;
-        memory.Write([0x33]);
-        Assert.Equal(end + 1, memory.Position);
     }
 
     [Theory]
@@ -240,7 +171,7 @@ public sealed class StorageStreamConstructionTests
         var dictionary = new IvDictionary();
         if (translator is TranslateTextStream typed) typed.FDictionary = dictionary;
         using var value = new StoredObject { Name = "Oak", Detail = "Hill" };
-        translator.rwEObject(value, 4);
+        translator.Object(value, 4);
         Assert.Equal("Oak", value.Name);
         Assert.Equal("Hill", value.Detail);
         Assert.Null(translator.Stream);

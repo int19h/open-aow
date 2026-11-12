@@ -261,8 +261,8 @@ public sealed class GameSwitchTests
         using var memory = new MemoryStream();
         memory.Write(new byte[] { 0 });
         memory.Position = 0;
-        var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
-        try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
+        var reader = new StorageReader(memory, EngineFixture.Engine, false);
+        try { reader.Bytes(Bytes.Of(ref relation, 1), 1, 26); }
         finally { reader.Dispose(); }
         Assert.Equal(-1, relation);
     }

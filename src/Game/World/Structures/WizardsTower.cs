@@ -40,13 +40,13 @@ public partial class WizardsTower : Structure
     public int SpellId;
 
     // WizardsTower.pas:87
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref _generateSpell, 30);
-        RwSet(ref _magicSpheres, 2, 31, stream.rwData, 0);
-        stream.rwByte(ref _spellLevel, 32);
-        stream.rwData(Bytes.Of(ref SpellId, 4), 4, 33);
+        stream.Boolean(ref _generateSpell, 30);
+        TransferSet(ref _magicSpheres, 2, 31, stream.Bytes, 0);
+        stream.Byte(ref _spellLevel, 32);
+        stream.Bytes(Bytes.Of(ref SpellId, 4), 4, 33);
     }
 
     // WizardsTower.pas:76

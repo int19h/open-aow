@@ -21,14 +21,14 @@ public partial class CampaignScenario : EngineObject
     public string FileName = "";
 
     // Diplomacy.pas:2203
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Id, 9);
+        stream.Int32(ref Id, 9);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref _name, 10);
-            stream.rwString(ref FileName, 11);
+            stream.String(ref _name, 10);
+            stream.String(ref FileName, 11);
         }
     }
 

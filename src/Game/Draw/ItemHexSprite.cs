@@ -35,12 +35,12 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5278
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         Items.BeginUpdate();
         base.ReadWrite(stream);
-        stream.rwEObject(Items, 4);
-        stream.rwData(Bytes.Of(ref _generateMode, 1), 1, 5);
+        stream.Object(Items, 4);
+        stream.Bytes(Bytes.Of(ref _generateMode, 1), 1, 5);
         Items.EndUpdate();
     }
 

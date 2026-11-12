@@ -32,16 +32,16 @@ public partial class FaceResource : EngineResource
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Ability.PAS:512
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref _imageLibraryName, 5);
+            stream.String(ref _imageLibraryName, 5);
         }
 
-        stream.rwInteger(ref _imageIndex, 6);
-        stream.rwBool(ref DeveloperOnly, 7);
+        stream.Int32(ref _imageIndex, 6);
+        stream.Boolean(ref DeveloperOnly, 7);
     }
 
     // Ability.PAS:482

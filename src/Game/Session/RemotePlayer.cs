@@ -23,24 +23,24 @@ public partial class RemotePlayer : EngineObject
     public int Version;
 
     // AoWSetup.pas:269
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 20);
-        stream.rwData(Bytes.Of(ref RemoteId, 4), 4, 21);
-        stream.rwByte(ref PreferredRace, 22);
-        stream.rwData(Bytes.Of(ref MapValidation, 1), 1, 23);
-        stream.rwInteger(ref Version, 24);
+        stream.String(ref Name, 20);
+        stream.Bytes(Bytes.Of(ref RemoteId, 4), 4, 21);
+        stream.Byte(ref PreferredRace, 22);
+        stream.Bytes(Bytes.Of(ref MapValidation, 1), 1, 23);
+        stream.Int32(ref Version, 24);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.String("Name", ref Name);
-        persister.RawInt32("RemoteID", ref RemoteId);
-        persister.Byte("PreferredRace", ref PreferredRace);
-        persister.Enum("MapValidation", ref MapValidation);
-        persister.Int32("Version", ref Version);
+        Name = persister.String("Name", Name);
+        RemoteId = persister.RawInt32("RemoteID", RemoteId);
+        PreferredRace = persister.Byte("PreferredRace", PreferredRace);
+        MapValidation = persister.Enum("MapValidation", MapValidation);
+        Version = persister.Int32("Version", Version);
     }
 
 }

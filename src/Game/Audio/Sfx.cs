@@ -15,12 +15,12 @@ public partial class Sfx : EngineObject
     private string _fileName = "";
 
     // Sound.pas:1027
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            stream.rwString(ref _fileName, 5);
+            stream.String(ref _fileName, 5);
         }
     }
 

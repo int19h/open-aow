@@ -31,14 +31,14 @@ public partial class TextControlItem : EngineObject
     }
 
     // Structur.PAS:4411
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Id, 9);
-        stream.rwStrings(Text, 10);
+        stream.Int32(ref Id, 9);
+        stream.Lines(Text, 10);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref Name, 11);
+            stream.String(ref Name, 11);
         }
     }
 

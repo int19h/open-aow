@@ -62,12 +62,12 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:528
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(ProductionControl, 8);
-        stream.rwData(Bytes.Of(ref _defenderLevel, 1), 1, 9);
-        stream.rwData(Bytes.Of(ref RazedState, 1), 1, 10);
+        stream.Object(ProductionControl, 8);
+        stream.Bytes(Bytes.Of(ref _defenderLevel, 1), 1, 9);
+        stream.Bytes(Bytes.Of(ref RazedState, 1), 1, 10);
     }
 
     // PrdPlace.pas:264

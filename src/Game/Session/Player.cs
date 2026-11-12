@@ -372,31 +372,31 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     }
 
     // Player.PAS:1023
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         int X = default;
         int Y = default;
         int L = default;
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerRace), 2);
-        stream.rwData(Bytes.Of(ref PlayerType, 1), 1, 3);
-        stream.rwBool(ref Participating, 4);
-        stream.rwInteger(ref InitialGold, 5);
-        stream.rwInteger(ref BaseIncome, 6);
-        stream.rwData(Bytes.Of(ref Status, 1), 1, 10);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PlayerRace), 2);
+        stream.Bytes(Bytes.Of(ref PlayerType, 1), 1, 3);
+        stream.Boolean(ref Participating, 4);
+        stream.Int32(ref InitialGold, 5);
+        stream.Int32(ref BaseIncome, 6);
+        stream.Bytes(Bytes.Of(ref Status, 1), 1, 10);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref Settings, 11);
+            stream.String(ref Settings, 11);
         }
 
-        stream.rwString(ref _description, 12);
-        stream.rwInteger(ref Gems, 16);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 18);
+        stream.String(ref _description, 12);
+        stream.Int32(ref Gems, 16);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 18);
         if ((GameTables.GameEngine.Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
             if (!stream.StorageMode().Contains(StorageModeElement.Write))
             {
-                stream.rwCreateEObject(ref Leader, null, 19);
+                stream.Created(ref Leader, null, 19);
                 if (Leader != null && !stream.StorageMode().Contains(StorageModeElement.Preview))
                 {
                     Leader.Player = PlayerIndex;
@@ -413,54 +413,54 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
                 ViewX = (byte)X;
                 ViewY = (byte)Y;
                 ViewL = (byte)L;
-                stream.rwByte(ref ViewX, 20);
-                stream.rwByte(ref ViewY, 21);
-                stream.rwByte(ref ViewL, 22);
+                stream.Byte(ref ViewX, 20);
+                stream.Byte(ref ViewY, 21);
+                stream.Byte(ref ViewL, 22);
             }
         }
         else
         {
-            stream.rwByte(ref ViewX, 20);
-            stream.rwByte(ref ViewY, 21);
-            stream.rwByte(ref ViewL, 22);
+            stream.Byte(ref ViewX, 20);
+            stream.Byte(ref ViewY, 21);
+            stream.Byte(ref ViewL, 22);
         }
 
         if (!stream.StorageMode().Contains(StorageModeElement.Preview))
         {
-            stream.rwEObject(EventLogbook, 23);
+            stream.Object(EventLogbook, 23);
         }
 
-        stream.rwString(ref _password, 24);
-        stream.rwData(Bytes.Of(ref GameOverStatus, 1), 1, 25);
+        stream.String(ref _password, 24);
+        stream.Bytes(Bytes.Of(ref GameOverStatus, 1), 1, 25);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            stream.rwStreamProc(26, LegacyNewRelations.LoadFromStream, LegacyNewRelations.SaveToStream);
+            stream.Payload(26, LegacyNewRelations.LoadFromStream, LegacyNewRelations.SaveToStream);
         }
 
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 27);
-        stream.rwEObject(AIControl, 28);
-        stream.rwData(Bytes.Of(ref Behavior, 1), 1, 29);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 27);
+        stream.Object(AIControl, 28);
+        stream.Bytes(Bytes.Of(ref Behavior, 1), 1, 29);
         if (PlayerIndex != 0)
         {
             if (stream.StorageMode().Contains(StorageModeElement.Write) && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
             {
-                stream.rwEObject(Leader, 30);
+                stream.Object(Leader, 30);
             }
             else
             {
-                stream.rwEObject(LeaderSetup, 30);
+                stream.Object(LeaderSetup, 30);
             }
         }
 
-        stream.rwEObject(MagicControl, 31);
-        stream.rwStreamProc(32, FirstDaySeen.LoadFromStream, FirstDaySeen.SaveToStream);
-        stream.rwStreamProc(33, _lastDaySeen.LoadFromStream, _lastDaySeen.SaveToStream);
-        stream.rwInteger(ref Day, 34);
-        stream.rwEObject(Statistics, 35);
-        stream.rwInteger(ref BaseHeroJoinLevel, 36);
-        stream.rwInteger(ref _lastHeroJoinDay, 37);
-        stream.rwInteger(ref _lastHeroEmergeDay, 38);
-        stream.rwInteger(ref _highestHeroLevel, 39);
+        stream.Object(MagicControl, 31);
+        stream.Payload(32, FirstDaySeen.LoadFromStream, FirstDaySeen.SaveToStream);
+        stream.Payload(33, _lastDaySeen.LoadFromStream, _lastDaySeen.SaveToStream);
+        stream.Int32(ref Day, 34);
+        stream.Object(Statistics, 35);
+        stream.Int32(ref BaseHeroJoinLevel, 36);
+        stream.Int32(ref _lastHeroJoinDay, 37);
+        stream.Int32(ref _lastHeroEmergeDay, 38);
+        stream.Int32(ref _highestHeroLevel, 39);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             SetRace(PlayerRace);
@@ -468,24 +468,24 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
             LegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
         }
 
-        stream.rwStrings(_messages, 40);
+        stream.Lines(_messages, 40);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            stream.rwStreamProc(41, LegacyRelations.LoadFromStream, LegacyRelations.SaveToStream);
+            stream.Payload(41, LegacyRelations.LoadFromStream, LegacyRelations.SaveToStream);
         }
 
-        stream.rwInteger(ref EmergingHeroId, 50);
-        stream.rwEObject(AIBudget, 51);
-        stream.rwEObject(DiplomaticActions, 52);
-        stream.rwStreamProc(53, AIValidAttackPlayers.LoadFromStream, AIValidAttackPlayers.SaveToStream);
-        stream.rwEObject(PbemSettings, 54);
-        stream.rwBool(ref HeroEmerging, 56);
+        stream.Int32(ref EmergingHeroId, 50);
+        stream.Object(AIBudget, 51);
+        stream.Object(DiplomaticActions, 52);
+        stream.Payload(53, AIValidAttackPlayers.LoadFromStream, AIValidAttackPlayers.SaveToStream);
+        stream.Object(PbemSettings, 54);
+        stream.Boolean(ref HeroEmerging, 56);
         if (stream.StorageMode().Contains(StorageModeElement.Read) || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
-            stream.rwInteger(ref BaseHeroJoinDay, 57);
+            stream.Int32(ref BaseHeroJoinDay, 57);
         }
 
-        stream.rwEObject(DiplomaticRelations, 58);
+        stream.Object(DiplomaticRelations, 58);
         if (PlayerIndex == 0)
         {
             PlayerType = PlayerType.Independent;

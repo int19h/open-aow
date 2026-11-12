@@ -29,10 +29,10 @@ public partial class ProductionPlaceResource : PlayerStructureResource
     }
 
     // PrdPlace.pas:730
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(18, Units.LoadFromStream, Units.SaveToStream);
+        stream.Payload(18, Units.LoadFromStream, Units.SaveToStream);
     }
 
     // PrdPlace.pas:701

@@ -481,7 +481,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2160
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         int X = default;
         int Y = default;
@@ -502,7 +502,7 @@ public partial class StrategicMap : GameMap
             stream.OnError = OnStreamError;
         }
 
-        stream.rwData(Bytes.Of(ref ConnectionType, 1), 1, 31);
+        stream.Bytes(Bytes.Of(ref ConnectionType, 1), 1, 31);
         if (ConnectionType == PlayerConnectionType.Network)
         {
             X = _viewPixelX;
@@ -527,80 +527,80 @@ public partial class StrategicMap : GameMap
             _viewL = L;
         }
 
-        stream.rwString(ref _author, 7);
-        stream.rwStrings(Description, 11);
-        stream.rwStrings(_objectives, 12);
-        stream.rwData(Bytes.Of(ref _independentAIMode, 1), 1, 13);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CurrentPlayer), 16);
-        stream.rwData(Bytes.Of(ref TurnOrderMode, 1), 1, 17);
-        stream.rwStreamProc(18, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
-        stream.rwInteger(ref Day, 19);
-        stream.rwString(ref _sessionName, 20);
-        stream.rwEObject(Players, 21);
-        stream.rwEObject(Races, 22);
-        stream.rwBool(ref ExplorationEnabled, 23);
+        stream.String(ref _author, 7);
+        stream.Lines(Description, 11);
+        stream.Lines(_objectives, 12);
+        stream.Bytes(Bytes.Of(ref _independentAIMode, 1), 1, 13);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref CurrentPlayer), 16);
+        stream.Bytes(Bytes.Of(ref TurnOrderMode, 1), 1, 17);
+        stream.Payload(18, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
+        stream.Int32(ref Day, 19);
+        stream.String(ref _sessionName, 20);
+        stream.Object(Players, 21);
+        stream.Object(Races, 22);
+        stream.Boolean(ref ExplorationEnabled, 23);
         if (!stream.StorageMode().Contains(StorageModeElement.Preview))
         {
-            stream.rwEObject(HeroControl, 24);
+            stream.Object(HeroControl, 24);
         }
 
-        stream.rwString(ref MapName, 25);
-        stream.rwBool(ref FogEnabled, 26);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HeroCountMax), 27);
-        stream.rwInteger(ref DefendersSeed, 28);
+        stream.String(ref MapName, 25);
+        stream.Boolean(ref FogEnabled, 26);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HeroCountMax), 27);
+        stream.Int32(ref DefendersSeed, 28);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && !stream.StorageMode().Contains(StorageModeElement.Preview) && !stream.StorageMode().Contains(StorageModeElement.Compare))
         {
-            stream.rwEObject(StartupSongs, 29);
+            stream.Object(StartupSongs, 29);
         }
 
-        stream.rwEObject(ItemControl, 30);
-        stream.rwData(Bytes.Of(ref GameStatus, 1), 1, 34);
-        stream.rwData(Bytes.Of(ref GameResult, 1), 1, 35);
-        stream.rwInteger(ref InitialRandomSeed, 36);
-        stream.rwData(Bytes.Of(ref GameType, 1), 1, 37);
-        stream.rwEObject(UnitControl, 38);
-        stream.rwData(Bytes.Of(ref PlayMode, 1), 1, 39);
-        stream.rwEObject(GlobalMagicControl, 40);
-        stream.rwIntegerEx(ref SphereCount, 5, 41);
-        stream.rwEObject(TextControl, 42);
-        stream.rwEObject(CampaignSettings, 43);
+        stream.Object(ItemControl, 30);
+        stream.Bytes(Bytes.Of(ref GameStatus, 1), 1, 34);
+        stream.Bytes(Bytes.Of(ref GameResult, 1), 1, 35);
+        stream.Int32(ref InitialRandomSeed, 36);
+        stream.Bytes(Bytes.Of(ref GameType, 1), 1, 37);
+        stream.Object(UnitControl, 38);
+        stream.Bytes(Bytes.Of(ref PlayMode, 1), 1, 39);
+        stream.Object(GlobalMagicControl, 40);
+        stream.Int32(ref SphereCount, 5, 41);
+        stream.Object(TextControl, 42);
+        stream.Object(CampaignSettings, 43);
         // { Original stores the hero control twice. }
-        stream.rwEObject(HeroControl, 44);
-        stream.rwData(Bytes.Of(ref VictoryCondition, 1), 1, 45);
-        stream.rwInteger(ref VictoryMana, 46);
-        stream.rwInteger(ref VictoryGold, 47);
-        stream.rwBool(ref FixedLeaders, 48);
-        stream.rwBool(ref AlliedVictory, 49);
-        stream.rwEObject(AIGroupManager, 50);
-        stream.rwInteger(ref DayLimit, 51);
-        stream.rwInteger(ref TurnTime, 52);
-        stream.rwBool(ref UnlimitedMoves, 53);
-        stream.rwEObject(StructureControl, 54);
+        stream.Object(HeroControl, 44);
+        stream.Bytes(Bytes.Of(ref VictoryCondition, 1), 1, 45);
+        stream.Int32(ref VictoryMana, 46);
+        stream.Int32(ref VictoryGold, 47);
+        stream.Boolean(ref FixedLeaders, 48);
+        stream.Boolean(ref AlliedVictory, 49);
+        stream.Object(AIGroupManager, 50);
+        stream.Int32(ref DayLimit, 51);
+        stream.Int32(ref TurnTime, 52);
+        stream.Boolean(ref UnlimitedMoves, 53);
+        stream.Object(StructureControl, 54);
         if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
         {
-            stream.rwInteger(ref _turnTimeElapsed, 55);
+            stream.Int32(ref _turnTimeElapsed, 55);
         }
 
-        stream.rwEObject(TutorialControl, 56);
+        stream.Object(TutorialControl, 56);
         if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
         {
-            stream.rwInteger(ref _turnTimeBeep, 58);
+            stream.Int32(ref _turnTimeBeep, 58);
         }
 
-        stream.rwBool(ref LeadersFixed, 59);
+        stream.Boolean(ref LeadersFixed, 59);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && !stream.StorageMode().Contains(StorageModeElement.Preview) && ConnectionType != PlayerConnectionType.Network)
         {
-            stream.rwEObject(GameSongs, 60);
+            stream.Object(GameSongs, 60);
         }
 
-        stream.rwBool(ref StartingGame, 61);
-        stream.rwBool(ref ShowAllPlayers, 62);
-        stream.rwData(Bytes.Of(ref VictoryMode, 1), 1, 63);
+        stream.Boolean(ref StartingGame, 61);
+        stream.Boolean(ref ShowAllPlayers, 62);
+        stream.Bytes(Bytes.Of(ref VictoryMode, 1), 1, 63);
         RandSeed = DefendersSeed;
     }
 
     // AoWHSMap.PAS:2241
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         string fileName;
         base.MainReadWrite(stream);
@@ -2881,14 +2881,14 @@ public partial class StrategicMap : GameMap
         public int HeroLevelMax;
 
         // Diplomacy.pas:1726
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwInteger(ref TransferPointsMax, 20);
-            stream.rwInteger(ref TransferGoldMax, 21);
-            stream.rwInteger(ref TransferManaMax, 22);
-            stream.rwInteger(ref HeroLevelMax, 23);
-            stream.rwBool(ref AlliedVictory, 24);
+            stream.Int32(ref TransferPointsMax, 20);
+            stream.Int32(ref TransferGoldMax, 21);
+            stream.Int32(ref TransferManaMax, 22);
+            stream.Int32(ref HeroLevelMax, 23);
+            stream.Boolean(ref AlliedVictory, 24);
         }
 
         // intf_P5_08.inc:13

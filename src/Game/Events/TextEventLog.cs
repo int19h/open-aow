@@ -16,10 +16,10 @@ public partial class TextEventLog : EventLog
     public string Text = "";
 
     // EventLog.pas:716
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Text, 15);
+        stream.String(ref Text, 15);
     }
 
     // EventLog.pas:719

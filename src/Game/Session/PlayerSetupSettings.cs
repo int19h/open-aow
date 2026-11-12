@@ -41,16 +41,16 @@ public partial class PlayerSetupSettings : EngineObject
     }
 
     // AoWSetup.pas:315
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref PlayerId, 10);
-        stream.rwData(Bytes.Of(ref Behavior, 8), 8, 11);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
-        stream.rwData(Bytes.Of(ref BehaviorMode, 1), 1, 13);
-        stream.rwEObject(Leader, 14);
-        RwSet(ref Status, 1, 15, stream.rwData, 0);
-        stream.rwData(Bytes.Of(ref OriginalBehavior, 8), 8, 16);
+        stream.Byte(ref PlayerId, 10);
+        stream.Bytes(Bytes.Of(ref Behavior, 8), 8, 11);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
+        stream.Bytes(Bytes.Of(ref BehaviorMode, 1), 1, 13);
+        stream.Object(Leader, 14);
+        TransferSet(ref Status, 1, 15, stream.Bytes, 0);
+        stream.Bytes(Bytes.Of(ref OriginalBehavior, 8), 8, 16);
     }
 
     // AoWSetup.pas:296

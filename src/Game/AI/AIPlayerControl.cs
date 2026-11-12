@@ -68,10 +68,10 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:108
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref DefenseStrengthMultiplier, 4), 4, 10);
+        stream.Bytes(Bytes.Of(ref DefenseStrengthMultiplier, 4), 4, 10);
     }
 
     // AI.pas:114

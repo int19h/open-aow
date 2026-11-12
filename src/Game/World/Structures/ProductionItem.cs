@@ -24,13 +24,13 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
     public ProductionOrder Order { get; set; } = new UnknownOrder(0, 0, 0);
 
     // Structur.PAS:63
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         var (id, parameter, groupId) = Order.ToFields();
-        stream.rwInteger(ref id, 20);
-        stream.rwInteger(ref parameter, 21);
-        stream.rwInteger(ref groupId, 22);
+        stream.Int32(ref id, 20);
+        stream.Int32(ref parameter, 21);
+        stream.Int32(ref groupId, 22);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             Order = ProductionOrder.FromFields(id, parameter, groupId);

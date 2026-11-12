@@ -30,11 +30,11 @@ public partial class CommandAbilityData : AbilityData
     }
 
     // AoWAb.PAS:4967
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref AbilityId, 20);
-        stream.rwStreamProc(21, CommandedUnits.LoadFromStream, CommandedUnits.SaveToStream);
+        stream.Int32(ref AbilityId, 20);
+        stream.Payload(21, CommandedUnits.LoadFromStream, CommandedUnits.SaveToStream);
     }
 
     // AoWAb.PAS:4963

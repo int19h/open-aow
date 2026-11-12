@@ -90,42 +90,42 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:104
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref GroupId, 20);
-        stream.rwIntegerEx(ref TransporterId, -1, 21);
-        stream.rwIntegerEx(ref LeaderId, -1, 22);
-        stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate), 23);
-        stream.rwData(Bytes.Of(ref TargetType, 1), 1, 24);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 25);
-        stream.rwData(Bytes.Of(ref IndependentRelation, 1), 1, 26);
-        stream.rwByte(ref ProcessPriority, 27);
-        stream.rwByte(ref RecruitmentPriority, 28);
-        stream.rwInteger(ref GoldBudget, 29);
-        stream.rwInteger(ref ManaBudget, 30);
-        stream.rwInteger(ref TargetMovePoints, 31);
-        stream.rwData(Bytes.Of(ref TargetMode, 1), 1, 32);
+        stream.Int32(ref GroupId, 20);
+        stream.Int32(ref TransporterId, -1, 21);
+        stream.Int32(ref LeaderId, -1, 22);
+        stream.Int32(ref Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate), 23);
+        stream.Bytes(Bytes.Of(ref TargetType, 1), 1, 24);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 25);
+        stream.Bytes(Bytes.Of(ref IndependentRelation, 1), 1, 26);
+        stream.Byte(ref ProcessPriority, 27);
+        stream.Byte(ref RecruitmentPriority, 28);
+        stream.Int32(ref GoldBudget, 29);
+        stream.Int32(ref ManaBudget, 30);
+        stream.Int32(ref TargetMovePoints, 31);
+        stream.Bytes(Bytes.Of(ref TargetMode, 1), 1, 32);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("GroupID", ref GroupId);
-        persister.Int32("TransporterID", ref TransporterId, -1);
-        persister.Int32("LeaderID", ref LeaderId, -1);
+        GroupId = persister.Int32("GroupID", GroupId);
+        TransporterId = persister.Int32("TransporterID", TransporterId, -1);
+        LeaderId = persister.Int32("LeaderID", LeaderId, -1);
         int target = TargetMapCoordinate.Packed;
-        persister.Int32("TargetXYL", ref target);
+        target = persister.Int32("TargetXYL", target);
         if (persister.Loading) TargetMapCoordinate.Packed = target;
-        persister.Enum("TargetType", ref TargetType);
-        PersistSupport.UnsignedByte(persister, "Player", ref Player);
-        persister.RawSByte("IndependentRelation", ref IndependentRelation);
-        persister.Byte("ProcessPriority", ref ProcessPriority);
-        persister.Byte("RecruitmentPriority", ref RecruitmentPriority);
-        persister.Int32("GoldBudget", ref GoldBudget);
-        persister.Int32("ManaBudget", ref ManaBudget);
-        persister.Int32("TargetMovePoints", ref TargetMovePoints);
-        persister.RawByte("TargetMode", ref TargetMode);
+        TargetType = persister.Enum("TargetType", TargetType);
+        Player = PersistSupport.UnsignedByte(persister, "Player", Player);
+        IndependentRelation = persister.RawSByte("IndependentRelation", IndependentRelation);
+        ProcessPriority = persister.Byte("ProcessPriority", ProcessPriority);
+        RecruitmentPriority = persister.Byte("RecruitmentPriority", RecruitmentPriority);
+        GoldBudget = persister.Int32("GoldBudget", GoldBudget);
+        ManaBudget = persister.Int32("ManaBudget", ManaBudget);
+        TargetMovePoints = persister.Int32("TargetMovePoints", TargetMovePoints);
+        TargetMode = persister.RawByte("TargetMode", TargetMode);
     }
 
     // AIGroup.pas:88

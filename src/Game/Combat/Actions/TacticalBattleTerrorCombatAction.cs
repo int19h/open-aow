@@ -24,13 +24,13 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
     private bool _succeeded;
 
     // CombatSpells.pas:1713
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref _sourceId, 20);
-        stream.rwByte(ref _targetId, 21);
-        stream.rwInteger(ref ManaCost, 22);
-        stream.rwBool(ref _succeeded, 23);
+        stream.Byte(ref _sourceId, 20);
+        stream.Byte(ref _targetId, 21);
+        stream.Int32(ref ManaCost, 22);
+        stream.Boolean(ref _succeeded, 23);
     }
 
     // CombatSpells.pas:1723

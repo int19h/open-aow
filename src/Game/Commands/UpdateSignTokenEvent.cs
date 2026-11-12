@@ -37,13 +37,13 @@ public partial class UpdateSignTokenEvent : TokenEvent
     }
 
     // Sign.pas:205
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(Text, 15);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexX), 16);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexY), 17);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 18);
+        stream.Lines(Text, 15);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexX), 16);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexY), 17);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 18);
     }
 
     // Sign.pas:196

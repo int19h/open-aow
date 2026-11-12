@@ -30,14 +30,14 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
     }
 
     // CombatSpells.pas:569
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref SourceId, 20);
-        stream.rwStreamProc(21, TargetIds.LoadFromStream, TargetIds.SaveToStream);
-        stream.rwInteger(ref ManaCost, 22);
-        stream.rwBool(ref _succeeded, 23);
-        stream.rwInteger(ref SpellId, 24);
+        stream.Byte(ref SourceId, 20);
+        stream.Payload(21, TargetIds.LoadFromStream, TargetIds.SaveToStream);
+        stream.Int32(ref ManaCost, 22);
+        stream.Boolean(ref _succeeded, 23);
+        stream.Int32(ref SpellId, 24);
     }
 
     // CombatSpells.pas:557

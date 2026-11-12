@@ -80,12 +80,12 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1038
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref BuildingDays, 0);
-        stream.rwInteger(ref StructureId, 98);
-        stream.rwByteEx(ref Unsafe.As<sbyte, byte>(ref BuildingPlayer), 255, 99);
+        stream.Byte(ref BuildingDays, 0);
+        stream.Int32(ref StructureId, 98);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref BuildingPlayer), 255, 99);
     }
 
     // Structur.PAS:1010

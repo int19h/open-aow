@@ -63,12 +63,12 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4660
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         int id;
         Item Item = default;
         base.ReadWrite(stream);
-        stream.rwInteger(ref _lastId, 9);
+        stream.Int32(ref _lastId, 9);
         if (stream.StorageMode().Contains(StorageModeElement.Compare))
         {
             id = 10;
@@ -77,7 +77,7 @@ public partial class ItemControl : EngineObject
                 Item = _items[I];
                 if (Item.Owner == null)
                 {
-                    stream.rwCreateEObject(ref Item, null, id);
+                    stream.Created(ref Item, null, id);
                     id += 1;
                 }
             }
@@ -91,7 +91,7 @@ public partial class ItemControl : EngineObject
                     id = 10;
                     do
                     {
-                        stream.rwCreateEObject(ref Item, null, id);
+                        stream.Created(ref Item, null, id);
                         if (Item != null)
                         {
                             ValidateItem(Item);
@@ -112,7 +112,7 @@ public partial class ItemControl : EngineObject
                         if (_items[I].Owner == null)
                         {
                             Item item = _items[I];
-                            stream.rwCreateEObject(ref item, null, id);
+                            stream.Created(ref item, null, id);
                             _items[I] = item;
                             id += 1;
                         }

@@ -39,24 +39,24 @@ public partial class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1250
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref TurnsActive, 20);
-        stream.rwEObject(FloodControl, 21);
-        stream.rwBool(ref Removed, 22);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DispelPlayer), 23);
-        stream.rwShortintEx(ref RestoreDays, -1, 24);
+        stream.Int32(ref TurnsActive, 20);
+        stream.Object(FloodControl, 21);
+        stream.Boolean(ref Removed, 22);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref DispelPlayer), 23);
+        stream.SByte(ref RestoreDays, -1, 24);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("TurnsActive", ref TurnsActive);
+        TurnsActive = persister.Int32("TurnsActive", TurnsActive);
         persister.Object("FloodControl", FloodControl);
-        persister.Boolean("Removed", ref Removed);
-        PersistSupport.UnsignedByte(persister, "DispelPlayer", ref DispelPlayer);
-        persister.SByte("RestoreDays", ref RestoreDays, -1);
+        Removed = persister.Boolean("Removed", Removed);
+        DispelPlayer = PersistSupport.UnsignedByte(persister, "DispelPlayer", DispelPlayer);
+        RestoreDays = persister.SByte("RestoreDays", RestoreDays, -1);
     }
 
     // GlobalEnchantmentSpells.pas:1224

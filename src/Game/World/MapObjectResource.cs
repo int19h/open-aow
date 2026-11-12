@@ -53,21 +53,21 @@ public partial class MapObjectResource : EngineResource
     public override GameEngine GetEngine() => _engine;
 
     // MAPOBJ.PAS:470
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         bool complex = default;
         base.ReadWrite(stream);
-        stream.rwInteger(ref _showPriorityOffset, 4);
-        stream.rwByte(ref _level, 5);
-        stream.rwString(ref _name, 6);
-        stream.rwStreamProc(7, _terrainList.LoadFromStream, _terrainList.SaveToStream);
+        stream.Int32(ref _showPriorityOffset, 4);
+        stream.Byte(ref _level, 5);
+        stream.String(ref _name, 6);
+        stream.Payload(7, _terrainList.LoadFromStream, _terrainList.SaveToStream);
         _imageLibrary.ReduceCount();
-        stream.rwStreamProc(8, _imageLibrary.LoadFromStream, _imageLibrary.SaveToStream);
+        stream.Payload(8, _imageLibrary.LoadFromStream, _imageLibrary.SaveToStream);
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
             if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                stream.rwBool(ref complex, 9);
+                stream.Boolean(ref complex, 9);
                 if (complex)
                 {
                     if (_imageSequenceList == null)
@@ -84,12 +84,12 @@ public partial class MapObjectResource : EngineResource
             else
             {
                 complex = _imageSequenceList != null;
-                stream.rwBool(ref complex, 9);
+                stream.Boolean(ref complex, 9);
             }
 
             if (complex)
             {
-                stream.rwStreamProc(10, _imageSequenceList.LoadFromStream, _imageSequenceList.SaveToStream);
+                stream.Payload(10, _imageSequenceList.LoadFromStream, _imageSequenceList.SaveToStream);
             }
         }
     }

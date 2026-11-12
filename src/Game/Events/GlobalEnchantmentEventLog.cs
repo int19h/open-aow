@@ -19,10 +19,10 @@ public partial class GlobalEnchantmentEventLog : LocationTextEventLog
     public sbyte EnchantmentPlayer;
 
     // Spells.PAS:2660
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref EnchantmentPlayer), 30);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref EnchantmentPlayer), 30);
     }
 
     // Spells.PAS:2665

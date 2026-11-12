@@ -90,23 +90,23 @@ public partial class Army : UnitList
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Army.PAS:1898
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 4);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 5);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 6);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 7);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 4);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 5);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 6);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 7);
         if (!stream.StorageMode().Contains(StorageModeElement.Write) || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 8);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 9);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 10);
-            RwSet(ref UserMode, 1, 13, stream.rwData, 0);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 8);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 9);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 10);
+            TransferSet(ref UserMode, 1, 13, stream.Bytes, 0);
         }
 
-        stream.rwData(Bytes.Of(ref OldAIBehavior, 1), 1, 11);
-        RwSet(ref Mode, 1, 12, stream.rwData, 0);
+        stream.Bytes(Bytes.Of(ref OldAIBehavior, 1), 1, 11);
+        TransferSet(ref Mode, 1, 12, stream.Bytes, 0);
         if (stream.StorageMode().Contains(StorageModeElement.Read) && Mode.Contains(ArmyModeElement.Moving))
         {
             Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
@@ -116,20 +116,20 @@ public partial class Army : UnitList
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnsignedByte(persister, "Player", ref Player);
-        PersistSupport.UnsignedByte(persister, "X", ref X);
-        PersistSupport.UnsignedByte(persister, "Y", ref Y);
-        PersistSupport.UnsignedByte(persister, "L", ref MapLevel);
+        Player = PersistSupport.UnsignedByte(persister, "Player", Player);
+        X = PersistSupport.UnsignedByte(persister, "X", X);
+        Y = PersistSupport.UnsignedByte(persister, "Y", Y);
+        MapLevel = PersistSupport.UnsignedByte(persister, "L", MapLevel);
         if (persister.Loading || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            PersistSupport.UnsignedByte(persister, "DestinationX", ref DestinationX);
-            PersistSupport.UnsignedByte(persister, "DestinationY", ref DestinationY);
-            PersistSupport.UnsignedByte(persister, "DestinationL", ref DestinationL);
-            persister.Set("UserMode", ref UserMode);
+            DestinationX = PersistSupport.UnsignedByte(persister, "DestinationX", DestinationX);
+            DestinationY = PersistSupport.UnsignedByte(persister, "DestinationY", DestinationY);
+            DestinationL = PersistSupport.UnsignedByte(persister, "DestinationL", DestinationL);
+            UserMode = persister.Set("UserMode", UserMode);
         }
 
-        persister.Enum("OldAIBehavior", ref OldAIBehavior);
-        persister.Set("Mode", ref Mode);
+        OldAIBehavior = persister.Enum("OldAIBehavior", OldAIBehavior);
+        Mode = persister.Set("Mode", Mode);
         if (persister.Loading && Mode.Contains(ArmyModeElement.Moving))
         {
             Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);

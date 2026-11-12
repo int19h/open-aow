@@ -56,24 +56,24 @@ public partial class Animation : HexSprite
     }
 
     // Animation.pas:276
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref Dimensions, 16), 16, 10);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexX), 11);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexY), 12);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexLevel), 13);
-        stream.rwInteger(ref FrameCounter, 14);
+        stream.Bytes(Bytes.Of(ref Dimensions, 16), 16, 10);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexX), 11);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexY), 12);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexLevel), 13);
+        stream.Int32(ref FrameCounter, 14);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Record(persister, "Dimensions", ref Dimensions);
-        PersistSupport.UnsignedByte(persister, "HexX", ref _hexX);
-        PersistSupport.UnsignedByte(persister, "HexY", ref _hexY);
-        PersistSupport.UnsignedByte(persister, "HexLevel", ref _hexLevel);
-        persister.Int32("FrameCounter", ref FrameCounter);
+        Dimensions = PersistSupport.Record(persister, "Dimensions", Dimensions);
+        _hexX = PersistSupport.UnsignedByte(persister, "HexX", _hexX);
+        _hexY = PersistSupport.UnsignedByte(persister, "HexY", _hexY);
+        _hexLevel = PersistSupport.UnsignedByte(persister, "HexLevel", _hexLevel);
+        FrameCounter = persister.Int32("FrameCounter", FrameCounter);
     }
 
     // Animation.pas:127

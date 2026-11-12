@@ -23,14 +23,14 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
     public int SpellId;
 
     // CombatSpells.pas:502
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref SourceId, 20);
-        stream.rwByte(ref TargetId, 21);
-        stream.rwInteger(ref ManaCost, 22);
-        stream.rwBool(ref Succeeded, 23);
-        stream.rwInteger(ref SpellId, 24);
+        stream.Byte(ref SourceId, 20);
+        stream.Byte(ref TargetId, 21);
+        stream.Int32(ref ManaCost, 22);
+        stream.Boolean(ref Succeeded, 23);
+        stream.Int32(ref SpellId, 24);
     }
 
     // CombatSpells.pas:512

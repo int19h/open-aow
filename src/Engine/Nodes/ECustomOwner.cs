@@ -47,10 +47,10 @@ public partial class ECustomOwner : ENode
     }
 
     // Engine.pas:8282
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref _controlStyle, 1, 2, stream.rwData, 0);
+        TransferSet(ref _controlStyle, 1, 2, stream.Bytes, 0);
     }
 
     // Engine.pas:8288

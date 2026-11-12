@@ -24,13 +24,13 @@ public partial class HeroUpgradeEventLog : EventLog
     public new int _day;
 
     // Hero.PAS:57
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref UnitId, 25);
-        stream.rwByte(ref OldLevel, 26);
-        stream.rwByte(ref NewLevel, 27);
-        stream.rwInteger(ref _day, 28);
+        stream.Int32(ref UnitId, 25);
+        stream.Byte(ref OldLevel, 26);
+        stream.Byte(ref NewLevel, 27);
+        stream.Int32(ref _day, 28);
     }
 
     // Hero.PAS:66

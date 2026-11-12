@@ -64,7 +64,7 @@ public partial class StrategicMap
         GameTables.GameEngine.OutputDebugString(message);
     }
 
-    public void OnStreamError(EStorageStream stream, string message, ref bool handled)
+    public void OnStreamError(StorageStream stream, string message, ref bool handled)
     {
         if (IgnoreStreamErrors) return;
         int answer = (RtlUnit.Dialogs ?? throw new InvalidOperationException(message)).Show(new(message + " Ignore failure?", "Error", 0, 7));

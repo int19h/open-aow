@@ -52,28 +52,28 @@ public partial class AIBudgetManager : EngineObject
     }
 
     // AI.pas:1728
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Budgets, 20);
-        stream.rwInteger(ref Gold, 21);
-        stream.rwInteger(ref Mana, 22);
-        stream.rwInteger(ref GoldUpkeep, 23);
-        stream.rwInteger(ref ManaUpkeep, 24);
-        stream.rwInteger(ref ProductionGoldUpkeep, 25);
-        stream.rwInteger(ref ProductionManaUpkeep, 26);
+        stream.Object(Budgets, 20);
+        stream.Int32(ref Gold, 21);
+        stream.Int32(ref Mana, 22);
+        stream.Int32(ref GoldUpkeep, 23);
+        stream.Int32(ref ManaUpkeep, 24);
+        stream.Int32(ref ProductionGoldUpkeep, 25);
+        stream.Int32(ref ProductionManaUpkeep, 26);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         persister.Object("Budgets", Budgets);
-        persister.Int32("Gold", ref Gold);
-        persister.Int32("Mana", ref Mana);
-        persister.Int32("GoldUpkeep", ref GoldUpkeep);
-        persister.Int32("ManaUpkeep", ref ManaUpkeep);
-        persister.Int32("ProductionGoldUpkeep", ref ProductionGoldUpkeep);
-        persister.Int32("ProductionManaUpkeep", ref ProductionManaUpkeep);
+        Gold = persister.Int32("Gold", Gold);
+        Mana = persister.Int32("Mana", Mana);
+        GoldUpkeep = persister.Int32("GoldUpkeep", GoldUpkeep);
+        ManaUpkeep = persister.Int32("ManaUpkeep", ManaUpkeep);
+        ProductionGoldUpkeep = persister.Int32("ProductionGoldUpkeep", ProductionGoldUpkeep);
+        ProductionManaUpkeep = persister.Int32("ProductionManaUpkeep", ProductionManaUpkeep);
     }
 
     // AI.pas:2166

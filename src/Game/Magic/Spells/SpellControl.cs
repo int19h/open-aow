@@ -32,14 +32,14 @@ public partial class SpellControl : EngineObject
     }
 
     // Spells.PAS:588
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         for (int I = 0, last = RegisteredSpells.Count - 1; I <= last; I++)
         {
             if (RegisteredSpells[I] != null)
             {
-                stream.rwEObject(RegisteredSpells[I], I + 10);
+                stream.Object(RegisteredSpells[I], I + 10);
             }
         }
     }

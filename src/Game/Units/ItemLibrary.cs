@@ -19,11 +19,11 @@ public partial class ItemLibrary : ItemList
     private int _lastId;
 
     // Army.PAS:4933
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 20);
-        stream.rwInteger(ref _lastId, 21);
+        stream.String(ref Name, 20);
+        stream.Int32(ref _lastId, 21);
     }
 
     // Army.PAS:4909

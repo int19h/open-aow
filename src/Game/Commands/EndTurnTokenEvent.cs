@@ -29,12 +29,12 @@ public partial class EndTurnTokenEvent : TokenEvent
     public EndTurnTokenEventMode Mode;
 
     // MoveT.PAS:1907
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Day, 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 21);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 22);
+        stream.Int32(ref Day, 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 21);
+        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 22);
     }
 
     // MoveT.PAS:1915

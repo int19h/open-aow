@@ -354,12 +354,12 @@ public partial class GameEngine : ENode
     // Engine.pas:8895
     public void WriteEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        EStorageStream S;
-        S = new EWriteStorageStream(stream, this, false);
+        StorageStream S;
+        S = new StorageWriter(stream, this, false);
         S.OnProgress = progress;
         try
         {
-            S.rwEObject(objectValue, 0);
+            S.Object(objectValue, 0);
         }
         finally
         {
@@ -370,12 +370,12 @@ public partial class GameEngine : ENode
     // Engine.pas:8908
     public void ReadEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        EStorageStream S;
-        S = new EReadStorageStream(stream, this, false);
+        StorageStream S;
+        S = new StorageReader(stream, this, false);
         S.OnProgress = progress;
         try
         {
-            S.rwEObject(objectValue, 0);
+            S.Object(objectValue, 0);
         }
         finally
         {
@@ -386,12 +386,12 @@ public partial class GameEngine : ENode
     // Engine.pas:8921
     public void WritePreviewEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        EStorageStream S;
-        S = new EWriteStorageStream(stream, this, true);
+        StorageStream S;
+        S = new StorageWriter(stream, this, true);
         S.OnProgress = progress;
         try
         {
-            S.rwEObject(objectValue, 0);
+            S.Object(objectValue, 0);
         }
         finally
         {
@@ -402,12 +402,12 @@ public partial class GameEngine : ENode
     // Engine.pas:8934
     public void ReadPreviewEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        EStorageStream S;
-        S = new EReadStorageStream(stream, this, true);
+        StorageStream S;
+        S = new StorageReader(stream, this, true);
         S.OnProgress = progress;
         try
         {
-            S.rwEObject(objectValue, 0);
+            S.Object(objectValue, 0);
         }
         finally
         {
@@ -418,12 +418,12 @@ public partial class GameEngine : ENode
     // Engine.pas:8947
     public void StoreEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        EStorageStream S;
-        S = new EWriteStorageStream(stream, this, false);
+        StorageStream S;
+        S = new StorageWriter(stream, this, false);
         S.OnProgress = progress;
         try
         {
-            S.rwCreateEObject(ref objectValue, null, 0);
+            S.Created(ref objectValue, null, 0);
         }
         finally
         {
@@ -435,12 +435,12 @@ public partial class GameEngine : ENode
     public EngineObject RetrieveEngineObject(Stream stream, Engine.ProgressEvent progress)
     {
         EngineObject result = default;
-        EStorageStream S;
-        S = new EReadStorageStream(stream, this, false);
+        StorageStream S;
+        S = new StorageReader(stream, this, false);
         S.OnProgress = progress;
         try
         {
-            S.rwCreateEObject(ref result, null, 0);
+            S.Created(ref result, null, 0);
         }
         finally
         {
@@ -664,54 +664,6 @@ public partial class GameEngine : ENode
         }
 
         return result;
-    }
-
-    // Engine.pas:9091
-    public void ReadTextFromFile(string fileName, EngineObject objectValue)
-    {
-        EStorageStream S;
-        Stream F;
-        F = OpenFile(fileName, 0 | 32);
-        try
-        {
-            S = new EReadTextStorageStream(F, this, 0);
-            try
-            {
-                S.rwEObject(objectValue, 0);
-            }
-            finally
-            {
-                S?.Dispose();
-            }
-        }
-        finally
-        {
-            F?.Dispose();
-        }
-    }
-
-    // Engine.pas:9109
-    public void WriteTextToFile(string fileName, EngineObject objectValue)
-    {
-        EStorageStream S;
-        Stream F;
-        F = OpenFile(fileName, 65535);
-        try
-        {
-            S = new EWriteTextStorageStream(F, this);
-            try
-            {
-                S.rwEObject(objectValue, 0);
-            }
-            finally
-            {
-                S?.Dispose();
-            }
-        }
-        finally
-        {
-            F?.Dispose();
-        }
     }
 
     public List<EngineClass> EngineClasses { get => _engineClasses; }

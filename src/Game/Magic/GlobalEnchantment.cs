@@ -42,26 +42,26 @@ public partial class GlobalEnchantment : EngineObject
     public int EnchantmentManaUpkeep;
 
     // Spells.PAS:2520
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _enchantmentId, 10);
-        stream.rwData(Bytes.Of(ref EnchantmentType, 1), 1, 11);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 12);
-        stream.rwString(ref Name, 13);
-        stream.rwInteger(ref EnchantmentManaUpkeep, 14);
-        stream.rwInteger(ref DispelMana, 15);
+        stream.Int32(ref _enchantmentId, 10);
+        stream.Bytes(Bytes.Of(ref EnchantmentType, 1), 1, 11);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 12);
+        stream.String(ref Name, 13);
+        stream.Int32(ref EnchantmentManaUpkeep, 14);
+        stream.Int32(ref DispelMana, 15);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("TGlobalEnchantment.EnchantmentID", ref _enchantmentId);
-        persister.Enum("EnchantmentType", ref EnchantmentType);
-        PersistSupport.UnsignedByte(persister, "PlayerIndex", ref PlayerIndex);
-        persister.String("Name", ref Name);
-        persister.Int32("EnchantmentManaUpkeep", ref EnchantmentManaUpkeep);
-        persister.Int32("DispelMana", ref DispelMana);
+        _enchantmentId = persister.Int32("TGlobalEnchantment.EnchantmentID", _enchantmentId);
+        EnchantmentType = persister.Enum("EnchantmentType", EnchantmentType);
+        PlayerIndex = PersistSupport.UnsignedByte(persister, "PlayerIndex", PlayerIndex);
+        Name = persister.String("Name", Name);
+        EnchantmentManaUpkeep = persister.Int32("EnchantmentManaUpkeep", EnchantmentManaUpkeep);
+        DispelMana = persister.Int32("DispelMana", DispelMana);
     }
 
     // Spells.PAS:2477

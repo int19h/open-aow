@@ -37,15 +37,15 @@ public partial class CombatParty : EngineObject
     }
 
     // Combat2.pas:50
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref X, 11);
-        stream.rwInteger(ref Y, 12);
-        stream.rwInteger(ref MapLevel, 13);
-        stream.rwByte(ref PlayerIndex, 14);
-        stream.rwData(Bytes.Of(ref Wall, 1), 1, 15);
-        stream.rwByte(ref Position, 16);
+        stream.Int32(ref X, 11);
+        stream.Int32(ref Y, 12);
+        stream.Int32(ref MapLevel, 13);
+        stream.Byte(ref PlayerIndex, 14);
+        stream.Bytes(Bytes.Of(ref Wall, 1), 1, 15);
+        stream.Byte(ref Position, 16);
     }
 
     // Combat2.pas:61

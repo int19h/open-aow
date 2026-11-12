@@ -95,13 +95,13 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6103
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Sides[(int)CombatSideIndex.Attacker], 10);
-        stream.rwEObject(Sides[(int)CombatSideIndex.Defender], 11);
-        stream.rwCreateEObject(ref Logbook, null, 12);
-        stream.rwEObject(CombatData, 13);
+        stream.Object(Sides[(int)CombatSideIndex.Attacker], 10);
+        stream.Object(Sides[(int)CombatSideIndex.Defender], 11);
+        stream.Created(ref Logbook, null, 12);
+        stream.Object(CombatData, 13);
     }
 
     // Combat.pas:6134

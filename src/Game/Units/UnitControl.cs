@@ -35,10 +35,10 @@ public partial class UnitControl : EngineObject
     }
 
     // Unit.PAS:14
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _nextUnitId, 10);
+        stream.Int32(ref _nextUnitId, 10);
         if (_nextUnitId <= 0)
         {
             _nextUnitId = 1;

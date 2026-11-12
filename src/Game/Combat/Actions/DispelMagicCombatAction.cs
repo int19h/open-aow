@@ -31,10 +31,10 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
     }
 
     // AoWAb.PAS:3946
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(50, EnchantmentIds.LoadFromStream, EnchantmentIds.SaveToStream);
+        stream.Payload(50, EnchantmentIds.LoadFromStream, EnchantmentIds.SaveToStream);
     }
 
     // AoWAb.PAS:3951

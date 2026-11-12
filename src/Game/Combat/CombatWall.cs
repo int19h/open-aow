@@ -30,11 +30,11 @@ public partial class CombatWall : CombatObject
     private bool _locked;
 
     // Combat.pas:1724
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref _wallType, 1), 1, 20);
-        stream.rwByte(ref _hitPoints, 21);
+        stream.Bytes(Bytes.Of(ref _wallType, 1), 1, 20);
+        stream.Byte(ref _hitPoints, 21);
     }
 
     // Combat.pas:1673

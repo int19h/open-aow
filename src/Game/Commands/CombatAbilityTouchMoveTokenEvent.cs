@@ -41,10 +41,10 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     private CityWall _wall;
 
     // CombatTE.pas:627
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref AbilityId, 30);
+        stream.Int32(ref AbilityId, 30);
     }
 
     // CombatTE.pas:633

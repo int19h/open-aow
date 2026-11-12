@@ -97,45 +97,41 @@ sealed class MemberPersister : IPersister
                 throw TreeErrors.Fail(Codes.Required, $"Member \"{name}\" was not read.", _path.Member(name));
     }
 
-    public void Int32(string name, ref int value, int fallback = 0) =>
-        value = (int)Integer(name, value, fallback, 4, true);
+    public int Int32(string name, int value, int fallback = 0) =>
+        (int)Integer(name, value, fallback, 4, true);
 
-    public void Byte(string name, ref byte value, byte fallback = 0) =>
-        value = (byte)Integer(name, value, fallback, 1, false);
+    public byte Byte(string name, byte value, byte fallback = 0) =>
+        (byte)Integer(name, value, fallback, 1, false);
 
-    public void SByte(string name, ref sbyte value, sbyte fallback = 0) =>
-        value = (sbyte)Integer(name, value, fallback, 1, true);
+    public sbyte SByte(string name, sbyte value, sbyte fallback = 0) =>
+        (sbyte)Integer(name, value, fallback, 1, true);
 
-    public void UInt16(string name, ref ushort value, ushort fallback = 0) =>
-        value = (ushort)Integer(name, value, fallback, 2, false);
+    public ushort UInt16(string name, ushort value, ushort fallback = 0) =>
+        (ushort)Integer(name, value, fallback, 2, false);
 
-    public void Int16(string name, ref short value, short fallback = 0) =>
-        value = (short)Integer(name, value, fallback, 2, true);
+    public short Int16(string name, short value, short fallback = 0) =>
+        (short)Integer(name, value, fallback, 2, true);
 
-    public void UInt32(string name, ref uint value, uint fallback = 0) =>
-        value = (uint)Integer(name, value, fallback, 4, false);
+    public uint UInt32(string name, uint value, uint fallback = 0) =>
+        (uint)Integer(name, value, fallback, 4, false);
 
-    public void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum
+    public TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum
     {
         var (width, signed) = EnumTypeInfo.Layout(typeof(TEnum));
         string typeName = NameTable.Stored(typeof(TEnum));
         if (Loading)
         {
             var found = Take(name);
-            if (found is null)
-            {
-                value = fallback;
-                return;
-            }
+            if (found is null) return fallback;
             if (found is not EnumNode node || !NameTable.Names(typeof(TEnum), node.TypeName) || node.Width != width || node.Signed != signed)
                 throw Type(name, "a " + typeName);
-            value = (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
-            return;
+            return (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
         }
         Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
+        return value;
     }
 
-    public void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum
+    public Set<E> Set<E>(string name, Set<E> value) where E : unmanaged, Enum
     {
         int width = default(Set<E>).StorageSize;
         string typeName = NameTable.Stored(typeof(E));
@@ -144,43 +140,47 @@ sealed class MemberPersister : IPersister
         if (Loading)
         {
             var found = Take(name);
-            if (found is null) return;
+            if (found is null) return value;
             if (found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width)
                 throw Type(name, "a set of " + typeName);
-            value = Rtl.Set<E>.FromMask(node.Mask);
-            return;
+            return Rtl.Set<E>.FromMask(node.Mask);
         }
         Span<byte> image = stackalloc byte[width];
         value.CopyImageTo(image);
         ulong mask = 0;
         for (int i = 0; i < width; i++) mask |= (ulong)image[i] << (8 * i);
         Store(name, new SetNode(typeName, width, mask));
+        return value;
     }
 
-    public void Boolean(string name, ref bool value)
+    public bool Boolean(string name, bool value)
     {
         if (Loading)
         {
-            var found = Take(name);
-            if (found is null) value = false;
-            else if (found is BooleanNode node) value = node.Value;
-            else throw Type(name, "a boolean");
-            return;
+            return Take(name) switch
+            {
+                null => false,
+                BooleanNode node => node.Value,
+                _ => throw Type(name, "a boolean"),
+            };
         }
         if (value) Store(name, new BooleanNode(true));
+        return value;
     }
 
-    public void String(string name, ref string value)
+    public string String(string name, string value)
     {
         if (Loading)
         {
-            var found = Take(name);
-            if (found is null) value = "";
-            else if (found is StringNode node) value = node.Value;
-            else throw Type(name, "a string");
-            return;
+            return Take(name) switch
+            {
+                null => "",
+                StringNode node => node.Value,
+                _ => throw Type(name, "a string"),
+            };
         }
         if (!string.IsNullOrEmpty(value)) Store(name, new StringNode(value));
+        return value;
     }
 
     public void Lines(string name, IList<string> lines)
@@ -235,27 +235,30 @@ sealed class MemberPersister : IPersister
         Store(name, new BytesNode(data.ToArray()));
     }
 
-    public void RawInt32(string name, ref int value) => value = (int)RawInteger(name, value, 4, true);
+    public int RawInt32(string name, int value) => (int)RawInteger(name, value, 4, true);
 
-    public void RawByte(string name, ref byte value) => value = (byte)RawInteger(name, value, 1, false);
+    public byte RawByte(string name, byte value) => (byte)RawInteger(name, value, 1, false);
 
-    public void RawSByte(string name, ref sbyte value) => value = (sbyte)RawInteger(name, value, 1, true);
+    public sbyte RawSByte(string name, sbyte value) => (sbyte)RawInteger(name, value, 1, true);
 
-    public void RawBool(string name, ref bool value)
+    // The bool keeps its stored byte, so a byte other than 0 or 1 loads as that byte and saves back.
+    public bool RawBool(string name, bool value)
     {
         if (Loading)
         {
             var found = Take(name);
-            if (found is null) return;
-            if (found is BooleanNode node) Unsafe.As<bool, byte>(ref value) = node.Value ? (byte)1 : (byte)0;
+            if (found is null) return value;
+            byte loaded;
+            if (found is BooleanNode node) loaded = node.Value ? (byte)1 : (byte)0;
             else if (found is IntegerNode { Width: 1, Signed: false } number && number.Value is >= 0 and <= 255)
-                Unsafe.As<bool, byte>(ref value) = (byte)number.Value;
+                loaded = (byte)number.Value;
             else throw Type(name, "a boolean");
-            return;
+            return Unsafe.As<byte, bool>(ref loaded);
         }
         byte stored = Unsafe.As<bool, byte>(ref value);
         if (stored is 0 or 1) Store(name, new BooleanNode(stored != 0));
         else Store(name, new IntegerNode(1, false, stored));
+        return value;
     }
 
     public void BitArray(string name, int count, Span<byte> bits)
@@ -321,16 +324,12 @@ sealed class MemberPersister : IPersister
         Store(name, written);
     }
 
-    public void Created(string name, ref IPersistable? objectValue)
+    public IPersistable? Created(string name, IPersistable? objectValue)
     {
         if (Loading)
         {
             var found = Take(name);
-            if (found is null || found is NullNode)
-            {
-                objectValue = null;
-                return;
-            }
+            if (found is null || found is NullNode) return null;
             if (found is not ObjectNode node || node.ClassName is not string className)
                 throw Type(name, "a created object");
             IPersistable? created = null;
@@ -340,33 +339,32 @@ sealed class MemberPersister : IPersister
                 var child = new MemberPersister(node, true, Factory, _path.Member(name), _errors);
                 created.Persist(child);
                 child.Finish();
-                objectValue = created;
+                return created;
             }
             catch (System.Exception error)
             {
                 if (created is not null) Factory.Release(created);
-                objectValue = null;
                 if (!Continue(error)) throw;
+                return null;
             }
-            return;
         }
         if (objectValue is null)
         {
             Store(name, NullNode.Instance);
-            return;
+            return null;
         }
         var written = new ObjectNode(Factory.ClassName(objectValue), null);
         objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
         Store(name, written);
+        return objectValue;
     }
 
-    public void Created<T>(string name, ref T? objectValue) where T : class, IPersistable
+    public T? Created<T>(string name, T? objectValue) where T : class, IPersistable
     {
-        IPersistable? box = objectValue;
-        Created(name, ref box);
+        var box = Created(name, (IPersistable?)objectValue);
         if (box is not null && box is not T)
             throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name);
-        objectValue = (T?)box;
+        return (T?)box;
     }
 
     public void Children(string name, IChildCollection children)
@@ -412,31 +410,23 @@ sealed class MemberPersister : IPersister
         Store(name, new ChildListNode(written));
     }
 
-    public void Reference(string name, string domain, ref int key, int fallback = 0)
+    public int Reference(string name, string domain, int key, int fallback = 0)
     {
         if (Loading)
         {
             var found = Take(name);
-            if (found is null)
-            {
-                key = fallback;
-                return;
-            }
+            if (found is null) return fallback;
             if (found is ReferenceNode reference)
             {
                 if (reference.Domain != domain)
                     throw TreeErrors.Fail(Codes.Reference, $"Reference \"{name}\" is in domain {reference.Domain}.", _path.Member(name), value: reference.Domain, constraint: domain);
-                key = reference.Key;
-                return;
+                return reference.Key;
             }
-            if (found is IntegerNode integer && integer.Width == 4 && integer.Signed)
-            {
-                key = (int)integer.Value;
-                return;
-            }
+            if (found is IntegerNode integer && integer.Width == 4 && integer.Signed) return (int)integer.Value;
             throw Type(name, "a reference");
         }
         if (key != fallback) Store(name, new ReferenceNode(domain, key));
+        return key;
     }
 
     public void Record(string name, Action<IPersister> body)
@@ -468,9 +458,8 @@ sealed class MemberPersister : IPersister
             if (found is not ListNode list) throw Type(name, "a list");
             for (int i = 0; i < list.Items.Count; i++)
             {
-                T value = default!;
                 var slot = new ItemSlot(list.Items[i], true, Factory, _path.Member(name).Item(i), _errors);
-                transfer(slot, ref value);
+                T value = transfer(slot, default!);
                 slot.Finish();
                 items.Add(value);
             }
@@ -480,10 +469,8 @@ sealed class MemberPersister : IPersister
         var written = new ListNode();
         for (int i = 0; i < items.Count; i++)
         {
-            T value = items[i];
             var slot = new ItemSlot(null, false, Factory, _path.Member(name).Item(i), _errors);
-            transfer(slot, ref value);
-            items[i] = value;
+            items[i] = transfer(slot, items[i]);
             written.Items.Add(slot.Finish());
         }
         Store(name, written);
@@ -595,40 +582,41 @@ sealed class ItemSlot : IItemSlot
         return _loading ? _loaded! : _stored!;
     }
 
-    public void Int32(ref int value) => value = (int)Integer(value, 4, true);
+    public int Int32(int value) => (int)Integer(value, 4, true);
 
-    public void Byte(ref byte value) => value = (byte)Integer(value, 1, false);
+    public byte Byte(byte value) => (byte)Integer(value, 1, false);
 
-    public void SByte(ref sbyte value) => value = (sbyte)Integer(value, 1, true);
+    public sbyte SByte(sbyte value) => (sbyte)Integer(value, 1, true);
 
-    public void UInt16(ref ushort value) => value = (ushort)Integer(value, 2, false);
+    public ushort UInt16(ushort value) => (ushort)Integer(value, 2, false);
 
-    public void Int16(ref short value) => value = (short)Integer(value, 2, true);
+    public short Int16(short value) => (short)Integer(value, 2, true);
 
-    public void UInt32(ref uint value) => value = (uint)Integer(value, 4, false);
+    public uint UInt32(uint value) => (uint)Integer(value, 4, false);
 
-    public void Boolean(ref bool value)
+    public bool Boolean(bool value)
     {
         Use();
         if (_loading)
         {
             if (_loaded is not BooleanNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", _path);
-            value = node.Value;
-            return;
+            return node.Value;
         }
         _stored = new BooleanNode(value);
+        return value;
     }
 
-    public void String(ref string value)
+    public string String(string value)
     {
         Use();
         if (_loading)
         {
             if (_loaded is not StringNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a string.", _path);
-            value = node.Value;
-            return;
+            return node.Value;
         }
+        // A null item stores as empty and stays null in the list, as the ref call left it.
         _stored = new StringNode(value ?? "");
+        return value!;
     }
 
     public void Record(Action<IPersister> body)
@@ -647,16 +635,12 @@ sealed class ItemSlot : IItemSlot
         _stored = written;
     }
 
-    public void Object(ref IPersistable? value)
+    public IPersistable? Object(IPersistable? value)
     {
         Use();
         if (_loading)
         {
-            if (_loaded is NullNode || _loaded is null)
-            {
-                value = null;
-                return;
-            }
+            if (_loaded is NullNode || _loaded is null) return null;
             if (_loaded is not ObjectNode node || node.ClassName is not string className)
                 throw TreeErrors.Fail(Codes.Type, "A list item is an object.", _path);
             IPersistable? created = null;
@@ -666,24 +650,24 @@ sealed class ItemSlot : IItemSlot
                 var child = new MemberPersister(node, true, _factory, _path, _errors);
                 created.Persist(child);
                 child.Finish();
-                value = created;
+                return created;
             }
             catch (System.Exception error)
             {
                 if (created is not null) _factory.Release(created);
-                value = null;
                 if (_errors is not null && !_errors.Continue(error)) throw;
+                return null;
             }
-            return;
         }
         if (value is null)
         {
             _stored = NullNode.Instance;
-            return;
+            return null;
         }
         var written = new ObjectNode(_factory.ClassName(value), null);
         value.Persist(new MemberPersister(written, false, _factory, _path, _errors));
         _stored = written;
+        return value;
     }
 
     private long Integer(long current, int width, bool signed)

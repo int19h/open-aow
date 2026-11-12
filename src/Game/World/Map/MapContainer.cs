@@ -46,7 +46,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     public override GameEngine GetEngine() => _engine;
 
     // HSEngine.pas:3173
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         byte W;
         byte H;
@@ -60,18 +60,18 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         }
 
         W = (byte)_width;
-        stream.rwByte(ref W, 3);
+        stream.Byte(ref W, 3);
         _width = W;
         H = (byte)_height;
-        stream.rwByte(ref H, 4);
+        stream.Byte(ref H, 4);
         _height = H;
         L = (byte)_levelCount;
-        stream.rwByte(ref L, 5);
+        stream.Byte(ref L, 5);
         _levelCount = L;
     }
 
     // HSEngine.pas:3197
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))
         {

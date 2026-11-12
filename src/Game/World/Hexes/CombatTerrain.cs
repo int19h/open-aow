@@ -302,13 +302,13 @@ public partial class CombatTerrain : TerrainMapObject
         private bool _meleeTarget;
 
         // CombatTerrain.pas:310
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _burnValue), 21);
-            stream.rwByte(ref _hitPoints, 22);
-            stream.rwBool(ref _meleeTarget, 23);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref _burnValue), 21);
+            stream.Byte(ref _hitPoints, 22);
+            stream.Boolean(ref _meleeTarget, 23);
         }
 
         // CombatTerrain.pas:304

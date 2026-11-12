@@ -31,11 +31,11 @@ public partial class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:92
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(20, _relations.LoadFromStream, _relations.SaveToStream);
-        stream.rwEObject(_history, 21);
+        stream.Payload(20, _relations.LoadFromStream, _relations.SaveToStream);
+        stream.Object(_history, 21);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             _relations.Default = (int)DiplomaticRelation.Unknown;

@@ -42,10 +42,10 @@ public partial class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1344
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Enchantment, 40);
+        stream.Object(Enchantment, 40);
     }
 
     // GlobalTargetSpells.pas:1203

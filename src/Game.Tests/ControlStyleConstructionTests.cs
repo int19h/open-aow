@@ -363,14 +363,14 @@ public sealed class ControlStyleConstructionTests
         using var stream = new TruncatedStream();
         try
         {
-            var writer = new EWriteStorageStream(stream, engine, false);
-            writer.rwCreateEObject(ref source, null!, 7);
+            var writer = new StorageWriter(stream, engine, false);
+            writer.Created(ref source, null!, 7);
             writer.Dispose();
             stream.SetLength(stream.Length - 1);
             stream.Position = 0;
-            var reader = new EReadStorageStream(stream, engine, false);
+            var reader = new StorageReader(stream, engine, false);
             string message = "";
-            reader.OnError = (EStorageStream _, string text, ref bool proceed) =>
+            reader.OnError = (StorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;
@@ -379,9 +379,9 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 if (propagate)
-                    Assert.Equal("Stream read error", Assert.Throws<EndOfStreamException>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
+                    Assert.Equal("Stream read error", Assert.Throws<EndOfStreamException>(() => reader.Created(ref result, owner, 7)).Message);
                 else
-                    reader.rwCreateEObject(ref result, owner, 7);
+                    reader.Created(ref result, owner, 7);
                 Assert.Equal("Stream read error", message);
                 Assert.Null(result);
                 Assert.IsType<ControlStyleObject>(engine.Created);
@@ -417,14 +417,14 @@ public sealed class ControlStyleConstructionTests
         using var stream = new EmptyMessageStream();
         try
         {
-            var writer = new EWriteStorageStream(stream, engine, false);
-            writer.rwCreateEObject(ref source, null!, 7);
+            var writer = new StorageWriter(stream, engine, false);
+            writer.Created(ref source, null!, 7);
             writer.Dispose();
             stream.SetLength(stream.Length - 1);
             stream.Position = 0;
-            var reader = new EReadStorageStream(stream, engine, false);
+            var reader = new StorageReader(stream, engine, false);
             string message = "";
-            reader.OnError = (EStorageStream _, string text, ref bool proceed) =>
+            reader.OnError = (StorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;
@@ -433,9 +433,9 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 if (propagate)
-                    Assert.Equal("", Assert.Throws<EndOfStreamException>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
+                    Assert.Equal("", Assert.Throws<EndOfStreamException>(() => reader.Created(ref result, owner, 7)).Message);
                 else
-                    reader.rwCreateEObject(ref result, owner, 7);
+                    reader.Created(ref result, owner, 7);
                 Assert.Equal("Error Reading EObject", message);
                 Assert.Null(result);
                 Assert.IsType<ControlStyleObject>(engine.Created);

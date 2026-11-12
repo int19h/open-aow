@@ -32,18 +32,18 @@ public partial class StructureTokenEvent : TokenEvent
     private int _param2;
 
     // Structur.PAS:3051
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Action, 15);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _x), 16);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _y), 17);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _mapLevel), 18);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 19);
-        stream.rwInteger(ref _structureClassId, 20);
-        stream.rwBool(ref _razed, 21);
-        stream.rwInteger(ref Param, 22);
-        stream.rwInteger(ref _param2, 23);
+        stream.Int32(ref Action, 15);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _x), 16);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _y), 17);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _mapLevel), 18);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 19);
+        stream.Int32(ref _structureClassId, 20);
+        stream.Boolean(ref _razed, 21);
+        stream.Int32(ref Param, 22);
+        stream.Int32(ref _param2, 23);
     }
 
     // Structur.PAS:3077

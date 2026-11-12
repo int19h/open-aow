@@ -47,12 +47,12 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2180
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 5);
-        stream.rwStreamProc(6, _victoryLocations.LoadFromStream, _victoryLocations.SaveToStream);
-        stream.rwByte(ref ProductionPriority, 7);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 5);
+        stream.Payload(6, _victoryLocations.LoadFromStream, _victoryLocations.SaveToStream);
+        stream.Byte(ref ProductionPriority, 7);
     }
 
     // Structur.PAS:1970

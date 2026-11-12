@@ -15,14 +15,14 @@ public partial class DataPackage : EngineObject
 
     // NetworkE.pas:592
     // { The original does not call the inherited ReadWrite. }
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
-        stream.rwInteger(ref _sender, 1);
-        stream.rwInteger(ref _receiver, 2);
+        stream.Int32(ref _sender, 1);
+        stream.Int32(ref _receiver, 2);
     }
 
     // NetworkE.pas:598
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         ReadWrite(stream);
     }

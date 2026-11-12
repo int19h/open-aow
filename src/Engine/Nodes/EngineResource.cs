@@ -31,20 +31,20 @@ public partial class EngineResource : EngineObject
     }
 
     // Engine.pas:8542
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _resourceId, 1);
-        stream.rwInteger(ref _editId, 2);
-        stream.rwInteger(ref _editIndex, 3);
+        stream.Int32(ref _resourceId, 1);
+        stream.Int32(ref _editId, 2);
+        stream.Int32(ref _editIndex, 3);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("ResourceId", ref _resourceId);
-        persister.Int32("EditId", ref _editId);
-        persister.Int32("EditIndex", ref _editIndex);
+        _resourceId = persister.Int32("ResourceId", _resourceId);
+        _editId = persister.Int32("EditId", _editId);
+        _editIndex = persister.Int32("EditIndex", _editIndex);
     }
 
     // Engine.pas:8519

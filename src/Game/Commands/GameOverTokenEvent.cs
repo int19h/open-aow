@@ -25,11 +25,11 @@ public partial class GameOverTokenEvent : TokenEvent
     public GameOverStatus GameOverStatus;
 
     // MoveT.PAS:3233
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.rwData(Bytes.Of(ref GameOverStatus, 1), 1, 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.Bytes(Bytes.Of(ref GameOverStatus, 1), 1, 21);
     }
 
     // MoveT.PAS:3240

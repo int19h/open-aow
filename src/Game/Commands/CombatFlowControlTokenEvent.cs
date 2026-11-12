@@ -26,11 +26,11 @@ public partial class CombatFlowControlTokenEvent : TokenEvent
     public int Player;
 
     // MoveT.PAS:3596
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref Mode, 1, 30, stream.rwData, 0);
-        stream.rwInteger(ref Player, 31);
+        TransferSet(ref Mode, 1, 30, stream.Bytes, 0);
+        stream.Int32(ref Player, 31);
     }
 
     // MoveT.PAS:3603

@@ -35,11 +35,11 @@ public partial class FloodControl : EngineObject
     }
 
     // GlobalEnchantmentSpells.pas:1078
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Width, 20);
-        stream.rwInteger(ref Height, 21);
+        stream.Int32(ref Width, 20);
+        stream.Int32(ref Height, 21);
         if (Width != 0)
         {
             if (stream.StorageMode().Contains(StorageModeElement.Read))
@@ -47,15 +47,15 @@ public partial class FloodControl : EngineObject
                 Array.Resize(ref OriginalTerrain, Width * Height * 2);
             }
 
-            stream.rwData(MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, Width * Height * 2)), Width * Height * 2, 22);
+            stream.Bytes(MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, Width * Height * 2)), Width * Height * 2, 22);
         }
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("Width", ref Width);
-        persister.Int32("Height", ref Height);
+        Width = persister.Int32("Width", Width);
+        Height = persister.Int32("Height", Height);
         if (Width != 0)
         {
             int count = Width * Height * 2;

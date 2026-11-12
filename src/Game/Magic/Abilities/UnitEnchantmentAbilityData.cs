@@ -40,22 +40,22 @@ public partial class UnitEnchantmentAbilityData : AbilityData
     }
 
     // AoWAb.PAS:592
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwWord(ref EnchantmentAbilityId, 15);
-        stream.rwCreateEObject(ref Enchantment, null, 16);
-        stream.rwShortintEx(ref EnchantmentPlayerIndex, -1, 17);
-        stream.rwShortintEx(ref EnchantmentDuration, -1, 18);
+        stream.UInt16(ref EnchantmentAbilityId, 15);
+        stream.Created(ref Enchantment, null, 16);
+        stream.SByte(ref EnchantmentPlayerIndex, -1, 17);
+        stream.SByte(ref EnchantmentDuration, -1, 18);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.UInt16("EnchantmentAbilityID", ref EnchantmentAbilityId);
-        persister.Created("Enchantment", ref Enchantment);
-        persister.SByte("EnchantmentPlayerIndex", ref EnchantmentPlayerIndex, -1);
-        persister.SByte("EnchantmentDuration", ref EnchantmentDuration, -1);
+        EnchantmentAbilityId = persister.UInt16("EnchantmentAbilityID", EnchantmentAbilityId);
+        Enchantment = persister.Created("Enchantment", Enchantment);
+        EnchantmentPlayerIndex = persister.SByte("EnchantmentPlayerIndex", EnchantmentPlayerIndex, -1);
+        EnchantmentDuration = persister.SByte("EnchantmentDuration", EnchantmentDuration, -1);
     }
 
     // AoWAb.PAS:577

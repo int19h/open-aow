@@ -37,12 +37,12 @@ public partial class ItemExplorationSiteEventLog : EventLog
     }
 
     // ItemExpS.pas:204
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(20, ItemIds.LoadFromStream, ItemIds.SaveToStream);
-        stream.rwStrings(Messages, 21);
-        stream.rwString(ref Title, 22);
+        stream.Payload(20, ItemIds.LoadFromStream, ItemIds.SaveToStream);
+        stream.Lines(Messages, 21);
+        stream.String(ref Title, 22);
     }
 
 }

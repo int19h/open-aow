@@ -495,10 +495,10 @@ public partial class CityWall : CombatImageLibraryTerrain
         public byte Direction;
 
         // CityWall.pas:369
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwByte(ref Direction, 25);
+            stream.Byte(ref Direction, 25);
         }
 
         // CityWall.pas:378

@@ -57,7 +57,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public int EventLogId;
 
     // Diplomacy.pas:596
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         var (kind, gold, mana) = Proposal.ToFields();
@@ -67,24 +67,24 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
             message.Add(line);
         }
 
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Source), 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Target), 21);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref OtherPlayer), 22);
-        stream.rwInteger(ref gold, 23);
-        stream.rwInteger(ref mana, 24);
-        stream.rwData(Bytes.Of(ref kind, 1), 1, 25);
-        stream.rwData(Bytes.Of(ref Reaction, 1), 1, 26);
-        stream.rwStrings(message, 27);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Source), 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Target), 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref OtherPlayer), 22);
+        stream.Int32(ref gold, 23);
+        stream.Int32(ref mana, 24);
+        stream.Bytes(Bytes.Of(ref kind, 1), 1, 25);
+        stream.Bytes(Bytes.Of(ref Reaction, 1), 1, 26);
+        stream.Lines(message, 27);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
         }
 
         message?.Dispose();
-        stream.rwInteger(ref EscrowGold, 28);
-        stream.rwInteger(ref EscrowMana, 29);
-        stream.rwInteger(ref EventLogId, 30);
-        stream.rwInteger(ref Day, 31);
+        stream.Int32(ref EscrowGold, 28);
+        stream.Int32(ref EscrowMana, 29);
+        stream.Int32(ref EventLogId, 30);
+        stream.Int32(ref Day, 31);
     }
 
     // Diplomacy.pas:586

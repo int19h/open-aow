@@ -27,12 +27,12 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
     public sbyte MapLevel;
 
     // Storms.pas:735
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 21);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 22);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 22);
     }
 
     // Storms.pas:743

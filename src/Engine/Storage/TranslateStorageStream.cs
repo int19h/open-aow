@@ -11,18 +11,18 @@ namespace Aow.Engine.Storage;
 
 // visits every string of an object tree through TranslateString and TranslateStrings. nothing
 // is read or written
-public partial class TranslateStorageStream : EStorageStream
+public partial class TranslateStorageStream : StorageStream
 {
     // Engine.pas:10825
-    public TranslateStorageStream(GameEngine AEngine) : base(null, AEngine)
+    public TranslateStorageStream(GameEngine engine) : base(null, engine)
     {
-        FPropertyTable = new PropertyTable();
+        _propertyTable = new PropertyTable();
     }
 
     // Engine.pas:10831
     public override void Dispose()
     {
-        FPropertyTable?.Dispose();
+        _propertyTable?.Dispose();
         base.Dispose();
     }
 
@@ -30,55 +30,55 @@ public partial class TranslateStorageStream : EStorageStream
     public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Translate);
 
     // Engine.pas:10842
-    public override void rwString(ref string S, int ID)
+    public override void String(ref string value, int id)
     {
-        TranslateString(ref S);
+        TranslateString(ref value);
     }
 
     // Engine.pas:10847
-    public override void rwStrings(StringCollection Strings, int ID)
+    public override void Lines(StringCollection lines, int id)
     {
-        TranslateStrings(ref Strings);
+        TranslateStrings(ref lines);
     }
 
     // Engine.pas:10852
-    public override void rwStringsEx(StringCollection Strings, int ID)
+    public override void LinesWithObjects(StringCollection lines, int id)
     {
-        TranslateStrings(ref Strings);
+        TranslateStrings(ref lines);
     }
 
     // Engine.pas:10857
-    public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
+    public override void Created(ref EngineObject objectValue, ECustomNode owner, int id)
     {
-        EngineObject O;
-        O = Obj;
-        if (O != null)
+        EngineObject current;
+        current = objectValue;
+        if (current != null)
         {
-            rwEObject(O, ID);
+            Object(current, id);
         }
     }
 
     // Engine.pas:10865
-    public override void rwEObject(EngineObject Obj, int ID)
+    public override void Object(EngineObject objectValue, int id)
     {
-        bool Continue = default;
+        bool canContinue = default;
         try
         {
-            FPropertyTable.BackupSettings();
-            Obj.MainReadWrite(this);
-            FPropertyTable.RestoreSettings();
+            _propertyTable.BackupSettings();
+            objectValue.MainReadWrite(this);
+            _propertyTable.RestoreSettings();
         }
         catch
         {
-            FPropertyTable.RestoreSettings();
+            _propertyTable.RestoreSettings();
             // { the original leaves Continue uninitialized here }
-            if (FOnError != null)
+            if (_onError != null)
             {
-                var classID = Obj.EngineClass.ClassId;
-                FOnError(this, "Error reading object (cid:" + IntToStr(classID) + ")", ref Continue);
+                var classId = objectValue.EngineClass.ClassId;
+                _onError(this, "Error reading object (cid:" + IntToStr(classId) + ")", ref canContinue);
             }
 
-            if (!Continue)
+            if (!canContinue)
             {
                 throw;
             }
@@ -86,32 +86,32 @@ public partial class TranslateStorageStream : EStorageStream
     }
 
     // Engine.pas:10882
-    public override void rwEObjectStream(EngineObject Obj, int ID)
+    public override void SizedObject(EngineObject objectValue, int id)
     {
-        rwEObject(Obj, ID);
+        Object(objectValue, id);
     }
 
     // Engine.pas:10887
-    public override void rwChildren(ECustomNode Node, int ID)
+    public override void Children(ECustomNode node, int id)
     {
-        EngineObject C;
-        for (int I = 0, last = Node.Count - 1; I <= last; I++)
+        EngineObject child;
+        for (int i = 0, last = node.Count - 1; i <= last; i++)
         {
-            C = Node.Children[I];
-            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.Shared) && C.GetControlStyle().Contains(EngineServices.Stored))
+            child = node.Children[i];
+            if (child != null && child.Owner == node && !child.GetControlStyle().Contains(EngineServices.Shared) && child.GetControlStyle().Contains(EngineServices.Stored))
             {
-                rwEObject(C, I);
+                Object(child, i);
             }
         }
     }
 
     // Engine.pas:10901
-    public virtual void TranslateStrings(ref StringCollection Strings)
+    public virtual void TranslateStrings(ref StringCollection lines)
     {
     }
 
     // Engine.pas:10905
-    public virtual void TranslateString(ref string S)
+    public virtual void TranslateString(ref string value)
     {
     }
 

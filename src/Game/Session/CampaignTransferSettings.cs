@@ -73,21 +73,21 @@ public partial class CampaignTransferSettings : EngineObject
     }
 
     // Diplomacy.pas:1776
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         Leader leader = default;
         base.ReadWrite(stream);
-        stream.rwEObject(Heroes, 20);
-        stream.rwEObject(Items, 21);
-        stream.rwEObject(Units, 22);
-        stream.rwStreamProc(23, _spells.LoadFromStream, _spells.SaveToStream);
-        stream.rwInteger(ref _researchSpellId, 24);
-        stream.rwInteger(ref _researchPointsLeft, 25);
-        stream.rwInteger(ref _researchPercentage, 26);
+        stream.Object(Heroes, 20);
+        stream.Object(Items, 21);
+        stream.Object(Units, 22);
+        stream.Payload(23, _spells.LoadFromStream, _spells.SaveToStream);
+        stream.Int32(ref _researchSpellId, 24);
+        stream.Int32(ref _researchPointsLeft, 25);
+        stream.Int32(ref _researchPercentage, 26);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             leader = null;
-            stream.rwCreateEObject(ref leader, null, 27);
+            stream.Created(ref leader, null, 27);
             SetLeader(leader);
             if (leader != null)
             {
@@ -96,7 +96,7 @@ public partial class CampaignTransferSettings : EngineObject
         }
         else
         {
-            stream.rwCreateEObject(ref Leader, null, 27);
+            stream.Created(ref Leader, null, 27);
         }
     }
 

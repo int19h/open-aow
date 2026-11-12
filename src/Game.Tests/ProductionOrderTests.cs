@@ -74,8 +74,8 @@ public sealed class ProductionOrderTests
     private static string Write(GameEngine engine, EngineObject value)
     {
         using var memory = new MemoryStream();
-        var writer = new EWriteStorageStream(memory, engine, false);
-        writer.rwCreateEObject(ref value, null!, 7);
+        var writer = new StorageWriter(memory, engine, false);
+        writer.Created(ref value, null!, 7);
         writer.Dispose();
         return Hex(memory);
     }
@@ -84,7 +84,7 @@ public sealed class ProductionOrderTests
     {
         using var memory = Memory(hex);
         EngineObject result = null!;
-        using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
+        using (var reader = new StorageReader(memory, engine, false)) { reader.Created(ref result, null!, 7); }
         return Assert.IsType<T>(result);
     }
 

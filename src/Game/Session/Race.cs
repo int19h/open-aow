@@ -54,24 +54,24 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     }
 
     // Ability.PAS:343
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         bool enabled = default;
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref RaceIndex), 2);
-        stream.rwStreamProc(3, _playerRelations.LoadFromStream, _playerRelations.SaveToStream);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref RaceIndex), 2);
+        stream.Payload(3, _playerRelations.LoadFromStream, _playerRelations.SaveToStream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             // { Original leaves this local uninitialized if property 4 is absent. }
-            stream.rwBool(ref enabled, 4);
+            stream.Boolean(ref enabled, 4);
             SetEnabled(enabled);
         }
         else
         {
-            stream.rwBool(ref Enabled, 4);
+            stream.Boolean(ref Enabled, 4);
         }
 
-        stream.rwStreamProc(5, DefaultRelations.LoadFromStream, DefaultRelations.SaveToStream);
+        stream.Payload(5, DefaultRelations.LoadFromStream, DefaultRelations.SaveToStream);
         if (stream.StorageMode().Contains(StorageModeElement.Read) && DefaultRelations.Count == 0)
         {
             ResetDefaultRaceRelations();

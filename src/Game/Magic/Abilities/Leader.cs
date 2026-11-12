@@ -37,11 +37,11 @@ public partial class Leader : Hero
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Hero.PAS:2891
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByteEx(ref SpherePicksMax, 5, 45);
-        stream.rwStreamProc(46, _spheres.LoadFromStream, _spheres.SaveToStream);
+        stream.Byte(ref SpherePicksMax, 5, 45);
+        stream.Payload(46, _spheres.LoadFromStream, _spheres.SaveToStream);
     }
 
     // Hero.PAS:2759

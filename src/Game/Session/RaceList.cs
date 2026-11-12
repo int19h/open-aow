@@ -136,5 +136,5 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
 
     // intf_P1_03.inc:34
     // TEObject.ReadWrite is empty. The original bypasses TEControlStyleNode.ReadWrite.
-    public override void ReadWrite(EStorageStream stream) => stream.rwInteger(ref RelationOffset, 20);
+    public override void ReadWrite(StorageStream stream) => stream.Int32(ref RelationOffset, 20);
 }

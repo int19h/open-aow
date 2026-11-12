@@ -76,19 +76,18 @@ internal sealed class IntegerRecordField : RecordFieldInfo
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref int value) => body.Int32(name, ref value));
-        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref uint value) => body.UInt32(name, ref value));
-        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref short value) => body.Int16(name, ref value));
-        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref ushort value) => body.UInt16(name, ref value));
-        else if (ElementWidth == 1 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref sbyte value) => body.SByte(name, ref value));
-        else if (ElementWidth == 1 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref byte value) => body.Byte(name, ref value));
+        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IPersister body, string name, int value) => body.Int32(name, value));
+        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IPersister body, string name, uint value) => body.UInt32(name, value));
+        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IPersister body, string name, short value) => body.Int16(name, value));
+        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ushort value) => body.UInt16(name, value));
+        else if (ElementWidth == 1 && ElementSigned) Move(persister, image, static (IPersister body, string name, sbyte value) => body.SByte(name, value));
+        else if (ElementWidth == 1 && !ElementSigned) Move(persister, image, static (IPersister body, string name, byte value) => body.Byte(name, value));
         else throw new InvalidOperationException(Name + " is not a transferred integer.");
     }
 
     private void Move<T>(IPersister persister, Span<byte> image, IntegerMove<T> move) where T : unmanaged
     {
-        T value = persister.Loading ? default : ReadNumber<T>(image);
-        move(persister, Name, ref value);
+        T value = move(persister, Name, persister.Loading ? default : ReadNumber<T>(image));
         if (persister.Loading) WriteNumber(image, value);
     }
 
@@ -114,7 +113,7 @@ internal sealed class IntegerRecordField : RecordFieldInfo
         else throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
     }
 
-    private delegate void IntegerMove<T>(IPersister persister, string name, ref T value);
+    private delegate T IntegerMove<T>(IPersister persister, string name, T value);
 }
 
 internal sealed class BooleanRecordField : RecordFieldInfo
@@ -129,7 +128,7 @@ internal sealed class BooleanRecordField : RecordFieldInfo
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
         byte value = persister.Loading ? (byte)0 : image[0];
-        persister.Byte(Name, ref value);
+        value = persister.Byte(Name, value);
         if (persister.Loading) image[0] = value;
     }
 }
@@ -160,7 +159,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
     private static void Move<TEnum>(IPersister persister, string name, object[] box) where TEnum : struct, Enum
     {
         var value = (TEnum)Enum.ToObject(typeof(TEnum), (long)box[0]!);
-        persister.Enum(name, ref value);
+        value = persister.Enum(name, value);
         box[0] = Convert.ToInt64(value);
     }
 }
@@ -194,7 +193,7 @@ internal sealed class SetRecordField : RecordFieldInfo
         ulong mask = 0;
         for (int i = 0; i < image.Length; i++) mask |= (ulong)image[i] << (8 * i);
         var set = Set<E>.FromMask(mask);
-        persister.Set(name, ref set);
+        set = persister.Set(name, set);
         var written = new byte[image.Length];
         set.CopyImageTo(written);
         box[0] = written;
@@ -217,12 +216,12 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref int item) => slot.Int32(ref item));
-        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref uint item) => slot.UInt32(ref item));
-        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref short item) => slot.Int16(ref item));
-        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref ushort item) => slot.UInt16(ref item));
-        else if (ElementWidth == 1 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref sbyte item) => slot.SByte(ref item));
-        else if (ElementWidth == 1 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref byte item) => slot.Byte(ref item));
+        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IItemSlot slot, int item) => slot.Int32(item));
+        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IItemSlot slot, uint item) => slot.UInt32(item));
+        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IItemSlot slot, short item) => slot.Int16(item));
+        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ushort item) => slot.UInt16(item));
+        else if (ElementWidth == 1 && ElementSigned) Move(persister, image, static (IItemSlot slot, sbyte item) => slot.SByte(item));
+        else if (ElementWidth == 1 && !ElementSigned) Move(persister, image, static (IItemSlot slot, byte item) => slot.Byte(item));
         else throw new InvalidOperationException(Name + " is not a transferred array.");
     }
 

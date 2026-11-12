@@ -21,10 +21,10 @@ public partial class AnimationTokenEvent : TokenEvent
     private Animation _animation;
 
     // Animation.pas:399
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref _animation, null, 15);
+        stream.Created(ref _animation, null, 15);
     }
 
     // Animation.pas:405

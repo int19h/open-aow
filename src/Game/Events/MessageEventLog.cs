@@ -41,22 +41,22 @@ public partial class MessageEventLog : EventLog
     }
 
     // EventLog.pas:835
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(Message, 30);
-        stream.rwData(Bytes.Of(ref Layout, 1), 1, 31);
-        stream.rwData(Bytes.Of(ref Buttons, 1), 1, 32);
-        stream.rwString(ref Title, 33);
+        stream.Lines(Message, 30);
+        stream.Bytes(Bytes.Of(ref Layout, 1), 1, 31);
+        stream.Bytes(Bytes.Of(ref Buttons, 1), 1, 32);
+        stream.String(ref Title, 33);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         PersistSupport.Lines(persister, "Message", Message);
-        persister.Enum("Layout", ref Layout);
-        persister.Enum("Buttons", ref Buttons);
-        persister.String("Title", ref Title);
+        Layout = persister.Enum("Layout", Layout);
+        Buttons = persister.Enum("Buttons", Buttons);
+        Title = persister.String("Title", Title);
     }
 
     // EventLog.pas:842

@@ -64,22 +64,22 @@ public partial class RaceResource : EngineResource
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // PlayerC.PAS:1861
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref _name, 5);
-        stream.rwString(ref RaceName, 6);
-        stream.rwString(ref _description, 7);
+        stream.String(ref _name, 5);
+        stream.String(ref RaceName, 6);
+        stream.String(ref _description, 7);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref _imageLibraryName, 8);
+            stream.String(ref _imageLibraryName, 8);
         }
 
-        RwSet(ref Alignments, 1, 9, stream.rwData, 0);
-        stream.rwStreamProc(10, UnitIndexes.LoadFromStream, UnitIndexes.SaveToStream);
-        stream.rwStreamProc(11, SpecialUnitIndexes.LoadFromStream, SpecialUnitIndexes.SaveToStream);
-        stream.rwInteger(ref _heroUnitIndex, 12);
-        stream.rwStrings(_heroNames, 13);
+        TransferSet(ref Alignments, 1, 9, stream.Bytes, 0);
+        stream.Payload(10, UnitIndexes.LoadFromStream, UnitIndexes.SaveToStream);
+        stream.Payload(11, SpecialUnitIndexes.LoadFromStream, SpecialUnitIndexes.SaveToStream);
+        stream.Int32(ref _heroUnitIndex, 12);
+        stream.Lines(_heroNames, 13);
     }
 
     // PlayerC.PAS:1798

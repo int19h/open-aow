@@ -41,12 +41,12 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     public sbyte OriginalOverlay;
 
     // PoisonP.pas:97
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwShortintEx(ref CasterPlayer, -1, 40);
-        stream.rwShortintEx(ref DaysRemaining, -1, 41);
-        stream.rwShortintEx(ref OriginalOverlay, -1, 42);
+        stream.SByte(ref CasterPlayer, -1, 40);
+        stream.SByte(ref DaysRemaining, -1, 41);
+        stream.SByte(ref OriginalOverlay, -1, 42);
     }
 
     // PoisonP.pas:78

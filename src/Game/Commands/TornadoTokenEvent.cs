@@ -39,10 +39,10 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:1593
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref ArmyId, null, 40);
+        stream.Created(ref ArmyId, null, 40);
     }
 
     // GlobalTargetSpells.pas:1547

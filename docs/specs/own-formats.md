@@ -239,6 +239,11 @@ retain numbers where lossless conversion requires them.
 
 ### 2.3 Values and presence
 
+The table names each operation by its Delphi method, the codec name the schema keeps. The C#
+storage streams name the same operations by CLR type (`persistence-tree.md` 1): `rwData` is
+`Bytes`, `rwEObject` is `Object`, `rwCreateEObject` is `Created`, `rwChildren` is `Children`,
+`rwStreamProc` is `Payload`, and an `Ex` method is the plain name with a `fallback` argument.
+
 | original operation | document and rule |
 | --- | --- |
 | Integer, byte, word and shortint, including `Ex` | Integer with exact storage range. Version 1 declares no enum or reference domain in the schema |

@@ -16,11 +16,11 @@ public partial class UnitProduction : EngineObject
     public bool Researched;
 
     // Structur.PAS:7
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref UnitIndex, 20);
-        stream.rwBool(ref Researched, 21);
+        stream.Int32(ref UnitIndex, 20);
+        stream.Boolean(ref Researched, 21);
     }
 
     // Engine.pas:524

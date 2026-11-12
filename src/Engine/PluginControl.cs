@@ -97,12 +97,12 @@ public partial class PluginControl : EngineObject
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
 
     // Engine.pas:9331
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(StorageModeElement.Translate))
         {
-            stream.rwStrings(_usedPlugins, 1);
+            stream.Lines(_usedPlugins, 1);
         }
     }
 

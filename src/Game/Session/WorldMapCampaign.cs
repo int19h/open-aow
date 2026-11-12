@@ -23,10 +23,10 @@ public partial class WorldMapCampaign : Campaign
     public int Page { get; set; }
 
     // AoWVideoDlg.pas:337
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Faction, 30);
+        stream.Int32(ref Faction, 30);
     }
 
     // AoWVideoDlg.pas:324

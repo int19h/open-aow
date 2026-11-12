@@ -31,11 +31,11 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
     }
 
     // CitySpells.pas:400
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref TeleportLocation.Packed, 30);
-        stream.rwCreateEObject(ref ArmyId, null, 31);
+        stream.Int32(ref TeleportLocation.Packed, 30);
+        stream.Created(ref ArmyId, null, 31);
     }
 
     // CitySpells.pas:407

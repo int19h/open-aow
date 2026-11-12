@@ -25,7 +25,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     public NotifyEvent<object> OnChanged { get; set; }
 
     // EventLog.pas:481
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {

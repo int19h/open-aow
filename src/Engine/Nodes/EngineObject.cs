@@ -86,7 +86,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2590
-    public virtual void ReadWrite(EStorageStream stream)
+    public virtual void ReadWrite(StorageStream stream)
     {
     }
 
@@ -136,7 +136,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2594
-    public virtual void MainReadWrite(EStorageStream stream)
+    public virtual void MainReadWrite(StorageStream stream)
     {
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {

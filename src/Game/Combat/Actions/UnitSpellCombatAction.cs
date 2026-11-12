@@ -30,24 +30,24 @@ public partial class UnitSpellCombatAction : CombatAction
     public int Mana;
 
     // Spells.PAS:1102
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref SpellId, 20);
-        stream.rwByte(ref SourceId, 21);
-        stream.rwByte(ref TargetId, 22);
-        stream.rwData(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 23);
-        stream.rwInteger(ref Mana, 24);
+        stream.Int32(ref SpellId, 20);
+        stream.Byte(ref SourceId, 21);
+        stream.Byte(ref TargetId, 22);
+        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 23);
+        stream.Int32(ref Mana, 24);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("SpellID", ref SpellId);
-        persister.Byte("SourceID", ref SourceId);
-        persister.Byte("TargetID", ref TargetId);
+        SpellId = persister.Int32("SpellID", SpellId);
+        SourceId = persister.Byte("SourceID", SourceId);
+        TargetId = persister.Byte("TargetID", TargetId);
         PersistSupport.Int32Array(persister, "SpellData", SpellData);
-        persister.Int32("Mana", ref Mana);
+        Mana = persister.Int32("Mana", Mana);
     }
 
     // Spells.PAS:1111

@@ -33,13 +33,13 @@ public partial class PoisonCloud : MultiHexMapObject
     private bool _updated;
 
     // PoisonC.pas:149
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
-        stream.rwInteger(ref TurnsRemaining, 16);
-        stream.rwBool(ref _drifting, 17);
-        stream.rwByte(ref _direction, 18);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
+        stream.Int32(ref TurnsRemaining, 16);
+        stream.Boolean(ref _drifting, 17);
+        stream.Byte(ref _direction, 18);
     }
 
     // PoisonC.pas:58

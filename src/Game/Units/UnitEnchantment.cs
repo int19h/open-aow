@@ -30,18 +30,18 @@ public partial class UnitEnchantment : Enchantment
     public int EnchantmentAbilityId;
 
     // AoWAb.PAS:797
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref EnchantmentAbilityId, 20);
-        stream.rwInteger(ref UnitId, 21);
+        stream.Int32(ref EnchantmentAbilityId, 20);
+        stream.Int32(ref UnitId, 21);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("EnchantmentAbilityID", ref EnchantmentAbilityId);
-        persister.Int32("UnitID", ref UnitId);
+        EnchantmentAbilityId = persister.Int32("EnchantmentAbilityID", EnchantmentAbilityId);
+        UnitId = persister.Int32("UnitID", UnitId);
     }
 
     // AoWAb.PAS:804

@@ -26,12 +26,12 @@ public partial class PlayerStatistics : EngineObject
     }
 
     // Player.PAS:194
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(TurnInfo, 20);
-        stream.rwInteger(ref _unitsKilled, 21);
-        stream.rwInteger(ref _unitsLost, 22);
+        stream.Object(TurnInfo, 20);
+        stream.Int32(ref _unitsKilled, 21);
+        stream.Int32(ref _unitsLost, 22);
     }
 
     // intf_P1_03.inc:133

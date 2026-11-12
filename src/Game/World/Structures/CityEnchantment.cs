@@ -24,18 +24,18 @@ public partial class CityEnchantment : GlobalEnchantment
     public MapCoordinate EnchantmentLocation;
 
     // City.pas:2727
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref _enchantmentId, 1), 1, 20);
-        stream.rwInteger(ref EnchantmentLocation.Packed, 21);
+        stream.Bytes(Bytes.Of(ref _enchantmentId, 1), 1, 20);
+        stream.Int32(ref EnchantmentLocation.Packed, 21);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Enum("TCityEnchantment.EnchantmentID", ref _enchantmentId);
-        persister.Int32("EnchantmentLocation", ref EnchantmentLocation.Packed);
+        _enchantmentId = persister.Enum("TCityEnchantment.EnchantmentID", _enchantmentId);
+        EnchantmentLocation.Packed = persister.Int32("EnchantmentLocation", EnchantmentLocation.Packed);
     }
 
     // City.pas:2716

@@ -22,10 +22,10 @@ public partial class Tower : PlayerStructure
     public Set<StateElement> State;
 
     // Tower.pas:96
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref State, 1, 20, stream.rwData, 0);
+        TransferSet(ref State, 1, 20, stream.Bytes, 0);
     }
 
     // Tower.pas:102

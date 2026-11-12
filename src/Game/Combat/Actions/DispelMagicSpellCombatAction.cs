@@ -19,11 +19,11 @@ public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
     public int ManaCost;
 
     // UnitSpells.pas:980
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref SpellId, 60);
-        stream.rwInteger(ref ManaCost, 61);
+        stream.Int32(ref SpellId, 60);
+        stream.Int32(ref ManaCost, 61);
     }
 
     // UnitSpells.pas:987

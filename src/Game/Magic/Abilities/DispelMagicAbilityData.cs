@@ -16,11 +16,11 @@ public partial class DispelMagicAbilityData : AbilityData
     public byte Level;
 
     // AoWAb.PAS:4034
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref Enabled, 10);
-        stream.rwByte(ref Level, 11);
+        stream.Boolean(ref Enabled, 10);
+        stream.Byte(ref Level, 11);
     }
 
     // AoWAb.PAS:4030

@@ -25,10 +25,10 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
     internal int _id;
 
     // Sound.pas:1057
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _id, 5);
+        stream.Int32(ref _id, 5);
     }
 
     // Sound.pas:1052

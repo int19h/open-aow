@@ -29,13 +29,13 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
     public byte TargetPlayer;
 
     // AoWAb.PAS:4337
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref SourceId, 25);
-        stream.rwByte(ref SourcePlayer, 26);
-        stream.rwInteger(ref TargetId, 27);
-        stream.rwByte(ref TargetPlayer, 28);
+        stream.Int32(ref SourceId, 25);
+        stream.Byte(ref SourcePlayer, 26);
+        stream.Int32(ref TargetId, 27);
+        stream.Byte(ref TargetPlayer, 28);
     }
 
     // AoWAb.PAS:4345

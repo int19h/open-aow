@@ -22,13 +22,13 @@ public partial class MultiHexMapObjectResource : MapObjectResource
     private int _mainPointOffsetY;
 
     // MAPOBJ.PAS:1256
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _imageOffsetX, 12);
-        stream.rwInteger(ref _imageOffsetY, 13);
-        stream.rwInteger(ref _mainPointOffsetX, 14);
-        stream.rwInteger(ref _mainPointOffsetY, 15);
+        stream.Int32(ref _imageOffsetX, 12);
+        stream.Int32(ref _imageOffsetY, 13);
+        stream.Int32(ref _mainPointOffsetX, 14);
+        stream.Int32(ref _mainPointOffsetY, 15);
     }
 
     // MAPOBJ.PAS:1232

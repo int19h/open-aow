@@ -30,12 +30,12 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     public sbyte OriginalOverlay;
 
     // Mountain.pas:181
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwShortintEx(ref Player, -1, 40);
-        stream.rwShortintEx(ref Duration, -1, 41);
-        stream.rwShortintEx(ref OriginalOverlay, -1, 42);
+        stream.SByte(ref Player, -1, 40);
+        stream.SByte(ref Duration, -1, 41);
+        stream.SByte(ref OriginalOverlay, -1, 42);
     }
 
     // Mountain.pas:210

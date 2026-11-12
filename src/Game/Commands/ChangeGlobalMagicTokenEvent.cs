@@ -26,22 +26,22 @@ public partial class ChangeGlobalMagicTokenEvent : TokenEvent
     public int Value;
 
     // Spells.PAS:2720
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
-        stream.rwByte(ref PlayerIndex, 21);
-        stream.rwInteger(ref EnchantmentId, 22);
-        stream.rwInteger(ref Value, 23);
+        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 20);
+        stream.Byte(ref PlayerIndex, 21);
+        stream.Int32(ref EnchantmentId, 22);
+        stream.Int32(ref Value, 23);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Enum("Mode", ref Mode);
-        persister.Byte("PlayerIndex", ref PlayerIndex);
-        persister.Int32("EnchantmentID", ref EnchantmentId);
-        persister.Int32("Value", ref Value);
+        Mode = persister.Enum("Mode", Mode);
+        PlayerIndex = persister.Byte("PlayerIndex", PlayerIndex);
+        EnchantmentId = persister.Int32("EnchantmentID", EnchantmentId);
+        Value = persister.Int32("Value", Value);
     }
 
     // Spells.PAS:2722

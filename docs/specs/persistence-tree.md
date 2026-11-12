@@ -38,8 +38,9 @@ public interface IPersistable
 
 public interface IPersistableFactory
 {
-    string ClassName(IPersistable obj);
+    string ClassName(IPersistable objectValue);
     IPersistable Create(string className);
+    void Release(IPersistable objectValue) { }
 }
 
 public interface IPersister
@@ -47,31 +48,53 @@ public interface IPersister
     bool Loading { get; }
     IPersistableFactory Factory { get; }
     bool Has(string name);
-    void Int(string name, ref int value, int fallback = 0);
-    void Byte(string name, ref byte value, byte fallback = 0);
-    void SByte(string name, ref sbyte value, sbyte fallback = 0);
-    void UShort(string name, ref ushort value, ushort fallback = 0);
-    void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
-    void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum;
-    void Bool(string name, ref bool value);
-    void String(string name, ref string value);
+    int Int32(string name, int value, int fallback = 0);
+    byte Byte(string name, byte value, byte fallback = 0);
+    sbyte SByte(string name, sbyte value, sbyte fallback = 0);
+    ushort UInt16(string name, ushort value, ushort fallback = 0);
+    short Int16(string name, short value, short fallback = 0);
+    uint UInt32(string name, uint value, uint fallback = 0);
+    TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
+    Set<E> Set<E>(string name, Set<E> value) where E : unmanaged, Enum;
+    bool Boolean(string name, bool value);
+    string String(string name, string value);
     void Lines(string name, IList<string> lines);
     void LinesWithObjects(string name, IList<string> lines, IList<int> objects);
     void Bytes(string name, Span<byte> data);
-    void RawInt(string name, ref int value);
-    void RawByte(string name, ref byte value);
-    void RawSByte(string name, ref sbyte value);
-    void RawBool(string name, ref bool value);
+    int RawInt32(string name, int value);
+    byte RawByte(string name, byte value);
+    sbyte RawSByte(string name, sbyte value);
+    bool RawBool(string name, bool value);
     void BitArray(string name, int count, Span<byte> bits);
-    void Object(string name, IPersistable obj);
-    void Created(string name, ref IPersistable? obj);
-    void Created<T>(string name, ref T? obj) where T : class, IPersistable;
+    void Object(string name, IPersistable objectValue);
+    IPersistable? Created(string name, IPersistable? objectValue);
+    T? Created<T>(string name, T? objectValue) where T : class, IPersistable;
     void Children(string name, IChildCollection children);
-    void Reference(string name, string domain, ref int key, int fallback = 0);
+    int Reference(string name, string domain, int key, int fallback = 0);
     void Record(string name, Action<IPersister> body);
     void List<T>(string name, IList<T> items, ItemTransfer<T> transfer);
 }
 ```
+
+A value member takes the value to save and returns the value to keep: the loaded value on load,
+the same value on save. The caller assigns the result, so a property works where a field had to
+be passed by `ref`: `Gold = persister.Int32("Gold", Gold)`. The assignment also runs on save, with
+the value the property already holds, so a setter with side effects runs them on save as well. A
+value call therefore targets a field or an auto-property, and the `PersistFields` generator of
+PE-3 reports any other setter. The
+members that move many values in place keep their shape: `Bytes` and `BitArray` take spans,
+`Lines`, `LinesWithObjects`, `List` and `Children` take collections, and `Object` and `Record`
+run against an object or a body. `PersistSupport.Record`, `PersistSupport.UnsignedByte` and
+`RecordValues.Transfer` follow the same style.
+
+The storage streams of the original image (`StorageStream`, `StorageReader` and `StorageWriter`,
+Delphi `TEStorageStream`, `TEReadStorageStream` and `TEWriteStorageStream`) name their members
+by the same CLR types: `Int32`, `Byte`, `SByte`, `UInt16`, `Boolean`, `String`, `Lines`,
+`LinesWithObjects`, `Bytes` (Delphi `rwData`), `Object` (`rwEObject`), `Created`
+(`rwCreateEObject`), `Children` (`rwChildren`), `SizedObject` (`rwEObjectStream`), `Payload`
+(`rwStreamProc`) and `OpenProperty` (`OpenPropertyStream`). A Delphi `Ex` method is the same name
+with a `fallback` argument. A `ReadWrite` call and the `PersistFields` call of the same member
+differ only in the member name argument.
 
 `Has` reports presence on load and does not consume the member. On save it is false. A second
 call of the same name on save is an error (`Codes.Duplicate`) with the path. After `Persist`
@@ -84,12 +107,13 @@ that child is stored, its slot, whether the node keeps indexes, `Attach` before 
 not have `Shared`. The slot is the child's index. `Place` clears the owner set by `Attach`
 and then calls `SetArrayOwner` when the node keeps indexes, otherwise `SetOwner`.
 
-`IItemSlot` transfers one list item: `Int`, `Byte`, `SByte`, `UShort`, `Bool`, `String`,
-`Record`, and `Object`. The call stores exactly one value and takes no fallback. `ItemTransfer<T>` is the delegate
-`List` takes. A lambda cannot capture a `ref` local or parameter, so a transfer is usually an
-instance method or a static method. An explicitly typed lambda also works.
+`IItemSlot` transfers one list item: `Int32`, `Byte`, `SByte`, `UInt16`, `Int16`, `UInt32`,
+`Boolean`, `String`, `Record`, and `Object`. The call stores exactly one value and takes no
+fallback. A value call returns the item to keep, as the members of `IPersister` do.
+`ItemTransfer<T>` is the delegate `List` takes. It receives the item and returns the item to
+keep, so a transfer is a lambda such as `static (IItemSlot slot, int item) => slot.Int32(item)`.
 
-Floating-point fields, `rwStreamProc` payloads, map fields, dynamic sprites, the campaign map
+Floating-point fields, `Payload` callbacks (Delphi `rwStreamProc`), map fields, dynamic sprites, the campaign map
 stream, and the list codecs `int-list`, `bit-list` and `byte-list` have no member on
 `IPersister`.
 
@@ -125,12 +149,12 @@ Presence follows `persistence.md` 1.4.
 
 | call | omitted on save | absent on load |
 |---|---|---|
-| `Int`, `Byte`, `SByte`, `UShort`, `Reference` | value equals the fallback | the fallback is assigned |
-| `Bool` | false | false |
+| `Int32`, `Byte`, `SByte`, `UInt16`, `Int16`, `UInt32`, `Reference` | value equals the fallback | the fallback is assigned |
+| `Boolean` | false | false |
 | `String` | empty string | empty string |
 | `Lines`, `LinesWithObjects`, `List` | empty | the list is cleared |
 | `Bytes` | length zero | the caller's span is left as it is |
-| `RawInt`, `RawByte`, `RawSByte` | never, including zero | the caller's value is left as it is |
+| `RawInt32`, `RawByte`, `RawSByte` | never, including zero | the caller's value is left as it is |
 | `RawBool` | never, including false | the caller's value is left as it is |
 | `BitArray` | the byte length is zero | the caller's span is left as it is |
 | `Enum` | never, including zero | the fallback |
@@ -142,7 +166,7 @@ Presence follows `persistence.md` 1.4.
 
 A named field inside a record follows the same row. A list item does not. Inside a list, false and integer 0 are stored. The caller sizes a `Bytes` span before the call. A length that differs from the stored bytes is `Codes.Range`. A fixed `data` size in the schema, including a single zero byte, is stored. Only length zero is absence.
 
-An explicit false on an `rwBool` member is read as absence. A raw boolean keeps an explicit false, and a raw integer keeps an explicit zero. An explicit integer equal to the fallback of `Int`, `Byte`, `SByte` or `UShort` is applied and then omitted on the next save. The tree follows the engine writer. It does not keep a hand-edited default that the converter leaves in the JSON. Equivalence is against that engine rewrite.
+An explicit false on an `rwBool` member is read as absence. A raw boolean keeps an explicit false, and a raw integer keeps an explicit zero. An explicit integer equal to the fallback of `Int32`, `Byte`, `SByte`, `UInt16`, `Int16` or `UInt32` is applied and then omitted on the next save. The tree follows the engine writer. It does not keep a hand-edited default that the converter leaves in the JSON. Equivalence is against that engine rewrite.
 
 `String` and line text go through code page 1252. A line list whose block is an array of lines (each line ends in CR LF, and no line holds CR, LF or NUL) is a JSON array under `lines` for `rwStringsEx` and a JSON array for `rwStrings`. Any other block is `{ "$text": ... }`, with `objects` beside it for `rwStringsEx`. On load, noncanonical text is split the way `StringCollection.SetTextStr` (Delphi `TStrings`) splits it (CR, LF, or CR LF, and NUL ends the text). The raw line is not preserved. Both sides of an equivalence check pass through that split.
 
@@ -289,7 +313,7 @@ Constructor defaults are not stream fallbacks. `Enchantment` constructs dispel r
 
 ## 11. rwData census
 
-The census is every `rwData` and `RwSet` site under `src/Game` and `src/Engine`, joined to the schema property of that class and id. 142 sites. 7 of them are stream callbacks or the campaign map bytes and have no `data` property. The other 135 match a schema property.
+The census is every `Bytes` and `TransferSet` site of the storage streams (Delphi `rwData` and `RwSet`) under `src/Game` and `src/Engine`, joined to the schema property of that class and id. 142 sites. 7 of them are stream callbacks or the campaign map bytes and have no `data` property. The other 135 match a schema property.
 
 | shape | sites | what version 3 does |
 |---|---:|---|
@@ -301,6 +325,6 @@ The census is every `rwData` and `RwSet` site under `src/Game` and `src/Engine`,
 | bit array | 2 sites, 1 property | ascending bit indices. `CustomAbilityList.AbilityCount` is the schema name of `AbilityBits`. `AbCount` is the separate count |
 | variable byte array | 1 | stays hex. `FloodControl.OriginalTerrain` is a terrain map blob for PE-2c and remains a PE-1 `Bytes` pilot |
 | mapped discriminator | 1 | `DiplomaticAction.ActionType`, the one-byte kind. The class stays on its case mapping |
-| variable blob | 7 | PE-2c. Two `Campaign.Stream` (Delphi `TAoWCampaign`) sites are the campaign map member. The other five are the storage-stream callbacks (`EStorageStream` (Delphi `TEStorageStream`), `EReadStorageStream` (Delphi `TEReadStorageStream`), `EWriteStorageStream` (Delphi `TEWriteStorageStream`), and `CompareStorageStream` (Delphi `TCompareStorageStream`) twice). The direct path still stores those bytes as hex and refuses a decoded map or run |
+| variable blob | 7 | PE-2c. Two `Campaign.Stream` (Delphi `TAoWCampaign`) sites are the campaign map member. The other five are the storage-stream callbacks (`StorageStream` (Delphi `TEStorageStream`), `StorageReader` (Delphi `TEReadStorageStream`), `StorageWriter` (Delphi `TEWriteStorageStream`), and Delphi `TCompareStorageStream` twice, which the port does not have). The direct path still stores those bytes as hex and refuses a decoded map or run |
 
 Declared schema codecs after version 3: `data` 2, `record` 5, `bit-array` 1, `raw-bool` 1, plus `raw` true on 28 `u8`, 1 `i8` and 3 `i32`. `enum` 60, `set` 27, `int-array` 5, `stream` 17, `int-list` 17, `byte-list` 12 and `bit-list` 3 are unchanged. The list and stream figures are declarations, not the inherited uses of the PE-1 census. `AIPlayerControl.DefenseStrengthMultiplier` (Delphi `TAIPlayerControl`) is `float32`, not `data`. The full site table of the earlier shapes is in the PE-2a status file. PE-2c takes the stream callbacks, the map blobs (`OriginalTerrain`, map fields, the campaign map) and the run-length lists. PE-3 takes mapped classes, dynamic members and the switch off `ReadWrite`. The C# record structs stay explicit-layout. `ReadWrite` still copies their bytes, and the catalog names the fields without changing the struct.

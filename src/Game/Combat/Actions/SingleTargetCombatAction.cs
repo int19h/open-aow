@@ -27,20 +27,20 @@ public partial class SingleTargetCombatAction : CombatAction
     public byte TargetId;
 
     // Combat2.pas:732
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref SourceId, 10);
-        stream.rwByte(ref TargetId, 11);
-        RwSet(ref Mode, 1, 12, stream.rwData, 0);
+        stream.Byte(ref SourceId, 10);
+        stream.Byte(ref TargetId, 11);
+        TransferSet(ref Mode, 1, 12, stream.Bytes, 0);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Byte("SourceID", ref SourceId);
-        persister.Byte("TargetID", ref TargetId);
-        persister.Set("Mode", ref Mode);
+        SourceId = persister.Byte("SourceID", SourceId);
+        TargetId = persister.Byte("TargetID", TargetId);
+        Mode = persister.Set("Mode", Mode);
     }
 
     // Combat2.pas:749

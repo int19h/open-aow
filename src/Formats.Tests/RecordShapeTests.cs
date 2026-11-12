@@ -476,33 +476,40 @@ public sealed class RecordShapeTests : FormatsTest
     private sealed class Holder : IPersistable
     {
         public SampleBehavior Behavior;
-        public SamplePacked Marks;
-        public int AbilityCount;
-        public byte[] Bits = [];
-        public byte Raw;
-        public sbyte Signed;
-        public int Wide;
+
+        public SamplePacked Marks { get; set; }
+        public int AbilityCount { get; set; }
+        public byte[] Bits { get; set; } = [];
+        public byte Raw { get; set; }
+        public sbyte Signed { get; set; }
+        public int Wide { get; set; }
+
         public bool Flag;
 
         public void Persist(IPersister persister)
         {
-            RecordValues.Transfer(persister, "Behavior", ref Behavior);
-            RecordValues.Transfer(persister, "Marks", ref Marks);
-            persister.Int32("AbCount", ref AbilityCount);
-            if (persister.Loading) Array.Resize(ref Bits, AbilityCount < 0 ? 0 : (AbilityCount + 7) >> 3);
+            Behavior = RecordValues.Transfer(persister, "Behavior", Behavior);
+            Marks = RecordValues.Transfer(persister, "Marks", Marks);
+            AbilityCount = persister.Int32("AbCount", AbilityCount);
             int length = AbilityCount < 0 ? 0 : (AbilityCount + 7) >> 3;
+            if (persister.Loading)
+            {
+                var bits = Bits;
+                Array.Resize(ref bits, length);
+                Bits = bits;
+            }
             persister.BitArray("Bits", AbilityCount, Bits.AsSpan(0, Math.Max(length, 0)));
-            persister.RawByte("Raw", ref Raw);
-            persister.RawSByte("Signed", ref Signed);
-            persister.RawInt32("Wide", ref Wide);
-            persister.RawBool("Flag", ref Flag);
+            Raw = persister.RawByte("Raw", Raw);
+            Signed = persister.RawSByte("Signed", Signed);
+            Wide = persister.RawInt32("Wide", Wide);
+            Flag = persister.RawBool("Flag", Flag);
         }
     }
 
     private sealed class WidthHolder : IPersistable
     {
-        public EveryWidth Value;
+        public EveryWidth Value { get; set; }
 
-        public void Persist(IPersister persister) => RecordValues.Transfer(persister, "Value", ref Value);
+        public void Persist(IPersister persister) => Value = RecordValues.Transfer(persister, "Value", Value);
     }
 }

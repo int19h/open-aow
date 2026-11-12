@@ -53,7 +53,7 @@ public partial class MapLevel
         base.Dispose();
     }
 
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         var mode = stream.StorageMode();
@@ -65,9 +65,9 @@ public partial class MapLevel
             _map = _mapContainer.Map;
         }
         byte width = (byte)_width, height = (byte)_height, level = (byte)_hexLevel;
-        stream.rwByte(ref width, 3);
-        stream.rwByte(ref height, 4);
-        stream.rwByte(ref level, 5);
+        stream.Byte(ref width, 3);
+        stream.Byte(ref height, 4);
+        stream.Byte(ref level, 5);
         _width = width;
         _height = height;
         _hexLevel = level;
@@ -84,13 +84,13 @@ public partial class MapLevel
             CreateMapFieldList(width, height);
         if (mode.Contains(StorageModeElement.SetupCompare))
             foreach (var field in _fields) field.Status += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
-        var property = stream.OpenPropertyStream(6);
+        var property = stream.OpenProperty(6);
         if (property != null || mode.Contains(EngineServices.Text))
         {
             int step = _count / 10;
             for (int i = 0; i < _count; i++)
             {
-                stream.rwEObjectStream(_fields[i], i + 100);
+                stream.SizedObject(_fields[i], i + 100);
                 if (--step == 0)
                 {
                     progress.Percent += 10;

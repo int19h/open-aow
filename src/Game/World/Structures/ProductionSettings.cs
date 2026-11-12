@@ -35,19 +35,19 @@ public partial class ProductionSettings : EngineObject
     }
 
     // Structur.PAS:120
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Gold, 10);
-        stream.rwInteger(ref Mana, 11);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 12);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsTotal), 13);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 14);
-        stream.rwInteger(ref GroupId, 15);
-        stream.rwInteger(ref UnitProductionIndex, 16);
-        stream.rwCreateEObject(ref Unit, null, 17);
-        stream.rwInteger(ref GoldUpkeep, 18);
-        stream.rwInteger(ref ManaUpkeep, 19);
+        stream.Int32(ref Gold, 10);
+        stream.Int32(ref Mana, 11);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 12);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TurnsTotal), 13);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 14);
+        stream.Int32(ref GroupId, 15);
+        stream.Int32(ref UnitProductionIndex, 16);
+        stream.Created(ref Unit, null, 17);
+        stream.Int32(ref GoldUpkeep, 18);
+        stream.Int32(ref ManaUpkeep, 19);
     }
 
     // Structur.PAS:135

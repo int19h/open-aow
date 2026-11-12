@@ -29,14 +29,14 @@ public partial class HeroEmergeEventLog : EventLog
     public string LocationName = "";
 
     // Hero.PAS:188
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref UnitId, 39);
-        stream.rwInteger(ref _day, 40);
-        stream.rwString(ref _text, 41);
-        stream.rwString(ref LocationName, 42);
-        stream.rwData(Bytes.Of(ref _mode, 1), 1, 43);
+        stream.Int32(ref UnitId, 39);
+        stream.Int32(ref _day, 40);
+        stream.String(ref _text, 41);
+        stream.String(ref LocationName, 42);
+        stream.Bytes(Bytes.Of(ref _mode, 1), 1, 43);
     }
 
     // Hero.PAS:198

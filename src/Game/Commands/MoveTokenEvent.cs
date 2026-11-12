@@ -32,10 +32,10 @@ public partial class MoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:1964
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(20, Path.LoadFromStream, Path.SaveToStream);
+        stream.Payload(20, Path.LoadFromStream, Path.SaveToStream);
     }
 
     // MoveT.PAS:2027

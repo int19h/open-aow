@@ -33,10 +33,10 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
     }
 
     // AIGroup.pas:1473
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
+        stream.Payload(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
     }
 
     // AIGroup.pas:1457

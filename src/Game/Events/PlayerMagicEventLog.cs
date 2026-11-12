@@ -31,14 +31,14 @@ public partial class PlayerMagicEventLog : EventLog
     public string EnchantmentName = "";
 
     // Spells.PAS:1854
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
-        stream.rwInteger(ref SpellId, 21);
-        stream.rwInteger(ref _value, 22);
-        stream.rwString(ref EnchantmentName, 23);
-        stream.rwInteger(ref Location.Packed, 24);
+        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 20);
+        stream.Int32(ref SpellId, 21);
+        stream.Int32(ref _value, 22);
+        stream.String(ref EnchantmentName, 23);
+        stream.Int32(ref Location.Packed, 24);
     }
 
     // Spells.PAS:1892

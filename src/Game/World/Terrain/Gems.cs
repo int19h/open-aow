@@ -32,11 +32,11 @@ public partial class Gems : ImageLibraryTerrainMapObject
     private GemsGenerateMode _generateMode;
 
     // Gems.pas:56
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _amount, 5);
-        stream.rwData(Bytes.Of(ref _generateMode, 1), 1, 6);
+        stream.Int32(ref _amount, 5);
+        stream.Bytes(Bytes.Of(ref _generateMode, 1), 1, 6);
     }
 
     // Gems.pas:46

@@ -53,27 +53,27 @@ public partial class HeroResource : TroopResource
     }
 
     // Hero.PAS:2341
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 10);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 11);
-        stream.rwData(Bytes.Of(ref HeroType, 1), 1, 12);
-        stream.rwData(Bytes.Of(ref Alignment, 1), 1, 13);
+        stream.String(ref Name, 10);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 11);
+        stream.Bytes(Bytes.Of(ref HeroType, 1), 1, 12);
+        stream.Bytes(Bytes.Of(ref Alignment, 1), 1, 13);
         if (Alignment > Alignment.None)
         {
             Alignment = Alignment.Neutral;
         }
 
-        stream.rwBool(ref Hidden, 14);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 15);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 16);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 17);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Hits), 18);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Moves), 19);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 20);
-        stream.rwEObject(Abilities, 29);
-        stream.rwInteger(ref FaceIndex, 30);
+        stream.Boolean(ref Hidden, 14);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 15);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 16);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 17);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Hits), 18);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Moves), 19);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 20);
+        stream.Object(Abilities, 29);
+        stream.Int32(ref FaceIndex, 30);
     }
 
     // Hero.PAS:2326

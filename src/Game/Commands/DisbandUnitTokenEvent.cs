@@ -32,11 +32,11 @@ public partial class DisbandUnitTokenEvent : TokenEvent
     public sbyte Player;
 
     // MoveT.PAS:3532
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.rwInteger(ref UnitId, 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.Int32(ref UnitId, 21);
     }
 
     // MoveT.PAS:3539

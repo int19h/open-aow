@@ -27,13 +27,13 @@ public partial class CityRebellionEventLog : EventLog
     public string CityName = "";
 
     // City.pas:2680
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref HexX, 20);
-        stream.rwInteger(ref HexY, 21);
-        stream.rwInteger(ref HexLevel, 22);
-        stream.rwString(ref CityName, 23);
+        stream.Int32(ref HexX, 20);
+        stream.Int32(ref HexY, 21);
+        stream.Int32(ref HexLevel, 22);
+        stream.String(ref CityName, 23);
     }
 
     // City.pas:2689

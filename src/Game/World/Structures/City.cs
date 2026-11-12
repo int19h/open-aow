@@ -87,17 +87,17 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2157
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 12);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
-        stream.rwData(Bytes.Of(ref WallType, 1), 1, 15);
-        stream.rwByte(ref UpgradeLevel, 16);
-        stream.rwEObject(Production, 18);
-        RwSet(ref Mode, 1, 22, stream.rwData, 0);
-        stream.rwData(Bytes.Of(ref _defendersMode, 1), 1, 27);
-        stream.rwEObject(_enchantmentList, 29);
+        stream.String(ref Name, 12);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
+        stream.Bytes(Bytes.Of(ref WallType, 1), 1, 15);
+        stream.Byte(ref UpgradeLevel, 16);
+        stream.Object(Production, 18);
+        TransferSet(ref Mode, 1, 22, stream.Bytes, 0);
+        stream.Bytes(Bytes.Of(ref _defendersMode, 1), 1, 27);
+        stream.Object(_enchantmentList, 29);
     }
 
     // City.pas:824

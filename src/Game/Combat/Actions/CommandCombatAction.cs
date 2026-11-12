@@ -22,11 +22,11 @@ public partial class CommandCombatAction : SingleTargetCombatAction
     public bool Successful;
 
     // AoWAb.PAS:5044
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref AbilityId, 20);
-        stream.rwBool(ref Successful, 21);
+        stream.Int32(ref AbilityId, 20);
+        stream.Boolean(ref Successful, 21);
     }
 
     // AoWAb.PAS:5063

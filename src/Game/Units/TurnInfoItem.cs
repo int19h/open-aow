@@ -19,14 +19,14 @@ public partial class TurnInfoItem : EngineObject
     public byte Heroes;
 
     // Player.PAS:161
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Gold, 25);
-        stream.rwInteger(ref Mana, 26);
-        stream.rwInteger(ref Structures, 27);
-        stream.rwInteger(ref ArmyStrength, 28);
-        stream.rwByte(ref Heroes, 29);
+        stream.Int32(ref Gold, 25);
+        stream.Int32(ref Mana, 26);
+        stream.Int32(ref Structures, 27);
+        stream.Int32(ref ArmyStrength, 28);
+        stream.Byte(ref Heroes, 29);
     }
 
     // Player.PAS:171

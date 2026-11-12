@@ -49,19 +49,19 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     }
 
     // MoveT.PAS:2093
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(30, _unitIds.LoadFromStream, _unitIds.SaveToStream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _player), 31);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetX), 32);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetY), 33);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetL), 34);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 35);
-        RwSet(ref Mode, 1, 36, stream.rwData, 0);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 37);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 38);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 39);
+        stream.Payload(30, _unitIds.LoadFromStream, _unitIds.SaveToStream);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _player), 31);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetX), 32);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetY), 33);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetL), 34);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 35);
+        TransferSet(ref Mode, 1, 36, stream.Bytes, 0);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 37);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 38);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 39);
     }
 
     // MoveT.PAS:2060

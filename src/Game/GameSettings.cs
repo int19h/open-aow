@@ -16,21 +16,21 @@ public partial class GameSettings : Registry
     }
 
     // AoWReg.pas:141
-    public void rwInteger(string Key, string Name, ref int Value, ReadWriteMode Mode)
+    public void Int32(string key, string name, ref int value, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
         {
-            switch (Mode)
+            switch (mode)
             {
                 case ReadWriteMode.Read:
-                    if (ValueExists(Name))
+                    if (ValueExists(name))
                     {
-                        Value = ReadInteger(Name);
+                        value = ReadInteger(name);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    WriteInteger(Name, Value);
+                    WriteInteger(name, value);
                     break;
             }
 
@@ -39,21 +39,21 @@ public partial class GameSettings : Registry
     }
 
     // AoWReg.pas:153
-    public void rwBool(string Key, string Name, ref bool Value, ReadWriteMode Mode)
+    public void Boolean(string key, string name, ref bool value, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
         {
-            switch (Mode)
+            switch (mode)
             {
                 case ReadWriteMode.Read:
-                    if (ValueExists(Name))
+                    if (ValueExists(name))
                     {
-                        Value = ReadBool(Name);
+                        value = ReadBool(name);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    WriteBool(Name, Value);
+                    WriteBool(name, value);
                     break;
             }
 
@@ -62,21 +62,21 @@ public partial class GameSettings : Registry
     }
 
     // AoWReg.pas:165
-    public void rwString(string Key, string Name, ref string Value, ReadWriteMode Mode)
+    public void String(string key, string name, ref string value, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
         {
-            switch (Mode)
+            switch (mode)
             {
                 case ReadWriteMode.Read:
-                    if (ValueExists(Name))
+                    if (ValueExists(name))
                     {
-                        Value = ReadString(Name);
+                        value = ReadString(name);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    WriteString(Name, Value);
+                    WriteString(name, value);
                     break;
             }
 
@@ -85,21 +85,21 @@ public partial class GameSettings : Registry
     }
 
     // AoWReg.pas:177
-    public void rwBinaryData(string Key, string Name, Span<byte> Value, int Size, ReadWriteMode Mode)
+    public void Bytes(string key, string name, Span<byte> value, int size, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
         {
-            switch (Mode)
+            switch (mode)
             {
                 case ReadWriteMode.Read:
-                    if (ValueExists(Name))
+                    if (ValueExists(name))
                     {
-                        ReadBinaryData(Name, Value, Size);
+                        ReadBinaryData(name, value, size);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    WriteBinaryData(Name, Value, Size);
+                    WriteBinaryData(name, value, size);
                     break;
             }
 
@@ -108,24 +108,24 @@ public partial class GameSettings : Registry
     }
 
     // AoWReg.pas:227
-    public void rwRect(string Key, string Name, ref Rect Value, ReadWriteMode Mode)
+    public void Rectangle(string key, string name, ref Rect value, ReadWriteMode mode)
     {
-        string S;
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+        string text;
+        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
         {
-            switch (Mode)
+            switch (mode)
             {
                 case ReadWriteMode.Read:
-                    if (ValueExists(Name))
+                    if (ValueExists(name))
                     {
-                        S = ReadString(Name);
-                        Value = StringToRectangle(S);
+                        text = ReadString(name);
+                        value = StringToRectangle(text);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    S = RectangleToString(Value);
-                    WriteString(Name, S);
+                    text = RectangleToString(value);
+                    WriteString(name, text);
                     break;
             }
 
@@ -140,7 +140,7 @@ public partial class GameSettings : Registry
         if (index >= 0)
         {
             result = default;
-            rwRect("General\\rectangles", IntToStr(index), ref result, ReadWriteMode.Read);
+            Rectangle("General\\rectangles", IntToStr(index), ref result, ReadWriteMode.Read);
         }
         else
         {
@@ -155,7 +155,7 @@ public partial class GameSettings : Registry
     {
         if (index >= 0)
         {
-            rwRect("General\\rectangles", IntToStr(index), ref value, ReadWriteMode.Write);
+            Rectangle("General\\rectangles", IntToStr(index), ref value, ReadWriteMode.Write);
         }
     }
 
@@ -166,7 +166,7 @@ public partial class GameSettings : Registry
         // { Original leaves Result uninitialized for a missing nonnegative index. }
         if (index >= 0)
         {
-            rwBool("General\\booleans", IntToStr(index), ref result, ReadWriteMode.Read);
+            Boolean("General\\booleans", IntToStr(index), ref result, ReadWriteMode.Read);
         }
         else
         {
@@ -181,7 +181,7 @@ public partial class GameSettings : Registry
     {
         if (index >= 0)
         {
-            rwBool("General\\booleans", IntToStr(index), ref value, ReadWriteMode.Write);
+            Boolean("General\\booleans", IntToStr(index), ref value, ReadWriteMode.Write);
         }
     }
 
@@ -191,7 +191,7 @@ public partial class GameSettings : Registry
         string result = "";
         if (index >= 0)
         {
-            rwString("General\\strings", IntToStr(index), ref result, ReadWriteMode.Read);
+            String("General\\strings", IntToStr(index), ref result, ReadWriteMode.Read);
         }
         else
         {
@@ -206,7 +206,7 @@ public partial class GameSettings : Registry
     {
         if (index >= 0)
         {
-            rwString("General\\strings", IntToStr(index), ref value, ReadWriteMode.Write);
+            String("General\\strings", IntToStr(index), ref value, ReadWriteMode.Write);
         }
     }
 
@@ -217,7 +217,7 @@ public partial class GameSettings : Registry
         // { Original leaves Result uninitialized for a missing nonnegative index. }
         if (index >= 0)
         {
-            rwInteger("General\\integers", IntToStr(index), ref result, ReadWriteMode.Read);
+            Int32("General\\integers", IntToStr(index), ref result, ReadWriteMode.Read);
         }
         else
         {
@@ -232,7 +232,7 @@ public partial class GameSettings : Registry
     {
         if (index >= 0)
         {
-            rwInteger("General\\integers", IntToStr(index), ref value, ReadWriteMode.Write);
+            Int32("General\\integers", IntToStr(index), ref value, ReadWriteMode.Write);
         }
     }
 
@@ -251,14 +251,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("General", "Skip Intro", ref result, ReadWriteMode.Read);
+        Boolean("General", "Skip Intro", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:335
     public void SetSkipIntro(bool value)
     {
-        rwBool("General", "Skip Intro", ref value, ReadWriteMode.Write);
+        Boolean("General", "Skip Intro", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:340
@@ -266,14 +266,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 1;
-        rwInteger("Video", "Display Mode", ref result, ReadWriteMode.Read);
+        Int32("Video", "Display Mode", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:346
     public void SetDisplayMode(int value)
     {
-        rwInteger("Video", "Display Mode", ref value, ReadWriteMode.Write);
+        Int32("Video", "Display Mode", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:351
@@ -281,14 +281,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 640;
-        rwInteger("Video", "Display Width", ref result, ReadWriteMode.Read);
+        Int32("Video", "Display Width", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:357
     public void SetDisplayWidth(int value)
     {
-        rwInteger("Video", "Display Width", ref value, ReadWriteMode.Write);
+        Int32("Video", "Display Width", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:362
@@ -296,14 +296,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 480;
-        rwInteger("Video", "Display Height", ref result, ReadWriteMode.Read);
+        Int32("Video", "Display Height", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:368
     public void SetDisplayHeight(int value)
     {
-        rwInteger("Video", "Display Height", ref value, ReadWriteMode.Write);
+        Int32("Video", "Display Height", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:373
@@ -311,14 +311,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("Video", "Surface In VMem", ref result, ReadWriteMode.Read);
+        Boolean("Video", "Surface In VMem", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:379
     public void SetSurfaceInVideoMemory(bool value)
     {
-        rwBool("Video", "Surface In VMem", ref value, ReadWriteMode.Write);
+        Boolean("Video", "Surface In VMem", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:384
@@ -326,14 +326,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("Video", "Allow Resolution Switches", ref result, ReadWriteMode.Read);
+        Boolean("Video", "Allow Resolution Switches", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:390
     public void SetAllowResolutionSwitches(bool value)
     {
-        rwBool("Video", "Allow Resolution Switches", ref value, ReadWriteMode.Write);
+        Boolean("Video", "Allow Resolution Switches", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:395
@@ -341,14 +341,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("General", "Debug Mode", ref result, ReadWriteMode.Read);
+        Boolean("General", "Debug Mode", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:401
     public void SetDebugMode(bool value)
     {
-        rwBool("General", "Debug Mode", ref value, ReadWriteMode.Write);
+        Boolean("General", "Debug Mode", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:406
@@ -356,14 +356,14 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("General", "Root Directory", ref result, ReadWriteMode.Read);
+        String("General", "Root Directory", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:412
     public void SetRootDirectory(string value)
     {
-        rwString("General", "Root Directory", ref value, ReadWriteMode.Write);
+        String("General", "Root Directory", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:428
@@ -371,7 +371,7 @@ public partial class GameSettings : Registry
     {
         int I;
         I = (int)value;
-        rwInteger("General", "Language", ref I, ReadWriteMode.Write);
+        Int32("General", "Language", ref I, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:436
@@ -379,14 +379,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 3;
-        rwInteger("Sound", "Sound Quality", ref result, ReadWriteMode.Read);
+        Int32("Sound", "Sound Quality", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:442
     public void SetSoundQuality(int value)
     {
-        rwInteger("Sound", "Sound Quality", ref value, ReadWriteMode.Write);
+        Int32("Sound", "Sound Quality", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:447
@@ -394,14 +394,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 50;
-        rwInteger("Sound", "Music Volume", ref result, ReadWriteMode.Read);
+        Int32("Sound", "Music Volume", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:453
     public void SetMusicVolume(int value)
     {
-        rwInteger("Sound", "Music Volume", ref value, ReadWriteMode.Write);
+        Int32("Sound", "Music Volume", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:458
@@ -409,14 +409,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 50;
-        rwInteger("Sound", "SFX Volume", ref result, ReadWriteMode.Read);
+        Int32("Sound", "SFX Volume", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:464
     public void SetSfxVolume(int value)
     {
-        rwInteger("Sound", "SFX Volume", ref value, ReadWriteMode.Write);
+        Int32("Sound", "SFX Volume", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:469
@@ -424,14 +424,14 @@ public partial class GameSettings : Registry
     {
         Rect result;
         result = default;
-        rwRect("Workspace", "Main Window Position", ref result, ReadWriteMode.Read);
+        Rectangle("Workspace", "Main Window Position", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:475
     public void SetMainWindowPosition(Rect value)
     {
-        rwRect("Workspace", "Main Window Position", ref value, ReadWriteMode.Write);
+        Rectangle("Workspace", "Main Window Position", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:480
@@ -439,7 +439,7 @@ public partial class GameSettings : Registry
     {
         int value;
         value = 0;
-        rwInteger("Workspace", "Main Window State", ref value, ReadWriteMode.Read);
+        Int32("Workspace", "Main Window State", ref value, ReadWriteMode.Read);
         return (WindowState)value;
     }
 
@@ -448,7 +448,7 @@ public partial class GameSettings : Registry
     {
         int I;
         I = (int)value;
-        rwInteger("Workspace", "Main Window State", ref I, ReadWriteMode.Write);
+        Int32("Workspace", "Main Window State", ref I, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:497
@@ -456,14 +456,14 @@ public partial class GameSettings : Registry
     {
         Rect result;
         result = default;
-        rwRect("Workspace", "Map Window Position", ref result, ReadWriteMode.Read);
+        Rectangle("Workspace", "Map Window Position", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:503
     public void SetMapWindowPosition(Rect value)
     {
-        rwRect("Workspace", "Map Window Position", ref value, ReadWriteMode.Write);
+        Rectangle("Workspace", "Map Window Position", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:508
@@ -471,14 +471,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = true;
-        rwBool("Video", "Shadows Enabled", ref result, ReadWriteMode.Read);
+        Boolean("Video", "Shadows Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:514
     public void SetShadowsEnabled(bool value)
     {
-        rwBool("Video", "Shadows Enabled", ref value, ReadWriteMode.Write);
+        Boolean("Video", "Shadows Enabled", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:519
@@ -486,14 +486,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = true;
-        rwBool("Sound", "Sound Effects Enabled", ref result, ReadWriteMode.Read);
+        Boolean("Sound", "Sound Effects Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:525
     public void SetSfxEnabled(bool value)
     {
-        rwBool("Sound", "Sound Effects Enabled", ref value, ReadWriteMode.Write);
+        Boolean("Sound", "Sound Effects Enabled", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:530
@@ -501,14 +501,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = true;
-        rwBool("Sound", "Music Enabled", ref result, ReadWriteMode.Read);
+        Boolean("Sound", "Music Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:536
     public void SetMusicEnabled(bool value)
     {
-        rwBool("Sound", "Music Enabled", ref value, ReadWriteMode.Write);
+        Boolean("Sound", "Music Enabled", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:541
@@ -516,14 +516,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("Sound", "Use DirectSound", ref result, ReadWriteMode.Read);
+        Boolean("Sound", "Use DirectSound", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:547
     public void SetUseDirectSound(bool value)
     {
-        rwBool("Sound", "Use DirectSound", ref value, ReadWriteMode.Write);
+        Boolean("Sound", "Use DirectSound", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:552
@@ -531,7 +531,7 @@ public partial class GameSettings : Registry
     {
         int value;
         value = 2;
-        rwInteger("Workspace", "Detail Level", ref value, ReadWriteMode.Read);
+        Int32("Workspace", "Detail Level", ref value, ReadWriteMode.Read);
         return (DetailLevel)value;
     }
 
@@ -540,7 +540,7 @@ public partial class GameSettings : Registry
     {
         int I;
         I = (int)value;
-        rwInteger("Workspace", "Detail Level", ref I, ReadWriteMode.Write);
+        Int32("Workspace", "Detail Level", ref I, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:569
@@ -548,14 +548,14 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("General", "Startup Directory", ref result, ReadWriteMode.Read);
+        String("General", "Startup Directory", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:575
     public void SetStartupDirectory(string value)
     {
-        rwString("General", "Startup Directory", ref value, ReadWriteMode.Write);
+        String("General", "Startup Directory", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:580
@@ -563,14 +563,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("General", "Log Token Events", ref result, ReadWriteMode.Read);
+        Boolean("General", "Log Token Events", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:586
     public void SetLogTokenEvents(bool value)
     {
-        rwBool("General", "Log Token Events", ref value, ReadWriteMode.Write);
+        Boolean("General", "Log Token Events", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:591
@@ -578,14 +578,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = true;
-        rwBool("General", "Auto Save", ref result, ReadWriteMode.Read);
+        Boolean("General", "Auto Save", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:597
     public void SetAutoSave(bool value)
     {
-        rwBool("General", "Auto Save", ref value, ReadWriteMode.Write);
+        Boolean("General", "Auto Save", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:602
@@ -593,14 +593,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("General", "Auto Debug Save", ref result, ReadWriteMode.Read);
+        Boolean("General", "Auto Debug Save", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:608
     public void SetAutoDebugSave(bool value)
     {
-        rwBool("General", "Auto Debug Save", ref value, ReadWriteMode.Write);
+        Boolean("General", "Auto Debug Save", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:613
@@ -608,14 +608,14 @@ public partial class GameSettings : Registry
     {
         bool result;
         result = false;
-        rwBool("General", "Fast Movement Enabled", ref result, ReadWriteMode.Read);
+        Boolean("General", "Fast Movement Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:619
     public void SetFastMovementEnabled(bool value)
     {
-        rwBool("General", "Fast Movement Enabled", ref value, ReadWriteMode.Write);
+        Boolean("General", "Fast Movement Enabled", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:646
@@ -623,14 +623,14 @@ public partial class GameSettings : Registry
     {
         CombatResolveMode result;
         result = CombatResolveMode.Choose;
-        rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref result), 1, ReadWriteMode.Read);
+        Bytes("General", "Combat Resolve Mode", Rtl.Bytes.Of(ref result), 1, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:652
     public void SetCombatResolveMode(CombatResolveMode value)
     {
-        rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref value), 1, ReadWriteMode.Write);
+        Bytes("General", "Combat Resolve Mode", Rtl.Bytes.Of(ref value), 1, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:657
@@ -638,14 +638,14 @@ public partial class GameSettings : Registry
     {
         MovementSpeed result;
         result = MovementSpeed.Normal;
-        rwBinaryData("General", "Movement Speed", Bytes.Of(ref result), 1, ReadWriteMode.Read);
+        Bytes("General", "Movement Speed", Rtl.Bytes.Of(ref result), 1, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:663
     public void SetMovementSpeed(MovementSpeed value)
     {
-        rwBinaryData("General", "Movement Speed", Bytes.Of(ref value), 1, ReadWriteMode.Write);
+        Bytes("General", "Movement Speed", Rtl.Bytes.Of(ref value), 1, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:668
@@ -653,14 +653,14 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("Email", "Local Email Address", ref result, ReadWriteMode.Read);
+        String("Email", "Local Email Address", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:674
     public void SetLocalEmailAddress(string value)
     {
-        rwString("Email", "Local Email address", ref value, ReadWriteMode.Write);
+        String("Email", "Local Email address", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:679
@@ -668,14 +668,14 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("Email", "SMTP Server", ref result, ReadWriteMode.Read);
+        String("Email", "SMTP Server", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:685
     public void SetSmtpServer(string value)
     {
-        rwString("Email", "SMTP Server", ref value, ReadWriteMode.Write);
+        String("Email", "SMTP Server", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:690
@@ -683,14 +683,14 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("Email", "POP3 Server", ref result, ReadWriteMode.Read);
+        String("Email", "POP3 Server", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:696
     public void SetPop3Server(string value)
     {
-        rwString("Email", "POP3 Server", ref value, ReadWriteMode.Write);
+        String("Email", "POP3 Server", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:710
@@ -698,14 +698,14 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("Email", "POP3 UserName", ref result, ReadWriteMode.Read);
+        String("Email", "POP3 UserName", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:716
     public void SetPop3UserName(string value)
     {
-        rwString("Email", "POP3 UserName", ref value, ReadWriteMode.Write);
+        String("Email", "POP3 UserName", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:721
@@ -713,7 +713,7 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("Email", "POP3 Password", ref result, ReadWriteMode.Read);
+        String("Email", "POP3 Password", ref result, ReadWriteMode.Read);
         result = TransformPassword(result, true);
         return result;
     }
@@ -722,7 +722,7 @@ public partial class GameSettings : Registry
     public void SetPop3Password(string value)
     {
         value = TransformPassword(value, true);
-        rwString("Email", "POP3 Password", ref value, ReadWriteMode.Write);
+        String("Email", "POP3 Password", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:734
@@ -730,7 +730,7 @@ public partial class GameSettings : Registry
     {
         string result;
         result = "";
-        rwString("Email", "Attachment Directory", ref result, ReadWriteMode.Read);
+        String("Email", "Attachment Directory", ref result, ReadWriteMode.Read);
         return result;
     }
 
@@ -742,7 +742,7 @@ public partial class GameSettings : Registry
             value = value + "\\";
         }
 
-        rwString("Email", "Attachment Directory", ref value, ReadWriteMode.Write);
+        String("Email", "Attachment Directory", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:747
@@ -750,14 +750,14 @@ public partial class GameSettings : Registry
     {
         int result;
         result = 1;
-        rwInteger("Email", "Check Email Frequency", ref result, ReadWriteMode.Read);
+        Int32("Email", "Check Email Frequency", ref result, ReadWriteMode.Read);
         return result;
     }
 
     // AoWReg.pas:753
     public void SetCheckEmailFrequency(int value)
     {
-        rwInteger("Email", "Check Email Frequency", ref value, ReadWriteMode.Write);
+        Int32("Email", "Check Email Frequency", ref value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:758
@@ -766,7 +766,7 @@ public partial class GameSettings : Registry
         string S = "";
         int P;
         int result = 0;
-        rwString("General", "Serial number", ref S, ReadWriteMode.Read);
+        String("General", "Serial number", ref S, ReadWriteMode.Read);
         try
         {
             P = Pos("-", S);
@@ -798,7 +798,7 @@ public partial class GameSettings : Registry
     {
         string S;
         S = "4G5F6JHH-" + IntToHex(value, 8) + "-6AG66554-98LK0FG3";
-        rwString("General", "Serial number", ref S, ReadWriteMode.Write);
+        String("General", "Serial number", ref S, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:791
@@ -812,7 +812,7 @@ public partial class GameSettings : Registry
     public Language GetLanguage()
     {
         int value = 0;
-        rwInteger("General", "Language", ref value, ReadWriteMode.Read);
+        Int32("General", "Language", ref value, ReadWriteMode.Read);
         return value is >= 2 and <= 5 ? (Language)value : Language.English;
     }
 

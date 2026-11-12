@@ -30,11 +30,11 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     }
 
     // GlobalSpells.pas:569
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref WarpLocation.Packed, 30);
-        stream.rwCreateEObject(ref ArmyId, null, 31);
+        stream.Int32(ref WarpLocation.Packed, 30);
+        stream.Created(ref ArmyId, null, 31);
     }
 
     // GlobalSpells.pas:552

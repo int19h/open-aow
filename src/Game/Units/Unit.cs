@@ -38,26 +38,26 @@ public partial class Unit : Troop
     private sbyte _abilityDamage;
 
     // Unit.PAS:2132
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         short resourceIndex = default;
         UnitResource resource;
         base.ReadWrite(stream);
-        stream.rwByte(ref _experience, 7);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 8);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hitPoints), 9);
+        stream.Byte(ref _experience, 7);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 8);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hitPoints), 9);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of())
         {
             if (stream.StorageMode().Contains(StorageModeElement.Compare))
             {
                 resourceIndex = (short)UnitResource.UnitResourceIndex();
-                stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
+                stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
             }
             else
             {
                 if (stream.StorageMode().Contains(StorageModeElement.Read))
                 {
-                    stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
+                    stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
                     resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
                     UnitResource = resource;
                     if (resource == null)
@@ -77,7 +77,7 @@ public partial class Unit : Troop
                         resourceIndex = -1;
                     }
 
-                    stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
+                    stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
                 }
             }
         }

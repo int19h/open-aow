@@ -51,20 +51,20 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     }
 
     // EventLog.pas:358
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _day, 10);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _player), 11);
-        stream.rwInteger(ref Id, 12);
+        stream.Int32(ref _day, 10);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _player), 11);
+        stream.Int32(ref Id, 12);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("TEventLog.Day", ref _day);
-        PersistSupport.UnsignedByte(persister, "Player", ref _player);
-        persister.Int32("ID", ref Id);
+        _day = persister.Int32("TEventLog.Day", _day);
+        _player = PersistSupport.UnsignedByte(persister, "Player", _player);
+        Id = persister.Int32("ID", Id);
     }
 
     // EventLog.pas:345

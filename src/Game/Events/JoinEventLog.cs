@@ -55,18 +55,18 @@ public partial class JoinEventLog : EventLog
     }
 
     // Diplomacy.pas:19
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref FirstUnitId, 21);
-        stream.rwStreamProc(22, UnitIds.LoadFromStream, UnitIds.SaveToStream);
-        stream.rwByte(ref Selection, 23);
-        stream.rwStrings(JoinMessage, 24);
-        stream.rwInteger(ref Gold, 25);
-        stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref _location), 26);
-        stream.rwData(Bytes.Of(ref JoinMode, 1), 1, 27);
-        stream.rwString(ref Text, 28);
-        stream.rwIntegerEx(ref JoinIndex, -1, 29);
+        stream.Int32(ref FirstUnitId, 21);
+        stream.Payload(22, UnitIds.LoadFromStream, UnitIds.SaveToStream);
+        stream.Byte(ref Selection, 23);
+        stream.Lines(JoinMessage, 24);
+        stream.Int32(ref Gold, 25);
+        stream.Int32(ref Unsafe.As<MapCoordinate, int>(ref _location), 26);
+        stream.Bytes(Bytes.Of(ref JoinMode, 1), 1, 27);
+        stream.String(ref Text, 28);
+        stream.Int32(ref JoinIndex, -1, 29);
     }
 
     // Diplomacy.pas:58

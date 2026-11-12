@@ -109,37 +109,37 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     }
 
     // Army.PAS:4448
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
         {
-            stream.rwInteger(ref _itemGraphicsIndex, 7);
+            stream.Int32(ref _itemGraphicsIndex, 7);
         }
 
         if (!stream.StorageMode().Contains(EngineServices.Text) || Owner is ItemLibrary || !GetLibraryItem())
         {
-            stream.rwString(ref OwnerName, 8);
+            stream.String(ref OwnerName, 8);
         }
 
         if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
         {
-            stream.rwString(ref Name, 9);
-            stream.rwData(Bytes.Of(ref Availability, 1), 1, 10);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 11);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 12);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 13);
-            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 14);
-            stream.rwData(Bytes.Of(ref ItemType, 1), 1, 15);
-            stream.rwBool(ref _hidden, 16);
-            stream.rwInteger(ref ItemId, 17);
-            stream.rwStrings(_description, 18);
-            stream.rwInteger(ref _obtainValue, 19);
-            stream.rwInteger(ref _spellId, 20);
-            stream.rwIntegerEx(ref LibraryId, -1, 21);
+            stream.String(ref Name, 9);
+            stream.Bytes(Bytes.Of(ref Availability, 1), 1, 10);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 11);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 12);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 13);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 14);
+            stream.Bytes(Bytes.Of(ref ItemType, 1), 1, 15);
+            stream.Boolean(ref _hidden, 16);
+            stream.Int32(ref ItemId, 17);
+            stream.Lines(_description, 18);
+            stream.Int32(ref _obtainValue, 19);
+            stream.Int32(ref _spellId, 20);
+            stream.Int32(ref LibraryId, -1, 21);
             if (!stream.StorageMode().Contains(EngineServices.Text))
             {
-                stream.rwString(ref LibraryName, 22);
+                stream.String(ref LibraryName, 22);
             }
         }
     }

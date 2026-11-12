@@ -23,11 +23,11 @@ public partial class CombatSpellCombatAction : DamageCombatAction
     public int ManaCost;
 
     // CombatSpells.pas:452
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref SpellId, 30);
-        stream.rwInteger(ref ManaCost, 31);
+        stream.Int32(ref SpellId, 30);
+        stream.Int32(ref ManaCost, 31);
     }
 
     // CombatSpells.pas:459

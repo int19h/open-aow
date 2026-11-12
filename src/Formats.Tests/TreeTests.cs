@@ -415,36 +415,36 @@ public sealed class TreeTests : FormatsTest
 
     private sealed class Inner : IPersistable
     {
-        public int Number;
+        public int Number { get; set; }
 
-        public void Persist(IPersister persister) => persister.Int32("N", ref Number);
+        public void Persist(IPersister persister) => Number = persister.Int32("N", Number);
     }
 
     private sealed class Sample : IPersistable
     {
-        public int Number;
-        public int NumberFallback = 7;
-        public byte Small;
-        public byte SmallFallback = 3;
-        public sbyte SignedByte;
-        public ushort Word;
-        public ushort WordFallback = 9;
-        public bool Flag;
-        public string Title = "";
-        public string Note = "";
-        public int Player;
+        public int Number { get; set; }
+        public int NumberFallback { get; set; } = 7;
+        public byte Small { get; set; }
+        public byte SmallFallback { get; set; } = 3;
+        public sbyte SignedByte { get; set; }
+        public ushort Word { get; set; }
+        public ushort WordFallback { get; set; } = 9;
+        public bool Flag { get; set; }
+        public string Title { get; set; } = "";
+        public string Note { get; set; } = "";
+        public int Player { get; set; }
 
         public byte[] Blob { get; init; } = new byte[4];
 
-        public int PairA;
-        public int PairB = 4;
+        public int PairA { get; set; }
+        public int PairB { get; set; } = 4;
 
         public bool SkipNote { get; init; }
         public bool HadNote { get; private set; }
 
         public Inner Fixed { get; } = new();
 
-        public IPersistable? Made;
+        public IPersistable? Made { get; set; }
 
         public List<string> Message { get; } = [];
         public List<string> EditorLines { get; } = [];
@@ -456,38 +456,38 @@ public sealed class TreeTests : FormatsTest
         public void Persist(IPersister persister)
         {
             if (persister.Loading) Kids.Clear();
-            persister.Reference("Player", "player-slot", ref Player);
+            Player = persister.Reference("Player", "player-slot", Player);
             persister.List("Flags", Flags, FlagItem);
             persister.List("Scores", Scores, ScoreItem);
             persister.Record("Pair", WritePair);
             persister.Children("Children", new KidList(Kids));
-            persister.Created("Made", ref Made);
+            Made = persister.Created("Made", Made);
             persister.Object("Fixed", Fixed);
             persister.Bytes("Blob", Blob);
             persister.LinesWithObjects("Editors", EditorLines, EditorObjects);
             persister.Lines("Message", Message);
-            persister.String("Title", ref Title);
-            persister.Boolean("Flag", ref Flag);
-            persister.UInt16("WordFallback", ref WordFallback, 9);
-            persister.UInt16("Word", ref Word);
-            persister.SByte("SignedByte", ref SignedByte);
-            persister.Byte("SmallFallback", ref SmallFallback, 3);
-            persister.Byte("Small", ref Small);
-            persister.Int32("NumberFallback", ref NumberFallback, 7);
-            persister.Int32("Number", ref Number);
+            Title = persister.String("Title", Title);
+            Flag = persister.Boolean("Flag", Flag);
+            WordFallback = persister.UInt16("WordFallback", WordFallback, 9);
+            Word = persister.UInt16("Word", Word);
+            SignedByte = persister.SByte("SignedByte", SignedByte);
+            SmallFallback = persister.Byte("SmallFallback", SmallFallback, 3);
+            Small = persister.Byte("Small", Small);
+            NumberFallback = persister.Int32("NumberFallback", NumberFallback, 7);
+            Number = persister.Int32("Number", Number);
             if (SkipNote) HadNote = persister.Has("Note");
-            else persister.String("Note", ref Note);
+            else Note = persister.String("Note", Note);
         }
 
         private void WritePair(IPersister record)
         {
-            record.Int32("B", ref PairB, 4);
-            record.Int32("A", ref PairA);
+            PairB = record.Int32("B", PairB, 4);
+            PairA = record.Int32("A", PairA);
         }
 
-        private static void ScoreItem(IItemSlot slot, ref int value) => slot.Int32(ref value);
+        private static int ScoreItem(IItemSlot slot, int value) => slot.Int32(value);
 
-        private static void FlagItem(IItemSlot slot, ref bool value) => slot.Boolean(ref value);
+        private static bool FlagItem(IItemSlot slot, bool value) => slot.Boolean(value);
     }
 
     private sealed class KidList(List<Inner> kids) : IChildCollection
@@ -518,20 +518,20 @@ public sealed class TreeTests : FormatsTest
 
     private sealed class Twice : IPersistable
     {
-        public int Number;
+        public int Number { get; set; }
 
         public void Persist(IPersister persister)
         {
-            persister.Int32("Number", ref Number);
-            persister.Int32("Number", ref Number);
+            Number = persister.Int32("Number", Number);
+            Number = persister.Int32("Number", Number);
         }
     }
 
     private sealed class ReferenceProbe : IPersistable
     {
-        public int Key;
+        public int Key { get; set; }
 
-        public void Persist(IPersister persister) => persister.Reference("Upkeep", "player-slot", ref Key);
+        public void Persist(IPersister persister) => Key = persister.Reference("Upkeep", "player-slot", Key);
     }
 
     private sealed class TestFactory : IPersistableFactory

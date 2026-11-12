@@ -36,14 +36,14 @@ public partial class ControlStyleObject : EngineObject
     }
 
     // Engine.pas:8243
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
-        RwSet(ref _controlStyle, 1, 1, stream.rwData, 0);
+        TransferSet(ref _controlStyle, 1, 1, stream.Bytes, 0);
     }
 
     public override void PersistFields(IPersister persister)
     {
-        persister.Set("ControlStyle", ref _controlStyle);
+        _controlStyle = persister.Set("ControlStyle", _controlStyle);
     }
 
 }

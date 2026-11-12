@@ -100,12 +100,12 @@ public partial class ResourceEditSettings : ControlStyleObject
     }
 
     // Engine.pas:8720
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            stream.rwStringsEx(_editors, 3);
+            stream.LinesWithObjects(_editors, 3);
         }
     }
 

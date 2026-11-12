@@ -39,7 +39,7 @@ public sealed class TypedNameRoundTripTests
             {
                 memory.Write(saved);
                 memory.Position = 0;
-                using var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
+                using var reader = new StorageReader(memory, EngineFixture.Engine, false);
                 loaded.ReadWrite(reader);
             }
             Assert.Equal(typed, loaded.HeroName);
@@ -58,7 +58,7 @@ public sealed class TypedNameRoundTripTests
     private static byte[] Save(Leader leader)
     {
         using var memory = new MemoryStream();
-        using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false)) { leader.ReadWrite(writer); }
+        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false)) { leader.ReadWrite(writer); }
         return memory.ToArray();
     }
 
