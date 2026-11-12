@@ -2,6 +2,8 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 namespace Aow.Game.Magic.Abilities;
 
 // (external level, source name)
@@ -24,6 +26,13 @@ public partial class LeadershipAbilityData : MultiLevelAbilityData
         {
             stream.String(ref ExternalSource, 26);
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        ExternalLevel = persister.Byte("ExternalLevel", ExternalLevel);
+        ExternalSource = persister.String("ExternalSource", ExternalSource);
     }
 
     // Engine.pas:524

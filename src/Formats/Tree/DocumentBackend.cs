@@ -46,7 +46,11 @@ public static class DocumentBackend
             if (value is null) continue;
             var member = site.For(prop);
             if (prop.IsDynamic)
-                throw member.Fail(Codes.Type, "PE-1 does not store a dynamic member.");
+            {
+                json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, member));
+                seen.Add(prop.Name);
+                continue;
+            }
             if (site.Schema.Version >= 2 && value is ListNode && !prop.Codec.AcceptsList(site.Schema.Version))
                 throw member.Fail(Codes.Type, ListOnly(site.Schema.Version));
             var written = prop.Codec.WriteTree(value, member);
@@ -94,7 +98,10 @@ public static class DocumentBackend
             if (member is null) continue;
             var at = site.For(prop);
             if (prop.IsDynamic)
-                throw at.Fail(Codes.Type, "PE-1 does not store a dynamic member.", member.Value);
+            {
+                node.Add(prop.Name, prop.Codec.ReadSlotsTree(member.Value, at));
+                continue;
+            }
             if (site.Schema.Version >= 2 && member.Value is JsonArray && !prop.Codec.AcceptsDocumentArray(site.Schema.Version))
                 throw at.Fail(Codes.Type, ListOnly(site.Schema.Version), member.Value);
             var value = prop.Codec.ReadTree(member.Value, at);

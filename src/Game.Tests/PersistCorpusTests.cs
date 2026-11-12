@@ -25,16 +25,17 @@ public sealed class PersistCorpusTests
         ["Scenario/Custom/*.hsm", "Scenario/Campaign/*.csm", "Scenario/Campaign/*.cam", "Release/*.ahl", "Release/*.hss", "TCMaps/*.hsm", "Save/*.asg"];
 
     // These subclasses are in the installed scenarios and saves. TRaidAG, TScoutAG and the other
-    // behavior groups are absent from those files. TCustomAbilityList.PersistFields has no corpus
-    // coverage. Every class that stores the bit array descends from TAbilityOwner, which overrides
-    // ReadWrite and has no PersistFields, so the closure is refused before that method runs.
-    // Class id 80 is shared with TEObject, so a created object is not named TAbilityList. The
-    // constructed tests cover the bit array. TSetupSettings is not a member of a map, campaign,
-    // hero list or save. Storm and animation sprites are absent from these files.
+    // behavior groups are absent from those files. Items prove the bit array of
+    // TCustomAbilityList, the ability-id list and the keyed ability data, item controls the keyed
+    // items, and the relation and tutorial lists the byte and integer lists with a stored default.
+    // Class id 80 is shared with TEObject, so a created object is not named TAbilityList.
+    // TSetupSettings is not a member of a map, campaign, hero list or save. Storm and animation
+    // sprites are absent from these files.
     private static readonly string[] s_required =
     [
         "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "NormalAIGroup", "SkirmishAIGroup",
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
+        "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl",
     ];
 
     private static readonly string[] s_watched =
@@ -46,6 +47,8 @@ public sealed class PersistCorpusTests
         "Animation", "BloodShrineAnimation", "ImageSequenceAnimation", "SpringOfLifeAnimation", "TwinkleAnimation",
         "DamageCombatAction", "SelfDestructCombatAction", "TurnUndeadCombatAction", "RemotePlayer", "CustomAbilityList", "SetupSettings", "AIGroup",
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
+        "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl",
+        "CommandAbilityData", "CommandedAbilityData", "PossessedAbilityData", "ItemExplorationSiteEventLog",
     ];
 
     private readonly ITestOutputHelper _output;

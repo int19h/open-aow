@@ -165,6 +165,34 @@ public interface IPersister
 
     T? Created<T>(string name, T? objectValue) where T : class, IPersistable;
 
+    /// <summary>
+    /// One created object of a keyed dynamic member, stored at <paramref name="slot"/>. On save the
+    /// calls of one member add their slots in call order, a null object stores the stored null, and
+    /// a slot stored twice is an error. On load the call returns the object stored at that slot,
+    /// or null when the slot is absent or holds the stored null. A slot the load does not ask for
+    /// is left unread, as <c>ReadWrite</c> leaves an id it does not ask for.
+    /// </summary>
+    IPersistable? CreatedSlot(string name, int slot, IPersistable? objectValue);
+
+    T? CreatedSlot<T>(string name, int slot, T? objectValue) where T : class, IPersistable;
+
+    /// <summary>
+    /// On load, consumes a member without reading it, the way <c>ReadWrite</c> leaves a stored
+    /// property unread. A member already read stays as it is. On save it stores nothing.
+    /// </summary>
+    void Skip(string name);
+
+    /// <summary>
+    /// A list with a stored default of signed 32-bit values (Delphi <c>TIntegerList</c>). The
+    /// member is always stored, an empty list included. On load a present member replaces the items
+    /// and returns the stored default. An absent member leaves the items as they are and returns
+    /// <paramref name="defaultValue"/>.
+    /// </summary>
+    int Int32List(string name, IList<int> items, int defaultValue);
+
+    /// <summary>A list with a stored default of bytes (Delphi <c>TByteList</c>), with the presence of <see cref="Int32List"/>.</summary>
+    byte ByteList(string name, IList<byte> items, byte defaultValue);
+
     void Children(string name, IChildCollection children);
 
     int Reference(string name, string domain, int key, int fallback = 0);

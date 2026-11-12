@@ -1,7 +1,10 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+
+using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
 
@@ -100,6 +103,61 @@ public partial class AbilityOwner : CustomAbilityList
                 }
             }
         }
+    }
+
+    // The load follows IDs, as ReadWrite does: one AbilityData per stored id, from the slot of
+    // that id, and a slot IDs does not name stays unread. ReadWrite reads neither member when the
+    // ability bits (property 3) are absent.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        if (persister.Loading)
+        {
+            if (!persister.Has("AbilityCount"))
+            {
+                persister.Skip("IDs");
+                persister.Skip("AbilityData");
+                return;
+            }
+
+            var ids = new Int32List();
+            PersistSupport.Int32List(persister, "IDs", ids);
+            AbilityData previous = null;
+            for (int i = 0; i < ids.Count; i++)
+            {
+                var data = persister.CreatedSlot<AbilityData>("AbilityData", slot: ids[i], objectValue: null);
+                if (previous != null)
+                {
+                    previous.Next = data;
+                }
+
+                previous = data;
+                AbilityData ??= data;
+            }
+
+            persister.Skip("AbilityData");
+            ids.Dispose();
+            return;
+        }
+
+        if (AbilityData == null)
+        {
+            return;
+        }
+
+        var stored = new Int32List();
+        for (var data = AbilityData; data != null; data = data.Next)
+        {
+            stored.Add(data.GetAbilityId());
+        }
+
+        PersistSupport.Int32List(persister, "IDs", stored);
+        for (var data = AbilityData; data != null; data = data.Next)
+        {
+            persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
+        }
+
+        stored.Dispose();
     }
 
     // Ability.PAS:1667

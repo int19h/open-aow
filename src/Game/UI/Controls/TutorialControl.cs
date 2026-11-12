@@ -1,7 +1,10 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+
+using Aow.Formats.Tree;
 
 using Aow.Game.Events;
 
@@ -34,6 +37,12 @@ public partial class TutorialControl : EngineObject
     {
         base.ReadWrite(stream);
         stream.Payload(20, _shownMessages.LoadFromStream, _shownMessages.SaveToStream);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Int32List(persister, "ShownMessages", _shownMessages);
     }
 
     // AoWHSMap.PAS:16

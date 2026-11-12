@@ -283,8 +283,9 @@ enum bytes, sets and fixed integer arrays as C# member names, name lists and int
 Version 3 stores a padded record as named fields, the ability bit array as ascending indices,
 and a primitive `rwData` value as a plain integer or boolean. The original backend writes the
 tree to the property-table image and back. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) and
-`DiplomaticAction.ActionType` (Delphi `TDiplomaticAction`) stay exact hex. Stream callbacks, map blobs and run-length lists
-stay for PE-2c. The C# record structs keep their explicit layout while `ReadWrite` still copies
+`DiplomaticAction.ActionType` (Delphi `TDiplomaticAction`) stay exact hex. The integer and byte lists and the
+keyed dynamic members are on the tree and the direct path since PE-2c-2. Stream callbacks, bit
+lists, map blobs and sprites stay for PE-2c. The C# record structs keep their explicit layout while `ReadWrite` still copies
 their bytes. The catalog names the fields. It does not replace the struct with a plain record.
 The game still loads and saves through `ReadWrite` and the converter. Step 3 is the switch.
 

@@ -64,6 +64,9 @@ sealed class MemberPersister : IPersister
     private readonly DocumentNodePath _path;
     private readonly LoadErrorPolicy? _errors;
 
+    // The keyed dynamic members this object has taken on load or started on save.
+    private Dictionary<string, SlotListNode?>? _slotMembers;
+
     public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
         : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
     {
@@ -332,21 +335,7 @@ sealed class MemberPersister : IPersister
             if (found is null || found is NullNode) return null;
             if (found is not ObjectNode node || node.ClassName is not string className)
                 throw Type(name, "a created object");
-            IPersistable? created = null;
-            try
-            {
-                created = Factory.Create(className);
-                var child = new MemberPersister(node, true, Factory, _path.Member(name), _errors);
-                created.Persist(child);
-                child.Finish();
-                return created;
-            }
-            catch (System.Exception error)
-            {
-                if (created is not null) Factory.Release(created);
-                if (!Continue(error)) throw;
-                return null;
-            }
+            return Create(node, className, _path.Member(name));
         }
         if (objectValue is null)
         {
@@ -365,6 +354,95 @@ sealed class MemberPersister : IPersister
         if (box is not null && box is not T)
             throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name);
         return (T?)box;
+    }
+
+    public IPersistable? CreatedSlot(string name, int slot, IPersistable? objectValue)
+    {
+        var at = _path.Member(name).Item(slot);
+        if (slot < 0)
+            throw TreeErrors.Fail(Codes.Range, "A slot of " + name + " is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        _slotMembers ??= new Dictionary<string, SlotListNode?>(StringComparer.Ordinal);
+        if (Loading)
+        {
+            if (!_slotMembers.TryGetValue(name, out var stored))
+            {
+                var found = Take(name);
+                if (found is not null and not SlotListNode) throw Type(name, "created objects at slots");
+                stored = (SlotListNode?)found;
+                _slotMembers[name] = stored;
+            }
+            var value = stored?.Find(slot);
+            if (value is null || value is NullNode) return null;
+            if (value is not ObjectNode node || node.ClassName is not string className)
+                throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a created object.", at);
+            return Create(node, className, at);
+        }
+        if (!_slotMembers.TryGetValue(name, out var list) || list is null)
+        {
+            list = new SlotListNode();
+            Store(name, list);
+            _slotMembers[name] = list;
+        }
+        if (list.Find(slot) is not null)
+            throw TreeErrors.Fail(Codes.Slot, "Slot " + slot.ToString(System.Globalization.CultureInfo.InvariantCulture) + " of " + name + " is stored twice.", at);
+        if (objectValue is null)
+        {
+            list.Add(slot, NullNode.Instance);
+            return null;
+        }
+        var written = new ObjectNode(Factory.ClassName(objectValue), slot);
+        objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors));
+        list.Add(slot, written);
+        return objectValue;
+    }
+
+    public T? CreatedSlot<T>(string name, int slot, T? objectValue) where T : class, IPersistable
+    {
+        var box = CreatedSlot(name, slot, (IPersistable?)objectValue);
+        if (box is not null && box is not T)
+            throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name);
+        return (T?)box;
+    }
+
+    public void Skip(string name)
+    {
+        if (Loading && !_consumed.Contains(name)) Take(name);
+    }
+
+    public int Int32List(string name, IList<int> items, int defaultValue)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return defaultValue;
+            if (found is not DefaultListNode { Width: 4 } node) throw Type(name, "a list of 32-bit integers with a default");
+            items.Clear();
+            foreach (var item in node.Items)
+                items.Add(checked((int)item));
+            return checked((int)node.Default);
+        }
+        var values = new long[items.Count];
+        for (int i = 0; i < values.Length; i++) values[i] = items[i];
+        Store(name, new DefaultListNode(4, defaultValue, values));
+        return defaultValue;
+    }
+
+    public byte ByteList(string name, IList<byte> items, byte defaultValue)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return defaultValue;
+            if (found is not DefaultListNode { Width: 1 } node) throw Type(name, "a list of bytes with a default");
+            items.Clear();
+            foreach (var item in node.Items)
+                items.Add(checked((byte)item));
+            return checked((byte)node.Default);
+        }
+        var values = new long[items.Count];
+        for (int i = 0; i < values.Length; i++) values[i] = items[i];
+        Store(name, new DefaultListNode(1, defaultValue, values));
+        return defaultValue;
     }
 
     public void Children(string name, IChildCollection children)
@@ -539,6 +617,27 @@ sealed class MemberPersister : IPersister
     }
 
     private bool Continue(System.Exception error) => _errors is null || _errors.Continue(error);
+
+    // rwCreateEObject creates the object and runs its load. A failure releases the object, and the
+    // load's handler decides whether the parent continues with null.
+    private IPersistable? Create(ObjectNode node, string className, DocumentNodePath at)
+    {
+        IPersistable? created = null;
+        try
+        {
+            created = Factory.Create(className);
+            var child = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors);
+            created.Persist(child);
+            child.Finish();
+            return created;
+        }
+        catch (System.Exception error)
+        {
+            if (created is not null) Factory.Release(created);
+            if (!Continue(error)) throw;
+            return null;
+        }
+    }
 
     private static List<string> Split(string text)
     {

@@ -5,6 +5,8 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
@@ -118,6 +120,43 @@ public partial class ItemControl : EngineObject
                         }
                     }
                 }
+            }
+        }
+    }
+
+    // ReadWrite reads ids 10 and on until the first absent or nil item, and writes the items
+    // that have no owner at ids 10 and on. The slot is the id less 10.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _lastId = persister.Int32("LastID", _lastId);
+        if (persister.Loading)
+        {
+            int slot = 0;
+            Item item;
+            do
+            {
+                item = persister.CreatedSlot<Item>("Items", slot: slot, objectValue: null);
+                if (item != null)
+                {
+                    ValidateItem(item);
+                    _items.Add(item);
+                    item.Status = item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+                }
+
+                slot += 1;
+            }
+            while (item != null);
+            return;
+        }
+
+        int next = 0;
+        for (int i = 0; i < _items.Count; i++)
+        {
+            if (_items[i].Owner == null)
+            {
+                persister.CreatedSlot("Items", slot: next, objectValue: _items[i]);
+                next += 1;
             }
         }
     }

@@ -1,7 +1,10 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+
+using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
 
@@ -35,6 +38,13 @@ public partial class CommandAbilityData : AbilityData
         base.ReadWrite(stream);
         stream.Int32(ref AbilityId, 20);
         stream.Payload(21, CommandedUnits.LoadFromStream, CommandedUnits.SaveToStream);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        AbilityId = persister.Int32("AbilityID", AbilityId);
+        PersistSupport.ByteList(persister, "CommandedUnits", CommandedUnits);
     }
 
     // AoWAb.PAS:4963

@@ -213,7 +213,113 @@ internal sealed partial class CreatedObjectCodec
         ImageTree.WriteBody(node, shape?.Shape ?? classValue, context, data, frame.Path, true);
     }
 
-    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
+        ReadCreated(context, start, end, frame, null);
+
+    // A keyed member's entry stores the same image as a created object. Its id less the slot base is the slot.
+    internal override void WriteSlotsImage(TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
+    {
+        if (frame.Property.SlotBase is not int slotBase)
+        {
+            base.WriteSlotsImage(value, context, writer, frame);
+            return;
+        }
+        string name = frame.Property.Name;
+        if (value is not SlotListNode node) throw context.Fail(Codes.Type, name + " is created objects at slots.", null, frame.Path);
+        if (node.Entries.Count > context.Limits.CollectionItems)
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+        var used = new HashSet<int>();
+        for (int i = 0; i < node.Entries.Count; i++)
+        {
+            var (slot, item) = node.Entries[i];
+            var itemPath = frame.Path.Item(i);
+            long id = (long)slot + slotBase;
+            if (slot < 0 || id < frame.Property.DynamicMinimum!.Value || id > int.MaxValue)
+                throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", null, itemPath.Member("$slot"), Text(slot));
+            if (!used.Add(slot))
+                throw context.Fail(Codes.Slot, "Slot " + Text(slot) + " of " + name + " is declared twice.", null, itemPath);
+            if (item is ObjectNode { Slot: int stated } && stated != slot)
+                throw context.Fail(Codes.Slot, "An item of " + name + " states slot " + Text(stated) + " at slot " + Text(slot) + ".", null, itemPath);
+            writer.Begin((int)id, frame.Property, i);
+            WriteImage(item, context, writer.Data, new ImageFrame { Property = frame.Property, Id = (int)id, Path = itemPath, Parent = frame.Parent });
+            writer.End();
+        }
+    }
+
+    internal override TreeValue ReadSlotsImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
+    {
+        if (frame.Property.SlotBase is not int slotBase) return base.ReadSlotsImage(context, entries, frame);
+        context.CheckItems(entries.Count, entries[0].Start, frame.Path);
+        var node = new SlotListNode();
+        for (int i = 0; i < entries.Count; i++)
+        {
+            var (id, start, end) = entries[i];
+            var itemFrame = new ImageFrame { Property = frame.Property, Id = id, Path = frame.Path.Item(i), Parent = frame.Parent };
+            node.Add(id - slotBase, ReadCreated(context, start, end, itemFrame, id - slotBase));
+        }
+        return node;
+    }
+
+    internal override JsonValue WriteSlotsTree(TreeValue value, DocumentSite site)
+    {
+        if (site.Property?.SlotBase is not int slotBase) return base.WriteSlotsTree(value, site);
+        string name = site.Property.Name;
+        if (value is not SlotListNode node) throw site.Mismatch(name + " is created objects at slots.");
+        if (node.Entries.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
+        var array = new JsonArray();
+        var used = new HashSet<int>();
+        for (int i = 0; i < node.Entries.Count; i++)
+        {
+            var (slot, item) = node.Entries[i];
+            var at = site.At(site.Path.Item(i), element: false);
+            long id = (long)slot + slotBase;
+            if (slot < 0 || id < site.Property.DynamicMinimum!.Value || id > int.MaxValue)
+                throw at.At(at.Path.Member("$slot"), element: false).Fail(Codes.Range, "The $slot is outside the stored id range.", value: Text(slot));
+            if (!used.Add(slot)) throw at.Fail(Codes.Slot, $"Slot {slot} of {name} is declared twice.");
+            if (item is NullNode)
+                array.Add(new JsonObject().Add("$class", new JsonNull()).Add("$slot", new JsonInteger(slot)));
+            else if (item is ObjectNode { ClassName: string className } objectNode && objectNode.Slot == slot)
+                array.Add(DocumentBackend.WriteObject(objectNode, DocumentBackend.RequireClass(at, className, Family, null), at, created: true, slotted: true));
+            else throw at.Mismatch($"An item of {name} is a created object or null at its slot.");
+        }
+        return array;
+    }
+
+    internal override TreeValue ReadSlotsTree(JsonValue value, DocumentSite site)
+    {
+        if (site.Property?.SlotBase is not int slotBase) return base.ReadSlotsTree(value, site);
+        string name = site.Property.Name;
+        if (value is not JsonArray array) throw site.Mismatch($"{name} is an array.", value);
+        if (array.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
+        var node = new SlotListNode();
+        var used = new HashSet<long>();
+        for (int i = 0; i < array.Items.Count; i++)
+        {
+            var at = site.At(site.Path.Item(i), element: false);
+            if (array.Items[i] is not JsonObject item) throw at.Mismatch($"An item of {name} is an object.", array.Items[i]);
+            if (item["$slot"] is not JsonInteger slot) throw at.Fail(Codes.MissingMember, $"An item of {name} needs an integer $slot.", item);
+            long id = slot.Value + slotBase;
+            if (slot.Value < 0 || id < site.Property.DynamicMinimum!.Value || id > int.MaxValue)
+                throw at.At(at.Path.Member("$slot"), element: false).Fail(Codes.Range, "The $slot is outside the stored id range.", slot, Text(slot.Value));
+            if (!used.Add(slot.Value)) throw at.Fail(Codes.Slot, $"Slot {slot.Value} of {name} is declared twice.", item);
+            if (item["$class"] is JsonNull)
+            {
+                foreach (var member in item.Members)
+                    if (member.Name is not ("$class" or "$slot"))
+                        throw at.At(at.Path.Member(member.Name), element: false).Fail(Codes.UnknownMember, "A nil object has no members.", member.Value, member.Name);
+                node.Add((int)slot.Value, NullNode.Instance);
+                continue;
+            }
+            if (item["$class"] is not JsonString className) throw at.Fail(Codes.MissingMember, "A created object needs $class.", item);
+            var classValue = DocumentBackend.RequireClass(at, className.Value, Family, className);
+            node.Add((int)slot.Value, DocumentBackend.ReadObject(item, classValue, at, created: true, slotted: true));
+        }
+        return node;
+    }
+
+    private TreeValue ReadCreated(DecodeContext context, int start, int end, ImageFrame frame, int? slot)
     {
         context.Need(start, 4, end, frame.Path, "class id");
         int classId = context.Int32(start);
@@ -229,7 +335,7 @@ internal sealed partial class CreatedObjectCodec
             throw context.Fail(Codes.ClassFamily, "Class " + classValue.Name + " is not a " + Family + ".", start, frame.Path, classValue.Name, Family);
         if (shape is { } legacy)
             context.Counts.LegacyRules[legacy.Rule] = context.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
-        return ImageTree.ReadBody(context, start + 4, end, shape?.Shape ?? classValue, frame.Path, classValue.Name, null);
+        return ImageTree.ReadBody(context, start + 4, end, shape?.Shape ?? classValue, frame.Path, classValue.Name, slot);
     }
 
     private SchemaClass Resolve(EncodeContext context, string name, ImageFrame frame)

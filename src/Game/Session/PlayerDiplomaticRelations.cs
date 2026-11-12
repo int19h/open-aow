@@ -1,7 +1,10 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -39,6 +42,18 @@ public partial class PlayerDiplomaticRelations : EngineObject
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             _relations.Default = (int)DiplomaticRelation.Unknown;
+        }
+    }
+
+    // A load resets the default to Unknown after the list, as ReadWrite does.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.ByteList(persister, "Relations", _relations);
+        persister.Object("History", _history);
+        if (persister.Loading)
+        {
+            _relations.Default = (byte)DiplomaticRelation.Unknown;
         }
     }
 
