@@ -273,7 +273,7 @@ public partial class PlayerCropStructure : PlayerStructure
     public virtual void CropTrampled(sbyte player)
     {
         int race;
-        if (player != Player && base.Player > 0 && player > 0)
+        if (player != Player && Player > 0 && player > 0)
         {
             race = AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace;
             var playerRelationValue = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);

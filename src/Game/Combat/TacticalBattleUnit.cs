@@ -38,9 +38,9 @@ public partial class TacticalBattleUnit : CombatUnit
     public override void NewTurn(byte combatPlayer)
     {
         base.NewTurn(combatPlayer);
-        if (combatPlayer == (byte)CombatPlayer && base.GetEnabled())
+        if (combatPlayer == (byte)CombatPlayer && GetEnabled())
         {
-            MovePoints = base.GetMoves();
+            MovePoints = GetMoves();
         }
     }
 

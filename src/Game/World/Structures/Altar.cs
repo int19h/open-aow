@@ -136,9 +136,9 @@ public partial class Altar : PlayerStructure
         if (player == Player && (phase == 1 || phase == 2))
         {
             storm = CreateStorm();
-            var hexLevel = base.GetHexLevel();
-            var hexY = base.GetHexY();
-            if (storm.GetBestTarget(player, base.GetHexX(), hexY, hexLevel, 12, ref target, ref damage))
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, ref damage))
             {
                 value = damage.EnemyDamage - damage.FriendlyDamage;
                 if ((double)value > (double)TargetMana() * 0.75)
@@ -149,14 +149,14 @@ public partial class Altar : PlayerStructure
                     {
                         BattleFieldInfo.SetupBattleFieldInfo(ref friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
-                        var hexLevel2 = base.GetHexLevel();
-                        var hexY2 = base.GetHexY();
-                        var hexX = base.GetHexX();
+                        var hexLevel2 = GetHexLevel();
+                        var hexY2 = GetHexY();
+                        var hexX = GetHexX();
                         AoWHSMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
                         BattleFieldInfo.SetupBattleFieldInfo(ref enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                        var hexLevel3 = base.GetHexLevel();
-                        var hexY3 = base.GetHexY();
-                        var hexX2 = base.GetHexX();
+                        var hexLevel3 = GetHexLevel();
+                        var hexY3 = GetHexY();
+                        var hexX2 = GetHexX();
                         AoWHSMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, 8, ref enemy);
                         if (friendly.FriendlyStrength < enemy.Strength || value > 100)
                         {

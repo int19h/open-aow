@@ -111,7 +111,7 @@ public partial class Leader : Hero
         {
             if (Player != 0)
             {
-                base.SetOwner(null);
+                SetOwner(null);
                 Changed();
             }
             else

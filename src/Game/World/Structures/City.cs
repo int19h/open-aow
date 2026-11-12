@@ -578,7 +578,7 @@ public partial class City : PlayerCropStructure
             }
 
             // { Original condition makes this neutral-player adjustment unreachable. }
-            if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(relation) && player == Player && base.Player == 0)
+            if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(relation) && player == Player && Player == 0)
             {
                 maximum = Round(maximum) + 7500;
                 minimum = maximum;

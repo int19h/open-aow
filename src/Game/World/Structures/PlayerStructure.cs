@@ -429,7 +429,7 @@ public partial class PlayerStructure : Structure
     {
         if (player != Player)
         {
-            if (base.GetRazed() && !GetBuilding())
+            if (GetRazed() && !GetBuilding())
             {
                 return;
             }
@@ -450,15 +450,15 @@ public partial class PlayerStructure : Structure
             UpdatePlayerSeen();
             UpdateExploration();
             var hexNumberToRadius = HexGeometry.HexNumberToRadius(_resource.TerrainList.Count);
-            var hexLevel = base.GetHexLevel();
-            var hexY = base.GetHexY();
-            var hexX = base.GetHexX();
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
             AoWHSMap.Current.ScannerIconsChangedRadius(hexX, hexY, hexLevel, hexNumberToRadius);
             UpdateFlagId();
             FogChanged();
-            var hexLevel2 = base.GetHexLevel();
-            var hexY2 = base.GetHexY();
-            var hexX2 = base.GetHexX();
+            var hexLevel2 = GetHexLevel();
+            var hexY2 = GetHexY();
+            var hexX2 = GetHexX();
             AoWHSMap.Current.NotifyPlayerChanged(hexX2, hexY2, hexLevel2);
             if (Player != -1)
             {
@@ -479,7 +479,7 @@ public partial class PlayerStructure : Structure
                 }
             }
 
-            base.Update();
+            Update();
         }
     }
 
@@ -665,7 +665,7 @@ public partial class PlayerStructure : Structure
     public virtual MoveAction GetMoveAction(sbyte player, MoveAction action)
     {
         MoveAction result;
-        if (player != Player && !base.GetRazed() && (Player != 0 || ((PlayerStructureResource)_resource).Claimed))
+        if (player != Player && !GetRazed() && (Player != 0 || ((PlayerStructureResource)_resource).Claimed))
         {
             result = MoveAction.Attack;
         }

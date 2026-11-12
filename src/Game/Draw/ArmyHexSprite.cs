@@ -609,7 +609,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             field = map.GetField(hexX, hexY, hexLevel);
             army = field.FindOwnedChild(131607);
-            if (army == null || base.GetEditMode())
+            if (army == null || GetEditMode())
             {
                 result = base.PlaceHex(map, hexX, hexY, hexLevel);
             }

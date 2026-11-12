@@ -251,11 +251,11 @@ internal sealed class FrameFixture
                             script_frame = scriptFrame,
                             X = inputX,
                             Y = inputY,
-                            click.Hex,
+                            Hx = click.Hex,
                             click.Hy,
                             click.Button,
                             click.Double,
-                            click.DoubleUI,
+                            DoubleUi = click.DoubleUI,
                             click.Key,
                             click.KeyDown,
                             click.Repeat,
@@ -289,11 +289,11 @@ internal sealed class FrameFixture
                     object[] Items(ItemList list) => Enumerable.Range(0, list.GetCount())
                         .Select(index => list.GetItem(index))
                         .OfType<Item>()
-                        .Select(item => (object)new { item.ItemId, name = item.Name, type = item.ItemType.ToString() }).ToArray();
+                        .Select(item => (object)new { FItemID = item.ItemId, name = item.Name, type = item.ItemType.ToString() }).ToArray();
                     heroes.Add(new
                     {
                         name = hero.HeroName,
-                        hero.Player,
+                        FPlayer = hero.Player,
                         x,
                         y,
                         level,
@@ -340,9 +340,9 @@ internal sealed class FrameFixture
                         HexGeometry.HexToPixel(sprite.GetHexX(), sprite.GetHexY(), ref x, ref y);
                         units.Add(new
                         {
-                            unit.Id,
-                            unit.CombatPlayer,
-                            unit.MovePoints,
+                            FID = unit.Id,
+                            FCombatPlayer = unit.CombatPlayer,
+                            FMovePoints = unit.MovePoints,
                             status = unit.Status.Image,
                             hits = unit.Troop.GetHits(),
                             hit_points = unit.Troop.GetHitPoints(),
@@ -354,9 +354,9 @@ internal sealed class FrameFixture
                     }
                 File.WriteAllText(Path.Combine(output, "combat.json"), JsonSerializer.Serialize(new
                 {
-                    combatMap.Round,
-                    combatMap.CurrentCombatPlayer,
-                    combatMap.SeatedCombatPlayer,
+                    FRound = combatMap.Round,
+                    FCurrentCombatPlayer = combatMap.CurrentCombatPlayer,
+                    FSeatedCombatPlayer = combatMap.SeatedCombatPlayer,
                     units
                 }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             }
@@ -393,7 +393,7 @@ internal sealed class FrameFixture
                         c.WinTop,
                         c.WinWidth,
                         c.WinHeight,
-                        c._visible,
+                        FVisible = c._visible,
                         owner = c._ownerComponent?.Name,
                         window = c._window?.Name
                     }),

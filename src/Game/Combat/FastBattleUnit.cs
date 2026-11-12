@@ -359,7 +359,7 @@ public partial class FastBattleUnit : CombatUnit
             for (int I = Commands.GetCount() - 1; I >= 0; I--)
             {
                 var commands = Commands.GetCommands(I);
-                var hitPoints = base.GetHitPoints();
+                var hitPoints = GetHitPoints();
                 if (commands.TargetDamageValue >= hitPoints * 75)
                 {
                     Commands.Delete(I);
