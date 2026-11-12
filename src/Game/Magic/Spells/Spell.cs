@@ -62,17 +62,17 @@ public partial class Spell : EngineObject
     }
 
     // Spells.PAS:31
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(SpellText, 10);
-        stream.rwEObject(CastSounds, 11);
-        stream.rwStreamProc(12, CastImages.LoadFromStream, CastImages.SaveToStream);
-        stream.rwInteger(ref BaseManaCost, 13);
-        stream.rwInteger(ref ManaUpkeep, 14);
-        stream.rwInteger(ref ResearchCost, 15);
-        stream.rwData(Bytes.Of(ref MagicSphere, 1), 1, 16);
-        stream.rwByte(ref SpellLevel, 17);
+        stream.Lines(SpellText, 10);
+        stream.Object(CastSounds, 11);
+        stream.Payload(12, CastImages.LoadFromStream, CastImages.SaveToStream);
+        stream.Int32(ref BaseManaCost, 13);
+        stream.Int32(ref ManaUpkeep, 14);
+        stream.Int32(ref ResearchCost, 15);
+        stream.Bytes(Bytes.Of(ref MagicSphere, 1), 1, 16);
+        stream.Byte(ref SpellLevel, 17);
     }
 
     // Spells.PAS:224

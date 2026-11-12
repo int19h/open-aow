@@ -45,14 +45,14 @@ public partial class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2053
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
             if (Abilities[I] != null)
             {
-                stream.rwEObject(Abilities[I], I + 10);
+                stream.Object(Abilities[I], I + 10);
             }
         }
     }

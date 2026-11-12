@@ -26,10 +26,10 @@ public partial class OverlayObject : FixedImageLibraryTerrainMapObject
         private int _overlayType;
 
         // OverlayObject.pas:48
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwInteger(ref _overlayType, 40);
+            stream.Int32(ref _overlayType, 40);
         }
 
         // OverlayObject.pas:45

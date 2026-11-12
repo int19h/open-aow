@@ -160,7 +160,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         stream.FDictionary = dictionary;
         try
         {
-            stream.rwEObject(objectValue, 0);
+            stream.Object(objectValue, 0);
         }
         finally
         {
@@ -208,30 +208,6 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
             {
                 dictionary?.Dispose();
             }
-        }
-    }
-
-    // Army.PAS:5725
-    public void ExportTextToFile(string fileName, EngineObject objectValue)
-    {
-        ExportTextStream stream;
-        Stream fileStream;
-        fileStream = OpenFile(fileName, 65535);
-        try
-        {
-            stream = new ExportTextStream(fileStream, this);
-            try
-            {
-                stream.rwEObject(objectValue, 0);
-            }
-            finally
-            {
-                stream?.Dispose();
-            }
-        }
-        finally
-        {
-            fileStream?.Dispose();
         }
     }
 

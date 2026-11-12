@@ -35,10 +35,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     private bool _ignoreDefenders;
 
     // MoveT.PAS:2513
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref _combatType, 1), 1, 50);
+        stream.Bytes(Bytes.Of(ref _combatType, 1), 1, 50);
     }
 
     // MoveT.PAS:3085

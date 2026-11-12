@@ -32,11 +32,11 @@ public partial class FlagMessageEvent : FlagEvent
     }
 
     // FlagEvents.pas:197
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(_message, 40);
-        stream.rwString(ref _helpFileName, 41);
+        stream.Lines(_message, 40);
+        stream.String(ref _helpFileName, 41);
     }
 
     // FlagEvents.pas:180

@@ -13,10 +13,10 @@ public partial class TokenPackage : DataPackage
     private TokenEventList _tokenEvents;
 
     // NetworkE.pas:1105
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(_tokenEvents, 5);
+        stream.Object(_tokenEvents, 5);
     }
 
     // NetworkE.pas:1088

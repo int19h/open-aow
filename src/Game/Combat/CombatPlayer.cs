@@ -21,12 +21,12 @@ public partial class CombatPlayer : EngineObject
     public byte SideIndex;
 
     // Combat2.pas:118
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.rwByte(ref IndependentRelation, 21);
-        stream.rwData(Bytes.Of(ref SideIndex, 1), 1, 22);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.Byte(ref IndependentRelation, 21);
+        stream.Bytes(Bytes.Of(ref SideIndex, 1), 1, 22);
     }
 
     // Engine.pas:524

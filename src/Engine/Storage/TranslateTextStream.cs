@@ -12,65 +12,65 @@ public partial class TranslateTextStream : TranslateStorageStream
     public IvDictionary FDictionary;
 
     // Army.PAS:5614
-    public override void TranslateStrings(ref StringCollection Strings)
+    public override void TranslateStrings(ref StringCollection lines)
     {
-        string S;
-        int EndOfLine;
-        int LineFeed;
-        if (Strings.Count != 0)
+        string text;
+        int endOfLine;
+        int lineFeed;
+        if (lines.Count != 0)
         {
-            S = "";
-            for (int I = 0, last = Strings.Count - 1; I <= last; I++)
+            text = "";
+            for (int i = 0, last = lines.Count - 1; i <= last; i++)
             {
-                S = S + Strings[I];
-                if (I != Strings.Count - 1)
+                text = text + lines[i];
+                if (i != lines.Count - 1)
                 {
-                    S = S + "<eol>";
+                    text = text + "<eol>";
                 }
             }
 
-            S = FDictionary.Translate(S);
-            Strings.Clear();
+            text = FDictionary.Translate(text);
+            lines.Clear();
             do
             {
-                EndOfLine = Pos("<eol>", S);
-                LineFeed = Pos("\n", S);
-                if ((EndOfLine < LineFeed || LineFeed == 0) && EndOfLine != 0)
+                endOfLine = Pos("<eol>", text);
+                lineFeed = Pos("\n", text);
+                if ((endOfLine < lineFeed || lineFeed == 0) && endOfLine != 0)
                 {
-                    Strings.Add(Copy(S, 1, EndOfLine - 1));
-                    S = Copy(S, EndOfLine + 5, S.Length - EndOfLine - 4);
+                    lines.Add(Copy(text, 1, endOfLine - 1));
+                    text = Copy(text, endOfLine + 5, text.Length - endOfLine - 4);
                 }
                 else
                 {
-                    if ((LineFeed < EndOfLine || EndOfLine == 0) && LineFeed != 0)
+                    if ((lineFeed < endOfLine || endOfLine == 0) && lineFeed != 0)
                     {
-                        Strings.Add(Copy(S, 1, LineFeed - 1));
+                        lines.Add(Copy(text, 1, lineFeed - 1));
                         // { Original reverses the length comparison before reading the following CR. }
-                        if (S.Length < LineFeed + 1 && S[LineFeed] == 13)
+                        if (text.Length < lineFeed + 1 && text[lineFeed] == 13)
                         {
-                            LineFeed += 1;
+                            lineFeed += 1;
                         }
 
-                        S = Copy(S, LineFeed + 1, S.Length - LineFeed);
+                        text = Copy(text, lineFeed + 1, text.Length - lineFeed);
                     }
                     else
                     {
-                        Strings.Add(S);
-                        S = "";
+                        lines.Add(text);
+                        text = "";
                     }
                 }
             }
-            while (!IsEmpty(S));
+            while (!IsEmpty(text));
         }
     }
 
     // Army.PAS:5609
-    public override void TranslateString(ref string S)
+    public override void TranslateString(ref string value)
     {
-        S = FDictionary.Translate(S);
+        value = FDictionary.Translate(value);
     }
 
     // Engine.pas:1343
-    public TranslateTextStream(GameEngine AEngine) : base(AEngine)
+    public TranslateTextStream(GameEngine engine) : base(engine)
     { }
 }

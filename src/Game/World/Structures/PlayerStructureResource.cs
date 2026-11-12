@@ -23,7 +23,7 @@ public partial class PlayerStructureResource : StructureResource
     public FlagControl FlagControl { get; private set; }
 
     // Structur.PAS:2456
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (stream.StorageMode().Contains(StorageModeElement.Read))

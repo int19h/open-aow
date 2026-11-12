@@ -33,16 +33,16 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
     internal int _tokenCounter;
 
     // NetworkE.pas:969
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _tokenCounter, 10);
+        stream.Int32(ref _tokenCounter, 10);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("TokenCounter", ref _tokenCounter);
+        _tokenCounter = persister.Int32("TokenCounter", _tokenCounter);
     }
 
     // NetworkE.pas:943

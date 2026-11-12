@@ -41,15 +41,15 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     private int _state;
 
     // CombatTE.pas:920
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref AbilityId, 30);
-        stream.rwInteger(ref SpellId, 31);
-        stream.rwWord(ref TargetX, 32);
-        stream.rwWord(ref TargetY, 33);
-        stream.rwWord(ref SourceX, 34);
-        stream.rwWord(ref SourceY, 35);
+        stream.Int32(ref AbilityId, 30);
+        stream.Int32(ref SpellId, 31);
+        stream.UInt16(ref TargetX, 32);
+        stream.UInt16(ref TargetY, 33);
+        stream.UInt16(ref SourceX, 34);
+        stream.UInt16(ref SourceY, 35);
     }
 
     // CombatTE.pas:931

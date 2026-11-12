@@ -36,18 +36,18 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     }
 
     // Hero.PAS:13
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 30);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 31);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 32);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 33);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Moves), 34);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Hits), 35);
-        stream.rwEObject(Abilities, 36);
-        stream.rwInteger(ref UnitId, 37);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 38);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 30);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 31);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 32);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 33);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Moves), 34);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Hits), 35);
+        stream.Object(Abilities, 36);
+        stream.Int32(ref UnitId, 37);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 38);
     }
 
     // Hero.PAS:1

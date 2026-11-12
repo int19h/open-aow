@@ -179,11 +179,11 @@ internal static class Verification
                 {
                     switch (kind)
                     {
-                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, GameSettings.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
-                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, GameSettings.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
-                        case "string": string text = "default"; registry.rwString(section, name, ref text, GameSettings.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
-                        case "rectangle": Rect rectangle = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rectangle, GameSettings.ReadWriteMode.Read); Equal(7, rectangle.Left, "missing rectangle keeps getter default"); break;
-                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, GameSettings.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
+                        case "integer": int number = 37; registry.Int32(section, name, ref number, GameSettings.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
+                        case "boolean": bool flag = true; registry.Boolean(section, name, ref flag, GameSettings.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
+                        case "string": string text = "default"; registry.String(section, name, ref text, GameSettings.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
+                        case "rectangle": Rect rectangle = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.Rectangle(section, name, ref rectangle, GameSettings.ReadWriteMode.Read); Equal(7, rectangle.Left, "missing rectangle keeps getter default"); break;
+                        case "bytes": byte[] bytes = [0x5A]; registry.Bytes(section, name, bytes, 1, GameSettings.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
                     }
                 }
             foreach (var (section, kind, names) in schemas)

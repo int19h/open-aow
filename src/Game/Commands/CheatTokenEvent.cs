@@ -27,11 +27,11 @@ public partial class CheatTokenEvent : TokenEvent
     public int CheatId;
 
     // MoveT.PAS:3460
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.rwInteger(ref CheatId, 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.Int32(ref CheatId, 21);
     }
 
     // MoveT.PAS:3467

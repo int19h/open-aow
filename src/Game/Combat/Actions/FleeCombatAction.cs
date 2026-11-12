@@ -17,10 +17,10 @@ public partial class FleeCombatAction : CombatAction
     public byte ObjectId;
 
     // Combat2.pas:1102
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref ObjectId, 1), 1, 20);
+        stream.Bytes(Bytes.Of(ref ObjectId, 1), 1, 20);
     }
 
     // Combat2.pas:1108

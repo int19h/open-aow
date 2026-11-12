@@ -56,54 +56,54 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:402
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref FileName, 10);
-        stream.rwData(Bytes.Of(ref PlayMode, 1), 1, 11);
-        stream.rwBool(ref ExplorationEnabled, 12);
-        stream.rwString(ref MapName, 13);
-        stream.rwData(Bytes.Of(ref VictoryCondition, 1), 1, 14);
-        stream.rwData(Bytes.Of(ref IndependentAIMode, 1), 1, 15);
-        stream.rwBool(ref CustomizeLeaders, 16);
-        stream.rwInteger(ref RandomSeed, 17);
-        stream.rwBool(ref LeadersOnMap, 18);
-        stream.rwInteger(ref DayLimit, 19);
-        stream.rwInteger(ref TurnTime, 20);
-        stream.rwEObject(RemotePlayers, 21);
-        stream.rwInteger(ref HostRemoteId, 22);
-        stream.rwInteger(ref MapDay, 23);
-        stream.rwBool(ref AlliedVictory, 24);
-        stream.rwData(Bytes.Of(ref ConnectionType, 1), 1, 25);
-        stream.rwInteger(ref MapCrc, 26);
-        stream.rwInteger(ref SetCrc, 27);
-        stream.rwData(Bytes.Of(ref TacticalBattleAvailability, 1), 1, 28);
-        stream.rwBool(ref AlwaysViewTacticalBattle, 29);
+        stream.String(ref FileName, 10);
+        stream.Bytes(Bytes.Of(ref PlayMode, 1), 1, 11);
+        stream.Boolean(ref ExplorationEnabled, 12);
+        stream.String(ref MapName, 13);
+        stream.Bytes(Bytes.Of(ref VictoryCondition, 1), 1, 14);
+        stream.Bytes(Bytes.Of(ref IndependentAIMode, 1), 1, 15);
+        stream.Boolean(ref CustomizeLeaders, 16);
+        stream.Int32(ref RandomSeed, 17);
+        stream.Boolean(ref LeadersOnMap, 18);
+        stream.Int32(ref DayLimit, 19);
+        stream.Int32(ref TurnTime, 20);
+        stream.Object(RemotePlayers, 21);
+        stream.Int32(ref HostRemoteId, 22);
+        stream.Int32(ref MapDay, 23);
+        stream.Boolean(ref AlliedVictory, 24);
+        stream.Bytes(Bytes.Of(ref ConnectionType, 1), 1, 25);
+        stream.Int32(ref MapCrc, 26);
+        stream.Int32(ref SetCrc, 27);
+        stream.Bytes(Bytes.Of(ref TacticalBattleAvailability, 1), 1, 28);
+        stream.Boolean(ref AlwaysViewTacticalBattle, 29);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.String("FileName", ref FileName);
-        persister.RawByte("PlayMode", ref PlayMode);
-        persister.Boolean("ExplorationEnabled", ref ExplorationEnabled);
-        persister.String("MapName", ref MapName);
-        persister.RawByte("VictoryCondition", ref VictoryCondition);
-        persister.RawByte("IndependentAIMode", ref IndependentAIMode);
-        persister.Boolean("CustomizeLeaders", ref CustomizeLeaders);
-        persister.Int32("RandomSeed", ref RandomSeed);
-        persister.Boolean("LeadersOnMap", ref LeadersOnMap);
-        persister.Int32("DayLimit", ref DayLimit);
-        persister.Int32("TurnTime", ref TurnTime);
+        FileName = persister.String("FileName", FileName);
+        PlayMode = persister.RawByte("PlayMode", PlayMode);
+        ExplorationEnabled = persister.Boolean("ExplorationEnabled", ExplorationEnabled);
+        MapName = persister.String("MapName", MapName);
+        VictoryCondition = persister.RawByte("VictoryCondition", VictoryCondition);
+        IndependentAIMode = persister.RawByte("IndependentAIMode", IndependentAIMode);
+        CustomizeLeaders = persister.Boolean("CustomizeLeaders", CustomizeLeaders);
+        RandomSeed = persister.Int32("RandomSeed", RandomSeed);
+        LeadersOnMap = persister.Boolean("LeadersOnMap", LeadersOnMap);
+        DayLimit = persister.Int32("DayLimit", DayLimit);
+        TurnTime = persister.Int32("TurnTime", TurnTime);
         persister.Object("RemotePlayers", RemotePlayers);
-        persister.Int32("HostRemoteID", ref HostRemoteId);
-        persister.Int32("MapDay", ref MapDay);
-        persister.Boolean("AlliedVictory", ref AlliedVictory);
-        persister.RawByte("ConnectionType", ref ConnectionType);
-        persister.Int32("MapCRC", ref MapCrc);
-        persister.Int32("SetCRC", ref SetCrc);
-        persister.RawByte("TacticalCombatAvailability", ref TacticalBattleAvailability);
-        persister.Boolean("AlwaysViewTC", ref AlwaysViewTacticalBattle);
+        HostRemoteId = persister.Int32("HostRemoteID", HostRemoteId);
+        MapDay = persister.Int32("MapDay", MapDay);
+        AlliedVictory = persister.Boolean("AlliedVictory", AlliedVictory);
+        ConnectionType = persister.RawByte("ConnectionType", ConnectionType);
+        MapCrc = persister.Int32("MapCRC", MapCrc);
+        SetCrc = persister.Int32("SetCRC", SetCrc);
+        TacticalBattleAvailability = persister.RawByte("TacticalCombatAvailability", TacticalBattleAvailability);
+        AlwaysViewTacticalBattle = persister.Boolean("AlwaysViewTC", AlwaysViewTacticalBattle);
     }
 
     // AoWSetup.pas:327

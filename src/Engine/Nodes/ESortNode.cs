@@ -136,7 +136,7 @@ public partial class ESortNode : ECustomNode
     }
 
     // Engine.pas:1565
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         throw new NotSupportedException("Read/Write not supported (TESortNode)");
     }

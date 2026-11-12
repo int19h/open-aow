@@ -72,10 +72,10 @@ public sealed class ArmySpriteConstructionTests
         try
         {
             ((ArmyHexSprite)source).Army.Player = 2;
-            using (var writer = new EWriteStorageStream(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
+            using (var writer = new StorageWriter(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
             memory.Position = 0;
             loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
-            using (var reader = new EReadStorageStream(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
+            using (var reader = new StorageReader(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
             Assert.IsType<ArmyHexSprite>(loaded);
             Assert.Equal(OrderingRecording.Snapshot(source), OrderingRecording.Snapshot(loaded));
         }

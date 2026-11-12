@@ -21,10 +21,10 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
 
     // GlobalTargetSpells.pas:406
     // packed coordinates
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Location.Packed, 20);
+        stream.Int32(ref Location.Packed, 20);
     }
 
     // GlobalTargetSpells.pas:412

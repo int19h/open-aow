@@ -101,20 +101,20 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1762
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         EngineObject legacy;
         base.ReadWrite(stream);
-        stream.rwInteger(ref GroupId, 4);
-        stream.rwIntegerEx(ref UnitId, -1, 5);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 6);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 47);
+        stream.Int32(ref GroupId, 4);
+        stream.Int32(ref UnitId, -1, 5);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 6);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 47);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             try
             {
                 legacy = null;
-                stream.rwCreateEObject(ref legacy, null, 48);
+                stream.Created(ref legacy, null, 48);
                 if (legacy != null)
                 {
                     LegacyGroupBehavior = (byte)((GroupControl)(object)legacy).Behavior();

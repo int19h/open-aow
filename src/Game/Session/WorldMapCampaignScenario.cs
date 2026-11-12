@@ -37,23 +37,23 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     }
 
     // AoWVideoDlg.pas:308
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref ImageLibrary, 12);
+            stream.String(ref ImageLibrary, 12);
         }
 
-        stream.rwString(ref PathDescription, 13);
-        stream.rwString(ref Description, 14);
-        stream.rwBool(ref _reserved20, 15);
-        stream.rwInteger(ref MapX, 16);
-        stream.rwInteger(ref MapY, 17);
-        stream.rwEObject(IntroPages, 19);
-        stream.rwEObject(OutroPages, 20);
-        stream.rwStreamProc(21, Paths.LoadFromStream, Paths.SaveToStream);
-        stream.rwData(Bytes.Of(ref MapKind, 1), 1, 22);
+        stream.String(ref PathDescription, 13);
+        stream.String(ref Description, 14);
+        stream.Boolean(ref _reserved20, 15);
+        stream.Int32(ref MapX, 16);
+        stream.Int32(ref MapY, 17);
+        stream.Object(IntroPages, 19);
+        stream.Object(OutroPages, 20);
+        stream.Payload(21, Paths.LoadFromStream, Paths.SaveToStream);
+        stream.Bytes(Bytes.Of(ref MapKind, 1), 1, 22);
     }
 
     // AoWVideoDlg.pas:278

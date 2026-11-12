@@ -23,7 +23,7 @@ public partial class ReflectingPool : PlayerStructure
     private int _centerFrame;
 
     // ReflectingPool.pas:80
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
     }

@@ -61,14 +61,14 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:783
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Queue, 20);
-        stream.rwEObject(UnitProductions, 21);
-        stream.rwEObject(Settings, 22);
-        stream.rwData(Bytes.Of(ref Status, 1), 1, 23);
-        stream.rwBool(ref LoopQueue, 24);
+        stream.Object(Queue, 20);
+        stream.Object(UnitProductions, 21);
+        stream.Object(Settings, 22);
+        stream.Bytes(Bytes.Of(ref Status, 1), 1, 23);
+        stream.Boolean(ref LoopQueue, 24);
     }
 
     // Structur.PAS:261

@@ -830,7 +830,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7971
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {

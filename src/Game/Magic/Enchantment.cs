@@ -33,22 +33,22 @@ public partial class Enchantment : EngineObject
     public sbyte DispelResistance;
 
     // Spells.PAS:1726
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DispelResistance), 10);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Source), 11);
-        stream.rwInteger(ref Upkeep, 12);
-        stream.rwInteger(ref EnchantmentId, 13);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref DispelResistance), 10);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Source), 11);
+        stream.Int32(ref Upkeep, 12);
+        stream.Int32(ref EnchantmentId, 13);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnsignedByte(persister, "DispelResistance", ref DispelResistance);
-        PersistSupport.UnsignedByte(persister, "Source", ref Source);
-        persister.Int32("Upkeep", ref Upkeep);
-        persister.Int32("EnchantmentID", ref EnchantmentId);
+        DispelResistance = PersistSupport.UnsignedByte(persister, "DispelResistance", DispelResistance);
+        Source = PersistSupport.UnsignedByte(persister, "Source", Source);
+        Upkeep = persister.Int32("Upkeep", Upkeep);
+        EnchantmentId = persister.Int32("EnchantmentID", EnchantmentId);
     }
 
     // Spells.PAS:1700

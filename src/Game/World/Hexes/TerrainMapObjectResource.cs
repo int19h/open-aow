@@ -20,11 +20,11 @@ public partial class TerrainMapObjectResource : MultiHexMapObjectResource
     internal byte _terrainType;
 
     // Terrain.pas:310
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref _terrainType, 17);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _decorationType), 18);
+        stream.Byte(ref _terrainType, 17);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _decorationType), 18);
     }
 
     // Terrain.pas:299

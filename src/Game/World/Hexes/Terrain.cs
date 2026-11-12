@@ -109,10 +109,10 @@ public partial class Terrain : TerrainMapObject
         public int MapFieldResponse;
 
         // AoWTer.pas:116
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwInteger(ref MapFieldResponse, 20);
+            stream.Int32(ref MapFieldResponse, 20);
         }
     }
 }

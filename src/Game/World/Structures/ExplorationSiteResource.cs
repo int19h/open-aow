@@ -28,10 +28,10 @@ public partial class ExplorationSiteResource : StructureResource
     }
 
     // ExploreS.pas:376
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(25, DefenderCollections.LoadFromStream, DefenderCollections.SaveToStream);
+        stream.Payload(25, DefenderCollections.LoadFromStream, DefenderCollections.SaveToStream);
     }
 
     // ExploreS.pas:357

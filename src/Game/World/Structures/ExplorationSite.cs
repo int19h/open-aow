@@ -41,11 +41,11 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:293
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(_defenders, 5);
-        stream.rwData(Bytes.Of(ref _defendersMode, 1), 1, 6);
+        stream.Object(_defenders, 5);
+        stream.Bytes(Bytes.Of(ref _defendersMode, 1), 1, 6);
     }
 
     // ExploreS.pas:77

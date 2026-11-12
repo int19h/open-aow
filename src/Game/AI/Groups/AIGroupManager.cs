@@ -28,10 +28,10 @@ public partial class AIGroupManager : AIGroupList
     }
 
     // AIGroup.pas:577
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwIntegerEx(ref _nextId, 1, 30);
+        stream.Int32(ref _nextId, 1, 30);
     }
 
     // AIGroup.pas:583

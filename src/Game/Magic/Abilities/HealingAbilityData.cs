@@ -15,10 +15,10 @@ public partial class HealingAbilityData : AbilityData
     public bool Enabled;
 
     // AoWAb.PAS:3611
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref Enabled, 10);
+        stream.Boolean(ref Enabled, 10);
     }
 
     // AoWAb.PAS:3607

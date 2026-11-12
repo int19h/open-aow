@@ -26,17 +26,17 @@ public partial class CampaignScenarioPage : EngineObject
     }
 
     // AoWVideoDlg.pas:268
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(Text, 10);
-        stream.rwString(ref Heading, 11);
+        stream.Lines(Text, 10);
+        stream.String(ref Heading, 11);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref ImageLibrary, 12);
+            stream.String(ref ImageLibrary, 12);
         }
 
-        stream.rwInteger(ref ImageIndex, 13);
+        stream.Int32(ref ImageIndex, 13);
     }
 
     // AoWVideoDlg.pas:250

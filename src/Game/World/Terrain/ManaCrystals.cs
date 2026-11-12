@@ -33,11 +33,11 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     private byte _size;
 
     // ManaCrystals.pas:83
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _amount, 5);
-        stream.rwData(Bytes.Of(ref _size, 1), 1, 6);
+        stream.Int32(ref _amount, 5);
+        stream.Bytes(Bytes.Of(ref _size, 1), 1, 6);
     }
 
     // ManaCrystals.pas:73

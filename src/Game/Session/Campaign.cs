@@ -67,7 +67,7 @@ public partial class Campaign : EngineObject
     }
 
     // Diplomacy.pas:2295
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         int size = default;
         base.ReadWrite(stream);
@@ -75,27 +75,27 @@ public partial class Campaign : EngineObject
         {
             if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                stream.rwInteger(ref size, 5);
+                stream.Int32(ref size, 5);
                 Stream.SetLength(size);
-                stream.rwData(Stream.GetBuffer().AsSpan(0, size), size, 6);
+                stream.Bytes(Stream.GetBuffer().AsSpan(0, size), size, 6);
             }
             else
             {
                 size = (int)Stream.Length;
-                stream.rwInteger(ref size, 5);
-                stream.rwData(Stream.GetBuffer().AsSpan(0, size), size, 6);
+                stream.Int32(ref size, 5);
+                stream.Bytes(Stream.GetBuffer().AsSpan(0, size), size, 6);
             }
         }
 
-        stream.rwEObject(TransferSettings, 7);
-        stream.rwEObject(Scenarios, 10);
-        stream.rwString(ref _name, 12);
-        stream.rwInteger(ref CurrentScenarioId, 13);
-        stream.rwStreamProc(14, CompletedScenarios.LoadFromStream, CompletedScenarios.SaveToStream);
-        stream.rwBool(ref ScenarioStarted, 15);
-        stream.rwStreamProc(16, RaceHistory.LoadFromStream, RaceHistory.SaveToStream);
-        stream.rwData(Bytes.Of(ref PlayMode, 1), 1, 17);
-        stream.rwData(Bytes.Of(ref DifficultyLevel, 1), 1, 19);
+        stream.Object(TransferSettings, 7);
+        stream.Object(Scenarios, 10);
+        stream.String(ref _name, 12);
+        stream.Int32(ref CurrentScenarioId, 13);
+        stream.Payload(14, CompletedScenarios.LoadFromStream, CompletedScenarios.SaveToStream);
+        stream.Boolean(ref ScenarioStarted, 15);
+        stream.Payload(16, RaceHistory.LoadFromStream, RaceHistory.SaveToStream);
+        stream.Bytes(Bytes.Of(ref PlayMode, 1), 1, 17);
+        stream.Bytes(Bytes.Of(ref DifficultyLevel, 1), 1, 19);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && stream.StorageMode().Contains(StorageModeElement.Read))
         {
             for (int I = 0, last = Scenarios.Count - 1; I <= last; I++)

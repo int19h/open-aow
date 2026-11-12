@@ -22,7 +22,7 @@ public partial class ECustomNode : EngineObject, IOwner
     { }
 
     // Engine.pas:2666
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
@@ -119,9 +119,9 @@ public partial class ECustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:2661
-    public virtual void ReadWriteChildren(EStorageStream stream)
+    public virtual void ReadWriteChildren(StorageStream stream)
     {
-        stream.rwChildren(this, 1);
+        stream.Children(this, 1);
     }
 
     // Engine.pas:2715

@@ -66,7 +66,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
 
     // HSEngine.pas:2029, then AoWHSMap.PAS:63 stores the flags.
     // { Original tests the entire ECX register for a Boolean passed in CL. }
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         int J;
         int I;
@@ -85,7 +85,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
                         if (stream.PropertyTable.Items[I].Id >= 50)
                         {
                             hexSprite = _hexSpriteList[J];
-                            stream.rwCreateEObject(ref hexSprite, this, stream.PropertyTable.Items[I].Id);
+                            stream.Created(ref hexSprite, this, stream.PropertyTable.Items[I].Id);
                             J += 1;
                         }
                     }
@@ -99,7 +99,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
                         J = stream.PropertyTable.Items[I].Id;
                         if (J >= 50)
                         {
-                            stream.rwCreateEObject(ref hexSprite, this, J);
+                            stream.Created(ref hexSprite, this, J);
                         }
                     }
                 }
@@ -114,7 +114,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
                     hexSprite = _hexSpriteList[J];
                     if (hexSprite != null && hexSprite.Owner == this && !hexSprite.GetControlStyle().Contains(EngineServices.Shared) && hexSprite.GetControlStyle().Contains(EngineServices.Stored))
                     {
-                        stream.rwCreateEObject(ref hexSprite, this, I);
+                        stream.Created(ref hexSprite, this, I);
                         I += 1;
                     }
                 }
@@ -125,11 +125,11 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
             ReadWriteChildren(stream);
         }
 
-        stream.rwWord(ref Unsafe.As<int, LongRec>(ref FieldFlags).Lo, 4);
+        stream.UInt16(ref Unsafe.As<int, LongRec>(ref FieldFlags).Lo, 4);
     }
 
     // HSEngine.pas:2075
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         ReadWrite(stream);
     }

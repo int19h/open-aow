@@ -26,13 +26,13 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
     private int _extraValue;
 
     // Spells.PAS:2448
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
-        stream.rwByte(ref PlayerIndex, 21);
-        stream.rwInteger(ref Value, 22);
-        stream.rwInteger(ref _extraValue, 23);
+        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 20);
+        stream.Byte(ref PlayerIndex, 21);
+        stream.Int32(ref Value, 22);
+        stream.Int32(ref _extraValue, 23);
     }
 
     // Spells.PAS:2456

@@ -62,24 +62,24 @@ public partial class NegotiateTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:138
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Gold, 30);
-        stream.rwData(Bytes.Of(ref Offer, 1), 1, 31);
-        stream.rwByte(ref X, 32);
-        stream.rwByte(ref Y, 33);
-        stream.rwByte(ref MapLevel, 34);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 35);
-        stream.rwByte(ref _ownerPlayer, 36);
-        stream.rwData(Bytes.Of(ref Object, 1), 1, 37);
-        stream.rwInteger(ref MovePoints, 38);
-        stream.rwInteger(ref Data1, 39);
-        stream.rwInteger(ref Data2, 40);
-        RwSet(ref Mode, 1, 41, stream.rwData, 0);
-        stream.rwData(Bytes.Of(ref Result, 1), 1, 42);
-        stream.rwCreateEObject(ref ArmyId, null, 43);
-        stream.rwIntegerEx(ref EventLogId, -1, 44);
+        stream.Int32(ref Gold, 30);
+        stream.Bytes(Bytes.Of(ref Offer, 1), 1, 31);
+        stream.Byte(ref X, 32);
+        stream.Byte(ref Y, 33);
+        stream.Byte(ref MapLevel, 34);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 35);
+        stream.Byte(ref _ownerPlayer, 36);
+        stream.Bytes(Bytes.Of(ref Object, 1), 1, 37);
+        stream.Int32(ref MovePoints, 38);
+        stream.Int32(ref Data1, 39);
+        stream.Int32(ref Data2, 40);
+        TransferSet(ref Mode, 1, 41, stream.Bytes, 0);
+        stream.Bytes(Bytes.Of(ref Result, 1), 1, 42);
+        stream.Created(ref ArmyId, null, 43);
+        stream.Int32(ref EventLogId, -1, 44);
     }
 
     // Diplomacy.pas:115

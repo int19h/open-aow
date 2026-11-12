@@ -43,11 +43,11 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:114
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Prisoners, 8);
-        stream.rwData(Bytes.Of(ref _prisonersMode, 1), 1, 9);
+        stream.Object(Prisoners, 8);
+        stream.Bytes(Bytes.Of(ref _prisonersMode, 1), 1, 9);
     }
 
     // Dungeon.pas:95
@@ -279,10 +279,10 @@ public partial class Dungeon : ExplorationSite
         }
 
         // Dungeon.pas:286
-        public override void ReadWrite(EStorageStream stream)
+        public override void ReadWrite(StorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwStreamProc(30, PrisonerCollections.LoadFromStream, PrisonerCollections.SaveToStream);
+            stream.Payload(30, PrisonerCollections.LoadFromStream, PrisonerCollections.SaveToStream);
         }
 
         // Dungeon.pas:265

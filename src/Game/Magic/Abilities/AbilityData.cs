@@ -15,7 +15,7 @@ public partial class AbilityData : EngineObject
     public AbilityData Next { get; set; }
 
     // Ability.PAS:1234
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
     }

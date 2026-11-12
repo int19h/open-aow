@@ -33,11 +33,11 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:1140
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref Action, null, 20);
-        stream.rwInteger(ref Operation, 21);
+        stream.Created(ref Action, null, 20);
+        stream.Int32(ref Operation, 21);
     }
 
     // Diplomacy.pas:1147

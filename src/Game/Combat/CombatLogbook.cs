@@ -42,13 +42,13 @@ public partial class CombatLogbook : EngineObject
     }
 
     // Combat2.pas:396
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(InitialData, 5);
-        stream.rwEObject(FinalData, 6);
-        stream.rwEObject(Actions, 7);
-        stream.rwBool(ref PlayerEliminated, 8);
+        stream.Object(InitialData, 5);
+        stream.Object(FinalData, 6);
+        stream.Object(Actions, 7);
+        stream.Boolean(ref PlayerEliminated, 8);
     }
 
     // Combat2.pas:384

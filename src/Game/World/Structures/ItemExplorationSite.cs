@@ -39,11 +39,11 @@ public partial class ItemExplorationSite : ExplorationSite
     }
 
     // ItemExpS.pas:107
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(_items, 8);
-        stream.rwData(Bytes.Of(ref _itemCount, 1), 1, 9);
+        stream.Object(_items, 8);
+        stream.Bytes(Bytes.Of(ref _itemCount, 1), 1, 9);
     }
 
     // ItemExpS.pas:88

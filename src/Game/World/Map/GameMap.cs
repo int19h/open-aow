@@ -181,7 +181,7 @@ public partial class GameMap : ENode
     public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2);
 
     // HSMAP.PAS:240
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         sbyte B = default;
         base.ReadWrite(stream);
@@ -192,7 +192,7 @@ public partial class GameMap : ENode
 
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            stream.rwString(ref _hssFileName, 2);
+            stream.String(ref _hssFileName, 2);
         }
 
         if (!stream.StorageMode().Contains(EngineServices.Partial) && stream.StorageMode().Contains(StorageModeElement.Read) && !IsEmpty(_hssFileName))
@@ -201,15 +201,15 @@ public partial class GameMap : ENode
         }
 
         B = (sbyte)_version;
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref B), 3);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref B), 3);
         _version = B;
-        stream.rwInteger(ref _viewPixelX, 4);
-        stream.rwInteger(ref _viewPixelY, 5);
-        stream.rwInteger(ref _viewL, 6);
+        stream.Int32(ref _viewPixelX, 4);
+        stream.Int32(ref _viewPixelY, 5);
+        stream.Int32(ref _viewL, 6);
     }
 
     // HSMAP.PAS:261
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         base.MainReadWrite(stream);
         if (!_status.Contains(HexSpriteMapStatusElement.PreviewMode) && (stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.SetupCompare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))

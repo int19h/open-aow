@@ -19,11 +19,11 @@ public partial class FlagEvent : MapObject
     private int _triggerPlayers;
 
     // FlagEvents.pas:98
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _triggerPlayers, 30);
-        stream.rwData(Bytes.Of(ref TriggerMode, 1), 1, 31);
+        stream.Int32(ref _triggerPlayers, 30);
+        stream.Bytes(Bytes.Of(ref TriggerMode, 1), 1, 31);
     }
 
     // FlagEvents.pas:157

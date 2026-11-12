@@ -18,16 +18,16 @@ public partial class HarmonyEnchantment : GlobalEnchantment
     public int DaysActive;
 
     // GlobalEnchantmentSpells.pas:931
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref DaysActive, 20);
+        stream.Int32(ref DaysActive, 20);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int32("DaysActive", ref DaysActive);
+        DaysActive = persister.Int32("DaysActive", DaysActive);
     }
 
     // GlobalEnchantmentSpells.pas:913

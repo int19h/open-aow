@@ -28,12 +28,12 @@ public partial class ConstructStructureTokenEvent : TokenEvent
     public int ControlId;
 
     // Structur.PAS:3098
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref ControlId, 20);
-        stream.rwInteger(ref UnitId, 21);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 22);
+        stream.Int32(ref ControlId, 20);
+        stream.Int32(ref UnitId, 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 22);
     }
 
     // Structur.PAS:3106

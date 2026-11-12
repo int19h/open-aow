@@ -32,10 +32,10 @@ public partial class FastBattleUnit : CombatUnit
     public Set<FastBattleUnitStateElement> State;
 
     // AIGroup.pas:6797
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref State, 1, 40, stream.rwData, 0);
+        TransferSet(ref State, 1, 40, stream.Bytes, 0);
     }
 
     // AIGroup.pas:6862

@@ -24,10 +24,10 @@ public partial class SaveGameTokenEvent : TokenEvent
     public string FileName = "";
 
     // MoveT.PAS:1848
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref FileName, 15);
+        stream.String(ref FileName, 15);
     }
 
     // MoveT.PAS:1854

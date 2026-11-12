@@ -347,8 +347,8 @@ public sealed class PersistCorpusTests
         using var memory = new MemoryStream();
         memory.Write(image);
         memory.Position = 0;
-        var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
-        reader.OnError = static (EStorageStream _, string _, ref bool cont) => cont = false;
+        var reader = new StorageReader(memory, EngineFixture.Engine, false);
+        reader.OnError = static (StorageStream _, string _, ref bool cont) => cont = false;
         try
         {
             objectValue.MainReadWrite(reader);
@@ -362,7 +362,7 @@ public sealed class PersistCorpusTests
     private static byte[] Image(EngineObject objectValue)
     {
         using var memory = new MemoryStream();
-        using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))
+        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
             objectValue.MainReadWrite(writer);
         }

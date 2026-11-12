@@ -30,21 +30,21 @@ public partial class CustomAbilityList : EngineObject
     }
 
     // Ability.PAS:1161
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         int I = default;
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
         {
             if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                stream.rwInteger(ref I, 2);
+                stream.Int32(ref I, 2);
                 SetAbilityCount(I);
-                stream.rwData(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
+                stream.Bytes(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
             }
             else
             {
-                stream.rwInteger(ref AbilityCount, 2);
-                stream.rwData(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
+                stream.Int32(ref AbilityCount, 2);
+                stream.Bytes(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
             }
         }
 
@@ -66,7 +66,7 @@ public partial class CustomAbilityList : EngineObject
     {
         base.PersistFields(persister);
         int count = AbilityCount;
-        persister.Int32("AbCount", ref count);
+        count = persister.Int32("AbCount", count);
         if (persister.Loading) SetAbilityCount(count);
         int length = (int)(((uint)(AbilityCount + 7)) >> 3);
         persister.BitArray("AbilityCount", AbilityCount, AbilityBits.AsSpan(0, length));

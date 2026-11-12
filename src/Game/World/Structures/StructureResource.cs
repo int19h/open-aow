@@ -59,18 +59,18 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     }
 
     // Structur.PAS:1929
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwBool(ref _selectSfxLooped, 20);
+        stream.Boolean(ref _selectSfxLooped, 20);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref SelectSfx, 21);
+            stream.String(ref SelectSfx, 21);
         }
 
-        stream.rwStrings(Description, 22);
-        stream.rwInteger(ref ScannerIcon, 23);
-        stream.rwStreamProc(28, Defenders.LoadFromStream, Defenders.SaveToStream);
+        stream.Lines(Description, 22);
+        stream.Int32(ref ScannerIcon, 23);
+        stream.Payload(28, Defenders.LoadFromStream, Defenders.SaveToStream);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             CalculatePadIndex();

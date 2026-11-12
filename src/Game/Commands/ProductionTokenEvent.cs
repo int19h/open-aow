@@ -44,18 +44,18 @@ public partial class ProductionTokenEvent : TokenEvent
     }
 
     // Structur.PAS:168
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref Command, 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 21);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 22);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 23);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 24);
-        stream.rwCreateEObject(ref Item, null, 25);
-        stream.rwInteger(ref Index, 26);
-        stream.rwInteger(ref _reserved, 27);
-        stream.rwBool(ref Queue, 28);
+        stream.Int32(ref Command, 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 22);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 23);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 24);
+        stream.Created(ref Item, null, 25);
+        stream.Int32(ref Index, 26);
+        stream.Int32(ref _reserved, 27);
+        stream.Boolean(ref Queue, 28);
     }
 
     // Structur.PAS:182

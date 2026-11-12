@@ -25,7 +25,7 @@ public partial class EReferenceNode : ENode
     }
 
     // Engine.pas:8157
-    public override void ReadWriteChildren(EStorageStream stream)
+    public override void ReadWriteChildren(StorageStream stream)
     {
         if (stream.StorageMode().Contains(StorageModeElement.Write))
         {

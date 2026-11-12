@@ -18,13 +18,13 @@ public partial class CommandedAbilityData : AbilityData
     public byte OriginalCombatPlayer;
 
     // AoWAb.PAS:5005
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref AbilityId, 20);
-        stream.rwInteger(ref CommandAbilityId, 21);
-        stream.rwByte(ref SourceId, 22);
-        stream.rwByte(ref OriginalCombatPlayer, 23);
+        stream.Int32(ref AbilityId, 20);
+        stream.Int32(ref CommandAbilityId, 21);
+        stream.Byte(ref SourceId, 22);
+        stream.Byte(ref OriginalCombatPlayer, 23);
     }
 
     // AoWAb.PAS:5001

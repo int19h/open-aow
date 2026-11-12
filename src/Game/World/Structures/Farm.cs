@@ -24,10 +24,10 @@ public partial class Farm : PlayerCropStructure
     public Set<ModeElement> Mode;
 
     // Farm.pas:81
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref Mode, 1, 20, stream.rwData, 0);
+        TransferSet(ref Mode, 1, 20, stream.Bytes, 0);
     }
 
     // Farm.pas:130

@@ -32,13 +32,13 @@ public partial class MapObject
         return GetResourceLinked();
     }
 
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.Text, StorageModeElement.Compare)) != default) return;
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             SetResourceLinked(false);
-            stream.rwInteger(ref _unlinkedResourceId, 1);
+            stream.Int32(ref _unlinkedResourceId, 1);
             _resource = null;
             LinkToResource(stream.Engine);
             if (!GetResourceLinked()) throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
@@ -46,7 +46,7 @@ public partial class MapObject
         else
         {
             int id = GetResourceId();
-            stream.rwInteger(ref id, 1);
+            stream.Int32(ref id, 1);
         }
     }
 }

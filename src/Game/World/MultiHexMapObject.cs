@@ -26,11 +26,11 @@ public partial class MultiHexMapObject : MapObject
     protected internal sbyte _hexY;
 
     // MAPOBJ.PAS:923
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexX), 3);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexY), 4);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexX), 3);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexY), 4);
     }
 
     // MAPOBJ.PAS:900

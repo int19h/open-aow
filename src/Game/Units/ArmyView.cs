@@ -28,16 +28,16 @@ public partial class ArmyView : Army
     public int[] MoraleValues { get; } = new int[8];
 
     // Army.PAS:122
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(MemoryMarshal.AsBytes((Span<ushort>)UnitConcealment).Slice(0, 16), 16, 40);
-        stream.rwWord(ref ConcealedForPlayers, 41);
-        stream.rwData(MemoryMarshal.AsBytes((Span<int>)MoraleValues).Slice(0, 32), 32, 42);
+        stream.Bytes(MemoryMarshal.AsBytes((Span<ushort>)UnitConcealment).Slice(0, 16), 16, 40);
+        stream.UInt16(ref ConcealedForPlayers, 41);
+        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)MoraleValues).Slice(0, 32), 32, 42);
     }
 
     // Army.PAS:130
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         base.MainReadWrite(stream);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
@@ -53,7 +53,7 @@ public partial class ArmyView : Army
     {
         base.PersistFields(persister);
         PersistSupport.UInt16Array(persister, "UnitConcealment", UnitConcealment);
-        persister.UInt16("ConcealedForPlayers", ref ConcealedForPlayers);
+        ConcealedForPlayers = persister.UInt16("ConcealedForPlayers", ConcealedForPlayers);
         PersistSupport.Int32Array(persister, "MoraleValues", MoraleValues);
     }
 

@@ -15,10 +15,10 @@ public partial class PossessedAbilityData : AbilityData
     public int SourceExperience;
 
     // AoWAb.PAS:2556
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref SourceExperience, 30);
+        stream.Int32(ref SourceExperience, 30);
     }
 
     // AoWAb.PAS:2551

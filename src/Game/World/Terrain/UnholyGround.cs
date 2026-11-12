@@ -36,12 +36,12 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     public sbyte OriginalOverlay;
 
     // UnHolyG.pas:204
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwShortintEx(ref Player, -1, 40);
-        stream.rwShortintEx(ref Duration, -1, 41);
-        stream.rwShortintEx(ref OriginalOverlay, -1, 42);
+        stream.SByte(ref Player, -1, 40);
+        stream.SByte(ref Duration, -1, 41);
+        stream.SByte(ref OriginalOverlay, -1, 42);
     }
 
     // UnHolyG.pas:243

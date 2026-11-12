@@ -22,11 +22,11 @@ public partial class SpellCastEventLog : EventLog
     public int SpellId;
 
     // Spells.PAS:837
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref UnitId, 20);
-        stream.rwInteger(ref SpellId, 21);
+        stream.Int32(ref UnitId, 20);
+        stream.Int32(ref SpellId, 21);
     }
 
     // Spells.PAS:855

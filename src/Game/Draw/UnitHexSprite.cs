@@ -67,10 +67,10 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:208
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Direction, 9);
+        stream.Byte(ref Direction, 9);
         if (!stream.StorageMode().Contains(StorageModeElement.SetupCompare) && Direction == 0)
         {
             Direction = 3;

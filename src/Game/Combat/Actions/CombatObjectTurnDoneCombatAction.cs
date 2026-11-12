@@ -17,10 +17,10 @@ public partial class CombatObjectTurnDoneCombatAction : CombatAction
     public byte CombatObjectId;
 
     // Combat2.pas:1041
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref CombatObjectId, 1), 1, 20);
+        stream.Bytes(Bytes.Of(ref CombatObjectId, 1), 1, 20);
     }
 
     // Combat2.pas:1047

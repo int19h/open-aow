@@ -80,13 +80,13 @@ public partial class CombatObject : EngineObject
     }
 
     // Combat.pas:5620
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Position, 10);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CombatPlayer), 12);
-        RwSet(ref Status, 1, 13, stream.rwData, 0);
-        stream.rwData(Bytes.Of(ref Id, 1), 1, 14);
+        stream.Byte(ref Position, 10);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref CombatPlayer), 12);
+        TransferSet(ref Status, 1, 13, stream.Bytes, 0);
+        stream.Bytes(Bytes.Of(ref Id, 1), 1, 14);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);

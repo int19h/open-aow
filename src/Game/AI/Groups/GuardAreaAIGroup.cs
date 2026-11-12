@@ -17,10 +17,10 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
     public MapCoordinate GuardLocation;
 
     // IndependentAG.pas:170
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref GuardLocation.Packed, 50);
+        stream.Int32(ref GuardLocation.Packed, 50);
     }
 
     // IndependentAG.pas:153

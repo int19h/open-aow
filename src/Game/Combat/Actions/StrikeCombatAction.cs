@@ -25,10 +25,10 @@ public partial class StrikeCombatAction : DamageCombatAction
     public Set<StrikeModeElement> StrikeMode;
 
     // AoWAb.PAS:1157
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref StrikeMode, 1, 20, stream.rwData, 0);
+        TransferSet(ref StrikeMode, 1, 20, stream.Bytes, 0);
     }
 
     // AoWAb.PAS:1163

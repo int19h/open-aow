@@ -84,32 +84,32 @@ public partial class UnitResource : TroopResource
     }
 
     // UnitRes.PAS:156
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         Unit.Rank rank;
         base.ReadWrite(stream);
-        stream.rwString(ref _name, 10);
-        stream.rwString(ref _nickname, 11);
-        stream.rwData(Bytes.Of(ref Alignment, 1), 1, 12);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 14);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 15);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 16);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Hits), 17);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Moves), 18);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 19);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Level), 20);
-        stream.rwData(Bytes.Of(ref UnitType, 1), 1, 21);
-        stream.rwData(Bytes.Of(ref Champion, 1), 1, 22);
-        stream.rwData(Bytes.Of(ref Gender, 1), 1, 23);
-        stream.rwByte(ref _transportCapacity, 24);
-        stream.rwEObject(Abilities[(int)Unit.Rank.None], 25);
-        stream.rwStrings(Description, 26);
-        stream.rwInteger(ref ObtainValue, 27);
-        stream.rwData(Bytes.Of(ref UnitSize, 1), 1, 28);
-        stream.rwData(Bytes.Of(ref BloodType, 1), 1, 29);
-        stream.rwEObject(Abilities[(int)Unit.Rank.Silver], 30);
-        stream.rwEObject(Abilities[(int)Unit.Rank.Gold], 31);
+        stream.String(ref _name, 10);
+        stream.String(ref _nickname, 11);
+        stream.Bytes(Bytes.Of(ref Alignment, 1), 1, 12);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 14);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 15);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 16);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Hits), 17);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Moves), 18);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 19);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Level), 20);
+        stream.Bytes(Bytes.Of(ref UnitType, 1), 1, 21);
+        stream.Bytes(Bytes.Of(ref Champion, 1), 1, 22);
+        stream.Bytes(Bytes.Of(ref Gender, 1), 1, 23);
+        stream.Byte(ref _transportCapacity, 24);
+        stream.Object(Abilities[(int)Unit.Rank.None], 25);
+        stream.Lines(Description, 26);
+        stream.Int32(ref ObtainValue, 27);
+        stream.Bytes(Bytes.Of(ref UnitSize, 1), 1, 28);
+        stream.Bytes(Bytes.Of(ref BloodType, 1), 1, 29);
+        stream.Object(Abilities[(int)Unit.Rank.Silver], 30);
+        stream.Object(Abilities[(int)Unit.Rank.Gold], 31);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)

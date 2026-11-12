@@ -55,16 +55,16 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     }
 
     // Diplomacy.pas:284
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 40);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 41);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 42);
-        stream.rwData(Bytes.Of(ref Object, 1), 1, 43);
-        stream.rwInteger(ref _data1, 44);
-        stream.rwInteger(ref _data2, 45);
-        stream.rwCreateEObject(ref ArmyId, null, 46);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 40);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 41);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 42);
+        stream.Bytes(Bytes.Of(ref Object, 1), 1, 43);
+        stream.Int32(ref _data1, 44);
+        stream.Int32(ref _data2, 45);
+        stream.Created(ref ArmyId, null, 46);
     }
 
     // Diplomacy.pas:320

@@ -12,7 +12,7 @@ namespace Aow.Formats.Tree;
 /// </summary>
 public static class RecordValues
 {
-    public static void Transfer<T>(IPersister persister, string name, ref T value) where T : unmanaged
+    public static T Transfer<T>(IPersister persister, string name, T value) where T : unmanaged
     {
         var info = RecordCatalog.Require(NameTable.Stored(typeof(T)), null, name);
         var image = new byte[Unsafe.SizeOf<T>()];
@@ -27,7 +27,7 @@ public static class RecordValues
             persister.Record(name, body => Apply(body, info, image));
         }
         else persister.Record(name, body => Apply(body, info, image));
-        value = MemoryMarshal.Read<T>(image);
+        return MemoryMarshal.Read<T>(image);
     }
 
     internal static void Apply(IPersister persister, RecordTypeInfo info, Span<byte> image)

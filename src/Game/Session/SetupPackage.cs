@@ -28,13 +28,13 @@ public partial class SetupPackage : EngineObject
     }
 
     // AoWSetup.pas:257
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref MessageId, 20);
-        stream.rwInteger(ref Param2, 21);
-        stream.rwInteger(ref Param1, 22);
-        stream.rwCreateEObject(ref Data, null, 23);
+        stream.Int32(ref MessageId, 20);
+        stream.Int32(ref Param2, 21);
+        stream.Int32(ref Param1, 22);
+        stream.Created(ref Data, null, 23);
     }
 
     // AoWSetup.pas:242

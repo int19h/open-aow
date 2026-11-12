@@ -24,14 +24,14 @@ public partial class EmailGame : EngineObject
     public int LastDay { get; set; }
 
     // Diplomacy.pas:2465
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 20);
-        stream.rwInteger(ref UniqueLocalId, 21);
-        stream.rwInteger(ref UniqueId, 22);
-        stream.rwString(ref EmailAddress, 23);
-        stream.rwInteger(ref SecurityId, 24);
+        stream.String(ref Name, 20);
+        stream.Int32(ref UniqueLocalId, 21);
+        stream.Int32(ref UniqueId, 22);
+        stream.String(ref EmailAddress, 23);
+        stream.Int32(ref SecurityId, 24);
     }
 
     // Engine.pas:524

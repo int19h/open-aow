@@ -27,11 +27,11 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
     public int EnchantmentId;
 
     // GlobalSpells.pas:750
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref EnchantmentId, 20);
-        stream.rwInteger(ref DispelChance, 21);
+        stream.Int32(ref EnchantmentId, 20);
+        stream.Int32(ref DispelChance, 21);
     }
 
     // GlobalSpells.pas:757

@@ -34,20 +34,20 @@ public partial class DamageCombatAction : SingleTargetCombatAction
     public byte DamageDone { get; protected set; }
 
     // Combat2.pas:777
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Damage, 15);
-        stream.rwData(Bytes.Of(ref Effects, 2), 2, 16);
-        stream.rwData(Bytes.Of(ref DamageTypes, 2), 2, 17);
+        stream.Byte(ref Damage, 15);
+        stream.Bytes(Bytes.Of(ref Effects, 2), 2, 16);
+        stream.Bytes(Bytes.Of(ref DamageTypes, 2), 2, 17);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Byte("Damage", ref Damage);
-        PersistSupport.Record(persister, "Effects", ref Effects);
-        PersistSupport.Record(persister, "DamageTypes", ref DamageTypes);
+        Damage = persister.Byte("Damage", Damage);
+        Effects = PersistSupport.Record(persister, "Effects", Effects);
+        DamageTypes = PersistSupport.Record(persister, "DamageTypes", DamageTypes);
     }
 
     // Combat2.pas:817

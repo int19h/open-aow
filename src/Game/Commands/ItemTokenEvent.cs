@@ -26,12 +26,12 @@ public partial class ItemTokenEvent : TokenEvent
     public int HeroId;
 
     // Army.PAS:4185
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref ItemId, 20);
-        stream.rwData(Bytes.Of(ref _action, 1), 1, 21);
-        stream.rwInteger(ref HeroId, 22);
+        stream.Int32(ref ItemId, 20);
+        stream.Bytes(Bytes.Of(ref _action, 1), 1, 21);
+        stream.Int32(ref HeroId, 22);
     }
 
     // Army.PAS:4193

@@ -49,12 +49,12 @@ public partial class SongList : EngineObject
     }
 
     // Sound.pas:806
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            stream.rwStrings(_songs, 10);
+            stream.Lines(_songs, 10);
         }
     }
 

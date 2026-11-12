@@ -36,7 +36,7 @@ public partial class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2656
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         string directory;
         base.ReadWrite(stream);
@@ -56,7 +56,7 @@ public partial class HeroLibraryManager : EngineObject
         }
         else
         {
-            stream.rwEObject(SystemLibrary, 20);
+            stream.Object(SystemLibrary, 20);
         }
     }
 

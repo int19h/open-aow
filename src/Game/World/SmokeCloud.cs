@@ -47,14 +47,14 @@ public partial class SmokeCloud : MultiHexMapObject
     }
 
     // SmokeCloud.pas:206
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
-        stream.rwInteger(ref TurnsRemaining, 16);
-        stream.rwBool(ref Drifting, 17);
-        stream.rwByte(ref _direction, 18);
-        stream.rwEObject(Enchantment, 19);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
+        stream.Int32(ref TurnsRemaining, 16);
+        stream.Boolean(ref Drifting, 17);
+        stream.Byte(ref _direction, 18);
+        stream.Object(Enchantment, 19);
     }
 
     // SmokeCloud.pas:172

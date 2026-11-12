@@ -220,7 +220,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     }
 
     // Ability.PAS:131 around HSEngine.pas:3410.
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         string path = "";
         bool loaded = default;
@@ -232,13 +232,13 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         SetEngine(stream.Engine);
         _pluginControl.Engine = stream.Engine;
         base.ReadWrite(stream);
-        stream.rwString(ref _name, 4);
-        stream.rwEObject(_mapObjectResourceList, 5);
-        stream.rwEObject(_resourceEditSettings, 6);
-        stream.rwEObject(_pluginControl, 7);
+        stream.String(ref _name, 4);
+        stream.Object(_mapObjectResourceList, 5);
+        stream.Object(_resourceEditSettings, 6);
+        stream.Object(_pluginControl, 7);
 
-        stream.rwEObject(RaceResources, 10);
-        stream.rwEObject(ItemLibraries, 11);
+        stream.Object(RaceResources, 10);
+        stream.Object(ItemLibraries, 11);
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
             path = ExtractFilePath(GameTables.GameEngine.HssFileName);
@@ -278,18 +278,18 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         }
         else
         {
-            stream.rwEObject(UnitResources, 111);
-            stream.rwEObject(UnitGraphicsResources, 112);
-            stream.rwEObject(HeroResources, 113);
-            stream.rwEObject(ItemGraphicsResources, 114);
-            stream.rwEObject(FaceResources, 115);
-            stream.rwEObject(SpellControl, 117);
-            stream.rwEObject(AbilityControl, 118);
-            stream.rwEObject(TextControl, 119);
+            stream.Object(UnitResources, 111);
+            stream.Object(UnitGraphicsResources, 112);
+            stream.Object(HeroResources, 113);
+            stream.Object(ItemGraphicsResources, 114);
+            stream.Object(FaceResources, 115);
+            stream.Object(SpellControl, 117);
+            stream.Object(AbilityControl, 118);
+            stream.Object(TextControl, 119);
         }
 
-        stream.rwEObject(HeroLibraries, 17);
-        stream.rwStreamProc(18, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
+        stream.Object(HeroLibraries, 17);
+        stream.Payload(18, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             ImageSequences.LinkToImageLibrary();
@@ -412,7 +412,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     public int HssCrc { get; private set; }
 
     // Ability.PAS:194
-    public override void MainReadWrite(EStorageStream stream)
+    public override void MainReadWrite(StorageStream stream)
     {
         string dictionaryFile;
         base.MainReadWrite(stream);

@@ -118,12 +118,12 @@ public partial class Hero : Troop
     public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Hero.PAS:1625
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         sbyte player = default;
         int oldExperience = default;
         player = Player;
-        stream.rwInteger(ref HeroResourceIndex, 8);
+        stream.Int32(ref HeroResourceIndex, 8);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             LinkToResource();
@@ -135,57 +135,57 @@ public partial class Hero : Troop
             Player = player;
         }
 
-        stream.rwInteger(ref FaceIndex, 7);
+        stream.Int32(ref FaceIndex, 7);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            stream.rwInteger(ref oldExperience, 9);
+            stream.Int32(ref oldExperience, 9);
         }
         else
         {
             oldExperience = 0;
         }
 
-        stream.rwString(ref HeroName, 10);
-        stream.rwString(ref Nickname, 11);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CastingPoints), 13);
-        stream.rwInteger(ref CastingSpellId, 14);
-        stream.rwData(Bytes.Of(ref _gender, 1), 1, 15);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitAttack), 16);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitDefense), 17);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitDamage), 18);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitHits), 19);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitMoves), 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitResistance), 21);
-        stream.rwByte(ref Level, 22);
-        stream.rwBool(ref UpgradePending, 23);
-        stream.rwInteger(ref Experience, 24);
-        RwSet(ref HeroStatus, 1, 25, stream.rwData, 0);
-        stream.rwInteger(ref _deathDay, 26);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _deathPlayer), 27);
+        stream.String(ref HeroName, 10);
+        stream.String(ref Nickname, 11);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref CastingPoints), 13);
+        stream.Int32(ref CastingSpellId, 14);
+        stream.Bytes(Bytes.Of(ref _gender, 1), 1, 15);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitAttack), 16);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitDefense), 17);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitDamage), 18);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitHits), 19);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitMoves), 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitResistance), 21);
+        stream.Byte(ref Level, 22);
+        stream.Boolean(ref UpgradePending, 23);
+        stream.Int32(ref Experience, 24);
+        TransferSet(ref HeroStatus, 1, 25, stream.Bytes, 0);
+        stream.Int32(ref _deathDay, 26);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _deathPlayer), 27);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Experience == 0)
         {
             Experience = LevelToExperience((int)(((uint)oldExperience) >> 5) + 1);
         }
 
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 29);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 30);
-        stream.rwInteger(ref CastingManaValue, 31);
-        stream.rwBool(ref _castSpellInstantly, 33);
-        stream.rwInteger(ref CastingProgress, 34);
-        stream.rwIntegerEx(ref LibraryId, -1, 35);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 29);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 30);
+        stream.Int32(ref CastingManaValue, 31);
+        stream.Boolean(ref _castSpellInstantly, 33);
+        stream.Int32(ref CastingProgress, 34);
+        stream.Int32(ref LibraryId, -1, 35);
         if (!Mode.Contains(HeroModeElement.UpdatingFromLibrary))
         {
-            stream.rwEObject(Inventory, 36);
-            stream.rwEObject(HeroItems, 37);
+            stream.Object(Inventory, 36);
+            stream.Object(HeroItems, 37);
         }
 
         if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            stream.rwString(ref LibraryName, 38);
+            stream.String(ref LibraryName, 38);
         }
 
-        stream.rwInteger(ref _usedSkillPoints, 39);
+        stream.Int32(ref _usedSkillPoints, 39);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             Loaded();

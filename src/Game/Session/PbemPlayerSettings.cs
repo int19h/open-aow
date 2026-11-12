@@ -34,11 +34,11 @@ public partial class PbemPlayerSettings : EngineObject
     }
 
     // Player.PAS:249
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref Status, 1, 20, stream.rwData, 0);
-        stream.rwEObject(EmailGame, 21);
+        TransferSet(ref Status, 1, 20, stream.Bytes, 0);
+        stream.Object(EmailGame, 21);
     }
 
     // Player.PAS:256

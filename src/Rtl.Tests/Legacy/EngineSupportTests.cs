@@ -93,13 +93,13 @@ public sealed class EngineSupportTests
     public void SetTransferUsesTheDelphiImageAndItsLowByte()
     {
         Set<Flag> value = default;
-        R.RwSet(ref value, 1, 17, (bytes, size, id) =>
+        R.TransferSet(ref value, 1, 17, (bytes, size, id) =>
         {
             Assert.Equal(1, size); Assert.Equal(17, id); bytes[0] = 5;
         });
         Assert.True(value.Contains(Flag.First)); Assert.True(value.Contains(Flag.Third)); Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
-        R.RwSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
+        R.TransferSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
         Assert.True(offset.Contains(OffsetFlag.First)); Assert.True(offset.Contains(OffsetFlag.Third));
     }
 

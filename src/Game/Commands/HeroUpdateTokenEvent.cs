@@ -28,13 +28,13 @@ public partial class HeroUpdateTokenEvent : TokenEvent
     public int Parameter;
 
     // Hero.PAS:2279
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref UnitId, 20);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 21);
-        stream.rwInteger(ref ItemId, 22);
-        stream.rwInteger(ref Parameter, 23);
+        stream.Int32(ref UnitId, 20);
+        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 21);
+        stream.Int32(ref ItemId, 22);
+        stream.Int32(ref Parameter, 23);
     }
 
     // Hero.PAS:2291

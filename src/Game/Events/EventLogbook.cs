@@ -28,11 +28,11 @@ public partial class EventLogbook : EngineObject
     }
 
     // EventLog.pas:547
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(_events, 10);
-        stream.rwInteger(ref _nextId, 11);
+        stream.Object(_events, 10);
+        stream.Int32(ref _nextId, 11);
     }
 
     // EventLog.pas:526

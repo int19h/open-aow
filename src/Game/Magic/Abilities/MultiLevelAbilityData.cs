@@ -16,11 +16,11 @@ public partial class MultiLevelAbilityData : AbilityData
     public ushort LevelAbilityId;
 
     // AoWAb.PAS:231
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Level, 10);
-        stream.rwWord(ref LevelAbilityId, 11);
+        stream.Byte(ref Level, 10);
+        stream.UInt16(ref LevelAbilityId, 11);
     }
 
     // AoWAb.PAS:243

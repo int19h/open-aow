@@ -709,7 +709,7 @@ public sealed class PersistEquivalenceTests
             try
             {
                 var streamError = Assert.Throws<InvalidOperationException>(() =>
-                    Load(stopped, image, static (EStorageStream _, string _, ref bool cont) => cont = false));
+                    Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
                 var treeError = Assert.Throws<InvalidOperationException>(() =>
                     TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
                         static (string _, ref bool cont) => cont = false));
@@ -770,7 +770,7 @@ public sealed class PersistEquivalenceTests
         try
         {
             var streamError = Assert.Throws<InvalidOperationException>(() =>
-                Load(stopped, image, static (EStorageStream _, string _, ref bool cont) => cont = false));
+                Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
             var treeError = Assert.Throws<InvalidOperationException>(() =>
                 TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
                     static (string _, ref bool cont) => cont = false));
@@ -926,12 +926,12 @@ public sealed class PersistEquivalenceTests
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
-    private static void Load(EngineObject objectValue, byte[] image, EStorageStream.StorageStreamError? onError = null)
+    private static void Load(EngineObject objectValue, byte[] image, StorageStream.StorageStreamError? onError = null)
     {
         using var memory = new MemoryStream();
         memory.Write(image);
         memory.Position = 0;
-        var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
+        var reader = new StorageReader(memory, EngineFixture.Engine, false);
         if (onError is not null) reader.OnError = onError;
         try
         {
@@ -967,7 +967,7 @@ public sealed class PersistEquivalenceTests
         {
         }
 
-        public override void ReadWrite(EStorageStream stream) => throw new InvalidOperationException("hatred failed");
+        public override void ReadWrite(StorageStream stream) => throw new InvalidOperationException("hatred failed");
 
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("hatred failed");
     }
@@ -978,22 +978,22 @@ public sealed class PersistEquivalenceTests
         {
         }
 
-        public override void ReadWrite(EStorageStream stream) => throw new InvalidOperationException("enchantments failed");
+        public override void ReadWrite(StorageStream stream) => throw new InvalidOperationException("enchantments failed");
 
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("enchantments failed");
     }
 
     private sealed class BehaviorProbe : IPersistable
     {
-        public SetupPlayerBehavior Behavior;
+        public SetupPlayerBehavior Behavior { get; set; }
 
-        public void Persist(IPersister persister) => PersistSupport.Record(persister, "Behavior", ref Behavior);
+        public void Persist(IPersister persister) => Behavior = PersistSupport.Record(persister, "Behavior", Behavior);
     }
 
     private static byte[] Image(EngineObject objectValue)
     {
         using var memory = new MemoryStream();
-        using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))
+        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
             objectValue.MainReadWrite(writer);
         }

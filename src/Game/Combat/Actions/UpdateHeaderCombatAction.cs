@@ -15,10 +15,10 @@ public partial class UpdateHeaderCombatAction : CombatAction
     public string Header = "";
 
     // Combat2.pas:963
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwString(ref Header, 20);
+        stream.String(ref Header, 20);
     }
 
     // Combat2.pas:969

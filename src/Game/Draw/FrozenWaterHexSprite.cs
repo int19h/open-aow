@@ -22,18 +22,18 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     public sbyte CasterPlayer;
 
     // Structur.PAS:4487
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwShortint(ref DaysRemaining, 30);
-        stream.rwShortint(ref CasterPlayer, 31);
+        stream.SByte(ref DaysRemaining, 30);
+        stream.SByte(ref CasterPlayer, 31);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.SByte("DaysRemaining", ref DaysRemaining);
-        persister.SByte("CasterPlayer", ref CasterPlayer);
+        DaysRemaining = persister.SByte("DaysRemaining", DaysRemaining);
+        CasterPlayer = persister.SByte("CasterPlayer", CasterPlayer);
     }
 
     // Structur.PAS:4518

@@ -22,11 +22,11 @@ public partial class ChangePlayerSettingsTokenEvent : TokenEvent
     public string Settings = "";
 
     // MoveT.PAS:1891
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 30);
-        stream.rwString(ref Settings, 31);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 30);
+        stream.String(ref Settings, 31);
     }
 
     // MoveT.PAS:1898

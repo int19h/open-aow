@@ -30,10 +30,10 @@ public partial class EControlStyleNode : ENode
     }
 
     // Engine.pas:8214
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        RwSet(ref _controlStyle, 1, 2, stream.rwData, 0);
+        TransferSet(ref _controlStyle, 1, 2, stream.Bytes, 0);
     }
 
 }

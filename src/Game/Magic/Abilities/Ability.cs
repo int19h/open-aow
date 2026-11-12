@@ -55,14 +55,14 @@ public partial class Ability : EngineObject
     }
 
     // Ability.PAS:1654
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(Description, 5);
-        stream.rwInteger(ref SkillPointCost, 6);
-        stream.rwEObject(SfxLibrary, 7);
-        stream.rwStreamProc(8, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
-        RwSet(ref SelectionTypes, 2, 9, stream.rwData, 0);
+        stream.Lines(Description, 5);
+        stream.Int32(ref SkillPointCost, 6);
+        stream.Object(SfxLibrary, 7);
+        stream.Payload(8, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
+        TransferSet(ref SelectionTypes, 2, 9, stream.Bytes, 0);
     }
 
     // Ability.PAS:1579

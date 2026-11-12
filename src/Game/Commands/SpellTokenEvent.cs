@@ -24,13 +24,13 @@ public partial class SpellTokenEvent : TokenEvent
     public int EventMana;
 
     // Spells.PAS:423
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref EventSpellId, 15);
-        stream.rwInteger(ref EventSourceId, 16);
-        stream.rwByte(ref EventPlayerIndex, 17);
-        stream.rwInteger(ref EventMana, 18);
+        stream.Int32(ref EventSpellId, 15);
+        stream.Int32(ref EventSourceId, 16);
+        stream.Byte(ref EventPlayerIndex, 17);
+        stream.Int32(ref EventMana, 18);
     }
 
     // Spells.PAS:431

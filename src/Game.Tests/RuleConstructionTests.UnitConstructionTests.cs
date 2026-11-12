@@ -118,11 +118,11 @@ public sealed partial class RuleConstructionTests
             if (source is HypotheticalUnit adjustable) adjustable.SetAbilityCount(0);
             ((Troop)source).UnitId = 317;
             ((Troop)source).GroupId = 29;
-            var writer = new EWriteStorageStream(memory, engine, false);
-            writer.rwCreateEObject(ref source, null!, 7);
+            var writer = new StorageWriter(memory, engine, false);
+            writer.Created(ref source, null!, 7);
             writer.Dispose();
             memory.Position = 0;
-            using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, owner, 7); }
+            using (var reader = new StorageReader(memory, engine, false)) { reader.Created(ref result, owner, 7); }
             var loaded = Assert.IsAssignableFrom<Troop>(result);
             Assert.IsType(type, loaded);
             Assert.Equal(1, loaded.RefCount);

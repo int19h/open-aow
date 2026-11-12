@@ -53,16 +53,16 @@ public partial class ArmyEventLog : EventLog
     }
 
     // Army.PAS:162
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(ArmyView, 15);
-        stream.rwString(ref ArmyText, 16);
-        stream.rwStrings(ArmyMessages, 17);
-        stream.rwInteger(ref ArmyIcon, 18);
-        stream.rwStreamProc(19, DamageValues.LoadFromStream, DamageValues.SaveToStream);
-        stream.rwStreamProc(20, DamageTypes.LoadFromStream, DamageTypes.SaveToStream);
-        stream.rwBool(ref _gameOver, 21);
+        stream.Object(ArmyView, 15);
+        stream.String(ref ArmyText, 16);
+        stream.Lines(ArmyMessages, 17);
+        stream.Int32(ref ArmyIcon, 18);
+        stream.Payload(19, DamageValues.LoadFromStream, DamageValues.SaveToStream);
+        stream.Payload(20, DamageTypes.LoadFromStream, DamageTypes.SaveToStream);
+        stream.Boolean(ref _gameOver, 21);
     }
 
     // Army.PAS:184

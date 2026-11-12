@@ -40,10 +40,10 @@ public partial class CombatEventLog : EventLog
     }
 
     // Combat2.pas:428
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref Logbook, null, 20);
+        stream.Created(ref Logbook, null, 20);
     }
 
     // Combat2.pas:461

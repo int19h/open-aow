@@ -21,10 +21,10 @@ public partial class RangedAttackCombatAction : DamageCombatAction
     public int AbilityId;
 
     // AoWAb.PAS:4631
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref AbilityId, 4), 4, 20);
+        stream.Bytes(Bytes.Of(ref AbilityId, 4), 4, 20);
     }
 
     // AoWAb.PAS:4643

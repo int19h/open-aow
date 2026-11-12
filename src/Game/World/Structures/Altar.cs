@@ -30,11 +30,11 @@ public partial class Altar : PlayerStructure
     public byte RechargeDays;
 
     // Altar.pas:226
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref RechargeDays, 15);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 16);
+        stream.Byte(ref RechargeDays, 15);
+        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 16);
     }
 
     // Altar.pas:248

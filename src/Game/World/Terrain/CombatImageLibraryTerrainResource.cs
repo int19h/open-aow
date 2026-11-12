@@ -17,11 +17,11 @@ public partial class CombatImageLibraryTerrainResource : ImageLibraryTerrainMapO
     public sbyte Defense;
 
     // CombatILTer.pas:181
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref BurnValue), 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref BurnValue), 21);
     }
 
     // CombatILTer.pas:188

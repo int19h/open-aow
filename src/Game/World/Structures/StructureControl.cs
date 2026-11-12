@@ -28,11 +28,11 @@ public partial class StructureControl : EngineObject
     }
 
     // Structur.PAS:3245
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref _nextId, 20);
-        stream.rwInteger(ref CityCount, 21);
+        stream.Int32(ref _nextId, 20);
+        stream.Int32(ref CityCount, 21);
     }
 
     // Structur.PAS:3233

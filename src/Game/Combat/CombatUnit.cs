@@ -49,13 +49,13 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1382
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         Troop U = default;
         base.ReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            stream.rwCreateEObject(ref U, null, 20);
+            stream.Created(ref U, null, 20);
             SetUnit(U);
             if (U != null)
             {
@@ -64,10 +64,10 @@ public partial class CombatUnit : CombatObject
         }
         else
         {
-            stream.rwCreateEObject(ref Troop, null, 20);
+            stream.Created(ref Troop, null, 20);
         }
 
-        stream.rwBool(ref Disabled, 21);
+        stream.Boolean(ref Disabled, 21);
     }
 
     // Combat.pas:1408

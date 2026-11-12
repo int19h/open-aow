@@ -25,11 +25,11 @@ public partial class MultiMoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:3302
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Events, 20);
-        stream.rwBool(ref Simultaneous, 21);
+        stream.Object(Events, 20);
+        stream.Boolean(ref Simultaneous, 21);
     }
 
     // MoveT.PAS:3286

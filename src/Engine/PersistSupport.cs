@@ -8,21 +8,17 @@ namespace Aow.Engine;
 
 public static class PersistSupport
 {
-    public static void Record<T>(IPersister persister, string name, ref T value) where T : unmanaged =>
-        RecordValues.Transfer(persister, name, ref value);
+    public static T Record<T>(IPersister persister, string name, T value) where T : unmanaged =>
+        RecordValues.Transfer(persister, name, value);
 
-    public static void UnsignedByte(IPersister persister, string name, ref sbyte value)
-    {
-        byte stored = unchecked((byte)value);
-        persister.Byte(name, ref stored);
-        value = unchecked((sbyte)stored);
-    }
+    public static sbyte UnsignedByte(IPersister persister, string name, sbyte value) =>
+        unchecked((sbyte)persister.Byte(name, unchecked((byte)value)));
 
     public static void Int32Array(IPersister persister, string name, Span<int> values)
     {
         var list = new List<int>(values.Length);
         for (int i = 0; i < values.Length; i++) list.Add(values[i]);
-        persister.List(name, list, static (IItemSlot slot, ref int item) => slot.Int32(ref item));
+        persister.List(name, list, static (IItemSlot slot, int item) => slot.Int32(item));
         if (!persister.Loading) return;
         if (list.Count > values.Length)
             throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
@@ -33,7 +29,7 @@ public static class PersistSupport
     {
         var list = new List<ushort>(values.Length);
         for (int i = 0; i < values.Length; i++) list.Add(values[i]);
-        persister.List(name, list, static (IItemSlot slot, ref ushort item) => slot.UInt16(ref item));
+        persister.List(name, list, static (IItemSlot slot, ushort item) => slot.UInt16(item));
         if (!persister.Loading) return;
         if (list.Count > values.Length)
             throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");

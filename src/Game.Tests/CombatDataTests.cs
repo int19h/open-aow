@@ -67,7 +67,7 @@ public sealed class CombatDataTests
     private static byte[] Save(CombatData data)
     {
         using var memory = new MemoryStream();
-        using (var writer = new EWriteStorageStream(memory, null!, false)) { writer.rwEObject(data, 4); }
+        using (var writer = new StorageWriter(memory, null!, false)) { writer.Object(data, 4); }
         return memory.ToArray();
     }
 
@@ -106,8 +106,8 @@ public sealed class CombatDataTests
             memory.Write(before);
             memory.Position = 0;
             using var loaded = new CombatData(null!);
-            using var reader = new EReadStorageStream(memory, null!, false);
-            reader.rwEObject(loaded, 4);
+            using var reader = new StorageReader(memory, null!, false);
+            reader.Object(loaded, 4);
             Assert.Equal(before, Save(loaded));
         }
         finally { data.Dispose(); }

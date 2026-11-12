@@ -31,10 +31,10 @@ public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
     }
 
     // GlobalEnchantmentSpells.pas:394
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwCreateEObject(ref Enchantment, null, 25);
+        stream.Created(ref Enchantment, null, 25);
     }
 
     // GlobalEnchantmentSpells.pas:400

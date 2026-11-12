@@ -25,12 +25,12 @@ public partial class LocationTextEventLog : TextEventLog
     public sbyte HexLevel;
 
     // EventLog.pas:731
-    public override void ReadWrite(EStorageStream stream)
+    public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexX), 20);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexY), 21);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 22);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexX), 20);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexY), 21);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 22);
     }
 
     // EventLog.pas:740

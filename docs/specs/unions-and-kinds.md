@@ -326,13 +326,13 @@ saves, maps and gate runs.
 | `DiplomaticProposal` | `DiplomaticAction.ReadWrite` ids 23 to 25 and 27 (gold, mana, kind, message), in saves and `DiplomaticActionTokenEvent` (Delphi `TDiplomaticActionTE`). Id 22, the other player, stays in the common part (3.7) | the same pattern, the kind as the one-byte `rwData` at id 25 and the message from the proposal's `Message` |
 
 ```csharp
-public override void ReadWrite(EStorageStream Stream)
+public override void ReadWrite(StorageStream Stream)
 {
     base.ReadWrite(Stream);
     var (id, parameter, groupId) = Order.ToFields();
-    Stream.rwInteger(ref id, 20);
-    Stream.rwInteger(ref parameter, 21);
-    Stream.rwInteger(ref groupId, 22);
+    Stream.Int32(ref id, 20);
+    Stream.Int32(ref parameter, 21);
+    Stream.Int32(ref groupId, 22);
     if (Stream.StorageMode().Contains(StorageModeElement.smRead))
         Order = ProductionOrder.FromFields(id, parameter, groupId);
 }
