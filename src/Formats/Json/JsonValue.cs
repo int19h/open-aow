@@ -72,11 +72,21 @@ public sealed class JsonString(string value) : JsonValue
     public override string KindName => "string";
 }
 
-/// <summary>Documents carry only integers. Floating-point payloads use exact bits.</summary>
+/// <summary>A number without a fraction or an exponent.</summary>
 public sealed class JsonInteger(long value) : JsonValue
 {
     public long Value { get; } = value;
     public override string KindName => "integer";
+}
+
+/// <summary>
+/// A number with a fraction or an exponent, kept as its JSON text. Only a codec that stores a
+/// floating-point value accepts it (own-formats.md 2.3). Every other codec refuses it.
+/// </summary>
+public sealed class JsonNumber(string text) : JsonValue
+{
+    public string Text { get; } = text;
+    public override string KindName => "number";
 }
 
 public sealed class JsonBoolean(bool value) : JsonValue

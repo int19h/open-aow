@@ -15,9 +15,35 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
         return objectValue;
     }
 
-    // A dynamic slot stores the same image as a fixed object, with no class id.
-    internal override JsonValue DecodeElement(DecodeContext context, int start, int end, ValueSite site) =>
-        Decode(context, start, end, site);
+    // A dynamic slot stores the same image as a fixed object, with no class id. From version 5 the
+    // item states its slot, the stored id less the slot base. Version 4 and older keep no slot and
+    // cannot write the member back.
+    internal override JsonValue DecodeElement(DecodeContext context, int start, int end, ValueSite site)
+    {
+        var objectValue = new JsonObject();
+        if (context.Schema.Version >= SlotVersion && site.Property.SlotBase is int slotBase)
+            objectValue.Add("$slot", new JsonInteger(site.Id - slotBase));
+        ObjectImage.Decode(context, start, end, context.Schema.Get(ClassName), site.Path, objectValue);
+        return objectValue;
+    }
+
+    internal override int ElementId(EncodeContext context, JsonValue value, SchemaProperty property, int index, DocumentNodePath path)
+    {
+        if (context.Schema.Version < SlotVersion || property.SlotBase is not int slotBase)
+            throw context.Fail(Codes.Type, "Version " + context.Schema.Version + " stores no slot of " + property.Name + ".", value, path);
+        if (value is not JsonObject objectValue) throw context.Fail(Codes.Type, "An item of " + property.Name + " is an object.", value, path, value.KindName);
+        if (objectValue["$slot"] is not JsonInteger slot) throw context.Fail(Codes.MissingMember, "An item of " + property.Name + " needs an integer $slot.", objectValue, path);
+        long id = slot.Value + slotBase;
+        if (slot.Value < 0 || id < property.DynamicMinimum!.Value || id > int.MaxValue)
+            throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", slot, path.Member("$slot"));
+        return (int)id;
+    }
+
+    internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
+        ObjectImage.Encode(context, (JsonObject)value, context.Schema.Get(ClassName), data, site.Path, "$slot");
+
+    /// <summary>The first version whose items of a fixed dynamic member state their slot.</summary>
+    internal const int SlotVersion = 5;
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {

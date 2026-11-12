@@ -1,4 +1,5 @@
 // Translated from ImageLib.pas.
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -142,6 +143,48 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             {
                 List[I].SaveToStream(stream);
             }
+        }
+    }
+
+    /// <summary>The entries <see cref="SaveToStream"/> writes, after the same <see cref="ReduceCount"/>.</summary>
+    internal List<IReadOnlyList<SequenceLayer>> SaveLayers()
+    {
+        ReduceCount();
+        var entries = new List<IReadOnlyList<SequenceLayer>>(Count);
+        for (int I = 0, last = Count - 1; I <= last; I++)
+        {
+            entries.Add(List[I]?.SaveLayers());
+        }
+
+        return entries;
+    }
+
+    /// <summary>
+    /// <see cref="LoadFromStream"/> from stored entries: the chains are built in entry and layer
+    /// order, and each frame-table layer draws its image index from <c>Random</c> where the stream
+    /// load draws it.
+    /// </summary>
+    internal void LoadLayers(IReadOnlyList<IReadOnlyList<SequenceLayer>> entries)
+    {
+        DestroyItems();
+        foreach (var layers in entries)
+        {
+            if (layers != null)
+            {
+                var sequence = new ImageSequence(this);
+                sequence.LoadLayers(layers, index: 0);
+                base.Add(sequence);
+            }
+            else
+            {
+                base.Add(null);
+            }
+        }
+
+        if (_linked)
+        {
+            _linked = false;
+            LinkToImageLibrary();
         }
     }
 

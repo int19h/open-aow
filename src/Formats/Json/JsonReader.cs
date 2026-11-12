@@ -311,10 +311,21 @@ public sealed class JsonReader
         else throw Error(Codes.Syntax, "A digit is expected.", start);
         if (Peek() is '.' or 'e' or 'E')
         {
-            int end = _position + 1;
-            while (end < _text.Length && (char.IsAsciiDigit(_text[end]) || _text[end] is '+' or '-' or 'e' or 'E' or '.')) end++;
-            throw Error(Codes.Number, "Documents hold only integers. Floating-point values use { \"$bits\": ... }.",
-                start, _text[begin..end]);
+            // A fraction needs a digit after the point and an exponent a digit after its sign.
+            if (Peek() == '.')
+            {
+                _position++;
+                if (Peek() is not (>= '0' and <= '9')) throw Error(Codes.Number, "A digit is expected after the decimal point.", start, _text[begin.._position]);
+                while (Peek() is >= '0' and <= '9') _position++;
+            }
+            if (Peek() is 'e' or 'E')
+            {
+                _position++;
+                if (Peek() is '+' or '-') _position++;
+                if (Peek() is not (>= '0' and <= '9')) throw Error(Codes.Number, "A digit is expected in the exponent.", start, _text[begin.._position]);
+                while (Peek() is >= '0' and <= '9') _position++;
+            }
+            return new JsonNumber(_text[begin.._position]);
         }
         var digits = _text.AsSpan(begin, _position - begin);
         if (!long.TryParse(digits, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out long value))

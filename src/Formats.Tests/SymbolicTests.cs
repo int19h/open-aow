@@ -124,8 +124,8 @@ public sealed class SymbolicTests : FormatsTest
              "root":{"$class":"TDiplomaticRelationHistoryItem","Day":4,"Relation":"02"}}
             """);
         var root = (JsonObject)relation.Document["root"]!;
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name], relation.Migrations);
-        Assert.Equal(4, ((JsonInteger)relation.Document["$version"]!).Value);
+        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name, ResourceMigration.Name], relation.Migrations);
+        Assert.Equal(5, ((JsonInteger)relation.Document["$version"]!).Value);
         Assert.Equal("Alliance", ((JsonString)root["Relation"]!).Value);
         Assert.Equal(4, ((JsonInteger)root["Day"]!).Value);
 
@@ -159,7 +159,8 @@ public sealed class SymbolicTests : FormatsTest
         var made = (JsonObject)((JsonObject)created.Document["root"]!)["Enchantment"]!;
         Assert.Equal("Hatred", ((JsonString)made["EnchantmentType"]!).Value);
 
-        var dynamicItem = MigrateRoot("""{"$class":"TAbilityControl","Abilities":[{"SelectionTypes":"0100"}]}""");
+        // The item states its slot, which the version 4 step requires of a fixed dynamic item.
+        var dynamicItem = MigrateRoot("""{"$class":"TAbilityControl","Abilities":[{"$slot":0,"SelectionTypes":"0100"}]}""");
         var ability = (JsonObject)((JsonArray)((JsonObject)dynamicItem.Document["root"]!)["Abilities"]!).Items[0];
         Assert.Equal(new List<object> { "Unit" }, Items(ability["SelectionTypes"]!));
 
@@ -260,8 +261,8 @@ public sealed class SymbolicTests : FormatsTest
         var golden = Golden("hero-list-v1.json");
         var read = GameFiles.Read(golden, "hero-list-v1.json");
         var original = (JsonObject)JsonReader.Parse(golden, "hero-list-v1.json");
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name], read.Migrations);
-        Assert.Equal(4, ((JsonInteger)read.Document["$version"]!).Value);
+        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name, ResourceMigration.Name], read.Migrations);
+        Assert.Equal(5, ((JsonInteger)read.Document["$version"]!).Value);
         Assert.Equal(JsonWriter.ToUtf8((JsonObject)original["root"]!), JsonWriter.ToUtf8((JsonObject)read.Document["root"]!));
     }
 

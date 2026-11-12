@@ -108,7 +108,7 @@ public sealed class SchemaTests : FormatsTest
     public void ReservedMembersHaveTheirTotalOrder()
     {
         Assert.Equal(
-            ["$format", "$version", "$kind", "$container", "$mods", "$class", "$case", "$slot", "$ext", "$residue", "$padding", "$bits", "$text", "$layout"],
+            ["$format", "$version", "$kind", "$container", "$mods", "$class", "$case", "$slot", "$ext", "$residue", "$padding", "$bits", "$ilb", "$text", "$layout"],
             Reserved.Order);
     }
 

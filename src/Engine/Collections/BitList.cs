@@ -1,5 +1,8 @@
 // Translated from Engine.pas.
+using System.Runtime.CompilerServices;
+
 using Aow.Engine.Nodes;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -353,6 +356,21 @@ public partial class BitList : Persistent
         stream.ReadExactly(Bytes.Of(ref _count, 4));
         SetCapacity(_count);
         stream.ReadExactly(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
+    }
+
+    /// <summary>The image <see cref="SaveToStream"/> writes, the default as its stored byte.</summary>
+    internal BitListImage SaveImage() =>
+        new(Unsafe.As<bool, byte>(ref _default), _count, List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)).ToArray());
+
+    /// <summary><see cref="LoadFromStream"/> from a stored image. A default byte other than 0 and 1 stays that byte.</summary>
+    internal void LoadImage(BitListImage image)
+    {
+        Clear();
+        byte stored = image.Default;
+        _default = Unsafe.As<byte, bool>(ref stored);
+        _count = image.Count;
+        SetCapacity(_count);
+        image.Bits.CopyTo(List.Span);
     }
 
     // Engine.pas:4791

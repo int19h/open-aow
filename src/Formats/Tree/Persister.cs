@@ -159,6 +159,43 @@ public interface IPersister
     /// </summary>
     void BitArray(string name, int count, Span<byte> bits);
 
+    /// <summary>
+    /// A bit list (Delphi <c>TBitList</c>, stored by <c>rwStreamProc</c>). The member is always
+    /// stored, an empty list included. On load a present member returns the stored image and an
+    /// absent member returns null, so the caller leaves its list as it was.
+    /// </summary>
+    BitListImage? BitList(string name, BitListImage value);
+
+    /// <summary>
+    /// An rwData single (Delphi <c>Single</c>). The value is stored even when it is zero, with its
+    /// exact bits. An absent member on load returns the caller's value.
+    /// </summary>
+    float Single(string name, float value);
+
+    /// <summary>
+    /// A whole payload that a callback reads and writes (Delphi <c>rwStreamProc</c> with an ILB
+    /// library). The member is always stored, empty bytes included. On load a present member
+    /// returns the stored bytes and an absent member returns null, so the caller leaves its object
+    /// as it was.
+    /// </summary>
+    byte[]? Blob(string name, byte[] data);
+
+    /// <summary>
+    /// Pairs of signed bytes in order (Delphi <c>TTerrainList</c>). The member is always stored,
+    /// an empty list included. On load a present member replaces the pairs and an absent member
+    /// leaves them.
+    /// </summary>
+    void SBytePairs(string name, IList<(sbyte First, sbyte Second)> pairs);
+
+    /// <summary>
+    /// An image sequence list (Delphi <c>TImageSequenceList</c>): one entry per index, null for an
+    /// index without a sequence, otherwise the layers of its chain. The member is always stored,
+    /// an empty list included. On load a present member replaces the entries and an absent member
+    /// leaves them. The caller draws the random image index of each frame-table layer as it builds
+    /// the chains, in entry and layer order, where <c>LoadFromStream</c> draws it.
+    /// </summary>
+    void ImageSequences(string name, IList<IReadOnlyList<SequenceLayer>?> entries);
+
     void Object(string name, IPersistable objectValue);
 
     IPersistable? Created(string name, IPersistable? objectValue);
@@ -175,6 +212,16 @@ public interface IPersister
     IPersistable? CreatedSlot(string name, int slot, IPersistable? objectValue);
 
     T? CreatedSlot<T>(string name, int slot, T? objectValue) where T : class, IPersistable;
+
+    /// <summary>
+    /// One fixed object of a keyed dynamic member (Delphi <c>TAbilityControl</c> and
+    /// <c>TSpellControl</c>), stored at <paramref name="slot"/> and persisted in place, as
+    /// <see cref="Object"/> persists one. On save the calls of one member add their slots in call
+    /// order, and a slot stored twice is an error. On load a present slot loads into the object
+    /// with the <see cref="Object"/> error rule, and an absent slot leaves it. A slot the load does
+    /// not ask for is left unread, as <c>ReadWrite</c> leaves an id it does not ask for.
+    /// </summary>
+    void ObjectSlot(string name, int slot, IPersistable objectValue);
 
     /// <summary>
     /// On load, consumes a member without reading it, the way <c>ReadWrite</c> leaves a stored

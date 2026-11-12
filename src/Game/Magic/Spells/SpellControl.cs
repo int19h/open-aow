@@ -2,6 +2,7 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -42,6 +43,21 @@ public partial class SpellControl : EngineObject
                 stream.Object(RegisteredSpells[I], I + 10);
             }
         }
+    }
+
+    // A slot no registered spell asks for stays unread, as ReadWrite leaves its id.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        for (int I = 0, last = RegisteredSpells.Count - 1; I <= last; I++)
+        {
+            if (RegisteredSpells[I] != null)
+            {
+                persister.ObjectSlot("Spells", slot: I, objectValue: RegisteredSpells[I]);
+            }
+        }
+
+        persister.Skip("Spells");
     }
 
     // Spells.PAS:597

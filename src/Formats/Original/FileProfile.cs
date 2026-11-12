@@ -431,11 +431,14 @@ public sealed class StoredObjectProfile : FileProfile
     }
 }
 
-/// <summary>Hero and item lists: the root written without a class id, fixed by the caller.</summary>
-public sealed class WrittenObjectProfile(string name, string[] kinds, string rootClass) : FileProfile
+/// <summary>
+/// Hero and item lists: the root written without a class id, fixed by the caller. A test reads a
+/// game set file through such a profile, in the engine table its classes come from.
+/// </summary>
+public sealed class WrittenObjectProfile(string name, string[] kinds, string rootClass, string engine = "game") : FileProfile
 {
     public override string Name => name;
-    public override string Engine => "game";
+    public override string Engine => engine;
     public override IReadOnlyList<string> Kinds => kinds;
     public override string RootFamily => rootClass;
     public override bool RootHasClass => false;

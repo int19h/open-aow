@@ -32,8 +32,9 @@ public sealed class JsonTests : FormatsTest
     [InlineData("[1, 2,]", Codes.Syntax, 1, 7)]
     [InlineData("{\"a\": 1} x", Codes.Syntax, 1, 10)]
     [InlineData("{\"a\": 1 // c\n}", Codes.Syntax, 1, 9)]
-    [InlineData("{\"a\": 1.5}", Codes.Number, 1, 7)]
-    [InlineData("{\"a\": 1e3}", Codes.Number, 1, 7)]
+    [InlineData("{\"a\": 1.}", Codes.Number, 1, 7)]
+    [InlineData("{\"a\": 1e}", Codes.Number, 1, 7)]
+    [InlineData("{\"a\": 1e+}", Codes.Number, 1, 7)]
     [InlineData("{\"a\": 99999999999999999999}", Codes.Range, 1, 7)]
     [InlineData("{\"a\": \"\\ud800\"}", Codes.Surrogate, 1, 7)]
     [InlineData("{\"a\": \"x\ty\"}", Codes.Syntax, 1, 9)]
@@ -47,6 +48,19 @@ public sealed class JsonTests : FormatsTest
         Assert.Equal(line, error.Diagnostic.Span.Line);
         Assert.Equal(column, error.Diagnostic.Span.Column);
         Assert.Equal("t.json", error.Diagnostic.File);
+    }
+
+    // A number with a fraction or an exponent keeps its text. Only the codec of a single accepts it.
+    [Theory]
+    [InlineData("1.5")]
+    [InlineData("-0.25")]
+    [InlineData("1e3")]
+    [InlineData("2.5E-7")]
+    public void KeepsTheTextOfANumberWithAFraction(string text)
+    {
+        var value = (JsonObject)JsonReader.Parse("{\"a\": " + text + "}");
+        Assert.Equal(text, Assert.IsType<JsonNumber>(value["a"]).Text);
+        Assert.Equal("{\n  \"a\": " + text + "\n}\n", JsonWriter.ToText(value));
     }
 
     [Fact]

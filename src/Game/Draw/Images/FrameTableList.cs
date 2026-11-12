@@ -299,6 +299,20 @@ public partial class FrameTableList : Persistent
         _count = N;
     }
 
+    /// <summary><see cref="LoadFromStream"/> from a stored default and stored items.</summary>
+    internal void LoadItems(int defaultValue, IReadOnlyList<int> items)
+    {
+        Clear();
+        _defaultValue = defaultValue;
+        SetCapacity(items.Count);
+        for (int I = 0; I < items.Count; I++)
+        {
+            _list[I] = items[I];
+        }
+
+        _count = items.Count;
+    }
+
     // ImageLib.pas:9578
     public void SaveToStream(Stream stream)
     {

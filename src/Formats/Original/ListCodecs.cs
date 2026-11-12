@@ -237,7 +237,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 /// document is <c>{"default": d, "groups": [[...], ...], "count": n}</c>. Each group drops its
 /// trailing -1 entries. <c>count</c> is present only when the stored length is not the group
 /// size times the number of groups, and <c>default</c> only when it is not -1, the constructor's.
-/// The tree has no member for it yet.
+/// Since PE-2c-5 the tree holds the flat list as a <see cref="Tree.DefaultListNode"/> of width 4,
+/// and the direct path writes its canonical runs.
 /// </summary>
 internal sealed class GroupedListCodec(int size, string? domain = null) : PropertyCodec
 {
@@ -250,7 +251,31 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
     /// <summary>The reference domain of the values, an annotation only.</summary>
     public string? Domain { get; } = domain;
 
-    internal override string? ImageRefusal => "PE-3 still needs a grouped list. The direct path does not store it.";
+    internal override void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame) =>
+        _flat.WriteImage(value, context, data, frame);
+
+    internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
+        _flat.ReadImage(context, start, end, frame);
+
+    internal override JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)
+    {
+        string name = site.Property?.Name ?? "The value";
+        if (value is not Tree.DefaultListNode { Width: 4 } node) throw site.Mismatch(name + " is a list with a default.");
+        if (node.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: "at most " + site.Context.Limits.CollectionItems + " items");
+        if (node.Default is < int.MinValue or > int.MaxValue)
+            throw site.At(site.Path.Member("default"), element: false).Fail(Codes.Range, "A list value is a signed 32-bit integer.", value: Text(node.Default));
+        for (int i = 0; i < node.Items.Count; i++)
+            if (node.Items[i] is < int.MinValue or > int.MaxValue)
+                throw site.Fail(Codes.Range, "A list value is a signed 32-bit integer.", value: Text(node.Items[i]));
+        return Document(node.Default, node.Items);
+    }
+
+    internal override Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
+    {
+        var (defense, items) = Flat(site.Context, value, site.Path, site.Property?.Name ?? "The value");
+        return new Tree.DefaultListNode(4, defense, items);
+    }
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {

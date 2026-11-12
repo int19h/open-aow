@@ -301,6 +301,92 @@ sealed class MemberPersister : IPersister
         Store(name, new BitArrayNode(count, indices.ToArray(), residue));
     }
 
+    public BitListImage? BitList(string name, BitListImage value)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return null;
+            if (found is not BitListNode node) throw Type(name, "a bit list");
+            var bits = new byte[(node.Count + 7) >> 3];
+            foreach (int index in node.Indices) bits[index >> 3] |= (byte)(1 << (index & 7));
+            if ((node.Count & 7) != 0 && bits.Length != 0) bits[^1] |= node.Residue;
+            return new BitListImage(node.Default, node.Count, bits);
+        }
+        if (value.Count < 0 || value.Bits.Length != (value.Count + 7L) >> 3)
+            throw TreeErrors.Fail(Codes.Range, name + " of " + value.Count.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bits holds " + ((value.Count + 7L) >> 3).ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", _path.Member(name));
+        var indices = new List<int>();
+        for (int i = 0; i < value.Count; i++)
+            if ((value.Bits[i >> 3] & (1 << (i & 7))) != 0) indices.Add(i);
+        byte residue = (value.Count & 7) != 0 ? (byte)(value.Bits[^1] & (byte)(0xFF << (value.Count & 7))) : (byte)0;
+        Store(name, new BitListNode(value.Default, value.Count, [.. indices], residue));
+        return value;
+    }
+
+    public float Single(string name, float value)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return value;
+            if (found is not SingleNode node) throw Type(name, "a single");
+            return node.Value;
+        }
+        Store(name, new SingleNode(BitConverter.SingleToInt32Bits(value)));
+        return value;
+    }
+
+    public byte[]? Blob(string name, byte[] data)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return null;
+            if (found is not BytesNode node) throw Type(name, "bytes");
+            return node.Data;
+        }
+        Store(name, new BytesNode(data));
+        return data;
+    }
+
+    public void SBytePairs(string name, IList<(sbyte First, sbyte Second)> pairs)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return;
+            if (found is not PairListNode node) throw Type(name, "pairs of signed bytes");
+            pairs.Clear();
+            foreach (var pair in node.Pairs) pairs.Add(pair);
+            return;
+        }
+        Store(name, new PairListNode([.. pairs]));
+    }
+
+    public void ImageSequences(string name, IList<IReadOnlyList<SequenceLayer>?> entries)
+    {
+        var at = _path.Member(name);
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return;
+            if (found is not ImageSequenceListNode node) throw Type(name, "an image sequence list");
+            entries.Clear();
+            foreach (var entry in node.Entries) entries.Add(entry);
+            return;
+        }
+        for (int i = 0; i < entries.Count; i++)
+        {
+            if (entries[i] is not { } layers) continue;
+            if (layers.Count == 0)
+                throw TreeErrors.Fail(Codes.Type, "A sequence of " + name + " has at least one layer.", at.Item(i));
+            for (int k = 0; k < layers.Count; k++)
+                if ((layers[k].Frames is not null) != SequenceLayer.HasFrameTable(layers[k].Mode))
+                    throw TreeErrors.Fail(Codes.Type, "A layer stores a frame table exactly when its mode is FrameTable or RandomFrameTable.", at.Item(i).Item(k));
+        }
+        Store(name, new ImageSequenceListNode([.. entries]));
+    }
+
     public void Object(string name, IPersistable objectValue)
     {
         if (Loading)
@@ -403,6 +489,51 @@ sealed class MemberPersister : IPersister
         if (box is not null && box is not T)
             throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name);
         return (T?)box;
+    }
+
+    public void ObjectSlot(string name, int slot, IPersistable objectValue)
+    {
+        var at = _path.Member(name).Item(slot);
+        if (slot < 0)
+            throw TreeErrors.Fail(Codes.Range, "A slot of " + name + " is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        _slotMembers ??= new Dictionary<string, SlotListNode?>(StringComparer.Ordinal);
+        if (Loading)
+        {
+            if (!_slotMembers.TryGetValue(name, out var stored))
+            {
+                var found = Take(name);
+                if (found is not null and not SlotListNode) throw Type(name, "fixed objects at slots");
+                stored = (SlotListNode?)found;
+                _slotMembers[name] = stored;
+            }
+            var value = stored?.Find(slot);
+            if (value is null) return;
+            if (value is not ObjectNode { ClassName: null } node)
+                throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a fixed object.", at);
+            var reader = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors);
+            // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
+            try
+            {
+                objectValue.Persist(reader);
+                reader.Finish();
+            }
+            catch (System.Exception error)
+            {
+                if (!Continue(error)) throw;
+            }
+            return;
+        }
+        if (!_slotMembers.TryGetValue(name, out var list) || list is null)
+        {
+            list = new SlotListNode();
+            Store(name, list);
+            _slotMembers[name] = list;
+        }
+        if (list.Find(slot) is not null)
+            throw TreeErrors.Fail(Codes.Slot, "Slot " + slot.ToString(System.Globalization.CultureInfo.InvariantCulture) + " of " + name + " is stored twice.", at);
+        var written = new ObjectNode(null, slot);
+        objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors));
+        list.Add(slot, written);
     }
 
     public void Skip(string name)
