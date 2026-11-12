@@ -1,5 +1,7 @@
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -98,6 +100,46 @@ public partial class MapLevel
                 }
             }
         }
+    }
+
+    // The tree form of ReadWrite. The fields are a grid member, read only when present, written always.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        bool loading = persister.Loading;
+        if (loading)
+        {
+            Engine = PersistSupport.Engine(persister);
+            _mapContainer = Owner;
+            _map = _mapContainer.Map;
+        }
+        _width = persister.Byte("Width", (byte)_width);
+        _height = persister.Byte("Height", (byte)_height);
+        _hexLevel = persister.Byte("HexLevel", (byte)_hexLevel);
+        MapProgress progress = new()
+        {
+            Level = _hexLevel,
+            Percent = 0,
+            ProgressType = loading ? MapProgressType.Loading : MapProgressType.Saving,
+        };
+        _map.NotifyProgress(progress);
+        if (loading && _width != 0)
+            CreateMapFieldList(_width, _height);
+        if (loading && !persister.Has("Fields"))
+        {
+            return;
+        }
+
+        int step = _count / 10;
+        persister.Grid("Fields", width: _width, height: _height, fields: _fields, visited: _ =>
+        {
+            if (--step == 0)
+            {
+                progress.Percent += 10;
+                _map.NotifyProgress(progress);
+                step = _count / 10;
+            }
+        });
     }
 
     private void VisitFields(MapProgressType type, int divisor, int increment, Action<MapField> action, bool final)

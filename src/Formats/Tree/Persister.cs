@@ -195,6 +195,32 @@ public interface IPersister
 
     void Children(string name, IChildCollection children);
 
+    /// <summary>
+    /// The fields of a grid (Delphi <c>TMapLevel</c> property 6): <paramref name="height"/> rows of
+    /// <paramref name="width"/> fixed objects, in row order, each persisted in place as
+    /// <see cref="Object"/> persists one. The member is always stored on save, an empty grid
+    /// included. On load an absent member leaves the fields as they are, and a present one needs
+    /// the same width and height. <paramref name="visited"/> runs after each field with its index,
+    /// on save and on load, so the caller reports progress where <c>ReadWrite</c> does.
+    /// </summary>
+    void Grid(string name, int width, int height, IReadOnlyList<IPersistable> fields, Action<int>? visited = null);
+
+    /// <summary>
+    /// The created objects of a dynamic member without slots (Delphi <c>TMapField</c> sprites), in
+    /// stored order. On save every stored item of <paramref name="items"/> is written in index order,
+    /// and the member is absent when no item is stored. On load each stored object is created,
+    /// attached, persisted and placed in stored order, through the rules of <see cref="Created"/>,
+    /// and a stored null is skipped. The stored id carries no identity, so the slot is not stored.
+    /// </summary>
+    void CreatedSequence(string name, IChildCollection items);
+
+    /// <summary>
+    /// A whole original file of <paramref name="profile"/> held as bytes (Delphi
+    /// <c>TAoWCampaign</c> ids 5 and 6). Empty bytes are omitted on save. On load an absent member
+    /// returns empty bytes and a present one returns the stored file.
+    /// </summary>
+    byte[] NestedDocument(string name, string profile, byte[] image);
+
     int Reference(string name, string domain, int key, int fallback = 0);
 
     void Record(string name, Action<IPersister> body);

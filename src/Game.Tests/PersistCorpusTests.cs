@@ -70,6 +70,8 @@ public sealed class PersistCorpusTests
         s_blocked.Clear();
         s_proved.Clear();
         s_refusers.Clear();
+        s_levels.Clear();
+        s_levelBlocks.Clear();
         try
         {
             var schema = FormatSchema.Current;
@@ -124,6 +126,7 @@ public sealed class PersistCorpusTests
                 s_blocked.TryGetValue(name, out var held);
                 Assert.True(ok > 0, name + " has no proved instance in the corpus. " + (held.Reason ?? ""));
             }
+            PrintLevels();
         }
         finally
         {
@@ -135,7 +138,8 @@ public sealed class PersistCorpusTests
 
     private static void Walk(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
-        if (s_engineTypes.TryGetValue(classValue.Name, out var type) && EngineObject.TreePersistenceRefusal(type) == null)
+        if (IsMapLevel(classValue)) ProveLevel(objectValue, classValue, engine, file, schema);
+        else if (classValue.Name != "MapField" && s_engineTypes.TryGetValue(classValue.Name, out var type) && EngineObject.TreePersistenceRefusal(type) == null)
         {
             counts.TryGetValue(classValue.Name, out int seen);
             counts[classValue.Name] = seen + 1;
@@ -268,6 +272,88 @@ public sealed class PersistCorpusTests
         {
             throw new InvalidOperationException(file + " " + classValue.Name + " failed. " + error.Message, error);
         }
+    }
+
+    // A map level and its fields have no engine proof here: the fixture loads no resources, so
+    // every hexagon sprite fails its resource link, and a level needs a map to report progress
+    // to. The constructed level of PersistEquivalenceTests proves them against MainReadWrite. The
+    // direct path proves every level of the corpus: the converter's image of the level, read into
+    // a tree by the original backend, writes back the canonical image, the document backend writes
+    // the converter's document of that image, and that document read back writes the same image.
+    // The read keeps every value: the converter's document of the stored image less its $layout
+    // parts equals the document of the canonical image.
+    private static readonly Dictionary<string, (int Levels, long Fields, long Sprites)> s_levels = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, int> s_levelBlocks = new(StringComparer.Ordinal);
+
+    private static bool IsMapLevel(SchemaClass classValue) => classValue.Properties.Any(prop => prop.Codec is MapFieldsCodec);
+
+    private static void ProveLevel(JsonObject level, SchemaClass classValue, string engine, string file, FormatSchema schema)
+    {
+        string label = file + " " + classValue.Name;
+        var image = PilotImage.Encode(level, classValue.Name, engine);
+        ObjectNode tree;
+        byte[] direct;
+        try
+        {
+            tree = OriginalBackend.Read(image, classValue, schema, engine);
+            direct = OriginalBackend.Write(tree, classValue, schema, engine);
+        }
+        catch (ConversionException error) when (IsDirectRefusal(error))
+        {
+            s_levelBlocks.TryGetValue(error.Diagnostic.Message, out int seen);
+            s_levelBlocks[error.Diagnostic.Message] = seen + 1;
+            return;
+        }
+        var expected = PilotImage.Decode(direct, classValue.Name, engine);
+        EqualJson(WithoutLayout(PilotImage.Decode(image, classValue.Name, engine)), expected, label + " direct read");
+        EqualBytes(direct, PilotImage.Encode(expected, classValue.Name, engine), label + " direct canonical");
+        EqualJson(expected, DocumentBackend.Write(tree, classValue, schema, engine), label + " direct document");
+        EqualBytes(direct, OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine), label + " direct document read");
+        var grid = (GridNode)tree.Find("Fields")!;
+        long sprites = 0;
+        foreach (var field in grid.Fields)
+            if (field.Find("Sprites") is SequenceNode sequence) sprites += sequence.Items.Count;
+        s_levels.TryGetValue(classValue.Name, out var total);
+        s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
+    }
+
+    private static JsonObject WithoutLayout(JsonObject objectValue)
+    {
+        objectValue.Members.RemoveAll(member => member.Name == "$layout");
+        foreach (var member in objectValue.Members) WithoutLayout(member.Value);
+        return objectValue;
+    }
+
+    private static void WithoutLayout(JsonValue value)
+    {
+        if (value is JsonObject nested) WithoutLayout(nested);
+        else if (value is JsonArray array)
+            foreach (var item in array.Items) WithoutLayout(item);
+    }
+
+    private void PrintLevels()
+    {
+        int levels = 0;
+        foreach (var (name, (count, fields, sprites)) in s_levels.OrderBy(pair => pair.Key, StringComparer.Ordinal))
+        {
+            levels += count;
+            Print("direct " + name + " " + count + " levels, " + fields + " fields, " + sprites + " sprites");
+        }
+        foreach (var (message, count) in s_levelBlocks.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, StringComparer.Ordinal))
+        {
+            levels += count;
+            Print("direct blocked " + count + " " + message);
+        }
+        Print("direct levels " + levels);
+        foreach (var message in s_levelBlocks.Keys)
+            Assert.False(message.Contains("map fields", StringComparison.Ordinal) || message.Contains("dynamic member", StringComparison.Ordinal),
+                "A map level is refused for its fields or sprites: " + message);
+    }
+
+    private void Print(string line)
+    {
+        _output.WriteLine(line);
+        Console.WriteLine(line);
     }
 
     // An instance is proved only when the write and both reads finish. A refusal anywhere in the

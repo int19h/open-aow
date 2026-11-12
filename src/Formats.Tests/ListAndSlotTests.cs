@@ -29,6 +29,9 @@ public sealed class ListAndSlotTests : FormatsTest
           ]},
           {"name": "TSprites", "parent": "TEObject", "id": 10, "engines": ["game"], "properties": [
             {"name": "Sprites", "dynamic": 50, "codec": "created"}
+          ]},
+          {"name": "TFixedSlots", "parent": "TEObject", "id": 11, "engines": ["game"], "properties": [
+            {"name": "Fixed", "dynamic": 10, "codec": "object", "class": "TPart", "slotBase": 10}
           ]}
         ]}
         """;
@@ -204,12 +207,25 @@ public sealed class ListAndSlotTests : FormatsTest
     }
 
     [Fact]
-    public void ADynamicMemberWithoutSlotsStaysRefused()
+    public void KeyedSlotsOnASequenceAreRefused()
     {
         var schema = Sample;
-        var node = new SpriteHolder();
-        var tree = TreeWriter.Write(node, s_factory);
+        var tree = TreeWriter.Write(new SpriteHolder(), s_factory);
         var classValue = schema.Get("TSprites");
+        var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
+        Assert.Equal(Codes.Type, document.Diagnostic.Code);
+        Assert.Equal("root.Sprites", document.Diagnostic.Path);
+        var image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
+        Assert.Equal(Codes.Type, image.Diagnostic.Code);
+        Assert.Equal("root.Sprites", image.Diagnostic.Path);
+    }
+
+    [Fact]
+    public void FixedObjectSlotsStayRefused()
+    {
+        var schema = Sample;
+        var tree = TreeWriter.Write(new FixedSlots(), s_factory);
+        var classValue = schema.Get("TFixedSlots");
         var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
         Assert.Equal("PE-1 does not store a dynamic member.", document.Diagnostic.Message);
         var image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
@@ -264,6 +280,11 @@ public sealed class ListAndSlotTests : FormatsTest
     private sealed class SpriteHolder : IPersistable
     {
         public void Persist(IPersister persister) => persister.CreatedSlot("Sprites", slot: 0, objectValue: new Part());
+    }
+
+    private sealed class FixedSlots : IPersistable
+    {
+        public void Persist(IPersister persister) => persister.CreatedSlot("Fixed", slot: 0, objectValue: new Part());
     }
 
     private sealed class PartFactory : IPersistableFactory

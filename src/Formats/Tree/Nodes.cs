@@ -1,4 +1,6 @@
 
+using System.Globalization;
+
 namespace Aow.Formats.Tree;
 
 /// <summary>One value in the persistence tree. The tree has no schema.</summary>
@@ -228,6 +230,19 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
 }
 
 /// <summary>
+/// A bit list (Delphi <c>TBitList</c>): the stored default byte, the count, the set bits in
+/// ascending order and the residue byte of the bits past the count. Since PE-2c-4 the backends
+/// store it. No serializer moves it yet.
+/// </summary>
+public sealed class BitListNode(byte defaultValue, int count, int[] indices, byte residue) : TreeValue
+{
+    public byte Default { get; } = defaultValue;
+    public int Count { get; } = count;
+    public IReadOnlyList<int> Indices { get; } = indices;
+    public byte Residue { get; } = residue;
+}
+
+/// <summary>
 /// A list with a stored default (Delphi <c>TIntegerList</c> and <c>TByteList</c>). Width 4 holds
 /// signed 32-bit values and width 1 unsigned bytes. A read past the end of the list returns the
 /// default, so the default is state and is stored with the items.
@@ -275,6 +290,73 @@ public sealed class SlotListNode : TreeValue
             foreach (var hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]"))
                 yield return hit;
     }
+}
+
+/// <summary>
+/// The fields of a map level (Delphi <c>TMapLevel</c> property 6): <see cref="Height"/> rows of
+/// <see cref="Width"/> fixed objects of the level's field class, stored row after row. A field
+/// carries no class name and no slot.
+/// </summary>
+public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fields) : TreeValue
+{
+    public int Width { get; } = width;
+    public int Height { get; } = height;
+
+    /// <summary>The fields in row order: the field at x, y is at <c>y * Width + x</c>.</summary>
+    public IReadOnlyList<ObjectNode> Fields { get; } = fields;
+
+    internal override void RejectVersion(int version, DocumentNodePath path)
+    {
+        for (int i = 0; i < Fields.Count; i++)
+        {
+            int y = Math.DivRem(i, Width, out int x);
+            Fields[i].RejectVersion(version, path.Item(y).Item(x));
+        }
+    }
+
+    internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
+    {
+        for (int i = 0; i < Fields.Count; i++)
+        {
+            int y = Math.DivRem(i, Width, out int x);
+            foreach (var hit in Fields[i].ReferencesIn(domain, path + "[" + y.ToString(CultureInfo.InvariantCulture) + "][" + x.ToString(CultureInfo.InvariantCulture) + "]"))
+                yield return hit;
+        }
+    }
+}
+
+/// <summary>
+/// The created objects of a dynamic member without slots (Delphi <c>TMapField</c> sprites, ids 50
+/// and on), in stored order. An item is an object node with a class name and no slot, or
+/// <see cref="NullNode"/> for a stored null.
+/// </summary>
+public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
+{
+    public IReadOnlyList<TreeValue> Items { get; } = items;
+
+    internal override void RejectVersion(int version, DocumentNodePath path)
+    {
+        for (int i = 0; i < Items.Count; i++)
+            Items[i].RejectVersion(version, path.Item(i));
+    }
+
+    internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
+    {
+        for (int i = 0; i < Items.Count; i++)
+            foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+                yield return hit;
+    }
+}
+
+/// <summary>
+/// A whole original file nested in an object (Delphi <c>TAoWCampaign</c> ids 5 and 6, the campaign
+/// map): the file's bytes and the name of the profile that reads them. The document holds the
+/// file as a nested document of that profile.
+/// </summary>
+public sealed class NestedDocumentNode(string profile, byte[] image) : TreeValue
+{
+    public string Profile { get; } = profile;
+    public byte[] Image { get; } = image;
 }
 
 /// <summary>A variable-length list. Version 1 refuses it. It is not the children of a node.</summary>

@@ -60,7 +60,8 @@ sealed class MemberPersister : IPersister
 {
     private readonly IReadOnlyList<(string Name, TreeValue Value)> _existing;
     private readonly Action<string, TreeValue>? _add;
-    private readonly HashSet<string> _consumed = new(StringComparer.Ordinal);
+    // The members a load has read. A save reads none, so the set is made by the first read.
+    private HashSet<string>? _consumed;
     private readonly DocumentNodePath _path;
     private readonly LoadErrorPolicy? _errors;
 
@@ -96,7 +97,7 @@ sealed class MemberPersister : IPersister
     {
         if (!Loading) return;
         foreach (var (name, _) in _existing)
-            if (!_consumed.Contains(name))
+            if (_consumed is null || !_consumed.Contains(name))
                 throw TreeErrors.Fail(Codes.Required, $"Member \"{name}\" was not read.", _path.Member(name));
     }
 
@@ -406,7 +407,7 @@ sealed class MemberPersister : IPersister
 
     public void Skip(string name)
     {
-        if (Loading && !_consumed.Contains(name)) Take(name);
+        if (Loading && (_consumed is null || !_consumed.Contains(name))) Take(name);
     }
 
     public int Int32List(string name, IList<int> items, int defaultValue)
@@ -486,6 +487,113 @@ sealed class MemberPersister : IPersister
             written.Add(node);
         }
         Store(name, new ChildListNode(written));
+    }
+
+    public void Grid(string name, int width, int height, IReadOnlyList<IPersistable> fields, Action<int>? visited = null)
+    {
+        var at = _path.Member(name);
+        if (width < 0 || height < 0 || (long)width * height != fields.Count)
+            throw TreeErrors.Fail(Codes.Dimensions, $"{name} holds {fields.Count} fields for a {width} by {height} grid.", at,
+                value: fields.Count.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{(long)width * height} fields");
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return;
+            if (found is not GridNode node) throw Type(name, "a grid of fields");
+            if (node.Width != width || node.Height != height)
+                throw TreeErrors.Fail(Codes.Dimensions, $"{name} is a {node.Width} by {node.Height} grid and the object is {width} by {height}.", at,
+                    value: $"{node.Width} by {node.Height}", constraint: $"{width} by {height}");
+            for (int i = 0; i < fields.Count; i++)
+            {
+                // TEReadStorageStream.rwEObjectStream wraps MainReadWrite and leaves the field in place.
+                var reader = new MemberPersister(node.Fields[i], loading: true, factory: Factory, path: FieldPath(at, i, width), errors: _errors);
+                try
+                {
+                    fields[i].Persist(reader);
+                    reader.Finish();
+                }
+                catch (System.Exception error)
+                {
+                    if (!Continue(error)) throw;
+                }
+                visited?.Invoke(i);
+            }
+            return;
+        }
+        var written = new ObjectNode[fields.Count];
+        for (int i = 0; i < fields.Count; i++)
+        {
+            var field = new ObjectNode(null, null);
+            fields[i].Persist(new MemberPersister(field, loading: false, factory: Factory, path: FieldPath(at, i, width), errors: _errors));
+            written[i] = field;
+            visited?.Invoke(i);
+        }
+        Store(name, new GridNode(width, height, written));
+    }
+
+    // The field at an index sits at [y][x] of the document's rows.
+    private static DocumentNodePath FieldPath(DocumentNodePath grid, int index, int width)
+    {
+        int y = Math.DivRem(index, width, out int x);
+        return grid.Item(y).Item(x);
+    }
+
+    public void CreatedSequence(string name, IChildCollection items)
+    {
+        var at = _path.Member(name);
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return;
+            if (found is not SequenceNode node) throw Type(name, "a sequence of created objects");
+            for (int k = 0; k < node.Items.Count; k++)
+            {
+                // TEReadStorageStream.rwCreateEObject with an owner: a stored null creates nothing.
+                if (node.Items[k] is NullNode) continue;
+                if (node.Items[k] is not ObjectNode { ClassName: string className } item)
+                    throw TreeErrors.Fail(Codes.Type, "An item of " + name + " is a created object.", at.Item(k));
+                IPersistable? created = null;
+                try
+                {
+                    created = Factory.Create(className);
+                    items.Attach(created);
+                    var reader = new MemberPersister(item, loading: true, factory: Factory, path: at.Item(k), errors: _errors);
+                    created.Persist(reader);
+                    reader.Finish();
+                    items.Place(k, created);
+                }
+                catch (System.Exception error)
+                {
+                    if (created is not null) Factory.Release(created);
+                    if (!Continue(error)) throw;
+                }
+            }
+            return;
+        }
+        List<TreeValue>? written = null;
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (!items.IsStored(i)) continue;
+            var item = items.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored item is missing.", at.Item(i));
+            written ??= [];
+            var node = new ObjectNode(Factory.ClassName(item), null);
+            item.Persist(new MemberPersister(node, loading: false, factory: Factory, path: at.Item(written.Count), errors: _errors));
+            written.Add(node);
+        }
+        if (written is not null) Store(name, new SequenceNode(written));
+    }
+
+    public byte[] NestedDocument(string name, string profile, byte[] image)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return [];
+            if (found is not NestedDocumentNode node || node.Profile != profile) throw Type(name, "a nested " + profile + " document");
+            return node.Image;
+        }
+        if (image.Length != 0) Store(name, new NestedDocumentNode(profile, image));
+        return image;
     }
 
     public int Reference(string name, string domain, int key, int fallback = 0)
@@ -585,6 +693,7 @@ sealed class MemberPersister : IPersister
 
     private TreeValue? Take(string name)
     {
+        _consumed ??= new HashSet<string>(StringComparer.Ordinal);
         if (!_consumed.Add(name))
             throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", _path.Member(name));
         if (Find(name) is { } found) return found;

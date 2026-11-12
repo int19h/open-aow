@@ -44,7 +44,7 @@ public static class DocumentBackend
         {
             var value = node.Find(prop.Name);
             if (value is null) continue;
-            var member = site.For(prop);
+            var member = site.For(prop, parent: node, ownerClass: classValue);
             if (prop.IsDynamic)
             {
                 json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, member));
@@ -96,7 +96,7 @@ public static class DocumentBackend
         {
             var member = document.Find(prop.Name);
             if (member is null) continue;
-            var at = site.For(prop);
+            var at = site.For(prop, parent: null, ownerClass: classValue);
             if (prop.IsDynamic)
             {
                 node.Add(prop.Name, prop.Codec.ReadSlotsTree(member.Value, at));

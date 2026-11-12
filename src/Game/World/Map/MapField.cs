@@ -3,6 +3,7 @@
 using System.Runtime.CompilerServices;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
@@ -132,6 +133,21 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     public override void MainReadWrite(StorageStream stream)
     {
         ReadWrite(stream);
+    }
+
+    // The tree form of MainReadWrite: the fields only, with no Clear and no children.
+    public override void MainPersist(IPersister persister)
+    {
+        PersistFields(persister);
+    }
+
+    // The tree form of ReadWrite. The stored sprites are a created sequence at ids 50 and on. A
+    // load creates each sprite with this field as owner and then places it, as rwCreateEObject does.
+    public override void PersistFields(IPersister persister)
+    {
+        persister.CreatedSequence("Sprites", new NodeChildren(this));
+        int flags = FieldFlags;
+        FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", (ushort)flags);
     }
 
     // HSEngine.pas:1898
