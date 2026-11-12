@@ -57,11 +57,10 @@ public sealed class EngineClassTests
     [Fact]
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
         var engines = new List<GameEngine> { engine };
-        foreach (GameEngine other in EngineHost.Engines!)
-            if (!ReferenceEquals(other, engine)) engines.Add(other);
+        // The full engine of the fixture, when a test of the engine collection built it.
+        if (EngineFixture.Engine is { } full) engines.Add(full);
         Assert.Contains(EngineClass.Of<ControlStyleObject>(), ProductRegistered(engine));
         foreach (GameEngine registered in engines)
         {

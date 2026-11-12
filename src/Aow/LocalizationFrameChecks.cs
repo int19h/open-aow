@@ -2,7 +2,6 @@ using System.Text.Json;
 using Aow.Game.Draw;
 
 using Aow.Game.Layout;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Dialogs;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
@@ -36,7 +35,7 @@ internal static class LocalizationFrameChecks
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
-        string undead = AbilityRules.TranslateResourceString("Undead(plural)");
+        string undead = ui.Engine.TranslateResourceString("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
         string mapCaption = ui.ScannerWindow.TitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";

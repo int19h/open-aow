@@ -59,12 +59,12 @@ public partial class PowerDialog : UIModule
             turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
             var spell = GamePack.Current.SpellControl.GetSpell(spellId);
             SpellNameLabel.Text = spell.SpellName;
-            var formatTurnsString = FormatTurnsString(turns);
+            var formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
             ResearchLeftLabel.Text = formatTurnsString;
         }
         else
         {
-            var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
+            var none = UI.Engine.TranslateResourceString(GameTables.NoneText);
             SpellNameLabel.Text = none;
             ResearchLeftLabel.Text = "-";
         }
@@ -133,15 +133,15 @@ public partial class PowerDialog : UIModule
 
     private static readonly string s_turnFormat = "%s turn";
 
-    private static string FormatTurnsString(int turns)
+    private static string FormatTurnsString(GameEngine engine, int turns)
     {
         if (turns == 1)
         {
-            string s = AbilityRules.TranslateResourceString(s_turnFormat);
+            string s = engine.TranslateResourceString(s_turnFormat);
             FormatArg value = (FormatArg)((byte)49);
             return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
         }
-        string s2 = AbilityRules.TranslateResourceString(GameText.TurnsFormat);
+        string s2 = engine.TranslateResourceString(GameText.TurnsFormat);
         FormatArg value2 = (FormatArg)(RtlUnit.IntToStr(turns));
         return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
     }

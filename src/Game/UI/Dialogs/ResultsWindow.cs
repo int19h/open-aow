@@ -5,7 +5,6 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Events;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -121,7 +120,7 @@ public partial class ResultsWindow : UIModule
             }
         }
 
-        var turn = AbilityRules.TranslateResourceString(s_turnText);
+        var turn = UI.Engine.TranslateResourceString(s_turnText);
         TurnLabel.Text = turn + " " + IntToStr(_maxTurns);
     }
 
@@ -365,7 +364,7 @@ public partial class ResultsWindow : UIModule
         AudioPlayback.FadeMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position, 2);
         if (StrategicMap.Current.GameStatus == StrategicMapGameStatus.Terminated)
         {
-            if (GameTables.GameEngine.Campaign == null)
+            if (UI.Engine.Campaign == null)
             {
                 UI.General.ReturnToTitle();
             }

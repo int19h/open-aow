@@ -1,7 +1,6 @@
 #nullable disable
 using Aow.Game.Audio;
 using Aow.Game.Combat;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.World.Map;
 using static Aow.Rtl.RtlUnit;
@@ -13,7 +12,7 @@ public partial class CombatMapEvents
     public void CombatMapActivateMap()
     {
         AudioHost.SongPlayer.Pause(false);
-        if (GameTables.GameEngine.Demo)
+        if (UI.Engine.Demo)
         {
             AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
         }

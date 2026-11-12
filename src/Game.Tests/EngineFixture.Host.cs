@@ -14,7 +14,7 @@ namespace Aow.Game.Tests;
 
 public sealed partial class EngineFixture
 {
-    internal sealed record Entry(string Call, string Argument, bool Engine, bool Set, int Engines, string[] DestroyFrames);
+    internal sealed record Entry(string Call, string Argument, bool Set, string[] DestroyFrames);
 
     internal sealed class RecordingHost : IRtlHost, IFileSystem, ISettingsStore, IDialogService, IDisposable
     {
@@ -41,7 +41,7 @@ public sealed partial class EngineFixture
                 typeof(GameTables), typeof(AbilityRules), typeof(GameText),
                 typeof(MovementTables), typeof(CombatAbilityTables), typeof(TroopConstants),
                 typeof(AlignmentTables),                 typeof(RankTables), typeof(RosterTables),
-                typeof(EngineHost), typeof(EngineServices), typeof(GameEngine),
+                typeof(EngineServices), typeof(GameEngine),
                 typeof(HexGeometry), typeof(HexText),
                 typeof(ImageLibraries), typeof(AudioHost),
             })
@@ -53,10 +53,6 @@ public sealed partial class EngineFixture
             foreach (string directory in new[] { "IMAGES", "SFX", "Dict" }) Directory.CreateDirectory(Path.Combine(_root, directory));
             if (fault == "dictionary") File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
             _files.SetCurrentDirectory(_root);
-            EngineHost.Engines = new List<GameEngine>();
-            EngineHost.Plugins = new List<Engine.Plugin>();
-            EngineHost.VerifyEngineObjectEnabled = true;
-            GameTables.GameEngine = null!;
             GamePack.Current = null!;
             StrategicMap.Current = null!;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
@@ -64,17 +60,15 @@ public sealed partial class EngineFixture
         }
 
         internal string Relative(string value) => value.Replace(_root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GameTables.GameEngine is not null, GamePack.Current is not null, EngineHost.Engines.Count, destroy ?? []);
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GamePack.Current is not null, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
         {
-            ["AoWEngine"] = GameTables.GameEngine is not null,
             ["AoWHSSet"] = GamePack.Current is not null,
             ["BaseImageLibraryPath"] = Relative(ImageLibraries.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(AudioHost.BaseSoundEnginePath),
-            ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),
-            ["Engines"] = EngineHost.Engines.Count
+            ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory)
         };
 
         public IFileSystem Files => this;
@@ -146,13 +140,6 @@ public sealed partial class EngineFixture
 
         public void Dispose()
         {
-            GameEngine partial = GameTables.GameEngine;
-            if (partial is not null && partial.GameSet is null)
-            {
-                partial.Dictionary?.Dispose();
-                partial.EmailGames?.Dispose();
-            }
-            EngineHost.Engines?.Clear(); EngineHost.Plugins?.Clear();
             foreach (var pair in _globals) pair.Key.SetValue(null, pair.Value);
             LocalizationRuntime.StartupDirectory = _previousLocalization;
             RestoreServices();

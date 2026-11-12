@@ -33,7 +33,6 @@ public sealed class EngineLeafConstructionTests
 
     private static GameEngine CreateEngine()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         return engine;
     }
@@ -112,7 +111,7 @@ public sealed class EngineLeafConstructionTests
                 var strings = Assert.IsType<StringList>(plugin.UsedPlugins);
                 Assert.Equal(0, strings.Count); Assert.True(strings.Sorted);
                 Assert.Equal(plugin, strings.OnChange!.Target);
-                Assert.Equal(plugin, strings.OnChanging!.Target);
+                Assert.Null(strings.OnChanging);
                 break;
         }
     }

@@ -123,7 +123,7 @@ public partial class LeaderSetupWindow : UIModule
             for (int I = 0, last = Setup.Items.Count - 1; I <= last; I++)
             {
                 var item = Setup.Items[I];
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[item]);
+                var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[item]);
                 var item2 = Setup.Items[I];
                 RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
             }
@@ -132,7 +132,7 @@ public partial class LeaderSetupWindow : UIModule
             RaceComboBox.Selected = indexOf;
         }
 
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[Setup.OriginalLeader.Race]);
+        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[Setup.OriginalLeader.Race]);
         SideNameLabel.Text = raceNamesPlural;
         LeftShield.CurrentImage = Setup.OriginalLeader.Race + 13;
         RightShield.CurrentImage = Setup.OriginalLeader.Race + 13;
@@ -191,14 +191,14 @@ public partial class LeaderSetupWindow : UIModule
     // AoWLeaderSetup.pas:750
     public void LoadLeader()
     {
-        Leader.Assign(Setup.OriginalLeader, GameTables.GameEngine);
+        Leader.Assign(Setup.OriginalLeader, UI.Engine);
     }
 
     // AoWLeaderSetup.pas:755
     public void SaveLeader()
     {
         Leader leader;
-        Setup.OriginalLeader.Assign(Leader, GameTables.GameEngine);
+        Setup.OriginalLeader.Assign(Leader, UI.Engine);
         leader = Setup.OriginalLeader;
         LeaderNameLabel.Text = leader.HeroName;
         var inherentAttack = leader.GetInherentAttack();
@@ -215,7 +215,7 @@ public partial class LeaderSetupWindow : UIModule
         UnitMovesLabel.Text = IntToStr(moves);
         UnitAbilitiesList.Items.Clear();
         leader.ListAbilities(UnitAbilitiesList.Items);
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
+        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
         SideNameLabel.Text = raceNamesPlural;
         LeftShield.CurrentImage = leader.Race + 13;
         RightShield.CurrentImage = leader.Race + 13;
@@ -225,7 +225,7 @@ public partial class LeaderSetupWindow : UIModule
     public void UpdateSkillPoints()
     {
         var skillPoints = Leader.GetSkillPoints();
-        var skillPointsText = AbilityRules.TranslateResourceString(s_skillPointsText);
+        var skillPointsText = UI.Engine.TranslateResourceString(s_skillPointsText);
         var skillPointsMax = Leader.GetSkillPointsMax();
         SkillPointsLabel.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
     }
@@ -342,7 +342,7 @@ public partial class LeaderSetupWindow : UIModule
                 name = GamePack.Current.AbilityControl.GetAbility(I).GetName(Leader);
                 if (Leader.HeroResource.Abilities.GetAbilitySetAt(I) && Leader.HeroResource.Abilities.GetAbLevel(I) == Leader.GetAbilityLevel(I))
                 {
-                    name = name + " (" + AbilityRules.TranslateResourceString(GameText.FixedText) + ")";
+                    name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";
                 }
                 else
@@ -401,12 +401,12 @@ public partial class LeaderSetupWindow : UIModule
         MainFace.Visible = MainFaceFrame.Visible;
         if (value == 3 || (value == 2 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (value == 1 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
         {
-            var finish = AbilityRules.TranslateResourceString(s_finishText);
+            var finish = UI.Engine.TranslateResourceString(s_finishText);
             NextButton.Text = finish;
         }
         else
         {
-            var next = AbilityRules.TranslateResourceString(s_nextText);
+            var next = UI.Engine.TranslateResourceString(s_nextText);
             NextButton.Text = next;
         }
 
@@ -438,11 +438,11 @@ public partial class LeaderSetupWindow : UIModule
         DefaultButton.Visible = true;
         PreviousButton.Visible = true;
         NextButton.Visible = true;
-        var step1CustomizeLeader = AbilityRules.TranslateResourceString(s_step1CustomizeLeaderText);
+        var step1CustomizeLeader = UI.Engine.TranslateResourceString(s_step1CustomizeLeaderText);
         Phase1Header.Text = step1CustomizeLeader;
-        var step2AssignSkillPoints = AbilityRules.TranslateResourceString(s_step2AssignSkillPointsText);
+        var step2AssignSkillPoints = UI.Engine.TranslateResourceString(s_step2AssignSkillPointsText);
         Phase2Header.Text = step2AssignSkillPoints;
-        var step3AssignSpheres = AbilityRules.TranslateResourceString(s_step3AssignSpheresText);
+        var step3AssignSpheres = UI.Engine.TranslateResourceString(s_step3AssignSpheresText);
         Phase3Header.Text = step3AssignSpheres;
         SetFixedSpheres(0);
     }
@@ -535,7 +535,7 @@ public partial class LeaderSetupWindow : UIModule
         }
 
         var sphereCount = Leader.GetSphereCount();
-        var selectedSpheres = AbilityRules.TranslateResourceString(s_selectedSpheresText);
+        var selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
         SelectedSpheresLabel.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(Leader.SpherePicksMax) + ")";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
@@ -797,7 +797,7 @@ public partial class LeaderSetupWindow : UIModule
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
                     UI.MessageDialog.MessageMemo.Items.Add("");
-                    var pleaseAssignAllSpheres = AbilityRules.TranslateResourceString(s_pleaseAssignAllSpheresText);
+                    var pleaseAssignAllSpheres = UI.Engine.TranslateResourceString(s_pleaseAssignAllSpheresText);
                     UI.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
                     UI.MessageDialog.OKPanel.Visible = true;
                     UI.MessageDialog.Window.Visible = true;

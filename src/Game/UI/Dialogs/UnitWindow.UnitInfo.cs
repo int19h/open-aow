@@ -49,14 +49,14 @@ public partial class UnitWindow
             UI.UnitWindow.ManaLabel.Visible = false;
             UI.UnitWindow.ManaIcon.Visible = false;
             UI.UnitWindow.UnitTabs.Items.Clear();
-            var abilities = AbilityRules.TranslateResourceString(s_abilitiesText);
+            var abilities = UI.Engine.TranslateResourceString(s_abilitiesText);
             UI.UnitWindow.UnitTabs.Items.Add(abilities);
-            var info = AbilityRules.TranslateResourceString(s_infoText);
+            var info = UI.Engine.TranslateResourceString(s_infoText);
             UI.UnitWindow.UnitTabs.Items.Add(info);
             if (U.GetRace() > -1)
             {
                 var race = U.GetRace();
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[race]);
+                var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[race]);
                 UI.UnitWindow.TypeValueLabel.Text = raceNames;
                 UI.UnitWindow.RelationIcon.Visible = true;
                 var uRace = U.GetRace();
@@ -64,14 +64,14 @@ public partial class UnitWindow
                 UI.UnitWindow.RelationIcon.CurrentImage = (int)playerRelation + 11;
                 var race2 = U.GetRace();
                 var playerRelation2 = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
-                var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
+                var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
                 UI.UnitWindow.RelationValueLabel.Text = status;
             }
             else
             {
                 UI.UnitWindow.TypeValueLabel.Text = "";
                 UI.UnitWindow.RelationIcon.Visible = false;
-                var none = AbilityRules.TranslateResourceString(s_noneText);
+                var none = UI.Engine.TranslateResourceString(s_noneText);
                 UI.UnitWindow.RelationValueLabel.Text = none;
             }
 
@@ -90,31 +90,31 @@ public partial class UnitWindow
             switch (U.GetUnitType())
             {
                 case UnitType.Creature:
-                    var creature = AbilityRules.TranslateResourceString(s_creatureText);
+                    var creature = UI.Engine.TranslateResourceString(s_creatureText);
                     UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + creature;
                     UI.UnitWindow.TypeIcon.CurrentImage = 21;
                     break;
                 case UnitType.Machine:
-                    var machine = AbilityRules.TranslateResourceString(s_machineText);
+                    var machine = UI.Engine.TranslateResourceString(s_machineText);
                     UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + machine;
                     UI.UnitWindow.TypeIcon.CurrentImage = 22;
                     break;
                 default:
                     if (H == null)
                     {
-                        var unit = AbilityRules.TranslateResourceString(s_unitText);
+                        var unit = UI.Engine.TranslateResourceString(s_unitText);
                         UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + unit;
                     }
                     else
                     {
                         if (H is Leader)
                         {
-                            var leader = AbilityRules.TranslateResourceString(s_leaderText);
+                            var leader = UI.Engine.TranslateResourceString(s_leaderText);
                             UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + leader;
                         }
                         else
                         {
-                            var hero = AbilityRules.TranslateResourceString(s_heroText);
+                            var hero = UI.Engine.TranslateResourceString(s_heroText);
                             UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + hero;
                         }
                     }
@@ -125,7 +125,7 @@ public partial class UnitWindow
 
             if (H == null)
             {
-                var level = AbilityRules.TranslateResourceString(s_levelText);
+                var level = UI.Engine.TranslateResourceString(s_levelText);
                 var unitLevel = U.GetUnitLevel();
                 UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(unitLevel);
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
@@ -141,7 +141,7 @@ public partial class UnitWindow
                 if (H.Player == 0)
                 {
                     UI.UnitWindow.SpherePanel.Visible = false;
-                    var noLeader = AbilityRules.TranslateResourceString(s_noLeaderText);
+                    var noLeader = UI.Engine.TranslateResourceString(s_noLeaderText);
                     UI.UnitWindow.SphereLabel.Text = noLeader;
                 }
                 else
@@ -231,13 +231,13 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere7Button.Visible = false;
                     }
 
-                    var leaderSpheres = AbilityRules.TranslateResourceString(s_leaderSpheresText);
+                    var leaderSpheres = UI.Engine.TranslateResourceString(s_leaderSpheresText);
                     UI.UnitWindow.SphereLabel.Text = leaderSpheres;
                 }
 
                 if (StrategicMap.Current.Combat == null && H.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == H.Player)
                 {
-                    var items = AbilityRules.TranslateResourceString(s_itemsText);
+                    var items = UI.Engine.TranslateResourceString(s_itemsText);
                     UI.UnitWindow.UnitTabs.Items.Add(items);
                 }
 
@@ -252,7 +252,7 @@ public partial class UnitWindow
 
                 UI.UnitWindow.ItemUseButton.Visible = false;
                 UI.UnitWindow._groundOffset = 0;
-                var level = AbilityRules.TranslateResourceString(s_levelText);
+                var level = UI.Engine.TranslateResourceString(s_levelText);
                 var hLevel = H.GetLevel();
                 UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(hLevel);
                 UI.UnitWindow.InfoLeaderPanel.Visible = true;
@@ -261,7 +261,7 @@ public partial class UnitWindow
                 UI.UnitWindow.UnitNameLabel.Text = H.HeroName + " " + nickname;
             }
 
-            var exp = AbilityRules.TranslateResourceString(s_experienceText);
+            var exp = UI.Engine.TranslateResourceString(s_experienceText);
             var experience = U.GetExperience();
             var nextLevelExperience = U.GetNextLevelExperience();
             UI.UnitWindow.ExperienceLabel.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
@@ -500,14 +500,14 @@ public partial class UnitWindow
                 }
 
                 var uAlignment = U.GetAlignment();
-                var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)uAlignment]);
+                var alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)uAlignment]);
                 AlignmentLabel.Text = alignmentText;
                 UI.UnitWindow.AbilityAbilityList.Items.Clear();
                 UI.UnitWindow.AbilityTypeList.Items.Clear();
                 UI.UnitWindow.AbilitySourceList.Items.Clear();
                 var morale = U.GetMorale();
-                var moraleText = AbilityRules.TranslateResourceString(s_moraleTexts[(int)morale]);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_moraleFormat), [moraleText]);
+                var moraleText = UI.Engine.TranslateResourceString(s_moraleTexts[(int)morale]);
+                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), [moraleText]);
                 MoraleLabel.Text = format;
                 var unitType = U.GetUnitType();
                 MoraleLabel.Visible = unitType != UnitType.Machine;

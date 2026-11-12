@@ -110,7 +110,6 @@ type,EffectPaths,Aow.Game.Draw.EffectPaths
 type,EncodeContext,Aow.Formats.Original.EncodeContext
 type,EncodedItem,Aow.Formats.Original.EncodedItem
 type,EngineDebugNotification,Aow.Engine.EngineDebugNotification
-type,EngineHost,Aow.Engine.Nodes.EngineHost
 type,EngineServices,Aow.Engine.Nodes.EngineServices
 type,EnumCatalog,Aow.Formats.EnumCatalog
 type,EnumCodec,Aow.Formats.Original.EnumCodec
@@ -551,7 +550,6 @@ type,TAbilityDamageValues,Aow.Game.Magic.Abilities.AbilityDamageValues
 type,TAbilityData,Aow.Game.Magic.Abilities.AbilityData
 type,TAbilityInfoModeElement,Aow.Game.Magic.Abilities.AbilityInfoModeElement
 type,TAbilityOwner,Aow.Game.Magic.Abilities.AbilityOwner
-type,TAbilityPlugIn,Aow.Game.Magic.Abilities.AbilityPlugin
 type,TAbilitySelectionType,Aow.Game.Magic.Abilities.AbilitySelectionType
 type,TAbilityType,Aow.Game.Magic.Abilities.AbilityType
 type,TAbilityTypeList,Aow.Game.Magic.Abilities.AbilityTypeList
@@ -1534,7 +1532,6 @@ type,TPlayerStructureList,Aow.Game.Session.PlayerStructureList
 type,TPlayerStructurePowerSource,Aow.Game.Session.PlayerStructurePowerSource
 type,TPlayerStructureResource,Aow.Game.World.Structures.PlayerStructureResource
 type,TPlayerType,Aow.Game.Session.PlayerType
-type,TPlugIn,Aow.Engine.Plugin
 type,TPlugInControl,Aow.Engine.PluginControl
 type,TPoisonCloud,Aow.Game.World.PoisonCloud
 type,TPoisonCloudResource,Aow.Game.World.PoisonCloud.Resource
@@ -2144,7 +2141,6 @@ type,AOWWinManager,Aow.Game.UI.Controls.WindowManager
 type,AOWWindow,Aow.Game.UI.Windows.Window
 type,AOWWindowControl,Aow.Game.UI.Controls.WindowControl
 type,AOWWindowControl.WindowType,Aow.Game.UI.Controls.WindowControl.Style
-type,AbilityPlugIn,Aow.Game.Magic.Abilities.AbilityPlugin
 type,AbstractAoWCombatMap,Aow.Game.Combat.CombatMap
 type,AbstractAoWHSMap,Aow.Game.World.Map.GameMap
 type,AbstractAoWHSMapMouse,Aow.Game.World.Map.GameMapMouse
@@ -2490,7 +2486,6 @@ type,Player.BreakAllianceWithY,Aow.Game.Session.Player.SuggestAllianceBreak
 type,Player.DeclareWarToY,Aow.Game.Session.Player.SuggestWarDeclaration
 type,Player.SendMessageAsY,Aow.Game.Session.Player.ImpersonatedMessage
 type,PlayerMagicEventLog.PlayerMagicEventMode,Aow.Game.Events.PlayerMagicEventLog.EventMode
-type,PlugIn,Aow.Engine.Plugin
 type,PlugInControl,Aow.Engine.PluginControl
 type,PlugInMissingException,Aow.Engine.PluginMissingException
 type,PoisonPlantSpellTE,Aow.Game.Commands.PoisonPlantSpellTokenEvent

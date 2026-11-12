@@ -343,7 +343,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         {
             memory = new MemoryStream();
             // { Original leaks Mem if opening or loading the file raises. }
-            fileStream = OpenFile(GameTables.GameEngine.StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
+            fileStream = OpenFile(StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
             try
             {
                 memory.LoadFromStream(fileStream);
@@ -385,7 +385,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
             memory = new MemoryStream();
             try
             {
-                memory.LoadFromFile(GameTables.GameEngine.StartupDirectory + "RELEASE\\GENERAL.PFS");
+                memory.LoadFromFile(StartupDirectory + "RELEASE\\GENERAL.PFS");
                 memory.Read(Bytes.Of(ref registered, 1));
                 StringFromStream(ref name, memory);
                 result = AbilityRules.Encode(name, 0);
@@ -449,7 +449,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         if (Campaign != null && Campaign.Stream != null)
         {
             CloseHsm(null);
-            GameTables.GameEngine.LoadHsmFromStream(Campaign.Stream, false, progress);
+            LoadHsmFromStream(Campaign.Stream, false, progress);
         }
     }
 
@@ -465,7 +465,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     {
         CloseCampaign();
         Campaign = (Campaign)RetrieveFromImage(image, null);
-        TranslateEngineObjectFromFile(Campaign, GameTables.GameEngine.StartupDirectory + "Dict\\" + "Campaign" + ".mld");
+        TranslateEngineObjectFromFile(Campaign, StartupDirectory + "Dict\\" + "Campaign" + ".mld");
         Campaign.FileName = fileName;
     }
 
@@ -513,7 +513,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
 
     private static readonly ImmutableArray<ImmutableArray<ImmutableArray<sbyte>>> s_movementTemplates = [[[-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[4, -1, -1, -1, 4, -1, 4, 4, 4, 4, 4, -1, 4, 4, -1, -1], [4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1], [4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1], [4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1], [4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1], [4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1], [4, -1, -1, -1, -1, 4, 4, -1, 4, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1], [4, -1, -1, -1, 4, 4, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1], [4, -1, -1, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1], [4, -1, 4, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 4, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1], [3, -1, 6, -1, 3, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, 6, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]];
 
-    private static void UnregisterEnhancementAbilities(AbilityControl control)
+    private void UnregisterEnhancementAbilities(AbilityControl control)
     {
         control.UnregisterAbilityId(120);
         control.UnregisterAbilityId(121);
@@ -538,7 +538,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         control.UnregisterAbilityId(62);
     }
 
-    private static void UnregisterTouchAbilities(AbilityControl control)
+    private void UnregisterTouchAbilities(AbilityControl control)
     {
         control.UnregisterAbilityId(21);
         control.UnregisterAbilityId(118);
@@ -567,13 +567,13 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         control.UnregisterAll();
     }
 
-    private static void UnregisterCoreAbilities(AbilityControl control)
+    private void UnregisterCoreAbilities(AbilityControl control)
     {
-        GameTables.GameEngine.UnregisterEngineClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>()]);
-        GameTables.GameEngine.UnregisterEngineClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
-        GameTables.GameEngine.UnregisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>()]);
-        GameTables.GameEngine.UnregisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
-        GameTables.GameEngine.UnregisterEngineClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<InvokeDeathCombatAction>()]);
+        UnregisterEngineClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>()]);
+        UnregisterEngineClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
+        UnregisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>()]);
+        UnregisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
+        UnregisterEngineClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<InvokeDeathCombatAction>()]);
         control.UnregisterAbilityId(86);
         control.UnregisterAbilityId(87);
         control.UnregisterAbilityId(88);
@@ -726,72 +726,72 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         return ability;
     }
 
-    private static void RegisterRangedGroup1(AbilityControl control)
+    private void RegisterRangedGroup1(AbilityControl control)
     {
-        control.RegisterAbility(CreateBolts(120, AbilityRules.TranslateResourceString(s_registerBlackBoltsText), 6, 3, DamageType.Death, 126));
-        control.RegisterAbility(CreateBolts(121, AbilityRules.TranslateResourceString(s_registerMagicBoltsText), 7, 3, DamageType.Magic, 124));
-        control.RegisterAbility(CreateBolts(122, AbilityRules.TranslateResourceString(s_registerFrostBoltsText), 6, 3, DamageType.Cold, 125));
-        control.RegisterAbility(CreateBolts(123, AbilityRules.TranslateResourceString(s_registerLightningBoltsText), 6, 3, DamageType.Lightning, -1));
-        control.RegisterAbility(CreateBolts(124, AbilityRules.TranslateResourceString(s_registerHolyBoltsText), 6, 3, DamageType.Holy, 125));
-        control.RegisterAbility(CreateBreath(86, AbilityRules.TranslateResourceString(s_registerFireBreathText), DamageType.Fire, -1));
-        control.RegisterAbility(CreateBreath(87, AbilityRules.TranslateResourceString(s_registerColdBreathText), DamageType.Cold, -1));
+        control.RegisterAbility(CreateBolts(120, TranslateResourceString(s_registerBlackBoltsText), 6, 3, DamageType.Death, 126));
+        control.RegisterAbility(CreateBolts(121, TranslateResourceString(s_registerMagicBoltsText), 7, 3, DamageType.Magic, 124));
+        control.RegisterAbility(CreateBolts(122, TranslateResourceString(s_registerFrostBoltsText), 6, 3, DamageType.Cold, 125));
+        control.RegisterAbility(CreateBolts(123, TranslateResourceString(s_registerLightningBoltsText), 6, 3, DamageType.Lightning, -1));
+        control.RegisterAbility(CreateBolts(124, TranslateResourceString(s_registerHolyBoltsText), 6, 3, DamageType.Holy, 125));
+        control.RegisterAbility(CreateBreath(86, TranslateResourceString(s_registerFireBreathText), DamageType.Fire, -1));
+        control.RegisterAbility(CreateBreath(87, TranslateResourceString(s_registerColdBreathText), DamageType.Cold, -1));
     }
 
-    private static void RegisterRangedGroup2(AbilityControl control)
+    private void RegisterRangedGroup2(AbilityControl control)
     {
-        control.RegisterAbility(CreateBreath(88, AbilityRules.TranslateResourceString(s_registerBlackBreathText), DamageType.Death, -1));
-        control.RegisterAbility(CreateBreath(89, AbilityRules.TranslateResourceString(s_registerDivineBreathText), DamageType.Holy, -1));
-        control.RegisterAbility(CreateBreath(90, AbilityRules.TranslateResourceString(s_registerGasBreathText), DamageType.Poison, -1));
+        control.RegisterAbility(CreateBreath(88, TranslateResourceString(s_registerBlackBreathText), DamageType.Death, -1));
+        control.RegisterAbility(CreateBreath(89, TranslateResourceString(s_registerDivineBreathText), DamageType.Holy, -1));
+        control.RegisterAbility(CreateBreath(90, TranslateResourceString(s_registerGasBreathText), DamageType.Poison, -1));
         control.RegisterAbility(new FlameThrowingAbility(null));
-        control.RegisterAbility(CreateRangedAttack(57, AbilityRules.TranslateResourceString(s_registerShootJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 122));
-        control.RegisterAbility(CreateRangedAttack(58, AbilityRules.TranslateResourceString(s_registerShootBlackJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death, DamageType.Physical), 123));
-        control.RegisterAbility(CreateRangedAttack(25, AbilityRules.TranslateResourceString(s_registerHurlStonesText), 3, 1, 4, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), 111));
+        control.RegisterAbility(CreateRangedAttack(57, TranslateResourceString(s_registerShootJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 122));
+        control.RegisterAbility(CreateRangedAttack(58, TranslateResourceString(s_registerShootBlackJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death, DamageType.Physical), 123));
+        control.RegisterAbility(CreateRangedAttack(25, TranslateResourceString(s_registerHurlStonesText), 3, 1, 4, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), 111));
     }
 
-    private static void RegisterRangedGroup3(AbilityControl control)
+    private void RegisterRangedGroup3(AbilityControl control)
     {
-        control.RegisterAbility(CreateRangedAttack(45, AbilityRules.TranslateResourceString(s_registerFireMusketText), 5, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 113));
-        control.RegisterAbility(CreateRangedAttack(44, AbilityRules.TranslateResourceString(s_registerFireCannonText), 5, 8, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 112));
-        control.RegisterAbility(CreateRangedAttack(24, AbilityRules.TranslateResourceString(s_registerHurlBoulderText), 3, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 110));
-        control.RegisterAbility(CreateRangedAttack(62, AbilityRules.TranslateResourceString(s_registerVenomousSpitText), 5, 4, 1, RangedAttackAbility.CombatRange.Short, Set<DamageType>.Of(DamageType.Poison), -1));
-        control.RegisterAbility(CreateRangedAttack(31, AbilityRules.TranslateResourceString(s_registerCallFlamesText), 5, 4, 1, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Fire), -1));
-        control.RegisterAbility(CreateRangedAttack(22, AbilityRules.TranslateResourceString(s_registerArcheryText), 4, 2, 2, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), -1));
+        control.RegisterAbility(CreateRangedAttack(45, TranslateResourceString(s_registerFireMusketText), 5, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 113));
+        control.RegisterAbility(CreateRangedAttack(44, TranslateResourceString(s_registerFireCannonText), 5, 8, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 112));
+        control.RegisterAbility(CreateRangedAttack(24, TranslateResourceString(s_registerHurlBoulderText), 3, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 110));
+        control.RegisterAbility(CreateRangedAttack(62, TranslateResourceString(s_registerVenomousSpitText), 5, 4, 1, RangedAttackAbility.CombatRange.Short, Set<DamageType>.Of(DamageType.Poison), -1));
+        control.RegisterAbility(CreateRangedAttack(31, TranslateResourceString(s_registerCallFlamesText), 5, 4, 1, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Fire), -1));
+        control.RegisterAbility(CreateRangedAttack(22, TranslateResourceString(s_registerArcheryText), 4, 2, 2, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), -1));
     }
 
-    private static void RegisterRangedGroup4(AbilityControl control)
+    private void RegisterRangedGroup4(AbilityControl control)
     {
-        control.RegisterAbility(CreateRangedAttack(61, AbilityRules.TranslateResourceString(s_registerPoisonDartsText), 4, 1, 3, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Poison, DamageType.Physical), 114));
-        control.RegisterAbility(CreateRangedAttack(55, AbilityRules.TranslateResourceString(s_registerDoomGazeText), 6, 5, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death), -1));
+        control.RegisterAbility(CreateRangedAttack(61, TranslateResourceString(s_registerPoisonDartsText), 4, 1, 3, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Poison, DamageType.Physical), 114));
+        control.RegisterAbility(CreateRangedAttack(55, TranslateResourceString(s_registerDoomGazeText), 6, 5, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death), -1));
     }
 
-    private static void RegisterStrikeGroup1(AbilityControl control)
+    private void RegisterStrikeGroup1(AbilityControl control)
     {
         control.RegisterAbility(new StrikeAbility(null));
-        control.RegisterAbility(CreateStrikeEnhancement(118, AbilityRules.TranslateResourceString(s_registerLifeStealingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(111, AbilityRules.TranslateResourceString(s_registerChargeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(112, AbilityRules.TranslateResourceString(s_registerDragonSlayingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(113, AbilityRules.TranslateResourceString(s_registerParryText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(115, AbilityRules.TranslateResourceString(s_registerExtraStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(116, AbilityRules.TranslateResourceString(s_registerFirstStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(118, TranslateResourceString(s_registerLifeStealingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(111, TranslateResourceString(s_registerChargeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(112, TranslateResourceString(s_registerDragonSlayingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(113, TranslateResourceString(s_registerParryText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(115, TranslateResourceString(s_registerExtraStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(116, TranslateResourceString(s_registerFirstStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
     }
 
-    private static void RegisterStrikeGroup2(AbilityControl control)
+    private void RegisterStrikeGroup2(AbilityControl control)
     {
-        control.RegisterAbility(CreateStrikeEnhancement(119, AbilityRules.TranslateResourceString(s_registerEntangleStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit)));
-        control.RegisterAbility(CreateStrikeEnhancement(14, AbilityRules.TranslateResourceString(s_registerFireStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(15, AbilityRules.TranslateResourceString(s_registerColdStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(16, AbilityRules.TranslateResourceString(s_registerLightningStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(17, AbilityRules.TranslateResourceString(s_registerPoisonStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(18, AbilityRules.TranslateResourceString(s_registerDeathStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(119, TranslateResourceString(s_registerEntangleStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit)));
+        control.RegisterAbility(CreateStrikeEnhancement(14, TranslateResourceString(s_registerFireStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(15, TranslateResourceString(s_registerColdStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(16, TranslateResourceString(s_registerLightningStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(17, TranslateResourceString(s_registerPoisonStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(18, TranslateResourceString(s_registerDeathStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
     }
 
-    private static void RegisterStrikeGroup3(AbilityControl control)
+    private void RegisterStrikeGroup3(AbilityControl control)
     {
-        control.RegisterAbility(CreateStrikeEnhancement(19, AbilityRules.TranslateResourceString(s_registerHolyStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(20, AbilityRules.TranslateResourceString(s_registerMagicStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(19, TranslateResourceString(s_registerHolyStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(20, TranslateResourceString(s_registerMagicStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
     }
 
-    private static void RegisterEnhancements(AbilityControl control)
+    private void RegisterEnhancements(AbilityControl control)
     {
         RegisterRangedGroup1(control);
         RegisterRangedGroup2(control);
@@ -800,7 +800,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         RegisterRangedGroup4(control);
     }
 
-    private static void RegisterTouches(AbilityControl control)
+    private void RegisterTouches(AbilityControl control)
     {
         RegisterStrikeGroup1(control);
         RegisterStrikeGroup2(control);
@@ -845,13 +845,13 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         engine.RegisterEngineClasses([EngineClass.Of<EndTurnTokenEvent>(), EngineClass.Of<GameOverTokenEvent>(), EngineClass.Of<MultiMoveTokenEvent>(), EngineClass.Of<CheatTokenEvent>(), EngineClass.Of<DisbandUnitTokenEvent>(), EngineClass.Of<ChangePlayerSettingsTokenEvent>(), EngineClass.Of<CombatFlowControlTokenEvent>(), EngineClass.Of<TerminatePlayerTokenEvent>()]);
     }
 
-    private static void RegisterAbilities(AbilityControl control)
+    private void RegisterAbilities(AbilityControl control)
     {
-        GameTables.GameEngine.RegisterEngineClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
-        GameTables.GameEngine.RegisterEngineClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>()]);
-        GameTables.GameEngine.RegisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>(), EngineClass.Of<PossessedAbilityData>()]);
-        GameTables.GameEngine.RegisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
-        GameTables.GameEngine.RegisterEngineClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<TurnUndeadCombatAction>(), EngineClass.Of<InvokeDeathCombatAction>()]);
+        RegisterEngineClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
+        RegisterEngineClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>()]);
+        RegisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>(), EngineClass.Of<PossessedAbilityData>()]);
+        RegisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
+        RegisterEngineClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<TurnUndeadCombatAction>(), EngineClass.Of<InvokeDeathCombatAction>()]);
         control.RegisterAbility(new LeadershipAbility(null));
         control.RegisterAbility(new EntangleAbility(null));
         control.RegisterAbility(new WebAbility(null));

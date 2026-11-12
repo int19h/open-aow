@@ -7,24 +7,18 @@ namespace Aow.Game.Tests;
 public sealed class StartupOrderTests
 {
     // The live steps, in initialization order. Finalization runs the steps that have a finalize, reversed.
-    private const string Names = "GFXE ImageLib Engine Sound AoWE City BehaviorAG MainAG IndependentAG AoWEReg AoWTitleScene";
+    private const string Names = "GFXE ImageLib Sound AoWE AoWTitleScene";
 
     private const string Initializations = Names;
 
-    private const string Finalizations = "IndependentAG MainAG BehaviorAG City AoWE Sound Engine ImageLib GFXE";
+    private const string Finalizations = "Sound ImageLib GFXE";
 
     private static readonly (string Name, string Type, string Init, string Fin)[] s_delegates =
     [
         ("GFXE", "Aow.Game.Draw.GraphicsState", "Initialize", "Finalize"),
         ("ImageLib", "Aow.Game.Draw.Images.ImageLibraries", "Initialize", "Finalize"),
-        ("Engine", "Aow.Engine.Nodes.EngineHost", "Initialize", "Finalize"),
         ("Sound", "Aow.Game.Audio.AudioHost", "Initialize", "Finalize"),
-        ("AoWE", "Aow.Game.Magic.Abilities.GameTables", "Initialize", "Finalize"),
-        ("City", "Aow.Game.World.Structures.CityRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("BehaviorAG", "Aow.Game.AI.Groups.BehaviorRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("MainAG", "Aow.Game.AI.Groups.MainRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("IndependentAG", "Aow.Game.AI.Groups.IndependentRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("AoWEReg", "Aow.Game.GameClasses", "Register", ""),
+        ("AoWE", "Aow.Game.Magic.Abilities.GameTables", "Initialize", ""),
         ("AoWTitleScene", "Aow.Game.UI.Dialogs.TitleCaptions", "Initialize", ""),
     ];
 
@@ -85,17 +79,17 @@ public sealed class StartupOrderTests
     {
         var (units, calls) = Recording();
         var state = new bool[units.Length];
-        Startup.InitializeUnits(units, state, ["AoWTitleScene", "Engine", "ImageLib", "Sound"]);
-        Assert.Equal(["I ImageLib", "I Engine", "I Sound", "I AoWTitleScene"], calls);
+        Startup.InitializeUnits(units, state, ["AoWTitleScene", "ImageLib", "Sound"]);
+        Assert.Equal(["I ImageLib", "I Sound", "I AoWTitleScene"], calls);
         calls.Clear();
         // Units outside the finalization selection stay initialized. The title step has no finalize,
         // and GFXE was not initialized.
-        Startup.FinalizeUnits(units, state, ["Engine", "AoWTitleScene", "GFXE"]);
-        Assert.Equal(["F Engine"], calls);
+        Startup.FinalizeUnits(units, state, ["Sound", "AoWTitleScene", "GFXE"]);
+        Assert.Equal(["F Sound"], calls);
         calls.Clear();
         // Only initialized units are finalized: GFXE was never initialized.
         Startup.FinalizeUnits(units, state, null!);
-        Assert.Equal(["F Sound", "F ImageLib"], calls);
+        Assert.Equal(["F ImageLib"], calls);
         Assert.All(state, Assert.False);
     }
 

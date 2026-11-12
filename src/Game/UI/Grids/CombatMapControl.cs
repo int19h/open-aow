@@ -5,6 +5,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -14,6 +15,8 @@ namespace Aow.Game.UI.Grids;
 // event methods occupy
 public partial class CombatMapControl : Component
 {
+    private readonly GameEngine _engine;
+
     [Published]
     public event SelectHSEvent OnSelected;
     [Published]
@@ -61,10 +64,10 @@ public partial class CombatMapControl : Component
     // CMapCtrl.pas:117
     public override void Dispose()
     {
-        if (GameTables.GameEngine != null)
+        if (_engine != null)
         {
-            GameTables.GameEngine.OnHsmLoaded -= ActivateHsm;
-            GameTables.GameEngine.OnHsmClose -= DeactivateHsm;
+            _engine.OnHsmLoaded -= ActivateHsm;
+            _engine.OnHsmClose -= DeactivateHsm;
             if (CombatMap.Current != null)
             {
                 ReleaseHsm();
@@ -77,10 +80,13 @@ public partial class CombatMapControl : Component
     // CMapCtrl.pas:107
     public CombatMapControl(Component owner) : base(owner)
     {
-        if (GameTables.ValidateGameEngine())
+        // The engine of the dialog module that owns the control, as the original read the
+        // engine global.
+        _engine = (owner as UIModule)?.UI.Engine;
+        if (_engine != null)
         {
-            GameTables.GameEngine.OnHsmLoaded += ActivateHsm;
-            GameTables.GameEngine.OnHsmClose += DeactivateHsm;
+            _engine.OnHsmLoaded += ActivateHsm;
+            _engine.OnHsmClose += DeactivateHsm;
         }
     }
 

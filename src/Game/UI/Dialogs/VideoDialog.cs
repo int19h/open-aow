@@ -1,7 +1,6 @@
 // Translated from AoWVideoDlg.pas.
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
@@ -54,14 +53,14 @@ public partial class VideoDialog : UIModule
         DisplayModeItem mode;
         string S;
         DisplayModesList.Items.Clear();
-        var desktopWindow = AbilityRules.TranslateResourceString(s_desktopWindowText);
+        var desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
         DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
         for (int I = 0, last = _displayModes.Count - 1; I <= last; I++)
         {
             mode = _displayModes.Items[I];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
-                var fullScreen = AbilityRules.TranslateResourceString(s_fullScreenText);
+                var fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
                 DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(I));
             }
         }
@@ -71,7 +70,7 @@ public partial class VideoDialog : UIModule
         if (DisplayModesList.Selected != -1)
         {
             S = DisplayModesList.Items[DisplayModesList.Selected];
-            S = S + " (" + LowerCase(AbilityRules.TranslateResourceString(s_currentText)) + ")";
+            S = S + " (" + LowerCase(UI.Engine.TranslateResourceString(s_currentText)) + ")";
             DisplayModesList.Items[DisplayModesList.Selected] = S;
         }
     }
@@ -131,7 +130,7 @@ public partial class VideoDialog : UIModule
             UI.General.PlayButtonSound(2);
         }
 
-        GameTables.GameEngine.Registry.SetAllowResolutionSwitches(ResolutionCheckBox.Checked);
+        UI.Engine.Registry.SetAllowResolutionSwitches(ResolutionCheckBox.Checked);
     }
 
     // AoWVideoDlg.pas:239
@@ -147,7 +146,7 @@ public partial class VideoDialog : UIModule
     // AoWVideoDlg.pas:245
     public void DlgShow()
     {
-        var allowResolutionSwitches = GameTables.GameEngine.Registry.GetAllowResolutionSwitches();
+        var allowResolutionSwitches = UI.Engine.Registry.GetAllowResolutionSwitches();
         UI.VideoDialog.ResolutionCheckBox.Checked = allowResolutionSwitches;
     }
 

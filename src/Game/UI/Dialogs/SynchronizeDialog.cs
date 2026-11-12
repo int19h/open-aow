@@ -81,7 +81,7 @@ public partial class SynchronizeDialog : UIModule
                 PlayerNameLabel.Text = settings.Leader.HeroName;
             }
 
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
+            var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
             PlayerRaceLabel.Text = raceNamesPlural;
             Day = StrategicMap.Current.Day;
             if (Day == 0)
@@ -89,7 +89,7 @@ public partial class SynchronizeDialog : UIModule
                 Day = 1;
             }
 
-            var day = AbilityRules.TranslateResourceString(GameText.DayText);
+            var day = UI.Engine.TranslateResourceString(GameText.DayText);
             TurnLabel.Text = day + " " + IntToStr(Day);
             LeftShield.CurrentImage = settings.Race + 26;
             RightShield.CurrentImage = settings.Race + 26;

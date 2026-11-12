@@ -11,7 +11,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Events;
 using Aow.Game.Host;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
@@ -123,11 +122,12 @@ internal static class Program
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
             Startup.InitializeAll();
+            var engine = Startup.CreateEngine();
             NullSoundSystem.Install();
-            CombatClasses.Register(GameTables.GameEngine);
+            CombatClasses.Register(engine);
             gameplay = true;
-            GameTables.GameEngine.LoadHsm(input, false, null!, GameProfile.WorldMap);
-            if (GameTables.GameEngine.HexSpriteMap is not StrategicMap map)
+            engine.LoadHsm(input, false, null!, GameProfile.WorldMap);
+            if (engine.HexSpriteMap is not StrategicMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewL, 0, 0);
             Shim.RandSeed = seed;

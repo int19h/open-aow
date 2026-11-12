@@ -72,7 +72,6 @@ internal static class OrderingRecording
             StrategicMap.Current = null!;
             if (type != typeof(ArmyHexSprite)) GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
-            if (EngineHost.Engines is null) EngineHost.Initialize();
             Engine = new GameEngine(null!);
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             foreach (var descriptor in EngineClass.All.Where(x => x.Type == type))

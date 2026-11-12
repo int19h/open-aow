@@ -54,7 +54,7 @@ public sealed class RelationBandTests
             UI.Add(new General(UI)).Manager = new WindowManager(null!);
         }
 
-        public UIContext UI { get; } = new();
+        public UIContext UI { get; } = new(EngineFixture.Engine);
 
         public void Dispose()
         {

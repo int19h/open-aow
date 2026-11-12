@@ -37,7 +37,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game;
 
 // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
-// DebugMessage, FStartupDirectory, FOptions. Every engine is in the Engines list
+// DebugMessage, FStartupDirectory, FOptions
 public partial class GameEngine : ENode
 {
     private int _messageCount;
@@ -83,7 +83,6 @@ public partial class GameEngine : ENode
         _controlNode = new EControlStyleNode(this);
         _controlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<EControlStyleNode>(), EngineClass.Of<ECustomOwner>(), EngineClass.Of<ResourceEditSettings>()]);
-        EngineHost.Engines.Add(this);
         if (!s_fullConstruction) return;
 
         OnHsmLoadedStore = new();
@@ -142,7 +141,6 @@ public partial class GameEngine : ENode
             CloseHsm(null);
         }
 
-        EngineHost.Engines.Remove(this);
         DebugEventsStore.Clear();
         base.Dispose();
         _engineClasses?.Clear();

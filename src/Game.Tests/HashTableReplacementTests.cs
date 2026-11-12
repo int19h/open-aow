@@ -51,7 +51,6 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void ClassTableHitsMissesAndRejectsASecondRegistration()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new GameEngine(null!);
         try
         {

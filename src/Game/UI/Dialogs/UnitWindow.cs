@@ -258,7 +258,7 @@ public partial class UnitWindow : UIModule
                     if (AbilityUseButton.Visible)
                     {
                         var name = A.GetName(UI.General.SelectedUnit);
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_useFormat), [name]);
+                        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
                         AbilityUseButton.Text = format;
                     }
                 }
@@ -294,7 +294,7 @@ public partial class UnitWindow : UIModule
                 AbilityUseButton.Visible = true;
                 var objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 var name = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(UI.General.CombatUnit.Unit.Troop);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_useFormat), [name]);
+                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
                 AbilityUseButton.Text = format;
             }
             else
@@ -670,8 +670,8 @@ public partial class UnitWindow : UIModule
     // AoWUnitWindow.pas:921
     public void DisbandBtnClick()
     {
-        var disbandUnit = AbilityRules.TranslateResourceString(s_disbandUnitText);
-        var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
+        var disbandUnit = UI.Engine.TranslateResourceString(s_disbandUnitText);
+        var confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
         UI.ConfirmationDialog.Confirm(confirm, text: disbandUnit, onConfirmed: DisbandSelectedUnit);
     }
 

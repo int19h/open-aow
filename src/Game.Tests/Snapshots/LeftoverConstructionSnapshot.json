@@ -21753,9 +21753,7 @@
                 "StringList.OnChange": [
                   "Aow.Engine.PluginControl.OnChange"
                 ],
-                "StringList.OnChanging": [
-                  "Aow.Engine.PluginControl.OnChanging"
-                ],
+                "StringList.OnChanging": null,
                 "StringList.count": 0,
                 "StringList.items": "$ref:$.GamePack.ImageSequences.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
                 "StringList.sorted": true
@@ -22599,9 +22597,7 @@
                 "StringList.OnChange": [
                   "Aow.Engine.PluginControl.OnChange"
                 ],
-                "StringList.OnChanging": [
-                  "Aow.Engine.PluginControl.OnChanging"
-                ],
+                "StringList.OnChanging": null,
                 "StringList.count": 0,
                 "StringList.items": "$ref:$.GamePack.ImageSequences.ImageSequenceList._imageLibraryManager.ImageLibraryManager._diskList.StringList.items",
                 "StringList.sorted": true

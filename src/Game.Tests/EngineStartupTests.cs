@@ -4,8 +4,6 @@ using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-using Aow.Engine.Nodes;
-
 using Aow.Game.Magic.Abilities;
 
 using Xunit.Sdk;
@@ -17,7 +15,6 @@ public sealed class EngineStartupTests
     // These fields were untyped DelphiList. The startup walk still enters them so the recorded element paths stay.
     private static readonly HashSet<string> ConvertedListFields = new(StringComparer.Ordinal)
     {
-        "Aow.Engine.Plugin._engines",
         "Aow.Game.AI.Groups.AIGroupManager.RegisteredClasses",
         "Aow.Game.Combat.CombatMap.Effects",
         "Aow.Game.Combat.CombatMap.FleeLocations",
@@ -134,39 +131,32 @@ public sealed class EngineStartupTests
                     };
                 }
                 catch (Exception error) { caught = error; }
-                GameEngine engine = value ?? GameTables.GameEngine;
-                Assert.NotNull(engine);
+                // A failed construction leaves no reference to the partial engine, so the caller
+                // records its objects only for an engine that was built.
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
                 {
                     ["ExceptionType"] = caught?.GetType().FullName,
                     ["ExceptionMessage"] = caught is null ? null : fixture.Relative(caught.Message),
                     ["StateAtCaller"] = fixture.State(),
-                    ["ObjectsAtCaller"] = Objects(engine),
+                    ["ObjectsAtCaller"] = value is null ? null : Objects(value),
                     ["DestroyExceptionFrames"] = caught is null ? null : JsonSerializer.SerializeToNode(new StackTrace(caught).GetFrames()
                         .Where(x => x.GetMethod()?.Name == "Dispose").Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray())
                 };
                 if (route == "AoW")
                 {
-                    Assert.True(GameTables.ValidateGameEngine());
-                    Assert.Same(value, GameTables.GameEngine);
-                    result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((GameEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
                 }
                 else if (caught is not null)
                 {
                     Assert.Null(value);
-                    Assert.Same(engine, GameTables.GameEngine);
-                    Assert.True(GameTables.ValidateGameEngine());
-                    result["ValidateAfterFailure"] = true;
                 }
                 if (value is not null)
                 {
                     events.Add(fixture.Event("Destroy.begin", value.GetType().Name));
                     value.Dispose();
                     events.Add(fixture.Event("Destroy.end", value.GetType().Name));
-                    Assert.Equal(-1, EngineHost.Engines.IndexOf(value));
                 }
                 result["StateAfterDestruction"] = fixture.State();
                 // Failed early destructors leave partial objects. Free their independent resources
@@ -175,9 +165,7 @@ public sealed class EngineStartupTests
                 {
                     x.Call,
                     x.Argument,
-                    x.Engine,
                     x.Set,
-                    x.Engines,
                     x.DestroyFrames
                 }));
                 actual.Add(route, result);

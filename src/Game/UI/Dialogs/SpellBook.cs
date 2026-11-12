@@ -252,38 +252,38 @@ public partial class SpellBook : UIModule
                     _spells.Clear();
                     StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListResearchSpells(ref _spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     _spells.SortOnLevel();
-                    var spellType = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchSpellFormat), [spellType]);
+                    var spellType = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
+                    var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_researchSpellFormat), [spellType]);
                     LeftHeaderLabel.Text = format;
-                    var spellTypeText = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchSpellFormat), [spellTypeText]);
+                    var spellTypeText = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
+                    var formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_researchSpellFormat), [spellTypeText]);
                     RightHeaderLabel.Text = formattedText;
                     // { Original overwrites the type-specific headers. }
-                    var researchSpell = AbilityRules.TranslateResourceString(s_researchSpellText);
+                    var researchSpell = UI.Engine.TranslateResourceString(s_researchSpellText);
                     LeftHeaderLabel.Text = researchSpell;
-                    var researchSpellText = AbilityRules.TranslateResourceString(s_researchSpellText);
+                    var researchSpellText = UI.Engine.TranslateResourceString(s_researchSpellText);
                     RightHeaderLabel.Text = researchSpellText;
                     break;
                 case 0:
                     _spells.Clear();
                     StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
                     _spells.SortOnLevel();
-                    var spellType3 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
-                    var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType3]);
+                    var spellType3 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
+                    var format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType3]);
                     LeftHeaderLabel.Text = format2;
-                    var spellType4 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
-                    var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType4]);
+                    var spellType4 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
+                    var format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType4]);
                     RightHeaderLabel.Text = format3;
                     break;
                 case 1:
                     _spells.Clear();
                     StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
                     _spells.SortOnLevel();
-                    var spellType5 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
-                    var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType5]);
+                    var spellType5 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
+                    var format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType5]);
                     LeftHeaderLabel.Text = format4;
-                    var spellType6 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
-                    var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType6]);
+                    var spellType6 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
+                    var format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType6]);
                     RightHeaderLabel.Text = format5;
                     break;
             }
@@ -434,15 +434,15 @@ public partial class SpellBook : UIModule
 
             NameLabel.Text = _hero.HeroName;
             var player = StrategicMap.Current.Players.GetPlayers(Player);
-            var manaPool = AbilityRules.TranslateResourceString(s_manaPoolText);
+            var manaPool = UI.Engine.TranslateResourceString(s_manaPoolText);
             ManaPoolLabel.Text = manaPool + ": " + IntToStr(player.MagicControl.Mana);
             var castingPoints = _hero.GetCastingPoints();
-            var castingPointsText = AbilityRules.TranslateResourceString(GameText.CastingPointsText);
+            var castingPointsText = UI.Engine.TranslateResourceString(GameText.CastingPointsText);
             var castingPointsMax = _hero.GetCastingPointsMax();
             CastingPointsLabel.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
             ResearchManaPoolLabel.Text = ManaPoolLabel.Text;
             var netPowerToResearch = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetNetPowerToResearch();
-            var researchPoints = AbilityRules.TranslateResourceString(s_researchPointsText);
+            var researchPoints = UI.Engine.TranslateResourceString(s_researchPointsText);
             ResearchPointsLabel.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
             {
@@ -457,29 +457,29 @@ public partial class SpellBook : UIModule
                     ResearchPanel.Visible = true;
                     ResearchNoneLabel.Visible = false;
                     spell = GamePack.Current.SpellControl.GetSpell(control.ResearchSpellId);
-                    var currentlyResearching = AbilityRules.TranslateResourceString(s_currentlyResearchingText);
+                    var currentlyResearching = UI.Engine.TranslateResourceString(s_currentlyResearchingText);
                     ResearchLabel.Text = currentlyResearching + ":";
                     ResearchMemo.Items = spell.SpellText;
                     ResearchNameLabel.Text = spell.SpellName;
-                    var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-                    var level = AbilityRules.TranslateResourceString(GameText.LevelText);
+                    var magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+                    var level = UI.Engine.TranslateResourceString(GameText.LevelText);
                     ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                     var castingMana = _hero.CastingMana(spell);
-                    var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
-                    var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
+                    var castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
+                    var mana = UI.Engine.TranslateResourceString(GameText.ManaText);
                     ResearchCostLabel.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
                     if (control.GetResearchTurnsLeft() < 999)
                     {
-                        var formatTurnsLeftString = DurationText.FormatTurnsLeftString(control.GetResearchTurnsLeft());
+                        var formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: control.GetResearchTurnsLeft());
                         ResearchStatusLabel.Text = formatTurnsLeftString;
                     }
                     else
                     {
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
+                        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
                         ResearchStatusLabel.Text = format;
                     }
 
-                    var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
+                    var cancel = UI.Engine.TranslateResourceString(GameText.CancelText);
                     CancelResearchButton.Text = cancel;
                     ResearchStatusLabel.Visible = true;
                 }
@@ -490,29 +490,29 @@ public partial class SpellBook : UIModule
                         ResearchPanel.Visible = true;
                         ResearchNoneLabel.Visible = false;
                         spell = GamePack.Current.SpellControl.GetSpell(_researchedSpell);
-                        var researched = AbilityRules.TranslateResourceString(s_researchedText);
+                        var researched = UI.Engine.TranslateResourceString(s_researchedText);
                         ResearchLabel.Text = researched + ":";
                         ResearchMemo.Items = spell.SpellText;
                         ResearchNameLabel.Text = spell.SpellName;
-                        var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-                        var level = AbilityRules.TranslateResourceString(GameText.LevelText);
+                        var magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+                        var level = UI.Engine.TranslateResourceString(GameText.LevelText);
                         ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-                        var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
-                        var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
+                        var castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
+                        var mana = UI.Engine.TranslateResourceString(GameText.ManaText);
                         ResearchCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
                         ResearchStatusLabel.Visible = false;
-                        var research = AbilityRules.TranslateResourceString(s_researchText);
+                        var research = UI.Engine.TranslateResourceString(s_researchText);
                         CancelResearchButton.Text = research;
-                        var researchNewSpell = AbilityRules.TranslateResourceString(s_researchNewSpellText);
+                        var researchNewSpell = UI.Engine.TranslateResourceString(s_researchNewSpellText);
                         CancelResearchButton.ToolTipText.Text = researchNewSpell;
                     }
                     else
                     {
                         ResearchPanel.Visible = false;
                         ResearchNoneLabel.Visible = true;
-                        var research = AbilityRules.TranslateResourceString(s_researchText);
+                        var research = UI.Engine.TranslateResourceString(s_researchText);
                         CancelResearchButton.Text = research;
-                        var cancelSpellResearch = AbilityRules.TranslateResourceString(s_cancelSpellResearchText);
+                        var cancelSpellResearch = UI.Engine.TranslateResourceString(s_cancelSpellResearchText);
                         CancelResearchButton.ToolTipText.Text = cancelSpellResearch;
                     }
                 }
@@ -533,26 +533,26 @@ public partial class SpellBook : UIModule
                         NoneCastingLabel.Visible = false;
                         spell = GamePack.Current.SpellControl.GetSpell(_hero.CastingSpellId);
                         CastingSpellLabel.Text = spell.SpellName;
-                        var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-                        var level = AbilityRules.TranslateResourceString(GameText.LevelText);
+                        var magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+                        var level = UI.Engine.TranslateResourceString(GameText.LevelText);
                         CastingClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-                        var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
-                        var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
+                        var castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
+                        var mana = UI.Engine.TranslateResourceString(GameText.ManaText);
                         CastingCostLabel.Text = castingCost + ": " + IntToStr(_hero.CastingProgress) + " " + mana;
                         CastingMemo.Items = spell.SpellText;
-                        var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_hero.CastingTurnsLeft());
+                        var formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _hero.CastingTurnsLeft());
                         CastingStatusLabel.Text = "(" + formatTurnsLeftString + ")";
                         CastingPanel.Visible = true;
                         if (_hero.CastingReady())
                         {
                             CastingButton.Visible = true;
-                            var castingReady = AbilityRules.TranslateResourceString(s_castingReadyText);
+                            var castingReady = UI.Engine.TranslateResourceString(s_castingReadyText);
                             CastingStatusLabel.Text = castingReady;
                         }
                         else
                         {
                             CastingButton.Visible = false;
-                            var formatTurnsLeftString2 = DurationText.FormatTurnsLeftString(_hero.CastingTurnsLeft());
+                            var formatTurnsLeftString2 = DurationText.FormatTurnsLeftString(UI.Engine, turns: _hero.CastingTurnsLeft());
                             CastingStatusLabel.Text = "(" + formatTurnsLeftString2 + ")";
                         }
                     }
@@ -581,27 +581,27 @@ public partial class SpellBook : UIModule
         {
             panel.Visible = true;
             name.Text = spell.SpellName;
-            spellClass.Text = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]) + ", " + AbilityRules.TranslateResourceString(GameText.LevelText) + " " + IntToStr(spell.SpellLevel);
+            spellClass.Text = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]) + ", " + UI.Engine.TranslateResourceString(GameText.LevelText) + " " + IntToStr(spell.SpellLevel);
             if (Mode == 2)
             {
                 if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global))
                 {
-                    var global = AbilityRules.TranslateResourceString(GameTables.GlobalText);
+                    var global = UI.Engine.TranslateResourceString(GameTables.GlobalText);
                     spellClass.Text = spellClass.Text + ", " + global;
                 }
                 else
                 {
                     if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat))
                     {
-                        var combat = AbilityRules.TranslateResourceString(GameTables.CombatText);
+                        var combat = UI.Engine.TranslateResourceString(GameTables.CombatText);
                         spellClass.Text = spellClass.Text + ", " + combat;
                     }
                     else
                     {
                         if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat))
                         {
-                            var global = AbilityRules.TranslateResourceString(GameTables.GlobalText);
-                            var combat = AbilityRules.TranslateResourceString(GameTables.CombatText);
+                            var global = UI.Engine.TranslateResourceString(GameTables.GlobalText);
+                            var combat = UI.Engine.TranslateResourceString(GameTables.CombatText);
                             spellClass.Text = spellClass.Text + ", " + global + "/" + combat;
                         }
                     }
@@ -611,12 +611,12 @@ public partial class SpellBook : UIModule
             memo.Items = spell.SpellText;
             if (_hero == null)
             {
-                cost.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_costFormat), [spell.BaseManaCost]);
+                cost.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_costFormat), [spell.BaseManaCost]);
             }
             else
             {
                 var castingMana = _hero.CastingMana(spell);
-                cost.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_costFormat), [castingMana]);
+                cost.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_costFormat), [castingMana]);
             }
 
             if (Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Global) || _hero.Casting()) || Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref reason)) || Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0)
@@ -640,7 +640,7 @@ public partial class SpellBook : UIModule
 
             if (spell.ManaUpkeep > 0)
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [spell.ManaUpkeep]);
+                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [spell.ManaUpkeep]);
                 cost.Text = cost.Text + " " + format;
             }
 
@@ -649,11 +649,11 @@ public partial class SpellBook : UIModule
                 turns = _hero.CastingTurns(spell);
                 if (turns == 0)
                 {
-                    reason = AbilityRules.TranslateResourceString(s_instantText);
+                    reason = UI.Engine.TranslateResourceString(s_instantText);
                 }
                 else
                 {
-                    reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
+                    reason = AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
                 }
 
                 cost.Text = cost.Text + " " + reason;
@@ -666,12 +666,12 @@ public partial class SpellBook : UIModule
                     turns = control.ResearchTurns(control.GetNetPowerToResearch(), spell.ResearchCost);
                     if (turns < 999)
                     {
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
+                        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
                         cost.Text = cost.Text + " " + format;
                     }
                     else
                     {
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
+                        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
                         cost.Text = cost.Text + " " + format;
                     }
                 }

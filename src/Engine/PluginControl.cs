@@ -8,10 +8,12 @@ using Aow.Rtl;
 
 namespace Aow.Engine;
 
-// FEngine, FUsedPlugIns. the names of the plug-ins an engine uses, initialized and finalized as
-// the list changes
+// FEngine, FUsedPlugIns. the names of the plug-ins an engine uses, checked as the list changes
 public partial class PluginControl : EngineObject
 {
+    // The name of the abilities plug-in (AbilityP.dpl), the one plug-in the game provides.
+    private const string AbilitiesPlugin = "Abilities";
+
     private GameEngine _engine;
     private readonly StringList _usedPlugins;
 
@@ -30,44 +32,16 @@ public partial class PluginControl : EngineObject
         InitializePlugins();
     }
 
-    // Engine.pas:9294
-    internal void OnChanging(object sender)
-    {
-        FinalizePlugins();
-    }
-
-    // Engine.pas:9299
+    // Engine.pas:9299. The original looked each name up in the registry of loaded plug-ins and
+    // initialized the plug-in for the engine. The game loads one plug-in, the abilities package,
+    // whose initialization only counted the engines using it, so a name is checked against it.
     internal void InitializePlugins()
     {
-        int[] iCell = new int[1];
-        ref int I = ref iCell[0];
-        Plugin P;
-        I = 0;
-        int last = _usedPlugins.Count - 1;
-        for (; I <= last; I += 1)
-        {
-            P = FindPlugin(_usedPlugins[I]);
-            if (P != null)
-            {
-                P.Initialize(_engine);
-            }
-            else
-            {
-                throw new PluginMissingException("PlugIn Missing (" + _usedPlugins[I] + ")");
-            }
-        }
-    }
-
-    // Engine.pas:9319
-    internal void FinalizePlugins()
-    {
-        Plugin P;
         for (int I = 0, last = _usedPlugins.Count - 1; I <= last; I++)
         {
-            P = FindPlugin(_usedPlugins[I]);
-            if (P != null)
+            if (_usedPlugins[I] != AbilitiesPlugin)
             {
-                P.Finalize(_engine);
+                throw new PluginMissingException("PlugIn Missing (" + _usedPlugins[I] + ")");
             }
         }
     }
@@ -78,7 +52,6 @@ public partial class PluginControl : EngineObject
         _usedPlugins = new StringList();
         _usedPlugins.Sorted = true;
         _usedPlugins.OnChange = OnChange;
-        _usedPlugins.OnChanging = OnChanging;
         _engine = null;
     }
 
@@ -109,23 +82,4 @@ public partial class PluginControl : EngineObject
     public GameEngine Engine { get => _engine; set => _engine = value; }
     public StringCollection UsedPlugins { get => GetUsedPlugins(); set => SetUsedPlugins(value); }
 
-    private static Plugin FindPlugin(string name)
-    {
-        Plugin plugin = null;
-        if (EngineHost.Plugins != null)
-        {
-            for (int i = 0; i != EngineHost.Plugins.Count; i++)
-            {
-                if (plugin != null)
-                {
-                    break;
-                }
-                if ((EngineHost.Plugins[i]).Name() == name)
-                {
-                    plugin = EngineHost.Plugins[i];
-                }
-            }
-        }
-        return plugin;
-    }
 }

@@ -13,10 +13,14 @@ namespace Aow.Game.UI.Dialogs;
 // Application.CreateForm published the global, so the layout of a later module reads the earlier
 // ones through the context. A context that loaded only some modules, as a test builds one, reads
 // null for a module it does not hold.
-public sealed class UIContext : IDisposable
+//
+// The context carries the game engine the host owns, so the modules reach it as UI.Engine.
+public sealed class UIContext(GameEngine engine) : IDisposable
 {
     private readonly Dictionary<Type, DataModule> _modules = [];
     private bool _disposed;
+
+    public GameEngine Engine { get; } = engine;
 
     public UIGraphics Graphics => Module<UIGraphics>();
     public UIFonts Fonts => Module<UIFonts>();

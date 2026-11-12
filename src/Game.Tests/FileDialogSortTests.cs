@@ -181,7 +181,7 @@ public sealed class FileDialogSortTests
 
     private static FileDialogWindow Dialog()
     {
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         var dialog = ui.Add(new FileDialogWindow(ui));
         dialog.Mode = 0;
         dialog.FileList = new ListBox<FileTime>(null);

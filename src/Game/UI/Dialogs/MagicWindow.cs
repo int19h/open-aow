@@ -643,21 +643,21 @@ public partial class MagicWindow : UIModule
             {
                 spell = GamePack.Current.SpellControl.GetSpell(control.ResearchSpellId);
                 window.SpellNameLabel.Text = spell.SpellName;
-                var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-                var level = AbilityRules.TranslateResourceString(GameText.LevelText);
+                var magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+                var level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
                 window.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-                var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
-                var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
+                var castingCost = window.UI.Engine.TranslateResourceString(GameText.CastingCostText);
+                var mana = window.UI.Engine.TranslateResourceString(GameText.ManaText);
                 window.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
                 turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
                 {
-                    var formatTurnsLeftString = DurationText.FormatTurnsLeftString(turns);
+                    var formatTurnsLeftString = DurationText.FormatTurnsLeftString(window.UI.Engine, turns: turns);
                     window.ResearchTurnsLeftLabel.Text = formatTurnsLeftString;
                 }
                 else
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
+                    var format = AbilityRules.Format(window.UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
                     window.ResearchTurnsLeftLabel.Text = format;
                 }
 

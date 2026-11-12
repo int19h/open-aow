@@ -125,7 +125,7 @@ public partial class ItemsFoundDialog : UIModule
             if (StrategicMap.Current.GameType == GameType.Tutorial)
             {
                 eventValue = new TutorialMessageEventLog(null);
-                eventValue.HelpFileName = AbilityRules.TranslateResourceString(GameText.TutorialText);
+                eventValue.HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText);
                 if (StrategicMap.Current.TextControl.FindId(55) != null)
                 {
                     var id = StrategicMap.Current.TextControl.FindId(55);

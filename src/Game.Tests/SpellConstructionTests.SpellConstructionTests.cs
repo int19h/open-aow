@@ -98,7 +98,6 @@ public sealed partial class SpellConstructionTests
 
     private static GameEngine RegisteredEngine(Type type)
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         try { engine.RegisterEngineClasses([EngineClass.Of(type)]); }
         catch { engine.Dispose(); throw; }

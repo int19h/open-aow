@@ -1,5 +1,4 @@
 // Translated from MainAG.pas.
-using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
@@ -17,15 +16,8 @@ public partial class MainRegistrar
         }
     }
 
-    internal static void SubscribeMapLoaded()
+    internal static void SubscribeMapLoaded(GameEngine engine)
     {
-        if (GameTables.ValidateGameEngine())
-            GameTables.GameEngine.OnHsmLoaded += MapLoaded;
-    }
-
-    internal static void UnsubscribeMapLoaded()
-    {
-        if (GameTables.GameEngine != null)
-            GameTables.GameEngine.OnHsmLoaded -= MapLoaded;
+        engine.OnHsmLoaded += MapLoaded;
     }
 }

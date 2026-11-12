@@ -113,7 +113,7 @@ public partial class Altar : PlayerStructure
         string result;
         if (GetRechargeDays() != RechargeDays)
         {
-            var formatDaysLeftString = DurationText.FormatDaysLeftString(GetRechargeDays() - RechargeDays);
+            var formatDaysLeftString = DurationText.FormatDaysLeftString(GameTables.GameEngine, days: GetRechargeDays() - RechargeDays);
             result = AbilityRules.TranslateResourceString(s_chargingText) + " (" + formatDaysLeftString + ")";
         }
         else

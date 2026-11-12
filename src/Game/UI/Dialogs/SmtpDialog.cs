@@ -42,7 +42,7 @@ public partial class SmtpDialog : UIModule
     {
         _finished = false;
         ProgressBar.Position = 0;
-        var sendingEmailGame = AbilityRules.TranslateResourceString(s_sendingEmailGameText);
+        var sendingEmailGame = UI.Engine.TranslateResourceString(s_sendingEmailGameText);
         SendingGameLabel.Text = sendingEmailGame;
         FailedPanel.Visible = false;
         SendPanel.Visible = true;
@@ -104,7 +104,7 @@ public partial class SmtpDialog : UIModule
         {
             if (_event.Success)
             {
-                var gameSuccessfullySent = AbilityRules.TranslateResourceString(s_gameSuccessfullySentText);
+                var gameSuccessfullySent = UI.Engine.TranslateResourceString(s_gameSuccessfullySentText);
                 SendingGameLabel.Text = gameSuccessfullySent;
                 ExitButton.Visible = true;
             }
@@ -143,12 +143,12 @@ public partial class SmtpDialog : UIModule
         var smtpEventLog = dialog._event;
         smtpEventLog.AddRef();
 
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
+        var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
         dialog.RecipientLabel.Text = format;
         try
         {
             dialog.SmtpSender.Message = dialog.MailMessage;
-            var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+            var smtpServer = dialog.UI.Engine.Registry.GetSmtpServer();
             dialog.SmtpSender.Host = smtpServer;
             dialog.SmtpSender.WinsockLoaded = true;
             MailMessage tmsMessage = dialog.MailMessage;

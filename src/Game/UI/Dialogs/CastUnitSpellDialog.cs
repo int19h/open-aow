@@ -189,7 +189,7 @@ public partial class CastUnitSpellDialog : UIModule
         string reason = "";
         SelectionInfoLabel.TextColor = Caster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLabel.Text = AbilityRules.TranslateResourceString(s_requiredManaText) +
+        SelectionInfoLabel.Text = UI.Engine.TranslateResourceString(s_requiredManaText) +
             ": " + IntToStr(Caster.GetRequiredMana());
     }
 

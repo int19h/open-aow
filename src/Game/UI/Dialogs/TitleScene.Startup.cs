@@ -1,7 +1,6 @@
 #nullable disable
 using Aow.Game.Audio;
 using Aow.Game.Host;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -57,7 +56,7 @@ public partial class TitleScene
                     UI.MultiWindow.Execute("");
                     break;
                 case 1:
-                    if (!GameTables.GameEngine.Demo)
+                    if (!UI.Engine.Demo)
                     {
                         Window.Visible = false;
                         UI.General.PlayButtonSound(0);
@@ -66,7 +65,7 @@ public partial class TitleScene
                     else UI.MessageDialog.ShowDemoMessage();
                     break;
                 case 2:
-                    LoadGame(UI.General, FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    LoadGame(UI.General, FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
                     if (StrategicMap.Current is { } map)
                     {
                         map.FixedLeaders = true;
@@ -82,7 +81,7 @@ public partial class TitleScene
                 case 4:
                     Window.Visible = false;
                     UI.General.PlayButtonSound(0);
-                    if (GameTables.GameEngine.Demo) UI.TitleWindow.ShowExitSplash();
+                    if (UI.Engine.Demo) UI.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }

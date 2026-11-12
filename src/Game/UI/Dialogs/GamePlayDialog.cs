@@ -53,8 +53,8 @@ public partial class GamePlayDialog : UIModule
             {
                 _newPassword = ((PasswordEventLog)log).Password;
                 password = new PasswordEventLog(null);
-                password.Title = AbilityRules.TranslateResourceString(s_passwordConfirmationText);
-                password.Prompt = AbilityRules.TranslateResourceString(s_reenterNewPasswordText);
+                password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
+                password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
                 StrategicMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
                 password.Release();
             }
@@ -77,7 +77,7 @@ public partial class GamePlayDialog : UIModule
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
             UI.MessageDialog.MessageMemo.Items.Add("");
-            var confirmationFailed = AbilityRules.TranslateResourceString(s_confirmationFailedText);
+            var confirmationFailed = UI.Engine.TranslateResourceString(s_confirmationFailedText);
             UI.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
@@ -100,24 +100,24 @@ public partial class GamePlayDialog : UIModule
     {
         GameSettings.CombatResolveMode mode;
         Set<WindowPopupEvent> events;
-        var autoSave = GameTables.GameEngine.Registry.GetAutoSave();
+        var autoSave = UI.Engine.Registry.GetAutoSave();
         AutoSaveCheckBox.Checked = autoSave;
-        var skipIntro = GameTables.GameEngine.Registry.GetSkipIntro();
+        var skipIntro = UI.Engine.Registry.GetSkipIntro();
         SkipIntroCheckBox.Checked = skipIntro;
-        var movementSpeed = GameTables.GameEngine.Registry.GetMovementSpeed();
+        var movementSpeed = UI.Engine.Registry.GetMovementSpeed();
         MovementSpeedComboBox.Selected = (int)movementSpeed;
         CombatResolveModeComboBox.Items.Clear();
         for (int modeOrdinal = (int)(GameSettings.CombatResolveMode)0; modeOrdinal <= (int)(GameSettings.CombatResolveMode)2; modeOrdinal++)
         {
             mode = (GameSettings.CombatResolveMode)modeOrdinal;
-            var combatResolveMode = AbilityRules.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
+            var combatResolveMode = UI.Engine.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
             CombatResolveModeComboBox.Items.AddObject(combatResolveMode, IntToObject((int)mode));
         }
 
-        var fRegistryCombatResolveMode = GameTables.GameEngine.Registry.GetCombatResolveMode();
+        var fRegistryCombatResolveMode = UI.Engine.Registry.GetCombatResolveMode();
         var indexOfObject = CombatResolveModeComboBox.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
         CombatResolveModeComboBox.Selected = indexOfObject;
-        events = GameTables.GameEngine.Registry.GetClassicWindowPopupEvents();
+        events = UI.Engine.Registry.GetClassicWindowPopupEvents();
         Classic1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
         Classic2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
         Classic3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
@@ -126,7 +126,7 @@ public partial class GamePlayDialog : UIModule
         Classic6CheckBox.Checked = events.Contains(WindowPopupEvent.PartyDamage);
         Classic7CheckBox.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
         Classic8CheckBox.Checked = events.Contains(WindowPopupEvent.HeroJoin);
-        events = GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents();
+        events = UI.Engine.Registry.GetSimultaneousWindowPopupEvents();
         Simultaneous1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
         Simultaneous2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
         Simultaneous3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
@@ -146,7 +146,7 @@ public partial class GamePlayDialog : UIModule
         if (StrategicMap.Current.PlayMode != PlayMode.Turn || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
         {
             log = new PasswordEventLog(null);
-            log.Prompt = AbilityRules.TranslateResourceString(s_enterNewPasswordText);
+            log.Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText);
             StrategicMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
             log.Release();
         }
@@ -170,7 +170,7 @@ public partial class GamePlayDialog : UIModule
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
                     UI.MessageDialog.MessageMemo.Items.Add("");
-                    var couldNotChangePassword = AbilityRules.TranslateResourceString(s_couldNotChangePasswordText);
+                    var couldNotChangePassword = UI.Engine.TranslateResourceString(s_couldNotChangePasswordText);
                     UI.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
                     UI.MessageDialog.OKPanel.Visible = true;
                     UI.MessageDialog.Window.Visible = true;
@@ -178,11 +178,11 @@ public partial class GamePlayDialog : UIModule
             }
         }
 
-        GameTables.GameEngine.Registry.SetAutoSave(AutoSaveCheckBox.Checked);
-        GameTables.GameEngine.Registry.SetSkipIntro(SkipIntroCheckBox.Checked);
-        GameTables.GameEngine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedComboBox.Selected);
+        UI.Engine.Registry.SetAutoSave(AutoSaveCheckBox.Checked);
+        UI.Engine.Registry.SetSkipIntro(SkipIntroCheckBox.Checked);
+        UI.Engine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedComboBox.Selected);
         var objectValue = CombatResolveModeComboBox.Items.Objects[CombatResolveModeComboBox.Selected];
-        GameTables.GameEngine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
+        UI.Engine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
         events = Set<WindowPopupEvent>.Of();
         if (Classic1CheckBox.Checked)
         {
@@ -224,7 +224,7 @@ public partial class GamePlayDialog : UIModule
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
-        GameTables.GameEngine.Registry.SetClassicWindowPopupEvents(events);
+        UI.Engine.Registry.SetClassicWindowPopupEvents(events);
         events = Set<WindowPopupEvent>.Of();
         if (Simultaneous1CheckBox.Checked)
         {
@@ -266,7 +266,7 @@ public partial class GamePlayDialog : UIModule
             events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
-        GameTables.GameEngine.Registry.SetSimultaneousWindowPopupEvents(events);
+        UI.Engine.Registry.SetSimultaneousWindowPopupEvents(events);
         Window.Visible = false;
     }
 

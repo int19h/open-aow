@@ -154,7 +154,6 @@ public sealed class ClassFamilyTests
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
         var mapObjectEditor = EditorClass.Of<MapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(MapObjectEditor)));

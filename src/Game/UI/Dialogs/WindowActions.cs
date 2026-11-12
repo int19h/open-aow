@@ -1,7 +1,6 @@
 
 using Aow.Game.Host;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -13,7 +12,7 @@ public static class WindowActions
     internal static void RestoreWindowLayout(General controller)
     {
         Rect R;
-        R = GameTables.GameEngine.Registry.GetRectangle(6);
+        R = controller.UI.Engine.Registry.GetRectangle(6);
         var scanner = controller.UI.ScannerWindow.MainWindow;
         if (R.Right != 0)
         {
@@ -30,7 +29,7 @@ public static class WindowActions
             scanner.WinHeight = scanner.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(0);
+        R = controller.UI.Engine.Registry.GetRectangle(0);
         var playerInfo = controller.UI.PlayerInfoWindow.MainWindow;
         if (R.Right != 0)
         {
@@ -47,7 +46,7 @@ public static class WindowActions
             playerInfo.WinHeight = playerInfo.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(2);
+        R = controller.UI.Engine.Registry.GetRectangle(2);
         var unitWindow = controller.UI.UnitWindow.MainWindow;
         if (R.Right != 0)
         {
@@ -70,9 +69,9 @@ public static class WindowActions
             unitWindow.WinHeight = unitWindow.MinHeight;
         }
 
-        GameTables.GameEngine.Registry.GetRectangle(3);
-        GameTables.GameEngine.Registry.GetRectangle(4);
-        R = GameTables.GameEngine.Registry.GetRectangle(5);
+        controller.UI.Engine.Registry.GetRectangle(3);
+        controller.UI.Engine.Registry.GetRectangle(4);
+        R = controller.UI.Engine.Registry.GetRectangle(5);
         var realm = controller.UI.RealmWindow.Window;
         if (R.Right != 0)
         {
@@ -98,7 +97,7 @@ public static class WindowActions
             realm.WinHeight = realm.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(13);
+        R = controller.UI.Engine.Registry.GetRectangle(13);
         var magic = controller.UI.MagicWindow.Window;
         if (R.Right != 0)
         {
@@ -124,7 +123,7 @@ public static class WindowActions
             magic.WinHeight = magic.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(1);
+        R = controller.UI.Engine.Registry.GetRectangle(1);
         var controls = controller.UI.ControlWindow.MainWindow;
         if (R.Right != 0)
         {
@@ -141,7 +140,7 @@ public static class WindowActions
             controls.WinHeight = controls.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(7);
+        R = controller.UI.Engine.Registry.GetRectangle(7);
         var info = controller.UI.InfoWindow.MainWindow;
         if (R.Right != 0)
         {
@@ -158,7 +157,7 @@ public static class WindowActions
             info.WinHeight = info.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(8);
+        R = controller.UI.Engine.Registry.GetRectangle(8);
         var chat = controller.UI.ChatWindow.MainWindow;
         if (R.Right != 0)
         {
@@ -182,7 +181,7 @@ public static class WindowActions
             chat.WinHeight = chat.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(12);
+        R = controller.UI.Engine.Registry.GetRectangle(12);
         var tacticalBattleScanner = controller.UI.CombatScanner.CombatScannerWindow;
         if (R.Right != 0)
         {
@@ -199,7 +198,7 @@ public static class WindowActions
             tacticalBattleScanner.WinHeight = tacticalBattleScanner.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(10);
+        R = controller.UI.Engine.Registry.GetRectangle(10);
         var tacticalBattleUnit = controller.UI.CombatUnitInfo.MainWindow;
         if (R.Right != 0)
         {
@@ -216,7 +215,7 @@ public static class WindowActions
             tacticalBattleUnit.WinHeight = tacticalBattleUnit.MinHeight;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(11);
+        R = controller.UI.Engine.Registry.GetRectangle(11);
         if (R.Right != 0)
         {
             controller.UI.MapWindow.MapRectangle = R;
@@ -231,7 +230,7 @@ public static class WindowActions
             controller.UI.MapWindow.MapRectangle = rectangle;
         }
 
-        R = GameTables.GameEngine.Registry.GetRectangle(9);
+        R = controller.UI.Engine.Registry.GetRectangle(9);
         var map = controller.UI.MapWindow.MainWindow;
         if (R.Right != 0)
         {

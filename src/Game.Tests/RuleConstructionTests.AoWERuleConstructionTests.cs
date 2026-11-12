@@ -147,7 +147,6 @@ public sealed partial class RuleConstructionTests
         if (route == 1) return EngineClass.Of(type).CreateInstance(owner);
         if (route == 2)
         {
-            if (EngineHost.Engines is null) EngineHost.Initialize();
             using GameEngine engine = new GameEngine(null!);
             var meta = EngineClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);

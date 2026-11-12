@@ -28,7 +28,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         private readonly StringList<FileTime>? _previousFileList = FileDialogWindow.Files;
         private readonly StringList? _previousDrives = FileDialogWindow.Drives;
 
-        internal UIContext UI { get; } = new();
+        internal UIContext UI { get; } = new(EngineFixture.Engine);
         internal SpellBook Spell { get; } = null!;
         internal WorldMap World { get; } = null!;
         internal FileDialogWindow Files { get; } = null!;

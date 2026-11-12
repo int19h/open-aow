@@ -345,7 +345,6 @@ public sealed class ControlStyleConstructionTests
 
     private static ReadEngine CreateEngine()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new ReadEngine();
         return engine;
     }

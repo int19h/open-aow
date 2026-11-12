@@ -55,10 +55,10 @@ public partial class Pop3Dialog : UIModule
     public void ShowDialog()
     {
         ResetSearch();
-        var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+        var localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
-        var attachmentDirectory = GameTables.GameEngine.Registry.GetAttachmentDirectory();
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_attachmentDirectoryFormat), [attachmentDirectory]);
+        var attachmentDirectory = UI.Engine.Registry.GetAttachmentDirectory();
+        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_attachmentDirectoryFormat), [attachmentDirectory]);
         AttachmentDirectoryLabel.Text = "(" + format + ")";
         Window.Visible = true;
     }
@@ -75,7 +75,7 @@ public partial class Pop3Dialog : UIModule
         _checkDelay -= 1;
         if (_checkDelay < 0)
         {
-            _checkDelay = GameTables.GameEngine.Registry.GetCheckEmailFrequency() * 30 * 60;
+            _checkDelay = UI.Engine.Registry.GetCheckEmailFrequency() * 30 * 60;
             if (_checkDelay < 30)
             {
                 _checkDelay = 30;
@@ -111,7 +111,7 @@ public partial class Pop3Dialog : UIModule
         if (FoundEmailGamesList.Selected != -1)
         {
             var item = FoundEmailGamesList.Items[FoundEmailGamesList.Selected];
-            General.LoadGame(UI.General, GameTables.GameEngine.StartupDirectory + "EmailIn\\" + item);
+            General.LoadGame(UI.General, UI.Engine.StartupDirectory + "EmailIn\\" + item);
             General.StartGame(UI.General);
         }
     }

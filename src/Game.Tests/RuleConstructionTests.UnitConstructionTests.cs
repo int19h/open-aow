@@ -41,7 +41,6 @@ public sealed partial class RuleConstructionTests
         if (route == 1) return (Troop)meta.CreateInstance(owner);
         if (route == 2)
         {
-            if (EngineHost.Engines is null) EngineHost.Initialize();
             using GameEngine engine = new GameEngine(null!);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
@@ -101,7 +100,6 @@ public sealed partial class RuleConstructionTests
         GamePack.Current = set;
         Type type = TypeNamed(name);
         var meta = EngineClass.Of(type);
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         EngineObject source = CreateUnit(type, null!, 0);
         EngineObject result = null!;

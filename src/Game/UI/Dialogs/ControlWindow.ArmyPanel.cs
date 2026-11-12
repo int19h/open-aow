@@ -37,8 +37,8 @@ public partial class ControlWindow
             PartyInfoLabel.Text = "";
             readOnly = true;
             PartyActionLabel1.Visible = PartyActionLabel2.Visible = true;
-            PartyActionLabel1.Text = AbilityRules.TranslateResourceString(s_partyActionText);
-            PartyActionLabel2.Text = AbilityRules.TranslateResourceString(((int)army.GetBehavior(255) & 127) switch
+            PartyActionLabel1.Text = UI.Engine.TranslateResourceString(s_partyActionText);
+            PartyActionLabel2.Text = UI.Engine.TranslateResourceString(((int)army.GetBehavior(255) & 127) switch
             {
                 1 => s_patrollingText,
                 2 or 3 => s_guardingText,
@@ -56,7 +56,7 @@ public partial class ControlWindow
         {
             PartyMovesPanel.Visible = false;
             PartyInfoPanel.Visible = true;
-            PartyInfoLabel.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_partyOwnerFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[StrategicMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
+            PartyInfoLabel.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_partyOwnerFormat), [UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[StrategicMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
             PartyControlPanel.Visible = false;
         }
         else

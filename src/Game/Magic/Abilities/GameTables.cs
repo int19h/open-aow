@@ -12,16 +12,6 @@ namespace Aow.Game.Magic.Abilities;
 
 public static class GameTables
 {
-    public static bool ValidateGameEngine()
-    {
-        if (GameEngine == null && ToolServices == null)
-        {
-            GameEngine.Create(null);
-        }
-
-        return GameEngine != null;
-    }
-
     internal static string[] MagicSphereTexts { get; } = ["", "", "", "", "", "", "", "", ""];
 
     internal static string[] SpellTypeTexts { get; } = ["", "", ""];
@@ -150,6 +140,9 @@ public static class GameTables
 
     private static readonly string s_waryText = "Wary";
 
+    // The engine global of AoWE. The hosts own the engine and the interface reaches it through its
+    // context (issue 224). It stays for the engine nodes whose owner walk does not reach the engine,
+    // such as the rules a registry creates without an owner, until the nodes carry their engine.
     public static GameEngine GameEngine { get; set; }
 
     internal static string[] AbilityTypeTexts { get; } = ["", "", "", "", ""];
@@ -191,8 +184,6 @@ public static class GameTables
             s_hitProbabilities[I] = (float)((double)(20 - I) * 0.05);
         }
     }
-
-    private static AbilityPlugin s_abilityPlugin;
 
     internal static void Initialize()
     {
@@ -238,15 +229,6 @@ public static class GameTables
         RaceNamesPluralTexts[12] = IndependentsText;
         // Original AoWE initialization
         InitializeHitProbabilities();
-        ValidateGameEngine();
-        s_abilityPlugin = new AbilityPlugin();
-    }
-
-    internal static void Finalize()
-    {
-        s_abilityPlugin.Release();
-        GameEngine?.Dispose();
-        GameEngine = null;
     }
 
     internal static void InitializeMorePathsRelations()

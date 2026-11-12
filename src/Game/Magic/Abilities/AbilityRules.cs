@@ -276,21 +276,21 @@ public static class AbilityRules
         return result;
     }
 
-    internal static void ShowDamageIcon(int X, int Y, in LockedSurface surface, int damage, DamageType damageType)
+    internal static void ShowDamageIcon(GameEngine engine, int X, int Y, in LockedSurface surface, int damage, DamageType damageType)
     {
         if (damageType != DamageType.None)
         {
             GamePack.Current.CombatImages[(int)damageType + 10].Show(X + 15, Y + 10, surface);
             if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType))
             {
-                GameTables.GameEngine.CombatFont.Color = 0;
+                engine.CombatFont.Color = 0;
             }
             else
             {
-                GameTables.GameEngine.CombatFont.Color = 16777215;
+                engine.CombatFont.Color = 16777215;
             }
 
-            GameTables.GameEngine.CombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(damage), surface);
+            engine.CombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(damage), surface);
         }
     }
 

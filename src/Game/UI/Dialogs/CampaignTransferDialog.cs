@@ -85,7 +85,7 @@ public partial class CampaignTransferDialog : UIModule
     public void UpdateControls()
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         TransferPointsLabel.Text = IntToStr(S.TransferPointsLeft) + "/" + IntToStr(S.TransferPointsMax);
         TransferManaLabel.Text = IntToStr(S.SelectedTransferMana);
         TransferGoldLabel.Text = IntToStr(S.SelectedTransferGold);
@@ -176,7 +176,7 @@ public partial class CampaignTransferDialog : UIModule
     public void CancelClick()
     {
         Book.Visible = false;
-        GameTables.GameEngine.Campaign.ResetNextScenario();
+        UI.Engine.Campaign.ResetNextScenario();
         AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         UI.WorldMap.GetCampaign().State = 1;
         UI.WorldMap.UpdateCampaignState();
@@ -185,7 +185,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:190
     public void GoldSliderChange()
     {
-        var campaignTransferSettings = GameTables.GameEngine.Campaign.TransferSettings;
+        var campaignTransferSettings = UI.Engine.Campaign.TransferSettings;
         campaignTransferSettings.SetSelectedTransferGold(GoldSlider.Position);
 
         UpdateControls();
@@ -194,7 +194,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:197
     public void ManaSliderChange()
     {
-        var campaignTransferSettings = GameTables.GameEngine.Campaign.TransferSettings;
+        var campaignTransferSettings = UI.Engine.Campaign.TransferSettings;
         campaignTransferSettings.SetSelectedTransferMana(ManaSlider.Position);
 
         UpdateControls();
@@ -215,7 +215,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:211
     public void LHeroRBClick()
     {
-        if (GameTables.GameEngine.Campaign.TransferSettings.Heroes.Count > _leftHero + 4)
+        if (UI.Engine.Campaign.TransferSettings.Heroes.Count > _leftHero + 4)
         {
             _leftHero += 1;
         }
@@ -239,7 +239,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:225
     public void LItemRBClick()
     {
-        if (GameTables.GameEngine.Campaign.TransferSettings.Items.Count > _leftItem + 4)
+        if (UI.Engine.Campaign.TransferSettings.Items.Count > _leftItem + 4)
         {
             _leftItem += 1;
         }
@@ -263,7 +263,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:239
     public void LUnitRBClick()
     {
-        if (GameTables.GameEngine.Campaign.TransferSettings.Units.Count > _leftUnit + 4)
+        if (UI.Engine.Campaign.TransferSettings.Units.Count > _leftUnit + 4)
         {
             _leftUnit += 1;
         }
@@ -287,7 +287,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:253
     public void RHeroRBClick()
     {
-        if (_rightHero + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedHeroes.Count)
+        if (_rightHero + 4 < UI.Engine.Campaign.TransferSettings.SelectedHeroes.Count)
         {
             _rightHero += 1;
         }
@@ -311,7 +311,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:267
     public void RItemRBClick()
     {
-        if (_rightItem + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedItems.Count)
+        if (_rightItem + 4 < UI.Engine.Campaign.TransferSettings.SelectedItems.Count)
         {
             _rightItem += 1;
         }
@@ -335,7 +335,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:281
     public void RUnitRBClick()
     {
-        if (_rightUnit + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedUnits.Count)
+        if (_rightUnit + 4 < UI.Engine.Campaign.TransferSettings.SelectedUnits.Count)
         {
             _rightUnit += 1;
         }
@@ -350,7 +350,7 @@ public partial class CampaignTransferDialog : UIModule
         Hero objectValue;
         CampaignTransferSettings S;
         Rect R;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         objectValue = S.Heroes.GetHero(_leftHero + slot);
         if (objectValue != null)
         {
@@ -383,7 +383,7 @@ public partial class CampaignTransferDialog : UIModule
         Hero objectValue;
         CampaignTransferSettings S;
         Rect R;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         if (_rightHero + slot < S.SelectedHeroes.Count)
         {
             var selectedHero = S.SelectedHeroes[_rightHero + slot];
@@ -416,7 +416,7 @@ public partial class CampaignTransferDialog : UIModule
         CampaignTransferSettings S;
         UnitShowInfo info = default;
         Rect R;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         var count = S.Units.Count;
         if (_leftUnit + slot < count)
         {
@@ -458,7 +458,7 @@ public partial class CampaignTransferDialog : UIModule
         CampaignTransferSettings S;
         UnitShowInfo info = default;
         Rect R;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         if (_rightUnit + slot < S.SelectedUnits.Count)
         {
             var selectedUnit = S.SelectedUnits[_rightUnit + slot];
@@ -494,7 +494,7 @@ public partial class CampaignTransferDialog : UIModule
         Item objectValue;
         CampaignTransferSettings S;
         Rect R;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         objectValue = S.Items.GetItem(_leftItem + slot);
         if (objectValue != null)
         {
@@ -526,7 +526,7 @@ public partial class CampaignTransferDialog : UIModule
         Item objectValue;
         CampaignTransferSettings S;
         Rect R;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         if (_rightItem + slot < S.SelectedItems.Count)
         {
             var selectedItem = S.SelectedItems[_rightItem + slot];
@@ -618,7 +618,7 @@ public partial class CampaignTransferDialog : UIModule
     public void AddBtnClick()
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         switch (_leftKind)
         {
             case 1:
@@ -658,7 +658,7 @@ public partial class CampaignTransferDialog : UIModule
     public void RemoveBtnClick()
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         switch (_rightKind)
         {
             case 1:
@@ -704,7 +704,7 @@ public partial class CampaignTransferDialog : UIModule
     public void LHeroesUpdate(CheckBox sender, int slot)
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 1 && slot + _leftHero == _leftSelection;
         var checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && S.Heroes.Count > slot + _leftHero && S.SelectedHeroes.IndexOf(slot + _leftHero) == -1;
@@ -714,7 +714,7 @@ public partial class CampaignTransferDialog : UIModule
     public void LItemsUpdate(CheckBox sender, int slot)
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 2 && slot + _leftItem == _leftSelection;
         var checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && S.Items.Count > slot + _leftItem && S.SelectedItems.IndexOf(slot + _leftItem) == -1;
@@ -724,7 +724,7 @@ public partial class CampaignTransferDialog : UIModule
     public void LUnitsUpdate(CheckBox sender, int slot)
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 3 && slot + _leftUnit == _leftSelection;
         var checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && S.Units.Count > slot + _leftUnit && S.SelectedUnits.IndexOf(slot + _leftUnit) == -1;
@@ -734,7 +734,7 @@ public partial class CampaignTransferDialog : UIModule
     public void RHeroesUpdate(CheckBox sender, int slot)
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 1 && slot + _rightHero == _rightSelection;
         var checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && slot + _rightHero < S.SelectedHeroes.Count;
@@ -744,7 +744,7 @@ public partial class CampaignTransferDialog : UIModule
     public void RItemsUpdate(CheckBox sender, int slot)
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 2 && slot + _rightItem == _rightSelection;
         var checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && slot + _rightItem < S.SelectedItems.Count;
@@ -754,7 +754,7 @@ public partial class CampaignTransferDialog : UIModule
     public void RUnitsUpdate(CheckBox sender, int slot)
     {
         CampaignTransferSettings S;
-        S = GameTables.GameEngine.Campaign.TransferSettings;
+        S = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 3 && slot + _rightUnit == _rightSelection;
         var checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && slot + _rightUnit < S.SelectedUnits.Count;
@@ -763,7 +763,7 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:674
     public void AutoBtnClick()
     {
-        GameTables.GameEngine.Campaign.TransferSettings.AutoSelect();
+        UI.Engine.Campaign.TransferSettings.AutoSelect();
         UpdateControls();
         Book.Drawn = false;
     }
@@ -771,9 +771,9 @@ public partial class CampaignTransferDialog : UIModule
     // AoW.exe pushes "Scenario\Campaign\"
     public void Execute()
     {
-        var campaign = GameTables.GameEngine.Campaign;
+        var campaign = UI.Engine.Campaign;
         ResetSelection();
-        campaign.TransferSettings.SetupSelection(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" +
+        campaign.TransferSettings.SetupSelection(FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Campaign\\" +
             campaign.Scenarios.GetScenario(campaign.NextScenarioId).FileName));
         if (campaign.TransferSettings.TransferPointsMax > 0)
         {

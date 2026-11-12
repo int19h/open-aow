@@ -278,7 +278,6 @@ public sealed class LeftoverConstructionTests
 
     private static EngineObject Saved(Type type, ECustomNode owner)
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
         var descriptor = EngineClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);

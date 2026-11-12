@@ -4,7 +4,6 @@ using System.Runtime.ExceptionServices;
 
 using System.Text.Json;
 using Aow.Engine;
-using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
@@ -40,7 +39,6 @@ public sealed class UIConstructionTests
 
         internal Fixture()
         {
-            if (EngineHost.Engines is null) EngineHost.Initialize();
             GameTables.GameEngine = EngineFixture.Engine;
             _loaded = GameTables.GameEngine.OnHsmLoadedStore;
             _closed = GameTables.GameEngine.OnHsmCloseStore;
@@ -229,7 +227,7 @@ public sealed class UIConstructionTests
             if (typeof(DataModule).IsAssignableFrom(type))
             {
                 if (owner is not null) throw new InvalidOperationException(type.FullName + " takes no owner.");
-                if (type.GetConstructor([typeof(UIContext)]) is { } module) return (Component)module.Invoke([new UIContext()]);
+                if (type.GetConstructor([typeof(UIContext)]) is { } module) return (Component)module.Invoke([new UIContext(EngineFixture.Engine)]);
                 if (type.GetConstructor(Type.EmptyTypes) is { } resource) return (Component)resource.Invoke([]);
             }
             var constructor = type.GetConstructor([typeof(Component)]);

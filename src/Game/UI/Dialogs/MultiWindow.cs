@@ -67,11 +67,11 @@ public partial class MultiWindow : UIModule
     public bool ValidateEmail()
     {
         bool result;
-        if (IsEmpty(GameTables.GameEngine.Registry.GetLocalEmailAddress()))
+        if (IsEmpty(UI.Engine.Registry.GetLocalEmailAddress()))
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
             UI.MessageDialog.MessageMemo.Items.Add("");
-            var pleaseSetupEmailSettingsFirst = AbilityRules.TranslateResourceString(s_pleaseSetupEmailSettingsFirstText);
+            var pleaseSetupEmailSettingsFirst = UI.Engine.TranslateResourceString(s_pleaseSetupEmailSettingsFirstText);
             UI.MessageDialog.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
@@ -172,7 +172,7 @@ public partial class MultiWindow : UIModule
         if (ConnectProvider(ConnectionType.TCP) == 0)
         {
             UI.SetupEvents.DirectPlay.PlayerName = TcpNameEdit.Text;
-            UI.SetupEvents.DirectPlay.SessionName = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerGameFormat), [TcpNameEdit.Text]);
+            UI.SetupEvents.DirectPlay.SessionName = AbilityRules.Format(UI.Engine.TranslateResourceString(s_playerGameFormat), [TcpNameEdit.Text]);
             if (UI.SetupEvents.DirectPlay.CreateSession() == 0)
             {
                 MultiPanel.Visible = false;
@@ -290,7 +290,7 @@ public partial class MultiWindow : UIModule
     {
         UI.FileDialogWindow.Mode = 0;
         UI.FileDialogWindow.Window.Visible = true;
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "EmailIn\\");
+        SetCurrentDir(UI.Engine.StartupDirectory + "EmailIn\\");
         UI.FileDialogWindow.FindFiles();
     }
 
@@ -305,7 +305,7 @@ public partial class MultiWindow : UIModule
     {
         // The full version starts GOTOHEAT.EXE from the game folder and ends the game when it
         // starts. The installed game has no GOTOHEAT.EXE, so the original does nothing there.
-        if (GameTables.GameEngine.Demo)
+        if (UI.Engine.Demo)
         {
             UI.MessageDialog.ShowDemoMessage();
         }

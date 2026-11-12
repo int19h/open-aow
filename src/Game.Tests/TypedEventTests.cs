@@ -110,7 +110,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void DirectCallPassesNoSender()
     {
         using var owner = new Component(null!);
-        using var window = new RelationWindow(new UIContext());
+        using var window = new RelationWindow(new UIContext(EngineFixture.Engine));
         window.BribeGoldSlider = new HorizontalScrollBar(owner);
         window.BribeGoldValueLabel = new Label(owner);
         window.BribeGoldSlider.SetPositionUnclamped(17);
@@ -261,7 +261,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     {
         private readonly Action<string> _previousMessage = Runtime.MessageHandler;
 
-        internal UIContext UI { get; } = new();
+        internal UIContext UI { get; } = new(EngineFixture.Engine);
         internal EmailGameSettingsDialog Dialog { get; } = null!;
 
         public Host()

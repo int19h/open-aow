@@ -1,4 +1,3 @@
-using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
 
@@ -20,7 +19,6 @@ public sealed class UnitSelectionDrawTests
     [Fact]
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine previousEngine = GameTables.GameEngine;
         GameTables.GameEngine = EngineFixture.Engine;
         var dialog = new UnitSelectionDialog(null!);

@@ -234,7 +234,7 @@ public sealed class ObjectCastCrashTests
         using var scope = new MapScope();
         var previousSound = AudioHost.SoundSystem;
         AudioHost.SoundSystem = null;
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         ui.Add(new General(ui)).Manager = new WindowManager(null!);
         try
         {

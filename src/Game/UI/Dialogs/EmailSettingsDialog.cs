@@ -1,5 +1,4 @@
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
@@ -20,9 +19,9 @@ public partial class EmailSettingsDialog : UIModule
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()
     {
-        GameTables.GameEngine.Registry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
-        GameTables.GameEngine.Registry.SetSmtpServer(SmtpServerEdit.Text);
-        GameTables.GameEngine.Registry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
+        UI.Engine.Registry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
+        UI.Engine.Registry.SetSmtpServer(SmtpServerEdit.Text);
+        UI.Engine.Registry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
         Window.Visible = false;
     }
 
@@ -43,11 +42,11 @@ public partial class EmailSettingsDialog : UIModule
 
     internal static void ShowEmailSettings(EmailSettingsDialog dialog)
     {
-        var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+        var localEmailAddress = dialog.UI.Engine.Registry.GetLocalEmailAddress();
         dialog.LocalEmailAddressEdit.Text = localEmailAddress;
-        var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+        var smtpServer = dialog.UI.Engine.Registry.GetSmtpServer();
         dialog.SmtpServerEdit.Text = smtpServer;
-        var attachmentDirectory = GameTables.GameEngine.Registry.GetAttachmentDirectory();
+        var attachmentDirectory = dialog.UI.Engine.Registry.GetAttachmentDirectory();
         dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
         dialog.Window.Visible = true;
     }

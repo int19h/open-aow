@@ -726,7 +726,7 @@ public partial class FastBattleWindow : UIModule
             // { Original refreshes both side labels inside the party loop. }
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player == 0)
             {
-                var independents = AbilityRules.TranslateResourceString(ScenarioText.IndependentsText);
+                var independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
                 dialog.LeftSideLabel.Text = independents;
             }
             else
@@ -739,7 +739,7 @@ public partial class FastBattleWindow : UIModule
 
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).Player == 0)
             {
-                var independents = AbilityRules.TranslateResourceString(ScenarioText.IndependentsText);
+                var independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
                 dialog.RightSideLabel.Text = independents;
             }
             else
