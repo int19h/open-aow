@@ -94,10 +94,10 @@ internal static class FrameFixtureChecks
             Check(bar.PlayerIndicatorFrame.WinWidth == 14 && bar.WorldMessageEdit.Alignment.RightOffset == 292 &&
                 bar.WorldMessageEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
             Check(!bar.PlayerIndicatorFrame.Aligned && !bar.WorldMessageEdit.Aligned, "indicator invalidates alignment");
-            Check(GameTables.s_magicSphereTexts[(int)MagicSphere.Life] == "Life" &&
-                GameTables.s_magicSphereTexts[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
-            Check(GameTables.s_playerBehaviorTexts[(int)PlayerBehavior.Normal] == "Normal" &&
-                GameTables.s_playerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", "setup behavior names are initialized");
+            Check(GameTables.MagicSphereTexts[(int)MagicSphere.Life] == "Life" &&
+                GameTables.MagicSphereTexts[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
+            Check(GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Normal] == "Normal" &&
+                GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", "setup behavior names are initialized");
 
             RtlUnit.Settings = new MemorySettingsStore();
             GameTables.GameEngine = oldEngine;

@@ -51,7 +51,8 @@ public partial class UnitGraphicsResource : EngineResource
 
     private int _refCount;
     public byte MoveAnimationSpeed;
-    public SfxLibraryArray5 SfxLibraries;
+
+    public SfxLibrary[] SfxLibraries { get; } = new SfxLibrary[5];
 
     // UnitHS.PAS:12
     public override void Dispose()

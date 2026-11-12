@@ -806,7 +806,7 @@ public sealed class PersistEquivalenceTests
             {
                 PlayerType = 2,
                 Flags = 9,
-                Reserved = ByteArray3.From([1, 0, 2]),
+                Reserved = Array3<byte>.From([1, 0, 2]),
             },
         };
         var classValue = s_schema.Get("PlayerSetupSettings");

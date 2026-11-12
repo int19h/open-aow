@@ -10,10 +10,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -43,10 +51,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -76,10 +92,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -113,10 +137,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -176,10 +208,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -239,10 +279,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -306,10 +354,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -417,10 +473,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -528,10 +592,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -643,10 +715,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -762,10 +842,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -881,10 +969,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1004,10 +1100,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1045,10 +1149,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1086,10 +1198,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1131,10 +1251,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1167,10 +1295,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
@@ -1203,10 +1339,18 @@
           "Troop.GroupId": 0,
           "Troop.MaxOffensiveStrength": 0,
           "Troop.MoraleValue": 0,
-          "Troop._offensiveStrength": {
-            "$type": "Aow.Engine.Buffers.ByteArray10",
-            "ByteArray10._element0": 0
-          },
+          "Troop._offensiveStrength": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,

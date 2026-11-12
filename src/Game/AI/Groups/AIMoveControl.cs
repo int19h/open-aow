@@ -29,8 +29,8 @@ public partial class AIMoveControl : EngineObject
     public AIMoveControlSettings Settings { get; private set; }
 
     private int _processCycles;
-    private SByteArray16By16 _movePointTable;
-    private SByteArray16By16 _transportMovePointTable;
+    private MovePointTable _movePointTable;
+    private MovePointTable _transportMovePointTable;
     private bool _multipleTransportGaps;
     private AIMoveControlMode _mode;
     private int _state;
@@ -117,23 +117,23 @@ public partial class AIMoveControl : EngineObject
         {
             for (int overlay = -1; overlay <= 11; overlay++)
             {
-                points = _movePointTable[terrain][overlay - -1];
+                points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
                 if (points == -1)
                 {
-                    points = _transportMovePointTable[terrain][overlay - -1];
+                    points = _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay];
                     if (points != -1)
                     {
                         points = 8;
                     }
                 }
 
-                _pathSettings.MovePointTable[terrain][overlay - -1] = points;
+                _pathSettings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] = points;
             }
         }
     }
 
     // AIGroup.pas:3993
-    public bool CalculateTransportGaps(MovePath path, SByteArray16By16 table)
+    public bool CalculateTransportGaps(MovePath path, MovePointTable table)
     {
         bool result;
         int I;
@@ -154,7 +154,7 @@ public partial class AIMoveControl : EngineObject
             var pathItem = path[I];
             var item2 = path[I];
             mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.MapLevel);
-            if (table[mapField.TerrainType][mapField.OverlayType - -1] == -1)
+            if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
             {
                 if (!inGap)
                 {

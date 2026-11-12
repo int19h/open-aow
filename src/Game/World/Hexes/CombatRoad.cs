@@ -17,7 +17,7 @@ public partial class CombatRoad : AbstractRoad
     // CombatRoad.pas:51
     public new const int ClassId = 2229506;
 
-    private ByteArray7 _images;
+    private readonly byte[] _images = new byte[7];
 
     // main image, neighbour images
     // CombatRoad.pas:108

@@ -1660,7 +1660,7 @@ public partial class City : PlayerCropStructure
     public int UpgradeCost()
     {
         var size = GetSize();
-        return s_upgradePrices[size - 1];
+        return UpgradePrices[size - 1];
     }
 
     // City.pas:1351
@@ -1727,11 +1727,11 @@ public partial class City : PlayerCropStructure
         {
             case 0:
                 var size = GetSize();
-                result = s_woodWallPrices[size - 1];
+                result = WoodWallPrices[size - 1];
                 break;
             case 1:
                 var size2 = GetSize();
-                result = s_stoneWallPrices[size2 - 1];
+                result = StoneWallPrices[size2 - 1];
                 break;
             default:
                 result = -1;
@@ -2500,18 +2500,18 @@ public partial class City : PlayerCropStructure
     public int GetObtainValue()
     {
         var size = GetSize();
-        int result = s_upgradePrices[size - 1] * UpgradeLevel;
+        int result = UpgradePrices[size - 1] * UpgradeLevel;
         if (WallType == 1)
         {
             var size2 = GetSize();
-            result += s_woodWallPrices[size2 - 1];
+            result += WoodWallPrices[size2 - 1];
         }
 
         if (WallType == 2)
         {
             var size2 = GetSize();
             var size3 = GetSize();
-            result = result + s_woodWallPrices[size2 - 1] + s_stoneWallPrices[size3 - 1];
+            result = result + WoodWallPrices[size2 - 1] + StoneWallPrices[size3 - 1];
         }
 
         return result;
@@ -2550,7 +2550,7 @@ public partial class City : PlayerCropStructure
             {
                 value = GetObtainValue() / 4;
                 relation = (byte)AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
-                result += s_joinPercentByStatus[(int)(Status)relation] * value / 100;
+                result += JoinPercentByStatus[(int)(Status)relation] * value / 100;
             }
             else
             {
@@ -2901,10 +2901,11 @@ public partial class City : PlayerCropStructure
         }
     };
 
-    private static Int32Array5 s_joinPercentByStatus = Int32Array5.From([200, 175, 150, 125, 100]);
-    private static ByteArray4 s_upgradePrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 250, 250, 250, 250 });
-    private static ByteArray4 s_woodWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
-    private static ByteArray4 s_stoneWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
+    private static ReadOnlySpan<int> JoinPercentByStatus => [200, 175, 150, 125, 100];
+    private static ReadOnlySpan<byte> UpgradePrices => [250, 250, 250, 250];
+    private static ReadOnlySpan<byte> WoodWallPrices => [20, 40, 60, 80];
+    private static ReadOnlySpan<byte> StoneWallPrices => [20, 40, 60, 80];
+
     private static readonly string s_cityWarningText = "Warning";
     private static readonly string s_cityWoodenWallText = "Wooden Wall";
     private static readonly string s_cityStoneWallText = "Stone Wall";

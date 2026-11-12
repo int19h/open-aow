@@ -119,7 +119,7 @@ public partial class FireStorm : Storm
             if (condition)
             {
                 var random = Random(2);
-                AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
+                AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
             }
         }
 

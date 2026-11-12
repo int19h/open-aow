@@ -10,5 +10,5 @@ public struct SpellMoveTable
     [FieldOffset(0)]
     public byte Flags;
     [FieldOffset(1)]
-    public SByteArray16By16 Cost;
+    public MovePointTable Cost;
 }

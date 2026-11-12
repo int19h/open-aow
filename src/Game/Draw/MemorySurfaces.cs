@@ -43,8 +43,8 @@ internal static class MemorySurfaces
 
     private static int PixelFormatIdToMask(int pixelFormatId, ref int rMask, ref int gMask, ref int bMask, ref int mask)
     {
-        var order = default(ByteArray4);
-        var masks = default(Int32Array4);
+        Span<byte> order = stackalloc byte[4];
+        Span<int> masks = stackalloc int[4];
         int bitCount = pixelFormatId & 255;
         int position = 0;
         order[(int)((uint)pixelFormatId >> 8) & 3] = 0;

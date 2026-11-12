@@ -107,7 +107,7 @@ public partial class Anarchy : CityTargetSpell
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != 0)
         {
             var random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
+            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }
 

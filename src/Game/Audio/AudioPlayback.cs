@@ -182,24 +182,24 @@ public static class AudioPlayback
         string result = "";
         Stream stream;
         string ext;
-        ByteArray28 title;
+        Span<byte> title = stackalloc byte[28];
         int P;
         stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, 0 | 32);
         try
         {
             ext = UpperCase(ExtractFileExt(fileName));
-            title = default;
+            title.Clear();
             if (ext == ".IT")
             {
                 stream.Seek(4, SeekOrigin.Begin);
-                stream.ReadExactly(((Span<byte>)title).Slice(0, 28));
+                stream.ReadExactly(title);
                 result = StrPasBuffer(title);
             }
             else
             {
                 if (ext == ".S3M")
                 {
-                    stream.ReadExactly(((Span<byte>)title).Slice(0, 28));
+                    stream.ReadExactly(title);
                     result = StrPasBuffer(title);
                 }
                 else

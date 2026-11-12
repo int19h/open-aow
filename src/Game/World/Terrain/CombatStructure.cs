@@ -162,7 +162,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 case 200711:
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense12 = GetDefense();
-                    var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[1], TacticalTables.s_tacticalBattleAttack[1] - defense12);
+                    var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - defense12);
                     SetHitPoints(HitPoints - executeDamageRole12);
                     break;
             }
@@ -176,7 +176,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         {
             if (HitPoints == 0)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay];
             }
             else
             {
@@ -186,7 +186,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 }
                 else
                 {
-                    moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1];
+                    moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
                 }
             }
 

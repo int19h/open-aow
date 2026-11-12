@@ -12,7 +12,7 @@ public struct HsmHeader
     [FieldOffset(0)]
     public int Size;
     [FieldOffset(4)]
-    public ByteArray4 Id;
+    public Array4<byte> Id;
     [FieldOffset(8)]
     public int Reserved;
     [FieldOffset(12)]

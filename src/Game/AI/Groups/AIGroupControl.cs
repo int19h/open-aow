@@ -54,11 +54,11 @@ public partial class AIGroupControl : EngineObject
 
     public AIGroupControlTargetList Targets { get; }
 
-    private Int32Array10 _strength;
+    private readonly int[] _strength = new int[10];
 
     public int StrengthMax { get; private set; }
 
-    public SByteArray16By16 MovePointTable;
+    public MovePointTable MovePointTable;
     private Set<DamageType> _immunityTypes;
 
     public CombatPredictor CombatPredictor { get; }
@@ -325,12 +325,12 @@ public partial class AIGroupControl : EngineObject
     {
         DamageType damageType;
         Troop troop;
-        SByteArray16By16 movePointTable = default;
+        MovePointTable movePointTable = default;
         if (Group.Status.Contains(AIGroupStatusElement.Changed) || _processCycles == 1)
         {
             _immunityTypes = AbilityRules.s_allDamageTypes;
             StrengthMax = 0;
-            _strength = default;
+            Array.Clear(_strength);
             if (Group.Count != 0)
             {
                 FillBytes(Bytes.Of(ref MovePointTable, 256), 1);

@@ -1658,8 +1658,8 @@ public partial class Army : UnitList
     // Army.PAS:1450
     public int MoveOnMovePoints(byte selection, sbyte terrainType, sbyte overlayType)
     {
-        SByteArray16By16 table = default;
-        SByteArray16By16 unitTable = default;
+        MovePointTable table = default;
+        MovePointTable unitTable = default;
         Troop transport;
         FillBytes(Bytes.Of(ref table, 256), 1);
         transport = Transporter(selection);
@@ -1681,21 +1681,21 @@ public partial class Army : UnitList
             }
         }
 
-        return table[terrainType][overlayType - -1];
+        return table[terrainType][overlayType - MovementTables.FirstOverlay];
     }
 
     // Army.PAS:1469
     public void CreateMovePointTable(byte selection, Span<byte> table)
     {
         int count;
-        SByteArray16By16 unitTable = default;
+        MovePointTable unitTable = default;
         Troop transport;
         count = 0;
         FillBytes(table.Slice(0, 256), 1);
         transport = Transporter(selection);
         if (transport != null)
         {
-            transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, SByteArray16By16>(table)[0]);
+            transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, MovePointTable>(table)[0]);
             count += 1;
         }
         else
@@ -3362,10 +3362,10 @@ public partial class Army : UnitList
         int damage;
         RandSeed = AoWHSMap.Current.Random(16777215);
         log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(GameTables.s_stormTypeTexts[(int)storm]);
+        log.ArmyText = AbilityRules.TranslateResourceString(GameTables.StormTypeTexts[(int)storm]);
         log._player = player;
         // { Original appends the storm message. }
-        var stormType = AbilityRules.TranslateResourceString(GameTables.s_stormTypeTexts[(int)storm]);
+        var stormType = AbilityRules.TranslateResourceString(GameTables.StormTypeTexts[(int)storm]);
         log.ArmyMessages.Add(stormType);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(this, 255);
@@ -3567,8 +3567,7 @@ public partial class Army : UnitList
         return GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }
 
-    internal static DamageTypeArray7 StormDamageType = DamageTypeArray7.From((ReadOnlySpan<DamageType>)new DamageType[7]
-    {
+    internal static ReadOnlySpan<DamageType> StormDamageType => [
         DamageType.None,
         DamageType.Fire,
         DamageType.Death,
@@ -3576,7 +3575,7 @@ public partial class Army : UnitList
         DamageType.Cold,
         DamageType.Lightning,
         DamageType.Poison
-    });
+    ];
 
     private static readonly string s_unitsDrownText = "Units Drowned";
     private static readonly string s_unitsBurnedText = "Units Burned";

@@ -1,4 +1,5 @@
 // Translated from AoWCampaignSettings.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -34,9 +35,9 @@ public partial class CampaignSettingsDialog : DataModule
         var indexOfObject = DifficultyLevelComboBox.Items.IndexOfObject(IntToObject((int)GameTables.GameEngine.Campaign.DifficultyLevel));
         DifficultyLevelComboBox.Selected = indexOfObject;
         TurnModeComboBox.Items.Clear();
-        var playMode = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)PlayMode.Turn]);
+        var playMode = AbilityRules.TranslateResourceString(GameText.PlayModeTexts[(int)PlayMode.Turn]);
         TurnModeComboBox.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
-        var playModeText = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)PlayMode.Simultaneous]);
+        var playModeText = AbilityRules.TranslateResourceString(GameText.PlayModeTexts[(int)PlayMode.Simultaneous]);
         TurnModeComboBox.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
         var itemsIndexOfObject = TurnModeComboBox.Items.IndexOfObject(IntToObject((int)GameTables.GameEngine.Campaign.PlayMode));
         TurnModeComboBox.Selected = itemsIndexOfObject;
@@ -58,5 +59,5 @@ public partial class CampaignSettingsDialog : DataModule
         Window.Visible = false;
     }
 
-    private static StringArray3 s_campaignDifficultyLevelTexts = StringArray3.From(["Easy", "Normal", "Hard"]);
+    private static readonly ImmutableArray<string> s_campaignDifficultyLevelTexts = ["Easy", "Normal", "Hard"];
 }

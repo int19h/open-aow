@@ -32,11 +32,11 @@ public partial class MapLevel
                 field.HexLevel = (sbyte)_hexLevel;
                 _fields[y * width + x] = field;
             }
-        HexNumberOffsets = default;
+        foreach (var offsets in HexNumberOffsets) Array.Clear(offsets);
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
             for (int parity = 0; parity <= 1; parity++)
-                HexNumberOffsets[parity][hexNumber] = (HexGeometry.s_hexNumberToXYTable[parity][hexNumber].X
-                    + HexGeometry.s_hexNumberToXYTable[parity][hexNumber].Y * width) * _fieldSize;
+                HexNumberOffsets[parity][hexNumber] = (HexGeometry.HexNumberToXYTable[parity][hexNumber].X
+                    + HexGeometry.HexNumberToXYTable[parity][hexNumber].Y * width) * _fieldSize;
 
     }
 

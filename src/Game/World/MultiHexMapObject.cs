@@ -291,7 +291,7 @@ public partial class MultiHexMapObject : MapObject
     {
         TerrainList terrainList;
         sbyte terrainType;
-        ByteArray128 counts;
+        Span<byte> counts = stackalloc byte[128];
         HexNumberWalkData walk = default;
         sbyte result = defaultValue;
         terrainList = _resource.TerrainList;
@@ -300,7 +300,7 @@ public partial class MultiHexMapObject : MapObject
             result = 0;
         }
 
-        counts = default;
+        counts.Clear();
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
         while (walk.HexNumber < terrainList._count)
         {
@@ -370,7 +370,7 @@ public partial class MultiHexMapObject : MapObject
         int count;
         MapLevel mapLevel;
         MapField mapField;
-        SByteArray2 Terrain = default;
+        Span<sbyte> terrainAndOverlay = stackalloc sbyte[2];
         HexNumberWalkData walk = default;
         mapLevel = Owner.Owner;
         count = GetTerrainCount();
@@ -380,18 +380,18 @@ public partial class MultiHexMapObject : MapObject
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 var terrain = GetTerrain(walk.HexNumber);
-                Terrain[0] = terrain;
+                terrainAndOverlay[0] = terrain;
                 var overlay = GetOverlay(walk.HexNumber);
-                Terrain[1] = overlay;
+                terrainAndOverlay[1] = overlay;
                 mapField = mapLevel.GetField(walk.X, walk.Y);
-                if (Terrain[0] >= 0)
+                if (terrainAndOverlay[0] >= 0)
                 {
-                    mapField.TerrainType = Terrain[0];
+                    mapField.TerrainType = terrainAndOverlay[0];
                 }
 
-                if (Terrain[1] >= 0)
+                if (terrainAndOverlay[1] >= 0)
                 {
-                    mapField.OverlayType = Terrain[1];
+                    mapField.OverlayType = terrainAndOverlay[1];
                 }
             }
 

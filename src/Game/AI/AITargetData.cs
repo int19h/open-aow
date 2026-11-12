@@ -15,5 +15,5 @@ public struct AITargetData
     [FieldOffset(8)]
     public int Cost;
     [FieldOffset(12)]
-    public ByteArray12 Reserved0C;
+    public Array12<byte> Reserved0C;
 }

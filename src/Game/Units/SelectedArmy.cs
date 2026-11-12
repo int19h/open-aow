@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
 using Aow.Engine.Buffers;
@@ -906,11 +907,11 @@ public partial class SelectedArmy : MoveSelector
         if (types.Contains(MoveType.Walking)) mouse.Cursor = 64;
         else if (types.Contains(MoveType.Swimming)) mouse.Cursor = 66;
         else if (types.Contains(MoveType.Flying)) mouse.Cursor = 68;
-        int cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType + 1];
+        int cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay];
         if (cost == 0 || map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)) mouse.Cursor |= 1;
     }
 
-    private static StringArray19 s_groupBehaviorTexts = StringArray19.From(default(ReadOnlySpan<string>));
+    private static readonly ImmutableArray<string> s_groupBehaviorTexts = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
     private static readonly string s_selectRoadConstructionPathText = "Select road construction path";
     private static readonly string s_armyNotEnoughMovePointsText = "Not enough move points";
     private static readonly string s_armyRoadConstructionCostFormat = "Constructing road will cost %s gold";

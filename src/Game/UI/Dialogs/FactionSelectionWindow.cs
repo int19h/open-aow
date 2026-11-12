@@ -36,7 +36,7 @@ public partial class FactionSelectionWindow : DataModule
     public int FadeImage { get; private set; }
     public int FadeDirection { get; private set; }
 
-    public ByteArray4 SelectionFlags;
+    public byte[] SelectionFlags { get; } = new byte[4];
 
     // AoWSelFactionWin.pas:63
     public void CloseSelection()

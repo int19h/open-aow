@@ -1,4 +1,5 @@
 // Translated from AoWGamePlayDlg.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 
 using Aow.Game.Events;
@@ -282,5 +283,5 @@ public partial class GamePlayDialog : DataModule
     private static readonly string s_enterNewPasswordText = "Enter new password:";
     private static readonly string s_passwordConfirmationText = "Password confirmation";
     private static readonly string s_reenterNewPasswordText = "Confirm new password:";
-    private static StringArray3 s_combatResolveModeTexts = StringArray3.From(default(ReadOnlySpan<string>));
+    private static readonly ImmutableArray<string> s_combatResolveModeTexts = ["", "", ""];
 }

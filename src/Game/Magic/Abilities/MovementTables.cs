@@ -60,7 +60,10 @@ internal static class MovementTables
         return result;
     }
 
-    internal static SByteArray16By16By256 MovePointTables;
+    // The overlay index of a move point table starts at -1, no overlay.
+    internal const int FirstOverlay = -1;
+
+    internal static MovePointTable[] MovePointTables { get; } = new MovePointTable[256];
 
     internal static int MoveTypesToInt32(Set<MoveType> types) => (byte)types.Image;
 

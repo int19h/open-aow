@@ -10,7 +10,7 @@ public struct SetupPlayerBehavior
     [FieldOffset(0)]
     public byte PlayerType;
     [FieldOffset(1)]
-    public ByteArray3 Reserved;
+    public Array3<byte> Reserved;
     [FieldOffset(4)]
     public int Flags;
 }

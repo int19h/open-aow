@@ -85,7 +85,7 @@ public partial class AnimateRuins : CityTargetSpell
                 {
                     unit = new Unit(null);
                     var random = AoWHSMap.Current.Random(2);
-                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_undeadUnitResourceIds[random]));
+                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     var hexLevel = targetCity.GetHexLevel();
                     var hexY = targetCity.GetHexY();
                     unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
@@ -118,10 +118,11 @@ public partial class AnimateRuins : CityTargetSpell
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != 0)
         {
             var random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
+            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }
 
     private static readonly string s_animateRuinsText = "Animate Ruins";
-    private static Int32Array2 s_undeadUnitResourceIds = Int32Array2.From([198, 201]);
+
+    private static ReadOnlySpan<int> UndeadUnitResourceIds => [198, 201];
 }

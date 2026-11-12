@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
 using Aow.Engine.Buffers;
@@ -21,7 +22,7 @@ public static class HexGeometry
         int result;
         if (radius <= 10)
         {
-            result = s_radiusToHexNumberTable[radius];
+            result = RadiusToHexNumberTable[radius];
         }
         else
         {
@@ -38,7 +39,7 @@ public static class HexGeometry
         int N;
         if (hexNumber < 37)
         {
-            result = s_inverseHexNumberTable[hexNumber];
+            result = InverseHexNumberTable[hexNumber];
         }
         else
         {
@@ -201,23 +202,23 @@ public static class HexGeometry
         return result;
     }
 
-    internal static ByteArray37 s_inverseHexNumberTable = ByteArray37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
+    internal static ReadOnlySpan<byte> InverseHexNumberTable => [0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
-    internal static Int32Array11 s_radiusToHexNumberTable = Int32Array11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
+    internal static ReadOnlySpan<int> RadiusToHexNumberTable => [0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271];
 
     public static void OriginalAssert(string message, string fileName, int lineNumber)
     {
         Assert(false, message, fileName, lineNumber);
     }
 
-    internal static XYTableEntryArray8By2 s_hexNumberWalkTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+    internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberWalkTable { get; } = [[new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }], [new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]];
 
     internal static int HexNumberToRadius(int hexNumber)
     {
         int result;
         if (hexNumber < 37)
         {
-            result = s_hexNumberToRadiusTable[hexNumber];
+            result = HexNumberToRadiusTable[hexNumber];
         }
         else
         {
@@ -277,11 +278,11 @@ public static class HexGeometry
         pixelX -= 8;
     }
 
-    internal static XYTableEntryArray8By2 s_hexNumberToXYTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+    internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberToXYTable { get; } = [[new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }], [new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]];
 
-    internal static ByteArray37 s_hexNumberToRadiusTable = ByteArray37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
+    internal static ReadOnlySpan<byte> HexNumberToRadiusTable => [0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 
-    private static Int32Array2By37 s_hexNumberToHexTable = Int32Array2By37.From([Int32Array2.From([0, 0]), Int32Array2.From([0, -1]), Int32Array2.From([1, -1]), Int32Array2.From([1, 0]), Int32Array2.From([0, 1]), Int32Array2.From([-1, 0]), Int32Array2.From([-1, -1]), Int32Array2.From([0, -2]), Int32Array2.From([1, -2]), Int32Array2.From([2, -1]), Int32Array2.From([2, 0]), Int32Array2.From([2, 1]), Int32Array2.From([1, 1]), Int32Array2.From([0, 2]), Int32Array2.From([-1, 1]), Int32Array2.From([-2, 1]), Int32Array2.From([-2, 0]), Int32Array2.From([-2, -1]), Int32Array2.From([-1, -2]), Int32Array2.From([0, -3]), Int32Array2.From([1, -3]), Int32Array2.From([2, -2]), Int32Array2.From([3, -2]), Int32Array2.From([3, -1]), Int32Array2.From([3, 0]), Int32Array2.From([3, 1]), Int32Array2.From([2, 2]), Int32Array2.From([1, 2]), Int32Array2.From([0, 3]), Int32Array2.From([-1, 2]), Int32Array2.From([-2, 2]), Int32Array2.From([-3, 1]), Int32Array2.From([-3, 0]), Int32Array2.From([-3, -1]), Int32Array2.From([-3, -2]), Int32Array2.From([-2, -2]), Int32Array2.From([-1, -3])]);
+    private static readonly ImmutableArray<ImmutableArray<int>> s_hexNumberToHexTable = [[0, 0], [0, -1], [1, -1], [1, 0], [0, 1], [-1, 0], [-1, -1], [0, -2], [1, -2], [2, -1], [2, 0], [2, 1], [1, 1], [0, 2], [-1, 1], [-2, 1], [-2, 0], [-2, -1], [-1, -2], [0, -3], [1, -3], [2, -2], [3, -2], [3, -1], [3, 0], [3, 1], [2, 2], [1, 2], [0, 3], [-1, 2], [-2, 2], [-3, 1], [-3, 0], [-3, -1], [-3, -2], [-2, -2], [-1, -3]];
 
     internal static void PixelToHex(int horizontal, int vertical, ref int x, ref int y)
     {

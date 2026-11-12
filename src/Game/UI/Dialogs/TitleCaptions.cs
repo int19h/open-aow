@@ -14,7 +14,7 @@ internal static class TitleCaptions
 
     private static readonly string s_titleExitText = "Exit";
 
-    internal static StringArray5 TitleButtons = StringArray5.From([]);
+    internal static string[] TitleButtons { get; } = ["", "", "", "", ""];
 
     internal static void Initialize()
     {

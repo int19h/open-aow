@@ -123,7 +123,7 @@ public partial class LeaderSetupWindow : DataModule
             for (int I = 0, last = Setup.Items.Count - 1; I <= last; I++)
             {
                 var item = Setup.Items[I];
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[item]);
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[item]);
                 var item2 = Setup.Items[I];
                 RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
             }

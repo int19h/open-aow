@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
@@ -261,7 +262,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
     private static readonly string s_observeEnabledText = "Observe enabled";
     private static readonly string s_observeDisabledText = "Observe disabled";
-    private static StringArray10 s_cheatNames = StringArray10.From(["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"]);
+    private static readonly ImmutableArray<string> s_cheatNames = ["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"];
 
     // Engine.pas:524
 

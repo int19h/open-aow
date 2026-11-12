@@ -153,7 +153,7 @@ public partial class CombatTerrain : TerrainMapObject
                         break;
                     case 200711:
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[1], TacticalTables.s_tacticalBattleAttack[1] - _defense);
+                        var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - _defense);
                         SetHitPoints(_hitPoints - executeDamageRole12);
                         break;
                 }

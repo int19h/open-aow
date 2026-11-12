@@ -24,7 +24,7 @@ public partial class PageTurnControl
     private LockedSurface _source2;
     private int _sourceX2;
     private int _sourceY2;
-    private SingleArray512 _inverseCos;
+    private readonly float[] _inverseCos = new float[512];
     private float _radius;
     private float _shadow;
     private int _position;

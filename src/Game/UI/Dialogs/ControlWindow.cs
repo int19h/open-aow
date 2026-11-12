@@ -1,4 +1,5 @@
 // Translated from AOWControlWin.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 using Aow.Game.Draw;
 
@@ -378,7 +379,7 @@ public partial class ControlWindow : DataModule
     }
 
     private static readonly string s_partyOwnerFormat = "Party Owner: %s";
-    private static StringArray5 s_partyStatusTexts = StringArray5.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful"]);
+    private static readonly ImmutableArray<string> s_partyStatusTexts = ["Unruly", "Unrest", "Stable", "Content", "Cheerful"];
     private static readonly string s_partyActionText = "Party Action:";
     private static readonly string s_patrollingText = "Patrolling";
     private static readonly string s_guardingText = "Guarding";

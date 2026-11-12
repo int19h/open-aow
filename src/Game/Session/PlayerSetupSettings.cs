@@ -65,14 +65,14 @@ public partial class PlayerSetupSettings : EngineObject
     private static SetupPlayerBehavior s_defaultBehavior = new SetupPlayerBehavior
     {
         PlayerType = 0,
-        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = default,
         Flags = 0
     };
 
     private static SetupPlayerBehavior s_defaultOriginalBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
-        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = default,
         Flags = 0
     };
 

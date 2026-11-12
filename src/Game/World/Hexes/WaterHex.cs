@@ -27,7 +27,8 @@ public partial class WaterHex : LowerIsometricHex
 
     private sbyte _animationFrame;
     private byte _animationIndex;
-    public ByteArray6 ShoreTerrain;
+
+    public byte[] ShoreTerrain { get; } = new byte[6];
 
     // AoWHex.pas:268
 

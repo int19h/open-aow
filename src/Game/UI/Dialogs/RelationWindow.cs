@@ -310,7 +310,7 @@ public partial class RelationWindow : DataModule
             if (player != AoWHSMap.Current.SeatedPlayer)
             {
                 relation = AoWHSMap.Current.Players.GetDiplomaticRelation(player, AoWHSMap.Current.SeatedPlayer);
-                var diplomaticRelation = AbilityRules.TranslateResourceString(GameTables.s_diplomaticRelationTexts[(int)relation]);
+                var diplomaticRelation = AbilityRules.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
                 PlayerStatusValueLabel.Text = diplomaticRelation;
                 if (relation != DiplomaticRelation.Unknown)
                 {
@@ -374,7 +374,7 @@ public partial class RelationWindow : DataModule
         }
 
         var player2 = AoWHSMap.Current.Players.GetPlayers(player);
-        var playerType = AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[(int)player2.PlayerType]);
+        var playerType = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
         PlayerTypeLabel.Text = playerType;
     }
 
@@ -439,7 +439,7 @@ public partial class RelationWindow : DataModule
                                 {
                                     var player3 = Players[I];
                                     var diplomaticRelation = AoWHSMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player3);
-                                    image.ToolTipText.Add(GameTables.s_diplomaticRelationTexts[(int)diplomaticRelation]);
+                                    image.ToolTipText.Add(GameTables.DiplomaticRelationTexts[(int)diplomaticRelation]);
                                 }
                             }
                         }

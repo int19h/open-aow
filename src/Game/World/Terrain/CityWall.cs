@@ -156,7 +156,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                     {
                         RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[1], TacticalTables.s_tacticalBattleAttack[1] - defense5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - defense5);
                         SetHitPoints(HitPoints - executeDamageRole5);
                     }
 
@@ -172,7 +172,7 @@ public partial class CityWall : CombatImageLibraryTerrain
         {
             if (HitPoints == 0)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay];
             }
             else
             {
@@ -191,7 +191,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                     {
                         if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36))
                         {
-                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - -1];
+                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay];
                         }
                         else
                         {
@@ -201,7 +201,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                             }
                             else
                             {
-                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1];
+                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
                             }
                         }
                     }
@@ -230,7 +230,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 }
                 else
                 {
-                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1] != 0)
+                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0)
                     {
                         result = 1;
                     }
@@ -311,7 +311,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 }
                 else
                 {
-                    SetHitPoints(TacticalTables.s_wallMaxHitPoints[WallType - 1]);
+                    SetHitPoints(TacticalTables.WallMaxHitPoints[WallType - 1]);
                 }
 
                 if (_flagId == -1)
@@ -392,13 +392,13 @@ public partial class CityWall : CombatImageLibraryTerrain
         }
 
         HitPoints = value;
-        if (TacticalTables.s_wallMaxHitPoints[WallType - 1] == HitPoints)
+        if (TacticalTables.WallMaxHitPoints[WallType - 1] == HitPoints)
         {
             _damageImage = 0;
         }
         else
         {
-            if (TacticalTables.s_wallMaxHitPoints[WallType - 1] / 2 < HitPoints)
+            if (TacticalTables.WallMaxHitPoints[WallType - 1] / 2 < HitPoints)
             {
                 _damageImage = 1;
             }
@@ -445,7 +445,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 break;
         }
 
-        sequence = _resource.ImageSequenceList.GetImageSequence(s_wallIsIndex[WallType - 1] + (terrainOffset + _damageImage));
+        sequence = _resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + (terrainOffset + _damageImage));
         if (sequence != null)
         {
             do
@@ -483,7 +483,7 @@ public partial class CityWall : CombatImageLibraryTerrain
         }
     }
 
-    private static Int32Array2 s_wallIsIndex = Int32Array2.From([30, 0]);
+    private static ReadOnlySpan<int> WallIsIndex => [30, 0];
 
     public new partial class Resource : CombatImageLibraryTerrainResource
     {

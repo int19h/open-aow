@@ -845,7 +845,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         moveControlSettings.ArmyHexSprite = army;
         moveControlSettings.Selection = selection;
         moveControlSettings.SetDestinationPosition(X, Y, L);
-        army.Army.CreateMovePointTable(selection, Bytes.Of<SByteArray16By16>(ref moveControlSettings.MovePointTable));
+        army.Army.CreateMovePointTable(selection, Bytes.Of<MovePointTable>(ref moveControlSettings.MovePointTable));
         AoWHSMap.Current.MoveControl.ProcessMove(moveControlSettings);
         MoveArmyTokenEvent result = ((moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, moveControlSettings.Path, action, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>())));
         moveControlSettings.Release();

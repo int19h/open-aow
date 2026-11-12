@@ -22,9 +22,11 @@ public partial class ArmyView : Army
     public ArmyView(ECustomNode owner) : base(owner)
     { }
 
-    public UInt16Array8 UnitConcealment;
+    public ushort[] UnitConcealment { get; } = new ushort[8];
+
     public ushort ConcealedForPlayers;
-    public Int32Array8 MoraleValues;
+
+    public int[] MoraleValues { get; } = new int[8];
 
     // Army.PAS:122
     public override void ReadWrite(EStorageStream stream)

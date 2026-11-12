@@ -20,7 +20,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     { }
 
     private int _cityCount;
-    private Int32Array4 _productionLevelCounts;
+    private readonly int[] _productionLevelCounts = new int[4];
     private int _maxProductionLevel;
 
     // City.pas:3130
@@ -555,7 +555,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         _maxProductionLevel = 0;
         available = 0;
         busy = 0;
-        _productionLevelCounts = default;
+        Array.Clear(_productionLevelCounts);
         for (int I = Control.Player.Structures.Count - 1; I >= 0; I--)
         {
             if (Control.Player.Structures.GetStructure(I) is City)

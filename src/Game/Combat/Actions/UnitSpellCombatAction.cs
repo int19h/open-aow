@@ -25,7 +25,9 @@ public partial class UnitSpellCombatAction : CombatAction
     public int SpellId;
     public byte SourceId;
     public byte TargetId;
-    public Int32Array2 SpellData;
+
+    public int[] SpellData { get; } = new int[2];
+
     public int Mana;
 
     // Spells.PAS:1102

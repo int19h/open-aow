@@ -388,7 +388,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, info.HexNumber, ref X, ref Y);
             if (moveResult.Code < 30)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
             }
 
             if (moveResult.Code <= -1)
@@ -768,7 +768,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 var ability2 = Abilities[I];
                 var abilityType = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
-                types.Add(AbilityRules.TranslateResourceString(GameTables.s_abilityTypeTexts[(int)abilityType]));
+                types.Add(AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
@@ -860,7 +860,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         return result;
     }
 
-    private static Int32Array14 s_statusAbilities = Int32Array14.From([149, 150, 48, 92, 93, 94, 95, 96, 97, 98, 107, 163, 127, 34]);
+    private static ReadOnlySpan<int> StatusAbilities => [149, 150, 48, 92, 93, 94, 95, 96, 97, 98, 107, 163, 127, 34];
 
     public static void OriginalUnitAssert(string message, string fileName, int lineNumber)
     {

@@ -25,7 +25,8 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
 
     private UnitUserList _targetUnits;
     public byte TargetPlayer;
-    public Int32Array2 SpellData;
+
+    public int[] SpellData { get; } = new int[2];
 
     // Spells.PAS:1126
     public override void Dispose()
@@ -109,7 +110,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             {
                 target = _targetUnits.GetUnit(I);
                 target.AddRef();
-                if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, ref SpellData))
+                if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, SpellData))
                 {
                     AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
                     target.Changed();

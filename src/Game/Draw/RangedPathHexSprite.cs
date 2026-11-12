@@ -91,7 +91,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                 else
                 {
                     var tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
-                    effectType = TacticalTables.s_abilityTypes[tacticalBattleUnitHexSprite.SelectedAbility];
+                    effectType = TacticalTables.AbilityTypes[tacticalBattleUnitHexSprite.SelectedAbility];
                 }
 
                 switch (effectType)
@@ -107,7 +107,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                 var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
                                 var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, X, Y);
                                 var hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
-                                HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.s_breathHexNumber[deltaHexToHexNumber2 * 12 + I - 12], ref hexX, ref hexY);
+                                HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.BreathHexNumber[deltaHexToHexNumber2 * 12 + I - 12], ref hexX, ref hexY);
                                 HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                             }

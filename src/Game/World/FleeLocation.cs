@@ -3,6 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -49,7 +50,7 @@ public partial class FleeLocation : MapObject
             }
             else
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
             }
 
             moveResult.Done = true;

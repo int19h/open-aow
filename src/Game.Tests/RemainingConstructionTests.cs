@@ -81,6 +81,7 @@ public sealed class RemainingConstructionTests
                 visited.Add(item, path);
             }
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            if (InlineArrays.Elements(item) is { } elements) return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)

@@ -35,11 +35,11 @@ public partial class AIGroupRecruitControl : AIGroupTask
     public bool Complete { get; private set; }
     public UnitUserList Units { get; }
 
-    private Int32Array10 _remainingStrengths;
+    private readonly int[] _remainingStrengths = new int[10];
     private int _remainingStrength;
     public int RecruitStrength;
     private Set<DamageType> _damageTypes;
-    private Int32Array10 _recruitStrengths;
+    private readonly int[] _recruitStrengths = new int[10];
 
     public int Superiority { get; set; }
 

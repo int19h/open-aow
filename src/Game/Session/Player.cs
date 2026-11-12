@@ -753,7 +753,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
             result = true;
             if (Leader.GetSphereCount() != AoWHSMap.Current.SphereCount)
             {
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[PlayerRace]);
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [raceNames]);
                 S = leaderName + ": " + AbilityRules.TranslateResourceString(s_notAllSpheresAssignedText);
                 errors.Add(S);
@@ -762,7 +762,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
             if (Leader.Owner == null)
             {
-                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[PlayerRace]);
+                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [raceNamesText]);
                 S = leaderName + ": " + AbilityRules.TranslateResourceString(s_notPlacedOnMapText);
                 errors.Add(S);
@@ -771,7 +771,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
             if (Leader.GetSkillPoints() != 0)
             {
-                var translatedText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[PlayerRace]);
+                var translatedText = AbilityRules.TranslateResourceString(GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [translatedText]);
                 S = leaderName + ": " + AbilityRules.TranslateResourceString(s_notAllSkillPointsAssignedText);
                 errors.Add(S);

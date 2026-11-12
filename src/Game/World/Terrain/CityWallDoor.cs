@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
@@ -62,7 +63,7 @@ public partial class CityWallDoor : CityWall
         {
             if (HitPoints == 0)
             {
-                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - MovementTables.FirstOverlay];
             }
             else
             {
@@ -81,7 +82,7 @@ public partial class CityWallDoor : CityWall
                     {
                         if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender)
                         {
-                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - -1];
+                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay];
                         }
                         else
                         {
@@ -91,7 +92,7 @@ public partial class CityWallDoor : CityWall
                             }
                             else
                             {
-                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1];
+                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay];
                             }
                         }
                     }
@@ -120,7 +121,7 @@ public partial class CityWallDoor : CityWall
                 }
                 else
                 {
-                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1] != 0)
+                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0)
                     {
                         result = 1;
                     }

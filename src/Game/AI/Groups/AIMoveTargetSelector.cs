@@ -43,10 +43,10 @@ public partial class AIMoveTargetSelector : EngineObject
 
     public MoveTargetFoundEvent OnTargetFound { get; set; }
 
-    private SByteArray16By16 _transportMovePointTable;
+    private MovePointTable _transportMovePointTable;
     public MapCoordinate SourceLocation;
     public AITargetInfo TargetInfo;
-    public SByteArray16By16 MovePointTable;
+    public MovePointTable MovePointTable;
 
     public int MovePointsMax { get; set; }
     public int MovePointsMin { get; set; }
@@ -353,9 +353,9 @@ public partial class AIMoveTargetSelector : EngineObject
                     {
                         for (int overlay = -1; overlay <= 11; overlay++)
                         {
-                            if (_settings.MovePointTable[terrain][overlay - -1] == -1 && _transportMovePointTable[terrain][overlay - -1] != -1)
+                            if (_settings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] == -1 && _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay] != -1)
                             {
-                                _settings.MovePointTable[terrain][overlay - -1] = 8;
+                                _settings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] = 8;
                             }
                         }
                     }
@@ -393,7 +393,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, ref data) && MovePointTable[field.TerrainType][field.OverlayType - -1] >= 0)
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, ref data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
                         {
                             target = new MoveTarget(null);
                             var fieldMapCoordinate = field.GetMapCoordinate();
@@ -480,7 +480,7 @@ public partial class AIMoveTargetSelector : EngineObject
         return result;
     }
 
-    private static int ListMovementGaps(AoWHSMap map, MovePath path, SByteArray16By16 table, Int32List starts, Int32List ends)
+    private static int ListMovementGaps(AoWHSMap map, MovePath path, MovePointTable table, Int32List starts, Int32List ends)
     {
         int number = path.Count - 1;
         int number2 = 0;
@@ -492,7 +492,7 @@ public partial class AIMoveTargetSelector : EngineObject
             MapCoordinate mapCoordinate2 = path[number];
             MapCoordinate mapCoordinate3 = path[number];
             MapField field = map.MapContainer.GetField(mapCoordinate3.X, mapCoordinate2.Y, mapCoordinate.MapLevel);
-            if (table[(int)field.TerrainType][field.OverlayType - -1] == -1)
+            if (table[(int)field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] == -1)
             {
                 if (!flag)
                 {

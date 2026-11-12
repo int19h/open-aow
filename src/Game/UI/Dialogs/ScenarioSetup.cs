@@ -1,4 +1,5 @@
 // Translated from AoWScenSetup.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 
 using Aow.Game.Audio;
@@ -164,7 +165,7 @@ public partial class ScenarioSetup : DataModule
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
                 availability = (byte)availabilityOrdinal;
-                var tacticalBattleAvailability = AbilityRules.TranslateResourceString(s_tacticalCombatAvailabilityTexts[availability]);
+                var tacticalBattleAvailability = AbilityRules.TranslateResourceString(TacticalCombatAvailabilityTexts[availability]);
                 TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
             }
         }
@@ -581,7 +582,7 @@ public partial class ScenarioSetup : DataModule
         }
     }
 
-    internal static StringArray3 s_tacticalCombatAvailabilityTexts = StringArray3.From([]);
+    internal static ImmutableArray<string> TacticalCombatAvailabilityTexts { get; } = ["", "", ""];
 
     private static readonly string s_classicText = "Classic";
 
@@ -626,7 +627,7 @@ public partial class ScenarioSetup : DataModule
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
                 B = (byte)bOrdinal;
-                var tacticalBattleAvailability = AbilityRules.TranslateResourceString(s_tacticalCombatAvailabilityTexts[B]);
+                var tacticalBattleAvailability = AbilityRules.TranslateResourceString(TacticalCombatAvailabilityTexts[B]);
                 setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(B));
             }
         }
@@ -911,7 +912,7 @@ public partial class ScenarioSetup : DataModule
                 }
                 else
                 {
-                    playerName.Text = AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[settings.Behavior.PlayerType]);
+                    playerName.Text = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[settings.Behavior.PlayerType]);
                 }
             }
 
@@ -951,7 +952,7 @@ public partial class ScenarioSetup : DataModule
                         {
                             if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(settings.Behavior.PlayerType))
                             {
-                                info.Text = AbilityRules.TranslateResourceString(GameTables.s_playerBehaviorTexts[(int)(PlayerBehavior)settings.BehaviorMode]);
+                                info.Text = AbilityRules.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)settings.BehaviorMode]);
                             }
                         }
                     }
@@ -966,7 +967,7 @@ public partial class ScenarioSetup : DataModule
                 for (int bOrdinal = 0; bOrdinal <= 5; bOrdinal++)
                 {
                     B = (byte)bOrdinal;
-                    var playerBehavior = AbilityRules.TranslateResourceString(GameTables.s_playerBehaviorTexts[(int)(PlayerBehavior)B]);
+                    var playerBehavior = AbilityRules.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)B]);
                     behaviorBox.Items.AddObject(playerBehavior, IntToObject(B));
                 }
 

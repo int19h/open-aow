@@ -87,7 +87,7 @@ public partial class GameEngine : ENode
                 stream.LoadImage(image);
                 stream.ReadExactly(Bytes.Of(ref header, 16));
                 stream.Position = header.Size;
-                if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
+                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
                 {
                     SetHexSpriteMap((HSMap)CreateEngineObject(header.ClassId, this));
                     var expandFileName = ExpandFileName(fileName);
@@ -148,7 +148,7 @@ public partial class GameEngine : ENode
                 stream.LoadImage(image);
                 stream.ReadExactly(Bytes.Of(ref header, 16));
                 stream.Position = header.Size;
-                if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
+                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
                 {
                     result = (HSMap)CreateEngineObject(header.ClassId, this);
                     result.FileName = ExpandFileName(fileName);
@@ -192,7 +192,7 @@ public partial class GameEngine : ENode
             var classId = _hexSpriteMap.EngineClass.ClassId;
             header.ClassId = classId;
             header.Reserved = 0;
-            header.Id = s_hsmId;
+            HsmId.CopyTo(header.Id);
             stream = new CompressStream();
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
@@ -374,7 +374,7 @@ public partial class GameEngine : ENode
                 stream.LoadImage(image);
                 stream.ReadExactly(Bytes.Of(ref header, 16));
                 stream.Position = header.Size;
-                if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
+                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
                 {
                     SetHexSpriteMap((HSMap)CreateEngineObject(header.ClassId, this));
                     _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
@@ -427,7 +427,7 @@ public partial class GameEngine : ENode
                 stream.LoadImage(image);
                 stream.ReadExactly(Bytes.Of(ref header, 16));
                 stream.Position = header.Size;
-                if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
+                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
                 {
                     result = (HSMap)CreateEngineObject(header.ClassId, null);
                     result.FileName = fullName;
@@ -485,7 +485,7 @@ public partial class GameEngine : ENode
                 cStream.LoadFromStream(stream);
                 cStream.ReadExactly(Bytes.Of(ref header, 16));
                 cStream.Position = header.Size;
-                if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
+                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
                 {
                     SetHexSpriteMap((HSMap)CreateEngineObject(header.ClassId, this));
                     _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
@@ -533,7 +533,7 @@ public partial class GameEngine : ENode
             var classId = _hexSpriteMap.EngineClass.ClassId;
             header.ClassId = classId;
             header.Reserved = 0;
-            header.Id = s_hsmId;
+            HsmId.CopyTo(header.Id);
             cStream = new CompressStream();
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
@@ -617,7 +617,7 @@ public partial class GameEngine : ENode
         remove => _onHssCloseStore.Remove(value);
     }
 
-    private static ByteArray4 s_hsmId = ByteArray4.From("HSM\0"u8);
+    private static ReadOnlySpan<byte> HsmId => "HSM\0"u8;
 
     internal static int HexSpriteEngineDebugChannel { get; set; }
 

@@ -1,4 +1,5 @@
 // Translated from AoWPWindows.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 using Aow.Game.Events;
 using Aow.Game.Host;
@@ -135,8 +136,8 @@ public partial class PopupWindows : DataModule
         }
     }
 
-    private static StringArray4 s_victoryConditionTexts = StringArray4.From(default(ReadOnlySpan<string>));
-    private static StringArray3 s_playerConnectionTypeTexts = StringArray3.From(default(ReadOnlySpan<string>));
+    private static readonly ImmutableArray<string> s_victoryConditionTexts = ["", "", "", ""];
+    private static readonly ImmutableArray<string> s_playerConnectionTypeTexts = ["", "", ""];
     private static readonly string s_alliedVictoryFormat = "Allied victory: %s";
     private static readonly string s_conquerMapText = "Conquer the map";
     private static readonly string s_disabledText = "Disabled";
@@ -246,7 +247,7 @@ public partial class PopupWindows : DataModule
             string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref value10));
             ((StringCollection)dialog.RightPageMemo.Items).Add(text18);
         }
-        string text19 = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)AoWHSMap.Current.PlayMode]);
+        string text19 = AbilityRules.TranslateResourceString(GameText.PlayModeTexts[(int)AoWHSMap.Current.PlayMode]);
         string s11 = AbilityRules.TranslateResourceString(s_turnModeFormat);
         FormatArg value11 = (FormatArg)(text19);
         string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref value11));

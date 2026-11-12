@@ -252,10 +252,10 @@ public partial class SpellBook : DataModule
                     _spells.Clear();
                     AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ListResearchSpells(ref _spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     _spells.SortOnLevel();
-                    var spellType = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
+                    var spellType = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchSpellFormat), [spellType]);
                     LeftHeaderLabel.Text = format;
-                    var spellTypeText = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
+                    var spellTypeText = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchSpellFormat), [spellTypeText]);
                     RightHeaderLabel.Text = formattedText;
                     // { Original overwrites the type-specific headers. }
@@ -268,10 +268,10 @@ public partial class SpellBook : DataModule
                     _spells.Clear();
                     AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
                     _spells.SortOnLevel();
-                    var spellType3 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
+                    var spellType3 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType3]);
                     LeftHeaderLabel.Text = format2;
-                    var spellType4 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
+                    var spellType4 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType4]);
                     RightHeaderLabel.Text = format3;
                     break;
@@ -279,10 +279,10 @@ public partial class SpellBook : DataModule
                     _spells.Clear();
                     AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
                     _spells.SortOnLevel();
-                    var spellType5 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
+                    var spellType5 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType5]);
                     LeftHeaderLabel.Text = format4;
-                    var spellType6 = AbilityRules.TranslateResourceString(GameTables.s_spellTypeTexts[(int)_spellType]);
+                    var spellType6 = AbilityRules.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castSpellFormat), [spellType6]);
                     RightHeaderLabel.Text = format5;
                     break;
@@ -461,7 +461,7 @@ public partial class SpellBook : DataModule
                     ResearchLabel.Text = currentlyResearching + ":";
                     ResearchMemo.Items = spell.SpellText;
                     ResearchNameLabel.Text = spell.SpellName;
-                    var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
+                    var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                     var level = AbilityRules.TranslateResourceString(GameText.LevelText);
                     ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                     var castingMana = _hero.CastingMana(spell);
@@ -494,7 +494,7 @@ public partial class SpellBook : DataModule
                         ResearchLabel.Text = researched + ":";
                         ResearchMemo.Items = spell.SpellText;
                         ResearchNameLabel.Text = spell.SpellName;
-                        var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
+                        var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                         var level = AbilityRules.TranslateResourceString(GameText.LevelText);
                         ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                         var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
@@ -533,7 +533,7 @@ public partial class SpellBook : DataModule
                         NoneCastingLabel.Visible = false;
                         spell = AoWHSSet.Current.SpellControl.GetSpell(_hero.CastingSpellId);
                         CastingSpellLabel.Text = spell.SpellName;
-                        var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
+                        var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                         var level = AbilityRules.TranslateResourceString(GameText.LevelText);
                         CastingClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                         var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
@@ -581,7 +581,7 @@ public partial class SpellBook : DataModule
         {
             panel.Visible = true;
             name.Text = spell.SpellName;
-            spellClass.Text = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]) + ", " + AbilityRules.TranslateResourceString(GameText.LevelText) + " " + IntToStr(spell.SpellLevel);
+            spellClass.Text = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]) + ", " + AbilityRules.TranslateResourceString(GameText.LevelText) + " " + IntToStr(spell.SpellLevel);
             if (Mode == 2)
             {
                 if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global))

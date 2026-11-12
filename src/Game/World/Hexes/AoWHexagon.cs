@@ -95,9 +95,9 @@ public partial class AoWHexagon : Hexagon
         int image;
         shifted = false;
         Transitions[side] = 255;
-        TransitionSides = (byte)(TransitionSides & s_sideClear[side]);
+        TransitionSides = (byte)(TransitionSides & SideClear[side]);
         mapLevel = Owner.Owner;
-        HexGeometry.HexNumberToHex(s_sideHexNumber[side], ref nHexX, ref nHexY);
+        HexGeometry.HexNumberToHex(SideHexNumber[side], ref nHexX, ref nHexY);
         HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, ref nHexX, ref nHexY);
         if (nHexX >= 0 && nHexY >= 0 && mapLevel.Width > nHexX && mapLevel.Height > nHexY)
         {
@@ -237,8 +237,8 @@ public partial class AoWHexagon : Hexagon
         }
     }
 
-    private static ByteArray3 s_sideHexNumber = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
-    private static ByteArray3 s_sideClear = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
+    private static ReadOnlySpan<byte> SideHexNumber => [6, 1, 2];
+    private static ReadOnlySpan<byte> SideClear => [246, 237, 219];
 
     public new partial class Resource : HexagonResource
     {

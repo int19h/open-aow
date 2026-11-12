@@ -6,8 +6,9 @@ namespace Aow.Game.Draw;
 public partial class LookupBlendTableCollection100 : IDisposable
 {
     private BlendTableList _tables;
+
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
-    public BlendTableArray101 Lookup;
+    public BlendTable[] Lookup { get; } = new BlendTable[101];
 
     // GFXE.pas:9687
     public BlendTable GetLookupTables(int index) => Lookup[index];
@@ -29,7 +30,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
     public void Clear()
     {
         _tables.Clear();
-        Lookup = default;
+        Array.Clear(Lookup);
     }
 
     // GFXE.pas:9698

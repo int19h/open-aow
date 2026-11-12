@@ -30,7 +30,7 @@ public partial class HealingWater : UnitSpell
     }
 
     // UnitSpells.pas:479
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
         if (ValidTargetUnit(source, target))

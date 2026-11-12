@@ -389,7 +389,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
             if (walk.X >= 0 && walk.X < Owner.Width && walk.Y >= 0 && Owner.Height > walk.Y)
             {
-                info.HexNumber = (sbyte)s_oppositeHexDirectionTable[I - 1];
+                info.HexNumber = (sbyte)OppositeHexDirectionTable[I - 1];
                 Owner.GetField(walk.X, walk.Y).NeighbourTerrainChanged(ref info);
             }
         }
@@ -432,7 +432,8 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
         }
     }
 
-    private static ByteArray6 s_oppositeHexDirectionTable = ByteArray6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
-    private static HexSpriteArray256 s_sendMessageList;
-    private static HexSpriteArray256 s_loadedList;
+    private static ReadOnlySpan<byte> OppositeHexDirectionTable => [4, 5, 6, 1, 2, 3];
+
+    private static readonly HexSprite[] s_sendMessageList = new HexSprite[256];
+    private static readonly HexSprite[] s_loadedList = new HexSprite[256];
 }

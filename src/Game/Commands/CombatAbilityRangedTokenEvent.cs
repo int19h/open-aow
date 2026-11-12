@@ -95,7 +95,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             }
                             else
                             {
-                                _effectType = TacticalTables.s_abilityTypes[AbilityId];
+                                _effectType = TacticalTables.AbilityTypes[AbilityId];
                             }
 
                             if (AbilityId == 52)
@@ -923,7 +923,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var hexY = _unit.UnitHexSprite.HexY;
                 var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY, TargetX, TargetY);
                 var fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
-                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref J, ref K);
+                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref J, ref K);
                 var hexY2 = _unit.UnitHexSprite.HexY;
                 HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY2, ref x1, ref y1);
                 HexGeometry.HexToPixel(J, K, ref x2, ref y2);
@@ -987,7 +987,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     var hexY4 = _unit.UnitHexSprite.HexY;
                     var deltaHexToHexNumber3 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY4, TargetX, TargetY);
                     var hexY5 = _unit.UnitHexSprite.HexY;
-                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + s_breathHit[_strikeIndex] - 12], ref effect.TargetX, ref effect.TargetY);
+                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + BreathHit[_strikeIndex] - 12], ref effect.TargetX, ref effect.TargetY);
                 }
 
                 break;
@@ -1188,7 +1188,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         break;
                 }
 
-                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, s_randomHex[_strikeIndex % I], ref deltaX, ref deltaY);
+                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, RandomHex[_strikeIndex % I], ref deltaX, ref deltaY);
                 HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
                 CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
                 x1 = Random(20) + 6;
@@ -1610,7 +1610,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         }
         else
         {
-            if ((AbilityId != 52 && TacticalTables.s_abilityTypes[AbilityId] != BattleEffectType.Breath) || _strikeIndex == 0)
+            if ((AbilityId != 52 && TacticalTables.AbilityTypes[AbilityId] != BattleEffectType.Breath) || _strikeIndex == 0)
             {
                 _unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
             }
@@ -1627,8 +1627,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         _strikeIndex += 1;
     }
 
-    private static Int32Array19 s_randomHex = Int32Array19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);
-    private static Int32Array12 s_breathHit = Int32Array12.From([0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11]);
+    private static ReadOnlySpan<int> RandomHex => [6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14];
+    private static ReadOnlySpan<int> BreathHit => [0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11];
 
     private static ushort GetRangedDirectionIndex(int deltaX, int deltaY)
     {

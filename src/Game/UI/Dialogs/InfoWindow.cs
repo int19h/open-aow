@@ -451,13 +451,13 @@ public partial class InfoWindow : DataModule
         dialog.ActiveCityActionMemo.Items.Clear();
         var name = DialogHosts.General.City.GetName();
         dialog.StructureNameLabel.Text = name;
-        var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[DialogHosts.General.City.Race]);
+        var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[DialogHosts.General.City.Race]);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RaceFormat), [raceNames]);
         dialog.CityRaceLabel.Text = format;
         dialog.CityLevelLabel.Text = IntToStr(structure.UpgradeLevel);
         dialog.CityIncomeLabel.Text = IntToStr(structure.Income);
         var civilStatus = structure.GetCivilStatus();
-        var civilStatusText = AbilityRules.TranslateResourceString(CityScreen.s_civilStatusTexts[(int)civilStatus]);
+        var civilStatusText = AbilityRules.TranslateResourceString(CityScreen.CivilStatusTexts[(int)civilStatus]);
         var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StatusFormat), [civilStatusText]);
         dialog.CivilStatusLabel.Text = formattedText;
         if (structure.Production.Queue.GetCount() != 0)

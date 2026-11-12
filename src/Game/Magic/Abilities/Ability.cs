@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Collections.Immutable;
 using Aow.Engine;
 using Aow.Engine.Buffers;
 
@@ -329,7 +330,7 @@ public partial class Ability : EngineObject
         }
 
         var abilityType = this.GetAbilityType();
-        text.Add("Type: " + AbilityRules.TranslateResourceString(GameTables.s_abilityTypeTexts[(int)abilityType]));
+        text.Add("Type: " + AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)abilityType]));
         if (this.GetAttack(null) != 0)
         {
             text.Add("Attack modifier: " + IntToStr(this.GetAttack(null)));
@@ -451,8 +452,8 @@ public partial class Ability : EngineObject
     public virtual int GetSkillPoints(AbilityOwner owner) => owner.GetAbilitySetAt(AbilityId) ? SkillPointCost : 0;
     public virtual bool GetEnabled(AbilityOwner owner) => owner.GetAbilitySetAt(AbilityId);
 
-    private static StringArray6 s_combatModeTexts = StringArray6.From(default(ReadOnlySpan<string>));
-    private static StringArray10 s_damageTypeTexts = StringArray10.From(default(ReadOnlySpan<string>));
+    private static readonly ImmutableArray<string> s_combatModeTexts = ["", "", "", "", "", ""];
+    private static readonly ImmutableArray<string> s_damageTypeTexts = ["", "", "", "", "", "", "", "", "", ""];
     private static Set<MoveType> s_emptyMoveTypes = Set<MoveType>.FromMask(0uL);
     private static Set<DamageType> s_emptyDamageTypes = Set<DamageType>.FromMask(0uL);
     private static Set<WallCombatFeaturesElement> s_emptyWallFeatures = Set<WallCombatFeaturesElement>.FromMask(0uL);

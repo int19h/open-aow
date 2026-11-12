@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 
 using System.Runtime.InteropServices;
 using Aow.Engine;
@@ -227,11 +228,11 @@ public static class AbilityRules
         {
             for (int J = 0; J <= 15; J++)
             {
-                oldValue = MemoryMarshal.Cast<byte, SByteArray16By16>(table)[0][J][I];
-                value = MemoryMarshal.Cast<byte, SByteArray16By16>(other)[0][J][I];
+                oldValue = MemoryMarshal.Cast<byte, MovePointTable>(table)[0][J][I];
+                value = MemoryMarshal.Cast<byte, MovePointTable>(other)[0][J][I];
                 if (oldValue != -1 && (oldValue < value || value == -1))
                 {
-                    MemoryMarshal.Cast<byte, SByteArray16By16>(table)[0][J][I] = value;
+                    MemoryMarshal.Cast<byte, MovePointTable>(table)[0][J][I] = value;
                 }
             }
         }
@@ -767,17 +768,17 @@ public static class AbilityRules
         return ability;
     }
 
-    internal static Int32Array3 s_commandAbilityIds = Int32Array3.From([29, 28, 148]);
+    internal static ReadOnlySpan<int> CommandAbilityIds => [29, 28, 148];
 
-    internal static Int32Array13 RaceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
+    internal static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
 
     internal static Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
 
-    internal static StringArray2 s_explosionSfx = StringArray2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
+    internal static ImmutableArray<string> ExplosionSfx { get; } = ["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"];
 
     internal static int AiDebugChannel { get; set; }
 
-    internal static ByteArray9 ArmySelectionMasks = ByteArray9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
+    internal static ReadOnlySpan<byte> ArmySelectionMasks => [0, 1, 3, 7, 15, 31, 63, 127, 255];
 
     internal static int TemporaryDebugChannel { get; set; }
 

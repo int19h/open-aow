@@ -89,7 +89,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
                 int delay = Random(40);
                 CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - delay, surface);
                 if (animation.FrameCounter == delay && GameTables.GameEngine.AnimationDetail != 0)
-                    AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[x % 2]);
+                    AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[x % 2]);
             }
         }
         if (animation.FrameCounter == 90) animation.Dispose();

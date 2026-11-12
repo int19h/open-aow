@@ -1,8 +1,6 @@
 // Translated from Engine.pas.
 using System.IO.Compression;
 
-using Aow.Engine.Buffers;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -16,13 +14,13 @@ public partial class CompressStream : MemoryStream
     public void LoadFromStream(Stream stream)
     {
         bool compressed = default;
-        ByteArray4 magic = default;
+        Span<byte> magic = stackalloc byte[4];
         ZLibStream D;
         byte[] buffer;
         int count;
-        stream.ReadExactly(((Span<byte>)magic).Slice(0, 4));
+        stream.ReadExactly(magic);
         stream.ReadExactly(Bytes.Of(ref compressed, 1));
-        if (!ArrayEquals<ByteArray4, byte>(magic, s_compressMagic))
+        if (!magic.SequenceEqual(CompressMagic))
         {
             compressed = false;
             stream.Seek(0, SeekOrigin.Begin);
@@ -67,7 +65,7 @@ public partial class CompressStream : MemoryStream
         Position = 0;
         int result = 100;
         startSize = (int)stream.Length;
-        stream.Write(((ReadOnlySpan<byte>)s_compressMagic).Slice(0, 4));
+        stream.Write(CompressMagic);
         stream.Write(Bytes.Of(ref level, 1));
         if (level != Level.None)
         {
@@ -151,7 +149,7 @@ public partial class CompressStream : MemoryStream
         }
     }
 
-    private static ByteArray4 s_compressMagic = ByteArray4.From("CFS\0"u8);
+    private static ReadOnlySpan<byte> CompressMagic => "CFS\0"u8;
 
     public enum Level : byte
     {

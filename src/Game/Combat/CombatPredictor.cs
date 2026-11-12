@@ -34,7 +34,8 @@ public partial class CombatPredictor : IDisposable
 
     private CombatPredictorUnitList _allUnits;
     private CombatPredictorUnitList _activeUnits;
-    public CombatPredictorSideArray2 Sides;
+
+    public CombatPredictorSide[] Sides { get; } = new CombatPredictorSide[2];
 
     public byte Result { get; private set; }
 
@@ -234,11 +235,9 @@ public partial class CombatPredictor : IDisposable
     public void FinishCombat()
     {
         CombatPredictorUnit wall;
-        Int32Array2 surviving;
-        Int32Array2 hits;
+        Span<int> surviving = stackalloc int[2];
+        Span<int> hits = stackalloc int[2];
         CombatPredictorUnit U;
-        surviving = default;
-        hits = default;
         for (int I = _allUnits.Count - 1; I >= 0; I--)
         {
             U = _allUnits.List[I];
@@ -704,7 +703,7 @@ public partial class CombatPredictor : IDisposable
     // CombatPredictor.pas:872
     public int GetEfficiency()
     {
-        Int32Array2 lost = default;
+        Span<int> lost = stackalloc int[2];
         byte side;
         CombatPredictorUnit U;
         if (_efficiency == -1)

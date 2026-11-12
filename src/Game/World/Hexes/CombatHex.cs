@@ -19,7 +19,7 @@ public partial class CombatHex : AbstractHexagon
     public new const int ClassId = 2229504;
 
     private byte _imageVariant;
-    private ByteArray3 _transitions;
+    private readonly byte[] _transitions = new byte[3];
 
     // CombatHex.pas:174
     public override void TerrainChanged(in HexSpriteTerrainInfo message)
@@ -116,7 +116,7 @@ public partial class CombatHex : AbstractHexagon
         int X = default;
         int Y = default;
         mapLevel = Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, s_transitionNeighbours[side - 1], ref X, ref Y);
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, TransitionNeighbours[side - 1], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < mapLevel.Width && Y < mapLevel.Height)
         {
             neighbourTerrain = mapLevel.GetField(X, Y).TerrainType;
@@ -243,7 +243,7 @@ public partial class CombatHex : AbstractHexagon
         }
     }
 
-    private static ByteArray3 s_transitionNeighbours = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static ReadOnlySpan<byte> TransitionNeighbours => [6, 1, 2];
 
     public new partial class Resource : AbstractHexagonResource
     {

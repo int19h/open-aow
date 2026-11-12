@@ -61,7 +61,7 @@ public partial class Crusade : Spell
                 for (int J = 0; J <= count - 1; J++)
                 {
                     newUnit = new Unit(null);
-                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_largeUnitResourceIds[unitIndex]));
+                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(LargeUnitResourceIds[unitIndex]));
                     newUnit.ExpandAbility(101);
                     party.Army.AddUnit(newUnit);
                     newUnit.Release();
@@ -83,7 +83,7 @@ public partial class Crusade : Spell
                     {
                         newUnit = new Unit(null);
                         unitIndex = AoWHSMap.Current.Random(2);
-                        newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_footUnitResourceIds[unitIndex]));
+                        newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(FootUnitResourceIds[unitIndex]));
                         newUnit.ExpandAbility(101);
                         party.Army.AddUnit(newUnit);
                         newUnit.Release();
@@ -107,7 +107,7 @@ public partial class Crusade : Spell
                 for (int J = 0; J <= count - 1; J++)
                 {
                     newUnit = new Unit(null);
-                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_mountedUnitResourceIds[unitIndex]));
+                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(MountedUnitResourceIds[unitIndex]));
                     newUnit.ExpandAbility(101);
                     party.Army.AddUnit(newUnit);
                     newUnit.Release();
@@ -196,7 +196,8 @@ public partial class Crusade : Spell
     }
 
     private static readonly string s_crusadeText = "Crusade";
-    private static Int32Array1 s_largeUnitResourceIds = Int32Array1.From([133]);
-    private static Int32Array3 s_mountedUnitResourceIds = Int32Array3.From([132, 134, 128]);
-    private static Int32Array2 s_footUnitResourceIds = Int32Array2.From([129, 126]);
+
+    private static ReadOnlySpan<int> LargeUnitResourceIds => [133];
+    private static ReadOnlySpan<int> MountedUnitResourceIds => [132, 134, 128];
+    private static ReadOnlySpan<int> FootUnitResourceIds => [129, 126];
 }

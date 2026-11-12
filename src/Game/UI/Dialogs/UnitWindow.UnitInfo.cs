@@ -56,7 +56,7 @@ public partial class UnitWindow
             if (U.GetRace() > -1)
             {
                 var race = U.GetRace();
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[race]);
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[race]);
                 DialogHosts.UnitWindow.TypeValueLabel.Text = raceNames;
                 DialogHosts.UnitWindow.RelationIcon.Visible = true;
                 var uRace = U.GetRace();
