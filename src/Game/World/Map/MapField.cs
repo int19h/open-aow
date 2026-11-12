@@ -16,7 +16,7 @@ namespace Aow.Game.World.Map;
 // one block and freed it with the level. The port allocates each field through the base
 // allocator. The sprites are sorted by their show priority. The first FStaticCount (priority
 // shr 26 <= 15) are the static ones
-public partial class MapField : ECustomNode
+public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLevel>
 {
     // HSEngine.pas:1933
     public new const int ClassId = 65793;
@@ -55,6 +55,13 @@ public partial class MapField : ECustomNode
     {
         SetOwnerWithoutNotify(owner);
     }
+
+    // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
+    public new MapLevel Owner { get => (MapLevel)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is MapLevel;
+
+    void IOwnedSink<MapLevel>.SetOwner(MapLevel owner) => SetOwner(owner);
 
     // HSEngine.pas:2029
     public override void ReadWrite(EStorageStream stream)
@@ -380,10 +387,10 @@ public partial class MapField : ECustomNode
         for (int I = 1; I <= 6; I++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
-            if (walk.X >= 0 && walk.X < ((MapLevel)Owner).Width && walk.Y >= 0 && ((MapLevel)Owner).Height > walk.Y)
+            if (walk.X >= 0 && walk.X < Owner.Width && walk.Y >= 0 && Owner.Height > walk.Y)
             {
                 info.HexNumber = (sbyte)s_oppositeHexDirectionTable[I - 1];
-                ((MapLevel)Owner).GetField(walk.X, walk.Y).NeighbourTerrainChanged(ref info);
+                Owner.GetField(walk.X, walk.Y).NeighbourTerrainChanged(ref info);
             }
         }
     }

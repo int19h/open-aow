@@ -4,8 +4,16 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.World.Structures;
 
 // production control
-public partial class ProductionQueue : ENode
+public partial class ProductionQueue : ENode, IChildList<ProductionItem>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a ProductionItem, so the cast never fails.
+    public ProductionItem this[int index] => (ProductionItem)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is ProductionItem;
+
+    int IChildSink<ProductionItem>.AddChild(ProductionItem child) => AddChild(child);
+
     public ProductionQueue(ECustomNode owner) : base(owner)
     { }
 
@@ -17,7 +25,7 @@ public partial class ProductionQueue : ENode
         ProductionItem result;
         if (index >= 0 && index < Count)
         {
-            result = (ProductionItem)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -34,7 +42,7 @@ public partial class ProductionQueue : ENode
         while (result != 0)
         {
             result -= 1;
-            if (id == ((ProductionItem)_children.List[result]).Order.ToFields().Id)
+            if (id == this[result].Order.ToFields().Id)
             {
                 return result;
             }
@@ -51,7 +59,7 @@ public partial class ProductionQueue : ENode
         while (result != 0)
         {
             result -= 1;
-            item = (ProductionItem)_children.List[result];
+            item = this[result];
             if (item.Order == order)
             {
                 return result;

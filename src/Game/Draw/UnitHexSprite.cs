@@ -105,16 +105,16 @@ public partial class UnitHexSprite : HexSprite
     public override bool GetSelected() => (Status & 4) != 0;
 
     // UnitHS.PAS:228
-    public override sbyte GetHexX() => ((MapField)Owner).HexX;
+    public override sbyte GetHexX() => Owner.HexX;
 
     // UnitHS.PAS:230
-    public override sbyte GetHexY() => ((MapField)Owner).HexY;
+    public override sbyte GetHexY() => Owner.HexY;
 
     // UnitHS.PAS:232
     public override sbyte GetHexLevel()
     {
         Assert(Owner != null, "Onwer isn't defined", "UnitHS.PAS", 557);
-        return ((MapField)Owner).HexLevel;
+        return Owner.HexLevel;
     }
 
     // UnitHS.PAS:576
@@ -143,9 +143,9 @@ public partial class UnitHexSprite : HexSprite
         MapLevel level;
         HexNumberWalkData walk = default;
         CalculateShowPriority();
-        field = (MapField)Owner;
+        field = Owner;
         field.RemoveChild(this);
-        level = (MapLevel)field.Owner;
+        level = field.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 0);
         while (walk.Radius <= 1)
         {
@@ -167,8 +167,8 @@ public partial class UnitHexSprite : HexSprite
         HexNumberWalkData walk = default;
         if (Owner != null)
         {
-            field = (MapField)Owner;
-            level = (MapLevel)field.Owner;
+            field = Owner;
+            level = field.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 0);
             while (walk.Radius <= 1)
             {
@@ -196,7 +196,7 @@ public partial class UnitHexSprite : HexSprite
     public override bool PlaceOnMap()
     {
         Connect();
-        ((GameMap)((MapLevel)Owner.Owner).Map).ScannerIconsChangedRadius(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel, 0);
+        ((GameMap)Owner.Owner.Map).ScannerIconsChangedRadius(Owner.HexX, Owner.HexY, Owner.HexLevel, 0);
         return true;
     }
 
@@ -206,7 +206,7 @@ public partial class UnitHexSprite : HexSprite
         MapField field;
         if (Owner != null)
         {
-            field = (MapField)Owner;
+            field = Owner;
             if (Moving())
             {
                 CancelMove();
@@ -214,7 +214,7 @@ public partial class UnitHexSprite : HexSprite
 
             Disconnect();
             field.UpdateMapField();
-            ((GameMap)((MapLevel)field.Owner).Map).ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, 0);
+            ((GameMap)field.Owner.Map).ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, 0);
         }
     }
 
@@ -231,11 +231,11 @@ public partial class UnitHexSprite : HexSprite
     public override void Remove()
     {
         MapField field;
-        field = (MapField)Owner;
+        field = Owner;
         RemoveFromMap();
         if (GetVisible())
         {
-            ((MapLevel)field.Owner).Map.DynamicVisibleHexSprite.RemoveChild(this);
+            field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
             SetVisible(false);
         }
     }
@@ -310,7 +310,7 @@ public partial class UnitHexSprite : HexSprite
         if (!Moving())
         {
             HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
-            if (((MapField)Owner).HexX != X || ((MapField)Owner).HexY != Y)
+            if (Owner.HexX != X || Owner.HexY != Y)
             {
                 result = false;
             }
@@ -347,11 +347,11 @@ public partial class UnitHexSprite : HexSprite
         HexSprite hexSprite;
         int X = default;
         int Y = default;
-        field = (MapField)Owner;
+        field = Owner;
         if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
         {
-            HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, Direction, ref X, ref Y);
-            field = ((MapLevel)Owner.Owner).GetField(X, Y);
+            HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref X, ref Y);
+            field = Owner.Owner.GetField(X, Y);
             HexGeometry.HexToPixel(X, Y, ref X, ref Y);
         }
         else
@@ -366,8 +366,8 @@ public partial class UnitHexSprite : HexSprite
             _showPriority = hexSprite.GetShowPriority() + 2;
         }
 
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
-        SortMapField(((MapLevel)Owner.Owner).Map.MapContainer, X - 18, Y - 32, ((MapField)Owner).HexLevel, 64, 64);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        SortMapField(Owner.Owner.Map.MapContainer, X - 18, Y - 32, Owner.HexLevel, 64, 64);
     }
 
     // UnitHS.PAS:766
@@ -472,7 +472,7 @@ public partial class UnitHexSprite : HexSprite
         {
             if (GetVisible())
             {
-                ((MapLevel)Owner.Owner).Map.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                Owner.Owner.Map.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();

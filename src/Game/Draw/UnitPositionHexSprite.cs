@@ -52,7 +52,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
         _images[_imageIndex].ShowClipped(X - pixelXSurface - 8, Y - pixelYSurface - 8, lockedSurface);
     }
 
@@ -83,7 +83,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     // AoWTC.pas:5049
     public override void Deactivate()
     {
-        if (Activated() && ((MapLevel)Owner.Owner).Map.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (Activated() && Owner.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
             var unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);

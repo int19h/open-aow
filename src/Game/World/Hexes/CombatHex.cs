@@ -69,9 +69,9 @@ public partial class CombatHex : AbstractHexagon
         int pixelX = default;
         int pixelY = default;
         CustomImageLibrary images;
-        if (((MapField)Owner).OverlayType != 4)
+        if (Owner.OverlayType != 4)
         {
-            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface;
             images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -115,8 +115,8 @@ public partial class CombatHex : AbstractHexagon
         sbyte terrainType;
         int X = default;
         int Y = default;
-        mapLevel = (MapLevel)Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, s_transitionNeighbours[side - 1], ref X, ref Y);
+        mapLevel = Owner.Owner;
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, s_transitionNeighbours[side - 1], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < mapLevel.Width && Y < mapLevel.Height)
         {
             neighbourTerrain = mapLevel.GetField(X, Y).TerrainType;

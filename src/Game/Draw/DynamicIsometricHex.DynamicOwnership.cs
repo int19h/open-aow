@@ -8,7 +8,7 @@ public partial class DynamicIsometricHex
 {
     private IsometricHex _hex;
 
-    private MapField Field => (MapField)_hex.Owner;
+    private MapField Field => _hex.Owner;
 
     // IsoHex.pas:109. The TEObject body runs with a null owner (the hexagon owns the sprite directly,
     // not as a child), then the sprite is attached and the field of the hexagon shows it.
@@ -37,7 +37,7 @@ public partial class DynamicIsometricHex
     {
         if (_hex != null)
         {
-            if (_hex.GetVisible()) ((MapLevel)Field.Owner).Map.DynamicVisibleHexSprite.RemoveChild(this);
+            if (_hex.GetVisible()) Field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
             Field.RemoveHexSprite(this);
             _hex.Dynamic = null;
             _hex = null;

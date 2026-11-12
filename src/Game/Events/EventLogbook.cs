@@ -65,15 +65,15 @@ public partial class EventLogbook : EngineObject
     {
         for (int I = 0, last = _events._children.Count - 1; I <= last; I++)
         {
-            if (((EventLog)_events._children.List[I]).GetVisible())
+            if (_events[I].GetVisible())
             {
-                strings.AddObject(((EventLog)_events._children.List[I]).GetText(), IntToObject(I));
+                strings.AddObject(_events[I].GetText(), IntToObject(I));
             }
         }
     }
 
     // EventLog.pas:558
-    public EventLog GetLogs(int index) => (EventLog)_events._children.List[index];
+    public EventLog GetLogs(int index) => _events[index];
 
     // EventLog.pas:561
     public int CreateUniqueId()
@@ -98,7 +98,7 @@ public partial class EventLogbook : EngineObject
     public int FindFirstLog(int player, int day)
     {
         int result = 0;
-        while (result != this._events._children.Count && (((EventLog)this._events._children.List[result])._player != player || ((EventLog)this._events._children.List[result])._day != day))
+        while (result != this._events._children.Count && (this._events[result]._player != player || this._events[result]._day != day))
         {
             result += 1;
         }
@@ -115,7 +115,7 @@ public partial class EventLogbook : EngineObject
     public int FindFirstLog(int classId, int player, int day)
     {
         int result = 0;
-        while (result != this._events._children.Count && (((EventLog)this._events._children.List[result])._player != player || ((EventLog)this._events._children.List[result])._day != day || ((EngineObject)this._events._children.List[result]).EngineClass.ClassId != classId))
+        while (result != this._events._children.Count && (this._events[result]._player != player || this._events[result]._day != day || this._events[result].EngineClass.ClassId != classId))
         {
             result += 1;
         }

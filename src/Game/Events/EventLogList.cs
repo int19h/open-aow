@@ -7,8 +7,16 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // update count, changed callback
-public partial class EventLogList : ENode
+public partial class EventLogList : ENode, IChildList<EventLog>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an EventLog, so the cast never fails.
+    public EventLog this[int index] => (EventLog)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is EventLog;
+
+    int IChildSink<EventLog>.AddChild(EventLog child) => AddChild(child);
+
     public EventLogList(ECustomNode owner) : base(owner)
     { }
 
@@ -31,7 +39,7 @@ public partial class EventLogList : ENode
             {
                 for (int I = 0, last = _children.Count - 1; I <= last; I++)
                 {
-                    ((EngineObject)_children.List[I]).Release();
+                    this[I].Release();
                 }
             }
 
@@ -44,7 +52,7 @@ public partial class EventLogList : ENode
     {
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            ((EngineObject)_children.List[I]).Release();
+            this[I].Release();
         }
 
         _children.Clear();
@@ -73,6 +81,7 @@ public partial class EventLogList : ENode
     // EventLog.pas:456
     public override int AddChild(EngineObject child)
     {
+        CheckChild(child);
         _children.Add(child);
         if (child.AddRef() == -1)
         {
@@ -110,7 +119,7 @@ public partial class EventLogList : ENode
     }
 
     // EventLog.pas:505
-    public EventLog GetEvents(int index) => (EventLog)_children.List[index];
+    public EventLog GetEvents(int index) => this[index];
 
     // EventLog.pas:508
     public void AddEvent(EventLog eventValue)
@@ -133,9 +142,9 @@ public partial class EventLogList : ENode
         while (I != 0 && result == null)
         {
             I -= 1;
-            if (((EventLog)_children.List[I]).Id == id)
+            if (this[I].Id == id)
             {
-                result = (EventLog)_children.List[I];
+                result = this[I];
                 break;
             }
         }

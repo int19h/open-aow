@@ -48,7 +48,7 @@ public partial class Hexagon : AbstractHexagon
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         ((HexagonResource)_resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
     }
 

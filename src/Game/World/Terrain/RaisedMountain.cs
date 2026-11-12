@@ -75,7 +75,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     {
         MapField field;
         sbyte overlay;
-        field = (MapField)Owner;
+        field = Owner;
         overlay = OriginalOverlay;
         this.Dispose();
         if (overlay > 0)

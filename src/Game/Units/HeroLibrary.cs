@@ -29,6 +29,7 @@ public partial class HeroLibrary : HeroList
     // Hero.PAS:2592
     public override int AddChild(EngineObject child)
     {
+        CheckChild(child);
         var hero = (Hero)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
         if (hero.LibraryId == 0 || FindHero(hero.LibraryId) != null)
@@ -58,7 +59,7 @@ public partial class HeroLibrary : HeroList
                 _nextLibraryId = 0;
             }
 
-            while (I != _children.Count && ((Hero)_children.List[I]).LibraryId != _nextLibraryId)
+            while (I != _children.Count && this[I].LibraryId != _nextLibraryId)
             {
                 I += 1;
             }
@@ -100,9 +101,9 @@ public partial class HeroLibrary : HeroList
         while (I != 0)
         {
             I -= 1;
-            if (id == ((Hero)_children.List[I]).LibraryId)
+            if (id == this[I].LibraryId)
             {
-                return (Hero)_children.List[I];
+                return this[I];
             }
         }
 

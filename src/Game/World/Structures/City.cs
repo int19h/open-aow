@@ -179,7 +179,7 @@ public partial class City : PlayerCropStructure
         bool result = base.PlaceOnMap();
         if (result)
         {
-            UpdateMapFields((MapLevel)Owner.Owner, _hexX, _hexY);
+            UpdateMapFields(Owner.Owner, _hexX, _hexY);
         }
 
         return result;
@@ -189,7 +189,7 @@ public partial class City : PlayerCropStructure
     public override void RemoveFromMap()
     {
         MapLevel mapLevel;
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(mapLevel, _hexX, _hexY);
     }
@@ -1089,7 +1089,7 @@ public partial class City : PlayerCropStructure
             multiplePlayers = false;
             player = -1;
             count = GetTerrainCount();
-            mapLevel = (MapLevel)Owner.Owner;
+            mapLevel = Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
             while (walk.HexNumber < count && !multiplePlayers)
             {
@@ -1601,7 +1601,7 @@ public partial class City : PlayerCropStructure
         HexNumberWalkData walk = default;
         bool result = true;
         count = GetTerrainCount();
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         // { This eliminated copy preserves the original saved registers. }
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count && result)
@@ -1635,7 +1635,7 @@ public partial class City : PlayerCropStructure
         ref var walk = ref Walk;
         int result = 0;
         count = GetTerrainCount();
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         var hexY = GetHexY();
         var hexX = GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
@@ -1896,7 +1896,7 @@ public partial class City : PlayerCropStructure
             if (race != Race)
             {
                 radius = -1;
-                mapLevel = (MapLevel)Owner.Owner;
+                mapLevel = Owner.Owner;
                 HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 1);
                 while (walk.Radius <= 20 && radius == -1)
                 {

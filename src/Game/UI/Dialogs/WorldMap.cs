@@ -1253,7 +1253,7 @@ public partial class WorldMap : DataModule
         engine.RegisterEngineClasses([EngineClass.Of<CampaignScenarioPage>(), EngineClass.Of<WorldMapCampaignScenario>(), EngineClass.Of<WorldMapCampaign>()]);
     }
 
-    private static CampaignScenarioPage GetCampaignPage(WMCampaignScenarioPageList pages, int index) => (CampaignScenarioPage)pages._children.List[index];
+    private static CampaignScenarioPage GetCampaignPage(WMCampaignScenarioPageList pages, int index) => pages[index];
 
     private static bool s_bookStartVisible;
 

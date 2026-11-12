@@ -7,8 +7,15 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.World.Structures;
 
 // the order (AoWE.ProductionOrders.cs), stored as production ID, parameter and group ID
-public partial class ProductionItem : EngineObject
+public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOwnedSink<ProductionQueue>
 {
+    // The queue the item waits in. AcceptsOwner admits only a ProductionQueue, so the cast never fails.
+    public new ProductionQueue Owner { get => (ProductionQueue)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is ProductionQueue;
+
+    void IOwnedSink<ProductionQueue>.SetOwner(ProductionQueue owner) => SetOwner(owner);
+
     public new const int ClassId = 131735;
 
     public ProductionItem(ECustomNode owner) : base(owner)
@@ -36,7 +43,7 @@ public partial class ProductionItem : EngineObject
         string result;
         if (Owner != null)
         {
-            result = ((ProductionQueue)Owner).ProductionControl.GetProductionName(this);
+            result = Owner.ProductionControl.GetProductionName(this);
         }
         else
         {
@@ -52,7 +59,7 @@ public partial class ProductionItem : EngineObject
         string result;
         if (Owner != null)
         {
-            result = ((ProductionQueue)Owner).ProductionControl.GetProductionNameProgressive(this);
+            result = Owner.ProductionControl.GetProductionNameProgressive(this);
         }
         else
         {

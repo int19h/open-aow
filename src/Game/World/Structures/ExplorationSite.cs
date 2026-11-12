@@ -80,7 +80,7 @@ public partial class ExplorationSite : Structure
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
-            if (((MapField)Owner).HexX == hexX && ((MapField)Owner).HexY == hexY)
+            if (Owner.HexX == hexX && Owner.HexY == hexY)
             {
                 result = base.CanSelect(pixelX, pixelY);
             }

@@ -26,7 +26,7 @@ public partial class SpringOfLife : Structure
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
         base.ArmyPlaced(placedArmy);
-        if (!Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)((MapField)Owner).TerrainType))
+        if (!Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)Owner.TerrainType))
         {
             ExecuteNaturesBlessing(placedArmy);
         }

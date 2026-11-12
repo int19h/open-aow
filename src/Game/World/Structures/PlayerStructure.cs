@@ -85,7 +85,7 @@ public partial class PlayerStructure : Structure
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (_flagId != 63 && (!AoWHSMap.Current.FogEnabled || !Fogged))
@@ -566,7 +566,7 @@ public partial class PlayerStructure : Structure
                     if (_resource.TerrainList.Terrain[I] >= 0)
                     {
                         HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                        AoWHSMap.Current.FogArea(X, Y, ((MapField)Owner).HexLevel, UnfogRange);
+                        AoWHSMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -579,7 +579,7 @@ public partial class PlayerStructure : Structure
                     if (_resource.TerrainList.Terrain[I] >= 0)
                     {
                         HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                        AoWHSMap.Current.UnFogArea(X, Y, ((MapField)Owner).HexLevel, UnfogRange);
+                        AoWHSMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -603,7 +603,7 @@ public partial class PlayerStructure : Structure
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
                             var visibilityRange = VisibilityRange();
-                            AoWHSMap.Current.ExploreArea(X, Y, ((MapField)Owner).HexLevel, (sbyte)player, visibilityRange);
+                            AoWHSMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)player, visibilityRange);
                         }
                     }
                 }
@@ -693,7 +693,7 @@ public partial class PlayerStructure : Structure
         player = -1;
         different = false;
         count = GetTerrainCount();
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count && !different)
         {

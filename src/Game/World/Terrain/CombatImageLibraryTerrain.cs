@@ -82,7 +82,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
         HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatILTer.pas:87

@@ -12,8 +12,8 @@ public partial class IsometricHex
     {
         OpenSides = 0;
         Sides &= 0xC0;
-        var field = (MapField)Owner;
-        var level = (MapLevel)field.Owner;
+        var field = Owner;
+        var level = field.Owner;
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 1);
         while (walk.HexNumber <= 6)

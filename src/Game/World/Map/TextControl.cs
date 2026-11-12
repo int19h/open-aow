@@ -6,8 +6,16 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // inherits the children list
-public partial class TextControl : ENode
+public partial class TextControl : ENode, IChildList<TextControlItem>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a TextControlItem, so the cast never fails.
+    public TextControlItem this[int index] => (TextControlItem)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is TextControlItem;
+
+    int IChildSink<TextControlItem>.AddChild(TextControlItem child) => AddChild(child);
+
     public TextControl(ECustomNode owner) : base(owner)
     { }
 
@@ -17,7 +25,7 @@ public partial class TextControl : ENode
         TextControlItem result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (TextControlItem)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -48,9 +56,9 @@ public partial class TextControl : ENode
         while (result == null && I != 0)
         {
             I -= 1;
-            if (((TextControlItem)_children.List[I]).Id == id)
+            if (this[I].Id == id)
             {
-                result = (TextControlItem)_children.List[I];
+                result = this[I];
             }
         }
 

@@ -3,8 +3,16 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class DiplomaticRelationHistoryList : ENode
+public partial class DiplomaticRelationHistoryList : ENode, IChildList<DiplomaticRelationHistoryItem>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a DiplomaticRelationHistoryItem, so the cast never fails.
+    public DiplomaticRelationHistoryItem this[int index] => (DiplomaticRelationHistoryItem)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is DiplomaticRelationHistoryItem;
+
+    int IChildSink<DiplomaticRelationHistoryItem>.AddChild(DiplomaticRelationHistoryItem child) => AddChild(child);
+
     public new const int ClassId = 131355;
 
     public DiplomaticRelationHistoryList(ECustomNode owner) : base(owner)

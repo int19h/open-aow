@@ -21,8 +21,8 @@ public partial class AbstractRoad : MapObject
     {
         int pixelX;
         int pixelY;
-        pixelX = ((MapField)Owner).HexX * 32 + 8;
-        pixelY = (((MapField)Owner).HexX & 1) * 16 + ((MapField)Owner).HexY * 32;
+        pixelX = Owner.HexX * 32 + 8;
+        pixelY = (Owner.HexX & 1) * 16 + Owner.HexY * 32;
         return pixelX + ((pixelY << 13) + 671088640);
     }
 

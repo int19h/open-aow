@@ -63,9 +63,9 @@ public partial class ItemHexSprite : SingleHexSprite
         int pixelX = default;
         int pixelY = default;
         HexSprite hexSprite;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         int result = 1744830464 + ((pixelY + 33) << 13) + (pixelX + 16);
-        hexSprite = ((MapField)Owner).GetMaxLevelNoneTransparentHexSprite();
+        hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite != null)
         {
             if (result <= hexSprite.GetShowPriority())
@@ -84,7 +84,7 @@ public partial class ItemHexSprite : SingleHexSprite
         int pixelY = default;
         if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)
         {
-            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
             AoWHSSet.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);
         }
     }

@@ -37,7 +37,7 @@ public partial class HeroItems : ItemList
         sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = (sbyte)(result + item.Attack);
@@ -54,7 +54,7 @@ public partial class HeroItems : ItemList
         sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = (sbyte)(result + item.Defense);
@@ -71,7 +71,7 @@ public partial class HeroItems : ItemList
         sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = (sbyte)(result + item.Damage);
@@ -88,7 +88,7 @@ public partial class HeroItems : ItemList
         sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = (sbyte)(result + item.Resistance);
@@ -105,7 +105,7 @@ public partial class HeroItems : ItemList
         Set<MoveType> result = Set<MoveType>.Of();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = result + item.GetAbilityMoveTypesAll();
@@ -122,7 +122,7 @@ public partial class HeroItems : ItemList
         Set<DamageType> result = Set<DamageType>.Of();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = result + item.GetAbilityImmunityTypesAll();
@@ -139,7 +139,7 @@ public partial class HeroItems : ItemList
         Set<DamageType> result = Set<DamageType>.Of();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null)
             {
                 result = result + item.GetAbilityProtectionTypesAll();
@@ -156,7 +156,7 @@ public partial class HeroItems : ItemList
         int result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && result < item.GetAbCount())
             {
                 result = item.GetAbCount();
@@ -173,7 +173,7 @@ public partial class HeroItems : ItemList
         AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && item.GetAbEnabled(abilityId))
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -193,7 +193,7 @@ public partial class HeroItems : ItemList
         AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && item.GetAbilitySetAt(abilityId))
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -215,7 +215,7 @@ public partial class HeroItems : ItemList
         I = 0;
         while (!result && I < Count)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             result = item != null && item.GetAbEnabled(abilityId);
             I += 1;
         }
@@ -232,7 +232,7 @@ public partial class HeroItems : ItemList
         I = 0;
         while (!result && I < Count)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             result = item != null && item.GetAbilitySetAt(abilityId);
             I += 1;
         }
@@ -248,7 +248,7 @@ public partial class HeroItems : ItemList
         index = ((int)position) & 127;
         if (index < _children.Count)
         {
-            result = (Item)_children.List[index];
+            result = this[index];
         }
         else
         {

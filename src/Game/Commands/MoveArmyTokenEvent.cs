@@ -199,7 +199,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         if (ArmyHexSprite != null)
         {
             selected = ArmyHexSprite.GetSelected();
-            field = (MapField)ArmyHexSprite.Owner;
+            field = ArmyHexSprite.Owner;
             ArmyHexSprite.SetOwner(null);
             armyHexSprite = GetNoneMovingArmyHexSprite(field);
             ArmyHexSprite.SetOwner(field);

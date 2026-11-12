@@ -8,8 +8,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI.Groups;
 
 // children. group control
-public partial class AIGroupControlTargetList : EReferenceNode
+public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGroupControlTarget>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIGroupControlTarget, so the cast never fails.
+    public AIGroupControlTarget this[int index] => (AIGroupControlTarget)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupControlTarget;
+
+    int IChildSink<AIGroupControlTarget>.AddChild(AIGroupControlTarget child) => AddChild(child);
+
     public AIGroupControlTargetList(ECustomNode owner) : base(owner)
     { }
 
@@ -19,7 +27,7 @@ public partial class AIGroupControlTargetList : EReferenceNode
     public AIGroupControlTarget GetTargets(int index)
     {
         Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 687);
-        return (AIGroupControlTarget)_children.List[index];
+        return this[index];
     }
 
     // AIGroup.pas:696
@@ -55,7 +63,7 @@ public partial class AIGroupControlTargetList : EReferenceNode
         AoWHSMap.Current.AIExecutor.UseProcessTime(count * 20);
         for (int I = Count - 1; I >= 0; I--)
         {
-            target = (AIGroupControlTarget)_children.List[I];
+            target = this[I];
             if (!target.Validate(Control))
             {
                 RemoveChild(target);
@@ -73,7 +81,7 @@ public partial class AIGroupControlTargetList : EReferenceNode
         while (result != 0)
         {
             result -= 1;
-            if (location == ((AIGroupControlTarget)_children.List[result]).Location.Packed)
+            if (location == this[result].Location.Packed)
             {
                 return result;
             }

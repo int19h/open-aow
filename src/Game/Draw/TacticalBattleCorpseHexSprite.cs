@@ -44,7 +44,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         int X = default;
         int Y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
         pixelXSurface = X - pixelXSurface - 15;
         pixelYSurface = Y - pixelYSurface - 25;
         if (SequenceIndex > -1)

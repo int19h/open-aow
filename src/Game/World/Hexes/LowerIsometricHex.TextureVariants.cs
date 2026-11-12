@@ -17,7 +17,7 @@ public partial class LowerIsometricHex
         int variant;
         int X;
         int Y;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

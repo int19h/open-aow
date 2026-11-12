@@ -3,15 +3,23 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPlayerList : ENode
+public partial class CombatPlayerList : ENode, IChildList<CombatPlayer>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a CombatPlayer, so the cast never fails.
+    public CombatPlayer this[int index] => (CombatPlayer)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is CombatPlayer;
+
+    int IChildSink<CombatPlayer>.AddChild(CombatPlayer child) => AddChild(child);
+
     // Combat2.pas:126
     public CombatPlayerList(ECustomNode owner) : base(owner)
     {
     }
 
     // Combat2.pas:132
-    public CombatPlayer GetPlayers(sbyte index) => (CombatPlayer)_children.List[index];
+    public CombatPlayer GetPlayers(sbyte index) => this[index];
 
     // Combat2.pas:135
     public int IndexOfPlayer(byte player)
@@ -20,7 +28,7 @@ public partial class CombatPlayerList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (player == (byte)((CombatPlayer)_children.List[result]).Player)
+            if (player == (byte)this[result].Player)
             {
                 return result;
             }
@@ -37,7 +45,7 @@ public partial class CombatPlayerList : ENode
         while (result != 0)
         {
             result -= 1;
-            P = (CombatPlayer)_children.List[result];
+            P = this[result];
             if ((sbyte)player == P.Player && P.IndependentRelation == relation)
             {
                 return result;

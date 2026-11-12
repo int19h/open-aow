@@ -13,7 +13,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Engine.Nodes;
 
 // _owner
-public partial class EngineObject : IDisposable, IPersistable
+public partial class EngineObject : IDisposable, IPersistable, IOwned
 {
     // Engine.pas:2461
     public const int ClassId = 80;
@@ -37,20 +37,16 @@ public partial class EngineObject : IDisposable, IPersistable
 
     private ECustomNode _owner;
 
-    // Engine.pas:2487
+    // Engine.pas:2487. The walk reads each owner through IOwned.
     internal string GetEngineObjectPath()
     {
-        EngineObject P;
-        string S;
-        S = this.GetType().Name;
-        P = _owner;
-        while (P != null)
+        string path = GetType().Name;
+        for (var owner = ((IOwned)this).Owner; owner != null; owner = (owner as IOwned)?.Owner)
         {
-            S = P.GetType().Name + "" + S;
-            P = P._owner;
+            path = owner.GetType().Name + path;
         }
 
-        return S;
+        return path;
     }
 
     // Engine.pas:2442
@@ -64,6 +60,7 @@ public partial class EngineObject : IDisposable, IPersistable
     {
         if (owner != _owner)
         {
+            CheckOwner(owner);
             if (_owner != null)
             {
                 _owner.RemoveChild(this);
@@ -257,6 +254,7 @@ public partial class EngineObject : IDisposable, IPersistable
     // Engine.pas:2578
     public virtual void SetArrayOwner(ECustomNode owner, int index)
     {
+        CheckOwner(owner);
         if (_owner != null)
         {
             _owner.RemoveChild(this);
@@ -298,7 +296,29 @@ public partial class EngineObject : IDisposable, IPersistable
 
     public ECustomNode Owner { get => _owner; set => SetOwner(value); }
 
-    protected internal void SetOwnerWithoutNotify(ECustomNode value) => _owner = value;
+    IOwner IOwned.Owner => _owner;
+
+    protected internal void SetOwnerWithoutNotify(ECustomNode value)
+    {
+        CheckOwner(value);
+        _owner = value;
+    }
+
+    /// <summary>
+    /// Whether this object takes the owner. A class with a typed owner (IOwned of its owner type)
+    /// overrides it. SetOwner, SetArrayOwner and SetOwnerWithoutNotify are the only writes of the
+    /// owner, and each checks it here, so the typed owner read needs no check of its own. The
+    /// loader passes every owner through one of them.
+    /// </summary>
+    protected virtual bool AcceptsOwner(ECustomNode owner) => true;
+
+    private void CheckOwner(ECustomNode owner)
+    {
+        if (owner != null && !AcceptsOwner(owner))
+        {
+            throw new ArgumentException(GetType().Name + " does not take an owner of type " + owner.GetType().Name + ".", nameof(owner));
+        }
+    }
 
     public string EngineObjectPath { get => GetEngineObjectPath(); }
     public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }

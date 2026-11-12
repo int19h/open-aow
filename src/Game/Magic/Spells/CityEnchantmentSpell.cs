@@ -36,7 +36,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         enchantment = new CityEnchantment(null);
         enchantment._enchantmentId = EnchantmentId;
         enchantment.EnchantmentManaUpkeep = ManaUpkeep;
-        var mapCoordinate = ((MapField)targetCity.Owner).GetMapCoordinate();
+        var mapCoordinate = targetCity.Owner.GetMapCoordinate();
         enchantment.EnchantmentLocation.Packed = mapCoordinate;
         enchantment.DispelMana = EnchantmentSpellId;
         enchantment.PlayerIndex = source.Player;

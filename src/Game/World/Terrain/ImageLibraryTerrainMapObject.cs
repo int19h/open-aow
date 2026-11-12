@@ -45,7 +45,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         bool result;
         if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            result = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, _terrainType) == info.MapField.TerrainType;
+            result = GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, _terrainType) == info.MapField.TerrainType;
         }
         else
         {
@@ -111,7 +111,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            _terrainType = GetValidTerrainType((MapLevel)Owner.Owner, _hexX, _hexY);
+            _terrainType = GetValidTerrainType(Owner.Owner, _hexX, _hexY);
         }
 
         return result;
@@ -124,7 +124,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     public override void Activate()
     {
         base.Activate();
-        _terrainType = GetValidTerrainType((MapLevel)Owner.Owner, _hexX, _hexY);
+        _terrainType = GetValidTerrainType(Owner.Owner, _hexX, _hexY);
         _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 

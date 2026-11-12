@@ -150,7 +150,7 @@ public partial class CombatFire : SingleHexSprite
         int imageIndex;
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sequence = AoWHSSet.Current.ImageSequences.GetImageSequence(60);

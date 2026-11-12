@@ -11,8 +11,15 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, update lock. change event
-public partial class ItemList : EChangeNotifyNode
+public partial class ItemList : EChangeNotifyNode, IChildList<Item>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an Item, so the cast never fails.
+    public Item this[int index] => (Item)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Item;
+
+    int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
     // Army.PAS:4516
     public ItemList(ECustomNode owner) : base(owner)
@@ -33,7 +40,7 @@ public partial class ItemList : EChangeNotifyNode
             {
                 if (_children.List[I] != null)
                 {
-                    ((EngineObject)_children.List[I]).Release();
+                    this[I].Release();
                 }
             }
         }
@@ -47,7 +54,7 @@ public partial class ItemList : EChangeNotifyNode
         {
             if (_children.List[I] != null)
             {
-                child = (EngineObject)_children.List[I];
+                child = this[I];
                 if (child != null)
                 {
                     if (child.Owner != this)
@@ -113,7 +120,7 @@ public partial class ItemList : EChangeNotifyNode
         Item result;
         if (index >= 0 && index < Count)
         {
-            result = (Item)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -143,7 +150,7 @@ public partial class ItemList : EChangeNotifyNode
             result = null;
             while (I != _children.Count && result == null)
             {
-                item = (Item)_children.List[I];
+                item = this[I];
                 if (item != null && itemId == item.ItemId)
                 {
                     result = item;
@@ -184,7 +191,7 @@ public partial class ItemList : EChangeNotifyNode
         Item item;
         for (int I = _children.Count - 1; I >= 0; I--)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && !item.Status.Contains(ItemStatusElement.Registered))
             {
                 AoWHSMap.Current.ItemControl.RegisterItem(item);

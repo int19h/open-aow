@@ -80,6 +80,7 @@ public partial class EReferenceNode : ENode
     // Engine.pas:8183
     public override int AddChild(EngineObject child)
     {
+        CheckChild(child);
         if (child.Owner == this)
         {
             child.SetOwnerWithoutNotify(null);

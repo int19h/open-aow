@@ -30,7 +30,7 @@ public partial class Bridge : AbstractRoad
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         ((Resource)_resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
     }
 
@@ -49,15 +49,11 @@ public partial class Bridge : AbstractRoad
             oldRoad.Dispose();
         }
 
-        oldOwner = (MapField)Owner;
+        oldOwner = Owner;
         Owner = mapField;
         Status = Status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
-        // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped. }
-        if (oldOwner?.Owner is MapField oldOwnerField)
-        {
-            oldOwnerField.UpdateOverlayType();
-        }
-
+        // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped.
+        //   The owner of a field is always a map level, so the port has no call here. }
         mapField.UpdateOverlayType();
         UpdateTransitions();
         mapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
@@ -83,13 +79,13 @@ public partial class Bridge : AbstractRoad
         MapField mapField;
         bool isShore;
         transitions = 0;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         shores = 0;
         inShore = false;
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
             HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
-            HexGeometry.TranslateHex(0, 0, ((MapField)Owner).HexX, ((MapField)Owner).HexY, hexX, hexY, ref hexX, ref hexY);
+            HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, hexX, hexY, ref hexX, ref hexY);
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
                 mapField = level.GetField(hexX, hexY);

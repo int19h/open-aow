@@ -126,14 +126,14 @@ public partial class ArmyHexSprite : UnitHexSprite
         if (result)
         {
             Army.BeginUpdate();
-            var mapField = (MapField)Owner;
+            var mapField = Owner;
             Army.SetMapCoordinate(mapField.HexX, mapField.HexY, mapField.HexLevel);
 
             Army.UpdateUnfog();
             Army.UpdateExploration();
             message.MessageId = 4354;
             message.Param[0] = this;
-            ((MapField)Owner).SendMapFieldMessage(ref message);
+            Owner.SendMapFieldMessage(ref message);
             Army.EndUpdate();
         }
 
@@ -145,7 +145,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     {
         MapField field;
         MapFieldMessage message = default;
-        field = (MapField)Owner;
+        field = Owner;
         if (Owner != null)
         {
             Army.TurnUnFogOff();
@@ -347,7 +347,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             control = (MoveControl)info.Sender;
             if (Army.Player == control.Player)
             {
-                if (!(control.Mode.Contains(MoveModeElement.Surround) && info.MoveOverCode != 1 && ((MapField)Owner).HexX == control.DestinationX && ((MapField)Owner).HexY == control.DestinationY && ((MapField)Owner).HexLevel == control.DestinationL && !Army.CanCombine(control.ArmyHexSprite.Army, (byte)control.Selection)))
+                if (!(control.Mode.Contains(MoveModeElement.Surround) && info.MoveOverCode != 1 && Owner.HexX == control.DestinationX && Owner.HexY == control.DestinationY && Owner.HexLevel == control.DestinationL && !Army.CanCombine(control.ArmyHexSprite.Army, (byte)control.Selection)))
                 {
                     if (control.ArmyHexSprite != null && Army.IndexOfTransporter(255) != -1 && control.ArmyHexSprite.Army.Transporter((byte)control.Selection) == null)
                     {
@@ -541,7 +541,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         MapField oldField;
         MapFieldMessage message = default;
         Army.BeginUpdate();
-        oldField = (MapField)Owner;
+        oldField = Owner;
         if (oldField != null)
         {
             message.MessageId = 4416;
@@ -696,7 +696,7 @@ public partial class ArmyHexSprite : UnitHexSprite
 
         if (GetHexLevel() > 0)
         {
-            level = (MapLevel)Owner.Owner;
+            level = Owner.Owner;
             var hexY = GetHexY();
             HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, direction, ref X, ref Y);
             if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
@@ -748,7 +748,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             message.MessageId = 4388;
             message.Param[0] = this;
-            ((MapField)Owner).SendMapFieldMessage(ref message);
+            Owner.SendMapFieldMessage(ref message);
             UpdateUnitGraphicsResource();
             if (Army.Player != 0)
             {

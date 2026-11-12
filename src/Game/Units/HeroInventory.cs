@@ -51,7 +51,7 @@ public partial class HeroInventory : ItemList
         int result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && result < item.GetAbCount())
             {
                 result = item.GetAbCount();
@@ -68,7 +68,7 @@ public partial class HeroInventory : ItemList
         AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && item.GetAbEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -90,7 +90,7 @@ public partial class HeroInventory : ItemList
         I = 0;
         while (!result && I < Count)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             result = item != null && item.ItemType == ItemType.Use && item.GetAbEnabled(abilityId);
             I += 1;
         }
@@ -107,7 +107,7 @@ public partial class HeroInventory : ItemList
         I = 0;
         while (!result && I < Count)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             result = item != null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
             I += 1;
         }
@@ -122,7 +122,7 @@ public partial class HeroInventory : ItemList
         AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            item = (Item)_children.List[I];
+            item = this[I];
             if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))

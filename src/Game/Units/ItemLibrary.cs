@@ -64,7 +64,7 @@ public partial class ItemLibrary : ItemList
                 _lastId = 0;
             }
 
-            while (I != _children.Count && ((Item)_children.List[I]).LibraryId != _lastId)
+            while (I != _children.Count && this[I].LibraryId != _lastId)
             {
                 I += 1;
             }
@@ -81,9 +81,9 @@ public partial class ItemLibrary : ItemList
         while (I != 0)
         {
             I -= 1;
-            if (((Item)_children.List[I]).LibraryId == libraryId)
+            if (this[I].LibraryId == libraryId)
             {
-                return (Item)_children.List[I];
+                return this[I];
             }
         }
 

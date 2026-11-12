@@ -304,7 +304,7 @@ public partial class PlayerCropStructure : PlayerStructure
         int X = default;
         int Y = default;
         Crop crop;
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         for (int I = ((PlayerCropStructureResource)_resource).CropLocations.Count - 1; I >= 0; I--)
         {
             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);
@@ -327,7 +327,7 @@ public partial class PlayerCropStructure : PlayerStructure
         int Y = default;
         Crop crop;
         int result = 0;
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         for (int I = ((PlayerCropStructureResource)_resource).CropLocations.Count - 1; I >= 0; I--)
         {
             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);
@@ -362,7 +362,7 @@ public partial class PlayerCropStructure : PlayerStructure
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && !_changingCrops)
         {
             _changingCrops = true;
-            mapLevel = (MapLevel)Owner.Owner;
+            mapLevel = Owner.Owner;
             crops = new DelphiList();
             locations = new UInt16List();
             locations.Assign(((PlayerCropStructureResource)_resource).CropLocations);
@@ -443,7 +443,7 @@ public partial class PlayerCropStructure : PlayerStructure
             return;
         }
 
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         for (int I = ((PlayerCropStructureResource)_resource).CropLocations.Count - 1; I >= 0; I--)
         {
             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);

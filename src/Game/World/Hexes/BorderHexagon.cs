@@ -20,20 +20,19 @@ public partial class BorderHexagon : AbstractBorderHexagon
     // BorderHx.pas:39
     public override void SetOwner(ECustomNode owner)
     {
-        ECustomNode oldField;
-        if (owner != this.Owner)
+        if (owner != Owner)
         {
-            oldField = Owner;
-            if (oldField != null && oldField is MapField && ((MapField)oldField).HexY != 0)
+            MapField oldField = Owner;
+            if (oldField != null && oldField.HexY != 0)
             {
-                ((MapLevel)oldField.Owner).GetField(((MapField)oldField).HexX, ((MapField)Owner).HexY - 1).RemoveChild(this);
+                oldField.Owner.GetField(oldField.HexX, Owner.HexY - 1).RemoveChild(this);
             }
 
             base.SetOwner(owner);
-            owner = Owner;
-            if (owner != null && owner is MapField && ((MapField)owner).HexY != 0)
+            MapField field = Owner;
+            if (field != null && field.HexY != 0)
             {
-                ((MapLevel)owner.Owner).GetField(((MapField)owner).HexX, ((MapField)Owner).HexY - 1).AddHexSprite(this, 1);
+                field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, 1);
             }
         }
         else
@@ -47,7 +46,7 @@ public partial class BorderHexagon : AbstractBorderHexagon
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         _resource.ImageLibrary[0].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
     }
 
@@ -62,8 +61,8 @@ public partial class BorderHexagon : AbstractBorderHexagon
     {
         int pixelX;
         int pixelY;
-        pixelX = ((MapField)Owner).HexX * 32 + 8;
-        pixelY = (((MapField)Owner).HexX & 1) * 16 + ((MapField)Owner).HexY * 32;
+        pixelX = Owner.HexX * 32 + 8;
+        pixelY = (Owner.HexX & 1) * 16 + Owner.HexY * 32;
         return ((pixelY + 32) << 13) + (11 << 26) + (pixelX + 8);
     }
 

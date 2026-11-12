@@ -1,4 +1,6 @@
 // Translated from Engine.pas.
+using System.Collections;
+
 using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
@@ -10,7 +12,7 @@ namespace Aow.Engine.Nodes;
 
 // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
 // per Seq, $20000000 owned children only, $40000000 do not forward to children
-public partial class ECustomNode : EngineObject
+public partial class ECustomNode : EngineObject, IOwner
 {
 
     // Engine.pas:2430
@@ -357,4 +359,31 @@ public partial class ECustomNode : EngineObject
     }
 
     public ChildrenAccessor Children => new ChildrenAccessor(this);
+
+    // The children in stored order, empty slots included, read through GetChild.
+    IEnumerable IOwner.Children
+    {
+        get
+        {
+            for (int index = 0; index < Count; index++)
+            {
+                yield return GetChild(index);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Whether this node takes the child. A class with typed children (IOwner of its child type)
+    /// overrides it, and every write of a child into its list checks it here, so the typed child
+    /// read needs no check of its own.
+    /// </summary>
+    protected virtual bool AcceptsChild(EngineObject child) => true;
+
+    protected void CheckChild(EngineObject child)
+    {
+        if (child != null && !AcceptsChild(child))
+        {
+            throw new ArgumentException(GetType().Name + " does not take a child of type " + child.GetType().Name + ".", nameof(child));
+        }
+    }
 }

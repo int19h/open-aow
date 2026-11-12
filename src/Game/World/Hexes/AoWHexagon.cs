@@ -28,7 +28,7 @@ public partial class AoWHexagon : Hexagon
             {
                 SetResource(R);
                 UpdateTransitions();
-                AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel);
+                AoWHSMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
             }
             else
             {
@@ -96,9 +96,9 @@ public partial class AoWHexagon : Hexagon
         shifted = false;
         Transitions[side] = 255;
         TransitionSides = (byte)(TransitionSides & s_sideClear[side]);
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         HexGeometry.HexNumberToHex(s_sideHexNumber[side], ref nHexX, ref nHexY);
-        HexGeometry.TranslateHex(0, 0, ((MapField)Owner).HexX, ((MapField)Owner).HexY, nHexX, nHexY, ref nHexX, ref nHexY);
+        HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, ref nHexX, ref nHexY);
         if (nHexX >= 0 && nHexY >= 0 && mapLevel.Width > nHexX && mapLevel.Height > nHexY)
         {
             neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;

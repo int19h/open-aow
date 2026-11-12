@@ -17,6 +17,12 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class ClassFamilyTests
 {
+    // A map object's owner is a field. This one answers the engine the editor lookup reads.
+    private sealed class EngineField(GameEngine engine) : EngineFixture.RecordingField
+    {
+        public override GameEngine GetEngine() => engine;
+    }
+
     private sealed class UnregisteredAction(ECustomNode owner) : AIPlayerAction(owner);
 
     private sealed class UnregisteredGroup(ECustomNode owner) : AIGroup(owner);
@@ -162,7 +168,7 @@ public sealed class ClassFamilyTests
         Assert.Same(mapObjectEditor, engine.Editors.FindEditor(MapObject.ClassId));
         Assert.Null(engine.Editors.FindEditor(EngineObject.ClassId));
 
-        var mapObject = new MapObject(engine.ControlNode);
+        var mapObject = new MapObject(new EngineField(engine));
         var node = EngineClass.Of<ENode>().CreateInstance(engine.ControlNode);
         try
         {

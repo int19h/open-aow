@@ -102,7 +102,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3472
     public override void Connect()
     {
-        CalculateShowPriority((MapField)Owner);
+        CalculateShowPriority(Owner);
         base.Connect();
     }
 
@@ -117,7 +117,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             frame = AoWHSMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
-                HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
                 _resource.ImageSequenceList.Show(20, X - pixelXSurface, Y - pixelYSurface, frame, lockedSurface);
             }
             else
@@ -141,7 +141,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            ((MapField)Owner).UpdateMapField();
+            Owner.UpdateMapField();
         }
 
         return result;
@@ -151,7 +151,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     public override void RemoveFromMap()
     {
         MapField mapField;
-        mapField = (MapField)Owner;
+        mapField = Owner;
         if (mapField != null)
         {
             base.RemoveFromMap();
@@ -325,7 +325,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         message.MessageId = 4357;
         message.Param[0] = this;
         message.Result = 0;
-        ((MapField)Owner).SendMapFieldMessage(ref message);
+        Owner.SendMapFieldMessage(ref message);
     }
 
     // Structur.PAS:3549
@@ -372,7 +372,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         Fire fire;
         if (Age > 0)
         {
-            mapLevel = (MapLevel)Owner.Owner;
+            mapLevel = Owner.Owner;
             var hexY = GetHexY();
             var hexX = GetHexX();
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 1);

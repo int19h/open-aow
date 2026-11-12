@@ -13,13 +13,21 @@ namespace Aow.Game.AI.Groups;
 
 // { Interface declaration run owned by P5. }
 // children
-public partial class AIGroupProductionList : ENode
+public partial class AIGroupProductionList : ENode, IChildList<AIGroupProduction>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIGroupProduction, so the cast never fails.
+    public AIGroupProduction this[int index] => (AIGroupProduction)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupProduction;
+
+    int IChildSink<AIGroupProduction>.AddChild(AIGroupProduction child) => AddChild(child);
+
     public AIGroupProductionList(ECustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:1
-    public AIGroupProduction GetProductions(int index) => (AIGroupProduction)_children.List[index];
+    public AIGroupProduction GetProductions(int index) => this[index];
 
     // AIGroup.pas:6
     public int GetStrengthMax(Set<DamageType> damageTypes)
@@ -27,7 +35,7 @@ public partial class AIGroupProductionList : ENode
         int result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            result += ((AIGroupProduction)_children.List[I]).Troop.GetStrengthMax(damageTypes);
+            result += this[I].Troop.GetStrengthMax(damageTypes);
         }
 
         return result;
@@ -73,7 +81,7 @@ public partial class AIGroupProductionList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (troop == ((AIGroupProduction)_children.List[result]).Troop)
+            if (troop == this[result].Troop)
             {
                 return result;
             }

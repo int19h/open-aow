@@ -67,18 +67,15 @@ public partial class EngineObjectList : DelphiList
         return result;
     }
 
-    // Engine.pas:7176
+    // Engine.pas:7176. The original tests List^[Count], one past the end, where it means List^[I].
+    // That read is the spare slot or the item just deleted, and it fails when the list is full.
+    // Nothing in the game or the editor calls ClearList, so no stored list reaches the old test.
     public void ClearList()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int index = Count - 1; index >= 0; index--)
         {
-            // { the original tests List^[Count], one past the end, not List^[I] }
-            if (List[Count] != null)
-            {
-                ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
-            }
-
-            Delete(I);
+            (List[index] as IDisposable)?.Dispose();
+            Delete(index);
         }
     }
 

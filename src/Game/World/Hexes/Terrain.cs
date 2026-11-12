@@ -60,7 +60,7 @@ public partial class Terrain : TerrainMapObject
     public void ValidateDeadTreeRegrow()
     {
         TerrainMapObjectResource R;
-        ECustomNode oldOwner;
+        MapField oldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
             if (AoWHSMap.Current.Random(20) == 0)
@@ -90,7 +90,7 @@ public partial class Terrain : TerrainMapObject
         if (info.Age < 2 || _resource.TerrainList.Overlay[0] != 1) return;
         var resource = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 3, 3);
         if (resource == null) return;
-        UpdateTerrain((MapLevel)Owner.Owner, GetHexX(), GetHexY());
+        UpdateTerrain(Owner.Owner, GetHexX(), GetHexY());
         var owner = Owner;
         RemoveFromMap();
         SetResource(resource);

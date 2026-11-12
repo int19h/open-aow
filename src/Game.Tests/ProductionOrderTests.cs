@@ -270,7 +270,7 @@ public sealed class ProductionOrderTests
         var previousMap = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
         AoWHSMap.Current = map;
-        var owner = new EngineFixture.Owner();
+        var owner = new EngineFixture.FieldOwner(new EngineFixture.Owner());
         var city = (City)EngineClass.Of<City>().CreateInstance(owner);
         var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner);
         var node = (LifeNode)EngineClass.Of<LifeNode>().CreateInstance(owner);

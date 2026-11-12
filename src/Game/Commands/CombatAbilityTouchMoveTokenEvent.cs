@@ -364,7 +364,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                             Unit.UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
                                             if (!PreviousUnit.GetEnabled())
                                             {
-                                                Unit.UnitHexSprite.MoveTo((MapField)PreviousUnit.UnitHexSprite.Owner, 0);
+                                                Unit.UnitHexSprite.MoveTo(PreviousUnit.UnitHexSprite.Owner, 0);
                                                 Unit.UnitHexSprite.SetDirection(PreviousUnit.UnitHexSprite.Direction);
                                                 Unit.UnitHexSprite.OffsetX = 0;
                                                 Unit.UnitHexSprite.OffsetY = 0;

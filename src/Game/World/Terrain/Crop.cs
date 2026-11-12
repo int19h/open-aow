@@ -169,7 +169,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         MapLevel mapLevel;
         HexNumberWalkData walk = default;
         found = null;
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 1);
         while (walk.Radius <= 1 && found == null)
         {

@@ -269,7 +269,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                                     {
                                                                         if (message.MessageId == 200708 && message.HexNumber == 0)
                                                                         {
-                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveType.Flying) && ((MapField)Owner).TerrainType != 0 && ((MapField)Owner).TerrainType != 9)
+                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveType.Flying) && Owner.TerrainType != 0 && Owner.TerrainType != 9)
                                                                             {
                                                                                 RandSeed = AoWHSMap.Current.Random(16777215);
                                                                                 spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(112).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);

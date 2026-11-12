@@ -3,14 +3,22 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public partial class AICastSpellActionList : ENode
+public partial class AICastSpellActionList : ENode, IChildList<AICastSpellAction>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AICastSpellAction, so the cast never fails.
+    public AICastSpellAction this[int index] => (AICastSpellAction)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AICastSpellAction;
+
+    int IChildSink<AICastSpellAction>.AddChild(AICastSpellAction child) => AddChild(child);
+
     public AICastSpellActionList(ECustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:1535
     // inherited children
-    public AICastSpellAction GetCastSpellActions(int index) => (AICastSpellAction)_children.List[index];
+    public AICastSpellAction GetCastSpellActions(int index) => this[index];
 
     // Spells.PAS:1539
     public void SortOnPriority()

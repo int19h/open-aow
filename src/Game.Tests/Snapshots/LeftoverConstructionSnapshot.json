@@ -7691,8 +7691,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'LeftoverOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -7988,7 +7987,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'LeftoverOwner' to type 'Aow.Game.World.Map.MapField'.",
+      "destroy:System.NullReferenceException:Object reference not set to an instance of an object.",
       "owner:1",
       {
         "$jsonText": [
