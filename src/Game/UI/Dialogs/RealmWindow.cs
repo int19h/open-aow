@@ -84,7 +84,7 @@ public partial class RealmWindow : UIModule
         value = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).BaseIncome;
         if (value != 0)
         {
-            var externalIncome = AbilityRules.TranslateResourceString(s_externalIncomeText);
+            var externalIncome = UI.Engine.TranslateResourceString(s_externalIncomeText);
             IncomeMemo.Items.Add(externalIncome);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -92,7 +92,7 @@ public partial class RealmWindow : UIModule
         value = CityIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var cities = AbilityRules.TranslateResourceString(s_citiesText);
+            var cities = UI.Engine.TranslateResourceString(s_citiesText);
             IncomeMemo.Items.Add(cities);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -100,7 +100,7 @@ public partial class RealmWindow : UIModule
         value = FarmIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var farms = AbilityRules.TranslateResourceString(s_farmsText);
+            var farms = UI.Engine.TranslateResourceString(s_farmsText);
             IncomeMemo.Items.Add(farms);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -108,7 +108,7 @@ public partial class RealmWindow : UIModule
         value = MineIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var mines = AbilityRules.TranslateResourceString(s_minesText);
+            var mines = UI.Engine.TranslateResourceString(s_minesText);
             IncomeMemo.Items.Add(mines);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -116,7 +116,7 @@ public partial class RealmWindow : UIModule
         value = BuildersGuildIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
-            var buildersGuilds = AbilityRules.TranslateResourceString(s_buildersGuildsText);
+            var buildersGuilds = UI.Engine.TranslateResourceString(s_buildersGuildsText);
             IncomeMemo.Items.Add(buildersGuilds);
             IncomeValueMemo.Items.Add(IntToStr(value));
         }
@@ -148,7 +148,7 @@ public partial class RealmWindow : UIModule
                 C = (City)structure;
                 var name = C.GetName();
                 CityNameList.Items.AddObject(name, C);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[C.Race]);
+                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[C.Race]);
                 CityRaceList.Items.Add(raceNamesPlural);
                 CityIncomeList.Items.Add(IntToStr(C.Income));
                 CityLevelList.Items.Add(IntToStr(C.UpgradeLevel));

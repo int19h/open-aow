@@ -2,7 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
@@ -146,7 +145,7 @@ public partial class SoundDialog : UIModule
         string directory;
         SongList.Items.Clear();
         s_songFiles.Clear();
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "\\Songs");
+        SetCurrentDir(UI.Engine.StartupDirectory + "\\Songs");
         directory = GetCurrentDir();
         if (Copy(directory, directory.Length, 1) == "\\")
         {

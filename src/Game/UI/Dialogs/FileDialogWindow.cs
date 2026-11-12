@@ -100,7 +100,7 @@ public partial class FileDialogWindow : UIModule
         StrategicMap map = default;
         if (DocumentKind.CampaignSave.HasExtension(ExtractFileExt(name)))
         {
-            if (!GameTables.GameEngine.Demo)
+            if (!UI.Engine.Demo)
             {
                 // A refused campaign keeps the current map, which is not started again.
                 var previous = StrategicMap.Current;
@@ -113,11 +113,11 @@ public partial class FileDialogWindow : UIModule
         }
         else
         {
-            map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(name, GameProfile.WorldMap);
+            map = (StrategicMap)UI.Engine.CreatePreviewHsm(name, GameProfile.WorldMap);
             if (map != null)
             {
-                GameTables.GameEngine.CloseCampaign();
-                GameTables.GameEngine.CloseHsm(null);
+                UI.Engine.CloseCampaign();
+                UI.Engine.CloseHsm(null);
                 try
                 {
                     if (map.ConnectionType != PlayerConnectionType.Network)
@@ -133,7 +133,7 @@ public partial class FileDialogWindow : UIModule
                         UI.TitleScene.HideScene();
                         UI.General.HideWindows();
                         UI.TaskBar.TaskWindow.Visible = false;
-                        var relativePath = ExtractRelativePath(GameTables.GameEngine.StartupDirectory, name);
+                        var relativePath = ExtractRelativePath(UI.Engine.StartupDirectory, name);
                         UI.MultiWindow.Execute(relativePath);
                     }
                 }
@@ -218,7 +218,7 @@ public partial class FileDialogWindow : UIModule
                 else
                 {
                     extension = LowerCase(ExtractFileExt(entry.Name));
-                    includeFile = ListsFile(Mode, GameTables.GameEngine.Campaign != null, extension);
+                    includeFile = ListsFile(Mode, UI.Engine.Campaign != null, extension);
                     if (includeFile)
                     {
                         stamp = new FileTime();
@@ -265,7 +265,7 @@ public partial class FileDialogWindow : UIModule
         Drives = new StringList();
         Directories = new StringList();
         Files = new StringList<FileTime>();
-        Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
+        Directory = UI.Engine.StartupDirectory + "Save\\";
         LastFileName = "";
     }
 
@@ -329,9 +329,9 @@ public partial class FileDialogWindow : UIModule
                             }
                             else
                             {
-                                if (GameTables.GameEngine.Campaign != null)
+                                if (UI.Engine.Campaign != null)
                                 {
-                                    if (CompareText(GameTables.GameEngine.Campaign.FileName, Directory + SaveFileNameEdit.Text) == 0)
+                                    if (CompareText(UI.Engine.Campaign.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
                                         StrategicMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
@@ -374,7 +374,7 @@ public partial class FileDialogWindow : UIModule
                             SaveFileNameEdit.Text = Copy(SaveFileNameEdit.Text, 1, Pos(".", SaveFileNameEdit.Text) - 1);
                         }
 
-                        if (GameTables.GameEngine.Campaign != null)
+                        if (UI.Engine.Campaign != null)
                         {
                             Window.Visible = false;
                             // The save takes the extension the host writes, beside an original of the same name
@@ -453,7 +453,7 @@ public partial class FileDialogWindow : UIModule
             SaveFileNameEdit.Text = item;
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SaveFileNameEdit.Text)))
             {
-                map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(SaveFileNameEdit.Text, GameProfile.WorldMap);
+                map = (StrategicMap)UI.Engine.CreatePreviewHsm(SaveFileNameEdit.Text, GameProfile.WorldMap);
                 if (map != null)
                 {
                     var count = map.Players.GetCount();
@@ -461,20 +461,20 @@ public partial class FileDialogWindow : UIModule
                     switch (map.MapContainer.Width)
                     {
                         case 48:
-                            var translatedText = AbilityRules.TranslateResourceString("S");
+                            var translatedText = UI.Engine.TranslateResourceString("S");
                             SavedSizeLabel.Text = translatedText;
                             break;
                         case 64:
-                            var translateResourceString2 = AbilityRules.TranslateResourceString("M");
+                            var translateResourceString2 = UI.Engine.TranslateResourceString("M");
                             SavedSizeLabel.Text = translateResourceString2;
                             break;
                         case 96:
-                            var translateResourceString3 = AbilityRules.TranslateResourceString("L");
+                            var translateResourceString3 = UI.Engine.TranslateResourceString("L");
                             SavedSizeLabel.Text = translateResourceString3;
                             break;
                         case 127:
                         case 128:
-                            var extraLargeMapLetter = AbilityRules.TranslateResourceString(s_extraLargeMapLetter);
+                            var extraLargeMapLetter = UI.Engine.TranslateResourceString(s_extraLargeMapLetter);
                             SavedSizeLabel.Text = extraLargeMapLetter;
                             break;
                         default:
@@ -535,10 +535,10 @@ public partial class FileDialogWindow : UIModule
                 var fileName = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName;
                 FileNameEdit.Text = SaveFileNameEdit.Text;
-                var selectAFileToLoad = AbilityRules.TranslateResourceString(s_selectFileToLoadText);
+                var selectAFileToLoad = UI.Engine.TranslateResourceString(s_selectFileToLoadText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAFileToLoad;
                 UI.FileDialogWindow.SaveFileNameEdit.Editable = false;
-                var open = AbilityRules.TranslateResourceString(s_openText);
+                var open = UI.Engine.TranslateResourceString(s_openText);
                 UI.FileDialogWindow.OpenButton.Text = open;
                 SavePanel.Visible = true;
                 NewPanel.Visible = false;
@@ -555,7 +555,7 @@ public partial class FileDialogWindow : UIModule
                 if (!IsEmpty(SaveFileNameEdit.Text))
                 {
                     // The default name shows the file the save writes (own-formats.md 4.2).
-                    if (GameTables.GameEngine.Campaign != null)
+                    if (UI.Engine.Campaign != null)
                     {
                         SaveFileNameEdit.Text = FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.CampaignSave.OriginalExtension);
                     }
@@ -566,10 +566,10 @@ public partial class FileDialogWindow : UIModule
                 }
 
                 FileNameEdit.Text = SaveFileNameEdit.Text;
-                var saveGameAs = AbilityRules.TranslateResourceString(s_saveGameAsText);
+                var saveGameAs = UI.Engine.TranslateResourceString(s_saveGameAsText);
                 UI.FileDialogWindow.TitleLabel.Text = saveGameAs;
                 UI.FileDialogWindow.SaveFileNameEdit.Editable = true;
-                var save = AbilityRules.TranslateResourceString(GameText.SaveText);
+                var save = UI.Engine.TranslateResourceString(GameText.SaveText);
                 UI.FileDialogWindow.OpenButton.Text = save;
                 SavePanel.Visible = true;
                 NewPanel.Visible = false;
@@ -586,10 +586,10 @@ public partial class FileDialogWindow : UIModule
                     FileNameEdit.Text = "";
                 }
 
-                SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\");
-                var selectAMap = AbilityRules.TranslateResourceString(s_selectMapText);
+                SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Custom\\");
+                var selectAMap = UI.Engine.TranslateResourceString(s_selectMapText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAMap;
-                var select = AbilityRules.TranslateResourceString(s_selectText);
+                var select = UI.Engine.TranslateResourceString(s_selectText);
                 UI.FileDialogWindow.OpenButton.Text = select;
                 SavePanel.Visible = false;
                 NewPanel.Visible = true;
@@ -826,15 +826,15 @@ public partial class FileDialogWindow : UIModule
 
         if (StrategicMap.Current != null)
         {
-            GameTables.GameEngine.CloseHsm(null);
+            controller.UI.Engine.CloseHsm(null);
         }
 
-        GameTables.GameEngine.LoadCampaign(name, image);
-        if (GameTables.GameEngine.Campaign != null)
+        controller.UI.Engine.LoadCampaign(name, image);
+        if (controller.UI.Engine.Campaign != null)
         {
-            if (GameTables.GameEngine.Campaign.ScenarioStarted)
+            if (controller.UI.Engine.Campaign.ScenarioStarted)
             {
-                var loading = AbilityRules.TranslateResourceString(LayerText.LoadingText);
+                var loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
                 var fileName = ExtractFileName(name);
                 controller.UI.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
                 controller.UI.ProgressDialog.StatusLabel.Text = "";
@@ -849,7 +849,7 @@ public partial class FileDialogWindow : UIModule
                 AudioHost.SongPlayer.Stop(false);
                 AudioHost.SongPlayer.Songs.Clear();
                 AudioPlayback.FadeMusicVolume(0, 1);
-                GameTables.GameEngine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
+                controller.UI.Engine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
                 controller.UI.General.Manager.OverlayPriority = 0;
                 controller.UI.ProgressDialog.Window.Visible = false;
             }
@@ -875,7 +875,7 @@ public partial class FileDialogWindow : UIModule
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
         var currentDirectory = GetCurrentDir();
-        name = ExtractRelativePath(GameTables.GameEngine.StartupDirectory, currentDirectory + "\\" + name);
+        name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, currentDirectory + "\\" + name);
         dialog.UI.FileDialogWindow.Window.Visible = false;
         dialog.SetupControl.PickMap(name);
     }

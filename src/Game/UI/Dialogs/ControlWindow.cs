@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
@@ -294,7 +293,7 @@ public partial class ControlWindow : UIModule
         MovesLabel.Text = IntToStr(movePoints);
         var selection2 = StrategicMap.Current.SelectedArmy.GetSelection();
         var partyStatus = StrategicMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
-        var partyStatusText = AbilityRules.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
+        var partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLabel.Text = partyStatusText;
     }
 

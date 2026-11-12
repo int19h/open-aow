@@ -170,7 +170,7 @@ public partial class MapEvents : UIModule
             UI.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
 
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dayFormat), [day]);
+        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_dayFormat), [day]);
         UI.PlayerInfoWindow.TurnLabel.Text = format;
         UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
         UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
@@ -733,7 +733,7 @@ public partial class MapEvents : UIModule
     private static void ShowItemSelection(InfoWindow dialog, ItemHexSprite items)
     {
         ResetStructureInfo(dialog);
-        string text = AbilityRules.TranslateResourceString(s_itemBagText);
+        string text = dialog.UI.Engine.TranslateResourceString(s_itemBagText);
         dialog.TitleLabel.Text = text;
         dialog.ItemBag = items;
         dialog.ItemPanel.Visible = true;
@@ -751,7 +751,7 @@ public partial class MapEvents : UIModule
             dialog.ItemBagMemo.Visible = false;
             Hero hero = armyHexSprite.Army.Hero(255, RosterTables.AllHeroTypes);
             dialog.MainButton.Visible = hero != null;
-            string text2 = AbilityRules.TranslateResourceString(s_pickupText);
+            string text2 = dialog.UI.Engine.TranslateResourceString(s_pickupText);
             dialog.MainButton.Text = text2;
             dialog.ItemBagList.Visible = true;
             ((StringCollection)dialog.ItemBagList.Items).Clear();
@@ -807,7 +807,7 @@ public partial class MapEvents : UIModule
         ((StringCollection)dialog.SingleButtonMemo.Items).Clear();
         dialog.PopulationRaceLabel.Visible = false;
         dialog.PopulationLabel.Visible = false;
-        string text = AbilityRules.TranslateResourceString(GameText.StructureText);
+        string text = dialog.UI.Engine.TranslateResourceString(GameText.StructureText);
         dialog.TitleLabel.Text = text;
     }
 
@@ -823,7 +823,7 @@ public partial class MapEvents : UIModule
                     dialog.Window.Visible = true;
                     if (!control.TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
                     {
-                        string text = AbilityRules.TranslateResourceString(UnlimitedText);
+                        string text = dialog.UI.Engine.TranslateResourceString(UnlimitedText);
                         dialog.TargetLabel.Text = RtlUnit.LowerCase(text);
                     }
                     else
@@ -864,7 +864,7 @@ public partial class MapEvents : UIModule
             string name = hero.GetName();
             dialog.CasterNameLabel.Text = name;
             sbyte castingPoints = hero.GetCastingPoints();
-            string text = AbilityRules.TranslateResourceString(GameText.CastingPointsText);
+            string text = dialog.UI.Engine.TranslateResourceString(GameText.CastingPointsText);
             sbyte castingPointsMax = hero.GetCastingPointsMax();
             dialog.CastingPointsLabel.Text = string.Concat(new string[5]
             {
@@ -878,8 +878,8 @@ public partial class MapEvents : UIModule
         Spell spell = GamePack.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
         dialog.SpellNameLabel.Text = spell.SpellName;
         int number = hero.CastingMana(spell);
-        string text2 = AbilityRules.TranslateResourceString(GameText.CastingCostText);
-        string text3 = AbilityRules.TranslateResourceString(GameText.ManaText);
+        string text2 = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
+        string text3 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
         dialog.SpellManaLabel.Text = string.Concat(new string[5]
         {
             text2,
@@ -888,8 +888,8 @@ public partial class MapEvents : UIModule
             " ",
             text3
         });
-        string text4 = AbilityRules.TranslateResourceString(s_upkeepText);
-        string text5 = AbilityRules.TranslateResourceString(GameText.ManaText);
+        string text4 = dialog.UI.Engine.TranslateResourceString(s_upkeepText);
+        string text5 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
         dialog.SpellUpkeepLabel.Text = string.Concat(new string[5]
         {
             text4,
@@ -899,7 +899,7 @@ public partial class MapEvents : UIModule
             text5
         });
         Player players = StrategicMap.Current.Players.GetPlayers(hero.Player);
-        string text6 = AbilityRules.TranslateResourceString(GameText.ManaText);
+        string text6 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
         dialog.CastingManaLabel.Text = text6 + ": " + RtlUnit.IntToStr(players.MagicControl.Mana);
         dialog.Unit1CheckBox.Checked = false;
         dialog.Unit2CheckBox.Checked = false;

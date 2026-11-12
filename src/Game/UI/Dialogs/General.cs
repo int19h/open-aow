@@ -61,13 +61,13 @@ public partial class General : UIModule
     // AoWWinMan.pas:503
     public void ReturnToTitle()
     {
-        GameTables.GameEngine.CloseHsm(null);
-        GameTables.GameEngine.CloseCampaign();
+        UI.Engine.CloseHsm(null);
+        UI.Engine.CloseCampaign();
         UI.ScannerWindow.Scanner.SetMap(null);
         UI.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory);
+        SetCurrentDir(UI.Engine.StartupDirectory);
         UI.General.HideWindows();
         UI.TaskBar.TaskWindow.Visible = false;
         UI.TitleWindow.MainWindow.Visible = false;
@@ -123,81 +123,81 @@ public partial class General : UIModule
     {
         // { Read the saved rectangle through the window pointer cell. }
         var rectangle = new Rect(UI.PlayerInfoWindow.MainWindow.Alignment.RightOffset, UI.PlayerInfoWindow.MainWindow.Alignment.BottomOffset, UI.PlayerInfoWindow.MainWindow.WinWidth, UI.PlayerInfoWindow.MainWindow.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(0, rectangle);
+        UI.Engine.Registry.SetRectangle(0, rectangle);
         var rectangle2 = new Rect(UI.ControlWindow.MainWindow.Alignment.RightOffset, UI.ControlWindow.MainWindow.Alignment.TopOffset, UI.ControlWindow.MainWindow.WinWidth, UI.ControlWindow.MainWindow.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(1, rectangle2);
+        UI.Engine.Registry.SetRectangle(1, rectangle2);
         if (UI.UnitWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Center)
         {
             var rectangle3 = new Rect(UI.UnitWindow.MainWindow.Alignment.LeftOffset, UI.UnitWindow.MainWindow.Alignment.TopOffset, UI.UnitWindow.MainWindow.WinWidth, UI.UnitWindow.MainWindow.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
+            UI.Engine.Registry.SetRectangle(2, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
+            UI.Engine.Registry.SetRectangle(2, rectangle3);
         }
 
         if (UI.RealmWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(UI.RealmWindow.Window.Alignment.LeftOffset, UI.RealmWindow.Window.Alignment.TopOffset, UI.RealmWindow.Window.WinWidth, UI.RealmWindow.Window.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
+            UI.Engine.Registry.SetRectangle(5, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
+            UI.Engine.Registry.SetRectangle(5, rectangle3);
         }
 
         if (UI.MagicWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(UI.MagicWindow.Window.Alignment.LeftOffset, UI.MagicWindow.Window.Alignment.TopOffset, UI.MagicWindow.Window.WinWidth, UI.MagicWindow.Window.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
+            UI.Engine.Registry.SetRectangle(13, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
+            UI.Engine.Registry.SetRectangle(13, rectangle3);
         }
 
         var rectangle4 = new Rect(UI.ScannerWindow.MainWindow.Alignment.RightOffset, UI.ScannerWindow.MainWindow.Alignment.TopOffset, UI.ScannerWindow.MainWindow.WinWidth, UI.ScannerWindow.MainWindow.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(6, rectangle4);
+        UI.Engine.Registry.SetRectangle(6, rectangle4);
         var rectangle5 = new Rect(UI.InfoWindow.MainWindow.Alignment.RightOffset, UI.InfoWindow.MainWindow.Alignment.TopOffset, UI.InfoWindow.MainWindow.WinWidth, UI.InfoWindow.MainWindow.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(7, rectangle5);
+        UI.Engine.Registry.SetRectangle(7, rectangle5);
         if (UI.ChatWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(UI.ChatWindow.MainWindow.Alignment.LeftOffset, UI.ChatWindow.MainWindow.Alignment.BottomOffset, UI.ChatWindow.MainWindow.WinWidth, UI.ChatWindow.MainWindow.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
+            UI.Engine.Registry.SetRectangle(8, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
+            UI.Engine.Registry.SetRectangle(8, rectangle3);
         }
 
         if (UI.MapWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(UI.MapWindow.MainWindow.Alignment.LeftOffset, UI.MapWindow.MainWindow.Alignment.TopOffset, UI.MapWindow.MainWindow.WinWidth, UI.MapWindow.MainWindow.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
+            UI.Engine.Registry.SetRectangle(9, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
+            UI.Engine.Registry.SetRectangle(9, rectangle3);
         }
 
         var rectangle6 = new Rect(UI.CombatScanner.CombatScannerWindow.Alignment.RightOffset, UI.CombatScanner.CombatScannerWindow.Alignment.TopOffset, UI.CombatScanner.CombatScannerWindow.WinWidth, UI.CombatScanner.CombatScannerWindow.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(12, rectangle6);
+        UI.Engine.Registry.SetRectangle(12, rectangle6);
         var rectangle7 = new Rect(UI.CombatUnitInfo.MainWindow.Alignment.RightOffset, UI.CombatUnitInfo.MainWindow.Alignment.BottomOffset, UI.CombatUnitInfo.MainWindow.WinWidth, UI.CombatUnitInfo.MainWindow.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(10, rectangle7);
+        UI.Engine.Registry.SetRectangle(10, rectangle7);
         if (UI.MapWindow.MapAlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(UI.MapWindow.MapRectangle.Left, UI.MapWindow.MapRectangle.Top, UI.MapWindow.MapRectangle.Right, UI.MapWindow.MapRectangle.Bottom);
-            GameTables.GameEngine.Registry.SetRectangle(11, rectangle3);
+            UI.Engine.Registry.SetRectangle(11, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(11, rectangle3);
+            UI.Engine.Registry.SetRectangle(11, rectangle3);
         }
     }
 
@@ -670,9 +670,9 @@ public partial class General : UIModule
     {
         Player player;
         string S;
-        if (GameTables.GameEngine.Debug)
+        if (UI.Engine.Debug)
         {
-            if (StrategicMap.Current != null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && StrategicMap.Current.Players.GetCount() > key - 48 && GameTables.GameEngine.Registry.GetDebugMode())
+            if (StrategicMap.Current != null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
                 player = StrategicMap.Current.Players.GetPlayers(key - 48);
                 if (player.PlayerType == PlayerType.Cpu5)
@@ -684,7 +684,7 @@ public partial class General : UIModule
                     player.PlayerType = (PlayerType)((int)player.PlayerType + 1);
                 }
 
-                var playerType = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
+                var playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
                 S = "Player " + IntToStr(key - 48) + " set to: " + playerType;
                 StrategicMap.Current.ShowMessage(S);
                 StrategicMap.Current.Players.Update();
@@ -763,13 +763,13 @@ public partial class General : UIModule
 
     internal static void ExitToTitle(General controller)
     {
-        GameTables.GameEngine.CloseHsm(null);
-        GameTables.GameEngine.CloseCampaign();
+        controller.UI.Engine.CloseHsm(null);
+        controller.UI.Engine.CloseCampaign();
         controller.UI.ScannerWindow.Scanner.SetMap(null);
         controller.UI.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory);
+        SetCurrentDir(controller.UI.Engine.StartupDirectory);
         HideGameWindows(controller.UI.General);
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
@@ -781,97 +781,97 @@ public partial class General : UIModule
     {
         var playerInfo = controller.UI.PlayerInfoWindow.MainWindow;
         var rectangle = new Rect(playerInfo.Alignment.RightOffset, playerInfo.Alignment.BottomOffset, playerInfo.WinWidth, playerInfo.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(0, rectangle);
+        controller.UI.Engine.Registry.SetRectangle(0, rectangle);
 
         var controls = controller.UI.ControlWindow.MainWindow;
         var rectangle2 = new Rect(controls.Alignment.RightOffset, controls.Alignment.TopOffset, controls.WinWidth, controls.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(1, rectangle2);
+        controller.UI.Engine.Registry.SetRectangle(1, rectangle2);
 
         var unitWindow = controller.UI.UnitWindow.MainWindow;
         if (unitWindow.Alignment.AlignWidth != AlignWidth.Center)
         {
             var rectangle3 = new Rect(unitWindow.Alignment.LeftOffset, unitWindow.Alignment.TopOffset, unitWindow.WinWidth, unitWindow.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(2, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(2, rectangle3);
         }
 
         var realm = controller.UI.RealmWindow.Window;
         if (realm.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(realm.Alignment.LeftOffset, realm.Alignment.TopOffset, realm.WinWidth, realm.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(5, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(5, rectangle3);
         }
 
         var magic = controller.UI.MagicWindow.Window;
         if (magic.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(magic.Alignment.LeftOffset, magic.Alignment.TopOffset, magic.WinWidth, magic.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(13, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(13, rectangle3);
         }
 
         var scanner = controller.UI.ScannerWindow.MainWindow;
         var rectangle4 = new Rect(scanner.Alignment.RightOffset, scanner.Alignment.TopOffset, scanner.WinWidth, scanner.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(6, rectangle4);
+        controller.UI.Engine.Registry.SetRectangle(6, rectangle4);
 
         var info = controller.UI.InfoWindow.MainWindow;
         var rectangle5 = new Rect(info.Alignment.RightOffset, info.Alignment.TopOffset, info.WinWidth, info.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(7, rectangle5);
+        controller.UI.Engine.Registry.SetRectangle(7, rectangle5);
 
         var chat = controller.UI.ChatWindow.MainWindow;
         if (chat.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(chat.Alignment.LeftOffset, chat.Alignment.BottomOffset, chat.WinWidth, chat.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(8, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(8, rectangle3);
         }
 
         var map = controller.UI.MapWindow.MainWindow;
         if (map.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(map.Alignment.LeftOffset, map.Alignment.TopOffset, map.WinWidth, map.WinHeight);
-            GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(9, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(9, rectangle3);
         }
 
         var tacticalBattleUnit = controller.UI.CombatUnitInfo.MainWindow;
         var rectangle6 = new Rect(tacticalBattleUnit.Alignment.RightOffset, tacticalBattleUnit.Alignment.TopOffset, tacticalBattleUnit.WinWidth, tacticalBattleUnit.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(12, rectangle6);
+        controller.UI.Engine.Registry.SetRectangle(12, rectangle6);
 
         var tacticalBattleScanner = controller.UI.CombatScanner.CombatScannerWindow;
         var rectangle7 = new Rect(tacticalBattleScanner.Alignment.RightOffset, tacticalBattleScanner.Alignment.BottomOffset, tacticalBattleScanner.WinWidth, tacticalBattleScanner.WinHeight);
-        GameTables.GameEngine.Registry.SetRectangle(10, rectangle7);
+        controller.UI.Engine.Registry.SetRectangle(10, rectangle7);
 
         if (controller.UI.MapWindow.MapAlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(controller.UI.MapWindow.MapRectangle.Left, controller.UI.MapWindow.MapRectangle.Top, controller.UI.MapWindow.MapRectangle.Right, controller.UI.MapWindow.MapRectangle.Bottom);
-            GameTables.GameEngine.Registry.SetRectangle(11, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(11, rectangle3);
         }
         else
         {
             var rectangle3 = new Rect(0, 0, 0, 0);
-            GameTables.GameEngine.Registry.SetRectangle(11, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(11, rectangle3);
         }
     }
 
@@ -888,10 +888,10 @@ public partial class General : UIModule
     {
         if (StrategicMap.Current != null)
         {
-            GameTables.GameEngine.CloseHsm(null);
+            controller.UI.Engine.CloseHsm(null);
         }
 
-        var loading = AbilityRules.TranslateResourceString(LayerText.LoadingText);
+        var loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
         var fileName = ExtractFileName(name);
         controller.UI.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
         controller.UI.ProgressDialog.StatusLabel.Text = "";
@@ -906,8 +906,8 @@ public partial class General : UIModule
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
-        GameTables.GameEngine.LoadHsm(name, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
-        if (GameTables.GameEngine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
+        controller.UI.Engine.LoadHsm(name, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
+        if (controller.UI.Engine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
         {
             controller.ReturnToTitle();
         }
@@ -924,7 +924,7 @@ public partial class General : UIModule
         else if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < StrategicMap.Current.StartupSongs.Songs.Count; i++)
-                if (RtlUnit.CompareText(StrategicMap.Current.StartupSongs.SongNames[i], AbilityRules.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
+                if (RtlUnit.CompareText(StrategicMap.Current.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
                     AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
         }
         else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
@@ -932,8 +932,8 @@ public partial class General : UIModule
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
         var menu = controller.UI.PopupWindows.OverviewsMenu.Items;
         menu.Clear();
-        menu.Add(AbilityRules.TranslateResourceString(LayerText.BackgroundText));
-        if (GameTables.GameEngine.Campaign != null) menu.Add(AbilityRules.TranslateResourceString(LayerText.CampaignText));
+        menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.BackgroundText));
+        if (controller.UI.Engine.Campaign != null) menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.CampaignText));
         controller.UI.TitleScene.Window.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
         controller.UI.TaskBar.TaskWindow.Visible = true;
@@ -951,9 +951,9 @@ public partial class General : UIModule
         scanner.Sized = false;
         var tabs = controller.UI.ScannerWindow.ScannerTabs;
         tabs.Items.Clear();
-        tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.SurfaceText));
-        if (StrategicMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.CavernsText));
-        if (StrategicMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.DepthsText));
+        tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.SurfaceText));
+        if (StrategicMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.CavernsText));
+        if (StrategicMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.DepthsText));
         tabs.Selected = 0;
         tabs.Sized = false;
         scanner.SetTWidth(0);

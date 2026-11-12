@@ -5,8 +5,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Events;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -158,18 +156,18 @@ public partial class PyreScreen : UIModule
         {
             case GameOverStatus.Lost:
                 frame = _animationFrame / 3 % 9;
-                if (GameTables.GameEngine.Demo)
+                if (UI.Engine.Demo)
                 {
                     frame = 0;
                 }
 
                 UI.Graphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
-                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_yourReignHasEndedText);
+                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_yourReignHasEndedText);
                 UI.Fonts.Age15BlackOnBrown.SetTextCentered(X, Y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
                 UI.Graphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
-                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_youWereVictoriousText);
+                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
                 UI.Fonts.Age15WhiteOnGrey.SetTextCentered(X, Y, text, lockedSurface);
                 break;
         }
@@ -197,7 +195,7 @@ public partial class PyreScreen : UIModule
 
     private static void ShowResults(ResultsWindow window)
     {
-        if (GameTables.GameEngine.Demo)
+        if (window.UI.Engine.Demo)
         {
             AudioPlayback.PlaySong("Songs\\Special\\end2.s3m", 2, 2, true);
         }
@@ -224,15 +222,15 @@ public partial class PyreScreen : UIModule
             (window.Controls[I]).Checked = condition;
         }
 
-        if (GameTables.GameEngine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
+        if (window.UI.Engine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
-            var replay = AbilityRules.TranslateResourceString(s_replayText);
+            var replay = window.UI.Engine.TranslateResourceString(s_replayText);
             window.ContinueButton.Text = replay;
             window.ExitButton.Visible = true;
         }
         else
         {
-            var continueText = AbilityRules.TranslateResourceString(s_continueText);
+            var continueText = window.UI.Engine.TranslateResourceString(s_continueText);
             window.ContinueButton.Text = continueText;
             window.ExitButton.Visible = false;
         }

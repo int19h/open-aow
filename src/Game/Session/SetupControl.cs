@@ -9,6 +9,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 
+using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -18,6 +19,8 @@ namespace Aow.Game.Session;
 
 public partial class SetupControl : Component
 {
+    private readonly GameEngine _engine;
+
     public Set<SetupStatusElement> Status { get; set; }
 
     private SetupPhase _phase;
@@ -72,6 +75,9 @@ public partial class SetupControl : Component
     // AoWSetup.pas:436
     public SetupControl(Component owner) : base(owner)
     {
+        // The engine of the dialog module that owns the control, as the original read the engine
+        // global.
+        _engine = (owner as UIModule)?.UI.Engine;
         Settings = new SetupSettings(null);
         RemotePlayer = new RemotePlayer(null);
         RemotePlayer.RemoteId = 0;
@@ -95,11 +101,11 @@ public partial class SetupControl : Component
         stream = new MemoryStream();
         try
         {
-            GameTables.GameEngine.StoreEngineObject(stream, package, null);
+            _engine.StoreEngineObject(stream, package, null);
             var size = (int)stream.Length;
             SendData(stream.GetBuffer(), size, recipient);
             var streamSize = (int)stream.Length;
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
+            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
         }
         finally
         {
@@ -117,7 +123,7 @@ public partial class SetupControl : Component
             package.MessageId = messageId;
             if (objectValue != null)
             {
-                package.Data = objectValue.Copy(GameTables.GameEngine);
+                package.Data = objectValue.Copy(_engine);
             }
 
             package.Param2 = param2;
@@ -137,7 +143,7 @@ public partial class SetupControl : Component
             package.MessageId = messageId;
             if (objectValue != null)
             {
-                package.Data = objectValue.Copy(GameTables.GameEngine);
+                package.Data = objectValue.Copy(_engine);
             }
 
             package.Param2 = param2;
@@ -166,11 +172,11 @@ public partial class SetupControl : Component
         stream.Position = 0;
         try
         {
-            objectValue = GameTables.GameEngine.RetrieveEngineObject(stream, null);
+            objectValue = _engine.RetrieveEngineObject(stream, null);
             if (objectValue is SetupPackage)
             {
                 var sizeLocal = (int)stream.Length;
-                GameTables.GameEngine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
+                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
                 PackageReceived((SetupPackage)objectValue, senderId);
             }
 
@@ -189,7 +195,7 @@ public partial class SetupControl : Component
     public bool ValidateCompatibleVersion(int version)
     {
         int major;
-        major = (int)(((uint)(GameTables.GameEngine.Version & -65536)) >> 16);
+        major = (int)(((uint)(_engine.Version & -65536)) >> 16);
         version = (int)(((uint)(version & -65536)) >> 16);
         return major == version;
     }
@@ -201,7 +207,7 @@ public partial class SetupControl : Component
         {
             if (Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId) == -1)
             {
-                player = (RemotePlayer)player.Copy(GameTables.GameEngine);
+                player = (RemotePlayer)player.Copy(_engine);
                 player.Name = ValidatePlayerName(player.Name);
                 player.MapValidation = MapValidationInfo.Unknown;
                 player.SetOwner(Settings.RemotePlayers);
@@ -219,8 +225,8 @@ public partial class SetupControl : Component
             }
             else
             {
-                var minorVersion = GameTables.GameEngine.GetMinorVersion();
-                SendMessage(9, null, GameTables.GameEngine.GetMajorVersion(), minorVersion, player.RemoteId);
+                var minorVersion = _engine.GetMinorVersion();
+                SendMessage(9, null, _engine.GetMajorVersion(), minorVersion, player.RemoteId);
             }
         }
     }
@@ -251,7 +257,7 @@ public partial class SetupControl : Component
         I = Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId);
         if (I != -1)
         {
-            Settings.RemotePlayers.GetPlayers(I).Assign(player, GameTables.GameEngine);
+            Settings.RemotePlayers.GetPlayers(I).Assign(player, _engine);
             Settings.RemotePlayers.GetPlayers(I).Name = "";
             var validatePlayerName = ValidatePlayerName(player.Name);
             Settings.RemotePlayers.GetPlayers(I).Name = validatePlayerName;
@@ -313,7 +319,7 @@ public partial class SetupControl : Component
             if (GamePack.Current.HssCrc == Settings.SetCrc)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
-                fileName = FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + Settings.MapName);
+                fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
                 if (FileExists(fileName))
                 {
                     if (FileBoundary.ImageCrc32(fileName, GameProfile.WorldMap) == Settings.MapCrc)
@@ -381,7 +387,7 @@ public partial class SetupControl : Component
             case 4:
                 if (!GetHost() && _phase == SetupPhase.SetupPlayers)
                 {
-                    Settings.Assign(package.Data, GameTables.GameEngine);
+                    Settings.Assign(package.Data, _engine);
                     I = Settings.RemotePlayers.IndexOfRemoteId(RemotePlayer.RemoteId);
                     if (I != -1)
                     {
@@ -407,7 +413,7 @@ public partial class SetupControl : Component
             case 5:
                 if (!GetHost())
                 {
-                    Settings.Assign(package.Data, GameTables.GameEngine);
+                    Settings.Assign(package.Data, _engine);
                     I = Settings.RemotePlayers.IndexOfRemoteId(RemotePlayer.RemoteId);
                     if (I != -1)
                     {
@@ -449,7 +455,7 @@ public partial class SetupControl : Component
             case 6:
                 if (!GetHost())
                 {
-                    Settings.Assign(package.Data, GameTables.GameEngine);
+                    Settings.Assign(package.Data, _engine);
                     SetupMap();
                 }
 
@@ -492,7 +498,7 @@ public partial class SetupControl : Component
         _phase = SetupPhase.LoadMap;
         if (OnLoadMap != null)
         {
-            OnLoadMap(this, GameTables.GameEngine.StartupDirectory + Settings.MapName);
+            OnLoadMap(this, _engine.StartupDirectory + Settings.MapName);
         }
     }
 
@@ -524,7 +530,7 @@ public partial class SetupControl : Component
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(GameTables.GameEngine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
+            stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
             if (OnSendMap != null)
             {
                 var size = (int)stream.Length;
@@ -640,7 +646,7 @@ public partial class SetupControl : Component
     {
         if (GetHost())
         {
-            Settings.GetSettings(index).Leader.Assign(leader, GameTables.GameEngine);
+            Settings.GetSettings(index).Leader.Assign(leader, _engine);
             var setting = Settings.GetSettings(index);
             Settings.GetSettings(index).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
             if (!ValidateSetupMap())
@@ -677,9 +683,9 @@ public partial class SetupControl : Component
             var settingRace = Settings.GetSettings(I);
             cLC.Items.Add(settingRace.Race);
             var settingLeader = Settings.GetSettings(I);
-            cLC.Leader.Assign(settingLeader.Leader, GameTables.GameEngine);
+            cLC.Leader.Assign(settingLeader.Leader, _engine);
             var setting = Settings.GetSettings(I);
-            cLC.OriginalLeader.Assign(setting.Leader, GameTables.GameEngine);
+            cLC.OriginalLeader.Assign(setting.Leader, _engine);
             if (GetRemote())
             {
                 cLC.Leader.HeroName = RemotePlayer.Name;
@@ -717,7 +723,7 @@ public partial class SetupControl : Component
         if (!GetHost())
         {
             SendHostMessage(8, control.OriginalLeader, control.PlayerIndex, 0);
-            Settings.GetSettings(control.PlayerIndex).Leader.Assign(control.OriginalLeader, GameTables.GameEngine);
+            Settings.GetSettings(control.PlayerIndex).Leader.Assign(control.OriginalLeader, _engine);
         }
         else
         {
@@ -753,7 +759,7 @@ public partial class SetupControl : Component
                     break;
             }
 
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.NetworkEngine, S);
+            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S);
         }
     }
 
@@ -798,7 +804,7 @@ public partial class SetupControl : Component
             Player.Behavior = (PlayerBehavior)Settings.GetSettings(I).BehaviorMode;
             if (Settings.ConnectionType == 2)
             {
-                var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+                var localEmailAddress = _engine.Registry.GetLocalEmailAddress();
                 if (CompareText(Settings.GetSettings(I).EmailAddress, localEmailAddress) != 0)
                 {
                     var setting = Settings.GetSettings(I);
@@ -808,7 +814,7 @@ public partial class SetupControl : Component
                 else
                 {
                     var setting = Settings.GetSettings(I);
-                    var emailGame = GameTables.GameEngine.EmailGames.CreateEmailGame(Settings.EmailGameName, setting.EmailAddress);
+                    var emailGame = _engine.EmailGames.CreateEmailGame(Settings.EmailGameName, setting.EmailAddress);
                     Player.PbemSettings.SetGame(emailGame);
                 }
             }
@@ -817,7 +823,7 @@ public partial class SetupControl : Component
             {
                 Player.Leader.UpdateFromLibraryBegin();
                 var setting = Settings.GetSettings(I);
-                Player.Leader.Assign(setting.Leader, GameTables.GameEngine);
+                Player.Leader.Assign(setting.Leader, _engine);
                 Player.Leader.UpdateFromLibraryEnd();
             }
 
@@ -1135,28 +1141,28 @@ public partial class SetupControl : Component
     {
         if (GetRemote())
         {
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[5]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[5]));
             for (int I = 0, last = Settings.RemotePlayers.Count - 1; I <= last; I++)
             {
                 list.Add(Settings.RemotePlayers.GetPlayers(I).Name);
             }
 
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
         }
         else
         {
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[0]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[0]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
+            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
         }
     }
 
@@ -1227,7 +1233,7 @@ public partial class SetupControl : Component
             playerType = 0;
             while (!result && playerType <= 7)
             {
-                if (CompareText(name, AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[playerType])) == 0)
+                if (CompareText(name, _engine.TranslateResourceString(GameTables.PlayerTypeTexts[playerType])) == 0)
                 {
                     result = true;
                     behavior.PlayerType = playerType;
@@ -1556,17 +1562,17 @@ public partial class SetupControl : Component
         bool firstHuman = default;
         PlayerSetupSettings settings = default;
         StrategicMap preview;
-        preview = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
-        if (GetHost() && preview != null && (!GameTables.GameEngine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
+        preview = (StrategicMap)_engine.CreatePreviewHsm(_engine.StartupDirectory + fileName, GameProfile.WorldMap);
+        if (GetHost() && preview != null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
-            GameTables.GameEngine.InitializeHexSpriteSet(GameTables.GameEngine.StartupDirectory + preview.HssFileName, null);
+            _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, null);
             Randomize();
             Settings.Clear();
             Settings.MapName = fileName;
             Settings.MapDay = preview.Day;
             Settings.FileName = preview.MapName;
             // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
-            var fileCrc = FileBoundary.ImageCrc32(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
+            var fileCrc = FileBoundary.ImageCrc32(_engine.StartupDirectory + fileName, GameProfile.WorldMap);
             Settings.MapCrc = fileCrc;
             Settings.SetCrc = GamePack.Current.HssCrc;
             Settings.RandomSeed = RandSeed;
@@ -1605,7 +1611,7 @@ public partial class SetupControl : Component
                     settings = new PlayerSetupSettings(this.Settings);
                     settings.PlayerId = (byte)I;
                     settings.Race = player.PlayerRace;
-                    settings.Leader.Assign(player.LeaderSetup, GameTables.GameEngine);
+                    settings.Leader.Assign(player.LeaderSetup, _engine);
                     settings.BehaviorMode = (byte)(int)player.Behavior;
                     if (player.Participating)
                     {
@@ -1696,7 +1702,7 @@ public partial class SetupControl : Component
         RemotePlayer.Name = validatePlayerName;
         this.RemotePlayer.RemoteId = remoteId;
         this.RemotePlayer.PreferredRace = 255;
-        this.RemotePlayer.Version = GameTables.GameEngine.Version;
+        this.RemotePlayer.Version = _engine.Version;
 
         Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
         if (remoteId != 0)
@@ -1715,7 +1721,7 @@ public partial class SetupControl : Component
         RemotePlayer.Name = name;
         RemotePlayer.RemoteId = remoteId;
         RemotePlayer.PreferredRace = 255;
-        RemotePlayer.Version = GameTables.GameEngine.Version;
+        RemotePlayer.Version = _engine.Version;
         Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
         SendHostMessage(1, RemotePlayer, 0, 0);
         _phase = SetupPhase.SetupPlayers;

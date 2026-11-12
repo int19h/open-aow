@@ -110,7 +110,7 @@ public partial class MessageDialog : UIModule
     {
         ResetMessageDialog(UI.MessageDialog);
         UI.MessageDialog.MessageMemo.Items.Add("");
-        var demoVersionMessage = AbilityRules.TranslateResourceString(GameText.DemoVersionMessageText);
+        var demoVersionMessage = UI.Engine.TranslateResourceString(GameText.DemoVersionMessageText);
         UI.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
         UI.MessageDialog.OKPanel.Visible = true;
         UI.MessageDialog.Window.Visible = true;
@@ -125,7 +125,7 @@ public partial class MessageDialog : UIModule
         dialog.MessageMemo.Items.Clear();
         dialog.MemoPanel.Visible = true;
         dialog.HeaderMemoPanel.Visible = false;
-        var message = AbilityRules.TranslateResourceString(GameText.MessageText);
+        var message = dialog.UI.Engine.TranslateResourceString(GameText.MessageText);
         dialog.TitleLabel.Text = message;
     }
 

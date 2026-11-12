@@ -75,7 +75,6 @@ internal static class LegacyRoots
         typeof(EngineDebugNotification),
         typeof(EngineObject),
         typeof(EngineObjectEditorList),
-        typeof(Plugin),
         typeof(PropertyTable),
         typeof(ShowMessageNotification),
         typeof(CompressStream),

@@ -186,7 +186,7 @@ public partial class HeroInfoDialog : UIModule
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
             var level = hero.GetLevel();
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
+            var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;
         }
         else

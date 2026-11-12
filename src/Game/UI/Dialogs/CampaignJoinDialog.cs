@@ -37,8 +37,8 @@ public partial class CampaignJoinDialog : UIModule
         Stage = 2;
         CharacterGenerationPanel.Visible = false;
         control = new LeaderSetupControl(null);
-        control.Leader.Assign(Leader, GameTables.GameEngine);
-        control.OriginalLeader.Assign(Leader, GameTables.GameEngine);
+        control.Leader.Assign(Leader, UI.Engine);
+        control.OriginalLeader.Assign(Leader, UI.Engine);
         control.Mode = control.Mode + Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
         switch (Faction)
         {
@@ -74,7 +74,7 @@ public partial class CampaignJoinDialog : UIModule
         var leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(GameTables.GameEngine);
+            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(UI.Engine);
             UI.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
             leader.Release();
             FinishSelection();

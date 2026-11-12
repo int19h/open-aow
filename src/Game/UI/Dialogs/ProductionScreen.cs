@@ -144,19 +144,19 @@ public partial class ProductionScreen : UIModule
         UnitPanel.Visible = false;
         UpgradePanel.Visible = false;
         MainButton1.Visible = true;
-        var options = AbilityRules.TranslateResourceString(GameText.OptionsText);
+        var options = UI.Engine.TranslateResourceString(GameText.OptionsText);
         MainButton1.Text = options;
         MainButton2.Visible = false;
         PreviousButton.Visible = !MainButton2.Visible;
         NextButton.Visible = !MainButton2.Visible;
-        LeftShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        RightShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        LeftShadow.Visible = UI.Engine.AnimationDetail != 0;
+        RightShadow.Visible = UI.Engine.AnimationDetail != 0;
+        Oval.Visible = UI.Engine.AnimationDetail != 0;
         _queueIndex = -1;
         QueueList.Selected = -1;
-        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
+        var queue = UI.Engine.TranslateResourceString(GameText.QueueText);
         QueueLabel.Text = queue;
-        var repeat = AbilityRules.TranslateResourceString(GameText.RepeatText);
+        var repeat = UI.Engine.TranslateResourceString(GameText.RepeatText);
         RepeatLabel.Text = repeat;
         FreePreview();
     }
@@ -180,12 +180,12 @@ public partial class ProductionScreen : UIModule
                 InfoPanel2.Visible = true;
                 ActivityPanel.Visible = false;
                 ActivityPanel2.Visible = false;
-                var change = AbilityRules.TranslateResourceString(GameText.ChangeText);
+                var change = UI.Engine.TranslateResourceString(GameText.ChangeText);
                 MainButton1.Text = change;
                 MainButton2.Visible = false;
                 PreviousButton.Visible = !MainButton2.Visible;
                 NextButton.Visible = !MainButton2.Visible;
-                var exit = AbilityRules.TranslateResourceString(GameText.ExitText);
+                var exit = UI.Engine.TranslateResourceString(GameText.ExitText);
                 MainButton3.Text = exit;
                 QueueList.Selected = -1;
                 break;
@@ -196,9 +196,9 @@ public partial class ProductionScreen : UIModule
                 InfoPanel2.Visible = false;
                 ActivityPanel.Visible = true;
                 ActivityPanel2.Visible = true;
-                var info = AbilityRules.TranslateResourceString(GameText.InfoText);
+                var info = UI.Engine.TranslateResourceString(GameText.InfoText);
                 MainButton1.Text = info;
-                var done = AbilityRules.TranslateResourceString(GameText.DoneText);
+                var done = UI.Engine.TranslateResourceString(GameText.DoneText);
                 MainButton3.Text = done;
                 break;
             case 2:
@@ -208,9 +208,9 @@ public partial class ProductionScreen : UIModule
                 InfoPanel2.Visible = false;
                 ActivityPanel.Visible = true;
                 ActivityPanel2.Visible = true;
-                var infoText = AbilityRules.TranslateResourceString(GameText.InfoText);
+                var infoText = UI.Engine.TranslateResourceString(GameText.InfoText);
                 MainButton1.Text = infoText;
-                var doneText = AbilityRules.TranslateResourceString(GameText.DoneText);
+                var doneText = UI.Engine.TranslateResourceString(GameText.DoneText);
                 MainButton3.Text = doneText;
                 break;
         }
@@ -290,27 +290,27 @@ public partial class ProductionScreen : UIModule
                     var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UnitMovesIcon.CurrentImage = moveTypesToInt32;
                     var alignment = U.GetAlignment();
-                    var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
+                    var alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
+                    var format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
                     UnitAlignmentLabel.Text = format;
                     var unitLevel = U.GetUnitLevel();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
+                    var formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
-                    var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
+                    var format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
                     UnitLevelLabel.Text = formattedText + " / " + format2;
                     UnitAbilitiesList.Items.Clear();
                     U.ListAbilities(UnitAbilitiesList.Items);
                     if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                     {
                         MainButton1.Visible = true;
-                        var produce = AbilityRules.TranslateResourceString(GameText.ProduceText);
+                        var produce = UI.Engine.TranslateResourceString(GameText.ProduceText);
                         MainButton1.Text = produce;
                         var queueLocked = _place.ProductionControl.GetQueueLocked();
                         MainButton2.Visible = !queueLocked;
-                        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
+                        var queue = UI.Engine.TranslateResourceString(GameText.QueueText);
                         MainButton2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ProduceFormat), [name]);
+                        var format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), [name]);
                         UnitLabel.Text = format3;
                         var unitProductionGold = _place.ProductionControl.UnitProductionGold(_productionIndex);
                         UnitCostLabel.Text = IntToStr(unitProductionGold);
@@ -320,14 +320,14 @@ public partial class ProductionScreen : UIModule
                     else
                     {
                         MainButton1.Visible = true;
-                        var install = AbilityRules.TranslateResourceString(GameText.InstallText);
+                        var install = UI.Engine.TranslateResourceString(GameText.InstallText);
                         MainButton1.Text = install;
                         var queueLocked = _place.ProductionControl.GetQueueLocked();
                         MainButton2.Visible = !queueLocked;
-                        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
+                        var queue = UI.Engine.TranslateResourceString(GameText.QueueText);
                         MainButton2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [name]);
+                        var format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), [name]);
                         UnitLabel.Text = format3;
                         var unitResearchGold = _place.ProductionControl.UnitResearchGold(_productionIndex);
                         UnitCostLabel.Text = IntToStr(unitResearchGold);
@@ -351,18 +351,18 @@ public partial class ProductionScreen : UIModule
                 MainButton1.Text = productionName;
                 var fProductionControlQueueLocked = _place.ProductionControl.GetQueueLocked();
                 MainButton2.Visible = !fProductionControlQueueLocked;
-                var queueText = AbilityRules.TranslateResourceString(GameText.QueueText);
+                var queueText = UI.Engine.TranslateResourceString(GameText.QueueText);
                 MainButton2.Text = queueText;
                 PreviousButton.Visible = !MainButton2.Visible;
                 NextButton.Visible = !MainButton2.Visible;
                 if (_place.GetMagicSphere() == MagicSphere.None)
                 {
-                    var produceMerchandiseText = AbilityRules.TranslateResourceString(s_produceMerchandiseText);
+                    var produceMerchandiseText = UI.Engine.TranslateResourceString(s_produceMerchandiseText);
                     UpgradeMemo.Items.Text = produceMerchandiseText;
                 }
                 else
                 {
-                    var generateExtraPowerText = AbilityRules.TranslateResourceString(s_generateExtraPowerText);
+                    var generateExtraPowerText = UI.Engine.TranslateResourceString(s_generateExtraPowerText);
                     UpgradeMemo.Items.Text = generateExtraPowerText;
                 }
 
@@ -380,16 +380,16 @@ public partial class ProductionScreen : UIModule
                 break;
             case 5:
                 MainButton1.Visible = true;
-                var raze = AbilityRules.TranslateResourceString(GameText.RazeText);
+                var raze = UI.Engine.TranslateResourceString(GameText.RazeText);
                 MainButton1.Text = raze + "...";
                 PreviousButton.Visible = false;
                 NextButton.Visible = false;
                 var fPlaceName = _place.GetName();
-                var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_productionPlaceRazeFormat), [fPlaceName]);
+                var format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_productionPlaceRazeFormat), [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
                 UpgradePanel.Visible = true;
                 UpgradePicture.CurrentImage = 26;
-                var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
+                var razeText = UI.Engine.TranslateResourceString(GameText.RazeText);
                 UpgradeLabel.Text = razeText;
                 break;
         }
@@ -402,12 +402,12 @@ public partial class ProductionScreen : UIModule
         IncomeHeader.Items.Clear();
         var name = _place.GetName();
         StructureNameLabel.Text = name;
-        var income = AbilityRules.TranslateResourceString(GameText.IncomeText);
+        var income = UI.Engine.TranslateResourceString(GameText.IncomeText);
         IncomeHeader.Items.Add(income);
         if (_place.GetMagicSphere() != MagicSphere.None)
         {
             var power = _place.GetPower();
-            var xPower = AbilityRules.TranslateResourceString(s_powerFormat);
+            var xPower = UI.Engine.TranslateResourceString(s_powerFormat);
             var format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
             IncomeHeader.Items.Add(format);
         }
@@ -415,7 +415,7 @@ public partial class ProductionScreen : UIModule
         if (_place.GetIncome() != 0)
         {
             var fPlaceIncome = _place.GetIncome();
-            var xGold = AbilityRules.TranslateResourceString(GameText.GoldFormat);
+            var xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
             var format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
             IncomeHeader.Items.Add(format);
         }
@@ -465,7 +465,7 @@ public partial class ProductionScreen : UIModule
 
         for (int I = _place.ProductionControl.Queue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = AbilityRules.TranslateResourceString(GameText.EmptyQueueText);
+            var emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
             QueueList.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
@@ -484,7 +484,7 @@ public partial class ProductionScreen : UIModule
             ActiveActionLabel.Text = nameProgressive;
             if (_place.ProductionControl.Settings.TurnsLeft != -1)
             {
-                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_place.ProductionControl.Settings.TurnsLeft);
+                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _place.ProductionControl.Settings.TurnsLeft);
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
                 ActiveActionTurnsLabel.TextColor = 6783862;
@@ -509,10 +509,10 @@ public partial class ProductionScreen : UIModule
             {
                 var currentActivityText = _place.GetCurrentActivityText();
                 ActiveActionLabel.Text = currentActivityText;
-                var defaultText = AbilityRules.TranslateResourceString(GameText.DefaultText);
+                var defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurnsLabel.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurnsLabel.TextColor = 6783862;
-                var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
+                var none = UI.Engine.TranslateResourceString(GameTables.NoneText);
                 if (CompareText(ActiveActionLabel.Text, none) != 0)
                 {
                     ActiveActionTurnsLabel.Visible = true;
@@ -905,12 +905,12 @@ public partial class ProductionScreen : UIModule
                 SetMode(2);
                 QueueList.Selected = _queueIndex;
                 MainButton1.Visible = true;
-                var delete = AbilityRules.TranslateResourceString(GameText.DeleteText);
+                var delete = UI.Engine.TranslateResourceString(GameText.DeleteText);
                 MainButton1.Text = delete;
                 if (_queueIndex == 0 && _place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
                     MainButton2.Visible = true;
-                    var execute = AbilityRules.TranslateResourceString(GameText.ExecuteText);
+                    var execute = UI.Engine.TranslateResourceString(GameText.ExecuteText);
                     MainButton2.Text = execute;
                 }
                 else

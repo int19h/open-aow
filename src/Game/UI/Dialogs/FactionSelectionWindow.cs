@@ -1,7 +1,6 @@
 
 using Aow.Formats;
 using Aow.Game.Draw.Images;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
@@ -124,7 +123,7 @@ public partial class FactionSelectionWindow : UIModule
         {
             DarkSphereImage.Visible = false;
             LightSphereImage.Visible = false;
-            var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
+            var chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
             TopLabel.Text = chooseFaction;
         }
     }
@@ -136,7 +135,7 @@ public partial class FactionSelectionWindow : UIModule
         {
             DarkSphereImage.Visible = true;
             LightSphereImage.Visible = false;
-            var cultOfStorms = AbilityRules.TranslateResourceString(LobbyText.CultOfStormsText);
+            var cultOfStorms = UI.Engine.TranslateResourceString(LobbyText.CultOfStormsText);
             TopLabel.Text = cultOfStorms;
         }
     }
@@ -148,7 +147,7 @@ public partial class FactionSelectionWindow : UIModule
         {
             DarkSphereImage.Visible = false;
             LightSphereImage.Visible = true;
-            var keepers = AbilityRules.TranslateResourceString(LobbyText.KeepersText);
+            var keepers = UI.Engine.TranslateResourceString(LobbyText.KeepersText);
             TopLabel.Text = keepers;
         }
     }
@@ -177,7 +176,7 @@ public partial class FactionSelectionWindow : UIModule
                     LightStartButton.Visible = false;
                     LightSphereImage.Visible = false;
                     TopLabel.Visible = true;
-                    var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
+                    var chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
                     TopLabel.Text = chooseFaction;
                     FactionPanel.ImageLibraryIndexTexture = 0;
                 }
@@ -191,7 +190,7 @@ public partial class FactionSelectionWindow : UIModule
                         DarkStartButton.Visible = false;
                         DarkSphereImage.Visible = false;
                         TopLabel.Visible = true;
-                        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
+                        var chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
                         TopLabel.Text = chooseFaction;
                         FactionPanel.ImageLibraryIndexTexture = 0;
                     }
@@ -239,13 +238,13 @@ public partial class FactionSelectionWindow : UIModule
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         int index = campaign.Scenarios.IndexOfId(id);
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(dialog.UI.WorldMap.GetCampaign(), index);
-        StrategicMap hexSpriteMap = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
+        StrategicMap hexSpriteMap = (StrategicMap)dialog.UI.Engine.CreatePreviewHsm(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
         int i;
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)
         {
         }
         Player players = hexSpriteMap.Players.GetPlayers(i);
-        dialog.Leader.Assign(players.LeaderSetup, GameTables.GameEngine);
+        dialog.Leader.Assign(players.LeaderSetup, dialog.UI.Engine);
         hexSpriteMap?.Dispose();
         if (value != null)
         {
@@ -255,7 +254,7 @@ public partial class FactionSelectionWindow : UIModule
 
     private static void LoadWorldCampaign(WorldMap dialog, string name)
     {
-        GameTables.GameEngine.LoadCampaign(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + name));
+        dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + name));
     }
 
     private static void ParseFontText(string text, StringCollection strings, ImageLibraryFont font, int maxWidth)

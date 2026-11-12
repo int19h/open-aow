@@ -72,7 +72,7 @@ public partial class PlayerControl : EngineObject
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_newDayFormat), [StrategicMap.Current.Day]);
             if (StrategicMap.Current.DayLimit != 0 && StrategicMap.Current.DayLimit - StrategicMap.Current.Day <= 10)
             {
-                var formatDaysLeftString = DurationText.FormatDaysLeftString(StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
+                var formatDaysLeftString = DurationText.FormatDaysLeftString(GameTables.GameEngine, days: StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
                 log.Text = log.Text + " (" + formatDaysLeftString + ")";
             }
 

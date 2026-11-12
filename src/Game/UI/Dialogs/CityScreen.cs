@@ -188,21 +188,21 @@ public partial class CityScreen : UIModule
         UpgradePanel.Visible = false;
         MigratePanel.Visible = false;
         CityButton1.Visible = true;
-        var options = AbilityRules.TranslateResourceString(GameText.OptionsText);
+        var options = UI.Engine.TranslateResourceString(GameText.OptionsText);
         CityButton1.Text = options;
         CityButton2.Visible = false;
         PreviousCityButton.Visible = !CityButton2.Visible;
         NextCityButton.Visible = !CityButton2.Visible;
-        LeftShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        RightShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        LeftShadow.Visible = UI.Engine.AnimationDetail != 0;
+        RightShadow.Visible = UI.Engine.AnimationDetail != 0;
+        Oval.Visible = UI.Engine.AnimationDetail != 0;
         _migrationSort = 0;
         _productionIndex = 0;
         QueueList.Selected = -1;
         FreePreview();
-        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
+        var queue = UI.Engine.TranslateResourceString(GameText.QueueText);
         QueueLabel.Text = queue;
-        var repeat = AbilityRules.TranslateResourceString(GameText.RepeatText);
+        var repeat = UI.Engine.TranslateResourceString(GameText.RepeatText);
         RepeatLabel.Text = repeat;
         if (_migrations != null)
         {
@@ -230,13 +230,13 @@ public partial class CityScreen : UIModule
                 InfoPanel2.Visible = true;
                 ActivityPanel.Visible = false;
                 ActivityPanel2.Visible = false;
-                var change = AbilityRules.TranslateResourceString(GameText.ChangeText);
+                var change = UI.Engine.TranslateResourceString(GameText.ChangeText);
                 CityButton1.Text = change;
                 CityButton1.Visible = true;
                 CityButton2.Visible = false;
                 PreviousCityButton.Visible = !CityButton2.Visible;
                 NextCityButton.Visible = !CityButton2.Visible;
-                var exit = AbilityRules.TranslateResourceString(GameText.ExitText);
+                var exit = UI.Engine.TranslateResourceString(GameText.ExitText);
                 CityButton3.Text = exit;
                 QueueList.Selected = -1;
                 LeftPillar.Visible = true;
@@ -249,9 +249,9 @@ public partial class CityScreen : UIModule
                 InfoPanel2.Visible = false;
                 ActivityPanel.Visible = true;
                 ActivityPanel2.Visible = true;
-                var info = AbilityRules.TranslateResourceString(GameText.InfoText);
+                var info = UI.Engine.TranslateResourceString(GameText.InfoText);
                 CityButton1.Text = info;
-                var done = AbilityRules.TranslateResourceString(GameText.DoneText);
+                var done = UI.Engine.TranslateResourceString(GameText.DoneText);
                 CityButton3.Text = done;
                 LeftPillar.Visible = false;
                 RightPillar.Visible = false;
@@ -269,9 +269,9 @@ public partial class CityScreen : UIModule
                 ActivityPanel2.Visible = true;
                 LeftPillar.Visible = false;
                 RightPillar.Visible = false;
-                var infoText = AbilityRules.TranslateResourceString(GameText.InfoText);
+                var infoText = UI.Engine.TranslateResourceString(GameText.InfoText);
                 CityButton1.Text = infoText;
-                var doneText = AbilityRules.TranslateResourceString(GameText.DoneText);
+                var doneText = UI.Engine.TranslateResourceString(GameText.DoneText);
                 CityButton3.Text = doneText;
                 MigrationRaceList.CaptureInput = false;
                 MigrationTurnsList.CaptureInput = false;
@@ -394,15 +394,15 @@ public partial class CityScreen : UIModule
             MigrationTurnsList.Selected = index;
             MigrationRelationList.Selected = index;
             MigrateTurnsLabel.Text = IntToStr(item.Time);
-            var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
+            var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
+            var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
             MigrateInfoLabel.Text = format;
             MigrateInfoLabel.Text = MigrateInfoLabel.Text + "   ";
-            var raceNamesText = AbilityRules.TranslateResourceString(GameTables.RaceNames[item.Race]);
-            var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNamesText, 10]);
+            var raceNamesText = UI.Engine.TranslateResourceString(GameTables.RaceNames[item.Race]);
+            var formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNamesText, 10]);
             MigrateInfoLabel.Text = MigrateInfoLabel.Text + formattedText;
             CityButton1.Visible = true;
-            var migrate = AbilityRules.TranslateResourceString(s_migrateText);
+            var migrate = UI.Engine.TranslateResourceString(s_migrateText);
             CityButton1.Text = migrate;
         }
         else
@@ -440,28 +440,28 @@ public partial class CityScreen : UIModule
         {
             case CityAction.Trade:
                 CityButton1.Visible = true;
-                var produceMerchandise = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
+                var produceMerchandise = UI.Engine.TranslateResourceString(GameText.ProduceMerchandiseText);
                 CityButton1.Text = produceMerchandise;
                 var queueLocked = _city.Production.GetQueueLocked();
                 CityButton2.Visible = !queueLocked;
-                var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
+                var queue = UI.Engine.TranslateResourceString(GameText.QueueText);
                 CityButton2.Text = queue;
-                var cityTrade = AbilityRules.TranslateResourceString(s_cityTradeText);
+                var cityTrade = UI.Engine.TranslateResourceString(s_cityTradeText);
                 UpgradeMemo.Items.Text = cityTrade;
                 UpgradePanel.Visible = true;
                 UpgradePicture.CurrentImage = 20;
-                var produceMerchandiseText = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
+                var produceMerchandiseText = UI.Engine.TranslateResourceString(GameText.ProduceMerchandiseText);
                 UpgradeLabel.Text = produceMerchandiseText;
                 break;
             case CityAction.Upgrade:
                 CityButton1.Visible = true;
-                var upgrade = AbilityRules.TranslateResourceString(GameText.UpgradeText);
+                var upgrade = UI.Engine.TranslateResourceString(GameText.UpgradeText);
                 CityButton1.Text = upgrade;
                 var fProductionQueueLocked = _city.Production.GetQueueLocked();
                 CityButton2.Visible = !fProductionQueueLocked;
-                var queueText = AbilityRules.TranslateResourceString(GameText.QueueText);
+                var queueText = UI.Engine.TranslateResourceString(GameText.QueueText);
                 CityButton2.Text = queueText;
-                var cityUpgrade = AbilityRules.TranslateResourceString(s_cityUpgradeText);
+                var cityUpgrade = UI.Engine.TranslateResourceString(s_cityUpgradeText);
                 UpgradeMemo.Items.Text = cityUpgrade;
                 UpgradePanel.Visible = true;
                 UpgradePicture.CurrentImage = 23;
@@ -469,21 +469,21 @@ public partial class CityScreen : UIModule
                 UpgradeCostLabel.Text = IntToStr(upgradeCost);
                 var upgradeTime = _city.UpgradeTime();
                 UpgradeTurnsLabel.Text = IntToStr(upgradeTime);
-                var upgradeText = AbilityRules.TranslateResourceString(GameText.UpgradeText);
+                var upgradeText = UI.Engine.TranslateResourceString(GameText.UpgradeText);
                 UpgradeLabel.Text = upgradeText;
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNamesPlural, 5]);
+                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
+                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNamesPlural, 5]);
                 UpgradeInfoLabel.Text = format;
                 break;
             case CityAction.Fortify:
                 CityButton1.Visible = true;
-                var fortify = AbilityRules.TranslateResourceString(GameText.FortifyText);
+                var fortify = UI.Engine.TranslateResourceString(GameText.FortifyText);
                 CityButton1.Text = fortify;
                 var queueLocked2 = _city.Production.GetQueueLocked();
                 CityButton2.Visible = !queueLocked2;
-                var queue3 = AbilityRules.TranslateResourceString(GameText.QueueText);
+                var queue3 = UI.Engine.TranslateResourceString(GameText.QueueText);
                 CityButton2.Text = queue3;
-                var cityFortify = AbilityRules.TranslateResourceString(s_cityFortifyText);
+                var cityFortify = UI.Engine.TranslateResourceString(s_cityFortifyText);
                 UpgradeMemo.Items.Text = cityFortify;
                 UpgradePanel.Visible = true;
                 if (_city.WallType == 0)
@@ -508,10 +508,10 @@ public partial class CityScreen : UIModule
                     UpgradeTurnsLabel.Text = "-";
                 }
 
-                var fortifyText = AbilityRules.TranslateResourceString(GameText.FortifyText);
+                var fortifyText = UI.Engine.TranslateResourceString(GameText.FortifyText);
                 UpgradeLabel.Text = fortifyText;
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-                var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNames, 5]);
+                var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
+                var formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNames, 5]);
                 UpgradeInfoLabel.Text = formattedText;
                 break;
             case CityAction.Migrate:
@@ -520,30 +520,30 @@ public partial class CityScreen : UIModule
                 break;
             case CityAction.Loot:
                 CityButton1.Visible = true;
-                var loot = AbilityRules.TranslateResourceString(GameText.LootText);
+                var loot = UI.Engine.TranslateResourceString(GameText.LootText);
                 CityButton1.Text = loot;
-                var cityLoot = AbilityRules.TranslateResourceString(s_cityLootText);
+                var cityLoot = UI.Engine.TranslateResourceString(s_cityLootText);
                 UpgradeMemo.Items.Text = cityLoot;
                 UpgradePanel.Visible = true;
                 UpgradePicture.CurrentImage = 25;
-                var lootText = AbilityRules.TranslateResourceString(GameText.LootText);
+                var lootText = UI.Engine.TranslateResourceString(GameText.LootText);
                 UpgradeLabel.Text = lootText;
-                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-                var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNamesText, -30]);
+                var raceNamesText = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
+                var format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNamesText, -30]);
                 UpgradeInfoLabel.Text = format2;
                 break;
             case CityAction.Raze:
                 CityButton1.Visible = true;
-                var raze = AbilityRules.TranslateResourceString(GameText.RazeText);
+                var raze = UI.Engine.TranslateResourceString(GameText.RazeText);
                 CityButton1.Text = raze + "...";
-                var cityRaze = AbilityRules.TranslateResourceString(s_cityRazeText);
+                var cityRaze = UI.Engine.TranslateResourceString(s_cityRazeText);
                 UpgradeMemo.Items.Text = cityRaze;
                 UpgradePanel.Visible = true;
                 UpgradePicture.CurrentImage = 26;
-                var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
+                var razeText = UI.Engine.TranslateResourceString(GameText.RazeText);
                 UpgradeLabel.Text = razeText;
-                var raceNames3 = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-                var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames3, -30]);
+                var raceNames3 = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
+                var format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNames3, -30]);
                 UpgradeInfoLabel.Text = format3;
                 break;
             case CityAction.Research:
@@ -566,15 +566,15 @@ public partial class CityScreen : UIModule
                 var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 var alignment = U.GetAlignment();
-                var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
-                var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
+                var alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
+                var format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
                 UnitAlignmentLabel.Text = format4;
                 var unitLevel = U.GetUnitLevel();
-                var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
+                var format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                 var upkeep = U.GetUpkeep();
-                var format6 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
+                var format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
                 UnitLevelLabel.Text = format5 + " / " + format6;
-                if (GameTables.GameEngine.Debug)
+                if (UI.Engine.Debug)
                 {
                     var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), _city.Player, 0);
                     StrategicMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
@@ -585,14 +585,14 @@ public partial class CityScreen : UIModule
                 if (_action == CityAction.Produce)
                 {
                     CityButton1.Visible = true;
-                    var produce = AbilityRules.TranslateResourceString(GameText.ProduceText);
+                    var produce = UI.Engine.TranslateResourceString(GameText.ProduceText);
                     CityButton1.Text = produce;
                     var queueLocked3 = _city.Production.GetQueueLocked();
                     CityButton2.Visible = !queueLocked3;
-                    var queue4 = AbilityRules.TranslateResourceString(GameText.QueueText);
+                    var queue4 = UI.Engine.TranslateResourceString(GameText.QueueText);
                     CityButton2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ProduceFormat), [name]);
+                    var format7 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), [name]);
                     UnitLabel.Text = format7;
                     var unitProductionGold = _city.Production.UnitProductionGold(_productionIndex);
                     UnitCostLabel.Text = IntToStr(unitProductionGold);
@@ -602,14 +602,14 @@ public partial class CityScreen : UIModule
                 else
                 {
                     CityButton1.Visible = true;
-                    var install = AbilityRules.TranslateResourceString(GameText.InstallText);
+                    var install = UI.Engine.TranslateResourceString(GameText.InstallText);
                     CityButton1.Text = install;
                     var queueLocked3 = _city.Production.GetQueueLocked();
                     CityButton2.Visible = !queueLocked3;
-                    var queue4 = AbilityRules.TranslateResourceString(GameText.QueueText);
+                    var queue4 = UI.Engine.TranslateResourceString(GameText.QueueText);
                     CityButton2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [name]);
+                    var format7 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), [name]);
                     UnitLabel.Text = format7;
                     var unitResearchGold = _city.Production.UnitResearchGold(_productionIndex);
                     UnitCostLabel.Text = IntToStr(unitResearchGold);
@@ -632,28 +632,28 @@ public partial class CityScreen : UIModule
         var name = _city.GetName();
         StructureNameLabel.Text = name;
         PopulationHeader.Items.Clear();
-        var population = AbilityRules.TranslateResourceString(s_populationText);
+        var population = UI.Engine.TranslateResourceString(s_populationText);
         PopulationHeader.Items.Add(population + ":");
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
+        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
         PopulationHeader.Items.Add(" " + raceNamesPlural);
-        var status = AbilityRules.TranslateResourceString(StatusText);
+        var status = UI.Engine.TranslateResourceString(StatusText);
         PopulationHeader.Items.Add(status + ":");
         var civilStatus = _city.GetCivilStatus();
-        var civilStatusText = AbilityRules.TranslateResourceString(CivilStatusTexts[(int)civilStatus]);
+        var civilStatusText = UI.Engine.TranslateResourceString(CivilStatusTexts[(int)civilStatus]);
         PopulationHeader.Items.Add(" " + civilStatusText);
         PopulationMemo.Items.Clear();
         _city.ListCivilStatusInfo(PopulationMemo.Items);
         IncomeHeader.Items.Clear();
-        var income = AbilityRules.TranslateResourceString(GameText.IncomeText);
+        var income = UI.Engine.TranslateResourceString(GameText.IncomeText);
         IncomeHeader.Items.Add(income);
-        var xGold = AbilityRules.TranslateResourceString(GameText.GoldFormat);
+        var xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
         var format = AbilityRules.Format(" " + xGold, [IntToStr(_city.Income)]);
         IncomeHeader.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
         _city.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
         EnhancementsHeader.Items.Clear();
-        var enhancements = AbilityRules.TranslateResourceString(s_enhancementsText);
+        var enhancements = UI.Engine.TranslateResourceString(s_enhancementsText);
         EnhancementsHeader.Items.Add(enhancements);
         EnhancementsMemo.Items.Clear();
         _city.ListEnhancementsInfo(EnhancementsMemo.Items);
@@ -664,10 +664,10 @@ public partial class CityScreen : UIModule
         }
 
         _migrations = _city.CreateMigrationSelection();
-        var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
+        var raceNamesPluralText = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
         CurrentRaceLabel.Text = raceNamesPluralText;
         var playerRelation = StrategicMap.Current.Races.GetRace(_city.Race).GetPlayerRelation(_city.Player);
-        var statusText = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
+        var statusText = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
         CurrentRelationLabel.Text = statusText;
         MigrationRaceList.Items.Clear();
         MigrationTurnsList.Items.Clear();
@@ -677,13 +677,13 @@ public partial class CityScreen : UIModule
             for (int I = 0, last = _migrations.GetCount() - 1; I <= last; I++)
             {
                 var itemRace = _migrations.GetItems(I);
-                var raceNamesPlural3 = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[itemRace.Race]);
+                var raceNamesPlural3 = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[itemRace.Race]);
                 var migrationItem = _migrations.GetItems(I);
                 MigrationRaceList.Items.AddObject(raceNamesPlural3, migrationItem);
                 var itemTime = _migrations.GetItems(I);
                 MigrationTurnsList.Items.Add(IntToStr(itemTime.Time));
                 var itemRelation = _migrations.GetItems(I);
-                var status3 = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)itemRelation.Relation]);
+                var status3 = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)itemRelation.Relation]);
                 MigrationRelationList.Items.Add(status3);
             }
         }
@@ -698,7 +698,7 @@ public partial class CityScreen : UIModule
 
         for (int I = _city.Production.Queue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = AbilityRules.TranslateResourceString(GameText.EmptyQueueText);
+            var emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
             QueueList.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
@@ -717,7 +717,7 @@ public partial class CityScreen : UIModule
             ActiveActionLabel.Text = nameProgressive;
             if (_city.Production.Settings.TurnsLeft != -1)
             {
-                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_city.Production.Settings.TurnsLeft);
+                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _city.Production.Settings.TurnsLeft);
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
                 ActiveActionTurnsLabel.TextColor = 6783862;
@@ -740,9 +740,9 @@ public partial class CityScreen : UIModule
         {
             if (_city.Production.Queue.GetCount() == 0)
             {
-                var producingMerchandise = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
+                var producingMerchandise = UI.Engine.TranslateResourceString(GameText.ProducingMerchandiseText);
                 ActiveActionLabel.Text = producingMerchandise;
-                var defaultText = AbilityRules.TranslateResourceString(GameText.DefaultText);
+                var defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurnsLabel.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurnsLabel.TextColor = 6783862;
                 ActiveActionTurnsBar.Visible = false;
@@ -1307,12 +1307,12 @@ public partial class CityScreen : UIModule
                 SetMode(2);
                 QueueList.Selected = _queueIndex;
                 CityButton1.Visible = true;
-                var delete = AbilityRules.TranslateResourceString(GameText.DeleteText);
+                var delete = UI.Engine.TranslateResourceString(GameText.DeleteText);
                 CityButton1.Text = delete;
                 if (_queueIndex == 0 && _city.Production.Status == ProductionControlStatus.Waiting)
                 {
                     CityButton2.Visible = true;
-                    var execute = AbilityRules.TranslateResourceString(GameText.ExecuteText);
+                    var execute = UI.Engine.TranslateResourceString(GameText.ExecuteText);
                     CityButton2.Text = execute;
                 }
                 else

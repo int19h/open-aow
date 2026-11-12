@@ -53,13 +53,12 @@ internal static class FrameFixtureChecks
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
         var oldMap = StrategicMap.Current;
-        GameEngine oldEngine = GameTables.GameEngine;
         var oldSettings = RtlUnit.Settings;
         try
         {
             var mapWindow = new Window(null) { _modal = true };
             mapWindow.SetVisibleWithoutUpdate(true);
-            var ui = new UIContext();
+            var ui = new UIContext(startup.Engine);
             ui.Add(new MapWindow(ui) { MainWindow = mapWindow });
             var menu = new StartMenu(null) { _modal = false };
             menu.SetVisibleWithoutUpdate(true);
@@ -100,8 +99,7 @@ internal static class FrameFixtureChecks
                 GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", "setup behavior names are initialized");
 
             RtlUnit.Settings = new MemorySettingsStore();
-            GameTables.GameEngine = oldEngine;
-            GameTables.GameEngine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
+            startup.Engine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new MapWindow(ui) { MainWindow = mapWindow };
             world.MapWindowUpdate();
@@ -124,7 +122,6 @@ internal static class FrameFixtureChecks
         finally
         {
             StrategicMap.Current = oldMap;
-            GameTables.GameEngine = oldEngine;
             RtlUnit.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.MeasuredFrameRate = null;
@@ -149,12 +146,14 @@ internal static class FrameFixtureChecks
             RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, _scratch, [], _clock, null));
             Startup.InitializeAll();
             NullSoundSystem.Install();
-            GameTables.ValidateGameEngine();
+            Engine = Startup.CreateEngine();
         }
+
+        internal GameEngine Engine { get; }
 
         public void Dispose()
         {
-            GameTables.GameEngine.Dispose();
+            Engine.Dispose();
             RtlUnit.Files = _files;
             RtlUnit.Settings = _settings;
             RtlUnit.Dialogs = _dialogs;

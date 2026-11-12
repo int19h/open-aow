@@ -210,7 +210,7 @@ public partial class HeroUpgradeDialog : UIModule
                 name = ability.GetName(_editedHero);
                 if (_hero.GetAbEnabled(I) && _hero.GetInherentAbilityLevel(I) == _editedHero.GetInherentAbilityLevel(I))
                 {
-                    name = name + " (" + AbilityRules.TranslateResourceString(GameText.FixedText) + ")";
+                    name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";
                 }
                 else
@@ -628,21 +628,21 @@ public partial class HeroUpgradeDialog : UIModule
         dialog.OnClose = completed;
         if (dialog.ValidateHero())
         {
-            dialog._editedHero = (Hero)dialog._hero.Copy(GameTables.GameEngine);
+            dialog._editedHero = (Hero)dialog._hero.Copy(dialog.UI.Engine);
             dialog.UpdateStatistics();
             dialog.RefreshAbilities();
             dialog.UnitNameEdit.Text = dialog._hero.HeroName;
             var level = dialog._hero.GetLevel();
-            var levelText = AbilityRules.TranslateResourceString(GameText.LevelText);
+            var levelText = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
             dialog.LevelLabel.Text = levelText + " " + IntToStr(level);
             if (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel > 1)
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(ScenarioText.MadeLevelsFormat), [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
+                var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
                 dialog.HeaderLabel.Text = format + "!";
             }
             else
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(ScenarioText.MadeLevelFormat), [dialog._hero.HeroName]);
+                var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelFormat), [dialog._hero.HeroName]);
                 dialog.HeaderLabel.Text = format + "!";
             }
 

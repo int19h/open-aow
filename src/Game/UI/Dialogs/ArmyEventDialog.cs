@@ -88,7 +88,7 @@ public partial class ArmyEventDialog : UIModule
                 var damageValue = eventValue.DamageValues[unit4];
                 var unit5 = _units[index];
                 var damageType = eventValue.DamageTypes[unit5];
-                AbilityRules.ShowDamageIcon(X, Y + 8, lockedSurface, damageValue, (DamageType)damageType);
+                AbilityRules.ShowDamageIcon(UI.Engine, X, Y + 8, lockedSurface, damageValue, (DamageType)damageType);
                 var unit6 = _units[index];
                 var hitPoints = eventValue.ArmyView.GetUnit(unit6).GetHitPoints();
                 var unit7 = _units[index];

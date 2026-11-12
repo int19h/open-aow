@@ -4,8 +4,6 @@ using Aow.Engine;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
 
@@ -17,7 +15,7 @@ public static class CombatClasses
 {
     public static void Register(GameEngine engine)
     {
-        GameTables.GameEngine.RegisterEngineClasses([EngineClass.Of<CombatMap>(), EngineClass.Of<CombatMapLevel>(), EngineClass.Of<UnitPositionHexSprite>(), EngineClass.Of<TacticalBattle>()]);
+        engine.RegisterEngineClasses([EngineClass.Of<CombatMap>(), EngineClass.Of<CombatMapLevel>(), EngineClass.Of<UnitPositionHexSprite>(), EngineClass.Of<TacticalBattle>()]);
         (engine).RegisterEngineClasses([EngineClass.Of<CombatImageLibraryTerrain>(), EngineClass.Of<CombatImageLibraryTerrainResource>(), EngineClass.Of<CombatFixedImageLibraryTerrain>(), EngineClass.Of<CombatFixedImageLibraryTerrain.Resource>()]);
         (engine).RegisterEngineClasses([EngineClass.Of<CombatHex.Resource>(), EngineClass.Of<CombatHex>(), EngineClass.Of<WaterCombatHex>(), EngineClass.Of<WaterCombatHex.Resource>()]);
         (engine).RegisterEngineClasses([EngineClass.Of<CombatRoad.Resource>(), EngineClass.Of<CombatRoad>()]);

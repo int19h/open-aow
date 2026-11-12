@@ -165,7 +165,7 @@ public partial class ScenarioSetup : UIModule
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
                 availability = (byte)availabilityOrdinal;
-                var tacticalBattleAvailability = AbilityRules.TranslateResourceString(TacticalCombatAvailabilityTexts[availability]);
+                var tacticalBattleAvailability = UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[availability]);
                 TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
             }
         }
@@ -180,7 +180,7 @@ public partial class ScenarioSetup : UIModule
             CustomizeLeadersLabel.TextColor = 8421504;
             CustomizeLeadersCheckBox.CaptureInput = false;
             PlayModeComboBox.Items.Clear();
-            var classic = AbilityRules.TranslateResourceString(s_classicText);
+            var classic = UI.Engine.TranslateResourceString(s_classicText);
             PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
         else
@@ -188,9 +188,9 @@ public partial class ScenarioSetup : UIModule
             CustomizeLeadersLabel.TextColor = AlliedVictoryLabel.TextColor;
             CustomizeLeadersCheckBox.CaptureInput = true;
             PlayModeComboBox.Items.Clear();
-            var simultaneous = AbilityRules.TranslateResourceString(s_simultaneousText);
+            var simultaneous = UI.Engine.TranslateResourceString(s_simultaneousText);
             PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
-            var classic = AbilityRules.TranslateResourceString(s_classicText);
+            var classic = UI.Engine.TranslateResourceString(s_classicText);
             PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
 
@@ -533,12 +533,12 @@ public partial class ScenarioSetup : UIModule
     {
         if (TurnTimeSlider.Position == 0)
         {
-            var noTimer = AbilityRules.TranslateResourceString(s_noTimerText);
+            var noTimer = UI.Engine.TranslateResourceString(s_noTimerText);
             TurnTimeValueLabel.Text = LowerCase(noTimer);
         }
         else
         {
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_minutesFormat), [IntToStr(TurnTimeSlider.Position)]);
+            var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_minutesFormat), [IntToStr(TurnTimeSlider.Position)]);
             TurnTimeValueLabel.Text = format;
         }
     }
@@ -548,12 +548,12 @@ public partial class ScenarioSetup : UIModule
     {
         if (TurnsSlider.Position == 0)
         {
-            var noLimit = AbilityRules.TranslateResourceString(s_noLimitText);
+            var noLimit = UI.Engine.TranslateResourceString(s_noLimitText);
             TurnsValueLabel.Text = LowerCase(noLimit);
         }
         else
         {
-            var format = AbilityRules.Format(LowerCase(AbilityRules.TranslateResourceString(GameText.TurnsFormat)), [IntToStr(TurnsSlider.Position * 10)]);
+            var format = AbilityRules.Format(LowerCase(UI.Engine.TranslateResourceString(GameText.TurnsFormat)), [IntToStr(TurnsSlider.Position * 10)]);
             TurnsValueLabel.Text = format;
         }
     }
@@ -627,7 +627,7 @@ public partial class ScenarioSetup : UIModule
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
                 B = (byte)bOrdinal;
-                var tacticalBattleAvailability = AbilityRules.TranslateResourceString(TacticalCombatAvailabilityTexts[B]);
+                var tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[B]);
                 setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(B));
             }
         }
@@ -642,7 +642,7 @@ public partial class ScenarioSetup : UIModule
             setup.CustomizeLeadersLabel.TextColor = 8421504;
             setup.CustomizeLeadersCheckBox.CaptureInput = false;
             setup.PlayModeComboBox.Items.Clear();
-            var classic = AbilityRules.TranslateResourceString(s_classicText);
+            var classic = setup.UI.Engine.TranslateResourceString(s_classicText);
             setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
         else
@@ -650,9 +650,9 @@ public partial class ScenarioSetup : UIModule
             setup.CustomizeLeadersLabel.TextColor = setup.AlliedVictoryLabel.TextColor;
             setup.CustomizeLeadersCheckBox.CaptureInput = true;
             setup.PlayModeComboBox.Items.Clear();
-            var simultaneous = AbilityRules.TranslateResourceString(s_simultaneousText);
+            var simultaneous = setup.UI.Engine.TranslateResourceString(s_simultaneousText);
             setup.PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
-            var classic = AbilityRules.TranslateResourceString(s_classicText);
+            var classic = setup.UI.Engine.TranslateResourceString(s_classicText);
             setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
 
@@ -692,12 +692,12 @@ public partial class ScenarioSetup : UIModule
                 setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
                 if (player.PreferredRace != 255)
                 {
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)player.PreferredRace]);
+                    var raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)player.PreferredRace]);
                     setup.PreferredRaceList.Items.Add(raceNamesPlural);
                 }
                 else
                 {
-                    var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
+                    var none = setup.UI.Engine.TranslateResourceString(GameTables.NoneText);
                     setup.PreferredRaceList.Items.Add(none);
                 }
 
@@ -744,14 +744,14 @@ public partial class ScenarioSetup : UIModule
             if (setup.PreferredRaceComboBox.Visible)
             {
                 setup.PreferredRaceComboBox.Items.Clear();
-                var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
+                var none = setup.UI.Engine.TranslateResourceString(GameTables.NoneText);
                 setup.PreferredRaceComboBox.Items.AddObject(none, IntToObject(-1));
                 for (int I = 0, last = setup.SetupControl.Settings.Count - 1; I <= last; I++)
                 {
                     if (!setup.SetupControl.Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.Fixed))
                     {
                         var settingRace = setup.SetupControl.Settings.GetSettings(I);
-                        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
+                        var raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
                         var setting = setup.SetupControl.Settings.GetSettings(I);
                         setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
                     }
@@ -792,16 +792,16 @@ public partial class ScenarioSetup : UIModule
                 switch (setup.UI.SetupEvents.DirectPlay.ConnectionType)
                 {
                     case ConnectionType.TCP:
-                        connection = AbilityRules.TranslateResourceString(GameText.TcpIpLabel);
+                        connection = setup.UI.Engine.TranslateResourceString(GameText.TcpIpLabel);
                         break;
                     case ConnectionType.IPX:
-                        connection = AbilityRules.TranslateResourceString(GameText.IpxText);
+                        connection = setup.UI.Engine.TranslateResourceString(GameText.IpxText);
                         break;
                     case ConnectionType.Modem:
-                        connection = AbilityRules.TranslateResourceString(GameText.ModemText);
+                        connection = setup.UI.Engine.TranslateResourceString(GameText.ModemText);
                         break;
                     case ConnectionType.Serial:
-                        connection = AbilityRules.TranslateResourceString(GameText.SerialText);
+                        connection = setup.UI.Engine.TranslateResourceString(GameText.SerialText);
                         break;
                     default:
                         connection = "";
@@ -823,11 +823,11 @@ public partial class ScenarioSetup : UIModule
                 setup.HostNameLabel.Visible = true;
                 setup.FileNameLabel.Visible = true;
                 setup.PlayerNameLabel.Visible = true;
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.HostFormat), [connection, hostName]);
+                var format = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.HostFormat), [connection, hostName]);
                 setup.HostNameLabel.Text = format;
-                var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.PlayerNameFormat), [setup.SetupControl.RemotePlayer.Name]);
+                var formattedText = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.PlayerNameFormat), [setup.SetupControl.RemotePlayer.Name]);
                 setup.PlayerNameLabel.Text = formattedText;
-                var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.FileNameFormat), [setup.SetupControl.Settings.MapName]);
+                var format2 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.FileNameFormat), [setup.SetupControl.Settings.MapName]);
                 setup.FileNameLabel.Text = format2;
                 if (setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid)
                 {
@@ -845,7 +845,7 @@ public partial class ScenarioSetup : UIModule
                 setup.PlayerNameLabel.Visible = false;
             }
 
-            var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ScenarioFormat), [setup.SetupControl.Settings.FileName]);
+            var format3 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.ScenarioFormat), [setup.SetupControl.Settings.FileName]);
             setup.ScenarioLabel.Text = format3;
             setup.UI.TitleWindow.MainWindow.Drawn = false;
         }
@@ -907,12 +907,12 @@ public partial class ScenarioSetup : UIModule
                     }
                     else
                     {
-                        playerName.Text = AbilityRules.TranslateResourceString(GameTables.HumanText);
+                        playerName.Text = setup.UI.Engine.TranslateResourceString(GameTables.HumanText);
                     }
                 }
                 else
                 {
-                    playerName.Text = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[settings.Behavior.PlayerType]);
+                    playerName.Text = setup.UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[settings.Behavior.PlayerType]);
                 }
             }
 
@@ -922,7 +922,7 @@ public partial class ScenarioSetup : UIModule
             {
                 if (settings.Status.Contains(PlayerSetupStatusElement.Fixed))
                 {
-                    info.Text = AbilityRules.TranslateResourceString(GameText.FixedText);
+                    info.Text = setup.UI.Engine.TranslateResourceString(GameText.FixedText);
                 }
                 else
                 {
@@ -934,11 +934,11 @@ public partial class ScenarioSetup : UIModule
                             // { Original compares race bytes, including the FF sentinel. }
                             if (setup.SetupControl.Settings.RemotePlayers.GetPlayers(I).PreferredRace == (byte)settings.Race)
                             {
-                                info.Text = AbilityRules.TranslateResourceString(GameText.TakenText);
+                                info.Text = setup.UI.Engine.TranslateResourceString(GameText.TakenText);
                             }
                             else
                             {
-                                info.Text = AbilityRules.TranslateResourceString(GameText.ForcedText);
+                                info.Text = setup.UI.Engine.TranslateResourceString(GameText.ForcedText);
                             }
                         }
                     }
@@ -946,13 +946,13 @@ public partial class ScenarioSetup : UIModule
                     {
                         if (settings.Behavior.Flags != 0)
                         {
-                            info.Text = AbilityRules.TranslateResourceString(GameText.TakenText);
+                            info.Text = setup.UI.Engine.TranslateResourceString(GameText.TakenText);
                         }
                         else
                         {
                             if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(settings.Behavior.PlayerType))
                             {
-                                info.Text = AbilityRules.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)settings.BehaviorMode]);
+                                info.Text = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)settings.BehaviorMode]);
                             }
                         }
                     }
@@ -967,7 +967,7 @@ public partial class ScenarioSetup : UIModule
                 for (int bOrdinal = 0; bOrdinal <= 5; bOrdinal++)
                 {
                     B = (byte)bOrdinal;
-                    var playerBehavior = AbilityRules.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)B]);
+                    var playerBehavior = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)B]);
                     behaviorBox.Items.AddObject(playerBehavior, IntToObject(B));
                 }
 
@@ -1010,7 +1010,7 @@ public partial class ScenarioSetup : UIModule
             behaviorBox.Visible = false;
             playerName.Visible = false;
             info.Visible = true;
-            info.Text = AbilityRules.TranslateResourceString(GameText.UnavailableText);
+            info.Text = setup.UI.Engine.TranslateResourceString(GameText.UnavailableText);
             fog.Visible = true;
         }
     }

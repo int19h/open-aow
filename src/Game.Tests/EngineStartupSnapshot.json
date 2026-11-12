@@ -3,12 +3,10 @@
     "ExceptionType": null,
     "ExceptionMessage": null,
     "StateAtCaller": {
-      "AoWEngine": true,
       "AoWHSSet": true,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "$root",
-      "Engines": 1
+      "LocalizationStartupDirectory": "$root"
     },
     "ObjectsAtCaller": {
       "Engine": {
@@ -1132,7 +1130,6 @@
       }
     },
     "DestroyExceptionFrames": null,
-    "ValidateAgain": true,
     "FinalSnapshot": {
       "Version": 19136565,
       "User": 7,
@@ -1289,12 +1286,10 @@
         "Aow.Game.World.Map.GamePack"
       ],
       "Globals": {
-        "AoWEngine": true,
         "AoWHSSet": true,
         "BaseImageLibraryPath": "$root/",
         "BaseSoundEnginePath": "$root/",
-        "LocalizationStartupDirectory": "$root",
-        "Engines": 1
+        "LocalizationStartupDirectory": "$root"
       }
     },
     "MovePointTables": {
@@ -75540,276 +75535,208 @@
       }
     },
     "StateAfterDestruction": {
-      "AoWEngine": true,
       "AoWHSSet": true,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "$root",
-      "Engines": 0
+      "LocalizationStartupDirectory": "$root"
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/SFX",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/SFX/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: Flags.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: GENERAL.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: CURSORS.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: COMBAT.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/EmailIn/egames.pfs",
-        "Engine": true,
         "Set": true,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.begin",
         "Argument": "GameEngine",
-        "Engine": true,
         "Set": true,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.end",
         "Argument": "GameEngine",
-        "Engine": true,
         "Set": true,
-        "Engines": 0,
         "DestroyFrames": []
       }
     ]
@@ -75818,12 +75745,10 @@
     "ExceptionType": null,
     "ExceptionMessage": null,
     "StateAtCaller": {
-      "AoWEngine": true,
       "AoWHSSet": true,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "$root",
-      "Engines": 1
+      "LocalizationStartupDirectory": "$root"
     },
     "ObjectsAtCaller": {
       "Engine": {
@@ -76948,276 +76873,208 @@
     },
     "DestroyExceptionFrames": null,
     "StateAfterDestruction": {
-      "AoWEngine": true,
       "AoWHSSet": true,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "$root",
-      "Engines": 0
+      "LocalizationStartupDirectory": "$root"
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/SFX",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/SFX/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: Flags.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: GENERAL.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: CURSORS.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.FileNotFoundException: Missing IL Resource: COMBAT.ILB",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/EmailIn/egames.pfs",
-        "Engine": true,
         "Set": true,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.begin",
         "Argument": "GameEngine",
-        "Engine": true,
         "Set": true,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.end",
         "Argument": "GameEngine",
-        "Engine": true,
         "Set": true,
-        "Engines": 0,
         "DestroyFrames": []
       }
     ]
@@ -77226,12 +77083,10 @@
     "ExceptionType": null,
     "ExceptionMessage": null,
     "StateAtCaller": {
-      "AoWEngine": false,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
-      "LocalizationStartupDirectory": "",
-      "Engines": 1
+      "LocalizationStartupDirectory": ""
     },
     "ObjectsAtCaller": {
       "Engine": {
@@ -77258,28 +77113,22 @@
     },
     "DestroyExceptionFrames": null,
     "StateAfterDestruction": {
-      "AoWEngine": false,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
-      "LocalizationStartupDirectory": "",
-      "Engines": 0
+      "LocalizationStartupDirectory": ""
     },
     "Events": [
       {
         "Call": "Destroy.begin",
         "Argument": "GameEngine",
-        "Engine": false,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.end",
         "Argument": "GameEngine",
-        "Engine": false,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       }
     ]
@@ -77288,56 +77137,38 @@
     "ExceptionType": "System.NullReferenceException",
     "ExceptionMessage": "Object reference not set to an instance of an object.",
     "StateAtCaller": {
-      "AoWEngine": true,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
-      "LocalizationStartupDirectory": "",
-      "Engines": 0
+      "LocalizationStartupDirectory": ""
     },
-    "ObjectsAtCaller": {
-      "Engine": {
-        "Type": "Aow.Game.GameEngine"
-      },
-      "Engine.Registry": {
-        "Type": "Aow.Game.GameSettings"
-      }
-    },
+    "ObjectsAtCaller": null,
     "DestroyExceptionFrames": [
       "GameEngine"
     ],
-    "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": true,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
-      "LocalizationStartupDirectory": "",
-      "Engines": 0
+      "LocalizationStartupDirectory": ""
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.InvalidDataException: injected debug-mode settings failure",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       }
     ]
@@ -77346,127 +77177,80 @@
     "ExceptionType": "System.NullReferenceException",
     "ExceptionMessage": "Object reference not set to an instance of an object.",
     "StateAtCaller": {
-      "AoWEngine": true,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "",
-      "Engines": 0
+      "LocalizationStartupDirectory": ""
     },
-    "ObjectsAtCaller": {
-      "Engine": {
-        "Type": "Aow.Game.GameEngine"
-      },
-      "Engine.Dictionary": {
-        "Type": "Aow.Rtl.Localize.IvBinaryDictionary"
-      },
-      "Engine.EmailGames": {
-        "Type": "Aow.Game.Net.EmailGameControl"
-      },
-      "Engine.EmailGames._games": {
-        "Type": "Aow.Game.Net.EmailGameList"
-      },
-      "Engine.EmailGames._games._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine.Registry": {
-        "Type": "Aow.Game.GameSettings"
-      },
-      "Engine._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      }
-    },
+    "ObjectsAtCaller": null,
     "DestroyExceptionFrames": [
       "GameEngine"
     ],
-    "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": true,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "",
-      "Engines": 0
+      "LocalizationStartupDirectory": ""
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Open:0",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.InvalidDataException: Invalid MLD header",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       }
     ]
@@ -77475,258 +77259,104 @@
     "ExceptionType": "System.NullReferenceException",
     "ExceptionMessage": "Object reference not set to an instance of an object.",
     "StateAtCaller": {
-      "AoWEngine": true,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "$root",
-      "Engines": 1
+      "LocalizationStartupDirectory": "$root"
     },
-    "ObjectsAtCaller": {
-      "Engine": {
-        "Type": "Aow.Game.GameEngine"
-      },
-      "Engine.Dictionary": {
-        "Type": "Aow.Rtl.Localize.IvBinaryDictionary"
-      },
-      "Engine.EmailGames": {
-        "Type": "Aow.Game.Net.EmailGameControl"
-      },
-      "Engine.EmailGames._games": {
-        "Type": "Aow.Game.Net.EmailGameList"
-      },
-      "Engine.EmailGames._games._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine.Registry": {
-        "Type": "Aow.Game.GameSettings"
-      },
-      "Engine._classTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._controlNode": {
-        "Type": "Aow.Engine.Nodes.EControlStyleNode"
-      },
-      "Engine._controlNode._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine._editors": {
-        "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
-      },
-      "Engine._engineClasses": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine._children[1]": {
-        "Type": "Aow.Game.World.Map.GamePack"
-      },
-      "Engine._children[1].CombatHexes": {
-        "Type": "Aow.Game.World.Map.HexControl"
-      },
-      "Engine._children[1].CombatHexes._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children[1].CombatResources": {
-        "Type": "Aow.Game.World.MapObjectResourceList"
-      },
-      "Engine._children[1].CombatResources._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine._children[1].CombatRoads": {
-        "Type": "Aow.Game.World.Map.RoadControl"
-      },
-      "Engine._children[1].CombatRoads._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children[1]._decorationTypes": {
-        "Type": "Aow.Rtl.StringList"
-      },
-      "Engine._children[1]._hexControl": {
-        "Type": "Aow.Game.World.Map.HexControl"
-      },
-      "Engine._children[1]._hexControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children[1]._imageLibraryManager": {
-        "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
-      },
-      "Engine._children[1]._imageLibraryManager._diskList": {
-        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
-      },
-      "Engine._children[1]._imageLibraryManager._diskList.HashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children[1]._imageLibraryManager._ownedList": {
-        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
-      },
-      "Engine._children[1]._imageLibraryManager._ownedList.HashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children[1]._mapObjectResourceList": {
-        "Type": "Aow.Game.World.MapObjectResourceList"
-      },
-      "Engine._children[1]._mapObjectResourceList._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine._children[1]._overlayTypes": {
-        "Type": "Aow.Rtl.StringList"
-      },
-      "Engine._children[1]._pluginControl": {
-        "Type": "Aow.Engine.PluginControl"
-      },
-      "Engine._children[1]._pluginControl._usedPlugins": {
-        "Type": "Aow.Rtl.StringList"
-      },
-      "Engine._children[1]._resourceEditSettings": {
-        "Type": "Aow.Engine.Nodes.ResourceEditSettings"
-      },
-      "Engine._children[1]._resourceEditSettings._editors": {
-        "Type": "Aow.Rtl.StringList"
-      },
-      "Engine._children[1]._roadControl": {
-        "Type": "Aow.Game.World.Map.RoadControl"
-      },
-      "Engine._children[1]._roadControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
-      },
-      "Engine._children[1]._sfxManager": {
-        "Type": "Aow.Game.Audio.SfxManager"
-      },
-      "Engine._children[1]._sfxManager._sfx": {
-        "Type": "Aow.Game.Audio.SfxList"
-      },
-      "Engine._children[1]._terrainTypes": {
-        "Type": "Aow.Rtl.StringList"
-      },
-      "Engine._children[1]._children": {
-        "Type": "Aow.Engine.Nodes.EngineObjectList"
-      }
-    },
+    "ObjectsAtCaller": null,
     "DestroyExceptionFrames": [
       "GameEngine"
     ],
-    "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": true,
       "AoWHSSet": false,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
-      "LocalizationStartupDirectory": "$root",
-      "Engines": 1
+      "LocalizationStartupDirectory": "$root"
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": true,
         "Set": false,
-        "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/IMAGES",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES/",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.InvalidDataException: injected IMAGES search failure",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": [
           "GamePack"
         ]
@@ -77734,9 +77364,7 @@
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": true,
         "Set": false,
-        "Engines": 1,
         "DestroyFrames": []
       }
     ]

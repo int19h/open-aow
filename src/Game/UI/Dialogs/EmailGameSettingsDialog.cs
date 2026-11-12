@@ -94,7 +94,7 @@ public partial class EmailGameSettingsDialog : UIModule
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
             UI.MessageDialog.MessageMemo.Items.Add("");
-            var pleaseFillInAllSettings = AbilityRules.TranslateResourceString(s_pleaseFillInAllSettingsText);
+            var pleaseFillInAllSettings = UI.Engine.TranslateResourceString(s_pleaseFillInAllSettingsText);
             UI.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
@@ -116,9 +116,9 @@ public partial class EmailGameSettingsDialog : UIModule
     // AoWEmailGameSettingsDlg.pas:146
     public void LocalEmailAddressEditUpdate()
     {
-        if (GameTables.GameEngine.Registry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
+        if (UI.Engine.Registry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
         {
-            var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+            var localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
             LocalEmailAddressEdit.Text = localEmailAddress;
         }
     }
@@ -157,7 +157,7 @@ public partial class EmailGameSettingsDialog : UIModule
             emailEdit.CaptureInput = true;
             emailEdit.Text = EmailAddresses[index];
             var objectValue = EmailAddresses.Objects[index];
-            nameLabel.Text = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[ObjectToInt(objectValue)]);
+            nameLabel.Text = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[ObjectToInt(objectValue)]);
         }
         else
         {
@@ -205,7 +205,7 @@ public partial class EmailGameSettingsDialog : UIModule
         EmailAddresses.Clear();
         PlayerScrollBar.Visible = true;
         PlayerScrollBar.Position = 0;
-        var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+        var localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
     }
 
@@ -221,7 +221,7 @@ public partial class EmailGameSettingsDialog : UIModule
             if (C.Settings.GetSettings(I).Behavior.PlayerType == 0)
             {
                 var setting = C.Settings.GetSettings(I);
-                var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+                var localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
                 EmailAddresses.AddObject(localEmailAddress, IntToObject(setting.Race));
             }
         }
@@ -235,7 +235,7 @@ public partial class EmailGameSettingsDialog : UIModule
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
             UI.MessageDialog.MessageMemo.Items.Add("");
-            var youNeed2HumanPlayersToPlayAnEmailGame = AbilityRules.TranslateResourceString(s_youNeed2HumanPlayersToPlayEmailGameText);
+            var youNeed2HumanPlayersToPlayAnEmailGame = UI.Engine.TranslateResourceString(s_youNeed2HumanPlayersToPlayEmailGameText);
             UI.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;

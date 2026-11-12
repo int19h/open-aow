@@ -79,7 +79,7 @@ public partial class WorldMap : UIModule
     public byte BookAction { get; set; }
 
     // AoWWorldMap.pas:152
-    public WorldMapCampaign GetCampaign() => (WorldMapCampaign)GameTables.GameEngine.Campaign;
+    public WorldMapCampaign GetCampaign() => (WorldMapCampaign)UI.Engine.Campaign;
 
     // AoWWorldMap.pas:157
     public void UpdateCampaignState()
@@ -101,7 +101,7 @@ public partial class WorldMap : UIModule
 
                     if (condition)
                     {
-                        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "\\Int\\Scenes");
+                        SetCurrentDir(UI.Engine.StartupDirectory + "\\Int\\Scenes");
                         var campaign2 = GetCampaign();
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                         var campaign3 = GetCampaign();
@@ -343,7 +343,7 @@ public partial class WorldMap : UIModule
                         UI.TaskBar.TaskWindow.Visible = false;
                         WorldPanel.Visible = false;
                         Book.Visible = false;
-                        GameTables.GameEngine.CloseCampaign();
+                        UI.Engine.CloseCampaign();
                         UI.TitleScene.ResetScene();
                         WindowActions.ShowTitleScene(UI.TitleScene, true);
                     }
@@ -387,7 +387,7 @@ public partial class WorldMap : UIModule
                 case 4:
                     var campaign27 = GetCampaign();
                     var campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
-                    preview = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), GameProfile.WorldMap);
+                    preview = (StrategicMap)UI.Engine.CreatePreviewHsm(FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), GameProfile.WorldMap);
                     if (preview != null)
                     {
                         index = preview.Players.IndexOfPlayerType(PlayerType.Human);
@@ -420,7 +420,7 @@ public partial class WorldMap : UIModule
                         campaign2.State += 1;
                         var campaign3 = GetCampaign();
                         GetCampaign().StartScenario(campaign3.NextScenarioId, null);
-                        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\");
+                        SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Campaign\\");
                         var campaign4 = GetCampaign();
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
                         General.LoadGame(UI.General, FileBoundary.ReadName(campaignScenario.FileName));
@@ -448,7 +448,7 @@ public partial class WorldMap : UIModule
     // AoWWorldMap.pas:347
     public void ShowIntroPages(int index)
     {
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Int\\Scenes");
+        SetCurrentDir(UI.Engine.StartupDirectory + "Int\\Scenes");
         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign = GetCampaign();
         var campaignPage = GetCampaignPage(campaignScenario.IntroPages, campaign.Page);
@@ -559,16 +559,16 @@ public partial class WorldMap : UIModule
         picks = GetCampaign().TransferSettings.Leader.SpherePicksMax;
         control = new LeaderSetupControl(null);
         var campaign = GetCampaign();
-        control.Leader.Assign(campaign.TransferSettings.Leader, GameTables.GameEngine);
+        control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
         control.Leader.SetSpherePicksMax((byte)(picks + 2));
-        control.OriginalLeader.Assign(control.Leader, GameTables.GameEngine);
+        control.OriginalLeader.Assign(control.Leader, UI.Engine);
         control.Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
         UI.LeaderSetupWindow.Execute(control);
         UI.LeaderSetupWindow.ClearButton.Visible = false;
         UI.LeaderSetupWindow.DefaultButton.Visible = false;
         UI.LeaderSetupWindow.PreviousButton.Visible = false;
         UI.LeaderSetupWindow.SetFixedSpheres(picks);
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
+        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
         UI.LeaderSetupWindow.Phase3Header.Text = format;
         control.OnDone += SpheresDone;
         control.Release();
@@ -583,7 +583,7 @@ public partial class WorldMap : UIModule
         var leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(GameTables.GameEngine);
+            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(UI.Engine);
             for (int I = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; I <= last; I++)
             {
                 var sphere = leader.GetSpheres(I);
@@ -625,7 +625,7 @@ public partial class WorldMap : UIModule
         GetCampaign().State = 0;
         GetCampaign().Page = 0;
         InfoPanel.Visible = false;
-        var showInfo = AbilityRules.TranslateResourceString(s_showInfoText);
+        var showInfo = UI.Engine.TranslateResourceString(s_showInfoText);
         ShowButton.Text = showInfo;
     }
 
@@ -684,7 +684,7 @@ public partial class WorldMap : UIModule
     // AoWWorldMap.pas:863
     public void WorldMapCreate()
     {
-        RegisterWorldMapCampaign(GameTables.GameEngine);
+        RegisterWorldMapCampaign(UI.Engine);
     }
 
     // AoWWorldMap.pas:461
@@ -910,7 +910,7 @@ public partial class WorldMap : UIModule
         {
             if (GetCampaign().State == 1)
             {
-                description = AbilityRules.TranslateResourceString(s_viewSummaryText);
+                description = UI.Engine.TranslateResourceString(s_viewSummaryText);
             }
         }
 
@@ -928,11 +928,11 @@ public partial class WorldMap : UIModule
             {
                 if (GetCampaign().Faction == 0)
                 {
-                    description = AbilityRules.TranslateResourceString(LobbyText.CultOfStormsText);
+                    description = UI.Engine.TranslateResourceString(LobbyText.CultOfStormsText);
                 }
                 else
                 {
-                    description = AbilityRules.TranslateResourceString(LobbyText.KeepersText);
+                    description = UI.Engine.TranslateResourceString(LobbyText.KeepersText);
                 }
             }
         }
@@ -1111,7 +1111,7 @@ public partial class WorldMap : UIModule
             UpdateCampaignState();
             SelectLabel.Visible = true;
             InfoPanel.Visible = false;
-            var showInfo = AbilityRules.TranslateResourceString(s_showInfoText);
+            var showInfo = UI.Engine.TranslateResourceString(s_showInfoText);
             ShowButton.Text = showInfo;
         }
         else
@@ -1123,7 +1123,7 @@ public partial class WorldMap : UIModule
             Path2Image.Visible = false;
             Path3Image.Visible = false;
             InfoPanel.Visible = true;
-            var hideInfo = AbilityRules.TranslateResourceString(s_hideInfoText);
+            var hideInfo = UI.Engine.TranslateResourceString(s_hideInfoText);
             ShowButton.Text = hideInfo;
         }
     }
@@ -1131,8 +1131,8 @@ public partial class WorldMap : UIModule
     // AoWWorldMap.pas:786
     public void QuitBtnClick()
     {
-        var quitCampaign = AbilityRules.TranslateResourceString(s_quitCampaignText);
-        var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
+        var quitCampaign = UI.Engine.TranslateResourceString(s_quitCampaignText);
+        var confirm = UI.Engine.TranslateResourceString(LobbyText.ConfirmText);
         UI.ConfirmationDialog.Confirm(confirm, text: quitCampaign, onConfirmed: QuitCampaign);
     }
 
@@ -1264,7 +1264,7 @@ public partial class WorldMap : UIModule
     {
         string song = "";
         dialog.ResetCampaign();
-        GameTables.GameEngine.CloseHsm(null);
+        dialog.UI.Engine.CloseHsm(null);
         dialog.UI.TitleWindow.MainWindow.Visible = true;
         dialog.UI.TitleWindow.TitlePanel.Visible = false;
         dialog.WorldPanel.Visible = true;
@@ -1273,7 +1273,7 @@ public partial class WorldMap : UIModule
         dialog.DescriptionLabel.Text = "";
         dialog.UI.General.Manager.OverlayPriority = 249;
         AudioHost.SongPlayer.Stop(false);
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory);
+        SetCurrentDir(dialog.UI.Engine.StartupDirectory);
         var campaign = dialog.GetCampaign();
         if (IsEmpty(WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), campaign.CurrentScenarioId).ImageLibrary))
         {

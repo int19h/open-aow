@@ -42,7 +42,6 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void EngineChildrenAreItsControlNodeItsMapsAndItsSet()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new GameEngine(null!);
         var map = new GameMap(engine);
         var set = new GamePack(null!);
@@ -69,7 +68,6 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void EngineRefusesAnotherChildAtEveryWrite()
     {
-        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new GameEngine(null!);
         var stranger = new ENode(null!);
         var container = new MapContainer(null!);

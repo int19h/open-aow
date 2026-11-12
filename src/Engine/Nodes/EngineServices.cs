@@ -1,4 +1,6 @@
 
+using System.Collections.Immutable;
+
 using Aow.Engine.Storage;
 
 using Aow.Game;
@@ -43,75 +45,15 @@ public static class EngineServices
         return result + S;
     }
 
-    internal static Plugin GetPlugin(int index)
-    {
-        Plugin result;
-        if (EngineHost.Plugins != null && index >= 0 && index < EngineHost.Plugins.Count)
-        {
-            result = EngineHost.Plugins[index];
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
+    // The CRC-32 table of the reflected polynomial 0xEDB88320, built once.
+    private static readonly ImmutableArray<int> s_crc32Table = BuildCrc32Table();
 
     public static int GetCrc32(ReadOnlySpan<byte> buffer, int size)
     {
-        if (EngineHost.Crc32Table.Length == 0) BuildCrc32Table();
         int crc = -1;
         foreach (byte value in buffer[..size])
-            crc = EngineHost.Crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+            crc = s_crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
         return crc ^ -1;
-    }
-
-    internal static GameEngine GetEngine(int index)
-    {
-        GameEngine result;
-        GameEngine P;
-        if (EngineHost.Engines != null && index >= 0 && index < EngineHost.Engines.Count)
-        {
-            P = EngineHost.Engines[index];
-            result = P;
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
-
-    internal static GameEngine FindEngine(int classId)
-    {
-        int I;
-        bool found;
-        found = false;
-        GameEngine result = null;
-        if (EngineHost.Engines != null)
-        {
-            I = 0;
-            found = false;
-            while (!found && I < EngineHost.Engines.Count)
-            {
-                found = classId == (EngineHost.Engines[I]).EngineClass.ClassId;
-                I += 1;
-            }
-
-            if (found)
-            {
-                result = EngineHost.Engines[I - 1];
-            }
-        }
-
-        if (!found)
-        {
-            throw new InvalidOperationException("Cannot access Engine");
-        }
-
-        return result;
     }
 
     internal static void StringToStream(string S, Stream stream)
@@ -130,32 +72,29 @@ public static class EngineServices
         }
     }
 
-    internal static void BuildCrc32Table()
+    private static ImmutableArray<int> BuildCrc32Table()
     {
-        int C;
-        int polynomial;
-        if (EngineHost.Crc32Table.Length == 0)
+        const int polynomial = -306674912;
+        var table = new int[256];
+        for (int I = 0; I <= 255; I++)
         {
-            EngineHost.Crc32Table = new int[256];
-            polynomial = -306674912;
-            for (int I = 0; I <= 255; I++)
+            int C = I;
+            for (int J = 7; J >= 0; J--)
             {
-                C = I;
-                for (int J = 7; J >= 0; J--)
+                if ((C & 1) != 0)
                 {
-                    if ((C & 1) != 0)
-                    {
-                        C = ((int)(((uint)C) >> 1)) ^ polynomial;
-                    }
-                    else
-                    {
-                        C = (int)(((uint)C) >> 1);
-                    }
-
-                    EngineHost.Crc32Table[I] = C;
+                    C = ((int)(((uint)C) >> 1)) ^ polynomial;
+                }
+                else
+                {
+                    C = (int)(((uint)C) >> 1);
                 }
             }
+
+            table[I] = C;
         }
+
+        return ImmutableArray.Create(table);
     }
 
     internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Fill(buffer, count, value);

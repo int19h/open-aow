@@ -461,6 +461,7 @@
               "MemoryStream._writable": true,
               "Stream._asyncActiveSemaphore": null
             },
+            "SetupControl._engine": null,
             "SetupControl._onAbort": null,
             "SetupControl._phase": 0,
             "SetupControl._updateCount": 0
@@ -579,6 +580,7 @@
               "MemoryStream._writable": true,
               "Stream._asyncActiveSemaphore": null
             },
+            "SetupControl._engine": null,
             "SetupControl._onAbort": null,
             "SetupControl._phase": 0,
             "SetupControl._updateCount": 0
@@ -631,6 +633,7 @@
                 "Set\u00601.low": 0
               },
               "SetupControl.Stream": null,
+              "SetupControl._engine": null,
               "SetupControl._onAbort": null,
               "SetupControl._phase": 0,
               "SetupControl._updateCount": 0
@@ -13581,6 +13584,7 @@
             "CombatMapControl.OnTurnChanged": null,
             "CombatMapControl.OnUnitChanged": null,
             "CombatMapControl.OnUpkeepChanged": null,
+            "CombatMapControl._engine": null,
             "Component.ComponentState": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -13630,6 +13634,7 @@
             "CombatMapControl.OnTurnChanged": null,
             "CombatMapControl.OnUnitChanged": null,
             "CombatMapControl.OnUpkeepChanged": null,
+            "CombatMapControl._engine": null,
             "Component.ComponentState": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -13674,6 +13679,7 @@
               "CombatMapControl.OnTurnChanged": null,
               "CombatMapControl.OnUnitChanged": null,
               "CombatMapControl.OnUpkeepChanged": null,
+              "CombatMapControl._engine": null,
               "Component.ComponentState": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -13763,7 +13769,8 @@
             "MapControl.OnUnitChanged": null,
             "MapControl.OnUnitDestroyed": null,
             "MapControl.OnUpkeepChanged": null,
-            "MapControl.OnViewPortChange": null
+            "MapControl.OnViewPortChange": null,
+            "MapControl._engine": null
           }
         }
       },
@@ -13838,7 +13845,8 @@
             "MapControl.OnUnitChanged": null,
             "MapControl.OnUnitDestroyed": null,
             "MapControl.OnUpkeepChanged": null,
-            "MapControl.OnViewPortChange": null
+            "MapControl.OnViewPortChange": null,
+            "MapControl._engine": null
           }
         }
       },
@@ -13908,7 +13916,8 @@
               "MapControl.OnUnitChanged": null,
               "MapControl.OnUnitDestroyed": null,
               "MapControl.OnUpkeepChanged": null,
-              "MapControl.OnViewPortChange": null
+              "MapControl.OnViewPortChange": null,
+              "MapControl._engine": null
             }
           }
         ]

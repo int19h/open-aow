@@ -79,7 +79,7 @@ public sealed class EndTurnShortcutTests
         private readonly CombatMap _previousCombat = CombatMap.Current;
         private CombatMap? _combat;
 
-        internal UIContext UI { get; } = new();
+        internal UIContext UI { get; } = new(EngineFixture.Engine);
         internal StrategicMap Map { get; }
         internal MapWindow Window { get; }
         internal TurnButton Button { get; }

@@ -32,8 +32,7 @@ public sealed partial class EngineFixture : IDisposable
     {
         Runtime.InstallHost(_host);
         s_services = _host;
-        GameTables.ValidateGameEngine();
-        Engine = GameTables.GameEngine;
+        Engine = GameEngine.Create(null!);
         GameSet = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))

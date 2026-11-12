@@ -6,6 +6,7 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -15,6 +16,8 @@ namespace Aow.Game.UI.Grids;
 
 public partial class MapControl : Component
 {
+    private readonly GameEngine _engine;
+
     [Published]
     public event MapObjectEvent<Army> OnArmySelected;
     [Published]
@@ -111,10 +114,10 @@ public partial class MapControl : Component
     // MapCtrl.pas:186
     public override void Dispose()
     {
-        if (GameTables.GameEngine != null)
+        if (_engine != null)
         {
-            GameTables.GameEngine.HexSpriteMapLoaded -= ActivateHsm;
-            GameTables.GameEngine.HexSpriteMapClosing -= DeactivateHsm;
+            _engine.HexSpriteMapLoaded -= ActivateHsm;
+            _engine.HexSpriteMapClosing -= DeactivateHsm;
             if (StrategicMap.Current != null)
             {
                 ReleaseHsm();
@@ -127,10 +130,13 @@ public partial class MapControl : Component
     // MapCtrl.pas:174
     public MapControl(Component owner) : base(owner)
     {
-        if (GameTables.ValidateGameEngine())
+        // The engine of the dialog module that owns the control, as the original read the
+        // engine global.
+        _engine = (owner as UIModule)?.UI.Engine;
+        if (_engine != null)
         {
-            GameTables.GameEngine.HexSpriteMapLoaded += ActivateHsm;
-            GameTables.GameEngine.HexSpriteMapClosing += DeactivateHsm;
+            _engine.HexSpriteMapLoaded += ActivateHsm;
+            _engine.HexSpriteMapClosing += DeactivateHsm;
             if (StrategicMap.Current != null)
             {
                 LinkToHsm();

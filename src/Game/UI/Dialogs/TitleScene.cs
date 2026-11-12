@@ -177,10 +177,10 @@ public partial class TitleScene : UIModule
             switch (page)
             {
                 case 0:
-                    text = AbilityRules.TranslateResourceString(s_coDevelopedByText);
+                    text = UI.Engine.TranslateResourceString(s_coDevelopedByText);
                     break;
                 case 1:
-                    text = AbilityRules.TranslateResourceString(s_coPublishedByText);
+                    text = UI.Engine.TranslateResourceString(s_coPublishedByText);
                     break;
                 case 2:
                     text = "";
@@ -221,10 +221,10 @@ public partial class TitleScene : UIModule
 
                     break;
                 case 1:
-                    var northAmerica = AbilityRules.TranslateResourceString(s_northAmericaText);
+                    var northAmerica = UI.Engine.TranslateResourceString(s_northAmericaText);
                     var titleSceneImageLibrary = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(X - 75, Y - titleSceneImageLibrary.Height / 2 - 20, northAmerica, surface);
-                    var europe = AbilityRules.TranslateResourceString(s_europeText);
+                    var europe = UI.Engine.TranslateResourceString(s_europeText);
                     var titleSceneImageLibrary2 = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneImageLibrary2.Height / 2 - 20, europe, surface);
                     if (TitleSceneImages[6] != null)
@@ -365,12 +365,12 @@ public partial class TitleScene : UIModule
             if (I == HitTest())
             {
                 _font.Color = 16777215;
-                var translatedText = AbilityRules.TranslateResourceString(TitleCaptions.TitleButtons[I]);
+                var translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[I]);
                 var titleSceneImageLibrary = TitleSceneImages[10];
                 _font.SetTextCentered(X + spacing * I + titleSceneImageLibrary.Width / 2, Y + 445, translatedText, surface);
             }
 
-            if (GameTables.GameEngine.AnimationDetail == 2)
+            if (UI.Engine.AnimationDetail == 2)
             {
                 TitleSceneImages[25].Show(X + spacing * I, Y + 355, surface);
             }
@@ -465,7 +465,7 @@ public partial class TitleScene : UIModule
             if (Succeeded(surface.Lock(ref lockedSurface)))
             {
                 DrawScene(ref lockedSurface);
-                if (GameTables.GameEngine.RegisteredVersion() && !_showCredits)
+                if (UI.Engine.RegisteredVersion() && !_showCredits)
                 {
                     LegalNoticeMemo.Draw(lockedSurface);
                     DemoNoticeLabel.Draw(lockedSurface);
@@ -489,74 +489,74 @@ public partial class TitleScene : UIModule
     {
         StringList lines;
         ResetScene();
-        var registeredTo = GameTables.GameEngine.RegisteredTo();
+        var registeredTo = UI.Engine.RegisteredTo();
         NameLabel.Text = registeredTo;
-        var versionString = GameTables.GameEngine.GetVersionString();
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_versionFormat), [versionString]);
+        var versionString = UI.Engine.GetVersionString();
+        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
         VersionLabel.Text = format;
         _credits = new List<StringList>();
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_designerAndDirectorText));
+        lines.Add(UI.Engine.TranslateResourceString(s_designerAndDirectorText));
         lines.Add("Lennart Sas");
         lines.Add("");
-        lines.Add(AbilityRules.TranslateResourceString(s_additionalDesignText));
+        lines.Add(UI.Engine.TranslateResourceString(s_additionalDesignText));
         lines.Add("Arno van Wingerden");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_leadProgrammerText));
+        lines.Add(UI.Engine.TranslateResourceString(s_leadProgrammerText));
         lines.Add("Arno van Wingerden");
         lines.Add("");
-        lines.Add(AbilityRules.TranslateResourceString(s_programmerText));
+        lines.Add(UI.Engine.TranslateResourceString(s_programmerText));
         lines.Add("Josh Farley");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_artistsText));
+        lines.Add(UI.Engine.TranslateResourceString(s_artistsText));
         lines.Add("Lennart Sas");
         lines.Add("Thomas Cardin");
         lines.Add("Roy Postma");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_leadScenarioDesignerText));
+        lines.Add(UI.Engine.TranslateResourceString(s_leadScenarioDesignerText));
         lines.Add("Menno Sas");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_scenarioDesignersText));
+        lines.Add(UI.Engine.TranslateResourceString(s_scenarioDesignersText));
         lines.Add("Doug Gibson");
         lines.Add("Arnout Sas");
         lines.Add("Hugo van Wingerden");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_writerText));
+        lines.Add(UI.Engine.TranslateResourceString(s_writerText));
         lines.Add("Raymond Bingham");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_musicText));
+        lines.Add(UI.Engine.TranslateResourceString(s_musicText));
         lines.Add("Michiel van den Bos");
         lines.Add("");
-        lines.Add(AbilityRules.TranslateResourceString(s_soundEffectText));
+        lines.Add(UI.Engine.TranslateResourceString(s_soundEffectText));
         lines.Add("Nando Eweg");
         _credits.Add(lines);
         lines.Add("");
-        lines.Add(AbilityRules.TranslateResourceString(s_introVoiceText));
+        lines.Add(UI.Engine.TranslateResourceString(s_introVoiceText));
         lines.Add("John McGinn (English)");
         lines.Add("Norbert Gastell (German)");
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_galaxySoundSystemText));
+        lines.Add(UI.Engine.TranslateResourceString(s_galaxySoundSystemText));
         lines.Add("Carlo Vogelsang");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_internetMailSuiteText));
+        lines.Add(UI.Engine.TranslateResourceString(s_internetMailSuiteText));
         lines.Add("Argo Software Design");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_qaCoreText));
+        lines.Add(UI.Engine.TranslateResourceString(s_qaCoreText));
         lines.Add("Cliff Benjamin");
         lines.Add("Ian Calderon");
         lines.Add("Ted Stephenson");
         lines.Add("Hugo van Wingerden");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString("Take 2 Europe"));
+        lines.Add(UI.Engine.TranslateResourceString("Take 2 Europe"));
         lines.Add("");
         lines.Add("Producer");
         lines.Add("Ken Jordan");
@@ -583,12 +583,12 @@ public partial class TitleScene : UIModule
         lines.Add("Lee Johnson");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_bizzText));
+        lines.Add(UI.Engine.TranslateResourceString(s_bizzText));
         lines.Add("Jay Wilbur");
         lines.Add("Mark Rein");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(AbilityRules.TranslateResourceString(s_specialThanksText));
+        lines.Add(UI.Engine.TranslateResourceString(s_specialThanksText));
         lines.Add("Eelco van der Snoek");
         lines.Add("Doug Gibson");
         lines.Add("Dietmer Tan");
@@ -688,7 +688,7 @@ public partial class TitleScene : UIModule
         dialog.UI.TitleWindow.MainWindow.Visible = true;
         dialog.UI.FactionSelectionWindow.FactionPanel.Visible = true;
         dialog.TopLabel.Visible = true;
-        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
+        var chooseFaction = dialog.UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
         dialog.TopLabel.Text = chooseFaction;
         dialog.LightNameLabel.Visible = false;
         dialog.LightTextMemo.Visible = false;
@@ -733,10 +733,10 @@ public partial class TitleScene : UIModule
     {
         if (StrategicMap.Current != null)
         {
-            GameTables.GameEngine.CloseHsm(null);
+            controller.UI.Engine.CloseHsm(null);
         }
 
-        var loading = AbilityRules.TranslateResourceString(s_loadingText);
+        var loading = controller.UI.Engine.TranslateResourceString(s_loadingText);
         var fileNameLocal = ExtractFileName(fileName);
         controller.UI.ProgressDialog.TitleLabel.Text = loading + ": " + fileNameLocal + "...";
         controller.UI.ProgressDialog.StatusLabel.Text = "";
@@ -751,8 +751,8 @@ public partial class TitleScene : UIModule
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
-        GameTables.GameEngine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
-        if (GameTables.GameEngine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
+        controller.UI.Engine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
+        if (controller.UI.Engine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
         {
             CloseGame(controller);
         }
@@ -775,7 +775,7 @@ public partial class TitleScene : UIModule
             {
                 for (int I = 0, last = StrategicMap.Current.StartupSongs.Songs.Count - 1; I <= last; I++)
                 {
-                    var fileNotFound = AbilityRules.TranslateResourceString(s_fileNotFoundText);
+                    var fileNotFound = controller.UI.Engine.TranslateResourceString(s_fileNotFoundText);
                     if (CompareText(StrategicMap.Current.StartupSongs.SongNames[I], fileNotFound) != 0)
                     {
                         var song = StrategicMap.Current.StartupSongs.Songs[I];
@@ -792,11 +792,11 @@ public partial class TitleScene : UIModule
         AudioHost.SongPlayer.Play(0);
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
         controller.UI.TaskBar.WorldStartMenuBar.Items.Clear();
-        var background = AbilityRules.TranslateResourceString(s_backgroundText);
+        var background = controller.UI.Engine.TranslateResourceString(s_backgroundText);
         controller.UI.TaskBar.WorldStartMenuBar.Items.Add(background);
-        if (GameTables.GameEngine.Campaign != null)
+        if (controller.UI.Engine.Campaign != null)
         {
-            var campaign = AbilityRules.TranslateResourceString(s_campaignText);
+            var campaign = controller.UI.Engine.TranslateResourceString(s_campaignText);
             controller.UI.TaskBar.WorldStartMenuBar.Items.Add(campaign);
         }
 
@@ -816,17 +816,17 @@ public partial class TitleScene : UIModule
         controller.UI.ScannerWindow.Scanner.Incremental = false;
         controller.UI.ScannerWindow.Scanner.Sized = false;
         controller.UI.ScannerWindow.ScannerTabs.Items.Clear();
-        var surface = AbilityRules.TranslateResourceString(s_surfaceText);
+        var surface = controller.UI.Engine.TranslateResourceString(s_surfaceText);
         controller.UI.ScannerWindow.ScannerTabs.Items.Add(surface);
         if (StrategicMap.Current.MapContainer.LevelCount > 1)
         {
-            var caverns = AbilityRules.TranslateResourceString(s_cavernsText);
+            var caverns = controller.UI.Engine.TranslateResourceString(s_cavernsText);
             controller.UI.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
         if (StrategicMap.Current.MapContainer.LevelCount > 2)
         {
-            var depths = AbilityRules.TranslateResourceString(s_depthsText);
+            var depths = controller.UI.Engine.TranslateResourceString(s_depthsText);
             controller.UI.ScannerWindow.ScannerTabs.Items.Add(depths);
         }
 
@@ -881,13 +881,13 @@ public partial class TitleScene : UIModule
 
     private static void CloseGame(General controller)
     {
-        GameTables.GameEngine.CloseHsm(null);
-        GameTables.GameEngine.CloseCampaign();
+        controller.UI.Engine.CloseHsm(null);
+        controller.UI.Engine.CloseCampaign();
         controller.UI.ScannerWindow.Scanner.SetMap(null);
         controller.UI.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(GameTables.GameEngine.StartupDirectory);
+        SetCurrentDir(controller.UI.Engine.StartupDirectory);
         HideGameWindows(controller.UI.General);
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;

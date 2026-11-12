@@ -210,7 +210,7 @@ public partial class RelationWindow : UIModule
                 check.ToolTipText.Clear();
                 var race = Races[I];
                 var fRacesRace = StrategicMap.Current.Races.GetRace(race);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
+                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
                 check.ToolTipText.Add(raceNamesPlural);
             }
             else
@@ -310,7 +310,7 @@ public partial class RelationWindow : UIModule
             if (player != StrategicMap.Current.SeatedPlayer)
             {
                 relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, StrategicMap.Current.SeatedPlayer);
-                var diplomaticRelation = AbilityRules.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
+                var diplomaticRelation = UI.Engine.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
                 PlayerStatusValueLabel.Text = diplomaticRelation;
                 if (relation != DiplomaticRelation.Unknown)
                 {
@@ -331,7 +331,7 @@ public partial class RelationWindow : UIModule
         else
         {
             PlayerStatusIcon.Visible = false;
-            var noContact = AbilityRules.TranslateResourceString(s_noContactText);
+            var noContact = UI.Engine.TranslateResourceString(s_noContactText);
             PlayerStatusValueLabel.Text = noContact;
         }
 
@@ -339,7 +339,7 @@ public partial class RelationWindow : UIModule
         PlayerNameLabel.Text = name;
         OfTheLabel.Text = UI.PlayerInfoWindow.OfTheLabel.Text;
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
+        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
         PlayerRaceLabel.Text = raceNamesPlural;
         var playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of(PlayerType.Human, PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(playerPlayerType.PlayerType))
@@ -374,7 +374,7 @@ public partial class RelationWindow : UIModule
         }
 
         var player2 = StrategicMap.Current.Players.GetPlayers(player);
-        var playerType = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
+        var playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
         PlayerTypeLabel.Text = playerType;
     }
 
@@ -474,7 +474,7 @@ public partial class RelationWindow : UIModule
                         {
                             var race = Races[I];
                             var playerRelation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(SelectedPlayer);
-                            var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
+                            var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                             var race2 = Races[I];
                             var playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
                             image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
@@ -503,27 +503,27 @@ public partial class RelationWindow : UIModule
         var playerRelation = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
         RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
         var playerRelation2 = StrategicMap.Current.Races.GetRace((sbyte)race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer);
-        var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
+        var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
         RaceRelationValueLabel.Text = status;
-        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)race]);
+        var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)race]);
         RaceNameLabel.Text = raceNamesPlural;
         switch (race)
         {
             case >= 0 and <= 3:
-                var neutral = AbilityRules.TranslateResourceString(GameTables.NeutralText);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [neutral]);
+                var neutral = UI.Engine.TranslateResourceString(GameTables.NeutralText);
+                var format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [neutral]);
                 AlignmentLabel.Text = format;
                 AlignmentImage.CurrentImage = 33;
                 break;
             case >= 4 and <= 7:
-                var good = AbilityRules.TranslateResourceString(s_goodText);
-                var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [good]);
+                var good = UI.Engine.TranslateResourceString(s_goodText);
+                var formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [good]);
                 AlignmentLabel.Text = formattedText;
                 AlignmentImage.CurrentImage = 31;
                 break;
             case >= 8 and <= 11:
-                var evil = AbilityRules.TranslateResourceString(s_evilText);
-                var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [evil]);
+                var evil = UI.Engine.TranslateResourceString(s_evilText);
+                var format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [evil]);
                 AlignmentLabel.Text = format2;
                 AlignmentImage.CurrentImage = 35;
                 break;
@@ -564,7 +564,7 @@ public partial class RelationWindow : UIModule
                     {
                         var player2 = Players[I];
                         var playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player2);
-                        var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
+                        var status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                         var player3 = Players[I];
                         var playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue((sbyte)player3);
                         image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
@@ -1202,7 +1202,7 @@ public partial class RelationWindow : UIModule
                 var text = proposal.MessageText;
                 dialog.ReceivedMessageMemo.Items.Text = text;
                 var name = StrategicMap.Current.Players.GetPlayers(from).GetName();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.MessageFormat), [name]);
+                var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.MessageFormat), [name]);
                 dialog.ReceivedMessageHeaderLabel.Text = format;
             }
             else if (view == ProposalView.Offer)

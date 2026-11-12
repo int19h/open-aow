@@ -56,13 +56,13 @@ public partial class SendEmailGameDialog : UIModule
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
         var nameEx = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
+        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
         RecipientNameLabel.Text = format;
         if (sendEmailGameEventLog.Mode == 2)
         {
-            var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+            var smtpServer = UI.Engine.Registry.GetSmtpServer();
             AutomatedCheckBox.Checked = !IsEmpty(smtpServer);
-            var fRegistrySmtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+            var fRegistrySmtpServer = UI.Engine.Registry.GetSmtpServer();
             ManualCheckBox.Checked = IsEmpty(fRegistrySmtpServer);
         }
         else

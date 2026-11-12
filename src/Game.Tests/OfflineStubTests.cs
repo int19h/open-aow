@@ -102,7 +102,7 @@ public sealed class OfflineStubTests
     public void LeaderSetupFinishCommitsTheLeaderOffline()
     {
         using var saved = new SavedGlobals();
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         var events = OfflineSetupEvents(ui);
         var heroes = new HeroResourceList(null!);
         new HeroResource(heroes);
@@ -138,7 +138,7 @@ public sealed class OfflineStubTests
     public void NewGameWindowShowsTcpAndHidesIpx()
     {
         using var saved = new SavedGlobals();
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         OfflineSetupEvents(ui);
         var window = NewGameWindow(ui);
         window.TcpButton.Visible = false;
@@ -159,7 +159,7 @@ public sealed class OfflineStubTests
     public void TcpFindAndHostSayNetworkPlayIsNotAvailable()
     {
         using var saved = new SavedGlobals();
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         var events = OfflineSetupEvents(ui);
         var window = NewGameWindow(ui);
         var setup = ui.Add(Populate(new ScenarioSetup(ui)));
@@ -188,7 +188,7 @@ public sealed class OfflineStubTests
     public void ScenarioSetupExitReturnsToTheNewGameWindow()
     {
         using var saved = new SavedGlobals();
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         OfflineSetupEvents(ui);
         var window = NewGameWindow(ui);
         var setup = ui.Add(Populate(new ScenarioSetup(ui)));
@@ -211,7 +211,7 @@ public sealed class OfflineStubTests
     public void BackToTitleHidesTheNewGameWindowAndShowsTheTitleScene()
     {
         using var saved = new SavedGlobals();
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         OfflineSetupEvents(ui);
         var window = NewGameWindow(ui);
         ui.Add(new TitleScene(ui));
@@ -232,7 +232,7 @@ public sealed class OfflineStubTests
     public void HelpMenuShowsTheTwoHelpTopics()
     {
         using var saved = new SavedGlobals();
-        var ui = new UIContext();
+        var ui = new UIContext(EngineFixture.Engine);
         var text = new TextControl(null!);
         foreach (var (id, header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
         {

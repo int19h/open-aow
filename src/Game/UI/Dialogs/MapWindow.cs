@@ -3,7 +3,6 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Host;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -187,7 +186,7 @@ public partial class MapWindow : UIModule
         }
 
         K = key;
-        switch (GameTables.GameEngine.Language)
+        switch (UI.Engine.Language)
         {
             case 4:
                 switch (key)
@@ -300,7 +299,7 @@ public partial class MapWindow : UIModule
 
                     break;
                 case 117:
-                    if (GameTables.GameEngine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+                    if (UI.Engine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
                         if (CombatMap.Current != null)
                         {
@@ -333,7 +332,7 @@ public partial class MapWindow : UIModule
 
                     break;
                 case 118:
-                    if (GameTables.GameEngine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+                    if (UI.Engine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
                         if (CombatMap.Current != null)
                         {
@@ -367,7 +366,7 @@ public partial class MapWindow : UIModule
 
                     break;
                 case 119:
-                    if (!GameTables.GameEngine.Demo && GameTables.GameEngine.Registry.GetDeveloper())
+                    if (!UI.Engine.Demo && UI.Engine.Registry.GetDeveloper())
                     {
                         if (StrategicMap.Current.CombatMap != null)
                         {

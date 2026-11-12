@@ -41,8 +41,12 @@ as read on 2026-10-25. Section 7 gained the replacement primitive and the file l
 `AoW.dpr` (`ui-layout.md` 4.1) is transcribed as `Program.Main`: set the title, create the 77 data
 modules in order, create the main form, run. `MainForm` (Delphi `TMainForm`) is the host object. It
 owns the UI context (`MainForm.UI`) that holds the 77 modules (issue 196), creates it before the
-modules load and disposes it last on exit. Its handlers are transcribed, with the Windows parts
-replaced:
+modules load and disposes it last on exit. It also owns the one game engine (issue 224): after the
+startup units run, `Startup.CreateEngine` creates the engine, subscribes the map-load handlers of
+`City`, `BehaviorAG`, `MainAG` and `IndependentAG` and registers the game's classes, the order in
+which the Delphi units did it after `AoWE` created the engine. The context carries the engine, so
+the modules and the form reach it as `UI.Engine`. The headless host and the tools create the engine
+the same way and pass it on. Its handlers are transcribed, with the Windows parts replaced:
 
 | handler | what it does | host replacement |
 |---|---|---|
@@ -259,12 +263,13 @@ them with `LoadPackage`. The shipped game has no `PLUGINS` directory, and `Abili
 root is loaded by neither executable (`data/initialization-order.json` lists 21 statically loaded
 packages, AbilityP not among them). Native Delphi packages never load in the port, so it has no
 package loader (#199): the startup scan of `PLUGINS`, `LoadExternalPlugIns`, the matching unload and
-the package list are gone. The `Plugin` (Delphi `TPlugIn`) registry stays as engine code with the one
-built-in plug-in, `AbilityPlugin` (Delphi `TAbilityPlugIn`, named "Abilities") created by
-`GameTables` at startup. `PluginControl` (Delphi `TPlugInControl`, slot 7 of a scenario set) keeps
-reading and writing the names of the plug-ins a set uses, initializes and finalizes them per engine,
-and raises `PluginMissingException` for a name that no registered plug-in has, as the original did
-for a set that names a package the install lacks. `AbilityP` and `Adcpack` are outside the transpile
+the package list are gone. The one built-in plug-in was `AbilityPlugin` (Delphi `TAbilityPlugIn`,
+named "Abilities"), whose initialization and finalization only counted the engines that used it.
+The `Plugin` (Delphi `TPlugIn`) registry and that plug-in are gone with the engine globals (issue
+224). `PluginControl` (Delphi `TPlugInControl`, slot 7 of a scenario set) keeps reading and writing
+the names of the plug-ins a set uses (`Release.hss` names "Abilities") and raises
+`PluginMissingException` for any other name, as the original did for a set that names a package
+the install lacks. `AbilityP` and `Adcpack` are outside the transpile
 set. External plug-ins wait for the mod specification, which decides what replaces them (code mods,
 `../design.md` section 6, data mods, or both) and how stored plug-in names map onto its modules.
 

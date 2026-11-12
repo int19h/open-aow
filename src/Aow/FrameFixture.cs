@@ -375,7 +375,7 @@ internal sealed class FrameFixture
                 if (fixture._values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "Save\\" + saveName, null!, GameProfile.WorldMap);
+                    form.UI.Engine.SaveHsm(form.UI.Engine.StartupDirectory + "Save\\" + saveName, null!, GameProfile.WorldMap);
                 }
                 else map.PlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);

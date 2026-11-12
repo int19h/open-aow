@@ -37,11 +37,11 @@ public partial class PlayerInfoWindow : UIModule
             if (StrategicMap.Current.SeatedPlayer != 0)
             {
                 var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
+                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                 UI.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
             }
 
-            var day = AbilityRules.TranslateResourceString(GameText.DayText);
+            var day = UI.Engine.TranslateResourceString(GameText.DayText);
             UI.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(StrategicMap.Current.Day);
             raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)

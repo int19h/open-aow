@@ -37,7 +37,7 @@ public partial class SetupEvents : UIModule
     public void UpdateChatPlayers()
     {
         UI.ChatWindow.PlayerList.Items.Clear();
-        var allPlayers = AbilityRules.TranslateResourceString(s_allPlayersText);
+        var allPlayers = UI.Engine.TranslateResourceString(s_allPlayersText);
         UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
         if (StrategicMap.Current != null)
         {
@@ -140,10 +140,10 @@ public partial class SetupEvents : UIModule
         {
             UI.ScenarioSetup.ExitGameClick();
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
-            var warning = AbilityRules.TranslateResourceString(s_warningText);
+            var warning = UI.Engine.TranslateResourceString(s_warningText);
             UI.MessageDialog.TitleLabel.Text = warning;
             UI.MessageDialog.MessageMemo.Items.Add("");
-            var youWereEjectedByTheHost = AbilityRules.TranslateResourceString(s_youWereEjectedByHostText);
+            var youWereEjectedByTheHost = UI.Engine.TranslateResourceString(s_youWereEjectedByHostText);
             UI.MessageDialog.MessageMemo.Items.Add(youWereEjectedByTheHost);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
@@ -170,7 +170,7 @@ public partial class SetupEvents : UIModule
     public void SetupControlLoadMap(SetupControl control, string fileName)
     {
         var fileNameLocal = ExtractFileName(fileName);
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_loadingFormat), [fileNameLocal]);
+        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_loadingFormat), [fileNameLocal]);
         UI.ProgressDialog.TitleLabel.Text = format;
         UI.ProgressDialog.StatusLabel.Text = "";
         UI.ProgressDialog.ProgressBar.Position = 0;
@@ -186,13 +186,13 @@ public partial class SetupEvents : UIModule
 
         if (control.Stream.Length != 0)
         {
-            GameTables.GameEngine.LoadHsmFromStream(control.Stream, false, (_, message, progression) => UI.General.MapProgress(message, progression));
+            UI.Engine.LoadHsmFromStream(control.Stream, false, (_, message, progression) => UI.General.MapProgress(message, progression));
             var fileName2 = ExtractFileName(fileName);
-            StrategicMap.Current.FileName = GameTables.GameEngine.StartupDirectory + "Scenario\\" + fileName2;
+            StrategicMap.Current.FileName = UI.Engine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
-            GameTables.GameEngine.LoadHsm(fileName, false, (_, message, progression) => UI.General.MapProgress(message, progression), GameProfile.WorldMap);
+            UI.Engine.LoadHsm(fileName, false, (_, message, progression) => UI.General.MapProgress(message, progression), GameProfile.WorldMap);
         }
 
         UI.General.Manager.OverlayPriority = 0;

@@ -123,15 +123,15 @@ public partial class WizardsTowerDialog : UIModule
         if (tower.SpellId != 0)
         {
             var buyCost = dialog._event.Tower.BuyCost();
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
+            var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
             dialog.PriceLabel.Text = format + ".";
             spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellNameLabel.Text = spell.SpellName;
-            var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-            var level = AbilityRules.TranslateResourceString(GameText.LevelText);
+            var magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+            var level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
             dialog.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-            var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
-            var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
+            var castingCost = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
+            var mana = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
             dialog.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
             var text = spell.SpellText.Text;
             dialog.ResearchMemo.Items.Text = text;
@@ -139,7 +139,7 @@ public partial class WizardsTowerDialog : UIModule
         else
         {
             dialog.PriceLabel.Text = "";
-            var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
+            var none = dialog.UI.Engine.TranslateResourceString(GameTables.NoneText);
             dialog.SpellNameLabel.Text = none;
             dialog.SpellClassLabel.Text = "";
             dialog.SpellCostLabel.Text = "";

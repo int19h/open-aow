@@ -8,7 +8,6 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.Host;
 using Aow.Game.Layout;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
@@ -53,9 +52,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         VideoDialog.DesktopSize = () => host.DesktopSize;
         VideoDialog.FullscreenSizes = () => host.FullscreenSizes;
         Startup.InitializeAll();
+        var engine = Startup.CreateEngine();
         SdlSoundSystem.Install(mute, audioOutput);
         var layouts = new LayoutSession();
-        var ui = new UIContext();
+        var ui = new UIContext(engine);
         try
         {
             GameLayouts.Initialize(layouts, ui: ui);
@@ -89,15 +89,15 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormCreate()
     {
-        CombatClasses.Register(GameTables.GameEngine);
-        GameTables.GameEngine.InitializeHexSpriteSet(GameTables.GameEngine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
-        _windowState = GameTables.GameEngine.Registry.GetMainWindowState();
-        UI.SoundDialog.MusicVolumeSlider.Position = GameTables.GameEngine.Registry.GetMusicVolume();
-        UI.SoundDialog.EffectsVolumeSlider.Position = GameTables.GameEngine.Registry.GetSfxVolume();
-        UI.SoundDialog.Settings.MusicEnabled = GameTables.GameEngine.Registry.GetMusicEnabled();
-        UI.SoundDialog.Settings.SfxEnabled = GameTables.GameEngine.Registry.GetSfxEnabled();
-        UI.SoundDialog.Settings.UseDirectSound = GameTables.GameEngine.Registry.GetUseDirectSound();
-        UI.SoundDialog.SoundQuality = GameTables.GameEngine.Registry.GetSoundQuality();
+        CombatClasses.Register(UI.Engine);
+        UI.Engine.InitializeHexSpriteSet(UI.Engine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
+        _windowState = UI.Engine.Registry.GetMainWindowState();
+        UI.SoundDialog.MusicVolumeSlider.Position = UI.Engine.Registry.GetMusicVolume();
+        UI.SoundDialog.EffectsVolumeSlider.Position = UI.Engine.Registry.GetSfxVolume();
+        UI.SoundDialog.Settings.MusicEnabled = UI.Engine.Registry.GetMusicEnabled();
+        UI.SoundDialog.Settings.SfxEnabled = UI.Engine.Registry.GetSfxEnabled();
+        UI.SoundDialog.Settings.UseDirectSound = UI.Engine.Registry.GetUseDirectSound();
+        UI.SoundDialog.SoundQuality = UI.Engine.Registry.GetSoundQuality();
         UI.SoundDialog.Settings.SampleVoices = 16;
         UI.SoundDialog.Settings.SampleRate = UI.SoundDialog.SoundQuality == 1 ? 22050 : 44100;
         UI.SoundDialog.Settings.OutputMode = UI.SoundDialog.SoundQuality switch
@@ -113,18 +113,18 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             AudioPlayback.SetMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position);
             AudioPlayback.SetSfxVolume(UI.SoundDialog.EffectsVolumeSlider.Position);
         }
-        VideoDialog.SetVideoSize(UI.VideoDialog, GameTables.GameEngine.Registry.GetDisplayWidth(), GameTables.GameEngine.Registry.GetDisplayHeight());
+        VideoDialog.SetVideoSize(UI.VideoDialog, UI.Engine.Registry.GetDisplayWidth(), UI.Engine.Registry.GetDisplayHeight());
         VideoDialog.SetVideoMode(UI.VideoDialog, _host.Fullscreen ? VideoDialog.ScreenMode.Game : VideoDialog.ScreenMode.Windowed);
         UI.General.Manager.WinWidth = Display.BackSurfaceWidth;
         UI.General.Manager.WinHeight = Display.BackSurfaceHeight;
         UI.General.Manager.Aligned = false;
-        var name = GameTables.GameEngine.Registry.GetString(0);
+        var name = UI.Engine.Registry.GetString(0);
         if (!RtlUnit.IsEmpty(name)) { UI.MultiWindow.TcpNameEdit.Text = name; UI.MultiWindow.IpxNameEdit.Text = name; }
-        var address = GameTables.GameEngine.Registry.GetString(1);
+        var address = UI.Engine.Registry.GetString(1);
         if (!RtlUnit.IsEmpty(address)) UI.MultiWindow.IPAddressEdit.Text = address;
         WindowActions.RestoreWindowLayout(UI.General);
-        RtlUnit.SetCurrentDir(GameTables.GameEngine.StartupDirectory);
-        GameTables.GameEngine.CombatFont = UI.Fonts.Age8;
+        RtlUnit.SetCurrentDir(UI.Engine.StartupDirectory);
+        UI.Engine.CombatFont = UI.Fonts.Age8;
     }
 
     // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
@@ -134,7 +134,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     private void FormShow(string argument)
     {
         AudioHost.SongPlayer.SetSongChangeHandler(_ => UI.SoundDialog.SongChange());
-        GameTables.GameEngine.OutputDebugString("ParamStr: " + argument);
+        UI.Engine.OutputDebugString("ParamStr: " + argument);
         if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
         {
             WindowActions.ShowTitleScene(UI.TitleScene, false);
@@ -142,7 +142,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             UI.FileDialogWindow.LastFileName = argument;
             return;
         }
-        if (!GameTables.GameEngine.Registry.GetDebugMode() && !GameTables.GameEngine.Registry.GetSkipIntro()) UI.IntroScene.Execute();
+        if (!UI.Engine.Registry.GetDebugMode() && !UI.Engine.Registry.GetSkipIntro()) UI.IntroScene.Execute();
         else WindowActions.ShowTitleScene(UI.TitleScene, true);
     }
 
@@ -162,7 +162,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void DisplayUpdateFrame(object sender, DisplayController displayController, int surfaceType)
     {
-        RtlUnit.Clock.WaitMilliseconds(GameTables.GameEngine.Registry.GetDebugMode() ? 1 : 0);
+        RtlUnit.Clock.WaitMilliseconds(UI.Engine.Registry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
         {
             case 1: GameHost.DeferredSetupAction = 0; UI.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
@@ -293,7 +293,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             StrategicMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
             return IsClosed |= StrategicMap.Current.ExitPending;
         }
-        UI.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.ConfirmText), text: AbilityRules.TranslateResourceString(PopupWindows.QuitCombatText),
+        UI.ConfirmationDialog.Confirm(UI.Engine.TranslateResourceString(PlayerControl.ConfirmText), text: UI.Engine.TranslateResourceString(PopupWindows.QuitCombatText),
             onConfirmed: PopupWindows.SurrenderCombat);
         return false;
     }
@@ -308,7 +308,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (_created)
         {
             UI.General.SaveLayout();
-            var registry = GameTables.GameEngine.Registry;
+            var registry = UI.Engine.Registry;
             registry.SetMainWindowState(_windowState);
             registry.SetString(0, UI.MultiWindow.TcpNameEdit.Text);
             registry.SetString(1, UI.MultiWindow.IPAddressEdit.Text);
