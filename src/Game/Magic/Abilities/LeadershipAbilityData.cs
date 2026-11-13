@@ -31,8 +31,8 @@ public partial class LeadershipAbilityData : MultiLevelAbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        ExternalLevel = persister.Byte("ExternalLevel", ExternalLevel);
-        ExternalSource = persister.String("ExternalSource", ExternalSource);
+        ExternalLevel = persister.Byte("ExternalLevel", value: ExternalLevel);
+        ExternalSource = persister.String("ExternalSource", value: ExternalSource);
     }
 
     // Engine.pas:524

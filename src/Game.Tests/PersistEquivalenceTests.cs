@@ -36,7 +36,7 @@ namespace Aow.Game.Tests;
 /// </summary>
 [Collection("Engine")]
 [EngineState]
-public sealed class PersistEquivalenceTests
+public sealed partial class PersistEquivalenceTests
 {
     private static readonly FormatSchema s_schema = FormatSchema.Current;
     private static EnginePersistableFactory? s_factory;
@@ -880,18 +880,6 @@ public sealed class PersistEquivalenceTests
                 viaReadWrite.Dispose();
                 viaPersist.Dispose();
             }
-        });
-    }
-
-    [Fact]
-    public void AnArmyWithAUnitRefusesThroughTUnit()
-    {
-        WithDestroyingMap(_ =>
-        {
-            using var army = new Army(null!) { Holder = EngineFixture.Engine };
-            new Unit(null!) { Holder = EngineFixture.Engine }.SetOwner(army);
-            var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(army, Factory));
-            Assert.Equal("Class Unit overrides ReadWrite and has no PersistFields.", error.Message);
         });
     }
 

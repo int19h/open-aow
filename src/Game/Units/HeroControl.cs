@@ -3,6 +3,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -66,6 +67,19 @@ public partial class HeroControl : EngineObject
         base.ReadWrite(stream);
         stream.Object(_heroes, 20);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        {
+            for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+            {
+                _heroes.GetHero(I).Registered = true;
+            }
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Heroes", objectValue: _heroes);
+        if (persister.Loading)
         {
             for (int I = _heroes.GetCount() - 1; I >= 0; I--)
             {

@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
@@ -115,6 +117,40 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 legacy = null;
                 stream.Created(ref legacy, null, 48);
+                if (legacy != null)
+                {
+                    LegacyGroupBehavior = (byte)((GroupControl)(object)legacy).Behavior();
+                }
+                else
+                {
+                    LegacyGroupBehavior = 0;
+                }
+            }
+            catch
+            {
+            }
+        }
+        else
+        {
+            // { Original retains the obsolete object loaded for behavior conversion. }
+            LegacyGroupBehavior = 0;
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        EngineObject legacy;
+        base.PersistFields(persister);
+        GroupId = persister.Int32("GroupId", value: GroupId);
+        UnitId = persister.Int32("UnitId", value: UnitId, fallback: -1);
+        MoraleValue = PersistSupport.UnsignedByte(persister, name: "MoraleValue", value: MoraleValue);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        if (persister.Loading)
+        {
+            try
+            {
+                legacy = null;
+                legacy = persister.Created("LegacyGroup", objectValue: legacy);
                 if (legacy != null)
                 {
                     LegacyGroupBehavior = (byte)((GroupControl)(object)legacy).Behavior();

@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -80,6 +82,32 @@ public partial class Unit : Troop
                     stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
                 }
             }
+        }
+    }
+
+    // ReadWrite stores the resource index as a signed 16-bit value through the unsigned stream
+    // call, and a unit with no resource stores -1. The load looks the resource up in the game set
+    // and refuses a missing one, as ReadWrite does.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _experience = persister.Byte("Experience", value: _experience);
+        _movePoints = PersistSupport.UnsignedByte(persister, name: "MovePoints", value: _movePoints);
+        _hitPoints = PersistSupport.UnsignedByte(persister, name: "HitPoints", value: _hitPoints);
+        if (persister.Loading)
+        {
+            short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
+            var resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
+            UnitResource = resource;
+            if (resource == null)
+            {
+                throw new KeyNotFoundException("unit resource missing (" + IntToStr(resourceIndex) + ")");
+            }
+        }
+        else
+        {
+            short resourceIndex = UnitResource != null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
+            persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
         }
     }
 

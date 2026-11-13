@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -56,6 +57,23 @@ public partial class ItemLibraryManager : EngineObject
         else
         {
             stream.Object(SystemLibrary, 20);
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        string directory;
+        base.PersistFields(persister);
+        directory = ExtractFilePath(GetEngine().HssFileName);
+        if (persister.Loading)
+        {
+            ReadUserLibraries();
+            GetEngine().ReadFromFile(directory + "ITEMS.PFS", SystemLibrary, null);
+        }
+        else
+        {
+            GetEngine().WriteToFile(directory + "ITEMS.PFS", SystemLibrary, null);
+            WriteUserLibraries();
         }
     }
 
