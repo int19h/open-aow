@@ -105,7 +105,9 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         OtherPlayer = PersistSupport.UnsignedByte(persister, name: "OtherPlayer", value: OtherPlayer);
         gold = persister.Int32("Gold", value: gold);
         mana = persister.Int32("Mana", value: mana);
-        persister.Bytes("Kind", data: Bytes.Of(ref kind, count: 1));
+        Span<byte> kindData = [kind];
+        persister.Bytes("Kind", data: kindData);
+        kind = kindData[0];
         Reaction = persister.Enum("Reaction", value: Reaction);
         PersistSupport.Lines(persister, name: "Message", lines: message);
         if (persister.Loading)
