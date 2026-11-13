@@ -151,7 +151,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
     }
 

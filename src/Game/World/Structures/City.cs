@@ -328,7 +328,7 @@ public partial class City : PlayerCropStructure
         base.UpdateMapField(info);
         if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 67108864;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.BattleFieldInfoFlag;
         }
     }
 

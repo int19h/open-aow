@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -168,7 +167,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             if (message.MessageId == 4364)
             {
-                if (!Army.Status.Contains(ArmyStatusElement.FullyConcealed) && (!StrategicMap.Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0))
+                if (!Army.Status.Contains(ArmyStatusElement.FullyConcealed) && (!StrategicMap.Current.FogEnabled || Owner.FogCount != 0))
                 {
                     if (Army.Player != 0)
                     {
@@ -483,7 +482,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     {
         if (info.HexNumber == 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192 | 4096 | 16777216 | 16384 | 33554432 | 67108864 | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag | MapField.ViewerFlag | MapField.PlayerChangeListenerFlag | MapField.MoveOnFlag | MapField.OwnerFlag | MapField.BattleFieldInfoFlag | MapField.AITargetFlag;
         }
     }
 
@@ -735,10 +734,10 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:2667
-    public bool GetFogEnabled() => StrategicMap.Current.FogEnabled && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo == 0;
+    public bool GetFogEnabled() => StrategicMap.Current.FogEnabled && Owner.FogCount == 0;
 
     // Army.PAS:2673
-    public bool VisibleForSeatedPlayer() => (!StrategicMap.Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0) && !Army.GetFullyConcealed();
+    public bool VisibleForSeatedPlayer() => (!StrategicMap.Current.FogEnabled || Owner.FogCount != 0) && !Army.GetFullyConcealed();
 
     // Army.PAS:2745
     public void ArmyUpdated(object sender)

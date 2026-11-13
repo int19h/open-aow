@@ -1,5 +1,4 @@
 #nullable disable
-using System.Runtime.CompilerServices;
 
 using Aow.Game.Draw.Images;
 
@@ -23,7 +22,7 @@ public partial class ArmyHexSprite
         int deltaX = default;
         int deltaY = default;
         double part;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0 || !StrategicMap.Current.FogEnabled)
+        if (Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled)
         {
             if (Direction >= UnitGraphicsResource.Sequences.Count)
             {
@@ -214,7 +213,7 @@ public partial class ArmyHexSprite
         int deltaX = default;
         int deltaY = default;
         int frame;
-        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
+        if ((Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             X = pixelX - X;

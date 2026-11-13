@@ -390,7 +390,7 @@ public partial class SelectedArmy : MoveSelector
                 }
                 else
                 {
-                    if (((field.FieldFlags >> 16) & 255) != 0 || !StrategicMap.Current.FogEnabled)
+                    if (field.FogCount != 0 || !StrategicMap.Current.FogEnabled)
                     {
                         var player = field.GetPlayer();
                         var players = StrategicMap.Current.Players.GetPlayers(player);
@@ -892,7 +892,7 @@ public partial class SelectedArmy : MoveSelector
         var mouse = map.Mouse;
         if (mouse.HexX == -1 || mouse.HexY == -1 || mouse.Capture != this) return;
         var field = map.MapContainer.GetField(mouse.HexX, mouse.HexY, map.ViewMapLevel);
-        bool visible = !map.FogEnabled || ((field.FieldFlags >> 16) & 255) != 0;
+        bool visible = !map.FogEnabled || field.FogCount != 0;
         if (CurrentMove != -1 && (!map.ExplorationEnabled || field.GetExplored(map.SeatedPlayer)) && visible)
             mouse.CursorMode = field.GetMoveAction(GetArmyHexSprite().Army.Player) switch
             {

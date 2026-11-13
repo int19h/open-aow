@@ -18,14 +18,12 @@ public partial class MapLevel
         }
     }
 
-    private static byte FogCount(MapField field) => (byte)((uint)field.FieldFlags >> 16);
-
     public bool FogArea(int x, int y, int radius)
     {
         bool result = false;
         foreach (var field in Area(x, y, radius))
         {
-            byte count = FogCount(field);
+            byte count = field.FogCount;
             if (count == 1) result = true;
             field.SetFogCount((byte)(count - 1));
         }
@@ -37,7 +35,7 @@ public partial class MapLevel
         bool result = false;
         foreach (var field in Area(x, y, radius))
         {
-            byte count = FogCount(field);
+            byte count = field.FogCount;
             if (count == 0) result = true;
             field.SetFogCount((byte)(count + 1));
         }
@@ -59,7 +57,7 @@ public partial class MapLevel
         Set<FogExplorationChangedElement> result = default;
         foreach (var field in Area(x, y, radius))
         {
-            byte count = FogCount(field);
+            byte count = field.FogCount;
             if (count == 0) result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
             field.SetFogCount((byte)(count + 1));
             if (Explore(field, player)) result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Exploration);

@@ -231,7 +231,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         base.UpdateMapField(info);
         if (info.HexNumber == 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 16384 | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOnFlag | MapField.MoveOverFlag;
         }
     }
 

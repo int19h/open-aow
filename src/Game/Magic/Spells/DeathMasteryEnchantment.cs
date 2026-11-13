@@ -98,7 +98,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         HexNumberWalkData walk = default;
         bool border;
         flags = [];
-        mask = 1 << (player - 1);
+        mask = MapField.ExploredFlag(player);
         for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
         {
             mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);

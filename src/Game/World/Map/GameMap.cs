@@ -1765,7 +1765,7 @@ public partial class GameMap : ENode
                 var field = level.GetField(x, y);
                 bool unexplored = exploration && (SeatedPlayer == -1 || !field.GetExplored(SeatedPlayer));
                 if (unexplored) GamePack.Current.GeneralImages[3].Show(pixelX, pixelY, surface);
-                else if (FogEnabled && ((field.FieldFlags >> 16) & 255) == 0)
+                else if (FogEnabled && field.FogCount == 0)
                     GamePack.Current.GeneralImages[1].Show(pixelX, pixelY, surface);
             }
         }

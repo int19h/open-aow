@@ -1,5 +1,4 @@
 // Translated from Scanner.pas.
-using System.Runtime.CompilerServices;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
@@ -513,7 +512,7 @@ public partial class Scanner : Controls.Control
             {
                 if (_map.FogEnabled)
                 {
-                    if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo == 0)
+                    if (field.FogCount == 0)
                     {
                         result = 2;
                     }
@@ -536,7 +535,7 @@ public partial class Scanner : Controls.Control
         {
             if (_map.FogEnabled)
             {
-                if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo == 0)
+                if (field.FogCount == 0)
                 {
                     result = 2;
                 }

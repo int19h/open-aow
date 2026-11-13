@@ -260,7 +260,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     {
         if (info.HexNumber == 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 4096 | 16777216;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.ViewerFlag | MapField.PlayerChangeListenerFlag;
         }
     }
 

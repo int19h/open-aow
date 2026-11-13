@@ -26,7 +26,7 @@ public partial class WaterHex
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (GetEngine().AnimationDetail != 0 && (((Owner.FieldFlags >> 16) & 255) != 0 || !Owner.Owner.Map.FogEnabled))
+        if (GetEngine().AnimationDetail != 0 && (Owner.FogCount != 0 || !Owner.Owner.Map.FogEnabled))
         {
             _animationFrame = (sbyte)(_animationFrame + 1);
             if (_animationFrame >= 0)

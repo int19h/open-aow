@@ -16,9 +16,6 @@ public sealed class LayoutRuleTests
     // entries it fixes, and the list is empty after LY-9 (the private layout-design.md, section 5).
     private static readonly HashSet<string> s_unmarkedLayouts =
     [
-        // LY-4: the map field flags without word views, both types deleted.
-        "Aow.Rtl.LongRec",
-        "Aow.Rtl.WordRec",
         // LY-7: catalog records as I/O images.
         "Aow.Rtl.Rect",
         "Aow.Game.Combat.PackedDamageTypes",

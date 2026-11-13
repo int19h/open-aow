@@ -29,8 +29,8 @@ public partial class MoveControl
                 neighbor = NeighborField(field, direction);
                 if (Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel) != points - cost) continue;
                 bool source = neighbor.HexX == _sourceX && neighbor.HexY == _sourceY && neighbor.HexLevel == _sourceL;
-                int over = source || (neighbor.FieldFlags & 0x2000) == 0 ? 1 : neighbor.CanMoveOver(this);
-                found = over != 0 && ((field.FieldFlags & 0x4000) == 0 || field.CanMoveOn(this, cost, over) != -1);
+                int over = source || (neighbor.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : neighbor.CanMoveOver(this);
+                found = over != 0 && ((field.FieldFlags & MapField.MoveOnFlag) == 0 || field.CanMoveOn(this, cost, over) != -1);
             }
             MapField previous;
             if (found)
@@ -81,7 +81,7 @@ public partial class MoveControl
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) _processedMapFields.Add(field);
             if (field.HexX == DestinationX && field.HexY == DestinationY && field.HexLevel == DestinationL) MovePointsLimit = points;
             Settings.SetMovePoints(field.HexX, field.HexY, field.HexLevel, points);
-            if ((field.FieldFlags & 0x2000) == 0) moveOverCode = 1;
+            if ((field.FieldFlags & MapField.MoveOverFlag) == 0) moveOverCode = 1;
             else moveOverCode = field.CanMoveOver(this);
             continueMove = moveOverCode != 0;
             if (continueMove) count++;
@@ -93,7 +93,7 @@ public partial class MoveControl
     public void ProcessHex(MapField field, int direction, int count)
     {
         _processedCount++;
-        int over = (field.FieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
+        int over = (field.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : field.CanMoveOver(this);
         int left = s_sideDirections[direction][0], right = s_sideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);
         int rightCount = CalculateMovePointLine(field, right, over);
@@ -110,6 +110,6 @@ public partial class MoveControl
             if (leftCount != 0) ProcessHex(NeighborField(field, left), left, leftCount - 1);
             if (rightCount != 0) ProcessHex(NeighborField(field, right), right, rightCount - 1);
         }
-        if ((field.FieldFlags & 0x8000) != 0) field.MoveExclusive(this);
+        if ((field.FieldFlags & MapField.MoveExclusiveFlag) != 0) field.MoveExclusive(this);
     }
 }

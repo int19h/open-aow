@@ -281,7 +281,7 @@ public partial class UnitHexSprite : HexSprite
     {
         if (info.HexNumber <= 7)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
     }
 

@@ -1,5 +1,4 @@
 // Translated from AoWTC.pas.
-using System.Runtime.CompilerServices;
 
 using Aow.Engine.Nodes;
 
@@ -65,7 +64,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4364)
         {
-            if (message.HexNumber == 0 && (!CombatMap.Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0))
+            if (message.HexNumber == 0 && (!CombatMap.Current.FogEnabled || Owner.FogCount != 0))
             {
                 if (Unit.GetPlayer() != 0)
                 {
@@ -487,13 +486,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     {
         if (info.HexNumber == 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 16384 | 8192 | 33554432;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOnFlag | MapField.MoveOverFlag | MapField.OwnerFlag;
         }
         else
         {
             if (info.HexNumber <= 6)
             {
-                info.MapField.FieldFlags = info.MapField.FieldFlags | 16384;
+                info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOnFlag;
             }
         }
     }

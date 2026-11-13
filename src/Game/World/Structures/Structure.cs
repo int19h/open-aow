@@ -314,7 +314,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.AITargetFlag;
         }
     }
 
@@ -1315,7 +1315,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     var fieldValue = level.GetField(walk.X, walk.Y);
-                    Fogged = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref fieldValue.FieldFlags).Hi).Lo == 0;
+                    Fogged = fieldValue.FogCount == 0;
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);

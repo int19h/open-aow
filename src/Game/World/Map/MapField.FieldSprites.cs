@@ -122,7 +122,7 @@ public partial class MapField
     // AoWHSMap.PAS:85 clears the flags, then the engine body updates the sprites.
     public virtual void UpdateMapField()
     {
-        FieldFlags = FieldFlags & -57345;
+        FieldFlags &= ~MoveFlags;
         HexSpriteMapFieldInfo info = new() { MapField = this };
         for (int i = _count - 1; i >= 0; i--)
         {

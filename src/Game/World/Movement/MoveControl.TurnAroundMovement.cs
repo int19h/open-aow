@@ -33,7 +33,7 @@ public partial class MoveControl
                 next = NeighborField(field, direction);
                 points = OnMovePoint(next, over);
                 nextOver = 1;
-                if (points >= 0 && (next.FieldFlags & 0x2000) != 0 &&
+                if (points >= 0 && (next.FieldFlags & MapField.MoveOverFlag) != 0 &&
                     (next.HexX != DestinationX || next.HexY != DestinationY))
                 {
                     nextOver = next.CanMoveOver(this);

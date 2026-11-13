@@ -54,7 +54,7 @@ public partial class MoveControl
         if (Mode.Contains(MoveModeElement.ExploredTerrainOnly) && Player != -1)
         {
             OnMovePoint = ExploredOnlyMoveOnMovePointProc;
-            _exploredMask = 1 << (Player - 1);
+            _exploredMask = MapField.ExploredFlag(Player);
         }
         else OnMovePoint = DefaultMoveOnMovePointProc;
         return true;

@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -106,7 +105,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo == 0 && StrategicMap.Current.FogEnabled)
+        if (Owner.FogCount == 0 && StrategicMap.Current.FogEnabled)
         {
             result = false;
         }
