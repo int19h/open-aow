@@ -1,6 +1,7 @@
 // Translated from PoisonP.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 
 using Aow.Game.Draw;
@@ -47,6 +48,14 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         stream.SByte(ref CasterPlayer, -1, 40);
         stream.SByte(ref DaysRemaining, -1, 41);
         stream.SByte(ref OriginalOverlay, -1, 42);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer, fallback: -1);
+        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
 
     // PoisonP.pas:78

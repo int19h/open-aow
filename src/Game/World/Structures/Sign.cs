@@ -1,7 +1,9 @@
 // Translated from Sign.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -46,6 +48,21 @@ public partial class Sign : Structure
         if (StrategicMap.Current != null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
             stream.Payload(8, TextSeen.LoadFromStream, TextSeen.SaveToStream);
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        if (StrategicMap.Current != null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
+        {
+            PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
+        }
+        else
+        {
+            // ReadWrite leaves a stored TextSeen unread with no map or on a network map.
+            persister.Skip("TextSeen");
         }
     }
 

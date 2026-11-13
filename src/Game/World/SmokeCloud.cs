@@ -1,9 +1,11 @@
 // Translated from SmokeCloud.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic;
@@ -55,6 +57,16 @@ public partial class SmokeCloud : MultiHexMapObject
         stream.Boolean(ref Drifting, 17);
         stream.Byte(ref _direction, 18);
         stream.Object(Enchantment, 19);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
+        Drifting = persister.Boolean("Drifting", value: Drifting);
+        _direction = persister.Byte("Direction", value: _direction);
+        persister.Object("Enchantment", objectValue: Enchantment);
     }
 
     // SmokeCloud.pas:172

@@ -1,6 +1,8 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -40,6 +42,14 @@ public partial class TextControlItem : EngineObject
         {
             stream.String(ref Name, 11);
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Id = persister.Int32("Id", value: Id);
+        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        Name = persister.String("Name", value: Name);
     }
 
     // intf_P1_04.inc:67

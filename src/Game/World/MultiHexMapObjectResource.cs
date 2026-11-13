@@ -1,6 +1,7 @@
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.World;
 
@@ -29,6 +30,15 @@ public partial class MultiHexMapObjectResource : MapObjectResource
         stream.Int32(ref _imageOffsetY, 13);
         stream.Int32(ref _mainPointOffsetX, 14);
         stream.Int32(ref _mainPointOffsetY, 15);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _imageOffsetX = persister.Int32("ImageOffsetX", value: _imageOffsetX);
+        _imageOffsetY = persister.Int32("ImageOffsetY", value: _imageOffsetY);
+        _mainPointOffsetX = persister.Int32("MainPointOffsetX", value: _mainPointOffsetX);
+        _mainPointOffsetY = persister.Int32("MainPointOffsetY", value: _mainPointOffsetY);
     }
 
     // MAPOBJ.PAS:1232

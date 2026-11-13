@@ -2,6 +2,7 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -46,6 +47,13 @@ public partial class ExplorationSite : Structure
         base.ReadWrite(stream);
         stream.Object(_defenders, 5);
         stream.Bytes(Bytes.Of(ref _defendersMode, 1), 1, 6);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Defenders", objectValue: _defenders);
+        _defendersMode = persister.Enum("DefendersMode", value: _defendersMode);
     }
 
     // ExploreS.pas:77

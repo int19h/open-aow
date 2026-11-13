@@ -1,5 +1,7 @@
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -47,6 +49,23 @@ public partial class MapObject
         {
             int id = GetResourceId();
             stream.Int32(ref id, 1);
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        if (persister.Loading)
+        {
+            SetResourceLinked(false);
+            _unlinkedResourceId = persister.Int32("ResourceId", value: _unlinkedResourceId);
+            _resource = null;
+            LinkToResource(PersistSupport.Engine(persister));
+            if (!GetResourceLinked()) throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
+        }
+        else
+        {
+            int id = GetResourceId();
+            id = persister.Int32("ResourceId", value: id);
         }
     }
 }

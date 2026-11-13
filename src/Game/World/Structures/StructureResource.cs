@@ -1,6 +1,8 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -72,6 +74,20 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         stream.Int32(ref ScannerIcon, 23);
         stream.Payload(28, Defenders.LoadFromStream, Defenders.SaveToStream);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
+        {
+            CalculatePadIndex();
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _selectSfxLooped = persister.Boolean("SelectSfxLooped", value: _selectSfxLooped);
+        SelectSfx = persister.String("SelectSfx", value: SelectSfx);
+        PersistSupport.Lines(persister, name: "Description", lines: Description);
+        ScannerIcon = persister.Int32("ScannerIcon", value: ScannerIcon);
+        PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: Defenders);
+        if (persister.Loading)
         {
             CalculatePadIndex();
         }

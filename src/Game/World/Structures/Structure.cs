@@ -6,6 +6,7 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
@@ -86,6 +87,14 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         stream.Byte(ref BuildingDays, 0);
         stream.Int32(ref StructureId, 98);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref BuildingPlayer), 255, 99);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        BuildingDays = persister.Byte("BuildingDays", value: BuildingDays);
+        StructureId = persister.Int32("StructureId", value: StructureId);
+        BuildingPlayer = PersistSupport.UnsignedByte(persister, name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
     }
 
     // Structur.PAS:1010

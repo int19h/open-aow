@@ -1,6 +1,7 @@
 // Translated from Gems.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
@@ -37,6 +38,13 @@ public partial class Gems : ImageLibraryTerrainMapObject
         base.ReadWrite(stream);
         stream.Int32(ref _amount, 5);
         stream.Bytes(Bytes.Of(ref _generateMode, 1), 1, 6);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _amount = persister.Int32("Amount", value: _amount);
+        _generateMode = persister.Enum("GenerateMode", value: _generateMode);
     }
 
     // Gems.pas:46

@@ -1,6 +1,7 @@
 // Translated from CityWall.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -499,6 +500,12 @@ public partial class CityWall : CombatImageLibraryTerrain
         {
             base.ReadWrite(stream);
             stream.Byte(ref Direction, 25);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            Direction = persister.Byte("Direction", value: Direction);
         }
 
         // CityWall.pas:378

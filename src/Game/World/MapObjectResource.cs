@@ -1,6 +1,8 @@
 // Translated from HSEngine.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -91,6 +93,44 @@ public partial class MapObjectResource : EngineResource
             {
                 stream.Payload(10, _imageSequenceList.LoadFromStream, _imageSequenceList.SaveToStream);
             }
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        bool complex = default;
+        base.PersistFields(persister);
+        _showPriorityOffset = persister.Int32("ShowPriorityOffset", value: _showPriorityOffset);
+        _level = persister.Byte("Level", value: _level);
+        _name = persister.String("Name", value: _name);
+        PersistSupport.TerrainList(persister, name: "TerrainList", list: _terrainList);
+        _imageLibrary.ReduceCount();
+        PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: _imageLibrary);
+        if (persister.Loading)
+        {
+            complex = persister.Boolean("Complex", value: complex);
+            if (complex)
+            {
+                if (_imageSequenceList == null)
+                {
+                    _imageSequenceList = new ImageSequenceList(null, _imageLibrary);
+                }
+            }
+            else
+            {
+                _imageSequenceList?.Dispose();
+                _imageSequenceList = null;
+            }
+        }
+        else
+        {
+            complex = _imageSequenceList != null;
+            complex = persister.Boolean("Complex", value: complex);
+        }
+
+        if (complex)
+        {
+            PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: _imageSequenceList);
         }
     }
 

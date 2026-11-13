@@ -1,7 +1,9 @@
 // Translated from Terrain.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.World.Hexes;
 
@@ -25,6 +27,13 @@ public partial class TerrainMapObjectResource : MultiHexMapObjectResource
         base.ReadWrite(stream);
         stream.Byte(ref _terrainType, 17);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _decorationType), 18);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _terrainType = persister.Byte("TerrainType", value: _terrainType);
+        _decorationType = PersistSupport.UnsignedByte(persister, name: "DecorationType", value: _decorationType);
     }
 
     // Terrain.pas:299

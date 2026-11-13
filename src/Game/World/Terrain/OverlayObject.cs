@@ -1,6 +1,7 @@
 // Translated from OverlayObject.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -30,6 +31,12 @@ public partial class OverlayObject : FixedImageLibraryTerrainMapObject
         {
             base.ReadWrite(stream);
             stream.Int32(ref _overlayType, 40);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            _overlayType = persister.Int32("OverlayType", value: _overlayType);
         }
 
         // OverlayObject.pas:45

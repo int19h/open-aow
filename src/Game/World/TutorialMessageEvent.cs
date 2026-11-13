@@ -1,6 +1,8 @@
 // Translated from FlagEvents.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -35,6 +37,12 @@ public partial class TutorialMessageEvent : FlagEvent
     {
         base.ReadWrite(stream);
         stream.Lines(_message, 40);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Message", lines: _message);
     }
 
     // FlagEvents.pas:233

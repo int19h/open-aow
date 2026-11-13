@@ -2,6 +2,7 @@
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
 
@@ -56,6 +57,12 @@ public partial class ArmyHexSprite : UnitHexSprite
     {
         base.ReadWrite(stream);
         stream.Object(Army, 10);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Army", objectValue: Army);
     }
 
     // Army.PAS:2648

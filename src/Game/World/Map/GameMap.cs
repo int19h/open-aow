@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
@@ -236,11 +237,43 @@ public partial class GameMap : ENode
         stream.Int32(ref _viewMapLevel, 6);
     }
 
+    // The tree form of ReadWrite. A tree load has no progress handler, so the hex sprite set of a
+    // full load reports no progress. Everything else follows ReadWrite.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        if (persister.Loading && persister.Preview)
+        {
+            _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
+        }
+
+        _hssFileName = persister.String("HssFileName", value: _hssFileName);
+        if (!persister.Preview && persister.Loading && !IsEmpty(_hssFileName))
+        {
+            var engine = PersistSupport.Engine(persister);
+            engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: null);
+        }
+
+        _version = PersistSupport.UnsignedByte(persister, name: "Version", value: (sbyte)_version);
+        _viewPixelX = persister.Int32("ViewPixelX", value: _viewPixelX);
+        _viewPixelY = persister.Int32("ViewPixelY", value: _viewPixelY);
+        _viewMapLevel = persister.Int32("ViewMapLevel", value: _viewMapLevel);
+    }
+
     // HSMAP.PAS:261
     public override void MainReadWrite(StorageStream stream)
     {
         base.MainReadWrite(stream);
         if (!_status.Contains(HexSpriteMapStatusElement.PreviewMode) && (stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.SetupCompare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        {
+            _mapContainer.Loaded();
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        base.MainPersist(persister);
+        if (!_status.Contains(HexSpriteMapStatusElement.PreviewMode) && persister.Loading)
         {
             _mapContainer.Loaded();
         }

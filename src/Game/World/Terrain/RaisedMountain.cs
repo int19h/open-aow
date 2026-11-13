@@ -1,6 +1,7 @@
 // Translated from Mountain.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
@@ -36,6 +37,14 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         stream.SByte(ref Player, -1, 40);
         stream.SByte(ref Duration, -1, 41);
         stream.SByte(ref OriginalOverlay, -1, 42);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Player = persister.SByte("Player", value: Player, fallback: -1);
+        Duration = persister.SByte("Duration", value: Duration, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
 
     // Mountain.pas:210

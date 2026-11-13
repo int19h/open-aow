@@ -3,6 +3,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -70,6 +71,30 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         _levelCount = L;
     }
 
+    public override void PersistFields(IPersister persister)
+    {
+        byte W;
+        byte H;
+        byte L;
+        base.PersistFields(persister);
+        if (persister.Loading)
+        {
+            _map = Owner;
+            _engine = PersistSupport.Engine(persister);
+            _map.MapContainer = this;
+        }
+
+        W = (byte)_width;
+        W = persister.Byte("Width", value: W);
+        _width = W;
+        H = (byte)_height;
+        H = persister.Byte("Height", value: H);
+        _height = H;
+        L = (byte)_levelCount;
+        L = persister.Byte("LevelCount", value: L);
+        _levelCount = L;
+    }
+
     // HSEngine.pas:3197
     public override void MainReadWrite(StorageStream stream)
     {
@@ -80,6 +105,18 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         else
         {
             ReadWrite(stream);
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))
+        {
+            base.MainPersist(persister);
+        }
+        else
+        {
+            PersistFields(persister);
         }
     }
 

@@ -51,6 +51,18 @@ internal static class CaseCodec
     public static void ToDocument(DecodeContext context, SchemaClass classValue, SchemaMapping mapping, JsonObject target, DocumentNodePath path, int offset)
     {
         if (CaseMappings.Find(classValue.Name) is null) throw Missing(classValue, mapping, context.File, offset, path);
+        Choose(mapping, target);
+    }
+
+    /// <summary>The same case for a tree's stored members, which the direct document backend writes.</summary>
+    public static void ToDocument(SchemaClass classValue, SchemaMapping mapping, JsonObject target, DocumentNodePath path)
+    {
+        if (CaseMappings.Find(classValue.Name) is null) throw Missing(classValue, mapping, file: null, offset: 0, path);
+        Choose(mapping, target);
+    }
+
+    private static void Choose(SchemaMapping mapping, JsonObject target)
+    {
         var stored = new Dictionary<string, JsonValue>(StringComparer.Ordinal);
         int first = -1;
         for (int i = 0; i < target.Members.Count;)

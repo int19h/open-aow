@@ -8,7 +8,8 @@ namespace Aow.Formats.Tree;
 /// <summary>
 /// Writes a tree value as an original property-table image and reads that image back.
 /// The codecs write the bytes. This class walks the schema property table.
-/// A mapped class and a dynamic member without a slot base stay refused. Layout residue is not kept.
+/// A mapped class stores its flat members, as its ReadWrite does. A dynamic member without a slot
+/// base stays refused. Layout residue is not kept.
 /// </summary>
 internal static class ImageTree
 {
@@ -31,7 +32,6 @@ internal static class ImageTree
 
     internal static void WriteBody(ObjectNode node, SchemaClass classValue, EncodeContext context, ByteBuffer data, DocumentNodePath path, bool allowIdentity)
     {
-        RefuseMapping(classValue, path);
         if (!allowIdentity)
         {
             if (node.ClassName is not null)
@@ -74,7 +74,6 @@ internal static class ImageTree
 
     internal static ObjectNode ReadBody(DecodeContext context, int start, int end, SchemaClass classValue, DocumentNodePath path, string? className, int? slot)
     {
-        RefuseMapping(classValue, path);
         context.Enter(start, path);
         var table = PropertyTable.Read(context, start, end, path);
         int db = table.DataBase;
@@ -155,14 +154,6 @@ internal static class ImageTree
         }
         context.Leave();
         return node;
-    }
-
-    private static void RefuseMapping(SchemaClass classValue, DocumentNodePath path)
-    {
-        if (classValue.Mapping is null) return;
-        throw new ConversionException(new FormatDiagnostic(Codes.Mapping,
-            "Class " + classValue.Name + " uses a case mapping. The original backend does not reproduce it.")
-        { Path = path.ToString(), Value = classValue.Name });
     }
 
     private readonly record struct Located(TableEntry Entry, SchemaProperty Property, int Ordinal, int Start, int End);

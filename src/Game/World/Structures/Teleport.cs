@@ -1,8 +1,10 @@
 // Translated from Teleport.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -46,6 +48,15 @@ public partial class Teleport : Structure
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 8);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationMapLevel), 9);
         TransferSet(ref State, 1, 10, stream.Bytes, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _destinationX = PersistSupport.UnsignedByte(persister, name: "DestinationX", value: _destinationX);
+        _destinationY = PersistSupport.UnsignedByte(persister, name: "DestinationY", value: _destinationY);
+        _destinationMapLevel = PersistSupport.UnsignedByte(persister, name: "DestinationMapLevel", value: _destinationMapLevel);
+        State = persister.Set("State", value: State);
     }
 
     // Teleport.pas:97

@@ -2,6 +2,7 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
@@ -69,6 +70,16 @@ public partial class ProductionControl : EngineObject
         stream.Object(Settings, 22);
         stream.Bytes(Bytes.Of(ref Status, 1), 1, 23);
         stream.Boolean(ref LoopQueue, 24);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Queue", objectValue: Queue);
+        persister.Object("UnitProductions", objectValue: UnitProductions);
+        persister.Object("Settings", objectValue: Settings);
+        Status = persister.Enum("Status", value: Status);
+        LoopQueue = persister.Boolean("LoopQueue", value: LoopQueue);
     }
 
     // Structur.PAS:261

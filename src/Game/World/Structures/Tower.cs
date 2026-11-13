@@ -1,6 +1,7 @@
 // Translated from Tower.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
@@ -26,6 +27,12 @@ public partial class Tower : PlayerStructure
     {
         base.ReadWrite(stream);
         TransferSet(ref State, 1, 20, stream.Bytes, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        State = persister.Set("State", value: State);
     }
 
     // Tower.pas:102

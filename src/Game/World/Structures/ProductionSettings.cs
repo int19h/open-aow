@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -48,6 +50,21 @@ public partial class ProductionSettings : EngineObject
         stream.Created(ref Unit, null, 17);
         stream.Int32(ref GoldUpkeep, 18);
         stream.Int32(ref ManaUpkeep, 19);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Gold = persister.Int32("Gold", value: Gold);
+        Mana = persister.Int32("Mana", value: Mana);
+        TurnsLeft = PersistSupport.UnsignedByte(persister, name: "TurnsLeft", value: TurnsLeft);
+        TurnsTotal = PersistSupport.UnsignedByte(persister, name: "TurnsTotal", value: TurnsTotal);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        GroupId = persister.Int32("GroupId", value: GroupId);
+        UnitProductionIndex = persister.Int32("UnitProductionIndex", value: UnitProductionIndex);
+        Unit = persister.Created("Unit", objectValue: Unit);
+        GoldUpkeep = persister.Int32("GoldUpkeep", value: GoldUpkeep);
+        ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
     }
 
     // Structur.PAS:135
