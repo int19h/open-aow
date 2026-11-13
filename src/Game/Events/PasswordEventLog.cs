@@ -9,11 +9,12 @@ namespace Aow.Game.Events;
 public partial class PasswordEventLog : EventLog
 {
     // EventLog.pas:877
-    public PasswordEventLog(ECustomNode owner) : base(owner)
+    public PasswordEventLog(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         Password = "";
-        Prompt = AbilityRules.TranslateResourceString(s_enterPasswordText);
-        Title = AbilityRules.TranslateResourceString(s_passwordVerificationText);
+        Prompt = AbilityRules.TranslateResourceString(GetEngine(), s_enterPasswordText);
+        Title = AbilityRules.TranslateResourceString(GetEngine(), s_passwordVerificationText);
         PressedButton = PressedEventLogButton.None;
     }
 

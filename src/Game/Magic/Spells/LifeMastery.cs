@@ -16,10 +16,11 @@ namespace Aow.Game.Magic.Spells;
 public partial class LifeMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1441
-    public LifeMastery(ECustomNode owner) : base(owner)
+    public LifeMastery(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText);
         SpellId = 61;
         BaseManaCost = 1;
         SpellLevel = 4;
@@ -40,7 +41,7 @@ public partial class LifeMastery : GlobalEnchantmentSpell
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Life);
         source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        twinkle = new TwinkleAnimation(null);
+        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(61).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
         StrategicMap.Current.PlaceHex(twinkle, X, Y, L);
         CastSounds.Play(0);
@@ -49,5 +50,5 @@ public partial class LifeMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1454
-    public override GlobalEnchantment CreateEnchantment() => new LifeMasteryEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new LifeMasteryEnchantment(null, holder: CreationHolder());
 }

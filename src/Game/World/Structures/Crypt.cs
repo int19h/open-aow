@@ -25,7 +25,7 @@ public partial class Crypt : ItemExplorationSite
         public override int ResourceUserClassId() => 131850;
 
         // Crypt.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_cryptText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_cryptText);
 
         private static readonly string s_cryptText = "Crypt";
 

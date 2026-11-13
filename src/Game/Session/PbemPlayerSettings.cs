@@ -2,8 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Net;
 
 using Aow.Rtl;
@@ -19,7 +17,7 @@ public partial class PbemPlayerSettings : EngineObject
     public PbemPlayerSettings(ECustomNode owner) : base(owner)
     {
         Status = Set<PbemPlayerStatusElement>.Of();
-        EmailGame = new EmailGame(null);
+        EmailGame = new EmailGame(null) { Holder = CreationHolder() };
     }
 
     public Set<PbemPlayerStatusElement> Status;
@@ -44,7 +42,7 @@ public partial class PbemPlayerSettings : EngineObject
     // Player.PAS:256
     public void SetGame(EngineObject game)
     {
-        EmailGame.Assign(game, GameTables.GameEngine);
+        EmailGame.Assign(game, GetEngine());
     }
 
     // intf_P1_03.inc:160

@@ -49,16 +49,16 @@ public partial class PlayerMagicEventLog : EventLog
         {
             case EventMode.SpellResearched:
                 var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchedFormat), [spell.SpellName]);
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
                 break;
             case EventMode.OutOfMana:
                 if (StrategicMap.Current.SeatedPlayer == _player)
                 {
-                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_removedOutOfManaFormat), [EnchantmentName]);
+                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName]);
                 }
                 else
                 {
-                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RemovedFormat), [EnchantmentName]);
+                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
                 }
 
                 break;
@@ -82,11 +82,11 @@ public partial class PlayerMagicEventLog : EventLog
                 {
                     if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
-                        show = GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
+                        show = GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
                     }
                     else
                     {
-                        show = GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
+                        show = GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
                     }
                 }
                 else

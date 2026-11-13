@@ -22,7 +22,7 @@ public partial class HeroControl : EngineObject
     {
         _onChangedStore = new();
         _onHeroChangedStore = new();
-        _heroes = new HeroList(null);
+        _heroes = new HeroList(null) { Holder = CreationHolder() };
     }
 
     private readonly EventStore<HeroControl> _onChangedStore;

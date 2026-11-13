@@ -57,7 +57,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                             budget = (AIBudget)player.AIBudget.Budgets.FindChild(131742);
                             if (budget == null)
                             {
-                                budget = new AITransporterBudget(null);
+                                budget = new AITransporterBudget(null) { Holder = CreationHolder() };
                                 budget.SetOwner(player.AIBudget.Budgets);
                             }
 
@@ -254,7 +254,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         if (resource != null && resource.GetTransportCapacity() != 0)
         {
-            unit = new Unit(null);
+            unit = new Unit(null) { Holder = CreationHolder() };
             unit.SetUnitResource(resource);
             unit.UpdateOffensiveStrength();
             result = unit.MaxOffensiveStrength;

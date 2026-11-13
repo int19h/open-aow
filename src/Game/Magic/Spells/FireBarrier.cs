@@ -18,9 +18,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class FireBarrier : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:882
-    public FireBarrier(ECustomNode owner) : base(owner)
+    public FireBarrier(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(s_fireBarrierText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_fireBarrierText);
         SpellId = 11;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -44,7 +45,7 @@ public partial class FireBarrier : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         FireBarrierTokenEvent eventValue;
-        eventValue = new FireBarrierTokenEvent(null);
+        eventValue = new FireBarrierTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

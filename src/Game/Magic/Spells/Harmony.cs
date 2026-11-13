@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Harmony : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:969
-    public Harmony(ECustomNode owner) : base(owner)
+    public Harmony(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.HarmonyText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HarmonyText);
         SpellId = 47;
         SpellType = SpellType.Global;
         BaseManaCost = 15;
@@ -39,5 +40,5 @@ public partial class Harmony : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:964
-    public override GlobalEnchantment CreateEnchantment() => new HarmonyEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new HarmonyEnchantment(null, holder: CreationHolder());
 }

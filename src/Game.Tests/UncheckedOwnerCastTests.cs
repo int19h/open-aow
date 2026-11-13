@@ -24,7 +24,7 @@ public sealed class UncheckedOwnerCastTests
 
         public MapScope()
         {
-            Map = new StrategicMap(null!);
+            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
         }
 
@@ -60,9 +60,9 @@ public sealed class UncheckedOwnerCastTests
     [Fact]
     public void PossessStrengthLeavesAnItemAloneAndComputesAUnit()
     {
-        var ability = new PossessAbility(null!);
-        var item = new Item(null!);
-        var troop = new Troop(null!);
+        var ability = new PossessAbility(null!, holder: EngineFixture.Engine);
+        var item = new Item(null!) { Holder = EngineFixture.Engine };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine };
         int strength = 7;
         var types = Set<DamageType>.Of(DamageType.Fire);
         ability.GetOffensiveStrength(item, ref strength, ref types);
@@ -77,19 +77,19 @@ public sealed class UncheckedOwnerCastTests
     [Fact]
     public void EnchantedWeaponPriorityIsZeroForAnItem()
     {
-        var ability = new EnchantedWeaponAbility(null!);
-        Assert.Equal(0, ability.GetAIUpkeepPriority(new Item(null!)));
-        Assert.Equal(225, ability.GetAIUpkeepPriority(new Troop(null!)));
+        var ability = new EnchantedWeaponAbility(null!, holder: EngineFixture.Engine);
+        Assert.Equal(0, ability.GetAIUpkeepPriority(new Item(null!) { Holder = EngineFixture.Engine }));
+        Assert.Equal(225, ability.GetAIUpkeepPriority(new Troop(null!) { Holder = EngineFixture.Engine }));
     }
 
     [Fact]
     public void CrusaderRemoveSkipsKilledOnAnItem()
     {
-        var ability = new CrusaderAbility(null!);
-        Assert.False(ability.Remove(new Item(null!)));
+        var ability = new CrusaderAbility(null!, holder: EngineFixture.Engine);
+        Assert.False(ability.Remove(new Item(null!) { Holder = EngineFixture.Engine }));
 
         var unit = new RecordingUnit();
-        var data = new DurationAbilityData(null!);
+        var data = new DurationAbilityData(null!) { Holder = EngineFixture.Engine };
         data.AbilityId = (ushort)ability.AbilityId;
         unit.AddAbilityData(data);
         Assert.True(ability.Remove(unit));
@@ -100,7 +100,7 @@ public sealed class UncheckedOwnerCastTests
     public void HealingActivateSkipsSetupForAnItemAndRecordsAUnit()
     {
         using var scope = new MapScope();
-        var list = new UnitUserList(null!);
+        var list = new UnitUserList(null!) { Holder = EngineFixture.Engine };
         var unit = new PlacedUnit(9, list);
         int id = -1;
         int source = -1;
@@ -112,9 +112,9 @@ public sealed class UncheckedOwnerCastTests
             id = info.UnitId;
             source = info.UnitSelector.SourceUnitId;
         };
-        var ability = new HealingAbility(null!);
+        var ability = new HealingAbility(null!, holder: EngineFixture.Engine);
         string reason = "";
-        Assert.True(ability.Activate(new Item(null!), ref reason));
+        Assert.True(ability.Activate(new Item(null!) { Holder = EngineFixture.Engine }, ref reason));
         Assert.True(fired);
         Assert.Equal(0, id);
         Assert.Equal(0, source);
@@ -130,9 +130,9 @@ public sealed class UncheckedOwnerCastTests
     public void RequiredManaOfANonHeroIsTheMissingHeroResult()
     {
         using var scope = new MapScope();
-        var troop = new Troop(null!) { UnitId = 42 };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 42 };
         scope.Map.UnitControl.RegisterUnit(troop);
-        var caster = new UnitSpellCaster(null!) { CasterSourceId = 42 };
+        var caster = new UnitSpellCaster(null!) { Holder = EngineFixture.Engine, CasterSourceId = 42 };
         Assert.Equal(-1, caster.GetRequiredMana());
         Assert.True(caster.Valid());
         caster.CasterSourceId = 99;
@@ -144,27 +144,28 @@ public sealed class UncheckedOwnerCastTests
     public void UpgradeTokenSkipsANonHeroAndStillUpgradesAHero()
     {
         using var scope = new MapScope();
-        var unit = new Unit(null!) { UnitId = 42, AbilityAttack = 4 };
+        var unit = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 42, AbilityAttack = 4 };
         var hero = new Hero(null!)
         {
+            Holder = EngineFixture.Engine,
             UnitId = 43,
             Player = 0,
             HitPoints = 1,
             UnitAttack = 0,
             UpgradePending = true,
-            HeroResource = new HeroResource(null!),
+            HeroResource = new HeroResource(null!) { Holder = EngineFixture.Engine },
         };
         scope.Map.UnitControl.RegisterUnit(unit);
         scope.Map.UnitControl.RegisterUnit(hero);
 
-        var skipped = new HeroUpgradeTokenEvent(null!) { UnitId = 42, Player = 0, Attack = 1 };
+        var skipped = new HeroUpgradeTokenEvent(null!) { Holder = EngineFixture.Engine, UnitId = 42, Player = 0, Attack = 1 };
         Assert.Equal(ExecuteResult.Done, skipped.Execute(null!));
         Assert.Null(scope.Map.UnitControl.FindUnit<Hero>(42));
         Assert.Equal(4, unit.AbilityAttack);
         Assert.Equal(0, hero.UnitAttack);
         Assert.True(hero.UpgradePending);
 
-        var applied = new HeroUpgradeTokenEvent(null!) { UnitId = 43, Player = 0, Attack = 1 };
+        var applied = new HeroUpgradeTokenEvent(null!) { Holder = EngineFixture.Engine, UnitId = 43, Player = 0, Attack = 1 };
         Assert.Equal(ExecuteResult.Done, applied.Execute(null!));
         Assert.False(hero.UpgradePending);
         Assert.Equal(1, hero.UnitAttack);
@@ -174,9 +175,9 @@ public sealed class UncheckedOwnerCastTests
     public void UpdateTokenHaltsForANonHeroAndAMissingId()
     {
         using var scope = new MapScope();
-        var troop = new Troop(null!) { UnitId = 42 };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 42 };
         scope.Map.UnitControl.RegisterUnit(troop);
-        var token = new HeroUpdateTokenEvent(null!) { UnitId = 42, Mode = HeroUpdateTokenEventMode.CancelCasting };
+        var token = new HeroUpdateTokenEvent(null!) { Holder = EngineFixture.Engine, UnitId = 42, Mode = HeroUpdateTokenEventMode.CancelCasting };
         Assert.Equal(ExecuteResult.DoneHalt, token.Execute(null!));
 
         token.UnitId = 99;
@@ -203,19 +204,20 @@ public sealed class UncheckedOwnerCastTests
         var player = scope.Map.Players.GetPlayers(1);
         player.PlayerType = PlayerType.Human;
         player.MagicControl.CheatEnabled = true;
-        var troop = new Troop(null!) { UnitId = 42, Player = 1 };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
         scope.Map.UnitControl.RegisterUnit(troop);
         var enchantment = new GlobalEnchantment(null!)
         {
+            Holder = EngineFixture.Engine,
             _enchantmentId = 7,
             EnchantmentType = GlobalEnchantmentType.Flood,
         };
         scope.Map.GlobalMagicControl.Enchantments.AddChild(enchantment);
         scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.SpellWard);
-        var caster = new DisjunctionSpellCaster(null!) { CasterSourceId = 42, EnchantmentId = 7 };
+        var caster = new DisjunctionSpellCaster(null!) { Holder = EngineFixture.Engine, CasterSourceId = 42, EnchantmentId = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(AbilityRules.TranslateResourceString(DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveText), reason);
+        Assert.Equal(AbilityRules.TranslateResourceString(EngineFixture.Engine, DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveText), reason);
 
         scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));

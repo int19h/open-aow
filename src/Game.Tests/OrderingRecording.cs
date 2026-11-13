@@ -9,7 +9,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl.Localize;
@@ -28,7 +27,7 @@ internal static class OrderingRecording
     {
         try
         {
-            if (type.GetConstructor([typeof(ECustomNode)]) is { } ctor) return (EngineObject)ctor.Invoke([owner]);
+            if (EngineClassCreation.OwnerConstructor(type) is { } ctor) return (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner));
             if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]) is { } factory)
                 return (EngineObject)factory.Invoke(null, [owner])!;
             throw new InvalidOperationException(type.FullName + " has no public construction entry.");
@@ -43,8 +42,8 @@ internal static class OrderingRecording
     internal static EngineObject Create(Type type, ECustomNode? owner, int route, GameEngine engine) => route switch
     {
         0 => Direct(type, owner),
-        1 => EngineClass.Of(type).CreateInstance(owner!),
-        2 => EngineClass.Of(type).CreateInstance(owner!),
+        1 => EngineClass.Of(type).CreateInstance(owner!, holder: EngineFixture.Engine),
+        2 => EngineClass.Of(type).CreateInstance(owner!, holder: EngineFixture.Engine),
         _ => engine.CreateEngineObject(EngineClass.Of(type).ClassId, owner!)
     };
 
@@ -56,7 +55,6 @@ internal static class OrderingRecording
 
         private readonly IvBinaryDictionary _dictionary = EngineFixture.Engine.Dictionary;
         private readonly GamePack _set = GamePack.Current;
-        private readonly GameEngine _engine = GameTables.GameEngine;
         private readonly StrategicMap _map = StrategicMap.Current;
 
         internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
@@ -66,13 +64,13 @@ internal static class OrderingRecording
         {
             Runtime.RandSeed = 123456789;
             var value = EngineFixture.CreateGameSet(Manager);
-            if (type == typeof(ArmyHexSprite)) value.UnitGraphicsResources = new UnitGFXResourceList(null!);
+            if (type == typeof(ArmyHexSprite)) value.UnitGraphicsResources = new UnitGFXResourceList(null!) { Holder = EngineFixture.Engine };
             GamePack.Current = value;
-            GameTables.GameEngine = EngineFixture.Engine;
             StrategicMap.Current = null!;
             if (type != typeof(ArmyHexSprite)) GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
-            Engine = new GameEngine(null!);
+            // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
+            Engine = new GameEngine(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             foreach (var descriptor in EngineClass.All.Where(x => x.Type == type))
             {
@@ -88,7 +86,6 @@ internal static class OrderingRecording
             EngineFixture.Engine.Dictionary = _dictionary;
             GamePack.Current?.UnitGraphicsResources?.Dispose();
             GamePack.Current = _set;
-            GameTables.GameEngine = _engine;
             StrategicMap.Current = _map;
             Runtime.RandSeed = _seed;
             Manager.Dispose();
@@ -119,7 +116,7 @@ internal static class OrderingRecording
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
+                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor cache and the link to the engine are not constructor state
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }

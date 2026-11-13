@@ -29,7 +29,7 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
         CombatParty P;
         if (GetParty(position) == null)
         {
-            P = new CombatParty(null);
+            P = new CombatParty(null) { Holder = CreationHolder() };
             P.PlayerIndex = combatPlayer;
             P.Position = position;
             P.X = X;

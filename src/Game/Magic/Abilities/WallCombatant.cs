@@ -39,13 +39,13 @@ public partial class WallCombatant : Troop
         switch (_wallType)
         {
             case WallType.Wood:
-                result = AbilityRules.TranslateResourceString(GameText.WoodenWallText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.WoodenWallText);
                 break;
             case WallType.Stone:
-                result = AbilityRules.TranslateResourceString(GameText.StoneWallText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneWallText);
                 break;
             case WallType.None:
-                result = AbilityRules.TranslateResourceString(GameText.UndefinedWallText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.UndefinedWallText);
                 break;
         }
 

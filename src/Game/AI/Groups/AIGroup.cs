@@ -32,7 +32,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     {
         _refCount = 1;
         Status = Set<AIGroupStatusElement>.Of();
-        Productions = new AIGroupProductionList(null);
+        Productions = new AIGroupProductionList(null) { Holder = CreationHolder() };
         GroupId = -1;
         Player = -1;
         IndependentRelation = -1;
@@ -351,7 +351,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     // AIGroup.pas:138
     public virtual AIGroupControl CreateGroupControl()
     {
-        AIGroupControl result = (AIGroupControl)GroupControlClass().CreateInstance(null);
+        AIGroupControl result = (AIGroupControl)GroupControlClass().CreateInstance(null, holder: CreationHolder());
         result.Group = this;
         AddRef();
         return result;

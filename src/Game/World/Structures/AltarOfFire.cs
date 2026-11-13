@@ -17,7 +17,7 @@ public partial class AltarOfFire : Altar
     // AltFire.pas:37
 
     // AltFire.pas:45
-    public override Storm CreateStorm() => new FireStorm(null);
+    public override Storm CreateStorm() => new FireStorm(null) { Holder = CreationHolder() };
 
     public new partial class Resource : AltarResource
     {
@@ -36,7 +36,7 @@ public partial class AltarOfFire : Altar
         // AltFire.pas:27
 
         // AltFire.pas:55
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfFireText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfFireText);
 
         private static readonly string s_altarOfFireText = "Altar of Fire";
 

@@ -109,7 +109,7 @@ public sealed class EngineClassTests
     [Fact]
     public void InstancesReachTheirDescriptorThroughTheCachedProperty()
     {
-        var created = EngineClass.Of<ResourceEditSettings>().CreateInstance(null!);
+        var created = EngineClass.Of<ResourceEditSettings>().CreateInstance(null!, holder: EngineFixture.Engine);
         try
         {
             Assert.Same(EngineClass.Of<ResourceEditSettings>(), created.EngineClass);
@@ -123,14 +123,14 @@ public sealed class EngineClassTests
     [Fact]
     public void CreationThroughTheDescriptorKeepsTheExactTypeAndThrowsWhenUnregistered()
     {
-        var created = EngineClass.Of<ControlStyleObject>().CreateInstance(null!);
+        var created = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<ControlStyleObject>(created); }
         finally { created?.Dispose(); }
-        var split = EngineClass.Of<EResourceList>().CreateInstance(null!);
+        var split = EngineClass.Of<EResourceList>().CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<EResourceList>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null!)));
+        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null!) { Holder = EngineFixture.Engine }));
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public sealed class EngineClassTests
         Assert.Equal(previous.Count + 1, EngineClass.All.Count);
         Assert.Same(descriptor, EngineClass.All[^1]);
         Assert.DoesNotContain(descriptor, previous);
-        var instance = descriptor.CreateInstance(null!);
+        var instance = descriptor.CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType<Registered>(instance); }
         finally { instance.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner)));

@@ -8,10 +8,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class DominateAbility : CommandAbility
 {
     // AoWAb.PAS:5321
-    public DominateAbility(ECustomNode owner) : base(owner)
+    public DominateAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 28;
-        AbilityName = AbilityRules.TranslateResourceString(s_dominateText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_dominateText);
         CommandedAbilityId = 150;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }

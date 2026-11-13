@@ -19,7 +19,7 @@ public partial class PlayerCropStructure : PlayerStructure
     public PlayerCropStructure(ECustomNode owner) : base(owner)
     {
         _changingCrops = false;
-        _incomeSource = new PlayerStructureIncomeSource(null);
+        _incomeSource = new PlayerStructureIncomeSource(null) { Holder = CreationHolder() };
         _incomeSource.Setup(this);
     }
 

@@ -64,7 +64,7 @@ public partial class MultiLevelAbility : AdjustableAbility
         var data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = (MultiLevelAbilityData)AbilityDataClass().CreateInstance(null);
+            data = (MultiLevelAbilityData)AbilityDataClass().CreateInstance(null, holder: CreationHolder());
             data.LevelAbilityId = (ushort)AbilityId;
             data.Level = 1;
             SetAbility(owner, AbilityId, 1);

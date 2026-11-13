@@ -147,7 +147,7 @@ public sealed partial class SpellConstructionTests
     {
         using var fixture = new Fixture();
         var owner = new SpellOwner();
-        var raw = (Spell)EngineClass.Of(type).CreateInstance(owner);
+        var raw = (Spell)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
         Assert.IsType(type, raw);
         Assert.NotNull(raw.SpellText);
         try

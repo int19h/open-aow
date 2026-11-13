@@ -13,10 +13,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class EntangleAbility : TouchAbility
 {
     // AoWAb.PAS:2968
-    public EntangleAbility(ECustomNode owner) : base(owner)
+    public EntangleAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 40;
-        AbilityName = AbilityRules.TranslateResourceString(GameText.EntangleText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }
 
@@ -138,7 +139,7 @@ public partial class EntangleAbility : TouchAbility
     // AoWAb.PAS:2979
     public EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject target)
     {
-        EntangleCombatAction result = new EntangleCombatAction(null);
+        EntangleCombatAction result = new EntangleCombatAction(null) { Holder = CreationHolder() };
         var combatTouchRole = CombatTouchRole((CombatUnit)source, target);
         result.Initialize(source.Id, target.Id, combatTouchRole);
         return result;

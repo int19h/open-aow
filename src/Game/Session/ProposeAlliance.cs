@@ -17,12 +17,12 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
 
     public override int Icon => 10;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(ProposeAllianceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), ProposeAllianceText);
 
     public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateResourceString(AllianceProposalText);
-        var accepted = action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(MadeAllianceText);
+        var subject = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceProposalText);
+        var accepted = action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), MadeAllianceText);
         return Outcome(action, subject, subject, accepted, subject);
     }
 

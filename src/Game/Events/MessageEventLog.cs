@@ -14,10 +14,11 @@ namespace Aow.Game.Events;
 public partial class MessageEventLog : EventLog
 {
     // EventLog.pas:824
-    public MessageEventLog(ECustomNode owner) : base(owner)
+    public MessageEventLog(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         Message = new StringList();
-        Title = AbilityRules.TranslateResourceString(GameText.MessageText);
+        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.MessageText);
         Buttons = MessageEventLogButtons.Ok;
         PressedButton = PressedEventLogButton.None;
         Layout = MessageEventLogLayout.Normal;

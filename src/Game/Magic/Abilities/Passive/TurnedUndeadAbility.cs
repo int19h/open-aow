@@ -11,9 +11,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class TurnedUndeadAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:679
-    public TurnedUndeadAbility(ECustomNode owner) : base(owner)
+    public TurnedUndeadAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_turnedUndeadText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_turnedUndeadText);
         AbilityId = 34;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }

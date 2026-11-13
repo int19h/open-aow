@@ -19,7 +19,7 @@ public partial class ItemExplorationSite : ExplorationSite
 {
     public ItemExplorationSite(ECustomNode owner) : base(owner)
     {
-        _items = new ExplorationSiteItemList(null);
+        _items = new ExplorationSiteItemList(null) { Holder = CreationHolder() };
         _itemCount = 2;
     }
 
@@ -90,9 +90,9 @@ public partial class ItemExplorationSite : ExplorationSite
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            log = new ItemExplorationSiteEventLog(null);
+            log = new ItemExplorationSiteEventLog(null) { Holder = CreationHolder() };
             log._player = army.Army.Player;
-            log.Title = AbilityRules.TranslateResourceString(s_itemsFoundText);
+            log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText);
             var hexX = GetHexX();
             log.Location.X = hexX;
             var hexY = GetHexY();
@@ -110,7 +110,7 @@ public partial class ItemExplorationSite : ExplorationSite
             }
 
             // { Original parses the formatted text as CSV. }
-            var itemsExplored = AbilityRules.TranslateResourceString(s_itemsExploredFormat);
+            var itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), s_itemsExploredFormat);
             var resourceEditName = _resource.ResourceEditName();
             var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
             log.Messages.CommaText = format;

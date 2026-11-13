@@ -11,9 +11,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Disjunction : Spell
 {
     // GlobalSpells.pas:931
-    public Disjunction(ECustomNode owner) : base(owner)
+    public Disjunction(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_disjunctionText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_disjunctionText);
         SpellId = 51;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -38,7 +39,7 @@ public partial class Disjunction : Spell
 
         if (count == 0)
         {
-            messageText = AbilityRules.TranslateResourceString(s_noGlobalOpponentEnchantmentsActiveText);
+            messageText = AbilityRules.TranslateResourceString(GetEngine(), s_noGlobalOpponentEnchantmentsActiveText);
             result = false;
         }
         else
@@ -57,7 +58,7 @@ public partial class Disjunction : Spell
         DisjunctionSpellCaster caster;
         if (CanActivate(source, ref reason))
         {
-            caster = new DisjunctionSpellCaster(null);
+            caster = new DisjunctionSpellCaster(null) { Holder = CreationHolder() };
             caster.CasterSpellId = SpellId;
             caster.CasterSourceId = source.UnitId;
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);

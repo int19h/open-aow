@@ -36,7 +36,7 @@ public partial class OverlayObject : FixedImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 131228;
 
         // OverlayObject.pas:39
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_overlayObjectText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_overlayObjectText);
 
         private static readonly string s_overlayObjectText = "Overlay Object";
 

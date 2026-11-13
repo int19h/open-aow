@@ -1,8 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Game.Combat;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Structures;
 
 using Aow.Rtl;
@@ -47,11 +45,11 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
             base.Down(button, shift, X, Y);
         }
 
-        if (GameTables.GameEngine.Registry.GetDebugMode())
+        if (HexSpriteMap.GetEngine().Registry.GetDebugMode())
         {
             var hexX = HexX;
             var hexY = HexY;
-            GameTables.GameEngine.OutputDebugString("Location (" + IntToStr(hexX) + "," + IntToStr(hexY) + ") selected");
+            HexSpriteMap.GetEngine().OutputDebugString("Location (" + IntToStr(hexX) + "," + IntToStr(hexY) + ") selected");
         }
     }
 

@@ -13,10 +13,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WebAbility : TouchAbility
 {
     // AoWAb.PAS:2806
-    public WebAbility(ECustomNode owner) : base(owner)
+    public WebAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 27;
-        AbilityName = AbilityRules.TranslateResourceString(s_webText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_webText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
 
@@ -138,7 +139,7 @@ public partial class WebAbility : TouchAbility
     // AoWAb.PAS:2819
     public WebCombatAction CreateWebCombatAction(CombatObject source, CombatObject target)
     {
-        WebCombatAction result = new WebCombatAction(null);
+        WebCombatAction result = new WebCombatAction(null) { Holder = CreationHolder() };
         var combatTouchRole = CombatTouchRole((CombatUnit)source, target);
         result.Initialize(source.Id, target.Id, combatTouchRole);
         return result;

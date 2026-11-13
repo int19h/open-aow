@@ -44,7 +44,6 @@ public sealed partial class SpellConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly GamePack _previousSet = GamePack.Current;
-        private readonly GameEngine _previousEngine = GameTables.GameEngine;
 
         internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
 
@@ -52,13 +51,11 @@ public sealed partial class SpellConstructionTests
         {
             var set = EngineFixture.CreateGameSet(Manager);
             GamePack.Current = set;
-            GameTables.GameEngine = null!;
         }
 
         public void Dispose()
         {
             GamePack.Current = _previousSet;
-            GameTables.GameEngine = _previousEngine;
             Manager.Dispose();
         }
     }
@@ -78,7 +75,7 @@ public sealed partial class SpellConstructionTests
         for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
+                if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor caches and the link to the engine are not constructor state
                 object? fieldValue = field.GetValue(value);
                 fields[current.Name + "." + MemberNames.Of(field)] = field.Name == "_owner"
                     ? fieldValue is null ? null : "$owner"
@@ -114,8 +111,8 @@ public sealed partial class SpellConstructionTests
         {
             try
             {
-                if (type.GetConstructor([typeof(ECustomNode)]) is { } constructor)
-                    return (EngineObject)constructor.Invoke([owner]);
+                if (EngineClassCreation.OwnerConstructor(type) is { } constructor)
+                    return (EngineObject)constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner));
                 return (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
                     [typeof(ECustomNode)])!.Invoke(null, [owner])!;
             }
@@ -125,10 +122,10 @@ public sealed partial class SpellConstructionTests
                 throw;
             }
         }
-        if (route == 1) return meta.CreateInstance(owner);
+        if (route == 1) return meta.CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 3)
         {
-            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner])!; }
+            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!; }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
                 ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -242,7 +239,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        var raw = new SummonSpell(null!);
+        var raw = new SummonSpell(null!) { Holder = EngineFixture.Engine };
         Assert.NotNull(raw.SpellText);
         Assert.NotNull(raw.UnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));

@@ -36,7 +36,7 @@ public partial class CampaignJoinDialog : UIModule
         LeaderSetupControl control = default;
         Stage = 2;
         CharacterGenerationPanel.Visible = false;
-        control = new LeaderSetupControl(null);
+        control = new LeaderSetupControl(null) { Holder = UI.Engine };
         control.Leader.Assign(Leader, UI.Engine);
         control.OriginalLeader.Assign(Leader, UI.Engine);
         control.Mode = control.Mode + Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
@@ -116,7 +116,7 @@ public partial class CampaignJoinDialog : UIModule
     // AoWCampaignJoin.pas:57
     public void CampaignJoinDialogCreate()
     {
-        Leader = new Leader(null);
+        Leader = new Leader(null) { Holder = UI.Engine };
         ScrollText = new StringList();
     }
 

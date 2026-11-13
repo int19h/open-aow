@@ -19,10 +19,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class DispelMagicAbility : TouchAbility
 {
     // AoWAb.PAS:4040
-    public DispelMagicAbility(ECustomNode owner) : base(owner)
+    public DispelMagicAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 60;
-        AbilityName = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
         AbilityType = AbilityType.Enhancement;
     }
@@ -33,7 +34,7 @@ public partial class DispelMagicAbility : TouchAbility
         string result = GetLevelName(GetLevel(owner));
         if (owner != null && !GetEnabled(owner))
         {
-            result = result + " (" + LowerCase(AbilityRules.TranslateResourceString(GameText.UsedText)) + ")";
+            result = result + " (" + LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText)) + ")";
         }
 
         return result;
@@ -135,7 +136,7 @@ public partial class DispelMagicAbility : TouchAbility
         DispelMagicAbilityCombatAction action;
         target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = new DispelMagicAbilityCombatAction(null);
+        action = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
         action.Generate(source, target, GetDispelMana(((CombatUnit)source).Troop));
         source.Combat.ExecuteCombatAction(action);
         action.Release();
@@ -160,7 +161,7 @@ public partial class DispelMagicAbility : TouchAbility
         if (CanActivate(owner, ref reason))
         {
             var troop = owner as Troop;
-            info = new UnitSelectionActivation(null);
+            info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
             if (troop != null)
             {
@@ -171,14 +172,14 @@ public partial class DispelMagicAbility : TouchAbility
                 info.UnitId = 0;
             }
 
-            selector = new DispelMagicAbilityUnitSelector();
-            var dispelMagic = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
-            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SelectUnitFormat), [dispelMagic]);
+            selector = new DispelMagicAbilityUnitSelector(this);
+            var dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
+            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [dispelMagic]);
             if (troop != null)
             {
                 if (troop.Owner is HeroList)
                 {
-                    var empty = new UnitUserList(null);
+                    var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     selector.Setup(troop, empty);
                     empty.Dispose();
                 }
@@ -227,7 +228,7 @@ public partial class DispelMagicAbility : TouchAbility
         data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = new DispelMagicAbilityData(null);
+            data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
             data.Level = 1;
             data.Enabled = true;
             SetAbility(owner, AbilityId, 1);
@@ -384,7 +385,7 @@ public partial class DispelMagicAbility : TouchAbility
         data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = new DispelMagicAbilityData(null);
+            data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
             owner.AddAbilityData(data);
         }
 
@@ -401,16 +402,16 @@ public partial class DispelMagicAbility : TouchAbility
         switch (level)
         {
             case 0:
-                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText) + " I";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText) + " II";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText) + " III";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " III";
                 break;
         }
 
@@ -421,7 +422,7 @@ public partial class DispelMagicAbility : TouchAbility
     public DispelMagicAbilityCombatAction CreateCombatAction(CombatUnit source, CombatObject target)
     {
         bool successful;
-        DispelMagicAbilityCombatAction result = new DispelMagicAbilityCombatAction(null);
+        DispelMagicAbilityCombatAction result = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
         result.Generate(source, target, GetDispelMana(source.Troop));
         if (source.GetSide() == target.GetSide())
         {

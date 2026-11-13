@@ -21,7 +21,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
         {
             case 0:
                 Targets.Clear();
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 if (Group.Transporter == null)
                 {

@@ -86,7 +86,7 @@ public partial class HuntAIGroupControl : AIGroupControl
 
                 if (group.TargetUnitIds.Count != 0)
                 {
-                    finder = new AIGroupTargetFinder(null);
+                    finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
                     finder.Selector.TargetInfo.Mode = AITargetMode.Hunt;
                     ActivatePlugin(finder);

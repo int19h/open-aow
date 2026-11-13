@@ -59,7 +59,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
         source.GetLocation(out X, out Y, out L);
         for (int I = 0, last = UnitIndices.Count - 1; I <= last; I++)
         {
-            U = new Unit(null);
+            U = new Unit(null) { Holder = CreationHolder() };
             var unitIndex = UnitIndices[I];
             U.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
             army = U.Place(X, Y, L, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
@@ -105,7 +105,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
             {
                 if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
                 {
-                    animation = new ImageSequenceAnimation(null);
+                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
                     StrategicMap.Current.PlaceHex(animation, X, Y, L);
                 }
@@ -123,7 +123,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
         {
             if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
-                var noSummonLocationFound = AbilityRules.TranslateResourceString(s_noSummonLocationFoundText);
+                var noSummonLocationFound = AbilityRules.TranslateResourceString(GetEngine(), s_noSummonLocationFoundText);
                 StrategicMap.Current.ShowMessage(noSummonLocationFound);
             }
         }

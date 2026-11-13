@@ -16,10 +16,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class SpellCastingAbility : MultiLevelAbility
 {
     // AoWAb.PAS:4439
-    public SpellCastingAbility(ECustomNode owner) : base(owner)
+    public SpellCastingAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 52;
-        AbilityName = AbilityRules.TranslateResourceString(s_spellCastingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText);
         AbilityType = AbilityType.Enhancement;
         MaxLevel = 5;
         LevelCosts[1] = 20;
@@ -201,22 +202,22 @@ public partial class SpellCastingAbility : MultiLevelAbility
         switch (level)
         {
             case 0:
-                result = AbilityRules.TranslateResourceString(s_spellCastingText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(s_spellCastingText) + " I";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(s_spellCastingText) + " II";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(s_spellCastingText) + " III";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(s_spellCastingText) + " IV";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " IV";
                 break;
             case 5:
-                result = AbilityRules.TranslateResourceString(s_spellCastingText) + " V";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " V";
                 break;
         }
 

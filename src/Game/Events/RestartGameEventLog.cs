@@ -7,14 +7,14 @@ namespace Aow.Game.Events;
 
 public partial class RestartGameEventLog : MessageEventLog
 {
-    public RestartGameEventLog(ECustomNode owner) : base(owner)
+    public RestartGameEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
     // Diplomacy.pas:2450
     public new const int ClassId = 131831;
 
     // Diplomacy.pas:2453
-    public override string GetText() => AbilityRules.TranslateResourceString(s_gameRestartedText);
+    public override string GetText() => AbilityRules.TranslateResourceString(GetEngine(), s_gameRestartedText);
 
     // Diplomacy.pas:2456
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)

@@ -1,4 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine.Nodes;
+
 using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
@@ -15,6 +17,13 @@ namespace Aow.Game.Combat;
 // attacker/defender damage types
 public partial class MeleeRound : IDisposable
 {
+    public MeleeRound(EngineObject creator)
+    {
+        Creator = creator;
+    }
+
+    // The node that created this round. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     public int Count { get; private set; }
 
@@ -424,7 +433,7 @@ public partial class MeleeRound : IDisposable
                 case CombatSideIndex.Attacker:
                     if (!_attacker.GetLocked())
                     {
-                        result = new StrikeCombatAction(null);
+                        result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
                         var damage = _attacker.GetDamage();
                         var attack = _attacker.GetAttack();
                         result.Generate(_attacker, _defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
@@ -438,7 +447,7 @@ public partial class MeleeRound : IDisposable
                 case CombatSideIndex.Defender:
                     if (!_defender.GetLocked())
                     {
-                        result = new StrikeCombatAction(null);
+                        result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
                         result.SetDefensive(true);
                         var damage = _defender.GetDamage();
                         var attack = _defender.GetAttack();

@@ -8,9 +8,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonAirElemental : SummonSpell
 {
     // SummonSpells.pas:366
-    public SummonAirElemental(ECustomNode owner) : base(owner)
+    public SummonAirElemental(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_summonAirElementalText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonAirElementalText);
         SpellId = 27;
         BaseManaCost = 5;
         SpellLevel = 4;

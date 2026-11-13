@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class DecayAbility : DurationAbility
 {
     // PassiveAb.pas:844
-    public DecayAbility(ECustomNode owner) : base(owner)
+    public DecayAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_decayText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_decayText);
         AbilityId = 131;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.EntireCombat;

@@ -53,7 +53,7 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     // Hero.PAS:1
     public HeroUpgradeTokenEvent(ECustomNode owner) : base(owner)
     {
-        Abilities = new AbilityOwner(null);
+        Abilities = new AbilityOwner(null) { Holder = CreationHolder() };
     }
 
     // Hero.PAS:30

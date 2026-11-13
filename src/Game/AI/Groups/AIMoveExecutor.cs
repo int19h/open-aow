@@ -26,8 +26,8 @@ public partial class AIMoveExecutor : EngineObject
     // AIGroup.pas:5976
     public AIMoveExecutor(ECustomNode owner) : base(owner)
     {
-        Units = new AIMoveExecutorUnitList(null);
-        Moves = new AIMoveExecutorMoveQueue(null);
+        Units = new AIMoveExecutorUnitList(null) { Holder = CreationHolder() };
+        Moves = new AIMoveExecutorMoveQueue(null) { Holder = CreationHolder() };
         ControlQueue = new Int32List();
         Clear();
     }
@@ -131,7 +131,7 @@ public partial class AIMoveExecutor : EngineObject
         }
 
         troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
-        unitEntry = new AIMoveExecutorUnit(null);
+        unitEntry = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         unitEntry.Initialize(troop, location.X, location.Y, location.MapLevel);
         unitEntry.Owner = Units;
         return unitEntry;
@@ -177,7 +177,7 @@ public partial class AIMoveExecutor : EngineObject
         }
 
         troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
-        Transporter = new AIMoveExecutorUnit(null);
+        Transporter = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         Transporter.Initialize(troop, location.X, location.Y, location.MapLevel);
     }
 
@@ -230,7 +230,7 @@ public partial class AIMoveExecutor : EngineObject
         AIMoveExecutorUnit unitEntry;
         AIMoveExecutorArmy army;
         used = new Int32List();
-        armies = new AIMoveExecutorArmyList(null);
+        armies = new AIMoveExecutorArmyList(null) { Holder = CreationHolder() };
         for (int I = 0, last = Units.Count - 1; I <= last; I++)
         {
             if (used.IndexOf(I) == -1)
@@ -239,7 +239,7 @@ public partial class AIMoveExecutor : EngineObject
                 if (status.Contains(unitEntry.Status))
                 {
                     used.Add(I);
-                    army = new AIMoveExecutorArmy(null);
+                    army = new AIMoveExecutorArmy(null) { Holder = CreationHolder() };
                     army.Setup(unitEntry);
                     for (int J = 0, lastJ = Units.Count - 1; J <= lastJ; J++)
                     {
@@ -347,13 +347,13 @@ public partial class AIMoveExecutor : EngineObject
         {
             if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModeElement.Simultaneous))
             {
-                multiMove = new MultiMoveTokenEvent(null);
+                multiMove = new MultiMoveTokenEvent(null) { Holder = CreationHolder() };
                 multiMove.Simultaneous = false;
                 for (int I = Moves.Count - 1; I >= 0; I--)
                 {
                     if (Moves.GetMoves(I).RetrieveArmy(out army, out selection))
                     {
-                        move = new ArmyDefaultMoveTokenEvent(null);
+                        move = new ArmyDefaultMoveTokenEvent(null) { Holder = CreationHolder() };
                         var moves = Moves.GetMoves(I);
                         if (!move.Setup(army, selection, moves.Path, Set<ArmyMoveModeElement>.Of()))
                         {
@@ -417,13 +417,13 @@ public partial class AIMoveExecutor : EngineObject
                 switch (ControlQueue[ControlQueue.Count - 1])
                 {
                     case 0:
-                        ActivateMoveExecutorControl(static () => new DefaultMoveExecutorControl(null));
+                        ActivateMoveExecutorControl(() => new DefaultMoveExecutorControl(null) { Holder = CreationHolder() });
                         break;
                     case 2:
-                        ActivateMoveExecutorControl(static () => new AdjacentMoveExecutorControl(null));
+                        ActivateMoveExecutorControl(() => new AdjacentMoveExecutorControl(null) { Holder = CreationHolder() });
                         break;
                     case 1:
-                        ActivateMoveExecutorControl(static () => new TransportMoveExecutorControl(null));
+                        ActivateMoveExecutorControl(() => new TransportMoveExecutorControl(null) { Holder = CreationHolder() });
                         break;
                 }
 

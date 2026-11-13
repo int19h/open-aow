@@ -18,7 +18,7 @@ internal static class MovementTables
     {
         MoveArmyTokenEvent result;
         MoveControlSettings settings;
-        settings = new MoveControlSettings(null);
+        settings = new MoveControlSettings(null) { Holder = army };
         var hexLevel = army.GetHexLevel();
         var hexY = army.GetHexY();
         settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);

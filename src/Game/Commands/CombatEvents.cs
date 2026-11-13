@@ -79,12 +79,12 @@ internal static class CombatEvents
         }
     }
 
-    internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player)
+    internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player, GameEngine engine)
     {
         TacticalBattleEndTurnTokenEvent result;
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            result = new TacticalBattleEndTurnTokenEvent(null);
+            result = new TacticalBattleEndTurnTokenEvent(null) { Holder = engine };
         }
         else
         {

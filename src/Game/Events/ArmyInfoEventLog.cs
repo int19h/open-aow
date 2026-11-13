@@ -4,8 +4,6 @@ using Aow.Engine.Storage;
 
 using Aow.Game.Audio;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
 
 using Aow.Game.Units;
@@ -23,7 +21,7 @@ public partial class ArmyInfoEventLog : EventLog
     public ArmyInfoEventLog(ECustomNode owner) : base(owner)
     {
         Messages = new StringList();
-        ArmyView = new ArmyView(null);
+        ArmyView = new ArmyView(null) { Holder = CreationHolder() };
         Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.User, ExecuteTrigger.NewTurn);
     }
 
@@ -116,7 +114,7 @@ public partial class ArmyInfoEventLog : EventLog
     // Army.PAS:284
     public void SetArmyView(ArmyView value)
     {
-        ArmyView.Assign(value, GameTables.GameEngine);
+        ArmyView.Assign(value, GetEngine());
     }
 
 }

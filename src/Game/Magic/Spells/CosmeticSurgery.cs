@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class CosmeticSurgery : UnitSpell
 {
     // UnitSpells.pas:901
-    public CosmeticSurgery(ECustomNode owner) : base(owner)
+    public CosmeticSurgery(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_deformFaceText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_deformFaceText);
         SpellId = 59;
         SpellType = SpellType.Unit;
         SpellLevel = 1;
@@ -49,7 +50,7 @@ public partial class CosmeticSurgery : UnitSpell
         CosmeticSurgerySpellCaster caster;
         if (targets.GetCount() == 1)
         {
-            caster = new CosmeticSurgerySpellCaster(null);
+            caster = new CosmeticSurgerySpellCaster(null) { Holder = CreationHolder() };
             caster.CasterSourceId = source.UnitId;
             caster.CasterSpellId = SpellId;
             caster.TargetUnitId = targets.GetUnit(0).UnitId;

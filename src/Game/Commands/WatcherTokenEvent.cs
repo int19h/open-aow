@@ -23,7 +23,7 @@ public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
         WatcherHexSprite watcher;
         base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
-        watcher = new WatcherHexSprite(null);
+        watcher = new WatcherHexSprite(null) { Holder = CreationHolder() };
         watcher.Enchantment.PlayerIndex = source.Player;
         var spell = GamePack.Current.SpellControl.GetSpell(57);
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;

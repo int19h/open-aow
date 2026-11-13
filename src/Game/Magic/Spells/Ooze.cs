@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Ooze : CombatSpell
 {
     // CombatSpells.pas:1619
-    public Ooze(ECustomNode owner) : base(owner)
+    public Ooze(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_oozeText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_oozeText);
         SpellId = 124;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 0;

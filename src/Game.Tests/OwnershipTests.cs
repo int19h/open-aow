@@ -20,10 +20,10 @@ public sealed class OwnershipTests
     [Fact]
     public void ChildrenAndOwnerWalkTheTreeThroughTheInterfaces()
     {
-        var root = new ENode(null!);
+        var root = new ENode(null!) { Holder = EngineFixture.Engine };
         var first = new ENode(root);
         var second = new ENode(first);
-        var shared = new ENode(null!);
+        var shared = new ENode(null!) { Holder = EngineFixture.Engine };
         root.AddChild(shared);
         try
         {
@@ -48,9 +48,9 @@ public sealed class OwnershipTests
     [Fact]
     public void TypedChildListReadsTheChildrenInStoredOrder()
     {
-        var list = new AIBudgetList(null!);
+        var list = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
         var first = new AIBudget(list);
-        var second = new AIBudget(null!);
+        var second = new AIBudget(null!) { Holder = EngineFixture.Engine };
         try
         {
             IChildSink<AIBudget> sink = list;
@@ -72,15 +72,15 @@ public sealed class OwnershipTests
     [Fact]
     public void TypedChildListRefusesAnotherChildAtTheGenericAdder()
     {
-        var list = new AIBudgetList(null!);
-        var stranger = new ENode(null!);
+        var list = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
         try
         {
             var error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
             Assert.Contains("AIBudgetList does not take a child of type ENode", error.Message, StringComparison.Ordinal);
             Assert.Throws<ArgumentException>(() => list.SetChild(0, stranger));
             Assert.Equal(0, list.Count);
-            Assert.Throws<ArgumentException>(() => new EventLogList(null!).AddChild(stranger));
+            Assert.Throws<ArgumentException>(() => new EventLogList(null!) { Holder = EngineFixture.Engine }.AddChild(stranger));
         }
         finally
         {
@@ -93,7 +93,7 @@ public sealed class OwnershipTests
     public void TypedOwnerRefusesAnotherOwnerAtEveryWrite()
     {
         var field = new EngineFixture.FieldOwner(new EngineFixture.Owner());
-        var stranger = new ENode(null!);
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
         var sprite = new SingleHexSprite(field);
         try
         {
@@ -106,7 +106,7 @@ public sealed class OwnershipTests
             Assert.Throws<ArgumentException>(() => sprite.SetOwnerWithoutNotify(stranger));
             Assert.Same(field, sprite.Owner);
             Assert.Throws<ArgumentException>(() => new MapField(stranger));
-            var level = new MapLevel(null!);
+            var level = new MapLevel(null!) { Holder = EngineFixture.Engine };
             var mapField = new MapField(level);
             Assert.Same(level, ((IOwned<MapLevel>)mapField).Owner);
             ((IOwnedSink<MapLevel>)mapField).SetOwner(null!);

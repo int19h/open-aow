@@ -21,11 +21,11 @@ namespace Aow.Game.Combat;
 public partial class CombatUnitSelectionControl : MoveSelector
 {
     // AoWTC.pas:2723
-    public CombatUnitSelectionControl() : base()
+    public CombatUnitSelectionControl(EngineObject creator) : base(creator)
     {
         RangedPath = new Point3DList();
         Obstacles = new DelphiList<RangedObstacle>();
-        RangedPathHexSprite = new RangedPathHexSprite(null);
+        RangedPathHexSprite = new RangedPathHexSprite(null) { Holder = Creator.CreationHolder() };
         RangedPathHexSprite.Activate();
         TargetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
     }
@@ -299,7 +299,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 {
                     if (MoveSettingsList.GetMoveSettings(I).Path.Count > 1)
                     {
-                        movement = new MovementHexSprite(null);
+                        movement = new MovementHexSprite(null) { Holder = Creator.CreationHolder() };
                         var moveSettingPath = MoveSettingsList.GetMoveSettings(I);
                         var path = MoveSettingsList.GetMoveSettings(I).Path[moveSettingPath.Path.Count - 1];
                         var moveSetting = MoveSettingsList.GetMoveSettings(I);
@@ -307,7 +307,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                         CombatMap.Current.PlaceHex(movement, pathX.X, path.Y, 0);
                         movement.Enabled = true;
                         temporary.Add(movement);
-                        movement = new MovementHexSprite(null);
+                        movement = new MovementHexSprite(null) { Holder = Creator.CreationHolder() };
                         var pathY = MoveSettingsList.GetMoveSettings(I).Path[0];
                         var path2 = MoveSettingsList.GetMoveSettings(I).Path[0];
                         CombatMap.Current.PlaceHex(movement, path2.X, pathY.Y, 0);
@@ -593,7 +593,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
     }
 
     // AoWTC.pas:2744
-    public override MoveControlSettings CreateMoveControlSettings() => new CombatMoveControlSettings(null);
+    public override MoveControlSettings CreateMoveControlSettings() => new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
 
     // AoWTC.pas:2754
     public override void SetCurrentMove(int value)
@@ -1386,7 +1386,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
         if (flag2)
         {
             movePath = new MovePath();
-            multiMoveTokenEvent = new MultiMoveTokenEvent(null);
+            multiMoveTokenEvent = new MultiMoveTokenEvent(null) { Holder = moves };
             multiMoveTokenEvent.Simultaneous = false;
             moves.CalculateMovePositions(ValidateTacticalBattleMovePosition);
             int i = 1;
@@ -1414,7 +1414,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     {
                         movePath.Add(moveSettings3.Path[l]);
                     }
-                    combatMoveTokenEvent = new CombatMoveTokenEvent(null);
+                    combatMoveTokenEvent = new CombatMoveTokenEvent(null) { Holder = moves };
                     if (combatMoveTokenEvent.Setup(((TacticalBattleUnitHexSprite)moveSettings3.MoveObject).Unit, movePath))
                     {
                         multiMoveTokenEvent.Events.Add(combatMoveTokenEvent);

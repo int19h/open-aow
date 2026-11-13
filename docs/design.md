@@ -593,6 +593,19 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   productions), event logs and players take their list as their owner, which is also the owner a
   reference list gives its ownerless children while it saves them. The move from list
   inheritance to owner-exposed collections comes in a later part of that issue.
+- Every engine object reaches its engine through `GetEngine()` (issue 224), and nothing reads an
+  engine global. An object with an owner walks to its owner. An object without one walks to its
+  `Holder`, the object that created it and keeps it: the engine for the rules it registers and
+  the objects it creates, loads or copies, and the engine again for an object any node creates once
+  that node reaches it (`{ Holder = CreationHolder() }`). Only a constructor that runs before its
+  own node reaches the engine makes the node itself the holder of what it keeps in a field. The
+  engine as holder keeps the walk short and stops a loop through a node that comes to own its
+  creator. The class registry
+  gives every object it creates the creating engine as its holder. A class whose constructor
+  already reads the engine (the rules, a city, the message logs, the world map) takes the holder
+  as a constructor argument. Helper classes that are not engine objects (selectors, the battle
+  AI, the predictor) take the node that creates them as their `Creator`. Static members take the
+  engine as a parameter. The original read the global `AoWEngine` for all of these.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
   requires that the original loads a file the port wrote. Milestone 9.7 did this

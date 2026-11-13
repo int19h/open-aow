@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Geyser : CombatSpell
 {
     // CombatSpells.pas:1505
-    public Geyser(ECustomNode owner) : base(owner)
+    public Geyser(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_geyserText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_geyserText);
         SpellId = 118;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;
@@ -31,7 +32,7 @@ public partial class Geyser : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null);
+        action = new CombatSpellCombatAction(null) { Holder = CreationHolder() };
         action.SpellId = SpellId;
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {

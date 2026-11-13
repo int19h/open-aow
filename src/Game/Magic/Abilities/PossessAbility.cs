@@ -15,10 +15,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class PossessAbility : TouchAbility
 {
     // AoWAb.PAS:2627
-    public PossessAbility(ECustomNode owner) : base(owner)
+    public PossessAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 106;
-        AbilityName = AbilityRules.TranslateResourceString(s_possessText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_possessText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
 
@@ -158,7 +159,7 @@ public partial class PossessAbility : TouchAbility
     // AoWAb.PAS:2640
     public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
     {
-        PossessCombatAction result = new PossessCombatAction(null);
+        PossessCombatAction result = new PossessCombatAction(null) { Holder = CreationHolder() };
         var combatTouchRole = CombatTouchRole((CombatUnit)source, target);
         result.Initialize(source.Id, target.Id, combatTouchRole);
         return result;

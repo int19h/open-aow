@@ -45,7 +45,7 @@ public partial class TutorialMessageEvent : FlagEvent
         TutorialMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new TutorialMessageEventLog(null);
+            log = new TutorialMessageEventLog(null, holder: CreationHolder());
             var text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
@@ -67,7 +67,7 @@ public partial class TutorialMessageEvent : FlagEvent
         public override int ResourceUserClassId() => 132459;
 
         // FlagEvents.pas:274
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_tutorialMessageEventText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_tutorialMessageEventText);
 
         private static readonly string s_tutorialMessageEventText = "Tutorial Message Event";
 

@@ -69,7 +69,7 @@ public partial class ScoutAIGroupControl : AIGroupControl
 
                 if (condition)
                 {
-                    finder = new AIGroupTargetFinder(null);
+                    finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
                     var movePointsMin = Group.GetMovePointsMin();
                     finder.Selector.MovePointsMax = movePointsMin;
@@ -101,7 +101,7 @@ public partial class ScoutAIGroupControl : AIGroupControl
 
                 break;
             case 2:
-                wander = new AIGroupWanderControl(null);
+                wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
                 wander.Setup(this);
                 wander.MovePointsMax = 125;
                 ActivatePlugin(wander);

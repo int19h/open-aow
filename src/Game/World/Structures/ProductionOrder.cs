@@ -35,10 +35,10 @@ public abstract partial record ProductionOrder
     public virtual int? UnitProductionIndex => null;
 
     // The queue line (Structur.PAS:840).
-    public virtual string Name(ProductionControl control) => AbilityRules.TranslateResourceString(GameTables.UnknownText);
+    public virtual string Name(ProductionControl control) => AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
 
     // The line of the running order (Structur.PAS:865).
-    public virtual string NameProgressive(ProductionControl control) => AbilityRules.TranslateResourceString(GameTables.UnknownText);
+    public virtual string NameProgressive(ProductionControl control) => AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
 
     // Whether Control can start the order now, with the reason when it cannot (Structur.PAS:361).
     public virtual bool CanExecute(ProductionControl control, ref string reason)
@@ -103,7 +103,7 @@ public abstract partial record ProductionOrder
     {
         if (control.Status == ProductionControlStatus.Waiting)
         {
-            reason = "(" + LowerCase(AbilityRules.TranslateResourceString(s_waitingText)) + ")";
+            reason = "(" + LowerCase(AbilityRules.TranslateResourceString(control.GetEngine(), s_waitingText)) + ")";
         }
     }
 
@@ -117,7 +117,7 @@ public abstract partial record ProductionOrder
     // Adds Text at City to the logbook of the control's player.
     protected static void Log(ProductionControl control, City city, string text)
     {
-        var eventValue = new CityProductionEventLog(null);
+        var eventValue = new CityProductionEventLog(null) { Holder = control };
         eventValue._player = control.GetPlayer();
         eventValue.Text = text;
         var hexLevel = city.GetHexLevel();

@@ -78,8 +78,8 @@ public partial class SetupControl : Component
         // The engine of the dialog module that owns the control, as the original read the engine
         // global.
         _engine = (owner as UIModule)?.UI.Engine;
-        Settings = new SetupSettings(null);
-        RemotePlayer = new RemotePlayer(null);
+        Settings = new SetupSettings(null) { Holder = _engine };
+        RemotePlayer = new RemotePlayer(null) { Holder = _engine };
         RemotePlayer.RemoteId = 0;
         RemotePlayer.PreferredRace = 255;
         Stream = new MemoryStream();
@@ -119,7 +119,7 @@ public partial class SetupControl : Component
         SetupPackage package;
         if (GetRemote())
         {
-            package = new SetupPackage(null);
+            package = new SetupPackage(null) { Holder = _engine };
             package.MessageId = messageId;
             if (objectValue != null)
             {
@@ -139,7 +139,7 @@ public partial class SetupControl : Component
         SetupPackage package;
         if (GetRemote())
         {
-            package = new SetupPackage(null);
+            package = new SetupPackage(null) { Holder = _engine };
             package.MessageId = messageId;
             if (objectValue != null)
             {
@@ -677,7 +677,7 @@ public partial class SetupControl : Component
 
         if (found)
         {
-            cLC = new CustomizeLeaderControl(null);
+            cLC = new CustomizeLeaderControl(null) { Holder = _engine };
             cLC.SetupControl = this;
             cLC.PlayerIndex = I;
             var settingRace = Settings.GetSettings(I);
@@ -845,7 +845,7 @@ public partial class SetupControl : Component
         StrategicMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
         if (GetRemote())
         {
-            remotePlayerCommunicationControl = new RemotePlayerCommunicationControl();
+            remotePlayerCommunicationControl = new RemotePlayerCommunicationControl(_engine);
             remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), RemotePlayer.RemoteId);
             remotePlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
             remotePlayerCommunicationControl.SetSystemId(0, RemotePlayer.RemoteId);
@@ -879,7 +879,7 @@ public partial class SetupControl : Component
         }
         else
         {
-            localPlayerCommunicationControl = new LocalPlayerCommunicationControl();
+            localPlayerCommunicationControl = new LocalPlayerCommunicationControl(_engine);
             localPlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount());
             localPlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
             for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)

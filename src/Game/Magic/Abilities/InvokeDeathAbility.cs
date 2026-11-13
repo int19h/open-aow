@@ -17,10 +17,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class InvokeDeathAbility : TouchAbility
 {
     // AoWAb.PAS:3437
-    public InvokeDeathAbility(ECustomNode owner) : base(owner)
+    public InvokeDeathAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 35;
-        AbilityName = AbilityRules.TranslateResourceString(s_invokeDeathText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_invokeDeathText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }
 
@@ -185,7 +186,7 @@ public partial class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3527
     public InvokeDeathCombatAction CreateCombatAction(CombatObject source, CombatObject target)
     {
-        InvokeDeathCombatAction result = new InvokeDeathCombatAction(null);
+        InvokeDeathCombatAction result = new InvokeDeathCombatAction(null) { Holder = CreationHolder() };
         var combatTouchRole = CombatTouchRole((CombatUnit)source, target);
         result.Initialize(source.Id, target.Id, combatTouchRole);
         return result;

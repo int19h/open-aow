@@ -23,7 +23,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
     // AIGroup.pas:5117
     public AdjacentMoveExecutorControl(ECustomNode owner) : base(owner)
     {
-        _adjacentArmies = new AdjacentArmyList(null);
+        _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
     }
 
     private MapCoordinate _meetingPoint;
@@ -73,7 +73,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                 if (I < Armies.Count)
                 {
-                    settings = new MoveControlSettings(null);
+                    settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                     try
                     {
                         Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out armySelection);

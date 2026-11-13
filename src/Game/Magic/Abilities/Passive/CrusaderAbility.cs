@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class CrusaderAbility : DurationAbility
 {
     // PassiveAb.pas:703
-    public CrusaderAbility(ECustomNode owner) : base(owner)
+    public CrusaderAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_crusaderText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_crusaderText);
         AbilityId = 101;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;

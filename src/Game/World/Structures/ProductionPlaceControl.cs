@@ -49,11 +49,11 @@ public partial class ProductionPlaceControl : ProductionControl
             enchantment.DispelResistance = (sbyte)(Settings.Unit.GetUnitLevel() + 3);
         }
 
-        log = new ProductionPlaceEventLog(null);
+        log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
         log._player = productionPlace.Player;
         var name = Settings.Unit.GetName();
         var fProductionPlaceName = ProductionPlace.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducedFormat), [name, fProductionPlaceName]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
         var productionPlaceHexY = productionPlace.HexY;
         log.SetLocation(productionPlace.HexX, productionPlaceHexY, productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
@@ -68,12 +68,12 @@ public partial class ProductionPlaceControl : ProductionControl
         ProductionPlaceEventLog log;
         base.UnitResearched();
         var productionPlace = ProductionPlace;
-        log = new ProductionPlaceEventLog(null);
+        log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
         log._player = productionPlace.Player;
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = ProductionPlace.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.InstalledFormat), [unitName, name]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         var hexY = productionPlace.HexY;
         log.SetLocation(productionPlace.HexX, hexY, productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);

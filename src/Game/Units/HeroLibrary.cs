@@ -72,7 +72,7 @@ public partial class HeroLibrary : HeroList
     public Hero CreateHero()
     {
         Hero hero;
-        hero = new Hero(null);
+        hero = new Hero(null) { Holder = CreationHolder() };
         hero.SetHeroResourceIndex(0);
         hero.LibraryId = CreateUniqueLibraryId();
         hero.LibraryName = LibraryName;
@@ -87,7 +87,7 @@ public partial class HeroLibrary : HeroList
         string result = LibraryName;
         if (IsEmpty(result))
         {
-            result = AbilityRules.TranslateResourceString(GameText.SystemText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText);
         }
 
         return result;
@@ -113,13 +113,13 @@ public partial class HeroLibrary : HeroList
     // Hero.PAS:2633
     public void LoadFromFile(string fileName)
     {
-        GameTables.GameEngine.ReadFromFile(fileName, this, null, GameProfile.HeroList);
+        GetEngine().ReadFromFile(fileName, this, null, GameProfile.HeroList);
     }
 
     // Hero.PAS:2636
     public void SaveToFile(string fileName)
     {
-        GameTables.GameEngine.WriteToFile(fileName, this, null, GameProfile.HeroList);
+        GetEngine().WriteToFile(fileName, this, null, GameProfile.HeroList);
     }
 
     // Engine.pas:631

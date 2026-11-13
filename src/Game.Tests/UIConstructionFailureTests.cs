@@ -2,7 +2,6 @@ using Aow.Engine;
 
 using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Grids;
 using Aow.Game.World.Map;
 
@@ -23,7 +22,6 @@ public sealed class UIConstructionFailureTests
         var previousClose = engine.OnHsmCloseStore;
         engine.OnHsmLoadedStore = new EventStore<GameMap>();
         engine.OnHsmCloseStore = new EventStore<GameMap>();
-        GameTables.GameEngine = engine;
         StrategicMap.Current = null!;
         CombatMap.Current = null!;
         var owner = new Component(null!);

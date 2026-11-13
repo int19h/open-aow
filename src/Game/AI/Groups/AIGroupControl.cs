@@ -32,11 +32,11 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:973
     public AIGroupControl(ECustomNode owner) : base(owner)
     {
-        Targets = new AIGroupControlTargetList(null);
+        Targets = new AIGroupControlTargetList(null) { Holder = CreationHolder() };
         Targets.Control = this;
-        RecruitmentGroups = new AIRecruitmentGroupList(null);
-        ProductionLocations = new AIGroupProductionLocationList(null);
-        CombatPredictor = new CombatPredictor();
+        RecruitmentGroups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
+        ProductionLocations = new AIGroupProductionLocationList(null) { Holder = CreationHolder() };
+        CombatPredictor = new CombatPredictor(this);
     }
 
     private int _processCycles;

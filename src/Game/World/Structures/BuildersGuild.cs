@@ -35,7 +35,7 @@ public partial class BuildersGuild : ProductionPlace
         // BldGuild.pas:26
 
         // BldGuild.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_buildersGuildText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_buildersGuildText);
 
         private static readonly string s_buildersGuildText = "Builders Guild";
 

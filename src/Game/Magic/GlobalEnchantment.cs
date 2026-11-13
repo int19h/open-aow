@@ -135,7 +135,7 @@ public partial class GlobalEnchantment : EngineObject
         bool result;
         if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
         {
-            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat), [Name]);
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
             result = false;
         }
         else
@@ -186,10 +186,10 @@ public partial class GlobalEnchantment : EngineObject
             result = Activate(player);
             if (result)
             {
-                log = new GlobalEnchantmentEventLog(null);
+                log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                 log.EnchantmentPlayer = player;
                 log._player = player;
-                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [Name]);
+                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [Name]);
                 EventLog.DistributeEventLog(log, false);
                 log.Release();
             }
@@ -220,12 +220,12 @@ public partial class GlobalEnchantment : EngineObject
             {
                 if (VisibleForPlayer((sbyte)I))
                 {
-                    log = new GlobalEnchantmentEventLog(null);
+                    log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                     log._player = (sbyte)player;
                     log.EnchantmentPlayer = PlayerIndex;
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dispelledFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_dispelledFormat), [name]);
                     StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
                     log.Release();
                 }
@@ -273,12 +273,12 @@ public partial class GlobalEnchantment : EngineObject
             {
                 if (VisibleForPlayer((sbyte)I))
                 {
-                    log = new GlobalEnchantmentEventLog(null);
+                    log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                     log._player = PlayerIndex;
                     log.EnchantmentPlayer = PlayerIndex;
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RemovedFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [name]);
                     StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
                     log.Release();
                 }

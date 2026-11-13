@@ -112,7 +112,7 @@ public partial class PartyJoinDialog : UIModule
     // AoWPartyJoin.pas:127
     public void PartyJoinDialogCreate()
     {
-        _units = new UnitUserList(null);
+        _units = new UnitUserList(null) { Holder = UI.Engine };
     }
 
     // AoWPartyJoin.pas:132

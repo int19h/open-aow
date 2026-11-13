@@ -120,10 +120,10 @@ public sealed class ClassRegistryTests
         // These two entries require a linked owner even though the descriptor accepts null.
         if (type == typeof(DynamicIsometricHex) || type == typeof(FlagControl))
         {
-            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null!));
+            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine));
             return;
         }
-        var instance = EngineClass.Of(type).CreateInstance(null!);
+        var instance = EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType(type, instance); }
         finally
         {

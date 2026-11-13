@@ -17,7 +17,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
     public PlayerDiplomaticRelations(ECustomNode owner) : base(owner)
     {
         _relations = new ByteList();
-        _history = new ENode(null);
+        _history = new ENode(null) { Holder = CreationHolder() };
     }
 
     public Player Player { get; set; }
@@ -129,7 +129,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
     {
         while (_history.Count + 1 < StrategicMap.Current.Players.Count)
         {
-            new DiplomaticRelationHistoryList(null).Owner = _history;
+            new DiplomaticRelationHistoryList(null) { Holder = CreationHolder() }.Owner = _history;
         }
 
         while (_history.Count + 1 > StrategicMap.Current.Players.Count)

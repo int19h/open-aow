@@ -49,7 +49,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         target = combat.CombatData.FindId(TargetId);
         if (source is CombatUnit && target is CombatUnit)
         {
-            enchantments = new EnchantmentList(null);
+            enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
             var combatUnit = (CombatUnit)target;
             combatUnit.Troop.ListEnchantments(enchantments);
             wasSummoned = combatUnit.Troop.GetAbilityEnabled(155);
@@ -107,7 +107,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         TargetId = target.Id;
         if (source is CombatUnit && target is CombatUnit)
         {
-            Enchantments = new EnchantmentList(null);
+            Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
             ((CombatUnit)target).Troop.ListEnchantments(Enchantments);
             for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
             {

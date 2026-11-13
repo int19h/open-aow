@@ -18,9 +18,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class DispelMagic : UnitSpell
 {
     // UnitSpells.pas:1000
-    public DispelMagic(ECustomNode owner) : base(owner)
+    public DispelMagic(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
         SpellId = 8;
         BaseManaCost = 5;
         SpellLevel = 1;
@@ -34,7 +35,7 @@ public partial class DispelMagic : UnitSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         DispelMagicSpellCombatAction action;
-        action = new DispelMagicSpellCombatAction(null);
+        action = new DispelMagicSpellCombatAction(null) { Holder = CreationHolder() };
         action.SpellId = SpellId;
         action.SourceId = source.Id;
         action.TargetId = target.Id;
@@ -74,7 +75,7 @@ public partial class DispelMagic : UnitSpell
         if (ValidTargetUnit(source, target))
         {
             count = 0;
-            enchantments = new EnchantmentList(null);
+            enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
             target.ListEnchantments(enchantments);
             for (int I = enchantments.GetCount() - 1; I >= 0; I--)
             {
@@ -91,12 +92,12 @@ public partial class DispelMagic : UnitSpell
             {
                 if (count > 0)
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText);
+                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
                     StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }

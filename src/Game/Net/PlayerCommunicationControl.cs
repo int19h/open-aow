@@ -1,4 +1,5 @@
 // Translated from NetworkE.pas.
+using Aow.Engine.Nodes;
 
 namespace Aow.Game.Net;
 
@@ -25,7 +26,7 @@ public partial class PlayerCommunicationControl : IDisposable
     }
 
     // NetworkE.pas:498
-    public virtual PlayerCommunicationSettings CreatePlayerCommunicationSettings() => new PlayerCommunicationSettings(null);
+    public virtual PlayerCommunicationSettings CreatePlayerCommunicationSettings() => new PlayerCommunicationSettings(null) { Holder = Creator.CreationHolder() };
 
     // NetworkE.pas:493
     public virtual string Name() => "";
@@ -37,11 +38,15 @@ public partial class PlayerCommunicationControl : IDisposable
     public virtual bool SendPackageData(int player, MemoryStream stream) => false;
 
     // NetworkE.pas:468
-    public PlayerCommunicationControl()
+    public PlayerCommunicationControl(EngineObject creator)
     {
+        Creator = creator;
         RefCount = 1;
-        _playerCommunicationSettingsList = new PlayerCommunicationSettingsList(null);
+        _playerCommunicationSettingsList = new PlayerCommunicationSettingsList(null) { Holder = Creator.CreationHolder() };
     }
+
+    // The node that created this control. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     // NetworkE.pas:475
     public virtual void Dispose()

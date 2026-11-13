@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class EnchantedRoads : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:571
-    public EnchantedRoads(ECustomNode owner) : base(owner)
+    public EnchantedRoads(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.EnchantedRoadsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EnchantedRoadsText);
         SpellId = 44;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -39,12 +40,12 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        animation = new Animation(null);
+        animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 27;
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
-        twinkle = new TwinkleAnimation(null);
+        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
         StrategicMap.Current.PlaceHex(twinkle, X, Y, L);
         CastSounds.Play(0);
@@ -53,7 +54,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:636
-    public override GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null, holder: CreationHolder());
 
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {

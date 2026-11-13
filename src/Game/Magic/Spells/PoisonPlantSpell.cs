@@ -17,9 +17,10 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class PoisonPlantSpell : GlobalTargetSpell
 {
-    public PoisonPlantSpell(ECustomNode owner) : base(owner)
+    public PoisonPlantSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_poisonPlantsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantsText);
         SpellId = 12;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -44,7 +45,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         PoisonPlantSpellTokenEvent eventValue;
-        eventValue = new PoisonPlantSpellTokenEvent(null);
+        eventValue = new PoisonPlantSpellTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

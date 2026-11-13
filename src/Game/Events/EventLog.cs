@@ -220,7 +220,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             player = StrategicMap.Current.Players.GetPlayers(I);
             if (player.Status == PlayerStatus.Playing)
             {
-                copyLog = (EventLog)log.Copy(GameTables.GameEngine);
+                copyLog = (EventLog)log.Copy(log.GetEngine());
                 player.EventLogbook.AddEvent(copyLog);
                 if (I == StrategicMap.Current.SeatedPlayer && execute)
                 {
@@ -241,7 +241,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             targetPlayer = StrategicMap.Current.Players.GetPlayers(I);
             if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !StrategicMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
             {
-                copyLog = (EventLog)log.Copy(GameTables.GameEngine);
+                copyLog = (EventLog)log.Copy(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
                 if (I == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && execute)
                 {

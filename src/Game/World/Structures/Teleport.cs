@@ -129,7 +129,7 @@ public partial class Teleport : Structure
         bool result;
         if (_destinationX == 0 || _destinationY == 0)
         {
-            messages.Add(AbilityRules.TranslateResourceString(GameText.WarningText) + ": " + AbilityRules.TranslateResourceString(s_invalidLocationSpecifiedText));
+            messages.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText));
             result = false;
         }
         else
@@ -144,13 +144,13 @@ public partial class Teleport : Structure
     public void ShowTeleportAnimations()
     {
         ImageSequenceAnimation animation;
-        animation = new ImageSequenceAnimation(null);
+        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[13]);
         var hexLevel = GetHexLevel();
         var hexY = GetHexY();
         var hexX = GetHexX();
         StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
-        animation = new ImageSequenceAnimation(null);
+        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);
         StrategicMap.Current.PlaceHex(animation, _destinationX, _destinationY, _destinationMapLevel);
     }
@@ -257,8 +257,8 @@ public partial class Teleport : Structure
                 {
                     var playerLocal = field.GetPlayer();
                     var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.NoWarDeclaredFormat), [raceNamesPlural]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                     result = false;
                 }
@@ -310,7 +310,7 @@ public partial class Teleport : Structure
         // Teleport.pas:45
 
         // Teleport.pas:302
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(TeleportText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), TeleportText);
 
         internal static string TeleportText { get; } = "Teleport";
 

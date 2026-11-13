@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Flood : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1356
-    public Flood(ECustomNode owner) : base(owner)
+    public Flood(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.FloodText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FloodText);
         SpellId = 50;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -36,7 +37,7 @@ public partial class Flood : GlobalEnchantmentSpell
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        twinkle = new TwinkleAnimation(null);
+        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
         StrategicMap.Current.PlaceHex(twinkle, X, Y, L);
         CastSounds.Play(0);
@@ -45,7 +46,7 @@ public partial class Flood : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1353
-    public override GlobalEnchantment CreateEnchantment() => new FloodEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new FloodEnchantment(null, holder: CreationHolder());
 
     // GlobalEnchantmentSpells.pas:1367
     public void ShowAnimation(int animation, int pixelXSurface, int pixelYSurface, int surfaceDescription)

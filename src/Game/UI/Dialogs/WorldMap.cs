@@ -557,7 +557,7 @@ public partial class WorldMap : UIModule
         LeaderSetupControl control = default;
         WorldPanel.Visible = false;
         picks = GetCampaign().TransferSettings.Leader.SpherePicksMax;
-        control = new LeaderSetupControl(null);
+        control = new LeaderSetupControl(null) { Holder = UI.Engine };
         var campaign = GetCampaign();
         control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
         control.Leader.SetSpherePicksMax((byte)(picks + 2));

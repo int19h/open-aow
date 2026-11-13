@@ -66,7 +66,7 @@ public sealed class PersistCorpusTests
     public void CorpusInstancesMatchTheConverter()
     {
         var previous = StrategicMap.Current;
-        var map = new StrategicMap(null!);
+        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         s_reaper = map;
         s_blocked.Clear();
@@ -421,7 +421,7 @@ public sealed class PersistCorpusTests
     private static EngineObject Blank(string className)
     {
         foreach (var engineClass in EngineClass.All)
-            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!);
+            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 

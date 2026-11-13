@@ -204,7 +204,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         // Crops.pas:257
         public Crop PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure cropOwner)
         {
-            Crop result = new Crop(null);
+            Crop result = new Crop(null) { Holder = CreationHolder() };
             result.SetResource(this);
             result.ResourceLinked = true;
             result.CropOwner = cropOwner;
@@ -218,7 +218,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         }
 
         // Crops.pas:254
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_cropText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_cropText);
 
         private static readonly string s_cropText = "Crops";
 

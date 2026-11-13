@@ -15,9 +15,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Watcher : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1498
-    public Watcher(ECustomNode owner) : base(owner)
+    public Watcher(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(s_watcherText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_watcherText);
         SpellId = 57;
         AboveGroundOnly = false;
     }
@@ -37,7 +38,7 @@ public partial class Watcher : GlobalTargetSpell
         WatcherTokenEvent eventValue;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new WatcherTokenEvent(null);
+            eventValue = new WatcherTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

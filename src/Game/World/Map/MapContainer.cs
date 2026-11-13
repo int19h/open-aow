@@ -42,8 +42,8 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         _map = Owner;
     }
 
-    // HSEngine.pas:3203
-    public override GameEngine GetEngine() => _engine;
+    // HSEngine.pas:3203. Before the activation message or a load the map reaches the engine as any node does.
+    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // HSEngine.pas:3173
     public override void ReadWrite(StorageStream stream)
@@ -133,7 +133,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         levelClass = _engine.GetEngineClass(classId);
         if (levelClass != null)
         {
-            level = (MapLevel)levelClass.CreateInstance(this);
+            level = (MapLevel)levelClass.CreateInstance(this, holder: CreationHolder());
             level.HexLevel = _levelCount;
             _engine.ActivateEngineObject(level);
             level.CreateMapFieldList(_width, _height);
@@ -159,7 +159,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
             levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
             for (int I = 0, last = settings.Levels - 1; I <= last; I++)
             {
-                level = (MapLevel)levelClass.CreateInstance(this);
+                level = (MapLevel)levelClass.CreateInstance(this, holder: CreationHolder());
                 level.HexLevel = I;
                 _engine.ActivateEngineObject(level);
                 level.New(settings);

@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class TurnUndead : CombatSpell
 {
     // CombatSpells.pas:888
-    public TurnUndead(ECustomNode owner) : base(owner)
+    public TurnUndead(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.TurnUndeadText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
         SpellId = 101;
         DamageMode = 1;
         ref var spellCombatInfo = ref CombatInfo;
@@ -33,7 +34,7 @@ public partial class TurnUndead : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         TurnUndeadSpellCombatAction action;
-        action = new TurnUndeadSpellCombatAction(null);
+        action = new TurnUndeadSpellCombatAction(null) { Holder = CreationHolder() };
         action.SpellId = SpellId;
         action.SourceId = source.Id;
         action.TargetId = target.Id;

@@ -148,6 +148,6 @@ public partial class PestilenceStorm : Storm
     // Animation.pas:43
 
     // Storms.pas:639
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.PestilenceStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.PestilenceStormText);
 
 }

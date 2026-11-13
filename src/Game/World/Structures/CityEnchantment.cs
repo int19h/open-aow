@@ -45,7 +45,7 @@ public partial class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2762
-    public override string GetName() => AbilityRules.TranslateResourceString(s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
+    public override string GetName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
 
     // City.pas:2739
     public override MapCoordinate GetLocation()

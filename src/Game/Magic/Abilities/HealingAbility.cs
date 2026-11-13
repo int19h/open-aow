@@ -19,10 +19,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class HealingAbility : TouchAbility
 {
     // AoWAb.PAS:3616
-    public HealingAbility(ECustomNode owner) : base(owner)
+    public HealingAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 47;
-        AbilityName = AbilityRules.TranslateResourceString(s_healingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
         AbilityType = AbilityType.Enhancement;
     }
@@ -37,7 +38,7 @@ public partial class HealingAbility : TouchAbility
         }
         else
         {
-            var used = AbilityRules.TranslateResourceString(GameText.UsedText);
+            var used = AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText);
             result = AbilityName + " (" + LowerCase(used) + ")";
         }
 
@@ -125,7 +126,7 @@ public partial class HealingAbility : TouchAbility
         if (CanActivate(owner, ref reason))
         {
             var troop = owner as Troop;
-            info = new UnitSelectionActivation(null);
+            info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
             if (troop != null)
             {
@@ -136,14 +137,14 @@ public partial class HealingAbility : TouchAbility
                 info.UnitId = 0;
             }
 
-            selector = new HealingUnitSelector();
-            var healing = AbilityRules.TranslateResourceString(s_healingText);
-            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SelectUnitFormat), [healing]);
+            selector = new HealingUnitSelector(this);
+            var healing = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
+            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [healing]);
             if (troop != null)
             {
                 if (troop.Owner is HeroList)
                 {
-                    var empty = new UnitUserList(null);
+                    var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     selector.Setup(troop, empty);
                     empty.Dispose();
                 }
@@ -294,7 +295,7 @@ public partial class HealingAbility : TouchAbility
         data = (HealingAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = new HealingAbilityData(null);
+            data = new HealingAbilityData(null) { Holder = CreationHolder() };
             owner.AddAbilityData(data);
         }
 
@@ -316,7 +317,7 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3680
     public HealingCombatAction CreateHealingCombatAction(CombatObject source, CombatObject target)
     {
-        HealingCombatAction result = new HealingCombatAction(null);
+        HealingCombatAction result = new HealingCombatAction(null) { Holder = CreationHolder() };
         result.Initialize(source.Id, target.Id);
         return result;
     }

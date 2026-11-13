@@ -17,9 +17,10 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     public new const int ClassId = 135955;
 
     // GlobalEnchantmentSpells.pas:527
-    public EnchantedRoadsEnchantment(ECustomNode owner) : base(owner)
+    public EnchantedRoadsEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.EnchantedRoadsText);
+        Holder = holder;
+        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.EnchantedRoadsText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 50;
     }
@@ -42,7 +43,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result && StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
         {
-            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
+            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
             var name = GetName();
             reason = RtlUnit.Format(xIsAlreadyActive, [name]);
             result = false;

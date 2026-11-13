@@ -11,7 +11,7 @@ public partial class DiplomaticAction
     public void RetrieveDefaultMessage(sbyte source, sbyte target, sbyte other, DiplomaticActionReaction reaction)
     {
         using var text = new StringList();
-        RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text);
+        RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text, engine: GetEngine());
         Proposal = Proposal with { Message = DiplomaticProposal.Lines(text) };
     }
 

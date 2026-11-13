@@ -17,9 +17,10 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class RaiseTerrain : GlobalTargetSpell
 {
-    public RaiseTerrain(ECustomNode owner) : base(owner)
+    public RaiseTerrain(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_raiseTerrainText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_raiseTerrainText);
         SpellId = 19;
         BaseManaCost = 5;
         SpellLevel = 4;
@@ -44,7 +45,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         RaiseTerrainTokenEvent eventValue;
-        eventValue = new RaiseTerrainTokenEvent(null);
+        eventValue = new RaiseTerrainTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

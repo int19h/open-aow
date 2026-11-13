@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class BurningAbility : DurationAbility
 {
     // PassiveAb.pas:756
-    public BurningAbility(ECustomNode owner) : base(owner)
+    public BurningAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_burningText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_burningText);
         AbilityId = 127;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.CombatTurn;

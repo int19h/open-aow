@@ -33,7 +33,7 @@ public partial class SpellCastEventLog : EventLog
     public override string GetText()
     {
         var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(s_castingReadyFormat), [spell.SpellName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingReadyFormat), [spell.SpellName]);
     }
 
     // Spells.PAS:818
@@ -42,8 +42,8 @@ public partial class SpellCastEventLog : EventLog
         bool show;
         string reason = "";
         show = trigger == ExecuteTrigger.User;
-        show = show || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
-        show = show || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        show = show || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        show = show || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
         if (show)
         {
             var hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);

@@ -11,9 +11,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class FrozenAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:649
-    public FrozenAbility(ECustomNode owner) : base(owner)
+    public FrozenAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_frozenText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_frozenText);
         AbilityId = 95;
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();

@@ -8,9 +8,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonBoar : SummonSpell
 {
     // SummonSpells.pas:354
-    public SummonBoar(ECustomNode owner) : base(owner)
+    public SummonBoar(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_summonBoarText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonBoarText);
         SpellId = 31;
         BaseManaCost = 5;
         SpellLevel = 1;

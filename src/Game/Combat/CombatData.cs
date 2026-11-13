@@ -18,9 +18,9 @@ public partial class CombatData : EngineObject
     // Combat2.pas:162
     public CombatData(ECustomNode owner) : base(owner)
     {
-        Players = new CombatPlayerList(null);
-        Parties = new CombatPartyList(null);
-        CombatObjects = new ENode(null);
+        Players = new CombatPlayerList(null) { Holder = CreationHolder() };
+        Parties = new CombatPartyList(null) { Holder = CreationHolder() };
+        CombatObjects = new ENode(null) { Holder = CreationHolder() };
         DefeatedLeaders = new ByteList();
         TurnOrder = new ByteList();
         InvolvedLeaders = new ByteList();

@@ -121,7 +121,7 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
             {
                 if (GetRace(I) == null)
                 {
-                    race = new Race(null);
+                    race = new Race(null) { Holder = CreationHolder() };
                     race.RaceIndex = (sbyte)I;
                     race.SetArrayOwner(this, I);
                     race.SetEnabled(true);

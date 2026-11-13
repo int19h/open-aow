@@ -33,7 +33,7 @@ public sealed class CombatDataTests
     [InlineData(true)]
     public void DestroyFreesCombatObjectsAndBothLists(bool countCalls)
     {
-        var data = new CombatData(null!);
+        var data = new CombatData(null!) { Holder = EngineFixture.Engine };
         if (countCalls)
         {
             data.CombatObjects?.Dispose();
@@ -76,6 +76,7 @@ public sealed class CombatDataTests
     {
         var data = new CombatData(null!)
         {
+            Holder = EngineFixture.Engine,
             X = 12,
             Y = 34,
             MapLevel = 2,
@@ -105,7 +106,7 @@ public sealed class CombatDataTests
             using var memory = new MemoryStream();
             memory.Write(before);
             memory.Position = 0;
-            using var loaded = new CombatData(null!);
+            using var loaded = new CombatData(null!) { Holder = EngineFixture.Engine };
             using var reader = new StorageReader(memory, null!, false);
             reader.Object(loaded, 4);
             Assert.Equal(before, Save(loaded));

@@ -488,7 +488,7 @@ public partial class StrategicMap : GameMap
         int L = default;
         if (stream.StorageMode().Contains(StorageModeElement.Read) && !stream.StorageMode().Contains(StorageModeElement.Translate))
         {
-            stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_oneMomentPleaseText), 0);
+            stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_oneMomentPleaseText), 0);
         }
 
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write, StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
@@ -608,47 +608,48 @@ public partial class StrategicMap : GameMap
         {
             if (GameType == GameType.Campaign)
             {
-                fileName = GameTables.GameEngine.StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
+                fileName = GetEngine().StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
             }
             else
             {
-                fileName = GameTables.GameEngine.StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
+                fileName = GetEngine().StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
             }
 
             if (FileExists(fileName))
             {
-                GameTables.GameEngine.TranslateEngineObjectFromFile(this, fileName);
+                GetEngine().TranslateEngineObjectFromFile(this, fileName);
             }
         }
     }
 
     // AoWHSMap.PAS:1238
-    public StrategicMap(ECustomNode owner) : base(owner)
+    public StrategicMap(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        ItemControl = new ItemControl(null);
-        TokenManager = new TokenManager(GameTables.GameEngine);
+        Holder = holder;
+        ItemControl = new ItemControl(null) { Holder = CreationHolder() };
+        TokenManager = new TokenManager(GetEngine());
         TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
         TokenManager.TokenExecutor.SetExecuteTokenEventHandler(OnExecuteTokenEvent);
         TokenManager.OnMessage += OnTokenManagerMessage;
-        PlayerCommunicator = new PlayerCommunicator(null);
-        PlayerCommunicator.Engine = GameTables.GameEngine;
+        PlayerCommunicator = new PlayerCommunicator(null) { Holder = CreationHolder() };
+        PlayerCommunicator.Engine = GetEngine();
         ConnectionType = PlayerConnectionType.Local;
-        AIExecutor = new AIExecutor(null);
-        AIGroupManager = new AIGroupManager(null);
-        AIPlayerActionManager = new AIPlayerActionManager(null);
+        AIExecutor = new AIExecutor(null) { Holder = CreationHolder() };
+        AIGroupManager = new AIGroupManager(null) { Holder = CreationHolder() };
+        AIPlayerActionManager = new AIPlayerActionManager(null) { Holder = CreationHolder() };
         AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<BudgetManagerAIPlayerAction>(), AIPlayerActionClass.Of<AutoProduceAIPlayerAction>(), AIPlayerActionClass.Of<DiplomacyAIPlayerAction>(), AIPlayerActionClass.Of<ProcessEventLogAIPlayerAction>(), AIPlayerActionClass.Of<ResearchSpellAIPlayerAction>(), AIPlayerActionClass.Of<CastSpellAIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase1AIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase2AIPlayerAction>()]);
         TokenManager.TokenExecutor.OnEventsExecuted += AIExecutor.TokenControlDoneEvent;
         AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAIGroup>()]);
         PlayMode = PlayMode.None;
-        Keyboard = new HexSpriteMapKeyboard(null);
+        Keyboard = new HexSpriteMapKeyboard(null) { Holder = CreationHolder() };
         TargetSelection = new TargetSelectionControl();
         Effects = new List<WorldEffectHexSprite>();
         DefendersSeed = 0;
         HeroCountMax = 5;
-        SelectedArmy = new SelectedArmy();
+        SelectedArmy = new SelectedArmy(this);
         ((GameMapMouse)Mouse).RectangleSelected += SelectedArmy.RectangleSelectEvent;
         MoveControl = new MoveControl(this);
-        GlobalMagicControl = new GlobalMagicControl(null);
+        GlobalMagicControl = new GlobalMagicControl(null) { Holder = CreationHolder() };
         MapName = "noname";
         _author = "";
         _turnTimerStart = -1;
@@ -658,28 +659,28 @@ public partial class StrategicMap : GameMap
         Description = new StringList();
         _objectives = new StringList();
         _independentAIMode = StrategicMapIndependentAIMode.Normal;
-        Players = new PlayerList(null);
-        Races = new RaceList(null);
+        Players = new PlayerList(null) { Holder = CreationHolder() };
+        Races = new RaceList(null) { Holder = CreationHolder() };
         _playerChangedEventsStore = new();
         FixedLeaders = true;
         AlliedVictory = false;
         CurrentPlayer = 0;
-        _executeEventLogBuffer = new EventLogList(null);
+        _executeEventLogBuffer = new EventLogList(null) { Holder = CreationHolder() };
         DebugSave = false;
-        TutorialControl = new TutorialControl(null);
+        TutorialControl = new TutorialControl(null) { Holder = CreationHolder() };
         TurnOrderMode = StrategicMapTurnOrderMode.Fixed;
         TurnOrder = new ByteList();
         Day = 0;
         GameStatus = StrategicMapGameStatus.Idle;
         GameResult = StrategicMapGameResult.None;
         _sessionName = "";
-        var detailLevel = GameTables.GameEngine.Registry.GetDetailLevel();
+        var detailLevel = GetEngine().Registry.GetDetailLevel();
         ShowUnitShadows = Set<DetailLevel>.Of(DetailLevel.Normal, DetailLevel.High).Contains(detailLevel);
-        HeroControl = new HeroControl(null);
-        UnitControl = new UnitControl(null);
-        StructureControl = new StructureControl(null);
+        HeroControl = new HeroControl(null) { Holder = CreationHolder() };
+        UnitControl = new UnitControl(null) { Holder = CreationHolder() };
+        StructureControl = new StructureControl(null) { Holder = CreationHolder() };
         OnLeaderChangedStore = new();
-        TextControl = new TextControl(null);
+        TextControl = new TextControl(null) { Holder = CreationHolder() };
         NewDayEventsStore = new();
         NewTurnEventsStore = new();
         _endTurnEventsStore = new();
@@ -699,8 +700,8 @@ public partial class StrategicMap : GameMap
         _executeEventLogCallBacks = new ExecuteEventLogCallbackList();
         CosmeticSurgeryEventsStore = new();
         OnActivateAbilityStore = new();
-        StartupSongs = new StartupSongList(null);
-        GameSongs = new SongList(null);
+        StartupSongs = new StartupSongList(null) { Holder = CreationHolder() };
+        GameSongs = new SongList(null) { Holder = CreationHolder() };
         _playerTerminatedEventsStore = new();
         _gameOverEventsStore = new();
         _gameTerminatedEventsStore = new();
@@ -709,7 +710,7 @@ public partial class StrategicMap : GameMap
         CombatMapCreatedEventsStore = new();
         CombatMapDestroyedEventsStore = new();
         _exitEventsStore = new();
-        CampaignSettings = new MapCampaignSettings(null);
+        CampaignSettings = new MapCampaignSettings(null) { Holder = CreationHolder() };
         Mouse.OnMove += MouseMoved;
     }
 
@@ -785,15 +786,15 @@ public partial class StrategicMap : GameMap
         int total = default;
         if (HasProgressHandlers)
         {
-            defaultText = AbilityRules.TranslateResourceString(s_oneMomentPleaseText);
+            defaultText = AbilityRules.TranslateResourceString(GetEngine(), s_oneMomentPleaseText);
             switch (progress.ProgressType)
             {
                 case MapProgressType.Loading:
                     total = progress.Percent + progress.Level * 100;
                     percent = Round((double)((double)total / 3) / MapContainer.LevelCount);
-                    if (GameTables.GameEngine.Debug)
+                    if (GetEngine().Debug)
                     {
-                        text = AbilityRules.TranslateResourceString(s_loadingLevelText) + IntToStr(progress.Level);
+                        text = AbilityRules.TranslateResourceString(GetEngine(), s_loadingLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
@@ -805,9 +806,9 @@ public partial class StrategicMap : GameMap
                 case MapProgressType.Initializing:
                     total = progress.Percent + progress.Level * 100;
                     percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)100 / 3);
-                    if (GameTables.GameEngine.Debug)
+                    if (GetEngine().Debug)
                     {
-                        text = AbilityRules.TranslateResourceString(s_initializingLevelText) + IntToStr(progress.Level);
+                        text = AbilityRules.TranslateResourceString(GetEngine(), s_initializingLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
@@ -819,9 +820,9 @@ public partial class StrategicMap : GameMap
                 case MapProgressType.UpdatingTerrain:
                     total = progress.Percent + progress.Level * 100;
                     percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)500 / 9);
-                    if (GameTables.GameEngine.Debug)
+                    if (GetEngine().Debug)
                     {
-                        text = AbilityRules.TranslateResourceString(s_updatingTerrainLevelText) + IntToStr(progress.Level);
+                        text = AbilityRules.TranslateResourceString(GetEngine(), s_updatingTerrainLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
@@ -833,9 +834,9 @@ public partial class StrategicMap : GameMap
                 case MapProgressType.Activating:
                     total = progress.Percent + progress.Level * 100;
                     percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)700 / 9);
-                    if (GameTables.GameEngine.Debug)
+                    if (GetEngine().Debug)
                     {
-                        text = AbilityRules.TranslateResourceString(s_activatingLevelText) + IntToStr(progress.Level);
+                        text = AbilityRules.TranslateResourceString(GetEngine(), s_activatingLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
@@ -845,11 +846,11 @@ public partial class StrategicMap : GameMap
                     RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.Saving:
-                    var savingLevel = AbilityRules.TranslateResourceString(s_savingLevelText);
+                    var savingLevel = AbilityRules.TranslateResourceString(GetEngine(), s_savingLevelText);
                     RaiseProgress(this, savingLevel + IntToStr(progress.Level), progress.Percent);
                     break;
                 case MapProgressType.Destroying:
-                    var translatedText = AbilityRules.TranslateResourceString(s_destroyingLevelText);
+                    var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_destroyingLevelText);
                     RaiseProgress(this, translatedText + IntToStr(progress.Level), progress.Percent);
                     break;
             }
@@ -870,14 +871,14 @@ public partial class StrategicMap : GameMap
 
         for (int I = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Count - 1; I <= last; I++)
         {
-            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.GetItem(I).Copy(GameTables.GameEngine);
+            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.GetItem(I).Copy(GetEngine());
             ItemControl.RegisterItem((Item)objectValue);
             objectValue.Release();
         }
 
         for (int I = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Count - 1; I <= last; I++)
         {
-            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.GetHero(I).Copy(GameTables.GameEngine);
+            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.GetHero(I).Copy(GetEngine());
             HeroControl.RegisterHero((Hero)objectValue);
             objectValue.Release();
         }
@@ -909,7 +910,7 @@ public partial class StrategicMap : GameMap
             GameSongs.Songs.Clear();
             for (int I = 0, last = Current.StartupSongs.Songs.Count - 1; I <= last; I++)
             {
-                var fileNotFound = AbilityRules.TranslateResourceString(GameText.FileNotFoundText);
+                var fileNotFound = AbilityRules.TranslateResourceString(GetEngine(), GameText.FileNotFoundText);
                 if (CompareText(Current.StartupSongs.SongNames[I], fileNotFound) != 0)
                 {
                     var item = Current.StartupSongs.Songs[I];
@@ -919,7 +920,7 @@ public partial class StrategicMap : GameMap
         }
 
         GameStatus = StrategicMapGameStatus.Playing;
-        DebugSave = GameTables.GameEngine.Registry.GetAutoDebugSave();
+        DebugSave = GetEngine().Registry.GetAutoDebugSave();
         GlobalMagicControl.Update();
         Players.BeginUpdate();
         Players.EndUpdate();
@@ -963,7 +964,7 @@ public partial class StrategicMap : GameMap
             ShowMessage("");
         }
 
-        if (GameTables.GameEngine.Registry.GetLogTokenEvents())
+        if (GetEngine().Registry.GetLogTokenEvents())
         {
             StartTokenEventLogging();
         }
@@ -1196,7 +1197,7 @@ public partial class StrategicMap : GameMap
         SaveGameTokenEvent eventValue;
         if (Current.SeatedPlayer != -1)
         {
-            eventValue = new SaveGameTokenEvent(null);
+            eventValue = new SaveGameTokenEvent(null) { Holder = CreationHolder() };
             eventValue.FileName = ExpandFileName(fileName);
             Current.TokenManager.GetTokenControl(Current.SeatedPlayer).AddEvent(eventValue);
             eventValue.Release();
@@ -1777,7 +1778,7 @@ public partial class StrategicMap : GameMap
             player = Current.Players.GetPlayers(I);
             if (I == eventValue._player || player.GameOverStatus == GameOverStatus.None)
             {
-                log = (GameOverEventLog)eventValue.Copy(GameTables.GameEngine);
+                log = (GameOverEventLog)eventValue.Copy(GetEngine());
                 if (_gameOverLockCount == 0)
                 {
                     player.EventLogbook.AddEvent(log);
@@ -1808,7 +1809,7 @@ public partial class StrategicMap : GameMap
             while (_executeEventLogBuffer.Count != 0)
             {
                 player = ((GameOverEventLog)_executeEventLogBuffer.GetEvents(0)).TargetPlayer;
-                log = (EventLog)_executeEventLogBuffer.GetEvents(0).Copy(GameTables.GameEngine);
+                log = (EventLog)_executeEventLogBuffer.GetEvents(0).Copy(GetEngine());
                 Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                 if (player == Current.SeatedPlayer)
                 {
@@ -1853,11 +1854,11 @@ public partial class StrategicMap : GameMap
         bool result = message.Data[0] == 0;
         if (result)
         {
-            messages.Add(AbilityRules.TranslateResourceString(s_mapSuccessfullyValidatedText));
+            messages.Add(AbilityRules.TranslateResourceString(GetEngine(), s_mapSuccessfullyValidatedText));
         }
         else
         {
-            messages.Add(AbilityRules.TranslateResourceString(s_mapValidationFailedText));
+            messages.Add(AbilityRules.TranslateResourceString(GetEngine(), s_mapValidationFailedText));
         }
 
         return result;
@@ -2228,7 +2229,7 @@ public partial class StrategicMap : GameMap
                     if (!(PlayerControl is PbemPlayerControl))
                     {
                         PlayerControl?.Dispose();
-                        PlayerControl = new PbemPlayerControl(null);
+                        PlayerControl = new PbemPlayerControl(null) { Holder = CreationHolder() };
                     }
                 }
                 else
@@ -2237,7 +2238,7 @@ public partial class StrategicMap : GameMap
                     if (!(PlayerControl is PbemPlayerControl))
                     {
                         PlayerControl?.Dispose();
-                        PlayerControl = new TurnPlayerControl(null);
+                        PlayerControl = new TurnPlayerControl(null) { Holder = CreationHolder() };
                     }
                 }
 
@@ -2249,7 +2250,7 @@ public partial class StrategicMap : GameMap
                 }
 
                 // { Original replaces an existing control without freeing it. }
-                PlayerControl = new SimultaneousPlayerControl(null);
+                PlayerControl = new SimultaneousPlayerControl(null) { Holder = CreationHolder() };
                 break;
         }
 
@@ -2439,7 +2440,7 @@ public partial class StrategicMap : GameMap
                 player.ViewMapLevel = (byte)L;
             }
 
-            CombatMap = (CombatMap)GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
+            CombatMap = (CombatMap)GetEngine().LoadHsmMap(FileBoundary.ReadName(GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
             CombatMapCreatedEventsStore.Raise(this);
         }
     }
@@ -2462,7 +2463,7 @@ public partial class StrategicMap : GameMap
         Battle result;
         if (Combat == null)
         {
-            result = (Battle)GameTables.GameEngine.CreateEngineObject(classId, null);
+            result = (Battle)GetEngine().CreateEngineObject(classId, null);
             Combat = result;
             if (GameType == GameType.Tutorial && classId == 2228496)
             {
@@ -2536,11 +2537,11 @@ public partial class StrategicMap : GameMap
             if (RequestCombatType && Combat.EngineClass.ClassId != 131760 && Combat.CombatData.Round != 0 && Combat.ExplorationSite != 1 && Players.GetPlayers(CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 LockExecuteEventLog();
-                log = new NewTurnEventLog(null);
+                log = new NewTurnEventLog(null) { Holder = CreationHolder() };
                 log.TurnPlayer = CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GameText.YourTurnContinuesText);
+                log.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText);
                 TriggerExecuteEventLog(log, false, ShowSeatedPlayerCallback);
                 log.Release();
                 UnlockGameOverEvent();
@@ -2768,7 +2769,7 @@ public partial class StrategicMap : GameMap
     public WorldEffectHexSprite AddEffect(WorldEffectType effectType)
     {
         WorldEffectHexSprite effect;
-        effect = new WorldEffectHexSprite(null);
+        effect = new WorldEffectHexSprite(null) { Holder = CreationHolder() };
         Effects.Add(effect);
         effect.Activate();
         effect.EffectType = effectType;
@@ -2819,12 +2820,12 @@ public partial class StrategicMap : GameMap
 
     private static readonly string s_destroyingLevelText = "Destroying Level ";
 
-    private static bool TryEndPlayerTurn(sbyte player)
+    private bool TryEndPlayerTurn(sbyte player)
     {
         bool result;
         if (player != -1 && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle)
         {
-            result = AbilityRules.EndPlayerTurn(player);
+            result = AbilityRules.EndPlayerTurn(player, engine: GetEngine());
         }
         else
         {
@@ -2834,13 +2835,13 @@ public partial class StrategicMap : GameMap
         return result;
     }
 
-    private static bool CancelPlayerTurn(sbyte player)
+    private bool CancelPlayerTurn(sbyte player)
     {
         bool result;
         EndTurnTokenEvent eventValue;
         if (!Current.Players.GetPlayers(player).GetBusy() && Current.Players.GetPlayers(player).SingleProcessCycle)
         {
-            eventValue = new EndTurnTokenEvent(null);
+            eventValue = new EndTurnTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Player = player;
             eventValue.Day = Current.Day;
             eventValue.Mode = EndTurnTokenEventMode.CancelEndTurn;

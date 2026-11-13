@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Vortex : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2069
-    public Vortex(ECustomNode owner) : base(owner)
+    public Vortex(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(GameText.VortexText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
         SpellId = 70;
         AboveGroundOnly = false;
     }
@@ -40,7 +41,7 @@ public partial class Vortex : GlobalTargetSpell
         ArmyHexSprite army;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new VortexTokenEvent(null);
+            eventValue = new VortexTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();

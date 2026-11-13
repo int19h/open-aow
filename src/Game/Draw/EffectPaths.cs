@@ -211,7 +211,7 @@ internal static class EffectPaths
         return result;
     }
 
-    internal static void CreateFire(bool spread, int chance, int hexX, int hexY)
+    internal static void CreateFire(bool spread, int chance, int hexX, int hexY, GameEngine engine)
     {
         CombatFire fire;
         bool canBurn;
@@ -254,7 +254,7 @@ internal static class EffectPaths
 
                     if (canBurn)
                     {
-                        fire = new CombatFire(null);
+                        fire = new CombatFire(null) { Holder = engine };
                         if (!CombatMap.Current.PlaceHex(fire, hexX, hexY, 0))
                         {
                             fire?.Dispose();

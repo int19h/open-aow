@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class HasteAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1021
-    public HasteAbility(ECustomNode owner) : base(owner)
+    public HasteAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.HasteText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HasteText);
         AbilityId = 152;
     }
 }

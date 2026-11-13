@@ -55,7 +55,7 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         int chance;
         ImageSequenceAnimation animation;
         base.Execute(tokenEvent);
-        enchantments = new EnchantmentList(null);
+        enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
         source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         ability = (DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60);
@@ -85,12 +85,12 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             {
                 if (count > 0)
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText);
+                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
                     StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
@@ -100,7 +100,7 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
             if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
-                animation = new ImageSequenceAnimation(null);
+                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
                 StrategicMap.Current.PlaceHex(animation, X, Y, L);
             }

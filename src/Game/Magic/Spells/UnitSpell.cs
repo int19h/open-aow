@@ -77,7 +77,7 @@ public partial class UnitSpell : Spell
                 }
                 else if (AIRetrieveOptimalTargetUnit(source, source.UnitListOwner, ref target, ref priority))
                 {
-                    eventValue = new UnitSpellTokenEvent(null);
+                    eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
                     eventValue.Initialize(SpellId, source, null, BaseManaCost);
                     eventValue.TargetPlayer = (byte)source.Player;
                     eventValue.TargetUnitIds.Add(target.UnitId);
@@ -122,10 +122,10 @@ public partial class UnitSpell : Spell
         {
             if (TargetRange == 0)
             {
-                caster = new UnitSpellCaster(null);
+                caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
                 if (source.Owner is HeroList)
                 {
-                    var empty = new UnitUserList(null);
+                    var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     SetupUnitSelectionControl(caster, source, empty);
                     empty.Dispose();
                 }
@@ -176,7 +176,7 @@ public partial class UnitSpell : Spell
         UnitSpellCombatAction action;
         if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            action = new UnitSpellCombatAction(null);
+            action = new UnitSpellCombatAction(null) { Holder = CreationHolder() };
             action.SpellId = SpellId;
             action.SourceId = source.Id;
             action.TargetId = target.Id;
@@ -257,7 +257,7 @@ public partial class UnitSpell : Spell
         ResetTargetSelection();
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new UnitSpellTokenEvent(null);
+            eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
             var castingMana = ((Hero)source).CastingMana(this);
             eventValue.Initialize(SpellId, source, targets, castingMana);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -279,7 +279,7 @@ public partial class UnitSpell : Spell
     public virtual void TargetPartySelected(Troop source, ArmyHexSprite party)
     {
         UnitSpellCaster caster;
-        caster = new UnitSpellCaster(null);
+        caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
         SetupUnitSelectionControl(caster, source, party.Army);
         StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
         caster.Release();
@@ -294,7 +294,7 @@ public partial class UnitSpell : Spell
         UnitSpellCombatAction result;
         if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            result = new UnitSpellCombatAction(null);
+            result = new UnitSpellCombatAction(null) { Holder = CreationHolder() };
             result.SpellId = SpellId;
             result.SourceId = source.Id;
             result.TargetId = target.Id;
@@ -453,10 +453,10 @@ public partial class UnitSpell : Spell
         control.SourceL = L;
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_selectTargetPartyFormat), [SpellName]);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetPartyFormat), [SpellName]);
         control.Text.Text = format;
         control.Title = SpellName;
-        control.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
+        control.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
         control.SourceUnitId = source.UnitId;
         control.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(20).GetPreviewImage();
         control.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(21).GetPreviewImage();

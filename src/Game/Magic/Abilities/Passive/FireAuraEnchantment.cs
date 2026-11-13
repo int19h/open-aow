@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class FireAuraEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1294
-    public FireAuraEnchantment(ECustomNode owner) : base(owner)
+    public FireAuraEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.FireAuraText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireAuraText);
         AbilityId = 163;
     }
 

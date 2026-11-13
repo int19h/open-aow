@@ -73,7 +73,7 @@ public partial class SpringOfLife : Structure
         var hexX2 = GetHexX();
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            animation = new SpringOfLifeAnimation(null);
+            animation = new SpringOfLifeAnimation(null) { Holder = CreationHolder() };
             R = new Rect(-16, -8, 32, 40);
             animation.SetDimensions(R);
             animation.AnimationLevel = 27;
@@ -103,7 +103,7 @@ public partial class SpringOfLife : Structure
         // Spring.pas:37
 
         // Spring.pas:126
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_springOfLifeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_springOfLifeText);
 
         private static readonly string s_springOfLifeText = "Spring of Life";
 

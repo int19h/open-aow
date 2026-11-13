@@ -14,7 +14,7 @@ public partial class AltarOfIce : Altar
     public new const int ClassId = 131659;
 
     // AltIce.pas:39
-    public override Storm CreateStorm() => new IceStorm(null);
+    public override Storm CreateStorm() => new IceStorm(null) { Holder = CreationHolder() };
 
     public new partial class Resource : AltarResource
     {
@@ -33,7 +33,7 @@ public partial class AltarOfIce : Altar
         // AltIce.pas:26
 
         // AltIce.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfIceText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfIceText);
 
         private static readonly string s_altarOfIceText = "Altar of Ice";
 

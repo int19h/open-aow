@@ -20,9 +20,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class TownQuake : CityTargetSpell
 {
     // CitySpells.pas:764
-    public TownQuake(ECustomNode owner) : base(owner)
+    public TownQuake(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_townQuakeText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
         SpellId = 71;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
     }
@@ -47,7 +48,7 @@ public partial class TownQuake : CityTargetSpell
             {
                 targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
                 targetCity.StopTownQuake();
-                armies = new ArmyHSList(null);
+                armies = new ArmyHSList(null) { Holder = CreationHolder() };
                 if (StrategicMap.Current.Random(10) < 7)
                 {
                     targetCity.SetWallType(0);
@@ -95,10 +96,10 @@ public partial class TownQuake : CityTargetSpell
         bool damaged;
         int damage;
         Troop troop;
-        log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(s_townQuakeDamageText);
+        log = new ArmyEventLog(null) { Holder = CreationHolder() };
+        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText);
         log._player = source.Player;
-        var townQuake = AbilityRules.TranslateResourceString(s_townQuakeText);
+        var townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
         log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(army.Army, 255);

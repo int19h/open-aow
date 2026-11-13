@@ -55,9 +55,9 @@ public partial class GameMap : ENode
         _showMessageEventsStore = new();
         _mapChangedEventsStore = new();
         _scannerIconsChangedEventsStore = new();
-        _backHexSelector = new CustomFixedVisibleHexSprite(null);
+        _backHexSelector = new CustomFixedVisibleHexSprite(null) { Holder = CreationHolder() };
         _backHexSelector.OnShow += ShowBackHexSelector;
-        _frontHexSelector = new CustomFixedVisibleHexSprite(null);
+        _frontHexSelector = new CustomFixedVisibleHexSprite(null) { Holder = CreationHolder() };
         _frontHexSelector.OnShow += ShowFrontHexSelector;
         _hexSelectorVisible = false;
         ExplorationEnabled = true;
@@ -1379,7 +1379,7 @@ public partial class GameMap : ENode
     {
         var notification = new ShowMessageNotification();
         ref var info = ref notification.Info;
-        if (!GameTables.GameEngine.Registry.GetDebugMode() && !IsEmpty(text))
+        if (!GetEngine().Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO1.WAV");
         }
@@ -1396,7 +1396,7 @@ public partial class GameMap : ENode
     {
         var notification = new ShowMessageNotification();
         ref var info = ref notification.Info;
-        if (!GameTables.GameEngine.Registry.GetDebugMode() && !IsEmpty(text))
+        if (!GetEngine().Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO2.WAV");
         }
@@ -1412,7 +1412,7 @@ public partial class GameMap : ENode
     public void PlayCenterAnimation(sbyte X, sbyte Y, sbyte L)
     {
         ImageSequenceAnimation animation;
-        animation = new ImageSequenceAnimation(null);
+        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.GetImageSequence(11));
         PlaceHex(animation, X, Y, L);
         AudioPlayback.PlaySample("SFX\\INT\\CENTER.WAV");

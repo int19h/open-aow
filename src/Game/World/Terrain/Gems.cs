@@ -145,9 +145,9 @@ public partial class Gems : ImageLibraryTerrainMapObject
             var player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
-            eventValue = new LocationTextEventLog(null);
+            eventValue = new LocationTextEventLog(null) { Holder = CreationHolder() };
             eventValue._player = armyHexSprite.Army.Player;
-            eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_goldFoundFormat), [IntToStr(_amount)]);
+            eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)]);
             var hexLevel2 = GetHexLevel();
             var hexY2 = GetHexY();
             eventValue.SetLocation(GetHexX(), hexY2, hexLevel2);
@@ -171,7 +171,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 132014;
 
         // Gems.pas:134
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_goldText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_goldText);
 
         private static readonly string s_goldText = "Gold";
 

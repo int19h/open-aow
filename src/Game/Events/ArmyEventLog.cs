@@ -22,7 +22,7 @@ public partial class ArmyEventLog : EventLog
     public ArmyEventLog(ECustomNode owner) : base(owner)
     {
         ArmyMessages = new StringList();
-        ArmyView = new ArmyView(null);
+        ArmyView = new ArmyView(null) { Holder = CreationHolder() };
         DamageValues = new ByteList();
         DamageTypes = new ByteList();
     }
@@ -100,8 +100,8 @@ public partial class ArmyEventLog : EventLog
                 showEvent = false;
                 if (StrategicMap.Current.SeatedPlayer == _player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                 {
-                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
-                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
                 }
 
                 showEvent = showEvent || _gameOver;
@@ -131,7 +131,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:181
     public void SetArmyView(ArmyView value)
     {
-        ArmyView.Assign(value, GameTables.GameEngine);
+        ArmyView.Assign(value, GetEngine());
     }
 
     // Army.PAS:187

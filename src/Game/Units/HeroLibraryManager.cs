@@ -19,8 +19,8 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2646
     public HeroLibraryManager(ECustomNode owner) : base(owner)
     {
-        SystemLibrary = new HeroLibrary(null);
-        _libraries = new ENode(null);
+        SystemLibrary = new HeroLibrary(null) { Holder = CreationHolder() };
+        _libraries = new ENode(null) { Holder = CreationHolder() };
     }
 
     public HeroLibrary SystemLibrary { get; }
@@ -42,15 +42,15 @@ public partial class HeroLibraryManager : EngineObject
         base.ReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
         {
-            directory = ExtractFilePath(GameTables.GameEngine.HssFileName);
+            directory = ExtractFilePath(GetEngine().HssFileName);
             if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
                 ReadUserLibraries();
-                GameTables.GameEngine.ReadFromFile(directory + "Heroes.PFS", SystemLibrary, null);
+                GetEngine().ReadFromFile(directory + "Heroes.PFS", SystemLibrary, null);
             }
             else
             {
-                GameTables.GameEngine.WriteToFile(directory + "Heroes.PFS", SystemLibrary, null);
+                GetEngine().WriteToFile(directory + "Heroes.PFS", SystemLibrary, null);
                 WriteUserLibraries();
             }
         }
@@ -74,12 +74,12 @@ public partial class HeroLibraryManager : EngineObject
         _libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (var listed in FileBoundary.FindDocuments(GameTables.GameEngine.StartupDirectory + "User\\", DocumentKind.HeroList))
+        foreach (var listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.HeroList))
         {
-            library = new HeroLibrary(null);
+            library = new HeroLibrary(null) { Holder = CreationHolder() };
             try
             {
-                library.LoadFromFile(GameTables.GameEngine.StartupDirectory + "User\\" + listed);
+                library.LoadFromFile(GetEngine().StartupDirectory + "User\\" + listed);
                 library.SetOwner(_libraries);
             }
             catch
@@ -97,7 +97,7 @@ public partial class HeroLibraryManager : EngineObject
         {
             library = GetLibrary(I);
             var name = library.GetName();
-            library.SaveToFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
+            library.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
     }
 
@@ -154,7 +154,7 @@ public partial class HeroLibraryManager : EngineObject
         {
             result = new HeroLibrary(_libraries);
             result.LibraryName = libraryName;
-            result.SaveToFile(GameTables.GameEngine.StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
+            result.SaveToFile(GetEngine().StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
         else
         {
@@ -171,8 +171,8 @@ public partial class HeroLibraryManager : EngineObject
         {
             var name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            DeleteFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
-            DeleteFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);
+            DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
+            DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);
             GetLibrary(index)?.Dispose();
         }
     }

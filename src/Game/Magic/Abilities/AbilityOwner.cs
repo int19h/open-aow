@@ -327,7 +327,7 @@ public partial class AbilityOwner : CustomAbilityList
         data = source.AbilityData;
         while (data != null)
         {
-            AddAbilityData((AbilityData)data.Copy(GameTables.GameEngine));
+            AddAbilityData((AbilityData)data.Copy(GetEngine()));
             data = data.Next;
         }
     }
@@ -408,7 +408,7 @@ public partial class AbilityOwner : CustomAbilityList
                 if (data != null)
                 {
                     RemoveAbilityDataId(I);
-                    data = (AbilityData)data.Copy(GameTables.GameEngine);
+                    data = (AbilityData)data.Copy(GetEngine());
                     AddAbilityData(data);
                 }
 

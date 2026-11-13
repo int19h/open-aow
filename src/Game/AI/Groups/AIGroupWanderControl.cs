@@ -29,7 +29,7 @@ public partial class AIGroupWanderControl : AIGroupTask
     // AGCPlugins.pas:297
     public AIGroupWanderControl(ECustomNode owner) : base(owner)
     {
-        _moveSettings = new MoveControlSettings(null);
+        _moveSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
     }
 
     // AGCPlugins.pas:319

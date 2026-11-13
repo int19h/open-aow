@@ -182,7 +182,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
 
                     if (Unit.GetEnabled())
                     {
-                        unitHexSprite = new TacticalBattleUnitHexSprite(null);
+                        unitHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = CreationHolder() };
                         unitHexSprite.Initialize(Unit);
                         unitHexSprite.SetDirection((byte)(Random(6) + 1));
                         var hexY3 = GetHexY();

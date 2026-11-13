@@ -6,8 +6,6 @@ using Aow.Engine.Storage;
 
 using Aow.Game.Commands;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
 
 using Aow.Game.Units;
@@ -123,7 +121,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     {
         NegotiateTokenEvent eventValue;
         ArmyId id;
-        eventValue = new NegotiateTokenEvent(null);
+        eventValue = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Player = _player;
         eventValue.Object = Object;
         eventValue.X = (byte)X;
@@ -134,7 +132,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         id = ArmyId;
         if (id != null)
         {
-            eventValue.ArmyId = (ArmyId)id.Copy(GameTables.GameEngine);
+            eventValue.ArmyId = (ArmyId)id.Copy(GetEngine());
             eventValue.MovePoints = MovePoints;
         }
         else

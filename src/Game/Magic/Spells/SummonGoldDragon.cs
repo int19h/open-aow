@@ -8,9 +8,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonGoldDragon : SummonSpell
 {
     // SummonSpells.pas:418
-    public SummonGoldDragon(ECustomNode owner) : base(owner)
+    public SummonGoldDragon(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_summonGoldDragonText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonGoldDragonText);
         SpellId = 25;
         BaseManaCost = 5;
         SpellLevel = 4;

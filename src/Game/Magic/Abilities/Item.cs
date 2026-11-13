@@ -274,13 +274,13 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
             {
                 result = false;
                 var spell = GamePack.Current.SpellControl.GetSpell(_spellId);
-                reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
+                reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
             }
         }
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(s_itemNotUsableText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_itemNotUsableText);
         }
 
         return result;
@@ -294,7 +294,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         ItemTokenEvent eventValue;
         if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
-            eventValue = new ItemTokenEvent(null);
+            eventValue = new ItemTokenEvent(null) { Holder = CreationHolder() };
             eventValue.ItemId = ItemId;
             eventValue.HeroId = hero.UnitId;
             StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
@@ -325,7 +325,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
                     {
                         AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
                         var spell = GamePack.Current.SpellControl.GetSpell(_spellId);
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellResearchedFormat), [spell.SpellName]);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellResearchedFormat), [spell.SpellName]);
                         StrategicMap.Current.ShowMessage(format);
                     }
 
@@ -424,7 +424,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
             result = LibraryName;
             if (IsEmpty(result))
             {
-                result = AbilityRules.TranslateResourceString(s_itemSystemLibraryText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_itemSystemLibraryText);
             }
         }
 
@@ -442,7 +442,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
             if (item != null)
             {
                 id = ItemId;
-                Assign(item, GameTables.GameEngine);
+                Assign(item, GetEngine());
                 ItemId = id;
                 Changed();
             }
@@ -506,7 +506,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
             hexSprite = (ItemHexSprite)map.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
             if (hexSprite == null)
             {
-                hexSprite = new ItemHexSprite(null);
+                hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
                 if (!map.PlaceHex(hexSprite, X, Y, L))
                 {
                     hexSprite?.Dispose();

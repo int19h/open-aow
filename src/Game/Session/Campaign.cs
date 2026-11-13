@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
 
 using Aow.Game.Saves;
@@ -25,8 +23,8 @@ public partial class Campaign : EngineObject
     public Campaign(ECustomNode owner) : base(owner)
     {
         Stream = new MemoryStream();
-        TransferSettings = new CampaignTransferSettings(null);
-        Scenarios = new AoWCampaignScenarioList(null);
+        TransferSettings = new CampaignTransferSettings(null) { Holder = CreationHolder() };
+        Scenarios = new AoWCampaignScenarioList(null) { Holder = CreationHolder() };
         CompletedScenarios = new Int32List();
         RaceHistory = new ByteList();
         CurrentScenarioId = -1;
@@ -127,7 +125,7 @@ public partial class Campaign : EngineObject
     }
 
     // Diplomacy.pas:2282
-    public virtual CampaignScenario CreateScenario() => new CampaignScenario(null);
+    public virtual CampaignScenario CreateScenario() => new CampaignScenario(null) { Holder = CreationHolder() };
 
     // Diplomacy.pas:2413
     // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
@@ -301,7 +299,7 @@ public partial class Campaign : EngineObject
         }
 
         fileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);
-        GameTables.GameEngine.SaveCampaign(GameTables.GameEngine.StartupDirectory + "Save\\" + fileName);
+        GetEngine().SaveCampaign(GetEngine().StartupDirectory + "Save\\" + fileName);
     }
 
     // Diplomacy.pas:2432

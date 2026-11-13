@@ -196,7 +196,7 @@ public partial class GameEngine : ENode
     {
         EngineClass C;
         C = GetEngineClass(classId);
-        return C.CreateInstance(owner);
+        return C.CreateInstance(owner, holder: this);
     }
 
     // Engine.pas:8860
@@ -642,7 +642,7 @@ public partial class GameEngine : ENode
     {
         // The native allocator byte total has no corresponding managed heap measure.
         // Exercise the same constructor and destructor without comparing GC generations.
-        type.CreateInstance(null)?.Dispose();
+        type.CreateInstance(null, holder: this)?.Dispose();
         return true;
     }
 

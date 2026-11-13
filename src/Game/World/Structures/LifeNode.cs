@@ -38,7 +38,7 @@ public partial class LifeNode : ProductionPlace
         // LifeNode.pas:27
 
         // LifeNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_lifeNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_lifeNodeText);
 
         private static readonly string s_lifeNodeText = "Life Node";
 

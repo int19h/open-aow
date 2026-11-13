@@ -26,8 +26,8 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:84
     public AIPlayerControl(ECustomNode owner) : base(owner)
     {
-        Actions = new AIPlayerActionList(null);
-        MoveExecutor = new AIMoveExecutor(null);
+        Actions = new AIPlayerActionList(null) { Holder = CreationHolder() };
+        MoveExecutor = new AIMoveExecutor(null) { Holder = CreationHolder() };
         _processCyclesMax = 10;
     }
 
@@ -116,7 +116,7 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:143
-    public int UnitIndexToPriority(int unitIndex) => RosterTables.GetUnitIndexAIPriority(unitIndex, Player.PlayerIndex, 0);
+    public int UnitIndexToPriority(int unitIndex) => RosterTables.GetUnitIndexAIPriority(unitIndex, Player.PlayerIndex, 0, engine: GetEngine());
 
     // AI.pas:148
     public void Reset()
@@ -138,7 +138,7 @@ public partial class AIPlayerControl : EngineObject
             actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(I);
             if (actionClass.SupportedPhases.Contains(phase))
             {
-                action = actionClass.CreateInstance(null);
+                action = actionClass.CreateInstance(null, holder: CreationHolder());
                 if (action.Setup(this, phase))
                 {
                     action.SetOwner(Actions);

@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class WaterWalking : UnitSpell
 {
     // UnitSpells.pas:662
-    public WaterWalking(ECustomNode owner) : base(owner)
+    public WaterWalking(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.WaterWalkingText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterWalkingText);
         SpellId = 42;
         BaseManaCost = 5;
         SpellLevel = 2;

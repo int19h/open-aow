@@ -204,7 +204,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:590
-    public override string GetOwnerName() => AbilityRules.TranslateResourceString(GameText.InherentText);
+    public override string GetOwnerName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.InherentText);
 
     // Unit.PAS:171
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => TroopConstants.DefaultAbilitySelectionTypes;
@@ -884,22 +884,22 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 {
                     if (count == 0)
                     {
-                        messages.Text = AbilityRules.TranslateResourceString(GameText.RefugeJoinText);
+                        messages.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.RefugeJoinText);
                     }
                     else
                     {
-                        messages.Text = AbilityRules.TranslateResourceString(GameText.RefugeesJoinText);
+                        messages.Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.RefugeesJoinText);
                     }
                 }
                 else
                 {
                     if (count == 0)
                     {
-                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.BribeUnitJoinFormat), [IntToStr(amount)]);
+                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BribeUnitJoinFormat), [IntToStr(amount)]);
                     }
                     else
                     {
-                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.BribeUnitsJoinFormat), [IntToStr(amount)]);
+                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BribeUnitsJoinFormat), [IntToStr(amount)]);
                     }
                 }
 
@@ -1648,7 +1648,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
             if (ice == null)
             {
-                ice = new FrozenWaterHexSprite(null);
+                ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
                 StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
@@ -2082,7 +2082,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, L).FindOwnedChild(131607);
                 if (armyHexSprite == null)
                 {
-                    armyHexSprite = new ArmyHexSprite(null);
+                    armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
                     if (player != -1)
                     {
                         armyHexSprite.Army.SetPlayer(player);
@@ -2391,7 +2391,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         DisbandUnitTokenEvent eventValue;
         if (CanDisband(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            eventValue = new DisbandUnitTokenEvent(null);
+            eventValue = new DisbandUnitTokenEvent(null) { Holder = CreationHolder() };
             eventValue.UnitId = UnitId;
             eventValue.Player = Player;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
@@ -2435,7 +2435,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             var ability = GamePack.Current.AbilityControl.GetAbility(i);
             var name = ability.GetName(owner);
             if (!IsEmpty(name)) names.AddObject(name, IntToObject(i));
-            types?.AddObject(AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)ability.GetAbilityType()]), IntToObject(i));
+            types?.AddObject(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)ability.GetAbilityType()]), IntToObject(i));
             var source = ability.GetSourceName(owner);
             sources?.AddObject(source, IntToObject(i));
         }

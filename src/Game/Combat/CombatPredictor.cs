@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
@@ -21,8 +22,9 @@ namespace Aow.Game.Combat;
 public partial class CombatPredictor : IDisposable
 {
     // CombatPredictor.pas:292
-    public CombatPredictor()
+    public CombatPredictor(EngineObject creator)
     {
+        Creator = creator;
         _allUnits = new CombatPredictorUnitList();
         _activeUnits = new CombatPredictorUnitList();
         var combatPredictorSide = new CombatPredictorSide();
@@ -30,6 +32,9 @@ public partial class CombatPredictor : IDisposable
         var combatPredictorSide2 = new CombatPredictorSide();
         Sides[1] = combatPredictorSide2;
     }
+
+    // The node that created this predictor. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     private readonly CombatPredictorUnitList _allUnits;
     private readonly CombatPredictorUnitList _activeUnits;
@@ -437,7 +442,7 @@ public partial class CombatPredictor : IDisposable
         unitObject = _wall;
         if (unitObject == null)
         {
-            wall = new WallCombatant(null);
+            wall = new WallCombatant(null) { Holder = Creator.CreationHolder() };
             wall.SetWallType(wallType);
             wall.Hits = (sbyte)(wall.Hits + 5);
             wall.HitPoints = (sbyte)(wall.HitPoints + 5);

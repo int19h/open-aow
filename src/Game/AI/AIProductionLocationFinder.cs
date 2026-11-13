@@ -17,7 +17,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
     // AIGroup.pas:2303
     public AIProductionLocationFinder(ECustomNode owner) : base(owner)
     {
-        Selector = new AIMoveTargetSelector(null);
+        Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
     }
 
     private AIGroupControl _control;
@@ -96,14 +96,14 @@ public partial class AIProductionLocationFinder : AIGroupTask
         control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
-            location = new AIGroupProductionLocation(null);
+            location = new AIGroupProductionLocation(null) { Holder = CreationHolder() };
             location.ProductionControl = control;
             location.Location = target.Location;
             location.MovePoints = target.MovePoints;
             location.TransporterId = target.TransporterId;
             if (_mode.Contains(ModeElement.CalculateMovePathBfs))
             {
-                location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step);
+                location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());
             }
 
             _control.ProductionLocationFoundEvent(location, ref searchDone);

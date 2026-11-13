@@ -57,7 +57,7 @@ public partial class IceStorm : BlastStorm
             ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
             if (ice == null)
             {
-                ice = new FrozenWaterHexSprite(null);
+                ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
                 StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
@@ -75,6 +75,6 @@ public partial class IceStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:368
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.IceStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.IceStormText);
 
 }

@@ -173,7 +173,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal JoiningHero(bool joins) : base(null!)
         {
             _joins = joins;
-            HeroResource = new HeroResource(null!) { HeroType = HeroType.Hero };
+            HeroResource = new HeroResource(null!) { Holder = EngineFixture.Engine, HeroType = HeroType.Hero };
         }
 
         public override bool CanJoin(sbyte player) => _joins;
@@ -239,8 +239,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         else if (typeof(PrisonersJoinEventLog).IsAssignableFrom(type))
         {
             yield return new State("prisoner=absent", (e, s) => s.Prisoner(e, null));
-            yield return new State("prisoner=unit", (e, s) => s.Prisoner(e, new Unit(null!)));
-            yield return new State("prisoner=hero", (e, s) => s.Prisoner(e, new Hero(null!)));
+            yield return new State("prisoner=unit", (e, s) => s.Prisoner(e, new Unit(null!) { Holder = EngineFixture.Engine }));
+            yield return new State("prisoner=hero", (e, s) => s.Prisoner(e, new Hero(null!) { Holder = EngineFixture.Engine }));
         }
         else
         {
@@ -261,13 +261,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal Scene()
         {
-            _map = new StrategicMap(null!);
+            _map = new StrategicMap(null!, holder: EngineFixture.Engine);
             _map.SeatedPlayer = Seated;
-            _map.UnitControl = new UnitControl(null!);
+            _map.UnitControl = new UnitControl(null!) { Holder = EngineFixture.Engine };
             _units = new Dictionary<int, Troop>(UnitFinds);
-            _units.Add(key: -1, value: new Unit(null!));
+            _units.Add(key: -1, value: new Unit(null!) { Holder = EngineFixture.Engine });
             _map.UnitControl.UnitTable = _units;
-            var container = new MapContainer(null!);
+            var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
             _map.MapContainer = container;
@@ -277,7 +277,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal EventLog Create(Type type)
         {
-            var log = (EventLog)EngineClass.Of(type).CreateInstance(null!);
+            var log = (EventLog)EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
             Assert.IsType(type, log);
             _created.Add(log);
             return log;
@@ -309,7 +309,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             var info = (ArmyInfoEventLog)log;
             if (info.ArmyView.GetCount() == 0)
             {
-                info.ArmyView.AddChild(new Unit(null!));
+                info.ArmyView.AddChild(new Unit(null!) { Holder = EngineFixture.Engine });
                 info.ArmyView.AddChild(new JoiningHero(false));
             }
             info.Selection = selection;

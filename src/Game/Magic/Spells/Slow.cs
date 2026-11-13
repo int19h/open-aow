@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Slow : CombatSpell
 {
     // CombatSpells.pas:1284
-    public Slow(ECustomNode owner) : base(owner)
+    public Slow(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.SlowText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SlowText);
         SpellId = 110;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;
@@ -30,7 +31,7 @@ public partial class Slow : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         SlowCombatAction action;
-        action = new SlowCombatAction(null);
+        action = new SlowCombatAction(null) { Holder = CreationHolder() };
         action.SourceId = source.Id;
         action.TargetId = target.Id;
         action.SpellId = SpellId;

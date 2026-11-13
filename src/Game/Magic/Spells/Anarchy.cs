@@ -22,9 +22,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Anarchy : CityTargetSpell
 {
     // CitySpells.pas:849
-    public Anarchy(ECustomNode owner) : base(owner)
+    public Anarchy(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_anarchyText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_anarchyText);
         SpellId = 72;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
     }
@@ -39,9 +40,9 @@ public partial class Anarchy : CityTargetSpell
         if (executeCount == 0)
         {
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
-            log = new LocationTextEventLog(null);
+            log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log._player = source.Player;
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [SpellName]);
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName]);
             var hexLevel = targetCity.GetHexLevel();
             var hexY = targetCity.GetHexY();
             log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
@@ -51,7 +52,7 @@ public partial class Anarchy : CityTargetSpell
             targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
             {
-                A = new ImageSequenceAnimation(null);
+                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
                 A.SetPixelXOffset(A.PixelXOffset - 16);
                 A.SetPixelYOffset(A.PixelYOffset - 16);
@@ -104,7 +105,7 @@ public partial class Anarchy : CityTargetSpell
     public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
         var imageSequenceAnimation = (ImageSequenceAnimation)animation;
-        if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != 0)
+        if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {
             var random = Random(2);
             AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);

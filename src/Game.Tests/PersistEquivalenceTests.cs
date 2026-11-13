@@ -46,36 +46,37 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void EnchantmentMatchesTheConverter()
     {
-        Check("Enchantment", new Enchantment(null!));
-        var zero = new Enchantment(null!) { DispelResistance = 0, Source = 0, Upkeep = 0, EnchantmentId = 0 };
+        Check("Enchantment", new Enchantment(null!) { Holder = EngineFixture.Engine });
+        var zero = new Enchantment(null!) { Holder = EngineFixture.Engine, DispelResistance = 0, Source = 0, Upkeep = 0, EnchantmentId = 0 };
         Check("Enchantment", zero);
         var edge = new Enchantment(null!)
         {
+            Holder = EngineFixture.Engine,
             DispelResistance = -1,
             Source = 127,
             Upkeep = int.MinValue,
             EnchantmentId = int.MaxValue,
         };
         Check("Enchantment", edge);
-        Check("Enchantment", new Enchantment(null!) { DispelResistance = -128, Source = 0, Upkeep = int.MaxValue, EnchantmentId = int.MinValue });
+        Check("Enchantment", new Enchantment(null!) { Holder = EngineFixture.Engine, DispelResistance = -128, Source = 0, Upkeep = int.MaxValue, EnchantmentId = int.MinValue });
     }
 
     [Fact]
     public void EventLogMatchesTheConverter()
     {
-        Check("EventLog", new EventLog(null!));
-        Check("EventLog", new EventLog(null!) { _day = 0, _player = 0, Id = 0 });
-        Check("EventLog", new EventLog(null!) { _day = int.MinValue, _player = -128, Id = int.MaxValue });
-        Check("EventLog", new EventLog(null!) { _day = int.MaxValue, _player = 127, Id = int.MinValue });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, _day = 0, _player = 0, Id = 0 });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, _day = int.MinValue, _player = -128, Id = int.MaxValue });
+        Check("EventLog", new EventLog(null!) { Holder = EngineFixture.Engine, _day = int.MaxValue, _player = 127, Id = int.MinValue });
     }
 
     [Fact]
     public void MessageEventLogMatchesTheConverter()
     {
-        Check("MessageEventLog", new MessageEventLog(null!));
-        var empty = new MessageEventLog(null!) { _day = 0, _player = 0, Id = 0, Title = "", Layout = 0, Buttons = 0 };
+        Check("MessageEventLog", new MessageEventLog(null!, holder: EngineFixture.Engine));
+        var empty = new MessageEventLog(null!, holder: EngineFixture.Engine) { _day = 0, _player = 0, Id = 0, Title = "", Layout = 0, Buttons = 0 };
         Check("MessageEventLog", empty);
-        var full = new MessageEventLog(null!)
+        var full = new MessageEventLog(null!, holder: EngineFixture.Engine)
         {
             _day = int.MaxValue,
             _player = -1,
@@ -88,7 +89,7 @@ public sealed class PersistEquivalenceTests
         full.Message.Add("");
         full.Message.Add("two");
         Check("MessageEventLog", full);
-        var edge = new MessageEventLog(null!) { Layout = (MessageEventLogLayout)255, Buttons = (MessageEventLogButtons)255, Title = "" };
+        var edge = new MessageEventLog(null!, holder: EngineFixture.Engine) { Layout = (MessageEventLogLayout)255, Buttons = (MessageEventLogButtons)255, Title = "" };
         edge.Message.Add("line");
         Check("MessageEventLog", edge);
     }
@@ -96,13 +97,13 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void TokenEventResourceEditSettingsMatchesTheConverter()
     {
-        Check("ControlStyleObject", new ControlStyleObject(null!));
-        var zeroStyle = new ControlStyleObject(null!) { _controlStyle = Set<ControlStyleElement>.FromMask(0) };
+        Check("ControlStyleObject", new ControlStyleObject(null!) { Holder = EngineFixture.Engine });
+        var zeroStyle = new ControlStyleObject(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0) };
         Check("ControlStyleObject", zeroStyle);
-        var bits = new ControlStyleObject(null!) { _controlStyle = Set<ControlStyleElement>.FromMask(0xA5) };
+        var bits = new ControlStyleObject(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0xA5) };
         Check("ControlStyleObject", bits);
-        Check("ResourceEditSettings", new ResourceEditSettings(null!));
-        var editors = new ResourceEditSettings(null!) { _controlStyle = Set<ControlStyleElement>.FromMask(0) };
+        Check("ResourceEditSettings", new ResourceEditSettings(null!) { Holder = EngineFixture.Engine });
+        var editors = new ResourceEditSettings(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0) };
         editors.Editors.AddObject("", Runtime.IntToObject(0));
         editors.Editors.AddObject("Gate", Runtime.IntToObject(4));
         Check("ResourceEditSettings", editors);
@@ -111,11 +112,12 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ItemGraphicsMatchesTheConverter()
     {
-        Check("EngineResource", new EngineResource(null!));
-        Check("EngineResource", new EngineResource(null!) { _resourceId = int.MinValue, _editId = int.MaxValue, _editIndex = 0 });
-        Check("ItemGraphics", new ItemGraphics(null!));
+        Check("EngineResource", new EngineResource(null!) { Holder = EngineFixture.Engine });
+        Check("EngineResource", new EngineResource(null!) { Holder = EngineFixture.Engine, _resourceId = int.MinValue, _editId = int.MaxValue, _editIndex = 0 });
+        Check("ItemGraphics", new ItemGraphics(null!) { Holder = EngineFixture.Engine });
         var zero = new ItemGraphics(null!)
         {
+            Holder = EngineFixture.Engine,
             _resourceId = 0,
             _editId = 0,
             _editIndex = 0,
@@ -127,6 +129,7 @@ public sealed class PersistEquivalenceTests
         Check("ItemGraphics", zero);
         var full = new ItemGraphics(null!)
         {
+            Holder = EngineFixture.Engine,
             _resourceId = int.MaxValue,
             _editId = int.MinValue,
             _editIndex = 3,
@@ -141,14 +144,15 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AIBudgetMatchesTheConverter()
     {
-        Check("AIBudget", new AIBudget(null!));
-        Check("AISavingsBudget", new AISavingsBudget(null!));
-        Check("AITransporterBudget", new AITransporterBudget(null!));
-        Check("AICityFortifyBudget", new AICityFortifyBudget(null!));
-        Check("AICityUpgradeBudget", new AICityUpgradeBudget(null!));
-        Check("AICityResearchBudget", new AICityResearchBudget(null!));
+        Check("AIBudget", new AIBudget(null!) { Holder = EngineFixture.Engine });
+        Check("AISavingsBudget", new AISavingsBudget(null!) { Holder = EngineFixture.Engine });
+        Check("AITransporterBudget", new AITransporterBudget(null!) { Holder = EngineFixture.Engine });
+        Check("AICityFortifyBudget", new AICityFortifyBudget(null!) { Holder = EngineFixture.Engine });
+        Check("AICityUpgradeBudget", new AICityUpgradeBudget(null!) { Holder = EngineFixture.Engine });
+        Check("AICityResearchBudget", new AICityResearchBudget(null!) { Holder = EngineFixture.Engine });
         var edge = new AIBudget(null!)
         {
+            Holder = EngineFixture.Engine,
             Priority = int.MinValue,
             RequiredGold = int.MaxValue,
             RequiredMana = int.MinValue,
@@ -163,10 +167,11 @@ public sealed class PersistEquivalenceTests
             DayMana = int.MinValue,
         };
         Check("AIBudget", edge);
-        var manager = new AIBudgetManager(null!);
+        var manager = new AIBudgetManager(null!) { Holder = EngineFixture.Engine };
         Check("AIBudgetManager", manager);
         var populated = new AIBudgetManager(null!)
         {
+            Holder = EngineFixture.Engine,
             Gold = int.MaxValue,
             Mana = int.MinValue,
             GoldUpkeep = 1,
@@ -174,19 +179,19 @@ public sealed class PersistEquivalenceTests
             ProductionGoldUpkeep = 3,
             ProductionManaUpkeep = 4,
         };
-        new AISavingsBudget(null!).SetOwner(populated.Budgets);
-        new AITransporterBudget(null!).SetOwner(populated.Budgets);
-        new AICityResearchBudget(null!).SetOwner(populated.Budgets);
+        new AISavingsBudget(null!) { Holder = EngineFixture.Engine }.SetOwner(populated.Budgets);
+        new AITransporterBudget(null!) { Holder = EngineFixture.Engine }.SetOwner(populated.Budgets);
+        new AICityResearchBudget(null!) { Holder = EngineFixture.Engine }.SetOwner(populated.Budgets);
         Check("AIBudgetManager", populated, converterRead: false);
     }
 
     [Fact]
     public void FrozenWaterHexSpriteMatchesTheConverter()
     {
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!));
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { DaysRemaining = 0, CasterPlayer = 0 });
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { DaysRemaining = -128, CasterPlayer = 127 });
-        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { DaysRemaining = 127, CasterPlayer = -1 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { Holder = EngineFixture.Engine });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { Holder = EngineFixture.Engine, DaysRemaining = 0, CasterPlayer = 0 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { Holder = EngineFixture.Engine, DaysRemaining = -128, CasterPlayer = 127 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { Holder = EngineFixture.Engine, DaysRemaining = 127, CasterPlayer = -1 });
     }
 
     // A level of 5 by 3 fields: field [0][0] is empty, the others hold up to three frozen water
@@ -270,7 +275,7 @@ public sealed class PersistEquivalenceTests
         var image = PilotImage.Encode(LevelDocument(width: 2, height: 1), "MapLevel");
         var descriptor = EngineClass.Of<FrozenWaterHexSprite>();
         bool added = Register<FrozenWaterHexSprite>();
-        var previous = EngineClassCreation.Substitute(descriptor, next: static owner => new ThrowingFrozenWater(owner));
+        var previous = EngineClassCreation.Substitute(descriptor, next: (Func<ECustomNode, EngineObject>)(static owner => new ThrowingFrozenWater(owner)));
         try
         {
             var (continued, _) = NewLevel("MapLevel");
@@ -392,9 +397,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void FloodEnchantmentMatchesTheConverter()
     {
-        Check("GlobalEnchantment", new GlobalEnchantment(null!));
+        Check("GlobalEnchantment", new GlobalEnchantment(null!) { Holder = EngineFixture.Engine });
         var named = new GlobalEnchantment(null!)
         {
+            Holder = EngineFixture.Engine,
             _enchantmentId = int.MinValue,
             EnchantmentType = (GlobalEnchantmentType)255,
             PlayerIndex = -1,
@@ -403,12 +409,12 @@ public sealed class PersistEquivalenceTests
             DispelMana = 0,
         };
         Check("GlobalEnchantment", named);
-        Check("FloodControl", new FloodControl(null!));
-        var terrain = new FloodControl(null!) { Width = 2, Height = 1 };
+        Check("FloodControl", new FloodControl(null!) { Holder = EngineFixture.Engine });
+        var terrain = new FloodControl(null!) { Holder = EngineFixture.Engine, Width = 2, Height = 1 };
         terrain.OriginalTerrain = [0, -1, 127, -128];
         Check("FloodControl", terrain);
-        Check("FloodEnchantment", new FloodEnchantment(null!));
-        var flood = new FloodEnchantment(null!)
+        Check("FloodEnchantment", new FloodEnchantment(null!, holder: EngineFixture.Engine));
+        var flood = new FloodEnchantment(null!, holder: EngineFixture.Engine)
         {
             _enchantmentId = 9,
             EnchantmentType = (GlobalEnchantmentType)1,
@@ -425,7 +431,7 @@ public sealed class PersistEquivalenceTests
         flood.FloodControl.Height = 2;
         flood.FloodControl.OriginalTerrain = [1, 2, 3, 4];
         Check("FloodEnchantment", flood);
-        Check("FloodEnchantment", new FloodEnchantment(null!) { Removed = false, RestoreDays = -128, DispelPlayer = -128, TurnsActive = int.MinValue });
+        Check("FloodEnchantment", new FloodEnchantment(null!, holder: EngineFixture.Engine) { Removed = false, RestoreDays = -128, DispelPlayer = -128, TurnsActive = int.MinValue });
     }
 
     // The single stores its exact bits: the document holds a number, and $bits for negative zero, an
@@ -434,27 +440,28 @@ public sealed class PersistEquivalenceTests
     public void TheSingleOfTheAIMatchesTheConverter()
     {
         foreach (int bits in new[] { 0, 0x3DCCCCCD, 0x3F800000, 0x3F000000, 0x3727C5AC, 0x7F7FFFFF, int.MinValue, 0x7F800000, unchecked((int)0xFF800000), 0x7FC00001 })
-            Check("AIPlayerControl", new AIPlayerControl(null!) { DefenseStrengthMultiplier = BitConverter.Int32BitsToSingle(bits) });
+            Check("AIPlayerControl", new AIPlayerControl(null!) { Holder = EngineFixture.Engine, DefenseStrengthMultiplier = BitConverter.Int32BitsToSingle(bits) });
     }
 
     // The fixed objects of the controls persist in place at their slots. The empty controls store no member.
     [Fact]
     public void TheEmptyAbilityAndSpellControlsMatchTheConverter()
     {
-        Check("AbilityControl", new AbilityControl(null!));
-        Check("SpellControl", new SpellControl(null!));
+        Check("AbilityControl", new AbilityControl(null!) { Holder = EngineFixture.Engine });
+        Check("SpellControl", new SpellControl(null!) { Holder = EngineFixture.Engine });
     }
 
     [Fact]
     public void UnitEnchantmentMatchesTheConverter()
     {
-        Check("UnitEnchantment", new UnitEnchantment(null!));
-        Check("UnitEnchantment", new UnitEnchantment(null!) { EnchantmentAbilityId = int.MinValue, UnitId = int.MaxValue, Source = 0, DispelResistance = 0, Upkeep = 0 });
-        Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null!) { FaceIndex = int.MaxValue });
-        Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null!) { FaceIndex = int.MinValue, EnchantmentId = 0, Upkeep = 0, Source = 0, DispelResistance = 0 });
-        Check("UnitEnchantmentAbilityData", new UnitEnchantmentAbilityData(null!));
+        Check("UnitEnchantment", new UnitEnchantment(null!) { Holder = EngineFixture.Engine });
+        Check("UnitEnchantment", new UnitEnchantment(null!) { Holder = EngineFixture.Engine, EnchantmentAbilityId = int.MinValue, UnitId = int.MaxValue, Source = 0, DispelResistance = 0, Upkeep = 0 });
+        Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null!) { Holder = EngineFixture.Engine, FaceIndex = int.MaxValue });
+        Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null!) { Holder = EngineFixture.Engine, FaceIndex = int.MinValue, EnchantmentId = 0, Upkeep = 0, Source = 0, DispelResistance = 0 });
+        Check("UnitEnchantmentAbilityData", new UnitEnchantmentAbilityData(null!) { Holder = EngineFixture.Engine });
         var absent = new UnitEnchantmentAbilityData(null!)
         {
+            Holder = EngineFixture.Engine,
             EnchantmentAbilityId = 0,
             EnchantmentPlayerIndex = -1,
             EnchantmentDuration = -1,
@@ -463,18 +470,20 @@ public sealed class PersistEquivalenceTests
         Check("UnitEnchantmentAbilityData", absent);
         var present = new UnitEnchantmentAbilityData(null!)
         {
+            Holder = EngineFixture.Engine,
             EnchantmentAbilityId = 65535,
             EnchantmentPlayerIndex = 0,
             EnchantmentDuration = -128,
-            Enchantment = new CosmeticSurgeryEnchantment(null!) { FaceIndex = 3, UnitId = int.MinValue },
+            Enchantment = new CosmeticSurgeryEnchantment(null!) { Holder = EngineFixture.Engine, FaceIndex = 3, UnitId = int.MinValue },
         };
         Check("UnitEnchantmentAbilityData", present);
         var edge = new UnitEnchantmentAbilityData(null!)
         {
+            Holder = EngineFixture.Engine,
             EnchantmentAbilityId = 1,
             EnchantmentPlayerIndex = 127,
             EnchantmentDuration = 127,
-            Enchantment = new UnitEnchantment(null!) { EnchantmentAbilityId = int.MaxValue },
+            Enchantment = new UnitEnchantment(null!) { Holder = EngineFixture.Engine, EnchantmentAbilityId = int.MaxValue },
         };
         Check("UnitEnchantmentAbilityData", edge);
     }
@@ -482,18 +491,18 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void DeclaredEnumMembersAndAnUndeclaredByteRoundTrip()
     {
-        Each<DiplomaticRelation>(value => Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { Day = 3, Relation = value }));
-        Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { Relation = (DiplomaticRelation)255, Day = int.MinValue });
-        Each<ChangeGlobalMagicTokenEventMode>(value => Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null!) { Mode = value, PlayerIndex = 1, EnchantmentId = 2, Value = 3 }));
-        Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null!) { Mode = (ChangeGlobalMagicTokenEventMode)255, PlayerIndex = 255, EnchantmentId = int.MaxValue, Value = int.MinValue });
-        Each<GlobalEnchantmentType>(value => Check("GlobalEnchantment", new GlobalEnchantment(null!) { EnchantmentType = value }));
-        Each<ItemType>(value => Check("ItemGraphics", new ItemGraphics(null!) { ItemType = value }));
-        Each<MessageEventLogLayout>(value => Check("MessageEventLog", new MessageEventLog(null!) { Layout = value }));
-        Each<MessageEventLogButtons>(value => Check("MessageEventLog", new MessageEventLog(null!) { Buttons = value }));
+        Each<DiplomaticRelation>(value => Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { Holder = EngineFixture.Engine, Day = 3, Relation = value }));
+        Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { Holder = EngineFixture.Engine, Relation = (DiplomaticRelation)255, Day = int.MinValue });
+        Each<ChangeGlobalMagicTokenEventMode>(value => Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null!) { Holder = EngineFixture.Engine, Mode = value, PlayerIndex = 1, EnchantmentId = 2, Value = 3 }));
+        Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null!) { Holder = EngineFixture.Engine, Mode = (ChangeGlobalMagicTokenEventMode)255, PlayerIndex = 255, EnchantmentId = int.MaxValue, Value = int.MinValue });
+        Each<GlobalEnchantmentType>(value => Check("GlobalEnchantment", new GlobalEnchantment(null!) { Holder = EngineFixture.Engine, EnchantmentType = value }));
+        Each<ItemType>(value => Check("ItemGraphics", new ItemGraphics(null!) { Holder = EngineFixture.Engine, ItemType = value }));
+        Each<MessageEventLogLayout>(value => Check("MessageEventLog", new MessageEventLog(null!, holder: EngineFixture.Engine) { Layout = value }));
+        Each<MessageEventLogButtons>(value => Check("MessageEventLog", new MessageEventLog(null!, holder: EngineFixture.Engine) { Buttons = value }));
         Each<CityEnchantmentId>(value =>
         {
-            var control = new GlobalMagicControl(null!);
-            var city = new CityEnchantment(null!) { CityEnchantmentId = value };
+            var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
+            var city = new CityEnchantment(null!) { Holder = EngineFixture.Engine, CityEnchantmentId = value };
             city.EnchantmentLocation.Packed = 9;
             city.SetOwner(control.Enchantments);
             Check("GlobalMagicControl", control, converterRead: false);
@@ -503,32 +512,32 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void SetsCoverEmptyFullAndUnnamedBits()
     {
-        Check("ControlStyleObject", new ControlStyleObject(null!) { _controlStyle = Set<ControlStyleElement>.FromMask(0xFF) });
-        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Mode = Set<SingleTargetModeElement>.FromMask(0), SourceId = 0, TargetId = 0 });
-        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Mode = Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive), SourceId = 255, TargetId = 1 });
-        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Mode = Set<SingleTargetModeElement>.FromMask(0xFF), SourceId = 4, TargetId = 5 });
+        Check("ControlStyleObject", new ControlStyleObject(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0xFF) });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.FromMask(0), SourceId = 0, TargetId = 0 });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive), SourceId = 255, TargetId = 1 });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.FromMask(0xFF), SourceId = 4, TargetId = 5 });
     }
 
     [Fact]
     public void FixedArraysCoverZeroMixedAndBoundaryValues()
     {
-        var zero = new UnitSpellCombatAction(null!);
+        var zero = new UnitSpellCombatAction(null!) { Holder = EngineFixture.Engine };
         Check("UnitSpellCombatAction", zero);
-        var mixed = new UnitSpellCombatAction(null!) { SpellId = 8, SourceId = 1, TargetId = 2, Mana = -4 };
+        var mixed = new UnitSpellCombatAction(null!) { Holder = EngineFixture.Engine, SpellId = 8, SourceId = 1, TargetId = 2, Mana = -4 };
         mixed.SpellData[0] = 7;
         mixed.SpellData[1] = -1;
         Check("UnitSpellCombatAction", mixed);
-        var bounds = new UnitSpellCombatAction(null!) { SpellId = int.MinValue, Mana = int.MaxValue };
+        var bounds = new UnitSpellCombatAction(null!) { Holder = EngineFixture.Engine, SpellId = int.MinValue, Mana = int.MaxValue };
         bounds.SpellData[0] = int.MinValue;
         bounds.SpellData[1] = int.MaxValue;
         Check("UnitSpellCombatAction", bounds);
-        var control = new GlobalMagicControl(null!);
+        var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
         Check("GlobalMagicControl", control);
-        var spheres = new GlobalMagicControl(null!) { NextEnchantmentId = int.MaxValue };
+        var spheres = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine, NextEnchantmentId = int.MaxValue };
         for (int i = 0; i < 9; i++) spheres.DoubleSphereManaCount[i] = i == 8 ? int.MinValue : i;
-        var hatred = new HatredEnchantment(null!) { DaysActive = 12 };
+        var hatred = new HatredEnchantment(null!, holder: EngineFixture.Engine) { DaysActive = 12 };
         hatred.SetOwner(spheres.Enchantments);
-        var harmony = new HarmonyEnchantment(null!) { DaysActive = int.MinValue };
+        var harmony = new HarmonyEnchantment(null!, holder: EngineFixture.Engine) { DaysActive = int.MinValue };
         harmony.SetOwner(spheres.Enchantments);
         Check("GlobalMagicControl", spheres, converterRead: false);
     }
@@ -542,7 +551,7 @@ public sealed class PersistEquivalenceTests
         Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: -1, -1, -1, 9, -1, 0));
         Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: int.MinValue, int.MinValue));
         Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: 7));
-        Check("TutorialControl", new TutorialControl(null!));
+        Check("TutorialControl", new TutorialControl(null!) { Holder = EngineFixture.Engine });
     }
 
     [Fact]
@@ -558,7 +567,7 @@ public sealed class PersistEquivalenceTests
         // loaded image differs from the converter's encode of the written document.
         WithDestroyingMap(_ =>
         {
-            var relations = new PlayerDiplomaticRelations(null!);
+            var relations = new PlayerDiplomaticRelations(null!) { Holder = EngineFixture.Engine };
             relations.SetDiplomaticRelation(3, DiplomaticRelation.War);
             relations.SetDiplomaticRelation(1, DiplomaticRelation.Alliance);
             Check("PlayerDiplomaticRelations", relations, converterRead: false);
@@ -653,8 +662,8 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ItemControlMatchesTheConverter()
     {
-        Check("ItemControl", new ItemControl(null!));
-        var control = new ItemControl(null!);
+        Check("ItemControl", new ItemControl(null!) { Holder = EngineFixture.Engine });
+        var control = new ItemControl(null!) { Holder = EngineFixture.Engine };
         control.RegisterItem(PlainItem(itemId: 5, name: "Sword"));
         control.RegisterItem(PlainItem(itemId: 9, name: "Shield"));
         control.RegisterItem(AbilityItem(withData: true));
@@ -664,7 +673,7 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ItemControlLoadsStopAtTheFirstMissingItem()
     {
-        using var control = new ItemControl(null!);
+        using var control = new ItemControl(null!) { Holder = EngineFixture.Engine };
         control.RegisterItem(PlainItem(itemId: 5, name: "Sword"));
         control.RegisterItem(PlainItem(itemId: 9, name: "Shield"));
         control.RegisterItem(PlainItem(itemId: 11, name: "Ring"));
@@ -681,7 +690,7 @@ public sealed class PersistEquivalenceTests
 
     private static ItemExplorationSiteEventLog ExplorationLog(int defaultValue, params int[] items)
     {
-        var log = new ItemExplorationSiteEventLog(null!);
+        var log = new ItemExplorationSiteEventLog(null!) { Holder = EngineFixture.Engine };
         log.ItemIds.Default = defaultValue;
         foreach (int item in items) log.ItemIds.Add(item);
         return log;
@@ -689,29 +698,29 @@ public sealed class PersistEquivalenceTests
 
     private static CommandAbilityData Commanding(byte defaultValue, params byte[] items)
     {
-        var data = new CommandAbilityData(null!) { AbilityId = 40 };
+        var data = new CommandAbilityData(null!) { Holder = EngineFixture.Engine, AbilityId = 40 };
         data.CommandedUnits.Default = defaultValue;
         foreach (byte item in items) data.CommandedUnits.Add(item);
         return data;
     }
 
-    private static Item PlainItem(int itemId, string name) => new(null!) { ItemId = itemId, Name = name, Attack = -2, LibraryId = 3 };
+    private static Item PlainItem(int itemId, string name) => new(null!) { Holder = EngineFixture.Engine, ItemId = itemId, Name = name, Attack = -2, LibraryId = 3 };
 
     // AddAbilityData puts each new item first, so the chain holds the reverse of this order.
     private static Item AbilityItem(bool withData)
     {
-        var item = new Item(null!) { ItemId = 12, Name = "Staff" };
+        var item = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 12, Name = "Staff" };
         item.SetAbilityCount(170);
         if (!withData) return item;
-        item.AddAbilityData(new MultiLevelAbilityData(null!) { Level = 3, LevelAbilityId = 12 });
+        item.AddAbilityData(new MultiLevelAbilityData(null!) { Holder = EngineFixture.Engine, Level = 3, LevelAbilityId = 12 });
         item.AddAbilityData(Commanding(defaultValue: 0, 1, 0, 0, 2));
-        item.AddAbilityData(new DurationAbilityData(null!) { AbilityId = 7, Duration = 2, PlayerIndex = 1, Source = -1 });
-        item.AddAbilityData(new UnitEnchantmentAbilityData(null!) { EnchantmentAbilityId = 9, Enchantment = new UnitEnchantment(null!) { UnitId = 4 } });
-        item.AddAbilityData(new LeadershipAbilityData(null!) { LevelAbilityId = 20, Level = 1, ExternalLevel = 1, ExternalSource = "banner" });
-        item.AddAbilityData(new HealingAbilityData(null!) { Enabled = true });
-        item.AddAbilityData(new DispelMagicAbilityData(null!) { Enabled = true, Level = 2 });
-        item.AddAbilityData(new PossessedAbilityData(null!) { SourceExperience = 300 });
-        item.AddAbilityData(new CommandedAbilityData(null!) { AbilityId = 33, CommandAbilityId = 40, SourceId = 2, OriginalCombatPlayer = 1 });
+        item.AddAbilityData(new DurationAbilityData(null!) { Holder = EngineFixture.Engine, AbilityId = 7, Duration = 2, PlayerIndex = 1, Source = -1 });
+        item.AddAbilityData(new UnitEnchantmentAbilityData(null!) { Holder = EngineFixture.Engine, EnchantmentAbilityId = 9, Enchantment = new UnitEnchantment(null!) { Holder = EngineFixture.Engine, UnitId = 4 } });
+        item.AddAbilityData(new LeadershipAbilityData(null!) { Holder = EngineFixture.Engine, LevelAbilityId = 20, Level = 1, ExternalLevel = 1, ExternalSource = "banner" });
+        item.AddAbilityData(new HealingAbilityData(null!) { Holder = EngineFixture.Engine, Enabled = true });
+        item.AddAbilityData(new DispelMagicAbilityData(null!) { Holder = EngineFixture.Engine, Enabled = true, Level = 2 });
+        item.AddAbilityData(new PossessedAbilityData(null!) { Holder = EngineFixture.Engine, SourceExperience = 300 });
+        item.AddAbilityData(new CommandedAbilityData(null!) { Holder = EngineFixture.Engine, AbilityId = 33, CommandAbilityId = 40, SourceId = 2, OriginalCombatPlayer = 1 });
         return item;
     }
 
@@ -744,26 +753,26 @@ public sealed class PersistEquivalenceTests
     public void ArmyViewCoversBothArrayWidths()
     {
         var previous = StrategicMap.Current;
-        var map = new StrategicMap(null!);
+        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         StrategicMap.Current = map;
         try
         {
-            Check("Army", new Army(null!));
+            Check("Army", new Army(null!) { Holder = EngineFixture.Engine });
             Each<GroupBehavior>(value =>
             {
-                var army = new Army(null!) { OldAIBehavior = value, Player = -1 };
+                var army = new Army(null!) { Holder = EngineFixture.Engine, OldAIBehavior = value, Player = -1 };
                 army.Mode = Set<ArmyModeElement>.Of(ArmyModeElement.FixedBehavior);
                 army.UserMode = Set<ArmyUserModeElement>.FromMask(0);
                 Check("Army", army);
             });
-            var full = new Army(null!);
+            var full = new Army(null!) { Holder = EngineFixture.Engine };
             full.Mode = Set<ArmyModeElement>.FromMask(0xFF) - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
             full.UserMode = Set<ArmyUserModeElement>.FromMask(0xFF);
             Check("Army", full);
-            var view = new ArmyView(null!);
+            var view = new ArmyView(null!) { Holder = EngineFixture.Engine };
             Check("ArmyView", view);
-            var widths = new ArmyView(null!) { ConcealedForPlayers = ushort.MaxValue };
+            var widths = new ArmyView(null!) { Holder = EngineFixture.Engine, ConcealedForPlayers = ushort.MaxValue };
             for (int i = 0; i < 8; i++)
             {
                 widths.UnitConcealment[i] = (ushort)(i == 0 ? 0 : ushort.MaxValue);
@@ -781,7 +790,7 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AnOverlongSpellDataListIsRefusedOnExport()
     {
-        using var spell = new UnitSpellCombatAction(null!);
+        using var spell = new UnitSpellCombatAction(null!) { Holder = EngineFixture.Engine };
         var classValue = s_schema.Get("UnitSpellCombatAction");
         var tree = TreeWriter.Write(spell, Factory);
         var list = (ListNode)tree.Find("SpellData")!;
@@ -801,7 +810,7 @@ public sealed class PersistEquivalenceTests
         WithDestroyingMap(map =>
         {
             map.ConnectionType = PlayerConnectionType.Network;
-            var army = new Army(null!);
+            var army = new Army(null!) { Holder = EngineFixture.Engine };
             army.DestinationX = 3;
             army.DestinationY = 4;
             army.DestinationMapLevel = 1;
@@ -815,7 +824,7 @@ public sealed class PersistEquivalenceTests
             Check("Army", army);
 
             map.ConnectionType = PlayerConnectionType.Local;
-            var source = new Army(null!) { DestinationX = 3, DestinationY = 4, DestinationMapLevel = 1 };
+            var source = new Army(null!) { Holder = EngineFixture.Engine, DestinationX = 3, DestinationY = 4, DestinationMapLevel = 1 };
             source.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             var image = Image(source);
             source.Dispose();
@@ -849,7 +858,7 @@ public sealed class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            var source = new Army(null!);
+            var source = new Army(null!) { Holder = EngineFixture.Engine };
             source.Mode = Set<ArmyModeElement>.Of(ArmyModeElement.Moving, ArmyModeElement.FixedBehavior);
             var image = Image(source);
             source.Dispose();
@@ -879,8 +888,8 @@ public sealed class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            using var army = new Army(null!);
-            new Unit(null!).SetOwner(army);
+            using var army = new Army(null!) { Holder = EngineFixture.Engine };
+            new Unit(null!) { Holder = EngineFixture.Engine }.SetOwner(army);
             var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(army, Factory));
             Assert.Equal("Class Unit overrides ReadWrite and has no PersistFields.", error.Message);
         });
@@ -889,9 +898,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AnimationMatchesTheConverter()
     {
-        Check("Animation", new Animation(null!));
+        Check("Animation", new Animation(null!) { Holder = EngineFixture.Engine });
         var edge = new Animation(null!)
         {
+            Holder = EngineFixture.Engine,
             Dimensions = new Rect { Left = int.MinValue, Top = -1, Right = int.MaxValue, Bottom = 4 },
             _hexX = -1,
             _hexY = sbyte.MinValue,
@@ -904,9 +914,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void DamageCombatActionMatchesTheConverter()
     {
-        Check("DamageCombatAction", new DamageCombatAction(null!));
+        Check("DamageCombatAction", new DamageCombatAction(null!) { Holder = EngineFixture.Engine });
         var edge = new DamageCombatAction(null!)
         {
+            Holder = EngineFixture.Engine,
             Damage = 255,
             SourceId = 255,
             TargetId = 1,
@@ -919,11 +930,12 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void RemotePlayerMatchesTheConverter()
     {
-        Check("RemotePlayer", new RemotePlayer(null!));
-        var zero = new RemotePlayer(null!) { RemoteId = 0, PreferredRace = 0, MapValidation = MapValidationInfo.Unknown, Version = 0 };
+        Check("RemotePlayer", new RemotePlayer(null!) { Holder = EngineFixture.Engine });
+        var zero = new RemotePlayer(null!) { Holder = EngineFixture.Engine, RemoteId = 0, PreferredRace = 0, MapValidation = MapValidationInfo.Unknown, Version = 0 };
         Check("RemotePlayer", zero);
         Each<MapValidationInfo>(value => Check("RemotePlayer", new RemotePlayer(null!)
         {
+            Holder = EngineFixture.Engine,
             MapValidation = value,
             Name = "Jörg",
             RemoteId = int.MinValue,
@@ -935,9 +947,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AIGroupMatchesTheConverter()
     {
-        Check("AIGroup", new AIGroup(null!));
+        Check("AIGroup", new AIGroup(null!) { Holder = EngineFixture.Engine });
         var zero = new AIGroup(null!)
         {
+            Holder = EngineFixture.Engine,
             GroupId = 0,
             TransporterId = 0,
             LeaderId = 0,
@@ -953,6 +966,7 @@ public sealed class PersistEquivalenceTests
         {
             var group = new AIGroup(null!)
             {
+                Holder = EngineFixture.Engine,
                 GroupId = int.MinValue,
                 TransporterId = int.MaxValue,
                 LeaderId = int.MinValue,
@@ -974,9 +988,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void SetupSettingsMatchesTheConverter()
     {
-        Check("SetupSettings", new SetupSettings(null!));
+        Check("SetupSettings", new SetupSettings(null!) { Holder = EngineFixture.Engine });
         var zero = new SetupSettings(null!)
         {
+            Holder = EngineFixture.Engine,
             PlayMode = 0,
             VictoryCondition = 0,
             IndependentAIMode = 0,
@@ -988,6 +1003,7 @@ public sealed class PersistEquivalenceTests
         Check("SetupSettings", zero);
         var edge = new SetupSettings(null!)
         {
+            Holder = EngineFixture.Engine,
             PlayMode = 255,
             VictoryCondition = 255,
             IndependentAIMode = 255,
@@ -1014,11 +1030,11 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void CustomAbilityListMatchesTheConverter()
     {
-        Check("CustomAbilityList", new CustomAbilityList(null!));
-        var emptyByte = new CustomAbilityList(null!);
+        Check("CustomAbilityList", new CustomAbilityList(null!) { Holder = EngineFixture.Engine });
+        var emptyByte = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
         emptyByte.SetAbilityCount(8);
         Check("CustomAbilityList", emptyByte);
-        var residue = new CustomAbilityList(null!);
+        var residue = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
         residue.SetAbilityCount(1);
         residue.AbilityBits[0] = 0x80;
         Check("CustomAbilityList", residue);
@@ -1033,7 +1049,7 @@ public sealed class PersistEquivalenceTests
             placed.Add(PlaceAbility(0));
             placed.Add(PlaceAbility(1));
             placed.Add(PlaceAbility(3));
-            var list = new CustomAbilityList(null!);
+            var list = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
             list.SetAbilityCount(8);
             list.SetAbilitySet(0, 1);
             list.SetAbilitySet(1, 1);
@@ -1052,7 +1068,7 @@ public sealed class PersistEquivalenceTests
         // Image writes the bits and then the cleanup clears the missing bit in memory. The tree
         // write runs after that bit is set again, so both stored images still hold it. Both loads clear it.
         Ability? placed = null;
-        var list = new CustomAbilityList(null!);
+        var list = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
         try
         {
             placed = PlaceAbility(0);
@@ -1105,14 +1121,14 @@ public sealed class PersistEquivalenceTests
         var descriptor = EngineClass.Of<HatredEnchantment>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
         if (added) EngineFixture.Engine.RegisterEngineClasses([descriptor]);
-        var control = new GlobalMagicControl(null!);
-        Func<ECustomNode, EngineObject>? previous = null;
+        var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
+        Delegate? previous = null;
         try
         {
-            var hatred = new HatredEnchantment(null!) { DaysActive = 12 };
+            var hatred = new HatredEnchantment(null!, holder: EngineFixture.Engine) { DaysActive = 12 };
             hatred.SetOwner(control.Enchantments);
             var image = Image(control);
-            previous = EngineClassCreation.Substitute(descriptor, next: static owner => new ThrowingHatred(owner));
+            previous = EngineClassCreation.Substitute(descriptor, next: (Func<ECustomNode, EngineObject>)(static owner => new ThrowingHatred(owner, holder: EngineFixture.Engine)));
             var classValue = s_schema.Get("GlobalMagicControl");
             var continued = (GlobalMagicControl)Blank("GlobalMagicControl");
             var continuedTree = (GlobalMagicControl)Blank("GlobalMagicControl");
@@ -1158,7 +1174,7 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AFixedObjectWhosePersistThrowsStaysUnlessTheHandlerStops()
     {
-        using var source = new GlobalMagicControl(null!);
+        using var source = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
         source.NextEnchantmentId = 9;
         source.DoubleSphereManaCount[0] = 3;
         var image = Image(source);
@@ -1215,9 +1231,9 @@ public sealed class PersistEquivalenceTests
 
     private static GlobalMagicControl Faulted(int sentinel)
     {
-        var control = new GlobalMagicControl(null!);
+        var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
         control.Enchantments?.Dispose();
-        control.Enchantments = new ThrowingEnchantments(null!);
+        control.Enchantments = new ThrowingEnchantments(null!) { Holder = EngineFixture.Engine };
         control.NextEnchantmentId = sentinel;
         return control;
     }
@@ -1253,10 +1269,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AChampionByteOtherThanZeroOrOneRoundTripsThroughReadWrite()
     {
-        using var source = new UnitResource(null!);
+        using var source = new UnitResource(null!) { Holder = EngineFixture.Engine };
         Unsafe.As<bool, byte>(ref source.Champion) = 2;
         var image = Image(source);
-        using var loaded = new UnitResource(null!);
+        using var loaded = new UnitResource(null!) { Holder = EngineFixture.Engine };
         Load(loaded, image);
         Assert.Equal(2, Unsafe.As<bool, byte>(ref loaded.Champion));
         EqualBytes(image, Image(loaded), "champion 02");
@@ -1274,7 +1290,7 @@ public sealed class PersistEquivalenceTests
     private static void WithDestroyingMap(Action<StrategicMap> body)
     {
         var previous = StrategicMap.Current;
-        var map = new StrategicMap(null!);
+        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         StrategicMap.Current = map;
         try
@@ -1291,29 +1307,29 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void EngineNodesMatchTheConverter()
     {
-        Check("ECustomOwner", new ECustomOwner(null!));
-        var owner = new ECustomOwner(null!);
+        Check("ECustomOwner", new ECustomOwner(null!) { Holder = EngineFixture.Engine });
+        var owner = new ECustomOwner(null!) { Holder = EngineFixture.Engine };
         owner.SetControlStyle(Set<ControlStyleElement>.FromMask(0xA5));
         Check("ECustomOwner", owner);
-        var resources = new EResourceList(null!);
+        var resources = new EResourceList(null!) { Holder = EngineFixture.Engine };
         resources.SetControlStyle(Set<ControlStyleElement>.FromMask(0));
         Check("EResourceList", resources);
-        Check("EControlStyleNode", new EControlStyleNode(null!));
-        var styled = new EControlStyleNode(null!);
+        Check("EControlStyleNode", new EControlStyleNode(null!) { Holder = EngineFixture.Engine });
+        var styled = new EControlStyleNode(null!) { Holder = EngineFixture.Engine };
         styled.SetControlStyle(Set<ControlStyleElement>.FromMask(0x81));
-        new AISavingsBudget(null!) { Priority = 7, Gold = -3 }.SetOwner(styled);
-        new AITransporterBudget(null!).SetOwner(styled);
+        new AISavingsBudget(null!) { Holder = EngineFixture.Engine, Priority = 7, Gold = -3 }.SetOwner(styled);
+        new AITransporterBudget(null!) { Holder = EngineFixture.Engine }.SetOwner(styled);
         Check("EControlStyleNode", styled);
-        var plugins = new PluginControl(null!);
+        var plugins = new PluginControl(null!) { Holder = EngineFixture.Engine };
         plugins.UsedPlugins.Add("Abilities");
         Check("PluginControl", plugins);
-        Check("PluginControl", new PluginControl(null!));
+        Check("PluginControl", new PluginControl(null!) { Holder = EngineFixture.Engine });
     }
 
     [Fact]
     public void ASortNodeRefusesBothWritesAlike()
     {
-        foreach (var node in new ESortNode[] { new(null!), new EInverseSortNode(null!), new EControlStyleInverseSortNode(null!) })
+        foreach (var node in new ESortNode[] { new(null!) { Holder = EngineFixture.Engine }, new EInverseSortNode(null!) { Holder = EngineFixture.Engine }, new EControlStyleInverseSortNode(null!) { Holder = EngineFixture.Engine } })
         {
             try
             {
@@ -1334,16 +1350,16 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AReferenceListStoresItsUnownedChildrenAndTakesOneReferenceEach()
     {
-        var list = new CombatActionList(null!);
-        var other = new CombatActionList(null!);
+        var list = new CombatActionList(null!) { Holder = EngineFixture.Engine };
+        var other = new CombatActionList(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var free = new DamageCombatAction(null!) { Damage = 9, SourceId = 3, TargetId = 4 };
+            var free = new DamageCombatAction(null!) { Holder = EngineFixture.Engine, Damage = 9, SourceId = 3, TargetId = 4 };
             list.AddChild(free);
-            var owned = new DamageCombatAction(null!) { Damage = 1 };
+            var owned = new DamageCombatAction(null!) { Holder = EngineFixture.Engine, Damage = 1 };
             list.AddChild(owned);
             owned.SetOwnerWithoutNotify(list);
-            var elsewhere = new DamageCombatAction(null!) { Damage = 2 };
+            var elsewhere = new DamageCombatAction(null!) { Holder = EngineFixture.Engine, Damage = 2 };
             list.AddChild(elsewhere);
             elsewhere.SetOwnerWithoutNotify(other);
             var classValue = s_schema.Get("CombatActionList");
@@ -1397,7 +1413,7 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void APreviewLoadSkipsTheAbilityCleanup()
     {
-        var list = new CustomAbilityList(null!);
+        var list = new CustomAbilityList(null!) { Holder = EngineFixture.Engine };
         list.SetAbilityCount(8);
         list.SetAbilitySet(5, 1);
         var classValue = s_schema.Get("CustomAbilityList");
@@ -1432,7 +1448,7 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void APreviewMovesNoItem()
     {
-        using var control = new ItemControl(null!);
+        using var control = new ItemControl(null!) { Holder = EngineFixture.Engine };
         control.RegisterItem(PlainItem(itemId: 4, name: "Ring"));
         var tree = TreeWriter.Write(control, Factory);
         Assert.NotNull(tree.Find("Items"));
@@ -1488,7 +1504,7 @@ public sealed class PersistEquivalenceTests
     private static EngineObject Blank(string className)
     {
         foreach (var engineClass in EngineClass.All)
-            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!);
+            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
@@ -1511,7 +1527,7 @@ public sealed class PersistEquivalenceTests
 
     private static Ability PlaceAbility(int id)
     {
-        var ability = new Ability(null!);
+        var ability = new Ability(null!) { Holder = EngineFixture.Engine };
         ability.AbilityId = id;
         var list = GamePack.Current.AbilityControl.Abilities;
         while (id >= list.Count) list.Add(null);
@@ -1529,7 +1545,7 @@ public sealed class PersistEquivalenceTests
 
     private sealed class ThrowingHatred : HatredEnchantment
     {
-        public ThrowingHatred(ECustomNode owner) : base(owner)
+        public ThrowingHatred(ECustomNode owner, EngineObject holder) : base(owner, holder)
         {
         }
 

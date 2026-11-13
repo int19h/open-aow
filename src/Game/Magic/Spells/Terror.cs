@@ -15,9 +15,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Terror : CombatSpell
 {
     // CombatSpells.pas:1759
-    public Terror(ECustomNode owner) : base(owner)
+    public Terror(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_terrorText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_terrorText);
         SpellId = 105;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
@@ -31,7 +32,7 @@ public partial class Terror : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         TacticalBattleTerrorCombatAction action;
-        action = new TacticalBattleTerrorCombatAction(null);
+        action = new TacticalBattleTerrorCombatAction(null) { Holder = CreationHolder() };
         action.Generate(source, target);
         if (chargeMana)
         {
@@ -93,7 +94,7 @@ public partial class Terror : CombatSpell
 
         if (value != 0)
         {
-            command = new FastBattleSpellCommand(52);
+            command = new FastBattleSpellCommand(52, creator: this);
             command.Target = null;
             command.MoveCost = 1;
             command.SpellId = SpellId;
@@ -106,7 +107,7 @@ public partial class Terror : CombatSpell
     public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
         FastBattleTerrorCombatAction action;
-        action = new FastBattleTerrorCombatAction(null);
+        action = new FastBattleTerrorCombatAction(null) { Holder = CreationHolder() };
         action.Generate(source);
         action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
         source.Combat.ExecuteCombatAction(action);

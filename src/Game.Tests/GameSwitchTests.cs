@@ -105,7 +105,7 @@ public sealed class GameSwitchTests
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
-        var live = EngineFixture.Configure(new StrategicMap(null!), value => { value.Day = 7; value.MapName = "live"; });
+        var live = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.MapName = "live"; });
         var previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(live);
         try
@@ -255,7 +255,7 @@ public sealed class GameSwitchTests
         Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
 
         // The id table is weak since C12, so the unlinked group needs no teardown.
-        var group = new PassiveAIGroup(null!);
+        var group = new PassiveAIGroup(null!) { Holder = EngineFixture.Engine };
         Assert.Equal(-1, group.IndependentRelation);
         sbyte relation = group.IndependentRelation;
         using var memory = new MemoryStream();

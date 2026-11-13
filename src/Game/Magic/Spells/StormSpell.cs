@@ -108,7 +108,7 @@ public partial class StormSpell : Spell
             if (L != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
             }
         }
 
@@ -138,10 +138,10 @@ public partial class StormSpell : Spell
             selection.SourceL = L;
             StrategicMap.Current.MakeVisible(X, Y, L, 5);
             var name = _targetStorm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [name]);
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = SpellName;
-            selection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
+            selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;
             selection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
@@ -172,7 +172,7 @@ public partial class StormSpell : Spell
         StormSpellTokenEvent tokenEvent;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            tokenEvent = new StormSpellTokenEvent(null);
+            tokenEvent = new StormSpellTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             tokenEvent.X = X;
             tokenEvent.Y = Y;

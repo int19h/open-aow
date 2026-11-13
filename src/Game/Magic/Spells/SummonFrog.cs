@@ -8,9 +8,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonFrog : SummonSpell
 {
     // SummonSpells.pas:341
-    public SummonFrog(ECustomNode owner) : base(owner)
+    public SummonFrog(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_summonFrogText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonFrogText);
         SpellId = 22;
         BaseManaCost = 5;
         SpellLevel = 1;

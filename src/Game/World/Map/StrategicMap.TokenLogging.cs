@@ -28,13 +28,13 @@ public partial class StrategicMap
         if (TokenEventLogging || Current.Status.Contains(HexSpriteMapStatusElement.Editting)) return;
         try
         {
-            try { _tokenLog = RtlUnit.Files.Open(GameTables.GameEngine.StartupDirectory + "Debug\\SYNC_LOG" + RtlUnit.IntToStr(PixelFormats.GetElapsedMilliseconds()) + ".TXT", RtlUnit.fmCreate); }
+            try { _tokenLog = RtlUnit.Files.Open(GetEngine().StartupDirectory + "Debug\\SYNC_LOG" + RtlUnit.IntToStr(PixelFormats.GetElapsedMilliseconds()) + ".TXT", RtlUnit.fmCreate); }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog("Map Session: " + MapName);
             int player = Current.Players.LocalHumanPlayers[0];
             WriteTokenLog("Local Player: " + RtlUnit.IntToStr(player));
-            WriteTokenLog("Local Race: " + AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace]));
+            WriteTokenLog("Local Race: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace]));
             TokenEventLogging = true;
         }
         catch { }
@@ -61,7 +61,7 @@ public partial class StrategicMap
     public void OnTokenManagerMessage(object sender, string message)
     {
         if (TokenEventLogging) WriteTokenLog(message);
-        GameTables.GameEngine.OutputDebugString(message);
+        GetEngine().OutputDebugString(message);
     }
 
     public void OnStreamError(StorageStream stream, string message, ref bool handled)

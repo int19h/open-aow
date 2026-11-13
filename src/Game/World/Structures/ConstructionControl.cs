@@ -31,7 +31,7 @@ public partial class ConstructionControl : EngineObject
         GetInfo(troop, out text, out gold, out days);
         if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
-            reason = AbilityRules.TranslateResourceString(s_notEnoughGoldText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughGoldText);
             result = false;
         }
         else

@@ -75,13 +75,13 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
 
-            var players = new PlayerList(null!);
+            var players = new PlayerList(null!) { Holder = startup.Engine };
             // The constructor sizes the list for two players. The check wants exactly three.
             players.ClearChildren();
-            players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
-            players.AddChild(new Player(null!) { Status = PlayerStatus.Terminated });
-            players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
-            StrategicMap.Current = new StrategicMap(null!);
+            players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });
+            players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Terminated });
+            players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });
+            StrategicMap.Current = new StrategicMap(null!, holder: startup.Engine);
             StrategicMap.Current.Players = players;
             TaskBar bar = new TaskBar(ui)
             {
@@ -104,7 +104,7 @@ internal static class FrameFixtureChecks
             var world = new MapWindow(ui) { MainWindow = mapWindow };
             world.MapWindowUpdate();
             Check(StrategicMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
-            var army = new MovementArmy { MoveStep = -1, UnitGraphicsResource = new(null) { MoveAnimationSpeed = 2 } };
+            var army = new MovementArmy { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
             army.MoveFirst(1, false);
             Check(army.MoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })

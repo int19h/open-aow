@@ -25,7 +25,7 @@ public partial class Pyramid : ItemExplorationSite
         public override int ResourceUserClassId() => 131982;
 
         // Pyramid.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_pyramidText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_pyramidText);
 
         private static readonly string s_pyramidText = "Pyramid";
 

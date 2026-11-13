@@ -33,8 +33,8 @@ public sealed class UnitSelectorTests
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
         GamePack.Current = null!;
-        var units = new UnitUserList(null!);
-        var selector = new HealingUnitSelector();
+        var units = new UnitUserList(null!) { Holder = EngineFixture.Engine };
+        var selector = new HealingUnitSelector(EngineFixture.Engine);
         try
         {
             units.AddUnit(new WoundedHero(1, 10, 10));

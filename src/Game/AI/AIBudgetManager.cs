@@ -5,8 +5,6 @@ using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
 
 using Aow.Game.World.Structures;
@@ -22,7 +20,7 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1712
     public AIBudgetManager(ECustomNode owner) : base(owner)
     {
-        Budgets = new AIBudgetList(null);
+        Budgets = new AIBudgetList(null) { Holder = CreationHolder() };
         _goldIncomeFactor = (float)0.75;
         _manaIncomeFactor = (float)0.75;
         _goldReserveFactor = (float)0.5;
@@ -86,7 +84,7 @@ public partial class AIBudgetManager : EngineObject
             DefaultBudget = (AIBudget)Budgets.FindChild(131741);
             if (DefaultBudget == null)
             {
-                DefaultBudget = new AISavingsBudget(null);
+                DefaultBudget = new AISavingsBudget(null) { Holder = CreationHolder() };
                 DefaultBudget.SetOwner(Budgets);
             }
         }
@@ -362,7 +360,7 @@ public partial class AIBudgetManager : EngineObject
 
         if (gold > 0 || mana > 0)
         {
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
+            GetEngine().OutputDebugMessage(DebugChannel.Temporary, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
             ReturnFromBudgets(gold, mana);
         }
     }
@@ -377,9 +375,9 @@ public partial class AIBudgetManager : EngineObject
 
         var groupsGoldBudget = GetGroupsGoldBudget();
         var groupsManaBudget = GetGroupsManaBudget();
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
     }
 
     // AI.pas:1954

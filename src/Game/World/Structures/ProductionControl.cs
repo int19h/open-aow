@@ -30,9 +30,9 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:191
     public ProductionControl(ECustomNode owner) : base(owner)
     {
-        Settings = new ProductionSettings(null);
-        UnitProductions = new UnitProductionList(null);
-        Queue = new ProductionQueue(null);
+        Settings = new ProductionSettings(null) { Holder = CreationHolder() };
+        UnitProductions = new UnitProductionList(null) { Holder = CreationHolder() };
+        Queue = new ProductionQueue(null) { Holder = CreationHolder() };
         Queue.ProductionControl = this;
         Status = ProductionControlStatus.Idle;
         Clear();
@@ -151,7 +151,7 @@ public partial class ProductionControl : EngineObject
     {
         ProductionItem item;
         ExecuteDeleteProductions();
-        item = new ProductionItem(null);
+        item = new ProductionItem(null) { Holder = CreationHolder() };
         item.Order = new ProduceUnit(index, groupId);
         ExecuteAddProduction(item);
         item?.Dispose();
@@ -166,7 +166,7 @@ public partial class ProductionControl : EngineObject
         if (!UnitProductions.GetItem(index).Researched)
         {
             ExecuteDeleteProductions();
-            item = new ProductionItem(null);
+            item = new ProductionItem(null) { Holder = CreationHolder() };
             item.Order = new ResearchSpell(index);
             ExecuteAddProduction(item);
             item?.Dispose();
@@ -209,7 +209,7 @@ public partial class ProductionControl : EngineObject
     {
         ProductionItem newItem;
         BeginUpdate();
-        newItem = (ProductionItem)item.Copy(GameTables.GameEngine);
+        newItem = (ProductionItem)item.Copy(GetEngine());
         newItem.SetOwner(Queue);
         if (Queue.Count == 1)
         {
@@ -303,7 +303,7 @@ public partial class ProductionControl : EngineObject
     public virtual ProductionTokenEvent CreateProductionTokenEvent()
     {
         ProductionTokenEvent eventValue;
-        eventValue = new ProductionTokenEvent(null);
+        eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
         GetLocation(out eventValue.X, out eventValue.Y, out eventValue.MapLevel);
         eventValue.Player = GetPlayer();
         return eventValue;
@@ -375,7 +375,7 @@ public partial class ProductionControl : EngineObject
         Unit unit;
         if (UnitProductions.GetItem(index) != null)
         {
-            unit = new Unit(null);
+            unit = new Unit(null) { Holder = CreationHolder() };
             var unitProduction = UnitProductions.GetItem(index);
             unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
             result = unit;
@@ -572,7 +572,7 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
-            eventValue.Item = new ProductionItem(null);
+            eventValue.Item = new ProductionItem(null) { Holder = CreationHolder() };
             // { explicit item receiver }
             eventValue.Item.Order = new ProduceUnit(index, groupId);
 
@@ -622,7 +622,7 @@ public partial class ProductionControl : EngineObject
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(s_actionAlreadyQueuedText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_actionAlreadyQueuedText);
         }
 
         return result;
@@ -646,7 +646,7 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
-            eventValue.Item = new ProductionItem(null);
+            eventValue.Item = new ProductionItem(null) { Holder = CreationHolder() };
             // { explicit item receiver }
             eventValue.Item.Order = new ResearchSpell(index);
 
@@ -733,7 +733,7 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
-            eventValue.Item = (ProductionItem)item.Copy(GameTables.GameEngine);
+            eventValue.Item = (ProductionItem)item.Copy(GetEngine());
             var player2 = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
             eventValue.Release();
@@ -860,7 +860,7 @@ public partial class ProductionControl : EngineObject
         bool include;
         var player = GetPlayer();
         Player = StrategicMap.Current.Players.GetPlayers(player);
-        unit = new Unit(null);
+        unit = new Unit(null) { Holder = CreationHolder() };
         productions = new DoubleItemList();
         for (int I = UnitProductions.Count - 1; I >= 0; I--)
         {
@@ -877,7 +877,7 @@ public partial class ProductionControl : EngineObject
                 }
                 else
                 {
-                    priority = RosterTables.GetUnitIndexAIPriority(UnitProductions.GetItem(I).UnitIndex, Player.PlayerIndex, 0);
+                    priority = RosterTables.GetUnitIndexAIPriority(UnitProductions.GetItem(I).UnitIndex, Player.PlayerIndex, 0, engine: GetEngine());
                 }
 
                 if (include)

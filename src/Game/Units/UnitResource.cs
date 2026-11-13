@@ -32,7 +32,7 @@ public partial class UnitResource : TroopResource
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
             rank = (Unit.Rank)rankOrdinal;
-            var unitResourceAbilityOwner = new UnitResourceAbilityOwner(null);
+            var unitResourceAbilityOwner = new UnitResourceAbilityOwner(null) { Holder = CreationHolder() };
             Abilities[(int)rank] = unitResourceAbilityOwner;
         }
 
@@ -153,7 +153,7 @@ public partial class UnitResource : TroopResource
             player = -1;
         }
 
-        unit = new Unit(null);
+        unit = new Unit(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
         bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) != null;
         unit.Release();

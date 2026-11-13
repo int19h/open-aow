@@ -386,7 +386,7 @@ public partial class FastBattleWindow : UIModule
     // FastCombatWin.pas:389
     public void FastBattleWindowCreate()
     {
-        _viewer = new CombatViewer();
+        _viewer = new CombatViewer(UI.Engine);
     }
 
     // FastCombatWin.pas:394

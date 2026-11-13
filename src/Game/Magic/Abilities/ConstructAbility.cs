@@ -13,15 +13,16 @@ namespace Aow.Game.Magic.Abilities;
 public partial class ConstructAbility : AdjustableAbility
 {
     // AoWAb.PAS:5537
-    public ConstructAbility(ECustomNode owner) : base(owner)
+    public ConstructAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_constructText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_constructText);
         AbilityId = 125;
         AbilityType = AbilityType.Enhancement;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
-        ConstructionControls = new ConstructionControlList(null);
-        RegisterConstructionControl(new RebuildConstructionControl(null));
-        RegisterConstructionControl(new BuildRoadsControl(null));
+        ConstructionControls = new ConstructionControlList(null) { Holder = CreationHolder() };
+        RegisterConstructionControl(new RebuildConstructionControl(null) { Holder = CreationHolder() });
+        RegisterConstructionControl(new BuildRoadsControl(null) { Holder = CreationHolder() });
     }
 
     public ConstructionControlList ConstructionControls { get; }

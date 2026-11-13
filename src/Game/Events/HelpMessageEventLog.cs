@@ -11,10 +11,11 @@ namespace Aow.Game.Events;
 public partial class HelpMessageEventLog : EventLog
 {
     // EventLog.pas:860
-    public HelpMessageEventLog(ECustomNode owner) : base(owner)
+    public HelpMessageEventLog(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         Message = new StringList();
-        HelpFileName = AbilityRules.TranslateResourceString(s_helpText);
+        HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), s_helpText);
         Mode = 0;
     }
 

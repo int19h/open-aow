@@ -17,9 +17,10 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class UnholyGroundSpell : GlobalTargetSpell
 {
-    public UnholyGroundSpell(ECustomNode owner) : base(owner)
+    public UnholyGroundSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_unholyGroundsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundsText);
         SpellId = 14;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -44,7 +45,7 @@ public partial class UnholyGroundSpell : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         UnholyGroundSpellTokenEvent eventValue;
-        eventValue = new UnholyGroundSpellTokenEvent(null);
+        eventValue = new UnholyGroundSpellTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

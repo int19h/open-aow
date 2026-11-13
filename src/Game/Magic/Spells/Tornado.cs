@@ -18,9 +18,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Tornado : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1798
-    public Tornado(ECustomNode owner) : base(owner)
+    public Tornado(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(GameText.TornadoText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
         SpellId = 68;
         AboveGroundOnly = true;
     }
@@ -42,7 +43,7 @@ public partial class Tornado : GlobalTargetSpell
         ArmyHexSprite army;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new TornadoTokenEvent(null);
+            eventValue = new TornadoTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();

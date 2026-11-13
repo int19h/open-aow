@@ -59,7 +59,7 @@ public partial class PlayerSetupSettings : EngineObject
         Status = Set<PlayerSetupStatusElement>.Of();
         Behavior = s_defaultBehavior;
         OriginalBehavior = s_defaultOriginalBehavior;
-        Leader = new Leader(null);
+        Leader = new Leader(null) { Holder = CreationHolder() };
     }
 
     private static readonly SetupPlayerBehavior s_defaultBehavior = new SetupPlayerBehavior

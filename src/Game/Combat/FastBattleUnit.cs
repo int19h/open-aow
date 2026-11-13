@@ -391,7 +391,7 @@ public partial class FastBattleUnit : CombatUnit
             {
                 if (CombatValue == 0 && IncomingCombatValue != 0 && GetSide() == CombatSideIndex.Attacker && !GetLocked())
                 {
-                    action = new FleeCombatAction(null);
+                    action = new FleeCombatAction(null) { Holder = CreationHolder() };
                     action.ObjectId = Id;
                     Combat.ExecuteCombatAction(action);
                     action.Release();

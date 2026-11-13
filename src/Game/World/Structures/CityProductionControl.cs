@@ -69,11 +69,11 @@ public partial class CityProductionControl : ProductionControl
             valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
         }
 
-        log = new CityProductionEventLog(null);
+        log = new CityProductionEventLog(null) { Holder = CreationHolder() };
         log._player = city.Player;
         var name = Settings.Unit.GetName();
         var fCityName = City.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducedFormat), [name, fCityName]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
         var cityHexLevel = city.GetHexLevel();
         var hexY2 = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY2, cityHexLevel);
@@ -89,12 +89,12 @@ public partial class CityProductionControl : ProductionControl
         CityProductionEventLog log;
         base.UnitResearched();
         city = City;
-        log = new CityProductionEventLog(null);
+        log = new CityProductionEventLog(null) { Holder = CreationHolder() };
         log._player = city.Player;
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = City.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.InstalledFormat), [unitName, name]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         var hexLevel = city.GetHexLevel();
         var hexY = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY, hexLevel);

@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class DeathStormSpell : StormSpell
 {
     // Storms.pas:969
-    public DeathStormSpell(ECustomNode owner) : base(owner)
+    public DeathStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.DeathStormText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.DeathStormText);
         SpellId = 5;
         BaseManaCost = 5;
         SpellLevel = 4;
@@ -20,5 +21,5 @@ public partial class DeathStormSpell : StormSpell
     }
 
     // Storms.pas:979
-    public override Storm CreateStorm() => new DeathStorm(null);
+    public override Storm CreateStorm() => new DeathStorm(null) { Holder = CreationHolder() };
 }

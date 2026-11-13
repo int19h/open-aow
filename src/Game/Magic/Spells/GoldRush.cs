@@ -11,9 +11,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class GoldRush : CityEnchantmentSpell
 {
     // CitySpells.pas:710
-    public GoldRush(ECustomNode owner) : base(owner)
+    public GoldRush(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.GoldRushText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText);
         SpellId = 53;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;

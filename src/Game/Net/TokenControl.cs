@@ -60,14 +60,14 @@ public partial class TokenControl : IDisposable
                 {
                     if (executor.HasSyncErrorHandlers)
                     {
-                        tokenEvent = new SyncTokenEvent(null);
+                        tokenEvent = new SyncTokenEvent(null) { Holder = _tokenManager.Owner };
                         var syncValue = executor.GetSyncValue();
                         ((SyncTokenEvent)tokenEvent)._syncValue = syncValue;
                         _events.Insert(0, tokenEvent);
                         tokenEvent.Release();
                     }
 
-                    tokenEvent = new PassTokenTokenEvent(null);
+                    tokenEvent = new PassTokenTokenEvent(null) { Holder = _tokenManager.Owner };
                     _events.Add(tokenEvent);
                     tokenEvent.Release();
                 }
@@ -131,7 +131,8 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1169
     public TokenControl(TokenManager manager, int player)
     {
-        _events = new TokenEventList(null);
+        // A construction test passes no manager.
+        _events = new TokenEventList(null) { Holder = manager?.Owner };
         _tokenManager = manager;
         _player = player;
         _active = true;

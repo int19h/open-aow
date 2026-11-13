@@ -33,7 +33,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         City targetCity;
         CityEnchantment enchantment;
         targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
-        enchantment = new CityEnchantment(null);
+        enchantment = new CityEnchantment(null) { Holder = CreationHolder() };
         enchantment.CityEnchantmentId = EnchantmentId;
         enchantment.EnchantmentManaUpkeep = ManaUpkeep;
         var mapCoordinate = targetCity.Owner.GetMapCoordinate();
@@ -128,7 +128,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     public override bool ValidTargetCity(Troop source, City targetCity) => base.ValidTargetCity(source, targetCity) && !targetCity.Enchantments.Contains(EnchantmentId);
 
     // CitySpells.pas:560
-    public override CityTargetSpellTokenEvent CreateTokenEvent() => new CityEnchantmentSpellTokenEvent(null);
+    public override CityTargetSpellTokenEvent CreateTokenEvent() => new CityEnchantmentSpellTokenEvent(null) { Holder = CreationHolder() };
 
     // CitySpells.pas:565
     public override bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L) => base.SetupTokenEvent(eventValue, source, X, Y, L);

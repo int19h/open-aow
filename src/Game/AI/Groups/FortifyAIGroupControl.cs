@@ -33,7 +33,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:256
     public FortifyAIGroupControl(ECustomNode owner) : base(owner)
     {
-        _targetSelector = new AIGroupTargetSelector(null);
+        _targetSelector = new AIGroupTargetSelector(null) { Holder = CreationHolder() };
     }
 
     // MainAG.pas:278
@@ -71,7 +71,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         switch (State)
         {
             case 0:
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 finder.Selector.TargetInfo.Mode = AITargetMode.Fortify;
                 finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
@@ -202,7 +202,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 4:
-                recruitment = new AIRecruitmentGroupFinder(null);
+                recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
                 recruitment.Setup(this);
                 ActivatePlugin(recruitment);
                 recruitment.Release();
@@ -210,7 +210,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 break;
             case 5:
                 ProductionLocations.Clear();
-                productionFinder = new AIProductionLocationFinder(null);
+                productionFinder = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
                 productionFinder.Setup(this);
                 productionFinder.Selector.MovePointsMax = 24;
                 ActivatePlugin(productionFinder);
@@ -220,7 +220,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 6:
                 if (RecruitmentGroups.Count != 0 && _requiredStrength > StrengthMax)
                 {
-                    recruit = new AIGroupRecruitControl(null);
+                    recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Setup(this);
                     var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
@@ -239,7 +239,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 RecruitmentGroups.Validate(this);
                 if (StrengthMax < _requiredStrength && RecruitmentGroups.Count != 0)
                 {
-                    recruit = new AIGroupRecruitControl(null);
+                    recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Setup(this);
                     var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
@@ -254,7 +254,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 if (StrengthMax >= _enemyStrength && Group.GetAdjacent())
                 {
                     Targets.Clear();
-                    finder = new AIGroupTargetFinder(null);
+                    finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
                     finder.Selector.TargetInfo.Mode = AITargetMode.AttackArmies;
                     finder.Selector.MovePointsMax = 55;
@@ -332,7 +332,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
                 if (city != null && city.GetActiveAction() == CityAction.Migrate)
                 {
-                    defense = new AIGroupDefenseControl(null);
+                    defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
                     defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
                     defense.CustomState = 19;
                     ActivatePlugin(defense);
@@ -343,7 +343,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 break;
             case 14:
                 Targets.Clear();
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 finder.Selector.TargetInfo.Mode = AITargetMode.Attack;
                 finder.Selector.MovePointsMax = 55;
@@ -403,7 +403,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
                     if (city != null && city.GetActiveAction() == CityAction.Migrate)
                     {
-                        defense = new AIGroupDefenseControl(null);
+                        defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
                         defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
                         defense.CustomState = 19;
                         ActivatePlugin(defense);
@@ -482,7 +482,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 if (Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) + StrengthMax < _requiredStrength)
                 {
                     ProductionLocations.Clear();
-                    productionFinder = new AIProductionLocationFinder(null);
+                    productionFinder = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
                     productionFinder.Setup(this);
                     productionFinder.Selector.MovePointsMax = 24;
                     ActivatePlugin(productionFinder);
@@ -498,7 +498,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 23:
                 if (ProductionLocations.Count > 0)
                 {
-                    produce = new AIGroupProductionControl(null);
+                    produce = new AIGroupProductionControl(null) { Holder = CreationHolder() };
                     produce.Setup(this);
                     var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     produce.ProduceStrength = _requiredStrength - (strengthMax + StrengthMax);
@@ -552,7 +552,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         MapFieldMessage message = default;
         var query = new BattleFieldQuery();
         ref var info = ref query.Info;
-        settings = new MoveControlSettings(null);
+        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = Group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
         settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
@@ -645,8 +645,8 @@ public partial class FortifyAIGroupControl : AIGroupControl
         excess = StrengthMax - _requiredStrength;
         if (excess > 0)
         {
-            units = new UnitUserList(null);
-            passive = new UnitUserList(null);
+            units = new UnitUserList(null) { Holder = CreationHolder() };
+            passive = new UnitUserList(null) { Holder = CreationHolder() };
             units.AddUnits(Group);
             units.SortChildren<Troop>(CompareFortifyUnits);
             I = units.Count;

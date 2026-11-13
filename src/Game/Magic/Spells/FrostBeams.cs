@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class FrostBeams : CombatSpell
 {
     // CombatSpells.pas:1553
-    public FrostBeams(ECustomNode owner) : base(owner)
+    public FrostBeams(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_frostBeamsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_frostBeamsText);
         SpellId = 120;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;

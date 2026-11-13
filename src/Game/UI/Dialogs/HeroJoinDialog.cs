@@ -115,7 +115,7 @@ public partial class HeroJoinDialog : UIModule
     // AoWHeroJoinDlg.pas:122
     public void HeroJoinDialogCreate()
     {
-        _units = new UnitUserList(null);
+        _units = new UnitUserList(null) { Holder = UI.Engine };
     }
 
     // AoWHeroJoinDlg.pas:127

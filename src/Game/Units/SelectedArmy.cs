@@ -28,7 +28,7 @@ namespace Aow.Game.Units;
 public partial class SelectedArmy : MoveSelector
 {
     // Army.PAS:3567
-    public SelectedArmy() : base()
+    public SelectedArmy(EngineObject creator) : base(creator)
     {
         _selectedUnitGraphics = new Int32List();
     }
@@ -184,7 +184,7 @@ public partial class SelectedArmy : MoveSelector
                     if (settings.MovePoints < settings.PathMovePoints)
                     {
                         settings.Path.Clear();
-                        var armyNotEnoughMovePoints = AbilityRules.TranslateResourceString(s_armyNotEnoughMovePointsText);
+                        var armyNotEnoughMovePoints = AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyNotEnoughMovePointsText);
                         StrategicMap.Current.ShowMessage(armyNotEnoughMovePoints);
                     }
                     else
@@ -192,7 +192,7 @@ public partial class SelectedArmy : MoveSelector
                         if (settings.Path.Count != 0)
                         {
                             var roadConstructionCost = AbilityRules.RoadConstructionCost(GetArmyHexSprite().Army.Player, settings.Path, settings.MovePoints);
-                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_armyRoadConstructionCostFormat), [IntToStr(roadConstructionCost)]);
+                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyRoadConstructionCostFormat), [IntToStr(roadConstructionCost)]);
                             StrategicMap.Current.ShowMessage(format);
                         }
                     }
@@ -359,7 +359,7 @@ public partial class SelectedArmy : MoveSelector
                         }
                         else
                         {
-                            var notEnoughGold = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+                            var notEnoughGold = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NotEnoughGoldText);
                             StrategicMap.Current.ShowWarning(notEnoughGold);
                         }
                     }
@@ -394,8 +394,8 @@ public partial class SelectedArmy : MoveSelector
                     {
                         var player = field.GetPlayer();
                         var players = StrategicMap.Current.Players.GetPlayers(player);
-                        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_armyNotAtWarFormat), [raceNamesPlural]);
+                        var raceNamesPlural = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_armyNotAtWarFormat), [raceNamesPlural]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }
@@ -593,7 +593,7 @@ public partial class SelectedArmy : MoveSelector
         Rect R;
         MapLevel level;
         ArmyHexSprite armyHexSprite;
-        armies = new ArmyHSList(null);
+        armies = new ArmyHSList(null) { Holder = Creator.CreationHolder() };
         R = sender.SelectionRectangle;
         level = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
         HexGeometry.PixelToHex(R.Left, R.Top, out x1, out y1);
@@ -761,11 +761,11 @@ public partial class SelectedArmy : MoveSelector
                 }
             }
 
-            GameTables.GameEngine.OutputDebugString(text);
+            Creator.GetEngine().OutputDebugString(text);
         }
 
         var strengthMax = GetArmyHexSprite().Army.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.None));
-        GameTables.GameEngine.OutputDebugString("Army strength: " + IntToStr(strengthMax));
+        Creator.GetEngine().OutputDebugString("Army strength: " + IntToStr(strengthMax));
     }
 
     // Army.PAS:4090
@@ -793,7 +793,7 @@ public partial class SelectedArmy : MoveSelector
                 ResetSelectedUnitGraphics();
             }
 
-            if (GetArmyHexSprite() != null && GameTables.GameEngine.Registry.GetDebugMode())
+            if (GetArmyHexSprite() != null && Creator.GetEngine().Registry.GetDebugMode())
             {
                 OutputGroupInfo();
             }
@@ -833,7 +833,7 @@ public partial class SelectedArmy : MoveSelector
                 CurrentMove = 0;
             }
 
-            var selectRoadConstructionPath = AbilityRules.TranslateResourceString(s_selectRoadConstructionPathText);
+            var selectRoadConstructionPath = AbilityRules.TranslateResourceString(Creator.GetEngine(), s_selectRoadConstructionPathText);
             StrategicMap.Current.ShowMessage(selectRoadConstructionPath);
             _roadBuilderId = troop.UnitId;
             _mode = SelectedArmyMode.BuildRoads;
@@ -932,7 +932,7 @@ public partial class SelectedArmy : MoveSelector
         if (flag2)
         {
             movePath = new MovePath();
-            multiMoveTokenEvent = new MultiMoveTokenEvent(null);
+            multiMoveTokenEvent = new MultiMoveTokenEvent(null) { Holder = moves };
             multiMoveTokenEvent.Simultaneous = false;
             moves.CalculateMovePositions(ValidateMultiArmyMove);
             int i = 0;
@@ -947,11 +947,11 @@ public partial class SelectedArmy : MoveSelector
                     {
                         movePath.Add(moveSettingsLocal.Path[j]);
                     }
-                    armyDefaultMoveTokenEvent = new ArmyDefaultMoveTokenEvent(null);
+                    armyDefaultMoveTokenEvent = new ArmyDefaultMoveTokenEvent(null) { Holder = moves };
                     MapCoordinate mapCoordinate = movePath[0];
                     MapCoordinate mapCoordinate2 = movePath[0];
                     MapCoordinate mapCoordinate3 = movePath[0];
-                    GameTables.GameEngine.OutputDebugString(string.Concat(new string[6]
+                    moves.GetEngine().OutputDebugString(string.Concat(new string[6]
                     {
                         "Moving to: ",
                         RtlUnit.IntToStr((int)mapCoordinate.X),

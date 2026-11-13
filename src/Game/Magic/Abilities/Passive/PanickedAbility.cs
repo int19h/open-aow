@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class PanickedAbility : DurationAbility
 {
     // PassiveAb.pas:874
-    public PanickedAbility(ECustomNode owner) : base(owner)
+    public PanickedAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_panickedText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_panickedText);
         AbilityId = 108;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.EntireCombat;

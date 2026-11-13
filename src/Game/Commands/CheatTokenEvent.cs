@@ -64,12 +64,12 @@ public partial class CheatTokenEvent : TokenEvent
                 StrategicMap.Current.SetExplorationEnabled(!StrategicMap.Current.ExplorationEnabled);
                 if (StrategicMap.Current.ExplorationEnabled)
                 {
-                    var explorationEnabled = AbilityRules.TranslateResourceString(s_explorationEnabledText);
+                    var explorationEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_explorationEnabledText);
                     StrategicMap.Current.ShowMessage(explorationEnabled);
                 }
                 else
                 {
-                    var explorationDisabled = AbilityRules.TranslateResourceString(s_explorationDisabledText);
+                    var explorationDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_explorationDisabledText);
                     StrategicMap.Current.ShowMessage(explorationDisabled);
                 }
 
@@ -78,12 +78,12 @@ public partial class CheatTokenEvent : TokenEvent
                 StrategicMap.Current.SetFogEnabled(!StrategicMap.Current.FogEnabled);
                 if (StrategicMap.Current.FogEnabled)
                 {
-                    var fogEnabled = AbilityRules.TranslateResourceString(s_fogEnabledText);
+                    var fogEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_fogEnabledText);
                     StrategicMap.Current.ShowMessage(fogEnabled);
                 }
                 else
                 {
-                    var fogDisabled = AbilityRules.TranslateResourceString(s_fogDisabledText);
+                    var fogDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_fogDisabledText);
                     StrategicMap.Current.ShowMessage(fogDisabled);
                 }
 
@@ -93,12 +93,12 @@ public partial class CheatTokenEvent : TokenEvent
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
                 if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    var spellCheatEnabled = AbilityRules.TranslateResourceString(s_spellCheatEnabledText);
+                    var spellCheatEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_spellCheatEnabledText);
                     StrategicMap.Current.ShowMessage(spellCheatEnabled);
                 }
                 else
                 {
-                    var spellCheatDisabled = AbilityRules.TranslateResourceString(s_spellCheatDisabledText);
+                    var spellCheatDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_spellCheatDisabledText);
                     StrategicMap.Current.ShowMessage(spellCheatDisabled);
                 }
 
@@ -118,12 +118,12 @@ public partial class CheatTokenEvent : TokenEvent
                 StrategicMap.Current.UnlimitedMoves = !StrategicMap.Current.UnlimitedMoves;
                 if (StrategicMap.Current.UnlimitedMoves)
                 {
-                    var freeMovementEnabled = AbilityRules.TranslateResourceString(s_freeMovementEnabledText);
+                    var freeMovementEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_freeMovementEnabledText);
                     StrategicMap.Current.ShowMessage(freeMovementEnabled);
                 }
                 else
                 {
-                    var freeMovementDisabled = AbilityRules.TranslateResourceString(s_freeMovementDisabledText);
+                    var freeMovementDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_freeMovementDisabledText);
                     StrategicMap.Current.ShowMessage(freeMovementDisabled);
                 }
 

@@ -132,7 +132,7 @@ public partial class CombatObstacle : MultiHexMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _shadow = new CombatObstacleShadow(null);
+                _shadow = new CombatObstacleShadow(null) { Holder = CreationHolder() };
                 _shadow.Obstacle = this;
             }
         }
@@ -165,7 +165,7 @@ public partial class CombatObstacle : MultiHexMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _overlay = new CombatObstacleOverlay(null);
+                _overlay = new CombatObstacleOverlay(null) { Holder = CreationHolder() };
                 _overlay.Obstacle = this;
             }
         }
@@ -220,7 +220,7 @@ public partial class CombatObstacle : MultiHexMapObject
         public override int ResourceUserClassId() => 2229546;
 
         // CombatObstacle.pas:242
-        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateResourceString(GameText.ObstacleText);
+        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText);
 
     }
 

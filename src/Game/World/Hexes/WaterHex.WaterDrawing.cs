@@ -4,7 +4,6 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.Magic;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using static Aow.Rtl.RtlUnit;
 
@@ -27,7 +26,7 @@ public partial class WaterHex
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (GameTables.GameEngine.AnimationDetail != 0 && (((Owner.FieldFlags >> 16) & 255) != 0 || !Owner.Owner.Map.FogEnabled))
+        if (GetEngine().AnimationDetail != 0 && (((Owner.FieldFlags >> 16) & 255) != 0 || !Owner.Owner.Map.FogEnabled))
         {
             _animationFrame = (sbyte)(_animationFrame + 1);
             if (_animationFrame >= 0)
@@ -88,7 +87,7 @@ public partial class WaterHex
 
                 if (!showing)
                 {
-                    if (GameTables.GameEngine.AnimationDetail == 1)
+                    if (GetEngine().AnimationDetail == 1)
                     {
                         _animationFrame = (sbyte)(-20 - Random(25));
                     }

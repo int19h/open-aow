@@ -16,10 +16,11 @@ namespace Aow.Game.Magic.Spells;
 public partial class PowerLeak : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1036
-    public PowerLeak(ECustomNode owner) : base(owner)
+    public PowerLeak(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.PowerLeakText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.PowerLeakText);
         SpellId = 48;
         BaseManaCost = 1;
         SpellLevel = 4;
@@ -38,7 +39,7 @@ public partial class PowerLeak : GlobalEnchantmentSpell
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        animation = new TwinkleAnimation(null);
+        animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
         animation.Setup(GamePack.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
         StrategicMap.Current.PlaceHex(animation, X, Y, L);
         CastSounds.Play(0);
@@ -47,5 +48,5 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1031
-    public override GlobalEnchantment CreateEnchantment() => new PowerLeakEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new PowerLeakEnchantment(null, holder: CreationHolder());
 }

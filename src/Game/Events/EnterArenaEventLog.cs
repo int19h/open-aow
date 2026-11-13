@@ -116,7 +116,7 @@ public partial class EnterArenaEventLog : EventLog
 
         if (total != 0)
         {
-            result = RtlUnit.Format(AbilityRules.TranslateResourceString(s_totalCostFormat), [IntToStr(total)]);
+            result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]);
         }
         else
         {

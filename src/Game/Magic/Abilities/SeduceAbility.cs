@@ -12,10 +12,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class SeduceAbility : CommandAbility
 {
     // AoWAb.PAS:5372
-    public SeduceAbility(ECustomNode owner) : base(owner)
+    public SeduceAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 29;
-        AbilityName = AbilityRules.TranslateResourceString(s_seduceText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_seduceText);
         CommandedAbilityId = 48;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }

@@ -55,7 +55,7 @@ public sealed class ArmySpriteConstructionTests
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-                StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
@@ -66,7 +66,7 @@ public sealed class ArmySpriteConstructionTests
     public void SavedArmyReturnsThroughCreateEngineObjectAndReadWrite()
     {
         using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
-        EngineObject source = new ArmyHexSprite(null!);
+        EngineObject source = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
         EngineObject loaded = null!;
         using var memory = new MemoryStream();
         try
@@ -81,7 +81,7 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
             loaded?.Dispose();
             source.Dispose();
         }

@@ -27,8 +27,8 @@ public partial class MoveControlSettings : EngineObject
         _refCount = 1;
         ProcessedMapFields = new DelphiList<MapField>();
         Path = new MovePath();
-        SubMoves = new SubMoveList(null);
-        Units = new UnitUserList(null);
+        SubMoves = new SubMoveList(null) { Holder = CreationHolder() };
+        Units = new UnitUserList(null) { Holder = CreationHolder() };
         Reset();
     }
 

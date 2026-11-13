@@ -18,7 +18,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:1981
     public AIRecruitmentGroupFinder(ECustomNode owner) : base(owner)
     {
-        _selector = new AIMoveTargetSelector(null);
+        _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
     }
 
     private AIGroupControl _control;
@@ -101,14 +101,14 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
                 troop = armyHexSprite.Army.GetUnit(I);
                 if (troop.Group != null && troop.Group.Leader == troop && troop.Group != _control.Group)
                 {
-                    group = new AIRecruitmentGroup(null);
+                    group = new AIRecruitmentGroup(null) { Holder = CreationHolder() };
                     group.SetGroup(troop.Group);
                     group.Location = target.Location;
                     group.MovePoints = target.MovePoints;
                     group.TransporterId = target.TransporterId;
                     if (_mode.Contains(ModeElement.CalculateMovePathBfs))
                     {
-                        group.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step);
+                        group.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());
                     }
 
                     _control.RecruitmentGroupFoundEvent(group, ref searchDone);

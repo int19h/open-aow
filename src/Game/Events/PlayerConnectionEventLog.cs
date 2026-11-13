@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 // reason, disconnected player
 public partial class PlayerConnectionEventLog : MessageEventLog
 {
-    public PlayerConnectionEventLog(ECustomNode owner) : base(owner)
+    public PlayerConnectionEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
     private byte _reason;
@@ -25,9 +25,9 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     public override bool Yes()
     {
         SaveGameEventLog log = default;
-        log = new SaveGameEventLog(null);
+        log = new SaveGameEventLog(null, holder: CreationHolder());
         log.DefaultName = "";
-        log.Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
+        log.Directory = GetEngine().StartupDirectory + "Save\\";
         StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitSaveGameCallback);
         log.Release();
         return true;
@@ -49,18 +49,18 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         {
             case 3:
                 Buttons = MessageEventLogButtons.YesNo;
-                var outOfSync = AbilityRules.TranslateResourceString(s_outOfSyncText);
+                var outOfSync = AbilityRules.TranslateResourceString(GetEngine(), s_outOfSyncText);
                 Message.Text = outOfSync;
-                var translatedText = AbilityRules.TranslateResourceString(s_terminateGameSaveText);
+                var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 Message.Add(translatedText);
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
                 var name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionTimeOutFormat), [name]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionTimeOutFormat), [name]);
                 Message.Text = format;
                 Message.Add("");
-                var terminateGameSave = AbilityRules.TranslateResourceString(s_terminateGameSaveText);
+                var terminateGameSave = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 Message.Add(terminateGameSave);
                 break;
             case 2:
@@ -68,17 +68,17 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                 if (_disconnectedPlayer != -1)
                 {
                     var name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionLostFormat), [name2]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostFormat), [name2]);
                     Message.Text = formattedText;
                 }
                 else
                 {
-                    var connectionLost = AbilityRules.TranslateResourceString(s_connectionLostText);
+                    var connectionLost = AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostText);
                     Message.Text = connectionLost;
                 }
 
                 Message.Add("");
-                var terminateGameSaveText = AbilityRules.TranslateResourceString(s_terminateGameSaveText);
+                var terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 Message.Add(terminateGameSaveText);
                 break;
         }
@@ -89,13 +89,13 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     {
         if (!IsEmpty(((SaveGameEventLog)log).FileName))
         {
-            if (GameTables.GameEngine.Campaign != null)
+            if (GetEngine().Campaign != null)
             {
-                GameTables.GameEngine.SaveCampaign(((SaveGameEventLog)log).FileName);
+                GetEngine().SaveCampaign(((SaveGameEventLog)log).FileName);
             }
             else
             {
-                GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
             }
         }
         else

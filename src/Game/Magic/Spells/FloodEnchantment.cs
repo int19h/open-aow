@@ -60,11 +60,12 @@ public partial class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1224
-    public FloodEnchantment(ECustomNode owner) : base(owner)
+    public FloodEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.FloodText);
+        Holder = holder;
+        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.FloodText);
         EnchantmentType = GlobalEnchantmentType.Flood;
-        FloodControl = new FloodControl(null);
+        FloodControl = new FloodControl(null) { Holder = CreationHolder() };
         DispelMana = 100;
         RestoreDays = -1;
     }
@@ -98,7 +99,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         string result = base.GetName();
         if (Removed)
         {
-            result = result + " (" + LowerCase(DurationText.FormatDaysLeftString(GameTables.GameEngine, days: RestoreDays)) + ")";
+            result = result + " (" + LowerCase(DurationText.FormatDaysLeftString(GetEngine(), days: RestoreDays)) + ")";
         }
         else
         {
@@ -141,7 +142,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         }
         else
         {
-            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(s_alreadyRemovedFormat), [Name]);
+            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_alreadyRemovedFormat), [Name]);
             result = false;
         }
 

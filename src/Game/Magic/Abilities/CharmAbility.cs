@@ -10,10 +10,11 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CharmAbility : CommandAbility
 {
     // AoWAb.PAS:5339
-    public CharmAbility(ECustomNode owner) : base(owner)
+    public CharmAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 148;
-        AbilityName = AbilityRules.TranslateResourceString(s_charmText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_charmText);
         CommandedAbilityId = 149;
     }
 

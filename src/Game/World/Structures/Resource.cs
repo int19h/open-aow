@@ -90,7 +90,7 @@ public partial class Resource : PlayerCropStructureResource
     // City.pas:262
 
     // City.pas:2633
-    public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_cityText);
+    public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityText);
 
     private static readonly string s_cityText = "City";
 

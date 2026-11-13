@@ -30,7 +30,7 @@ public partial class Ability : EngineObject
     public Ability(ECustomNode owner) : base(owner)
     {
         Description = new StringList();
-        SfxLibrary = new SfxLibrary(null);
+        SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
         ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
     }
 
@@ -172,7 +172,7 @@ public partial class Ability : EngineObject
         // { The original reports successful activation after releasing the notification. }
         if (CanActivate(owner, ref reason))
         {
-            info = new AbilityActivation(null);
+            info = new AbilityActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
             if (owner is Troop)
             {
@@ -209,7 +209,7 @@ public partial class Ability : EngineObject
         AbilityActivation info;
         if (this.CanActivateCombat(owner, out reason))
         {
-            info = new AbilityActivation(null);
+            info = new AbilityActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
             if (owner is Troop)
             {
@@ -329,7 +329,7 @@ public partial class Ability : EngineObject
         }
 
         var abilityType = this.GetAbilityType();
-        text.Add("Type: " + AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)abilityType]));
+        text.Add("Type: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
         if (this.GetAttack(null) != 0)
         {
             text.Add("Attack modifier: " + IntToStr(this.GetAttack(null)));
@@ -359,7 +359,7 @@ public partial class Ability : EngineObject
         if (this.GetCombatMode(null) != CombatMode.None)
         {
             var combatMode = this.GetCombatMode(null);
-            text.Add("Combat mode: " + AbilityRules.TranslateResourceString(s_combatModeTexts[(int)combatMode]));
+            text.Add("Combat mode: " + AbilityRules.TranslateResourceString(GetEngine(), s_combatModeTexts[(int)combatMode]));
         }
 
         if (mode.Contains(AbilityInfoModeElement.Statistics))
@@ -393,7 +393,7 @@ public partial class Ability : EngineObject
                             damageNames = damageNames + ",";
                         }
 
-                        damageNames = damageNames + AbilityRules.TranslateResourceString(s_damageTypeTexts[(int)damageType]);
+                        damageNames = damageNames + AbilityRules.TranslateResourceString(GetEngine(), s_damageTypeTexts[(int)damageType]);
                     }
                 }
 

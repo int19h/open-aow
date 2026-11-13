@@ -23,7 +23,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         _castingHeroes = new Int32List();
         _idleHeroes = new Int32List();
         _pendingHeroes = new Int32List();
-        _castSpellActions = new AICastSpellActionList(null);
+        _castSpellActions = new AICastSpellActionList(null) { Holder = CreationHolder() };
     }
 
     private int _state;

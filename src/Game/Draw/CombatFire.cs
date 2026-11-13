@@ -134,7 +134,7 @@ public partial class CombatFire : SingleHexSprite
                     HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, I, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {
-                        EffectPaths.CreateFire(true, 50, hexX, hexY);
+                        EffectPaths.CreateFire(true, 50, hexX, hexY, engine: GetEngine());
                     }
                 }
 

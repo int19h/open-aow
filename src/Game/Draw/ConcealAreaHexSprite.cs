@@ -52,7 +52,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         if (StrategicMap.Current.ViewMapLevel == _layer)
         {
             _frame += 1;
-            if (GameTables.GameEngine.AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == _layer)
+            if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == _layer)
             {
                 intensity = 60 - Math.Abs(_frame * 3 - 60);
                 HexGeometry.HexToPixel(this._x, this._y, out pixelX, out pixelY);

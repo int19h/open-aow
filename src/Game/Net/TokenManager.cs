@@ -8,7 +8,7 @@ namespace Aow.Game.Net;
 public partial class TokenManager : IDisposable
 {
 
-    public TokenManager(object owner)
+    public TokenManager(GameEngine owner)
     {
         _owner = owner;
         _tokenControls = new List<TokenControl>();
@@ -18,7 +18,7 @@ public partial class TokenManager : IDisposable
 
     private TokenExecutor _tokenExecutor;
     private readonly TokenPackageDistributor _tokenPackageDistributor;
-    private readonly object _owner;
+    private readonly GameEngine _owner;
     private readonly List<TokenControl> _tokenControls;
     public event NetworkMessageEvent OnMessage;
 
@@ -168,7 +168,7 @@ public partial class TokenManager : IDisposable
 
     public TokenExecutor TokenExecutor { get => _tokenExecutor; }
     public TokenPackageDistributor TokenPackageDistributor { get => _tokenPackageDistributor; }
-    public object Owner { get => _owner; }
+    public GameEngine Owner { get => _owner; }
     public int Count { get => GetCount(); }
 
     public sealed class TokenControlsAccessor(TokenManager target)

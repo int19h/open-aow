@@ -44,12 +44,12 @@ public partial class HeroUpgradeEventLog : EventLog
             if (NewLevel - OldLevel == 1)
             {
                 var name = hero.GetName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_madeLevelFormat), [name]);
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelFormat), [name]);
             }
             else
             {
                 var name = hero.GetName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
             }
         }
 
@@ -69,8 +69,8 @@ public partial class HeroUpgradeEventLog : EventLog
             if (hero.UpgradePending)
             {
                 executeNow = trigger == ExecuteTrigger.User;
-                executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
-                executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
                 if (executeNow)
                 {
                     result = base.Execute(mode, trigger, done);
@@ -84,12 +84,12 @@ public partial class HeroUpgradeEventLog : EventLog
             {
                 if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == UpgradeDay)
                 {
-                    var canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(s_canOnlyUpgradeHeroOnceText);
+                    var canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeHeroOnceText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
                 }
                 else
                 {
-                    var canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(s_canOnlyUpgradeOnDayLevelIsMadeText);
+                    var canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeOnDayLevelIsMadeText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 

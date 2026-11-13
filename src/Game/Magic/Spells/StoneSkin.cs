@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class StoneSkin : UnitSpell
 {
     // UnitSpells.pas:256
-    public StoneSkin(ECustomNode owner) : base(owner)
+    public StoneSkin(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.StoneSkinText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneSkinText);
         SpellId = 17;
         BaseManaCost = 5;
         SpellLevel = 1;

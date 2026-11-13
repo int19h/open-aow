@@ -17,9 +17,10 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135967;
 
     // GlobalEnchantmentSpells.pas:1387
-    public LifeMasteryEnchantment(ECustomNode owner) : base(owner)
+    public LifeMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
+        Holder = holder;
+        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -49,7 +50,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
                 var name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;

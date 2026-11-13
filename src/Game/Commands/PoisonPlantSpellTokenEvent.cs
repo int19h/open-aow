@@ -62,14 +62,14 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
                     if (StrategicMap.Current.PlaceHex(plant, walk.X, walk.Y, Location.MapLevel))
                     {
                         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
-                        animation = new ImageSequenceAnimation(null);
+                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(12).CastImages.ImageSequences[0]);
                         animation.OnShow += plant.ShowSummonAnimation;
                         animation.OnNewFrame += plant.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
                         StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
-                        twinkle = new TwinkleAnimation(null);
+                        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
                         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(2).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
                         StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
                     }

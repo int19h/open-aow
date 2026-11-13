@@ -8,7 +8,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -38,17 +37,15 @@ public sealed class SweepConstructionTests
     {
         private readonly int _previousSeed = Runtime.RandSeed;
         private readonly GamePack _previousSet = GamePack.Current;
-        private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
-        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!);
+        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
-            GameTables.GameEngine = EngineFixture.Engine;
             StrategicMap.Current = null!;
             GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
@@ -59,7 +56,6 @@ public sealed class SweepConstructionTests
             Runtime.RandSeed = _previousSeed;
 
             GamePack.Current = _previousSet;
-            GameTables.GameEngine = _previousEngine;
             StrategicMap.Current = _previousMap;
             _combatResources.Dispose();
             _manager.Dispose();
@@ -91,7 +87,7 @@ public sealed class SweepConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
+                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor cache and the link to the engine are not constructor state
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
@@ -358,8 +354,8 @@ public sealed class SweepConstructionTests
 
     private static EngineObject Direct(Type type, ECustomNode owner)
     {
-        var constructor = type.GetConstructor([typeof(ECustomNode)]);
-        if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke([owner]))!;
+        var constructor = EngineClassCreation.OwnerConstructor(type);
+        if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
         var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]);
         if (factory is not null) return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
         return (EngineObject)Invoke(() => Activator.CreateInstance(type, [owner]))!;
@@ -381,9 +377,9 @@ public sealed class SweepConstructionTests
                 var states = new List<string>();
                 try
                 {
-                    value = route == 1 ? EngineClass.Of(type).CreateInstance(given)
+                    value = route == 1 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)
                         : route == 0 ? Direct(type, given)
-                        : route == 2 ? EngineClass.Of(type).CreateInstance(given)
+                        : route == 2 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)
                         : Saved(type, given);
                     Assert.IsType(type, value);
                     Assert.Same(given, value.Owner);

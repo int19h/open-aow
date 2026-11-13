@@ -14,7 +14,7 @@ public partial class AltarOfLife : Altar
     public new const int ClassId = 131635;
 
     // AltLife.pas:39
-    public override Storm CreateStorm() => new DivineStorm(null);
+    public override Storm CreateStorm() => new DivineStorm(null) { Holder = CreationHolder() };
 
     public new partial class Resource : AltarResource
     {
@@ -33,7 +33,7 @@ public partial class AltarOfLife : Altar
         // AltLife.pas:26
 
         // AltLife.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfLifeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfLifeText);
 
         private static readonly string s_altarOfLifeText = "Altar of Life";
 

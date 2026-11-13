@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class PestilenceStormSpell : StormSpell
 {
     // Storms.pas:999
-    public PestilenceStormSpell(ECustomNode owner) : base(owner)
+    public PestilenceStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_pestilenceText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_pestilenceText);
         SpellId = 9;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -20,7 +21,7 @@ public partial class PestilenceStormSpell : StormSpell
     }
 
     // Storms.pas:1009
-    public override Storm CreateStorm() => new PestilenceStorm(null);
+    public override Storm CreateStorm() => new PestilenceStorm(null) { Holder = CreationHolder() };
 
     private static readonly string s_pestilenceText = "Pestilence";
 }

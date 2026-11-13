@@ -45,7 +45,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 GamePack.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
             }
 
-            animation = (ImageSequenceAnimation)new Animation(null);
+            animation = (ImageSequenceAnimation)new Animation(null) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.SetShowHandler(ShowAnimation);
@@ -107,7 +107,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                                 }
 
                                 playSound = condition;
-                                animation = new ImageSequenceAnimation(null);
+                                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
                                 animation.AnimationLevel = 27;
                                 var armyHexY = army.HexY;
@@ -163,7 +163,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            switch (GameTables.GameEngine.Registry.GetDetailLevel())
+            switch (GetEngine().Registry.GetDetailLevel())
             {
                 case DetailLevel.Low:
                     count = 50;

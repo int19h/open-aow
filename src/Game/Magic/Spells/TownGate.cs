@@ -19,9 +19,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class TownGate : CityTargetSpell
 {
     // CitySpells.pas:421
-    public TownGate(ECustomNode owner) : base(owner)
+    public TownGate(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_townGateText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_townGateText);
         SpellId = 38;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own, CityTargetModeElement.SkipSource);
         BaseManaCost = 5;
@@ -53,7 +54,7 @@ public partial class TownGate : CityTargetSpell
 
         if (army.Army.ValidateSelection(selection) != army.Army.ValidateSelection(255))
         {
-            newArmy = new ArmyHexSprite(null);
+            newArmy = new ArmyHexSprite(null) { Holder = CreationHolder() };
             newArmy.Army.SetPlayer(army.Army.Player);
             newArmy.Army.AddUnitSelection(army.Army, selection);
             StrategicMap.Current.PlaceHex(newArmy, ((TownGateTokenEvent)eventValue).TeleportLocation.X, ((TownGateTokenEvent)eventValue).TeleportLocation.Y, ((TownGateTokenEvent)eventValue).TeleportLocation.MapLevel);
@@ -76,7 +77,7 @@ public partial class TownGate : CityTargetSpell
         {
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
-                A = new ImageSequenceAnimation(null);
+                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
                 StrategicMap.Current.PlaceHex(A, X, Y, L);
             }
@@ -86,7 +87,7 @@ public partial class TownGate : CityTargetSpell
         {
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
-                A = new ImageSequenceAnimation(null);
+                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
                 StrategicMap.Current.PlaceHex(A, field.HexX, field.HexY, field.HexLevel);
             }
@@ -124,7 +125,7 @@ public partial class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:445
-    public override CityTargetSpellTokenEvent CreateTokenEvent() => new TownGateTokenEvent(null);
+    public override CityTargetSpellTokenEvent CreateTokenEvent() => new TownGateTokenEvent(null) { Holder = CreationHolder() };
 
     // CitySpells.pas:450
     public override bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)

@@ -25,7 +25,7 @@ public partial class Dungeon : ExplorationSite
     public Dungeon(ECustomNode owner) : base(owner)
     {
         _prisonersMode = DungeonPrisonersMode.Normal;
-        Prisoners = new PrisonersArmy(null);
+        Prisoners = new PrisonersArmy(null) { Holder = CreationHolder() };
     }
 
     // Dungeon.pas:108
@@ -114,7 +114,7 @@ public partial class Dungeon : ExplorationSite
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            log = new PrisonersJoinEventLog(null);
+            log = new PrisonersJoinEventLog(null) { Holder = CreationHolder() };
             log.X = GetHexX();
             log.Y = GetHexY();
             log.MapLevel = GetHexLevel();
@@ -131,12 +131,12 @@ public partial class Dungeon : ExplorationSite
 
             if (Prisoners.Count == 1)
             {
-                var liberatePrisonerMessage = AbilityRules.TranslateResourceString(s_liberatePrisonerMessageText);
+                var liberatePrisonerMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonerMessageText);
                 log.JoinMessage.Text = liberatePrisonerMessage;
             }
             else
             {
-                var liberatePrisonersMessage = AbilityRules.TranslateResourceString(s_liberatePrisonersMessageText);
+                var liberatePrisonersMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonersMessageText);
                 log.JoinMessage.Text = liberatePrisonersMessage;
             }
 
@@ -179,10 +179,10 @@ public partial class Dungeon : ExplorationSite
         ArmyInfoEventLog armyLog;
         Hero hero;
         ArmyHexSprite army;
-        locationLog = new LocationTextEventLog(null);
+        locationLog = new LocationTextEventLog(null) { Holder = CreationHolder() };
         locationLog._player = GetPlayer();
         var name = GetName();
-        locationLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_exploredFormat), [name]);
+        locationLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_exploredFormat), [name]);
         var hexLevel = GetHexLevel();
         var hexY = GetHexY();
         locationLog.SetLocation(GetHexX(), hexY, hexLevel);
@@ -190,7 +190,7 @@ public partial class Dungeon : ExplorationSite
         var hexLevel2 = GetHexLevel();
         EventLog.DistributeLocationEventLog(locationLog, player, GetHexX(), hexY2, hexLevel2, false);
         locationLog.Release();
-        armyLog = new ArmyInfoEventLog(null);
+        armyLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, 255);
         var hexX = GetHexX();
         armyLog.ArmyView.X = hexX;
@@ -200,33 +200,33 @@ public partial class Dungeon : ExplorationSite
         armyLog.ArmyView.MapLevel = hexLevel3;
         armyLog.Selection = 255;
         armyLog._player = GetPlayer();
-        armyLog.Title = AbilityRules.TranslateResourceString(PrisonerLiberationText);
+        armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), PrisonerLiberationText);
         armyLog.Description = "";
         hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
         if (hero == null)
         {
             if (Prisoners.Count == 1)
             {
-                armyLog.Text = AbilityRules.TranslateResourceString(s_onePrisonerLiberatedText);
+                armyLog.Text = AbilityRules.TranslateResourceString(GetEngine(), s_onePrisonerLiberatedText);
                 var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationOneUnitJoinedForcesFormat), [name2]);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationOneUnitJoinedForcesFormat), [name2]);
                 armyLog.Messages.Text = format;
             }
             else
             {
                 var count = Prisoners.Count;
-                armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_prisonersLiberatedFormat), [IntToStr(count)]);
+                armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_prisonersLiberatedFormat), [IntToStr(count)]);
                 var fPrisonersCount = Prisoners.Count;
                 var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
                 armyLog.Messages.Text = format;
             }
         }
         else
         {
-            armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_liberatedFormat), [hero.HeroName]);
+            armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_liberatedFormat), [hero.HeroName]);
             var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
-            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
             armyLog.Messages.Text = format;
         }
 
@@ -234,7 +234,7 @@ public partial class Dungeon : ExplorationSite
         var hexLevel4 = GetHexLevel();
         EventLog.DistributeLocationEventLog(armyLog, -1, GetHexX(), hexY4, hexLevel4, false);
         armyLog.Release();
-        army = new ArmyHexSprite(null);
+        army = new ArmyHexSprite(null) { Holder = CreationHolder() };
         army.Army.BeginUpdate();
         army.Army.SetPlayer(player);
         army.Army.AddUnits(Prisoners);
@@ -293,7 +293,7 @@ public partial class Dungeon : ExplorationSite
         // Dungeon.pas:53
 
         // Dungeon.pas:277
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_dungeonText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_dungeonText);
 
         private static readonly string s_dungeonText = "Dungeon";
 

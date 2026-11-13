@@ -10,7 +10,7 @@ public partial class PlayerStatistics : EngineObject
     // Player.PAS:182
     public PlayerStatistics(ECustomNode owner) : base(owner)
     {
-        TurnInfo = new TurnInfo(null);
+        TurnInfo = new TurnInfo(null) { Holder = CreationHolder() };
     }
 
     public TurnInfo TurnInfo { get; }

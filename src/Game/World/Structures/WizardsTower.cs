@@ -66,7 +66,7 @@ public partial class WizardsTower : Structure
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
                 var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_theyTaughtYouSpellFormat), [spell.SpellName]);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }
@@ -199,7 +199,7 @@ public partial class WizardsTower : Structure
         EnterWizardsTowerEventLog log;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            log = new EnterWizardsTowerEventLog(null);
+            log = new EnterWizardsTowerEventLog(null) { Holder = CreationHolder() };
             log.Tower = this;
             log.Execute(true, ExecuteTrigger.User, null);
             log.Release();
@@ -246,13 +246,13 @@ public partial class WizardsTower : Structure
                 else
                 {
                     result = false;
-                    reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+                    reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
                 }
             }
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(s_spellIsAlreadyResearchedText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), s_spellIsAlreadyResearchedText);
             }
         }
         else
@@ -303,7 +303,7 @@ public partial class WizardsTower : Structure
         public override int ResourceUserClassId() => 133278;
 
         // WizardsTower.pas:260
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_wizardsTowerText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_wizardsTowerText);
 
         private static readonly string s_wizardsTowerText = "Wizards Tower";
 

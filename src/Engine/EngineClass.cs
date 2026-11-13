@@ -7,14 +7,19 @@ namespace Aow.Engine;
 // The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
 // ClassRegistry from a module initializer. It carries the saved class id and the creation
 // delegate. The base class and the inheritance tests come from Type. Descriptors are not TObjects
-// and registration allocates no instance
+// and registration allocates no instance. A node created without an owner gets the creator as its
+// holder: a class whose constructor reads the engine takes the holder as a constructor argument,
+// any other class gets it right after construction
 public sealed class EngineClass
 {
     private static readonly Catalog<Type, EngineClass> s_catalog = new("engine class");
     private static readonly List<EngineClass> s_aliases = [];
-    private readonly Func<ECustomNode, EngineObject> _create;
+    // A Func<ECustomNode, EngineObject>, or a Func<ECustomNode, EngineObject, EngineObject> for a class
+    // that takes its holder in the constructor. The registered delegate itself, so a recording
+    // names the registry's own creation code.
+    private readonly Delegate _create;
 
-    private EngineClass(Type type, int classId, Func<ECustomNode, EngineObject> create)
+    private EngineClass(Type type, int classId, Delegate create)
     {
         Type = type;
         ClassId = classId;
@@ -25,7 +30,12 @@ public sealed class EngineClass
     public int ClassId { get; }
     public string StorageKey => NameTable.Stored(Type);
 
-    public EngineObject CreateInstance(ECustomNode owner) => _create(owner);
+    public EngineObject CreateInstance(ECustomNode owner, EngineObject holder) => _create switch
+    {
+        Func<ECustomNode, EngineObject, EngineObject> held => held(owner, holder),
+        Func<ECustomNode, EngineObject> plain => Held(plain(owner), holder),
+        _ => throw new InvalidOperationException("Unknown creation delegate of " + Type.Name),
+    };
 
     public override string ToString() => StorageKey;
 
@@ -41,12 +51,23 @@ public sealed class EngineClass
 
     // The base class registers first, so a walk up Type.BaseType finds a descriptor at every step.
     public static EngineClass Register<T>(int classId, Func<ECustomNode, T> create)
-        where T : EngineObject
+        where T : EngineObject => Add(typeof(T), classId, create);
+
+    // The form for a class whose constructor reads the engine and takes the holder itself.
+    public static EngineClass Register<T>(int classId, Func<ECustomNode, EngineObject, T> create)
+        where T : EngineObject => Add(typeof(T), classId, create);
+
+    private static EngineClass Add(Type type, int classId, Delegate create)
     {
-        var type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
         if (type != typeof(EngineObject)) Of(type.BaseType);
         return s_catalog.Add(type, new EngineClass(type, classId, create));
+    }
+
+    private static EngineObject Held(EngineObject node, EngineObject holder)
+    {
+        if (holder is not null) node.Holder ??= holder;
+        return node;
     }
 
     // A second class id for a type that the catalog already names. The folded engine keeps

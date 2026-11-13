@@ -18,7 +18,7 @@ public partial class TransportAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:947
-    public override string GetLevelName(int level) => AbilityRules.Format(AbilityRules.TranslateResourceString(s_transportUnitsFormat), [IntToStr(level)]);
+    public override string GetLevelName(int level) => AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_transportUnitsFormat), [IntToStr(level)]);
 
     private static readonly string s_transportUnitsFormat = "Transport (%s units)";
 }

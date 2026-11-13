@@ -64,7 +64,7 @@ public partial class Farm : PlayerCropStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducingIncomeFormat), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -176,7 +176,7 @@ public partial class Farm : PlayerCropStructure
         // Farm.pas:36
 
         // Farm.pas:146
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_farmText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_farmText);
 
         private static readonly string s_farmText = "Farm";
 

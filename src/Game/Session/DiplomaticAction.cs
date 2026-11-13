@@ -231,13 +231,13 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
             else
             {
                 result = false;
-                errorText = AbilityRules.TranslateResourceString(s_notEnoughManaText);
+                errorText = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughManaText);
             }
         }
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GameText.TributeNotEnoughGoldText);
+            errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TributeNotEnoughGoldText);
         }
 
         return result;
@@ -251,7 +251,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         if (CanSend(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Source).GetBusy())
         {
             Day = StrategicMap.Current.Day;
-            tokenEvent = new DiplomaticActionTokenEvent(null);
+            tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 0;
             StrategicMap.Current.TokenManager.TokenControls[Source].AddEvent(tokenEvent);
@@ -276,7 +276,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         DiplomaticActionTokenEvent tokenEvent;
         if (CanAccept(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
-            tokenEvent = new DiplomaticActionTokenEvent(null);
+            tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 1;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
@@ -301,7 +301,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         DiplomaticActionTokenEvent tokenEvent;
         if (CanReject(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
-            tokenEvent = new DiplomaticActionTokenEvent(null);
+            tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 2;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
@@ -326,7 +326,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public DiplomaticActionEventLog CreateEventLog()
     {
         DiplomaticActionEventLog log;
-        log = new DiplomaticActionEventLog(null);
+        log = new DiplomaticActionEventLog(null) { Holder = CreationHolder() };
         log._day = StrategicMap.Current.Day;
         log.SetDiplomaticAction(this);
         return log;
@@ -339,7 +339,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         var players = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of().WithRange(PlayerType.Cpu1, PlayerType.Cpu3).WithRange(PlayerType.Cpu4, PlayerType.Cpu5).Contains(players.PlayerType))
         {
-            action = (DiplomaticAction)Copy(GameTables.GameEngine);
+            action = (DiplomaticAction)Copy(GetEngine());
             action.Proposal = action.Proposal with { Message = [] };
             StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
             action.Release();
@@ -348,20 +348,20 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
 
     private static readonly string s_notEnoughManaText = "Not enough mana.";
 
-    private static void RetrieveDefaultDiplomaticActionMessage(sbyte source, sbyte target, sbyte other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, StringCollection text)
+    private static void RetrieveDefaultDiplomaticActionMessage(sbyte source, sbyte target, sbyte other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, StringCollection text, GameEngine engine)
     {
         text.Clear();
         TextControl fTextControl = GamePack.Current.TextControl;
         DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(source, target);
         Player players = StrategicMap.Current.Players.GetPlayers(source);
-        string sourceRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+        string sourceRace = AbilityRules.TranslateResourceString(engine, GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         Player players2 = StrategicMap.Current.Players.GetPlayers(target);
-        string targetRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players2.PlayerRace]);
+        string targetRace = AbilityRules.TranslateResourceString(engine, GameTables.RaceNamesPluralTexts[players2.PlayerRace]);
         string otherRace;
         if (other > 0)
         {
             Player players3 = StrategicMap.Current.Players.GetPlayers(other);
-            otherRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players3.PlayerRace]);
+            otherRace = AbilityRules.TranslateResourceString(engine, GameTables.RaceNamesPluralTexts[players3.PlayerRace]);
         }
         else
         {

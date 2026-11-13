@@ -41,7 +41,7 @@ public sealed class ControlStyleConstructionTests
             1 => new ResourceEditSettings(argument),
             _ => (ControlStyleObject)new PadControl(argument)
         };
-        EngineObject[] objects = [direct, meta.CreateInstance(argument), engine.CreateEngineObject(meta.ClassId, argument)];
+        EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
         EngineObject? copy = null;
         try
         {
@@ -101,7 +101,7 @@ public sealed class ControlStyleConstructionTests
     {
         using var fixture = new FlagFixture(loaded: true);
         Assert.Throws<NullReferenceException>(() => FlagControl.Create(null!));
-        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null!));
+        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null!, holder: EngineFixture.Engine));
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -110,7 +110,7 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class FlagOwner : GamePack
     {
-        public FlagOwner() : base(null!, null!) { }
+        public FlagOwner() : base(null!, null!, EngineFixture.Engine) { }
 
         internal List<EngineObject> Members { get; } = [];
 
@@ -249,7 +249,7 @@ public sealed class ControlStyleConstructionTests
     }
 
     private static FlagControl CreateFlag(ECustomNode owner, bool throughMeta) => throughMeta
-        ? (FlagControl)EngineClass.Of<FlagControl>().CreateInstance(owner)
+        ? (FlagControl)EngineClass.Of<FlagControl>().CreateInstance(owner, holder: EngineFixture.Engine)
         : FlagControl.Create(owner);
 
     [Theory]
@@ -357,7 +357,7 @@ public sealed class ControlStyleConstructionTests
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
         var existing = new EngineObject(owner);
-        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!);
+        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
         using var stream = new TruncatedStream();
         try
         {
@@ -411,7 +411,7 @@ public sealed class ControlStyleConstructionTests
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
         var existing = new EngineObject(owner);
-        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!);
+        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
         using var stream = new EmptyMessageStream();
         try
         {

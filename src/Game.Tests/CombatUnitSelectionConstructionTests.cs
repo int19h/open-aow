@@ -18,7 +18,7 @@ public sealed class CombatUnitSelectionConstructionTests
         try
         {
             var factory = typeof(CombatUnitSelectionControl).GetMethod("Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            return factory is not null ? (CombatUnitSelectionControl)factory.Invoke(null, null)! : new CombatUnitSelectionControl();
+            return factory is not null ? (CombatUnitSelectionControl)factory.Invoke(null, null)! : new CombatUnitSelectionControl(EngineFixture.Engine);
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {

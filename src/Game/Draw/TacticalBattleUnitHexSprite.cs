@@ -533,7 +533,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public override int GetMoveSteps()
     {
         int result;
-        switch (GameTables.GameEngine.Registry.GetMovementSpeed())
+        switch (GetEngine().Registry.GetMovementSpeed())
         {
             case GameSettings.MovementSpeed.Fast:
                 result = base.GetMoveSteps();
@@ -767,7 +767,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 var ability2 = Abilities[I];
                 var abilityType = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
-                types.Add(AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)abilityType]));
+                types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
@@ -868,14 +868,14 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
-        TacticalBattleMeleeMoveTokenEvent tacticalBattleMeleeMoveTokenEvent = new TacticalBattleMeleeMoveTokenEvent(null);
+        TacticalBattleMeleeMoveTokenEvent tacticalBattleMeleeMoveTokenEvent = new TacticalBattleMeleeMoveTokenEvent(null) { Holder = unitObject };
         tacticalBattleMeleeMoveTokenEvent?.Setup(unitObject, path);
         return tacticalBattleMeleeMoveTokenEvent;
     }
 
     private static CombatAbilityTouchMoveTokenEvent CreateTacticalBattleAbilityTouchMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path, int abilityId)
     {
-        CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new CombatAbilityTouchMoveTokenEvent(null);
+        CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new CombatAbilityTouchMoveTokenEvent(null) { Holder = unitObject };
         if (tacticalBattleAbilityTouchMoveTokenEvent != null)
         {
             tacticalBattleAbilityTouchMoveTokenEvent.Setup(unitObject, path);
@@ -886,7 +886,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     private static CombatAbilityRangedTokenEvent CreateTacticalBattleAbilityRangedTokenEvent(TacticalBattleUnit unitObject, ushort X, ushort Y, int abilityId, int spellId)
     {
-        CombatAbilityRangedTokenEvent tacticalBattleAbilityRangedTokenEvent = new CombatAbilityRangedTokenEvent(null);
+        CombatAbilityRangedTokenEvent tacticalBattleAbilityRangedTokenEvent = new CombatAbilityRangedTokenEvent(null) { Holder = unitObject };
         if (tacticalBattleAbilityRangedTokenEvent != null)
         {
             tacticalBattleAbilityRangedTokenEvent.SourceX = (ushort)unitObject.UnitHexSprite.HexX;

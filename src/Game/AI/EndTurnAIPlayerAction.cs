@@ -21,7 +21,7 @@ public partial class EndTurnAIPlayerAction : AIPlayerAction, IAIPlayerActionClas
         EndTurnTokenEvent eventValue;
         if (!Control.Player.SingleProcessCycle)
         {
-            eventValue = new EndTurnTokenEvent(null);
+            eventValue = new EndTurnTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Player = Control.Player.PlayerIndex;
             eventValue.Day = StrategicMap.Current.Day;
             eventValue.Mode = EndTurnTokenEventMode.EndTurn;

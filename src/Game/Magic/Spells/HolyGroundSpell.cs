@@ -17,9 +17,10 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class HolyGroundSpell : GlobalTargetSpell
 {
-    public HolyGroundSpell(ECustomNode owner) : base(owner)
+    public HolyGroundSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_holyGroundsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundsText);
         SpellId = 13;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -44,7 +45,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         HolyGroundSpellTokenEvent eventValue;
-        eventValue = new HolyGroundSpellTokenEvent(null);
+        eventValue = new HolyGroundSpellTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

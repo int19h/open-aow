@@ -15,9 +15,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Rejuvenate : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1074
-    public Rejuvenate(ECustomNode owner) : base(owner)
+    public Rejuvenate(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(s_rejuvenateText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_rejuvenateText);
         SpellId = 41;
         BaseManaCost = 5;
         SpellLevel = 1;
@@ -42,7 +43,7 @@ public partial class Rejuvenate : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         RejuvenateTokenEvent eventValue;
-        eventValue = new RejuvenateTokenEvent(null);
+        eventValue = new RejuvenateTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

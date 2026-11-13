@@ -17,8 +17,8 @@ public partial class LeaderSetupControl : EngineObject
     public LeaderSetupControl(ECustomNode owner) : base(owner)
     {
         Items = new Int32List();
-        OriginalLeader = new Leader(null);
-        Leader = new Leader(null);
+        OriginalLeader = new Leader(null) { Holder = CreationHolder() };
+        Leader = new Leader(null) { Holder = CreationHolder() };
         _refCount = 1;
         Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Look, LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres);
         OnDone = null;

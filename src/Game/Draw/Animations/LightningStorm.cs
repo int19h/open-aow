@@ -117,6 +117,6 @@ public partial class LightningStorm : Storm
     // Animation.pas:43
 
     // Storms.pas:424
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.LightningStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.LightningStormText);
 
 }

@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class IceStormSpell : StormSpell
 {
     // Storms.pas:984
-    public IceStormSpell(ECustomNode owner) : base(owner)
+    public IceStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.IceStormText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IceStormText);
         SpellId = 4;
         BaseManaCost = 5;
         SpellLevel = 4;
@@ -20,5 +21,5 @@ public partial class IceStormSpell : StormSpell
     }
 
     // Storms.pas:994
-    public override Storm CreateStorm() => new IceStorm(null);
+    public override Storm CreateStorm() => new IceStorm(null) { Holder = CreationHolder() };
 }

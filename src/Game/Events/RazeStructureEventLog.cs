@@ -10,7 +10,7 @@ namespace Aow.Game.Events;
 // structure
 public partial class RazeStructureEventLog : MessageEventLog
 {
-    public RazeStructureEventLog(ECustomNode owner) : base(owner)
+    public RazeStructureEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
     public Structure Structure { get; set; }

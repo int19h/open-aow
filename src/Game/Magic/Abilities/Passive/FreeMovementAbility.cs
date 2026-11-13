@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class FreeMovementAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1187
-    public FreeMovementAbility(ECustomNode owner) : base(owner)
+    public FreeMovementAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.FreeMovementText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FreeMovementText);
         AbilityId = 157;
     }
 }

@@ -576,7 +576,7 @@ public partial class CityScreen : UIModule
                 UnitLevelLabel.Text = format5 + " / " + format6;
                 if (UI.Engine.Debug)
                 {
-                    var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), _city.Player, 0);
+                    var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), _city.Player, 0, engine: UI.Engine);
                     StrategicMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                 }
 
@@ -813,12 +813,12 @@ public partial class CityScreen : UIModule
             LoadUnitImages(_city.Production.UnitProductions.GetItem(I).UnitIndex);
         }
 
-        generator = new RandomBattleMapGenerator();
+        generator = new RandomBattleMapGenerator(UI.Engine);
         var hexLevel = _city.GetHexLevel();
         var hexY = _city.GetHexY();
         _preview = generator.RandomMap(null, _city.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
-        armies = new ArmyHSList(null);
+        armies = new ArmyHSList(null) { Holder = UI.Engine };
         _city.ListArmies(armies);
         for (int I = 0, last = armies.GetCount() - 1; I <= last; I++)
         {

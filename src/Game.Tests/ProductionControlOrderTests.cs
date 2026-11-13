@@ -15,13 +15,13 @@ public sealed class ProductionControlOrderTests
     {
         var previous = StrategicMap.Current;
         StrategicMap.Current = null!;
-        var player = new Player(null!);
-        var action = new AutoProduceAIPlayerAction(null!);
+        var player = new Player(null!) { Holder = EngineFixture.Engine };
+        var action = new AutoProduceAIPlayerAction(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var city = new CityProductionControl(null!);
-            var place = new ProductionPlaceControl(null!);
-            var later = new CityProductionControl(null!);
+            var city = new CityProductionControl(null!) { Holder = EngineFixture.Engine };
+            var place = new ProductionPlaceControl(null!) { Holder = EngineFixture.Engine };
+            var later = new CityProductionControl(null!) { Holder = EngineFixture.Engine };
             Assert.Equal(0, player.ProductionControls.Add(city));
             Assert.Equal(1, player.ProductionControls.Add(place));
             Assert.Equal(2, player.ProductionControls.Add(later));

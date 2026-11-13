@@ -63,8 +63,8 @@ public partial class PluginControl : EngineObject
         base.Dispose();
     }
 
-    // Engine.pas:9269
-    public override GameEngine GetEngine() => _engine;
+    // Engine.pas:9269. Before the engine is set the control reaches it as any node does.
+    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // Engine.pas:9274
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);

@@ -27,7 +27,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
         StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            twinkle = new TwinkleAnimation(null);
+            twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
             twinkle.Setup(GamePack.Current.SpellControl.GetSpell(10).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
             StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
@@ -85,7 +85,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
             ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
             if (ice == null)
             {
-                ice = new FrozenWaterHexSprite(null);
+                ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
                 StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 

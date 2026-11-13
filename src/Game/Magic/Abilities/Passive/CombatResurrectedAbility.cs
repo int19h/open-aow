@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class CombatResurrectedAbility : AdjustableAbility
 {
     // PassiveAb.pas:912
-    public CombatResurrectedAbility(ECustomNode owner) : base(owner)
+    public CombatResurrectedAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.ResurrectedText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.ResurrectedText);
         AbilityId = 130;
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();

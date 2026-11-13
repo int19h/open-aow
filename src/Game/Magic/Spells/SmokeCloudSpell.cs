@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SmokeCloudSpell : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2325
-    public SmokeCloudSpell(ECustomNode owner) : base(owner)
+    public SmokeCloudSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(GameText.SmokeCloudText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
         SpellId = 74;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -72,7 +73,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         GlobalTargetSpellTokenEvent eventValue;
-        eventValue = new GlobalTargetSpellTokenEvent(null);
+        eventValue = new GlobalTargetSpellTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

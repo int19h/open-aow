@@ -18,9 +18,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class FountainOfLife : CityEnchantmentSpell
 {
     // CitySpells.pas:649
-    public FountainOfLife(ECustomNode owner) : base(owner)
+    public FountainOfLife(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.FountainOfLifeText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FountainOfLifeText);
         SpellId = 52;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;
@@ -44,7 +45,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
         if (executeCount == 0)
         {
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
-            A = new Animation(null);
+            A = new Animation(null) { Holder = CreationHolder() };
             A.AnimationLevel = 27;
             A.OnShow += ShowFountain;
             A.AnimationMap = StrategicMap.Current;

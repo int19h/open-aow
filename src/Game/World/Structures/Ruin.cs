@@ -25,7 +25,7 @@ public partial class Ruin : ItemExplorationSite
         public override int ResourceUserClassId() => 131994;
 
         // Ruin.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_castleRuinText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_castleRuinText);
 
         private static readonly string s_castleRuinText = "Castle Ruin";
 

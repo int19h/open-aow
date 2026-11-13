@@ -43,7 +43,7 @@ public sealed class MapViewerCenteringTests
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
-            Map.MapContainer = new MapContainer(null!) { Width = MapWidth, Height = MapHeight, LevelCount = 1 };
+            Map.MapContainer = new MapContainer(null!) { Holder = EngineFixture.Engine, Width = MapWidth, Height = MapHeight, LevelCount = 1 };
             Viewer.HexSpriteMap = Map;
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;

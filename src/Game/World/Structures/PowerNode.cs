@@ -19,7 +19,7 @@ public partial class PowerNode : PlayerStructure
 {
     public PowerNode(ECustomNode owner) : base(owner)
     {
-        _powerSource = new PlayerStructurePowerSource(null);
+        _powerSource = new PlayerStructurePowerSource(null) { Holder = CreationHolder() };
         _powerSource.Setup(this);
     }
 
@@ -89,7 +89,7 @@ public partial class PowerNode : PlayerStructure
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(s_generatingPowerFormat), [IntToStr(power)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_generatingPowerFormat), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
@@ -180,7 +180,7 @@ public partial class PowerNode : PlayerStructure
         string result;
         if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
         {
-            result = AbilityRules.TranslateResourceString(s_powerNodeBattleWonText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeBattleWonText);
         }
         else
         {
@@ -221,7 +221,7 @@ public partial class PowerNode : PlayerStructure
         // PowerNode.pas:41
 
         // PowerNode.pas:163
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_powerNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeText);
 
         private static readonly string s_powerNodeText = "Power Node";
 

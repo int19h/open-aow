@@ -21,7 +21,7 @@ public partial class SmokeCloud : MultiHexMapObject
 {
     public SmokeCloud(ECustomNode owner) : base(owner)
     {
-        Enchantment = new SmokeCloudEnchantment(null);
+        Enchantment = new SmokeCloudEnchantment(null) { Holder = CreationHolder() };
         Enchantment.Cloud = this;
         _visibleForSeatedPlayer = false;
         Drifting = false;
@@ -355,7 +355,7 @@ public partial class SmokeCloud : MultiHexMapObject
         public override int ResourceUserClassId() => 135746;
 
         // SmokeCloud.pas:388
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.SmokeCloudText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
 
     }
 

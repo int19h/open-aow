@@ -11,9 +11,10 @@ namespace Aow.Game.Events;
 public partial class SaveGameEventLog : EventLog
 {
     // EventLog.pas:874
-    public SaveGameEventLog(ECustomNode owner) : base(owner)
+    public SaveGameEventLog(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        Title = AbilityRules.TranslateResourceString(GameText.SaveText);
+        Holder = holder;
+        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.SaveText);
         Mode = Set<SaveGameEventLogModeElement>.Of();
     }
 

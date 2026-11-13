@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SpellWard : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1949
-    public SpellWard(ECustomNode owner) : base(owner)
+    public SpellWard(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.SpellWardText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellWardText);
         SpellId = 65;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -39,5 +40,5 @@ public partial class SpellWard : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1973
-    public override GlobalEnchantment CreateEnchantment() => new SpellWardEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new SpellWardEnchantment(null, holder: CreationHolder());
 }

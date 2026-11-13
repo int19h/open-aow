@@ -45,7 +45,7 @@ public partial class UnitPositionControl : EngineObject
                 hexSprite = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
                 if (hexSprite == null)
                 {
-                    hexSprite = new UnitPositionHexSprite(null);
+                    hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };
                     if (!CombatMap.Current.PlaceHex(hexSprite, X, Y, L))
                     {
                         hexSprite?.Dispose();

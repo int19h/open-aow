@@ -3,8 +3,6 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -52,7 +50,7 @@ public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             resource = this[I];
-            if (resource != null && (GameTables.GameEngine.User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
+            if (resource != null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
                 list.AddObject(resource.Name, IntToObject(I));
             }

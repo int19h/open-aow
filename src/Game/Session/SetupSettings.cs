@@ -109,7 +109,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:327
     public SetupSettings(ECustomNode owner) : base(owner)
     {
-        RemotePlayers = new RemotePlayerList(null);
+        RemotePlayers = new RemotePlayerList(null) { Holder = CreationHolder() };
         Reset();
     }
 

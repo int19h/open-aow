@@ -133,7 +133,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         {
             if (player == StrategicMap.Current.SeatedPlayer)
             {
-                NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null);
+                NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null) { Holder = armyHexSprite };
                 negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
                 negotiateRequestEventLog.MovePoints = movePoints;
                 negotiateRequestEventLog.X = (sbyte)(byte)X;
@@ -154,7 +154,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         }
         else if (StrategicMap.Current.Players.GetPlayers(player).GetLocal())
         {
-            NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null);
+            NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null) { Holder = armyHexSprite };
             negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
             negotiateRequestEventLog.MovePoints = movePoints;
             negotiateRequestEventLog.X = (sbyte)(byte)X;

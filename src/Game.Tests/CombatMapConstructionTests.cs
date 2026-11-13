@@ -38,7 +38,7 @@ public sealed class CombatMapConstructionTests
     {
         var previous = CombatMap.Current;
         var actual = new JsonObject();
-        bool plain = typeof(CombatMap).GetConstructor([typeof(ECustomNode)]) is not null;
+        bool plain = EngineClassCreation.OwnerConstructor(typeof(CombatMap)) is not null;
         try
         {
             for (int failure = 0; failure < 3; failure++)

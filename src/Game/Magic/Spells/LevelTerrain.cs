@@ -18,9 +18,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class LevelTerrain : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:978
-    public LevelTerrain(ECustomNode owner) : base(owner)
+    public LevelTerrain(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(s_levelTerrainText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_levelTerrainText);
         SpellId = 18;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -44,7 +45,7 @@ public partial class LevelTerrain : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         LevelTerrainTokenEvent eventValue;
-        eventValue = new LevelTerrainTokenEvent(null);
+        eventValue = new LevelTerrainTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
