@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -27,6 +25,12 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     public AIMoveControl MoveControl { get; }
+
+    // A free hexagon beside the destination and the move points that reach it. AIGroup.pas:4738
+    // kept the pair in a TDoubleItemList, the location packed into column A. The list sorts with
+    // the same quicksort on the points, so the order of equal points is the original's.
+    private readonly record struct SurroundCandidate(MapCoordinate Location, int MovePoints);
+
     public AIMoveExecutor Executor { get; private set; }
     public int State { get; protected set; }
 
@@ -42,7 +46,7 @@ public partial class AIMoveExecutorControl : EngineObject
     {
         MoveControlSettings settings;
         AIMoveExecutorMove move;
-        DoubleItemList candidates;
+        RecordList<SurroundCandidate> candidates;
         byte armySelection = default;
         int position;
         int points;
@@ -59,7 +63,7 @@ public partial class AIMoveExecutorControl : EngineObject
             settings.SetupArmy(armyHexSprite, armySelection);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
             level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-            candidates = new DoubleItemList();
+            candidates = new RecordList<SurroundCandidate>();
             HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 1);
             while (walk.Radius <= 1)
             {
@@ -71,7 +75,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     {
                         if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, L) == selection)
                         {
-                            candidates.AddAbility(Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, L)), points);
+                            candidates.Add(new SurroundCandidate(Location: HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, L), MovePoints: points));
                         }
                     }
                 }
@@ -81,11 +85,11 @@ public partial class AIMoveExecutorControl : EngineObject
 
             if (candidates.Count != 0)
             {
-                candidates.SortAscendingItemB();
-                int location = candidates[0].First;
-                X = Unsafe.As<int, MapCoordinate>(ref location).X;
-                Y = Unsafe.As<int, MapCoordinate>(ref location).Y;
-                L = Unsafe.As<int, MapCoordinate>(ref location).MapLevel;
+                candidates.Sort(static (in first, in second) => first.MovePoints - second.MovePoints);
+                var location = candidates[0].Location;
+                X = location.X;
+                Y = location.Y;
+                L = location.MapLevel;
                 StrategicMap.Current.MoveControl.CalculatePath(settings, settings.Path, X, Y, L);
             }
 

@@ -170,7 +170,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIGroup.Transporter": null,
@@ -281,7 +280,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIGroupControl.MoveExecutor": null,
@@ -684,7 +682,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIGroupControlTarget.MovePoints": 0,
@@ -843,7 +840,6 @@
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Y": 0
           }
         },
@@ -1020,7 +1016,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIGroupProductionLocation.MovePoints": 0,
@@ -1820,7 +1815,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -1867,7 +1861,6 @@
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Y": 0
           },
           "AIMoveTargetSelector._state": 0,
@@ -3227,7 +3220,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": []
@@ -3578,7 +3570,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 255,
           "MapCoordinate.X": -1,
-          "MapCoordinate.XY": 255,
           "MapCoordinate.Y": 0
         },
         "AIMoveControlSettings.BoardingPoint": {
@@ -3587,7 +3578,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 255,
           "MapCoordinate.X": -1,
-          "MapCoordinate.XY": 255,
           "MapCoordinate.Y": 0
         },
         "AIMoveControlSettings.DestinationL": -1,
@@ -3910,7 +3900,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 65280,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 65280,
           "MapCoordinate.Y": -1
         },
         "AIMoveControlSettings.TransportPath": {
@@ -3923,7 +3912,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -3934,7 +3922,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 255,
           "MapCoordinate.X": -1,
-          "MapCoordinate.XY": 255,
           "MapCoordinate.Y": 0
         },
         "AIMoveControlSettings.Transporter": null,
@@ -3961,7 +3948,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutor.Mode": {
@@ -4014,7 +4000,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorArmy.BoardingPoint": {
@@ -4023,7 +4008,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorArmy._destination": {
@@ -4032,7 +4016,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorArmy.Location": {
@@ -4041,7 +4024,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorArmy.Player": 0,
@@ -4051,7 +4033,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorArmy.TransportSource": {
@@ -4060,7 +4041,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorArmy.TransportStatus": 0,
@@ -4730,7 +4710,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -5092,7 +5071,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -5134,7 +5112,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.BoardingPoint": {
@@ -5143,7 +5120,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.Destination": {
@@ -5152,7 +5128,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.Location": {
@@ -5161,7 +5136,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.MoveResult": 0,
@@ -5171,7 +5145,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.Status": 0,
@@ -5181,7 +5154,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.TransportSource": {
@@ -5190,7 +5162,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveExecutorUnit.TransportStatus": 0,
@@ -5876,7 +5847,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": []
@@ -5923,7 +5893,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIMoveTargetSelector._state": 0,
@@ -6320,7 +6289,6 @@
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Y": 0
           },
           "AIMoveExecutor.Mode": {
@@ -7056,7 +7024,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -7103,7 +7070,6 @@
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Y": 0
           },
           "AIMoveTargetSelector._state": 0,
@@ -7444,7 +7410,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIRecruitmentGroup.MovePoints": 0,
@@ -8144,7 +8109,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -8191,7 +8155,6 @@
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Y": 0
           },
           "AIMoveTargetSelector._state": 0,
@@ -8820,7 +8783,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AdjacentArmy.MovePoints": 0,
@@ -8835,7 +8797,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -9501,7 +9462,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -9854,7 +9814,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "EngineObject._owner": "$owner"
@@ -13783,7 +13742,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -16280,7 +16238,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         }
       }
@@ -16743,7 +16700,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "AIGroup.Transporter": null,
@@ -16861,7 +16817,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIGroupControl.MoveExecutor": null,
@@ -18101,7 +18056,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
@@ -18139,7 +18093,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -18154,7 +18107,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
@@ -18810,7 +18762,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
@@ -18848,7 +18799,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
@@ -18863,7 +18813,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
@@ -19381,7 +19330,6 @@
                         "MapCoordinate.MapLevel": 0,
                         "MapCoordinate.Packed": 0,
                         "MapCoordinate.X": 0,
-                        "MapCoordinate.XY": 0,
                         "MapCoordinate.Y": 0
                       },
                       "AIMoveExecutor.Mode": {
@@ -19977,7 +19925,6 @@
                         "MapCoordinate.MapLevel": 0,
                         "MapCoordinate.Packed": 0,
                         "MapCoordinate.X": 0,
-                        "MapCoordinate.XY": 0,
                         "MapCoordinate.Y": 0
                       },
                       "AIMoveExecutor.Mode": {
@@ -20573,7 +20520,6 @@
                         "MapCoordinate.MapLevel": 0,
                         "MapCoordinate.Packed": 0,
                         "MapCoordinate.X": 0,
-                        "MapCoordinate.XY": 0,
                         "MapCoordinate.Y": 0
                       },
                       "AIMoveExecutor.Mode": {
@@ -21518,7 +21464,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
@@ -22901,7 +22846,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -23294,7 +23238,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": []
@@ -23377,7 +23320,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -23421,7 +23363,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
         "MoveTarget.MovePoints": 0,
@@ -23763,7 +23704,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIMoveExecutor.Mode": {
@@ -24430,7 +24370,6 @@
                     "MapCoordinate.MapLevel": 0,
                     "MapCoordinate.Packed": 0,
                     "MapCoordinate.X": 0,
-                    "MapCoordinate.XY": 0,
                     "MapCoordinate.Y": 0
                   },
                   "AIMoveExecutor.Mode": {
@@ -25026,7 +24965,6 @@
                     "MapCoordinate.MapLevel": 0,
                     "MapCoordinate.Packed": 0,
                     "MapCoordinate.X": 0,
-                    "MapCoordinate.XY": 0,
                     "MapCoordinate.Y": 0
                   },
                   "AIMoveExecutor.Mode": {
@@ -25622,7 +25560,6 @@
                     "MapCoordinate.MapLevel": 0,
                     "MapCoordinate.Packed": 0,
                     "MapCoordinate.X": 0,
-                    "MapCoordinate.XY": 0,
                     "MapCoordinate.Y": 0
                   },
                   "AIMoveExecutor.Mode": {
@@ -27817,7 +27754,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": []
@@ -28826,7 +28762,6 @@
           "MapCoordinate.MapLevel": -1,
           "MapCoordinate.Packed": 16777215,
           "MapCoordinate.X": -1,
-          "MapCoordinate.XY": 65535,
           "MapCoordinate.Y": -1
         },
         "PathFindingStep.MovePointLines": {
@@ -28846,7 +28781,6 @@
           "MapCoordinate.MapLevel": -1,
           "MapCoordinate.Packed": 16777215,
           "MapCoordinate.X": -1,
-          "MapCoordinate.XY": 65535,
           "MapCoordinate.Y": -1
         }
       }
@@ -29856,7 +29790,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -30201,7 +30134,6 @@
           "MapCoordinate.MapLevel": 0,
           "MapCoordinate.Packed": 0,
           "MapCoordinate.X": 0,
-          "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         }
       }

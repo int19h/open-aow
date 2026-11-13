@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
 using Aow.Game.World.Map;
@@ -25,13 +23,13 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     public MoveTarget GetTarget(int index) => this[index];
 
     // AIGroup.pas:4245
-    public int IndexOfMapCoordinate(int location)
+    public int IndexOfMapCoordinate(MapCoordinate location)
     {
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref this[result].Location) == location)
+            if (this[result].Location == location)
             {
                 return result;
             }
@@ -41,11 +39,11 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     }
 
     // AIGroup.pas:4256
-    public void AddTarget(int location, int movePoints, int transporterId, in AITargetData data)
+    public void AddTarget(MapCoordinate location, int movePoints, int transporterId, in AITargetData data)
     {
         MoveTarget target;
         target = new MoveTarget(null) { Holder = CreationHolder() };
-        Unsafe.As<MapCoordinate, int>(ref target.Location) = location;
+        target.Location = location;
         target.MovePoints = movePoints;
         target.TransporterId = transporterId;
         target.Data = data;

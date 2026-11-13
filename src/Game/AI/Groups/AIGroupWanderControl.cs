@@ -1,5 +1,4 @@
 // Translated from AGCPlugins.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -75,7 +74,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 {
                     var group = control.Group;
                     // { Original reloads the current control. }
-                    if (group.TargetMode == 1 && this._control.Group.TargetMapCoordinate.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, group.TargetMapCoordinate.MapLevel) != 16777215 && Unsafe.As<MapCoordinate, int>(ref this._control.Group.TargetMapCoordinate) != Unsafe.As<MapCoordinate, int>(ref control.Location))
+                    if (group.TargetMode == 1 && this._control.Group.TargetMapCoordinate.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, group.TargetMapCoordinate.MapLevel) != 16777215 && this._control.Group.TargetMapCoordinate != control.Location)
                     {
                         State = 2;
                     }
@@ -140,7 +139,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     {
                         // { Original reads the list item before GetXYL. }
                         targetWeight = fields[I].Second;
-                        location.Packed = field.GetMapCoordinate();
+                        location = field.GetMapCoordinate();
                         _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
                         State += 1;
                     }

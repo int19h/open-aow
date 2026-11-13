@@ -226,7 +226,7 @@ public static class AbilityRules
             if (points <= movePoints)
             {
                 var item = path[I];
-                field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Packed);
+                field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item);
                 if (CanConstructRoad(player, field))
                 {
                     result += 10;

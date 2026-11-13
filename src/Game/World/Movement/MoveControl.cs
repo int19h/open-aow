@@ -306,9 +306,9 @@ public partial class MoveControl : IDisposable
                 {
                     pathFindingStep = new PathFindingStep(null) { Holder = Map };
                     var targetMapCoordinate = target.GetMapCoordinate();
-                    pathFindingStep.Location.Packed = targetMapCoordinate;
+                    pathFindingStep.Location = targetMapCoordinate;
                     var sourceMapCoordinate = source.GetMapCoordinate();
-                    pathFindingStep.Origin.Packed = sourceMapCoordinate;
+                    pathFindingStep.Origin = sourceMapCoordinate;
                     pathFindingStep.Owner = Settings.SubMoves;
                 }
             }
@@ -325,11 +325,11 @@ public partial class MoveControl : IDisposable
         int hexDirection;
         pathFindingStep = new PathFindingStep(null) { Holder = Map };
         var mapCoordinate = mapField.GetMapCoordinate();
-        pathFindingStep.Location.Packed = mapCoordinate;
+        pathFindingStep.Location = mapCoordinate;
         if (origin != null)
         {
             var originMapCoordinate = origin.GetMapCoordinate();
-            pathFindingStep.Origin.Packed = originMapCoordinate;
+            pathFindingStep.Origin = originMapCoordinate;
             if ((mapField.FieldFlags & MapField.MoveOverFlag) == 0)
             {
                 overCode = 1;

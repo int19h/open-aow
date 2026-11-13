@@ -26,7 +26,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
         {
             case 0:
                 CombinePassiveGroups();
-                location.Packed = Group.GetLocation();
+                location = Group.GetLocation();
                 selector = new GroupDefenseSelector(this);
                 selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
                 if (selector.Defenders.Count != Group.Count && Group.Player != 0)
@@ -45,7 +45,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
                     group.Release();
                 }
 
-                if (selector.DefenseLocation.Packed != 16777215)
+                if (selector.DefenseLocation != MapCoordinate.None)
                 {
                     Group.TargetMapCoordinate = selector.DefenseLocation;
                     Group.TargetMode = (byte)AIGroupDefenseControl.GroupDefendMode.Custom;
@@ -72,13 +72,13 @@ public partial class PassiveAIGroupControl : AIGroupControl
         MapCoordinate otherLocation = default;
         AIGroup group;
         player = StrategicMap.Current.Players.GetPlayers(Group.Player);
-        location.Packed = Group.GetLocation();
+        location = Group.GetLocation();
         for (int I = player.AIGroups.Count - 1; I >= 0; I--)
         {
             group = player.AIGroups.GetGroups(I);
             if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == 136280 && Group.IndependentRelation == group.IndependentRelation)
             {
-                otherLocation.Packed = group.GetLocation();
+                otherLocation = group.GetLocation();
                 if (location.MapLevel == otherLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, otherLocation.X, otherLocation.Y) <= 1)
                 {
                     Group.AddUnits(group);

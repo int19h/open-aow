@@ -1,6 +1,4 @@
 // Translated from AGCPlugins.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -80,7 +78,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                     _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
                     _control.SetupME();
                     var targetLocation = _targets.GetTargets(0);
-                    if (Unsafe.As<MapCoordinate, int>(ref targetLocation.Location) == Unsafe.As<MapCoordinate, int>(ref _control.Location))
+                    if (targetLocation.Location == _control.Location)
                     {
                         _control.MoveExecutor.Mode = _control.MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
                     }

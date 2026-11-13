@@ -2096,7 +2096,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2156,7 +2155,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2195,7 +2193,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -2255,7 +2252,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2315,7 +2311,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2354,7 +2349,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -2594,7 +2588,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2654,7 +2647,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2693,7 +2685,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -2753,7 +2744,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2813,7 +2803,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2852,7 +2841,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -2912,7 +2900,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -2980,7 +2967,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3027,7 +3013,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -3095,7 +3080,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3163,7 +3147,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3210,7 +3193,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -3739,7 +3721,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3780,7 +3761,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3809,7 +3789,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -3856,7 +3835,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3897,7 +3875,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -3926,7 +3903,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -5996,7 +5972,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -6059,7 +6034,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -6101,7 +6075,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -6164,7 +6137,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -6227,7 +6199,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
@@ -6269,7 +6240,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -8941,7 +8911,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
@@ -8996,7 +8965,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
@@ -9033,7 +9001,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
@@ -9085,7 +9052,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
@@ -9140,7 +9106,6 @@
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.XY": 0,
             "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
@@ -9177,7 +9142,6 @@
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.XY": 0,
                   "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },

@@ -1061,7 +1061,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIGroup.Transporter": null,
@@ -1134,7 +1133,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIGroup.Transporter": null,
@@ -1186,7 +1184,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "AIGroup.Transporter": null,
@@ -1305,7 +1302,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIGroupControl.MoveExecutor": null,
@@ -1766,7 +1762,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "AIGroupControl.MoveExecutor": null,
@@ -2146,7 +2141,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "AIGroupControl.MoveExecutor": null,
@@ -4130,7 +4124,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4203,7 +4196,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4313,7 +4305,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4383,7 +4374,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4490,7 +4480,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4560,7 +4549,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4667,7 +4655,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -4737,7 +4724,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -5094,7 +5080,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -5133,7 +5118,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -5159,7 +5143,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -5198,7 +5181,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -5237,7 +5219,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -5263,7 +5244,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -5830,7 +5810,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -5868,7 +5847,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -5893,7 +5871,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -5931,7 +5908,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -5969,7 +5945,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -5994,7 +5969,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -6177,7 +6151,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "HealingShowersTokenEvent._animation": null,
@@ -6216,7 +6189,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "HealingShowersTokenEvent._animation": null,
@@ -6242,7 +6214,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "HealingShowersTokenEvent._animation": null,
@@ -6601,7 +6572,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -6639,7 +6609,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -6664,7 +6633,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -6735,7 +6703,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -6805,7 +6772,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -6884,7 +6850,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -6926,7 +6891,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -7299,7 +7263,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -7337,7 +7300,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -7362,7 +7324,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -7687,7 +7648,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -7728,7 +7688,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -7756,7 +7715,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -7796,7 +7754,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -7814,7 +7771,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             }
           }
@@ -7845,7 +7801,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -7863,7 +7818,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             }
           }
@@ -7881,7 +7835,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "CityTargetSpellTokenEvent.TargetPlayer": 0,
@@ -7899,7 +7852,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               }
             }
@@ -8056,7 +8008,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -8097,7 +8048,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -8125,7 +8075,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -8173,7 +8122,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             }
           }
@@ -8212,7 +8160,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             }
           }
@@ -8238,7 +8185,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               }
             }
@@ -8270,7 +8216,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -8308,7 +8253,6 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
-              "MapCoordinate.XY": 0,
               "MapCoordinate.Y": 0
             },
             "SpellTokenEvent.EventMana": 0,
@@ -8333,7 +8277,6 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
-                "MapCoordinate.XY": 0,
                 "MapCoordinate.Y": 0
               },
               "SpellTokenEvent.EventMana": 0,
@@ -13878,7 +13821,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": "$ref:$.StrategicMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -13916,7 +13858,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": []
@@ -13931,7 +13872,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": "$ref:$.StrategicMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -14449,7 +14389,6 @@
                           "MapCoordinate.MapLevel": 0,
                           "MapCoordinate.Packed": 0,
                           "MapCoordinate.X": 0,
-                          "MapCoordinate.XY": 0,
                           "MapCoordinate.Y": 0
                         },
                         "AIMoveExecutor.Mode": {
@@ -15045,7 +14984,6 @@
                           "MapCoordinate.MapLevel": 0,
                           "MapCoordinate.Packed": 0,
                           "MapCoordinate.X": 0,
-                          "MapCoordinate.XY": 0,
                           "MapCoordinate.Y": 0
                         },
                         "AIMoveExecutor.Mode": {
@@ -15641,7 +15579,6 @@
                           "MapCoordinate.MapLevel": 0,
                           "MapCoordinate.Packed": 0,
                           "MapCoordinate.X": 0,
-                          "MapCoordinate.XY": 0,
                           "MapCoordinate.Y": 0
                         },
                         "AIMoveExecutor.Mode": {
@@ -16586,7 +16523,6 @@
                     "MapCoordinate.MapLevel": -1,
                     "MapCoordinate.Packed": 16777215,
                     "MapCoordinate.X": -1,
-                    "MapCoordinate.XY": 65535,
                     "MapCoordinate.Y": -1
                   },
                   "MapCoordinateList._list": "$ref:$.StrategicMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -17946,7 +17882,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": "$ref:$.StrategicMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -17984,7 +17919,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": []
@@ -17999,7 +17933,6 @@
                   "MapCoordinate.MapLevel": -1,
                   "MapCoordinate.Packed": 16777215,
                   "MapCoordinate.X": -1,
-                  "MapCoordinate.XY": 65535,
                   "MapCoordinate.Y": -1
                 },
                 "MapCoordinateList._list": "$ref:$.StrategicMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -18517,7 +18450,6 @@
                           "MapCoordinate.MapLevel": 0,
                           "MapCoordinate.Packed": 0,
                           "MapCoordinate.X": 0,
-                          "MapCoordinate.XY": 0,
                           "MapCoordinate.Y": 0
                         },
                         "AIMoveExecutor.Mode": {
@@ -19113,7 +19045,6 @@
                           "MapCoordinate.MapLevel": 0,
                           "MapCoordinate.Packed": 0,
                           "MapCoordinate.X": 0,
-                          "MapCoordinate.XY": 0,
                           "MapCoordinate.Y": 0
                         },
                         "AIMoveExecutor.Mode": {
@@ -19709,7 +19640,6 @@
                           "MapCoordinate.MapLevel": 0,
                           "MapCoordinate.Packed": 0,
                           "MapCoordinate.X": 0,
-                          "MapCoordinate.XY": 0,
                           "MapCoordinate.Y": 0
                         },
                         "AIMoveExecutor.Mode": {
@@ -20654,7 +20584,6 @@
                     "MapCoordinate.MapLevel": -1,
                     "MapCoordinate.Packed": 16777215,
                     "MapCoordinate.X": -1,
-                    "MapCoordinate.XY": 65535,
                     "MapCoordinate.Y": -1
                   },
                   "MapCoordinateList._list": "$ref:$.StrategicMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -24099,7 +24028,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []
@@ -24502,7 +24430,6 @@
                 "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
-                "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
               "MapCoordinateList._list": []

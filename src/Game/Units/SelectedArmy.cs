@@ -1032,7 +1032,7 @@ public partial class SelectedArmy : MoveSelector
                     if (flag2)
                     {
                         MapCoordinate moveLocation2 = moves.GetMoveSettings(index).GetMoveLocation();
-                        flag2 = Unsafe.BitCast<MapCoordinate, int>(moveSettings.GetMoveLocation()) == Unsafe.BitCast<MapCoordinate, int>(moveLocation2);
+                        flag2 = moveSettings.GetMoveLocation() == moveLocation2;
                     }
                     if (flag2)
                     {

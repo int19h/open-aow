@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
@@ -32,7 +30,7 @@ public partial class AdjacentArmyList : ENode, IChildList<AdjacentArmy>
         while (result != 0)
         {
             result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref this[result].Location) == Unsafe.As<MapCoordinate, int>(ref location))
+            if (this[result].Location == location)
             {
                 return result;
             }

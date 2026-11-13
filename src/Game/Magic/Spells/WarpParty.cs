@@ -48,9 +48,9 @@ public partial class WarpParty : Spell
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.ArmyId = source.ArmyOwner.CreateId(255);
             var warpLocation = CalculateWarpLocation(source.ArmyOwner.GetArmyHexSprite());
-            eventValue.WarpLocation.Packed = warpLocation;
+            eventValue.WarpLocation = warpLocation;
             StrategicMap.Current.SelectedArmy.Unselect();
-            if (eventValue.WarpLocation.Packed != 16777215)
+            if (eventValue.WarpLocation != MapCoordinate.None)
             {
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 result = true;
@@ -90,7 +90,7 @@ public partial class WarpParty : Spell
     }
 
     // GlobalSpells.pas:660
-    public int CalculateWarpLocation(ArmyHexSprite army)
+    public MapCoordinate CalculateWarpLocation(ArmyHexSprite army)
     {
         DelphiList<MapField> candidates;
         MovePointTable table = default;
@@ -145,7 +145,7 @@ public partial class WarpParty : Spell
         }
 
         found = false;
-        int result = 16777215;
+        MapCoordinate result = MapCoordinate.None;
         while (candidates.Count != 0 && !found)
         {
             I = Random(candidates.Count);

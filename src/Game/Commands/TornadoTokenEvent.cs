@@ -157,8 +157,8 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     var hexX = army.HexX;
                     EventLog.DistributeLocationEventLog(log, (sbyte)EventPlayerIndex, hexX, hexY, army.HexLevel, true);
                     log.Release();
-                    location.Packed = ((Tornado)GamePack.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
-                    if (location.Packed != 16777215)
+                    location = ((Tornado)GamePack.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
+                    if (location != MapCoordinate.None)
                     {
                         if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
                         {
@@ -187,7 +187,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
                         movedUnits = new UnitUserList(null) { Holder = CreationHolder() };
                         owner = (byte)army.Army.Player;
-                        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location.Packed);
+                        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location);
                         if (army.Army.ValidateSelection(255) != selection)
                         {
                             for (int I = army.Army.Count - 1; I >= 0; I--)

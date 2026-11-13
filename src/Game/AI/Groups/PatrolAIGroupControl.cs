@@ -29,7 +29,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             case AIMoveExecutorStatus.Failed:
                 if (State == 7)
                 {
-                    ((PatrolAIGroup)Group).PatrolTo.Packed = 16777215;
+                    ((PatrolAIGroup)Group).PatrolTo = MapCoordinate.None;
                 }
                 else
                 {
@@ -44,7 +44,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
         MapField mapField;
-        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location.Packed);
+        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
         if (mapField.GetPlayer() != Group.Player)
         {
             SetupCP(target);
@@ -174,7 +174,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count == 0)
                 {
-                    ((PatrolAIGroup)Group).PatrolFrom.Packed = 16777215;
+                    ((PatrolAIGroup)Group).PatrolFrom = MapCoordinate.None;
                 }
 
                 settings.Release();
@@ -271,7 +271,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             lists[I] = newList;
         }
 
-        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom.Packed);
+        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom);
         if (mapField.GetPlayer() == -1)
         {
             lists[0].AddAbility(mapField, 0);
@@ -318,7 +318,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             var random = StrategicMap.Current.Random(selectedList.Count);
             mapField = selectedList.List[random].First;
             var mapCoordinate = mapField.GetMapCoordinate();
-            group.PatrolTo.Packed = mapCoordinate;
+            group.PatrolTo = mapCoordinate;
             result = true;
         }
         else

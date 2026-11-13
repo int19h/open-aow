@@ -85,7 +85,7 @@ public partial class Tornado : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1823
-    public int CalculateWarpLocation(ArmyHexSprite army, byte selection)
+    public MapCoordinate CalculateWarpLocation(ArmyHexSprite army, byte selection)
     {
         MovePointTable table = default;
         HexNumberWalkData walk = default;
@@ -117,7 +117,7 @@ public partial class Tornado : GlobalTargetSpell
         }
 
         found = false;
-        int result = 16777215;
+        MapCoordinate result = MapCoordinate.None;
         while (locations.Count != 0 && !found)
         {
             index = Random(locations.Count);

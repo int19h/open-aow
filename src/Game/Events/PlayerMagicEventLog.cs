@@ -19,7 +19,7 @@ public partial class PlayerMagicEventLog : EventLog
     // mode, location, spell ID, value, enchantment name
     public PlayerMagicEventLog(ECustomNode owner) : base(owner)
     {
-        Location.Packed = 16777215;
+        Location = MapCoordinate.None;
     }
 
     public new const int ClassId = 131824;

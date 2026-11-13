@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
 
@@ -897,7 +895,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         group = GroupControl.Group;
-        if (Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref target.Location))
+        if (group.TargetMapCoordinate == target.Location)
         {
             if (group.TargetType == AIGroupTargetStatus.Execute)
             {
@@ -969,7 +967,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
             var group = GroupControl.Group;
-            if (Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref target.Location) && group.TargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= target.MovePoints)
+            if (group.TargetMapCoordinate == target.Location && group.TargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= target.MovePoints)
             {
                 result = NearSuperiority;
             }
@@ -1008,7 +1006,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
-            StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetDefenseRequirements(GroupControl.Group.Player, out strengths);
+            StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetDefenseRequirements(GroupControl.Group.Player, out strengths);
             result += StrengthInfoMax(strengths.DamageStrengths) / 2;
         }
         else
@@ -1023,7 +1021,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public float GetRequiredBattleFieldSuperiority(AIGroupControlTarget target)
     {
         float result;
-        if (Unsafe.As<MapCoordinate, int>(ref target.Location) == Unsafe.As<MapCoordinate, int>(ref GroupControl.Group.TargetMapCoordinate) && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute)
+        if (target.Location == GroupControl.Group.TargetMapCoordinate && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute)
         {
             result = CurrentBattleFieldFactor;
         }
@@ -1055,7 +1053,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         var group = GroupControl.Group;
-        if (Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref target.Location) && group.TargetType == AIGroupTargetStatus.Execute)
+        if (group.TargetMapCoordinate == target.Location && group.TargetType == AIGroupTargetStatus.Execute)
         {
             pathStrength = Round((double)target.PathStrength * CurrentPathStrengthFactor);
         }
@@ -1100,7 +1098,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         requiredUnits = new UnitUserList(null) { Holder = CreationHolder() };
         optionalUnits = new UnitUserList(null) { Holder = CreationHolder() };
         predictor.AddUnits(units);
-        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
+        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
             predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }
@@ -1231,7 +1229,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public void NoTargetsFound()
     {
         TargetStatus = AIGroupTargetingStatus.NoTargetsFound;
-        GroupControl.Group.TargetMapCoordinate.Packed = -1;
+        // The cleared target: the Delphi wrote -1, all four bytes $FF, which differs from None. Issue #191
+        // gives the AI target its own type for it.
+        GroupControl.Group.TargetMapCoordinate = new MapCoordinate { X = -1, Y = -1, MapLevel = -1, Tag = -1 };
         GroupControl.Group.TargetType = AIGroupTargetStatus.None;
         if (GroupControl.Group.Transporter != null)
         {

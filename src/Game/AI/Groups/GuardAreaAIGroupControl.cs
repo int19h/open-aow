@@ -36,7 +36,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
             case 2:
                 if (MoveExecutor.Status == AIMoveExecutorStatus.Failed)
                 {
-                    ((GuardAreaAIGroup)Group).GuardLocation.Packed = 16777215;
+                    ((GuardAreaAIGroup)Group).GuardLocation = MapCoordinate.None;
                     Done();
                 }
                 else
@@ -96,7 +96,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 Targets.Validate();
                 if (Targets.Count != 0)
                 {
-                    if (Army.Moves(Selection) != Army.MovePoints(Selection) || ((GuardAreaAIGroup)Group).GuardLocation.Packed != Location.Packed)
+                    if (Army.Moves(Selection) != Army.MovePoints(Selection) || ((GuardAreaAIGroup)Group).GuardLocation != Location)
                     {
                         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                         settings.Player = Army.Player;
@@ -109,7 +109,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                         StrategicMap.Current.MoveControl.ProcessMove(settings);
                         for (int I = Targets.Count - 1; I >= 0; I--)
                         {
-                            if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(I).Location.Packed) == 16777215)
+                            if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(I).Location) == 16777215)
                             {
                                 Targets.Delete(I);
                             }
@@ -139,9 +139,9 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
 
                 break;
             case 2:
-                if (((GuardAreaAIGroup)Group).GuardLocation.Packed != Location.Packed)
+                if (((GuardAreaAIGroup)Group).GuardLocation != Location)
                 {
-                    mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((GuardAreaAIGroup)Group).GuardLocation.Packed);
+                    mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((GuardAreaAIGroup)Group).GuardLocation);
                     if (mapField.GetPlayer() == -1 || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();

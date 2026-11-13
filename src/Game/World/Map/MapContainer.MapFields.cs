@@ -6,7 +6,7 @@ namespace Aow.Game.World.Map;
 public partial class MapContainer
 {
     public MapField GetField(int x, int y, int level) => GetMapLevel(level).GetField(x, y);
-    public MapField GetFieldMapCoordinate(int location) => GetField((sbyte)location, (sbyte)(location >> 8), (sbyte)(location >> 16));
+    public MapField GetFieldMapCoordinate(MapCoordinate location) => GetField(location.X, location.Y, location.MapLevel);
 
     public void RemoveHexSprite(int x, int y, int level, HexSprite sprite)
     {

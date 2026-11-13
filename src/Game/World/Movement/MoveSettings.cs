@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
@@ -48,7 +46,7 @@ public partial class MoveSettings : EngineObject
         }
         else
         {
-            Unsafe.As<MapCoordinate, int>(ref result) = 16777215;
+            result = MapCoordinate.None;
         }
 
         return result;

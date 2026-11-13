@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
@@ -20,12 +21,12 @@ public partial class SubMoveList : ENode, IChildList<PathFindingStep>
     public PathFindingStep GetSubMove(int index) => this[index];
 
     // MoveT.PAS:44
-    public int DeleteMapCoordinate(int location)
+    public int DeleteMapCoordinate(MapCoordinate location)
     {
         int result = 0;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (location == this[I].Location.Packed)
+            if (location == this[I].Location)
             {
                 this[I]?.Dispose();
                 result += 1;
@@ -42,13 +43,13 @@ public partial class SubMoveList : ENode, IChildList<PathFindingStep>
     }
 
     // MoveT.PAS:62
-    public int IndexOfMapCoordinate(int location)
+    public int IndexOfMapCoordinate(MapCoordinate location)
     {
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            if (location == this[result].Location.Packed)
+            if (location == this[result].Location)
             {
                 return result;
             }

@@ -45,7 +45,7 @@ public partial class TownGate : CityTargetSpell
         ImageSequenceAnimation A;
         source.GetLocation(out X, out Y, out L);
         ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
-        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation.Packed);
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation);
         army.Army.ResetDestinationPosition();
         if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
         {

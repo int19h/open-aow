@@ -3,6 +3,8 @@ using Aow.Game.Commands;
 
 using Aow.Game.Session;
 
+using Aow.Game.World.Map;
+
 namespace Aow.Game.Host;
 
 public static class HeadlessHooks
@@ -11,7 +13,7 @@ public static class HeadlessHooks
     public static Action? BeforeAIPlayerProcess { get; set; }
     public static Action<int, int>? ProcessCost { get; set; }
     public static Action<MoveTokenEvent>? BeforeMove { get; set; }
-    public static Action<int, int, int, int>? MoveLine { get; set; }
+    public static Action<MapCoordinate, int, int, int>? MoveLine { get; set; }
     public static int TacticalBattles { get; set; }
     public static bool Tactical { get; set; }
     public static int TacticalSelections { get; set; }
