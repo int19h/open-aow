@@ -1252,7 +1252,7 @@ public partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 field = mapLevel.GetField(walk.X, walk.Y);
-                result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
+                result = (field.FogCount != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
             }
 
             if (!result)
@@ -1304,7 +1304,7 @@ public partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 field = mapLevel.GetField(walk.X, walk.Y);
-                result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
+                result = (field.FogCount != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
             if (!result)
@@ -1933,7 +1933,7 @@ public partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 field = mapLevel.GetField(walk.X, walk.Y);
-                if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Hi & 1) != 0)
+                if ((field.FieldFlags & MapField.PlayerChangeListenerFlag) != 0)
                 {
                     message.Param[0] = walk.Radius;
                     field.SendMapFieldMessage(ref message);
@@ -1960,7 +1960,7 @@ public partial class StrategicMap : GameMap
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 field = mapLevel.GetField(walk.X, walk.Y);
-                if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Hi & 2) != 0)
+                if ((field.FieldFlags & MapField.OwnerFlag) != 0)
                 {
                     message.Result = -1;
                     if (walk.Radius <= radius)
@@ -2014,7 +2014,7 @@ public partial class StrategicMap : GameMap
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     field = mapLevel.GetField(walk.X, walk.Y);
-                    if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Lo).Hi & 16) != 0)
+                    if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                     {
                         message.Param[0] = walk.Radius;
                         field.SendMapFieldMessage(ref message);
@@ -2058,7 +2058,7 @@ public partial class StrategicMap : GameMap
                         if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                         {
                             field = mapLevel.GetField(walk.X, walk.Y);
-                            if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Lo).Hi & 16) != 0)
+                            if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                             {
                                 message.Param[0] = walk.Radius;
                                 field.SendMapFieldMessage(ref message);
@@ -2073,7 +2073,7 @@ public partial class StrategicMap : GameMap
                 else
                 {
                     var fieldValue = Current.MapContainer.GetField(X, Y, L);
-                    result = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref fieldValue.FieldFlags).Hi).Lo == 0;
+                    result = fieldValue.FogCount == 0;
                 }
             }
             else
@@ -2105,7 +2105,7 @@ public partial class StrategicMap : GameMap
                 return;
             }
 
-            if (!Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0)
+            if (!Current.FogEnabled || field.FogCount != 0)
             {
                 var pixelY = Mouse.PixelY;
                 var pixelX = Mouse.PixelX;
@@ -2148,38 +2148,38 @@ public partial class StrategicMap : GameMap
     {
         Player player;
         Army army;
-        int mapCoordinate = default;
+        MapCoordinate location = default;
         if (SeatedPlayer != -1)
         {
             player = Players.GetPlayers(SeatedPlayer);
             if ((sbyte)player.ViewX > 0)
             {
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = player.ViewX;
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = player.ViewY;
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = player.ViewMapLevel;
+                location.X = (sbyte)player.ViewX;
+                location.Y = (sbyte)player.ViewY;
+                location.MapLevel = (sbyte)player.ViewMapLevel;
             }
             else
             {
-                player.GetLeaderLocation(out Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo), out Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi), out Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo));
-                if ((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo == -1)
+                player.GetLeaderLocation(out location.X, out location.Y, out location.MapLevel);
+                if (location.X == -1)
                 {
                     if (player.Armies.Count == 0)
                     {
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = 0;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = 0;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = 0;
+                        location.X = 0;
+                        location.Y = 0;
+                        location.MapLevel = 0;
                     }
                     else
                     {
                         army = player.Armies.GetArmy(0);
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = (byte)army.X;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = (byte)army.Y;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = (byte)army.MapLevel;
+                        location.X = army.X;
+                        location.Y = army.Y;
+                        location.MapLevel = army.MapLevel;
                     }
                 }
             }
 
-            CenterViewTo((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo, (sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi, (sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo);
+            CenterViewTo(location.X, location.Y, location.MapLevel);
         }
     }
 
@@ -2794,7 +2794,7 @@ public partial class StrategicMap : GameMap
                 if (walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     var field = mapLevel.GetField(walk.X, walk.Y);
-                    result = (((field.FieldFlags >> 16) & 0xff) != 0 || !Current.FogEnabled) &&
+                    result = (field.FogCount != 0 || !Current.FogEnabled) &&
                         (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
                 }
             }

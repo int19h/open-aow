@@ -22,7 +22,7 @@ public partial class StrategicMap
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     var field = mapLevel.GetField(walk.X, walk.Y);
-                    if ((field.FieldFlags & 0x04000000) != 0)
+                    if ((field.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
                     {
                         int friendly = query.Info.FriendlyStrength, enemy = query.Info.Strength;
                         field.SendMapFieldMessage(ref message);

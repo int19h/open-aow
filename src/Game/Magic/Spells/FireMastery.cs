@@ -85,7 +85,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
             {
                 var field = level.GetField(x, y);
                 if (field.TerrainType is 7 or 8 or 15 || map.SeatedPlayer == -1 || map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)) continue;
-                RandSeed = field.HexX + field.HexY * 8 + ((field.FieldFlags >> 16) & 255) * 65536;
+                RandSeed = field.HexX + field.HexY * 8 + field.FogCount * 65536;
                 if (Random(100) >= chance) continue;
                 int delay = Random(40);
                 CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - delay, surface);

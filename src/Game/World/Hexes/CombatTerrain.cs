@@ -215,7 +215,7 @@ public partial class CombatTerrain : TerrainMapObject
         base.UpdateMapField(info);
         if (info.HexNumber < _resource.TerrainList.Count)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 16384;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOnFlag;
         }
     }
 

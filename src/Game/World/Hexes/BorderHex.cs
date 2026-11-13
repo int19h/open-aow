@@ -88,7 +88,7 @@ public partial class BorderHex : AbstractBorderHexagon
     {
         if (info.HexNumber == 0 && StrategicMap.Current != null && StrategicMap.Current.Day == 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags & -4096;
+            info.MapField.FieldFlags = info.MapField.FieldFlags & ~MapField.ExploredFlags;
         }
     }
 }

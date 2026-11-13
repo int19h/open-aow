@@ -178,7 +178,7 @@ public partial class SmokeCloud : MultiHexMapObject
     {
         if (info.HexNumber > 18 && info.HexNumber < 37)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 16777216;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.PlayerChangeListenerFlag;
         }
     }
 

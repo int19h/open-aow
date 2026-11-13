@@ -321,7 +321,7 @@ public partial class PlayerStructure : Structure
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 4096 | 8192 | 16384 | 33554432 | 16777216 | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.ViewerFlag | MapField.MoveOverFlag | MapField.MoveOnFlag | MapField.OwnerFlag | MapField.PlayerChangeListenerFlag | MapField.AITargetFlag;
         }
     }
 

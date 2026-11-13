@@ -285,7 +285,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 {
                     I -= 1;
                     field = settings.ProcessedMapFields.List[I];
-                    if ((field.FieldFlags & 134217728) != 0)
+                    if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
                         if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data))
@@ -391,7 +391,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 {
                     I -= 1;
                     field = settings.ProcessedMapFields.List[I];
-                    if ((field.FieldFlags & 134217728) != 0)
+                    if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
                         if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)

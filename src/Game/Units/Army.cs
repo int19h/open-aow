@@ -372,7 +372,7 @@ public partial class Army : UnitList
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     field = level.GetField(walk.X, walk.Y);
-                    if ((field.FieldFlags & 4096) != 0)
+                    if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                     {
                         message.Param[0] = walk.Radius;
                         field.SendMapFieldMessage(ref message);

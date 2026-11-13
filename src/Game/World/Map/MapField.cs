@@ -1,6 +1,5 @@
 // Translated from HSEngine.pas and AoWE.pas.
 
-using System.Runtime.CompilerServices;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats.Tree;
@@ -126,7 +125,10 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
             ReadWriteChildren(stream);
         }
 
-        stream.UInt16(ref Unsafe.As<int, LongRec>(ref FieldFlags).Lo, 4);
+        // AoWHSMap.PAS:66 stores the low word of the flags only.
+        ushort lowFlags = (ushort)FieldFlags;
+        stream.UInt16(ref lowFlags, 4);
+        FieldFlags = (FieldFlags & ~0xFFFF) | lowFlags;
     }
 
     // HSEngine.pas:2075
@@ -457,8 +459,58 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     private static readonly HexSprite[] s_sendMessageList = new HexSprite[256];
     private static readonly HexSprite[] s_loadedList = new HexSprite[256];
 
-    // TAoWMapField: the flags, the fog count in byte 2 and bit $02000000 for the owner query.
-    public int FieldFlags;
+    // TAoWMapField.FFieldFlags (intf_P1_03.inc:353). Bits 0 to 11 mark the field explored by
+    // players 1 to 12, bits 12 to 15 and 24 to 27 tell which map field messages a sprite on the
+    // field answers (UpdateMapField sets them), and byte 2 is the fog count. Only the low word is
+    // stored (id 4).
+    public int FieldFlags { get; set; }
+
+    // The explored bits of players 1 to 12. The border hexagon clears them on the first day
+    // (AoWHex.pas:264, $FFFFF000).
+    public const int ExploredFlags = 0x00000FFF;
+
+    // A sprite answers the sight queries: $110A, visible for a player within a range
+    // (AoWHSMap.PAS:2420 and 2457), and $110B, true sight (Army.PAS:1285).
+    public const int ViewerFlag = 0x00001000;
+
+    // A sprite answers CanMoveOver, the move over a field (MoveT.PAS:391).
+    public const int MoveOverFlag = 0x00002000;
+
+    // A sprite answers CanMoveOn, the move onto a field (MoveT.PAS:304).
+    public const int MoveOnFlag = 0x00004000;
+
+    // A sprite answers MoveExclusive, which the bridge, the cave and the teleport handle
+    // (MoveT.PAS:427).
+    public const int MoveExclusiveFlag = 0x00008000;
+
+    // The three move bits, cleared by UpdateMapField before the sprites set them again
+    // (AoWHSMap.PAS:87, $FFFF1FFF).
+    public const int MoveFlags = MoveOverFlag | MoveOnFlag | MoveExclusiveFlag;
+
+    // A sprite answers $110D, the notice that a player changed nearby (AoWHSMap.PAS:2348).
+    public const int PlayerChangeListenerFlag = 0x01000000;
+
+    // A sprite answers $1100, the owning player (AoWHSMap.PAS:94), and $1130, a player seen
+    // (AoWHSMap.PAS:2376).
+    public const int OwnerFlag = 0x02000000;
+
+    // A sprite answers $1108, the battle field strengths (AoWHSMap.PAS:3012, MainAG.pas:310,
+    // PlayerC.PAS:2672).
+    public const int BattleFieldInfoFlag = 0x04000000;
+
+    // A sprite answers $1200, the AI target query (AIGroup.pas:6564 and 6643).
+    public const int AITargetFlag = 0x08000000;
+
+    // The explored bit of a player, as SetExplored shifts it (AoWHSMap.PAS:46).
+    public static int ExploredFlag(int player) => 1 << ((player - 1) & 31);
+
+    // Byte 2 of the flags: how many unfogged areas cover the field. FogArea counts it down and
+    // UnFogArea up, and zero is fogged (AoWHSMap.PAS:247 and 265, WordRec(LongRec(FFieldFlags).Hi).Lo).
+    public byte FogCount
+    {
+        get => (byte)(FieldFlags >> 16);
+        private set => FieldFlags = (FieldFlags & ~0x00FF0000) | (value << 16);
+    }
 
     // AoWHSMap.PAS:68
     public void FogChanged()
@@ -471,14 +523,14 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     // AoWHSMap.PAS:75
     public void SetFogCount(byte value)
     {
-        if ((value == 0 && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FieldFlags).Hi).Lo != 0) || (value != 0 && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FieldFlags).Hi).Lo == 0))
+        if ((value == 0 && FogCount != 0) || (value != 0 && FogCount == 0))
         {
-            Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FieldFlags).Hi).Lo = value;
+            FogCount = value;
             FogChanged();
         }
         else
         {
-            Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FieldFlags).Hi).Lo = value;
+            FogCount = value;
         }
     }
 
@@ -487,7 +539,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     {
         sbyte result;
         MapFieldMessage message = default;
-        if ((FieldFlags & 33554432) != 0)
+        if ((FieldFlags & OwnerFlag) != 0)
         {
             message.MessageId = 4352;
             message.Result = -1;
@@ -621,7 +673,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     // The original tests ECX, including the bits above the Boolean byte.
     public void SetExploredRaw(int player, int value)
     {
-        int mask = 1 << ((player - 1) & 31);
+        int mask = ExploredFlag(player);
         if (value != 0) FieldFlags |= mask;
         else FieldFlags &= ~mask;
     }

@@ -161,7 +161,7 @@ public partial class PoisonCloud : MultiHexMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= -1)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
     }
 

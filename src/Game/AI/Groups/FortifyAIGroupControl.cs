@@ -569,7 +569,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         for (int I = settings.ProcessedMapFields.Count - 1; I >= 0; I--)
         {
             var mapField = settings.ProcessedMapFields[I];
-            if ((mapField.FieldFlags & 67108864) != 0)
+            if ((mapField.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
             {
                 mapField.SendMapFieldMessage(ref message);
             }

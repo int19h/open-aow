@@ -128,7 +128,7 @@ public partial class MoveControl : IDisposable
             }
 
             pathFindingStep = SetupSubMove(field, null);
-            if ((field.FieldFlags & 32768) != 0)
+            if ((field.FieldFlags & MapField.MoveExclusiveFlag) != 0)
             {
                 field.MoveExclusive(this);
             }
@@ -202,7 +202,7 @@ public partial class MoveControl : IDisposable
         int points;
         overlay = mapField.OverlayType;
         points = MovePointTable[mapField.TerrainType][overlay - MovementTables.FirstOverlay];
-        if ((mapField.FieldFlags & 16384) != 0)
+        if ((mapField.FieldFlags & MapField.MoveOnFlag) != 0)
         {
             points = mapField.CanMoveOn(this, points, moveOverCode);
         }
@@ -292,10 +292,10 @@ public partial class MoveControl : IDisposable
                     MovePointsLimit = points;
                 }
 
-                if ((target.FieldFlags & 8192) == 0 || target.CanMoveOver(this) != 0)
+                if ((target.FieldFlags & MapField.MoveOverFlag) == 0 || target.CanMoveOver(this) != 0)
                 {
                     pathFindingStep = SetupSubMove(target, source);
-                    if ((target.FieldFlags & 32768) != 0)
+                    if ((target.FieldFlags & MapField.MoveExclusiveFlag) != 0)
                     {
                         target.MoveExclusive(this);
                     }
@@ -330,7 +330,7 @@ public partial class MoveControl : IDisposable
         {
             var originMapCoordinate = origin.GetMapCoordinate();
             pathFindingStep.Origin.Packed = originMapCoordinate;
-            if ((mapField.FieldFlags & 8192) == 0)
+            if ((mapField.FieldFlags & MapField.MoveOverFlag) == 0)
             {
                 overCode = 1;
             }
@@ -455,7 +455,7 @@ public partial class MoveControl : IDisposable
         if ((mapField.FieldFlags & _exploredMask) != 0)
         {
             points = MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay];
-            if ((mapField.FieldFlags & 16384) != 0)
+            if ((mapField.FieldFlags & MapField.MoveOnFlag) != 0)
             {
                 points = mapField.CanMoveOn(this, points, moveOverCode);
             }
@@ -666,7 +666,7 @@ public partial class MoveControl : IDisposable
             points = OnMovePoint(field, overCode);
             if (points >= 0)
             {
-                if ((field.FieldFlags & 8192) != 0 && (X != destinationX || Y != destinationY))
+                if ((field.FieldFlags & MapField.MoveOverFlag) != 0 && (X != destinationX || Y != destinationY))
                 {
                     overCode = field.CanMoveOver(this);
                     if (overCode == 0)

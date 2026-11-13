@@ -209,7 +209,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveOverFlag;
         }
     }
 

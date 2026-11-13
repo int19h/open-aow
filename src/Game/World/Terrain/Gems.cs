@@ -76,7 +76,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
     {
         if (info.HexNumber == 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.AITargetFlag;
         }
     }
 

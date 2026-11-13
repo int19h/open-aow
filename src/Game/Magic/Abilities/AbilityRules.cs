@@ -645,7 +645,7 @@ public static class AbilityRules
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
                         field = level.GetField(walk.X, walk.Y);
-                        if ((field.FieldFlags & 67108864) != 0)
+                        if ((field.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
                         {
                             army = field.GetArmyHexSprite();
                             if (army != null && army.Army.Player != player)

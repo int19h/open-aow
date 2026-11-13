@@ -182,7 +182,7 @@ public partial class HexBridge : AbstractRoad
     {
         if (info.HexNumber != 0)
         {
-            info.MapField.FieldFlags = info.MapField.FieldFlags | 32768;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | MapField.MoveExclusiveFlag;
         }
     }
 
