@@ -9,6 +9,7 @@ using Aow.Game.Commands;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
 using Aow.Rtl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Animations;
 
@@ -63,7 +64,7 @@ public partial class Animation : HexSprite
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref Dimensions, 16), 16, 10);
+        TransferRecord<RectImage, Rect>(ref Dimensions, 16, 10, stream.Bytes);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexX), 11);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexY), 12);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexLevel), 13);
@@ -73,11 +74,11 @@ public partial class Animation : HexSprite
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Dimensions = PersistSupport.Record(persister, "Dimensions", Dimensions);
-        _hexX = PersistSupport.UnsignedByte(persister, "HexX", _hexX);
-        _hexY = PersistSupport.UnsignedByte(persister, "HexY", _hexY);
-        _hexLevel = PersistSupport.UnsignedByte(persister, "HexLevel", _hexLevel);
-        FrameCounter = persister.Int32("FrameCounter", FrameCounter);
+        Dimensions = PersistSupport.Record<RectImage, Rect>(persister, name: "Dimensions", value: Dimensions);
+        _hexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: _hexX);
+        _hexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: _hexY);
+        _hexLevel = PersistSupport.UnsignedByte(persister, name: "HexLevel", value: _hexLevel);
+        FrameCounter = persister.Int32("FrameCounter", value: FrameCounter);
     }
 
     // Animation.pas:127

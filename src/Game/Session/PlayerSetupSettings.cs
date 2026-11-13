@@ -45,12 +45,12 @@ public partial class PlayerSetupSettings : EngineObject
     {
         base.ReadWrite(stream);
         stream.Byte(ref PlayerId, 10);
-        stream.Bytes(Bytes.Of(ref Behavior, 8), 8, 11);
+        TransferRecord<SetupPlayerBehaviorImage, SetupPlayerBehavior>(ref Behavior, 8, 11, stream.Bytes);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
         stream.Bytes(Bytes.Of(ref BehaviorMode, 1), 1, 13);
         stream.Object(Leader, 14);
         TransferSet(ref Status, 1, 15, stream.Bytes, 0);
-        stream.Bytes(Bytes.Of(ref OriginalBehavior, 8), 8, 16);
+        TransferRecord<SetupPlayerBehaviorImage, SetupPlayerBehavior>(ref OriginalBehavior, 8, 16, stream.Bytes);
     }
 
     // AoWSetup.pas:296
@@ -62,18 +62,8 @@ public partial class PlayerSetupSettings : EngineObject
         Leader = new Leader(null) { Holder = CreationHolder() };
     }
 
-    private static readonly SetupPlayerBehavior s_defaultBehavior = new SetupPlayerBehavior
-    {
-        PlayerType = 0,
-        Reserved = default,
-        Flags = 0
-    };
+    private static readonly SetupPlayerBehavior s_defaultBehavior = new(PlayerType: 0, Flags: 0);
 
-    private static readonly SetupPlayerBehavior s_defaultOriginalBehavior = new SetupPlayerBehavior
-    {
-        PlayerType = 5,
-        Reserved = default,
-        Flags = 0
-    };
+    private static readonly SetupPlayerBehavior s_defaultOriginalBehavior = new(PlayerType: 5, Flags: 0);
 
 }

@@ -40534,11 +40534,7 @@
               "$type": "Aow.Game.Session.SetupPlayerBehavior",
               "SetupPlayerBehavior.Flags": 0,
               "SetupPlayerBehavior.PlayerType": 0,
-              "SetupPlayerBehavior.Reserved": [
-                0,
-                0,
-                0
-              ]
+              "SetupPlayerBehavior.UnknownBytes": 0
             },
             "PlayerSetupSettings.BehaviorMode": 0,
             "PlayerSetupSettings.EmailAddress": "",
@@ -40670,11 +40666,7 @@
               "$type": "Aow.Game.Session.SetupPlayerBehavior",
               "SetupPlayerBehavior.Flags": 0,
               "SetupPlayerBehavior.PlayerType": 5,
-              "SetupPlayerBehavior.Reserved": [
-                0,
-                0,
-                0
-              ]
+              "SetupPlayerBehavior.UnknownBytes": 0
             },
             "PlayerSetupSettings.PlayerId": 0,
             "PlayerSetupSettings.Race": 0,
@@ -40715,11 +40707,7 @@
               "$type": "Aow.Game.Session.SetupPlayerBehavior",
               "SetupPlayerBehavior.Flags": 0,
               "SetupPlayerBehavior.PlayerType": 0,
-              "SetupPlayerBehavior.Reserved": [
-                0,
-                0,
-                0
-              ]
+              "SetupPlayerBehavior.UnknownBytes": 0
             },
             "PlayerSetupSettings.BehaviorMode": 0,
             "PlayerSetupSettings.EmailAddress": "",
@@ -40851,11 +40839,7 @@
               "$type": "Aow.Game.Session.SetupPlayerBehavior",
               "SetupPlayerBehavior.Flags": 0,
               "SetupPlayerBehavior.PlayerType": 5,
-              "SetupPlayerBehavior.Reserved": [
-                0,
-                0,
-                0
-              ]
+              "SetupPlayerBehavior.UnknownBytes": 0
             },
             "PlayerSetupSettings.PlayerId": 0,
             "PlayerSetupSettings.Race": 0,
@@ -40883,11 +40867,7 @@
                 "$type": "Aow.Game.Session.SetupPlayerBehavior",
                 "SetupPlayerBehavior.Flags": 0,
                 "SetupPlayerBehavior.PlayerType": 0,
-                "SetupPlayerBehavior.Reserved": [
-                  0,
-                  0,
-                  0
-                ]
+                "SetupPlayerBehavior.UnknownBytes": 0
               },
               "PlayerSetupSettings.BehaviorMode": 0,
               "PlayerSetupSettings.EmailAddress": "",
@@ -40896,11 +40876,7 @@
                 "$type": "Aow.Game.Session.SetupPlayerBehavior",
                 "SetupPlayerBehavior.Flags": 0,
                 "SetupPlayerBehavior.PlayerType": 0,
-                "SetupPlayerBehavior.Reserved": [
-                  0,
-                  0,
-                  0
-                ]
+                "SetupPlayerBehavior.UnknownBytes": 0
               },
               "PlayerSetupSettings.PlayerId": 0,
               "PlayerSetupSettings.Race": 0,

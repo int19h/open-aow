@@ -909,8 +909,8 @@ public sealed partial class PersistEquivalenceTests
             Damage = 255,
             SourceId = 255,
             TargetId = 1,
-            Effects = new PackedDamageTypes { Value = Set<DamageType>.FromMask((1UL << 9) | (1UL << 15)) },
-            DamageTypes = new PackedDamageTypes { Value = Set<DamageType>.Of(DamageType.Fire, DamageType.None) },
+            Effects = Set<DamageType>.FromMask((1UL << 9) | (1UL << 15)),
+            DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.None),
         };
         Check("DamageCombatAction", edge);
     }
@@ -1226,32 +1226,36 @@ public sealed partial class PersistEquivalenceTests
         return control;
     }
 
+    // The three stored bytes after PlayerType are the game value's UnknownBytes and the image's
+    // Reserved. The tree, the original backend and ReadWrite give the same document and bytes.
     [Fact]
-    public void SetupPlayerBehaviorTransfersTheReservedBytes()
+    public void SetupPlayerBehaviorTransfersTheUnknownBytes()
     {
-        var probe = new BehaviorProbe
-        {
-            Behavior = new SetupPlayerBehavior
-            {
-                PlayerType = 2,
-                Flags = 9,
-                Reserved = Array3<byte>.From([1, 0, 2]),
-            },
-        };
+        var behavior = new SetupPlayerBehavior(PlayerType: 2, Flags: 9) { UnknownBytes = 0x020001 };
+        var probe = new BehaviorProbe { Behavior = behavior };
         var classValue = s_schema.Get("PlayerSetupSettings");
         var tree = TreeWriter.Write(probe, Factory);
         var stored = (JsonObject)DocumentBackend.Write(tree, classValue, s_schema, "game")["Behavior"]!;
+        Assert.Equal(["PlayerType", "$reserved", "Flags"], stored.Members.Select(member => member.Name).ToList());
         Assert.Equal(2, ((JsonInteger)stored["PlayerType"]!).Value);
         Assert.Equal("010002", ((JsonString)stored["$reserved"]!).Value);
         Assert.Equal(9, ((JsonInteger)stored["Flags"]!).Value);
         var back = OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game");
         var loaded = new BehaviorProbe();
         TreeReader.Read(back, loaded, Factory);
-        Assert.Equal(2, loaded.Behavior.PlayerType);
-        Assert.Equal(9, loaded.Behavior.Flags);
-        Assert.Equal(1, loaded.Behavior.Reserved[0]);
-        Assert.Equal(0, loaded.Behavior.Reserved[1]);
-        Assert.Equal(2, loaded.Behavior.Reserved[2]);
+        Assert.Equal(behavior, loaded.Behavior);
+
+        using var settings = new PlayerSetupSettings(null!) { Holder = EngineFixture.Engine };
+        settings.Behavior = behavior;
+        settings.OriginalBehavior = behavior with { PlayerType = 5, UnknownBytes = 0xFFFFFF };
+        var image = Image(settings);
+        var document = PilotImage.Decode(image, "PlayerSetupSettings");
+        EqualJson(new JsonObject().Add("Behavior", stored), new JsonObject().Add("Behavior", document["Behavior"]!), "PlayerSetupSettings behavior");
+        Assert.Equal("ffffff", ((JsonString)((JsonObject)document["OriginalBehavior"]!)["$reserved"]!).Value);
+        using var read = new PlayerSetupSettings(null!) { Holder = EngineFixture.Engine };
+        Load(read, image);
+        Assert.Equal(settings.Behavior, read.Behavior);
+        Assert.Equal(settings.OriginalBehavior, read.OriginalBehavior);
     }
 
     [Fact]
@@ -1557,7 +1561,7 @@ public sealed partial class PersistEquivalenceTests
     {
         public SetupPlayerBehavior Behavior { get; set; }
 
-        public void Persist(IPersister persister) => Behavior = PersistSupport.Record(persister, "Behavior", Behavior);
+        public void Persist(IPersister persister) => Behavior = PersistSupport.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(persister, "Behavior", Behavior);
     }
 
     // A unit index list stored under the integer list of ItemExplorationSiteEventLog.

@@ -86,8 +86,8 @@ public sealed class WallCrushingFastBattleTests
         Assert.Equal(2, action.TargetId);
         Assert.Equal(4, action.Damage);
         Assert.Equal(4, action.DamageDone);
-        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), action.DamageTypes.Value);
-        Assert.Equal(Set<DamageType>.Of(), action.Effects.Value);
+        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), action.DamageTypes);
+        Assert.Equal(Set<DamageType>.Of(), action.Effects);
         Assert.Equal(6, wall.GetHitPoints());
         Assert.True(wall.Status.Contains(CombatObjectStatusElement.Damaged));
     }

@@ -1,10 +1,13 @@
 // Translated from HSEngine.pas.
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
 // { A map location: hexagon column X, row Y, map level L and a flag byte (LocationsConnected
 //     marks the locations it has reached with it); the items of TXYLList, made by PackXYL }
+// StoredRecord binds the move path record (an int-list of MapCoordinate) until issue #191 moves it to an image.
+[StoredRecord("MapCoordinate")]
 [StructLayout(LayoutKind.Explicit, Size = 4)]
 public struct MapCoordinate
 {

@@ -147,8 +147,11 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         var failures = new List<string>();
         foreach (string name in records)
         {
-            var type = NameTable.Find(name);
-            foreach (var field in RecordTypeInfo.Describe(type).Fields)
+            // A record is the image its [StoredRecord] binding names.
+            var info = RecordCatalog.Find(name) ?? throw new InvalidOperationException("The record " + name + " is not in the catalog.");
+            var type = info.Image;
+            if (RecordTypeInfo.StoredName(type) != name) failures.Add("record " + name + " is bound to " + type.FullName + ", which stores " + RecordTypeInfo.StoredName(type));
+            foreach (var field in info.Fields)
                 if (Member(type, field.Name) is null) failures.Add("record " + name + " stores " + field.Name + ", which is no member of " + type.FullName);
         }
         foreach (string name in enums)

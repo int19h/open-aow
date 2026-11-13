@@ -261,14 +261,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                             effect.CombatAction = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
                                             var hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, out I, out X);
-                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
+                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value, false);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects, false);
                                             }
 
-                                            if (((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
+                                            if (((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).Effects.Value, true);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).Effects, true);
                                             }
 
                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
@@ -556,14 +556,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                             I = ((DamageCombatAction)effect.CombatAction).Damage;
                                                                             var hexY = ((TacticalBattleUnit)effect.Target).UnitHexSprite.HexY;
                                                                             HexGeometry.HexToPixel(((TacticalBattleUnit)effect.Target).UnitHexSprite.HexX, hexY, out X, out Y);
-                                                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
+                                                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value, false);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).DamageTypes - ((DamageCombatAction)effect.CombatAction).Effects, false);
                                                                             }
 
-                                                                            if (((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
+                                                                            if (((DamageCombatAction)effect.CombatAction).Effects != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).Effects.Value, true);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).Effects, true);
                                                                             }
                                                                         }
                                                                         else

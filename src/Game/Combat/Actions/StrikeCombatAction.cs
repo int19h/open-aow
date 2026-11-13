@@ -40,9 +40,9 @@ public partial class StrikeCombatAction : DamageCombatAction
         source = combat.CombatData.FindId(SourceId);
         target = combat.CombatData.FindId(TargetId);
         DamageDone = (byte)source.DoDamage(target, Damage);
-        if (Effects.Value != Set<DamageType>.Of())
+        if (Effects != Set<DamageType>.Of())
         {
-            target.ExecuteDamageEffects(Effects.Value);
+            target.ExecuteDamageEffects(Effects);
         }
 
         if (DamageDone != 0 && StrikeMode.Contains(StrikeModeElement.LifeStealing) && target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine)

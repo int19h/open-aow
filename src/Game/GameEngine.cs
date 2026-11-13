@@ -684,7 +684,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         ability.AbilityId = id;
         ability.AbilityName = name;
         ability.RangeRangedAttack = range;
-        ability.DamageTypesRangedAttack.Value = damageTypes;
+        ability.DamageTypesRangedAttack = damageTypes;
         ability.AttackRangedAttack = attack;
         ability.DamageRangedAttack = damage;
         ability.AttackRepeatRangedAttack = repeats;
@@ -698,7 +698,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         ability = new BoltsAbility(null) { Holder = this };
         ability.AbilityId = id;
         ability.AbilityName = name;
-        ability.DamageTypesRangedAttack.Value = Set<DamageType>.Of(damageType);
+        ability.DamageTypesRangedAttack = Set<DamageType>.Of(damageType);
         ability.DamageRangedAttack = damage;
         ability.AttackRangedAttack = (sbyte)attack;
         // { Original ignores Enchantment. }
@@ -711,7 +711,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         ability = new BreathAbility(null) { Holder = this };
         ability.AbilityId = id;
         ability.AbilityName = name;
-        ability.DamageTypesRangedAttack.Value = Set<DamageType>.Of(damageType);
+        ability.DamageTypesRangedAttack = Set<DamageType>.Of(damageType);
         // { Original ignores Enchantment. }
         return ability;
     }

@@ -39,8 +39,8 @@ public sealed class EngineSupportTests
     [Fact]
     public void PhysicalRecordsKeepDelphiOffsets()
     {
-        Assert.Equal(16, Marshal.SizeOf<Rect>());
-        Assert.Equal(12, Marshal.OffsetOf<Rect>(nameof(Rect.Bottom)).ToInt32());
+        Assert.Equal(16, Marshal.SizeOf<RectImage>());
+        Assert.Equal(12, Marshal.OffsetOf<RectImage>(nameof(RectImage.Bottom)).ToInt32());
     }
 
     [Fact]

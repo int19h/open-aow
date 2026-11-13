@@ -24,9 +24,9 @@ public partial class SelfDestructCombatAction : DamageCombatAction
         source = combat.CombatData.FindId(SourceId);
         target = combat.CombatData.FindId(TargetId);
         DamageDone = (byte)source.DoDamage(target, Damage);
-        if (Effects.Value != Set<DamageType>.Of())
+        if (Effects != Set<DamageType>.Of())
         {
-            target.ExecuteDamageEffects(Effects.Value);
+            target.ExecuteDamageEffects(Effects);
         }
 
         source.ExecuteDamage(source.GetHitPoints());
