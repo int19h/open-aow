@@ -19,8 +19,6 @@ public sealed class LayoutRuleTests
         // LY-4: the map field flags without word views, both types deleted.
         "Aow.Rtl.LongRec",
         "Aow.Rtl.WordRec",
-        // LY-6: palette entries as 32-bit pixel values.
-        "Aow.Game.Draw.Palette.Entry",
         // LY-7: catalog records as I/O images.
         "Aow.Rtl.Rect",
         "Aow.Game.Combat.PackedDamageTypes",

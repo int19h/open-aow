@@ -170,7 +170,7 @@ public sealed class GraphicsConstructionTests
     public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<Palette, Surface> create, int format, int pitch)
     {
         var palette = new Palette();
-        palette.Entries[0].Red = 29;
+        palette[0] = palette[0] with { Red = 29 };
         var surface = create(palette);
         LockedSurface lockedSurface = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
@@ -182,22 +182,22 @@ public sealed class GraphicsConstructionTests
         if (lockedSurface.Palette is { } copy)
         {
             Assert.NotSame(palette, copy);
-            Assert.Equal((byte)29, copy.Entries[0].Red);
-            copy.Entries[0].Red = 63;
+            Assert.Equal((byte)29, copy[0].Red);
+            copy[0] = copy[0] with { Red = 63 };
         }
         surface.Unlock();
         surface.Dispose();
-        Assert.Equal((byte)29, palette.Entries[0].Red);
+        Assert.Equal((byte)29, palette[0].Red);
     }
 
     [Fact]
     public void PlainDataSurfaceCopiesPaletteAndAllocatesItsBuffer()
     {
         var palette = new Palette();
-        palette.Entries[0].Red = 29;
+        palette[0] = palette[0] with { Red = 29 };
         var surface = new DataSurface(7, 4, PixelFormats.pfPAL8, palette);
         Assert.NotSame(palette, surface.Palette);
-        Assert.Equal((byte)29, surface.Palette.Entries[0].Red);
+        Assert.Equal((byte)29, surface.Palette[0].Red);
         Assert.Equal(7, surface.Width);
         Assert.Equal(4, surface.Height);
         LockedSurface descriptor = default;
@@ -205,7 +205,7 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(descriptor.Data);
         surface.Unlock();
         surface.Dispose();
-        Assert.Equal((byte)29, palette.Entries[0].Red);
+        Assert.Equal((byte)29, palette[0].Red);
     }
 
     [Fact]
@@ -225,10 +225,10 @@ public sealed class GraphicsConstructionTests
     public void InvalidDibDimensionsAndFormatDoNotTouchExternalPalette()
     {
         var palette = new Palette();
-        palette.Entries[0].Red = 29;
+        palette[0] = palette[0] with { Red = 29 };
         Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
         Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
-        Assert.Equal((byte)29, palette.Entries[0].Red);
+        Assert.Equal((byte)29, palette[0].Red);
     }
 
     [Fact]

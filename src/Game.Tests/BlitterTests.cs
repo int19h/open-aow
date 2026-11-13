@@ -26,6 +26,17 @@ public sealed class BlitterTests
     private static readonly byte[] s_table = Bytes(262144, 7);
     private static readonly byte[] s_blend = Bytes(1024, 8);
 
+    // The 1,024 blend bytes read as 256 little-endian palette pixel values, as the pointer
+    // implementation read its palette argument.
+    private static readonly uint[] s_palettePixels = PixelValues(s_blend);
+
+    private static uint[] PixelValues(byte[] bytes)
+    {
+        var values = new uint[bytes.Length / 4];
+        for (int i = 0; i < values.Length; i++) values[i] = BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(4 * i, 4));
+        return values;
+    }
+
     private static readonly (string Name, Rectangle Call)[] s_copies =
     [
         ("BltRect", (s, d, w, h) => Blit.BlitRectangle(ViewOf(s), ViewOf(d), w, h)),
@@ -94,7 +105,7 @@ public sealed class BlitterTests
     private static readonly (string Name, Sprite Call)[] s_sprites08 =
     [
         ("ShowRLE08", (x, y, d, clip, data, w, h) => Blit.ShowRle08(x, y, ViewOf(d, clip), data, w, h, 255)),
-        ("ShowRLE08to16", (x, y, d, clip, data, w, h) => Blit.ShowRle08To16(x, y, ViewOf(d, clip), data, w, h, 255, s_blend)),
+        ("ShowRLE08to16", (x, y, d, clip, data, w, h) => Blit.ShowRle08To16(x, y, ViewOf(d, clip), data, w, h, 255, s_palettePixels)),
     ];
 
     private static void RemapRle(bool to565, byte[] data, int height)
@@ -116,9 +127,8 @@ public sealed class BlitterTests
         var random = new Random(9);
         for (int i = 0; i < 256; i++)
         {
-            palette.Entries[i].Red = (byte)random.Next(256);
-            palette.Entries[i].Green = (byte)random.Next(256);
-            palette.Entries[i].Blue = (byte)random.Next(256);
+            byte red = (byte)random.Next(256), green = (byte)random.Next(256), blue = (byte)random.Next(256);
+            palette[i] = new(red, green, blue);
         }
         return palette;
     }

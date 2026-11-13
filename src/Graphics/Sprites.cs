@@ -124,10 +124,10 @@ public static partial class Blit
 
     public static void RemapRle555To565(Span<byte> data, int h, int key) => RemapRle(data, h, key, true);
     public static void RemapRle565To555(Span<byte> data, int h, int key) => RemapRle(data, h, key, false);
-    public static void ShowRle08(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key) => Rle08(x, y, destination, data, w, h, key, default, false);
-    public static void ShowRle08To16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key, ReadOnlySpan<byte> palette) => Rle08(x, y, destination, data, w, h, key, palette, true);
+    public static void ShowRle08(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key) => Rle08(x, y, destination, data, w, h, key, palette: default, paletteMode: false);
+    public static void ShowRle08To16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key, ReadOnlySpan<uint> palette) => Rle08(x, y, destination, data, w, h, key, palette, paletteMode: true);
 
-    private static void Rle08(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key, ReadOnlySpan<byte> palette, bool paletteMode)
+    private static void Rle08(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key, ReadOnlySpan<uint> palette, bool paletteMode)
     {
         var clip = destination.Clip;
         int pitch = destination.Pitch;
@@ -143,7 +143,7 @@ public static partial class Blit
                 {
                     // ShowRLE08 ignores the clip rectangle. The palette variant clips.
                     if (!paletteMode) destination[(y + ry) * pitch + x + dx] = pixel;
-                    else if (Visible(x + dx, y + ry, clip)) destination.UInt16((y + ry) * pitch + (x + dx) * 2, UInt16(palette, pixel * 4));
+                    else if (Visible(x + dx, y + ry, clip)) destination.UInt16((y + ry) * pitch + (x + dx) * 2, (ushort)palette[pixel]);
                     dx++;
                 }
             }

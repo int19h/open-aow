@@ -122,9 +122,11 @@ Two Delphi features need a design, not a mapping:
    mechanical mapping (`specs/transpiler.md` 4.3). Of the eight variant records, six are byte
    unions and became explicit-layout structs in the first stage. `EngineMessage` (Delphi `TEMsg`) and `ShowInfo` (Delphi `TShowInfo`) overlay a
    reference with an integer, and the first stage gave that slot the shim's integer-or-reference
-   value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `MapCoordinate` (Delphi `TXYL`),
-   `Entry` (Delphi `TPaletteEntry`) and `DefenseRequirements` (Delphi `TDefenseRequirements`) stay explicit-layout structs, since game logic reads
-   both views. The three combat-info buffers of `AoWTC` became plain `AbilityCombatInfo` (Delphi `TAbilityCombatInfo`) locals,
+   value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `MapCoordinate` (Delphi `TXYL`)
+   stays an explicit-layout struct, since game logic reads both views, until issue 192 moves its layout to the I/O
+   boundary. Issue 192 made `DefenseRequirements` (Delphi `TDefenseRequirements`) a natural struct whose `Strength` is
+   element 7 of `DamageStrengths`, and `Palette.Entry` (Delphi `TPaletteEntry`) one 32-bit pixel value whose `Red`,
+   `Green`, `Blue`, `Flags` and `PackedColor` members name its bytes. The three combat-info buffers of `AoWTC` became plain `AbilityCombatInfo` (Delphi `TAbilityCombatInfo`) locals,
    because their second arm is never read. The message slots of `EngineMessage` and `MapFieldMessage` (Delphi `TMapFieldMsg`) became
    the union `MsgArg` and the blend slot of `ShowInfo` the union `BlendValue` (section 9).
 

@@ -172,7 +172,7 @@ AoWEPACK:
 | an untyped `Pointer` and a pitch passed to a blitter | a `SurfaceView` (section 5.2), tables and encoded images as byte spans |
 | a `PRect` parameter, nil for the whole surface or no rectangle | `Rect?`, null for nil (section 3.3) |
 | a block of records grown with `ReallocMem` and shifted with `Move` (`HashList.FItems` (Delphi `THashList`) in `HashTabU`, `CustomImageLibrary.Images` (Delphi `TCustomImageLibrary`), `ImageNode.Images` (Delphi `TImageNode`), `FrameTableList._list` (Delphi `TFrameTableList`), `Matrix.Data` (Delphi `TMatrix`) in `DisplayC`) | a `T[]` with the original's count and capacity, so the growth steps stay: `RtlUnit.ReallocArray` (size 0 gives null, as `ReallocMem` gives nil), `MoveElements` and `ClearElements` for `Move` and `FillChar` of records. `GraphicsArrayTests` pins them |
-| a function result `PPaletteEntry` (`Palette.GetEntry`) | a `ref` return |
+| a function result `PPaletteEntry` (`Palette.GetEntry`) | the entry's value. The palette holds 256 32-bit pixel values (`Palette.Pixels`, the 8 to 16-bit RLE blitter reads them as a `ReadOnlySpan<uint>`), and the indexer reads and writes one `Palette.Entry` |
 
 A probe `pointers` (section 10) exercises each row on the oracle compiler before the graphics units
 are transpiled.

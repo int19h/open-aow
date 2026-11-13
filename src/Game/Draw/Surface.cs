@@ -35,7 +35,7 @@ public partial class Surface : IDisposable
                     case PixelFormats.pfPAL8:
                         Assert(lockedSurface.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         index = lockedSurface.View().Byte(X + Y * lockedSurface.Pitch);
-                        ref readonly Palette.Entry E = ref lockedSurface.Palette.Entries[index];
+                        Palette.Entry E = lockedSurface.Palette[index];
                         result = E.Red + (E.Green << 8) + (E.Blue << 16);
                         break;
                     case PixelFormats.pfRGB24:

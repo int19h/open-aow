@@ -154,7 +154,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             var D = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * Y, _width * 2));
                             for (int X = 0, lastX = _width - 1; X <= lastX; X++)
                             {
-                                ref readonly Palette.Entry P = ref lockedSurface.Palette.Entries[S[X]];
+                                Palette.Entry P = lockedSurface.Palette[S[X]];
                                 D[X] = (ushort)(((P.Red & 248) << 8) + ((P.Green & 252) << 3) + (int)(((uint)P.Blue) >> 3));
                             }
                         }
