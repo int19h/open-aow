@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Units;
 
@@ -46,6 +47,17 @@ public partial class CombatParty : EngineObject
         stream.Byte(ref PlayerIndex, 14);
         stream.Bytes(Bytes.Of(ref Wall, 1), 1, 15);
         stream.Byte(ref Position, 16);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        X = persister.Int32("X", value: X);
+        Y = persister.Int32("Y", value: Y);
+        MapLevel = persister.Int32("MapLevel", value: MapLevel);
+        PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
+        Wall = persister.RawByte("Wall", value: Wall);
+        Position = persister.Byte("Position", value: Position);
     }
 
     // Combat2.pas:61

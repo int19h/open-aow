@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -29,6 +30,12 @@ public partial class StrikeCombatAction : DamageCombatAction
     {
         base.ReadWrite(stream);
         TransferSet(ref StrikeMode, 1, 20, stream.Bytes, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        StrikeMode = persister.Set("StrikeMode", value: StrikeMode);
     }
 
     // AoWAb.PAS:1163

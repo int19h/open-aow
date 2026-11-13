@@ -1,6 +1,7 @@
 // Translated from UnitSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -24,6 +25,13 @@ public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
         base.ReadWrite(stream);
         stream.Int32(ref SpellId, 60);
         stream.Int32(ref ManaCost, 61);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        SpellId = persister.Int32("SpellId", value: SpellId);
+        ManaCost = persister.Int32("ManaCost", value: ManaCost);
     }
 
     // UnitSpells.pas:987

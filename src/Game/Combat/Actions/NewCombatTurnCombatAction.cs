@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 
@@ -21,6 +22,12 @@ public partial class NewCombatTurnCombatAction : CombatAction
     {
         base.ReadWrite(stream);
         stream.Byte(ref CombatPlayer, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        CombatPlayer = persister.Byte("CombatPlayer", value: CombatPlayer);
     }
 
     // Combat2.pas:991

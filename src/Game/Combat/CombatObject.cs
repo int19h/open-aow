@@ -1,9 +1,11 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Combat.Actions;
 
@@ -88,6 +90,19 @@ public partial class CombatObject : EngineObject
         TransferSet(ref Status, 1, 13, stream.Bytes, 0);
         stream.Bytes(Bytes.Of(ref Id, 1), 1, 14);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
+        {
+            Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Position = persister.Byte("Position", value: Position);
+        CombatPlayer = PersistSupport.UnsignedByte(persister, name: "CombatPlayer", value: CombatPlayer);
+        Status = persister.Set("Status", value: Status);
+        Id = persister.RawByte("Id", value: Id);
+        if (persister.Loading)
         {
             Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         }

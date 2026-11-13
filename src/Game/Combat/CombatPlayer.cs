@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -27,6 +29,14 @@ public partial class CombatPlayer : EngineObject
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
         stream.Byte(ref IndependentRelation, 21);
         stream.Bytes(Bytes.Of(ref SideIndex, 1), 1, 22);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        IndependentRelation = persister.Byte("IndependentRelation", value: IndependentRelation);
+        SideIndex = persister.RawByte("SideIndex", value: SideIndex);
     }
 
     // Engine.pas:524

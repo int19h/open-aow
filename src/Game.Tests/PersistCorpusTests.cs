@@ -63,6 +63,7 @@ public sealed class PersistCorpusTests
         "Player", "PlayerList", "DiplomaticAction", "WorldMapCampaign", "WorldMapCampaignScenario", "CampaignScenarioPage",
         "CampaignTransferSettings", "EventLogbook", "EventLogList", "AIGroupManager", "GuardAreaAIGroup", "PatrolAIGroup",
         "SfxSequence", "SfxLibrary", "UnitGraphicsResource",
+        "CombatParty", "CombatPlayer", "CombatUnit", "FastBattleUnit", "CombatLogbook",
     ];
 
     private static readonly string[] s_watched =
@@ -179,12 +180,13 @@ public sealed class PersistCorpusTests
     }
 
     // The fixture engine enlists the classes the game registers when the engine starts. The game
-    // enlists the event logs, the campaign pages and scenarios and the AI groups and budgets the
-    // saves hold when its screens and the AI start, so the walk enlists every class of the session,
-    // event, AI, magic, interface and audio namespaces that the engine does not hold yet, and
-    // takes them out after. Each class id is enlisted once.
+    // enlists the event logs, the campaign pages and scenarios and the AI groups and budgets the saves
+    // hold when its screens and the AI start, and the combat spell actions with the combat spells, so
+    // the walk enlists every class of the session, event, AI, magic, interface, audio and combat
+    // namespaces that the engine does not hold yet, and takes them out after. Each class id is
+    // enlisted once.
     private static readonly string[] s_enlistedNamespaces =
-        ["Aow.Game.Session", "Aow.Game.Events", "Aow.Game.AI", "Aow.Game.Magic", "Aow.Game.UI", "Aow.Game.Audio"];
+        ["Aow.Game.Session", "Aow.Game.Events", "Aow.Game.AI", "Aow.Game.Magic", "Aow.Game.UI", "Aow.Game.Audio", "Aow.Game.Combat"];
 
     private static EngineClass[] Enlist()
     {

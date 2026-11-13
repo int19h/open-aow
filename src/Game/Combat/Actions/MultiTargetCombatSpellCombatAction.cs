@@ -1,7 +1,9 @@
 // Translated from CombatSpells.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -36,6 +38,16 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
         stream.Int32(ref ManaCost, 22);
         stream.Boolean(ref _succeeded, 23);
         stream.Int32(ref SpellId, 24);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        SourceId = persister.Byte("SourceId", value: SourceId);
+        PersistSupport.ByteList(persister, name: "TargetIds", list: TargetIds);
+        ManaCost = persister.Int32("ManaCost", value: ManaCost);
+        _succeeded = persister.Boolean("Succeeded", value: _succeeded);
+        SpellId = persister.Int32("SpellId", value: SpellId);
     }
 
     // CombatSpells.pas:557

@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -23,6 +24,13 @@ public partial class MoveWallCombatAction : CombatAction
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref CombatObjectId, 1), 1, 20);
         stream.Bytes(Bytes.Of(ref InsideWall, 1), 1, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        CombatObjectId = persister.RawByte("CombatObjectId", value: CombatObjectId);
+        InsideWall = persister.RawByte("InsideWall", value: InsideWall);
     }
 
     // Combat2.pas:1082

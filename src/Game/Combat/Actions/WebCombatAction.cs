@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -23,6 +24,12 @@ public partial class WebCombatAction : SingleTargetCombatAction
     {
         base.ReadWrite(stream);
         stream.Boolean(ref Successful, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Successful = persister.Boolean("Successful", value: Successful);
     }
 
     // AoWAb.PAS:2778

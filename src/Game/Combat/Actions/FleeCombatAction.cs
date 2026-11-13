@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -21,6 +22,12 @@ public partial class FleeCombatAction : CombatAction
     {
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref ObjectId, 1), 1, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        ObjectId = persister.RawByte("ObjectId", value: ObjectId);
     }
 
     // Combat2.pas:1108

@@ -1,6 +1,7 @@
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -26,6 +27,13 @@ public partial class CombatSpellCombatAction : DamageCombatAction
         base.ReadWrite(stream);
         stream.Int32(ref SpellId, 30);
         stream.Int32(ref ManaCost, 31);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        SpellId = persister.Int32("SpellId", value: SpellId);
+        ManaCost = persister.Int32("ManaCost", value: ManaCost);
     }
 
     // CombatSpells.pas:459
