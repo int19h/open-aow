@@ -114,7 +114,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         {
             if (ArmyHexSprite.GetMoveStatus() != -1)
             {
-                field = GetMapField(Path[MoveIndex - 1]);
+                field = GetMapField(Path[MoveIndex - 1].Location);
                 if (field.GetPlayer() != -1)
                 {
                     result = ArmyHexSprite.GetMoveStatus() < 50;
@@ -143,7 +143,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         if (MoveIndex == 1)
         {
             // { Evaluate the field without retaining a second reference. }
-            var player = GetMapField(Path[0]).GetPlayer();
+            var player = GetMapField(Path[0].Location).GetPlayer();
             if (ArmyHexSprite.Army.Player != player)
             {
                 return StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).GameOverStatus == GameOverStatus.None;
@@ -162,7 +162,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         int direction;
         if (MoveIndex == 1 && _combatMode == ArmyCombatMoveTokenEventMode.Moving)
         {
-            field = GetMapField(Path[0]);
+            field = GetMapField(Path[0].Location);
             player = field.GetPlayer();
             if (player != -1 && player != ArmyHexSprite.Army.Player && !_ignoreDefenders)
             {
@@ -252,7 +252,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
 
                     if (Path.Count == 2)
                     {
-                        Path.List[1].Tag = 0;
+                        Path.List[1] = Path.List[1] with { MoveCost = 0 };
                     }
 
                     move = (ArmyCombatMoveTokenEvent)ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, Selection, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
@@ -339,7 +339,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         MapFieldMessage message = default;
         CombatTypeRequestEventLog request = default;
         NewTurnEventLog log = default;
-        field = GetMapField(Path[0]);
+        field = GetMapField(Path[0].Location);
         if (_combatType == CombatType.None)
         {
             if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Local)
@@ -568,7 +568,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             var fPathItem = Path[0];
             var item2 = Path[0];
             var hexX = ArmyHexSprite.GetHexX();
-            combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.X, fPathItem.Y, item2.MapLevel, false);
+            combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, false);
             message.MessageId = 4359;
             message.Param[0] = combat;
             message.Param[1] = ArmyHexSprite;
@@ -795,11 +795,11 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     // MoveT.PAS:3019
     public MoveStatus ExecuteLastMove()
     {
-        if (GetMapField(Path[MoveIndex - 1]).FindOwnedChild(131607) == null)
+        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(131607) == null)
         {
-            var mapField = GetMapField(Path[MoveIndex - 1]);
+            var mapField = GetMapField(Path[MoveIndex - 1].Location);
             var item = Path[MoveIndex - 1];
-            ArmyHexSprite.MoveTo(mapField, item.Tag);
+            ArmyHexSprite.MoveTo(mapField, item.MoveCost);
             ArmyHexSprite = null;
         }
         else

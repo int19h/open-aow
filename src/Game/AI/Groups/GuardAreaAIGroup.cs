@@ -16,11 +16,17 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
 
     public MapCoordinate GuardLocation;
 
+    // The fourth byte of the packed location stored at id 50, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     // IndependentAG.pas:170
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Int32(ref GuardLocation.Packed, 50);
+        int location = StoredCoordinateImage.From(GuardLocation, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 50);
+        (GuardLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
     }
 
     // IndependentAG.pas:153

@@ -55,7 +55,9 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public int LeaderId;
     public int TransporterId;
     public sbyte IndependentRelation;
-    public MapCoordinate TargetMapCoordinate;
+
+    public AITargetLocation TargetMapCoordinate { get; set; }
+
     public AIGroupTargetStatus TargetType;
     public int GoldBudget;
     public int ManaBudget;
@@ -96,7 +98,9 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         stream.Int32(ref GroupId, 20);
         stream.Int32(ref TransporterId, -1, 21);
         stream.Int32(ref LeaderId, -1, 22);
-        stream.Int32(ref Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate), 23);
+        int target = TargetMapCoordinate.ToStored().ToInt32();
+        stream.Int32(ref target, 23);
+        TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(target));
         stream.Bytes(Bytes.Of(ref TargetType, 1), 1, 24);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 25);
         stream.Bytes(Bytes.Of(ref IndependentRelation, 1), 1, 26);
@@ -111,21 +115,21 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        GroupId = persister.Int32("GroupId", GroupId);
-        TransporterId = persister.Int32("TransporterId", TransporterId, -1);
-        LeaderId = persister.Int32("LeaderId", LeaderId, -1);
-        int target = TargetMapCoordinate.Packed;
-        target = persister.Int32("TargetMapCoordinate", target);
-        if (persister.Loading) TargetMapCoordinate.Packed = target;
-        TargetType = persister.Enum("TargetType", TargetType);
-        Player = PersistSupport.UnsignedByte(persister, "Player", Player);
-        IndependentRelation = persister.RawSByte("IndependentRelation", IndependentRelation);
-        ProcessPriority = persister.Byte("ProcessPriority", ProcessPriority);
-        RecruitmentPriority = persister.Byte("RecruitmentPriority", RecruitmentPriority);
-        GoldBudget = persister.Int32("GoldBudget", GoldBudget);
-        ManaBudget = persister.Int32("ManaBudget", ManaBudget);
-        TargetMovePoints = persister.Int32("TargetMovePoints", TargetMovePoints);
-        TargetMode = persister.RawByte("TargetMode", TargetMode);
+        GroupId = persister.Int32("GroupId", value: GroupId);
+        TransporterId = persister.Int32("TransporterId", value: TransporterId, fallback: -1);
+        LeaderId = persister.Int32("LeaderId", value: LeaderId, fallback: -1);
+        int target = TargetMapCoordinate.ToStored().ToInt32();
+        target = persister.Int32("TargetMapCoordinate", value: target);
+        TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(target));
+        TargetType = persister.Enum("TargetType", value: TargetType);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation);
+        ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority);
+        RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority);
+        GoldBudget = persister.Int32("GoldBudget", value: GoldBudget);
+        ManaBudget = persister.Int32("ManaBudget", value: ManaBudget);
+        TargetMovePoints = persister.Int32("TargetMovePoints", value: TargetMovePoints);
+        TargetMode = persister.RawByte("TargetMode", value: TargetMode);
     }
 
     // AIGroup.pas:88
@@ -328,8 +332,8 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         // { Reach the leader through its field. }
         if (Leader != null)
         {
-            Leader.GetLocation(out location.X, out location.Y, out location.MapLevel);
-            location.Tag = 0;
+            Leader.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
         }
         else
         {
@@ -502,7 +506,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         Troop transporter;
         if (location != MapCoordinate.None)
         {
-            TargetMapCoordinate = location;
+            TargetMapCoordinate = AITargetLocation.At(location);
             TargetType = targetType;
             TargetMovePoints = movePoints;
             TargetMode = (byte)(mode << 0);
@@ -516,7 +520,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         }
         else
         {
-            TargetMapCoordinate = MapCoordinate.None;
+            TargetMapCoordinate = AITargetLocation.None;
             TargetType = targetType;
             TargetMode = (byte)(mode << 0);
             TargetMovePoints = 0;
@@ -547,7 +551,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         Troop transporter;
         if (target != null)
         {
-            TargetMapCoordinate = target.Location;
+            TargetMapCoordinate = AITargetLocation.At(target.Location);
             TargetType = targetType;
             TargetMovePoints = target.MovePoints;
             TargetMode = mode;
@@ -562,7 +566,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         }
         else
         {
-            TargetMapCoordinate = MapCoordinate.None;
+            TargetMapCoordinate = AITargetLocation.None;
             TargetType = targetType;
             TargetMode = mode;
             TargetMovePoints = 0;

@@ -93,7 +93,7 @@ public partial class MoveSelector : IDisposable
         if (CurrentMove != -1 && X != -1)
         {
             var moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
-            if (moveSettings.Path.Count != 0 && moveSettings.Path[0].X == X && moveSettings.Path[0].Y == Y && moveSettings.Path[0].MapLevel == L)
+            if (moveSettings.Path.Count != 0 && moveSettings.Path[0].Location.X == X && moveSettings.Path[0].Location.Y == Y && moveSettings.Path[0].Location.MapLevel == L)
             {
                 ExecuteMove();
             }
@@ -196,12 +196,12 @@ public partial class MoveSelector : IDisposable
                     int limit = settings.Path.Count - 2;
                     for (; J <= limit; J += 1)
                     {
-                        if (settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewMapLevel)
+                        if (settings.Path[J].Location.X >= Map.ViewHexX && settings.Path[J].Location.X <= maxX && settings.Path[J].Location.Y >= Map.ViewHexY && settings.Path[J].Location.Y <= maxY && settings.Path[J].Location.MapLevel == Map.ViewMapLevel)
                         {
-                            x1 = settings.Path[J].X;
-                            y1 = settings.Path[J].Y;
-                            x2 = settings.Path[J + 1].X;
-                            y2 = settings.Path[J + 1].Y;
+                            x1 = settings.Path[J].Location.X;
+                            y1 = settings.Path[J].Location.Y;
+                            x2 = settings.Path[J + 1].Location.X;
+                            y2 = settings.Path[J + 1].Location.Y;
                             if (HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) == 1)
                             {
                                 direction = HexGeometry.DeltaHexToHexNumberFast(x1, y1, x2, y2);
@@ -242,9 +242,9 @@ public partial class MoveSelector : IDisposable
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
-                                    if (pointsLeft - settings.Path[J].Tag != 0 && settings.Path[J + 1].MapLevel == Map.ViewMapLevel)
+                                    if (pointsLeft - settings.Path[J].MoveCost != 0 && settings.Path[J + 1].Location.MapLevel == Map.ViewMapLevel)
                                     {
-                                        if (pointsLeft - settings.Path[J].Tag <= settings.MovePoints)
+                                        if (pointsLeft - settings.Path[J].MoveCost <= settings.MovePoints)
                                         {
                                             imageIndex = 41;
                                         }
@@ -270,7 +270,7 @@ public partial class MoveSelector : IDisposable
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
-                                    if (pointsLeft - settings.Path[J].Tag <= settings.MovePoints)
+                                    if (pointsLeft - settings.Path[J].MoveCost <= settings.MovePoints)
                                     {
                                         imageIndex = 41;
                                     }
@@ -285,15 +285,15 @@ public partial class MoveSelector : IDisposable
                             }
                         }
 
-                        pointsLeft -= settings.Path[J].Tag;
+                        pointsLeft -= settings.Path[J].MoveCost;
                     }
 
-                    if (settings.Path[0].X >= Map.ViewHexX && settings.Path[0].X <= maxX && settings.Path[0].Y >= Map.ViewHexY && settings.Path[0].Y <= maxY && settings.Path[0].MapLevel == Map.ViewMapLevel)
+                    if (settings.Path[0].Location.X >= Map.ViewHexX && settings.Path[0].Location.X <= maxX && settings.Path[0].Location.Y >= Map.ViewHexY && settings.Path[0].Location.Y <= maxY && settings.Path[0].Location.MapLevel == Map.ViewMapLevel)
                     {
                         var item = settings.Path[0];
                         var fPathItem = settings.Path[0];
                         var item2 = settings.Path[0];
-                        mapField = Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
+                        mapField = Map.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
                         pixelY = pixelY - Map.ViewPixelY - 8;
@@ -325,10 +325,10 @@ public partial class MoveSelector : IDisposable
                     if (settings.MovePoints < settings.PathMovePoints)
                     {
                         J = settings.Path.MovePointsToPosition(settings.MovePoints);
-                        if (J > 0 && J < settings.Path.Count - 1 && settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewMapLevel)
+                        if (J > 0 && J < settings.Path.Count - 1 && settings.Path[J].Location.X >= Map.ViewHexX && settings.Path[J].Location.X <= maxX && settings.Path[J].Location.Y >= Map.ViewHexY && settings.Path[J].Location.Y <= maxY && settings.Path[J].Location.MapLevel == Map.ViewMapLevel)
                         {
                             var item = settings.Path[J];
-                            HexGeometry.HexToPixel(settings.Path[J].X, item.Y, out pixelX, out pixelY);
+                            HexGeometry.HexToPixel(settings.Path[J].Location.X, item.Location.Y, out pixelX, out pixelY);
                             pixelX = pixelX - Map.ViewPixelX - 8;
                             pixelY = pixelY - Map.ViewPixelY - 8;
                             imageIndex = 41;
@@ -350,7 +350,7 @@ public partial class MoveSelector : IDisposable
                         var item = settings.Path[0];
                         var fPathItem = settings.Path[0];
                         var item2 = settings.Path[0];
-                        mapField = Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
+                        mapField = Map.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
                         pixelY = pixelY - Map.ViewPixelY - 8;

@@ -214,7 +214,6 @@ internal sealed partial class RecordTypeInfo
             named.Add(DescribeField(type, field, at, fieldSize));
         }
         var cover = new bool[size];
-        var coverWidth = new int[size];
         void Cover(int offset, int length, string name)
         {
             if (offset < 0 || length < 0 || offset + length > size)
@@ -224,28 +223,11 @@ internal sealed partial class RecordTypeInfo
                 if (cover[offset + i])
                     throw new InvalidOperationException(type.Name + " covers byte " + (offset + i) + " twice.");
                 cover[offset + i] = true;
-                coverWidth[offset + i] = length;
             }
         }
-        // An overlapping record has one authoritative field set (own-formats.md 2.3). A field whose
-        // every byte narrower fields already cover is a view of them, as MapCoordinate.Packed is of
-        // X, Y, MapLevel and Tag, and the record stores the narrow fields only.
-        bool IsView(RecordFieldInfo field)
-        {
-            if (field.Offset < 0 || field.Size <= 0 || field.Offset + field.Size > size) return false;
-            for (int i = field.Offset; i < field.Offset + field.Size; i++)
-                if (!cover[i] || coverWidth[i] >= field.Size) return false;
-            return true;
-        }
-        var stored = new List<RecordFieldInfo>(named.Count);
-        foreach (var field in named.OrderBy(static field => field.Size).ThenBy(static field => field.Offset))
-        {
-            if (IsView(field)) continue;
-            Cover(field.Offset, field.Size, field.Name);
-            stored.Add(field);
-        }
-        named = stored;
+        // A record stores each byte once (own-formats.md 2.3): a field that overlaps another is refused.
         named.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
+        foreach (var field in named) Cover(field.Offset, field.Size, field.Name);
         foreach (var (offset, length) in residue) Cover(offset, length, "Reserved");
         int gap = -1;
         for (int i = 0; i <= size; i++)

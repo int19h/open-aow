@@ -170,13 +170,13 @@ public partial class MoveTokenEvent : TokenEvent
         {
             var item = Path[index];
             var fPathItem = Path[index - 1];
-            bool condition = item.MapLevel == fPathItem.MapLevel;
+            bool condition = item.Location.MapLevel == fPathItem.Location.MapLevel;
             if (condition)
             {
                 var item2 = Path[index - 1];
                 var item3 = Path[index - 1];
                 var item4 = Path[index];
-                condition = HexGeometry.DeltaHexToRadius(Path[index].X, item4.Y, item3.X, item2.Y) == 1;
+                condition = HexGeometry.DeltaHexToRadius(Path[index].Location.X, item4.Location.Y, item3.Location.X, item2.Location.Y) == 1;
             }
 
             if (condition)
@@ -184,7 +184,7 @@ public partial class MoveTokenEvent : TokenEvent
                 var item2 = Path[index - 1];
                 var item3 = Path[index - 1];
                 var item4 = Path[index];
-                result = HexGeometry.DeltaHexToHexNumberFast(Path[index].X, item4.Y, item3.X, item2.Y);
+                result = HexGeometry.DeltaHexToHexNumberFast(Path[index].Location.X, item4.Location.Y, item3.Location.X, item2.Location.Y);
             }
             else
             {
@@ -208,7 +208,7 @@ public partial class MoveTokenEvent : TokenEvent
             var item = Path[index - 1];
             var fPathItem = Path[index - 1];
             var item2 = Path[index];
-            result = HexGeometry.DeltaHexToHexDirection(Path[index].X, item2.Y, fPathItem.X, item.Y);
+            result = HexGeometry.DeltaHexToHexDirection(Path[index].Location.X, item2.Location.Y, fPathItem.Location.X, item.Location.Y);
         }
         else
         {

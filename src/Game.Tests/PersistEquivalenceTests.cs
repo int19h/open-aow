@@ -503,7 +503,7 @@ public sealed partial class PersistEquivalenceTests
         {
             var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
             var city = new CityEnchantment(null!) { Holder = EngineFixture.Engine, CityEnchantmentId = value };
-            city.EnchantmentLocation.Packed = 9;
+            city.EnchantmentLocation = new MapCoordinate(X: 9, Y: 0, MapLevel: 0);
             city.SetOwner(control.Enchantments);
             Check("GlobalMagicControl", control, converterRead: false);
         });
@@ -968,7 +968,7 @@ public sealed partial class PersistEquivalenceTests
                 TargetMode = 255,
                 TargetType = value,
             };
-            group.TargetMapCoordinate.Packed = int.MinValue;
+            group.TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue));
             Check("AIGroup", group);
         });
     }

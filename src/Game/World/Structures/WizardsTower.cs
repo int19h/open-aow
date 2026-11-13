@@ -108,7 +108,7 @@ public partial class WizardsTower : Structure
             while (!found && I != army.Count)
             {
                 group = army.GetUnit(I).Group;
-                found = group != null && group.TargetMapCoordinate == location && group.GoldBudget == cost;
+                found = group != null && group.TargetMapCoordinate == AITargetLocation.At(location) && group.GoldBudget == cost;
                 I += 1;
             }
 

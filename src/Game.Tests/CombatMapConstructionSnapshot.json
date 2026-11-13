@@ -122,17 +122,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -159,31 +157,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -572,18 +566,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -1012,17 +1008,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -1522,17 +1520,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -1559,31 +1555,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -1972,18 +1964,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -2412,17 +2406,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -2922,17 +2918,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -2959,31 +2953,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -3372,18 +3362,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -3812,17 +3804,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -4322,17 +4316,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -4359,31 +4351,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -4772,18 +4760,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -5212,17 +5202,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -5724,17 +5716,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -5761,31 +5751,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -6174,18 +6160,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -6614,17 +6602,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -7126,17 +7116,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -7163,31 +7151,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -7576,18 +7560,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -8016,17 +8002,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -8528,17 +8516,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -8565,31 +8551,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -8978,18 +8960,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -9418,17 +9402,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
@@ -9930,17 +9916,15 @@
         "MoveControl.DestinationY": 0,
         "MoveControl._directRoute": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl._exploredMask": 0,
         "MoveControl._fieldOffsets": [
@@ -9967,31 +9951,27 @@
         ],
         "MoveControl.GapEnds": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": []
+          "DefaultItemList`1._list": []
         },
         "MoveControl.GapStarts": {
           "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
             "MapCoordinate.Y": -1
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.DefaultItemList`1._list"
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
@@ -10380,18 +10360,20 @@
         "$type": "Aow.Game.Combat.UnitPositionControl",
         "EngineObject._owner": null,
         "UnitPositionControl.Positions": {
-          "$type": "Aow.Game.World.Map.MapCoordinateList",
-          "MapCoordinateList._capacity": 0,
-          "MapCoordinateList._count": 0,
-          "MapCoordinateList._default": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Y": -1
+          "$type": "Aow.Game.World.Map.DefaultItemList`1[[Aow.Game.Combat.UnitPosition, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DefaultItemList`1._capacity": 0,
+          "DefaultItemList`1._count": 0,
+          "DefaultItemList`1.Default": {
+            "$type": "Aow.Game.Combat.UnitPosition",
+            "UnitPosition.Facing": 0,
+            "UnitPosition.Location": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": -1,
+              "MapCoordinate.X": -1,
+              "MapCoordinate.Y": -1
+            }
           },
-          "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+          "DefaultItemList`1._list": []
         }
       },
       "CombatMap.UnitSelection": {
@@ -10820,17 +10802,19 @@
           ],
           "MoveControlSettings.Path": {
             "$type": "Aow.Game.World.Movement.MovePath",
-            "MapCoordinateList._capacity": 0,
-            "MapCoordinateList._count": 0,
-            "MapCoordinateList._default": {
-              "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
-              "MapCoordinate.MapLevel": -1,
-              "MapCoordinate.Packed": 16777215,
-              "MapCoordinate.X": -1,
-              "MapCoordinate.Y": -1
+            "DefaultItemList`1._capacity": 0,
+            "DefaultItemList`1._count": 0,
+            "DefaultItemList`1.Default": {
+              "$type": "Aow.Game.World.Movement.PathStep",
+              "PathStep.Location": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": -1,
+                "MapCoordinate.X": -1,
+                "MapCoordinate.Y": -1
+              },
+              "PathStep.MoveCost": 0
             },
-            "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
+            "DefaultItemList`1._list": []
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {

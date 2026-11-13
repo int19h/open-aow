@@ -151,7 +151,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                 var pathL = path[I];
                 var pathY = path[I];
                 var pathX = path[I];
-                StrategicMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.MapLevel, _battleFieldRadius, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, _battleFieldRadius, ref info);
                 if (result < info.Strength)
                 {
                     result = info.Strength;

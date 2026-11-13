@@ -998,8 +998,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                 }
 
                 used[I] = true;
-                J = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).X;
-                temporary = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Y;
+                J = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Location.X;
+                temporary = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Location.Y;
                 itemHexSprite = new TacticalBattleItemHexSprite(null) { Holder = Creator.CreationHolder() };
                 if (CombatMap.Current.PlaceHex(itemHexSprite, J, temporary, 0))
                 {
@@ -1034,8 +1034,8 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         position = unitHexSprite.Unit.PositionGroup;
         slot = unitHexSprite.Unit.PositionIndex;
-        X = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).X;
-        Y = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Y;
+        X = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Location.X;
+        Y = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Location.Y;
         if (side == CombatSideIndex.Defender && _randomTerrain)
         {
             switch (position)
@@ -1116,7 +1116,7 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         if (!_randomTerrain)
         {
-            unitHexSprite.SetDirection((byte)CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Tag);
+            unitHexSprite.SetDirection(CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Facing);
         }
         else
         {

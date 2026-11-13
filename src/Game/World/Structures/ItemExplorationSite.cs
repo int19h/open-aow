@@ -93,12 +93,7 @@ public partial class ItemExplorationSite : ExplorationSite
             log = new ItemExplorationSiteEventLog(null) { Holder = CreationHolder() };
             log._player = army.Army.Player;
             log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText);
-            var hexX = GetHexX();
-            log.Location.X = hexX;
-            var hexY = GetHexY();
-            log.Location.Y = hexY;
-            var hexLevel = GetHexLevel();
-            log.Location.MapLevel = hexLevel;
+            log.Location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: GetHexLevel());
             for (int I = _items.Count - 1; I >= 0; I--)
             {
                 item = _items.GetItem(I);

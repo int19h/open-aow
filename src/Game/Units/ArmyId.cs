@@ -27,7 +27,9 @@ public partial class ArmyId : EngineObject
     public sbyte Y { get; set; }
     public sbyte MapLevel { get; set; }
 
-    private byte _locationFlag;
+    // The fourth byte of the packed location stored at id 11, 0 from every writer, kept so that a
+    // loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
 
     // Army.PAS:7
     public override void Dispose()

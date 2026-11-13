@@ -158,7 +158,7 @@ public partial class NegotiateTokenEvent : TokenEvent
                 path.AddMapCoordinate((sbyte)X, (sbyte)Y, (sbyte)MapLevel);
                 var hexY = ArmyHexSprite.HexY;
                 path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
-                path.List[0].Tag = (sbyte)MovePoints;
+                path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
                 move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
                 StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
@@ -179,7 +179,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             path.AddMapCoordinate((sbyte)X, (sbyte)Y, (sbyte)MapLevel);
             var hexY = ArmyHexSprite.HexY;
             path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
-            path.List[0].Tag = (sbyte)MovePoints;
+            path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
             move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
             StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }

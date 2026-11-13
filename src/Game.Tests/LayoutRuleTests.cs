@@ -12,13 +12,9 @@ public sealed class LayoutRuleTests
 {
     private static readonly string[] s_productAssemblies = ["Aow.Rtl", "Aow.Graphics", "Aow.Formats", "Aow.Game", "Aow.Platform"];
 
-    // Structs that still have a layout without the marker. Each layout pull request removes the
-    // entries it fixes, and the list is empty after LY-9 (the private layout-design.md, section 5).
-    private static readonly HashSet<string> s_unmarkedLayouts =
-    [
-        // LY-8 and LY-9: the map coordinate.
-        "Aow.Game.World.Map.MapCoordinate",
-    ];
+    // Structs that have a layout without the marker. The layout pull requests emptied the list
+    // (LY-9, the private layout-design.md, section 5), and a new entry needs a reason.
+    private static readonly HashSet<string> s_unmarkedLayouts = [];
 
     // Fields of game types that hold a [StoredLayout] type. The property table is the transient
     // table of the storage streams, deleted with them in PE-4-a.

@@ -23,19 +23,27 @@ public partial class CityEnchantment : GlobalEnchantment
     public CityEnchantmentId CityEnchantmentId;
     public MapCoordinate EnchantmentLocation;
 
+    // The fourth byte of the packed location stored at id 21, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     // City.pas:2727
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref CityEnchantmentId, 1), 1, 20);
-        stream.Int32(ref EnchantmentLocation.Packed, 21);
+        int location = StoredCoordinateImage.From(EnchantmentLocation, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 21);
+        (EnchantmentLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         CityEnchantmentId = persister.Enum("CityEnchantmentId", value: CityEnchantmentId);
-        EnchantmentLocation.Packed = persister.Int32("EnchantmentLocation", value: EnchantmentLocation.Packed);
+        int location = StoredCoordinateImage.From(EnchantmentLocation, unknownBytes: UnknownBytes).ToInt32();
+        location = persister.Int32("EnchantmentLocation", value: location);
+        (EnchantmentLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
     }
 
     // City.pas:2716
@@ -51,9 +59,7 @@ public partial class CityEnchantment : GlobalEnchantment
     public override MapCoordinate GetLocation()
     {
         MapCoordinate result = default;
-        result.X = EnchantmentLocation.X;
-        result.Y = EnchantmentLocation.Y;
-        result.MapLevel = EnchantmentLocation.MapLevel;
+        result = new MapCoordinate(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
         return result;
     }
 

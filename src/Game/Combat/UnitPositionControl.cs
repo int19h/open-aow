@@ -7,10 +7,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-// Positions: packed MapCoordinate entries, eight per army position
+// Positions: the unit positions, eight per army position, each with the direction the unit faces
 public partial class UnitPositionControl : EngineObject
 {
-    public MapCoordinateList Positions { get; private set; }
+    public DefaultItemList<UnitPosition> Positions { get; private set; }
 
     // AoWTC.pas:4943
     public override void Dispose()
@@ -23,9 +23,7 @@ public partial class UnitPositionControl : EngineObject
     // AoWTC.pas:4936
     public UnitPositionControl(ECustomNode owner) : base(owner)
     {
-        Positions = new MapCoordinateList();
-        var packMapCoordinate = HexGeometry.PackMapCoordinate(-1, -1, -1);
-        Positions.Default = packMapCoordinate;
+        Positions = new DefaultItemList<UnitPosition> { Default = UnitPosition.None };
     }
 
     // AoWTC.pas:4990
@@ -61,27 +59,14 @@ public partial class UnitPositionControl : EngineObject
     }
 
     // AoWTC.pas:4950
-    public MapCoordinate GetUnitPosition(int position, int index)
+    public UnitPosition GetUnitPosition(int position, int index)
     {
-        MapCoordinate result = default;
-        int I;
-        I = position * 8 + index;
-        if (I < Positions.Count)
-        {
-            result = Positions[I];
-        }
-        else
-        {
-            result.X = -1;
-            result.Y = -1;
-            result.MapLevel = -1;
-        }
-
-        return result;
+        int I = position * 8 + index;
+        return I < Positions.Count ? Positions[I] : UnitPosition.None;
     }
 
     // AoWTC.pas:4963
-    public void SetUnitPosition(int position, int index, MapCoordinate value)
+    public void SetUnitPosition(int position, int index, UnitPosition value)
     {
         if (position < 7 && index < 8)
         {
@@ -92,11 +77,11 @@ public partial class UnitPositionControl : EngineObject
     // AoWTC.pas:4969
     public bool ValidatePosition(ref sbyte position, ref sbyte index)
     {
-        bool result = Positions[position * 8 + index].X == -1;
+        bool result = Positions[position * 8 + index].Location.X == -1;
         if (!result)
         {
             index = 0;
-            while (Positions[position * 8 + index].X != -1 && index != 8)
+            while (Positions[position * 8 + index].Location.X != -1 && index != 8)
             {
                 index = (sbyte)(index + 1);
             }
@@ -109,7 +94,7 @@ public partial class UnitPositionControl : EngineObject
             position = 0;
             while (!result && position < 7)
             {
-                while (Positions[position * 8 + index].X != -1 && index != 8)
+                while (Positions[position * 8 + index].Location.X != -1 && index != 8)
                 {
                     index = (sbyte)(index + 1);
                 }

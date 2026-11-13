@@ -49,7 +49,7 @@ public partial class MoveControl
                 }
             }
             if (previous != null && found)
-                path.List[path.Count - 1].Tag = (sbyte)(Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) - points);
+                path.List[path.Count - 1] = path.List[path.Count - 1] with { MoveCost = (sbyte)(Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) - points) };
             field = previous;
             failed = !found;
         }

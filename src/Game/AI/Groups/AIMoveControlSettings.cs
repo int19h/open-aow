@@ -95,11 +95,11 @@ public partial class AIMoveControlSettings : EngineObject
         base.Clear();
         MovePointsMax = 175;
         QuickMovePointsMax = 300;
-        BoardingPoint.X = -1;
-        ArrivalPoint.X = -1;
-        TransportSource.X = -1;
+        BoardingPoint = BoardingPoint with { X = -1 };
+        ArrivalPoint = ArrivalPoint with { X = -1 };
+        TransportSource = TransportSource with { X = -1 };
         // { Original bug: clears the destination Y coordinate instead of X. }
-        TransportDestination.Y = -1;
+        TransportDestination = TransportDestination with { Y = -1 };
         MovePoints = -1;
         TransportPath.Clear();
         DestinationX = -1;

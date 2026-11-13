@@ -39,7 +39,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             {
                 // { Process the negotiate or ordinary move animation. }
                 // { Evaluate the map field directly. }
-                if (GetMapField(Path[0]).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
+                if (GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
                 {
                     result = ArmyHexSprite.GetMoveStatus() < 50;
                 }
@@ -68,7 +68,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         if (MoveIndex == 1)
         {
             // { Evaluate the map field directly. }
-            result = GetMapField(Path[0]).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate || base.CanMoveNext();
+            result = GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate || base.CanMoveNext();
         }
         else
         {
@@ -87,7 +87,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
         int direction;
         if (MoveIndex == 1)
         {
-            field = GetMapField(Path[0]);
+            field = GetMapField(Path[0].Location);
             if (field.GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
             {
                 direction = GetDirection(1);
@@ -109,7 +109,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 var fPathItem = Path[0];
                 var item2 = Path[0];
                 var item3 = Path[0];
-                NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.X, fPathItem.Y, item2.MapLevel, item3.Tag);
+                NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, item3.MoveCost);
                 result = MoveStatus.Done;
             }
             else

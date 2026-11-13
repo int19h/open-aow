@@ -959,7 +959,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                     var item = path[position];
                     var pathItem = path[position];
                     var item2 = path[position];
-                    action = StrategicMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.MapLevel).GetMoveAction(army.Army.Player);
+                    action = StrategicMap.Current.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel).GetMoveAction(army.Army.Player);
                 }
                 else
                 {
@@ -972,7 +972,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                     var item = path[0];
                     var pathItem = path[0];
                     var item2 = path[0];
-                    condition = !StrategicMap.Current.VisibleForPlayer(item2.X, pathItem.Y, item.MapLevel, army.Army.Player);
+                    condition = !StrategicMap.Current.VisibleForPlayer(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel, army.Army.Player);
                 }
 
                 if (condition)

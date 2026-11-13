@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Storage;
 using Aow.Formats.Tree;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
@@ -11,12 +12,10 @@ public partial class ArmyId
     {
         base.ReadWrite(stream);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 10);
-        int location = (byte)X | ((byte)Y << 8) | ((byte)MapLevel << 16) | (_locationFlag << 24);
+        int location = StoredCoordinateImage.From(new MapCoordinate(X, Y, MapLevel), unknownBytes: UnknownBytes).ToInt32();
         stream.Int32(ref location, 11);
-        X = (sbyte)location;
-        Y = (sbyte)(location >> 8);
-        MapLevel = (sbyte)(location >> 16);
-        _locationFlag = (byte)(location >> 24);
+        (var stored, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        (X, Y, MapLevel) = stored;
         stream.Payload(12, UnitIds.LoadFromStream, UnitIds.SaveToStream);
     }
 
@@ -24,12 +23,10 @@ public partial class ArmyId
     {
         base.PersistFields(persister);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
-        int location = (byte)X | ((byte)Y << 8) | ((byte)MapLevel << 16) | (_locationFlag << 24);
+        int location = StoredCoordinateImage.From(new MapCoordinate(X, Y, MapLevel), unknownBytes: UnknownBytes).ToInt32();
         location = persister.Int32("Location", value: location);
-        X = (sbyte)location;
-        Y = (sbyte)(location >> 8);
-        MapLevel = (sbyte)(location >> 16);
-        _locationFlag = (byte)(location >> 24);
+        (var stored, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        (X, Y, MapLevel) = stored;
         PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
     }
 }

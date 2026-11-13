@@ -222,11 +222,11 @@ public static class AbilityRules
         while (I != 0 && points <= movePoints)
         {
             I -= 1;
-            points += path[I].Tag;
+            points += path[I].MoveCost;
             if (points <= movePoints)
             {
                 var item = path[I];
-                field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item);
+                field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Location);
                 if (CanConstructRoad(player, field))
                 {
                     result += 10;
@@ -636,10 +636,10 @@ public static class AbilityRules
             {
                 units = new UnitUserList(null) { Holder = engine };
                 var item = movePath[movePath.Count - 1];
-                level = StrategicMap.Current.MapContainer.MapLevels[item.MapLevel];
+                level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
                 var movePathItem = movePath[movePath.Count - 1];
                 var item2 = movePath[movePath.Count - 1];
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, item2.X, movePathItem.Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, item2.Location.X, movePathItem.Location.Y, 0);
                 while (walk.Radius <= step)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -667,7 +667,7 @@ public static class AbilityRules
                 var item = movePath[I];
                 var movePathItem = movePath[I];
                 var item2 = movePath[I];
-                StrategicMap.Current.RetrieveBattleFieldInfo(item2.X, movePathItem.Y, item.MapLevel, range, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, range, ref info);
                 if (info.Strength > result)
                 {
                     result = info.Strength;
@@ -681,7 +681,7 @@ public static class AbilityRules
                     {
                         var item3 = movePath[J];
                         var item4 = movePath[I];
-                        condition = item3.MapLevel == item4.MapLevel;
+                        condition = item3.Location.MapLevel == item4.Location.MapLevel;
                     }
 
                     if (!(condition && J > I - distance))
@@ -694,7 +694,7 @@ public static class AbilityRules
                 {
                     var item3 = movePath[I];
                     var item4 = movePath[J];
-                    test = item3.MapLevel != item4.MapLevel;
+                    test = item3.Location.MapLevel != item4.Location.MapLevel;
                 }
 
                 if (test)
@@ -705,7 +705,7 @@ public static class AbilityRules
                         var item3 = movePath[J + 1];
                         var item4 = movePath[J + 1];
                         var item5 = movePath[J + 1];
-                        StrategicMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.MapLevel, range, ref info);
+                        StrategicMap.Current.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, range, ref info);
                         if (info.Strength > result)
                         {
                             result = info.Strength;

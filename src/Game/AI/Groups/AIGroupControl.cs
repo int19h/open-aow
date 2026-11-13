@@ -134,7 +134,8 @@ public partial class AIGroupControl : EngineObject
         bool result;
         if (!Group.Status.Contains(AIGroupStatusElement.Done))
         {
-            Group.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
+            Group.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+            Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
@@ -545,7 +546,8 @@ public partial class AIGroupControl : EngineObject
             troop = player.Armies.GetArmy(I).Transporter(255);
             if (troop != null && (troop.Group == null || troop.Group.EngineClass.ClassId == 136295))
             {
-                troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
+                troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+                location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                 distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {

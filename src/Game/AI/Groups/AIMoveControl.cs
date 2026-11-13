@@ -149,7 +149,7 @@ public partial class AIMoveControl : EngineObject
             var item = path[I];
             var pathItem = path[I];
             var item2 = path[I];
-            mapField = StrategicMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.MapLevel);
+            mapField = StrategicMap.Current.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel);
             if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
             {
                 if (!inGap)
@@ -181,13 +181,13 @@ public partial class AIMoveControl : EngineObject
         if (gaps != 0)
         {
             var item = path[firstGap + 1];
-            Settings.BoardingPoint = item;
+            Settings.BoardingPoint = item.Location;
             var pathItem = path[firstGap];
-            Settings.TransportSource = pathItem;
+            Settings.TransportSource = pathItem.Location;
             var item2 = path[lastGap - 1];
-            Settings.ArrivalPoint = item2;
+            Settings.ArrivalPoint = item2.Location;
             var item3 = path[lastGap];
-            Settings.TransportDestination = item3;
+            Settings.TransportDestination = item3.Location;
             result = true;
             _multipleTransportGaps = gaps > 1;
         }
@@ -235,14 +235,15 @@ public partial class AIMoveControl : EngineObject
                     var item = _pathSettings.Path[0];
                     var fPathItem = _pathSettings.Path[0];
                     var item2 = _pathSettings.Path[0];
-                    var movePoints = _pathSettings.GetMovePoints(item2.X, fPathItem.Y, item.MapLevel);
+                    var movePoints = _pathSettings.GetMovePoints(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                     Settings.MovePoints = movePoints;
                     Settings.TransportPath.Assign(_pathSettings.Path);
                     if (CalculateTransportGaps(_pathSettings.Path, _movePointTable))
                     {
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
-                        Settings.Transporter.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
+                        Settings.Transporter.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+                        Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                         _pathSettings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
                         ref var location = ref Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
@@ -346,10 +347,10 @@ public partial class AIMoveControl : EngineObject
         {
             Settings.AddRef();
             Settings.MovePoints = -1;
-            Settings.TransportSource.X = -1;
-            Settings.TransportDestination.X = -1;
-            Settings.BoardingPoint.X = -1;
-            Settings.ArrivalPoint.X = -1;
+            Settings.TransportSource = Settings.TransportSource with { X = -1 };
+            Settings.TransportDestination = Settings.TransportDestination with { X = -1 };
+            Settings.BoardingPoint = Settings.BoardingPoint with { X = -1 };
+            Settings.ArrivalPoint = Settings.ArrivalPoint with { X = -1 };
             Settings.Status = AIMoveControlStatus.Processing;
             _movePointTable = Settings.MovePointTable;
             transporter = Settings.Transporter;

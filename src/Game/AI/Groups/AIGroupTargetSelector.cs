@@ -608,7 +608,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     {
                         if (GroupControl.Group.Productions.Count != 0)
                         {
-                            GroupControl.Group.Productions.GetProductions(0).Control.GetLocation(out location.X, out location.Y, out location.MapLevel);
+                            GroupControl.Group.Productions.GetProductions(0).Control.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+                            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                             GroupControl.SetupME();
                             GroupControl.ExecuteME(location.X, location.Y, location.MapLevel);
                             result = true;
@@ -744,7 +745,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         {
             I -= 1;
             group = player.AIGroups.GetGroups(I);
-            result = group != ignoreGroup && group.TargetType == AIGroupTargetStatus.Execute && target.Location.MapLevel == group.TargetMapCoordinate.MapLevel && HexGeometry.DeltaHexToRadius(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, target.Location.X, target.Location.Y) <= 1;
+            result = group != ignoreGroup && group.TargetType == AIGroupTargetStatus.Execute && target.Location.MapLevel == group.TargetMapCoordinate.Location.MapLevel && HexGeometry.DeltaHexToRadius(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, target.Location.X, target.Location.Y) <= 1;
         }
 
         return result;
@@ -767,7 +768,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         {
             I -= 1;
             other = player.AIGroups.GetGroups(I);
-            if (other != group && other.TargetType == AIGroupTargetStatus.Execute && other.TargetMapCoordinate.MapLevel == target.Location.MapLevel && HexGeometry.DeltaHexToRadius(other.TargetMapCoordinate.X, other.TargetMapCoordinate.Y, target.Location.X, target.Location.Y) <= 1)
+            if (other != group && other.TargetType == AIGroupTargetStatus.Execute && other.TargetMapCoordinate.Location.MapLevel == target.Location.MapLevel && HexGeometry.DeltaHexToRadius(other.TargetMapCoordinate.Location.X, other.TargetMapCoordinate.Location.Y, target.Location.X, target.Location.Y) <= 1)
             {
                 moves = other.GetMovesMin();
                 points = other.TargetMovePoints;
@@ -895,7 +896,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         group = GroupControl.Group;
-        if (group.TargetMapCoordinate == target.Location)
+        if (group.TargetMapCoordinate == AITargetLocation.At(target.Location))
         {
             if (group.TargetType == AIGroupTargetStatus.Execute)
             {
@@ -967,7 +968,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
             var group = GroupControl.Group;
-            if (group.TargetMapCoordinate == target.Location && group.TargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= target.MovePoints)
+            if (group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= target.MovePoints)
             {
                 result = NearSuperiority;
             }
@@ -1021,7 +1022,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public float GetRequiredBattleFieldSuperiority(AIGroupControlTarget target)
     {
         float result;
-        if (target.Location == GroupControl.Group.TargetMapCoordinate && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute)
+        if (AITargetLocation.At(target.Location) == GroupControl.Group.TargetMapCoordinate && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute)
         {
             result = CurrentBattleFieldFactor;
         }
@@ -1053,7 +1054,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         var group = GroupControl.Group;
-        if (group.TargetMapCoordinate == target.Location && group.TargetType == AIGroupTargetStatus.Execute)
+        if (group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute)
         {
             pathStrength = Round((double)target.PathStrength * CurrentPathStrengthFactor);
         }
@@ -1229,9 +1230,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public void NoTargetsFound()
     {
         TargetStatus = AIGroupTargetingStatus.NoTargetsFound;
-        // The cleared target: the Delphi wrote -1, all four bytes $FF, which differs from None. Issue #191
-        // gives the AI target its own type for it.
-        GroupControl.Group.TargetMapCoordinate = new MapCoordinate { X = -1, Y = -1, MapLevel = -1, Tag = -1 };
+        // The cleared target: the Delphi wrote -1, all four bytes $FF, which differs from None.
+        GroupControl.Group.TargetMapCoordinate = AITargetLocation.Cleared;
         GroupControl.Group.TargetType = AIGroupTargetStatus.None;
         if (GroupControl.Group.Transporter != null)
         {

@@ -2154,27 +2154,22 @@ public partial class StrategicMap : GameMap
             player = Players.GetPlayers(SeatedPlayer);
             if ((sbyte)player.ViewX > 0)
             {
-                location.X = (sbyte)player.ViewX;
-                location.Y = (sbyte)player.ViewY;
-                location.MapLevel = (sbyte)player.ViewMapLevel;
+                location = new MapCoordinate(X: (sbyte)player.ViewX, Y: (sbyte)player.ViewY, MapLevel: (sbyte)player.ViewMapLevel);
             }
             else
             {
-                player.GetLeaderLocation(out location.X, out location.Y, out location.MapLevel);
+                player.GetLeaderLocation(out var locationX, out var locationY, out var locationMapLevel);
+                location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                 if (location.X == -1)
                 {
                     if (player.Armies.Count == 0)
                     {
-                        location.X = 0;
-                        location.Y = 0;
-                        location.MapLevel = 0;
+                        location = new MapCoordinate(X: 0, Y: 0, MapLevel: 0);
                     }
                     else
                     {
                         army = player.Armies.GetArmy(0);
-                        location.X = army.X;
-                        location.Y = army.Y;
-                        location.MapLevel = army.MapLevel;
+                        location = new MapCoordinate(X: army.X, Y: army.Y, MapLevel: army.MapLevel);
                     }
                 }
             }

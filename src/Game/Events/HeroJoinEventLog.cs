@@ -61,7 +61,8 @@ public partial class HeroJoinEventLog : JoinEventLog
         if (result && !StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
         {
             U = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
-            U.GetLocation(out location.X, out location.Y, out location.MapLevel);
+            U.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
             tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Player = _player;
             tokenEvent.Object = NegotiateObject.Army;

@@ -182,7 +182,8 @@ public partial class AIMoveTargetSelector : EngineObject
         {
             gaps = new Int32List();
             target = _bufferedTargets.GetTarget(0);
-            _transporter.GetLocation(out location.X, out location.Y, out location.MapLevel);
+            _transporter.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
             if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
                 _settings.Reset();
@@ -204,7 +205,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     var item2 = target.MovePath[gapsItem];
                     var item3 = gaps[I];
                     var item4 = target.MovePath[item3];
-                    _settings.SetDestinationPosition(item4.X, item2.Y, fMovePathItem.MapLevel);
+                    _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
                     valid = StrategicMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
             }
@@ -489,9 +490,9 @@ public partial class AIMoveTargetSelector : EngineObject
         while (number > 1)
         {
             number--;
-            MapCoordinate mapCoordinate = path[number];
-            MapCoordinate mapCoordinate2 = path[number];
-            MapCoordinate mapCoordinate3 = path[number];
+            MapCoordinate mapCoordinate = path[number].Location;
+            MapCoordinate mapCoordinate2 = path[number].Location;
+            MapCoordinate mapCoordinate3 = path[number].Location;
             MapField field = map.MapContainer.GetField(mapCoordinate3.X, mapCoordinate2.Y, mapCoordinate.MapLevel);
             if (table[(int)field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] == -1)
             {

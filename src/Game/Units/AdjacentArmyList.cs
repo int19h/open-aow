@@ -26,7 +26,6 @@ public partial class AdjacentArmyList : ENode, IChildList<AdjacentArmy>
     public int IndexOfLocation(MapCoordinate location)
     {
         int result = Count;
-        location.Tag = 0;
         while (result != 0)
         {
             result -= 1;
