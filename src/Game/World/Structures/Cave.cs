@@ -107,7 +107,7 @@ public partial class Cave : Structure
             }
 
             // { Original dereferences the destination even for an idle entrance. }
-            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, MemoryMarshal.Cast<Array16<sbyte>, sbyte>(((MoveControl)(object)info.Sender).MovePointTable)[1 + 16 * field.TerrainType + field.OverlayType]);
+            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + 16 * field.TerrainType + field.OverlayType));
         }
     }
 

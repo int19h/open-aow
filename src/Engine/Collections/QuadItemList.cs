@@ -1,6 +1,4 @@
 // Translated from Engine.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Rtl;
@@ -153,10 +151,7 @@ public partial class QuadItemList : Persistent
             Grow();
         }
 
-        _list[result].First = A;
-        _list[result].Second = B;
-        _list[result].Third = C;
-        _list[result].Fourth = D;
+        _list[result] = new QuadInteger(First: A, Second: B, Third: C, Fourth: D);
         _count += 1;
         return result;
     }
@@ -179,7 +174,7 @@ public partial class QuadItemList : Persistent
         _count -= 1;
         if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), (_count - index) * 16);
+            _list.AsSpan(index + 1, _count - index).CopyTo(_list.AsSpan(index, _count - index));
         }
     }
 
@@ -220,7 +215,7 @@ public partial class QuadItemList : Persistent
     public int IndexOf(in QuadInteger item)
     {
         int result = 0;
-        while (result < _count && (_list[result].First != item.First || _list[result].Second != item.Second || _list[result].Third != item.Third || _list[result].Fourth != item.Fourth))
+        while (result < _count && _list[result] != item)
         {
             result += 1;
         }
@@ -316,7 +311,7 @@ public partial class QuadItemList : Persistent
 
         if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), (_count - index) * 16);
+            _list.AsSpan(index, _count - index).CopyTo(_list.AsSpan(index + 1, _count - index));
         }
 
         _list[index] = item;
@@ -360,7 +355,7 @@ public partial class QuadItemList : Persistent
     {
         for (int I = _count - 1; I >= 0; I--)
         {
-            if (_list[I].First == _default.First && _list[I].Second == _default.Second && _list[I].Third == _default.Third && _list[I].Fourth == _default.Fourth)
+            if (_list[I] == _default)
             {
                 Delete(I);
             }
@@ -425,71 +420,7 @@ public partial class QuadItemList : Persistent
     }
 
     // Engine.pas:5777
-    public bool Compare(QuadItemList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 16);
-
-    // Engine.pas:5784
-    public void LoadFromStream(Stream stream)
-    {
-        int run = default;
-        int count = default;
-        QuadInteger item = default;
-        Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, 16));
-        stream.ReadExactly(Bytes.Of(ref count, 4));
-        SetCapacity(count);
-        while (_count < count)
-        {
-            stream.ReadExactly(Bytes.Of(ref item, 16));
-            if (item.First == _default.First && item.Second == _default.Second && item.Third == _default.Third && item.Fourth == _default.Fourth)
-            {
-                stream.ReadExactly(Bytes.Of(ref run, 4));
-                SetCount(_count + run);
-            }
-            else
-            {
-                Add(item);
-            }
-        }
-    }
-
-    // Engine.pas:5807
-    public void SaveToStream(Stream stream)
-    {
-        int I;
-        int run = default;
-        int DefaultRun()
-        {
-            int J;
-            int result = 0;
-            J = I;
-            while (J < _count && (_list[J].First == _default.First && _list[J].Second == _default.Second && _list[J].Third == _default.Third && _list[J].Fourth == _default.Fourth))
-            {
-                result += 1;
-                J += 1;
-            }
-
-            return result;
-        }
-
-        I = 0;
-        stream.Write(Bytes.Of(ref _default, 16));
-        stream.Write(Bytes.Of(ref _count, 4));
-        while (_count != I)
-        {
-            run = DefaultRun();
-            if (run > 0)
-            {
-                stream.Write(Bytes.Of(ref _default, 16));
-                stream.Write(Bytes.Of(ref run, 4));
-                I += run;
-            }
-            else
-            {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
-                I += 1;
-            }
-        }
-    }
+    public bool Compare(QuadItemList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
@@ -593,13 +524,8 @@ public partial class QuadItemList : Persistent
         EngineServices.Fill(buffer, count, value2);
     }
 
-    public struct QuadInteger
-    {
-        public int First;
-        public int Second;
-        public int Third;
-        public int Fourth;
-    }
+    // Delphi TQuadInteger, four integers. Equality compares all four.
+    public readonly record struct QuadInteger(int First, int Second, int Third, int Fourth);
 
     public delegate int QuadItemSortCompare(in QuadInteger Item1, in QuadInteger Item2);
 

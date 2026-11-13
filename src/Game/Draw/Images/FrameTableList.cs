@@ -94,7 +94,8 @@ public partial class FrameTableList : Persistent
 
         if (newCount > _count)
         {
-            FillBytes(MemoryMarshal.AsBytes(_list.AsSpan(_count, newCount - _count)), _defaultValue);
+            // FillChar: each byte of a new item is the low byte of the default.
+            _list.AsSpan(_count, newCount - _count).Fill(unchecked((byte)_defaultValue * 0x01010101));
         }
 
         _count = newCount;
@@ -285,7 +286,7 @@ public partial class FrameTableList : Persistent
     }
 
     // ImageLib.pas:9560
-    public bool Compare(FrameTableList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 4);
+    public bool Compare(FrameTableList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     // ImageLib.pas:9566
     public void LoadFromStream(Stream stream)

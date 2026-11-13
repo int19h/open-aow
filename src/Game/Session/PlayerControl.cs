@@ -530,7 +530,7 @@ public partial class PlayerControl : EngineObject
                     if (count > 0)
                     {
                         count -= 1;
-                        _disconnectedPlayers.List[I].Second = count;
+                        _disconnectedPlayers.List[I] = _disconnectedPlayers.List[I] with { Second = count };
                     }
 
                     if (count == 0)

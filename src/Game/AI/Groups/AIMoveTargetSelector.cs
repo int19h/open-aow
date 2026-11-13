@@ -92,7 +92,7 @@ public partial class AIMoveTargetSelector : EngineObject
         _state = 0;
         Status = AIMoveTargetSelectorStatus.Idle;
         OnTargetFound = null;
-        FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
+        MovePointTable.Fill(-1);
         TargetInfo = default;
         TargetInfo.Player = -1;
         MovePointsMax = 250;
@@ -117,7 +117,7 @@ public partial class AIMoveTargetSelector : EngineObject
             TargetInfo.IndependentRelation = army.Army.IndependentRelation;
         }
 
-        army.Army.CreateMovePointTable(selection, Bytes.Of(ref MovePointTable));
+        army.Army.CreateMovePointTable(selection, out MovePointTable);
         return true;
     }
 

@@ -78,7 +78,7 @@ public partial class SByteList : Persistent
 
         if (newCount > _count)
         {
-            FillBytes(MemoryMarshal.AsBytes(_list.AsSpan(_count, newCount - _count)), _default);
+            _list.AsSpan(_count, newCount - _count).Fill(_default);
         }
 
         _count = newCount;
@@ -292,7 +292,7 @@ public partial class SByteList : Persistent
     }
 
     // Engine.pas:4153
-    public bool Compare(SByteList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count * 1)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count * 1)), _count * 1);
+    public bool Compare(SByteList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     // Engine.pas:4160
     public void LoadFromStream(Stream stream)

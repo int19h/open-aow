@@ -322,8 +322,7 @@ public partial class SpellBook : UIModule
             if (Mode == 0)
             {
                 _playerPages.Count = StrategicMap.Current.SeatedPlayer + 1;
-                _playerPages.List[StrategicMap.Current.SeatedPlayer].First = (int)_spellType;
-                _playerPages.List[StrategicMap.Current.SeatedPlayer].Second = Page;
+                _playerPages.List[StrategicMap.Current.SeatedPlayer] = new DoubleItemList.DoubleItem(First: (int)_spellType, Second: Page);
             }
 
             if (PageKind == 1)
@@ -942,10 +941,8 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:197
     public void SpellBookCreate()
     {
-        DoubleItemList.DoubleItem defaults = default;
+        var defaults = new DoubleItemList.DoubleItem(First: 2, Second: 0);
         _spells = new SpellList();
-        defaults.First = 2;
-        defaults.Second = 0;
         _playerPages = new DoubleItemList();
         _playerPages.Default = defaults;
     }

@@ -332,11 +332,11 @@ public partial class AIGroupControl : EngineObject
             Array.Clear(_strength);
             if (Group.Count != 0)
             {
-                FillBytes(Bytes.Of(ref MovePointTable, 256), 1);
+                MovePointTable.Fill(1);
             }
             else
             {
-                FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
+                MovePointTable.Fill(-1);
             }
 
             for (int I = Group.Count - 1; I >= 0; I--)
@@ -344,7 +344,7 @@ public partial class AIGroupControl : EngineObject
                 troop = Group.GetUnit(I);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(out movePointTable);
-                AbilityRules.MaximizeMovePointTable(Bytes.Of(ref MovePointTable), Bytes.Of(ref movePointTable));
+                MovePointTable.Maximize(movePointTable);
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
                     damageType = (DamageType)damageTypeOrdinal;

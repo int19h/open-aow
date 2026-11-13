@@ -1664,7 +1664,7 @@ public partial class Army : UnitList
         MovePointTable table = default;
         MovePointTable unitTable = default;
         Troop transport;
-        FillBytes(Bytes.Of(ref table, 256), 1);
+        table.Fill(1);
         transport = Transporter(selection);
         if (transport != null)
         {
@@ -1677,7 +1677,7 @@ public partial class Army : UnitList
                 if ((selection & 1) != 0)
                 {
                     this[I].CreateMovePointTable(out unitTable);
-                    AbilityRules.MaximizeMovePointTable(Bytes.Of(ref table), Bytes.Of(ref unitTable));
+                    table.Maximize(unitTable);
                 }
 
                 selection = (byte)(int)(((uint)selection) >> 1);
@@ -1688,17 +1688,18 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1469
-    public void CreateMovePointTable(byte selection, Span<byte> table)
+    public void CreateMovePointTable(byte selection, out MovePointTable table)
     {
         int count;
         MovePointTable unitTable = default;
         Troop transport;
         count = 0;
-        FillBytes(table.Slice(0, 256), 1);
+        table = default;
+        table.Fill(1);
         transport = Transporter(selection);
         if (transport != null)
         {
-            transport.CreateMovePointTable(out MemoryMarshal.Cast<byte, MovePointTable>(table)[0]);
+            transport.CreateMovePointTable(out table);
             count += 1;
         }
         else
@@ -1708,7 +1709,7 @@ public partial class Army : UnitList
                 if ((selection & 1) != 0)
                 {
                     this[I].CreateMovePointTable(out unitTable);
-                    AbilityRules.MaximizeMovePointTable(table, Bytes.Of(ref unitTable));
+                    table.Maximize(unitTable);
                     count += 1;
                 }
 
@@ -1718,7 +1719,7 @@ public partial class Army : UnitList
 
         if (count == 0)
         {
-            FillBytes(table.Slice(0, 256), -1);
+            table.Fill(-1);
         }
     }
 

@@ -100,7 +100,7 @@ public partial class WarpParty : Spell
         int I;
         bool found;
         candidates = new DelphiList<MapField>();
-        army.Army.CreateMovePointTable(255, Bytes.Of(ref table));
+        army.Army.CreateMovePointTable(255, out table);
         var hexY = army.HexY;
         var hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);

@@ -1,6 +1,4 @@
 // Translated from HSEngine.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Engine.Collections;
 
 using Aow.Game.World.Movement;
@@ -9,12 +7,12 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Map;
 
-// terrain and overlay types by hexagon number, two bytes per hexagon (terrain type, overlay
-// type. -2: none)
+// terrain and overlay types by hexagon number, one pair per hexagon (terrain type, overlay
+// type. -2: none). The stream holds the pairs as two signed bytes each.
 public partial class TerrainList : IDisposable
 {
     internal int _count;
-    private byte[] _list = [];
+    private (sbyte Terrain, sbyte Overlay)[] _list = [];
 
     // HSEngine.pas:1411
     public virtual void Dispose()
@@ -26,7 +24,7 @@ public partial class TerrainList : IDisposable
     public virtual void Assign(TerrainList source)
     {
         SetCount(source._count);
-        Array.Copy(source._list, 0, _list, 0, _count * 2);
+        Array.Copy(source._list, 0, _list, 0, _count);
     }
 
     // HSEngine.pas:1562
@@ -34,7 +32,12 @@ public partial class TerrainList : IDisposable
     {
         stream.ReadExactly(Bytes.Of(ref _count, 4));
         SetCount(_count);
-        stream.ReadExactly(_list.AsSpan(0, _count * 2));
+        var bytes = new byte[_count * 2];
+        stream.ReadExactly(bytes);
+        for (int I = 0; I < _count; I++)
+        {
+            _list[I] = ((sbyte)bytes[I * 2], (sbyte)bytes[I * 2 + 1]);
+        }
     }
 
     // HSEngine.pas:1569
@@ -42,7 +45,13 @@ public partial class TerrainList : IDisposable
     {
         Pack();
         stream.Write(Bytes.Of(ref _count, 4));
-        stream.Write(_list.AsSpan(0, _count * 2));
+        var bytes = new byte[_count * 2];
+        for (int I = 0; I < _count; I++)
+        {
+            (bytes[I * 2], bytes[I * 2 + 1]) = ((byte)_list[I].Terrain, (byte)_list[I].Overlay);
+        }
+
+        stream.Write(bytes);
     }
 
     // HSEngine.pas:1423
@@ -51,7 +60,7 @@ public partial class TerrainList : IDisposable
         sbyte result;
         if (index < _count)
         {
-            result = MemoryMarshal.Read<sbyte>(_list.AsSpan(index * 2, 1));
+            result = _list[index].Terrain;
         }
         else
         {
@@ -69,17 +78,16 @@ public partial class TerrainList : IDisposable
             SetCount(index + 1);
         }
 
-        sbyte value206 = value;
-        MemoryMarshal.Write(_list.AsSpan(index * 2, 1), in value206);
+        _list[index].Terrain = value;
     }
 
     // HSEngine.pas:1437
     public void SetCount(int newCount)
     {
-        Array.Resize(ref _list, newCount + newCount);
+        Array.Resize(ref _list, newCount);
         if (newCount > _count)
         {
-            FillBytes(_list.AsSpan(_count * 2, (newCount - _count) * 2), -2);
+            _list.AsSpan(_count, newCount - _count).Fill((-2, -2));
         }
 
         _count = newCount;
@@ -91,7 +99,7 @@ public partial class TerrainList : IDisposable
         sbyte result;
         if (index < _count)
         {
-            result = MemoryMarshal.Read<sbyte>(_list.AsSpan(index * 2 + 1, 1));
+            result = _list[index].Overlay;
         }
         else
         {
@@ -109,17 +117,16 @@ public partial class TerrainList : IDisposable
             SetCount(index + 1);
         }
 
-        sbyte value207 = value;
-        MemoryMarshal.Write(_list.AsSpan(index * 2 + 1, 1), in value207);
+        _list[index].Overlay = value;
     }
 
-    // HSEngine.pas:1459
+    // HSEngine.pas:1459. The pair as one word: the terrain byte low, the overlay byte high.
     public ushort GetTandO(int index)
     {
         ushort result;
         if (index < _count)
         {
-            result = MemoryMarshal.Read<ushort>(_list.AsSpan(index * 2, 2));
+            result = (ushort)((byte)_list[index].Terrain | (byte)_list[index].Overlay << 8);
         }
         else
         {
@@ -137,19 +144,19 @@ public partial class TerrainList : IDisposable
             SetCount(index + 1);
         }
 
-        ushort value208 = value;
-        MemoryMarshal.Write(_list.AsSpan(index * 2, 2), in value208);
+        _list[index] = ((sbyte)value, (sbyte)(value >> 8));
     }
 
-    // HSEngine.pas:1473
-    public bool GetUsed(int index) => index < _count && (MemoryMarshal.Read<ushort>(_list.AsSpan(index * 2, 2)) & 32896) != 32896;
+    // HSEngine.pas:1473. The original masks the word with $8080: a pair is unused when both bytes
+    // are negative.
+    public bool GetUsed(int index) => index < _count && !(_list[index].Terrain < 0 && _list[index].Overlay < 0);
 
     // HSEngine.pas:1478
     public int UsedTerrain()
     {
         int count = 0;
         for (int i = 0; i < _count; i++)
-            if ((sbyte)_list[i * 2 + 0] > -1) count++;
+            if (_list[i].Terrain > -1) count++;
         return count;
     }
 
@@ -158,7 +165,7 @@ public partial class TerrainList : IDisposable
     {
         int count = 0;
         for (int i = 0; i < _count; i++)
-            if ((sbyte)_list[i * 2 + 1] > -1) count++;
+            if (_list[i].Overlay > -1) count++;
         return count;
     }
 

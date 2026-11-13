@@ -1,7 +1,4 @@
 // Translated from Engine.pas.
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Rtl;
@@ -154,8 +151,7 @@ public partial class DoubleItemList : Persistent
             Grow();
         }
 
-        _list[result].First = A;
-        _list[result].Second = B;
+        _list[result] = new DoubleItem(First: A, Second: B);
         _count += 1;
         return result;
     }
@@ -178,7 +174,7 @@ public partial class DoubleItemList : Persistent
         _count -= 1;
         if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), (_count - index) * 8);
+            _list.AsSpan(index + 1, _count - index).CopyTo(_list.AsSpan(index, _count - index));
         }
     }
 
@@ -215,11 +211,11 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5135
     public DoubleItem First() => Get(0);
 
-    // Engine.pas:5158
+    // Engine.pas:5158. The Delphi compares the items as Comp, which is exact.
     public int IndexOf(in DoubleItem item)
     {
         int result = 0;
-        while (result < _count && (double)Unsafe.As<DoubleItem, long>(ref _list[result]) != Unsafe.BitCast<DoubleItem, long>(item))
+        while (result < _count && _list[result] != item)
         {
             result += 1;
         }
@@ -281,7 +277,7 @@ public partial class DoubleItemList : Persistent
 
         if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), (_count - index) * 8);
+            _list.AsSpan(index, _count - index).CopyTo(_list.AsSpan(index + 1, _count - index));
         }
 
         _list[index] = item;
@@ -323,11 +319,9 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5221
     public void Pack()
     {
-        DoubleItem item = default;
         for (int I = _count - 1; I >= 0; I--)
         {
-            item = this[I];
-            if ((double)Unsafe.As<DoubleItem, long>(ref item) == Unsafe.As<DoubleItem, long>(ref _default))
+            if (this[I] == _default)
             {
                 Delete(I);
             }
@@ -368,71 +362,7 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5327
-    public bool Compare(DoubleItemList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 8);
-
-    // Engine.pas:5334
-    public void LoadFromStream(Stream stream)
-    {
-        DoubleItem item = default;
-        int run = default;
-        int count = default;
-        Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, 8));
-        stream.ReadExactly(Bytes.Of(ref count, 4));
-        SetCapacity(count);
-        while (_count < count)
-        {
-            stream.ReadExactly(Bytes.Of(ref item, 8));
-            if ((double)Unsafe.As<DoubleItem, long>(ref item) == Unsafe.As<DoubleItem, long>(ref _default))
-            {
-                stream.ReadExactly(Bytes.Of(ref run, 4));
-                SetCount(_count + run);
-            }
-            else
-            {
-                Add(item);
-            }
-        }
-    }
-
-    // Engine.pas:5356
-    public void SaveToStream(Stream stream)
-    {
-        int I;
-        int run = default;
-        int DefaultRun()
-        {
-            int J;
-            int result = 0;
-            J = I;
-            while (J < _count && (double)Unsafe.As<DoubleItem, long>(ref _list[J]) == Unsafe.As<DoubleItem, long>(ref _default))
-            {
-                result += 1;
-                J += 1;
-            }
-
-            return result;
-        }
-
-        I = 0;
-        stream.Write(Bytes.Of(ref _default, 8));
-        stream.Write(Bytes.Of(ref _count, 4));
-        while (_count != I)
-        {
-            run = DefaultRun();
-            if (run > 0)
-            {
-                stream.Write(Bytes.Of(ref _default, 8));
-                stream.Write(Bytes.Of(ref run, 4));
-                I += run;
-            }
-            else
-            {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
-                I += 1;
-            }
-        }
-    }
+    public bool Compare(DoubleItemList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     // Engine.pas:5394
     public int RandomChanceItemA(int bonus)
@@ -605,11 +535,9 @@ public partial class DoubleItemList : Persistent
         EngineServices.Fill(buffer, count, value);
     }
 
-    public struct DoubleItem
-    {
-        public int First;
-        public int Second;
-    }
+    // Delphi TDoubleItem, two integers. Equality compares both, as the Delphi Comp compare of the
+    // eight bytes does.
+    public readonly record struct DoubleItem(int First, int Second);
 
     public delegate int DoubleItemSortCompare(in DoubleItem Item1, in DoubleItem Item2);
 
