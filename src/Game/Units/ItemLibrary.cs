@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -24,6 +25,13 @@ public partial class ItemLibrary : ItemList
         base.ReadWrite(stream);
         stream.String(ref Name, 20);
         stream.Int32(ref _lastId, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Name = persister.String("Name", value: Name);
+        _lastId = persister.Int32("LastId", value: _lastId);
     }
 
     // Army.PAS:4909

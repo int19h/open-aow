@@ -28,8 +28,8 @@ public partial class DispelMagicAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Enabled = persister.Boolean("Enabled", Enabled);
-        Level = persister.Byte("Level", Level);
+        Enabled = persister.Boolean("Enabled", value: Enabled);
+        Level = persister.Byte("Level", value: Level);
     }
 
     // AoWAb.PAS:4030

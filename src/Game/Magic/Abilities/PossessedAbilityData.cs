@@ -26,7 +26,7 @@ public partial class PossessedAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        SourceExperience = persister.Int32("SourceExperience", SourceExperience);
+        SourceExperience = persister.Int32("SourceExperience", value: SourceExperience);
     }
 
     // AoWAb.PAS:2551

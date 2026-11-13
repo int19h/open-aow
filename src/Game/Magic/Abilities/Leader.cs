@@ -1,7 +1,9 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Session;
 
@@ -39,6 +41,13 @@ public partial class Leader : Hero
         base.ReadWrite(stream);
         stream.Byte(ref SpherePicksMax, 5, 45);
         stream.Payload(46, _spheres.LoadFromStream, _spheres.SaveToStream);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        SpherePicksMax = persister.Byte("SpherePicksMax", value: SpherePicksMax, fallback: 5);
+        PersistSupport.ByteList(persister, name: "Spheres", list: _spheres);
     }
 
     // Hero.PAS:2759

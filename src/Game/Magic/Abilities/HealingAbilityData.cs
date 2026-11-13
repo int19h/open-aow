@@ -26,7 +26,7 @@ public partial class HealingAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Enabled = persister.Boolean("Enabled", Enabled);
+        Enabled = persister.Boolean("Enabled", value: Enabled);
     }
 
     // AoWAb.PAS:3607

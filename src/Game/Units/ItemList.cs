@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -43,6 +44,21 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
     {
         base.MainReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        {
+            for (int I = 0, last = Count - 1; I <= last; I++)
+            {
+                if (GetChild(I) != null)
+                {
+                    this[I].Release();
+                }
+            }
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        base.MainPersist(persister);
+        if (persister.Loading)
         {
             for (int I = 0, last = Count - 1; I <= last; I++)
             {

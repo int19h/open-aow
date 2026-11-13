@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Units;
 
@@ -21,6 +22,13 @@ public partial class UnitProduction : EngineObject
         base.ReadWrite(stream);
         stream.Int32(ref UnitIndex, 20);
         stream.Boolean(ref Researched, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        UnitIndex = persister.Int32("UnitIndex", value: UnitIndex);
+        Researched = persister.Boolean("Researched", value: Researched);
     }
 
     // Engine.pas:524

@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -74,6 +76,29 @@ public partial class HeroResource : TroopResource
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 20);
         stream.Object(Abilities, 29);
         stream.Int32(ref FaceIndex, 30);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Name = persister.String("Name", value: Name);
+        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        HeroType = persister.Enum("HeroType", value: HeroType);
+        Alignment = persister.Enum("Alignment", value: Alignment);
+        if (Alignment > Alignment.None)
+        {
+            Alignment = Alignment.Neutral;
+        }
+
+        Hidden = persister.Boolean("Hidden", value: Hidden);
+        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
+        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
+        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
+        Hits = PersistSupport.UnsignedByte(persister, name: "Hits", value: Hits);
+        Moves = PersistSupport.UnsignedByte(persister, name: "Moves", value: Moves);
+        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
+        persister.Object("Abilities", objectValue: Abilities);
+        FaceIndex = persister.Int32("FaceIndex", value: FaceIndex);
     }
 
     // Hero.PAS:2326

@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -24,6 +25,13 @@ public partial class HeroLibrary : HeroList
         base.ReadWrite(stream);
         stream.String(ref LibraryName, 20);
         stream.Int32(ref _nextLibraryId, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        LibraryName = persister.String("LibraryName", value: LibraryName);
+        _nextLibraryId = persister.Int32("NextLibraryId", value: _nextLibraryId);
     }
 
     // Hero.PAS:2592

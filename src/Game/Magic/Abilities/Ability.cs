@@ -4,6 +4,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -63,6 +64,16 @@ public partial class Ability : EngineObject
         stream.Object(SfxLibrary, 7);
         stream.Payload(8, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
         TransferSet(ref SelectionTypes, 2, 9, stream.Bytes, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Description", lines: Description);
+        SkillPointCost = persister.Int32("SkillPointCost", value: SkillPointCost);
+        persister.Object("SfxLibrary", objectValue: SfxLibrary);
+        PersistSupport.ImageSequences(persister, name: "ImageSequences", list: ImageSequences);
+        SelectionTypes = persister.Set("SelectionTypes", value: SelectionTypes);
     }
 
     // Ability.PAS:1579

@@ -9,6 +9,7 @@ using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Xunit.Abstractions;
 using Xunit.Sdk;
@@ -32,12 +33,28 @@ public sealed class PersistCorpusTests
     // Class id 80 is shared with TEObject, so a created object is not named TAbilityList.
     // TSetupSettings is not a member of a map, campaign, hero list or save. Storm and animation
     // sprites are absent from these files.
+    // The game set files hold the resources of units, heroes, items and abilities, which no map,
+    // campaign, hero list or save stores. Each is a written object between two CRC words, read as
+    // GameSetTests reads it.
+    private static readonly (string Relative, string RootClass, string Engine)[] s_gameSetFiles =
+    [
+        ("Release/Ability.pfs", "AbilityControl", "game"),
+        ("Release/Spells.pfs", "SpellControl", "game"),
+        ("Release/Unitgfx.pfs", "UnitGFXResourceList", "game"),
+        ("Release/Unitres.pfs", "UnitResourceList", "game"),
+        ("Release/HERORES.PFS", "HeroResourceList", "game"),
+        ("Release/ITEMGFX.PFS", "ItemGFXList", "game"),
+        ("Release/FACERES.PFS", "FaceResourceList", "game"),
+        ("Release/TEXT.pfs", "TextControl", "game"),
+        ("Release/comb_res.pfs", "MapObjectResourceList", "tactical"),
+    ];
+
     private static readonly string[] s_required =
     [
         "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "NormalAIGroup", "SkirmishAIGroup",
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
         "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl", "RaceResource",
-        "DiplomaticActionList",
+        "DiplomaticActionList", "Army", "DefendersArmy", "PrisonersArmy", "Unit", "Hero", "Leader",
     ];
 
     private static readonly string[] s_watched =
@@ -74,6 +91,13 @@ public sealed class PersistCorpusTests
         s_refusers.Clear();
         s_levels.Clear();
         s_levelBlocks.Clear();
+        // A unit's load looks its resource up in the game set, so the walk reads the installed
+        // unit resources into the fixture's game set and puts the empty list back after.
+        int previousSeed = Runtime.RandSeed;
+        var gameSet = GamePack.Current;
+        var emptyResources = gameSet.UnitResources;
+        var unitResources = UnitResources();
+        gameSet.UnitResources = unitResources;
         try
         {
             var schema = FormatSchema.Current;
@@ -92,6 +116,15 @@ public sealed class PersistCorpusTests
                     ? schema.Get(((JsonString)root["$class"]!).Value)
                     : schema.Get(found.Profile.RootFamily);
                 Walk(root, classValue, found.Profile.Engine, relative, schema, factory, counts);
+            }
+            foreach (var (relative, rootClass, engine) in s_gameSetFiles)
+            {
+                var path = Path.Combine(Root, relative);
+                if (!File.Exists(path)) continue;
+                var bytes = File.ReadAllBytes(path);
+                var profile = new WrittenObjectProfile("pfs", ["pfs"], rootClass, engine);
+                var imported = GameFiles.Import(bytes[4..^4], profile, "pfs", relative);
+                Walk((JsonObject)imported.Document["root"]!, schema.Get(rootClass), engine, relative, schema, factory, counts);
             }
             var printed = new SortedSet<string>(StringComparer.Ordinal);
             foreach (var pair in counts)
@@ -123,10 +156,23 @@ public sealed class PersistCorpusTests
         }
         finally
         {
+            Runtime.RandSeed = previousSeed;
+            gameSet.UnitResources = emptyResources;
+            unitResources.Dispose();
             s_reaper = null;
             StrategicMap.Current = previous;
             map.Dispose();
         }
+    }
+
+    // Unitres.pfs holds a CRC word before the stored object, as GameEngine.ReadFromFileCrc reads it.
+    private static UnitResourceList UnitResources()
+    {
+        var list = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
+        using var memory = new MemoryStream(File.ReadAllBytes(Path.Combine(Root, "Release", "Unitres.pfs")));
+        memory.Position = 4;
+        EngineFixture.Engine.ReadEngineObject(memory, list, progress: null);
+        return list;
     }
 
     private static void Walk(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
@@ -189,11 +235,15 @@ public sealed class PersistCorpusTests
         try
         {
             var image = PilotImage.Encode(objectValue, classValue.Name, engine);
+            // An image sequence draws Random once per frame-table layer when it loads, so every
+            // load of the instance starts from the same seed and draws the same image indices.
+            int seed = Runtime.RandSeed;
             var loaded = Blank(classValue.Name);
             try
             {
                 try
                 {
+                    Runtime.RandSeed = seed;
                     Load(loaded, image);
                 }
                 catch (Exception error) when (PortedExceptions.Is(error))
@@ -222,6 +272,7 @@ public sealed class PersistCorpusTests
                 var again = Blank(classValue.Name);
                 try
                 {
+                    Runtime.RandSeed = seed;
                     TreeReader.Read(DocumentBackend.Read(expected, classValue, schema, engine), again, factory, Stop);
                     EqualBytes(PilotImage.Encode(expected, classValue.Name, engine), Image(again), file + " " + classValue.Name + " read");
                 }
@@ -242,6 +293,7 @@ public sealed class PersistCorpusTests
                         Block(classValue.Name, error.Diagnostic.Message);
                         return false;
                     }
+                    Runtime.RandSeed = seed;
                     TreeReader.Read(read, fromImage, factory, Stop);
                     EqualBytes(Image(loaded), Image(fromImage), file + " " + classValue.Name + " readwrite");
                 }

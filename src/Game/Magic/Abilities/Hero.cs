@@ -2,9 +2,11 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
@@ -184,6 +186,82 @@ public partial class Hero : Troop
 
         stream.Int32(ref _usedSkillPoints, 39);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        {
+            Loaded();
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        sbyte player = default;
+        int oldExperience = default;
+        player = Player;
+        HeroResourceIndex = persister.Int32("HeroResourceIndex", value: HeroResourceIndex);
+        if (persister.Loading)
+        {
+            LinkToResource();
+        }
+
+        base.PersistFields(persister);
+        if (persister.Loading && Mode.Contains(HeroModeElement.UpdatingFromLibrary))
+        {
+            Player = player;
+        }
+
+        FaceIndex = persister.Int32("FaceIndex", value: FaceIndex);
+        if (persister.Loading)
+        {
+            oldExperience = persister.Int32("OldExperience", value: oldExperience);
+        }
+        else
+        {
+            oldExperience = 0;
+        }
+
+        HeroName = persister.String("HeroName", value: HeroName);
+        Nickname = persister.String("Nickname", value: Nickname);
+        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        CastingPoints = PersistSupport.UnsignedByte(persister, name: "CastingPoints", value: CastingPoints);
+        CastingSpellId = persister.Int32("CastingSpellId", value: CastingSpellId);
+        _gender = persister.Enum("Gender", value: _gender);
+        UnitAttack = PersistSupport.UnsignedByte(persister, name: "UnitAttack", value: UnitAttack);
+        UnitDefense = PersistSupport.UnsignedByte(persister, name: "UnitDefense", value: UnitDefense);
+        UnitDamage = PersistSupport.UnsignedByte(persister, name: "UnitDamage", value: UnitDamage);
+        UnitHits = PersistSupport.UnsignedByte(persister, name: "UnitHits", value: UnitHits);
+        UnitMoves = PersistSupport.UnsignedByte(persister, name: "UnitMoves", value: UnitMoves);
+        UnitResistance = PersistSupport.UnsignedByte(persister, name: "UnitResistance", value: UnitResistance);
+        Level = persister.Byte("Level", value: Level);
+        UpgradePending = persister.Boolean("UpgradePending", value: UpgradePending);
+        Experience = persister.Int32("Experience", value: Experience);
+        HeroStatus = persister.Set("HeroStatus", value: HeroStatus);
+        _deathDay = persister.Int32("DeathDay", value: _deathDay);
+        _deathPlayer = PersistSupport.UnsignedByte(persister, name: "DeathPlayer", value: _deathPlayer);
+        if (persister.Loading && Experience == 0)
+        {
+            Experience = LevelToExperience((int)(((uint)oldExperience) >> 5) + 1);
+        }
+
+        _movePoints = PersistSupport.UnsignedByte(persister, name: "MovePoints", value: _movePoints);
+        HitPoints = PersistSupport.UnsignedByte(persister, name: "HitPoints", value: HitPoints);
+        CastingManaValue = persister.Int32("CastingManaValue", value: CastingManaValue);
+        _castSpellInstantly = persister.Boolean("CastSpellInstantly", value: _castSpellInstantly);
+        CastingProgress = persister.Int32("CastingProgress", value: CastingProgress);
+        LibraryId = persister.Int32("LibraryId", value: LibraryId, fallback: -1);
+        if (!Mode.Contains(HeroModeElement.UpdatingFromLibrary))
+        {
+            persister.Object("Inventory", objectValue: Inventory);
+            persister.Object("HeroItems", objectValue: HeroItems);
+        }
+        else
+        {
+            // ReadWrite leaves the stored items unread while the hero updates from its library.
+            persister.Skip("Inventory");
+            persister.Skip("HeroItems");
+        }
+
+        LibraryName = persister.String("LibraryName", value: LibraryName);
+        _usedSkillPoints = persister.Int32("UsedSkillPoints", value: _usedSkillPoints);
+        if (persister.Loading)
         {
             Loaded();
         }

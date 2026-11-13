@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Units;
 
@@ -27,6 +28,16 @@ public partial class TurnInfoItem : EngineObject
         stream.Int32(ref Structures, 27);
         stream.Int32(ref ArmyStrength, 28);
         stream.Byte(ref Heroes, 29);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Gold = persister.Int32("Gold", value: Gold);
+        Mana = persister.Int32("Mana", value: Mana);
+        Structures = persister.Int32("Structures", value: Structures);
+        ArmyStrength = persister.Int32("ArmyStrength", value: ArmyStrength);
+        Heroes = persister.Byte("Heroes", value: Heroes);
     }
 
     // Player.PAS:171

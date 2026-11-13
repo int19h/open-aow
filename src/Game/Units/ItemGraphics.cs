@@ -46,10 +46,10 @@ public partial class ItemGraphics : EngineResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        ImageLibraryName = persister.String("ImageLibraryName", ImageLibraryName);
-        ImageIndex = persister.Int32("ImageIndex", ImageIndex);
-        ItemType = persister.Enum("ItemType", ItemType);
-        Hidden = persister.Boolean("Hidden", Hidden);
+        ImageLibraryName = persister.String("ImageLibraryName", value: ImageLibraryName);
+        ImageIndex = persister.Int32("ImageIndex", value: ImageIndex);
+        ItemType = persister.Enum("ItemType", value: ItemType);
+        Hidden = persister.Boolean("Hidden", value: Hidden);
     }
 
     // Army.PAS:5138

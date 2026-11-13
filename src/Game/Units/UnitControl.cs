@@ -2,6 +2,7 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -39,6 +40,16 @@ public partial class UnitControl : EngineObject
     {
         base.ReadWrite(stream);
         stream.Int32(ref _nextUnitId, 10);
+        if (_nextUnitId <= 0)
+        {
+            _nextUnitId = 1;
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _nextUnitId = persister.Int32("NextUnitId", value: _nextUnitId);
         if (_nextUnitId <= 0)
         {
             _nextUnitId = 1;
