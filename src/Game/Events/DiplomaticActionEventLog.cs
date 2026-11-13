@@ -2,6 +2,7 @@
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 
@@ -41,6 +42,12 @@ public partial class DiplomaticActionEventLog : EventLog
     {
         base.ReadWrite(stream);
         stream.Created(ref Action, null, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Action = persister.Created("Action", objectValue: Action);
     }
 
     // Diplomacy.pas:1182

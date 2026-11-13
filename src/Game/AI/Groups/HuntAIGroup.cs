@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -37,6 +38,12 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
     {
         base.ReadWrite(stream);
         stream.Payload(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Int32List(persister, name: "TargetUnitIds", list: TargetUnitIds);
     }
 
     // AIGroup.pas:1457

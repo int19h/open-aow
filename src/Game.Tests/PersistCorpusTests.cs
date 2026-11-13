@@ -34,7 +34,9 @@ public sealed class PersistCorpusTests
     // EReferenceNode.
     // Class id 80 is shared with TEObject, so a created object is not named TAbilityList.
     // TSetupSettings is not a member of a map, campaign, hero list or save. Storm and animation
-    // sprites are absent from these files.
+    // sprites are absent from these files. Diplomatic actions prove the proposal's case mapping,
+    // the campaign files the world map campaign, its scenarios and pages and the transfer settings,
+    // and the sound libraries and unit graphics the sound sequences.
     // The game set files hold the resources of units, heroes, items and abilities, which no map,
     // campaign, hero list or save stores. Each is a written object between two CRC words, read as
     // GameSetTests reads it.
@@ -58,6 +60,9 @@ public sealed class PersistCorpusTests
         "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl", "RaceResource",
         "DiplomaticActionList", "Army", "DefendersArmy", "PrisonersArmy", "Unit", "Hero", "Leader",
         "ProductionItem", "ProductionQueue", "UnitProduction",
+        "Player", "PlayerList", "DiplomaticAction", "WorldMapCampaign", "WorldMapCampaignScenario", "CampaignScenarioPage",
+        "CampaignTransferSettings", "EventLogbook", "EventLogList", "AIGroupManager", "GuardAreaAIGroup", "PatrolAIGroup",
+        "SfxSequence", "SfxLibrary", "UnitGraphicsResource",
     ];
 
     private static readonly string[] s_watched =
@@ -89,6 +94,9 @@ public sealed class PersistCorpusTests
         var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         s_reaper = map;
+        // A player's write reads the current map (its seat, its connection type and the view
+        // center), so the walk runs with the destroying map current.
+        StrategicMap.Current = map;
         s_blocked.Clear();
         s_proved.Clear();
         s_refusers.Clear();
@@ -101,6 +109,7 @@ public sealed class PersistCorpusTests
         var emptyResources = gameSet.UnitResources;
         var unitResources = UnitResources();
         gameSet.UnitResources = unitResources;
+        var enlisted = Enlist();
         try
         {
             var schema = FormatSchema.Current;
@@ -159,6 +168,7 @@ public sealed class PersistCorpusTests
         }
         finally
         {
+            EngineFixture.Engine.UnregisterEngineClasses(enlisted);
             Runtime.RandSeed = previousSeed;
             gameSet.UnitResources = emptyResources;
             unitResources.Dispose();
@@ -166,6 +176,30 @@ public sealed class PersistCorpusTests
             StrategicMap.Current = previous;
             map.Dispose();
         }
+    }
+
+    // The fixture engine enlists the classes the game registers when the engine starts. The game
+    // enlists the event logs, the campaign pages and scenarios and the AI groups and budgets the
+    // saves hold when its screens and the AI start, so the walk enlists every class of the session,
+    // event, AI, magic, interface and audio namespaces that the engine does not hold yet, and
+    // takes them out after. Each class id is enlisted once.
+    private static readonly string[] s_enlistedNamespaces =
+        ["Aow.Game.Session", "Aow.Game.Events", "Aow.Game.AI", "Aow.Game.Magic", "Aow.Game.UI", "Aow.Game.Audio"];
+
+    private static EngineClass[] Enlist()
+    {
+        var table = EngineFixture.Engine.ClassTable;
+        var added = new Dictionary<int, EngineClass>();
+        foreach (var engineClass in EngineClass.All)
+        {
+            if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space) continue;
+            if (!s_enlistedNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal))) continue;
+            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId)) continue;
+            added[engineClass.ClassId] = engineClass;
+        }
+        var classes = added.Values.ToArray();
+        EngineFixture.Engine.RegisterEngineClasses(classes);
+        return classes;
     }
 
     // Unitres.pfs holds a CRC word before the stored object, as GameEngine.ReadFromFileCrc reads it.
@@ -314,7 +348,14 @@ public sealed class PersistCorpusTests
                     }
                     Runtime.RandSeed = seed;
                     TreeReader.Read(read, fromImage, factory, Stop);
-                    EqualBytes(Image(loaded), Image(fromImage), file + " " + classValue.Name + " readwrite");
+                    var viaReadWrite = Image(loaded);
+                    var viaPersist = Image(fromImage);
+                    if (!viaReadWrite.AsSpan().SequenceEqual(viaPersist) && OverReadsABitList(objectValue))
+                    {
+                        Block(classValue.Name, label: "a bit list load reads past its stored bytes");
+                        return false;
+                    }
+                    EqualBytes(viaReadWrite, actual: viaPersist, label: file + " " + classValue.Name + " readwrite");
                 }
                 finally
                 {
@@ -379,6 +420,20 @@ public sealed class PersistCorpusTests
             if (field.Find("HexSpriteList") is SequenceNode sequence) sprites += sequence.Items.Count;
         s_levels.TryGetValue(classValue.Name, out var total);
         s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
+    }
+
+    // TBitList.LoadFromStream raises the count to the capacity, a multiple of 32, before it reads
+    // the bits, so a stored count that does not fill its last 32-bit word makes the stream load read
+    // past the stored bytes into the data that follows. The tree holds the stored bytes only, so
+    // such an instance loads other bits past the stored count on the two paths.
+    private static bool OverReadsABitList(JsonValue value)
+    {
+        if (value is JsonArray array) return array.Items.Any(OverReadsABitList);
+        if (value is not JsonObject objectValue) return false;
+        if (objectValue["count"] is JsonInteger { Value: var count } && objectValue["bits"] is JsonArray && objectValue["default"] is not null
+            && ((count + 31) & ~31L) >> 3 > (count + 7) >> 3)
+            return true;
+        return objectValue.Members.Any(member => OverReadsABitList(member.Value));
     }
 
     private static JsonObject WithoutLayout(JsonObject objectValue)

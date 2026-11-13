@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Net;
 
@@ -37,6 +38,13 @@ public partial class PbemPlayerSettings : EngineObject
         base.ReadWrite(stream);
         TransferSet(ref Status, 1, 20, stream.Bytes, 0);
         stream.Object(EmailGame, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Status = persister.Set("Status", value: Status);
+        persister.Object("EmailGame", objectValue: EmailGame);
     }
 
     // Player.PAS:256

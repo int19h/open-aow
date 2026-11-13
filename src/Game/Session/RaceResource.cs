@@ -86,15 +86,15 @@ public partial class RaceResource : EngineResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _name = persister.String("Name", _name);
-        RaceName = persister.String("RaceName", RaceName);
-        _description = persister.String("Description", _description);
-        _imageLibraryName = persister.String("ImageLibraryName", _imageLibraryName);
-        Alignments = persister.Set("Alignments", Alignments);
-        PersistSupport.UnitIndexList(persister, "UnitIndexes", UnitIndexes);
-        PersistSupport.UnitIndexList(persister, "SpecialUnitIndexes", SpecialUnitIndexes);
-        _heroUnitIndex = persister.Int32("HeroUnitIndex", _heroUnitIndex);
-        PersistSupport.Lines(persister, "HeroNames", _heroNames);
+        _name = persister.String("Name", value: _name);
+        RaceName = persister.String("RaceName", value: RaceName);
+        _description = persister.String("Description", value: _description);
+        _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
+        Alignments = persister.Set("Alignments", value: Alignments);
+        PersistSupport.UnitIndexList(persister, name: "UnitIndexes", list: UnitIndexes);
+        PersistSupport.UnitIndexList(persister, name: "SpecialUnitIndexes", list: SpecialUnitIndexes);
+        _heroUnitIndex = persister.Int32("HeroUnitIndex", value: _heroUnitIndex);
+        PersistSupport.Lines(persister, name: "HeroNames", lines: _heroNames);
     }
 
     // PlayerC.PAS:1798

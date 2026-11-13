@@ -4,6 +4,7 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Commands;
 
@@ -130,6 +131,22 @@ public partial class PlayerMagicControl : EngineObject
         stream.Int32(ref ExternalPower, 28);
         stream.Boolean(ref CheatEnabled, 29);
         stream.Int32(ref _nextEnchantmentId, 30);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Mana = persister.Int32("Mana", value: Mana);
+        ResearchPercentage = persister.Int32("ResearchPercentage", value: ResearchPercentage, fallback: 50);
+        PersistSupport.Int32List(persister, name: "Spells", list: Spells);
+        ResearchSpellId = persister.Int32("ResearchSpellId", value: ResearchSpellId);
+        ResearchPointsLeft = persister.Int32("ResearchPointsLeft", value: ResearchPointsLeft);
+        persister.Object("Enchantments", objectValue: Enchantments);
+        ActiveEnchantments = persister.Set("ActiveEnchantments", value: ActiveEnchantments);
+        ExternalMana = persister.Int32("ExternalMana", value: ExternalMana);
+        ExternalPower = persister.Int32("ExternalPower", value: ExternalPower);
+        CheatEnabled = persister.Boolean("CheatEnabled", value: CheatEnabled);
+        _nextEnchantmentId = persister.Int32("NextEnchantmentId", value: _nextEnchantmentId);
     }
 
     // Spells.PAS:2243

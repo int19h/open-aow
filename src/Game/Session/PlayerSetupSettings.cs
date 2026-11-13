@@ -1,10 +1,12 @@
 // Translated from AoWSetup.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -51,6 +53,18 @@ public partial class PlayerSetupSettings : EngineObject
         stream.Object(Leader, 14);
         TransferSet(ref Status, 1, 15, stream.Bytes, 0);
         TransferRecord<SetupPlayerBehaviorImage, SetupPlayerBehavior>(ref OriginalBehavior, 8, 16, stream.Bytes);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PlayerId = persister.Byte("PlayerId", value: PlayerId);
+        Behavior = PersistSupport.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(persister, name: "Behavior", value: Behavior);
+        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        BehaviorMode = persister.RawByte("BehaviorMode", value: BehaviorMode);
+        persister.Object("Leader", objectValue: Leader);
+        Status = persister.Set("Status", value: Status);
+        OriginalBehavior = PersistSupport.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(persister, name: "OriginalBehavior", value: OriginalBehavior);
     }
 
     // AoWSetup.pas:296

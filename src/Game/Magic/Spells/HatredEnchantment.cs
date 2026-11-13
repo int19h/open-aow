@@ -27,7 +27,7 @@ public partial class HatredEnchantment : GlobalEnchantment
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        DaysActive = persister.Int32("DaysActive", DaysActive);
+        DaysActive = persister.Int32("DaysActive", value: DaysActive);
     }
 
     // GlobalEnchantmentSpells.pas:833

@@ -66,13 +66,13 @@ public partial class AIBudgetManager : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Object("Budgets", Budgets);
-        Gold = persister.Int32("Gold", Gold);
-        Mana = persister.Int32("Mana", Mana);
-        GoldUpkeep = persister.Int32("GoldUpkeep", GoldUpkeep);
-        ManaUpkeep = persister.Int32("ManaUpkeep", ManaUpkeep);
-        ProductionGoldUpkeep = persister.Int32("ProductionGoldUpkeep", ProductionGoldUpkeep);
-        ProductionManaUpkeep = persister.Int32("ProductionManaUpkeep", ProductionManaUpkeep);
+        persister.Object("Budgets", objectValue: Budgets);
+        Gold = persister.Int32("Gold", value: Gold);
+        Mana = persister.Int32("Mana", value: Mana);
+        GoldUpkeep = persister.Int32("GoldUpkeep", value: GoldUpkeep);
+        ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
+        ProductionGoldUpkeep = persister.Int32("ProductionGoldUpkeep", value: ProductionGoldUpkeep);
+        ProductionManaUpkeep = persister.Int32("ProductionManaUpkeep", value: ProductionManaUpkeep);
     }
 
     // AI.pas:2166

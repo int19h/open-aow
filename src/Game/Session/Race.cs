@@ -2,9 +2,11 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic;
 
@@ -73,6 +75,30 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
 
         stream.Payload(5, DefaultRelations.LoadFromStream, DefaultRelations.SaveToStream);
         if (stream.StorageMode().Contains(StorageModeElement.Read) && DefaultRelations.Count == 0)
+        {
+            ResetDefaultRaceRelations();
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        bool enabled = default;
+        base.PersistFields(persister);
+        RaceIndex = PersistSupport.UnsignedByte(persister, name: "RaceIndex", value: RaceIndex);
+        PersistSupport.Int32List(persister, name: "PlayerRelations", list: _playerRelations);
+        if (persister.Loading)
+        {
+            // { Original leaves this local uninitialized if property 4 is absent. }
+            enabled = persister.Boolean("Enabled", value: enabled);
+            SetEnabled(enabled);
+        }
+        else
+        {
+            Enabled = persister.Boolean("Enabled", value: Enabled);
+        }
+
+        PersistSupport.ByteList(persister, name: "DefaultRelations", list: DefaultRelations);
+        if (persister.Loading && DefaultRelations.Count == 0)
         {
             ResetDefaultRaceRelations();
         }

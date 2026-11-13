@@ -30,8 +30,8 @@ public partial class DiplomaticRelationHistoryItem : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Day = persister.Int32("Day", Day);
-        Relation = persister.Enum("Relation", Relation);
+        Day = persister.Int32("Day", value: Day);
+        Relation = persister.Enum("Relation", value: Relation);
     }
 
     // Engine.pas:524

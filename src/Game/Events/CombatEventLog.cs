@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -44,6 +45,12 @@ public partial class CombatEventLog : EventLog
     {
         base.ReadWrite(stream);
         stream.Created(ref Logbook, null, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Logbook = persister.Created("Logbook", objectValue: Logbook);
     }
 
     // Combat2.pas:461

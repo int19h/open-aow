@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Spells;
 
@@ -107,6 +109,49 @@ public partial class Campaign : EngineObject
         }
 
         if (stream.StorageMode().Contains(StorageModeElement.Read) && !stream.StorageMode().Contains(StorageModeElement.TextOnly) && CompletedScenarios.Count == 0 && !ScenarioStarted)
+        {
+            PlayMode = PlayMode.Simultaneous;
+        }
+    }
+
+    // The map is the whole HSM file the stream holds (ids 5 and 6), a nested world-hsm document
+    // on the tree. An absent map loads as an empty stream, as a stored size of 0 does.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        if (persister.Loading)
+        {
+            var image = persister.NestedDocument("Map", profile: "world-hsm", image: []);
+            Stream.SetLength(image.Length);
+            image.CopyTo(Stream.GetBuffer().AsSpan(start: 0, length: image.Length));
+        }
+        else
+        {
+            persister.NestedDocument("Map", profile: "world-hsm", image: Stream.GetBuffer().AsSpan(start: 0, length: (int)Stream.Length).ToArray());
+        }
+
+        persister.Object("TransferSettings", objectValue: TransferSettings);
+        persister.Object("Scenarios", objectValue: Scenarios);
+        _name = persister.String("Name", value: _name);
+        CurrentScenarioId = persister.Int32("CurrentScenarioId", value: CurrentScenarioId);
+        PersistSupport.Int32List(persister, name: "CompletedScenarios", list: CompletedScenarios);
+        ScenarioStarted = persister.Boolean("ScenarioStarted", value: ScenarioStarted);
+        PersistSupport.ByteList(persister, name: "RaceHistory", list: RaceHistory);
+        PlayMode = persister.Enum("PlayMode", value: PlayMode);
+        DifficultyLevel = persister.Enum("DifficultyLevel", value: DifficultyLevel);
+        if (persister.Loading)
+        {
+            for (int I = 0, last = Scenarios.Count - 1; I <= last; I++)
+            {
+                if (Scenarios.GetScenario(I).Id == 0)
+                {
+                    var uniqueId = Scenarios.CreateUniqueId();
+                    Scenarios.GetScenario(I).Id = uniqueId;
+                }
+            }
+        }
+
+        if (persister.Loading && CompletedScenarios.Count == 0 && !ScenarioStarted)
         {
             PlayMode = PlayMode.Simultaneous;
         }

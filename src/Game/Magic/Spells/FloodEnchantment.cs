@@ -52,11 +52,11 @@ public partial class FloodEnchantment : GlobalEnchantment
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        TurnsActive = persister.Int32("TurnsActive", TurnsActive);
-        persister.Object("FloodControl", FloodControl);
-        Removed = persister.Boolean("Removed", Removed);
-        DispelPlayer = PersistSupport.UnsignedByte(persister, "DispelPlayer", DispelPlayer);
-        RestoreDays = persister.SByte("RestoreDays", RestoreDays, -1);
+        TurnsActive = persister.Int32("TurnsActive", value: TurnsActive);
+        persister.Object("FloodControl", objectValue: FloodControl);
+        Removed = persister.Boolean("Removed", value: Removed);
+        DispelPlayer = PersistSupport.UnsignedByte(persister, name: "DispelPlayer", value: DispelPlayer);
+        RestoreDays = persister.SByte("RestoreDays", value: RestoreDays, fallback: -1);
     }
 
     // GlobalEnchantmentSpells.pas:1224

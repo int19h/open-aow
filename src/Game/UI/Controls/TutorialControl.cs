@@ -42,7 +42,7 @@ public partial class TutorialControl : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, "ShownMessages", _shownMessages);
+        PersistSupport.Int32List(persister, name: "ShownMessages", list: _shownMessages);
     }
 
     // AoWHSMap.PAS:16

@@ -1,7 +1,9 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -70,6 +72,22 @@ public partial class JoinEventLog : EventLog
         stream.Bytes(Bytes.Of(ref JoinMode, 1), 1, 27);
         stream.String(ref Text, 28);
         stream.Int32(ref JoinIndex, -1, 29);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        FirstUnitId = persister.Int32("FirstUnitId", value: FirstUnitId);
+        PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
+        Selection = persister.Byte("Selection", value: Selection);
+        PersistSupport.Lines(persister, name: "JoinMessage", lines: JoinMessage);
+        Gold = persister.Int32("Gold", value: Gold);
+        int location = StoredCoordinateImage.From(_location, unknownBytes: UnknownBytes).ToInt32();
+        location = persister.Int32("Location", value: location);
+        (_location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        JoinMode = persister.Enum("JoinMode", value: JoinMode);
+        Text = persister.String("Text", value: Text);
+        JoinIndex = persister.Int32("JoinIndex", value: JoinIndex, fallback: -1);
     }
 
     // Diplomacy.pas:58

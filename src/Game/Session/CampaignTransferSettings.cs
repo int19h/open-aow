@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -97,6 +99,33 @@ public partial class CampaignTransferSettings : EngineObject
         else
         {
             stream.Created(ref Leader, null, 27);
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        Leader leader = default;
+        base.PersistFields(persister);
+        persister.Object("Heroes", objectValue: Heroes);
+        persister.Object("Items", objectValue: Items);
+        persister.Object("Units", objectValue: Units);
+        PersistSupport.Int32List(persister, name: "Spells", list: _spells);
+        _researchSpellId = persister.Int32("ResearchSpellId", value: _researchSpellId);
+        _researchPointsLeft = persister.Int32("ResearchPointsLeft", value: _researchPointsLeft);
+        _researchPercentage = persister.Int32("ResearchPercentage", value: _researchPercentage);
+        if (persister.Loading)
+        {
+            leader = null;
+            leader = persister.Created("Leader", objectValue: leader);
+            SetLeader(leader);
+            if (leader != null)
+            {
+                leader.Release();
+            }
+        }
+        else
+        {
+            Leader = persister.Created("Leader", objectValue: Leader);
         }
     }
 

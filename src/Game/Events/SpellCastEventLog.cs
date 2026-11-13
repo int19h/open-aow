@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -27,6 +28,13 @@ public partial class SpellCastEventLog : EventLog
         base.ReadWrite(stream);
         stream.Int32(ref UnitId, 20);
         stream.Int32(ref SpellId, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        UnitId = persister.Int32("UnitId", value: UnitId);
+        SpellId = persister.Int32("SpellId", value: SpellId);
     }
 
     // Spells.PAS:855

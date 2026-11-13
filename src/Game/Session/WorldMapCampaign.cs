@@ -2,6 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -27,6 +28,12 @@ public partial class WorldMapCampaign : Campaign
     {
         base.ReadWrite(stream);
         stream.Int32(ref Faction, 30);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Faction = persister.Int32("Faction", value: Faction);
     }
 
     // AoWVideoDlg.pas:324

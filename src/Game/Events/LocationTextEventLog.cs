@@ -1,8 +1,10 @@
 // Translated from EventLog.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Events;
 
@@ -31,6 +33,14 @@ public partial class LocationTextEventLog : TextEventLog
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexX), 20);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexY), 21);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 22);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        HexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: HexX);
+        HexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: HexY);
+        HexLevel = PersistSupport.UnsignedByte(persister, name: "HexLevel", value: HexLevel);
     }
 
     // EventLog.pas:740

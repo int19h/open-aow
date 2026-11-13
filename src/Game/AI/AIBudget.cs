@@ -52,18 +52,18 @@ public partial class AIBudget : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Priority = persister.Int32("Priority", Priority);
-        RequiredGold = persister.Int32("RequiredGold", RequiredGold);
-        RequiredMana = persister.Int32("RequiredMana", RequiredMana);
-        GoldUpkeep = persister.Int32("GoldUpkeep", GoldUpkeep);
-        ManaUpkeep = persister.Int32("ManaUpkeep", ManaUpkeep);
-        Gold = persister.Int32("Gold", Gold);
-        Mana = persister.Int32("Mana", Mana);
-        Days = persister.Int32("Days", Days);
-        DayGoldMax = persister.Int32("DayGoldMax", DayGoldMax);
-        DayManaMax = persister.Int32("DayManaMax", DayManaMax);
-        DayGold = persister.Int32("DayGold", DayGold);
-        DayMana = persister.Int32("DayMana", DayMana);
+        Priority = persister.Int32("Priority", value: Priority);
+        RequiredGold = persister.Int32("RequiredGold", value: RequiredGold);
+        RequiredMana = persister.Int32("RequiredMana", value: RequiredMana);
+        GoldUpkeep = persister.Int32("GoldUpkeep", value: GoldUpkeep);
+        ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
+        Gold = persister.Int32("Gold", value: Gold);
+        Mana = persister.Int32("Mana", value: Mana);
+        Days = persister.Int32("Days", value: Days);
+        DayGoldMax = persister.Int32("DayGoldMax", value: DayGoldMax);
+        DayManaMax = persister.Int32("DayManaMax", value: DayManaMax);
+        DayGold = persister.Int32("DayGold", value: DayGold);
+        DayMana = persister.Int32("DayMana", value: DayMana);
     }
 
     // AI.pas:1702
