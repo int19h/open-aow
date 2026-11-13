@@ -276,7 +276,8 @@ can pass:
   records from data files. Only a transient type that reads or writes a format (a file record, a
   native interop record, a wire message) has a fixed or explicit layout, and it carries
   `[StoredLayout]`. Game data uses natural layout and is mapped to such a type at the I/O
-  boundary. The product test `LayoutRuleTests` and the layout check of the private gate hold this
+  boundary. A record that own documents store is such an image, bound to its stored record name
+  by `[StoredRecord]`. The product test `LayoutRuleTests` and the layout check of the private gate hold this
   (issue #192).
 
 The transpiler reports what it cannot translate as a `TODO` comment in the output and as a line in a

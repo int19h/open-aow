@@ -13,6 +13,9 @@ namespace Aow.Formats.Tree;
 internal sealed partial class RecordTypeInfo
 {
     public required string Name { get; init; }
+
+    /// <summary>The struct the record describes: an I/O image bound by <see cref="StoredRecordAttribute"/>, or a test record.</summary>
+    public required Type Image { get; init; }
     public required int Size { get; init; }
     public required IReadOnlyList<RecordFieldInfo> Fields { get; init; }
     public required IReadOnlyList<(int Offset, int Length)> Residue { get; init; }
@@ -56,6 +59,8 @@ internal sealed class DictionaryRecordCatalog : IRecordCatalog
 /// <summary>
 /// The record catalogs registered for the process. Formats does not reference the units assembly.
 /// The units register one reflection catalog for the units and one for the runtime records.
+/// A reflection catalog takes the structs that carry <see cref="StoredRecordAttribute"/>, each under
+/// the record name the attribute binds. A test catalog names a struct by its stored type name.
 /// A second registration of the same assembly is ignored. Two catalogs that both name one record fail at the lookup.
 /// </summary>
 public static class RecordCatalog
@@ -129,9 +134,8 @@ sealed class ReflectionRecordCatalog : IRecordCatalog
         foreach (var type in found)
         {
             if (type is null || !type.IsValueType || type.IsEnum || type.IsGenericType) continue;
-            var layout = type.StructLayoutAttribute;
-            if (layout is null || layout.Value != LayoutKind.Explicit || layout.Size <= 0) continue;
-            string stored = NameTable.Stored(type);
+            if (type.GetCustomAttribute<StoredRecordAttribute>() is not { } binding) continue;
+            string stored = binding.Name;
             if (!_types.TryGetValue(stored, out var list))
             {
                 list = [];
@@ -159,6 +163,9 @@ sealed class ReflectionRecordCatalog : IRecordCatalog
 
 internal sealed partial class RecordTypeInfo
 {
+    /// <summary>The record name a struct stores: its <see cref="StoredRecordAttribute"/> binding, or else its stored type name.</summary>
+    internal static string StoredName(Type type) => type.GetCustomAttribute<StoredRecordAttribute>()?.Name ?? NameTable.Stored(type);
+
     internal static RecordTypeInfo Describe(Type type)
     {
         var layout = type.StructLayoutAttribute;
@@ -253,7 +260,7 @@ internal sealed partial class RecordTypeInfo
         }
         residue.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
         bool bare = named.Count == 1 && named[0].Kind == RecordFieldKind.Set && residue.Count == 0;
-        return new RecordTypeInfo { Name = NameTable.Stored(type), Size = size, Fields = named, Residue = residue, BareSet = bare };
+        return new RecordTypeInfo { Name = StoredName(type), Image = type, Size = size, Fields = named, Residue = residue, BareSet = bare };
     }
 
     private static RecordFieldInfo DescribeField(Type owner, FieldInfo field, int offset, int size)
@@ -298,7 +305,7 @@ internal sealed partial class RecordTypeInfo
                 Name = field.Name,
                 Offset = offset,
                 Size = nested.Size,
-                ElementType = NameTable.Stored(field.FieldType),
+                ElementType = StoredName(field.FieldType),
                 ElementColor = field.FieldType,
             };
         var (integerWidth, integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);

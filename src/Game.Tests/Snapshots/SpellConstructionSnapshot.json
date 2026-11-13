@@ -1915,12 +1915,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {
@@ -1946,12 +1958,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {
@@ -5589,12 +5613,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {
@@ -5620,12 +5656,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {

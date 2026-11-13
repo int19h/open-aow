@@ -1113,9 +1113,9 @@ public partial class SetupControl : Component
                                 again = true;
                             }
 
-                            Settings.GetSettings(target).Behavior.PlayerType = 0;
+                            var targetSettings = Settings.GetSettings(target);
                             var player = Settings.RemotePlayers.GetPlayers(I);
-                            Settings.GetSettings(target).Behavior.Flags = player.RemoteId;
+                            targetSettings.Behavior = targetSettings.Behavior with { PlayerType = 0, Flags = player.RemoteId };
                             result = true;
                         }
                     }
@@ -1222,9 +1222,8 @@ public partial class SetupControl : Component
             if (CompareText(Settings.RemotePlayers.GetPlayers(I).Name, name) == 0)
             {
                 result = true;
-                behavior.PlayerType = 0;
                 var player = Settings.RemotePlayers.GetPlayers(I);
-                behavior.Flags = player.RemoteId;
+                behavior = behavior with { PlayerType = 0, Flags = player.RemoteId };
             }
         }
 
@@ -1236,8 +1235,7 @@ public partial class SetupControl : Component
                 if (CompareText(name, _engine.TranslateResourceString(GameTables.PlayerTypeTexts[playerType])) == 0)
                 {
                     result = true;
-                    behavior.PlayerType = playerType;
-                    behavior.Flags = 0;
+                    behavior = behavior with { PlayerType = playerType, Flags = 0 };
                 }
                 else
                 {
@@ -1248,8 +1246,7 @@ public partial class SetupControl : Component
 
         if (!result)
         {
-            behavior.PlayerType = 5;
-            behavior.Flags = 0;
+            behavior = behavior with { PlayerType = 5, Flags = 0 };
         }
 
         return result;
@@ -1620,18 +1617,18 @@ public partial class SetupControl : Component
 
                     if (GetRemote() && !player.Participating)
                     {
-                        settings.Behavior.PlayerType = 5;
-                        settings.OriginalBehavior.PlayerType = 5;
+                        settings.Behavior = settings.Behavior with { PlayerType = 5 };
+                        settings.OriginalBehavior = settings.OriginalBehavior with { PlayerType = 5 };
                     }
                     else
                     {
-                        settings.Behavior.PlayerType = (byte)(int)player.PlayerType;
-                        settings.OriginalBehavior.PlayerType = (byte)(int)player.PlayerType;
+                        settings.Behavior = settings.Behavior with { PlayerType = (byte)(int)player.PlayerType };
+                        settings.OriginalBehavior = settings.OriginalBehavior with { PlayerType = (byte)(int)player.PlayerType };
                         if (player.PlayerType == PlayerType.Human)
                         {
                             if (!firstHuman)
                             {
-                                settings.Behavior.PlayerType = 1;
+                                settings.Behavior = settings.Behavior with { PlayerType = 1 };
                             }
 
                             firstHuman = false;
@@ -1728,19 +1725,9 @@ public partial class SetupControl : Component
         return true;
     }
 
-    private static readonly SetupPlayerBehavior s_cpuBehavior = new SetupPlayerBehavior
-    {
-        PlayerType = 1,
-        Reserved = default,
-        Flags = 0
-    };
+    private static readonly SetupPlayerBehavior s_cpuBehavior = new(PlayerType: 1, Flags: 0);
 
-    private static readonly SetupPlayerBehavior s_freeBehavior = new SetupPlayerBehavior
-    {
-        PlayerType = 5,
-        Reserved = default,
-        Flags = 0
-    };
+    private static readonly SetupPlayerBehavior s_freeBehavior = new(PlayerType: 5, Flags: 0);
 
     public enum SetupPhase : byte
     {

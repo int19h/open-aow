@@ -19,8 +19,12 @@ public static class PersistSupport
         (persister.Factory as IEnginePersistableFactory)?.Engine
             ?? throw new InvalidOperationException("The load's factory names no engine.");
 
-    public static T Record<T>(IPersister persister, string name, T value) where T : unmanaged =>
-        RecordValues.Transfer(persister, name, value);
+    /// <summary>
+    /// A catalog record. The value moves through its I/O image, which maps it without loss and
+    /// which the record catalog describes under the image's bound record name.
+    /// </summary>
+    public static TValue Record<TImage, TValue>(IPersister persister, string name, TValue value) where TImage : unmanaged, IRecordImage<TImage, TValue> =>
+        RecordValues.Transfer(persister, name, TImage.From(value)).ToValue();
 
     public static sbyte UnsignedByte(IPersister persister, string name, sbyte value) =>
         unchecked((sbyte)persister.Byte(name, unchecked((byte)value)));

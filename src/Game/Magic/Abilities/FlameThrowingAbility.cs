@@ -17,7 +17,7 @@ public partial class FlameThrowingAbility : BreathAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_flameThrowingText);
         AttackRangedAttack = 4;
         DamageRangedAttack = 3;
-        DamageTypesRangedAttack.Value = Set<DamageType>.Of(DamageType.Fire);
+        DamageTypesRangedAttack = Set<DamageType>.Of(DamageType.Fire);
     }
 
     // AoWAb.PAS:4943

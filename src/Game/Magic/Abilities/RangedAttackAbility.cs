@@ -22,7 +22,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     public sbyte DamageRangedAttack { get; set; }
     public sbyte AttackRangedAttack { get; set; }
 
-    public PackedDamageTypes DamageTypesRangedAttack;
+    public Set<DamageType> DamageTypesRangedAttack { get; set; }
 
     public sbyte AttackRepeatRangedAttack { get; set; }
 
@@ -306,7 +306,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     public virtual sbyte GetAttackRepeatRangedAttack(AbilityOwner owner) => AttackRepeatRangedAttack;
 
     // AoWAb.PAS:4690
-    public virtual Set<DamageType> GetDamageTypesRangedAttack(AbilityOwner owner) => DamageTypesRangedAttack.Value;
+    public virtual Set<DamageType> GetDamageTypesRangedAttack(AbilityOwner owner) => DamageTypesRangedAttack;
 
     // AoWAb.PAS:4777
     public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)

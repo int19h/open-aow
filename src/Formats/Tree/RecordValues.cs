@@ -5,16 +5,20 @@ using Aow.Rtl;
 namespace Aow.Formats.Tree;
 
 /// <summary>
-/// Moves one catalog record through <see cref="IPersister"/>. Field names and types come from the
-/// record catalog. Integer zeros are omitted. Enumerations and sets are stored, including zero.
-/// Reserved bytes and padding are <c>$reserved</c> when any byte is nonzero.
-/// A one-field set wrapper is that set, under the schema name.
+/// Moves one catalog record through <see cref="IPersister"/>. The value is an I/O image, a
+/// <see cref="StoredLayoutAttribute"/> struct that the record catalog describes under its bound
+/// record name. Game code maps its own value to the image (<c>PersistSupport.Record</c>). Field
+/// names and types come from the record catalog. Integer zeros are omitted. Enumerations and sets
+/// are stored, including zero. Reserved bytes and padding are <c>$reserved</c> when any byte is
+/// nonzero. A one-field set wrapper is that set, under the schema name.
 /// </summary>
 public static class RecordValues
 {
     public static T Transfer<T>(IPersister persister, string name, T value) where T : unmanaged
     {
-        var info = RecordCatalog.Require(NameTable.Stored(typeof(T)), null, name);
+        if (!typeof(T).IsDefined(typeof(StoredLayoutAttribute), inherit: false))
+            throw new InvalidOperationException(typeof(T).Name + " is not a stored image. A record moves through its [StoredLayout] image.");
+        var info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), null, name);
         var image = new byte[Unsafe.SizeOf<T>()];
         MemoryMarshal.Write(image, in value);
         if (image.Length < info.Size)

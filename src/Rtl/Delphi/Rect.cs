@@ -1,8 +1,6 @@
-using System.Runtime.InteropServices;
-
 namespace Aow.Rtl;
 
-[StructLayout(LayoutKind.Explicit, Size = 16)]
+// A rectangle (Delphi TRect). RectImage is its stored record.
 public struct Rect
 {
     public Rect(int left, int top, int right, int bottom)
@@ -13,10 +11,10 @@ public struct Rect
         Bottom = bottom;
     }
 
-    [FieldOffset(0)] public int Left;
-    [FieldOffset(4)] public int Top;
-    [FieldOffset(8)] public int Right;
-    [FieldOffset(12)] public int Bottom;
+    public int Left;
+    public int Top;
+    public int Right;
+    public int Bottom;
 }
 
 public static partial class RtlUnit

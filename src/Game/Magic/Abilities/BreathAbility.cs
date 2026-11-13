@@ -46,7 +46,7 @@ public partial class BreathAbility : RangedAttackAbility
                 if (condition)
                 {
                     var immunityTypes = other.GetImmunityTypes();
-                    condition = DamageTypesRangedAttack.Value - immunityTypes != Set<DamageType>.Of();
+                    condition = DamageTypesRangedAttack - immunityTypes != Set<DamageType>.Of();
                 }
 
                 if (condition)
@@ -101,7 +101,7 @@ public partial class BreathAbility : RangedAttackAbility
                 if (condition)
                 {
                     var immunityTypes = target.GetImmunityTypes();
-                    condition = DamageTypesRangedAttack.Value - immunityTypes != Set<DamageType>.Of();
+                    condition = DamageTypesRangedAttack - immunityTypes != Set<DamageType>.Of();
                 }
 
                 if (condition)

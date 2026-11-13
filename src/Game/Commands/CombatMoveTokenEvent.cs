@@ -199,14 +199,14 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
 
                                 var hexY = Unit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out X, out Y);
-                                if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
+                                if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes.Value - Strike.Effects.Value, false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes - Strike.Effects, false);
                                 }
 
-                                if (Strike.Effects.Value != Set<DamageType>.Of())
+                                if (Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects.Value, true);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects, true);
                                 }
 
                                 Step = TokenStep.EndStrike;

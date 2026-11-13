@@ -5,12 +5,23 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-// { Interface declaration run owned by P3. }
+/// <summary>
+/// The stored image of a set of damage types (Delphi <c>TP3PackedDamageTypes</c>): the set's two
+/// bytes. Game code holds the <see cref="Set{E}"/> itself. The record catalog stores this one-field
+/// wrapper as the set.
+/// </summary>
+[StoredLayout, StoredRecord("PackedDamageTypes")]
 [StructLayout(LayoutKind.Explicit, Size = 2)]
-public struct PackedDamageTypes
+public readonly struct PackedDamageTypes : IRecordImage<PackedDamageTypes, Set<DamageType>>
 {
     [FieldOffset(0)]
-    public ushort ValueImage;
+    public readonly ushort ValueImage;
 
-    public Set<DamageType> Value { get => Set<DamageType>.FromMask(ValueImage); set => ValueImage = (ushort)value.Image; }
+    private PackedDamageTypes(ushort valueImage) => ValueImage = valueImage;
+
+    public Set<DamageType> Value => Set<DamageType>.FromMask(ValueImage);
+
+    public static PackedDamageTypes From(Set<DamageType> value) => new((ushort)value.Image);
+
+    public Set<DamageType> ToValue() => Value;
 }

@@ -10919,8 +10919,14 @@
         "RangedAttackAbility.AttackRepeatRangedAttack": 1,
         "RangedAttackAbility.DamageRangedAttack": 0,
         "RangedAttackAbility.DamageTypesRangedAttack": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "RangedAttackAbility.RangeRangedAttack": 2
       }
@@ -11045,8 +11051,14 @@
         "RangedAttackAbility.AttackRepeatRangedAttack": 1,
         "RangedAttackAbility.DamageRangedAttack": 5,
         "RangedAttackAbility.DamageTypesRangedAttack": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "RangedAttackAbility.RangeRangedAttack": 1
       }
@@ -13093,12 +13105,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {
@@ -16080,8 +16104,14 @@
         "RangedAttackAbility.AttackRepeatRangedAttack": 1,
         "RangedAttackAbility.DamageRangedAttack": 3,
         "RangedAttackAbility.DamageTypesRangedAttack": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 1
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 1,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": true,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 9,
+          "Set\u00601.low": 0
         },
         "RangedAttackAbility.RangeRangedAttack": 1
       }
@@ -27004,8 +27034,14 @@
         "RangedAttackAbility.AttackRepeatRangedAttack": 0,
         "RangedAttackAbility.DamageRangedAttack": 0,
         "RangedAttackAbility.DamageTypesRangedAttack": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "RangedAttackAbility.RangeRangedAttack": 0
       }
@@ -27020,12 +27056,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "RangedAttackCombatAction.AbilityId": 0,
@@ -27969,12 +28017,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {
@@ -28505,12 +28565,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {
@@ -30314,12 +30386,24 @@
         "DamageCombatAction.Damage": 0,
         "DamageCombatAction.DamageDone": 0,
         "DamageCombatAction.DamageTypes": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "DamageCombatAction.Effects": {
-          "$type": "Aow.Game.Combat.PackedDamageTypes",
-          "PackedDamageTypes.ValueImage": 0
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set\u00601.a": 0,
+          "Set\u00601.b": 0,
+          "Set\u00601.bounded": false,
+          "Set\u00601.c": 0,
+          "Set\u00601.d": 0,
+          "Set\u00601.high": 0,
+          "Set\u00601.low": 0
         },
         "EngineObject._owner": "$owner",
         "SingleTargetCombatAction.Mode": {

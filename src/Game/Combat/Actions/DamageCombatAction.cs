@@ -13,11 +13,12 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions;
 
-// FDamage. FDamageTypes. FEffects. FDamageTaken. The two damage sets are deliberately unaligned
-// packed fields
+// FDamage. FDamageTypes. FEffects. FDamageTaken. The two damage sets are stored as unaligned
+// packed records (PackedDamageTypes)
 public partial class DamageCombatAction : SingleTargetCombatAction
 {
     // Combat2.pas:774
@@ -28,8 +29,8 @@ public partial class DamageCombatAction : SingleTargetCombatAction
     }
 
     public byte Damage;
-    public PackedDamageTypes DamageTypes;
-    public PackedDamageTypes Effects;
+    public Set<DamageType> DamageTypes;
+    public Set<DamageType> Effects;
 
     public byte DamageDone { get; protected set; }
 
@@ -38,16 +39,16 @@ public partial class DamageCombatAction : SingleTargetCombatAction
     {
         base.ReadWrite(stream);
         stream.Byte(ref Damage, 15);
-        stream.Bytes(Bytes.Of(ref Effects, 2), 2, 16);
-        stream.Bytes(Bytes.Of(ref DamageTypes, 2), 2, 17);
+        TransferRecord<PackedDamageTypes, Set<DamageType>>(ref Effects, 2, 16, stream.Bytes);
+        TransferRecord<PackedDamageTypes, Set<DamageType>>(ref DamageTypes, 2, 17, stream.Bytes);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Damage = persister.Byte("Damage", Damage);
-        Effects = PersistSupport.Record(persister, "Effects", Effects);
-        DamageTypes = PersistSupport.Record(persister, "DamageTypes", DamageTypes);
+        Damage = persister.Byte("Damage", value: Damage);
+        Effects = PersistSupport.Record<PackedDamageTypes, Set<DamageType>>(persister, name: "Effects", value: Effects);
+        DamageTypes = PersistSupport.Record<PackedDamageTypes, Set<DamageType>>(persister, name: "DamageTypes", value: DamageTypes);
     }
 
     // Combat2.pas:817
@@ -62,9 +63,9 @@ public partial class DamageCombatAction : SingleTargetCombatAction
             DamageDone = (byte)source.DoDamage(target, Damage);
         }
 
-        if (Effects.Value != Set<DamageType>.Of())
+        if (Effects != Set<DamageType>.Of())
         {
-            target.ExecuteDamageEffects(Effects.Value);
+            target.ExecuteDamageEffects(Effects);
         }
     }
 
@@ -102,9 +103,9 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         }
 
         duration = viewer.Delay * 2;
-        if (Effects.Value != Set<DamageType>.Of())
+        if (Effects != Set<DamageType>.Of())
         {
-            effectFrames = DamageEffectsAnimationFrames(Effects.Value) + viewer.Delay;
+            effectFrames = DamageEffectsAnimationFrames(Effects) + viewer.Delay;
             hitFrame = viewer.Delay * 3;
             if (effectFrames > hitFrame)
             {
@@ -142,12 +143,12 @@ public partial class DamageCombatAction : SingleTargetCombatAction
             if (objectValue.Id == TargetId && DamageDone != 0 && hitFrame <= viewer.Time)
             {
                 objectValue.Show(frame, direction, X, Y, surface);
-                if (Effects.Value != Set<DamageType>.Of())
+                if (Effects != Set<DamageType>.Of())
                 {
-                    ShowDamageEffects(Effects.Value, X, Y, viewer.Time - hitFrame, surface);
+                    ShowDamageEffects(Effects, X, Y, viewer.Time - hitFrame, surface);
                 }
 
-                var damageTypesToDamageType = DamageTypesToDamageType(DamageTypes.Value);
+                var damageTypesToDamageType = DamageTypesToDamageType(DamageTypes);
                 AbilityRules.ShowDamageIcon(GetEngine(), X, Y, surface, DamageDone, damageTypesToDamageType);
             }
             else
@@ -163,8 +164,8 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         SourceId = sourceId;
         TargetId = targetId;
         Damage = damage;
-        Effects.Value = effects;
-        DamageTypes.Value = damageTypes;
+        Effects = effects;
+        DamageTypes = damageTypes;
         if (defensive)
         {
             Mode = Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
@@ -180,15 +181,15 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         if (Damage != 0)
         {
             var executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
-            Effects.Value = executeDamageEffectsRole;
+            Effects = executeDamageEffectsRole;
         }
         else
         {
-            Effects.Value = Set<DamageType>.Of();
+            Effects = Set<DamageType>.Of();
         }
 
         var immunityTypes = target.GetImmunityTypes();
-        DamageTypes.Value = damageTypes - immunityTypes;
+        DamageTypes = damageTypes - immunityTypes;
     }
 
     // Combat2.pas:806
@@ -200,15 +201,15 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         if (Damage != 0)
         {
             var executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
-            Effects.Value = executeDamageEffectsRole;
+            Effects = executeDamageEffectsRole;
         }
         else
         {
-            Effects.Value = Set<DamageType>.Of();
+            Effects = Set<DamageType>.Of();
         }
 
         var immunityTypes = target.GetImmunityTypes();
-        DamageTypes.Value = damageTypes - immunityTypes;
+        DamageTypes = damageTypes - immunityTypes;
     }
 
     private static bool ShowDamageEffects(Set<DamageType> damageTypes, int X, int Y, int frame, in LockedSurface surface)

@@ -452,14 +452,14 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
 
                             var hexY = Unit.UnitHexSprite.HexY;
                             HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out I, out X);
-                            if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
+                            if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes.Value - Strike.Effects.Value, false);
+                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
                             }
 
-                            if (Strike.Effects.Value != Set<DamageType>.Of())
+                            if (Strike.Effects != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.Effects.Value, true);
+                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
                             }
 
                             Step = TokenStep.ExecuteEndStrike;

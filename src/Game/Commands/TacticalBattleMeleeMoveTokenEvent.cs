@@ -134,14 +134,14 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                                 TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 var hexY = Unit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out X, out Y);
-                                if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
+                                if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes.Value - Strike.Effects.Value, false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
                                 }
 
-                                if (Strike.Effects.Value != Set<DamageType>.Of())
+                                if (Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.Effects.Value, true);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
                                 }
                             }
 
@@ -158,14 +158,14 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                                     TacticalBattleUnit.MakeHitBlood(PreviousUnit, Strike.Damage);
                                     var hexY = PreviousUnit.UnitHexSprite.HexY;
                                     HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out X, out Y);
-                                    if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
+                                    if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes.Value - Strike.Effects.Value, false);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes - Strike.Effects, false);
                                     }
 
-                                    if (Strike.Effects.Value != Set<DamageType>.Of())
+                                    if (Strike.Effects != Set<DamageType>.Of())
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects.Value, true);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects, true);
                                     }
                                 }
 
