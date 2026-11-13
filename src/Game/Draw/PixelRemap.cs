@@ -104,7 +104,7 @@ internal static class PixelRemap
             var D = destination.Row(Y, width * 3);
             for (int X = 0; X <= width - 1; X++)
             {
-                ref Palette.Entry E = ref palette.Entries[S[X]];
+                Palette.Entry E = palette[S[X]];
                 int I = X * 3;
                 D[I + 2] = E.Red;
                 D[I + 1] = E.Green;
@@ -125,9 +125,7 @@ internal static class PixelRemap
             case PixelFormats.pfPAL8:
                 if (sourcePalette != null)
                 {
-                    R = sourcePalette.Entries[pixelInfo].Red;
-                    G = sourcePalette.Entries[pixelInfo].Green;
-                    B = sourcePalette.Entries[pixelInfo].Blue;
+                    (R, G, B) = (sourcePalette[pixelInfo].Red, sourcePalette[pixelInfo].Green, sourcePalette[pixelInfo].Blue);
                     A = 0;
                 }
                 else
@@ -228,7 +226,7 @@ internal static class PixelRemap
             var destinationLocal = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
             for (int x = 0; x < width; x++)
             {
-                ref Palette.Entry entry = ref palette.Entries[sourceLocal[x]];
+                Palette.Entry entry = palette[sourceLocal[x]];
                 destinationLocal[x] = (ushort)(rgb565
                     ? ((entry.Red & 248) << 8) + ((entry.Green & 252) << 3) + (entry.Blue >> 3)
                     : ((entry.Red & 248) << 7) + ((entry.Green & 248) << 2) + (entry.Blue >> 3));

@@ -35,11 +35,11 @@ public partial class ImageLibraryFont
         if (_fontColorPaletteIndex >= 0 && PaletteManager._palettes.Count != 0)
         {
             var palette = PaletteManager._palettes[0];
-            palette.Palette.Entries[_fontColorPaletteIndex].Value =
-                PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null);
+            palette.Palette[_fontColorPaletteIndex] =
+                new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null));
             if (palette.RemapPaletteValue != null)
-                palette.RemapPaletteValue.Entries[_fontColorPaletteIndex].Value =
-                    PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, null);
+                palette.RemapPaletteValue[_fontColorPaletteIndex] =
+                    new((uint)PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, null));
         }
         _color = value;
     }

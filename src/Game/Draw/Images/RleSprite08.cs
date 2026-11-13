@@ -1,6 +1,5 @@
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
-using System.Runtime.InteropServices;
 
 using Aow.Graphics;
 using Aow.Rtl;
@@ -167,7 +166,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                 {
                     case PixelFormats.pfRGB555:
                     case PixelFormats.pfRGB565:
-                        ShowRle08To16(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor, MemoryMarshal.AsBytes(_remapPalette.Entries.AsSpan()));
+                        ShowRle08To16(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor, _remapPalette.Pixels);
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
@@ -196,7 +195,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                 {
                     case PixelFormats.pfRGB555:
                     case PixelFormats.pfRGB565:
-                        ShowRle08To16(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor, MemoryMarshal.AsBytes(_remapPalette.Entries.AsSpan()));
+                        ShowRle08To16(X + _xshift + _rleLeft, Y + _yshift + _rleTop, lockedSurface, Data, _rleWidth, _rleHeight, (byte)_transparentColor, _remapPalette.Pixels);
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
@@ -356,7 +355,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         Blit.ShowRle08(X, Y, lockedSurface.View(), data, width, height, colorKey);
     }
 
-    private static void ShowRle08To16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey, ReadOnlySpan<byte> palette)
+    private static void ShowRle08To16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey, ReadOnlySpan<uint> palette)
     {
         Blit.ShowRle08To16(X, Y, lockedSurface.View(), data, width, height, colorKey, palette);
     }

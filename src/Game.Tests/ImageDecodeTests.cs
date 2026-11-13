@@ -112,7 +112,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         int w = Math.Min(source.Width, 120), h = Math.Min(source.Height, 90);
         var palette = new Palette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { Red = (byte)(i * 5), Green = (byte)(i * 7 + 3), Blue = (byte)(i * 13 + 1) };
+        for (int i = 0; i < 256; i++) palette[i] = new TPaletteEntry { Red = (byte)(i * 5), Green = (byte)(i * 7 + 3), Blue = (byte)(i * 13 + 1) };
         palette.PixelFormatId = PixelFormats.pfBGR24;
         var s555 = new DataSurface(w, h, PixelFormats.pfRGB555, null!);
         var s565 = new DataSurface(w, h, PixelFormats.pfRGB565, null!);
@@ -230,7 +230,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         var entries = new List<Entry>();
         var palette = new Palette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { Red = (byte)i, Green = (byte)(i * 3), Blue = (byte)(i * 11) };
+        for (int i = 0; i < 256; i++) palette[i] = new TPaletteEntry { Red = (byte)i, Green = (byte)(i * 3), Blue = (byte)(i * 11) };
         palette.PixelFormatId = PixelFormats.pfBGR24;
         {
             foreach (int format in new[] { PixelFormats.pfPAL8, PixelFormats.pfRGB555, PixelFormats.pfRGB565, PixelFormats.pfRGB24, PixelFormats.pfRGB32 })
