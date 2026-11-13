@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -10,6 +11,7 @@ using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 
 using Aow.Game.Units;
+using Aow.Game.World;
 using Aow.Game.World.Map;
 using Xunit.Abstractions;
 using Xunit.Sdk;
@@ -55,6 +57,7 @@ public sealed class PersistCorpusTests
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
         "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl", "RaceResource",
         "DiplomaticActionList", "Army", "DefendersArmy", "PrisonersArmy", "Unit", "Hero", "Leader",
+        "ProductionItem", "ProductionQueue", "UnitProduction",
     ];
 
     private static readonly string[] s_watched =
@@ -232,6 +235,14 @@ public sealed class PersistCorpusTests
 
     private static bool Prove(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
     {
+        // MapContainer.ReadWrite makes its owner's map hold it, so a blank container with no map
+        // cannot load. Its levels are proved on the direct path, and a constructed test proves it.
+        if (classValue.Name == "MapContainer")
+        {
+            Block(classValue.Name, "fixture: a map container loads only into its map");
+            return false;
+        }
+
         try
         {
             var image = PilotImage.Encode(objectValue, classValue.Name, engine);
@@ -250,7 +261,15 @@ public sealed class PersistCorpusTests
                 {
                     // The fixture loads no game resources, so a part that needs one (a unit's
                     // resource) cannot load. Such an instance proves nothing either way.
-                    Block(classValue.Name, "fixture: " + error.Message);
+                    Block(classValue.Name, "fixture: " + FixtureLabel(error));
+                    return false;
+                }
+                catch (NullReferenceException error)
+                {
+                    // A hexagon sprite whose resource does not link reads that resource anyway
+                    // (HexBridge.LinkToResource), and the fixture has no map for a sprite to
+                    // place itself on. The stream load fails before the tree is involved.
+                    Block(classValue.Name, "fixture: null reference in " + error.TargetSite?.DeclaringType?.Name + "." + error.TargetSite?.Name);
                     return false;
                 }
                 var rewritten = Image(loaded);
@@ -444,6 +463,17 @@ public sealed class PersistCorpusTests
         }
         return types;
     }
+
+    // A missing resource names its id, and a missing hexagon sprite set its path under the
+    // fixture's temporary root (the stream's error text). The label keeps the class and the file
+    // name, so one cause sums under one refuser line.
+    private static string FixtureLabel(Exception error) => error switch
+    {
+        MapObjectResourceMissingException => Regex.Replace(error.Message, " -?[0-9]+$", ""),
+        _ when error.Message.StartsWith(EngineFixture.Root, StringComparison.OrdinalIgnoreCase) =>
+            "no hexagon sprite set " + Path.GetFileName(error.Message.Split(' ')[0]).ToUpperInvariant(),
+        _ => error.Message,
+    };
 
     private static bool IsTreeRefusal(InvalidOperationException error)
     {

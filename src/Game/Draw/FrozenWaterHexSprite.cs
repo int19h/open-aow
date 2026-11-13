@@ -32,8 +32,8 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        DaysRemaining = persister.SByte("DaysRemaining", DaysRemaining);
-        CasterPlayer = persister.SByte("CasterPlayer", CasterPlayer);
+        DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining);
+        CasterPlayer = persister.SByte("CasterPlayer", value: CasterPlayer);
     }
 
     // Structur.PAS:4518

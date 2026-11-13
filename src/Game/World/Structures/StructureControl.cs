@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using static Aow.Rtl.RtlUnit;
 
@@ -33,6 +34,13 @@ public partial class StructureControl : EngineObject
         base.ReadWrite(stream);
         stream.Int32(ref _nextId, 20);
         stream.Int32(ref CityCount, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _nextId = persister.Int32("NextId", value: _nextId);
+        CityCount = persister.Int32("CityCount", value: CityCount);
     }
 
     // Structur.PAS:3233

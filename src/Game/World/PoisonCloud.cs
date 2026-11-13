@@ -1,8 +1,10 @@
 // Translated from PoisonC.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 
@@ -40,6 +42,15 @@ public partial class PoisonCloud : MultiHexMapObject
         stream.Int32(ref TurnsRemaining, 16);
         stream.Boolean(ref _drifting, 17);
         stream.Byte(ref _direction, 18);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
+        _drifting = persister.Boolean("Drifting", value: _drifting);
+        _direction = persister.Byte("Direction", value: _direction);
     }
 
     // PoisonC.pas:58

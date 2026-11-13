@@ -7,6 +7,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
@@ -599,12 +600,152 @@ public partial class StrategicMap : GameMap
         RandSeed = DefendersSeed;
     }
 
+    // The tree form of ReadWrite. A tree load has no progress handler, and the editor's error
+    // handler is the one its caller passes to TreeReader.Read (persistence-tree.md 7), so neither
+    // is set here. A preview leaves the hero control and the startup songs unread, a network map
+    // leaves the game songs unread, and ReadWrite never reads UnknownProperty57, so a load skips
+    // those members as ReadWrite does.
+    public override void PersistFields(IPersister persister)
+    {
+        if (!persister.Loading)
+        {
+            ResetModified();
+        }
+
+        IgnoreStreamErrors = false;
+        ConnectionType = persister.Enum("ConnectionType", value: ConnectionType);
+        int x;
+        int y;
+        int level;
+        if (ConnectionType == PlayerConnectionType.Network)
+        {
+            (x, y, level) = (_viewPixelX, _viewPixelY, _viewMapLevel);
+            (_viewPixelX, _viewPixelY, _viewMapLevel) = (0, 0, 0);
+        }
+        else
+        {
+            (x, y, level) = (0, 0, 0);
+        }
+
+        base.PersistFields(persister);
+        if (ConnectionType == PlayerConnectionType.Network)
+        {
+            (_viewPixelX, _viewPixelY, _viewMapLevel) = (x, y, level);
+        }
+
+        _author = persister.String("Author", value: _author);
+        PersistSupport.Lines(persister, name: "Description", lines: Description);
+        PersistSupport.Lines(persister, name: "Objectives", lines: _objectives);
+        _independentAIMode = persister.Enum("IndependentAIMode", value: _independentAIMode);
+        CurrentPlayer = PersistSupport.UnsignedByte(persister, name: "CurrentPlayer", value: CurrentPlayer);
+        TurnOrderMode = persister.Enum("TurnOrderMode", value: TurnOrderMode);
+        PersistSupport.ByteList(persister, name: "TurnOrder", list: TurnOrder);
+        Day = persister.Int32("Day", value: Day);
+        _sessionName = persister.String("SessionName", value: _sessionName);
+        persister.Object("Players", objectValue: Players);
+        persister.Object("Races", objectValue: Races);
+        ExplorationEnabled = persister.Boolean("ExplorationEnabled", value: ExplorationEnabled);
+        if (!persister.Preview)
+        {
+            persister.Object("HeroControl", objectValue: HeroControl);
+        }
+        else
+        {
+            persister.Skip("HeroControl");
+        }
+
+        MapName = persister.String("MapName", value: MapName);
+        FogEnabled = persister.Boolean("FogEnabled", value: FogEnabled);
+        HeroCountMax = PersistSupport.UnsignedByte(persister, name: "HeroCountMax", value: HeroCountMax);
+        DefendersSeed = persister.Int32("DefendersSeed", value: DefendersSeed);
+        if (!persister.Preview)
+        {
+            persister.Object("StartupSongs", objectValue: StartupSongs);
+        }
+        else
+        {
+            persister.Skip("StartupSongs");
+        }
+
+        persister.Object("ItemControl", objectValue: ItemControl);
+        GameStatus = persister.Enum("GameStatus", value: GameStatus);
+        GameResult = persister.Enum("GameResult", value: GameResult);
+        InitialRandomSeed = persister.Int32("InitialRandomSeed", value: InitialRandomSeed);
+        GameType = persister.Enum("GameType", value: GameType);
+        persister.Object("UnitControl", objectValue: UnitControl);
+        PlayMode = persister.Enum("PlayMode", value: PlayMode);
+        persister.Object("GlobalMagicControl", objectValue: GlobalMagicControl);
+        SphereCount = persister.Int32("SphereCount", value: SphereCount, fallback: 5);
+        persister.Object("TextControl", objectValue: TextControl);
+        persister.Object("CampaignSettings", objectValue: CampaignSettings);
+        // The original stores the hero control twice.
+        persister.Object("HeroControlCopy", objectValue: HeroControl);
+        VictoryCondition = persister.Enum("VictoryCondition", value: VictoryCondition);
+        VictoryMana = persister.Int32("VictoryMana", value: VictoryMana);
+        VictoryGold = persister.Int32("VictoryGold", value: VictoryGold);
+        FixedLeaders = persister.Boolean("FixedLeaders", value: FixedLeaders);
+        AlliedVictory = persister.Boolean("AlliedVictory", value: AlliedVictory);
+        persister.Object("AIGroupManager", objectValue: AIGroupManager);
+        DayLimit = persister.Int32("DayLimit", value: DayLimit);
+        TurnTime = persister.Int32("TurnTime", value: TurnTime);
+        UnlimitedMoves = persister.Boolean("UnlimitedMoves", value: UnlimitedMoves);
+        persister.Object("StructureControl", objectValue: StructureControl);
+        if (persister.Loading || ConnectionType != PlayerConnectionType.Network)
+        {
+            _turnTimeElapsed = persister.Int32("TurnTimeElapsed", value: _turnTimeElapsed);
+        }
+
+        persister.Object("TutorialControl", objectValue: TutorialControl);
+        if (persister.Loading || ConnectionType != PlayerConnectionType.Network)
+        {
+            _turnTimeBeep = persister.Int32("TurnTimeBeep", value: _turnTimeBeep);
+        }
+
+        LeadersFixed = persister.Boolean("LeadersFixed", value: LeadersFixed);
+        if (!persister.Preview && ConnectionType != PlayerConnectionType.Network)
+        {
+            persister.Object("GameSongs", objectValue: GameSongs);
+        }
+        else
+        {
+            persister.Skip("GameSongs");
+        }
+
+        StartingGame = persister.Boolean("StartingGame", value: StartingGame);
+        ShowAllPlayers = persister.Boolean("ShowAllPlayers", value: ShowAllPlayers);
+        VictoryMode = persister.RawByte("VictoryMode", value: VictoryMode);
+        persister.Skip("UnknownProperty57");
+        RandSeed = DefendersSeed;
+    }
+
     // AoWHSMap.PAS:2241
     public override void MainReadWrite(StorageStream stream)
     {
         string fileName;
         base.MainReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Day == 0)
+        {
+            if (GameType == GameType.Campaign)
+            {
+                fileName = GetEngine().StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
+            }
+            else
+            {
+                fileName = GetEngine().StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
+            }
+
+            if (FileExists(fileName))
+            {
+                GetEngine().TranslateEngineObjectFromFile(this, fileName);
+            }
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        string fileName;
+        base.MainPersist(persister);
+        if (persister.Loading && !persister.Preview && Day == 0)
         {
             if (GameType == GameType.Campaign)
             {
@@ -2885,6 +3026,16 @@ public partial class StrategicMap : GameMap
             stream.Int32(ref TransferManaMax, 22);
             stream.Int32(ref HeroLevelMax, 23);
             stream.Boolean(ref AlliedVictory, 24);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            TransferPointsMax = persister.Int32("TransferPointsMax", value: TransferPointsMax);
+            TransferGoldMax = persister.Int32("TransferGoldMax", value: TransferGoldMax);
+            TransferManaMax = persister.Int32("TransferManaMax", value: TransferManaMax);
+            HeroLevelMax = persister.Int32("HeroLevelMax", value: HeroLevelMax);
+            AlliedVictory = persister.Boolean("AlliedVictory", value: AlliedVictory);
         }
 
         // intf_P5_08.inc:13

@@ -26,8 +26,9 @@ public static class PersistSupport
     public static TValue Record<TImage, TValue>(IPersister persister, string name, TValue value) where TImage : unmanaged, IRecordImage<TImage, TValue> =>
         RecordValues.Transfer(persister, name, TImage.From(value)).ToValue();
 
-    public static sbyte UnsignedByte(IPersister persister, string name, sbyte value) =>
-        unchecked((sbyte)persister.Byte(name, unchecked((byte)value)));
+    /// <summary>A signed byte stored as an unsigned one (Delphi <c>rwByte</c> on a shortint), with its unsigned fallback.</summary>
+    public static sbyte UnsignedByte(IPersister persister, string name, sbyte value, byte fallback = 0) =>
+        unchecked((sbyte)persister.Byte(name, unchecked((byte)value), fallback));
 
     public static void Int32Array(IPersister persister, string name, Span<int> values)
     {

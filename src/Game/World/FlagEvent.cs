@@ -1,6 +1,7 @@
 // Translated from FlagEvents.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
@@ -24,6 +25,13 @@ public partial class FlagEvent : MapObject
         base.ReadWrite(stream);
         stream.Int32(ref _triggerPlayers, 30);
         stream.Bytes(Bytes.Of(ref TriggerMode, 1), 1, 31);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _triggerPlayers = persister.Int32("TriggerPlayers", value: _triggerPlayers);
+        TriggerMode = persister.Enum("TriggerMode", value: TriggerMode);
     }
 
     // FlagEvents.pas:157

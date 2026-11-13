@@ -1,6 +1,7 @@
 // Translated from HolyG.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 
 using Aow.Game.Draw;
@@ -42,6 +43,14 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         stream.SByte(ref Player, -1, 40);
         stream.SByte(ref Duration, -1, 41);
         stream.SByte(ref OriginalOverlay, -1, 42);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Player = persister.SByte("Player", value: Player, fallback: -1);
+        Duration = persister.SByte("Duration", value: Duration, fallback: -1);
+        OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
 
     // HolyG.pas:243

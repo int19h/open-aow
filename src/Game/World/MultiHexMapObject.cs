@@ -1,10 +1,12 @@
 // Translated from HSEngine.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -31,6 +33,13 @@ public partial class MultiHexMapObject : MapObject
         base.ReadWrite(stream);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexX), 3);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexY), 4);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _hexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: _hexX);
+        _hexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: _hexY);
     }
 
     // MAPOBJ.PAS:900

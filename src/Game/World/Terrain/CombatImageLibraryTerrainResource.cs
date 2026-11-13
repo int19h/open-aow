@@ -1,7 +1,9 @@
 // Translated from CombatILTer.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.World.Terrain;
 
@@ -22,6 +24,13 @@ public partial class CombatImageLibraryTerrainResource : ImageLibraryTerrainMapO
         base.ReadWrite(stream);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref BurnValue), 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
+        BurnValue = PersistSupport.UnsignedByte(persister, name: "BurnValue", value: BurnValue);
     }
 
     // CombatILTer.pas:188

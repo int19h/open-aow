@@ -1,6 +1,7 @@
 // Translated from ManaCrystals.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
@@ -36,6 +37,13 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         base.ReadWrite(stream);
         stream.Int32(ref _amount, 5);
         stream.Bytes(Bytes.Of(ref _size, 1), 1, 6);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _amount = persister.Int32("Amount", value: _amount);
+        _size = persister.RawByte("Size", value: _size);
     }
 
     // ManaCrystals.pas:73

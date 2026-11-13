@@ -1,9 +1,11 @@
 // Translated from City.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
@@ -99,6 +101,19 @@ public partial class City : PlayerCropStructure
         TransferSet(ref Mode, 1, 22, stream.Bytes, 0);
         stream.Bytes(Bytes.Of(ref _defendersMode, 1), 1, 27);
         stream.Object(_enchantmentList, 29);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Name = persister.String("Name", value: Name);
+        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        WallType = persister.RawByte("WallType", value: WallType);
+        UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel);
+        persister.Object("Production", objectValue: Production);
+        Mode = persister.Set("Mode", value: Mode);
+        _defendersMode = persister.Enum("DefendersMode", value: _defendersMode);
+        persister.Object("EnchantmentList", objectValue: _enchantmentList);
     }
 
     // City.pas:824

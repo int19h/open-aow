@@ -5,6 +5,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
@@ -298,6 +299,60 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         }
     }
 
+    // The tree form of ReadWrite. A tree load has no progress handler, so it shows no progress.
+    // The game set files beside the scenario set are read and written as ReadWrite does, and the
+    // text-only branch that stores them inline is dead (TextOnly is false on every tree path).
+    public override void PersistFields(IPersister persister)
+    {
+        var engine = PersistSupport.Engine(persister);
+        SetEngine(engine);
+        _pluginControl.Engine = engine;
+        base.PersistFields(persister);
+        _name = persister.String("Name", value: _name);
+        persister.Object("MapObjectResourceList", objectValue: _mapObjectResourceList);
+        persister.Object("ResourceEditSettings", objectValue: _resourceEditSettings);
+        persister.Object("PluginControl", objectValue: _pluginControl);
+        persister.Object("RaceResources", objectValue: RaceResources);
+        persister.Object("ItemLibraries", objectValue: ItemLibraries);
+        string path = ExtractFilePath(GetEngine().HssFileName);
+        if (persister.Loading)
+        {
+            bool loaded = GetEngine().ReadFromFileCrc(path + "ABILITY.PFS", objectValue: AbilityControl, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITRES.PFS", objectValue: UnitResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "HERORES.PFS", objectValue: HeroResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "SPELLS.PFS", objectValue: SpellControl, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "TEXT.PFS", objectValue: TextControl, progress: null);
+            if (!loaded)
+            {
+                throw new InvalidOperationException("CRC-CHECK FAILED");
+            }
+        }
+        else
+        {
+            GetEngine().WriteToFileCrc(path + "ABILITY.PFS", objectValue: AbilityControl, progress: null);
+            GetEngine().WriteToFileCrc(path + "UNITRES.PFS", objectValue: UnitResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "HERORES.PFS", objectValue: HeroResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "SPELLS.PFS", objectValue: SpellControl, progress: null);
+            GetEngine().WriteToFileCrc(path + "TEXT.PFS", objectValue: TextControl, progress: null);
+        }
+
+        persister.Object("HeroLibraries", objectValue: HeroLibraries);
+        PersistSupport.ImageSequences(persister, name: "ImageSequences", list: ImageSequences);
+        if (persister.Loading)
+        {
+            ImageSequences.LinkToImageLibrary();
+            HssCrc = RetrieveHssCrc();
+        }
+    }
+
     // HSEngine.pas:3405
     public override void Clear()
     {
@@ -418,6 +473,17 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         string dictionaryFile;
         base.MainReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        {
+            dictionaryFile = GetEngine().StartupDirectory + "Dict\\" + "Release" + ".mld";
+            GetEngine().TranslateEngineObjectFromFile(this, dictionaryFile);
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        string dictionaryFile;
+        base.MainPersist(persister);
+        if (persister.Loading)
         {
             dictionaryFile = GetEngine().StartupDirectory + "Dict\\" + "Release" + ".mld";
             GetEngine().TranslateEngineObjectFromFile(this, dictionaryFile);

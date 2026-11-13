@@ -1,8 +1,10 @@
 // Translated from AoWTC.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
 
@@ -40,6 +42,14 @@ public partial class UnitPositionHexSprite : SingleHexSprite
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _position), 25);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _index), 26);
         stream.Byte(ref _direction, 27);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _position = PersistSupport.UnsignedByte(persister, name: "Position", value: _position);
+        _index = PersistSupport.UnsignedByte(persister, name: "Index", value: _index);
+        _direction = persister.Byte("Direction", value: _direction);
     }
 
     // AoWTC.pas:5008

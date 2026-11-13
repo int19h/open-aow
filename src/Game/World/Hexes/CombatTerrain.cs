@@ -1,7 +1,9 @@
 // Translated from CombatTerrain.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 
@@ -309,6 +311,15 @@ public partial class CombatTerrain : TerrainMapObject
             stream.Byte(ref Unsafe.As<sbyte, byte>(ref _burnValue), 21);
             stream.Byte(ref _hitPoints, 22);
             stream.Boolean(ref _meleeTarget, 23);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
+            _burnValue = PersistSupport.UnsignedByte(persister, name: "BurnValue", value: _burnValue);
+            _hitPoints = persister.Byte("HitPoints", value: _hitPoints);
+            _meleeTarget = persister.Boolean("MeleeTarget", value: _meleeTarget);
         }
 
         // CombatTerrain.pas:304

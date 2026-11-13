@@ -1,6 +1,7 @@
 // Translated from PowerNode.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
 
@@ -41,6 +42,12 @@ public partial class PowerNode : PlayerStructure
     {
         base.ReadWrite(stream);
         TransferSet(ref State, 1, 20, stream.Bytes, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        State = persister.Set("State", value: State);
     }
 
     // PowerNode.pas:51

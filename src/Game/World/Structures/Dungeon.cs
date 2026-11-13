@@ -1,7 +1,9 @@
 // Translated from Dungeon.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
 using Aow.Game.Commands;
@@ -48,6 +50,13 @@ public partial class Dungeon : ExplorationSite
         base.ReadWrite(stream);
         stream.Object(Prisoners, 8);
         stream.Bytes(Bytes.Of(ref _prisonersMode, 1), 1, 9);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Prisoners", objectValue: Prisoners);
+        _prisonersMode = persister.Enum("PrisonersMode", value: _prisonersMode);
     }
 
     // Dungeon.pas:95
@@ -283,6 +292,12 @@ public partial class Dungeon : ExplorationSite
         {
             base.ReadWrite(stream);
             stream.Payload(30, PrisonerCollections.LoadFromStream, PrisonerCollections.SaveToStream);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            PersistSupport.UnitIndexListCollection(persister, name: "PrisonerCollections", collection: PrisonerCollections);
         }
 
         // Dungeon.pas:265

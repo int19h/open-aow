@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Units;
 
@@ -72,6 +73,16 @@ public partial class UnitHexSprite : HexSprite
         base.ReadWrite(stream);
         stream.Byte(ref Direction, 9);
         if (!stream.StorageMode().Contains(StorageModeElement.SetupCompare) && Direction == 0)
+        {
+            Direction = 3;
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Direction = persister.Byte("Direction", value: Direction);
+        if (Direction == 0)
         {
             Direction = 3;
         }

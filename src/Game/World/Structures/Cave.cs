@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -71,6 +72,12 @@ public partial class Cave : Structure
     {
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref Entrance, 1), 1, 6);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Entrance = persister.Enum("Entrance", value: Entrance);
     }
 
     // Cave.pas:128

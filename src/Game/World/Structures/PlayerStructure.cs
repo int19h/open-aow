@@ -1,9 +1,11 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
 
@@ -53,6 +55,14 @@ public partial class PlayerStructure : Structure
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 5);
         stream.Payload(6, _victoryLocations.LoadFromStream, _victoryLocations.SaveToStream);
         stream.Byte(ref ProductionPriority, 7);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        PersistSupport.BitList(persister, name: "VictoryLocations", list: _victoryLocations);
+        ProductionPriority = persister.Byte("ProductionPriority", value: ProductionPriority);
     }
 
     // Structur.PAS:1970

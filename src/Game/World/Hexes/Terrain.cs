@@ -1,6 +1,7 @@
 // Translated from AoWTer.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
@@ -113,6 +114,12 @@ public partial class Terrain : TerrainMapObject
         {
             base.ReadWrite(stream);
             stream.Int32(ref MapFieldResponse, 20);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            MapFieldResponse = persister.Int32("MapFieldResponse", value: MapFieldResponse);
         }
     }
 }

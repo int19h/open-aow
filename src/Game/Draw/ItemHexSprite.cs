@@ -2,6 +2,7 @@
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -40,6 +41,15 @@ public partial class ItemHexSprite : SingleHexSprite
         base.ReadWrite(stream);
         stream.Object(Items, 4);
         stream.Bytes(Bytes.Of(ref _generateMode, 1), 1, 5);
+        Items.EndUpdate();
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        Items.BeginUpdate();
+        base.PersistFields(persister);
+        persister.Object("Items", objectValue: Items);
+        _generateMode = persister.Enum("GenerateMode", value: _generateMode);
         Items.EndUpdate();
     }
 

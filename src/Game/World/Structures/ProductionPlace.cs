@@ -1,6 +1,7 @@
 // Translated from PrdPlace.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
@@ -68,6 +69,14 @@ public partial class ProductionPlace : PlayerStructure
         stream.Object(ProductionControl, 8);
         stream.Bytes(Bytes.Of(ref _defenderLevel, 1), 1, 9);
         stream.Bytes(Bytes.Of(ref RazedState, 1), 1, 10);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("ProductionControl", objectValue: ProductionControl);
+        _defenderLevel = persister.RawByte("DefenderLevel", value: _defenderLevel);
+        RazedState = persister.RawByte("RazedState", value: RazedState);
     }
 
     // PrdPlace.pas:264

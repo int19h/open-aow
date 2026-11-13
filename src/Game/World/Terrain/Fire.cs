@@ -5,6 +5,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -46,6 +47,15 @@ public partial class Fire : ImageLibraryTerrainMapObject
         TransferSet(ref _mode, 1, 6, stream.Bytes, 0);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 7);
         stream.Byte(ref Age, 8);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        TurnsLeft = PersistSupport.UnsignedByte(persister, name: "TurnsLeft", value: TurnsLeft);
+        _mode = persister.Set("Mode", value: _mode);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Age = persister.Byte("Age", value: Age);
     }
 
     // Structur.PAS:3386
@@ -457,6 +467,12 @@ public partial class Fire : ImageLibraryTerrainMapObject
         {
             base.ReadWrite(stream);
             stream.Bytes(Bytes.Of(ref FireType, 1), 1, 20);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            base.PersistFields(persister);
+            FireType = persister.Enum("FireType", value: FireType);
         }
 
         // Structur.PAS:3713

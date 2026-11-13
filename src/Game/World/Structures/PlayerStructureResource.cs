@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -27,6 +28,15 @@ public partial class PlayerStructureResource : StructureResource
     {
         base.ReadWrite(stream);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
+        {
+            GenerateFlagPositions();
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        if (persister.Loading)
         {
             GenerateFlagPositions();
         }

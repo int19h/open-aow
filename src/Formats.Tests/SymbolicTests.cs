@@ -143,24 +143,57 @@ public sealed class SymbolicTests : FormatsTest
         AssertWidth("int-array", """{"name":"Scores","codec":"int-array","width":8,"signed":true,"count":1}""", "TSampleHolder.Scores");
     }
 
+    // A mapped class stores its flat members in the image. The document backend names the case
+    // the stored discriminator selects, as the converter does, and reads the case back flat.
     [Fact]
-    public void AMappedClassIsRefusedByBothBackends()
+    public void AMappedClassStoresItsCaseOnBothBackends()
     {
         var schema = FormatSchema.Current;
-        var classValue = schema.Get("TDiplomaticAction");
+        var classValue = schema.Get("TProductionItem");
+        var node = Production(kind: 1, parameter: 5, groupId: 3);
+        var document = DocumentBackend.Write(node, classValue, schema, "game");
+        AssertMembers(document, ("$case", "ProduceUnit"), ("Index", 5L), ("GroupId", 3L));
+        var image = OriginalBackend.Write(node, classValue, schema, "game");
+        var fromImage = OriginalBackend.Read(image, classValue, schema, "game");
+        Assert.Equal(image, OriginalBackend.Write(fromImage, classValue, schema, "game"));
+        var fromDocument = DocumentBackend.Read(document, classValue, schema, "game");
+        Assert.Equal(image, OriginalBackend.Write(fromDocument, classValue, schema, "game"));
+
+        // A key no case registers keeps every stored member in the unknown case.
+        var unknown = DocumentBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, "game");
+        AssertMembers(unknown, ("$case", "Unknown"), ("Kind", 99L), ("Parameter", 7L), ("GroupId", 2L));
+        Assert.Equal(OriginalBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, "game"),
+            OriginalBackend.Write(DocumentBackend.Read(unknown, classValue, schema, "game"), classValue, schema, "game"));
+
+        // A case field the case does not keep is refused with its path.
+        var wrong = new JsonObject().Add("$case", new JsonString("ResearchSpell")).Add("Index", new JsonInteger(4)).Add("GroupId", new JsonInteger(1));
+        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(wrong, classValue, schema, "game"));
+        Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
+        Assert.Equal("root.GroupId", error.Diagnostic.Path);
+    }
+
+    private static void AssertMembers(JsonObject document, params (string Name, object Value)[] expected)
+    {
+        Assert.Equal(expected.Select(member => member.Name), document.Members.Select(member => member.Name));
+        foreach (var (name, value) in expected)
+        {
+            object actual = document[name] switch
+            {
+                JsonString text => text.Value,
+                JsonInteger number => number.Value,
+                var other => other!,
+            };
+            Assert.Equal(value, actual);
+        }
+    }
+
+    private static ObjectNode Production(int kind, int parameter, int groupId)
+    {
         var node = new ObjectNode(null, null);
-        var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue, schema, "game"));
-        Assert.Equal(Codes.Mapping, document.Diagnostic.Code);
-        Assert.Equal("root", document.Diagnostic.Path);
-        var original = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue, schema, "game"));
-        Assert.Equal(Codes.Mapping, original.Diagnostic.Code);
-        Assert.Equal("root", original.Diagnostic.Path);
-        var read = Assert.Throws<ConversionException>(() => OriginalBackend.Read([], classValue, schema, "game"));
-        Assert.Equal("root", read.Diagnostic.Path);
-        Assert.Contains(classValue.Name, read.Diagnostic.Message);
-        var production = Assert.Throws<ConversionException>(() => DocumentBackend.Read(new JsonObject(), schema.Get("TProductionItem"), schema, "game"));
-        Assert.Equal(Codes.Mapping, production.Diagnostic.Code);
-        Assert.Equal("root", production.Diagnostic.Path);
+        node.Add("Kind", new IntegerNode(4, true, kind));
+        node.Add("Parameter", new IntegerNode(4, true, parameter));
+        node.Add("GroupId", new IntegerNode(4, true, groupId));
+        return node;
     }
 
     private static void AssertWidth(string kind, string property, string path)

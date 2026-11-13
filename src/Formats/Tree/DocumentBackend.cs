@@ -19,7 +19,6 @@ public static class DocumentBackend
 
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
-        RefuseMapping(classValue, site);
         node.RejectVersion(site.Schema.Version, site.Path);
         var json = new JsonObject();
         if (created)
@@ -60,13 +59,16 @@ public static class DocumentBackend
         foreach (var (name, _) in node.Members)
             if (!seen.Contains(name))
                 throw site.ForName(name).Fail(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{name}\".", value: name);
+        // A mapped class stores its case: the stored discriminator selects it, as on the converter.
+        if (classValue.Mapping is { } mapping) CaseCodec.ToDocument(classValue, mapping, json, site.Path);
         return json;
     }
 
     internal static ObjectNode ReadObject(JsonObject document, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
+        // A mapped class names its case. The flat stored members of the case are read as any others.
+        if (classValue.Mapping is { } mapping) document = CaseCodec.FromDocument(site.Context, classValue, mapping, document, site.Path);
         site = site.WithOwner(document);
-        RefuseMapping(classValue, site);
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var member in document.Members)
             if (!seen.Add(member.Name))
@@ -108,12 +110,6 @@ public static class DocumentBackend
             if (value is not null) node.Add(prop.Name, value);
         }
         return node;
-    }
-
-    private static void RefuseMapping(SchemaClass classValue, DocumentSite site)
-    {
-        if (classValue.Mapping is null) return;
-        throw site.Fail(Codes.Mapping, "Class " + classValue.Name + " uses a case mapping. The document backend does not reproduce it.", value: classValue.Name);
     }
 
     private static string ListOnly(int version) =>

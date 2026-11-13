@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -32,6 +33,19 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
         stream.Int32(ref parameter, 21);
         stream.Int32(ref groupId, 22);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
+        {
+            Order = ProductionOrder.FromFields(kind, parameter, groupId);
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        var (kind, parameter, groupId) = Order.ToFields();
+        kind = persister.Int32("Kind", value: kind);
+        parameter = persister.Int32("Parameter", value: parameter);
+        groupId = persister.Int32("GroupId", value: groupId);
+        if (persister.Loading)
         {
             Order = ProductionOrder.FromFields(kind, parameter, groupId);
         }
