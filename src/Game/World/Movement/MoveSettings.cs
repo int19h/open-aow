@@ -41,8 +41,7 @@ public partial class MoveSettings : EngineObject
         MapCoordinate result = default;
         if (Path.Count > MovePosition && MovePosition >= 0)
         {
-            result = Path.List[MovePosition];
-            result.Tag = 0;
+            result = Path.List[MovePosition].Location;
         }
         else
         {

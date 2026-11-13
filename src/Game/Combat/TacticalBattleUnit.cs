@@ -317,7 +317,7 @@ public partial class TacticalBattleUnit : CombatUnit
             while (index != 0 && cost <= movePoints)
             {
                 index = index - 1;
-                cost = cost + path[index].Tag;
+                cost = cost + path[index].MoveCost;
             }
 
             if (cost > movePoints)

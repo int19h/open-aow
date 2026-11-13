@@ -543,10 +543,10 @@ public partial class MoveControl : IDisposable
         ProcessMove(settings);
         while (I > 0 && valid)
         {
-            points += path[I].Tag;
+            points += path[I].MoveCost;
             var item = path[I];
             var pathItem = path[I];
-            valid = points == settings.GetMovePoints(path[I].X, pathItem.Y, item.MapLevel);
+            valid = points == settings.GetMovePoints(path[I].Location.X, pathItem.Location.Y, item.Location.MapLevel);
             I -= 1;
         }
 

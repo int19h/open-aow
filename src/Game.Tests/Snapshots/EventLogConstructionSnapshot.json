@@ -2073,32 +2073,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroJoinEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2107,6 +2099,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2132,32 +2131,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroJoinEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2166,6 +2157,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2173,38 +2171,37 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.HeroJoinEventLog",
+            "_day": 0,
+            "_player": 0,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroJoinEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 0,
+                "EventLog._player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null
+                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                }
               }
-            },
-            "_day": 0,
-            "_player": 0,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -2229,32 +2226,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroJoinEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2263,6 +2252,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2288,32 +2284,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.HeroJoinEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2322,6 +2310,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2329,38 +2324,37 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.HeroJoinEventLog",
+            "_day": 7,
+            "_player": -56,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroJoinEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 7,
+                "EventLog._player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null
+                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                }
               }
-            },
-            "_day": 7,
-            "_player": -56,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -2565,32 +2559,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.JoinEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2599,6 +2585,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2624,32 +2617,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.JoinEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2658,6 +2643,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2665,38 +2657,37 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.JoinEventLog",
+            "_day": 0,
+            "_player": 0,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.JoinEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 0,
+                "EventLog._player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null
+                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                }
               }
-            },
-            "_day": 0,
-            "_player": 0,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -2721,32 +2712,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.JoinEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2755,6 +2738,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2780,32 +2770,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.JoinEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2814,6 +2796,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           }
         }
       },
@@ -2821,38 +2810,37 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.JoinEventLog",
+            "_day": 7,
+            "_player": -56,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.JoinEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 7,
+                "EventLog._player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null
+                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                }
               }
-            },
-            "_day": 7,
-            "_player": -56,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -2877,32 +2865,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NegotiateRequestEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2912,14 +2892,21 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
+          },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
           "NegotiateRequestEventLog.X": 0,
-          "NegotiateRequestEventLog.Y": 0
+          "NegotiateRequestEventLog.Y": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0
         }
       },
       "Observations": null,
@@ -2944,32 +2931,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NegotiateRequestEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -2979,60 +2958,66 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
+          },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
           "NegotiateRequestEventLog.X": 0,
-          "NegotiateRequestEventLog.Y": 0
+          "NegotiateRequestEventLog.Y": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0
         }
       },
       "Observations": [
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.NegotiateRequestEventLog",
+            "_day": 0,
+            "_player": 0,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.NegotiateRequestEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 0,
+                "EventLog._player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
                 "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                },
                 "NegotiateRequestEventLog.ArmyId": null,
-                "NegotiateRequestEventLog._data1": 0,
-                "NegotiateRequestEventLog._data2": 0,
                 "NegotiateRequestEventLog.MapLevel": 0,
                 "NegotiateRequestEventLog.MovePoints": 0,
                 "NegotiateRequestEventLog.Object": 0,
                 "NegotiateRequestEventLog.X": 0,
-                "NegotiateRequestEventLog.Y": 0
+                "NegotiateRequestEventLog.Y": 0,
+                "NegotiateRequestEventLog._data1": 0,
+                "NegotiateRequestEventLog._data2": 0
               }
-            },
-            "_day": 0,
-            "_player": 0,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -3057,32 +3042,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NegotiateRequestEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -3092,14 +3069,21 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
+          },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
           "NegotiateRequestEventLog.X": 0,
-          "NegotiateRequestEventLog.Y": 0
+          "NegotiateRequestEventLog.Y": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0
         }
       },
       "Observations": null,
@@ -3124,32 +3108,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.NegotiateRequestEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -3159,60 +3135,66 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
+          },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
           "NegotiateRequestEventLog.X": 0,
-          "NegotiateRequestEventLog.Y": 0
+          "NegotiateRequestEventLog.Y": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0
         }
       },
       "Observations": [
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.NegotiateRequestEventLog",
+            "_day": 7,
+            "_player": -56,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.NegotiateRequestEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 7,
+                "EventLog._player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
                 "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                },
                 "NegotiateRequestEventLog.ArmyId": null,
-                "NegotiateRequestEventLog._data1": 0,
-                "NegotiateRequestEventLog._data2": 0,
                 "NegotiateRequestEventLog.MapLevel": 0,
                 "NegotiateRequestEventLog.MovePoints": 0,
                 "NegotiateRequestEventLog.Object": 0,
                 "NegotiateRequestEventLog.X": 0,
-                "NegotiateRequestEventLog.Y": 0
+                "NegotiateRequestEventLog.Y": 0,
+                "NegotiateRequestEventLog._data1": 0,
+                "NegotiateRequestEventLog._data2": 0
               }
-            },
-            "_day": 7,
-            "_player": -56,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -3711,21 +3693,20 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerMagicEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
+          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -3751,21 +3732,20 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerMagicEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
+          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -3773,34 +3753,33 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PlayerMagicEventLog",
+            "_day": 0,
+            "_player": 0,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.PlayerMagicEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 0,
+                "EventLog._player": 0,
                 "PlayerMagicEventLog.EnchantmentName": "",
                 "PlayerMagicEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
+                "PlayerMagicEventLog.UnknownBytes": 0,
                 "PlayerMagicEventLog._value": 0
               }
-            },
-            "_day": 0,
-            "_player": 0,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -3825,21 +3804,20 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerMagicEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
+          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -3865,21 +3843,20 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PlayerMagicEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "PlayerMagicEventLog.EnchantmentName": "",
           "PlayerMagicEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
             "MapCoordinate.Y": -1
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
+          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -3887,34 +3864,33 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PlayerMagicEventLog",
+            "_day": 7,
+            "_player": -56,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.PlayerMagicEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 7,
+                "EventLog._player": -56,
                 "PlayerMagicEventLog.EnchantmentName": "",
                 "PlayerMagicEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
+                "PlayerMagicEventLog.UnknownBytes": 0,
                 "PlayerMagicEventLog._value": 0
               }
-            },
-            "_day": 7,
-            "_player": -56,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -5949,32 +5925,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PrisonersJoinEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -5983,6 +5951,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           },
           "PrisonersJoinEventLog.MapLevel": 0,
           "PrisonersJoinEventLog.X": 0,
@@ -6011,32 +5986,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PrisonersJoinEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -6045,6 +6012,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           },
           "PrisonersJoinEventLog.MapLevel": 0,
           "PrisonersJoinEventLog.X": 0,
@@ -6055,41 +6029,40 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PrisonersJoinEventLog",
+            "_day": 0,
+            "_player": 0,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.PrisonersJoinEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 0,
+                "EventLog._player": 0,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
                 "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                },
                 "PrisonersJoinEventLog.MapLevel": 0,
                 "PrisonersJoinEventLog.X": 0,
                 "PrisonersJoinEventLog.Y": 0
               }
-            },
-            "_day": 0,
-            "_player": 0,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -6114,32 +6087,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PrisonersJoinEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -6148,6 +6113,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           },
           "PrisonersJoinEventLog.MapLevel": 0,
           "PrisonersJoinEventLog.X": 0,
@@ -6176,32 +6148,24 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.PrisonersJoinEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "JoinEventLog.FirstUnitId": 0,
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog._location": {
-            "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
-            "MapCoordinate.MapLevel": -1,
-            "MapCoordinate.X": -1,
-            "MapCoordinate.Packed": 16777215,
-            "MapCoordinate.Y": -1
-          },
           "JoinEventLog.Selection": 0,
           "JoinEventLog.Text": "",
           "JoinEventLog.UnitIds": {
@@ -6210,6 +6174,13 @@
             "Int32List._count": 0,
             "Int32List._default": 0,
             "Int32List._list": []
+          },
+          "JoinEventLog.UnknownBytes": 0,
+          "JoinEventLog._location": {
+            "$type": "Aow.Game.World.Map.MapCoordinate",
+            "MapCoordinate.MapLevel": -1,
+            "MapCoordinate.X": -1,
+            "MapCoordinate.Y": -1
           },
           "PrisonersJoinEventLog.MapLevel": 0,
           "PrisonersJoinEventLog.X": 0,
@@ -6220,41 +6191,40 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.PrisonersJoinEventLog",
+            "_day": 7,
+            "_player": -56,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.PrisonersJoinEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 7,
+                "EventLog._player": -56,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog._location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
-                  "MapCoordinate.Y": 0
-                },
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
                 "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnknownBytes": 0,
+                "JoinEventLog._location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": 0,
+                  "MapCoordinate.X": 0,
+                  "MapCoordinate.Y": 0
+                },
                 "PrisonersJoinEventLog.MapLevel": 0,
                 "PrisonersJoinEventLog.X": 0,
                 "PrisonersJoinEventLog.Y": 0
               }
-            },
-            "_day": 7,
-            "_player": -56,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -8895,10 +8865,10 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -8908,21 +8878,19 @@
           },
           "ItemExplorationSiteEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -8949,10 +8917,10 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 0,
           "EventLog.Id": 0,
-          "EventLog._player": 0,
           "EventLog.RefCount": 1,
+          "EventLog._day": 0,
+          "EventLog._player": 0,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -8962,21 +8930,19 @@
           },
           "ItemExplorationSiteEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -8985,33 +8951,31 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.ItemExplorationSiteEventLog",
+            "_day": 0,
+            "_player": 0,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 0,
                 "EventLog.Id": 0,
-                "EventLog._player": 0,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 0,
+                "EventLog._player": 0,
                 "ItemExplorationSiteEventLog.ItemIds": null,
                 "ItemExplorationSiteEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
                 "ItemExplorationSiteEventLog.Messages": null,
                 "ItemExplorationSiteEventLog.Title": ""
               }
-            },
-            "_day": 0,
-            "_player": 0,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],
@@ -9036,10 +9000,10 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
           "EngineObject._owner": null,
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -9049,21 +9013,19 @@
           },
           "ItemExplorationSiteEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -9090,10 +9052,10 @@
         "$jsonText": {
           "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
           "EngineObject._owner": "$owner",
-          "EventLog._day": 7,
           "EventLog.Id": 0,
-          "EventLog._player": -56,
           "EventLog.RefCount": 1,
+          "EventLog._day": 7,
+          "EventLog._player": -56,
           "ItemExplorationSiteEventLog.ItemIds": {
             "$type": "Aow.Engine.Collections.Int32List",
             "Int32List._capacity": 0,
@@ -9103,21 +9065,19 @@
           },
           "ItemExplorationSiteEventLog.Location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
-            "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": 0,
             "MapCoordinate.X": 0,
-            "MapCoordinate.Packed": 0,
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
+            "StringCollection.UpdateCount": 0,
             "StringList.Duplicates": 0,
             "StringList.OnChange": null,
             "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
-            "StringList.sorted": false,
-            "StringCollection.UpdateCount": 0
+            "StringList.sorted": false
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -9126,33 +9086,31 @@
         {
           "$jsonText": {
             "Type": "Aow.Game.Events.ItemExplorationSiteEventLog",
+            "_day": 7,
+            "_player": -56,
+            "Id": 0,
+            "RefCount": 1,
             "AddRefReturn": 1,
             "DescendantReferencesNil": true,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
                 "EngineObject._owner": "$owner",
-                "EventLog._day": 7,
                 "EventLog.Id": 0,
-                "EventLog._player": -56,
                 "EventLog.RefCount": 1,
+                "EventLog._day": 7,
+                "EventLog._player": -56,
                 "ItemExplorationSiteEventLog.ItemIds": null,
                 "ItemExplorationSiteEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
-                  "MapCoordinate.Packed": 0,
                   "MapCoordinate.Y": 0
                 },
                 "ItemExplorationSiteEventLog.Messages": null,
                 "ItemExplorationSiteEventLog.Title": ""
               }
-            },
-            "_day": 7,
-            "_player": -56,
-            "Id": 0,
-            "RefCount": 1
+            }
           }
         }
       ],

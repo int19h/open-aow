@@ -16,7 +16,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
     public TransportMoveExecutorControl(ECustomNode owner) : base(owner)
     { }
 
-    private MapCoordinate _meetingPoint;
+    // A path step with its cost, copied to the units' arrival points (see AIMoveExecutorUnit).
+    private PathStep _meetingPoint;
 
     // AIGroup.pas:5741
     public override void CalculateMoves()
@@ -82,7 +83,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 if (index != -1)
                 {
                     ref var location = ref Armies.GetArmies(index).ArrivalPoint;
-                    move = CreateMove(Armies.GetArmies(index), 255, location.X, location.Y, location.MapLevel, Set<CreateMoveModeElement>.Of());
+                    move = CreateMove(Armies.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
 
                     Armies.GetArmies(index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
                     // { The original executes queued moves only when creation returns nil. }
@@ -186,7 +187,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     else
                     {
                         ref var location = ref Armies.GetArmies(index).ArrivalPoint;
-                        move = CreateMove(Armies.GetArmies(index), 255, location.X, location.Y, location.MapLevel, Set<CreateMoveModeElement>.Of());
+                        move = CreateMove(Armies.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
 
                     if (move == null)
@@ -394,7 +395,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     {
                         var item = settings.Path[position];
                         var fPathItem = settings.Path[position];
-                        condition = CanMoveTo(army, 255, settings.Path[position].X, item.Y, fPathItem.MapLevel) != 255;
+                        condition = CanMoveTo(army, 255, settings.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != 255;
                     }
 
                     if (!condition)
@@ -618,7 +619,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.TransportStatus);
                 if (found)
                 {
-                    _meetingPoint = Armies.GetArmies(I).Location;
+                    _meetingPoint = new PathStep(Location: Armies.GetArmies(I).Location, MoveCost: 0);
                 }
             }
 
@@ -627,7 +628,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out selection);
                 settings.SetupArmy(armyHexSprite, selection);
-                settings.SetSourcePosition(_meetingPoint.X, _meetingPoint.Y, _meetingPoint.MapLevel);
+                settings.SetSourcePosition(_meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel);
                 settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
                 StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count > 4)
@@ -657,9 +658,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
         if (!found)
         {
-            _meetingPoint.X = -1;
-            _meetingPoint.Y = -1;
-            _meetingPoint.MapLevel = -1;
+            // The location is reset and the cost stays, as the Delphi component writes left the flag byte.
+            _meetingPoint = _meetingPoint with { Location = MapCoordinate.None };
         }
     }
 
@@ -694,7 +694,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     {
                         var item = aiMoveControlSettings.TransportPath[index];
                         var fTransportPathItem = aiMoveControlSettings.TransportPath[index];
-                        condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].X, item.Y, fTransportPathItem.MapLevel) != 255;
+                        condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].Location.X, item.Location.Y, fTransportPathItem.Location.MapLevel) != 255;
                     }
 
                     if (!condition)
@@ -702,7 +702,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     index += 1;
                 }
 
-                aiMoveControlSettings.BoardingPoint = aiMoveControlSettings.TransportPath[index];
+                aiMoveControlSettings.BoardingPoint = aiMoveControlSettings.TransportPath[index].Location;
                 index = aiMoveControlSettings.TransportPath.IndexOfMapCoordinate(aiMoveControlSettings.ArrivalPoint.X, aiMoveControlSettings.ArrivalPoint.Y, aiMoveControlSettings.ArrivalPoint.MapLevel);
                 while (true)
                 {
@@ -711,7 +711,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     {
                         var item = aiMoveControlSettings.TransportPath[index];
                         var fTransportPathItem = aiMoveControlSettings.TransportPath[index];
-                        condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].X, item.Y, fTransportPathItem.MapLevel) != 255;
+                        condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].Location.X, item.Location.Y, fTransportPathItem.Location.MapLevel) != 255;
                     }
 
                     if (!condition)
@@ -719,7 +719,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     index -= 1;
                 }
 
-                aiMoveControlSettings.ArrivalPoint = aiMoveControlSettings.TransportPath[index];
+                aiMoveControlSettings.ArrivalPoint = aiMoveControlSettings.TransportPath[index].Location;
                 for (int I = 0, last = army.Count - 1; I <= last; I++)
                 {
                     unitEntry = army.GetUnits(I);
@@ -734,13 +734,9 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     }
 
                     unitEntry.BoardingPoint = MoveControl.Settings.BoardingPoint;
-                    unitEntry.BoardingPoint.Tag = 0;
-                    unitEntry.ArrivalPoint = MoveControl.Settings.ArrivalPoint;
-                    unitEntry.ArrivalPoint.Tag = 0;
+                    unitEntry.ArrivalPoint = new PathStep(Location: MoveControl.Settings.ArrivalPoint, MoveCost: 0);
                     unitEntry.TransportSource = MoveControl.Settings.TransportSource;
-                    unitEntry.TransportSource.Tag = 0;
                     unitEntry.TransportDestination = MoveControl.Settings.TransportDestination;
-                    unitEntry.TransportDestination.Tag = 0;
                 }
             }
             else

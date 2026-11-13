@@ -85,7 +85,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         }
         else
         {
-            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[I]).FindOwnedChild(131607);
+            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[I].Location).FindOwnedChild(131607);
             if (ArmyHexSprite == null)
             {
                 result = false;
@@ -162,7 +162,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             var item = Path[last];
             var fPathItem = Path[last];
             var item2 = Path[last];
-            armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item2.X, fPathItem.Y, item.MapLevel);
+            armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
             ArmyHexSprite.Army.ResetDestinationPosition();
             if (ArmyHexSprite.GetSelected())
             {
@@ -308,7 +308,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         int direction;
         bool instant;
         MapField field;
-        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].MapLevel == StrategicMap.Current.ViewMapLevel || StrategicMap.Current.ShowIndependentMoves))
+        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].Location.MapLevel == StrategicMap.Current.ViewMapLevel || StrategicMap.Current.ShowIndependentMoves))
         {
             _animate = true;
             direction = GetDirection(MoveIndex);
@@ -325,7 +325,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             ArmyHexSprite.MoveFirst(direction, instant);
             if (ObserveMove(MoveIndex - 1))
             {
-                field = GetMapField(Path[MoveIndex - 1]);
+                field = GetMapField(Path[MoveIndex - 1].Location);
                 StrategicMap.Current.ValidateObservation(ArmyHexSprite.Army.Player, field.HexX, field.HexY, field.HexLevel, 0);
             }
         }
@@ -344,7 +344,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         while (I != 0 && !(stop || result))
         {
             I -= 1;
-            field = GetMapField(Path[I]);
+            field = GetMapField(Path[I].Location);
             result = field.GetPlayer() == -1;
             if (!result)
             {
@@ -382,14 +382,14 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         int direction;
         if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
         {
-            var mapField = GetMapField(Path[MoveIndex]);
+            var mapField = GetMapField(Path[MoveIndex].Location);
             ConstructRoad(ArmyHexSprite.Army.Player, mapField);
         }
 
         MoveIndex -= 1;
-        field = GetMapField(Path[MoveIndex]);
+        field = GetMapField(Path[MoveIndex].Location);
         var item = Path[MoveIndex];
-        ArmyHexSprite.MoveTo(field, item.Tag);
+        ArmyHexSprite.MoveTo(field, item.MoveCost);
         if (field.FindChildIndex(ArmyHexSprite) != -1)
         {
             direction = GetDirection(MoveIndex + 1);
@@ -443,10 +443,10 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             ArmyHexSprite = armyHexSprite;
             _player = armyHexSprite.Army.Player;
             Mode = mode;
-            TargetPlayer = GetMapField(path[0]).GetPlayer();
-            TargetX = path[0].X;
-            TargetY = path[0].Y;
-            TargetMapLevel = path[0].MapLevel;
+            TargetPlayer = GetMapField(path[0].Location).GetPlayer();
+            TargetX = path[0].Location.X;
+            TargetY = path[0].Location.Y;
+            TargetMapLevel = path[0].Location.MapLevel;
             Selection = armyHexSprite.Army.ValidateSelection(selection);
             for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
             {
@@ -496,7 +496,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             var item = Path[index];
             var fPathItem = Path[index];
             var item2 = Path[index];
-            result = StrategicMap.Current.Visible(item2.X, fPathItem.Y, item.MapLevel, 0);
+            result = StrategicMap.Current.Visible(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel, 0);
             if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatusElement.FullyConcealed))
             {
                 result = false;

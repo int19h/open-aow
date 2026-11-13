@@ -19,20 +19,24 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
 
     public MapCoordinate Location;
 
+    // The fourth byte of the packed location stored at id 20, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     // GlobalTargetSpells.pas:406
     // packed coordinates
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Int32(ref Location.Packed, 20);
+        int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 20);
+        (Location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
     }
 
     // GlobalTargetSpells.pas:412
     public void SetLocation(sbyte X, sbyte Y, sbyte layer)
     {
-        Location.X = X;
-        Location.Y = Y;
-        Location.MapLevel = layer;
+        Location = new MapCoordinate(X: X, Y: Y, MapLevel: layer);
     }
 
     // GlobalTargetSpells.pas:419

@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -26,9 +24,7 @@ public partial class JoinEventLog : EventLog
     {
         UnitIds = new Int32List();
         JoinMessage = new StringList();
-        _location.X = -1;
-        _location.Y = -1;
-        _location.MapLevel = -1;
+        _location = new MapCoordinate(X: -1, Y: -1, MapLevel: -1);
         JoinIndex = -1;
     }
 
@@ -37,6 +33,11 @@ public partial class JoinEventLog : EventLog
     public Int32List UnitIds { get; }
 
     private MapCoordinate _location;
+
+    // The fourth byte of the packed location stored at id 26, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     public byte Selection;
     public int JoinIndex;
 
@@ -63,7 +64,9 @@ public partial class JoinEventLog : EventLog
         stream.Byte(ref Selection, 23);
         stream.Lines(JoinMessage, 24);
         stream.Int32(ref Gold, 25);
-        stream.Int32(ref Unsafe.As<MapCoordinate, int>(ref _location), 26);
+        int location = StoredCoordinateImage.From(_location, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 26);
+        (_location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
         stream.Bytes(Bytes.Of(ref JoinMode, 1), 1, 27);
         stream.String(ref Text, 28);
         stream.Int32(ref JoinIndex, -1, 29);
@@ -85,7 +88,8 @@ public partial class JoinEventLog : EventLog
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop != null && troop.Player == 0)
             {
-                troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
+                troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+                location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                 result = _location.X == location.X && _location.Y == location.Y && _location.MapLevel == location.MapLevel;
             }
         }

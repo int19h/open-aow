@@ -123,10 +123,13 @@ Two Delphi features need a design, not a mapping:
    unions and became explicit-layout structs in the first stage. `EngineMessage` (Delphi `TEMsg`) and `ShowInfo` (Delphi `TShowInfo`) overlay a
    reference with an integer, and the first stage gave that slot the shim's integer-or-reference
    value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `MapCoordinate` (Delphi `TXYL`)
-   stays an explicit-layout struct until issue 191 splits its flag byte and issue 192 moves its layout to the I/O
-   boundary. Game code no longer reads it as an integer: it compares coordinates with `==`, which covers all four
-   bytes as the Delphi integer comparisons did, and names the none value `MapCoordinate.None`. Only persistence
-   and the headless trace read the `Packed` view. Issue 192 made `DefenseRequirements` (Delphi `TDefenseRequirements`) a natural struct whose `Strength` is
+   is a natural `readonly record struct` of `X`, `Y` and `MapLevel` with the none value `MapCoordinate.None`.
+   Issue 191 gave each use of the Delphi flag byte its own type: a path step is a `PathStep` with its
+   `MoveCost`, a unit position a `UnitPosition` with its `Facing`, the AI target an `AITargetLocation` whose
+   `Marker` keeps the cleared value apart from the none value, and a stored packed location keeps its fourth
+   byte as the owner's `UnknownBytes`. Equality of each type covers the bytes the Delphi integer comparison
+   covered. Only load, save and the headless trace see the four bytes, through `PathStepImage` and
+   `StoredCoordinateImage`. Issue 192 made `DefenseRequirements` (Delphi `TDefenseRequirements`) a natural struct whose `Strength` is
    element 7 of `DamageStrengths`, and `Palette.Entry` (Delphi `TPaletteEntry`) one 32-bit pixel value whose `Red`,
    `Green`, `Blue`, `Flags` and `PackedColor` members name its bytes. The three combat-info buffers of `AoWTC` became plain `AbilityCombatInfo` (Delphi `TAbilityCombatInfo`) locals,
    because their second arm is never read. The message slots of `EngineMessage` and `MapFieldMessage` (Delphi `TMapFieldMsg`) became

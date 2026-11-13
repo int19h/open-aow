@@ -17,6 +17,11 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
 
     public MapCoordinate PatrolFrom;
     public MapCoordinate PatrolTo;
+
+    // The fourth bytes of the packed locations stored at ids 40 (low byte) and 41 (high byte), 0 from
+    // every writer and in every corpus file, kept so that a loaded value saves back unchanged.
+    public ushort UnknownBytes { get; set; }
+
     public sbyte PreviousHeading;
     public int PatrolStrength;
 
@@ -24,8 +29,13 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Int32(ref PatrolFrom.Packed, 40);
-        stream.Int32(ref PatrolTo.Packed, 41);
+        int from = StoredCoordinateImage.From(PatrolFrom, unknownBytes: (byte)UnknownBytes).ToInt32();
+        stream.Int32(ref from, 40);
+        (PatrolFrom, var fromUnknown) = StoredCoordinateImage.FromInt32(from);
+        int to = StoredCoordinateImage.From(PatrolTo, unknownBytes: (byte)(UnknownBytes >> 8)).ToInt32();
+        stream.Int32(ref to, 41);
+        (PatrolTo, var toUnknown) = StoredCoordinateImage.FromInt32(to);
+        UnknownBytes = (ushort)(fromUnknown | (toUnknown << 8));
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref PreviousHeading), 42);
         stream.Int32(ref PatrolStrength, 43);
     }

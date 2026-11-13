@@ -219,70 +219,29 @@
       "MoveControl.DestinationL": 0,
       "MoveControl.DestinationX": 0,
       "MoveControl.DestinationY": 0,
-      "MoveControl._directRoute": {
-        "$type": "Aow.Game.World.Map.MapCoordinateList",
-        "MapCoordinateList._capacity": 0,
-        "MapCoordinateList._count": 0,
-        "MapCoordinateList._default": {
-          "$type": "Aow.Game.World.Map.MapCoordinate",
-          "MapCoordinate.Tag": 0,
-          "MapCoordinate.MapLevel": -1,
-          "MapCoordinate.Packed": 16777215,
-          "MapCoordinate.X": -1,
-          "MapCoordinate.Y": -1
-        },
-        "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
-      },
-      "MoveControl._exploredMask": 0,
-      "MoveControl._fieldOffsets": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
-      ],
       "MoveControl.GapEnds": {
         "$type": "Aow.Game.World.Map.MapCoordinateList",
-        "MapCoordinateList._capacity": 0,
-        "MapCoordinateList._count": 0,
-        "MapCoordinateList._default": {
+        "DefaultItemList\u00601.Default": {
           "$type": "Aow.Game.World.Map.MapCoordinate",
-          "MapCoordinate.Tag": 0,
           "MapCoordinate.MapLevel": -1,
-          "MapCoordinate.Packed": 16777215,
           "MapCoordinate.X": -1,
           "MapCoordinate.Y": -1
         },
-        "MapCoordinateList._list": []
+        "DefaultItemList\u00601._capacity": 0,
+        "DefaultItemList\u00601._count": 0,
+        "DefaultItemList\u00601._list": []
       },
       "MoveControl.GapStarts": {
         "$type": "Aow.Game.World.Map.MapCoordinateList",
-        "MapCoordinateList._capacity": 0,
-        "MapCoordinateList._count": 0,
-        "MapCoordinateList._default": {
+        "DefaultItemList\u00601.Default": {
           "$type": "Aow.Game.World.Map.MapCoordinate",
-          "MapCoordinate.Tag": 0,
           "MapCoordinate.MapLevel": -1,
-          "MapCoordinate.Packed": 16777215,
           "MapCoordinate.X": -1,
           "MapCoordinate.Y": -1
         },
-        "MapCoordinateList._list": "$ref:$.MoveControl.GapEnds.MapCoordinateList._list"
+        "DefaultItemList\u00601._capacity": 0,
+        "DefaultItemList\u00601._count": 0,
+        "DefaultItemList\u00601._list": "$ref:$.MoveControl.GapEnds.DefaultItemList\u00601._list"
       },
       "MoveControl.Map": null,
       "MoveControl.MapLevel": null,
@@ -589,6 +548,44 @@
       "MoveControl.MovePointsLimit": 0,
       "MoveControl.OnMovePoint": null,
       "MoveControl.Player": 0,
+      "MoveControl.Selection": 0,
+      "MoveControl.Settings": null,
+      "MoveControl.TransporterArmy": null,
+      "MoveControl._directRoute": {
+        "$type": "Aow.Game.World.Map.MapCoordinateList",
+        "DefaultItemList\u00601.Default": {
+          "$type": "Aow.Game.World.Map.MapCoordinate",
+          "MapCoordinate.MapLevel": -1,
+          "MapCoordinate.X": -1,
+          "MapCoordinate.Y": -1
+        },
+        "DefaultItemList\u00601._capacity": 0,
+        "DefaultItemList\u00601._count": 0,
+        "DefaultItemList\u00601._list": "$ref:$.MoveControl.GapEnds.DefaultItemList\u00601._list"
+      },
+      "MoveControl._exploredMask": 0,
+      "MoveControl._fieldOffsets": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
       "MoveControl._pointOffsets": [
         [
           0,
@@ -613,13 +610,11 @@
       ],
       "MoveControl._processedCount": 0,
       "MoveControl._processedMapFields": null,
-      "MoveControl.Selection": 0,
-      "MoveControl.Settings": null,
       "MoveControl._sourceL": 0,
       "MoveControl._sourceX": 0,
       "MoveControl._sourceY": 0,
       "MoveControl._status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set\u00601.a": 0,
         "Set\u00601.b": 0,
         "Set\u00601.bounded": false,
@@ -627,8 +622,7 @@
         "Set\u00601.d": 0,
         "Set\u00601.high": 0,
         "Set\u00601.low": 0
-      },
-      "MoveControl.TransporterArmy": null
+      }
     }
   },
   "Aow.Game.Commands.AnimationTokenEvent.owner0": {
@@ -871,28 +865,30 @@
             "CombatAbilityTouchMoveTokenEvent._wall": null,
             "CombatAbilityTouchMoveTokenEvent._webAction": null,
             "CombatMoveTokenEvent.Delay": 0,
-            "CombatMoveTokenEvent._freeStrikeUnit": null,
-            "CombatMoveTokenEvent._neighbour": 0,
-            "CombatMoveTokenEvent._objects": null,
             "CombatMoveTokenEvent.PreviousUnit": null,
             "CombatMoveTokenEvent.Step": 0,
             "CombatMoveTokenEvent.Strike": null,
             "CombatMoveTokenEvent.Unit": null,
+            "CombatMoveTokenEvent._freeStrikeUnit": null,
+            "CombatMoveTokenEvent._neighbour": 0,
+            "CombatMoveTokenEvent._objects": null,
             "EngineObject._owner": null,
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
             "TokenEvent.RefCount": 1,
@@ -924,28 +920,30 @@
             "CombatAbilityTouchMoveTokenEvent._wall": null,
             "CombatAbilityTouchMoveTokenEvent._webAction": null,
             "CombatMoveTokenEvent.Delay": 0,
-            "CombatMoveTokenEvent._freeStrikeUnit": null,
-            "CombatMoveTokenEvent._neighbour": 0,
-            "CombatMoveTokenEvent._objects": null,
             "CombatMoveTokenEvent.PreviousUnit": null,
             "CombatMoveTokenEvent.Step": 0,
             "CombatMoveTokenEvent.Strike": null,
             "CombatMoveTokenEvent.Unit": null,
+            "CombatMoveTokenEvent._freeStrikeUnit": null,
+            "CombatMoveTokenEvent._neighbour": 0,
+            "CombatMoveTokenEvent._objects": null,
             "EngineObject._owner": "$owner",
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
             "TokenEvent.RefCount": 1,
@@ -973,13 +971,13 @@
               "CombatAbilityTouchMoveTokenEvent._wall": null,
               "CombatAbilityTouchMoveTokenEvent._webAction": null,
               "CombatMoveTokenEvent.Delay": 0,
-              "CombatMoveTokenEvent._freeStrikeUnit": null,
-              "CombatMoveTokenEvent._neighbour": 0,
-              "CombatMoveTokenEvent._objects": null,
               "CombatMoveTokenEvent.PreviousUnit": null,
               "CombatMoveTokenEvent.Step": 0,
               "CombatMoveTokenEvent.Strike": null,
               "CombatMoveTokenEvent.Unit": null,
+              "CombatMoveTokenEvent._freeStrikeUnit": null,
+              "CombatMoveTokenEvent._neighbour": 0,
+              "CombatMoveTokenEvent._objects": null,
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
               "MoveTokenEvent.Path": null,
@@ -1087,33 +1085,35 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Commands.TacticalBattleMeleeMoveTokenEvent",
-            "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
-            "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
             "CombatMoveTokenEvent.Delay": 0,
-            "CombatMoveTokenEvent._freeStrikeUnit": null,
-            "CombatMoveTokenEvent._neighbour": 0,
-            "CombatMoveTokenEvent._objects": null,
             "CombatMoveTokenEvent.PreviousUnit": null,
             "CombatMoveTokenEvent.Step": 0,
             "CombatMoveTokenEvent.Strike": null,
             "CombatMoveTokenEvent.Unit": null,
+            "CombatMoveTokenEvent._freeStrikeUnit": null,
+            "CombatMoveTokenEvent._neighbour": 0,
+            "CombatMoveTokenEvent._objects": null,
             "EngineObject._owner": null,
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
+            "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
+            "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
             "TokenEvent.RefCount": 1,
             "TokenEvent._tokenCounter": -1
           }
@@ -1129,33 +1129,35 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Commands.TacticalBattleMeleeMoveTokenEvent",
-            "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
-            "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
             "CombatMoveTokenEvent.Delay": 0,
-            "CombatMoveTokenEvent._freeStrikeUnit": null,
-            "CombatMoveTokenEvent._neighbour": 0,
-            "CombatMoveTokenEvent._objects": null,
             "CombatMoveTokenEvent.PreviousUnit": null,
             "CombatMoveTokenEvent.Step": 0,
             "CombatMoveTokenEvent.Strike": null,
             "CombatMoveTokenEvent.Unit": null,
+            "CombatMoveTokenEvent._freeStrikeUnit": null,
+            "CombatMoveTokenEvent._neighbour": 0,
+            "CombatMoveTokenEvent._objects": null,
             "EngineObject._owner": "$owner",
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
+            "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
+            "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
             "TokenEvent.RefCount": 1,
             "TokenEvent._tokenCounter": -1
           }
@@ -1167,20 +1169,20 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Commands.TacticalBattleMeleeMoveTokenEvent",
-              "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
-              "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
               "CombatMoveTokenEvent.Delay": 0,
-              "CombatMoveTokenEvent._freeStrikeUnit": null,
-              "CombatMoveTokenEvent._neighbour": 0,
-              "CombatMoveTokenEvent._objects": null,
               "CombatMoveTokenEvent.PreviousUnit": null,
               "CombatMoveTokenEvent.Step": 0,
               "CombatMoveTokenEvent.Strike": null,
               "CombatMoveTokenEvent.Unit": null,
+              "CombatMoveTokenEvent._freeStrikeUnit": null,
+              "CombatMoveTokenEvent._neighbour": 0,
+              "CombatMoveTokenEvent._objects": null,
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
               "MoveTokenEvent.Path": null,
               "MoveTokenEvent._status": 0,
+              "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
+              "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
               "TokenEvent.RefCount": 0,
               "TokenEvent._tokenCounter": 0
             }
@@ -1197,28 +1199,30 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.CombatMoveTokenEvent",
             "CombatMoveTokenEvent.Delay": 0,
-            "CombatMoveTokenEvent._freeStrikeUnit": null,
-            "CombatMoveTokenEvent._neighbour": 0,
-            "CombatMoveTokenEvent._objects": null,
             "CombatMoveTokenEvent.PreviousUnit": null,
             "CombatMoveTokenEvent.Step": 0,
             "CombatMoveTokenEvent.Strike": null,
             "CombatMoveTokenEvent.Unit": null,
+            "CombatMoveTokenEvent._freeStrikeUnit": null,
+            "CombatMoveTokenEvent._neighbour": 0,
+            "CombatMoveTokenEvent._objects": null,
             "EngineObject._owner": null,
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
             "TokenEvent.RefCount": 1,
@@ -1237,28 +1241,30 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.CombatMoveTokenEvent",
             "CombatMoveTokenEvent.Delay": 0,
-            "CombatMoveTokenEvent._freeStrikeUnit": null,
-            "CombatMoveTokenEvent._neighbour": 0,
-            "CombatMoveTokenEvent._objects": null,
             "CombatMoveTokenEvent.PreviousUnit": null,
             "CombatMoveTokenEvent.Step": 0,
             "CombatMoveTokenEvent.Strike": null,
             "CombatMoveTokenEvent.Unit": null,
+            "CombatMoveTokenEvent._freeStrikeUnit": null,
+            "CombatMoveTokenEvent._neighbour": 0,
+            "CombatMoveTokenEvent._objects": null,
             "EngineObject._owner": "$owner",
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
             "TokenEvent.RefCount": 1,
@@ -1273,13 +1279,13 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.CombatMoveTokenEvent",
               "CombatMoveTokenEvent.Delay": 0,
-              "CombatMoveTokenEvent._freeStrikeUnit": null,
-              "CombatMoveTokenEvent._neighbour": 0,
-              "CombatMoveTokenEvent._objects": null,
               "CombatMoveTokenEvent.PreviousUnit": null,
               "CombatMoveTokenEvent.Step": 0,
               "CombatMoveTokenEvent.Strike": null,
               "CombatMoveTokenEvent.Unit": null,
+              "CombatMoveTokenEvent._freeStrikeUnit": null,
+              "CombatMoveTokenEvent._neighbour": 0,
+              "CombatMoveTokenEvent._objects": null,
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
               "MoveTokenEvent.Path": null,
@@ -1302,12 +1308,11 @@
             "EngineObject._owner": null,
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1330,12 +1335,11 @@
             "EngineObject._owner": "$owner",
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1354,12 +1358,11 @@
               "EngineObject._owner": "$owner",
               "GlobalTargetSpellTokenEvent.Location": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
                 "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
+              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1382,12 +1385,11 @@
             "EngineObject._owner": null,
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1410,12 +1412,11 @@
             "EngineObject._owner": "$owner",
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1434,12 +1435,11 @@
               "EngineObject._owner": "$owner",
               "GlobalTargetSpellTokenEvent.Location": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
                 "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
+              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1463,17 +1463,19 @@
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
             "TokenEvent.RefCount": 1,
@@ -1495,17 +1497,19 @@
             "MoveTokenEvent.MoveIndex": 0,
             "MoveTokenEvent.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveTokenEvent._status": 0,
             "TokenEvent.RefCount": 1,
@@ -1541,12 +1545,11 @@
             "EngineObject._owner": null,
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1569,12 +1572,11 @@
             "EngineObject._owner": "$owner",
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1593,12 +1595,11 @@
               "EngineObject._owner": "$owner",
               "GlobalTargetSpellTokenEvent.Location": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
                 "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
+              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1621,12 +1622,11 @@
             "EngineObject._owner": null,
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1649,12 +1649,11 @@
             "EngineObject._owner": "$owner",
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1673,12 +1672,11 @@
               "EngineObject._owner": "$owner",
               "GlobalTargetSpellTokenEvent.Location": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
                 "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
+              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1984,12 +1982,11 @@
             "EngineObject._owner": null,
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -2012,12 +2009,11 @@
             "EngineObject._owner": "$owner",
             "GlobalTargetSpellTokenEvent.Location": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
-              "MapCoordinate.Tag": 0,
               "MapCoordinate.MapLevel": 0,
-              "MapCoordinate.Packed": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
+            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -2036,12 +2032,11 @@
               "EngineObject._owner": "$owner",
               "GlobalTargetSpellTokenEvent.Location": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
                 "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.Packed": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
+              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,

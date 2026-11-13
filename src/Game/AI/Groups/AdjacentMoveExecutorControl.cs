@@ -24,7 +24,9 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
     }
 
-    private MapCoordinate _meetingPoint;
+    // A path step with its cost: the meeting point is a step of a move path, and the comparison
+    // with the destination covers the cost as the Delphi four-byte comparison did.
+    private PathStep _meetingPoint;
     private readonly AdjacentArmyList _adjacentArmies;
 
     // AIGroup.pas:5123
@@ -131,13 +133,13 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         }
                         else
                         {
-                            _meetingPoint = Executor.Destination;
+                            _meetingPoint = new PathStep(Location: Executor.Destination, MoveCost: 0);
                             State = 2;
                         }
                     }
                     else
                     {
-                        _meetingPoint = Executor.Destination;
+                        _meetingPoint = new PathStep(Location: Executor.Destination, MoveCost: 0);
                         State = 2;
                     }
                 }
@@ -225,7 +227,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                                 }
                                 else
                                 {
-                                    _meetingPoint = Executor.Destination;
+                                    _meetingPoint = new PathStep(Location: Executor.Destination, MoveCost: 0);
                                 }
                             }
                         }
@@ -237,7 +239,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     }
                     else
                     {
-                        if (_meetingPoint == Executor.Destination && Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
+                        if (_meetingPoint == new PathStep(Location: Executor.Destination, MoveCost: 0) && Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                         {
                             mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround);
                         }
@@ -246,7 +248,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                             mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
                         }
 
-                        move = CreateMove(Armies.GetArmies(0), 255, _meetingPoint.X, _meetingPoint.Y, _meetingPoint.MapLevel, mode, out moveResult);
+                        move = CreateMove(Armies.GetArmies(0), 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
                         if (move != null)
                         {
                             if (moveResult == 0)
@@ -480,7 +482,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         {
                             var item = adjacent.Path[position];
                             var fPathItem = adjacent.Path[position];
-                            condition = CanMoveTo(army, 255, adjacent.Path[position].X, item.Y, fPathItem.MapLevel) != 255;
+                            condition = CanMoveTo(army, 255, adjacent.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != 255;
                         }
 
                         if (!condition)
@@ -488,7 +490,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         position -= 1;
                     }
 
-                    result = _adjacentArmies.GetAdjacentArmies(I).Path[position];
+                    result = _adjacentArmies.GetAdjacentArmies(I).Path[position].Location;
                 }
             }
         }

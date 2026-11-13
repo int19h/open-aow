@@ -22,6 +22,10 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     public ArmyId ArmyId;
     public MapCoordinate WarpLocation;
 
+    // The fourth byte of the packed location stored at id 30, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     // GlobalSpells.pas:558
     public override void Dispose()
     {
@@ -33,7 +37,9 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Int32(ref WarpLocation.Packed, 30);
+        int location = StoredCoordinateImage.From(WarpLocation, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 30);
+        (WarpLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
         stream.Created(ref ArmyId, null, 31);
     }
 

@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 
 namespace Aow.Game.AI.Groups;
 
@@ -19,7 +20,8 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public AIMoveExecutorTransportStatus TransportStatus { get; private set; }
 
     public MapCoordinate BoardingPoint;
-    public MapCoordinate ArrivalPoint;
+    // A path step with its cost, see AIMoveExecutorUnit.ArrivalPoint.
+    public PathStep ArrivalPoint;
     public MapCoordinate TransportSource;
     public MapCoordinate TransportDestination;
 
@@ -28,14 +30,8 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     // AIGroup.pas:4527
     public void Setup(AIMoveExecutorUnit transporter)
     {
-        Location.X = transporter.Location.X;
-        Location.Y = transporter.Location.Y;
-        Location.MapLevel = transporter.Location.MapLevel;
-        Location.Tag = 0;
-        _destination.X = transporter.Destination.X;
-        _destination.Y = transporter.Destination.Y;
-        _destination.MapLevel = transporter.Destination.MapLevel;
-        _destination.Tag = 0;
+        Location = new MapCoordinate(X: transporter.Location.X, Y: transporter.Location.Y, MapLevel: transporter.Location.MapLevel);
+        _destination = new MapCoordinate(X: transporter.Destination.X, Y: transporter.Destination.Y, MapLevel: transporter.Destination.MapLevel);
         Player = transporter.Troop.Player;
         TransportStatus = transporter.TransportStatus;
         BoardingPoint = transporter.BoardingPoint;

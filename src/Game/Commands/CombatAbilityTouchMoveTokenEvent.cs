@@ -87,7 +87,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                         var pathY = Path[0];
                         var fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
                         var pathX = Path[0];
-                        var meleeDirIndex = TacticalTables.GetMeleeDirectionIndex(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexX - pathX.X, fUnitHexSpriteHexY - pathY.Y);
+                        var meleeDirIndex = TacticalTables.GetMeleeDirectionIndex(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexX - pathX.Location.X, fUnitHexSpriteHexY - pathY.Location.Y);
                         Unit.UnitHexSprite.SetDirection((byte)meleeDirIndex);
                         if (AbilityId == 65)
                         {
@@ -105,7 +105,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
                                 var path = Path[0];
                                 var path2 = Path[0];
-                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.X, path.Y).FindOwnedChild(2228484);
+                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild(2228484);
                                 if (hexSprite == null)
                                 {
                                     PreviousUnit = null;
@@ -129,12 +129,12 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         var path3 = Path[0];
                                         var path4 = Path[0];
-                                        _wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.X, path3.Y).FindOwnedChild(2229508);
+                                        _wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild(2229508);
                                         if (_wall == null)
                                         {
                                             var path5 = Path[0];
                                             var path6 = Path[0];
-                                            _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510) as CityWall;
+                                            _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.Location.X, path5.Location.Y).FindOwnedChild(2229510) as CityWall;
                                         }
 
                                         if (_wall == null && AbilityId == 117)
@@ -209,7 +209,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         _effect.AbilityIndex = AbilityId;
                                         point = new Point3D();
                                         var path = Path[1];
-                                        HexGeometry.HexToPixel(Path[1].X, path.Y, out point.X, out point.Y);
+                                        HexGeometry.HexToPixel(Path[1].Location.X, path.Location.Y, out point.X, out point.Y);
                                         point.X += 16;
                                         _effect.Path.Add(point);
                                         Step = TokenStep.ExecuteStrike;
@@ -248,7 +248,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                             {
                                                 I = (TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6 + 1;
                                                 var path = Path[1];
-                                                HexGeometry.CenterHexNumberToHex(Path[1].X, path.Y, I, ref X, ref Y);
+                                                HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, I, ref X, ref Y);
                                                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
                                                 if (hexSprite == null || hexSprite == Unit.UnitHexSprite)
                                                 {
@@ -419,7 +419,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                                 for (; I <= 6; I += 1)
                                                 {
                                                     var path = Path[1];
-                                                    HexGeometry.CenterHexNumberToHex(Path[1].X, path.Y, I, ref X, ref Y);
+                                                    HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, I, ref X, ref Y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                     EffectPaths.CreateFire(false, 50, X, Y, engine: GetEngine());
                                                 }

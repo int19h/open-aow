@@ -60,7 +60,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         TacticalBattleUnitHexSprite hexSprite;
         base.Validate();
         index = Path.Count - 1;
-        mapField = GetMapField(Path[index]);
+        mapField = GetMapField(Path[index].Location);
         hexSprite = (TacticalBattleUnitHexSprite)mapField.FindOwnedChild(2228484);
         if (hexSprite != null)
         {
@@ -319,7 +319,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                             }
 
                             direction = GetDirection(MoveIndex);
-                            mapField = GetMapField(Path[MoveIndex - 1]);
+                            mapField = GetMapField(Path[MoveIndex - 1].Location);
                             if (mapField.GetPlayer() == -1)
                             {
                                 if (direction != 0)
@@ -387,7 +387,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
             for (int I = startIndex, last = path.Count - 1; I <= last; I++)
             {
                 var pathLocal = path[I];
-                Path.Add((MapCoordinate)pathLocal);
+                Path.Add(pathLocal);
             }
 
             result = true;
@@ -409,13 +409,13 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         Rect R;
         Move();
         oldField = Unit.UnitHexSprite.Owner;
-        newField = GetMapField(Path[MoveIndex]);
+        newField = GetMapField(Path[MoveIndex].Location);
         Unit.UnitHexSprite.MoveTo(newField, 0);
         if (newField.FindChildIndex(Unit.UnitHexSprite) != -1)
         {
             result = ProcessMove();
             var path = Path[MoveIndex];
-            Unit.MovedTo(oldField, newField, path.Tag);
+            Unit.MovedTo(oldField, newField, path.MoveCost);
             var rectangle = new Rect(oldField.HexX, oldField.HexY, oldField.HexX + 1, oldField.HexY + 1);
             CombatMap.Current.TriggerMapChangedEvent(rectangle, 0);
             if (MoveIndex == 0 && newField.FindChild(2229544) != null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)

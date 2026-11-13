@@ -6,6 +6,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 
 namespace Aow.Game.AI.Groups;
 
@@ -27,7 +28,9 @@ public partial class AIMoveExecutorUnit : EngineObject
     public AIMoveExecutorTransportStatus TransportStatus { get; set; }
 
     public MapCoordinate BoardingPoint;
-    public MapCoordinate ArrivalPoint;
+    // A path step with its cost (TransportMoveExecutorControl's meeting point). AIMoveExecutorArmy.CanAdd
+    // compares it with the cost, as the Delphi four-byte comparison did.
+    public PathStep ArrivalPoint;
     public MapCoordinate TransportSource;
     public MapCoordinate TransportDestination;
 
@@ -39,18 +42,9 @@ public partial class AIMoveExecutorUnit : EngineObject
     {
         Troop = troop;
         UnitId = Troop.UnitId;
-        Location.X = X;
-        Location.Y = Y;
-        Location.MapLevel = L;
-        Location.Tag = 0;
-        _origin.X = X;
-        _origin.Y = Y;
-        _origin.MapLevel = L;
-        _origin.Tag = 0;
-        Destination.X = -1;
-        Destination.Y = -1;
-        Destination.MapLevel = -1;
-        Destination.Tag = 0;
+        Location = new MapCoordinate(X: X, Y: Y, MapLevel: L);
+        _origin = new MapCoordinate(X: X, Y: Y, MapLevel: L);
+        Destination = new MapCoordinate(X: -1, Y: -1, MapLevel: -1);
         ResetTransporterSettings();
         Status = AIMoveExecutorUnitStatus.Idle;
         MoveResult = 0;
@@ -64,7 +58,8 @@ public partial class AIMoveExecutorUnit : EngineObject
         {
             if (Status == AIMoveExecutorUnitStatus.Moving)
             {
-                Troop.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
+                Troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+                Location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
                 Status = AIMoveExecutorUnitStatus.Ready;
             }
         }
@@ -81,10 +76,10 @@ public partial class AIMoveExecutorUnit : EngineObject
     // AIGroup.pas:4320
     public void ResetTransporterSettings()
     {
-        BoardingPoint.X = -1;
-        ArrivalPoint.X = -1;
-        TransportSource.X = -1;
-        TransportDestination.X = -1;
+        BoardingPoint = BoardingPoint with { X = -1 };
+        ArrivalPoint = ArrivalPoint with { Location = ArrivalPoint.Location with { X = -1 } };
+        TransportSource = TransportSource with { X = -1 };
+        TransportDestination = TransportDestination with { X = -1 };
     }
 
     // Engine.pas:524

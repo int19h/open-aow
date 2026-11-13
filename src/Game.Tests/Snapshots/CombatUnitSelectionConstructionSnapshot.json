@@ -4,23 +4,11 @@
       "State": {
         "$jsonText": {
           "$type": "Aow.Game.Combat.CombatUnitSelectionControl",
-          "CombatUnitSelectionControl._cursorFrame": 0,
-          "CombatUnitSelectionControl._cursorImage": 0,
           "CombatUnitSelectionControl.MouseOverTarget": null,
           "CombatUnitSelectionControl.Obstacles": {
             "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList\u00601.count": 0,
             "DelphiList\u00601.items": []
-          },
-          "CombatUnitSelectionControl._pathInvalid": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
           },
           "CombatUnitSelectionControl.RangedPath": {
             "$type": "Aow.Game.Draw.Point3DList",
@@ -30,11 +18,11 @@
             "$type": "Aow.Game.Draw.RangedPathHexSprite",
             "EngineObject._owner": null,
             "FixedVisibleHexSprite._status": 0,
+            "RangedPathHexSprite.Range": 0,
+            "RangedPathHexSprite.Selection": null,
             "RangedPathHexSprite._frame": 0,
             "RangedPathHexSprite._frameCount": 0,
             "RangedPathHexSprite._miscellaneousImages": null,
-            "RangedPathHexSprite.Range": 0,
-            "RangedPathHexSprite.Selection": null,
             "RangedPathHexSprite._targetImages": {
               "$type": "Aow.Game.Draw.Images.ImageLibrary",
               "Component.ComponentState": {
@@ -53,14 +41,14 @@
               "Component.freeNotifies": null,
               "Component.name": "",
               "CustomImageLibrary.Capacity": 0,
+              "CustomImageLibrary.Images": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._dataOffset": 0,
               "CustomImageLibrary._fileName": "",
-              "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []
@@ -79,6 +67,18 @@
             }
           },
           "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
+          "CombatUnitSelectionControl._cursorFrame": 0,
+          "CombatUnitSelectionControl._cursorImage": 0,
+          "CombatUnitSelectionControl._pathInvalid": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
           "CombatUnitSelectionControl._targetX": 0,
           "CombatUnitSelectionControl._targetY": 0,
           "MoveSelector.CurrentMove": -1,
@@ -110,9 +110,6 @@
               0,
               0
             ],
-            "MoveControlSettings._height": 0,
-            "MoveControlSettings._levelCount": 0,
-            "MoveControlSettings._levelData": [],
             "MoveControlSettings.Mode": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -413,7 +410,6 @@
                 -1
               ]
             ],
-            "MoveControlSettings._movePointsClear": false,
             "MoveControlSettings.MovePointsLimit": 0,
             "MoveControlSettings.MovePointsMax": 4095,
             "MoveControlSettings.OddOffsets": [
@@ -428,17 +424,19 @@
             ],
             "MoveControlSettings.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList._capacity": 0,
-              "MapCoordinateList._count": 0,
-              "MapCoordinateList._default": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Tag": 0,
-                "MapCoordinate.MapLevel": -1,
-                "MapCoordinate.Packed": 16777215,
-                "MapCoordinate.X": -1,
-                "MapCoordinate.Y": -1
+              "DefaultItemList\u00601.Default": {
+                "$type": "Aow.Game.World.Movement.PathStep",
+                "PathStep.Location": {
+                  "$type": "Aow.Game.World.Map.MapCoordinate",
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
+                },
+                "PathStep.MoveCost": 0
               },
-              "MapCoordinateList._list": []
+              "DefaultItemList\u00601._capacity": 0,
+              "DefaultItemList\u00601._count": 0,
+              "DefaultItemList\u00601._list": []
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
@@ -446,8 +444,6 @@
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
-            "MoveControlSettings._refCount": 1,
-            "MoveControlSettings._rowOffsets": [],
             "MoveControlSettings.Selection": 0,
             "MoveControlSettings.SourceL": -1,
             "MoveControlSettings.SourceX": -1,
@@ -474,6 +470,12 @@
               "EChangeNotifyNode._updateCount": 0,
               "EngineObject._owner": null
             },
+            "MoveControlSettings._height": 0,
+            "MoveControlSettings._levelCount": 0,
+            "MoveControlSettings._levelData": [],
+            "MoveControlSettings._movePointsClear": false,
+            "MoveControlSettings._refCount": 1,
+            "MoveControlSettings._rowOffsets": [],
             "MoveControlSettings._width": 0
           },
           "MoveSelector.MoveSettingsList": {

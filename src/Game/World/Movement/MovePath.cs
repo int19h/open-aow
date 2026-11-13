@@ -1,10 +1,8 @@
 // Translated from AoWE.pas.
-using Aow.Game.World.Map;
-
 namespace Aow.Game.World.Movement;
 
-// inherited locations and count. the signed Flag byte of each location is its movement cost
-public partial class MovePath : MapCoordinateList
+// inherited steps and count. each step carries the move points spent entering its location
+public partial class MovePath : PathStepList
 {
     // Structur.PAS:3981
     // inherited locations and count
@@ -17,7 +15,7 @@ public partial class MovePath : MapCoordinateList
             while (result > 0 && movePoints >= 0)
             {
                 result -= 1;
-                movePoints -= List[result].Tag;
+                movePoints -= List[result].MoveCost;
             }
 
             if (movePoints < 0)
@@ -39,7 +37,7 @@ public partial class MovePath : MapCoordinateList
         int result = 0;
         for (int I = Count - 1; I >= position; I--)
         {
-            result += List[I].Tag;
+            result += List[I].MoveCost;
         }
 
         return result;

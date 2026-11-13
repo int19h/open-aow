@@ -61,7 +61,7 @@ public partial class SelectedArmy : MoveSelector
                     var item = MoveSettingsList.GetMoveSettings(0).Path[0];
                     var fPathItem = MoveSettingsList.GetMoveSettings(0).Path[0];
                     var item2 = MoveSettingsList.GetMoveSettings(0).Path[0];
-                    if (!ValidMultiMoveSelection(Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel)))
+                    if (!ValidMultiMoveSelection(Map.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel)))
                     {
                         return;
                     }
@@ -177,7 +177,7 @@ public partial class SelectedArmy : MoveSelector
                 var item = settings.Path[0];
                 var fPathItem = settings.Path[0];
                 var item2 = settings.Path[0];
-                armyHexSprite.Army.SetDestinationPosition(item2.X, fPathItem.Y, item.MapLevel);
+                armyHexSprite.Army.SetDestinationPosition(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                 MoveControlSettings.Path.Clear();
                 if (_mode == SelectedArmyMode.BuildRoads)
                 {
@@ -248,7 +248,7 @@ public partial class SelectedArmy : MoveSelector
                 {
                     I -= 1;
                     settings = MoveSettingsList.GetMoveSettings(I);
-                    valid = settings.Path.Count != 0 && settings.Path[0].X == X && settings.Path[0].Y == Y && settings.Path[0].MapLevel == L;
+                    valid = settings.Path.Count != 0 && settings.Path[0].Location.X == X && settings.Path[0].Location.Y == Y && settings.Path[0].Location.MapLevel == L;
                 }
 
                 if (!valid)
@@ -330,7 +330,7 @@ public partial class SelectedArmy : MoveSelector
                 var item = moveSettings.Path[0];
                 var fPathItem = moveSettings.Path[0];
                 var item2 = moveSettings.Path[0];
-                field = StrategicMap.Current.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
+                field = StrategicMap.Current.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
                 {
@@ -368,7 +368,7 @@ public partial class SelectedArmy : MoveSelector
                         var item3 = moveSettings.Path[0];
                         var item4 = moveSettings.Path[0];
                         var item5 = moveSettings.Path[0];
-                        armyHexSprite.Army.SetDestinationPosition(item5.X, item4.Y, item3.MapLevel);
+                        armyHexSprite.Army.SetDestinationPosition(item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
                         if (ArmyHexSprite.MoveArmy(armyHexSprite, GetSelection(), moveSettings.Path))
                         {
                             var movePoints = armyHexSprite.Army.MovePoints(255);
@@ -411,7 +411,7 @@ public partial class SelectedArmy : MoveSelector
                     var item = moveSettings.Path[0];
                     var fPathItem = moveSettings.Path[0];
                     var item2 = moveSettings.Path[0];
-                    ((ArmyHexSprite)moveSettings.MoveObject).Army.SetDestinationPosition(item2.X, fPathItem.Y, item.MapLevel);
+                    ((ArmyHexSprite)moveSettings.MoveObject).Army.SetDestinationPosition(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                     moveSettings.Path.Clear();
                 }
 
@@ -719,7 +719,7 @@ public partial class SelectedArmy : MoveSelector
                         if (MoveSettingsList.GetMoveSettings(I).Path.Count != 0)
                         {
                             var location = MoveSettingsList.GetMoveSettings(I).Path[0];
-                            CalculateMovePath(I, location.X, location.Y, location.MapLevel);
+                            CalculateMovePath(I, location.Location.X, location.Location.Y, location.Location.MapLevel);
                         }
                     }
                 }
@@ -741,7 +741,7 @@ public partial class SelectedArmy : MoveSelector
             if (group != null)
             {
                 var behavior = group.GroupClass.Behavior;
-                text = text + s_groupBehaviorTexts[(int)behavior] + "(GID:" + IntToStr(group.GroupId) + "/Target:" + IntToStr(group.TargetMapCoordinate.X) + "," + IntToStr(group.TargetMapCoordinate.Y) + "," + IntToStr(group.TargetMapCoordinate.MapLevel) + "/Budget:" + IntToStr(group.GoldBudget) + "/MP:" + IntToStr(group.TargetMovePoints) + ")";
+                text = text + s_groupBehaviorTexts[(int)behavior] + "(GID:" + IntToStr(group.GroupId) + "/Target:" + IntToStr(group.TargetMapCoordinate.Location.X) + "," + IntToStr(group.TargetMapCoordinate.Location.Y) + "," + IntToStr(group.TargetMapCoordinate.Location.MapLevel) + "/Budget:" + IntToStr(group.GoldBudget) + "/MP:" + IntToStr(group.TargetMovePoints) + ")";
                 if (group.TargetType == AIGroupTargetStatus.Setup)
                 {
                     text = text + "-setup";
@@ -948,9 +948,9 @@ public partial class SelectedArmy : MoveSelector
                         movePath.Add(moveSettingsLocal.Path[j]);
                     }
                     armyDefaultMoveTokenEvent = new ArmyDefaultMoveTokenEvent(null) { Holder = moves };
-                    MapCoordinate mapCoordinate = movePath[0];
-                    MapCoordinate mapCoordinate2 = movePath[0];
-                    MapCoordinate mapCoordinate3 = movePath[0];
+                    MapCoordinate mapCoordinate = movePath[0].Location;
+                    MapCoordinate mapCoordinate2 = movePath[0].Location;
+                    MapCoordinate mapCoordinate3 = movePath[0].Location;
                     moves.GetEngine().OutputDebugString(string.Concat(new string[6]
                     {
                         "Moving to: ",
@@ -998,9 +998,9 @@ public partial class SelectedArmy : MoveSelector
         int number = moveSettings.MovePosition;
         while (flag && number != moveSettings.Path.Count)
         {
-            MapCoordinate mapCoordinate = moveSettings.Path[number];
-            MapCoordinate mapCoordinate2 = moveSettings.Path[number];
-            MapCoordinate mapCoordinate3 = moveSettings.Path[number];
+            MapCoordinate mapCoordinate = moveSettings.Path[number].Location;
+            MapCoordinate mapCoordinate2 = moveSettings.Path[number].Location;
+            MapCoordinate mapCoordinate3 = moveSettings.Path[number].Location;
             MapField mapField = StrategicMap.Current.MapContainer.GetField(mapCoordinate3.X, mapCoordinate2.Y, mapCoordinate.MapLevel);
             sbyte player = mapField.GetPlayer();
             flag = player == -1 || player == fPlayer;

@@ -259,7 +259,7 @@ public partial class BattleAI : IDisposable
     // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
     // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
     // wall reaches the same comparison.
-    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, ref MapCoordinateList path, ref int value, TacticalBattleUnit U, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
+    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, ref PathStepList path, ref int value, TacticalBattleUnit U, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
     {
         int result;
         int J;
@@ -284,13 +284,13 @@ public partial class BattleAI : IDisposable
             {
                 for (int I = 0, last = path.Count - 1; I <= last; I++)
                 {
-                    hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[I].X, path.List[I].Y].FindOwnedChild(2228484);
-                    if (freeStrikes && (hexSprite == null || hexSprite == U.UnitHexSprite && I - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[I - 1].X, path.List[I - 1].Y].FindOwnedChild(2228484) == null))
+                    hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[I].Location.X, path.List[I].Location.Y].FindOwnedChild(2228484);
+                    if (freeStrikes && (hexSprite == null || hexSprite == U.UnitHexSprite && I - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[I - 1].Location.X, path.List[I - 1].Location.Y].FindOwnedChild(2228484) == null))
                     {
                         J = 1;
                         for (; J <= 6; J += 1)
                         {
-                            HexGeometry.CenterHexNumberToHex(path.List[I].X, path.List[I].Y, J, ref X, ref Y);
+                            HexGeometry.CenterHexNumberToHex(path.List[I].Location.X, path.List[I].Location.Y, J, ref X, ref Y);
                             hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                             if (hexSprite != null && hexSprite.Unit != ignore && hexSprite.Unit.GetSide() != U.GetSide() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == U.GetAbilityEnabled(1))
                             {
@@ -306,12 +306,12 @@ public partial class BattleAI : IDisposable
                         {
                             var pathY = path[I];
                             var pathX = path[I];
-                            wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
+                            wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y].FindOwnedChild(2229508);
                             if (wall == null)
                             {
                                 var pathLocal = path[I];
                                 var path2 = path[I];
-                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, pathLocal.Y].FindOwnedChild(2229510) as CityWall;
+                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.Location.X, pathLocal.Location.Y].FindOwnedChild(2229510) as CityWall;
                             }
                         }
                         else
@@ -321,11 +321,11 @@ public partial class BattleAI : IDisposable
 
                         var path3 = path[I];
                         var path4 = path[I];
-                        var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
+                        var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[path4.Location.X, path3.Location.Y];
                         var path5 = path[I];
                         var path6 = path[I];
-                        var fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
-                        path.List[I].Tag = moveControlSettings.MovePointTable[fieldItem.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay];
+                        var fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path6.Location.X, path5.Location.Y];
+                        path.List[I] = path.List[I] with { MoveCost = moveControlSettings.MovePointTable[fieldItem.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] };
                         if (wall != null)
                         {
                             // { The wall lookup uses the current path point and the no-overlay column. }
@@ -333,8 +333,8 @@ public partial class BattleAI : IDisposable
                             {
                                 var pathY = path[I];
                                 var pathX = path[I];
-                                var item = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                                path.List[I].Tag = moveControlSettings.MovePointTable[item.TerrainType][-1 - MovementTables.FirstOverlay];
+                                var item = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y];
+                                path.List[I] = path.List[I] with { MoveCost = moveControlSettings.MovePointTable[item.TerrainType][-1 - MovementTables.FirstOverlay] };
                             }
                             else
                             {
@@ -342,12 +342,12 @@ public partial class BattleAI : IDisposable
                                 {
                                     var pathY = path[I];
                                     var pathX = path[I];
-                                    var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                                    path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay];
+                                    var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y];
+                                    path.List[I] = path.List[I] with { MoveCost = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay] };
                                 }
                                 else
                                 {
-                                    path.List[I].Tag = 100;
+                                    path.List[I] = path.List[I] with { MoveCost = 100 };
                                 }
                             }
 
@@ -376,16 +376,16 @@ public partial class BattleAI : IDisposable
 
                         var path7 = path[I];
                         var path8 = path[I];
-                        if (CombatMap.Current.MapContainer.MapLevels[0].Field[path8.X, path7.Y].FindOwnedChild(2228484) != null)
+                        if (CombatMap.Current.MapContainer.MapLevels[0].Field[path8.Location.X, path7.Location.Y].FindOwnedChild(2228484) != null)
                         {
                             var pathY = path[I];
                             var pathX = path[I];
-                            var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                            path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay];
+                            var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y];
+                            path.List[I] = path.List[I] with { MoveCost = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay] };
                         }
                     }
 
-                    result = result + path.List[I].Tag;
+                    result = result + path.List[I].MoveCost;
                 }
             }
         }
@@ -838,9 +838,9 @@ public partial class BattleAI : IDisposable
         int ability;
         int spell;
         int value = default;
-        MapCoordinateList Path;
-        MapCoordinateList DetourPath;
-        MapCoordinateList basePath;
+        PathStepList Path;
+        PathStepList DetourPath;
+        PathStepList basePath;
         MeleeRound round;
         AbilityCombatInfo abilityInfo = default;
         SpellCombatInfo spellInfo = default;
@@ -912,11 +912,11 @@ public partial class BattleAI : IDisposable
                             I = -1;
                             bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                             var pathY = Path[bestIndex];
-                            safeValue = UnitSafe(U, Path[bestIndex].X, pathY.Y);
+                            safeValue = UnitSafe(U, Path[bestIndex].Location.X, pathY.Location.Y);
                             while (bestIndex < Path.Count - 1 && safeValue < 0)
                             {
                                 var path = Path[bestIndex];
-                                safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                safeValue = UnitSafe(U, Path[bestIndex].Location.X, path.Location.Y);
                                 if (safeValue >= 0)
                                 {
                                     I = bestIndex;
@@ -958,13 +958,13 @@ public partial class BattleAI : IDisposable
                             {
                                 if (_ignoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4)))
                                 {
-                                    if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
+                                    if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || (Path.List[Path.Count - 2].MoveCost > U.MovePoints && Path.List[Path.Count - 2].MoveCost <= 15)))
                                     {
                                         _heroMoves += 1;
                                         var moves = U.GetMoves();
                                         var multDamageEvaluation = ScaleDamageEvaluation(value, moves, cost);
                                         var path = Path[0];
-                                        CreateMove(BattleAIMoveType.Move, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
+                                        CreateMove(BattleAIMoveType.Move, Path[0].Location.X, path.Location.Y, multDamageEvaluation, ability, spell, U, target);
                                     }
                                     else
                                     {
@@ -1092,7 +1092,7 @@ public partial class BattleAI : IDisposable
                                             {
                                                 I = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                                 var pathY = Path[I];
-                                                D = HexGeometry.DeltaHexToRadius(Path[I].X, pathY.Y, X, Y);
+                                                D = HexGeometry.DeltaHexToRadius(Path[I].Location.X, pathY.Location.Y, X, Y);
                                                 if (D <= range || distance <= range)
                                                 {
                                                     cost = value;
@@ -1328,12 +1328,12 @@ public partial class BattleAI : IDisposable
                                                         {
                                                             var path = Path[I];
                                                             var pathX = Path[I];
-                                                            cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                            cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild(2229508);
                                                             if (cityWall == null && _side == CombatSideIndex.Attacker)
                                                             {
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
-                                                                cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
+                                                                cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.Location.X, path2.Location.Y].FindOwnedChild(2229510) as CityWall;
                                                             }
 
                                                             if (!(cityWall == null || cityWall.HitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1345,11 +1345,11 @@ public partial class BattleAI : IDisposable
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
                                                                 var path4 = Path[0];
-                                                                if (HexGeometry.DeltaHexToRadius(Path[0].X, path4.Y, path3.X, path2.Y) <= range)
+                                                                if (HexGeometry.DeltaHexToRadius(Path[0].Location.X, path4.Location.Y, path3.Location.X, path2.Location.Y) <= range)
                                                                 {
                                                                     var path5 = Path[I];
                                                                     var path6 = Path[I];
-                                                                    V = EvalPath(ref cost, target, ability, spell, path5.X, path6.Y, X, Y, spell == 117, U, wall);
+                                                                    V = EvalPath(ref cost, target, ability, spell, path5.Location.X, path6.Location.Y, X, Y, spell == 117, U, wall);
                                                                     cost = D;
                                                                     if (V < pathValue)
                                                                     {
@@ -1387,12 +1387,12 @@ public partial class BattleAI : IDisposable
                                                     for (; I <= last3; I += 1)
                                                     {
                                                         var path = Path[I];
-                                                        if (HexGeometry.DeltaHexToRadius(X, Y, Path[I].X, path.Y) <= range && ((MovePath)Path).PositionToMovePoints(I) <= U.MovePoints)
+                                                        if (HexGeometry.DeltaHexToRadius(X, Y, Path[I].Location.X, path.Location.Y) <= range && ((MovePath)Path).PositionToMovePoints(I) <= U.MovePoints)
                                                         {
                                                             cost = 1000;
                                                             var pathX = Path[I];
                                                             var path2 = Path[I];
-                                                            V = EvalPath(ref cost, target, ability, spell, pathX.X, path2.Y, X, Y, spell == 117, U, wall);
+                                                            V = EvalPath(ref cost, target, ability, spell, pathX.Location.X, path2.Location.Y, X, Y, spell == 117, U, wall);
                                                             if (V == 0 && cost == 1000)
                                                             {
                                                                 bestIndex = I;
@@ -1428,11 +1428,11 @@ public partial class BattleAI : IDisposable
                                                     I = -1;
                                                     bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                                     var path = Path[bestIndex];
-                                                    safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                                    safeValue = UnitSafe(U, Path[bestIndex].Location.X, path.Location.Y);
                                                     while (bestIndex < Path.Count - 1 && safeValue < 0)
                                                     {
                                                         var path2 = Path[bestIndex];
-                                                        safeValue = UnitSafe(U, Path[bestIndex].X, path2.Y);
+                                                        safeValue = UnitSafe(U, Path[bestIndex].Location.X, path2.Location.Y);
                                                         if (safeValue >= 0)
                                                         {
                                                             I = bestIndex;
@@ -1463,12 +1463,12 @@ public partial class BattleAI : IDisposable
                                                     CreateMove(BattleAIMoveType.Ranged, X, Y, ScaleDamageEvaluation(value, value * 100 / I, 1), ability, spell, U, target);
                                                     if (pathValue > 0 && U.MovePoints > 0 && DetourPath.Count > 1)
                                                     {
-                                                        if (!(DetourPath.List[DetourPath.Count - 2].Tag > U.MovePoints && DetourPath.List[DetourPath.Count - 2].Tag <= 15))
+                                                        if (!(DetourPath.List[DetourPath.Count - 2].MoveCost > U.MovePoints && DetourPath.List[DetourPath.Count - 2].MoveCost <= 15))
                                                         {
                                                             _heroMoves += 1;
                                                             var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue, 100 * pathValue / I, 1);
                                                             var detourPath = DetourPath[0];
-                                                            CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDamageEvaluation, ability, spell, U, target);
+                                                            CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].Location.X, detourPath.Location.Y, multDamageEvaluation, ability, spell, U, target);
                                                         }
                                                     }
                                                 }
@@ -1476,12 +1476,12 @@ public partial class BattleAI : IDisposable
                                                 {
                                                     if (Path.Count > 1 && (_ignoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4))))
                                                     {
-                                                        if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
+                                                        if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].MoveCost > U.MovePoints && Path.List[Path.Count - 2].MoveCost <= 15)))
                                                         {
                                                             var moves = U.GetMoves();
                                                             var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue + value, moves, cost);
                                                             var path = Path[0];
-                                                            CreateMove(BattleAIMoveType.MoveRanged, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
+                                                            CreateMove(BattleAIMoveType.MoveRanged, Path[0].Location.X, path.Location.Y, multDamageEvaluation, ability, spell, U, target);
                                                         }
                                                         else
                                                         {
@@ -1557,10 +1557,10 @@ public partial class BattleAI : IDisposable
                                                 switch (ability)
                                                 {
                                                     case 65:
-                                                        EvalArea(ref value, target, ability, spell, Path.List[1].X, Path.List[1].Y, true, false, true, U, wall);
+                                                        EvalArea(ref value, target, ability, spell, Path.List[1].Location.X, Path.List[1].Location.Y, true, false, true, U, wall);
                                                         break;
                                                     case 114:
-                                                        EvalArea(ref value, target, ability, spell, Path.List[1].X, Path.List[1].Y, false, false, true, U, wall);
+                                                        EvalArea(ref value, target, ability, spell, Path.List[1].Location.X, Path.List[1].Location.Y, false, false, true, U, wall);
                                                         break;
                                                 }
                                             }
@@ -1580,11 +1580,11 @@ public partial class BattleAI : IDisposable
                                                 I = -1;
                                                 bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                                 var pathY = Path[bestIndex];
-                                                safeValue = UnitSafe(U, Path[bestIndex].X, pathY.Y);
+                                                safeValue = UnitSafe(U, Path[bestIndex].Location.X, pathY.Location.Y);
                                                 while (bestIndex < Path.Count - 1 && safeValue < 0)
                                                 {
                                                     var path = Path[bestIndex];
-                                                    safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                                    safeValue = UnitSafe(U, Path[bestIndex].Location.X, path.Location.Y);
                                                     if (safeValue >= 0)
                                                     {
                                                         I = bestIndex;
@@ -1630,13 +1630,13 @@ public partial class BattleAI : IDisposable
                                                 {
                                                     if (_ignoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4)))
                                                     {
-                                                        if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
+                                                        if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || (Path.List[Path.Count - 2].MoveCost > U.MovePoints && Path.List[Path.Count - 2].MoveCost <= 15)))
                                                         {
                                                             _heroMoves += 1;
                                                             var moves = U.GetMoves();
                                                             var multDamageEvaluation = ScaleDamageEvaluation(value, moves, cost);
                                                             var path = Path[0];
-                                                            CreateMove(BattleAIMoveType.Move, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
+                                                            CreateMove(BattleAIMoveType.Move, Path[0].Location.X, path.Location.Y, multDamageEvaluation, ability, spell, U, target);
                                                         }
                                                         else
                                                         {
@@ -1713,7 +1713,7 @@ public partial class BattleAI : IDisposable
                                         {
                                             I = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                             var pathY = Path[I];
-                                            D = HexGeometry.DeltaHexToRadius(Path[I].X, pathY.Y, X, Y);
+                                            D = HexGeometry.DeltaHexToRadius(Path[I].Location.X, pathY.Location.Y, X, Y);
                                             if (D <= range || distance <= range)
                                             {
                                                 cost = value;
@@ -1762,12 +1762,12 @@ public partial class BattleAI : IDisposable
                                                     {
                                                         var path = Path[I];
                                                         var pathX = Path[I];
-                                                        cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                        cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild(2229508);
                                                         if (cityWall == null && _side == CombatSideIndex.Attacker)
                                                         {
                                                             var path2 = Path[I];
                                                             var path3 = Path[I];
-                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
+                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.Location.X, path2.Location.Y].FindOwnedChild(2229510) as CityWall;
                                                         }
 
                                                         if (!(cityWall == null || cityWall.HitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1779,11 +1779,11 @@ public partial class BattleAI : IDisposable
                                                             var path2 = Path[I];
                                                             var path3 = Path[I];
                                                             var path4 = Path[0];
-                                                            if (HexGeometry.DeltaHexToRadius(Path[0].X, path4.Y, path3.X, path2.Y) <= range)
+                                                            if (HexGeometry.DeltaHexToRadius(Path[0].Location.X, path4.Location.Y, path3.Location.X, path2.Location.Y) <= range)
                                                             {
                                                                 var path5 = Path[I];
                                                                 var path6 = Path[I];
-                                                                V = EvalPath(ref cost, target, ability, spell, path5.X, path6.Y, X, Y, ability == 24 || ability == 44, U, wall);
+                                                                V = EvalPath(ref cost, target, ability, spell, path5.Location.X, path6.Location.Y, X, Y, ability == 24 || ability == 44, U, wall);
                                                                 cost = D;
                                                                 if (V < pathValue)
                                                                 {
@@ -1821,12 +1821,12 @@ public partial class BattleAI : IDisposable
                                                 for (; I <= last3; I += 1)
                                                 {
                                                     var path = Path[I];
-                                                    if (HexGeometry.DeltaHexToRadius(X, Y, Path[I].X, path.Y) <= range && ((MovePath)Path).PositionToMovePoints(I) <= U.MovePoints)
+                                                    if (HexGeometry.DeltaHexToRadius(X, Y, Path[I].Location.X, path.Location.Y) <= range && ((MovePath)Path).PositionToMovePoints(I) <= U.MovePoints)
                                                     {
                                                         cost = 1000;
                                                         var pathX = Path[I];
                                                         var path2 = Path[I];
-                                                        V = EvalPath(ref cost, target, ability, spell, pathX.X, path2.Y, X, Y, spell == 117, U, wall);
+                                                        V = EvalPath(ref cost, target, ability, spell, pathX.Location.X, path2.Location.Y, X, Y, spell == 117, U, wall);
                                                         if (V == 0 && cost == 1000)
                                                         {
                                                             bestIndex = I;
@@ -1862,11 +1862,11 @@ public partial class BattleAI : IDisposable
                                                 I = -1;
                                                 bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                                 var path = Path[bestIndex];
-                                                safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                                safeValue = UnitSafe(U, Path[bestIndex].Location.X, path.Location.Y);
                                                 while (bestIndex < Path.Count - 1 && safeValue < 0)
                                                 {
                                                     var path2 = Path[bestIndex];
-                                                    safeValue = UnitSafe(U, Path[bestIndex].X, path2.Y);
+                                                    safeValue = UnitSafe(U, Path[bestIndex].Location.X, path2.Location.Y);
                                                     if (safeValue >= 0)
                                                     {
                                                         I = bestIndex;
@@ -1907,12 +1907,12 @@ public partial class BattleAI : IDisposable
                                                 CreateMove(BattleAIMoveType.Ranged, X, Y, ScaleDamageEvaluation(value, I * value / V, 1), ability, spell, U, target);
                                                 if (pathValue > 0 && U.MovePoints > 0 && DetourPath.Count > 1)
                                                 {
-                                                    if (!(DetourPath.List[DetourPath.Count - 2].Tag > U.MovePoints && DetourPath.List[DetourPath.Count - 2].Tag <= 15))
+                                                    if (!(DetourPath.List[DetourPath.Count - 2].MoveCost > U.MovePoints && DetourPath.List[DetourPath.Count - 2].MoveCost <= 15))
                                                     {
                                                         _heroMoves += 1;
                                                         var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue, I * pathValue / V, 1);
                                                         var detourPath = DetourPath[0];
-                                                        CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDamageEvaluation, ability, spell, U, target);
+                                                        CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].Location.X, detourPath.Location.Y, multDamageEvaluation, ability, spell, U, target);
                                                     }
                                                 }
                                             }
@@ -1920,12 +1920,12 @@ public partial class BattleAI : IDisposable
                                             {
                                                 if (Path.Count > 1 && (_ignoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4))))
                                                 {
-                                                    if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
+                                                    if (!((safeValue < 0 && _normalUnits != 0) || U.MovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].MoveCost > U.MovePoints && Path.List[Path.Count - 2].MoveCost <= 15)))
                                                     {
                                                         var moves = U.GetMoves();
                                                         var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue + value, moves, cost);
                                                         var path = Path[0];
-                                                        CreateMove(BattleAIMoveType.MoveRanged, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
+                                                        CreateMove(BattleAIMoveType.MoveRanged, Path[0].Location.X, path.Location.Y, multDamageEvaluation, ability, spell, U, target);
                                                     }
                                                     else
                                                     {
@@ -1977,7 +1977,7 @@ public partial class BattleAI : IDisposable
         int pathCost;
         List<int> bonuses;
         string reason = "";
-        MapCoordinateList Path = default;
+        PathStepList Path = default;
         AbilityCombatInfo aiInfo = default;
         SpellCombatInfo spellInfo = default;
         CityWall Wall;
@@ -2741,7 +2741,7 @@ public partial class BattleAI : IDisposable
                                     {
                                         settings.Path.Delete(0);
                                         var path = settings.Path[0];
-                                        CreateMove(BattleAIMoveType.Move, settings.Path[0].X, path.Y, K, 0, 0, U, null);
+                                        CreateMove(BattleAIMoveType.Move, settings.Path[0].Location.X, path.Location.Y, K, 0, 0, U, null);
                                     }
 
                                     settings?.Dispose();
@@ -2913,7 +2913,7 @@ public partial class BattleAI : IDisposable
                                                 pathCost = MakeTerrainPath(settings, ref Path, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 0);
                                                 if (Path.Count > 1 && pathCost > -1)
                                                 {
-                                                    if (Path[Path.Count - 2].Tag > 0 && Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
+                                                    if (Path[Path.Count - 2].MoveCost > 0 && Path[Path.Count - 2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                                     {
                                                         if (move.MoveType == BattleAIMoveType.MoveRanged)
                                                         {
@@ -2969,7 +2969,7 @@ public partial class BattleAI : IDisposable
                                         pathCost = MakeTerrainPath(settings, ref Path, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
                                         if (Path.Count > 1 && pathCost > -1)
                                         {
-                                            if (Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
+                                            if (Path[Path.Count - 2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
                                                 Creator.GetEngine().OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
@@ -3009,7 +3009,7 @@ public partial class BattleAI : IDisposable
                                         pathCost = MakeTerrainPath(settings, ref Path, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
                                         if (Path.Count > 1 && pathCost > -1)
                                         {
-                                            if (Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
+                                            if (Path[Path.Count - 2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }

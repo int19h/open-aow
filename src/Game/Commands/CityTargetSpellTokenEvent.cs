@@ -23,13 +23,20 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     public new const int ClassId = 135949;
 
     private MapCoordinate _targetLocation;
+
+    // The fourth byte of the packed location stored at id 20, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     public sbyte TargetPlayer;
 
     // CitySpells.pas:175
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Int32(ref _targetLocation.Packed, 20);
+        int location = StoredCoordinateImage.From(_targetLocation, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 20);
+        (_targetLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 21);
     }
 
@@ -57,9 +64,7 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     // CitySpells.pas:182
     public void SetLocation(sbyte X, sbyte Y, sbyte L)
     {
-        _targetLocation.X = X;
-        _targetLocation.Y = Y;
-        _targetLocation.MapLevel = L;
+        _targetLocation = new MapCoordinate(X: X, Y: Y, MapLevel: L);
     }
 
     // CitySpells.pas:204

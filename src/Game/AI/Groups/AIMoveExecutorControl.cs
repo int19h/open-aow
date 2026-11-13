@@ -107,7 +107,7 @@ public partial class AIMoveExecutorControl : EngineObject
         {
             points = armyHexSprite.Army.MovePoints(armySelection);
             position = settings.Path.MovePointsToPosition(points);
-            if (!mode.Contains(CreateMoveModeElement.Surround) && settings.Path[position].X == Executor.Destination.X && settings.Path[position].Y == Executor.Destination.Y && settings.Path[position].MapLevel == Executor.Destination.MapLevel)
+            if (!mode.Contains(CreateMoveModeElement.Surround) && settings.Path[position].Location.X == Executor.Destination.X && settings.Path[position].Location.Y == Executor.Destination.Y && settings.Path[position].Location.MapLevel == Executor.Destination.MapLevel)
             {
                 army.SetMoveResult(selection, 2);
             }
@@ -135,7 +135,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     {
                         var item = settings.Path[position];
                         var fPathItem = settings.Path[position];
-                        condition = CanMoveTo(army, selection, settings.Path[position].X, item.Y, fPathItem.MapLevel) != selection;
+                        condition = CanMoveTo(army, selection, settings.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != selection;
                     }
 
                     if (!condition)
@@ -256,7 +256,7 @@ public partial class AIMoveExecutorControl : EngineObject
             for (; I <= last; I += 1)
             {
                 move = Executor.Moves.GetMoves(I);
-                if (move.Path[0].X == X && move.Path[0].Y == Y && move.Path[0].MapLevel == L)
+                if (move.Path[0].Location.X == X && move.Path[0].Location.Y == Y && move.Path[0].Location.MapLevel == L)
                 {
                     unitCount += move.Count;
                     transporter = move.Transporter(255);

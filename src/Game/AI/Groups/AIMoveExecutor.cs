@@ -128,7 +128,8 @@ public partial class AIMoveExecutor : EngineObject
             throw new InvalidOperationException("Unit already exists! (TAIMoveExecuter)");
         }
 
-        troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
+        troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+        location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
         unitEntry = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         unitEntry.Initialize(troop, location.X, location.Y, location.MapLevel);
         unitEntry.Owner = Units;
@@ -174,7 +175,8 @@ public partial class AIMoveExecutor : EngineObject
             Units.GetUnits(index)?.Dispose();
         }
 
-        troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
+        troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
+        location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
         Transporter = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         Transporter.Initialize(troop, location.X, location.Y, location.MapLevel);
     }
@@ -564,9 +566,7 @@ public partial class AIMoveExecutor : EngineObject
         {
             State = 0;
             _processCycles = 0;
-            Destination.X = X;
-            Destination.Y = Y;
-            Destination.MapLevel = L;
+            Destination = new MapCoordinate(X: X, Y: Y, MapLevel: L);
             Armies = CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Idle));
             for (int I = 0, last = Armies.Count - 1; I <= last; I++)
             {

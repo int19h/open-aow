@@ -829,7 +829,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                 {
                     var pathLocal = path[0];
-                    AbilityRangedTacticalBattle((ushort)path[0].X, (ushort)pathLocal.Y);
+                    AbilityRangedTacticalBattle((ushort)path[0].Location.X, (ushort)pathLocal.Location.Y);
                 }
             }
         }

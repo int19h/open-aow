@@ -27,9 +27,9 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
         Army sourceArmy;
         Army targetArmy;
         AddUnitsResult combineResult;
-        if (MoveIndex == 1 && Path[0].X == TargetX && Path[0].Y == TargetY && Path[0].MapLevel == TargetMapLevel && ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
+        if (MoveIndex == 1 && Path[0].Location.X == TargetX && Path[0].Location.Y == TargetY && Path[0].Location.MapLevel == TargetMapLevel && ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
-            armyHexSprite = GetMapField(Path[0]).GetArmyHexSprite();
+            armyHexSprite = GetMapField(Path[0].Location).GetArmyHexSprite();
             if (armyHexSprite != null && armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
             {
                 sourceArmy = ArmyHexSprite.Army;

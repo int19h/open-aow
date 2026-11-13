@@ -191,15 +191,7 @@ public static class HexGeometry
         }
     }
 
-    internal static MapCoordinate PackMapCoordinate(sbyte X, sbyte Y, sbyte L)
-    {
-        MapCoordinate result = default;
-        result.X = X;
-        result.Y = Y;
-        result.MapLevel = L;
-        result.Tag = 0;
-        return result;
-    }
+    internal static MapCoordinate PackMapCoordinate(sbyte X, sbyte Y, sbyte L) => new(X, Y, L);
 
     internal static ReadOnlySpan<byte> InverseHexNumberTable => [0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 

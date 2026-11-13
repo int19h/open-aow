@@ -224,7 +224,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
         int threshold;
         AIGroup group1;
         AIGroup group2;
-        if (group.Group.TransporterId == -1 && ((group.Group.TargetMapCoordinate == _target.Location && group.Group.TargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(group.Group.TargetType)) && group.Group.CooperateWithGroup(_control.Group, _target))
+        if (group.Group.TransporterId == -1 && ((group.Group.TargetMapCoordinate == AITargetLocation.At(_target.Location) && group.Group.TargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(group.Group.TargetType)) && group.Group.CooperateWithGroup(_control.Group, _target))
         {
             if (group.PathStrength != 0)
             {

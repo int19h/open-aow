@@ -404,7 +404,7 @@ public partial class Cave : Structure
             var hexY = GetHexY();
             path.AddMapCoordinate(GetHexX(), hexY, L);
             var enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
-            path.List[0].Tag = enterMovePoints;
+            path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
             var hexLevel = GetHexLevel();
             var hexY2 = GetHexY();
             path.AddMapCoordinate(GetHexX(), hexY2, hexLevel);

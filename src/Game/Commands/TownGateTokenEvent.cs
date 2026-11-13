@@ -23,6 +23,11 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
     public ArmyId ArmyId;
     public MapCoordinate TeleportLocation;
 
+    // The fourth byte of the packed teleport location stored at id 30 (UnknownBytes keeps the one of
+    // id 20), 0 from every writer and in every corpus file, kept so that a loaded value saves back
+    // unchanged.
+    public byte TeleportUnknownBytes { get; set; }
+
     // CitySpells.pas:391
     public override void Dispose()
     {
@@ -34,7 +39,9 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Int32(ref TeleportLocation.Packed, 30);
+        int location = StoredCoordinateImage.From(TeleportLocation, unknownBytes: TeleportUnknownBytes).ToInt32();
+        stream.Int32(ref location, 30);
+        (TeleportLocation, TeleportUnknownBytes) = StoredCoordinateImage.FromInt32(location);
         stream.Created(ref ArmyId, null, 31);
     }
 

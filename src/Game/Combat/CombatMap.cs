@@ -787,7 +787,7 @@ public partial class CombatMap : GameMap
         MapCoordinate P;
         hexSprite = new OverviewUnitHexSprite(null) { Holder = map };
         hexSprite.SetU(U);
-        P = map.UnitPositions.GetUnitPosition(position, index);
+        P = map.UnitPositions.GetUnitPosition(position, index).Location;
         x0 = P.X;
         y0 = P.Y;
         I = 0;

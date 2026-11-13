@@ -27,7 +27,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
         MapCoordinate location = default;
         if (TargetMode == (byte)AIGroupDefenseControl.GroupDefendMode.Custom)
         {
-            location = TargetMapCoordinate;
+            location = TargetMapCoordinate.Location;
         }
         else
         {

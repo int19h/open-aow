@@ -6,6 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
 
 namespace Aow.Headless;
@@ -18,7 +19,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Save(int day) => _writer.WriteLine(JsonSerializer.Serialize(new { kind = "save", day, frame = frame() }));
 
     public void Line(MapCoordinate location, int direction, int over, int count) => _writer.WriteLine(JsonSerializer.Serialize(new
-    { kind = "line", frame = frame(), location = location.Packed, direction, over, count }));
+    { kind = "line", frame = frame(), location = StoredCoordinateImage.From(location, unknownBytes: 0).ToInt32(), direction, over, count }));
 
     public void Cost(int cost, int used) => _writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));
@@ -27,7 +28,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     {
         kind = "path",
         frame = frame(),
-        path = Enumerable.Range(0, move.Path.Count).Select(i => unchecked((uint)move.Path.List[i].Packed))
+        path = Enumerable.Range(0, move.Path.Count).Select(i => unchecked((uint)PathStepImage.From(move.Path.List[i]).ToInt32()))
     }));
 
     public void Sort(DelphiList<EngineObject> list, Delegate compare)
@@ -43,7 +44,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
                 var target = (AIGroupControlTarget)list[i]!;
                 return new
                 {
-                    location = target.Location.Packed,
+                    location = StoredCoordinateImage.From(target.Location, unknownBytes: 0).ToInt32(),
                     points = target.MovePoints,
                     priority = target.Data.Priority,
                     a = target.DataA,

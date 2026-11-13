@@ -26,6 +26,11 @@ public partial class PlayerMagicEventLog : EventLog
 
     public EventMode Mode;
     public MapCoordinate Location;
+
+    // The fourth byte of the packed location stored at id 24, 0 from every writer and in every
+    // corpus file, kept so that a loaded value saves back unchanged.
+    public byte UnknownBytes { get; set; }
+
     public int SpellId;
     private int _value;
     public string EnchantmentName = "";
@@ -38,7 +43,9 @@ public partial class PlayerMagicEventLog : EventLog
         stream.Int32(ref SpellId, 21);
         stream.Int32(ref _value, 22);
         stream.String(ref EnchantmentName, 23);
-        stream.Int32(ref Location.Packed, 24);
+        int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
+        stream.Int32(ref location, 24);
+        (Location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
     }
 
     // Spells.PAS:1892
