@@ -132,12 +132,12 @@ public partial class MoveControlSettings : EngineObject
         SubMoves.Clear();
         ProcessedMapFields.Clear();
         MovePointsMax = 4095;
-        FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
+        MovePointTable.Fill(-1);
         for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
             if (_levelData[I] is not null)
             {
-                FillInteger(MemoryMarshal.AsBytes(_levelData[I].AsSpan(0, _width * _height * 4 / 4)), _width * _height, 16777215);
+                _levelData[I].AsSpan(0, _width * _height).Fill(16777215);
             }
         }
 
@@ -179,7 +179,7 @@ public partial class MoveControlSettings : EngineObject
         SourceY = army.HexY;
         SourceL = army.HexLevel;
         Player = army.Army.Player;
-        army.Army.CreateMovePointTable(selection, Bytes.Of(ref MovePointTable));
+        army.Army.CreateMovePointTable(selection, out MovePointTable);
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
             Mode = Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
@@ -192,7 +192,7 @@ public partial class MoveControlSettings : EngineObject
         if (_levelData[level] is null)
         {
             Array.Resize(ref _levelData[level], _width * _height);
-            FillInteger(MemoryMarshal.AsBytes(_levelData[level].AsSpan(0, _width * _height * 4 / 4)), _width * _height, 16777215);
+            _levelData[level].AsSpan(0, _width * _height).Fill(16777215);
         }
     }
 
@@ -240,7 +240,7 @@ public partial class MoveControlSettings : EngineObject
             {
                 if (_levelData[I] is not null)
                 {
-                    FillInteger(MemoryMarshal.AsBytes(_levelData[I].AsSpan(0, _width * _height * 4 / 4)), _width * _height, 16777215);
+                    _levelData[I].AsSpan(0, _width * _height).Fill(16777215);
                 }
             }
 
@@ -250,11 +250,6 @@ public partial class MoveControlSettings : EngineObject
 
     // MoveT.PAS:238
     public int[] GetMovePointLevelData(int level) => _levelData[level];
-
-    internal static void FillInteger(Span<byte> destination, int count, int value)
-    {
-        Blit.FillInteger(destination, count, value);
-    }
 
     // intf_P5_01.inc:63
 

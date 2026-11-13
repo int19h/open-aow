@@ -28,6 +28,7 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
 
@@ -811,7 +812,11 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     private static void InitializeMovePoints()
     {
         int points;
-        FillBytes(MemoryMarshal.AsBytes(MovementTables.MovePointTables.AsSpan()), 255);
+        foreach (ref MovePointTable table in MovementTables.MovePointTables.AsSpan())
+        {
+            table.Fill(-1);
+        }
+
         for (int mask = 0; mask <= 255; mask++)
         {
             for (int overlay = -1; overlay <= 11; overlay++)

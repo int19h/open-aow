@@ -1008,7 +1008,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         settings.ArmyHexSprite = army;
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
-        army.Army.CreateMovePointTable(selection, Bytes.Of(ref settings.MovePointTable));
+        army.Army.CreateMovePointTable(selection, out settings.MovePointTable);
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         if (settings.Path.Count != 0)
         {

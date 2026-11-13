@@ -366,7 +366,7 @@ public partial class Int32List : Persistent
     }
 
     // Engine.pas:3471
-    public bool Compare(Int32List list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 4);
+    public bool Compare(Int32List list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     // Engine.pas:3478
     public void LoadFromStream(Stream stream)

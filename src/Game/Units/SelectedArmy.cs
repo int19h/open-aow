@@ -168,7 +168,7 @@ public partial class SelectedArmy : MoveSelector
                 MoveControlSettings.Mode = MoveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.ExploredTerrainOnly);
             }
 
-            armyHexSprite.Army.CreateMovePointTable((byte)settings.Selection, Bytes.Of(ref MoveControlSettings.MovePointTable));
+            armyHexSprite.Army.CreateMovePointTable((byte)settings.Selection, out MoveControlSettings.MovePointTable);
             StrategicMap.Current.MoveControl.ProcessMove(MoveControlSettings);
             if (MoveControlSettings.Path.Count != 0)
             {
@@ -681,7 +681,7 @@ public partial class SelectedArmy : MoveSelector
         if (GetArmyHexSprite() != null)
         {
             var selection = GetSelection();
-            GetArmyHexSprite().Army.CreateMovePointTable(selection, Bytes.Of(ref MoveControlSettings.MovePointTable));
+            GetArmyHexSprite().Army.CreateMovePointTable(selection, out MoveControlSettings.MovePointTable);
         }
 
         for (int I = 0, last = MoveSettingsList.Count - 1; I <= last; I++)

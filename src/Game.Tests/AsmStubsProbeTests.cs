@@ -9,6 +9,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Aow.Graphics;
 using Xunit.Sdk;
 
 namespace Aow.Game.Tests;
@@ -172,10 +173,10 @@ public sealed class AsmStubsProbeTests
                 Int32List.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
                 UInt16List.FillWord(words.AsSpan(1), count, (ushort)value);
-                var large = new DoubleItemList.DoubleItem { First = value, Second = ~value };
+                var large = new DoubleItemList.DoubleItem(First: value, Second: ~value);
                 FillA5(doubles);
                 FillLarge(doubles, 1, count, large);
-                quadValue = new QuadItemList.QuadInteger { First = value, Second = ~value, Third = value ^ 0x55AA55AA, Fourth = -17 };
+                quadValue = new QuadItemList.QuadInteger(First: value, Second: ~value, Third: value ^ 0x55AA55AA, Fourth: -17);
                 FillA5(quads);
                 QuadItemList.FillQuadInteger(quads.AsSpan(1), count, quadValue);
                 for (int k = 0; k < 12; k++)
@@ -192,8 +193,7 @@ public sealed class AsmStubsProbeTests
             }
         }
 
-        doubles[1].First = 0x12345678;
-        doubles[1].Second = -17;
+        doubles[1] = new DoubleItemList.DoubleItem(First: 0x12345678, Second: -17);
         FillLarge(doubles, 0, 4, doubles[1]);
         quads[1] = quadValue;
         QuadItemList.FillQuadInteger(quads, 4, quads[1]);
@@ -399,7 +399,7 @@ public sealed class AsmStubsProbeTests
             {
                 string tag = Decrement(i) + "_" + Decrement(j);
                 FillA5(ints);
-                MoveControlSettings.FillInteger(MemoryMarshal.AsBytes(ints.AsSpan())[4..], s_counts[i], s_values[j]);
+                Blit.FillInteger(MemoryMarshal.AsBytes(ints.AsSpan())[4..], s_counts[i], s_values[j]);
                 FillA5(words);
                 PixelFormats.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], s_counts[i], s_values[j]);
                 for (int k = 0; k < 12; k++)

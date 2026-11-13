@@ -82,12 +82,10 @@ public partial class AIMoveExecutorControl : EngineObject
             if (candidates.Count != 0)
             {
                 candidates.SortAscendingItemB();
-                var item = candidates[0];
-                X = Unsafe.As<int, MapCoordinate>(ref item.First).X;
-                var candidatesItem = candidates[0];
-                Y = Unsafe.As<int, MapCoordinate>(ref candidatesItem.First).Y;
-                var item2 = candidates[0];
-                L = Unsafe.As<int, MapCoordinate>(ref item2.First).MapLevel;
+                int location = candidates[0].First;
+                X = Unsafe.As<int, MapCoordinate>(ref location).X;
+                Y = Unsafe.As<int, MapCoordinate>(ref location).Y;
+                L = Unsafe.As<int, MapCoordinate>(ref location).MapLevel;
                 StrategicMap.Current.MoveControl.CalculatePath(settings, settings.Path, X, Y, L);
             }
 

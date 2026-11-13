@@ -217,24 +217,6 @@ public static class AbilityRules
         return result;
     }
 
-    internal static void MaximizeMovePointTable(Span<byte> table, ReadOnlySpan<byte> other)
-    {
-        sbyte oldValue;
-        sbyte value;
-        for (int I = 0; I <= 12; I++)
-        {
-            for (int J = 0; J <= 15; J++)
-            {
-                oldValue = MemoryMarshal.Cast<byte, MovePointTable>(table)[0][J][I];
-                value = MemoryMarshal.Cast<byte, MovePointTable>(other)[0][J][I];
-                if (oldValue != -1 && (oldValue < value || value == -1))
-                {
-                    MemoryMarshal.Cast<byte, MovePointTable>(table)[0][J][I] = value;
-                }
-            }
-        }
-    }
-
     internal static int RoadConstructionCost(sbyte player, MovePath path, int movePoints)
     {
         int I;

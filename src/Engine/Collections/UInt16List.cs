@@ -292,7 +292,7 @@ public partial class UInt16List : Persistent
     }
 
     // Engine.pas:4464
-    public bool Compare(UInt16List list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 2);
+    public bool Compare(UInt16List list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     // Engine.pas:4471
     public void LoadFromStream(Stream stream)
