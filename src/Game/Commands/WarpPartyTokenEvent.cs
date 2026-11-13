@@ -73,7 +73,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         base.Process(source, value);
         source.GetLocation(out X, out Y, out layer);
         ArmyId.RetrieveArmy(ref army, ref selection);
-        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation.Packed);
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);
         army.MoveTo(field, 0);
         showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(X, Y, layer, StrategicMap.Current.SeatedPlayer);
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);

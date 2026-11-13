@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -239,7 +237,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     }
                     else
                     {
-                        if (Unsafe.As<MapCoordinate, int>(ref _meetingPoint) == Unsafe.As<MapCoordinate, int>(ref Executor.Destination) && Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
+                        if (_meetingPoint == Executor.Destination && Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                         {
                             mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround);
                         }
@@ -442,7 +440,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
     }
 
     // AIGroup.pas:5170
-    public int CalculateMeetingPoint()
+    public MapCoordinate CalculateMeetingPoint()
     {
         int I;
         int points;
@@ -453,7 +451,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         AdjacentArmy adjacent;
         AIMoveExecutorArmy army;
         armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-        int result = 16777215;
+        MapCoordinate result = MapCoordinate.None;
         I = _adjacentArmies.GetSlowestArmy();
         if (I != -1)
         {
@@ -490,7 +488,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         position -= 1;
                     }
 
-                    result = Unsafe.BitCast<MapCoordinate, int>(_adjacentArmies.GetAdjacentArmies(I).Path[position]);
+                    result = _adjacentArmies.GetAdjacentArmies(I).Path[position];
                 }
             }
         }
@@ -508,8 +506,8 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         byte moveResult = default;
         MapCoordinate Location = default;
         bool result = true;
-        Unsafe.As<MapCoordinate, int>(ref Location) = CalculateMeetingPoint();
-        if (Unsafe.As<MapCoordinate, int>(ref Location) == 16777215)
+        Location = CalculateMeetingPoint();
+        if (Location == MapCoordinate.None)
         {
             ref var location = ref Executor.Destination;
             Location = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);

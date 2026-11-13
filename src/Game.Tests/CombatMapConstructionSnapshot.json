@@ -130,7 +130,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -168,7 +167,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -183,7 +181,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -584,7 +581,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -1024,7 +1020,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -1535,7 +1530,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -1573,7 +1567,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -1588,7 +1581,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -1989,7 +1981,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -2429,7 +2420,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -2940,7 +2930,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -2978,7 +2967,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -2993,7 +2981,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -3394,7 +3381,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -3834,7 +3820,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -4345,7 +4330,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -4383,7 +4367,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -4398,7 +4381,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -4799,7 +4781,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -5239,7 +5220,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -5752,7 +5732,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -5790,7 +5769,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -5805,7 +5783,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -6206,7 +6183,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -6646,7 +6622,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -7159,7 +7134,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -7197,7 +7171,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -7212,7 +7185,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -7613,7 +7585,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -8053,7 +8024,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -8566,7 +8536,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -8604,7 +8573,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -8619,7 +8587,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -9020,7 +8987,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -9460,7 +9426,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -9973,7 +9938,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -10011,7 +9975,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": []
@@ -10026,7 +9989,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -10427,7 +10389,6 @@
             "MapCoordinate.MapLevel": -1,
             "MapCoordinate.Packed": 16777215,
             "MapCoordinate.X": -1,
-            "MapCoordinate.XY": 65535,
             "MapCoordinate.Y": -1
           },
           "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"
@@ -10867,7 +10828,6 @@
               "MapCoordinate.MapLevel": -1,
               "MapCoordinate.Packed": 16777215,
               "MapCoordinate.X": -1,
-              "MapCoordinate.XY": 65535,
               "MapCoordinate.Y": -1
             },
             "MapCoordinateList._list": "$ref:$.CombatMap.MoveControl.MoveControl.GapEnds.MapCoordinateList._list"

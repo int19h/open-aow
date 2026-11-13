@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -321,7 +319,7 @@ public partial class AIMoveExecutor : EngineObject
                 if (condition)
                 {
                     var units = Units.GetUnits(I);
-                    condition = Unsafe.As<MapCoordinate, int>(ref units.Location) == Unsafe.As<MapCoordinate, int>(ref Destination) || Units.GetUnits(I).MoveResult == 2;
+                    condition = units.Location == Destination || Units.GetUnits(I).MoveResult == 2;
                 }
 
                 if (!condition)
@@ -581,7 +579,7 @@ public partial class AIMoveExecutor : EngineObject
                 if (!condition)
                 {
                     var armies = Armies.GetArmies(0);
-                    condition = Unsafe.As<MapCoordinate, int>(ref armies.Location) != Unsafe.As<MapCoordinate, int>(ref Destination);
+                    condition = armies.Location != Destination;
                 }
 
                 if (condition)

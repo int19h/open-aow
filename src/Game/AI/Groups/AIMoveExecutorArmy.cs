@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
@@ -48,7 +46,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     }
 
     // AIGroup.pas:4547
-    public bool CanAdd(AIMoveExecutorUnit unitEntry) => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) && Unsafe.As<MapCoordinate, int>(ref _destination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Destination) && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (Unsafe.As<MapCoordinate, int>(ref BoardingPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.BoardingPoint) && Unsafe.As<MapCoordinate, int>(ref ArrivalPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.ArrivalPoint) && Unsafe.As<MapCoordinate, int>(ref TransportSource) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportSource) && Unsafe.As<MapCoordinate, int>(ref TransportDestination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportDestination)));
+    public bool CanAdd(AIMoveExecutorUnit unitEntry) => Location == unitEntry.Location && _destination == unitEntry.Destination && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (BoardingPoint == unitEntry.BoardingPoint && ArrivalPoint == unitEntry.ArrivalPoint && TransportSource == unitEntry.TransportSource && TransportDestination == unitEntry.TransportDestination));
 
     // AIGroup.pas:4559
     public void RetrieveArmy(byte selection, out ArmyHexSprite army, out byte armySelection)
@@ -94,7 +92,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     }
 
     // AIGroup.pas:4594
-    public bool WaitingForTransport() => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref BoardingPoint);
+    public bool WaitingForTransport() => Location == BoardingPoint;
 
     // AIGroup.pas:4599
     public int Moves(byte selection)

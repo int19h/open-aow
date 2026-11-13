@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
@@ -107,7 +105,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 if (condition)
                 {
                     var armies = Armies.GetArmies(index);
-                    condition = Unsafe.As<MapCoordinate, int>(ref armies.TransportSource) == Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location);
+                    condition = armies.TransportSource == Executor.Transporter.Location;
                 }
 
                 if (condition)
@@ -151,7 +149,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 {
                     var armies = Armies.GetArmies(index);
                     var armiesArmies = Armies.GetArmies(index);
-                    test = Unsafe.As<MapCoordinate, int>(ref armies.TransportDestination) == Unsafe.As<MapCoordinate, int>(ref armiesArmies.Location);
+                    test = armies.TransportDestination == armiesArmies.Location;
                 }
 
                 if (test)
@@ -239,7 +237,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     if (Armies.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Boarding)
                     {
                         army = Armies.GetArmies(I);
-                        if (army.BoardingPoint.X != -1 && Unsafe.As<MapCoordinate, int>(ref army.Location) != Unsafe.As<MapCoordinate, int>(ref army.BoardingPoint))
+                        if (army.BoardingPoint.X != -1 && army.Location != army.BoardingPoint)
                         {
                             move = CreateMove(Armies.GetArmies(I), 255, army.BoardingPoint.X, army.BoardingPoint.Y, army.BoardingPoint.MapLevel, Set<CreateMoveModeElement>.Of());
                             if (move == null)
@@ -269,7 +267,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     if (index != -1)
                     {
                         var aiMoveExecutorArmy = Armies.GetArmies(index);
-                        if (Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location) != Unsafe.As<MapCoordinate, int>(ref aiMoveExecutorArmy.TransportSource))
+                        if (Executor.Transporter.Location != aiMoveExecutorArmy.TransportSource)
                         {
                             move = CreateTransporterMove(aiMoveExecutorArmy.TransportSource.X, aiMoveExecutorArmy.TransportSource.Y, aiMoveExecutorArmy.TransportSource.MapLevel, true);
                             if (move == null)
@@ -292,7 +290,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     if (index != -1)
                     {
                         army = Armies.GetArmies(index);
-                        if (army.WaitingForTransport() && Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location) == Unsafe.As<MapCoordinate, int>(ref army.TransportSource))
+                        if (army.WaitingForTransport() && Executor.Transporter.Location == army.TransportSource)
                         {
                             selection = CanMoveTo(Armies.GetArmies(index), 255, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel);
                             if (selection != 0)
@@ -370,7 +368,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         for (int I = 0, last = Executor.Units.Count - 1; I <= last; I++)
         {
             unitEntry = Executor.Units.GetUnits(I);
-            if (Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) == Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location))
+            if (unitEntry.Location == Executor.Transporter.Location)
             {
                 army.AddChild(unitEntry);
             }
@@ -726,7 +724,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 {
                     unitEntry = army.GetUnits(I);
                     var units = army.GetUnits(I);
-                    if (Unsafe.As<MapCoordinate, int>(ref units.Location) == Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location))
+                    if (units.Location == Executor.Transporter.Location)
                     {
                         unitEntry.TransportStatus = AIMoveExecutorTransportStatus.Transporting;
                     }

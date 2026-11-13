@@ -1,5 +1,4 @@
 // Translated from WizardsTower.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Game.AI;
@@ -93,7 +92,7 @@ public partial class WizardsTower : Structure
         string reason = "";
         int cost;
         bool found;
-        int location;
+        MapCoordinate location;
         base.ArmyPlaced(placedArmy);
         var player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType) && ValidAITarget(placedArmy.Army.Player))
@@ -105,11 +104,11 @@ public partial class WizardsTower : Structure
             found = false;
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
-            location = Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackMapCoordinate(GetHexX(), hexY, hexLevel));
+            location = HexGeometry.PackMapCoordinate(GetHexX(), hexY, hexLevel);
             while (!found && I != army.Count)
             {
                 group = army.GetUnit(I).Group;
-                found = group != null && Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == location && group.GoldBudget == cost;
+                found = group != null && group.TargetMapCoordinate == location && group.GoldBudget == cost;
                 I += 1;
             }
 

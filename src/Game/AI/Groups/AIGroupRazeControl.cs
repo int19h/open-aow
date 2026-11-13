@@ -1,6 +1,4 @@
 // Translated from AGCPlugins.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -47,7 +45,7 @@ public partial class AIGroupRazeControl : AIGroupTask
         BattleFieldInfo info = default;
         if (State == 0)
         {
-            structure = (Structure)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
+            structure = (Structure)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite(typeof(Structure));
             if (structure != null && structure.GetRazeable())
             {
                 BattleFieldInfo.SetupBattleFieldInfo(out info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);

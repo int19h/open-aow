@@ -232,7 +232,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     }
 
     // HSEngine.pas:1938
-    public int GetMapCoordinate() => _hexX + (_hexY << 8) + (_hexLevel << 16);
+    public MapCoordinate GetMapCoordinate() => HexGeometry.PackMapCoordinate(_hexX, _hexY, _hexLevel);
 
     // HSEngine.pas:1955
     public int HexSpriteListDataSize() => (_capacity << 2) + ((_capacity + 3) & 252);
@@ -424,7 +424,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     public sbyte HexX { get => _hexX; set => _hexX = value; }
     public sbyte HexY { get => _hexY; set => _hexY = value; }
     public sbyte HexLevel { get => _hexLevel; set => _hexLevel = value; }
-    public int MapCoordinate { get => GetMapCoordinate(); }
+    public MapCoordinate MapCoordinate { get => GetMapCoordinate(); }
     public sbyte TerrainType { get => _terrainType; set => _terrainType = value; }
     public sbyte OverlayType { get => _overlayType; set => _overlayType = value; }
 

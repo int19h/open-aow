@@ -22,7 +22,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
     }
 
     // MainAG.pas:138
-    public override int GetLocation()
+    public override MapCoordinate GetLocation()
     {
         MapCoordinate location = default;
         if (TargetMode == (byte)AIGroupDefenseControl.GroupDefendMode.Custom)
@@ -31,10 +31,10 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
         }
         else
         {
-            location.Packed = base.GetLocation();
+            location = base.GetLocation();
         }
 
-        return location.Packed;
+        return location;
     }
 
     // MainAG.pas:147
@@ -43,7 +43,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
         MapCoordinate location = default;
         GroupDefenseSelector selector;
         Troop troop;
-        location.Packed = GetLocation();
+        location = GetLocation();
         bool result = false;
         selector = new GroupDefenseSelector(this);
         selector.Execute(this, location.X, location.Y, location.MapLevel, units);

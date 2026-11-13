@@ -64,7 +64,7 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
         MapCoordinate location = default;
         if (Group.Count != 0)
         {
-            location.Packed = Group.GetLocation();
+            location = Group.GetLocation();
             result = location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
         }
         else

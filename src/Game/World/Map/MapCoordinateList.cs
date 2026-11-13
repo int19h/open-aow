@@ -191,7 +191,7 @@ public partial class MapCoordinateList : Persistent
         _count -= 1;
         if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), (_count - index) * 4);
+            _list.AsSpan(index + 1, _count - index).CopyTo(_list.AsSpan(index, _count - index));
         }
     }
 
@@ -232,7 +232,7 @@ public partial class MapCoordinateList : Persistent
     public int IndexOf(MapCoordinate item)
     {
         int result = 0;
-        while (result < _count && Unsafe.As<MapCoordinate, int>(ref _list[result]) != Unsafe.As<MapCoordinate, int>(ref item))
+        while (result < _count && _list[result] != item)
         {
             result += 1;
         }
@@ -248,11 +248,8 @@ public partial class MapCoordinateList : Persistent
     // HSEngine.pas:1698
     public int IndexOfXY(sbyte X, sbyte Y)
     {
-        MapCoordinate item = default;
-        item.X = X;
-        item.Y = Y;
         int result = 0;
-        while (result < _count && _list[result].XY != item.XY)
+        while (result < _count && (_list[result].X != X || _list[result].Y != Y))
         {
             result += 1;
         }
@@ -297,7 +294,7 @@ public partial class MapCoordinateList : Persistent
 
         if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), (_count - index) * 4);
+            _list.AsSpan(index, _count - index).CopyTo(_list.AsSpan(index + 1, _count - index));
         }
 
         _list[index] = item;
@@ -341,7 +338,7 @@ public partial class MapCoordinateList : Persistent
     {
         for (int I = _count - 1; I >= 0; I--)
         {
-            if (Unsafe.BitCast<MapCoordinate, int>(this[I]) == Unsafe.As<MapCoordinate, int>(ref _default))
+            if (this[I] == _default)
             {
                 Delete(I);
             }
@@ -358,7 +355,7 @@ public partial class MapCoordinateList : Persistent
     }
 
     // HSEngine.pas:1821
-    public bool Compare(MapCoordinateList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 4);
+    public bool Compare(MapCoordinateList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
 
     // HSEngine.pas:1828
     public void LoadFromStream(Stream stream)
@@ -498,7 +495,7 @@ public partial class MapCoordinateList : Persistent
                     {
                         var item = locations[I];
                         var packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
-                        if (Unsafe.BitCast<MapCoordinate, int>(item) == Unsafe.BitCast<MapCoordinate, int>(packMapCoordinate))
+                        if (item == packMapCoordinate)
                         {
                             locations._list[I].Tag = 1;
                             Connect(locations[I]);

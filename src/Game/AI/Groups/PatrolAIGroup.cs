@@ -35,8 +35,8 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
     {
         ProcessPriority = 1;
         RecruitmentPriority = 2;
-        PatrolFrom.Packed = 16777215;
-        PatrolTo.Packed = 16777215;
+        PatrolFrom = MapCoordinate.None;
+        PatrolTo = MapCoordinate.None;
         PreviousHeading = 0;
     }
 

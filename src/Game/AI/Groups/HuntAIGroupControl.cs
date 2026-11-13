@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -28,7 +26,7 @@ public partial class HuntAIGroupControl : AIGroupControl
         int I;
         HuntAIGroup group;
         bool found;
-        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location));
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
         if (field.GetPlayer() != Group.Player)
         {
             army = field.GetArmyHexSprite();

@@ -75,13 +75,13 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
     }
 
     // AIGroup.pas:739
-    public int IndexOfMapCoordinate(int location)
+    public int IndexOfMapCoordinate(MapCoordinate location)
     {
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            if (location == this[result].Location.Packed)
+            if (location == this[result].Location)
             {
                 return result;
             }

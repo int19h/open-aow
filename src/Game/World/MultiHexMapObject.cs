@@ -40,7 +40,7 @@ public partial class MultiHexMapObject : MapObject
     public override sbyte GetHexY() => _hexY;
 
     // MAPOBJ.PAS:910
-    public override int GetMapCoordinate() => (GetHexLevel() << 16) + (_hexX + (_hexY << 8));
+    public override MapCoordinate GetMapCoordinate() => HexGeometry.PackMapCoordinate(_hexX, _hexY, GetHexLevel());
 
     // MAPOBJ.PAS:915
     public override int GetShowPriority()

@@ -103,7 +103,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 2:
                 Targets.Validate();
                 newTarget = null;
-                I = Targets.IndexOfMapCoordinate(Location.Packed);
+                I = Targets.IndexOfMapCoordinate(Location);
                 if (I == -1)
                 {
                     currentTarget = null;
@@ -135,10 +135,10 @@ public partial class FortifyAIGroupControl : AIGroupControl
                             target.DataB -= (int)(((uint)excess) >> 3);
                         }
 
-                        if (Targets.GetTargets(I).Location.Packed != Location.Packed)
+                        if (Targets.GetTargets(I).Location != Location)
                         {
                             var targetLocation = Targets.GetTargets(I);
-                            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location.Packed).GetArmyHexSprite();
+                            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
                             if (army != null)
                             {
                                 var count = army.Army.Count;
@@ -182,14 +182,14 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     }
                     else
                     {
-                        _fortifyLocation.Packed = 16777215;
+                        _fortifyLocation = MapCoordinate.None;
                     }
                 }
 
                 State += 1;
                 break;
             case 3:
-                if (_fortifyLocation.Packed == 16777215)
+                if (_fortifyLocation == MapCoordinate.None)
                 {
                     _enemyStrength = GetSurroundingEnemyStrength(Location, 70);
                 }
@@ -258,7 +258,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     finder.Setup(this);
                     finder.Selector.TargetInfo.Mode = AITargetMode.AttackArmies;
                     finder.Selector.MovePointsMax = 55;
-                    if (_fortifyLocation.Packed == 16777215)
+                    if (_fortifyLocation == MapCoordinate.None)
                     {
                         finder.Selector.SourceLocation = Location;
                     }
@@ -318,7 +318,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 }
                 else
                 {
-                    if (_fortifyLocation.Packed != 16777215)
+                    if (_fortifyLocation != MapCoordinate.None)
                     {
                         SetupME();
                         ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
@@ -329,7 +329,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 13:
-                city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
+                city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite(typeof(City));
                 if (city != null && city.GetActiveAction() == CityAction.Migrate)
                 {
                     defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
@@ -347,7 +347,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 finder.Setup(this);
                 finder.Selector.TargetInfo.Mode = AITargetMode.Attack;
                 finder.Selector.MovePointsMax = 55;
-                if (_fortifyLocation.Packed == 16777215)
+                if (_fortifyLocation == MapCoordinate.None)
                 {
                     finder.Selector.SourceLocation = Location;
                 }
@@ -387,7 +387,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 }
                 else
                 {
-                    if (_fortifyLocation.Packed != 16777215 && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingUpTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(_targetSelector.TargetStatus))
+                    if (_fortifyLocation != MapCoordinate.None && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingUpTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(_targetSelector.TargetStatus))
                     {
                         SetupME();
                         ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
@@ -400,7 +400,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 17:
                 if (StrengthMax >= _enemyStrength)
                 {
-                    city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
+                    city = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite(typeof(City));
                     if (city != null && city.GetActiveAction() == CityAction.Migrate)
                     {
                         defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
@@ -414,7 +414,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 18:
-                if (_fortifyLocation.Packed == 16777215)
+                if (_fortifyLocation == MapCoordinate.None)
                 {
                     SetupME();
                     ExecuteME(Location.X, Location.Y, Location.MapLevel);
@@ -533,9 +533,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
     public City FortifyCity()
     {
         City result;
-        if (_fortifyLocation.Packed != 16777215)
+        if (_fortifyLocation != MapCoordinate.None)
         {
-            result = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
+            result = (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite(typeof(City));
         }
         else
         {

@@ -67,7 +67,7 @@ public partial class Storm : Animation
         MapLevel level;
         ArmyHexSprite armyHexSprite;
         level = StrategicMap.Current.MapContainer.MapLevels[L];
-        target.Packed = 16777215;
+        target = MapCoordinate.None;
         bool result = false;
         info = default;
         candidate = default;

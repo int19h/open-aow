@@ -1465,7 +1465,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     if (flag2)
                     {
                         MapCoordinate moveLocation = moves.GetMoveSettings(index).GetMoveLocation();
-                        flag2 = moveSettings.GetMoveLocation().Packed == moveLocation.Packed;
+                        flag2 = moveSettings.GetMoveLocation() == moveLocation;
                     }
                     if (flag2)
                     {

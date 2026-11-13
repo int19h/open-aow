@@ -1,9 +1,5 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
-
-using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
@@ -89,7 +85,7 @@ public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
                     {
                         var moveLocation = GetMoveSettings(index).GetMoveLocation();
                         var moveLocation2 = GetMoveSettings(I).GetMoveLocation();
-                        if (Unsafe.BitCast<MapCoordinate, int>(moveLocation) == Unsafe.BitCast<MapCoordinate, int>(moveLocation2))
+                        if (moveLocation == moveLocation2)
                         {
                             if (GetMoveSettings(index).GetMovePrio() < GetMoveSettings(I).GetMovePrio())
                             {

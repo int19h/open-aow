@@ -17,8 +17,8 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Save(int day) => _writer.WriteLine(JsonSerializer.Serialize(new { kind = "save", day, frame = frame() }));
 
-    public void Line(int location, int direction, int over, int count) => _writer.WriteLine(JsonSerializer.Serialize(new
-    { kind = "line", frame = frame(), location, direction, over, count }));
+    public void Line(MapCoordinate location, int direction, int over, int count) => _writer.WriteLine(JsonSerializer.Serialize(new
+    { kind = "line", frame = frame(), location = location.Packed, direction, over, count }));
 
     public void Cost(int cost, int used) => _writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));

@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -45,11 +43,11 @@ public partial class GroupDefenseSelector : IDisposable
     public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitList units)
     {
         DefensePriority priority;
-        int location;
+        MapCoordinate location;
         Player P;
         AIGroup group;
         bool result = false;
-        location = Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackMapCoordinate(X, Y, L));
+        location = HexGeometry.PackMapCoordinate(X, Y, L);
         priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
         P = StrategicMap.Current.Players.GetPlayers(player);
         for (int I = P.AIGroups.Count - 1; I >= 0; I--)
@@ -104,10 +102,10 @@ public partial class GroupDefenseSelector : IDisposable
     // AIGroup.pas:1699
     public void UpdateDefenseLocation(MapField mapField)
     {
-        if (Unsafe.As<MapCoordinate, int>(ref DefenseLocation) == 16777215 || mapField.FindOwnedHexSprite(typeof(Structure)) != null)
+        if (DefenseLocation == MapCoordinate.None || mapField.FindOwnedHexSprite(typeof(Structure)) != null)
         {
             var mapCoordinate = mapField.GetMapCoordinate();
-            DefenseLocation.Packed = mapCoordinate;
+            DefenseLocation = mapCoordinate;
         }
     }
 
@@ -126,7 +124,7 @@ public partial class GroupDefenseSelector : IDisposable
         HexNumberWalkData walk = default;
         Defenders.Clear();
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        DefenseLocation.Packed = 16777215;
+        DefenseLocation = MapCoordinate.None;
         candidates = new UnitUserList(null) { Holder = Creator.CreationHolder() };
         HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= 1 && Defenders.Count != group.Count)

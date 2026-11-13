@@ -1,6 +1,4 @@
 // Translated from AoWItemsFoundDlg.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Game.Draw;
 
 using Aow.Game.Events;
@@ -40,7 +38,7 @@ public partial class ItemsFoundDialog : UIModule
         Hero result = null;
         if (_event != null)
         {
-            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _event.Location)).GetArmyHexSprite();
+            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
             if (army != null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
             {
                 result = army.Army.Hero(255, RosterTables.AllHeroTypes);

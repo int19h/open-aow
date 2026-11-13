@@ -14,8 +14,8 @@ public partial class PathFindingStep : EngineObject
     public PathFindingStep(ECustomNode owner) : base(owner)
     {
         MovePointLines = new DoubleItemList();
-        Origin.Packed = 16777215;
-        Location.Packed = 16777215;
+        Origin = MapCoordinate.None;
+        Location = MapCoordinate.None;
     }
 
     public MapCoordinate Location;

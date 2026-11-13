@@ -96,7 +96,7 @@ public partial class GlobalEnchantment : EngineObject
     public virtual MapCoordinate GetLocation()
     {
         MapCoordinate result = default;
-        result.Packed = 16777215;
+        result = MapCoordinate.None;
         return result;
     }
 

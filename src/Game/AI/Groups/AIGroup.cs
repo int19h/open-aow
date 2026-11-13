@@ -189,7 +189,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public override void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         MapCoordinate location = default;
-        location.Packed = GetLocation();
+        location = GetLocation();
         hexX = location.X;
         hexY = location.Y;
         hexLevel = location.MapLevel;
@@ -322,7 +322,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public virtual int GetManaBudget() => ManaBudget;
 
     // AIGroup.pas:148
-    public virtual int GetLocation()
+    public virtual MapCoordinate GetLocation()
     {
         MapCoordinate location = default;
         // { Reach the leader through its field. }
@@ -333,10 +333,10 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         }
         else
         {
-            location.Packed = 16777215;
+            location = MapCoordinate.None;
         }
 
-        return location.Packed;
+        return location;
     }
 
     // AIGroup.pas:510
@@ -358,12 +358,12 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:463
-    public virtual bool DefendLocation(int location, DefensePriority priority)
+    public virtual bool DefendLocation(MapCoordinate location, DefensePriority priority)
     {
         bool result;
         MapCoordinate groupLocation = default;
-        groupLocation.Packed = GetLocation();
-        if (Unsafe.As<int, MapCoordinate>(ref location).MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, groupLocation.X, groupLocation.Y) <= 1)
+        groupLocation = GetLocation();
+        if (location.MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, groupLocation.X, groupLocation.Y) <= 1)
         {
             result = true;
         }
@@ -500,9 +500,9 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     {
         bool result;
         Troop transporter;
-        if (Unsafe.As<MapCoordinate, int>(ref location) != 16777215)
+        if (location != MapCoordinate.None)
         {
-            Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate) = Unsafe.As<MapCoordinate, int>(ref location) + 0;
+            TargetMapCoordinate = location;
             TargetType = targetType;
             TargetMovePoints = movePoints;
             TargetMode = (byte)(mode << 0);
@@ -516,7 +516,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         }
         else
         {
-            Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate) = 16777215;
+            TargetMapCoordinate = MapCoordinate.None;
             TargetType = targetType;
             TargetMode = (byte)(mode << 0);
             TargetMovePoints = 0;
@@ -524,7 +524,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
             result = true;
         }
 
-        if (Unsafe.As<MapCoordinate, int>(ref location) != 16777215 && transporterId != -1)
+        if (location != MapCoordinate.None && transporterId != -1)
         {
             AddTransporter(StrategicMap.Current.UnitControl.FindUnit(transporterId));
         }
@@ -562,7 +562,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         }
         else
         {
-            Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate) = 16777215;
+            TargetMapCoordinate = MapCoordinate.None;
             TargetType = targetType;
             TargetMode = mode;
             TargetMovePoints = 0;

@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -139,7 +137,7 @@ public partial class AIGroupControl : EngineObject
             Group.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
             if (Location.X != -1)
             {
-                ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Location)).GetArmyHexSprite();
+                ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
                 RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out Army, out Selection);
                 UpdateGroupChanges();
                 result = true;
@@ -397,7 +395,7 @@ public partial class AIGroupControl : EngineObject
                 switch (group.TargetType)
                 {
                     case AIGroupTargetStatus.Idle:
-                        Unsafe.As<MapCoordinate, int>(ref location) = group.GetLocation();
+                        location = group.GetLocation();
                         if (location.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y) <= 1)
                         {
                             Group.AddUnits(group);
@@ -438,7 +436,7 @@ public partial class AIGroupControl : EngineObject
     public void SetupCP(AIGroupControlTarget target)
     {
         ResetCP();
-        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetMoveAction(Group.Player) != MoveAction.Negotiate)
+        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
             CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }

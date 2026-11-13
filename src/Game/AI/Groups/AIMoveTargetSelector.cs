@@ -98,7 +98,7 @@ public partial class AIMoveTargetSelector : EngineObject
         MovePointsMax = 250;
         MovePointsMin = 100;
         SetTransporter(null);
-        SourceLocation.Packed = 16777215;
+        SourceLocation = MapCoordinate.None;
         _targets.Clear();
         Mode = Set<AIMoveTargetSelectorModeElement>.Of();
         Units.Clear();
@@ -109,7 +109,7 @@ public partial class AIMoveTargetSelector : EngineObject
     {
         Reset();
         var mapCoordinate = army.GetMapCoordinate();
-        SourceLocation.Packed = mapCoordinate;
+        SourceLocation = mapCoordinate;
         Units.AddUnits(army.Army, selection);
         TargetInfo.Player = army.Army.Player;
         if (TargetInfo.Player == 0)
@@ -292,7 +292,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
                             var fieldMapCoordinate = field.GetMapCoordinate();
-                            target.Location.Packed = fieldMapCoordinate;
+                            target.Location = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = -1;
                             target.Data = data;
@@ -398,7 +398,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
                             var fieldMapCoordinate = field.GetMapCoordinate();
-                            target.Location.Packed = fieldMapCoordinate;
+                            target.Location = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = _transporter.UnitId;
                             target.Data = data;
@@ -459,7 +459,7 @@ public partial class AIMoveTargetSelector : EngineObject
     public bool Search(AIGroupControl control)
     {
         bool result;
-        if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation.Packed != 16777215 && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter != null)))
+        if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter != null)))
         {
             if (MovePointsMax > 0)
             {

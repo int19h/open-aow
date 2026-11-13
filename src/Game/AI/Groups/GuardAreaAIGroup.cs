@@ -26,7 +26,7 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
     // IndependentAG.pas:153
     public GuardAreaAIGroup(ECustomNode owner) : base(owner)
     {
-        GuardLocation.Packed = 16777215;
+        GuardLocation = MapCoordinate.None;
         ProcessPriority = 1;
         RecruitmentPriority = 2;
     }

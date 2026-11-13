@@ -82,7 +82,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public virtual sbyte GetHexLevel() => (sbyte)Owner.Owner.HexLevel;
 
     // HXSPRITE.PAS:102
-    public virtual int GetMapCoordinate() => GetHexX() + (GetHexY() << 8) + (GetHexLevel() << 16);
+    public virtual MapCoordinate GetMapCoordinate() => HexGeometry.PackMapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
 
     // HXSPRITE.PAS:153
     public virtual bool GetEditMode() => false;
@@ -865,7 +865,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public sbyte HexX { get => GetHexX(); }
     public sbyte HexY { get => GetHexY(); }
     public sbyte HexLevel { get => GetHexLevel(); }
-    public int MapCoordinate { get => GetMapCoordinate(); }
+    public MapCoordinate MapCoordinate { get => GetMapCoordinate(); }
     public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
     public int ShowPriority { get => GetShowPriority(); }
 
