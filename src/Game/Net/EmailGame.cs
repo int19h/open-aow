@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Net;
 
@@ -32,6 +33,16 @@ public partial class EmailGame : EngineObject
         stream.Int32(ref UniqueId, 22);
         stream.String(ref EmailAddress, 23);
         stream.Int32(ref SecurityId, 24);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Name = persister.String("Name", value: Name);
+        UniqueLocalId = persister.Int32("UniqueLocalId", value: UniqueLocalId);
+        UniqueId = persister.Int32("UniqueId", value: UniqueId);
+        EmailAddress = persister.String("EmailAddress", value: EmailAddress);
+        SecurityId = persister.Int32("SecurityId", value: SecurityId);
     }
 
     // Engine.pas:524

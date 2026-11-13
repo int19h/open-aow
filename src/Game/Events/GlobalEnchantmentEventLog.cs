@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -23,6 +25,12 @@ public partial class GlobalEnchantmentEventLog : LocationTextEventLog
     {
         base.ReadWrite(stream);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref EnchantmentPlayer), 30);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        EnchantmentPlayer = PersistSupport.UnsignedByte(persister, name: "EnchantmentPlayer", value: EnchantmentPlayer);
     }
 
     // Spells.PAS:2665

@@ -1,6 +1,8 @@
 // Translated from Sound.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -57,6 +59,12 @@ public partial class SongList : EngineObject
         {
             stream.Lines(_songs, 10);
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Songs", lines: _songs);
     }
 
     // Sound.pas:786

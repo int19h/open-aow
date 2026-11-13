@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -37,6 +38,16 @@ public partial class HeroEmergeEventLog : EventLog
         stream.String(ref _text, 41);
         stream.String(ref LocationName, 42);
         stream.Bytes(Bytes.Of(ref _mode, 1), 1, 43);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        UnitId = persister.Int32("UnitId", value: UnitId);
+        _emergeDay = persister.Int32("EmergeDay", value: _emergeDay);
+        _text = persister.String("Text", value: _text);
+        LocationName = persister.String("LocationName", value: LocationName);
+        _mode = persister.Enum("Mode", value: _mode);
     }
 
     // Hero.PAS:198

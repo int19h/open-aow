@@ -6,6 +6,7 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
@@ -486,6 +487,134 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         }
 
         stream.Object(DiplomaticRelations, 58);
+        if (PlayerIndex == 0)
+        {
+            PlayerType = PlayerType.Independent;
+        }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        int X = default;
+        int Y = default;
+        int L = default;
+        base.PersistFields(persister);
+        PlayerRace = PersistSupport.UnsignedByte(persister, name: "PlayerRace", value: PlayerRace);
+        PlayerType = persister.Enum("PlayerType", value: PlayerType);
+        Participating = persister.Boolean("Participating", value: Participating);
+        InitialGold = persister.Int32("InitialGold", value: InitialGold);
+        BaseIncome = persister.Int32("BaseIncome", value: BaseIncome);
+        Status = persister.Enum("Status", value: Status);
+        Settings = persister.String("Settings", value: Settings);
+        _description = persister.String("Description", value: _description);
+        Gems = persister.Int32("Gems", value: Gems);
+        PlayerIndex = PersistSupport.UnsignedByte(persister, name: "PlayerIndex", value: PlayerIndex);
+        if ((GetEngine().Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of())
+        {
+            if (persister.Loading)
+            {
+                Leader = persister.Created("Leader", objectValue: Leader);
+                if (Leader != null && !persister.Preview)
+                {
+                    Leader.Player = PlayerIndex;
+                    StrategicMap.Current.HeroControl.RegisterHero(Leader);
+                }
+            }
+        }
+        else
+        {
+            persister.Skip("Leader");
+        }
+
+        if (!persister.Loading)
+        {
+            if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+            {
+                StrategicMap.Current.GetViewCenter(out X, out Y, out L);
+                ViewX = (byte)X;
+                ViewY = (byte)Y;
+                ViewMapLevel = (byte)L;
+                ViewX = persister.Byte("ViewX", value: ViewX);
+                ViewY = persister.Byte("ViewY", value: ViewY);
+                ViewMapLevel = persister.Byte("ViewMapLevel", value: ViewMapLevel);
+            }
+        }
+        else
+        {
+            ViewX = persister.Byte("ViewX", value: ViewX);
+            ViewY = persister.Byte("ViewY", value: ViewY);
+            ViewMapLevel = persister.Byte("ViewMapLevel", value: ViewMapLevel);
+        }
+
+        if (!persister.Preview)
+        {
+            persister.Object("EventLogbook", objectValue: EventLogbook);
+        }
+        else
+        {
+            persister.Skip("EventLogbook");
+        }
+
+        _password = persister.String("Password", value: _password);
+        GameOverStatus = persister.Enum("GameOverStatus", value: GameOverStatus);
+        if (persister.Loading)
+        {
+            PersistSupport.ByteList(persister, name: "LegacyNewRelations", list: LegacyNewRelations);
+        }
+
+        MoraleValue = PersistSupport.UnsignedByte(persister, name: "MoraleValue", value: MoraleValue);
+        persister.Object("AIControl", objectValue: AIControl);
+        Behavior = persister.Enum("Behavior", value: Behavior);
+        if (PlayerIndex != 0)
+        {
+            if (!persister.Loading && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
+            {
+                persister.Object("LeaderSetup", objectValue: Leader);
+            }
+            else
+            {
+                persister.Object("LeaderSetup", objectValue: LeaderSetup);
+            }
+        }
+        else
+        {
+            persister.Skip("LeaderSetup");
+        }
+
+        persister.Object("MagicControl", objectValue: MagicControl);
+        PersistSupport.Int32List(persister, name: "FirstDaySeen", list: FirstDaySeen);
+        PersistSupport.Int32List(persister, name: "LastDaySeen", list: _lastDaySeen);
+        Day = persister.Int32("Day", value: Day);
+        persister.Object("Statistics", objectValue: Statistics);
+        BaseHeroJoinLevel = persister.Int32("BaseHeroJoinLevel", value: BaseHeroJoinLevel);
+        _lastHeroJoinDay = persister.Int32("LastHeroJoinDay", value: _lastHeroJoinDay);
+        _lastHeroEmergeDay = persister.Int32("LastHeroEmergeDay", value: _lastHeroEmergeDay);
+        _highestHeroLevel = persister.Int32("HighestHeroLevel", value: _highestHeroLevel);
+        if (persister.Loading)
+        {
+            SetRace(PlayerRace);
+            EventLogbook.Player = PlayerIndex;
+            LegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
+        }
+
+        PersistSupport.Lines(persister, name: "Messages", lines: _messages);
+        if (persister.Loading)
+        {
+            PersistSupport.ByteList(persister, name: "LegacyRelations", list: LegacyRelations);
+        }
+
+        EmergingHeroId = persister.Int32("EmergingHeroId", value: EmergingHeroId);
+        persister.Object("AIBudget", objectValue: AIBudget);
+        persister.Object("DiplomaticActions", objectValue: DiplomaticActions);
+        PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: AIValidAttackPlayers);
+        persister.Object("PbemSettings", objectValue: PbemSettings);
+        HeroEmerging = persister.Boolean("HeroEmerging", value: HeroEmerging);
+        if (persister.Loading || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+        {
+            BaseHeroJoinDay = persister.Int32("BaseHeroJoinDay", value: BaseHeroJoinDay);
+        }
+
+        persister.Object("DiplomaticRelations", objectValue: DiplomaticRelations);
         if (PlayerIndex == 0)
         {
             PlayerType = PlayerType.Independent;

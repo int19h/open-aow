@@ -1,6 +1,8 @@
 // Translated from AoWVideoDlg.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -37,6 +39,15 @@ public partial class CampaignScenarioPage : EngineObject
         }
 
         stream.Int32(ref ImageIndex, 13);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        Heading = persister.String("Heading", value: Heading);
+        ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
+        ImageIndex = persister.Int32("ImageIndex", value: ImageIndex);
     }
 
     // AoWVideoDlg.pas:250

@@ -1,6 +1,8 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -73,6 +75,19 @@ public partial class Spell : EngineObject
         stream.Int32(ref ResearchCost, 15);
         stream.Bytes(Bytes.Of(ref MagicSphere, 1), 1, 16);
         stream.Byte(ref SpellLevel, 17);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "SpellText", lines: SpellText);
+        persister.Object("CastSounds", objectValue: CastSounds);
+        PersistSupport.ImageSequences(persister, name: "CastImages", list: CastImages);
+        BaseManaCost = persister.Int32("BaseManaCost", value: BaseManaCost);
+        ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
+        ResearchCost = persister.Int32("ResearchCost", value: ResearchCost);
+        MagicSphere = persister.Enum("MagicSphere", value: MagicSphere);
+        SpellLevel = persister.Byte("SpellLevel", value: SpellLevel);
     }
 
     // Spells.PAS:224

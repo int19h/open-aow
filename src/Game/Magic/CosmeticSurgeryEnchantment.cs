@@ -33,7 +33,7 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        FaceIndex = persister.Int32("FaceIndex", FaceIndex);
+        FaceIndex = persister.Int32("FaceIndex", value: FaceIndex);
     }
 
     // AoWAb.PAS:901

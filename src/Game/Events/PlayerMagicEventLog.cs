@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -45,6 +46,18 @@ public partial class PlayerMagicEventLog : EventLog
         stream.String(ref EnchantmentName, 23);
         int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
         stream.Int32(ref location, 24);
+        (Location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Mode = persister.Enum("Mode", value: Mode);
+        SpellId = persister.Int32("SpellId", value: SpellId);
+        _value = persister.Int32("Value", value: _value);
+        EnchantmentName = persister.String("EnchantmentName", value: EnchantmentName);
+        int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
+        location = persister.Int32("Location", value: location);
         (Location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
     }
 

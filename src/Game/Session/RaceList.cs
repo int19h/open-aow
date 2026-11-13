@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -137,4 +138,7 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     // intf_P1_03.inc:34
     // TEObject.ReadWrite is empty. The original bypasses TEControlStyleNode.ReadWrite.
     public override void ReadWrite(StorageStream stream) => stream.Int32(ref RelationOffset, 20);
+
+    // The tree method bypasses EControlStyleNode.PersistFields as ReadWrite bypasses its ReadWrite.
+    public override void PersistFields(IPersister persister) => RelationOffset = persister.Int32("RelationOffset", value: RelationOffset);
 }

@@ -1,7 +1,9 @@
 // Translated from AoWVideoDlg.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.UI.Dialogs;
 using Aow.Rtl;
 
@@ -55,6 +57,21 @@ public partial class WorldMapCampaignScenario : CampaignScenario
         stream.Object(OutroPages, 20);
         stream.Payload(21, Paths.LoadFromStream, Paths.SaveToStream);
         stream.Bytes(Bytes.Of(ref MapKind, 1), 1, 22);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
+        PathDescription = persister.String("PathDescription", value: PathDescription);
+        Description = persister.String("Description", value: Description);
+        _unknownFlag = persister.Boolean("UnknownFlag", value: _unknownFlag);
+        MapX = persister.Int32("MapX", value: MapX);
+        MapY = persister.Int32("MapY", value: MapY);
+        persister.Object("IntroPages", objectValue: IntroPages);
+        persister.Object("OutroPages", objectValue: OutroPages);
+        PersistSupport.Int32List(persister, name: "Paths", list: Paths);
+        MapKind = persister.RawByte("MapKind", value: MapKind);
     }
 
     // AoWVideoDlg.pas:278

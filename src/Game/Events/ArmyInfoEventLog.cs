@@ -1,6 +1,8 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 
@@ -57,6 +59,17 @@ public partial class ArmyInfoEventLog : EventLog
         stream.String(ref Title, 18);
         stream.String(ref Text, 19);
         stream.String(ref Description, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("ArmyView", objectValue: ArmyView);
+        PersistSupport.Lines(persister, name: "Messages", lines: Messages);
+        Selection = persister.RawByte("Selection", value: Selection);
+        Title = persister.String("Title", value: Title);
+        Text = persister.String("Text", value: Text);
+        Description = persister.String("Description", value: Description);
     }
 
     // Army.PAS:287

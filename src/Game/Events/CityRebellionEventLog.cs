@@ -1,6 +1,7 @@
 // Translated from City.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -34,6 +35,15 @@ public partial class CityRebellionEventLog : EventLog
         stream.Int32(ref HexY, 21);
         stream.Int32(ref HexLevel, 22);
         stream.String(ref CityName, 23);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        HexX = persister.Int32("HexX", value: HexX);
+        HexY = persister.Int32("HexY", value: HexY);
+        HexLevel = persister.Int32("HexLevel", value: HexLevel);
+        CityName = persister.String("CityName", value: CityName);
     }
 
     // City.pas:2689

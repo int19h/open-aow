@@ -1,6 +1,7 @@
 // Translated from Sound.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using static Aow.Rtl.RtlUnit;
 
@@ -29,6 +30,12 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
     {
         base.ReadWrite(stream);
         stream.Int32(ref _id, 5);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _id = persister.Int32("Id", value: _id);
     }
 
     // Sound.pas:1052

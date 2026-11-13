@@ -1,6 +1,7 @@
 // Translated from EventLog.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -41,6 +42,25 @@ public partial class EventLogList : ENode, IChildList<EventLog>
                 {
                     this[I].Release();
                 }
+            }
+
+            EndUpdate();
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        if (persister.Loading)
+        {
+            BeginUpdate();
+        }
+
+        base.MainPersist(persister);
+        if (persister.Loading)
+        {
+            for (int I = 0, last = Count - 1; I <= last; I++)
+            {
+                this[I].Release();
             }
 
             EndUpdate();

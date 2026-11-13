@@ -1,8 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Commands;
 
@@ -63,6 +65,18 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         stream.Int32(ref _data1, 44);
         stream.Int32(ref _data2, 45);
         stream.Created(ref ArmyId, null, 46);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
+        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
+        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
+        Object = persister.Enum("Object", value: Object);
+        _data1 = persister.Int32("Data1", value: _data1);
+        _data2 = persister.Int32("Data2", value: _data2);
+        ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 
     // Diplomacy.pas:320

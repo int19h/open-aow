@@ -1,6 +1,8 @@
 // Translated from EventLog.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -36,6 +38,12 @@ public partial class GameOverEventLog : EventLog
     {
         base.ReadWrite(stream);
         stream.Lines(Message, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Message", lines: Message);
     }
 
     // EventLog.pas:783

@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
@@ -32,6 +33,14 @@ public partial class PlayerStatistics : EngineObject
         stream.Object(TurnInfo, 20);
         stream.Int32(ref _unitsKilled, 21);
         stream.Int32(ref _unitsLost, 22);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("TurnInfo", objectValue: TurnInfo);
+        _unitsKilled = persister.Int32("UnitsKilled", value: _unitsKilled);
+        _unitsLost = persister.Int32("UnitsLost", value: _unitsLost);
     }
 
     // intf_P1_03.inc:133

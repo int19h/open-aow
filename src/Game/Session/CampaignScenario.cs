@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
@@ -30,6 +31,14 @@ public partial class CampaignScenario : EngineObject
             stream.String(ref _name, 10);
             stream.String(ref FileName, 11);
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Id = persister.Int32("Id", value: Id);
+        _name = persister.String("Name", value: _name);
+        FileName = persister.String("FileName", value: FileName);
     }
 
     // intf_P5_08.inc:71

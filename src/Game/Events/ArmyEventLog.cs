@@ -1,7 +1,9 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -63,6 +65,18 @@ public partial class ArmyEventLog : EventLog
         stream.Payload(19, DamageValues.LoadFromStream, DamageValues.SaveToStream);
         stream.Payload(20, DamageTypes.LoadFromStream, DamageTypes.SaveToStream);
         stream.Boolean(ref _gameOver, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("ArmyView", objectValue: ArmyView);
+        ArmyText = persister.String("ArmyText", value: ArmyText);
+        PersistSupport.Lines(persister, name: "ArmyMessages", lines: ArmyMessages);
+        ArmyIcon = persister.Int32("ArmyIcon", value: ArmyIcon);
+        PersistSupport.ByteList(persister, name: "DamageValues", list: DamageValues);
+        PersistSupport.ByteList(persister, name: "DamageTypes", list: DamageTypes);
+        _gameOver = persister.Boolean("GameOver", value: _gameOver);
     }
 
     // Army.PAS:184

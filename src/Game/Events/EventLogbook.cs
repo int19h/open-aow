@@ -1,6 +1,7 @@
 // Translated from EventLog.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -33,6 +34,13 @@ public partial class EventLogbook : EngineObject
         base.ReadWrite(stream);
         stream.Object(_events, 10);
         stream.Int32(ref _nextId, 11);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Events", objectValue: _events);
+        _nextId = persister.Int32("NextId", value: _nextId);
     }
 
     // EventLog.pas:526

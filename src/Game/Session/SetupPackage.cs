@@ -1,6 +1,7 @@
 // Translated from AoWSetup.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
@@ -35,6 +36,15 @@ public partial class SetupPackage : EngineObject
         stream.Int32(ref Param2, 21);
         stream.Int32(ref Param1, 22);
         stream.Created(ref Data, null, 23);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        MessageId = persister.Int32("MessageId", value: MessageId);
+        Param2 = persister.Int32("Param2", value: Param2);
+        Param1 = persister.Int32("Param1", value: Param1);
+        Data = persister.Created("Data", objectValue: Data);
     }
 
     // AoWSetup.pas:242

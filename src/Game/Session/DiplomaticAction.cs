@@ -1,9 +1,11 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Commands;
 
@@ -85,6 +87,37 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         stream.Int32(ref EscrowMana, 29);
         stream.Int32(ref EventLogId, 30);
         stream.Int32(ref Day, 31);
+    }
+
+    // The proposal's kind is one stored byte (rwData), the discriminator of the case mapping.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        var (kind, gold, mana) = Proposal.ToFields();
+        var message = new StringList();
+        foreach (var line in Proposal.Message)
+        {
+            message.Add(line);
+        }
+
+        Source = PersistSupport.UnsignedByte(persister, name: "Source", value: Source);
+        Target = PersistSupport.UnsignedByte(persister, name: "Target", value: Target);
+        OtherPlayer = PersistSupport.UnsignedByte(persister, name: "OtherPlayer", value: OtherPlayer);
+        gold = persister.Int32("Gold", value: gold);
+        mana = persister.Int32("Mana", value: mana);
+        persister.Bytes("Kind", data: Bytes.Of(ref kind, count: 1));
+        Reaction = persister.Enum("Reaction", value: Reaction);
+        PersistSupport.Lines(persister, name: "Message", lines: message);
+        if (persister.Loading)
+        {
+            Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
+        }
+
+        message?.Dispose();
+        EscrowGold = persister.Int32("EscrowGold", value: EscrowGold);
+        EscrowMana = persister.Int32("EscrowMana", value: EscrowMana);
+        EventLogId = persister.Int32("EventLogId", value: EventLogId);
+        Day = persister.Int32("Day", value: Day);
     }
 
     // Diplomacy.pas:586

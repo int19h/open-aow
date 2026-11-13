@@ -4,6 +4,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -38,6 +39,20 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
         UnknownBytes = (ushort)(fromUnknown | (toUnknown << 8));
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref PreviousHeading), 42);
         stream.Int32(ref PatrolStrength, 43);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        int from = StoredCoordinateImage.From(PatrolFrom, unknownBytes: (byte)UnknownBytes).ToInt32();
+        from = persister.Int32("PatrolFrom", value: from);
+        (PatrolFrom, var fromUnknown) = StoredCoordinateImage.FromInt32(from);
+        int to = StoredCoordinateImage.From(PatrolTo, unknownBytes: (byte)(UnknownBytes >> 8)).ToInt32();
+        to = persister.Int32("PatrolTo", value: to);
+        (PatrolTo, var toUnknown) = StoredCoordinateImage.FromInt32(to);
+        UnknownBytes = (ushort)(fromUnknown | (toUnknown << 8));
+        PreviousHeading = PersistSupport.UnsignedByte(persister, name: "PreviousHeading", value: PreviousHeading);
+        PatrolStrength = persister.Int32("PatrolStrength", value: PatrolStrength);
     }
 
     // IndependentAG.pas:285

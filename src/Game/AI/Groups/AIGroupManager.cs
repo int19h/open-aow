@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -32,6 +33,12 @@ public partial class AIGroupManager : AIGroupList
     {
         base.ReadWrite(stream);
         stream.Int32(ref _nextId, 1, 30);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _nextId = persister.Int32("NextId", value: _nextId, fallback: 1);
     }
 
     // AIGroup.pas:583

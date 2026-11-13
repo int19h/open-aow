@@ -1,6 +1,7 @@
 // Translated from Sound.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Audio;
 
@@ -22,6 +23,12 @@ public partial class Sfx : EngineObject
         {
             stream.String(ref _fileName, 5);
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _fileName = persister.String("FileName", value: _fileName);
     }
 
     // Sound.pas:1034
