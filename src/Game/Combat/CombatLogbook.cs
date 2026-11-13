@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat;
 
@@ -47,6 +48,15 @@ public partial class CombatLogbook : EngineObject
         stream.Object(FinalData, 6);
         stream.Object(Actions, 7);
         stream.Boolean(ref PlayerEliminated, 8);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("InitialData", objectValue: InitialData);
+        persister.Object("FinalData", objectValue: FinalData);
+        persister.Object("Actions", objectValue: Actions);
+        PlayerEliminated = persister.Boolean("PlayerEliminated", value: PlayerEliminated);
     }
 
     // Combat2.pas:384

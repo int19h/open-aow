@@ -1,6 +1,7 @@
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -29,6 +30,16 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
         stream.Int32(ref ManaCost, 22);
         stream.Boolean(ref Succeeded, 23);
         stream.Int32(ref SpellId, 24);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        SourceId = persister.Byte("SourceId", value: SourceId);
+        TargetId = persister.Byte("TargetId", value: TargetId);
+        ManaCost = persister.Int32("ManaCost", value: ManaCost);
+        Succeeded = persister.Boolean("Succeeded", value: Succeeded);
+        SpellId = persister.Int32("SpellId", value: SpellId);
     }
 
     // CombatSpells.pas:512

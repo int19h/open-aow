@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -67,6 +68,27 @@ public partial class CombatUnit : CombatObject
         }
 
         stream.Boolean(ref Disabled, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        Troop U = default;
+        base.PersistFields(persister);
+        if (persister.Loading)
+        {
+            U = persister.Created("Troop", objectValue: U);
+            SetUnit(U);
+            if (U != null)
+            {
+                U.Release();
+            }
+        }
+        else
+        {
+            Troop = persister.Created("Troop", objectValue: Troop);
+        }
+
+        Disabled = persister.Boolean("Disabled", value: Disabled);
     }
 
     // Combat.pas:1408

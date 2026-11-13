@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -25,6 +26,12 @@ public partial class RangedAttackCombatAction : DamageCombatAction
     {
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref AbilityId, 4), 4, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        AbilityId = persister.RawInt32("AbilityId", value: AbilityId);
     }
 
     // AoWAb.PAS:4643

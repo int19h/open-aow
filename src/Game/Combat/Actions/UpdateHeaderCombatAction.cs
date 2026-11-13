@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -19,6 +20,12 @@ public partial class UpdateHeaderCombatAction : CombatAction
     {
         base.ReadWrite(stream);
         stream.String(ref Header, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Header = persister.String("Header", value: Header);
     }
 
     // Combat2.pas:969

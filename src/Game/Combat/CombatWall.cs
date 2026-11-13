@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -35,6 +36,13 @@ public partial class CombatWall : CombatObject
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref _wallType, 1), 1, 20);
         stream.Byte(ref _hitPoints, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _wallType = persister.RawByte("WallType", value: _wallType);
+        _hitPoints = persister.Byte("HitPoints", value: _hitPoints);
     }
 
     // Combat.pas:1673

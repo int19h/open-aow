@@ -2,6 +2,7 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -34,6 +35,11 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
     }
 
     // Combat.pas:6008

@@ -3,6 +3,7 @@ using Aow.Engine;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Combat.Actions;
 
@@ -109,6 +110,15 @@ public partial class Battle : EngineObject
         stream.Object(Sides[(int)CombatSideIndex.Defender], 11);
         stream.Created(ref Logbook, null, 12);
         stream.Object(CombatData, 13);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("AttackerSide", objectValue: Sides[(int)CombatSideIndex.Attacker]);
+        persister.Object("DefenderSide", objectValue: Sides[(int)CombatSideIndex.Defender]);
+        Logbook = persister.Created("Logbook", objectValue: Logbook);
+        persister.Object("CombatData", objectValue: CombatData);
     }
 
     // Combat.pas:6134

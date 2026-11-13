@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
@@ -47,5 +49,30 @@ public partial class CombatData
         stream.Bytes(Bytes.Of(ref WallType, 1), 1, 0x1b);
         stream.Boolean(ref WallBreached, 0x1c);
         stream.Payload(0x1d, InvolvedLeaders.LoadFromStream, InvolvedLeaders.SaveToStream);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        X = persister.Int32("X", value: X);
+        Y = persister.Int32("Y", value: Y);
+        MapLevel = persister.Int32("MapLevel", value: MapLevel);
+        ImmunityTypes = persister.Set("ImmunityTypes", value: ImmunityTypes);
+        AttackerPlayer = PersistSupport.UnsignedByte(persister, name: "AttackerPlayer", value: AttackerPlayer);
+        DefenderPlayer = PersistSupport.UnsignedByte(persister, name: "DefenderPlayer", value: DefenderPlayer);
+        CombatResult = persister.RawByte("CombatResult", value: CombatResult);
+        Round = persister.Int32("Round", value: Round);
+        persister.Object("Players", objectValue: Players);
+        persister.Object("CombatObjects", objectValue: CombatObjects);
+        persister.Object("Parties", objectValue: Parties);
+        Header = persister.String("Header", value: Header);
+        AttackerX = persister.Int32("AttackerX", value: AttackerX);
+        AttackerY = persister.Int32("AttackerY", value: AttackerY);
+        AttackerMapLevel = persister.Int32("AttackerMapLevel", value: AttackerMapLevel);
+        PersistSupport.ByteList(persister, name: "DefeatedLeaders", list: DefeatedLeaders);
+        PersistSupport.ByteList(persister, name: "TurnOrder", list: TurnOrder);
+        WallType = persister.RawByte("WallType", value: WallType);
+        WallBreached = persister.Boolean("WallBreached", value: WallBreached);
+        PersistSupport.ByteList(persister, name: "InvolvedLeaders", list: InvolvedLeaders);
     }
 }

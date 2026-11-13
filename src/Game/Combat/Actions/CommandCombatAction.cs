@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
@@ -27,6 +28,13 @@ public partial class CommandCombatAction : SingleTargetCombatAction
         base.ReadWrite(stream);
         stream.Int32(ref AbilityId, 20);
         stream.Boolean(ref Successful, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        AbilityId = persister.Int32("AbilityId", value: AbilityId);
+        Successful = persister.Boolean("Successful", value: Successful);
     }
 
     // AoWAb.PAS:5063
