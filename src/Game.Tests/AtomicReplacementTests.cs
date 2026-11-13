@@ -3,6 +3,7 @@ using Aow.Formats;
 using Aow.Formats.Json;
 
 using Aow.Game.Saves;
+using Aow.Game.Units;
 
 using Aow.Platform;
 
@@ -41,6 +42,9 @@ public sealed class AtomicReplacementTests : IDisposable
         "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {"
         + (name.Length == 0 ? "" : "\"LibraryName\": \"" + name + "\"") + "}}"));
 
+    /// <summary>A hero list the game saves through the tree.</summary>
+    private static HeroLibrary HeroList(string name = "") => new(null!) { Holder = EngineFixture.Engine, LibraryName = name };
+
     private string Old => Path.Combine(_directory, "user", "User", "list.ahl");
     private string Logical => Path.Combine(_directory, "root", "User", "list.ahl");
     private string Temporary => FileBoundary.TemporaryFor(Old);
@@ -61,25 +65,28 @@ public sealed class AtomicReplacementTests : IDisposable
     public void OriginalUserSaveIsReplacedByItsDocument()
     {
         Layers();
-        byte[] original = File.ReadAllBytes(Old);
-        FileBoundary.Save(Logical, GameProfile.HeroList, original);
+        using var list = HeroList("Replaced");
+        FileBoundary.Save(Logical, GameProfile.HeroList, list);
         byte[] written = File.ReadAllBytes(Old);
         Assert.True(GameFiles.IsJsonCandidate(written));
         Assert.False(File.Exists(Temporary));
         var reread = GameBoundary.PrepareLoad(written, Logical, GameProfile.HeroList, FormatMapping.Validators);
-        Assert.Equal(original, reread.Bytes);
+        Assert.True(reread.Succeeded, reread.Report.Error?.ToString());
+        Assert.Equal("Replaced", ((JsonString)((JsonObject)reread.Document!["root"]!)["LibraryName"]!).Value);
         var record = Assert.Single(_log);
         Assert.True(record.Succeeded);
         Assert.Equal("user", record.Layer);
         Assert.Equal("write", record.Report.Operation);
     }
 
+    // A name outside code page 1252 has no stored form, so the document is refused before anything is written.
     [Fact]
     public void SerializationFailureKeepsTheOldFileAndWritesNothing()
     {
         Layers();
         byte[] before = File.ReadAllBytes(Old);
-        var error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, [1, 2, 3]));
+        using var list = HeroList("\u4e00");
+        var error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, list));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.False(error.Record.Succeeded);
@@ -91,7 +98,7 @@ public sealed class AtomicReplacementTests : IDisposable
         var layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failWrite: true);
-        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
+        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.Equal(Codes.Output, Assert.Single(_log).Report.Error!.Code);
@@ -103,7 +110,7 @@ public sealed class AtomicReplacementTests : IDisposable
         var layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failReplace: true);
-        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
+        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }
@@ -115,7 +122,7 @@ public sealed class AtomicReplacementTests : IDisposable
         string shipped = Path.Combine(_directory, "root", "User", "list.ahl");
         File.WriteAllBytes(shipped, HeroListImage());
         Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
-        FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New"));
+        FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New"));
         Assert.Equal(HeroListImage(), File.ReadAllBytes(shipped));
         Assert.True(GameFiles.IsJsonCandidate(File.ReadAllBytes(Old)));
         Assert.Equal("user", Runtime.Files.Layer(Logical));
@@ -127,7 +134,7 @@ public sealed class AtomicReplacementTests : IDisposable
         var layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new NoReplaceFiles(layers);
-        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
+        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }

@@ -57,6 +57,26 @@ public abstract class FileProfile
     /// <summary>The bytes G1 compares for the export of a document, built from its engine image and container.</summary>
     internal virtual byte[] ComparableImage(JsonObject container, byte[] image) => image;
 
+    /// <summary>
+    /// The root object of an engine image: its class and the range of its property table and data,
+    /// which the original backend reads (persistence-tree.md 6). The image passed its preflight, so
+    /// a structural failure here is a corrupt image.
+    /// </summary>
+    internal abstract (SchemaClass Class, int Start, int End) RootImage(DecodeContext context);
+
+    /// <summary>
+    /// The engine image of a root object image: the container the engine writes around it. Only
+    /// the profiles whose engine image the game builds without a file take one.
+    /// </summary>
+    internal virtual byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context) =>
+        throw new NotSupportedException($"Profile {Name} builds no engine image from a tree.");
+
+    /// <summary>
+    /// The $container of a document the game writes (own-formats.md 4.2): the container the
+    /// game's own write used, with the header name a scenario set stores.
+    /// </summary>
+    internal virtual JsonObject SaveContainer(string? headerName) => NewContainer("none", level: null);
+
     internal DecodeContext Context(byte[] data, ImportSession session, bool inflated) =>
         new(data, session.Schema, Engine, Name, session.File, session.Limits, session.Counts) { Nested = session.Nested, Inflated = inflated };
 
@@ -248,6 +268,33 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
 
     internal override byte[] ExportImage(JsonObject container, JsonValue root, EncodeContext context) => ExportPayload(container, root, context, out _, out _);
 
+    internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
+    {
+        var payload = context.Data;
+        if (payload.Length < 16) throw context.Fail(Codes.Truncated, message: "The HSM header is truncated.", offset: 0);
+        int size = context.Int32(0);
+        if (!payload.AsSpan(4, 4).SequenceEqual(Magic)) throw context.Fail(Codes.Format, message: "The HSM header has no HSM magic.", offset: 4);
+        if (size < 16 || size > payload.Length) throw context.Fail(Codes.Corrupt, message: "The HSM header size is outside the payload.", offset: 0);
+        int classId = context.Int32(12);
+        var classValue = context.Schema.Resolve(Engine, classId)
+            ?? throw context.Fail(Codes.UnknownClass, message: $"Root class id {classId} is not in the {Engine} engine table.", offset: 12, path: DocumentNodePath.Root, value: classId.ToString(CultureInfo.InvariantCulture));
+        return (classValue, ReadTop(context, start: size, end: payload.Length, layout: new LayoutBuilder()), payload.Length);
+    }
+
+    internal override JsonObject SaveContainer(string? headerName) => NewContainer("cfs", level: GameLevel);
+
+    /// <summary>The image SaveHSMtoStream writes before it compresses: the 16-byte header and the root.</summary>
+    internal override byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context)
+    {
+        var output = new ByteBuffer(rootImage.Length + 64);
+        output.Int32(16);
+        output.Bytes(Magic);
+        output.Int32(0);
+        output.Int32(classValue.Id!.Value);
+        WriteTop(context, root: rootImage, layout: null, at: new JsonObject(), output: output);
+        return output.ToArray();
+    }
+
     private (JsonObject Container, JsonObject Root) ImportPayload(byte[] payload, JsonObject container, bool inflated, ImportSession session)
     {
         var context = Context(payload, session, inflated);
@@ -352,6 +399,17 @@ public sealed class ScenarioSetProfile : FileProfile
         return (container, root);
     }
 
+    internal override JsonObject SaveContainer(string? headerName) =>
+        NewContainer("none", level: null).Add("header", new JsonObject().Add("Name", new JsonString(headerName ?? "")));
+
+    internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
+    {
+        if (context.Data.Length < HeaderSize + 4) throw context.Fail(Codes.Truncated, message: "The scenario set header is truncated.", offset: 0);
+        int size = context.Int32(0);
+        if (size < HeaderSize || size > context.Data.Length - 4) throw context.Fail(Codes.Corrupt, message: "The scenario set header size is outside the file.", offset: 0);
+        return (context.Schema.Get(RootFamily), ReadTop(context, start: size, end: context.Data.Length - 4, layout: new LayoutBuilder()), context.Data.Length - 4);
+    }
+
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {
         CheckContainer(context, container, "profile", "compression", "header");
@@ -415,6 +473,16 @@ public sealed class StoredObjectProfile : FileProfile
         return (container, root);
     }
 
+    internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
+    {
+        int start = ReadTop(context, start: 0, end: context.Data.Length, layout: new LayoutBuilder());
+        context.Need(start, count: 4, end: context.Data.Length, path: DocumentNodePath.Root, what: "root class id");
+        int classId = context.Int32(start);
+        var classValue = context.Schema.Resolve(Engine, classId)
+            ?? throw context.Fail(Codes.UnknownClass, message: $"Root class id {classId} is not in the {Engine} engine table.", offset: start, path: DocumentNodePath.Root, value: classId.ToString(CultureInfo.InvariantCulture));
+        return (classValue, start + 4, context.Data.Length);
+    }
+
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {
         CheckContainer(context, container, "profile", "compression");
@@ -453,6 +521,9 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
         layout.Attach(container, Name, session.Counts);
         return (container, root);
     }
+
+    internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context) =>
+        (context.Schema.Get(RootFamily), ReadTop(context, start: 0, end: context.Data.Length, layout: new LayoutBuilder()), context.Data.Length);
 
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {

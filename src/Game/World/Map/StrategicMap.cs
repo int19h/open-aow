@@ -600,13 +600,18 @@ public partial class StrategicMap : GameMap
         RandSeed = DefendersSeed;
     }
 
-    // The tree form of ReadWrite. A tree load has no progress handler, and the editor's error
-    // handler is the one its caller passes to TreeReader.Read (persistence-tree.md 7), so neither
-    // is set here. A preview leaves the hero control and the startup songs unread, a network map
-    // leaves the game songs unread, and ReadWrite never reads UnknownProperty57, so a load skips
-    // those members as ReadWrite does.
+    // The tree form of ReadWrite. A load shows its progress to the load's handler where ReadWrite
+    // calls Stream.ShowProgress. The editor's error handler is the one its caller passes to the
+    // tree load (persistence-tree.md 7), so none is set here. A preview leaves the hero control and
+    // the startup songs unread, a network map leaves the game songs unread, and ReadWrite never
+    // reads UnknownProperty57, so a load skips those members as ReadWrite does.
     public override void PersistFields(IPersister persister)
     {
+        if (persister.Loading)
+        {
+            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_oneMomentPleaseText), percent: 0);
+        }
+
         if (!persister.Loading)
         {
             ResetModified();

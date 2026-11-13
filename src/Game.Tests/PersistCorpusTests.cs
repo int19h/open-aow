@@ -350,14 +350,7 @@ public sealed class PersistCorpusTests
                     }
                     Runtime.RandSeed = seed;
                     TreeReader.Read(read, fromImage, factory, Stop);
-                    var viaReadWrite = Image(loaded);
-                    var viaPersist = Image(fromImage);
-                    if (!viaReadWrite.AsSpan().SequenceEqual(viaPersist) && OverReadsABitList(objectValue))
-                    {
-                        Block(classValue.Name, label: "a bit list load reads past its stored bytes");
-                        return false;
-                    }
-                    EqualBytes(viaReadWrite, actual: viaPersist, label: file + " " + classValue.Name + " readwrite");
+                    EqualBytes(Image(loaded), actual: Image(fromImage), label: file + " " + classValue.Name + " readwrite");
                 }
                 finally
                 {
@@ -422,20 +415,6 @@ public sealed class PersistCorpusTests
             if (field.Find("HexSpriteList") is SequenceNode sequence) sprites += sequence.Items.Count;
         s_levels.TryGetValue(classValue.Name, out var total);
         s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
-    }
-
-    // TBitList.LoadFromStream raises the count to the capacity, a multiple of 32, before it reads
-    // the bits, so a stored count that does not fill its last 32-bit word makes the stream load read
-    // past the stored bytes into the data that follows. The tree holds the stored bytes only, so
-    // such an instance loads other bits past the stored count on the two paths.
-    private static bool OverReadsABitList(JsonValue value)
-    {
-        if (value is JsonArray array) return array.Items.Any(OverReadsABitList);
-        if (value is not JsonObject objectValue) return false;
-        if (objectValue["count"] is JsonInteger { Value: var count } && objectValue["bits"] is JsonArray && objectValue["default"] is not null
-            && ((count + 31) & ~31L) >> 3 > (count + 7) >> 3)
-            return true;
-        return objectValue.Members.Any(member => OverReadsABitList(member.Value));
     }
 
     private static JsonObject WithoutLayout(JsonObject objectValue)

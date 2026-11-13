@@ -237,8 +237,8 @@ public partial class GameMap : ENode
         stream.Int32(ref _viewMapLevel, 6);
     }
 
-    // The tree form of ReadWrite. A tree load has no progress handler, so the hex sprite set of a
-    // full load reports no progress. Everything else follows ReadWrite.
+    // The tree form of ReadWrite. The hex sprite set of a full load reports its progress to the
+    // load's handler, as ReadWrite passes Stream.ProgressHandler. Everything else follows ReadWrite.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -251,7 +251,7 @@ public partial class GameMap : ENode
         if (!persister.Preview && persister.Loading && !IsEmpty(_hssFileName))
         {
             var engine = PersistSupport.Engine(persister);
-            engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: null);
+            engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: PersistSupport.Progress(persister));
         }
 
         _version = PersistSupport.UnsignedByte(persister, name: "Version", value: (sbyte)_version);

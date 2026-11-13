@@ -58,6 +58,53 @@ public static class TreeReader
         objectValue.Persist(persister);
         persister.Finish();
     }
+
+    /// <summary>
+    /// Reads a tree into an object the caller holds the way <c>TEngine.ReadEObject</c> reads a
+    /// stream (<c>rwEObject</c> with id 0): a failure of the root goes to the load's handler like a
+    /// failure of a nested object. A handler that continues, or no handler, leaves the object as the
+    /// load left it, and a handler that stops makes the load throw the original exception.
+    /// </summary>
+    public static void ReadObject(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
+    {
+        var errors = new LoadErrorPolicy(onError);
+        var persister = new MemberPersister(node, loading: true, factory: factory, path: DocumentNodePath.Root, errors: errors, preview: preview);
+        try
+        {
+            objectValue.Persist(persister);
+            persister.Finish();
+        }
+        catch (System.Exception error)
+        {
+            if (!errors.Continue(error)) throw;
+        }
+    }
+
+    /// <summary>
+    /// Creates the root of a tree and reads it the way <c>TEngine.RetrieveEObject</c> reads a
+    /// stream (<c>rwCreateEObject</c> with id 0): the factory creates the class, and a failure
+    /// releases the object and goes to the load's handler. A handler that continues, or no
+    /// handler, returns null. A handler that stops makes the load throw the original exception.
+    /// </summary>
+    public static IPersistable? ReadCreated(ObjectNode node, string className, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
+    {
+        var errors = new LoadErrorPolicy(onError);
+        IPersistable? created = null;
+        try
+        {
+            created = factory.Create(className);
+            var persister = new MemberPersister(node, loading: true, factory: factory, path: DocumentNodePath.Root, errors: errors, preview: preview);
+            created.Persist(persister);
+            persister.Finish();
+            return created;
+        }
+        catch (System.Exception error)
+        {
+            if (created is not null) factory.Release(created);
+            if (!errors.Continue(error)) throw;
+            return null;
+        }
+    }
 }
 
 /// <summary>The persister over one object or one record.</summary>

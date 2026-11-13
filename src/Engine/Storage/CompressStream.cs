@@ -127,13 +127,6 @@ public partial class CompressStream : MemoryStream
         }
     }
 
-    // An engine image the file boundary prepared: the inflated payload, at position 0.
-    public void LoadImage(byte[] image)
-    {
-        this.WriteBuffer(image);
-        Position = 0;
-    }
-
     // Engine.pas:1805
     public void LoadFromFile(string fileName)
     {

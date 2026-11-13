@@ -1,5 +1,6 @@
-
 using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game;
 
@@ -18,6 +19,13 @@ public static class PersistSupport
     public static GameEngine Engine(IPersister persister) =>
         (persister.Factory as IEnginePersistableFactory)?.Engine
             ?? throw new InvalidOperationException("The load's factory names no engine.");
+
+    /// <summary>The progress handler of a tree load, which <c>ReadWrite</c> reads as <c>Stream.ProgressHandler</c>. Null when the load has none.</summary>
+    public static ProgressEvent Progress(IPersister persister) => (persister.Factory as IEnginePersistableFactory)?.Progress;
+
+    /// <summary>Reports load progress the way <c>Stream.ShowProgress</c> does: to the load's handler, when it has one.</summary>
+    public static void ShowProgress(IPersister persister, EngineObject sender, string message, int percent) =>
+        Progress(persister)?.Invoke(sender, Message: message, Progression: percent);
 
     /// <summary>
     /// A catalog record. The value moves through its I/O image, which maps it without loss and
@@ -101,11 +109,41 @@ public static class PersistSupport
 
     /// <summary>
     /// A TBitList stream. The save writes what <c>SaveToStream</c> writes. A present member loads as
-    /// <c>LoadFromStream</c> does, and an absent member leaves the list as it was.
+    /// <c>LoadFromStream</c> does, and an absent member leaves the list as it was. A load returns
+    /// the stored image, for <see cref="BitListOverRead"/>, and null when the member is absent.
     /// </summary>
-    public static void BitList(IPersister persister, string name, BitList list)
+    public static BitListImage BitList(IPersister persister, string name, BitList list)
     {
-        if (persister.BitList(name, value: list.SaveImage()) is { } stored && persister.Loading) list.LoadImage(stored);
+        if (persister.BitList(name, value: list.SaveImage()) is not { } stored || !persister.Loading) return null;
+        list.LoadImage(stored);
+        return stored;
+    }
+
+    /// <summary>
+    /// The bytes <c>TBitList.LoadFromStream</c> reads past a stored bit list. <c>SetCapacity</c> puts
+    /// the default into each new bit through <c>Put</c>, and <c>Put</c> past the count raises the
+    /// count, so the count is the capacity, a multiple of 32, when <c>Stream.Read(FList^, (FCount +
+    /// 7) shr 3)</c> reads the bits (Engine.pas 4743 to 4789). The read takes up to 3 bytes past the
+    /// stored bits: the data the owner stores after the list. The original backend writes that
+    /// data from the members <paramref name="following"/> persists, in the owner's stored class,
+    /// and those bytes become the bits past the stored ones, as the stream load leaves them. A
+    /// following datum shorter than the read leaves the rest of the bits at the default.
+    /// </summary>
+    public static void BitListOverRead(IPersister persister, BitList list, BitListImage stored, EngineObject owner, Action<IPersister> following)
+    {
+        int extra = ((list.Count + 7) >> 3) - stored.Bits.Length;
+        if (extra <= 0) return;
+        var node = TreeWriter.Write(new MemberGroup(following), factory: persister.Factory);
+        var schema = FormatSchema.Current;
+        var data = OriginalBackend.WriteData(node, classValue: schema.Get(NameTable.Stored(owner.GetType())), schema: schema, engine: "game");
+        var bits = list.List.Span;
+        for (int i = 0; i < extra && i < data.Length; i++) bits[stored.Bits.Length + i] = data[i];
+    }
+
+    // Some members of an owner, persisted as an object of their own.
+    private sealed class MemberGroup(Action<IPersister> body) : IPersistable
+    {
+        public void Persist(IPersister persister) => body(persister);
     }
 
     /// <summary>

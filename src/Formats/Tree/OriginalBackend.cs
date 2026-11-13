@@ -15,4 +15,12 @@ public static class OriginalBackend
 
     public static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine) =>
         ImageTree.Read(image, classValue, schema, engine);
+
+    /// <summary>
+    /// The data of the object image <see cref="Write"/> writes, without its property table: the
+    /// values of the members the tree holds, in the order the image stores them. A load that
+    /// reads past one stored value reads these bytes (<c>TBitList.LoadFromStream</c>).
+    /// </summary>
+    public static byte[] WriteData(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine) =>
+        ImageTree.WriteData(node, classValue: classValue, schema: schema, engine: engine);
 }

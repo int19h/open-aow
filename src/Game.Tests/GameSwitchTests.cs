@@ -147,7 +147,8 @@ public sealed class GameSwitchTests
         Replace(campaign, "$kind", new JsonString("campaign-save"));
         byte[] image = GameFiles.ExportImage(GameFiles.Read(GameFiles.Write(campaign)).Document);
 
-        var saved = GameBoundary.PrepareSave(image, "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
+        var tree = GameBoundary.ReadImageTree(image, use: GameProfile.Campaign);
+        var saved = GameBoundary.PrepareSave(tree.Root, className: tree.ClassName, fileName: "autosave.acg", use: GameProfile.Campaign, validators: FormatMapping.Validators);
         Assert.True(saved.Succeeded, saved.Report.Error?.ToString());
         var loaded = GameBoundary.PrepareLoad(saved.Bytes!, "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
         Assert.True(loaded.Succeeded, loaded.Report.Error?.ToString());

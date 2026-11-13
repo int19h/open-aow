@@ -1,6 +1,8 @@
 using System.Globalization;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 
 namespace Aow.Formats;
 
@@ -72,21 +74,36 @@ public sealed class GameFileReport
     public FormatDiagnostic? Error { get; set; }
 }
 
-/// <summary>A prepared load or save: the engine image or the document bytes, or the refusal.</summary>
+/// <summary>
+/// A prepared load or save. A load holds the engine image of the validated document, which the CRC
+/// forms, the header listings and the network transfer read, and the document. A save holds the
+/// document bytes. A refusal holds neither.
+/// </summary>
 public sealed class GameFileResult
 {
     public byte[]? Bytes { get; init; }
     public JsonObject? Document { get; init; }
     public required GameFileReport Report { get; init; }
+
+    /// <summary>Whether a load read an own document, which the tree reads through the document backend.</summary>
+    public bool Own { get; init; }
+
     public bool Succeeded => Bytes is not null;
 }
 
 /// <summary>
+/// The tree of a prepared load (persistence-tree.md 6): the root object and its stored class, by
+/// name and by the id of the profile's engine table (0 for a class the table does not name).
+/// </summary>
+public sealed record GameFileTree(ObjectNode Root, string ClassName, int ClassId);
+
+/// <summary>
 /// The conversion side of the game's file boundary (own-formats.md 4.1). Original loads import,
-/// validate for game context, export for an unmasked G1 comparison and yield the engine image.
-/// Own loads classify, parse, migrate, validate and yield the engine image. Saves import the
-/// engine-written image, validate, check that the document reproduces the image and serialize.
-/// Nothing here creates a game object, touches a file or falls back to the original bytes.
+/// validate for game context, export for an unmasked G1 comparison and read the tree from the
+/// image through the original backend. Own loads classify, parse, validate and read the tree
+/// through the document backend. Saves write the tree through the document backend, validate and
+/// serialize. Nothing here creates a game object, touches a file or falls back to the original
+/// bytes, and the game's own storage code writes no image on this path.
 /// </summary>
 public static class GameBoundary
 {
@@ -121,7 +138,7 @@ public static class GameBoundary
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"The document has kind {kind}, the game opens {string.Join(", ", use.Kinds)} here.")
             { File = fileName, Path = "$kind", Value = kind, Span = read.Document["$kind"]!.Span });
         var image = Validate(read.Document, fileName, validators, report);
-        return new GameFileResult { Bytes = image, Document = read.Document, Report = report };
+        return new GameFileResult { Bytes = image, Document = read.Document, Report = report, Own = true };
     }
 
     private static GameFileResult LoadOriginal(byte[] bytes, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
@@ -143,46 +160,101 @@ public static class GameBoundary
         return new GameFileResult { Bytes = image, Document = imported.Document, Report = report };
     }
 
-    /// <summary>Structural validation through the strict image encoding, then the game validators.</summary>
+    /// <summary>
+    /// The validation before a destructive load step and before a save is written
+    /// (<see cref="DocumentValidation.Check"/>): the strict image encoding, then the game
+    /// validators. The first finding refuses. It returns the engine image of the document.
+    /// </summary>
     private static byte[] Validate(JsonObject document, string? fileName, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
     {
         report.Validation = "refused";
-        var image = GameFiles.ExportImage(document, fileName);
-        var (profile, kind, _, _) = GameFiles.Envelope(document, fileName);
-        var context = new ValidationContext(document, profile, kind, fileName);
-        foreach (var validator in validators)
-            foreach (var finding in validator.Validate(context))
-                throw new ConversionException(finding);
+        var check = DocumentValidation.Check(document, validators: validators, file: fileName);
+        if (check.Findings.Count != 0) throw new ConversionException(check.Findings[0]);
         report.Validation = "passed";
-        return image;
+        return check.Image!;
     }
 
     /// <summary>
-    /// Imports the image of one object, as the converter imports a root, for the gate's save
-    /// shadow (persistence-tree.md 12). The switch of PE-3-g removes it with the shadow.
+    /// The tree of a prepared load. An own document reads through the document backend, an
+    /// original through the original backend over the image its G1 check passed.
     /// </summary>
-    public static JsonObject ImportObjectImage(byte[] image, string className, string engine) => PilotImage.Decode(image, className, engine);
+    public static GameFileTree ReadTree(GameFileResult result, GameProfile use)
+    {
+        if (result.Bytes is null) throw new InvalidOperationException("A refused load has no tree.");
+        if (!result.Own || result.Document is null) return ReadImageTree(result.Bytes, use: use);
+        var schema = FormatSchema.Current;
+        var profile = use.Profile;
+        var root = (JsonObject)result.Document["root"]!;
+        SchemaClass classValue;
+        if (profile.RootHasClass)
+        {
+            // The validation resolved the class. The root's $class names the stored class and is
+            // no member of it.
+            classValue = schema.Get(((JsonString)root["$class"]!).Value);
+            var members = new JsonObject();
+            foreach (var member in root.Members)
+                if (member.Name != "$class") members.Members.Add(member);
+            root = members;
+        }
+        else classValue = schema.Get(profile.RootFamily);
+        return new GameFileTree(Root: DocumentBackend.Read(root, classValue: classValue, schema: schema, engine: profile.Engine), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
+    }
 
     /// <summary>
-    /// Converts an engine-written image to the canonical document bytes. The document is
-    /// validated and its own image must equal the engine's, so a reload gives the engine the
-    /// image it wrote.
+    /// The tree of an engine image of a profile: a validated image, or an original image the game
+    /// holds in memory (a campaign map, a map a network host sent). The original backend reads
+    /// the root object.
     /// </summary>
-    public static GameFileResult PrepareSave(byte[] image, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators)
+    public static GameFileTree ReadImageTree(byte[] image, GameProfile use)
     {
-        var report = new GameFileReport { Operation = "write", Profile = use, Kind = use.WriteKind, Format = DetectedFormat.OwnJson.ToString(), Version = OwnFormat.CurrentVersion };
+        var schema = FormatSchema.Current;
+        var profile = use.Profile;
+        var context = new DecodeContext(image, schema: schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var (classValue, start, end) = profile.RootImage(context);
+        return new GameFileTree(Root: ImageTree.Read(context, start: start, end: end, classValue: classValue), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
+    }
+
+    /// <summary>
+    /// The engine image of a tree in the profile's game container, before any compression: the
+    /// image SaveHSMtoStream compresses into a campaign. The original backend writes the root.
+    /// </summary>
+    public static byte[] WriteImage(ObjectNode root, string className, GameProfile use)
+    {
+        var schema = FormatSchema.Current;
+        var profile = use.Profile;
+        var classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
+        var context = new EncodeContext(schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        var rootImage = OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
+        return profile.WrapRootImage(rootImage, classValue: classValue, context: context);
+    }
+
+    /// <summary>
+    /// Converts a tree the game wrote to the canonical document bytes (own-formats.md 4.2): the
+    /// document backend writes the root under the profile's root class, and the document is
+    /// validated and serialized. <paramref name="className"/> is the stored class of the root,
+    /// which a profile with a class in its root stores as $class. <paramref name="headerName"/> is
+    /// the name a scenario set stores in its header.
+    /// </summary>
+    public static GameFileResult PrepareSave(ObjectNode root, string className, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators, string? headerName = null)
+    {
+        var report = new GameFileReport
+        {
+            Operation = "write",
+            Profile = use,
+            Kind = use.WriteKind,
+            Format = DetectedFormat.OwnJson.ToString(),
+            Version = OwnFormat.CurrentVersion,
+            OriginalRoundTrip = "not applicable: own document",
+        };
         try
         {
-            var document = GameFiles.ImportImage(image, use.Profile, use.WriteKind, fileName).Document;
-            var written = Validate(document, fileName, validators, report);
-            int common = written.AsSpan().CommonPrefixLength(image);
-            if (common != written.Length || common != image.Length)
-            {
-                report.OriginalRoundTrip = "different at 0x" + common.ToString("x", CultureInfo.InvariantCulture);
-                throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, "The document does not reproduce the engine image.")
-                { File = fileName, Offset = common, Profile = use.Profile.Name, Decompressed = true });
-            }
-            report.OriginalRoundTrip = "equal";
+            var schema = FormatSchema.Current;
+            var profile = use.Profile;
+            var classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
+            var rootDocument = DocumentBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
+            if (profile.RootHasClass) rootDocument.Members.Insert(0, new JsonMember("$class", value: new JsonString(classValue.Name)));
+            var document = GameFiles.NewDocument(use.WriteKind, container: profile.SaveContainer(headerName), root: rootDocument);
+            Validate(document, fileName: fileName, validators: validators, report: report);
             return new GameFileResult { Bytes = GameFiles.Write(document), Document = document, Report = report };
         }
         catch (ConversionException error)

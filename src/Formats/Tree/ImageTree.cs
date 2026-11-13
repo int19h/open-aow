@@ -30,7 +30,28 @@ internal static class ImageTree
         return ReadBody(context, 0, image.Length, classValue, DocumentNodePath.Root, null, null);
     }
 
+    /// <summary>Reads the object image between two offsets of a decode context, such as the root of an engine image.</summary>
+    internal static ObjectNode Read(DecodeContext context, int start, int end, SchemaClass classValue) =>
+        ReadBody(context, start: start, end: end, classValue: classValue, path: DocumentNodePath.Root, className: null, slot: null);
+
     internal static void WriteBody(ObjectNode node, SchemaClass classValue, EncodeContext context, ByteBuffer data, DocumentNodePath path, bool allowIdentity)
+    {
+        var writer = WriteMembers(node, classValue: classValue, context: context, path: path, allowIdentity: allowIdentity);
+        ObjectImage.Place(context, writer, null, null, null, s_marker, path, data);
+        context.Leave();
+    }
+
+    /// <summary>The data of an object image without its property table, the values in table order.</summary>
+    internal static byte[] WriteData(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine)
+    {
+        var context = new EncodeContext(schema, engine: engine, profile: engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        var writer = WriteMembers(node, classValue: classValue, context: context, path: DocumentNodePath.Root, allowIdentity: false);
+        context.Leave();
+        return writer.Data.Span.ToArray();
+    }
+
+    // Writes the members of an object into a new writer. The caller leaves the object's context.
+    private static ObjectWriter WriteMembers(ObjectNode node, SchemaClass classValue, EncodeContext context, DocumentNodePath path, bool allowIdentity)
     {
         if (!allowIdentity)
         {
@@ -68,8 +89,7 @@ internal static class ImageTree
             foreach (var (name, _) in node.Members)
                 if (classValue.PropertyByName(name) is null)
                     throw context.Fail(Codes.UnknownMember, "Class " + classValue.Name + " has no member \"" + name + "\".", null, path.Member(name), name);
-        ObjectImage.Place(context, writer, null, null, null, s_marker, path, data);
-        context.Leave();
+        return writer;
     }
 
     internal static ObjectNode ReadBody(DecodeContext context, int start, int end, SchemaClass classValue, DocumentNodePath path, string? className, int? slot)
