@@ -159,7 +159,7 @@ public partial class GameMap : ENode
     private string _fileName = "";
     protected internal int _viewPixelX;
     protected internal int _viewPixelY;
-    protected internal int _viewL;
+    protected internal int _viewMapLevel;
     private int _viewWidth;
     private int _viewHeight;
     private int _viewHexX;
@@ -233,7 +233,7 @@ public partial class GameMap : ENode
         _version = B;
         stream.Int32(ref _viewPixelX, 4);
         stream.Int32(ref _viewPixelY, 5);
-        stream.Int32(ref _viewL, 6);
+        stream.Int32(ref _viewMapLevel, 6);
     }
 
     // HSMAP.PAS:261
@@ -409,13 +409,13 @@ public partial class GameMap : ENode
     public virtual void GetViewCenter(out int hexX, out int hexY, out int hexLevel)
     {
         HexGeometry.PixelToHex(_viewPixelX + (int)(((uint)_viewWidth) >> 1), _viewPixelY + (int)(((uint)_viewHeight) >> 1), out hexX, out hexY);
-        hexLevel = _viewL;
+        hexLevel = _viewMapLevel;
     }
 
     // HSMAP.PAS:134
     public virtual void MakeVisible(int hexX, int hexY, int hexLevel, int radius)
     {
-        if (_viewL != hexLevel || hexX - radius < _viewHexX || hexX + radius >= _viewHexX + _viewWidthHex || hexY - radius < _viewHexY || hexY + radius >= _viewHexY + _viewHeightHex)
+        if (_viewMapLevel != hexLevel || hexX - radius < _viewHexX || hexX + radius >= _viewHexX + _viewWidthHex || hexY - radius < _viewHexY || hexY + radius >= _viewHexY + _viewHeightHex)
         {
             CenterViewTo(hexX, hexY, hexLevel);
         }
@@ -681,7 +681,7 @@ public partial class GameMap : ENode
             ResetVisibleStaticHexSprite();
             maxX = ViewHexX + ViewWidthHex - 1;
             maxY = ViewHexY + ViewHeightHex - 1;
-            level = MapContainer.GetMapLevel(ViewL);
+            level = MapContainer.GetMapLevel(ViewMapLevel);
             for (int X = ViewHexX; X <= maxX; X++)
             {
                 for (int Y = maxY, last = ViewHexY; Y >= last; Y--)
@@ -712,7 +712,7 @@ public partial class GameMap : ENode
         ResetVisibleStaticHexSprite();
         maxX = _viewHexX + _viewWidthHex - 1;
         maxY = _viewHexY + _viewHeightHex - 1;
-        mapLevel = _mapContainer.GetMapLevel(_viewL);
+        mapLevel = _mapContainer.GetMapLevel(_viewMapLevel);
         for (int X = _viewHexX; X <= maxX; X++)
         {
             for (int Y = maxY, last = _viewHexY; Y >= last; Y--)
@@ -742,7 +742,7 @@ public partial class GameMap : ENode
             ResetVisibleDynamicHexSprite();
             maxX = ViewHexX + ViewWidthHex - 1;
             maxY = ViewHexY + ViewHeightHex - 1;
-            level = MapContainer.GetMapLevel(ViewL);
+            level = MapContainer.GetMapLevel(ViewMapLevel);
             if (SeatedPlayer != -1)
             {
                 for (int X = ViewHexX; X <= maxX; X++)
@@ -782,7 +782,7 @@ public partial class GameMap : ENode
         ResetVisibleDynamicHexSprite();
         maxX = _viewHexX + _viewWidthHex - 1;
         maxY = _viewHexY + _viewHeightHex - 1;
-        mapLevel = _mapContainer.GetMapLevel(_viewL);
+        mapLevel = _mapContainer.GetMapLevel(_viewMapLevel);
         for (int X = _viewHexX; X <= maxX; X++)
         {
             for (int Y = maxY, last = _viewHexY; Y >= last; Y--)
@@ -1025,10 +1025,10 @@ public partial class GameMap : ENode
         int y1 = default;
         int x2 = default;
         int y2 = default;
-        if (pixelX != _viewPixelX || pixelY != _viewPixelY || lHitPoints != _viewL || width != _viewWidth || height != _viewHeight)
+        if (pixelX != _viewPixelX || pixelY != _viewPixelY || lHitPoints != _viewMapLevel || width != _viewWidth || height != _viewHeight)
         {
             ClearViewPort();
-            _viewL = lHitPoints;
+            _viewMapLevel = lHitPoints;
             _viewPixelX = pixelX;
             _viewWidth = width;
             _viewPixelY = pixelY;
@@ -1079,14 +1079,14 @@ public partial class GameMap : ENode
         _dynamicSceneInvalid = true;
         _viewPixelX = -1;
         _viewPixelY = -1;
-        _viewL = -1;
+        _viewMapLevel = -1;
         _viewWidth = 0;
         _viewHeight = 0;
     }
 
     // HSMAP.PAS:633
     // { Viewing accepts one row below the view port, InvalidateStaticScene does not. }
-    public bool Viewing(int hexX, int hexY, int hexLevel) => hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY <= _viewHexY + _viewHeightHex && hexLevel == _viewL;
+    public bool Viewing(int hexX, int hexY, int hexLevel) => hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY <= _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel;
 
     // HSMAP.PAS:640
     // { The message names ResetVisibleDynamicHS (original slip). }
@@ -1130,7 +1130,7 @@ public partial class GameMap : ENode
     // HSMAP.PAS:745
     public void InvalidateStaticScene(int hexX, int hexY, int hexLevel)
     {
-        _staticSceneInvalid = _staticSceneInvalid || (hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY < _viewHexY + _viewHeightHex && hexLevel == _viewL);
+        _staticSceneInvalid = _staticSceneInvalid || (hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY < _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel);
     }
 
     public HexSpriteMapMouse Mouse { get => _mouse; }
@@ -1182,7 +1182,7 @@ public partial class GameMap : ENode
     public string FileName { get => _fileName; set => _fileName = value; }
     public int ViewPixelX { get => _viewPixelX; }
     public int ViewPixelY { get => _viewPixelY; }
-    public int ViewL { get => _viewL; }
+    public int ViewMapLevel { get => _viewMapLevel; }
     public int ViewWidth { get => _viewWidth; }
     public int ViewHeight { get => _viewHeight; }
     public int ViewHexX { get => _viewHexX; }
@@ -1283,7 +1283,7 @@ public partial class GameMap : ENode
             if (_selectorX != -1 && _selectorY != -1)
             {
                 HexGeometry.HexToPixel(_selectorX, _selectorY, out pixelX, out pixelY);
-                hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewL).GetMaxLevelNoneTransparentHexSprite();
+                hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
                 if (hexSprite != null)
                 {
                     if (hexSprite.GetShowPriority() > 1744830464)
@@ -1753,7 +1753,7 @@ public partial class GameMap : ENode
     {
         bool exploration = ExplorationEnabled || StrategicMap.Current.SeatedPlayer == -1;
         if (!FogEnabled && !exploration) return;
-        var level = MapContainer.GetMapLevel(ViewL);
+        var level = MapContainer.GetMapLevel(ViewMapLevel);
         for (int x = ViewHexX; x < ViewHexX + ViewWidthHex; x++)
         {
             int pixelX = 0, pixelY = 0;
@@ -1773,7 +1773,7 @@ public partial class GameMap : ENode
 
     public void DrawGrid(in LockedSurface surface)
     {
-        var level = MapContainer.GetMapLevel(ViewL);
+        var level = MapContainer.GetMapLevel(ViewMapLevel);
         int maxX = ViewHexX + ViewWidthHex - 1, maxY = ViewHexY + ViewHeightHex - 1;
         for (int x = ViewHexX; x <= maxX; x++)
         {

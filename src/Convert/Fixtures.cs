@@ -32,7 +32,7 @@ public static partial class Fixtures
         "layout/a part that does not fit is an error, not a cleanup", "gzip/bounded gzip",
         "gzip/a damaged own document never falls back to binary", "diagnostics/duplicate JSON member with both locations",
         "diagnostics/a binary error gives the offset and the profile", "diagnostics/trailing commas and comments fail",
-        "diagnostics/a newer version fails with both numbers", "migrations/a historical chain migrates through every step",
+        "diagnostics/a newer version fails with both numbers", "diagnostics/an older version fails and asks for a new conversion",
     };
 
     /// <summary>A case result. OwnDocuments counts the own documents the case checked for G-own.</summary>

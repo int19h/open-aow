@@ -158,7 +158,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         int pixelY = default;
         int count;
         int frame;
-        if (StrategicMap.Current.ViewL == Location.MapLevel)
+        if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;

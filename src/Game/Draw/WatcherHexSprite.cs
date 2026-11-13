@@ -94,7 +94,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         int pixelY = default;
         int intensity;
         int delay;
-        bool condition = StrategicMap.Current.ViewL == HexLevel;
+        bool condition = StrategicMap.Current.ViewMapLevel == HexLevel;
         if (condition)
         {
             var hexY = HexY;
@@ -118,7 +118,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 _animationFrame += 1;
                 // The original reads the shared AoWEngine animation detail. The map engine is
                 // not the global read by this routine.
-                if (GameTables.GameEngine.AnimationDetail == 2 && StrategicMap.Current.ViewL == HexLevel)
+                if (GameTables.GameEngine.AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == HexLevel)
                 {
                     intensity = 100 - _animationFrame;
                     var hexY2 = HexY;

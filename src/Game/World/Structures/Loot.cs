@@ -15,7 +15,7 @@ public sealed partial record Loot : ProductionOrder
 {
     public const int Kind = 14;
 
-    public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
+    public override (int Kind, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
 
     public override CityAction CityAction => CityAction.Loot;
 

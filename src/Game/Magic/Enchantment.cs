@@ -45,10 +45,10 @@ public partial class Enchantment : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        DispelResistance = PersistSupport.UnsignedByte(persister, "DispelResistance", DispelResistance);
-        Source = PersistSupport.UnsignedByte(persister, "Source", Source);
-        Upkeep = persister.Int32("Upkeep", Upkeep);
-        EnchantmentId = persister.Int32("EnchantmentID", EnchantmentId);
+        DispelResistance = PersistSupport.UnsignedByte(persister, name: "DispelResistance", value: DispelResistance);
+        Source = PersistSupport.UnsignedByte(persister, name: "Source", value: Source);
+        Upkeep = persister.Int32("Upkeep", value: Upkeep);
+        EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
     }
 
     // Spells.PAS:1700

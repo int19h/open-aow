@@ -136,7 +136,7 @@ A type is `Foo`. An interface is `IFoo`. A generic parameter is the only name th
 
 A name that clashes with a .NET type is a reason to use the .NET type. A distinct class keeps a short name only when every use refers to the port's type. `Object` and `List` are out of that set. `Component` stays, because the port does not use `System.ComponentModel.Component`.
 
-Own-format documents store the current names. The loader accepts an older stored type or enum member name through `src/Rtl/Delphi/names.csv` and an older property name through the property's `oldNames` in `src/Formats/schema.json`. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
+Own-format documents store the current C# names: a class name, a schema member name equal to the C# member its storage call reads and writes, a record field name and an enum member name (issue 230). Own formats are not stable yet, so no older member name loads. A document of an older version is refused, and the original file is converted again. `src/Rtl/Delphi/names.csv` maps the Delphi type and enum member names. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
 
 A Delphi citation in these documents keeps the Delphi name. That is a Delphi unit, a Delphi routine, a quoted Delphi source line, or a `.pas` or `.dfm` reference. Where prose names a port type and the Delphi name helps a reader find the source, the C# name comes first and the Delphi name follows once in parentheses.
 

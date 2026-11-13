@@ -52,10 +52,10 @@ public partial class UnitEnchantmentAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        EnchantmentAbilityId = persister.UInt16("EnchantmentAbilityID", EnchantmentAbilityId);
-        Enchantment = persister.Created("Enchantment", Enchantment);
-        EnchantmentPlayerIndex = persister.SByte("EnchantmentPlayerIndex", EnchantmentPlayerIndex, -1);
-        EnchantmentDuration = persister.SByte("EnchantmentDuration", EnchantmentDuration, -1);
+        EnchantmentAbilityId = persister.UInt16("EnchantmentAbilityId", value: EnchantmentAbilityId);
+        Enchantment = persister.Created("Enchantment", objectValue: Enchantment);
+        EnchantmentPlayerIndex = persister.SByte("EnchantmentPlayerIndex", value: EnchantmentPlayerIndex, fallback: -1);
+        EnchantmentDuration = persister.SByte("EnchantmentDuration", value: EnchantmentDuration, fallback: -1);
     }
 
     // AoWAb.PAS:577

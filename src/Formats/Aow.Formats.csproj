@@ -7,10 +7,6 @@
   <ItemGroup>
     <EmbeddedResource Include="schema.json" LogicalName="Aow.Formats.schema.json" />
     <EmbeddedResource Include="versions.json" LogicalName="Aow.Formats.versions.json" />
-    <EmbeddedResource Include="Migrations/schema-v1.json" LogicalName="Aow.Formats.Migrations.schema-v1.json" />
-    <EmbeddedResource Include="Migrations/schema-v2.json" LogicalName="Aow.Formats.Migrations.schema-v2.json" />
-    <EmbeddedResource Include="Migrations/schema-v3.json" LogicalName="Aow.Formats.Migrations.schema-v3.json" />
-    <EmbeddedResource Include="Migrations/schema-v4.json" LogicalName="Aow.Formats.Migrations.schema-v4.json" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Aow.Formats.Tests" />

@@ -23,7 +23,6 @@ public sealed record FormatDiagnostic(string Code, string Message)
     public string? Value { get; init; }
     public string? Constraint { get; init; }
     public bool Decompressed { get; init; }
-    public string? Migration { get; init; }
 
     public override string ToString()
     {
@@ -38,7 +37,6 @@ public sealed record FormatDiagnostic(string Code, string Message)
         var text = new StringBuilder(head.ToString()).Append('\n').Append(Message);
         if (Value is not null) text.Append(" Value: ").Append(Value).Append('.');
         if (Constraint is not null) text.Append(" Constraint: ").Append(Constraint).Append('.');
-        if (Migration is not null) text.Append(" Migration: ").Append(Migration).Append('.');
         return text.ToString();
     }
 }

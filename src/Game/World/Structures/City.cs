@@ -1258,7 +1258,7 @@ public partial class City : PlayerCropStructure
         for (int I = _enchantmentList.Count - 1; I >= 0; I--)
         {
             var enchantment = _enchantmentList.GetEnchantments(I);
-            Enchantments = Enchantments + Set<CityEnchantmentId>.Of(((CityEnchantment)enchantment)._enchantmentId);
+            Enchantments = Enchantments + Set<CityEnchantmentId>.Of(((CityEnchantment)enchantment).CityEnchantmentId);
         }
     }
 
@@ -1323,18 +1323,18 @@ public partial class City : PlayerCropStructure
     {
         enchantment.Owner = _enchantmentList;
         enchantment.Activate(enchantment.PlayerIndex);
-        Enchantments = Enchantments + Set<CityEnchantmentId>.Of(enchantment._enchantmentId);
-        if (enchantment._enchantmentId == CityEnchantmentId.FountainOfLife)
+        Enchantments = Enchantments + Set<CityEnchantmentId>.Of(enchantment.CityEnchantmentId);
+        if (enchantment.CityEnchantmentId == CityEnchantmentId.FountainOfLife)
         {
             ExecuteFountainOfLife();
         }
 
-        if (enchantment._enchantmentId == CityEnchantmentId.GoldRush)
+        if (enchantment.CityEnchantmentId == CityEnchantmentId.GoldRush)
         {
             UpdateIncome();
         }
 
-        if (enchantment._enchantmentId == CityEnchantmentId.AntiMagicShell)
+        if (enchantment.CityEnchantmentId == CityEnchantmentId.AntiMagicShell)
         {
             _overlay.PlaySetupShellAnimation();
         }
@@ -1346,7 +1346,7 @@ public partial class City : PlayerCropStructure
         enchantment.Owner = null;
         enchantment.Deactivate((byte)enchantment.PlayerIndex);
         UpdateActiveEnchantments();
-        if (enchantment._enchantmentId == CityEnchantmentId.GoldRush)
+        if (enchantment.CityEnchantmentId == CityEnchantmentId.GoldRush)
         {
             UpdateIncome();
         }

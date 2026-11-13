@@ -49,7 +49,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         int X = default;
         int Y = default;
         int delay;
-        if (StrategicMap.Current.ViewL == _layer)
+        if (StrategicMap.Current.ViewMapLevel == _layer)
         {
             _frame += 1;
             intensity = 100 - _frame * 2;

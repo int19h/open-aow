@@ -98,7 +98,7 @@ sealed class MemberPersister : IPersister
     public bool Preview { get; }
     public IPersistableFactory Factory { get; }
 
-    public bool Has(string name) => Loading && (Find(name) ?? FindOld(name).Value) is not null;
+    public bool Has(string name) => Loading && Find(name) is not null;
 
     public void Finish()
     {
@@ -821,23 +821,12 @@ sealed class MemberPersister : IPersister
         return null;
     }
 
-    // An older document stores a renamed member under its old name (schema.json oldNames).
-    private (string? Name, TreeValue? Value) FindOld(string name)
-    {
-        foreach (string old in Schema.FormatSchema.Current.OldNamesOf(name))
-            if (Find(old) is { } value) return (old, value);
-        return (null, null);
-    }
-
     private TreeValue? Take(string name)
     {
         _consumed ??= new HashSet<string>(StringComparer.Ordinal);
         if (!_consumed.Add(name))
             throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", _path.Member(name));
-        if (Find(name) is { } found) return found;
-        var (old, value) = FindOld(name);
-        if (old is not null) _consumed.Add(old);
-        return value;
+        return Find(name);
     }
 
     private void Store(string name, TreeValue value)

@@ -41,7 +41,7 @@ public partial class CombatData
         stream.String(ref Header, 0x15);
         stream.Int32(ref AttackerX, 0x16);
         stream.Int32(ref AttackerY, 0x17);
-        stream.Int32(ref AttackerL, 0x18);
+        stream.Int32(ref AttackerMapLevel, 0x18);
         stream.Payload(0x19, DefeatedLeaders.LoadFromStream, DefeatedLeaders.SaveToStream);
         stream.Payload(0x1a, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
         stream.Bytes(Bytes.Of(ref WallType, 1), 1, 0x1b);

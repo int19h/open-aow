@@ -56,7 +56,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
         int pixelY = default;
         MapLevel mapLevel;
         MapField mapField;
-        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewL);
+        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
         maxX = StrategicMap.Current.ViewHexX + StrategicMap.Current.ViewWidthHex - 1;
         maxY = StrategicMap.Current.ViewHexY + StrategicMap.Current.ViewHeightHex - 1;
         for (int X = StrategicMap.Current.ViewHexX; X <= maxX; X++)

@@ -106,7 +106,7 @@ public partial class HexSpriteMapMouse : IDisposable
             {
                 var pixelY = GetPixelY();
                 var pixelX = GetPixelX();
-                _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap._viewL);
+                _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap._viewMapLevel);
                 result = false;
             }
             else

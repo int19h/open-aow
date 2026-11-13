@@ -10265,7 +10265,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Units.Army",
         "Army.ConcealedUnits": 0,
-        "Army.DestinationL": -1,
+        "Army.DestinationMapLevel": -1,
         "Army.DestinationX": -1,
         "Army.DestinationY": -1,
         "Army.IndependentRelation": -1,
@@ -10386,7 +10386,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Units.ArmyView",
         "Army.ConcealedUnits": 0,
-        "Army.DestinationL": -1,
+        "Army.DestinationMapLevel": -1,
         "Army.DestinationX": -1,
         "Army.DestinationY": -1,
         "Army.IndependentRelation": -1,
@@ -10488,7 +10488,7 @@
         "$type": "Aow.Game.Combat.Battle",
         "Battle.CombatData": {
           "$type": "Aow.Game.Combat.CombatData",
-          "CombatData.AttackerL": 0,
+          "CombatData.AttackerMapLevel": 0,
           "CombatData.AttackerPlayer": 0,
           "CombatData.AttackerX": 0,
           "CombatData.AttackerY": 0,
@@ -10590,7 +10590,7 @@
           "CombatLogbook.CombatResult": 0,
           "CombatLogbook.FinalData": {
             "$type": "Aow.Game.Combat.CombatData",
-            "CombatData.AttackerL": 0,
+            "CombatData.AttackerMapLevel": 0,
             "CombatData.AttackerPlayer": 0,
             "CombatData.AttackerX": 0,
             "CombatData.AttackerY": 0,
@@ -10671,7 +10671,7 @@
           },
           "CombatLogbook.InitialData": {
             "$type": "Aow.Game.Combat.CombatData",
-            "CombatData.AttackerL": 0,
+            "CombatData.AttackerMapLevel": 0,
             "CombatData.AttackerPlayer": 0,
             "CombatData.AttackerX": 0,
             "CombatData.AttackerY": 0,
@@ -11380,7 +11380,7 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.CombatData",
-        "CombatData.AttackerL": 0,
+        "CombatData.AttackerMapLevel": 0,
         "CombatData.AttackerPlayer": 0,
         "CombatData.AttackerX": 0,
         "CombatData.AttackerY": 0,
@@ -11478,7 +11478,7 @@
         "CombatLogbook.CombatResult": 0,
         "CombatLogbook.FinalData": {
           "$type": "Aow.Game.Combat.CombatData",
-          "CombatData.AttackerL": 0,
+          "CombatData.AttackerMapLevel": 0,
           "CombatData.AttackerPlayer": 0,
           "CombatData.AttackerX": 0,
           "CombatData.AttackerY": 0,
@@ -11559,7 +11559,7 @@
         },
         "CombatLogbook.InitialData": {
           "$type": "Aow.Game.Combat.CombatData",
-          "CombatData.AttackerL": 0,
+          "CombatData.AttackerMapLevel": 0,
           "CombatData.AttackerPlayer": 0,
           "CombatData.AttackerX": 0,
           "CombatData.AttackerY": 0,
@@ -11730,7 +11730,7 @@
         "CombatParty.Army": {
           "$type": "Aow.Game.Units.Army",
           "Army.ConcealedUnits": 0,
-          "Army.DestinationL": -1,
+          "Army.DestinationMapLevel": -1,
           "Army.DestinationX": -1,
           "Army.DestinationY": -1,
           "Army.IndependentRelation": -1,
@@ -12097,7 +12097,7 @@
           "$type": "Aow.Game.Combat.Battle",
           "Battle.CombatData": {
             "$type": "Aow.Game.Combat.CombatData",
-            "CombatData.AttackerL": 0,
+            "CombatData.AttackerMapLevel": 0,
             "CombatData.AttackerPlayer": 0,
             "CombatData.AttackerX": 0,
             "CombatData.AttackerY": 0,
@@ -12199,7 +12199,7 @@
             "CombatLogbook.CombatResult": 0,
             "CombatLogbook.FinalData": {
               "$type": "Aow.Game.Combat.CombatData",
-              "CombatData.AttackerL": 0,
+              "CombatData.AttackerMapLevel": 0,
               "CombatData.AttackerPlayer": 0,
               "CombatData.AttackerX": 0,
               "CombatData.AttackerY": 0,
@@ -12280,7 +12280,7 @@
             },
             "CombatLogbook.InitialData": {
               "$type": "Aow.Game.Combat.CombatData",
-              "CombatData.AttackerL": 0,
+              "CombatData.AttackerMapLevel": 0,
               "CombatData.AttackerPlayer": 0,
               "CombatData.AttackerX": 0,
               "CombatData.AttackerY": 0,
@@ -15200,7 +15200,7 @@
         "$type": "Aow.Game.Combat.FastBattle",
         "Battle.CombatData": {
           "$type": "Aow.Game.Combat.CombatData",
-          "CombatData.AttackerL": 0,
+          "CombatData.AttackerMapLevel": 0,
           "CombatData.AttackerPlayer": 0,
           "CombatData.AttackerX": 0,
           "CombatData.AttackerY": 0,
@@ -15302,7 +15302,7 @@
           "CombatLogbook.CombatResult": 0,
           "CombatLogbook.FinalData": {
             "$type": "Aow.Game.Combat.CombatData",
-            "CombatData.AttackerL": 0,
+            "CombatData.AttackerMapLevel": 0,
             "CombatData.AttackerPlayer": 0,
             "CombatData.AttackerX": 0,
             "CombatData.AttackerY": 0,
@@ -15383,7 +15383,7 @@
           },
           "CombatLogbook.InitialData": {
             "$type": "Aow.Game.Combat.CombatData",
-            "CombatData.AttackerL": 0,
+            "CombatData.AttackerMapLevel": 0,
             "CombatData.AttackerPlayer": 0,
             "CombatData.AttackerX": 0,
             "CombatData.AttackerY": 0,
@@ -15536,7 +15536,7 @@
           "$type": "Aow.Game.Combat.FastBattle",
           "Battle.CombatData": {
             "$type": "Aow.Game.Combat.CombatData",
-            "CombatData.AttackerL": 0,
+            "CombatData.AttackerMapLevel": 0,
             "CombatData.AttackerPlayer": 0,
             "CombatData.AttackerX": 0,
             "CombatData.AttackerY": 0,
@@ -15638,7 +15638,7 @@
             "CombatLogbook.CombatResult": 0,
             "CombatLogbook.FinalData": {
               "$type": "Aow.Game.Combat.CombatData",
-              "CombatData.AttackerL": 0,
+              "CombatData.AttackerMapLevel": 0,
               "CombatData.AttackerPlayer": 0,
               "CombatData.AttackerX": 0,
               "CombatData.AttackerY": 0,
@@ -15719,7 +15719,7 @@
             },
             "CombatLogbook.InitialData": {
               "$type": "Aow.Game.Combat.CombatData",
-              "CombatData.AttackerL": 0,
+              "CombatData.AttackerMapLevel": 0,
               "CombatData.AttackerPlayer": 0,
               "CombatData.AttackerX": 0,
               "CombatData.AttackerY": 0,
@@ -19885,7 +19885,7 @@
                     "EngineObject._owner": null,
                     "PlayerStructureList.Player": null
                   },
-                  "Player.ViewL": 0,
+                  "Player.ViewMapLevel": 0,
                   "Player.ViewX": 255,
                   "Player.ViewY": 255
                 },
@@ -20481,7 +20481,7 @@
                     "EngineObject._owner": null,
                     "PlayerStructureList.Player": null
                   },
-                  "Player.ViewL": 0,
+                  "Player.ViewMapLevel": 0,
                   "Player.ViewX": 255,
                   "Player.ViewY": 255
                 },
@@ -21077,7 +21077,7 @@
                     "EngineObject._owner": null,
                     "PlayerStructureList.Player": null
                   },
-                  "Player.ViewL": 0,
+                  "Player.ViewMapLevel": 0,
                   "Player.ViewX": 255,
                   "Player.ViewY": 255
                 },
@@ -22165,7 +22165,7 @@
           "GameMap._version": 0,
           "GameMap._viewHeight": 0,
           "GameMap._viewHeightHex": 0,
-          "GameMap._viewL": 0,
+          "GameMap._viewMapLevel": 0,
           "GameMap.ViewPortChangedEventsStore": {
             "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "EventStore\u00601._count": 0,
@@ -24267,7 +24267,7 @@
           "EngineObject._owner": null,
           "PlayerStructureList.Player": null
         },
-        "Player.ViewL": 0,
+        "Player.ViewMapLevel": 0,
         "Player.ViewX": 255,
         "Player.ViewY": 255
       }
@@ -24934,7 +24934,7 @@
                 "EngineObject._owner": null,
                 "PlayerStructureList.Player": null
               },
-              "Player.ViewL": 0,
+              "Player.ViewMapLevel": 0,
               "Player.ViewX": 255,
               "Player.ViewY": 255
             },
@@ -25530,7 +25530,7 @@
                 "EngineObject._owner": null,
                 "PlayerStructureList.Player": null
               },
-              "Player.ViewL": 0,
+              "Player.ViewMapLevel": 0,
               "Player.ViewX": 255,
               "Player.ViewY": 255
             },
@@ -26126,7 +26126,7 @@
                 "EngineObject._owner": null,
                 "PlayerStructureList.Player": null
               },
-              "Player.ViewL": 0,
+              "Player.ViewMapLevel": 0,
               "Player.ViewX": 255,
               "Player.ViewY": 255
             },

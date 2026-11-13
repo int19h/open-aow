@@ -1390,7 +1390,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -2795,7 +2795,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -4200,7 +4200,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -5605,7 +5605,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -7012,7 +7012,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -8419,7 +8419,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -9826,7 +9826,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
@@ -11233,7 +11233,7 @@
       "GameMap._version": 0,
       "GameMap._viewHeight": 0,
       "GameMap._viewHeightHex": 0,
-      "GameMap._viewL": 0,
+      "GameMap._viewMapLevel": 0,
       "GameMap.ViewPortChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,

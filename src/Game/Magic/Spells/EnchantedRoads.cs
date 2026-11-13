@@ -58,7 +58,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
         var map = StrategicMap.Current;
-        var level = map.MapContainer.GetMapLevel(map.ViewL);
+        var level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
         {

@@ -5,7 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
-using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
@@ -87,18 +86,7 @@ public sealed class PersistCorpusTests
                 var found = GameFiles.Classify(bytes, Path.GetExtension(path));
                 if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null) continue;
                 var imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
-                Assert.Equal(5, ((JsonInteger)imported.Document["$version"]!).Value);
-                var fromVersion1 = GameFiles.Read(GameFiles.Write(Version1Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
-                var fromVersion2 = GameFiles.Read(GameFiles.Write(Version2Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
-                var fromVersion3 = GameFiles.Read(GameFiles.Write(Version3Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
-                var fromVersion4 = GameFiles.Read(GameFiles.Write(Version4Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
-                // Import decodes with FormatSchema.Current. The version 2 step decodes the 39 pinned
-                // properties, the version 3 step the 16 and the version 4 step the 9 pinned properties
-                // through embedded codec specs, so the documents are not one codec compared with itself.
-                EqualJson(imported.Document, fromVersion1, relative + " version 1 migration");
-                EqualJson(imported.Document, fromVersion2, relative + " version 2 migration");
-                EqualJson(imported.Document, fromVersion3, relative + " version 3 migration");
-                EqualJson(imported.Document, fromVersion4, relative + " version 4 migration");
+                Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
                 var root = (JsonObject)imported.Document["root"]!;
                 var classValue = found.Profile.RootHasClass
                     ? schema.Get(((JsonString)root["$class"]!).Value)
@@ -317,7 +305,7 @@ public sealed class PersistCorpusTests
         var grid = (GridNode)tree.Find("Fields")!;
         long sprites = 0;
         foreach (var field in grid.Fields)
-            if (field.Find("Sprites") is SequenceNode sequence) sprites += sequence.Items.Count;
+            if (field.Find("HexSpriteList") is SequenceNode sequence) sprites += sequence.Items.Count;
         s_levels.TryGetValue(classValue.Name, out var total);
         s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
     }
@@ -521,36 +509,6 @@ public sealed class PersistCorpusTests
     {
         if (expected.AsSpan().SequenceEqual(actual)) return;
         Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
-    }
-
-    private static JsonObject Version4Document(byte[] file, FileProfile profile, string kind, string relative) =>
-        VersionDocument(file, profile: profile, kind: kind, relative: relative, schema: ResourceMigration.Version4, version: 4);
-
-    private static JsonObject Version3Document(byte[] file, FileProfile profile, string kind, string relative) =>
-        VersionDocument(file, profile: profile, kind: kind, relative: relative, schema: ListMigration.Version3, version: 3);
-
-    private static JsonObject Version2Document(byte[] file, FileProfile profile, string kind, string relative) =>
-        VersionDocument(file, profile, kind, relative, RecordMigration.Version2, 2);
-
-    private static JsonObject Version1Document(byte[] file, FileProfile profile, string kind, string relative) =>
-        VersionDocument(file, profile, kind, relative, SymbolicMigration.Version1, 1);
-
-    private static JsonObject VersionDocument(byte[] file, FileProfile profile, string kind, string relative, FormatSchema schema, int version)
-    {
-        var session = new ImportSession
-        {
-            Schema = schema,
-            Limits = FormatLimits.Default,
-            Counts = new LayoutCounts(),
-            File = relative,
-        };
-        var (container, root) = profile.Import(file, session);
-        return new JsonObject()
-            .Add("$format", new JsonString(OwnFormat.FormatName))
-            .Add("$version", new JsonInteger(version))
-            .Add("$kind", new JsonString(kind))
-            .Add("$container", container)
-            .Add("root", root);
     }
 
     private static string Root => InstalledSave.Root;

@@ -18,14 +18,6 @@ public sealed class TreeTests : FormatsTest
 
     private static FormatSchema Version1 { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchemaV1.json")), "TreeSchemaV1.json");
 
-    private static FormatSchema Frozen(string resource, string file)
-    {
-        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream(resource)!;
-        using var memory = new MemoryStream();
-        stream.CopyTo(memory);
-        return FormatSchema.Load(memory.ToArray(), file);
-    }
-
     private static SchemaClass SampleClass => Schema.Get(NameTable.Stored(typeof(Sample)));
 
     [Fact]
@@ -294,21 +286,17 @@ public sealed class TreeTests : FormatsTest
         var upkeepError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(upkeep, enchantment, current, "game"));
         Assert.Equal(Codes.Type, upkeepError.Diagnostic.Code);
         Assert.Equal("root.Upkeep", upkeepError.Diagnostic.Path);
-        Assert.Equal("Version 5 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
+        Assert.Equal("Version 6 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
         var record = new ObjectNode(null, null);
         record.Add("Extra", new RecordNode());
         var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
         Assert.Equal("root.Extra", recordError.Diagnostic.Path);
         Assert.Equal(Codes.UnknownMember, recordError.Diagnostic.Code);
         Assert.Equal("Class " + enchantment.Name + " has no member \"Extra\".", recordError.Diagnostic.Message);
-        var version2 = Frozen("Aow.Formats.Migrations.schema-v2.json", "schema-v2.json");
-        var oldRecord = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, version2.Get("TEnchantment"), version2, "game"));
-        Assert.Equal("root.Extra", oldRecord.Diagnostic.Path);
-        Assert.Equal("Version 2 does not store a record.", oldRecord.Diagnostic.Message);
         var upkeepDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Read(
             (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", "upkeep.json"), enchantment, current, "game"));
         Assert.Equal("root.Upkeep", upkeepDocument.Diagnostic.Path);
-        Assert.Equal("Version 5 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
+        Assert.Equal("Version 6 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
 
         var schema = Version1;
         var classValue = schema.Get("TRefuse");

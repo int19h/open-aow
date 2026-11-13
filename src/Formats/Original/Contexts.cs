@@ -126,7 +126,6 @@ public sealed class EncodeContext
             Path = path.ToString(),
             Value = value,
             Constraint = constraint,
-            Migration = at?.Origin,
         });
 
     public void Enter(JsonValue at, DocumentNodePath path)

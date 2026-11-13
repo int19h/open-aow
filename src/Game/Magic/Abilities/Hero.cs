@@ -1694,7 +1694,7 @@ public partial class Hero : Troop
                 log = new HeroUpgradeEventLog(null);
                 log.OldLevel = (byte)oldLevel;
                 log.NewLevel = Level;
-                log._day = StrategicMap.Current.Players.GetPlayers(Player).Day;
+                log.UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day;
                 log._player = Player;
                 log.UnitId = UnitId;
                 EventLog.DistributeLocationEventLog(log, Player, X, Y, L, true);

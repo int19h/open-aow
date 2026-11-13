@@ -12,7 +12,7 @@ public sealed partial record Fortify : ProductionOrder
 {
     public const int Kind = 12;
 
-    public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
+    public override (int Kind, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
 
     public override CityAction CityAction => CityAction.Fortify;
 

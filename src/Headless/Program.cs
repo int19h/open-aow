@@ -129,7 +129,7 @@ internal static class Program
             engine.LoadHsm(input, false, null!, GameProfile.WorldMap);
             if (engine.HexSpriteMap is not StrategicMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
-            map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewL, 0, 0);
+            map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
             Shim.RandSeed = seed;
             Shim.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
@@ -182,7 +182,7 @@ internal static class Program
             viewer.HexSpriteMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
-            viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, map.ViewL);
+            viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel);
             TacticalInput.Install(map, viewer);
             var watchdog = Stopwatch.StartNew();
             int previous = day;

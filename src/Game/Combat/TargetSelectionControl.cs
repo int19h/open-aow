@@ -193,12 +193,12 @@ public partial class TargetSelectionControl : IDisposable
         {
             TargetX = (sbyte)StrategicMap.Current.Mouse.GetHexX();
             TargetY = (sbyte)StrategicMap.Current.Mouse.GetHexY();
-            TargetL = (sbyte)StrategicMap.Current.ViewL;
+            TargetL = (sbyte)StrategicMap.Current.ViewMapLevel;
             bool condition = StrategicMap.Current.Mouse.GetHexX() != -1 && StrategicMap.Current.Mouse.GetHexY() != -1;
             if (condition)
             {
                 var hexY = StrategicMap.Current.Mouse.GetHexY();
-                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)StrategicMap.Current.ViewL);
+                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)StrategicMap.Current.ViewMapLevel);
             }
 
             if (condition)

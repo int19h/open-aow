@@ -84,26 +84,26 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        FileName = persister.String("FileName", FileName);
-        PlayMode = persister.RawByte("PlayMode", PlayMode);
-        ExplorationEnabled = persister.Boolean("ExplorationEnabled", ExplorationEnabled);
-        MapName = persister.String("MapName", MapName);
-        VictoryCondition = persister.RawByte("VictoryCondition", VictoryCondition);
-        IndependentAIMode = persister.RawByte("IndependentAIMode", IndependentAIMode);
-        CustomizeLeaders = persister.Boolean("CustomizeLeaders", CustomizeLeaders);
-        RandomSeed = persister.Int32("RandomSeed", RandomSeed);
-        LeadersOnMap = persister.Boolean("LeadersOnMap", LeadersOnMap);
-        DayLimit = persister.Int32("DayLimit", DayLimit);
-        TurnTime = persister.Int32("TurnTime", TurnTime);
-        persister.Object("RemotePlayers", RemotePlayers);
-        HostRemoteId = persister.Int32("HostRemoteID", HostRemoteId);
-        MapDay = persister.Int32("MapDay", MapDay);
-        AlliedVictory = persister.Boolean("AlliedVictory", AlliedVictory);
-        ConnectionType = persister.RawByte("ConnectionType", ConnectionType);
-        MapCrc = persister.Int32("MapCRC", MapCrc);
-        SetCrc = persister.Int32("SetCRC", SetCrc);
-        TacticalBattleAvailability = persister.RawByte("TacticalCombatAvailability", TacticalBattleAvailability);
-        AlwaysViewTacticalBattle = persister.Boolean("AlwaysViewTC", AlwaysViewTacticalBattle);
+        FileName = persister.String("FileName", value: FileName);
+        PlayMode = persister.RawByte("PlayMode", value: PlayMode);
+        ExplorationEnabled = persister.Boolean("ExplorationEnabled", value: ExplorationEnabled);
+        MapName = persister.String("MapName", value: MapName);
+        VictoryCondition = persister.RawByte("VictoryCondition", value: VictoryCondition);
+        IndependentAIMode = persister.RawByte("IndependentAIMode", value: IndependentAIMode);
+        CustomizeLeaders = persister.Boolean("CustomizeLeaders", value: CustomizeLeaders);
+        RandomSeed = persister.Int32("RandomSeed", value: RandomSeed);
+        LeadersOnMap = persister.Boolean("LeadersOnMap", value: LeadersOnMap);
+        DayLimit = persister.Int32("DayLimit", value: DayLimit);
+        TurnTime = persister.Int32("TurnTime", value: TurnTime);
+        persister.Object("RemotePlayers", objectValue: RemotePlayers);
+        HostRemoteId = persister.Int32("HostRemoteId", value: HostRemoteId);
+        MapDay = persister.Int32("MapDay", value: MapDay);
+        AlliedVictory = persister.Boolean("AlliedVictory", value: AlliedVictory);
+        ConnectionType = persister.RawByte("ConnectionType", value: ConnectionType);
+        MapCrc = persister.Int32("MapCrc", value: MapCrc);
+        SetCrc = persister.Int32("SetCrc", value: SetCrc);
+        TacticalBattleAvailability = persister.RawByte("TacticalBattleAvailability", value: TacticalBattleAvailability);
+        AlwaysViewTacticalBattle = persister.Boolean("AlwaysViewTacticalBattle", value: AlwaysViewTacticalBattle);
     }
 
     // AoWSetup.pas:327

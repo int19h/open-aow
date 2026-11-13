@@ -81,7 +81,7 @@ public sealed class CombatDataTests
             MapLevel = 2,
             AttackerX = 9,
             AttackerY = 8,
-            AttackerL = 1,
+            AttackerMapLevel = 1,
             AttackerPlayer = -1,
             DefenderPlayer = 3,
             Round = 7,

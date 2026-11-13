@@ -491,7 +491,7 @@ public partial class PlayerControl : EngineObject
                 StrategicMap.Current.GetViewCenter(out X, out Y, out L);
                 P.ViewX = (byte)X;
                 P.ViewY = (byte)Y;
-                P.ViewL = (byte)L;
+                P.ViewMapLevel = (byte)L;
             }
         }
 

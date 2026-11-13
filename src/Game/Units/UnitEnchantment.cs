@@ -40,8 +40,8 @@ public partial class UnitEnchantment : Enchantment
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        EnchantmentAbilityId = persister.Int32("EnchantmentAbilityID", EnchantmentAbilityId);
-        UnitId = persister.Int32("UnitID", UnitId);
+        EnchantmentAbilityId = persister.Int32("EnchantmentAbilityId", value: EnchantmentAbilityId);
+        UnitId = persister.Int32("UnitId", value: UnitId);
     }
 
     // AoWAb.PAS:804

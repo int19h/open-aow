@@ -179,7 +179,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.WMLParticle:
-                        if (StrategicMap.Current.ViewL == Layer)
+                        if (StrategicMap.Current.ViewMapLevel == Layer)
                         {
                             sequence = GamePack.Current.SpellControl.GetSpell(75).CastImages.GetImageSequence(1);
                             ShowLocal(false);

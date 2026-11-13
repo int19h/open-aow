@@ -38,7 +38,7 @@ public sealed class MapShapeTests : FormatsTest
         Assert.Equal(2, rows.Items.Count);
         Assert.Equal(3, ((JsonArray)rows.Items[0]).Items.Count);
         // A shared sprite is not stored, and a stored sprite carries its class and no slot.
-        Assert.Equal("""{"Sprites":[{"$class":"FrozenWaterHexSprite","DaysRemaining":1,"CasterPlayer":-1}],"FieldFlags":1007}""",
+        Assert.Equal("""{"HexSpriteList":[{"$class":"FrozenWaterHexSprite","DaysRemaining":1,"CasterPlayer":-1}],"FieldFlags":1007}""",
             Compact(((JsonArray)rows.Items[0]).Items[1]));
         Assert.Equal("""{"FieldFlags":7}""", Compact(((JsonArray)rows.Items[0]).Items[0]));
         foreach (var read in new[] { OriginalBackend.Read(image, classValue, Schema, engine), DocumentBackend.Read(document, classValue, Schema, engine) })
@@ -85,7 +85,7 @@ public sealed class MapShapeTests : FormatsTest
     public void AStoredNullSpriteRoundTripsAndLoadsNothing()
     {
         var classValue = Schema.Get("MapLevel");
-        var document = (JsonObject)JsonReader.Parse("""{"Width":1,"Height":1,"Fields":[[{"Sprites":[{"$class":null},{"$class":"FrozenWaterHexSprite","DaysRemaining":2}]}]]}"""u8, "map.json");
+        var document = (JsonObject)JsonReader.Parse("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"$class":null},{"$class":"FrozenWaterHexSprite","DaysRemaining":2}]}]]}"""u8, "map.json");
         var tree = DocumentBackend.Read(document, classValue, Schema, "game");
         Assert.Equal(Compact(document), Compact(DocumentBackend.Write(tree, classValue, Schema, "game")));
         var image = OriginalBackend.Write(tree, classValue, Schema, "game");
@@ -102,12 +102,12 @@ public sealed class MapShapeTests : FormatsTest
     [InlineData("""{"Width":1,"Height":1,"Fields":[{}]}""", Codes.Type, "root.Fields[0]")]
     [InlineData("""{"Width":1,"Height":1,"Fields":[[1]]}""", Codes.Type, "root.Fields[0][0]")]
     [InlineData("""{"Width":1,"Height":1,"Fields":{}}""", Codes.Type, "root.Fields")]
-    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Sprites":{}}]]}""", Codes.Type, "root.Fields[0][0].Sprites")]
-    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Sprites":[1]}]]}""", Codes.Type, "root.Fields[0][0].Sprites[0]")]
-    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Sprites":[{"$class":"FrozenWaterHexSprite","$slot":0}]}]]}""", Codes.ReservedMember, "root.Fields[0][0].Sprites[0].$slot")]
-    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Sprites":[{"$class":null,"DaysRemaining":1}]}]]}""", Codes.UnknownMember, "root.Fields[0][0].Sprites[0].DaysRemaining")]
-    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Sprites":[{"DaysRemaining":1}]}]]}""", Codes.MissingMember, "root.Fields[0][0].Sprites[0]")]
-    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Sprites":[{"$class":"NoSuchSprite"}]}]]}""", Codes.UnknownClass, "root.Fields[0][0].Sprites[0]")]
+    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":{}}]]}""", Codes.Type, "root.Fields[0][0].HexSpriteList")]
+    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[1]}]]}""", Codes.Type, "root.Fields[0][0].HexSpriteList[0]")]
+    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"$class":"FrozenWaterHexSprite","$slot":0}]}]]}""", Codes.ReservedMember, "root.Fields[0][0].HexSpriteList[0].$slot")]
+    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"$class":null,"DaysRemaining":1}]}]]}""", Codes.UnknownMember, "root.Fields[0][0].HexSpriteList[0].DaysRemaining")]
+    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"DaysRemaining":1}]}]]}""", Codes.MissingMember, "root.Fields[0][0].HexSpriteList[0]")]
+    [InlineData("""{"Width":1,"Height":1,"Fields":[[{"HexSpriteList":[{"$class":"NoSuchSprite"}]}]]}""", Codes.UnknownClass, "root.Fields[0][0].HexSpriteList[0]")]
     [InlineData("""{"Width":1,"Height":1,"Fields":[[{"Height":1}]]}""", Codes.UnknownMember, "root.Fields[0][0].Height")]
     public void AMalformedGridIsRefusedWithItsPath(string text, string code, string path)
     {
@@ -397,7 +397,7 @@ public sealed class MapShapeTests : FormatsTest
 
         public void Persist(IPersister persister)
         {
-            persister.CreatedSequence("Sprites", new SpriteList(Sprites));
+            persister.CreatedSequence("HexSpriteList", new SpriteList(Sprites));
             Flags = persister.UInt16("FieldFlags", Flags);
         }
     }

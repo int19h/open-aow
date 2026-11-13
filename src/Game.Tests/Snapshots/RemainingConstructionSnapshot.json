@@ -36231,7 +36231,7 @@
             "$type": "Aow.Game.Combat.TacticalBattle",
             "Battle.CombatData": {
               "$type": "Aow.Game.Combat.CombatData",
-              "CombatData.AttackerL": 0,
+              "CombatData.AttackerMapLevel": 0,
               "CombatData.AttackerPlayer": 0,
               "CombatData.AttackerX": 0,
               "CombatData.AttackerY": 0,
@@ -36333,7 +36333,7 @@
               "CombatLogbook.CombatResult": 0,
               "CombatLogbook.FinalData": {
                 "$type": "Aow.Game.Combat.CombatData",
-                "CombatData.AttackerL": 0,
+                "CombatData.AttackerMapLevel": 0,
                 "CombatData.AttackerPlayer": 0,
                 "CombatData.AttackerX": 0,
                 "CombatData.AttackerY": 0,
@@ -36414,7 +36414,7 @@
               },
               "CombatLogbook.InitialData": {
                 "$type": "Aow.Game.Combat.CombatData",
-                "CombatData.AttackerL": 0,
+                "CombatData.AttackerMapLevel": 0,
                 "CombatData.AttackerPlayer": 0,
                 "CombatData.AttackerX": 0,
                 "CombatData.AttackerY": 0,
@@ -36565,7 +36565,7 @@
             "$type": "Aow.Game.Combat.TacticalBattle",
             "Battle.CombatData": {
               "$type": "Aow.Game.Combat.CombatData",
-              "CombatData.AttackerL": 0,
+              "CombatData.AttackerMapLevel": 0,
               "CombatData.AttackerPlayer": 0,
               "CombatData.AttackerX": 0,
               "CombatData.AttackerY": 0,
@@ -36667,7 +36667,7 @@
               "CombatLogbook.CombatResult": 0,
               "CombatLogbook.FinalData": {
                 "$type": "Aow.Game.Combat.CombatData",
-                "CombatData.AttackerL": 0,
+                "CombatData.AttackerMapLevel": 0,
                 "CombatData.AttackerPlayer": 0,
                 "CombatData.AttackerX": 0,
                 "CombatData.AttackerY": 0,
@@ -36748,7 +36748,7 @@
               },
               "CombatLogbook.InitialData": {
                 "$type": "Aow.Game.Combat.CombatData",
-                "CombatData.AttackerL": 0,
+                "CombatData.AttackerMapLevel": 0,
                 "CombatData.AttackerPlayer": 0,
                 "CombatData.AttackerX": 0,
                 "CombatData.AttackerY": 0,
@@ -43421,7 +43421,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Units.PrisonersArmy",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationL": -1,
+            "Army.DestinationMapLevel": -1,
             "Army.DestinationX": -1,
             "Army.DestinationY": -1,
             "Army.IndependentRelation": -1,
@@ -43506,7 +43506,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Units.PrisonersArmy",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationL": -1,
+            "Army.DestinationMapLevel": -1,
             "Army.DestinationX": -1,
             "Army.DestinationY": -1,
             "Army.IndependentRelation": -1,
@@ -43577,7 +43577,7 @@
             "$jsonText": {
               "$type": "Aow.Game.Units.PrisonersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": 0,
+              "Army.DestinationMapLevel": 0,
               "Army.DestinationX": 0,
               "Army.DestinationY": 0,
               "Army.IndependentRelation": 0,
@@ -43646,7 +43646,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.World.Structures.CityEnchantment",
-            "CityEnchantment._enchantmentId": 0,
+            "CityEnchantment.CityEnchantmentId": 0,
             "CityEnchantment.EnchantmentLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.Tag": 0,
@@ -43706,7 +43706,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.World.Structures.CityEnchantment",
-            "CityEnchantment._enchantmentId": 0,
+            "CityEnchantment.CityEnchantmentId": 0,
             "CityEnchantment.EnchantmentLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.Tag": 0,
@@ -43753,7 +43753,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.World.Structures.CityEnchantment",
-              "CityEnchantment._enchantmentId": 0,
+              "CityEnchantment.CityEnchantmentId": 0,
               "CityEnchantment.EnchantmentLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.Tag": 0,
@@ -43955,7 +43955,7 @@
           "$jsonText": {
             "$type": "Aow.Game.World.Structures.DefendersArmy",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationL": -1,
+            "Army.DestinationMapLevel": -1,
             "Army.DestinationX": -1,
             "Army.DestinationY": -1,
             "Army.IndependentRelation": -1,
@@ -44029,7 +44029,7 @@
           "$jsonText": {
             "$type": "Aow.Game.World.Structures.DefendersArmy",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationL": -1,
+            "Army.DestinationMapLevel": -1,
             "Army.DestinationX": -1,
             "Army.DestinationY": -1,
             "Army.IndependentRelation": -1,
@@ -44089,7 +44089,7 @@
             "$jsonText": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": 0,
+              "Army.DestinationMapLevel": 0,
               "Army.DestinationX": 0,
               "Army.DestinationY": 0,
               "Army.IndependentRelation": 0,

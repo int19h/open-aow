@@ -35,26 +35,6 @@ public sealed class FormatSchema
 
     public IReadOnlyCollection<SchemaClass> Classes => _classes.Values;
 
-    private Dictionary<string, List<string>>? _oldNames;
-
-    /// <summary>The old stored names of the properties that now have this name, over every class.</summary>
-    public IReadOnlyList<string> OldNamesOf(string name)
-    {
-        if (_oldNames is null)
-        {
-            var oldNames = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-            foreach (var schemaClass in _classes.Values)
-                foreach (var property in schemaClass.Own)
-                    foreach (string old in property.OldNames)
-                    {
-                        if (!oldNames.TryGetValue(property.Name, out var list)) oldNames[property.Name] = list = [];
-                        if (!list.Contains(old)) list.Add(old);
-                    }
-            _oldNames = oldNames;
-        }
-        return _oldNames.TryGetValue(name, out var found) ? found : [];
-    }
-
     private static readonly Lazy<FormatSchema> s_embedded = new(LoadEmbedded);
 
     /// <summary>
@@ -189,8 +169,10 @@ public static class FormatVersions
             ?? throw new InvalidOperationException("The embedded versions.json is missing.");
         using var memory = new MemoryStream();
         stream.CopyTo(memory);
-        var versions = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
-        return ((JsonArray)versions["versions"]!).Items.Cast<JsonObject>().Single(v => ((JsonInteger)v["version"]!).Value == OwnFormat.CurrentVersion);
+        var current = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
+        if (current["version"] is not JsonInteger { Value: OwnFormat.CurrentVersion })
+            throw new InvalidOperationException("versions.json does not pin the current version.");
+        return current;
     });
 
     public static IReadOnlyList<string> UnitMappings => Names("unitMappings");
@@ -208,7 +190,6 @@ public sealed class SchemaClass
     private List<SchemaProperty> _effective = [];
     private readonly Dictionary<int, SchemaProperty> _byId = [];
     private readonly Dictionary<string, SchemaProperty> _byName = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, SchemaProperty> _byOldName = new(StringComparer.Ordinal);
     private readonly List<SchemaProperty> _dynamic = [];
     private readonly string? _parentName;
     private bool _completed;
@@ -340,8 +321,6 @@ public sealed class SchemaClass
         foreach (var p in _effective)
         {
             if (!_byName.TryAdd(p.Name, p)) throw new InvalidOperationException($"Class {Name} has two members named {p.Name}.");
-            foreach (string old in p.OldNames)
-                if (!_byOldName.TryAdd(old, p)) throw new InvalidOperationException($"Class {Name} has two members with the old name {old}.");
             if (p.Id is int id && !_byId.TryAdd(id, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {id}.");
             if (p.DataId is int dataId && !_byId.TryAdd(dataId, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {dataId}.");
             if (p.DynamicMinimum is not null) _dynamic.Add(p);
@@ -357,8 +336,8 @@ public sealed class SchemaClass
         return null;
     }
 
-    /// <summary>The property of that stored name, or of an old stored name a renamed property still loads from.</summary>
-    public SchemaProperty? PropertyByName(string name) => _byName.GetValueOrDefault(name) ?? _byOldName.GetValueOrDefault(name);
+    /// <summary>The property of that stored name.</summary>
+    public SchemaProperty? PropertyByName(string name) => _byName.GetValueOrDefault(name);
 
     public int Ordinal(SchemaProperty property) => _effective.IndexOf(property);
 
@@ -376,7 +355,6 @@ public sealed class SchemaProperty
         DynamicMinimum = source["dynamic"] is JsonInteger d ? (int)d.Value : null;
         SlotBase = source["slotBase"] is JsonInteger s ? (int)s.Value : null;
         IsChildrenPhase = source["phase"] is JsonString { Value: "children" };
-        OldNames = source["oldNames"] is JsonArray old ? [.. old.Items.Cast<JsonString>().Select(item => item.Value)] : [];
         Codec = PropertyCodec.Create(source, schema, owner.Name + "." + Name);
     }
 
@@ -391,9 +369,6 @@ public sealed class SchemaProperty
     /// <summary>The id of a dynamic member minus this value is its slot. Null for sprites.</summary>
     public int? SlotBase { get; }
     public bool IsChildrenPhase { get; }
-
-    /// <summary>Stored names this property had before a rename. An older document still loads with them.</summary>
-    public IReadOnlyList<string> OldNames { get; }
 
     public PropertyCodec Codec { get; }
     public bool IsDynamic => DynamicMinimum is not null;

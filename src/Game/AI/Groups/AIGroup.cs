@@ -111,11 +111,11 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        GroupId = persister.Int32("GroupID", GroupId);
-        TransporterId = persister.Int32("TransporterID", TransporterId, -1);
-        LeaderId = persister.Int32("LeaderID", LeaderId, -1);
+        GroupId = persister.Int32("GroupId", GroupId);
+        TransporterId = persister.Int32("TransporterId", TransporterId, -1);
+        LeaderId = persister.Int32("LeaderId", LeaderId, -1);
         int target = TargetMapCoordinate.Packed;
-        target = persister.Int32("TargetXYL", target);
+        target = persister.Int32("TargetMapCoordinate", target);
         if (persister.Loading) TargetMapCoordinate.Packed = target;
         TargetType = persister.Enum("TargetType", TargetType);
         Player = PersistSupport.UnsignedByte(persister, "Player", Player);

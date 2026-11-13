@@ -38,10 +38,10 @@ public partial class ChangeGlobalMagicTokenEvent : TokenEvent
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Mode = persister.Enum("Mode", Mode);
-        PlayerIndex = persister.Byte("PlayerIndex", PlayerIndex);
-        EnchantmentId = persister.Int32("EnchantmentID", EnchantmentId);
-        Value = persister.Int32("Value", Value);
+        Mode = persister.Enum("Mode", value: Mode);
+        PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
+        EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
+        Value = persister.Int32("Value", value: Value);
     }
 
     // Spells.PAS:2722

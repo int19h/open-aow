@@ -90,10 +90,10 @@ public sealed class ClassRegistryTests
         {
             var order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
             Assert.Equal(c.Name, NameTable.Delphi(order.GetType()));
-            var (id, parameter, groupId) = order.ToFields();
-            Assert.Equal(c.Key, id);
+            var (kind, parameter, groupId) = order.ToFields();
+            Assert.Equal(c.Key, kind);
             Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
-            Assert.Equal(c.Fields.Any(f => f.Member == "GroupID"), groupId == 3);
+            Assert.Equal(c.Fields.Any(f => f.Member == "GroupId"), groupId == 3);
         }
         var diplomacy = schema.Get("DiplomaticAction").Mapping!;
         Assert.Equal(Enumerable.Range(0, 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));

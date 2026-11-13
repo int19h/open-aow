@@ -36,11 +36,11 @@ public partial class RemotePlayer : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Name = persister.String("Name", Name);
-        RemoteId = persister.RawInt32("RemoteID", RemoteId);
-        PreferredRace = persister.Byte("PreferredRace", PreferredRace);
-        MapValidation = persister.Enum("MapValidation", MapValidation);
-        Version = persister.Int32("Version", Version);
+        Name = persister.String("Name", value: Name);
+        RemoteId = persister.RawInt32("RemoteId", value: RemoteId);
+        PreferredRace = persister.Byte("PreferredRace", value: PreferredRace);
+        MapValidation = persister.Enum("MapValidation", value: MapValidation);
+        Version = persister.Int32("Version", value: Version);
     }
 
 }

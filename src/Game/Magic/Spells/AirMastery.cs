@@ -62,7 +62,7 @@ public partial class AirMastery : GlobalEnchantmentSpell
         int Y;
         int speed;
         int image;
-        if (StrategicMap.Current.ViewL == 0)
+        if (StrategicMap.Current.ViewMapLevel == 0)
         {
             RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
             switch ((int)GameTables.GameEngine.AnimationDetail)

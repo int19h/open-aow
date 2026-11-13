@@ -38,7 +38,7 @@ public sealed class PreviewCacheTests : IDisposable
 
     // An own hero list whose name has a fixed length, so an edit keeps the file length.
     private static byte[] HeroList(string name) => Encoding.UTF8.GetBytes(
-        "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
+        "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
         + name + "\"}}");
 
     private string Shipped(string name) => Path.Combine(_directory, "root", "User", name);

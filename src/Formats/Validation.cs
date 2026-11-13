@@ -35,7 +35,6 @@ public sealed class ValidationContext(JsonObject document, FileProfile profile, 
             Path = path.ToString(),
             Value = rejected,
             Constraint = constraint,
-            Migration = value.Origin,
         };
 }
 

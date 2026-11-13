@@ -72,7 +72,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
     {
         int chance = GameTables.GameEngine.AnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
         var map = StrategicMap.Current;
-        var level = map.MapContainer.GetMapLevel(map.ViewL);
+        var level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
         {

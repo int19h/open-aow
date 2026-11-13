@@ -4,7 +4,6 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Golden/*.json" LogicalName="Aow.Formats.Tests.Golden.%(Filename)%(Extension)" />
     <None Include="TreeSchema.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="TreeSchemaV1.json" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />

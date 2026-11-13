@@ -99,14 +99,14 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
         selectStructure = Capture == null;
         if (Capture == StrategicMap.Current.SelectedArmy)
         {
-            selectStructure = StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == StrategicMap.Current.ViewL;
+            selectStructure = StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == StrategicMap.Current.ViewMapLevel;
         }
 
         if (selectStructure && HexX != -1)
         {
             var hexY = HexY;
             var hexX = HexX;
-            structure = (Structure)StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewL).FindNoneTransparentHexSprite(typeof(Structure));
+            structure = (Structure)StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite(typeof(Structure));
             if (structure != null && structure.CanDoubleClick())
             {
                 StrategicMap.Current.Selection.UnselectLocation();

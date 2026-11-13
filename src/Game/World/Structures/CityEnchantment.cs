@@ -14,28 +14,28 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-// _enchantmentId, EnchantmentLocation
+// CityEnchantmentId, EnchantmentLocation
 public partial class CityEnchantment : GlobalEnchantment
 {
     // City.pas:2722
     public new const int ClassId = 131820;
 
-    public new CityEnchantmentId _enchantmentId;
+    public CityEnchantmentId CityEnchantmentId;
     public MapCoordinate EnchantmentLocation;
 
     // City.pas:2727
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref _enchantmentId, 1), 1, 20);
+        stream.Bytes(Bytes.Of(ref CityEnchantmentId, 1), 1, 20);
         stream.Int32(ref EnchantmentLocation.Packed, 21);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _enchantmentId = persister.Enum("TCityEnchantment.EnchantmentID", _enchantmentId);
-        EnchantmentLocation.Packed = persister.Int32("EnchantmentLocation", EnchantmentLocation.Packed);
+        CityEnchantmentId = persister.Enum("CityEnchantmentId", value: CityEnchantmentId);
+        EnchantmentLocation.Packed = persister.Int32("EnchantmentLocation", value: EnchantmentLocation.Packed);
     }
 
     // City.pas:2716
@@ -45,7 +45,7 @@ public partial class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2762
-    public override string GetName() => AbilityRules.TranslateResourceString(s_cityEnchantmentIdTexts[(int)_enchantmentId]);
+    public override string GetName() => AbilityRules.TranslateResourceString(s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
 
     // City.pas:2739
     public override MapCoordinate GetLocation()
@@ -65,7 +65,7 @@ public partial class CityEnchantment : GlobalEnchantment
         city = GetCity();
         if (city != null)
         {
-            result = city.AICityEnchantmentUpkeepPriority(_enchantmentId);
+            result = city.AICityEnchantmentUpkeepPriority(CityEnchantmentId);
         }
         else
         {

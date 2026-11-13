@@ -35,10 +35,10 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public sbyte TargetPlayer;
     public sbyte TargetX;
     public sbyte TargetY;
-    public sbyte TargetL;
+    public sbyte TargetMapLevel;
     private sbyte _destinationX;
     private sbyte _destinationY;
-    private sbyte _destinationL;
+    private sbyte _destinationMapLevel;
     private bool _animate;
 
     // MoveT.PAS:2066
@@ -56,12 +56,12 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _player), 31);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetX), 32);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetY), 33);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetL), 34);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetMapLevel), 34);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 35);
         TransferSet(ref Mode, 1, 36, stream.Bytes, 0);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 37);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 38);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 39);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationMapLevel), 39);
     }
 
     // MoveT.PAS:2060
@@ -118,7 +118,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 
                 result = result && StrategicMap.Current.MoveControl.ValidPath(settings, Path);
                 result = result && ArmyHexSprite.Army.Player == _player;
-                targetPlayer = StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL).GetPlayer();
+                targetPlayer = StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetMapLevel).GetPlayer();
                 result = result && (targetPlayer == TargetPlayer || targetPlayer == ArmyHexSprite.Army.Player);
                 if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
                 {
@@ -186,7 +186,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         army.Mode = army.Mode.With(ArmyModeElement.Moving);
         army.DestinationX = this._destinationX;
         army.DestinationY = this._destinationY;
-        army.DestinationL = this._destinationL;
+        army.DestinationMapLevel = this._destinationMapLevel;
     }
 
     // MoveT.PAS:2221
@@ -308,7 +308,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         int direction;
         bool instant;
         MapField field;
-        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].MapLevel == StrategicMap.Current.ViewL || StrategicMap.Current.ShowIndependentMoves))
+        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].MapLevel == StrategicMap.Current.ViewMapLevel || StrategicMap.Current.ShowIndependentMoves))
         {
             _animate = true;
             direction = GetDirection(MoveIndex);
@@ -446,7 +446,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             TargetPlayer = GetMapField(path[0]).GetPlayer();
             TargetX = path[0].X;
             TargetY = path[0].Y;
-            TargetL = path[0].MapLevel;
+            TargetMapLevel = path[0].MapLevel;
             Selection = armyHexSprite.Army.ValidateSelection(selection);
             for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
             {
@@ -459,7 +459,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 
             _destinationX = ArmyHexSprite.Army.DestinationX;
             _destinationY = ArmyHexSprite.Army.DestinationY;
-            _destinationL = ArmyHexSprite.Army.DestinationL;
+            _destinationMapLevel = ArmyHexSprite.Army.DestinationMapLevel;
             result = true;
         }
         else

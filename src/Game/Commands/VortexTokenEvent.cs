@@ -175,7 +175,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         int direction;
         int radius;
         int count;
-        if (StrategicMap.Current.ViewL == Location.MapLevel)
+        if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;

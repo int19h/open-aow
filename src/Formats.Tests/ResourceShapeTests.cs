@@ -1,7 +1,6 @@
 using System.Buffers.Binary;
 using System.Text;
 using Aow.Formats.Json;
-using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
@@ -9,12 +8,11 @@ using Aow.Formats.Tree;
 namespace Aow.Formats.Tests;
 
 /// <summary>
-/// Version 5 resource payloads on the real schema: the single of the AI as a number, a terrain
+/// Resource payloads on the real schema: the single of the AI as a number, a terrain
 /// list as pairs, the flood's terrain grid as changed hexagons, an ILB library as base64 with its
 /// header checked, an image sequence list as layers, and the fixed objects of the ability and
 /// spell controls at their slots. Each shape round-trips through the converter and through the tree
-/// on both backends, and refuses a malformed value with its path. The version 4 step rewrites the
-/// version 4 values.
+/// on both backends, and refuses a malformed value with its path.
 /// </summary>
 public sealed class ResourceShapeTests : FormatsTest
 {
@@ -273,8 +271,8 @@ public sealed class ResourceShapeTests : FormatsTest
         var spell = new ObjectNode(null, 2);
         spell.Add("BaseManaCost", new IntegerNode(4, true, 30));
         list.Add(2, spell);
-        spells.Add("Spells", list);
-        Assert.Equal("""[{"$slot":2,"BaseManaCost":30}]""", Compact(BothBackends("SpellControl", spells)["Spells"]!));
+        spells.Add("RegisteredSpells", list);
+        Assert.Equal("""[{"$slot":2,"BaseManaCost":30}]""", Compact(BothBackends("SpellControl", spells)["RegisteredSpells"]!));
     }
 
     [Fact]
@@ -292,113 +290,6 @@ public sealed class ResourceShapeTests : FormatsTest
         Assert.Equal("root.Abilities[0].$slot", negative.Diagnostic.Path);
         var classed = Assert.Throws<ConversionException>(() => DocumentBackend.Read(Root("""[{"$slot":0,"$class":"Ability"}]"""), classValue, s_schema, "game"));
         Assert.Equal(Codes.ReservedMember, classed.Diagnostic.Code);
-        var tree = TreeWriter.Write(new AbilitySlots(), s_factory);
-        var version4 = ResourceMigration.Version4;
-        var old = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, version4.Get("AbilityControl"), version4, "game"));
-        Assert.Equal("Version 4 stores no slot of Abilities.", old.Diagnostic.Message);
-    }
-
-    [Fact]
-    public void EveryPinnedPropertyIsInTheVersion4Schema()
-    {
-        Assert.Equal(9, ResourceMigration.Pinned.Count);
-        foreach (string key in ResourceMigration.Pinned.Concat(ResourceMigration.Slotted))
-        {
-            int dot = key.LastIndexOf('.');
-            var classValue = ResourceMigration.Version4.Get(key[..dot]);
-            var property = classValue.PropertyByName(key[(dot + 1)..]);
-            Assert.NotNull(property);
-            Assert.Equal(classValue.Name, property.Owner.Name);
-            Assert.Equal(4, ResourceMigration.Version4.Version);
-        }
-        foreach (string key in ResourceMigration.Slotted)
-        {
-            int dot = key.LastIndexOf('.');
-            Assert.IsType<FixedObjectCodec>(ResourceMigration.Version4.Get(key[..dot]).PropertyByName(key[(dot + 1)..])!.Codec);
-        }
-    }
-
-    [Fact]
-    public void Version4ValuesBecomeTheVersion5Shapes()
-    {
-        var resource = Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("MapObjectResource"))
-            .Add("TerrainList", new JsonString("0100000001fe"))
-            .Add("ImageLibrary", new JsonString(System.Convert.ToHexStringLower(Library())))
-            .Add("ImageSequenceList", new JsonString(System.Convert.ToHexStringLower(Sequences(nil: 1, next: 1))))));
-        Assert.Equal([ResourceMigration.Name], resource.Migrations);
-        Assert.Equal(5, ((JsonInteger)resource.Document["$version"]!).Value);
-        var root = (JsonObject)resource.Document["root"]!;
-        Assert.Equal("[[1,-2]]", Compact(root["TerrainList"]!));
-        Assert.Equal(Compact(Decode("MapObjectResource", "ImageLibrary", Library())), Compact(root["ImageLibrary"]!));
-        Assert.Equal(SequencesText, Compact(root["ImageSequenceList"]!));
-        var flood = (JsonObject)Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("FloodControl"))
-            .Add("Width", new JsonInteger(2))
-            .Add("Height", new JsonInteger(1))
-            .Add("OriginalTerrain", new JsonString("00ff7f80")))).Document["root"]!;
-        Assert.Equal("""[{"X":0,"Y":0,"Terrain":0,"Overlay":-1},{"X":1,"Y":0,"Terrain":127,"Overlay":-128}]""", Compact(flood["OriginalTerrain"]!));
-        var control = (JsonObject)Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("AIPlayerControl"))
-            .Add("DefenseStrengthMultiplier", new JsonObject().Add("$bits", new JsonString("cdcccc3d"))))).Document["root"]!;
-        Assert.Equal("0.1", Compact(control["DefenseStrengthMultiplier"]!));
-    }
-
-    [Fact]
-    public void AVersion4SequenceEncodingTheWriterDoesNotMakeBecomesALayoutPart()
-    {
-        var odd = Sequences(nil: 2, next: 5);
-        var read = Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("MapObjectResource"))
-            .Add("ImageSequenceList", new JsonString(System.Convert.ToHexStringLower(odd)))));
-        var root = (JsonObject)read.Document["root"]!;
-        Assert.Equal(SequencesText, Compact(root["ImageSequenceList"]!));
-        var context = new EncodeContext(s_schema, "game", "hero-list", "resources.json", FormatLimits.Default, ExportOptions.Default);
-        var reader = LayoutReader.Read(context, root, DocumentNodePath.Root)!;
-        Assert.Equal(odd, reader.Encodings[10].Bytes);
-    }
-
-    [Fact]
-    public void AVersion4FixedItemWithoutASlotIsRefused()
-    {
-        var error = Assert.Throws<ConversionException>(() => Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("AbilityControl"))
-            .Add("Abilities", new JsonArray().Add(new JsonObject().Add("SkillPointCost", new JsonInteger(2)))))));
-        Assert.Equal(Codes.Slot, error.Diagnostic.Code);
-        Assert.Equal("root.Abilities[0]", error.Diagnostic.Path);
-        var stated = Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("SpellControl"))
-            .Add("Spells", new JsonArray().Add(new JsonObject().Add("$slot", new JsonInteger(4)).Add("BaseManaCost", new JsonInteger(2))))));
-        Assert.Equal("""[{"$slot":4,"BaseManaCost":2}]""", Compact(((JsonObject)stated.Document["root"]!)["Spells"]!));
-    }
-
-    [Fact]
-    public void Version4HexThatIsNotHexIsRefused()
-    {
-        var error = Assert.Throws<ConversionException>(() => Read(Envelope(new JsonObject()
-            .Add("$class", new JsonString("MapObjectResource"))
-            .Add("TerrainList", new JsonInteger(5)))));
-        Assert.Equal(Codes.Type, error.Diagnostic.Code);
-        Assert.Equal("root.TerrainList", error.Diagnostic.Path);
-    }
-
-    [Fact]
-    public void TheVersion4StepDoesNotReadTheCurrentSchema()
-    {
-        JsonObject Document() => Envelope(new JsonObject()
-            .Add("$class", new JsonString("MapObjectResource"))
-            .Add("TerrainList", new JsonString("0100000001fe")));
-        var first = ResourceMigration.Apply(Document());
-        FormatSchema.Substituted = FormatSchema.Load(Encoding.UTF8.GetBytes("""{"version":5,"classes":[]}"""), "empty.json");
-        try
-        {
-            Assert.Equal(JsonWriter.ToUtf8(first), JsonWriter.ToUtf8(ResourceMigration.Apply(Document())));
-        }
-        finally
-        {
-            FormatSchema.Substituted = null;
-        }
-        Assert.Equal("[[1,-2]]", Compact(((JsonObject)first["root"]!)["TerrainList"]!));
     }
 
     // The first entry chains a FrameTable layer to a plain layer, the second is nil, and the third
@@ -515,18 +406,6 @@ public sealed class ResourceShapeTests : FormatsTest
         JsonWriter.WriteCompact(text, value);
         return text.ToString().Replace(": ", ":", StringComparison.Ordinal).Replace(", ", ",", StringComparison.Ordinal);
     }
-
-    private static ReadResult Read(JsonObject document) =>
-        GameFiles.Read(JsonWriter.ToUtf8(document), "resources.json");
-
-    private static JsonObject Envelope(JsonObject root) => new JsonObject()
-        .Add("$format", new JsonString(OwnFormat.FormatName))
-        .Add("$version", new JsonInteger(4))
-        .Add("$kind", new JsonString("hero-list"))
-        .Add("$container", new JsonObject()
-            .Add("profile", new JsonString("hero-list"))
-            .Add("compression", new JsonString("none")))
-        .Add("root", root);
 
     private static readonly NoFactory s_factory = new();
 

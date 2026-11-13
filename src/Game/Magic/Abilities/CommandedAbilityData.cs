@@ -32,10 +32,10 @@ public partial class CommandedAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        AbilityId = persister.Int32("AbilityID", AbilityId);
-        CommandAbilityId = persister.Int32("CommandAbilityID", CommandAbilityId);
-        SourceId = persister.Byte("SourceID", SourceId);
-        OriginalCombatPlayer = persister.Byte("OriginalCombatPlayer", OriginalCombatPlayer);
+        AbilityId = persister.Int32("AbilityId", value: AbilityId);
+        CommandAbilityId = persister.Int32("CommandAbilityId", value: CommandAbilityId);
+        SourceId = persister.Byte("SourceId", value: SourceId);
+        OriginalCombatPlayer = persister.Byte("OriginalCombatPlayer", value: OriginalCombatPlayer);
     }
 
     // AoWAb.PAS:5001

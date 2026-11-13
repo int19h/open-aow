@@ -11,7 +11,7 @@ public sealed partial record Trade(int TurnsTotal) : ProductionOrder
 {
     public const int Kind = 10;
 
-    public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, TurnsTotal, 0);
+    public override (int Kind, int Parameter, int GroupId) ToFields() => (Kind, TurnsTotal, 0);
 
     public override CityAction CityAction => CityAction.Trade;
 

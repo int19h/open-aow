@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Events;
 
-// UnitId. _day. Text. Mode. LocationName
+// UnitId. _emergeDay. Text. Mode. LocationName
 public partial class HeroEmergeEventLog : EventLog
 {
     public HeroEmergeEventLog(ECustomNode owner) : base(owner)
@@ -23,7 +23,7 @@ public partial class HeroEmergeEventLog : EventLog
     public new const int ClassId = 131832;
 
     public int UnitId;
-    private new int _day;
+    private int _emergeDay;
     private string _text = "";
     private HeroJoinMode _mode;
     public string LocationName = "";
@@ -33,7 +33,7 @@ public partial class HeroEmergeEventLog : EventLog
     {
         base.ReadWrite(stream);
         stream.Int32(ref UnitId, 39);
-        stream.Int32(ref _day, 40);
+        stream.Int32(ref _emergeDay, 40);
         stream.String(ref _text, 41);
         stream.String(ref LocationName, 42);
         stream.Bytes(Bytes.Of(ref _mode, 1), 1, 43);
@@ -101,7 +101,7 @@ public partial class HeroEmergeEventLog : EventLog
         string name;
         _player = player;
         UnitId = hero.UnitId;
-        _day = StrategicMap.Current.Day;
+        _emergeDay = StrategicMap.Current.Day;
         _mode = mode;
         name = hero.HeroName;
         if (!IsEmpty(hero.GetNickname()))

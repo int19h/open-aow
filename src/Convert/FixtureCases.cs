@@ -2,7 +2,6 @@ using System.Buffers.Binary;
 using System.IO.Compression;
 using Aow.Formats;
 using Aow.Formats.Json;
-using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 
 namespace Aow.Convert;
@@ -277,7 +276,7 @@ public static partial class Fixtures
         });
         yield return new("layout", "a noncanonical table order", () =>
         {
-            // NextLibraryID (21) is stored before LibraryName (20) in the table and the data.
+            // NextLibraryId (21) is stored before LibraryName (20) in the table and the data.
             var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
             return RoundTrip(image, "hero-list", "hero-list",
                 d => GameFiles.Write(d).AsSpan().IndexOf("table-form-order"u8) >= 0 ? null : "no table part");
@@ -296,7 +295,7 @@ public static partial class Fixtures
         {
             var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
             var d = Import(image, "hero-list", "hero-list");
-            Root(d).Remove("NextLibraryID");
+            Root(d).Remove("NextLibraryId");
             return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d)), new ExportOptions { ExactLayout = true }), Located);
         });
         yield return new("layout", "a part that does not fit is an error, not a cleanup", () =>
@@ -310,7 +309,7 @@ public static partial class Fixtures
             return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("layout", "Tutorial property 57, a zero-size alias", () => RoundTrip(Game(Tutorial), "world-hsm", "map",
-            d => Root(d)["LegacyProperty57"] is JsonBoolean { Value: true } ? null : "property 57 is missing"));
+            d => Root(d)["UnknownProperty57"] is JsonBoolean { Value: true } ? null : "property 57 is missing"));
 
         // Limits and gzip.
         yield return new("limits", "depth limit", () => Expect(Codes.Limit,
@@ -349,11 +348,11 @@ public static partial class Fixtures
         yield return new("diagnostics", "a valid-JSON semantic error points at the value", () =>
         {
             var d = Import(Game(HeroList), "hero-list", "hero-list");
-            Set(Root(d), "NextLibraryID", new JsonString("seven"));
+            Set(Root(d), "NextLibraryId", new JsonString("seven"));
             var text = GameFiles.Write(d);
             int line = System.Text.Encoding.UTF8.GetString(text).Split('\n').ToList().FindIndex(l => l.Contains("\"seven\"", StringComparison.Ordinal)) + 1;
             return Expect(Codes.Type, () => GameFiles.Export(Parse(text)),
-                diag => diag.Span.Line == line && diag.Path == "root.NextLibraryID" ? null : $"expected line {line}");
+                diag => diag.Span.Line == line && diag.Path == "root.NextLibraryId" ? null : $"expected line {line}");
         });
         yield return new("diagnostics", "a binary error gives the offset and the profile", () =>
             Expect(Codes.UnknownProperty, () => GameFiles.Import(HeroListImage([1, 99, 0], I32(5)), FindProfile("hero-list"), "hero-list", "bad.ahl"),
@@ -367,14 +366,18 @@ public static partial class Fixtures
                 && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
                 ? null : "the numbers are missing"));
 
-        // Migration chains.
-        yield return new("migrations", "a historical chain migrates through every step", MigrationChainCase);
+        yield return new("diagnostics", "an older version fails and asks for a new conversion", () => Expect(Codes.Version,
+            () => GameFiles.Read("{\"$format\": \"OpenAoW\", \"$version\": 5}"u8.ToArray()),
+            d => d.Message.Contains("version 5", StringComparison.Ordinal)
+                && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
+                && d.Message.Contains("Convert the original file again", StringComparison.Ordinal)
+                ? null : "the numbers or the advice are missing"));
 
         // Mapping anchors: document edits reach independently located bytes.
         yield return new("anchors", "seed, day, string, slot and coordinate edits reach their stored ids", Anchors);
         yield return new("legacy", "Valley01 sprite keeps its legacy shape", () =>
             RoundTrip(Game("Scenario/Campaign/Valley01.CSM"), "world-hsm", "campaign-map",
-                d => GameFiles.Write(d).AsSpan().IndexOf("LegacyProperty12"u8) >= 0 ? null : "the legacy shape is missing"));
+                d => GameFiles.Write(d).AsSpan().IndexOf("UnknownProperty12"u8) >= 0 ? null : "the legacy shape is missing"));
 
         // Case mappings of the production and diplomatic kinds.
         foreach (var kindCase in KindCases()) yield return kindCase;
@@ -427,7 +430,7 @@ public static partial class Fixtures
             Set(objectValue, "$slot", new JsonInteger(k));
             children.Add(objectValue);
         }
-        var library = new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastID", new JsonInteger(items.Items.Count)).Add("Children", children);
+        var library = new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastId", new JsonInteger(items.Items.Count)).Add("Children", children);
         return OwnRoundTrip(Envelope("item-list", "item-list", library));
     }
 
@@ -471,39 +474,6 @@ public static partial class Fixtures
         var day = Object(Object(Root(again)["Map"])["root"])["Day"];
         if (day is not JsonInteger { Value: 42 }) return Fail("the edit was lost");
         return RoundTrip(exported.Bytes, "campaign", "campaign-save");
-    }
-
-    /// <summary>A test chain 1 to 3: a rename, then a new member with an explicit default.</summary>
-    internal static MigrationChain TestChain() => new(3,
-    [
-        new Migration(1, "test-1-rename-LibraryTitle", d =>
-        {
-            var root = Object(d["root"]);
-            var m = root.Find("LibraryTitle");
-            if (m is not null)
-            {
-                int at = root.Members.IndexOf(m);
-                root.Members[at] = new JsonMember("LibraryName", m.Value) { NameSpan = m.NameSpan };
-            }
-            return d;
-        }),
-        new Migration(2, "test-2-drop-Obsolete", d =>
-        {
-            Object(d["root"]).Remove("Obsolete");
-            return d;
-        }),
-    ]);
-
-    private static Outcome MigrationChainCase()
-    {
-        var historical = "{\n  \"$format\": \"OpenAoW\",\n  \"$version\": 1,\n  \"$kind\": \"hero-list\",\n  \"$container\": {\n    \"profile\": \"hero-list\",\n    \"compression\": \"none\"\n  },\n  \"root\": {\n    \"LibraryTitle\": \"Old\",\n    \"Obsolete\": 5\n  }\n}\n"u8.ToArray();
-        var chain = TestChain();
-        var read = GameFiles.Read(historical, "old.ahl", null, chain);
-        if (read.Migrations.Count != 2 || read.DeclaredVersion != 1) return Fail("the chain did not run both steps");
-        var root = Object(read.Document["root"]);
-        if (root["LibraryName"] is not JsonString { Value: "Old" } || root.Find("Obsolete") is not null) return Fail("the transforms did not apply");
-        if (read.Document["$version"] is not JsonInteger { Value: 3, Origin: "test-2-drop-Obsolete" }) return Fail("the version provenance is missing");
-        return Pass("migrated 1 to 3 through " + string.Join(", ", read.Migrations));
     }
 
     /// <summary>

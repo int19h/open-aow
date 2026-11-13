@@ -7,7 +7,7 @@ namespace Aow.Rtl;
 // One row names one type or one enum member.
 // Delphi is the name in an original file. Stored is the name in our own documents.
 // A nested type stores Owner.Nested, the declaring-type chain, with no namespace.
-// A lookup takes the current stored name first and then an old name from the table.
+// A type lookup takes the current stored name first and then a Delphi or earlier name from the table.
 // A type with no row stores that declaring-type chain and reports its simple name as the Delphi name.
 public static class NameTable
 {
@@ -355,14 +355,6 @@ public static class NameTable
                     if (row.Kind == "type" && typeByCurrent.ContainsKey(row.Current))
                     {
                         Add(typeByDelphi, row.Delphi, row);
-                        continue;
-                    }
-                    // A later member row for the same current name is an alias. Its last segment is an old
-                    // stored member name that still loads. The first row keeps the Delphi name.
-                    if (row.Kind == "member" && row.Current.LastIndexOf('.') is int aliasDot and > 0 && row.Delphi.LastIndexOf('.') is int oldDot and > 0)
-                    {
-                        if (!memberCurrent.TryAdd((row.Current[..aliasDot], row.Delphi[(oldDot + 1)..]), row.Current[(aliasDot + 1)..]))
-                            throw new InvalidOperationException("The name table repeats member " + row.Delphi + ".");
                         continue;
                     }
                     throw new InvalidOperationException("The name table repeats " + row.Current + ".");

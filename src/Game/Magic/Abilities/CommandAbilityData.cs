@@ -43,8 +43,8 @@ public partial class CommandAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        AbilityId = persister.Int32("AbilityID", AbilityId);
-        PersistSupport.ByteList(persister, "CommandedUnits", CommandedUnits);
+        AbilityId = persister.Int32("AbilityId", value: AbilityId);
+        PersistSupport.ByteList(persister, name: "CommandedUnits", list: CommandedUnits);
     }
 
     // AoWAb.PAS:4963
