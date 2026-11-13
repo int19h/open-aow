@@ -71,9 +71,10 @@ public static class FileBoundary
 
     /// <summary>
     /// Converts and writes an engine-written image. Serialization and validation finish before
-    /// anything is written. A failure raises EGameFileError and keeps the old file.
+    /// anything is written. A failure raises EGameFileError and keeps the old file. The root is the
+    /// object the image holds, for the gate's save shadow (<see cref="SaveShadow"/>).
     /// </summary>
-    public static void Save(string fileName, GameProfile profile, byte[] image)
+    public static void Save(string fileName, GameProfile profile, byte[] image, EngineObject? root = null)
     {
         var files = RtlUnit.Files;
         var result = GameBoundary.PrepareSave(image, fileName, profile, FormatMapping.Validators);
@@ -93,6 +94,7 @@ public static class FileBoundary
             throw new GameFileErrorException(LastFailure!);
         }
         Record(files, fileName, result.Report);
+        if (SaveShadow.Active && root is not null) SaveShadow.Compare(fileName, profile, root, result.Document!);
     }
 
     /// <summary>

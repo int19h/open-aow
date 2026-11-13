@@ -443,7 +443,7 @@ public partial class GameEngine : ENode
         try
         {
             StoreEngineObject(M, objectValue, progress);
-            FileBoundary.Save(fileName, profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray());
+            FileBoundary.Save(fileName, profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray(), root: objectValue);
         }
         finally
         {
@@ -469,7 +469,7 @@ public partial class GameEngine : ENode
         try
         {
             WriteEngineObject(M, objectValue, progress);
-            FileBoundary.Save(fileName, profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray());
+            FileBoundary.Save(fileName, profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray(), root: objectValue);
         }
         finally
         {

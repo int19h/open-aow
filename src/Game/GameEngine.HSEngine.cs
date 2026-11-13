@@ -199,7 +199,7 @@ public partial class GameEngine : ENode
             {
                 stream.Write(Bytes.Of(ref header, 16));
                 WriteEngineObject(stream, _hexSpriteMap, progress);
-                FileBoundary.Save(fileName, profile, stream.GetBuffer().AsSpan(0, (int)stream.Length).ToArray());
+                FileBoundary.Save(fileName, profile, stream.GetBuffer().AsSpan(0, (int)stream.Length).ToArray(), root: _hexSpriteMap);
             }
             finally
             {
@@ -329,7 +329,7 @@ public partial class GameEngine : ENode
                 var size = (int)memory.Length;
                 crc = EngineServices.GetCrc32(memory.GetBuffer(), size);
                 memory.Write(Bytes.Of(ref crc, 4));
-                FileBoundary.Save(_hssFileName, profile, memory.GetBuffer().AsSpan(0, (int)memory.Length).ToArray());
+                FileBoundary.Save(_hssFileName, profile, memory.GetBuffer().AsSpan(0, (int)memory.Length).ToArray(), root: _hexSpriteSet);
             }
             finally
             {

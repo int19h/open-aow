@@ -158,6 +158,12 @@ public static class GameBoundary
     }
 
     /// <summary>
+    /// Imports the image of one object, as the converter imports a root, for the gate's save
+    /// shadow (persistence-tree.md 12). The switch of PE-3-g removes it with the shadow.
+    /// </summary>
+    public static JsonObject ImportObjectImage(byte[] image, string className, string engine) => PilotImage.Decode(image, className, engine);
+
+    /// <summary>
     /// Converts an engine-written image to the canonical document bytes. The document is
     /// validated and its own image must equal the engine's, so a reload gives the engine the
     /// image it wrote.
