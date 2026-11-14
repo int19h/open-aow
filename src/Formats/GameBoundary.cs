@@ -266,11 +266,19 @@ public static class GameBoundary
     /// The image <c>TEngine.StoreEObject</c> writes (<c>rwCreateEObject</c> with id 0). A class id
     /// and then the object image sit inside the outer table of id 0. Class id 0 is nil and stores
     /// no object image. The original backend writes the object in the engine table of
-    /// <paramref name="className"/>.
+    /// <paramref name="className"/>, under <see cref="TransportProfile"/>. A value that profile
+    /// cannot carry is refused with its path and the packet is not written (persistence-tree.md 16).
     /// </summary>
-    public static byte[] WritePacket(ObjectNode? root, int classId, string? className)
+    public static byte[] WritePacket(ObjectNode? root, int classId, string? className) =>
+        WritePacket(root, classId: classId, className: className, schema: FormatSchema.Current);
+
+    /// <summary>
+    /// The packet image of <see cref="WritePacket(ObjectNode?, int, string?)"/> read against
+    /// <paramref name="schema"/>. The game passes the disk schema. A test passes a schema with a
+    /// port-range member, and the same profile refuses that member when the tree holds it.
+    /// </summary>
+    internal static byte[] WritePacket(ObjectNode? root, int classId, string? className, FormatSchema schema)
     {
-        var schema = FormatSchema.Current;
         string classTable = "game";
         var body = new ByteBuffer();
         body.Int32(classId);
@@ -280,9 +288,9 @@ public static class GameBoundary
                 throw new ArgumentException("A packet with a class id stores its object.");
             var classValue = schema.Get(className);
             classTable = PacketClassTable(classValue);
-            body.Bytes(OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable));
+            body.Bytes(OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable, profile: TransportProfile.Name));
         }
-        var context = new EncodeContext(schema, engine: classTable, profile: "packet", file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        var context = new EncodeContext(schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
         var output = new ByteBuffer(body.Length + 16);
         FileProfile.WriteTop(context, root: body.ToArray(), layout: null, at: new JsonObject(), output: output);
         return output.ToArray();
@@ -295,7 +303,7 @@ public static class GameBoundary
     public static int ReadPacketClassId(byte[] image)
     {
         var schema = FormatSchema.Current;
-        var context = new DecodeContext(image, schema: schema, engine: "game", profile: "packet", file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var context = new DecodeContext(image, schema: schema, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         var table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
         if (table.Entries.Count == 0) return 0;
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
@@ -312,7 +320,7 @@ public static class GameBoundary
         var schema = FormatSchema.Current;
         var classValue = schema.Get(className);
         string classTable = PacketClassTable(classValue);
-        var context = new DecodeContext(image, schema: schema, engine: classTable, profile: "packet", file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var context = new DecodeContext(image, schema: schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         if (context.Int32(start) == 0)

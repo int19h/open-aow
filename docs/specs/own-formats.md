@@ -986,6 +986,8 @@ Property ids `0x40000000` to `0x4FFFFFFF` are port features. Mod property ids st
 at `0x50000000`. Unmodded baseline gameplay writes neither range. The `rw*Ex`
 zero rule omits extension state and rules identity when empty, so the unmodded
 oracle needs no extension mask. Own documents name this state.
+The legacy packet refuses a present member in either range and names its document path
+(`persistence-tree.md` 16). It writes no such id.
 No code writes either range in 9.7, and the version 1 schema has no member there, so a
 document member for one is an unknown member and refused.
 
@@ -1076,8 +1078,13 @@ reaches none since that same pull request (`persistence-tree.md` 14). PE-4-a ret
 for the token events and the packets and for the five base methods they reach, deletes the
 storage streams, and writes the packets through the original backend with the packet's class
 table (`persistence-tree.md` 15).
-That is the legacy packet adapter of step 4. The transport schema of step 4 and step 5 are not
-implemented. The private roadmap allocates the five steps as briefs
+That is the legacy packet adapter of step 4. PE-4-b gives that adapter the transport profile of
+the same schema classes (`persistence-tree.md` 16). A packet is a profile of that schema. The
+disk containers stay the file profiles, and the class table stays the one schema. A value the
+legacy image cannot carry, including port-range state and a list longer than its original array,
+is refused with its document path and is not truncated. The own document keeps it. The adapter
+stays that legacy image until `docs/specs/networking.md` replaces it. This specification does not
+define that file. Step 5 is not implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
 section 10 names them as that step's prerequisite.
 

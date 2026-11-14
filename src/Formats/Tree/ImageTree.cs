@@ -16,9 +16,9 @@ internal static class ImageTree
     // The value a diagnostic of an object image points at. The tree has no document position.
     private static readonly JsonObject s_marker = new();
 
-    internal static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine)
+    internal static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, string? profile = null)
     {
-        var context = new EncodeContext(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
+        var context = new EncodeContext(schema, engine: engine, profile: profile ?? engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
         var output = new ByteBuffer();
         WriteBody(node, classValue, context, output, DocumentNodePath.Root, false);
         return output.ToArray();
@@ -68,6 +68,16 @@ internal static class ImageTree
             var value = node.Find(prop.Name);
             if (value is null) continue;
             var memberPath = path.Member(prop.Name);
+            // The legacy packet profile refuses a member the original image does not carry.
+            // The own document keeps that member. A disk image uses the engine name.
+            if (!TransportProfile.Carries(context.Profile, prop))
+                throw context.Fail(
+                    Codes.Unrepresentable,
+                    message: "The legacy packet cannot carry " + classValue.Name + "." + prop.Name + ".",
+                    at: null,
+                    path: memberPath,
+                    value: TransportProfile.ReservedId(prop)?.ToString(CultureInfo.InvariantCulture),
+                    constraint: "a stored id below 0x" + TransportProfile.PortMinimum.ToString("X8", provider: CultureInfo.InvariantCulture));
             if (prop.IsDynamic)
             {
                 var slots = new ImageFrame { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
