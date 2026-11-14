@@ -83,7 +83,7 @@ public sealed class GamePathRoundTripTests : IDisposable
         Engine.WriteToFile(file, objectValue: saved, progress: null, profile: GameProfile.ItemList);
         using var loaded = new ItemLibrary(null!) { Holder = Engine };
         Engine.ReadFromFile(file, objectValue: loaded, progress: null, profile: GameProfile.ItemList);
-        Assert.Equal(2, loaded.Count);
+        Assert.Equal(2, loaded.Items.Count);
         Assert.Equal(Image(saved), Image(loaded));
         SavesTheSameDocumentAgain(file, () => Engine.WriteToFile(file, objectValue: loaded, progress: null, profile: GameProfile.ItemList));
     }

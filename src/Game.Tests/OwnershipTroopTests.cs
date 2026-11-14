@@ -152,7 +152,7 @@ public sealed class OwnershipTroopTests
     }
 
     [Fact]
-    public void ItemTakesAnItemListOnly()
+    public void ItemTakesAnItemHolderOnly()
     {
         var army = new Army(null!) { Holder = EngineFixture.Engine };
         var items = new ItemList(null!) { Holder = EngineFixture.Engine };
@@ -163,13 +163,59 @@ public sealed class OwnershipTroopTests
         Assert.Null(item.Owner);
         Assert.Empty(army.Units);
 
-        ((IOwnedSink<ItemList>)item).SetOwner(items);
+        ((IOwnedSink<ItemOwner>)item).SetOwner(items);
         Assert.Same(items, item.Owner);
-        Assert.Same(items, ((IOwned<ItemList>)item).Owner);
+        Assert.Same(items, ((IOwned<ItemOwner>)item).Owner.Node);
         Assert.Same(item, items[0]);
         item.SetOwner(null);
         Assert.Null(item.Owner);
         Assert.Equal(0, items.Count);
+    }
+
+    // Issue 158 part 5: a hero's inventory, the items a hero wears and an item library are not
+    // item lists. Each holds its items as its children and reads them through Items. An item hex
+    // and an exploration site still hold their items in an item list.
+    [Fact]
+    public void AnInventoryWornItemsAndALibraryHoldTheirItemsInItems()
+    {
+        var inventory = new HeroInventory(null!) { Holder = EngineFixture.Engine };
+        var worn = new HeroItems(null!) { Holder = EngineFixture.Engine };
+        var library = new ItemLibrary(null!) { Holder = EngineFixture.Engine };
+        var hex = new ItemHSList(null!) { Holder = EngineFixture.Engine };
+        var site = new ExplorationSiteItemList(null!) { Holder = EngineFixture.Engine };
+        var carried = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 1 };
+        var equipped = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 2 };
+        var stored = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 3 };
+        var ground = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 4 };
+        Assert.False(typeof(ItemList).IsAssignableFrom(typeof(HeroInventory)));
+        Assert.False(typeof(ItemList).IsAssignableFrom(typeof(HeroItems)));
+        Assert.False(typeof(ItemList).IsAssignableFrom(typeof(ItemLibrary)));
+        Assert.True(typeof(ItemList).IsAssignableFrom(typeof(ItemHSList)));
+        Assert.True(typeof(ItemList).IsAssignableFrom(typeof(ExplorationSiteItemList)));
+
+        carried.SetOwner(inventory);
+        equipped.SetOwner(worn);
+        stored.SetOwner(library);
+        Assert.Same(inventory, carried.Owner);
+        Assert.Same(worn, equipped.Owner);
+        Assert.Same(library, stored.Owner);
+        Assert.False(carried.Owner is ItemList);
+        Assert.True(carried.Owner is HeroInventory);
+        Assert.Same(inventory, ((IOwned<ItemOwner>)carried).Owner.Node);
+        Assert.Same(worn, ((IOwned<ItemOwner>)equipped).Owner.Node);
+        Assert.Same(library, ((IOwned<ItemOwner>)stored).Owner.Node);
+        Assert.Same(carried, inventory.Items[0]);
+        Assert.Same(equipped, worn.Items[0]);
+        Assert.Same(stored, library.Items[0]);
+        Assert.Same(inventory, inventory.Items.Holder);
+        Assert.Same(carried, inventory.GetChild(0));
+
+        ground.SetOwner(hex);
+        Assert.True(ground.Owner is ItemList);
+        Assert.Same(hex, ((IOwned<ItemOwner>)ground).Owner.Node);
+        ground.SetOwner(site);
+        Assert.True(ground.Owner is ItemList);
+        Assert.Same(site, ground.Owner);
     }
 
     // A dungeon combat hands the items left on the battlefield to the prisoners. They lie in the

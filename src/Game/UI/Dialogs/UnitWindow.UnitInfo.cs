@@ -274,9 +274,9 @@ public partial class UnitWindow
             UI.UnitWindow.MainWindow.Visible = true;
             if (H != null && (StrategicMap.Current.Combat == null && H.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == H.Player))
             {
-                if (H.Inventory.GetItem(0) != null)
+                if (H.Inventory.Items.GetItem(0) != null)
                 {
-                    var inventory = H.Inventory.GetItem(0);
+                    var inventory = H.Inventory.Items.GetItem(0);
                     UI.UnitWindow.Backpack1CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -284,9 +284,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack1CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(1) != null)
+                if (H.Inventory.Items.GetItem(1) != null)
                 {
-                    var inventory = H.Inventory.GetItem(1);
+                    var inventory = H.Inventory.Items.GetItem(1);
                     UI.UnitWindow.Backpack2CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -294,9 +294,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack2CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(2) != null)
+                if (H.Inventory.Items.GetItem(2) != null)
                 {
-                    var inventory = H.Inventory.GetItem(2);
+                    var inventory = H.Inventory.Items.GetItem(2);
                     UI.UnitWindow.Backpack3CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -304,9 +304,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack3CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(3) != null)
+                if (H.Inventory.Items.GetItem(3) != null)
                 {
-                    var inventory = H.Inventory.GetItem(3);
+                    var inventory = H.Inventory.Items.GetItem(3);
                     UI.UnitWindow.Backpack4CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -314,9 +314,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack4CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(4) != null)
+                if (H.Inventory.Items.GetItem(4) != null)
                 {
-                    var inventory = H.Inventory.GetItem(4);
+                    var inventory = H.Inventory.Items.GetItem(4);
                     UI.UnitWindow.Backpack5CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -324,9 +324,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack5CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(5) != null)
+                if (H.Inventory.Items.GetItem(5) != null)
                 {
-                    var inventory = H.Inventory.GetItem(5);
+                    var inventory = H.Inventory.Items.GetItem(5);
                     UI.UnitWindow.Backpack6CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -334,9 +334,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack6CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(6) != null)
+                if (H.Inventory.Items.GetItem(6) != null)
                 {
-                    var inventory = H.Inventory.GetItem(6);
+                    var inventory = H.Inventory.Items.GetItem(6);
                     UI.UnitWindow.Backpack7CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -344,9 +344,9 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack7CheckBox.Tag = -1;
                 }
 
-                if (H.Inventory.GetItem(7) != null)
+                if (H.Inventory.Items.GetItem(7) != null)
                 {
-                    var inventory = H.Inventory.GetItem(7);
+                    var inventory = H.Inventory.Items.GetItem(7);
                     UI.UnitWindow.Backpack8CheckBox.Tag = inventory.ItemId;
                 }
                 else

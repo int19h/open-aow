@@ -76,14 +76,14 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal(5, viaReadWrite.Player);
             Assert.Equal(5, viaPersist.Player);
             Assert.Equal("Source", viaPersist.HeroName);
-            Assert.Null(viaReadWrite.Inventory.GetItem(0));
-            Assert.Null(viaPersist.Inventory.GetItem(0));
+            Assert.Null(viaReadWrite.Inventory.Items.GetItem(0));
+            Assert.Null(viaPersist.Inventory.Items.GetItem(0));
             EqualBytes(Image(viaReadWrite), Image(viaPersist), "Hero updating load");
 
             using var plain = new Hero(null!) { Holder = EngineFixture.Engine, Player = 5 };
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), plain, Factory);
             Assert.Equal(2, plain.Player);
-            Assert.Equal(9, plain.Inventory.GetItem(0).ItemId);
+            Assert.Equal(9, plain.Inventory.Items.GetItem(0).ItemId);
         });
 
         static Hero Updating(sbyte player)
@@ -184,7 +184,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 TreeReader.Read(DocumentBackend.Read(new JsonObject(), s_schema.Get("ItemLibraryManager"), s_schema, "game"), viaPersist, Factory);
                 Assert.Equal("System", viaPersist.SystemLibrary.Name);
-                Assert.Equal("Staff", viaPersist.SystemLibrary[0].Name);
+                Assert.Equal("Staff", viaPersist.SystemLibrary.Items[0].Name);
             }
         }
         finally
@@ -246,7 +246,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal(("Hort", "Schwert"), (loot.OwnerName, loot.Name));
             Assert.Equal(("Shop", "Ring"), (ring.OwnerName, ring.Name));
             Assert.Same(hero, army.GetChild(0));
-            Assert.Same(sword, hero.Inventory.GetItem(0));
+            Assert.Same(sword, hero.Inventory.Items.GetItem(0));
             Assert.Equal(2, lair.Count);
             // Apart from the translated strings the army writes the tree it wrote before.
             hero.HeroName = "Archer";
