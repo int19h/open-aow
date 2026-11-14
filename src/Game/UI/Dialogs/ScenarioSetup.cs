@@ -25,114 +25,114 @@ public partial class ScenarioSetup : UIModule
     public ScenarioSetup(UIContext ui) : base(ui)
     { }
 
-    public Memo ChatMemo;
-    public VerticalScrollBar ChatScrollBar;
-    public Edit ChatEdit;
-    public ListBox PlayerList;
-    public Button PickScenarioButton;
-    public Button StartButton;
-    public Panel ScenarioSetupPanel;
-    public Image Side1PlayerIcon;
-    public ComboBox Side1PlayerComboBox;
-    public HorizontalScrollBar TurnTimeSlider;
-    public Label TurnTimeValueLabel;
-    public HorizontalScrollBar TurnsSlider;
-    public Label TurnsValueLabel;
-    public ComboBox PlayModeComboBox;
-    public Label Side1InfoLabel;
-    public ComboBox Side1BehaviorComboBox;
-    public ComboBox Side3BehaviorComboBox;
-    public Image Side3PlayerIcon;
-    public Label Side3PlayerLabel;
-    public ComboBox Side3PlayerComboBox;
-    public Label Side3InfoLabel;
-    public ComboBox Side2BehaviorComboBox;
-    public Image Side2PlayerIcon;
-    public Label Side2InfoLabel;
-    public ComboBox Side2PlayerComboBox;
-    public Label Side2PlayerLabel;
-    public Label Side4InfoLabel;
-    public Label Side4PlayerLabel;
-    public ComboBox Side4PlayerComboBox;
-    public Image Side4PlayerIcon;
-    public Image Side5PlayerIcon;
-    public ComboBox Side5PlayerComboBox;
-    public ComboBox Side5BehaviorComboBox;
-    public Label Side5InfoLabel;
-    public Label Side5PlayerLabel;
-    public ComboBox Side6BehaviorComboBox;
-    public Image Side6PlayerIcon;
-    public Label Side6PlayerLabel;
-    public ComboBox Side6PlayerComboBox;
-    public Label Side6InfoLabel;
-    public ComboBox Side7BehaviorComboBox;
-    public Image Side7PlayerIcon;
-    public Label Side7PlayerLabel;
-    public ComboBox Side7PlayerComboBox;
-    public Label Side7InfoLabel;
-    public Label Side8InfoLabel;
-    public Label Side8PlayerLabel;
-    public ComboBox Side8BehaviorComboBox;
-    public ComboBox Side8PlayerComboBox;
-    public Image Side8PlayerIcon;
-    public Image Side9PlayerIcon;
-    public ComboBox Side9PlayerComboBox;
-    public ComboBox Side9BehaviorComboBox;
-    public Label Side9InfoLabel;
-    public Label Side9PlayerLabel;
-    public ComboBox Side10BehaviorComboBox;
-    public Image Side10PlayerIcon;
-    public Label Side10PlayerLabel;
-    public ComboBox Side10PlayerComboBox;
-    public Label Side10InfoLabel;
-    public ComboBox Side11BehaviorComboBox;
-    public Image Side11PlayerIcon;
-    public Label Side11PlayerLabel;
-    public ComboBox Side11PlayerComboBox;
-    public Label Side11InfoLabel;
-    public Label Side12InfoLabel;
-    public Label Side12PlayerLabel;
-    public ComboBox Side12BehaviorComboBox;
-    public ComboBox Side12PlayerComboBox;
-    public Image Side12PlayerIcon;
-    public ComboBox PreferredRaceComboBox;
-    public Label PreferredRaceLabel;
-    public CheckBox CustomizeLeadersCheckBox;
-    public Label CustomizeLeadersLabel;
-    public Button EjectButton;
-    public ComboBox Side4BehaviorComboBox;
-    public Panel Side1FogPanel;
-    public Label Side1PlayerLabel;
-    public Panel Side2FogPanel;
-    public Panel Side3FogPanel;
-    public Panel Side4FogPanel;
-    public Panel Side8FogPanel;
-    public Panel Side7FogPanel;
-    public Panel Side6FogPanel;
-    public Panel Side5FogPanel;
-    public Panel Side12FogPanel;
-    public Panel Side11FogPanel;
-    public Panel Side10FogPanel;
-    public Panel Side9FogPanel;
-    public ListBox PreferredRaceList;
-    public ListBox PingList;
-    public VerticalScrollBar PlayerListScrollBar;
-    public Panel SettingsFogPanel;
-    public CheckBox ExplorationCheckBox;
-    public Label ScenarioLabel;
-    public Label HostNameLabel;
-    public Label PlayerNameLabel;
-    public Label FileNameLabel;
-    public Button MakeHostButton;
-    public Panel RestartSettingsFogPanel;
-    public Image ChatFogImage;
-    public CheckBox LeadersOnMapCheckBox;
-    public CheckBox AlliedVictoryCheckBox;
-    public Label AlliedVictoryLabel;
-    public ComboBox TacticalCombatComboBox;
-    public Label TacticalCombatLabel;
-    public CheckBox AlwaysViewTacticalCombatCheckBox;
-    public Label AlwaysViewTacticalCombatLabel;
+    public Memo ChatMemo { get; private set; }
+    public VerticalScrollBar ChatScrollBar { get; private set; }
+    public Edit ChatEdit { get; private set; }
+    public ListBox PlayerList { get; private set; }
+    public Button PickScenarioButton { get; private set; }
+    public Button StartButton { get; private set; }
+    public Panel ScenarioSetupPanel { get; private set; }
+    public Image Side1PlayerIcon { get; private set; }
+    public ComboBox Side1PlayerComboBox { get; private set; }
+    public HorizontalScrollBar TurnTimeSlider { get; private set; }
+    public Label TurnTimeValueLabel { get; private set; }
+    public HorizontalScrollBar TurnsSlider { get; private set; }
+    public Label TurnsValueLabel { get; private set; }
+    public ComboBox PlayModeComboBox { get; private set; }
+    public Label Side1InfoLabel { get; private set; }
+    public ComboBox Side1BehaviorComboBox { get; private set; }
+    public ComboBox Side3BehaviorComboBox { get; private set; }
+    public Image Side3PlayerIcon { get; private set; }
+    public Label Side3PlayerLabel { get; private set; }
+    public ComboBox Side3PlayerComboBox { get; private set; }
+    public Label Side3InfoLabel { get; private set; }
+    public ComboBox Side2BehaviorComboBox { get; private set; }
+    public Image Side2PlayerIcon { get; private set; }
+    public Label Side2InfoLabel { get; private set; }
+    public ComboBox Side2PlayerComboBox { get; private set; }
+    public Label Side2PlayerLabel { get; private set; }
+    public Label Side4InfoLabel { get; private set; }
+    public Label Side4PlayerLabel { get; private set; }
+    public ComboBox Side4PlayerComboBox { get; private set; }
+    public Image Side4PlayerIcon { get; private set; }
+    public Image Side5PlayerIcon { get; private set; }
+    public ComboBox Side5PlayerComboBox { get; private set; }
+    public ComboBox Side5BehaviorComboBox { get; private set; }
+    public Label Side5InfoLabel { get; private set; }
+    public Label Side5PlayerLabel { get; private set; }
+    public ComboBox Side6BehaviorComboBox { get; private set; }
+    public Image Side6PlayerIcon { get; private set; }
+    public Label Side6PlayerLabel { get; private set; }
+    public ComboBox Side6PlayerComboBox { get; private set; }
+    public Label Side6InfoLabel { get; private set; }
+    public ComboBox Side7BehaviorComboBox { get; private set; }
+    public Image Side7PlayerIcon { get; private set; }
+    public Label Side7PlayerLabel { get; private set; }
+    public ComboBox Side7PlayerComboBox { get; private set; }
+    public Label Side7InfoLabel { get; private set; }
+    public Label Side8InfoLabel { get; private set; }
+    public Label Side8PlayerLabel { get; private set; }
+    public ComboBox Side8BehaviorComboBox { get; private set; }
+    public ComboBox Side8PlayerComboBox { get; private set; }
+    public Image Side8PlayerIcon { get; private set; }
+    public Image Side9PlayerIcon { get; private set; }
+    public ComboBox Side9PlayerComboBox { get; private set; }
+    public ComboBox Side9BehaviorComboBox { get; private set; }
+    public Label Side9InfoLabel { get; private set; }
+    public Label Side9PlayerLabel { get; private set; }
+    public ComboBox Side10BehaviorComboBox { get; private set; }
+    public Image Side10PlayerIcon { get; private set; }
+    public Label Side10PlayerLabel { get; private set; }
+    public ComboBox Side10PlayerComboBox { get; private set; }
+    public Label Side10InfoLabel { get; private set; }
+    public ComboBox Side11BehaviorComboBox { get; private set; }
+    public Image Side11PlayerIcon { get; private set; }
+    public Label Side11PlayerLabel { get; private set; }
+    public ComboBox Side11PlayerComboBox { get; private set; }
+    public Label Side11InfoLabel { get; private set; }
+    public Label Side12InfoLabel { get; private set; }
+    public Label Side12PlayerLabel { get; private set; }
+    public ComboBox Side12BehaviorComboBox { get; private set; }
+    public ComboBox Side12PlayerComboBox { get; private set; }
+    public Image Side12PlayerIcon { get; private set; }
+    public ComboBox PreferredRaceComboBox { get; private set; }
+    public Label PreferredRaceLabel { get; private set; }
+    public CheckBox CustomizeLeadersCheckBox { get; private set; }
+    public Label CustomizeLeadersLabel { get; private set; }
+    public Button EjectButton { get; private set; }
+    public ComboBox Side4BehaviorComboBox { get; private set; }
+    public Panel Side1FogPanel { get; private set; }
+    public Label Side1PlayerLabel { get; private set; }
+    public Panel Side2FogPanel { get; private set; }
+    public Panel Side3FogPanel { get; private set; }
+    public Panel Side4FogPanel { get; private set; }
+    public Panel Side8FogPanel { get; private set; }
+    public Panel Side7FogPanel { get; private set; }
+    public Panel Side6FogPanel { get; private set; }
+    public Panel Side5FogPanel { get; private set; }
+    public Panel Side12FogPanel { get; private set; }
+    public Panel Side11FogPanel { get; private set; }
+    public Panel Side10FogPanel { get; private set; }
+    public Panel Side9FogPanel { get; private set; }
+    public ListBox PreferredRaceList { get; private set; }
+    public ListBox PingList { get; private set; }
+    public VerticalScrollBar PlayerListScrollBar { get; private set; }
+    public Panel SettingsFogPanel { get; private set; }
+    public CheckBox ExplorationCheckBox { get; private set; }
+    public Label ScenarioLabel { get; private set; }
+    public Label HostNameLabel { get; private set; }
+    public Label PlayerNameLabel { get; private set; }
+    public Label FileNameLabel { get; private set; }
+    public Button MakeHostButton { get; private set; }
+    public Panel RestartSettingsFogPanel { get; private set; }
+    public Image ChatFogImage { get; private set; }
+    public CheckBox LeadersOnMapCheckBox { get; private set; }
+    public CheckBox AlliedVictoryCheckBox { get; private set; }
+    public Label AlliedVictoryLabel { get; private set; }
+    public ComboBox TacticalCombatComboBox { get; private set; }
+    public Label TacticalCombatLabel { get; private set; }
+    public CheckBox AlwaysViewTacticalCombatCheckBox { get; private set; }
+    public Label AlwaysViewTacticalCombatLabel { get; private set; }
 
     public SetupControl SetupControl { get; set; }
     public bool ChatScrollPending { get; set; }

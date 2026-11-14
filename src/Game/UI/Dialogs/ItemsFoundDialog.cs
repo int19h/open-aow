@@ -20,13 +20,14 @@ public partial class ItemsFoundDialog : UIModule
     public ItemsFoundDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label TitleLabel;
-    public Panel PickupPanel;
-    public Panel OKPanel;
-    public Memo MessageMemo;
-    public Button LeftButton;
-    public Button RightButton;
+    public Window Window { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Panel PickupPanel { get; private set; }
+    public Panel OKPanel { get; private set; }
+    public Memo MessageMemo { get; private set; }
+    public Button LeftButton { get; private set; }
+    public Button RightButton { get; private set; }
+
     private int _itemOffset;
     private event ExecuteDoneEvent OnDone;
     private ItemExplorationSiteEventLog _event;

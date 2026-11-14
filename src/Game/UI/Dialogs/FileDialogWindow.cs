@@ -30,27 +30,27 @@ public partial class FileDialogWindow : UIModule
     public FileDialogWindow(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Button OpenButton;
-    public Label TitleLabel;
-    public ListBox<FileTime> FileList;
-    public Edit FileNameEdit;
-    public ComboBox DriveComboBox;
-    public Label SavedPlayersLabel;
-    public Label SavedSizeLabel;
-    public Label SavedTownsLabel;
-    public Label SavedTurnsLabel;
-    public Label ScenarioPlayersLabel;
-    public Label ScenarioSizeLabel;
-    public Label ScenarioTownsLabel;
-    public Panel NewPanel;
-    public ListBox<FileTime> SaveList;
-    public Edit SaveFileNameEdit;
-    public Panel SavePanel;
-    public ListBox<FileTime> DateList;
-    public Edit PathEdit;
-    public Panel SaveListFrame;
-    public VerticalScrollBar SaveScrollBar;
+    public Window Window { get; private set; }
+    public Button OpenButton { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public ListBox<FileTime> FileList { get; set; }
+    public Edit FileNameEdit { get; set; }
+    public ComboBox DriveComboBox { get; private set; }
+    public Label SavedPlayersLabel { get; set; }
+    public Label SavedSizeLabel { get; set; }
+    public Label SavedTownsLabel { get; set; }
+    public Label SavedTurnsLabel { get; set; }
+    public Label ScenarioPlayersLabel { get; set; }
+    public Label ScenarioSizeLabel { get; set; }
+    public Label ScenarioTownsLabel { get; set; }
+    public Panel NewPanel { get; private set; }
+    public ListBox<FileTime> SaveList { get; set; }
+    public Edit SaveFileNameEdit { get; set; }
+    public Panel SavePanel { get; private set; }
+    public ListBox<FileTime> DateList { get; set; }
+    public Edit PathEdit { get; set; }
+    public Panel SaveListFrame { get; private set; }
+    public VerticalScrollBar SaveScrollBar { get; private set; }
 
     public string Directory { get; set; } = "";
     public string LastFileName { get; set; } = "";

@@ -14,11 +14,12 @@ public partial class MessageReceiveDialog : UIModule
     public MessageReceiveDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Memo MessageMemo;
-    public Image LeftShield;
-    public Image RightShield;
-    public Memo HeaderMemo;
+    public Window Window { get; private set; }
+    public Memo MessageMemo { get; private set; }
+    public Image LeftShield { get; private set; }
+    public Image RightShield { get; private set; }
+    public Memo HeaderMemo { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private EventLog _event;
 

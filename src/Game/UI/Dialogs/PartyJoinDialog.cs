@@ -19,14 +19,15 @@ public partial class PartyJoinDialog : UIModule
     public PartyJoinDialog(UIContext ui) : base(ui)
     { }
 
-    public Panel UnitPanel;
-    public Button MiddleButton;
-    public Label TitleLabel;
-    public Button RightButton;
-    public Button LeftButton;
-    public Window Window;
-    public Memo JoinMemo;
-    public Image FaceFrame;
+    public Panel UnitPanel { get; private set; }
+    public Button MiddleButton { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Button RightButton { get; private set; }
+    public Button LeftButton { get; private set; }
+    public Window Window { get; private set; }
+    public Memo JoinMemo { get; private set; }
+    public Image FaceFrame { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private JoinEventLog _joinEvent;
     private bool _detailsOpen;

@@ -21,32 +21,33 @@ public partial class ResultsWindow : UIModule
     public ResultsWindow(UIContext ui) : base(ui)
     { }
 
-    public CheckBox Player1CheckBox;
-    public CheckBox Player2CheckBox;
-    public CheckBox Player3CheckBox;
-    public CheckBox Player4CheckBox;
-    public CheckBox Player5CheckBox;
-    public CheckBox Player6CheckBox;
-    public CheckBox Player7CheckBox;
-    public CheckBox Player8CheckBox;
-    public CheckBox Player9CheckBox;
-    public CheckBox Player10CheckBox;
-    public CheckBox Player11CheckBox;
-    public CheckBox Player12CheckBox;
-    public Label TurnLabel;
-    public Memo ResultValuesMemo;
-    public Label SideLabel;
-    public Image AxisImage;
-    public Button ExitButton;
-    public Button ContinueButton;
-    public Panel ResultsPanel;
-    public CheckBox StrengthCheckBox;
-    public CheckBox GoldCheckBox;
-    public CheckBox ArmiesCheckBox;
-    public CheckBox HeroesCheckBox;
-    public CheckBox StructuresCheckBox;
-    public Label KeyMaximumLabel;
-    public CheckBox ManaCheckBox;
+    public CheckBox Player1CheckBox { get; private set; }
+    public CheckBox Player2CheckBox { get; private set; }
+    public CheckBox Player3CheckBox { get; private set; }
+    public CheckBox Player4CheckBox { get; private set; }
+    public CheckBox Player5CheckBox { get; private set; }
+    public CheckBox Player6CheckBox { get; private set; }
+    public CheckBox Player7CheckBox { get; private set; }
+    public CheckBox Player8CheckBox { get; private set; }
+    public CheckBox Player9CheckBox { get; private set; }
+    public CheckBox Player10CheckBox { get; private set; }
+    public CheckBox Player11CheckBox { get; private set; }
+    public CheckBox Player12CheckBox { get; private set; }
+    public Label TurnLabel { get; private set; }
+    public Memo ResultValuesMemo { get; private set; }
+    public Label SideLabel { get; private set; }
+    public Image AxisImage { get; private set; }
+    public Button ExitButton { get; private set; }
+    public Button ContinueButton { get; private set; }
+    public Panel ResultsPanel { get; private set; }
+    public CheckBox StrengthCheckBox { get; private set; }
+    public CheckBox GoldCheckBox { get; private set; }
+    public CheckBox ArmiesCheckBox { get; private set; }
+    public CheckBox HeroesCheckBox { get; private set; }
+    public CheckBox StructuresCheckBox { get; private set; }
+    public Label KeyMaximumLabel { get; private set; }
+    public CheckBox ManaCheckBox { get; private set; }
+
     private int _maxTurns;
     private int _maxGold;
     private int _maxMana;

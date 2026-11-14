@@ -23,36 +23,37 @@ public partial class HeroUpgradeDialog : UIModule
     public HeroUpgradeDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label HeaderLabel;
-    public ListBox AvailableAbilitiesList;
-    public VerticalScrollBar AvailableAbilitiesScrollBar;
-    public ListBox SelectedAbilitiesList;
-    public VerticalScrollBar SelectedAbilitiesScrollBar;
-    public ListBox AvailableAbilitiesCostList;
-    public Edit UnitNameEdit;
-    public Panel TopPanel;
-    public Label AttackValueLabel;
-    public Label DamageValueLabel;
-    public Label DefenseValueLabel;
-    public Label ResistanceValueLabel;
-    public Label HitsValueLabel;
-    public Label MovesValueLabel;
-    public Label AttackAddedLabel;
-    public Label DamageAddedLabel;
-    public Label DefenseAddedLabel;
-    public Label ResistanceAddedLabel;
-    public Label HitsAddedLabel;
-    public Label MovesAddedLabel;
-    public Label AttackBaseLabel;
-    public Label DamageBaseLabel;
-    public Label DefenseBaseLabel;
-    public Label ResistanceBaseLabel;
-    public Label HitsBaseLabel;
-    public Label MovesBaseLabel;
-    public ListBox SelectedAbilitiesCostList;
-    public Label LevelLabel;
-    public Label SkillPointsLabel;
+    public Window Window { get; private set; }
+    public Label HeaderLabel { get; private set; }
+    public ListBox AvailableAbilitiesList { get; private set; }
+    public VerticalScrollBar AvailableAbilitiesScrollBar { get; private set; }
+    public ListBox SelectedAbilitiesList { get; private set; }
+    public VerticalScrollBar SelectedAbilitiesScrollBar { get; private set; }
+    public ListBox AvailableAbilitiesCostList { get; private set; }
+    public Edit UnitNameEdit { get; private set; }
+    public Panel TopPanel { get; private set; }
+    public Label AttackValueLabel { get; private set; }
+    public Label DamageValueLabel { get; private set; }
+    public Label DefenseValueLabel { get; private set; }
+    public Label ResistanceValueLabel { get; private set; }
+    public Label HitsValueLabel { get; private set; }
+    public Label MovesValueLabel { get; private set; }
+    public Label AttackAddedLabel { get; private set; }
+    public Label DamageAddedLabel { get; private set; }
+    public Label DefenseAddedLabel { get; private set; }
+    public Label ResistanceAddedLabel { get; private set; }
+    public Label HitsAddedLabel { get; private set; }
+    public Label MovesAddedLabel { get; private set; }
+    public Label AttackBaseLabel { get; private set; }
+    public Label DamageBaseLabel { get; private set; }
+    public Label DefenseBaseLabel { get; private set; }
+    public Label ResistanceBaseLabel { get; private set; }
+    public Label HitsBaseLabel { get; private set; }
+    public Label MovesBaseLabel { get; private set; }
+    public ListBox SelectedAbilitiesCostList { get; private set; }
+    public Label LevelLabel { get; private set; }
+    public Label SkillPointsLabel { get; private set; }
+
     private event ExecuteDoneEvent OnClose;
     private HeroUpgradeEventLog _referencedHero;
     private int _selectedSort;

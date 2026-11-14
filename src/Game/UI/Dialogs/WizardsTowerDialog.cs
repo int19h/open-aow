@@ -21,12 +21,13 @@ public partial class WizardsTowerDialog : UIModule
     public WizardsTowerDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label SpellNameLabel;
-    public Label SpellClassLabel;
-    public Label SpellCostLabel;
-    public Memo ResearchMemo;
-    public Label PriceLabel;
+    public Window Window { get; private set; }
+    public Label SpellNameLabel { get; private set; }
+    public Label SpellClassLabel { get; private set; }
+    public Label SpellCostLabel { get; private set; }
+    public Memo ResearchMemo { get; private set; }
+    public Label PriceLabel { get; private set; }
+
     private event ExecuteDoneEvent OnClose;
     private EnterWizardsTowerEventLog _event;
 

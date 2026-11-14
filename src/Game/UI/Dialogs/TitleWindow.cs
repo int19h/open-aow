@@ -13,10 +13,11 @@ public partial class TitleWindow : UIModule
     public TitleWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Panel TitlePanel;
-    public Panel SplashPanel;
-    public InterfaceImageLibrary DemoImages;
+    public Window MainWindow { get; private set; }
+    public Panel TitlePanel { get; private set; }
+    public Panel SplashPanel { get; private set; }
+    public InterfaceImageLibrary DemoImages { get; private set; }
+
     private int _splashTimer;
 
     // AOWTitleWindow.pas:66
