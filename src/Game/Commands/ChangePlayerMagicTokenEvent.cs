@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.Session;
@@ -20,19 +20,20 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
 
     public new const int ClassId = 135445;
 
-    public ChangePlayerMagicTokenEventMode Mode;
-    public byte PlayerIndex;
-    public int Value;
+    public ChangePlayerMagicTokenEventMode Mode { get; set; }
+    public byte PlayerIndex { get; set; }
+    public int Value { get; set; }
+
     private int _extraValue;
 
     // Spells.PAS:2448
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 20);
-        stream.Byte(ref PlayerIndex, 21);
-        stream.Int32(ref Value, 22);
-        stream.Int32(ref _extraValue, 23);
+        base.PersistFields(persister);
+        Mode = persister.Enum("Mode", value: Mode);
+        PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
+        Value = persister.Int32("Value", value: Value);
+        _extraValue = persister.Int32("ExtraValue", value: _extraValue);
     }
 
     // Spells.PAS:2456

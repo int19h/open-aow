@@ -1,7 +1,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Rtl;
 
 namespace Aow.Game.Net;
@@ -13,11 +13,11 @@ public partial class PlayerCommunicationSettings : EngineObject
     internal int _systemId;
 
     // NetworkE.pas:452
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref _connectionMode, 1), 1, 5);
-        stream.Int32(ref _systemId, 6);
+        base.PersistFields(persister);
+        _connectionMode = persister.Enum("ConnectionMode", value: _connectionMode);
+        _systemId = persister.Int32("SystemId", value: _systemId);
     }
 
     // NetworkE.pas:446

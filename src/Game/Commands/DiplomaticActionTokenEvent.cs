@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.Session;
@@ -17,8 +17,8 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
     // Diplomacy.pas:1125
     public new const int ClassId = 135432;
 
-    public int Operation;
-    public DiplomaticAction Action;
+    public int Operation { get; set; }
+    public DiplomaticAction Action { get; set; }
 
     // Diplomacy.pas:1117
     public override void Dispose()
@@ -33,11 +33,11 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:1140
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Created(ref Action, null, 20);
-        stream.Int32(ref Operation, 21);
+        base.PersistFields(persister);
+        Action = persister.Created("Action", objectValue: Action);
+        Operation = persister.Int32("Operation", value: Operation);
     }
 
     // Diplomacy.pas:1147

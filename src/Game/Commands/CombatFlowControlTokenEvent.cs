@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 
 using Aow.Game.Net;
@@ -22,15 +22,15 @@ public partial class CombatFlowControlTokenEvent : TokenEvent
 
     public new const int ClassId = 135448;
 
-    public Set<CombatFlowControlModeElement> Mode;
-    public int Player;
+    public Set<CombatFlowControlModeElement> Mode { get; set; }
+    public int Player { get; set; }
 
     // MoveT.PAS:3596
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        TransferSet(ref Mode, 1, 30, stream.Bytes, 0);
-        stream.Int32(ref Player, 31);
+        base.PersistFields(persister);
+        Mode = persister.Set("Mode", value: Mode);
+        Player = persister.Int32("Player", value: Player);
     }
 
     // MoveT.PAS:3603

@@ -1,7 +1,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 namespace Aow.Game.Commands;
@@ -15,13 +15,13 @@ public partial class SyncTokenEvent : TokenEvent
     public SyncTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    internal int _syncValue;
+    private int _syncValue;
 
     // NetworkE.pas:1738
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref _syncValue, 20);
+        base.PersistFields(persister);
+        _syncValue = persister.Int32("SyncValue", value: _syncValue);
     }
 
     // NetworkE.pas:1744

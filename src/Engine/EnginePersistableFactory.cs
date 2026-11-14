@@ -8,7 +8,7 @@ namespace Aow.Engine;
 
 /// <summary>
 /// The factory of a game load or save through the tree (persistence-tree.md 7). It creates an
-/// object of a stored class name the way <c>TEReadStorageStream.rwCreateEObject</c> creates one of
+/// object of a stored class name the way the original created-object read creates one of
 /// a class id: the class the engine table holds at that id, with the engine as its holder. It
 /// names the engine the load reads (<c>Stream.Engine</c> of <c>ReadWrite</c>) and the progress
 /// handler the storage stream held (<c>OnProgress</c>).

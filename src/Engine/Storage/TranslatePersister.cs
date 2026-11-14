@@ -6,21 +6,18 @@ using Aow.Rtl;
 namespace Aow.Engine.Storage;
 
 /// <summary>
-/// The translate stream's visit of one object whose class persists only through the tree
-/// (issue 185 PE-3-i). <see cref="EngineObject.MainPersist"/> runs with this persister, which
-/// neither loads nor saves: a string goes through <see cref="TranslateStorageStream.TranslateString"/>,
-/// a string list (<see cref="PersistSupport.Lines"/>) through
-/// <see cref="TranslateStorageStream.TranslateStrings"/>, an object, a created object and the
-/// stored children go to the stream, which visits a child that still has <c>ReadWrite</c> through
-/// <c>MainReadWrite</c>. Every other value comes back as it was. A tree method whose original
-/// <c>ReadWrite</c> visits other members under the translate stream's mode (read, text only,
-/// translate) asks <see cref="PersistSupport.Translating"/>.
+/// The translate visit of one object (issue 185 PE-4-a). <see cref="EngineObject.MainPersist"/>
+/// runs with this persister, which neither loads nor saves: a string goes through
+/// <see cref="TranslateVisit.TranslateString"/>, a string list
+/// (<see cref="PersistSupport.Lines"/>) through <see cref="TranslateVisit.TranslateStrings"/>,
+/// and an object, a created object and the stored children go back to the visit. Every other
+/// value comes back as it was. A tree method whose visit under translation differs from a save
+/// asks <see cref="PersistSupport.Translating"/>.
 /// </summary>
-internal sealed class TranslatePersister(TranslateStorageStream stream, EngineObject node) : IPersister
+internal sealed class TranslatePersister(TranslateVisit stream, EngineObject node) : IPersister
 {
-    // The stream that visits the object. A map in the editor sets its error handler, as the original
-    // ReadWrite sets it on the stream it runs on.
-    internal TranslateStorageStream Stream => stream;
+    // The visit of the object. A map in the editor sets its error handler.
+    internal TranslateVisit Stream => stream;
 
     public bool Loading => false;
 
@@ -119,8 +116,8 @@ internal sealed class TranslatePersister(TranslateStorageStream stream, EngineOb
 
     public byte ByteList(string name, IList<byte> items, byte defaultValue) => defaultValue;
 
-    // The stream visits the children the node owns, as ReadWriteChildren hands the node to it. A
-    // reference list's children without an owner are not visited, as the stream does not visit them.
+    // The visit walks the children the node owns. A reference list's children without an owner
+    // are not visited.
     public void Children(string name, IChildCollection children) => stream.Children((ECustomNode)node, 1);
 
     public void Grid(string name, int width, int height, IReadOnlyList<IPersistable> fields, Action<int>? visited = null)

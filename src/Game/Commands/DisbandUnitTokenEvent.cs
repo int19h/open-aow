@@ -1,8 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 
@@ -28,15 +29,15 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
     public new const int ClassId = 135447;
 
-    public int UnitId;
-    public sbyte Player;
+    public int UnitId { get; set; }
+    public sbyte Player { get; set; }
 
     // MoveT.PAS:3532
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.Int32(ref UnitId, 21);
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        UnitId = persister.Int32("UnitId", value: UnitId);
     }
 
     // MoveT.PAS:3539

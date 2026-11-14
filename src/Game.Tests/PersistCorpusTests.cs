@@ -291,7 +291,7 @@ public sealed class PersistCorpusTests
                 try
                 {
                     Runtime.RandSeed = seed;
-                    Load(loaded, image);
+                    Load(loaded, image, classValue: classValue, engine: engine, factory: factory);
                 }
                 catch (Exception error) when (PortedExceptions.Is(error))
                 {
@@ -308,7 +308,7 @@ public sealed class PersistCorpusTests
                     Block(classValue.Name, "fixture: null reference in " + error.TargetSite?.DeclaringType?.Name + "." + error.TargetSite?.Name);
                     return false;
                 }
-                var rewritten = Image(loaded);
+                var rewritten = Image(loaded, engine: engine);
                 var expected = PilotImage.Decode(rewritten, classValue.Name, engine);
                 var tree = TreeWriter.Write(loaded, factory);
                 var actual = DocumentBackend.Write(tree, classValue, schema, engine);
@@ -323,19 +323,13 @@ public sealed class PersistCorpusTests
                     Block(classValue.Name, error.Diagnostic.Message);
                     return false;
                 }
-                // A class whose ReadWrite is retired (PE-3-i) loads and writes through the tree on
-                // the stream too, so its stream image is this tree's image, and the comparisons with
-                // the stream's write and load prove nothing for it. The converter's write and read
-                // comparisons stay.
-                bool retired = EngineObject.StreamRetired(loaded.GetType());
-                if (!retired)
-                    EqualBytes(rewritten, direct, file + " " + classValue.Name + " original");
+                EqualBytes(rewritten, direct, file + " " + classValue.Name + " original");
                 var again = Blank(classValue.Name);
                 try
                 {
                     Runtime.RandSeed = seed;
                     TreeReader.Read(DocumentBackend.Read(expected, classValue, schema, engine), again, factory, Stop);
-                    EqualBytes(PilotImage.Encode(expected, classValue.Name, engine), Image(again), file + " " + classValue.Name + " read");
+                    EqualBytes(PilotImage.Encode(expected, classValue.Name, engine), Image(again, engine: engine), file + " " + classValue.Name + " read");
                 }
                 finally
                 {
@@ -356,8 +350,7 @@ public sealed class PersistCorpusTests
                     }
                     Runtime.RandSeed = seed;
                     TreeReader.Read(read, fromImage, factory, Stop);
-                    if (!retired)
-                        EqualBytes(Image(loaded), actual: Image(fromImage), label: file + " " + classValue.Name + " readwrite");
+                    EqualBytes(Image(loaded, engine: engine), actual: Image(fromImage, engine: engine), label: file + " " + classValue.Name + " read");
                 }
                 finally
                 {
@@ -371,8 +364,8 @@ public sealed class PersistCorpusTests
                 try
                 {
                     Runtime.RandSeed = seed;
-                    Load(streamCopied, Image(loaded));
-                    EqualBytes(Image(streamCopied), actual: Image(copied), label: file + " " + classValue.Name + " copy");
+                    Load(streamCopied, Image(loaded, engine: engine), classValue: classValue, engine: engine, factory: factory);
+                    EqualBytes(Image(streamCopied, engine: engine), actual: Image(copied, engine: engine), label: file + " " + classValue.Name + " copy");
                 }
                 finally
                 {
@@ -399,7 +392,7 @@ public sealed class PersistCorpusTests
 
     // A map level and its fields have no engine proof here: the fixture loads no resources, so
     // every hexagon sprite fails its resource link, and a level needs a map to report progress
-    // to. The constructed level of PersistEquivalenceTests proves them against MainReadWrite. The
+    // to. The constructed level of PersistEquivalenceTests proves them against the main visit. The
     // direct path proves every level of the corpus: the converter's image of the level, read into
     // a tree by the original backend, writes back the canonical image, the document backend writes
     // the converter's document of that image, and that document read back writes the same image.
@@ -570,31 +563,18 @@ public sealed class PersistCorpusTests
     // vanishing from both sides.
     private static void Stop(string message, out bool continueLoad) => continueLoad = false;
 
-    private static void Load(EngineObject objectValue, byte[] image)
+    private static void Load(EngineObject objectValue, byte[] image, SchemaClass classValue, string engine, EnginePersistableFactory factory)
     {
-        using var memory = new MemoryStream();
-        memory.Write(image);
-        memory.Position = 0;
-        var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        reader.OnError += static (StorageStream _, string _, ref bool cont) => cont = false;
-        try
-        {
-            reader.PersistObject(objectValue);
-        }
-        finally
-        {
-            reader.Dispose();
-        }
+        var root = OriginalBackend.Read(image, classValue: classValue, schema: FormatSchema.Current, engine: engine);
+        TreeReader.Read(root, objectValue: objectValue, factory: factory, onError: Stop);
     }
 
-    private static byte[] Image(EngineObject objectValue)
+    private static byte[] Image(EngineObject objectValue, string engine)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
-        {
-            writer.PersistObject(objectValue);
-        }
-        return memory.ToArray();
+        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        var root = TreeWriter.Write(objectValue, factory: factory);
+        var classValue = FormatSchema.Current.Get(factory.ClassName(objectValue));
+        return OriginalBackend.Write(root, classValue: classValue, schema: FormatSchema.Current, engine: engine);
     }
 
     private static void EqualJson(JsonObject expected, JsonObject actual, string label)

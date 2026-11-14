@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -23,17 +23,17 @@ public partial class ConstructStructureTokenEvent : TokenEvent
 
     public new const int ClassId = 135962;
 
-    public int UnitId;
-    public sbyte Player;
-    public int ControlId;
+    public int UnitId { get; set; }
+    public sbyte Player { get; set; }
+    public int ControlId { get; set; }
 
     // Structur.PAS:3098
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref ControlId, 20);
-        stream.Int32(ref UnitId, 21);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 22);
+        base.PersistFields(persister);
+        ControlId = persister.Int32("ControlId", value: ControlId);
+        UnitId = persister.Int32("UnitId", value: UnitId);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
     }
 
     // Structur.PAS:3106

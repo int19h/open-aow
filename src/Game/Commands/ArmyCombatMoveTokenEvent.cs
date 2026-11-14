@@ -2,7 +2,7 @@
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 
 using Aow.Game.Draw;
@@ -35,10 +35,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     private bool _ignoreDefenders;
 
     // MoveT.PAS:2513
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref _combatType, 1), 1, 50);
+        base.PersistFields(persister);
+        _combatType = persister.Enum("CombatType", value: _combatType);
     }
 
     // MoveT.PAS:3085

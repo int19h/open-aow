@@ -1,9 +1,9 @@
 // Translated from CitySpells.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
@@ -28,16 +28,16 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     // corpus file, kept so that a loaded value saves back unchanged.
     public byte UnknownBytes { get; set; }
 
-    public sbyte TargetPlayer;
+    public sbyte TargetPlayer { get; set; }
 
     // CitySpells.pas:175
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
+        base.PersistFields(persister);
         int location = StoredCoordinateImage.From(_targetLocation, unknownBytes: UnknownBytes).ToInt32();
-        stream.Int32(ref location, 20);
+        location = persister.Int32("TargetLocation", value: location);
         (_targetLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 21);
+        TargetPlayer = PersistSupport.UnsignedByte(persister, name: "TargetPlayer", value: TargetPlayer);
     }
 
     // CitySpells.pas:189

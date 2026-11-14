@@ -1,6 +1,8 @@
 // Translated from SummonSpells.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
@@ -30,10 +32,10 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     }
 
     // SummonSpells.pas:176
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Payload(30, UnitIndices.LoadFromStream, UnitIndices.SaveToStream);
+        base.PersistFields(persister);
+        PersistSupport.UnitIndexList(persister, name: "UnitIndices", list: UnitIndices);
     }
 
     // SummonSpells.pas:159

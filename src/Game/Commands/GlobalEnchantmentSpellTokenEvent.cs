@@ -1,7 +1,7 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 
@@ -16,7 +16,7 @@ public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
     // GlobalEnchantmentSpells.pas:389
     public new const int ClassId = 135954;
 
-    public GlobalEnchantment Enchantment;
+    public GlobalEnchantment Enchantment { get; set; }
 
     // GlobalEnchantmentSpells.pas:379
     public override void Dispose()
@@ -31,10 +31,10 @@ public partial class GlobalEnchantmentSpellTokenEvent : SpellTokenEvent
     }
 
     // GlobalEnchantmentSpells.pas:394
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Created(ref Enchantment, null, 25);
+        base.PersistFields(persister);
+        Enchantment = persister.Created("Enchantment", objectValue: Enchantment);
     }
 
     // GlobalEnchantmentSpells.pas:400

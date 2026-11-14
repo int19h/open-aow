@@ -70,7 +70,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
 
     // HSEngine.pas:3197
     // A preview reads the container's own members and leaves its stored levels unread, as the
-    // original MainReadWrite does, so the load skips them.
+    // original main visit does, so the load skips them.
     public override void MainPersist(IPersister persister)
     {
         if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))

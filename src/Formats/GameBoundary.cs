@@ -263,6 +263,71 @@ public static class GameBoundary
         new("written-object", kinds: ["written-object"], rootClass: className, engine: classTable);
 
     /// <summary>
+    /// The image <c>TEngine.StoreEObject</c> writes (<c>rwCreateEObject</c> with id 0). A class id
+    /// and then the object image sit inside the outer table of id 0. Class id 0 is nil and stores
+    /// no object image. The original backend writes the object in the engine table of
+    /// <paramref name="className"/>.
+    /// </summary>
+    public static byte[] WritePacket(ObjectNode? root, int classId, string? className)
+    {
+        var schema = FormatSchema.Current;
+        string classTable = "game";
+        var body = new ByteBuffer();
+        body.Int32(classId);
+        if (classId != 0)
+        {
+            if (root is null || className is null)
+                throw new ArgumentException("A packet with a class id stores its object.");
+            var classValue = schema.Get(className);
+            classTable = PacketClassTable(classValue);
+            body.Bytes(OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable));
+        }
+        var context = new EncodeContext(schema, engine: classTable, profile: "packet", file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        var output = new ByteBuffer(body.Length + 16);
+        FileProfile.WriteTop(context, root: body.ToArray(), layout: null, at: new JsonObject(), output: output);
+        return output.ToArray();
+    }
+
+    /// <summary>
+    /// The class id of a packet image. 0 is nil. An empty property table, the image a failed
+    /// write leaves, is nil too.
+    /// </summary>
+    public static int ReadPacketClassId(byte[] image)
+    {
+        var schema = FormatSchema.Current;
+        var context = new DecodeContext(image, schema: schema, engine: "game", profile: "packet", file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
+        if (table.Entries.Count == 0) return 0;
+        int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
+        context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
+        return context.Int32(start);
+    }
+
+    /// <summary>
+    /// The object of a packet whose class id is not 0, decoded as <paramref name="className"/>.
+    /// The original backend reads the object in that class's engine table.
+    /// </summary>
+    public static ObjectNode ReadPacket(byte[] image, string className)
+    {
+        var schema = FormatSchema.Current;
+        var classValue = schema.Get(className);
+        string classTable = PacketClassTable(classValue);
+        var context = new DecodeContext(image, schema: schema, engine: classTable, profile: "packet", file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
+        context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
+        if (context.Int32(start) == 0)
+            throw new InvalidOperationException("A nil packet has no object.");
+        return ImageTree.Read(context, start: start + 4, end: image.Length, classValue: classValue);
+    }
+
+    /// <summary>
+    /// The engine table of the class ids inside a packet. The strategic table when the class
+    /// lists it or lists none, otherwise the first table the class lists.
+    /// </summary>
+    public static string PacketClassTable(SchemaClass classValue) =>
+        classValue.Engines.Contains("game") || classValue.Engines.Count == 0 ? "game" : classValue.Engines[0];
+
+    /// <summary>
     /// Converts a tree the game wrote to the canonical document bytes (own-formats.md 4.2): the
     /// document backend writes the root under the profile's root class, and the document is
     /// validated and serialized. <paramref name="className"/> is the stored class of the root,

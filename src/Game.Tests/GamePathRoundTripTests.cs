@@ -3,6 +3,8 @@ using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
@@ -167,11 +169,10 @@ public sealed class GamePathRoundTripTests : IDisposable
     // The image the storage stream writes, the state the old game path saved.
     private static byte[] Image(EngineObject objectValue)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, engine: Engine, partial: false))
-        {
-            writer.PersistObject(objectValue);
-        }
-        return memory.ToArray();
+        var factory = new EnginePersistableFactory(Engine);
+        var root = TreeWriter.Write(objectValue, factory: factory);
+        var schema = FormatSchema.Current;
+        var classValue = schema.Get(factory.ClassName(objectValue));
+        return OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 }

@@ -1,5 +1,4 @@
 // Translated from Engine.pas.
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Rtl;
 
@@ -25,44 +24,10 @@ public partial class EReferenceNode : ENode
     }
 
     // Engine.pas:8157
-    public override void ReadWriteChildren(StorageStream stream)
-    {
-        if (stream.StorageMode().Contains(StorageModeElement.Write))
-        {
-            for (int I = 0, last = Count - 1; I <= last; I++)
-            {
-                if (GetChild(I).Owner == null)
-                {
-                    GetChild(I).SetOwnerWithoutNotify(this);
-                }
-            }
-
-            base.ReadWriteChildren(stream);
-            for (int I = 0, last = Count - 1; I <= last; I++)
-            {
-                if (GetChild(I).Owner == this)
-                {
-                    GetChild(I).SetOwnerWithoutNotify(null);
-                }
-            }
-        }
-        else
-        {
-            base.ReadWriteChildren(stream);
-            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-            {
-                for (int I = 0, last = Count - 1; I <= last; I++)
-                {
-                    GetChild(I).Release();
-                }
-            }
-        }
-    }
-
-    // The stream write makes the list the owner of each child without one, stores the children
-    // it owns and clears those owners again. The tree stores the same children through
+    // The original write made the list the owner of each child without one, stored the children
+    // it owned and cleared those owners again. The tree stores the same children through
     // ReferenceChildren and leaves the owners alone. The load releases the reference each loaded
-    // child took when it was created, as ReadWriteChildren does.
+    // child took when it was created.
     public override void PersistChildren(IPersister persister)
     {
         persister.Children("Children", children: new ReferenceChildren(this));

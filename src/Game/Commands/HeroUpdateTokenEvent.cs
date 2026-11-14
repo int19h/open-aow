@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -22,19 +22,19 @@ public partial class HeroUpdateTokenEvent : TokenEvent
 
     public new const int ClassId = 135429;
 
-    public int UnitId;
-    public HeroUpdateTokenEventMode Mode;
-    public int ItemId;
-    public int Parameter;
+    public int UnitId { get; set; }
+    public HeroUpdateTokenEventMode Mode { get; set; }
+    public int ItemId { get; set; }
+    public int Parameter { get; set; }
 
     // Hero.PAS:2279
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref UnitId, 20);
-        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 21);
-        stream.Int32(ref ItemId, 22);
-        stream.Int32(ref Parameter, 23);
+        base.PersistFields(persister);
+        UnitId = persister.Int32("UnitId", value: UnitId);
+        Mode = persister.Enum("Mode", value: Mode);
+        ItemId = persister.Int32("ItemId", value: ItemId);
+        Parameter = persister.Int32("Parameter", value: Parameter);
     }
 
     // Hero.PAS:2291

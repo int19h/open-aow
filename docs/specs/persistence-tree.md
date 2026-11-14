@@ -1,4 +1,4 @@
-# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i)
+# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i, PE-4-a)
 
 State: PE-1 is implemented for the pilot classes. PE-2a adds version 2 of the own document,
 symbolic enums and sets, and fixed integer arrays as lists, 2026-11-07. PE-2b adds version 3,
@@ -41,9 +41,12 @@ event logs, spells, AI, interface and sound (`Game/Session`, `Game/Events`, `Gam
 `Game/UI`, `Game/Audio` and the e-mail game), with no document change, 2026-11-13. The fourth
 pull request retires them for the battles, combat data, logbooks and combat actions
 (`Game/Combat`, `Game/Combat/Actions`) and for the engine base classes no token event or packet
-reaches, with no document change, 2026-11-14. The token events and the packets keep `ReadWrite`
-until PE-4-a, with the base methods of `EngineObject`, `ECustomNode` and `EReferenceNode` they
-reach.
+reaches, with no document change, 2026-11-14. PE-4-a retires `ReadWrite`, `MainReadWrite` and
+`ReadWriteChildren` for the token events and the packets and for the five base methods they
+reached, and deletes the storage streams (section 15). `StoreEngineObject` and
+`RetrieveEngineObject` write and read through the tree and the original backend with the packet's
+class table, which is the legacy packet adapter of step 4. No own-document shape changes,
+2026-11-14. The transport schema of step 4 and step 5 are not implemented.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -66,19 +69,14 @@ through `AddChild`, and then releases the reference each loaded child took when 
 the same bracket as `MainReadWrite`. `UnitList.MainPersist` (Delphi `TUnitList`) then calls `Release` on every child,
 the same loop as `MainReadWrite`. `Army.MainPersist` does the same, because an army no longer derives from `UnitList`
 (issue 158 part 4) and keeps the unit list's part itself. Its children are its troops, written through
-`NodeChildren` with the same slots, class ids and stored-child test. `ReadWrite` is unchanged. The game's loads and saves of the
+`NodeChildren` with the same slots, class ids and stored-child test. The game's loads and saves of the
 in-scope profiles (section 12) and its copies, assignments, comparisons and original object files
-(section 13) no longer call it.
+(section 13) go through the tree, and so do the packets (section 15).
 
-The refusal walks the type and its bases. A type that declares `MainReadWrite` and does not
-declare `MainPersist` produces `Class <name> overrides MainReadWrite and has no MainPersist.` A type
-that declares `ReadWriteChildren` and does not declare `PersistChildren` produces
-`Class <name> overrides ReadWriteChildren and has no PersistChildren.`
-A type that declares `ReadWrite` and does not declare `PersistFields` produces
-`Class <name> overrides ReadWrite and has no PersistFields.`
-`PersistRefusalTests` pins every product engine class in either state. `Enchantment` (Delphi `TEnchantment`),
-`EChangeNotifyNode`, `UnitList` and `ArmyView` (Delphi `TArmyView`) are not in that set. Since PE-3-b `Unit` (Delphi `TUnit`)
-is not in it either, so an army that owns a unit persists on the tree.
+Nothing is refused. `TreePersistenceRefusal` returns null, and `PersistRefusalTests` pins every
+product engine class as persisting through the tree. `Enchantment` (Delphi `TEnchantment`),
+`EChangeNotifyNode`, `UnitList`, `ArmyView` (Delphi `TArmyView`) and, since PE-3-b, `Unit`
+(Delphi `TUnit`) persist with the classes around them, so an army that owns a unit persists on the tree.
 
 ```csharp
 public interface IPersistable
@@ -851,3 +849,57 @@ Once the token events and the packets have tree methods, every class is retired,
 methods and `StreamRetired` go, the packets go through the original backend with the packet's
 class table, and the translate stream visits only through `TranslatePersister`, which then needs
 the stream only for its translate methods.
+
+## 15. Token events and packets (PE-4-a)
+
+PE-4-a puts the token events (`Game/Commands`) and the packets (`Game/Net`) on the tree and
+deletes the storage streams.
+
+The generator wrote `PersistFields` for 46 storage methods. Two were already on the tree and came
+out the same (`TokenEvent`, `ChangeGlobalMagicTokenEvent`). `EmailGame` already had `PersistFields`
+and no storage method. Two methods the generator refused are written by hand. `MoveTokenEvent`
+stores `Path` as an integer list of `MapCoordinate` through the path step image.
+`UnitSpellTokenEvent` stores `TargetUnitIds` as an integer list, `SpellData` as an integer array
+and `TargetPlayer` as a byte.
+
+A constructed packet of every token event class and every packet class wrote the same bytes as
+its `ReadWrite` and read back equal, before those methods were deleted. After the deletion the
+same tests compare the tree with the original backend and with a load of the packet.
+
+`StoreEngineObject` and `RetrieveEngineObject` write and read through the tree and
+`OriginalBackend`, with the packet's class table. The class id is the live `EngineClass.ClassId`.
+The outer property id is 0, which is the image the storage writer wrote for a created object. A
+null object writes class id 0 inside that table. A failure of the root writes one zero byte. A
+failure inside a nested object throws and the packet is not written. `PlayerCommunicator` and
+`SetupControl` send and receive through these two methods, so the bytes on the wire stay the same.
+Several classes share class id 80. A load uses the engine class table, and a class that is not the
+one registered at that id is not read back as its own type.
+
+`ReadWrite`, `MainReadWrite` and `ReadWriteChildren` are deleted, including
+`EngineObject.ReadWrite`, `EngineObject.MainReadWrite`, `ECustomNode.MainReadWrite`,
+`ECustomNode.ReadWriteChildren` and `EReferenceNode.ReadWriteChildren`. `StorageReader`,
+`StorageWriter`, `StorageStream`, the bridge, `EngineObject.StreamRetired` and
+`StorageModeElement` are deleted. `StringsToStreamEx`, `StringsFromStreamEx` and
+`RtlUnit.TransferRecord` are deleted. `LinesWithObjects` of the stream classes went with them.
+`IPersister.LinesWithObjects` stays.
+
+`Int32List.LoadFromStream` and `SaveToStream` stay. `UnitIndexList` still calls them, and the unit
+index list tests compare that image with the tree. `PathStepList` keeps its payload methods for
+the same reason. `ProductionTokenEvent.X`, `Y` and `MapLevel` stay fields, because
+`ProductionControl.CreateProductionTokenEvent` passes them to `GetLocation` as `out` arguments.
+
+Map translation no longer uses a storage stream. `TranslateVisit` walks an object through
+`MainPersist` and `TranslatePersister`. `TranslateTextStream` derives from it and rewrites strings
+through the dictionary. The visit is not a load, so nothing clears and a reference list releases
+nothing. The visit reports a failure as "Error reading object" and rethrows unless the handler
+continues. The German language frames prove the strings it rewrites.
+
+105 token event fields lost the `ref` use that kept them fields. 103 became properties with the
+same names. Five of them take a private setter and four a protected setter, and the rest a public
+setter. `TokenEvent._tokenCounter` and `SyncTokenEvent._syncValue` became private, and the
+references outside their types go through `TokenCounter` and `SyncValue`, which already stored
+them. Sixteen private fields stay private, and the local `location` of four token events stays a
+local.
+
+No own-document shape changes. The stored names are the same literals. An own save written before
+this step loads after it.

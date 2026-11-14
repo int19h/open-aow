@@ -2,6 +2,7 @@ using System.Reflection;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
@@ -228,12 +229,11 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
 
     private static byte[] Image(EngineObject objectValue)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
-        {
-            writer.PersistObject(objectValue);
-        }
-        return memory.ToArray();
+        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        var root = TreeWriter.Write(objectValue, factory: factory);
+        var schema = FormatSchema.Current;
+        var classValue = schema.Get(factory.ClassName(objectValue));
+        return OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 
     private static JsonObject SchemaSource()

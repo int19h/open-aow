@@ -184,9 +184,9 @@ public partial class TokenExecutor : IDisposable
     {
         if (_state.Contains(TokenExecutorState.Prefetching))
         {
-            if (tokenEvent._tokenCounter >= _tokenCounter || tokenEvent._tokenCounter == -1)
+            if (tokenEvent.TokenCounter >= _tokenCounter || tokenEvent.TokenCounter == -1)
             {
-                tokenEvent._tokenCounter = Events.Count + _tokenCounter;
+                tokenEvent.TokenCounter = Events.Count + _tokenCounter;
                 Events.Add(tokenEvent);
             }
 
@@ -301,10 +301,10 @@ public partial class TokenExecutor : IDisposable
         ExecuteResult R;
         if (!_state.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
         {
-            if (SystemEvents[0]._tokenCounter == -1)
+            if (SystemEvents[0].TokenCounter == -1)
             {
                 _executeCount = 0;
-                SystemEvents[0]._tokenCounter = _tokenCounter;
+                SystemEvents[0].TokenCounter = _tokenCounter;
             }
 
             R = ExecuteTokenEvent(SystemEvents[0]);

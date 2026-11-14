@@ -982,14 +982,11 @@ type,TEObjectClassList,Aow.Engine.EngineObjectClassList
 type,TEObjectEditor,Aow.Engine.Nodes.EngineObjectEditor
 type,TEObjectEditorList,Aow.Engine.Nodes.EngineObjectEditorList
 type,TEObjectList,Aow.Engine.Nodes.EngineObjectList
-type,TEReadStorageStream,Aow.Engine.Storage.StorageReader
 type,TEReferenceNode,Aow.Engine.Nodes.EReferenceNode
 type,TEResource,Aow.Engine.Nodes.EngineResource
 type,TEResourceEditSettings,Aow.Engine.Nodes.ResourceEditSettings
 type,TEResourceList,Aow.Engine.Nodes.EResourceList
 type,TESortNode,Aow.Engine.Nodes.ESortNode
-type,TEStorageStream,Aow.Engine.Storage.StorageStream
-type,TEWriteStorageStream,Aow.Engine.Storage.StorageWriter
 type,TEarthMastery,Aow.Game.Magic.Spells.EarthMastery
 type,TEarthMasteryEnchantment,Aow.Game.Magic.Spells.EarthMasteryEnchantment
 type,TEarthNode,Aow.Game.World.Structures.EarthNode
@@ -1770,8 +1767,6 @@ type,TStatus,Aow.Game.Session.Status
 type,TStoneSkin,Aow.Game.Magic.Spells.StoneSkin
 type,TStoneSkinAbility,Aow.Game.Magic.Abilities.Passive.StoneSkinAbility
 type,TStoning,Aow.Game.Magic.Spells.Stoning
-type,TStorageModeElement,Aow.Engine.Storage.StorageModeElement
-type,TStorageStreamError,Aow.Engine.Storage.StorageStream.StorageStreamError
 type,TStorm,Aow.Game.Draw.Animations.Storm
 type,TStormDamageInfo,Aow.Game.Combat.StormDamageInfo
 type,TStormSpell,Aow.Game.Magic.Spells.StormSpell
@@ -1883,7 +1878,6 @@ type,TTowerStateElement,Aow.Game.World.Structures.Tower.StateElement
 type,TTownGate,Aow.Game.Magic.Spells.TownGate
 type,TTownGateTE,Aow.Game.Commands.TownGateTokenEvent
 type,TTownQuake,Aow.Game.Magic.Spells.TownQuake
-type,TTranslateStorageStream,Aow.Engine.Storage.TranslateStorageStream
 type,TTranslateTextStream,Aow.Engine.Storage.TranslateTextStream
 type,TTransparentPicture16,Aow.Game.Draw.Images.TransparentPicture16
 type,TTransparentRLESprite16,Aow.Game.Draw.Images.TransparentRleSprite16
@@ -3590,13 +3584,6 @@ member,TStatus.sHostile,Aow.Game.Session.Status.Hostile
 member,TStatus.sNeutral,Aow.Game.Session.Status.Neutral
 member,TStatus.sPolite,Aow.Game.Session.Status.Polite
 member,TStatus.sWary,Aow.Game.Session.Status.Wary
-member,TStorageModeElement.smCompare,Aow.Engine.Storage.StorageModeElement.Compare
-member,TStorageModeElement.smPreview,Aow.Engine.Storage.StorageModeElement.Preview
-member,TStorageModeElement.smRead,Aow.Engine.Storage.StorageModeElement.Read
-member,TStorageModeElement.smSetupCompare,Aow.Engine.Storage.StorageModeElement.SetupCompare
-member,TStorageModeElement.smTextOnly,Aow.Engine.Storage.StorageModeElement.TextOnly
-member,TStorageModeElement.smTranslate,Aow.Engine.Storage.StorageModeElement.Translate
-member,TStorageModeElement.smWrite,Aow.Engine.Storage.StorageModeElement.Write
 member,TStormType.stDeath,Aow.Game.Magic.Spells.StormType.Death
 member,TStormType.stFire,Aow.Game.Magic.Spells.StormType.Fire
 member,TStormType.stHoly,Aow.Game.Magic.Spells.StormType.Holy

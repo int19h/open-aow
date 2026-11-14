@@ -310,38 +310,43 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8947
+    // rwCreateEObject at id 0. The original backend writes the object in its engine table, inside
+    // the outer table, with the class id in front. A failure of the root stores an empty table.
     public void StoreEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        StorageStream S;
-        S = new StorageWriter(stream, this, false);
-        S.OnProgress += progress;
+        if (objectValue is null || objectValue.EngineClass.ClassId == 0)
+        {
+            stream.Write(GameBoundary.WritePacket(root: null, classId: 0, className: null));
+            return;
+        }
+        var factory = new EnginePersistableFactory(this, progress: progress);
+        ObjectNode root;
         try
         {
-            S.Created(ref objectValue, null, 0);
+            root = TreeWriter.Write(objectValue, factory: factory);
         }
-        finally
+        catch (Exception)
         {
-            S?.Dispose();
+            stream.WriteByte(0);
+            return;
         }
+        stream.Write(GameBoundary.WritePacket(root, classId: objectValue.EngineClass.ClassId, className: factory.ClassName(objectValue)));
     }
 
     // Engine.pas:8960
+    // The class id selects the class the engine table holds, and the original backend reads the
+    // object. Class id 0 and an empty table return nil. A failure of the object returns nil.
     public EngineObject RetrieveEngineObject(Stream stream, Engine.ProgressEvent progress)
     {
-        EngineObject result = default;
-        StorageStream S;
-        S = new StorageReader(stream, this, false);
-        S.OnProgress += progress;
-        try
-        {
-            S.Created(ref result, null, 0);
-        }
-        finally
-        {
-            S?.Dispose();
-        }
-
-        return result;
+        int count = checked((int)(stream.Length - stream.Position));
+        var image = new byte[count];
+        stream.ReadExactly(image);
+        int classId = GameBoundary.ReadPacketClassId(image);
+        if (classId == 0) return null;
+        var engineClass = GetEngineClass(classId);
+        var factory = new EnginePersistableFactory(this, progress: progress);
+        var root = GameBoundary.ReadPacket(image, className: engineClass.StorageKey);
+        return (EngineObject)TreeReader.ReadCreated(root, className: engineClass.StorageKey, factory: factory);
     }
 
     // Engine.pas:8973

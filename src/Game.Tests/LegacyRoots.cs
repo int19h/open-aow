@@ -78,7 +78,6 @@ internal static class LegacyRoots
         typeof(PropertyTable),
         typeof(ShowMessageNotification),
         typeof(CompressStream),
-        typeof(StorageStream),
         typeof(FastMemoryStream),
         typeof(ExecuteEventLogCallbackList),
         typeof(ExecuteEventLogNotification),

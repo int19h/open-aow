@@ -1,7 +1,7 @@
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Net;
@@ -21,10 +21,10 @@ public partial class AnimationTokenEvent : TokenEvent
     private Animation _animation;
 
     // Animation.pas:399
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Created(ref _animation, null, 15);
+        base.PersistFields(persister);
+        _animation = persister.Created("Animation", objectValue: _animation);
     }
 
     // Animation.pas:405
