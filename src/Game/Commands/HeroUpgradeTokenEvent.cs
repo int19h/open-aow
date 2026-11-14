@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -17,14 +17,14 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
 {
     public new const int ClassId = 135965;
 
-    public int UnitId;
-    public sbyte Player;
-    public sbyte Attack;
-    public sbyte Defense;
-    public sbyte Resistance;
-    public sbyte Damage;
-    public sbyte Moves;
-    public sbyte Hits;
+    public int UnitId { get; set; }
+    public sbyte Player { get; set; }
+    public sbyte Attack { get; set; }
+    public sbyte Defense { get; set; }
+    public sbyte Resistance { get; set; }
+    public sbyte Damage { get; set; }
+    public sbyte Moves { get; set; }
+    public sbyte Hits { get; set; }
 
     public AbilityOwner Abilities { get; }
 
@@ -36,18 +36,18 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     }
 
     // Hero.PAS:13
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 30);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 31);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 32);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 33);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Moves), 34);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Hits), 35);
-        stream.Object(Abilities, 36);
-        stream.Int32(ref UnitId, 37);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 38);
+        base.PersistFields(persister);
+        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
+        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
+        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
+        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
+        Moves = PersistSupport.UnsignedByte(persister, name: "Moves", value: Moves);
+        Hits = PersistSupport.UnsignedByte(persister, name: "Hits", value: Hits);
+        persister.Object("Abilities", objectValue: Abilities);
+        UnitId = persister.Int32("UnitId", value: UnitId);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
     }
 
     // Hero.PAS:1

@@ -1071,9 +1071,12 @@ through the original backend (`persistence-tree.md` 13). PE-3-i retires `ReadWri
 family: the units, abilities and items have none since its first pull request, the world map,
 terrain, structures, production and drawing none since its second, the players, campaigns,
 diplomacy, event logs, spells, AI, interface and sound classes none since its third, the combat
-classes and the engine base classes none since its fourth, and the storage streams store them
-through the tree (`persistence-tree.md` 14). `ReadWrite` remains for the token events and the
-packets and for the engine base methods they reach (PE-4-a), and steps 4 and 5 are not
+classes none since its fourth, and the engine base methods no token event or packet
+reaches none since that same pull request (`persistence-tree.md` 14). PE-4-a retires `ReadWrite`
+for the token events and the packets and for the five base methods they reach, deletes the
+storage streams, and writes the packets through the original backend with the packet's class
+table (`persistence-tree.md` 15).
+That is the legacy packet adapter of step 4. The transport schema of step 4 and step 5 are not
 implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
 section 10 names them as that step's prerequisite.

@@ -1,9 +1,11 @@
 // Translated from AoWE.pas.
 using System.Runtime.InteropServices;
 
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -23,7 +25,8 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     public Int32List TargetUnitIds { get; }
 
     private readonly UnitUserList _targetUnits;
-    public byte TargetPlayer;
+
+    public byte TargetPlayer { get; set; }
 
     public int[] SpellData { get; } = new int[2];
 
@@ -36,12 +39,13 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     }
 
     // Spells.PAS:1136
-    public override void ReadWrite(StorageStream stream)
+    // Spells.PAS:1136
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Payload(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
-        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 31);
-        stream.Byte(ref TargetPlayer, 32);
+        base.PersistFields(persister);
+        PersistSupport.Int32List(persister, name: "TargetUnitIds", list: TargetUnitIds);
+        PersistSupport.Int32Array(persister, name: "SpellData", values: SpellData);
+        TargetPlayer = persister.Byte("TargetPlayer", TargetPlayer);
     }
 
     // Spells.PAS:1120

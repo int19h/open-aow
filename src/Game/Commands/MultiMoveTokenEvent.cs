@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Rtl;
@@ -15,7 +15,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
 
     public TokenEventList Events { get; }
 
-    public bool Simultaneous;
+    public bool Simultaneous { get; set; }
 
     // MoveT.PAS:3293
     public override void Dispose()
@@ -25,11 +25,11 @@ public partial class MultiMoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:3302
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Object(Events, 20);
-        stream.Boolean(ref Simultaneous, 21);
+        base.PersistFields(persister);
+        persister.Object("Events", objectValue: Events);
+        Simultaneous = persister.Boolean("Simultaneous", value: Simultaneous);
     }
 
     // MoveT.PAS:3286

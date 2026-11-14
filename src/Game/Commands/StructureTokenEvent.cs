@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.World.Map;
@@ -24,26 +24,32 @@ public partial class StructureTokenEvent : TokenEvent
     private sbyte _x;
     private sbyte _y;
     private sbyte _mapLevel;
-    public sbyte Player;
+
+    public sbyte Player { get; private set; }
+
     private int _structureClassId;
-    public int Action;
+
+    public int Action { get; set; }
+
     private bool _razed;
-    public int Param;
+
+    public int Param { get; set; }
+
     private int _param2;
 
     // Structur.PAS:3051
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref Action, 15);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _x), 16);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _y), 17);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _mapLevel), 18);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 19);
-        stream.Int32(ref _structureClassId, 20);
-        stream.Boolean(ref _razed, 21);
-        stream.Int32(ref Param, 22);
-        stream.Int32(ref _param2, 23);
+        base.PersistFields(persister);
+        Action = persister.Int32("Action", value: Action);
+        _x = PersistSupport.UnsignedByte(persister, name: "X", value: _x);
+        _y = PersistSupport.UnsignedByte(persister, name: "Y", value: _y);
+        _mapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: _mapLevel);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        _structureClassId = persister.Int32("StructureClassId", value: _structureClassId);
+        _razed = persister.Boolean("Razed", value: _razed);
+        Param = persister.Int32("Param", value: Param);
+        _param2 = persister.Int32("Param2", value: _param2);
     }
 
     // Structur.PAS:3077

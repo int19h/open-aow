@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.World.Map;
@@ -18,15 +18,15 @@ public partial class ChangePlayerSettingsTokenEvent : TokenEvent
 
     public new const int ClassId = 135974;
 
-    public sbyte Player;
-    public string Settings = "";
+    public sbyte Player { get; set; }
+    public string Settings { get; set; } = "";
 
     // MoveT.PAS:1891
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 30);
-        stream.String(ref Settings, 31);
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Settings = persister.String("Settings", value: Settings);
     }
 
     // MoveT.PAS:1898

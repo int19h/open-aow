@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 using Aow.Game.Net;
 
@@ -32,11 +33,29 @@ public partial class MoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:1964
-    public override void ReadWrite(StorageStream stream)
+    // The path is the integer list of its steps. Each step is the four bytes of its map coordinate.
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Payload(20, Path.LoadFromStream, Path.SaveToStream);
+        base.PersistFields(persister);
+        bool present = persister.Has("Path");
+        var items = new List<int>(Path.Count);
+        for (int index = 0; index < Path.Count; index++)
+            items.Add(PathStepImage.From(Path[index]).ToInt32());
+        int stored = persister.Int32List("Path", items: items, defaultValue: PathStepImage.From(Path.Default).ToInt32());
+        if (!persister.Loading || !present) return;
+        Path.Clear();
+        Path.Default = Step(stored);
+        for (int index = 0; index < items.Count; index++)
+            Path.Add(Step(items[index]));
     }
+
+    private static PathStep Step(int value) =>
+        new(
+            Location: new MapCoordinate(
+                X: unchecked((sbyte)(byte)value),
+                Y: unchecked((sbyte)(byte)(value >> 8)),
+                MapLevel: unchecked((sbyte)(byte)(value >> 16))),
+            MoveCost: unchecked((sbyte)(byte)(value >> 24)));
 
     // MoveT.PAS:2027
     public override ExecuteResult Execute(TokenExecutor tokenEvent)

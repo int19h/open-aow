@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -20,18 +20,20 @@ public partial class ItemTokenEvent : TokenEvent
 
     public new const int ClassId = 131698;
 
-    public int ItemId;
+    public int ItemId { get; set; }
+
     private byte _action;
+
     // 0 = use
-    public int HeroId;
+    public int HeroId { get; set; }
 
     // Army.PAS:4185
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref ItemId, 20);
-        stream.Bytes(Bytes.Of(ref _action, 1), 1, 21);
-        stream.Int32(ref HeroId, 22);
+        base.PersistFields(persister);
+        ItemId = persister.Int32("ItemId", value: ItemId);
+        _action = persister.RawByte("Action", value: _action);
+        HeroId = persister.Int32("HeroId", value: HeroId);
     }
 
     // Army.PAS:4193

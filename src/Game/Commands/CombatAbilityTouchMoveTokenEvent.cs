@@ -1,7 +1,7 @@
 // Translated from CombatTE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
@@ -26,7 +26,9 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     public new const int ClassId = 2236418;
 
     private BattleEffectSprite _effect;
-    public int AbilityId;
+
+    public int AbilityId { get; set; }
+
     private PossessCombatAction _possessAction;
     private EntangleCombatAction _entangleAction;
     private WebCombatAction _webAction;
@@ -41,10 +43,10 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     private CityWall _wall;
 
     // CombatTE.pas:627
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref AbilityId, 30);
+        base.PersistFields(persister);
+        AbilityId = persister.Int32("AbilityId", value: AbilityId);
     }
 
     // CombatTE.pas:633

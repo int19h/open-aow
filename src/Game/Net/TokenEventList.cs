@@ -1,7 +1,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Commands;
 
 namespace Aow.Game.Net;
@@ -15,10 +15,10 @@ public partial class TokenEventList : EngineObject
     internal TokenEventReferenceList List { get; }
 
     // NetworkE.pas:1000
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Object(List, 5);
+        base.PersistFields(persister);
+        persister.Object("List", objectValue: List);
     }
 
     // NetworkE.pas:982
@@ -55,7 +55,7 @@ public partial class TokenEventList : EngineObject
         while (result != 0)
         {
             result -= 1;
-            if (List[result]._tokenCounter == tokenCounter)
+            if (List[result].TokenCounter == tokenCounter)
             {
                 return result;
             }
@@ -134,7 +134,7 @@ public partial class TokenEventList : EngineObject
 
     private static int CompareTokenCounter(TokenEvent item1, TokenEvent item2)
     {
-        return item1._tokenCounter - item2._tokenCounter;
+        return item1.TokenCounter - item2.TokenCounter;
     }
 
 }

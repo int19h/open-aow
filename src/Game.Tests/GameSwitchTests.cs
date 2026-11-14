@@ -258,14 +258,6 @@ public sealed class GameSwitchTests
         // The id table is weak since C12, so the unlinked group needs no teardown.
         var group = new PassiveAIGroup(null!) { Holder = EngineFixture.Engine };
         Assert.Equal(-1, group.IndependentRelation);
-        sbyte relation = group.IndependentRelation;
-        using var memory = new MemoryStream();
-        memory.Write(new byte[] { 0 });
-        memory.Position = 0;
-        var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        try { reader.Bytes(Bytes.Of(ref relation, 1), 1, 26); }
-        finally { reader.Dispose(); }
-        Assert.Equal(-1, relation);
     }
 
     [InstalledFact]

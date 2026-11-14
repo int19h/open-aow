@@ -1,6 +1,7 @@
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
@@ -29,7 +30,8 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
     private int _angle;
     private Animation _animation;
-    public ArmyId ArmyId;
+
+    public ArmyId ArmyId { get; set; }
 
     // GlobalTargetSpells.pas:1553
     public override void Dispose()
@@ -39,10 +41,10 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:1593
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Created(ref ArmyId, null, 40);
+        base.PersistFields(persister);
+        ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 
     // GlobalTargetSpells.pas:1547

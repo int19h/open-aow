@@ -1,8 +1,9 @@
 // Translated from Storms.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
@@ -22,17 +23,18 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
     public new const int ClassId = 135937;
 
     private Storm _storm;
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
+
+    public sbyte X { get; set; }
+    public sbyte Y { get; set; }
+    public sbyte MapLevel { get; set; }
 
     // Storms.pas:735
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 21);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 22);
+        base.PersistFields(persister);
+        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
+        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
+        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
     }
 
     // Storms.pas:743

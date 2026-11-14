@@ -1,9 +1,4 @@
 // Translated from Engine.pas.
-using System.Collections.Concurrent;
-using System.Reflection;
-
-using Aow.Engine.Storage;
-
 using Aow.Formats.Tree;
 using Aow.Game;
 
@@ -97,11 +92,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2590
-    public virtual void ReadWrite(StorageStream stream)
-    {
-    }
-
-    // Tree form of ReadWrite. MainPersist is the stored image.
+    // The stored fields. MainPersist is the stored image.
     public virtual void PersistFields(IPersister persister)
     {
     }
@@ -114,50 +105,15 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     /// <summary>
-    /// A class that stores through MainReadWrite needs the same MainPersist, through
-    /// ReadWriteChildren the same PersistChildren, and through ReadWrite its own PersistFields.
-    /// The name is the class that is missing it. Null means the closure can use the tree.
+    /// Null when the class persists through the tree. Every engine class does (issue 185 PE-4-a).
     /// </summary>
     public static string TreePersistenceRefusal(Type type)
     {
-        const BindingFlags Declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-        for (var current = type; current is not null && current != typeof(object); current = current.BaseType)
-        {
-            if (Declares(current, nameof(MainReadWrite)) && !Declares(current, nameof(MainPersist)))
-                return "Class " + current.Name + " overrides MainReadWrite and has no MainPersist.";
-            if (Declares(current, nameof(ECustomNode.ReadWriteChildren)) && !Declares(current, nameof(ECustomNode.PersistChildren)))
-                return "Class " + current.Name + " overrides ReadWriteChildren and has no PersistChildren.";
-            if (Declares(current, nameof(ReadWrite)) && !Declares(current, nameof(PersistFields)))
-                return "Class " + current.Name + " overrides ReadWrite and has no PersistFields.";
-        }
+        ArgumentNullException.ThrowIfNull(type);
         return null;
-
-        static bool Declares(Type declaring, string name) => declaring.GetMethod(name, Declared) is not null;
     }
 
-    private static readonly ConcurrentDictionary<Type, bool> s_streamRetired = new();
-
-    /// <summary>
-    /// True when a class of the type's chain persists only through the tree: it declares
-    /// PersistFields without ReadWrite, MainPersist without MainReadWrite or PersistChildren
-    /// without ReadWriteChildren (issue 185 PE-3-i). The storage streams store such an object
-    /// through the tree and the original backend.
-    /// </summary>
-    public static bool StreamRetired(Type type) => s_streamRetired.GetOrAdd(type, static type =>
-    {
-        const BindingFlags Declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-        for (var current = type; current is not null && current != typeof(object); current = current.BaseType)
-        {
-            if (Declares(current, nameof(PersistFields)) && !Declares(current, nameof(ReadWrite))
-                || Declares(current, nameof(MainPersist)) && !Declares(current, nameof(MainReadWrite))
-                || Declares(current, nameof(ECustomNode.PersistChildren)) && !Declares(current, nameof(ECustomNode.ReadWriteChildren)))
-                return true;
-        }
-        return false;
-
-        static bool Declares(Type declaring, string name) => declaring.GetMethod(name, Declared) is not null;
-    });
-
+    // Engine.pas:2594
     public virtual void MainPersist(IPersister persister)
     {
         if (persister.Loading)
@@ -166,17 +122,6 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         }
 
         PersistFields(persister);
-    }
-
-    // Engine.pas:2594
-    public virtual void MainReadWrite(StorageStream stream)
-    {
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            Clear();
-        }
-
-        ReadWrite(stream);
     }
 
     // Engine.pas:2447

@@ -297,7 +297,7 @@ public sealed class SchemaClass
             }
         if (keepChildren && children.Count == 0)
         {
-            // Children come from TECustomNode.MainReadWrite even when ReadWrite skips the base.
+            // Children come from the custom node's main visit even when the field visit skips the base.
             for (var c = Parent; c is not null; c = c.Parent)
                 foreach (var p in c._own)
                     if (p.IsChildrenPhase && !children.Contains(p)) children.Add(p);

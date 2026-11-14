@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.Events;
@@ -30,23 +30,27 @@ public partial class NegotiateTokenEvent : TokenEvent
     // Diplomacy.pas:133
     public new const int ClassId = 135431;
 
-    public int Gold;
-    public NegotiateOffer Offer;
-    public byte X;
-    public byte Y;
-    public byte MapLevel;
-    public ArmyId ArmyId;
-    public sbyte Player;
+    public int Gold { get; set; }
+    public NegotiateOffer Offer { get; set; }
+    public byte X { get; set; }
+    public byte Y { get; set; }
+    public byte MapLevel { get; set; }
+    public ArmyId ArmyId { get; set; }
+    public sbyte Player { get; set; }
+
     private byte _ownerPlayer;
     public ArmyHexSprite ArmyHexSprite;
-    public NegotiateObject Object;
-    public int MovePoints;
+
+    public NegotiateObject Object { get; set; }
+    public int MovePoints { get; set; }
+
     private byte _selection;
-    public Set<NegotiateModeElement> Mode;
-    public NegotiateResult Result;
-    public int EventLogId;
-    public int Data1;
-    public int Data2;
+
+    public Set<NegotiateModeElement> Mode { get; set; }
+    public NegotiateResult Result { get; set; }
+    public int EventLogId { get; set; }
+    public int Data1 { get; set; }
+    public int Data2 { get; set; }
 
     // Diplomacy.pas:124
     public override void Dispose()
@@ -62,24 +66,24 @@ public partial class NegotiateTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:138
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref Gold, 30);
-        stream.Bytes(Bytes.Of(ref Offer, 1), 1, 31);
-        stream.Byte(ref X, 32);
-        stream.Byte(ref Y, 33);
-        stream.Byte(ref MapLevel, 34);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 35);
-        stream.Byte(ref _ownerPlayer, 36);
-        stream.Bytes(Bytes.Of(ref Object, 1), 1, 37);
-        stream.Int32(ref MovePoints, 38);
-        stream.Int32(ref Data1, 39);
-        stream.Int32(ref Data2, 40);
-        TransferSet(ref Mode, 1, 41, stream.Bytes, 0);
-        stream.Bytes(Bytes.Of(ref Result, 1), 1, 42);
-        stream.Created(ref ArmyId, null, 43);
-        stream.Int32(ref EventLogId, -1, 44);
+        base.PersistFields(persister);
+        Gold = persister.Int32("Gold", value: Gold);
+        Offer = persister.Enum("Offer", value: Offer);
+        X = persister.Byte("X", value: X);
+        Y = persister.Byte("Y", value: Y);
+        MapLevel = persister.Byte("MapLevel", value: MapLevel);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        _ownerPlayer = persister.Byte("OwnerPlayer", value: _ownerPlayer);
+        Object = persister.Enum("Object", value: Object);
+        MovePoints = persister.Int32("MovePoints", value: MovePoints);
+        Data1 = persister.Int32("Data1", value: Data1);
+        Data2 = persister.Int32("Data2", value: Data2);
+        Mode = persister.Set("Mode", value: Mode);
+        Result = persister.Enum("Result", value: Result);
+        ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
+        EventLogId = persister.Int32("EventLogId", value: EventLogId, fallback: -1);
     }
 
     // Diplomacy.pas:115

@@ -159,7 +159,7 @@ public static class PersistSupport
     /// present member replaces the sequences, and each frame-table layer draws its image index
     /// from <c>Random</c> in entry and layer order, at the point of the load where
     /// <c>LoadFromStream</c> draws it. An absent member leaves the list as it was. The translate
-    /// stream visits no payload (<c>TEStorageStream.rwStreamProc</c> does nothing there), so the
+    /// stream visits no payload (the original stream procedure does nothing there), so the
     /// list is not reduced either.
     /// </summary>
     public static void ImageSequences(IPersister persister, string name, ImageSequenceList list)
@@ -226,7 +226,7 @@ public static class PersistSupport
     }
 
     /// <summary>
-    /// The load of a stream callback's payload. <c>TEReadStorageStream.rwStreamProc</c> runs the load
+    /// The load of a stream callback's payload. The original stream procedure runs the load
     /// procedure inside an exception block with an empty handler (Engine.pas 10157), so a payload
     /// that fails to load keeps what its load did and the object's load goes on.
     /// </summary>
@@ -254,7 +254,7 @@ public static class PersistSupport
     /// <c>ReadWrite</c> of a map in the editor sets it on its stream. Other persisters take the
     /// handler their caller passes to the load.
     /// </summary>
-    public static void SetTranslateErrorHandler(IPersister persister, StorageStream.StorageStreamError handler)
+    public static void SetTranslateErrorHandler(IPersister persister, TranslateVisit.TranslateErrorHandler handler)
     {
         if (persister is TranslatePersister translate) translate.Stream.SetErrorHandler(handler);
     }

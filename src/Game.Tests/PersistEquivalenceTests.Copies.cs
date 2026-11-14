@@ -204,9 +204,8 @@ public sealed partial class PersistEquivalenceTests
     }
 
     // CombatLogbook.Actions is a reference list. It holds a child with no owner, a child it owns
-    // and a child another list owns. The stream write made the list the owner of the first while
-    // it wrote and left the second with no owner after. The tree write leaves every owner as it
-    // was, and the copies hold the same two children.
+    // and a child another list owns. The write leaves every owner, and the copies hold the same
+    // two children.
     [Fact]
     public void AReferenceListCopiesAsTheStreamDidAndKeepsItsOwners()
     {
@@ -230,7 +229,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Same(other, elsewhere.Owner);
             expected = StreamCopy(list);
             Assert.Null(free.Owner);
-            Assert.Null(owned.Owner);
+            Assert.Same(list, owned.Owner);
             Assert.Same(other, elsewhere.Owner);
             Assert.Equal(2, ((CombatActionList)copy).Count);
             EqualBytes(Image(expected), actual: Image(copy), label: "CombatActionList copy");
@@ -417,12 +416,20 @@ public sealed partial class PersistEquivalenceTests
             // An item sprite with no item removes itself when its item list changes.
             foreach (var sprite in new[] { source, target, blank }.OfType<ItemHexSprite>())
                 PlainItem(itemId: 3, name: "Ring").SetOwner(sprite.Items);
+            // A class that refuses its field visit (a sort node) is not a copy case. The object
+            // image raises. Copy finishes, because the object write leaves an empty tree when the
+            // root fails.
+            var refused = Record.Exception(() => Image(source));
+            if (refused is not null)
+            {
+                Assert.IsType<NotSupportedException>(refused);
+                Discard(source.Copy(EngineFixture.Engine));
+                return;
+            }
             SameCopies(source, target);
             SameCopies(blank, target);
             string table = classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0];
-            // A game set file of a class that refuses its write (a sort node) is not a case: the
-            // stream wrote an empty outer table, and the file write through the tree raises.
-            if (Record.Exception(() => Image(source)) is null) SameObjectImage(source, className, classTable: table);
+            SameObjectImage(source, className, classTable: table);
         }
         finally
         {
@@ -556,20 +563,15 @@ public sealed partial class PersistEquivalenceTests
     // TEngine.WriteEObject: the object at id 0 of the outer table.
     private static byte[] WrittenImage(EngineObject objectValue)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, engine: EngineFixture.Engine, partial: false))
-        {
-            writer.Object(objectValue, 0);
-        }
-        return memory.ToArray();
+        string table = GameBoundary.PacketClassTable(s_schema.Get(Factory.ClassName(objectValue)));
+        return EngineFixture.Engine.WriteObjectImage(objectValue, progress: null, classTable: table);
     }
 
     // TEngine.ReadEObject.
     private static void ReadWritten(EngineObject objectValue, byte[] image)
     {
-        using var memory = new MemoryStream(image);
-        using var reader = new StorageReader(memory, engine: EngineFixture.Engine, partial: false);
-        reader.Object(objectValue, 0);
+        string table = GameBoundary.PacketClassTable(s_schema.Get(Factory.ClassName(objectValue)));
+        EngineFixture.Engine.ReadObjectImage(image, objectValue: objectValue, progress: null, classTable: table);
     }
 
     // The classes whose write touches files beside the scenario set, that need a map the fixture

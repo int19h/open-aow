@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
@@ -71,19 +73,20 @@ public sealed class ArmySpriteConstructionTests
         Regex.Replace(snapshot, pattern: @"""Set\\u00601\.(bounded|high|low)"":[^,}]*,?", replacement: "");
 
     [Fact]
-    public void SavedArmyReturnsThroughCreateEngineObjectAndTheStorageStreams()
+    public void SavedArmyReturnsThroughCreateEngineObject()
     {
         using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
         EngineObject source = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
         EngineObject loaded = null!;
-        using var memory = new MemoryStream();
         try
         {
             ((ArmyHexSprite)source).Army.Player = 2;
-            using (var writer = new StorageWriter(memory, fixture.Engine, false)) { writer.PersistObject(source); }
-            memory.Position = 0;
+            var factory = new EnginePersistableFactory(fixture.Engine);
+            var schema = FormatSchema.Current;
+            var classValue = schema.Get(factory.ClassName(source));
+            var image = OriginalBackend.Write(TreeWriter.Write(source, factory: factory), classValue: classValue, schema: schema, engine: "game");
             loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
-            using (var reader = new StorageReader(memory, fixture.Engine, false)) { reader.PersistObject(loaded); }
+            TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: "game"), objectValue: loaded, factory: factory);
             Assert.IsType<ArmyHexSprite>(loaded);
             Assert.Equal(WithoutSetBounds(OrderingRecording.Snapshot(source)), WithoutSetBounds(OrderingRecording.Snapshot(loaded)));
         }

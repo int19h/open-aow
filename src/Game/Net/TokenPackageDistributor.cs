@@ -20,10 +20,10 @@ public partial class TokenPackageDistributor
             {
                 for (int I = 0, last = tp.TokenEvents.Count - 1; I <= last; I++)
                 {
-                    if (tp.TokenEvents[I]._tokenCounter >= TokenManager.TokenExecutor.TokenCounter)
+                    if (tp.TokenEvents[I].TokenCounter >= TokenManager.TokenExecutor.TokenCounter)
                     {
                         var tokenEvent = tp.TokenEvents[I];
-                        if (TokenManager.GetTokenControl(tp._sender).Events.IndexOfTokenCounter(tokenEvent._tokenCounter) == -1)
+                        if (TokenManager.GetTokenControl(tp._sender).Events.IndexOfTokenCounter(tokenEvent.TokenCounter) == -1)
                         {
                             var fTokenEventsItem = tp.TokenEvents[I];
                             TokenManager.GetTokenControl(tp._sender).Add(fTokenEventsItem);

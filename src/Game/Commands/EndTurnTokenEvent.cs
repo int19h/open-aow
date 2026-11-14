@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -24,17 +24,17 @@ public partial class EndTurnTokenEvent : TokenEvent
 
     public new const int ClassId = 135425;
 
-    public sbyte Player;
-    public int Day;
-    public EndTurnTokenEventMode Mode;
+    public sbyte Player { get; set; }
+    public int Day { get; set; }
+    public EndTurnTokenEventMode Mode { get; set; }
 
     // MoveT.PAS:1907
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref Day, 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 21);
-        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 22);
+        base.PersistFields(persister);
+        Day = persister.Int32("Day", value: Day);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Mode = persister.Enum("Mode", value: Mode);
     }
 
     // MoveT.PAS:1915

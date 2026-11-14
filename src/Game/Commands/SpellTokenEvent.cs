@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -18,19 +18,19 @@ public partial class SpellTokenEvent : TokenEvent
 
     public new const int ClassId = 135936;
 
-    public int EventSpellId;
-    public int EventSourceId;
-    public byte EventPlayerIndex;
-    public int EventMana;
+    public int EventSpellId { get; protected set; }
+    public int EventSourceId { get; set; }
+    public byte EventPlayerIndex { get; protected set; }
+    public int EventMana { get; protected set; }
 
     // Spells.PAS:423
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref EventSpellId, 15);
-        stream.Int32(ref EventSourceId, 16);
-        stream.Byte(ref EventPlayerIndex, 17);
-        stream.Int32(ref EventMana, 18);
+        base.PersistFields(persister);
+        EventSpellId = persister.Int32("EventSpellId", value: EventSpellId);
+        EventSourceId = persister.Int32("EventSourceId", value: EventSourceId);
+        EventPlayerIndex = persister.Byte("EventPlayerIndex", value: EventPlayerIndex);
+        EventMana = persister.Int32("EventMana", value: EventMana);
     }
 
     // Spells.PAS:431

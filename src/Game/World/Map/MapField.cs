@@ -64,7 +64,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     void IOwnedSink<MapLevel>.SetOwner(MapLevel owner) => SetOwner(owner);
 
     // HSEngine.pas:2075
-    // The fields only, with no Clear and no children, as the original MainReadWrite.
+    // The fields only, with no Clear and no children, as the original main visit.
     public override void MainPersist(IPersister persister)
     {
         PersistFields(persister);

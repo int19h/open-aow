@@ -1,7 +1,7 @@
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
@@ -20,7 +20,8 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
     // CitySpells.pas:397
     public new const int ClassId = 135950;
 
-    public ArmyId ArmyId;
+    public ArmyId ArmyId { get; set; }
+
     public MapCoordinate TeleportLocation;
 
     // The fourth byte of the packed teleport location stored at id 30 (UnknownBytes keeps the one of
@@ -36,13 +37,13 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
     }
 
     // CitySpells.pas:400
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
+        base.PersistFields(persister);
         int location = StoredCoordinateImage.From(TeleportLocation, unknownBytes: TeleportUnknownBytes).ToInt32();
-        stream.Int32(ref location, 30);
+        location = persister.Int32("TeleportLocation", value: location);
         (TeleportLocation, TeleportUnknownBytes) = StoredCoordinateImage.FromInt32(location);
-        stream.Created(ref ArmyId, null, 31);
+        ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 
     // CitySpells.pas:407

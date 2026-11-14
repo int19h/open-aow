@@ -70,9 +70,7 @@ public sealed class CombatDataTests
 
     private static byte[] Save(CombatData data)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, null!, false)) { writer.Object(data, 4); }
-        return memory.ToArray();
+        return EngineFixture.Engine.WriteObjectImage(data, progress: null, classTable: "game");
     }
 
     [Fact]
@@ -102,17 +100,13 @@ public sealed class CombatDataTests
         try
         {
             byte[] before = Save(data);
-            // Captured through TEWriteStorageStream before the object fields were typed.
+            // Captured through the original writer before the object fields were typed.
             Assert.Equal(Convert.FromHexString(
-                "010400140A000B040C080D0C0E0E0F0F1010111112151319141D15211628172C183019341A3B1B421C431D43" +
+                "010000140A000B040C080D0C0E0E0F0F1010111112151319141D15211628172C183019341A3B1B421C431D43" +
                 "0C00000022000000020000000000FF03000700000001010000010100000101000006436F6D62617409000000" +
                 "0800000001000000000200000003050002000000020102000100000004"), before);
-            using var memory = new MemoryStream();
-            memory.Write(before);
-            memory.Position = 0;
             using var loaded = new CombatData(null!) { Holder = EngineFixture.Engine };
-            using var reader = new StorageReader(memory, null!, false);
-            reader.Object(loaded, 4);
+            EngineFixture.Engine.ReadObjectImage(before, objectValue: loaded, progress: null, classTable: "game");
             Assert.Equal(before, Save(loaded));
         }
         finally { data.Dispose(); }

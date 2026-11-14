@@ -1,7 +1,7 @@
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic;
@@ -23,15 +23,15 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
     // GlobalSpells.pas:745
     public new const int ClassId = 135961;
 
-    public int DispelChance;
-    public int EnchantmentId;
+    public int DispelChance { get; set; }
+    public int EnchantmentId { get; set; }
 
     // GlobalSpells.pas:750
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref EnchantmentId, 20);
-        stream.Int32(ref DispelChance, 21);
+        base.PersistFields(persister);
+        EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
+        DispelChance = persister.Int32("DispelChance", value: DispelChance);
     }
 
     // GlobalSpells.pas:757

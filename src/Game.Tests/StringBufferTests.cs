@@ -11,14 +11,12 @@ public sealed class StringBufferTests
     private static void Read(int shape, ref string text, Stream stream)
     {
         if (shape == 0) GameEngine.StringFromStream(ref text, stream);
-        else if (shape == 1) StorageReader.LoadStringFromStream(out text, stream);
         else LibraryDrawing.ReadStringFromStream(ref text, stream);
     }
 
     private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
     {
         var stream = new MemoryStream();
-        if (shape == 1) stream.Write([255]);
         stream.Write(Bytes.Of(ref length));
         stream.Write(bytes);
         stream.Position = 0;
@@ -27,7 +25,6 @@ public sealed class StringBufferTests
 
     [Theory]
     [InlineData(0)]
-    [InlineData(1)]
     [InlineData(2)]
     public void StringReadersKeepEveryByteAndIndependentAliases(int shape)
     {
@@ -50,26 +47,24 @@ public sealed class StringBufferTests
     }
 
     [Theory]
-    [InlineData(1)]
     [InlineData(2)]
     public void ShortStringBodiesThrowAndKeepTheResize(int shape)
     {
         using var stream = Input(shape, 6, [0, 0x80, 0xFF]);
         string text = "seedtail";
         Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
-        Assert.Equal(shape == 1 ? new byte[6] : "seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
+        Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
     [Theory]
     [InlineData(0)]
-    [InlineData(1)]
     [InlineData(2)]
     public void NegativeLengthsKeepTheRangeErrorAndOutput(int shape)
     {
         using var stream = Input(shape, -1, []);
         string text = "old";
         Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
-        Assert.Equal(shape == 1 ? "" : "old", text);
+        Assert.Equal("old", text);
     }
 
     private sealed class FailingBodyStream : MemoryStream
@@ -86,7 +81,6 @@ public sealed class StringBufferTests
 
     [Theory]
     [InlineData(0)]
-    [InlineData(1)]
     [InlineData(2)]
     public void FailingReadsPublishOnlyTheResize(int shape)
     {
@@ -96,34 +90,7 @@ public sealed class StringBufferTests
         stream.Position = 0;
         string text = "seedtail";
         Assert.Throws<IOException>(() => Read(shape, ref text, stream));
-        Assert.Equal(shape == 1 ? new byte[6] : "seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
-    }
-
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void StringListsKeepNulTerminationAndObjectIds(bool extended)
-    {
-        var source = new StringList();
-        source.AddObject("\u20AC\u00FF", Runtime.IntToObject(17));
-        source.AddObject("tail\0ignored", Runtime.IntToObject(-23));
-        using var stream = new MemoryStream();
-        if (extended) StorageWriter.StringsToStreamEx(source, stream);
-        else StorageWriter.StringsToStream(source, stream);
-        Assert.Equal(new byte[] { 8, 0, 0, 0, 0x80, 0xFF, 13, 10, 116, 97, 105, 108 }, stream.GetBuffer()[..12]);
-        stream.Position = 0;
-        var result = new StringList();
-        if (extended) StorageReader.StringsFromStreamEx(result, stream);
-        else StorageReader.StringsFromStream(result, stream);
-        Assert.Equal(2, result.Count);
-        Assert.Equal("\u20AC\u00FF", result[0]);
-        Assert.Equal("tail", result[1]);
-        if (extended)
-        {
-            Assert.Equal(17, Runtime.ObjectToInt(result.Objects[0]));
-            Assert.Equal(-23, Runtime.ObjectToInt(result.Objects[1]));
-        }
-        Assert.Equal(stream.Length, stream.Position);
+        Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
     [Fact]

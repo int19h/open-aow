@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
@@ -23,16 +23,16 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
 
     public new const int ClassId = 131836;
 
-    public sbyte Player;
+    public sbyte Player { get; set; }
 
     public ExitGameCallBack ExitCallback { get; set; }
     public ExitGameMode ExitMode { get; set; }
 
     // MoveT.PAS:3249
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
     }
 
     // MoveT.PAS:3255

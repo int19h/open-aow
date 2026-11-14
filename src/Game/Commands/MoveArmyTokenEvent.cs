@@ -1,9 +1,10 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 
@@ -27,15 +28,18 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 {
     public new const int ClassId = 135424;
 
-    public Set<ArmyMoveModeElement> Mode;
+    public Set<ArmyMoveModeElement> Mode { get; protected set; }
+
     private readonly Int32List _unitIds;
     public byte Selection;
     public ArmyHexSprite ArmyHexSprite;
     private sbyte _player;
-    public sbyte TargetPlayer;
-    public sbyte TargetX;
-    public sbyte TargetY;
-    public sbyte TargetMapLevel;
+
+    public sbyte TargetPlayer { get; private set; }
+    public sbyte TargetX { get; private set; }
+    public sbyte TargetY { get; private set; }
+    public sbyte TargetMapLevel { get; private set; }
+
     private sbyte _destinationX;
     private sbyte _destinationY;
     private sbyte _destinationMapLevel;
@@ -49,19 +53,19 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     }
 
     // MoveT.PAS:2093
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Payload(30, _unitIds.LoadFromStream, _unitIds.SaveToStream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _player), 31);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetX), 32);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetY), 33);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetMapLevel), 34);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 35);
-        TransferSet(ref Mode, 1, 36, stream.Bytes, 0);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 37);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 38);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationMapLevel), 39);
+        base.PersistFields(persister);
+        PersistSupport.Int32List(persister, name: "UnitIds", list: _unitIds);
+        _player = PersistSupport.UnsignedByte(persister, name: "Player", value: _player);
+        TargetX = PersistSupport.UnsignedByte(persister, name: "TargetX", value: TargetX);
+        TargetY = PersistSupport.UnsignedByte(persister, name: "TargetY", value: TargetY);
+        TargetMapLevel = PersistSupport.UnsignedByte(persister, name: "TargetMapLevel", value: TargetMapLevel);
+        TargetPlayer = PersistSupport.UnsignedByte(persister, name: "TargetPlayer", value: TargetPlayer);
+        Mode = persister.Set("Mode", value: Mode);
+        _destinationX = PersistSupport.UnsignedByte(persister, name: "DestinationX", value: _destinationX);
+        _destinationY = PersistSupport.UnsignedByte(persister, name: "DestinationY", value: _destinationY);
+        _destinationMapLevel = PersistSupport.UnsignedByte(persister, name: "DestinationMapLevel", value: _destinationMapLevel);
     }
 
     // MoveT.PAS:2060
