@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -46,19 +45,7 @@ public partial class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2053
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
-        {
-            if (Abilities[I] != null)
-            {
-                stream.Object(Abilities[I], I + 10);
-            }
-        }
-    }
-
-    // A slot no registered ability asks for stays unread, as ReadWrite leaves its id.
+    // A slot no registered ability asks for stays unread, as the original ReadWrite leaves its id.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

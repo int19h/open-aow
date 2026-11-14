@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Game.Draw;
@@ -62,6 +63,12 @@ public sealed class ArmySpriteConstructionTests
         OrderingRecording.Check("ArmySpriteConstruction", actual);
     }
 
+    // The army of the sprite stores through the tree since its ReadWrite is retired (PE-3-i), and a
+    // set the tree loads carries explicit bounds where a constructed set has the default ones.
+    // Both bound the same members and compare equal, so the snapshots leave the bounds out.
+    private static string WithoutSetBounds(string snapshot) =>
+        Regex.Replace(snapshot, pattern: @"""Set\\u00601\.(bounded|high|low)"":[^,}]*,?", replacement: "");
+
     [Fact]
     public void SavedArmyReturnsThroughCreateEngineObjectAndReadWrite()
     {
@@ -77,7 +84,7 @@ public sealed class ArmySpriteConstructionTests
             loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
             using (var reader = new StorageReader(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
             Assert.IsType<ArmyHexSprite>(loaded);
-            Assert.Equal(OrderingRecording.Snapshot(source), OrderingRecording.Snapshot(loaded));
+            Assert.Equal(WithoutSetBounds(OrderingRecording.Snapshot(source)), WithoutSetBounds(OrderingRecording.Snapshot(loaded)));
         }
         finally
         {

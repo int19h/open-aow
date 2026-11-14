@@ -1,6 +1,9 @@
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
+
 using Aow.Game;
 
 using Aow.Rtl;
@@ -16,12 +19,19 @@ public partial class StorageReader : StorageStream
     private readonly bool _partial;
     private int _dataStart;
 
+    // The image of the object being read for a class whose stream methods are retired: where its
+    // property table starts (-1 when the object is not stored) and where its data ends.
+    private int _objectStart;
+    private int _dataEnd;
+
     // Engine.pas:9968
     public StorageReader(Stream stream, GameEngine engine, bool partial) : base(stream, engine)
     {
         _propertyTable = new PropertyTable();
+        _objectStart = (int)stream.Position;
         _propertyTable.LoadFromStream(stream);
         _dataStart = (int)(_stream.Position);
+        _dataEnd = (int)stream.Length;
         _partial = partial;
     }
 
@@ -384,6 +394,9 @@ public partial class StorageReader : StorageStream
             if (classId != 0)
             {
                 savedStart = _dataStart;
+                var (savedObjectStart, savedEnd) = (_objectStart, _dataEnd);
+                _dataEnd = EndOf(offset);
+                _objectStart = (int)_stream.Position;
                 _propertyTable.BackupSettings();
                 _propertyTable.LoadFromStream(_stream);
                 _dataStart = (int)(_stream.Position);
@@ -391,11 +404,12 @@ public partial class StorageReader : StorageStream
                 {
                     objectValue = _engine.CreateEngineObject(classId, null);
                     objectValue.SetOwnerWithoutNotify(owner);
-                    objectValue.MainReadWrite(this);
+                    PersistObject(objectValue);
                     objectValue.SetOwnerWithoutNotify(null);
                     objectValue.SetOwner(owner);
                     _propertyTable.RestoreSettings();
                     _dataStart = savedStart;
+                    (_objectStart, _dataEnd) = (savedObjectStart, savedEnd);
                 }
                 catch (Exception error)
                 {
@@ -403,6 +417,7 @@ public partial class StorageReader : StorageStream
                     objectValue = null;
                     _propertyTable.RestoreSettings();
                     _dataStart = savedStart;
+                    (_objectStart, _dataEnd) = (savedObjectStart, savedEnd);
                     if (!HandleException(error))
                     {
                         throw;
@@ -423,6 +438,8 @@ public partial class StorageReader : StorageStream
         if (offset != -1)
         {
             savedStart = _dataStart;
+            int savedEnd = _dataEnd;
+            _dataEnd = EndOf(offset);
             _propertyTable.BackupSettings();
             if (_stream.Position != _dataStart + offset)
             {
@@ -454,6 +471,7 @@ public partial class StorageReader : StorageStream
 
             _propertyTable.RestoreSettings();
             _dataStart = savedStart;
+            _dataEnd = savedEnd;
         }
     }
 
@@ -463,7 +481,15 @@ public partial class StorageReader : StorageStream
         int offset;
         int savedStart;
         savedStart = _dataStart;
+        var (savedObjectStart, savedEnd) = (_objectStart, _dataEnd);
         offset = _propertyTable.FindOffset(id);
+        _objectStart = -1;
+        if (offset != -1)
+        {
+            _dataEnd = EndOf(offset);
+            _objectStart = _dataStart + offset;
+        }
+
         _propertyTable.BackupSettings();
         if (offset != -1)
         {
@@ -478,14 +504,16 @@ public partial class StorageReader : StorageStream
 
         try
         {
-            objectValue.MainReadWrite(this);
+            PersistObject(objectValue);
             _propertyTable.RestoreSettings();
             _dataStart = savedStart;
+            (_objectStart, _dataEnd) = (savedObjectStart, savedEnd);
         }
         catch (Exception error)
         {
             _propertyTable.RestoreSettings();
             _dataStart = savedStart;
+            (_objectStart, _dataEnd) = (savedObjectStart, savedEnd);
             if (!HandleException(error))
             {
                 throw;
@@ -504,20 +532,25 @@ public partial class StorageReader : StorageStream
         if (size != 0)
         {
             savedStart = _dataStart;
+            var (savedObjectStart, savedEnd) = (_objectStart, _dataEnd);
+            _objectStart = start + 4;
+            _dataEnd = start + size + 4;
             _propertyTable.BackupSettings();
             try
             {
                 _propertyTable.LoadFromStream(_stream);
                 _dataStart = (int)(_stream.Position);
-                objectValue.MainReadWrite(this);
+                PersistObject(objectValue);
                 _propertyTable.RestoreSettings();
                 _dataStart = savedStart;
+                (_objectStart, _dataEnd) = (savedObjectStart, savedEnd);
                 _stream.Position = start + size + 4;
             }
             catch (Exception error)
             {
                 _propertyTable.RestoreSettings();
                 _dataStart = savedStart;
+                (_objectStart, _dataEnd) = (savedObjectStart, savedEnd);
                 _stream.Position = start + size + 4;
                 if (!HandleException(error))
                 {
@@ -526,6 +559,38 @@ public partial class StorageReader : StorageStream
             }
         }
     }
+
+    // Where a value stored at an offset of the current table ends: at the next larger offset, or
+    // at the end of the current object.
+    private int EndOf(int offset) => _propertyTable.NextOffset(offset) is var next and >= 0 ? _dataStart + next : _dataEnd;
+
+    // The original backend reads the object's image, and the tree loads into the object, where
+    // MainReadWrite would have read it. A failure inside goes to this stream's handlers.
+    private protected override void PersistTree(EngineObject objectValue)
+    {
+        var factory = new EnginePersistableFactory(_engine ?? objectValue.GetEngine());
+        ObjectNode root;
+        if (_objectStart < 0)
+        {
+            root = new ObjectNode(null, null);
+        }
+        else
+        {
+            var schema = FormatSchema.Current;
+            var classValue = schema.Get(factory.ClassName(objectValue));
+            byte[] image = new byte[_dataEnd - _objectStart];
+            long position = _stream.Position;
+            _stream.Position = _objectStart;
+            _stream.ReadExactly(image);
+            _stream.Position = position;
+            root = OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: ClassTable(classValue));
+        }
+
+        TreeReader.Read(root, objectValue: objectValue, factory: factory, onError: ContinueAfter, preview: _partial);
+    }
+
+    private void ContinueAfter(string message, out bool continueLoad) =>
+        continueLoad = HandleException(new InvalidOperationException(message));
 
     public int DataStart { get => _dataStart; }
 

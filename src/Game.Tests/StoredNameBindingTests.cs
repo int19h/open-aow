@@ -231,7 +231,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         using var memory = new MemoryStream();
         using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
-            objectValue.MainReadWrite(writer);
+            writer.PersistObject(objectValue);
         }
         return memory.ToArray();
     }

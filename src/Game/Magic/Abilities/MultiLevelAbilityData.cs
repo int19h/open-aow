@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -14,17 +13,10 @@ public partial class MultiLevelAbilityData : AbilityData
     public MultiLevelAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public byte Level;
-    public ushort LevelAbilityId;
+    public byte Level { get; set; }
+    public ushort LevelAbilityId { get; set; }
 
     // AoWAb.PAS:231
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Level, 10);
-        stream.UInt16(ref LevelAbilityId, 11);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

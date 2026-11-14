@@ -170,7 +170,7 @@ public sealed class GamePathRoundTripTests : IDisposable
         using var memory = new MemoryStream();
         using (var writer = new StorageWriter(memory, engine: Engine, partial: false))
         {
-            objectValue.MainReadWrite(writer);
+            writer.PersistObject(objectValue);
         }
         return memory.ToArray();
     }

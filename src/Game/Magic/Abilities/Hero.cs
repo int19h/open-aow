@@ -1,11 +1,9 @@
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
@@ -40,47 +38,53 @@ public partial class Hero : Troop
 {
     public new const int ClassId = 131632;
 
-    public int FaceIndex;
+    public int FaceIndex { get; private set; }
 
     public HeroResource HeroResource { get; set; }
 
-    public int HeroResourceIndex;
-    public int Experience;
-    public byte Level;
+    public int HeroResourceIndex { get; set; }
+    public int Experience { get; set; }
+    public byte Level { get; private set; }
+
     private int _usedSkillPoints;
-    public bool UpgradePending;
-    public Set<HeroStatusElement> HeroStatus;
+
+    public bool UpgradePending { get; set; }
+    public Set<HeroStatusElement> HeroStatus { get; private set; }
+
     private int _deathDay;
     private sbyte _deathPlayer;
 
     public Set<HeroModeElement> Mode { get; set; }
 
-    public string HeroName = "";
-    public string Nickname = "";
-    public sbyte Race;
+    public string HeroName { get; set; } = "";
+    public string Nickname { get; private set; } = "";
+    public sbyte Race { get; private set; }
+
     private UnitGender _gender;
-    public sbyte UnitAttack;
-    public sbyte UnitDefense;
-    public sbyte UnitDamage;
-    public sbyte UnitHits;
-    public sbyte UnitMoves;
-    public sbyte UnitResistance;
+
+    public sbyte UnitAttack { get; set; }
+    public sbyte UnitDefense { get; private set; }
+    public sbyte UnitDamage { get; private set; }
+    public sbyte UnitHits { get; private set; }
+    public sbyte UnitMoves { get; private set; }
+    public sbyte UnitResistance { get; private set; }
 
     public HeroItems HeroItems { get; }
     public HeroInventory Inventory { get; }
 
     private bool _castSpellInstantly;
     private sbyte _movePoints;
-    public sbyte HitPoints;
+
+    public sbyte HitPoints { get; set; }
 
     public HeroPowerSource PowerSource { get; }
 
-    public sbyte CastingPoints;
-    public int CastingSpellId;
-    public int CastingManaValue;
-    public int CastingProgress;
-    public int LibraryId;
-    public string LibraryName = "";
+    public sbyte CastingPoints { get; private set; }
+    public int CastingSpellId { get; private set; }
+    public int CastingManaValue { get; private set; }
+    public int CastingProgress { get; private set; }
+    public int LibraryId { get; set; }
+    public string LibraryName { get; set; } = "";
 
     public bool Registered { get; set; }
 
@@ -117,80 +121,6 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1625
-    public override void ReadWrite(StorageStream stream)
-    {
-        sbyte player = default;
-        int oldExperience = default;
-        player = Player;
-        stream.Int32(ref HeroResourceIndex, 8);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            LinkToResource();
-        }
-
-        base.ReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Mode.Contains(HeroModeElement.UpdatingFromLibrary))
-        {
-            Player = player;
-        }
-
-        stream.Int32(ref FaceIndex, 7);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            stream.Int32(ref oldExperience, 9);
-        }
-        else
-        {
-            oldExperience = 0;
-        }
-
-        stream.String(ref HeroName, 10);
-        stream.String(ref Nickname, 11);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref CastingPoints), 13);
-        stream.Int32(ref CastingSpellId, 14);
-        stream.Bytes(Bytes.Of(ref _gender, 1), 1, 15);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitAttack), 16);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitDefense), 17);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitDamage), 18);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitHits), 19);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitMoves), 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref UnitResistance), 21);
-        stream.Byte(ref Level, 22);
-        stream.Boolean(ref UpgradePending, 23);
-        stream.Int32(ref Experience, 24);
-        TransferSet(ref HeroStatus, 1, 25, stream.Bytes, 0);
-        stream.Int32(ref _deathDay, 26);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _deathPlayer), 27);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Experience == 0)
-        {
-            Experience = LevelToExperience((int)(((uint)oldExperience) >> 5) + 1);
-        }
-
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 29);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 30);
-        stream.Int32(ref CastingManaValue, 31);
-        stream.Boolean(ref _castSpellInstantly, 33);
-        stream.Int32(ref CastingProgress, 34);
-        stream.Int32(ref LibraryId, -1, 35);
-        if (!Mode.Contains(HeroModeElement.UpdatingFromLibrary))
-        {
-            stream.Object(Inventory, 36);
-            stream.Object(HeroItems, 37);
-        }
-
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref LibraryName, 38);
-        }
-
-        stream.Int32(ref _usedSkillPoints, 39);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            Loaded();
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         sbyte player = default;
@@ -254,7 +184,7 @@ public partial class Hero : Troop
         }
         else
         {
-            // ReadWrite leaves the stored items unread while the hero updates from its library.
+            // The original ReadWrite leaves the stored items unread while the hero updates from its library.
             persister.Skip("Inventory");
             persister.Skip("HeroItems");
         }

@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -20,11 +19,11 @@ public partial class UnitEnchantmentAbilityData : AbilityData
         EnchantmentDuration = -1;
     }
 
-    public ushort EnchantmentAbilityId;
-    public sbyte EnchantmentDuration;
+    public ushort EnchantmentAbilityId { get; set; }
+    public sbyte EnchantmentDuration { get; set; }
     // -1 is permanent
-    public sbyte EnchantmentPlayerIndex;
-    public UnitEnchantment Enchantment;
+    public sbyte EnchantmentPlayerIndex { get; set; }
+    public UnitEnchantment Enchantment { get; set; }
 
     // AoWAb.PAS:567
     public override void Dispose()
@@ -40,15 +39,6 @@ public partial class UnitEnchantmentAbilityData : AbilityData
     }
 
     // AoWAb.PAS:592
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.UInt16(ref EnchantmentAbilityId, 15);
-        stream.Created(ref Enchantment, null, 16);
-        stream.SByte(ref EnchantmentPlayerIndex, -1, 17);
-        stream.SByte(ref EnchantmentDuration, -1, 18);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

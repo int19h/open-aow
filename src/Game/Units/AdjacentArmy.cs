@@ -15,7 +15,7 @@ public partial class AdjacentArmy : EngineObject
         Path = new MovePath();
     }
 
-    public MapCoordinate Location;
+    public MapCoordinate Location { get; set; }
 
     public int Moves { get; set; }
     public int MovePoints { get; set; }

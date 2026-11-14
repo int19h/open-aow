@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -22,27 +21,16 @@ public partial class ItemGraphics : EngineResource
     public ItemGraphics(ECustomNode owner) : base(owner)
     { }
 
-    public string ImageLibraryName = "";
-    public int ImageIndex;
-    public ItemType ItemType;
+    public string ImageLibraryName { get; set; } = "";
+    public int ImageIndex { get; set; }
+    public ItemType ItemType { get; set; }
+
     private CustomImageLibrary _imageLibrary;
     private int _refCount;
-    public bool Hidden;
+
+    public bool Hidden { get; set; }
 
     // Army.PAS:5167
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref ImageLibraryName, 6);
-        }
-
-        stream.Int32(ref ImageIndex, 7);
-        stream.Bytes(Bytes.Of(ref ItemType, 1), 1, 8);
-        stream.Boolean(ref Hidden, 9);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -1,6 +1,9 @@
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
+
 using Aow.Game;
 
 using Aow.Rtl;
@@ -381,7 +384,7 @@ public partial class StorageWriter : StorageStream
                 _propertyTable.BackupSettings();
                 try
                 {
-                    objectValue.MainReadWrite(this);
+                    PersistObject(objectValue);
                     outer.Write(Rtl.Bytes.Of(ref classId, 4));
                     _propertyTable.SaveToStream(outer);
                     _buffer.SaveToStream(outer);
@@ -461,7 +464,7 @@ public partial class StorageWriter : StorageStream
             _propertyTable.BackupSettings();
             try
             {
-                objectValue.MainReadWrite(this);
+                PersistObject(objectValue);
                 _propertyTable.SaveToStream(outer);
                 _buffer.SaveToStream(outer);
                 _propertyTable.RestoreSettings();
@@ -499,7 +502,7 @@ public partial class StorageWriter : StorageStream
         _propertyTable.BackupSettings();
         try
         {
-            objectValue.MainReadWrite(this);
+            PersistObject(objectValue);
             outer.Write(Rtl.Bytes.Of(ref length, 4));
             _propertyTable.SaveToStream(outer);
             _buffer.SaveToStream(outer);
@@ -524,6 +527,28 @@ public partial class StorageWriter : StorageStream
                 throw;
             }
         }
+    }
+
+    // The image the tree writes through the original backend goes into this object's property
+    // table and buffer, where MainReadWrite would have written it.
+    private protected override void PersistTree(EngineObject objectValue)
+    {
+        var factory = new EnginePersistableFactory(_engine ?? objectValue.GetEngine());
+        var root = TreeWriter.Write(objectValue, factory: factory, preview: _partial);
+        var schema = FormatSchema.Current;
+        var classValue = schema.Get(factory.ClassName(objectValue));
+        var image = OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: ClassTable(classValue));
+        using var imageStream = new MemoryStream(image, writable: false);
+        using var table = new PropertyTable();
+        table.LoadFromStream(imageStream);
+        int dataStart = (int)imageStream.Position;
+        int bufferStart = (int)_buffer.Position;
+        for (int i = table.First; i < table.Count; i++)
+        {
+            _propertyTable.Add(table.Items[i].Id, offset: bufferStart + table.Items[i].Offset);
+        }
+
+        _buffer.Write(image.AsSpan(dataStart));
     }
 
     private static readonly string s_writeError = "Error Writing EObject";

@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -14,21 +13,12 @@ public partial class CommandedAbilityData : AbilityData
     public CommandedAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public int AbilityId;
-    public byte SourceId;
-    public int CommandAbilityId;
-    public byte OriginalCombatPlayer;
+    public int AbilityId { get; set; }
+    public byte SourceId { get; set; }
+    public int CommandAbilityId { get; set; }
+    public byte OriginalCombatPlayer { get; set; }
 
     // AoWAb.PAS:5005
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref AbilityId, 20);
-        stream.Int32(ref CommandAbilityId, 21);
-        stream.Byte(ref SourceId, 22);
-        stream.Byte(ref OriginalCombatPlayer, 23);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

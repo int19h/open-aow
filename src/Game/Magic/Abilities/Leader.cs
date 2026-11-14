@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Session;
@@ -20,7 +19,8 @@ public partial class Leader : Hero
 {
     public new const int ClassId = 131634;
 
-    public byte SpherePicksMax;
+    public byte SpherePicksMax { get; private set; }
+
     private readonly ByteList _spheres;
 
     // Hero.PAS:2766
@@ -36,13 +36,6 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2891
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref SpherePicksMax, 5, 45);
-        stream.Payload(46, _spheres.LoadFromStream, _spheres.SaveToStream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -1,4 +1,5 @@
 // Translated from Engine.pas.
+using System.Collections.Concurrent;
 using System.Reflection;
 
 using Aow.Engine.Storage;
@@ -135,6 +136,29 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
 
         static bool Declares(Type declaring, string name) => declaring.GetMethod(name, Declared) is not null;
     }
+
+    private static readonly ConcurrentDictionary<Type, bool> s_streamRetired = new();
+
+    /// <summary>
+    /// True when a class of the type's chain persists only through the tree: it declares
+    /// PersistFields without ReadWrite, MainPersist without MainReadWrite or PersistChildren
+    /// without ReadWriteChildren (issue 185 PE-3-i). The storage streams store such an object
+    /// through the tree and the original backend.
+    /// </summary>
+    public static bool StreamRetired(Type type) => s_streamRetired.GetOrAdd(type, static type =>
+    {
+        const BindingFlags Declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        for (var current = type; current is not null && current != typeof(object); current = current.BaseType)
+        {
+            if (Declares(current, nameof(PersistFields)) && !Declares(current, nameof(ReadWrite))
+                || Declares(current, nameof(MainPersist)) && !Declares(current, nameof(MainReadWrite))
+                || Declares(current, nameof(ECustomNode.PersistChildren)) && !Declares(current, nameof(ECustomNode.ReadWriteChildren)))
+                return true;
+        }
+        return false;
+
+        static bool Declares(Type declaring, string name) => declaring.GetMethod(name, Declared) is not null;
+    });
 
     public virtual void MainPersist(IPersister persister)
     {

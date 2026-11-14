@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -30,83 +29,8 @@ public partial class AbilityOwner : CustomAbilityList
     public AbilityData AbilityData { get; set; }
 
     // Ability.PAS:1762
-    public override void ReadWrite(StorageStream stream)
-    {
-        AbilityData previous = default;
-        AbilityData data = default;
-        Int32List ids = default;
-        base.ReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            // The original tests property 3 before reading the data-ID list.
-            if (stream.PropertyTable.PropertyExist(3))
-            {
-                previous = null;
-                ids = new Int32List();
-                stream.Payload(49, ids.LoadFromStream, ids.SaveToStream);
-                for (int I = 0, last = ids.Count - 1; I <= last; I++)
-                {
-                    var item = ids[I];
-                    stream.Created(ref data, null, item + 50);
-                    if (previous != null)
-                    {
-                        previous.Next = data;
-                    }
-
-                    previous = data;
-                    if (AbilityData == null)
-                    {
-                        AbilityData = data;
-                    }
-                }
-
-                ids?.Dispose();
-            }
-        }
-        else
-        {
-            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
-            {
-                if (AbilityData != null)
-                {
-                    ids = new Int32List();
-                    data = AbilityData;
-                    while (data != null)
-                    {
-                        ids.Add(data.GetAbilityId());
-                        data = data.Next;
-                    }
-
-                    stream.Payload(49, ids.LoadFromStream, ids.SaveToStream);
-                    data = AbilityData;
-                    while (data != null)
-                    {
-                        var abilityId = data.GetAbilityId();
-                        stream.Created(ref data, null, abilityId + 50);
-                        data = data.Next;
-                    }
-
-                    ids?.Dispose();
-                }
-            }
-            else
-            {
-                if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Compare))
-                {
-                    data = AbilityData;
-                    while (data != null)
-                    {
-                        var abilityId = data.GetAbilityId();
-                        stream.Created(ref data, null, abilityId + 50);
-                        data = data.Next;
-                    }
-                }
-            }
-        }
-    }
-
-    // The load follows AbilityDataIds, as ReadWrite does: one AbilityData per stored id, from the slot of
-    // that id, and a slot AbilityDataIds does not name stays unread. ReadWrite reads neither member when the
+    // The load follows AbilityDataIds, as the original ReadWrite does: one AbilityData per stored id, from the slot of
+    // that id, and a slot AbilityDataIds does not name stays unread. The original ReadWrite reads neither member when the
     // ability bits (property 3) are absent.
     public override void PersistFields(IPersister persister)
     {

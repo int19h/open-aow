@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -26,17 +25,10 @@ public partial class UnitEnchantment : Enchantment
         Source = -1;
     }
 
-    public int UnitId;
-    public int EnchantmentAbilityId;
+    public int UnitId { get; set; }
+    public int EnchantmentAbilityId { get; set; }
 
     // AoWAb.PAS:797
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref EnchantmentAbilityId, 20);
-        stream.Int32(ref UnitId, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

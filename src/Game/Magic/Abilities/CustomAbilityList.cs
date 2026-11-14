@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -20,7 +19,8 @@ public partial class CustomAbilityList : EngineObject
     { }
 
     public byte[] AbilityBits = [];
-    public int AbilityCount;
+
+    public int AbilityCount { get; set; }
 
     // Ability.PAS:942
     public override void Dispose()
@@ -30,38 +30,6 @@ public partial class CustomAbilityList : EngineObject
     }
 
     // Ability.PAS:1161
-    public override void ReadWrite(StorageStream stream)
-    {
-        int I = default;
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                stream.Int32(ref I, 2);
-                SetAbilityCount(I);
-                stream.Bytes(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
-            }
-            else
-            {
-                stream.Int32(ref AbilityCount, 2);
-                stream.Bytes(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
-            }
-        }
-
-        if (!stream.StorageMode().Contains(StorageModeElement.Preview))
-        {
-            I = 0;
-            int last = AbilityCount - 1;
-            for (; I <= last; I += 1)
-            {
-                if (GetAbilitySetAt(I) && GamePack.Current.AbilityControl.GetAbility(I) == null)
-                {
-                    SetAbilitySet(I, 0);
-                }
-            }
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

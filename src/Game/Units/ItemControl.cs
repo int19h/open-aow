@@ -3,7 +3,6 @@ using Aow.Engine;
 
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -65,66 +64,7 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4660
-    public override void ReadWrite(StorageStream stream)
-    {
-        int id;
-        Item Item = default;
-        base.ReadWrite(stream);
-        stream.Int32(ref _lastId, 9);
-        if (stream.StorageMode().Contains(StorageModeElement.Compare))
-        {
-            id = 10;
-            for (int I = 0, last = _items.Count - 1; I <= last; I++)
-            {
-                Item = _items[I];
-                if (Item.Owner == null)
-                {
-                    stream.Created(ref Item, null, id);
-                    id += 1;
-                }
-            }
-        }
-        else
-        {
-            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
-            {
-                if (stream.StorageMode().Contains(StorageModeElement.Read))
-                {
-                    id = 10;
-                    do
-                    {
-                        stream.Created(ref Item, null, id);
-                        if (Item != null)
-                        {
-                            ValidateItem(Item);
-                            _items.Add(Item);
-                            Item.Status = Item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
-                        }
-
-                        id += 1;
-                    }
-                    while (!(Item == null));
-                }
-
-                if (stream.StorageMode().Contains(StorageModeElement.TextOnly) || stream.StorageMode().Contains(StorageModeElement.Write))
-                {
-                    id = 10;
-                    for (int I = 0, last = _items.Count - 1; I <= last; I++)
-                    {
-                        if (_items[I].Owner == null)
-                        {
-                            Item item = _items[I];
-                            stream.Created(ref item, null, id);
-                            _items[I] = item;
-                            id += 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // ReadWrite reads ids 10 and on until the first absent or nil item, and writes the items
+    // The original ReadWrite reads ids 10 and on until the first absent or nil item, and writes the items
     // that have no owner at ids 10 and on. The slot is the id less 10. A preview reads and writes
     // no item and leaves a stored one unread.
     public override void PersistFields(IPersister persister)

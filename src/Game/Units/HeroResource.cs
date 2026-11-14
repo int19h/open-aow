@@ -1,16 +1,11 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -31,21 +26,21 @@ public partial class HeroResource : TroopResource
         Resistance = 2;
     }
 
-    public string Name = "";
-    public sbyte Race;
-    public HeroType HeroType;
-    public Alignment Alignment;
-    public bool Hidden;
-    public sbyte Attack;
-    public sbyte Defense;
-    public sbyte Damage;
-    public sbyte Hits;
-    public sbyte Moves;
-    public sbyte Resistance;
+    public string Name { get; set; } = "";
+    public sbyte Race { get; private set; }
+    public HeroType HeroType { get; set; }
+    public Alignment Alignment { get; private set; }
+    public bool Hidden { get; private set; }
+    public sbyte Attack { get; private set; }
+    public sbyte Defense { get; private set; }
+    public sbyte Damage { get; private set; }
+    public sbyte Hits { get; private set; }
+    public sbyte Moves { get; private set; }
+    public sbyte Resistance { get; private set; }
 
     public AbilityOwner Abilities { get; }
 
-    public int FaceIndex;
+    public int FaceIndex { get; private set; }
 
     // Hero.PAS:2320
     public override void Dispose()
@@ -55,29 +50,6 @@ public partial class HeroResource : TroopResource
     }
 
     // Hero.PAS:2341
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref Name, 10);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 11);
-        stream.Bytes(Bytes.Of(ref HeroType, 1), 1, 12);
-        stream.Bytes(Bytes.Of(ref Alignment, 1), 1, 13);
-        if (Alignment > Alignment.None)
-        {
-            Alignment = Alignment.Neutral;
-        }
-
-        stream.Boolean(ref Hidden, 14);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 15);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 16);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 17);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Hits), 18);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Moves), 19);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 20);
-        stream.Object(Abilities, 29);
-        stream.Int32(ref FaceIndex, 30);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

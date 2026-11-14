@@ -1,9 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -23,32 +21,11 @@ public partial class ArmyView : Army
 
     public ushort[] UnitConcealment { get; } = new ushort[8];
 
-    public ushort ConcealedForPlayers;
+    public ushort ConcealedForPlayers { get; set; }
 
     public int[] MoraleValues { get; } = new int[8];
 
     // Army.PAS:122
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(MemoryMarshal.AsBytes((Span<ushort>)UnitConcealment).Slice(0, 16), 16, 40);
-        stream.UInt16(ref ConcealedForPlayers, 41);
-        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)MoraleValues).Slice(0, 32), 32, 42);
-    }
-
-    // Army.PAS:130
-    public override void MainReadWrite(StorageStream stream)
-    {
-        base.MainReadWrite(stream);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            for (int I = 0, last = GetCount() - 1; I <= last; I++)
-            {
-                GetUnit(I).MoraleValue = (sbyte)MoraleValues[I];
-            }
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -57,6 +34,7 @@ public partial class ArmyView : Army
         PersistSupport.Int32Array(persister, "MoraleValues", MoraleValues);
     }
 
+    // Army.PAS:130
     public override void MainPersist(IPersister persister)
     {
         base.MainPersist(persister);

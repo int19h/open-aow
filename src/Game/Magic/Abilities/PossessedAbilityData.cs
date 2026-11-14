@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -14,15 +13,9 @@ public partial class PossessedAbilityData : AbilityData
     public PossessedAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public int SourceExperience;
+    public int SourceExperience { get; set; }
 
     // AoWAb.PAS:2556
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref SourceExperience, 30);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

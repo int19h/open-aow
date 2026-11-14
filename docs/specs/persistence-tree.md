@@ -1,4 +1,4 @@
-# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-h)
+# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i)
 
 State: PE-1 is implemented for the pilot classes. PE-2a adds version 2 of the own document,
 symbolic enums and sets, and fixed integer arrays as lists, 2026-11-07. PE-2b adds version 3,
@@ -31,7 +31,11 @@ path of step 3 of the exit from the Delphi image (`own-formats.md` 6.3). The dir
 no shape the schema declares. PE-3-h moves the copies, assignments and comparisons of engine
 objects onto an in-memory tree and the game set files, the system hero and item libraries and the
 e-mail game index onto the original backend (section 13), with no document change, 2026-11-13.
-`ReadWrite` stays for the token events and the packets, which PE-4-a moves.
+The first pull request of PE-3-i retires `ReadWrite`, `MainReadWrite` and `ReadWriteChildren` of
+the units, abilities and items (`Game/Units`, `Game/Magic/Abilities`), and the storage streams
+store those classes through the tree (section 14), with no document change, 2026-11-13. The
+other families keep `ReadWrite` until their PE-3-i pull request, and the token events and the
+packets keep it until PE-4-a.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -629,3 +633,43 @@ the tree.
   the stream copy made it.
 - `GameEngine.WriteEngineObject` and `ReadEngineObject` lost their last caller and are deleted.
   `StoreEngineObject` and `RetrieveEngineObject` stay for the packets.
+
+## 14. ReadWrite retired (PE-3-i)
+
+PE-3-i deletes the storage methods family by family, in the order of PE-3-b to PE-3-e. The first
+pull request takes the family of PE-3-b, `Game/Units` and `Game/Magic/Abilities`: 41 methods (38
+`ReadWrite`, 3 `MainReadWrite` of `ArmyView`, `ItemList` and `UnitList`) go, and the tree methods
+of these classes are the only stored form. Each tree method carries the Delphi line of the
+method it replaces. No payload stream method lost its last caller: the lists and image sequence
+lists of these classes are engine types that the other families still store through the stream.
+
+The storage streams stay for the packets and for the families that still have `ReadWrite`. A
+packet stores objects of this family (the army id of several token events, the abilities of a
+hero upgrade, the leader of a setup message), and an object of a later family stores them as
+created objects and children. So `StorageWriter` and `StorageReader` store an object whose class
+is retired through the tree, where they called `MainReadWrite`:
+
+- `EngineObject.StreamRetired` is true when a class of the type's chain declares `PersistFields`
+  without `ReadWrite`, `MainPersist` without `MainReadWrite`, or `PersistChildren` without
+  `ReadWriteChildren`. A class of a later family that derives from this family (an AI group, the
+  cosmetic surgery enchantment) is retired with it, because its base no longer writes through
+  the stream.
+- The writer writes the object with `TreeWriter.Write` (the preview flag on a partial stream) and
+  the original backend under the object's stored class, and puts the image's property table and
+  data into the object's own table and buffer, where `MainReadWrite` would have written them.
+  The bytes are the bytes the tree's original image holds.
+- The reader reads the object's image from the start of its property table to the next larger
+  offset of the table that holds it, or to the end of that table's object (the bound the original
+  backend gives a stored value), reads it with the original backend and loads the tree with
+  `TreeReader.Read`. A failure inside goes to the stream's error handlers. An object the table
+  does not hold loads an empty tree, as the stream load of an absent object reads no member.
+- The class ids of the created objects inside resolve in the game engine table when it enlists
+  the stored class, otherwise in the first table that does.
+
+The tests that used the stream as the reference of this family now reach these classes through
+the same bridge (`StorageStream.PersistObject`), so their stream side is the tree. What still
+proves the family: the converter's document of the tree's original image equals the document
+backend's document, and the converter's encoding of a document equals the tree's image of the
+object the document loads, in the constructed tests and for every instance of the corpus walk.
+The walk leaves out its two byte comparisons with the stream's write and load for a retired
+class, because both sides are the tree. The oracle compares the game with the native game.

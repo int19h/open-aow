@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -47,26 +44,30 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         RefCount = 1;
     }
 
-    public int ItemId;
-    public string OwnerName = "";
+    public int ItemId { get; set; }
+    public string OwnerName { get; set; } = "";
 
     public Set<ItemStatusElement> Status { get; set; }
     public int RefCount { get; private set; }
 
-    public int LibraryId;
-    public string LibraryName = "";
+    public int LibraryId { get; set; }
+    public string LibraryName { get; set; } = "";
+
     private int _obtainValue;
-    public string Name = "";
-    public ItemType ItemType;
+
+    public string Name { get; set; } = "";
+    public ItemType ItemType { get; set; }
+
     private int _spellId;
     private readonly StringList _description;
     private int _itemGraphicsIndex;
     private bool _hidden;
-    public ItemAvailability Availability;
-    public sbyte Attack;
-    public sbyte Defense;
-    public sbyte Damage;
-    public sbyte Resistance;
+
+    public ItemAvailability Availability { get; private set; }
+    public sbyte Attack { get; set; }
+    public sbyte Defense { get; private set; }
+    public sbyte Damage { get; private set; }
+    public sbyte Resistance { get; private set; }
 
     // Army.PAS:4220
     public override void Dispose()
@@ -112,42 +113,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     }
 
     // Army.PAS:4448
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
-        {
-            stream.Int32(ref _itemGraphicsIndex, 7);
-        }
-
-        if (!stream.StorageMode().Contains(EngineServices.Text) || Owner is ItemLibrary || !GetLibraryItem())
-        {
-            stream.String(ref OwnerName, 8);
-        }
-
-        if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
-        {
-            stream.String(ref Name, 9);
-            stream.Bytes(Bytes.Of(ref Availability, 1), 1, 10);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 11);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 12);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 13);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 14);
-            stream.Bytes(Bytes.Of(ref ItemType, 1), 1, 15);
-            stream.Boolean(ref _hidden, 16);
-            stream.Int32(ref ItemId, 17);
-            stream.Lines(_description, 18);
-            stream.Int32(ref _obtainValue, 19);
-            stream.Int32(ref _spellId, 20);
-            stream.Int32(ref LibraryId, -1, 21);
-            if (!stream.StorageMode().Contains(EngineServices.Text))
-            {
-                stream.String(ref LibraryName, 22);
-            }
-        }
-    }
-
-    // The text-only branches of ReadWrite serve the text and translate streams. The tree has no such mode.
+    // The text-only branches of the original ReadWrite served the text and translate streams. The tree has no such mode.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

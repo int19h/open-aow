@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -17,11 +16,6 @@ public partial class AbilityData : EngineObject
     public AbilityData Next { get; set; }
 
     // Ability.PAS:1234
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

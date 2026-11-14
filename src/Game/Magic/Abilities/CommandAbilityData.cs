@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -21,7 +20,7 @@ public partial class CommandAbilityData : AbilityData
         CommandedUnits = new ByteList();
     }
 
-    public int AbilityId;
+    public int AbilityId { get; set; }
 
     public ByteList CommandedUnits { get; }
 
@@ -33,13 +32,6 @@ public partial class CommandAbilityData : AbilityData
     }
 
     // AoWAb.PAS:4967
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref AbilityId, 20);
-        stream.Payload(21, CommandedUnits.LoadFromStream, CommandedUnits.SaveToStream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

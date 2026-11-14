@@ -1418,7 +1418,7 @@ public sealed partial class PersistEquivalenceTests
             using (var memory = new MemoryStream(image))
             using (var reader = new StorageReader(memory, EngineFixture.Engine, true))
             {
-                preview.MainReadWrite(reader);
+                reader.PersistObject(preview);
             }
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), previewTree, Factory, preview: true);
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), full, Factory);
@@ -1509,7 +1509,7 @@ public sealed partial class PersistEquivalenceTests
         if (onError is not null) reader.OnError += onError;
         try
         {
-            objectValue.MainReadWrite(reader);
+            reader.PersistObject(objectValue);
         }
         finally
         {
@@ -1577,7 +1577,7 @@ public sealed partial class PersistEquivalenceTests
         using var memory = new MemoryStream();
         using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
-            objectValue.MainReadWrite(writer);
+            writer.PersistObject(objectValue);
         }
         return memory.ToArray();
     }

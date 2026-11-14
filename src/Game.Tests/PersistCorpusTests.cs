@@ -323,7 +323,13 @@ public sealed class PersistCorpusTests
                     Block(classValue.Name, error.Diagnostic.Message);
                     return false;
                 }
-                EqualBytes(rewritten, direct, file + " " + classValue.Name + " original");
+                // A class whose ReadWrite is retired (PE-3-i) loads and writes through the tree on
+                // the stream too, so its stream image is this tree's image, and the comparisons with
+                // the stream's write and load prove nothing for it. The converter's write and read
+                // comparisons stay.
+                bool retired = EngineObject.StreamRetired(loaded.GetType());
+                if (!retired)
+                    EqualBytes(rewritten, direct, file + " " + classValue.Name + " original");
                 var again = Blank(classValue.Name);
                 try
                 {
@@ -350,7 +356,8 @@ public sealed class PersistCorpusTests
                     }
                     Runtime.RandSeed = seed;
                     TreeReader.Read(read, fromImage, factory, Stop);
-                    EqualBytes(Image(loaded), actual: Image(fromImage), label: file + " " + classValue.Name + " readwrite");
+                    if (!retired)
+                        EqualBytes(Image(loaded), actual: Image(fromImage), label: file + " " + classValue.Name + " readwrite");
                 }
                 finally
                 {
@@ -572,7 +579,7 @@ public sealed class PersistCorpusTests
         reader.OnError += static (StorageStream _, string _, ref bool cont) => cont = false;
         try
         {
-            objectValue.MainReadWrite(reader);
+            reader.PersistObject(objectValue);
         }
         finally
         {
@@ -585,7 +592,7 @@ public sealed class PersistCorpusTests
         using var memory = new MemoryStream();
         using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
-            objectValue.MainReadWrite(writer);
+            writer.PersistObject(objectValue);
         }
         return memory.ToArray();
     }

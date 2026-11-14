@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
@@ -33,18 +32,6 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     { }
 
     // Unit.PAS:2294
-    public override void MainReadWrite(StorageStream stream)
-    {
-        base.MainReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            for (int I = 0, last = Count - 1; I <= last; I++)
-            {
-                this[I].Release();
-            }
-        }
-    }
-
     public override void MainPersist(IPersister persister)
     {
         base.MainPersist(persister);

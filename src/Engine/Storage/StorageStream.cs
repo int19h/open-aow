@@ -1,6 +1,8 @@
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 
+using Aow.Formats.Schema;
+
 using Aow.Game;
 
 using Aow.Rtl;
@@ -171,6 +173,24 @@ public partial class StorageStream : IDisposable
     public virtual void Dispose()
     {
     }
+
+    // The stored image of one object: MainReadWrite, or the tree for a class whose stream
+    // methods are retired (EngineObject.StreamRetired). The writer and the reader call it where
+    // the original calls MainReadWrite, with the object's own property table in place.
+    internal void PersistObject(EngineObject objectValue)
+    {
+        if (EngineObject.StreamRetired(objectValue.GetType()))
+            PersistTree(objectValue);
+        else
+            objectValue.MainReadWrite(this);
+    }
+
+    private protected virtual void PersistTree(EngineObject objectValue) => objectValue.MainReadWrite(this);
+
+    // The engine table that resolves the class ids inside the image of a class: the strategic
+    // table when it enlists the class, otherwise the first table that does.
+    private protected static string ClassTable(SchemaClass classValue) =>
+        classValue.Engines.Contains("game") || classValue.Engines.Count == 0 ? "game" : classValue.Engines[0];
 
     public delegate void StorageStreamError(StorageStream stream, string message, ref bool handled);
 }

@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -49,27 +46,31 @@ public partial class UnitResource : TroopResource
     }
 
     private string _name = "";
-    public sbyte Race;
+
+    public sbyte Race { get; set; }
+
     public bool Champion;
     private string _nickname = "";
-    public Alignment Alignment;
-    public sbyte Attack;
-    public sbyte Defense;
-    public sbyte Damage;
-    public sbyte Hits;
-    public sbyte Moves;
-    public sbyte Resistance;
-    public sbyte Level;
-    public UnitType UnitType;
-    public UnitGender Gender;
+
+    public Alignment Alignment { get; private set; }
+    public sbyte Attack { get; set; }
+    public sbyte Defense { get; private set; }
+    public sbyte Damage { get; private set; }
+    public sbyte Hits { get; private set; }
+    public sbyte Moves { get; private set; }
+    public sbyte Resistance { get; private set; }
+    public sbyte Level { get; set; }
+    public UnitType UnitType { get; private set; }
+    public UnitGender Gender { get; private set; }
+
     public readonly AbilityOwnerArray3 Abilities;
     private byte _transportCapacity;
 
     public StringList Description { get; }
 
-    public int ObtainValue;
-    public UnitSize UnitSize;
-    public BloodType BloodType;
+    public int ObtainValue { get; set; }
+    public UnitSize UnitSize { get; private set; }
+    public BloodType BloodType { get; private set; }
 
     // UnitRes.PAS:92
     public override void Dispose()
@@ -86,42 +87,6 @@ public partial class UnitResource : TroopResource
     }
 
     // UnitRes.PAS:156
-    public override void ReadWrite(StorageStream stream)
-    {
-        Unit.Rank rank;
-        base.ReadWrite(stream);
-        stream.String(ref _name, 10);
-        stream.String(ref _nickname, 11);
-        stream.Bytes(Bytes.Of(ref Alignment, 1), 1, 12);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Attack), 14);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 15);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Damage), 16);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Hits), 17);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Moves), 18);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Resistance), 19);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Level), 20);
-        stream.Bytes(Bytes.Of(ref UnitType, 1), 1, 21);
-        stream.Bytes(Bytes.Of(ref Champion, 1), 1, 22);
-        stream.Bytes(Bytes.Of(ref Gender, 1), 1, 23);
-        stream.Byte(ref _transportCapacity, 24);
-        stream.Object(Abilities[(int)Unit.Rank.None], 25);
-        stream.Lines(Description, 26);
-        stream.Int32(ref ObtainValue, 27);
-        stream.Bytes(Bytes.Of(ref UnitSize, 1), 1, 28);
-        stream.Bytes(Bytes.Of(ref BloodType, 1), 1, 29);
-        stream.Object(Abilities[(int)Unit.Rank.Silver], 30);
-        stream.Object(Abilities[(int)Unit.Rank.Gold], 31);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
-            {
-                rank = (Unit.Rank)rankOrdinal;
-                Abilities[(int)rank].ValidateOwnerTypeAbilities();
-            }
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         Unit.Rank rank;

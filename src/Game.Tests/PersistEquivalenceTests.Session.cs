@@ -312,7 +312,7 @@ public sealed partial class PersistEquivalenceTests
         var reader = new Aow.Engine.Storage.StorageReader(memory, engine: EngineFixture.Engine, partial: true);
         try
         {
-            objectValue.MainReadWrite(reader);
+            reader.PersistObject(objectValue);
         }
         finally
         {
