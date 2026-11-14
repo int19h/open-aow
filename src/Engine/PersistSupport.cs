@@ -73,10 +73,13 @@ public static class PersistSupport
         for (int i = 0; i < list.Count; i++) items.Add(list[i]);
         int stored = persister.Int32List(name, items, list.Default);
         if (!persister.Loading || !present) return;
-        list.Clear();
-        list.Default = stored;
-        list.SetCapacity(items.Count);
-        foreach (int item in items) list.Add(item);
+        LoadPayload(() =>
+        {
+            list.Clear();
+            list.Default = stored;
+            list.SetCapacity(items.Count);
+            foreach (int item in items) list.Add(item);
+        });
     }
 
     /// <summary>A TByteList stream, with the presence of <see cref="Int32List"/>.</summary>
@@ -87,10 +90,13 @@ public static class PersistSupport
         for (int i = 0; i < list.Count; i++) items.Add(list[i]);
         byte stored = persister.ByteList(name, items, list.Default);
         if (!persister.Loading || !present) return;
-        list.Clear();
-        list.Default = stored;
-        list.SetCapacity(items.Count);
-        foreach (byte item in items) list.Add(item);
+        LoadPayload(() =>
+        {
+            list.Clear();
+            list.Default = stored;
+            list.SetCapacity(items.Count);
+            foreach (byte item in items) list.Add(item);
+        });
     }
 
     /// <summary>
@@ -115,7 +121,7 @@ public static class PersistSupport
     public static BitListImage BitList(IPersister persister, string name, BitList list)
     {
         if (persister.BitList(name, value: list.SaveImage()) is not { } stored || !persister.Loading) return null;
-        list.LoadImage(stored);
+        LoadPayload(() => list.LoadImage(stored));
         return stored;
     }
 
@@ -163,7 +169,7 @@ public static class PersistSupport
         if (!persister.Has(name)) return;
         var entries = new List<IReadOnlyList<SequenceLayer>>();
         persister.ImageSequences(name, entries: entries);
-        list.LoadLayers(entries);
+        LoadPayload(() => list.LoadLayers(entries));
     }
 
     /// <summary>
@@ -182,12 +188,15 @@ public static class PersistSupport
         }
         if (!persister.Has(name)) return;
         persister.SBytePairs(name, pairs: pairs);
-        list.Count = pairs.Count;
-        for (int i = 0; i < pairs.Count; i++)
+        LoadPayload(() =>
         {
-            list.SetTerrain(i, pairs[i].First);
-            list.SetOverlay(i, pairs[i].Second);
-        }
+            list.Count = pairs.Count;
+            for (int i = 0; i < pairs.Count; i++)
+            {
+                list.SetTerrain(i, pairs[i].First);
+                list.SetOverlay(i, pairs[i].Second);
+            }
+        });
     }
 
     /// <summary>
@@ -205,7 +214,24 @@ public static class PersistSupport
         }
         if (persister.Blob(name, data: []) is not { } stored) return;
         using var input = new MemoryStream(stored, writable: false);
-        library.LoadFromStream(input);
+        LoadPayload(() => library.LoadFromStream(input));
+    }
+
+    /// <summary>
+    /// The load of a stream callback's payload. <c>TEReadStorageStream.rwStreamProc</c> runs the load
+    /// procedure inside an exception block with an empty handler (Engine.pas 10157), so a payload
+    /// that fails to load keeps what its load did and the object's load goes on.
+    /// </summary>
+    private static void LoadPayload(Action load)
+    {
+        try
+        {
+            load();
+        }
+        catch (Exception)
+        {
+            // rwStreamProc ignores the failure.
+        }
     }
 
     public static void Lines(IPersister persister, string name, StringCollection lines)

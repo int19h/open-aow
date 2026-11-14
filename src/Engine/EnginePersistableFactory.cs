@@ -15,7 +15,9 @@ namespace Aow.Engine;
 /// </summary>
 public sealed class EnginePersistableFactory : IEnginePersistableFactory
 {
-    private readonly Dictionary<string, EngineClass> _byName = Index();
+    // The classes by stored name, indexed at the first creation. A copy of an object that creates
+    // nothing never builds it.
+    private Dictionary<string, EngineClass>? _byName;
 
     public EnginePersistableFactory(GameEngine engine, ProgressEvent? progress = null)
     {
@@ -33,14 +35,17 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
 
     public IPersistable Create(string className)
     {
-        if (!_byName.TryGetValue(className, out var engineClass))
+        var byName = _byName ??= Index();
+        if (!byName.TryGetValue(className, out var engineClass))
         {
             var resolved = NameTable.ResolveStored(className);
-            if (resolved is null || !_byName.TryGetValue(resolved, out engineClass))
+            if (resolved is null || !byName.TryGetValue(resolved, out engineClass))
                 throw new InvalidOperationException("The engine has no class " + className + ".");
         }
-        // The engine table must hold this class at its id, the lookup TEngine.GetEClass makes.
-        if (!Engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null || registered.StorageKey != engineClass.StorageKey)
+        // The stream stores the class id, and rwCreateEObject creates the class the engine table
+        // holds at that id (TEngine.GetEClass). A class that keeps its parent's id, such as a
+        // tactical battle unit, comes back as the class the table holds there.
+        if (!Engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null)
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + engineClass.ClassId.ToString(CultureInfo.InvariantCulture) + ")");
         return registered.CreateInstance(null!, holder: Engine);
     }

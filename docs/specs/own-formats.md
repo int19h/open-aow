@@ -1065,8 +1065,10 @@ is implemented: the mapped classes are the only shapes the direct path refuses, 
 them. PE-3-b to PE-3-e put the engine classes on the tree, and PE-3-g moves the game's own
 loads and saves onto it: no engine image remains on the own disk path, and an original load reads
 its tree through the original backend after the converter's G1 check (`persistence-tree.md` 12).
-`ReadWrite` remains for copies, assignments and comparisons, the game set files, the e-mail game
-index and the packets (PE-3-h and PE-4-a), and steps 4 and 5 are not implemented. The private roadmap allocates the five steps as briefs
+PE-3-h moves copies, assignments and comparisons onto the tree and reads and writes the game set
+files, the system hero and item libraries and the e-mail game index, which stay original files,
+through the original backend (`persistence-tree.md` 13). `ReadWrite` remains for the token events
+and the packets (PE-4-a), and steps 4 and 5 are not implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
 section 10 names them as that step's prerequisite.
 

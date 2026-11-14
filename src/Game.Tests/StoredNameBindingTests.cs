@@ -186,14 +186,15 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         return null;
     }
 
-    // Gives each integer field that a schema member names a value no other one has, and returns
-    // the values by stored name.
-    private static List<(string Name, long Value)> Fill(EngineObject objectValue, SchemaClass classValue)
+    // Gives each integer field that a schema member names a value no other one has, from first on,
+    // and returns the values by stored name. The members of skip keep their values.
+    internal static List<(string Name, long Value)> Fill(EngineObject objectValue, SchemaClass classValue, int first = 11, IReadOnlySet<string>? skip = null)
     {
         var filled = new List<(string, long)>();
-        int next = 11;
+        int next = first;
         foreach (var property in classValue.Properties)
         {
+            if (skip?.Contains(property.Name) == true) continue;
             if (Member(objectValue.GetType(), property.Name) is not FieldInfo field || field.IsInitOnly) continue;
             object? value = Type.GetTypeCode(field.FieldType) switch
             {
@@ -208,7 +209,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             field.SetValue(objectValue, value);
             filled.Add((property.Name, next));
             next++;
-            if (next > 120) break;
+            if (next > first + 109) break;
         }
         return filled;
     }

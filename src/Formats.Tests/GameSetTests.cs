@@ -11,8 +11,9 @@ namespace Aow.Formats.Tests;
 /// game set file (<c>Release\*.pfs</c>) stays outside the own formats (own-formats.md 1.1). It is a written
 /// object between two CRC words (TEngine.WriteToFileCRC), read here through a written-object
 /// profile of its root class. <c>comb_res.pfs</c> holds tactical classes and reads through the
-/// tactical engine table. <c>HEROES.PFS</c>, <c>ITEMS.PFS</c> and <c>General.pfs</c> hold more
-/// than the root and are not read. Each file passes G1 through the converter, and its root passes
+/// tactical engine table. <c>HEROES.PFS</c> and <c>ITEMS.PFS</c> are written objects without CRC
+/// words, which the system hero and item libraries load, and <c>General.pfs</c> holds more than the
+/// root. This test reads none of the three. Each file passes G1 through the converter, and its root passes
 /// both backends: the image read and the canonical write, the document write equal to the
 /// converter's document without its layout, and the document read.
 /// </summary>

@@ -229,6 +229,40 @@ public static class GameBoundary
     }
 
     /// <summary>
+    /// The tree of an object image the engine writes without a class id (<c>TEngine.WriteEObject</c>):
+    /// the outer table with the root at id 0, then the object of <paramref name="className"/>. The
+    /// game set files, the system hero and item libraries and the e-mail game index hold such an
+    /// image and stay original files (own-formats.md 1.1). <paramref name="classTable"/> names the
+    /// engine table that resolves the class ids of the created objects inside. The original
+    /// backend reads the root.
+    /// </summary>
+    public static ObjectNode ReadWrittenObject(byte[] image, string className, string classTable)
+    {
+        var schema = FormatSchema.Current;
+        var profile = WrittenObject(className, classTable: classTable);
+        var context = new DecodeContext(image, schema: schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var (classValue, start, end) = profile.RootImage(context);
+        return ImageTree.Read(context, start: start, end: end, classValue: classValue);
+    }
+
+    /// <summary>
+    /// The object image <c>TEngine.WriteEObject</c> writes for a tree of <paramref name="className"/>:
+    /// the original backend writes the root, inside the outer table of id 0.
+    /// </summary>
+    public static byte[] WriteWrittenObject(ObjectNode root, string className, string classTable)
+    {
+        var schema = FormatSchema.Current;
+        var profile = WrittenObject(className, classTable: classTable);
+        var classValue = schema.Get(className);
+        var context = new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        var rootImage = OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable);
+        return profile.WrapRootImage(rootImage, classValue: classValue, context: context);
+    }
+
+    private static WrittenObjectProfile WrittenObject(string className, string classTable) =>
+        new("written-object", kinds: ["written-object"], rootClass: className, engine: classTable);
+
+    /// <summary>
     /// Converts a tree the game wrote to the canonical document bytes (own-formats.md 4.2): the
     /// document backend writes the root under the profile's root class, and the document is
     /// validated and serialized. <paramref name="className"/> is the stored class of the root,
