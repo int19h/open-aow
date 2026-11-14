@@ -15,17 +15,18 @@ public partial class MessageDialog : UIModule
     public MessageDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label TitleLabel;
-    public Panel YesNoPanel;
-    public Panel OKPanel;
-    public Panel OKCancelPanel;
-    public Memo MessageMemo;
-    public Panel YesNoCancelPanel;
-    public Panel MemoPanel;
-    public Panel HeaderMemoPanel;
-    public Memo HeaderMemo;
-    public Label HeaderLabel;
+    public Window Window { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Panel YesNoPanel { get; private set; }
+    public Panel OKPanel { get; private set; }
+    public Panel OKCancelPanel { get; private set; }
+    public Memo MessageMemo { get; private set; }
+    public Panel YesNoCancelPanel { get; private set; }
+    public Panel MemoPanel { get; private set; }
+    public Panel HeaderMemoPanel { get; private set; }
+    public Memo HeaderMemo { get; private set; }
+    public Label HeaderLabel { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private MessageEventLog _event;
 

@@ -99,7 +99,7 @@ public partial class JoinEventLog : EventLog
     }
 
     // Diplomacy.pas:80
-    public virtual void ListJoinUnits(UnitList units, out byte selection)
+    public virtual void ListJoinUnits(UnitUserList units, out byte selection)
     {
         Troop troop;
         for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)

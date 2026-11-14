@@ -26,28 +26,29 @@ public partial class MagicWindow : UIModule
     public MagicWindow(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label ResearchPointsLabel;
-    public ListBox<Enchantment> EnchantmentList;
-    public ListBox UpkeepList;
-    public ListBox BindingList;
-    public Label NetManaLabel;
-    public ListBox<GlobalEnchantment> GlobalEnchantmentList;
-    public ListBox GlobalUpkeepList;
-    public ListBox GlobalNameList;
-    public Label SpellNameLabel;
-    public Button GlobalDispelButton;
-    public Button DispelButton;
-    public Label ResearchTurnsLeftLabel;
-    public Label SpellClassLabel;
-    public Panel SpellPanel;
-    public Label SpellCostLabel;
-    public Label PowerLabel;
-    public ListBox PowerValueList;
-    public ListBox<PowerSource> PowerSourceList;
-    public VerticalScrollBar EnchantmentScrollBar;
-    public VerticalScrollBar GlobalEnchantmentScrollBar;
-    public VerticalScrollBar PowerScrollBar;
+    public Window Window { get; private set; }
+    public Label ResearchPointsLabel { get; private set; }
+    public ListBox<Enchantment> EnchantmentList { get; private set; }
+    public ListBox UpkeepList { get; private set; }
+    public ListBox BindingList { get; private set; }
+    public Label NetManaLabel { get; private set; }
+    public ListBox<GlobalEnchantment> GlobalEnchantmentList { get; private set; }
+    public ListBox GlobalUpkeepList { get; private set; }
+    public ListBox GlobalNameList { get; private set; }
+    public Label SpellNameLabel { get; private set; }
+    public Button GlobalDispelButton { get; private set; }
+    public Button DispelButton { get; private set; }
+    public Label ResearchTurnsLeftLabel { get; private set; }
+    public Label SpellClassLabel { get; private set; }
+    public Panel SpellPanel { get; private set; }
+    public Label SpellCostLabel { get; private set; }
+    public Label PowerLabel { get; private set; }
+    public ListBox PowerValueList { get; private set; }
+    public ListBox<PowerSource> PowerSourceList { get; private set; }
+    public VerticalScrollBar EnchantmentScrollBar { get; private set; }
+    public VerticalScrollBar GlobalEnchantmentScrollBar { get; private set; }
+    public VerticalScrollBar PowerScrollBar { get; private set; }
+
     private int _enchantmentSort;
     private int _globalEnchantmentSort;
     private int _powerSort;

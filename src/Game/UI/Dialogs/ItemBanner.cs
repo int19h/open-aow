@@ -14,18 +14,18 @@ public partial class ItemBanner : UIModule
     public ItemBanner(UIContext ui) : base(ui)
     { }
 
-    public Label ItemNameLabel;
-    public Menu BannerMenu;
-    public Image AttackIcon;
-    public Image DefenseIcon;
-    public Image DamageIcon;
-    public Image ResistanceIcon;
-    public Label AttackLabel;
-    public Label DefenseLabel;
-    public Label DamageLabel;
-    public Label ResistanceLabel;
-    public UserDrawBox ItemView;
-    public ListBox AbilityList;
+    public Label ItemNameLabel { get; private set; }
+    public Menu BannerMenu { get; private set; }
+    public Image AttackIcon { get; private set; }
+    public Image DefenseIcon { get; private set; }
+    public Image DamageIcon { get; private set; }
+    public Image ResistanceIcon { get; private set; }
+    public Label AttackLabel { get; private set; }
+    public Label DefenseLabel { get; private set; }
+    public Label DamageLabel { get; private set; }
+    public Label ResistanceLabel { get; private set; }
+    public UserDrawBox ItemView { get; private set; }
+    public ListBox AbilityList { get; private set; }
 
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()

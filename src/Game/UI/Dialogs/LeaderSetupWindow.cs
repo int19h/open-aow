@@ -19,76 +19,76 @@ public partial class LeaderSetupWindow : UIModule
     public LeaderSetupWindow(UIContext ui) : base(ui)
     { }
 
-    public ListBox SelectedAbilitiesList;
-    public Panel Phase2Panel;
-    public Panel LeaderMainPanel;
-    public Button NextButton;
-    public Button DefaultButton;
-    public Button ClearButton;
-    public Button PreviousButton;
-    public ListBox AvailableAbilitiesList;
-    public Label AttackValueLabel;
-    public Label DamageValueLabel;
-    public Label DefenseValueLabel;
-    public Label ResistanceValueLabel;
-    public Label HitsValueLabel;
-    public Label MovesValueLabel;
-    public Label AttackAddedLabel;
-    public Label DamageAddedLabel;
-    public Label DefenseAddedLabel;
-    public Label ResistanceAddedLabel;
-    public Label HitsAddedLabel;
-    public Label MovesAddedLabel;
-    public Label AttackBaseLabel;
-    public Label DamageBaseLabel;
-    public Label DefenseBaseLabel;
-    public Label ResistanceBaseLabel;
-    public Label HitsBaseLabel;
-    public Label MovesBaseLabel;
-    public Label SkillPointsLabel;
-    public Label UnitAttackLabel;
-    public Label UnitDefenseLabel;
-    public Label UnitMovesLabel;
-    public Label UnitDamageLabel;
-    public Label UnitResistanceLabel;
-    public Label UnitHitsLabel;
-    public Panel StatisticsPanel;
-    public ListBox UnitAbilitiesList;
-    public Panel AbilityPanel;
-    public Label LeaderNameLabel;
-    public Image LeftShield;
-    public Image RightShield;
-    public Image MainFace;
-    public Panel Phase1Panel;
-    public Edit NameEdit;
-    public Label RaceLabel;
-    public Label Phase1Header;
-    public VerticalScrollBar AvailableAbilitiesScrollBar;
-    public VerticalScrollBar SelectedAbilitiesScrollBar;
-    public Panel Phase3Panel;
-    public Button SelectDeathButton;
-    public Button SelectLifeButton;
-    public Button SelectFireButton;
-    public Button SelectEarthButton;
-    public Button SelectAirButton;
-    public Button SelectWaterButton;
-    public Button SelectedSphere4Button;
-    public Button SelectedSphere3Button;
-    public Button SelectedSphere2Button;
-    public Button SelectedSphere1Button;
-    public Button SelectedSphere5Button;
-    public Button SelectedSphere6Button;
-    public Button SelectedSphere7Button;
-    public Label SelectedSpheresLabel;
-    public Label LeaderLabel;
-    public Label SideNameLabel;
-    public ListBox SelectedAbilitiesCostList;
-    public ListBox AvailableAbilitiesCostList;
-    public Frame MainFaceFrame;
-    public Label Phase2Header;
-    public Label Phase3Header;
-    public Panel LeaderPanel;
-    public ComboBox RaceComboBox;
+    public ListBox SelectedAbilitiesList { get; private set; }
+    public Panel Phase2Panel { get; private set; }
+    public Panel LeaderMainPanel { get; private set; }
+    public Button NextButton { get; private set; }
+    public Button DefaultButton { get; private set; }
+    public Button ClearButton { get; private set; }
+    public Button PreviousButton { get; private set; }
+    public ListBox AvailableAbilitiesList { get; private set; }
+    public Label AttackValueLabel { get; private set; }
+    public Label DamageValueLabel { get; private set; }
+    public Label DefenseValueLabel { get; private set; }
+    public Label ResistanceValueLabel { get; private set; }
+    public Label HitsValueLabel { get; private set; }
+    public Label MovesValueLabel { get; private set; }
+    public Label AttackAddedLabel { get; private set; }
+    public Label DamageAddedLabel { get; private set; }
+    public Label DefenseAddedLabel { get; private set; }
+    public Label ResistanceAddedLabel { get; private set; }
+    public Label HitsAddedLabel { get; private set; }
+    public Label MovesAddedLabel { get; private set; }
+    public Label AttackBaseLabel { get; private set; }
+    public Label DamageBaseLabel { get; private set; }
+    public Label DefenseBaseLabel { get; private set; }
+    public Label ResistanceBaseLabel { get; private set; }
+    public Label HitsBaseLabel { get; private set; }
+    public Label MovesBaseLabel { get; private set; }
+    public Label SkillPointsLabel { get; private set; }
+    public Label UnitAttackLabel { get; private set; }
+    public Label UnitDefenseLabel { get; private set; }
+    public Label UnitMovesLabel { get; private set; }
+    public Label UnitDamageLabel { get; private set; }
+    public Label UnitResistanceLabel { get; private set; }
+    public Label UnitHitsLabel { get; private set; }
+    public Panel StatisticsPanel { get; private set; }
+    public ListBox UnitAbilitiesList { get; private set; }
+    public Panel AbilityPanel { get; private set; }
+    public Label LeaderNameLabel { get; private set; }
+    public Image LeftShield { get; private set; }
+    public Image RightShield { get; private set; }
+    public Image MainFace { get; private set; }
+    public Panel Phase1Panel { get; private set; }
+    public Edit NameEdit { get; private set; }
+    public Label RaceLabel { get; private set; }
+    public Label Phase1Header { get; private set; }
+    public VerticalScrollBar AvailableAbilitiesScrollBar { get; private set; }
+    public VerticalScrollBar SelectedAbilitiesScrollBar { get; private set; }
+    public Panel Phase3Panel { get; private set; }
+    public Button SelectDeathButton { get; private set; }
+    public Button SelectLifeButton { get; private set; }
+    public Button SelectFireButton { get; private set; }
+    public Button SelectEarthButton { get; private set; }
+    public Button SelectAirButton { get; private set; }
+    public Button SelectWaterButton { get; private set; }
+    public Button SelectedSphere4Button { get; private set; }
+    public Button SelectedSphere3Button { get; private set; }
+    public Button SelectedSphere2Button { get; private set; }
+    public Button SelectedSphere1Button { get; private set; }
+    public Button SelectedSphere5Button { get; private set; }
+    public Button SelectedSphere6Button { get; private set; }
+    public Button SelectedSphere7Button { get; private set; }
+    public Label SelectedSpheresLabel { get; private set; }
+    public Label LeaderLabel { get; private set; }
+    public Label SideNameLabel { get; private set; }
+    public ListBox SelectedAbilitiesCostList { get; private set; }
+    public ListBox AvailableAbilitiesCostList { get; private set; }
+    public Frame MainFaceFrame { get; private set; }
+    public Label Phase2Header { get; private set; }
+    public Label Phase3Header { get; private set; }
+    public Panel LeaderPanel { get; private set; }
+    public ComboBox RaceComboBox { get; private set; }
 
     public LeaderSetupControl Setup { get; set; }
 

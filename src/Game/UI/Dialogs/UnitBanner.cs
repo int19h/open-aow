@@ -14,16 +14,16 @@ public partial class UnitBanner : UIModule
     public UnitBanner(UIContext ui) : base(ui)
     { }
 
-    public Label UnitNameLabel;
-    public Image MovesIcon;
-    public Label AttackLabel;
-    public Label DefenseLabel;
-    public Label MovesLabel;
-    public Label DamageLabel;
-    public Label ResistanceLabel;
-    public Label HitsLabel;
-    public Menu BannerMenu;
-    public ListBox AbilityList;
+    public Label UnitNameLabel { get; private set; }
+    public Image MovesIcon { get; private set; }
+    public Label AttackLabel { get; private set; }
+    public Label DefenseLabel { get; private set; }
+    public Label MovesLabel { get; private set; }
+    public Label DamageLabel { get; private set; }
+    public Label ResistanceLabel { get; private set; }
+    public Label HitsLabel { get; private set; }
+    public Menu BannerMenu { get; private set; }
+    public ListBox AbilityList { get; private set; }
 
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()

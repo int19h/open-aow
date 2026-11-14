@@ -16,8 +16,9 @@ public partial class DeformFaceDialog : UIModule
     public DeformFaceDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label UnitNameLabel;
+    public Window Window { get; private set; }
+    public Label UnitNameLabel { get; private set; }
+
     private CosmeticSurgerySpellCaster _caster;
 
     // AoWDeformFaceDlg.pas:127

@@ -24,101 +24,101 @@ public partial class RelationWindow : UIModule
     public RelationWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Image RightShield;
-    public Image LeftShield;
-    public Panel RelationPanel;
-    public Panel IncomingPanel;
-    public Image Player1Image;
-    public Image Player2Image;
-    public Image Player3Image;
-    public Image Player4Image;
-    public Image Player5Image;
-    public Image Player6Image;
-    public Image Player7Image;
-    public Image Player8Image;
-    public Image Player9Image;
-    public Image Player10Image;
-    public Image Player11Image;
-    public Image Player12Image;
-    public Image Race1Image;
-    public Image Race2Image;
-    public Image Race3Image;
-    public Image Race4Image;
-    public Image Race5Image;
-    public Image Race6Image;
-    public Image Race7Image;
-    public Image Race8Image;
-    public Image Race9Image;
-    public Image Race10Image;
-    public Image Race11Image;
-    public Image Race12Image;
-    public Image FaceShadow;
-    public Memo IncomingMemo;
-    public Image IncomingIcon;
-    public Panel MessageEditPanel;
-    public Panel SendBribePanel;
-    public Memo SendMessageMemo;
-    public HorizontalScrollBar BribeGoldSlider;
-    public Panel ActionPanel;
-    public Panel PlayerInfoPanel;
-    public Panel NewActionPanel;
-    public Label PlayerNameLabel;
-    public Panel RaceInfoPanel;
-    public Label RaceNameLabel;
-    public Image AlignmentImage;
-    public Label AlignmentLabel;
-    public CheckBox Player1CheckBox;
-    public CheckBox Player2CheckBox;
-    public CheckBox Player3CheckBox;
-    public CheckBox Player4CheckBox;
-    public CheckBox Player5CheckBox;
-    public CheckBox Player6CheckBox;
-    public CheckBox Player7CheckBox;
-    public CheckBox Player8CheckBox;
-    public CheckBox Player9CheckBox;
-    public CheckBox Player10CheckBox;
-    public CheckBox Player11CheckBox;
-    public CheckBox Player12CheckBox;
-    public Image FaceFrame;
-    public CheckBox Race1CheckBox;
-    public CheckBox Race2CheckBox;
-    public CheckBox Race3CheckBox;
-    public CheckBox Race4CheckBox;
-    public CheckBox Race5CheckBox;
-    public CheckBox Race6CheckBox;
-    public CheckBox Race7CheckBox;
-    public CheckBox Race8CheckBox;
-    public CheckBox Race9CheckBox;
-    public CheckBox Race10CheckBox;
-    public CheckBox Race11CheckBox;
-    public CheckBox Race12CheckBox;
-    public Image PlayerGlow;
-    public Label NoContactLabel;
-    public Button SelectActionButton;
-    public ListBox<DiplomaticAction> ActionsList;
-    public Image PlayerTypeIcon;
-    public Label PlayerTypeLabel;
-    public Image PlayerStatusIcon;
-    public Label PlayerStatusLabel;
-    public Label PlayerStatusValueLabel;
-    public Image RaceRelationIcon;
-    public Label RaceRelationValueLabel;
-    public Label ReceivedGoldLabel;
-    public Label ReceivedManaLabel;
-    public Label BribeGoldValueLabel;
-    public Label BribeManaValueLabel;
-    public HorizontalScrollBar BribeManaSlider;
-    public Image SendBribeIcon;
-    public Label BribeHeaderLabel;
-    public Panel ReceivedMessagePanel;
-    public Memo ReceivedMessageMemo;
-    public Label ReceivedMessageHeaderLabel;
-    public Panel IncomingInfoPanel;
-    public Memo IncomingInfoMemo;
-    public Image IncomingInfoIcon;
-    public Label OfTheLabel;
-    public Label PlayerRaceLabel;
+    public Window MainWindow { get; set; }
+    public Image RightShield { get; private set; }
+    public Image LeftShield { get; private set; }
+    public Panel RelationPanel { get; set; }
+    public Panel IncomingPanel { get; set; }
+    public Image Player1Image { get; set; }
+    public Image Player2Image { get; set; }
+    public Image Player3Image { get; set; }
+    public Image Player4Image { get; set; }
+    public Image Player5Image { get; set; }
+    public Image Player6Image { get; set; }
+    public Image Player7Image { get; set; }
+    public Image Player8Image { get; set; }
+    public Image Player9Image { get; set; }
+    public Image Player10Image { get; set; }
+    public Image Player11Image { get; set; }
+    public Image Player12Image { get; set; }
+    public Image Race1Image { get; set; }
+    public Image Race2Image { get; set; }
+    public Image Race3Image { get; set; }
+    public Image Race4Image { get; set; }
+    public Image Race5Image { get; set; }
+    public Image Race6Image { get; set; }
+    public Image Race7Image { get; set; }
+    public Image Race8Image { get; set; }
+    public Image Race9Image { get; set; }
+    public Image Race10Image { get; set; }
+    public Image Race11Image { get; set; }
+    public Image Race12Image { get; set; }
+    public Image FaceShadow { get; private set; }
+    public Memo IncomingMemo { get; set; }
+    public Image IncomingIcon { get; private set; }
+    public Panel MessageEditPanel { get; set; }
+    public Panel SendBribePanel { get; set; }
+    public Memo SendMessageMemo { get; set; }
+    public HorizontalScrollBar BribeGoldSlider { get; set; }
+    public Panel ActionPanel { get; private set; }
+    public Panel PlayerInfoPanel { get; private set; }
+    public Panel NewActionPanel { get; set; }
+    public Label PlayerNameLabel { get; private set; }
+    public Panel RaceInfoPanel { get; private set; }
+    public Label RaceNameLabel { get; private set; }
+    public Image AlignmentImage { get; private set; }
+    public Label AlignmentLabel { get; private set; }
+    public CheckBox Player1CheckBox { get; set; }
+    public CheckBox Player2CheckBox { get; set; }
+    public CheckBox Player3CheckBox { get; set; }
+    public CheckBox Player4CheckBox { get; set; }
+    public CheckBox Player5CheckBox { get; set; }
+    public CheckBox Player6CheckBox { get; set; }
+    public CheckBox Player7CheckBox { get; set; }
+    public CheckBox Player8CheckBox { get; set; }
+    public CheckBox Player9CheckBox { get; set; }
+    public CheckBox Player10CheckBox { get; set; }
+    public CheckBox Player11CheckBox { get; set; }
+    public CheckBox Player12CheckBox { get; set; }
+    public Image FaceFrame { get; private set; }
+    public CheckBox Race1CheckBox { get; set; }
+    public CheckBox Race2CheckBox { get; set; }
+    public CheckBox Race3CheckBox { get; set; }
+    public CheckBox Race4CheckBox { get; set; }
+    public CheckBox Race5CheckBox { get; set; }
+    public CheckBox Race6CheckBox { get; set; }
+    public CheckBox Race7CheckBox { get; set; }
+    public CheckBox Race8CheckBox { get; set; }
+    public CheckBox Race9CheckBox { get; set; }
+    public CheckBox Race10CheckBox { get; set; }
+    public CheckBox Race11CheckBox { get; set; }
+    public CheckBox Race12CheckBox { get; set; }
+    public Image PlayerGlow { get; set; }
+    public Label NoContactLabel { get; private set; }
+    public Button SelectActionButton { get; set; }
+    public ListBox<DiplomaticAction> ActionsList { get; set; }
+    public Image PlayerTypeIcon { get; private set; }
+    public Label PlayerTypeLabel { get; private set; }
+    public Image PlayerStatusIcon { get; private set; }
+    public Label PlayerStatusLabel { get; private set; }
+    public Label PlayerStatusValueLabel { get; private set; }
+    public Image RaceRelationIcon { get; private set; }
+    public Label RaceRelationValueLabel { get; private set; }
+    public Label ReceivedGoldLabel { get; private set; }
+    public Label ReceivedManaLabel { get; private set; }
+    public Label BribeGoldValueLabel { get; set; }
+    public Label BribeManaValueLabel { get; private set; }
+    public HorizontalScrollBar BribeManaSlider { get; private set; }
+    public Image SendBribeIcon { get; private set; }
+    public Label BribeHeaderLabel { get; private set; }
+    public Panel ReceivedMessagePanel { get; set; }
+    public Memo ReceivedMessageMemo { get; private set; }
+    public Label ReceivedMessageHeaderLabel { get; private set; }
+    public Panel IncomingInfoPanel { get; set; }
+    public Memo IncomingInfoMemo { get; private set; }
+    public Image IncomingInfoIcon { get; private set; }
+    public Label OfTheLabel { get; private set; }
+    public Label PlayerRaceLabel { get; private set; }
 
     public int SelectedIndex { get; private set; }
 

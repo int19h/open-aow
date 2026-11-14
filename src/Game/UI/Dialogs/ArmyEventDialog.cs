@@ -22,10 +22,11 @@ public partial class ArmyEventDialog : UIModule
     public ArmyEventDialog(UIContext ui) : base(ui)
     { }
 
-    public Window ArmyEventWindow;
-    public Panel UnitPanel;
-    public Label EventTextLabel;
-    public Image DamagePicture;
+    public Window ArmyEventWindow { get; private set; }
+    public Panel UnitPanel { get; private set; }
+    public Label EventTextLabel { get; private set; }
+    public Image DamagePicture { get; private set; }
+
     private event ExecuteDoneEvent OnClose;
     private ArmyEventLog _event;
     private int _frame;

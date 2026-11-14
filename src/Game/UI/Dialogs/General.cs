@@ -26,8 +26,8 @@ public partial class General : UIModule
     public General(UIContext ui) : base(ui)
     { }
 
-    public WindowManager Manager;
-    public ToolTip ToolTip;
+    public WindowManager Manager { get; set; }
+    public ToolTip ToolTip { get; private set; }
 
     public bool WindowsHidden { get; set; }
     public bool InfoVisible { get; set; }

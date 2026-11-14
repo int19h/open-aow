@@ -17,14 +17,15 @@ public partial class NewTurnDialog : UIModule
     public NewTurnDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label ClickMessageLabel;
-    public Image LeftShield;
-    public Label PlayerNameLabel;
-    public Label TurnMessageLabel;
-    public Label PlayerRaceLabel;
-    public Label TurnLabel;
-    public Image RightShield;
+    public Window Window { get; private set; }
+    public Label ClickMessageLabel { get; private set; }
+    public Image LeftShield { get; private set; }
+    public Label PlayerNameLabel { get; private set; }
+    public Label TurnMessageLabel { get; private set; }
+    public Label PlayerRaceLabel { get; private set; }
+    public Label TurnLabel { get; private set; }
+    public Image RightShield { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private NewTurnEventLog _newTurn;
 

@@ -163,7 +163,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     public bool PoisonPlantActive() => !Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)TerrainType);
 
     // PoisonP.pas:105
-    public bool CanDoDamage(UnitList units)
+    public bool CanDoDamage(UnitUserList units)
     {
         int i;
         Troop u;

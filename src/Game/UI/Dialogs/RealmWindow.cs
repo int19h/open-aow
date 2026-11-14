@@ -19,51 +19,53 @@ public partial class RealmWindow : UIModule
     public RealmWindow(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public TabPanel HeaderTabs;
-    public Panel CityPanel;
-    public Panel CityListPanel;
-    public Panel PartyPanel;
-    public Panel PartyListPanel;
-    public ListBox<City> CityNameList;
-    public ListBox CityRaceList;
-    public ListBox CityIncomeList;
-    public ListBox CityLevelList;
-    public ListBox CityWallList;
-    public ListBox CitySizeList;
-    public ListBox CityEnchantmentList;
-    public ListBox CityActionList;
-    public ListBox CityRelationList;
-    public ListBox CityMoraleList;
-    public VerticalScrollBar CityScrollBar;
-    public ListBox<PlayerStructure> PlaceNameList;
-    public ListBox PlaceActionList;
-    public VerticalScrollBar PlaceScrollBar;
-    public Gauge UnitGauge;
-    public ListBox Unit1List;
-    public ListBox Unit2List;
-    public ListBox Unit3List;
-    public ListBox Unit4List;
-    public ListBox Unit5List;
-    public ListBox Unit6List;
-    public ListBox Unit7List;
-    public ListBox Unit8List;
+    public Window Window { get; private set; }
+    public TabPanel HeaderTabs { get; private set; }
+    public Panel CityPanel { get; private set; }
+    public Panel CityListPanel { get; private set; }
+    public Panel PartyPanel { get; private set; }
+    public Panel PartyListPanel { get; private set; }
+    public ListBox<City> CityNameList { get; private set; }
+    public ListBox CityRaceList { get; private set; }
+    public ListBox CityIncomeList { get; private set; }
+    public ListBox CityLevelList { get; private set; }
+    public ListBox CityWallList { get; private set; }
+    public ListBox CitySizeList { get; private set; }
+    public ListBox CityEnchantmentList { get; private set; }
+    public ListBox CityActionList { get; private set; }
+    public ListBox CityRelationList { get; private set; }
+    public ListBox CityMoraleList { get; private set; }
+    public VerticalScrollBar CityScrollBar { get; private set; }
+    public ListBox<PlayerStructure> PlaceNameList { get; private set; }
+    public ListBox PlaceActionList { get; private set; }
+    public VerticalScrollBar PlaceScrollBar { get; private set; }
+    public Gauge UnitGauge { get; private set; }
+    public ListBox Unit1List { get; private set; }
+    public ListBox Unit2List { get; private set; }
+    public ListBox Unit3List { get; private set; }
+    public ListBox Unit4List { get; private set; }
+    public ListBox Unit5List { get; private set; }
+    public ListBox Unit6List { get; private set; }
+    public ListBox Unit7List { get; private set; }
+    public ListBox Unit8List { get; private set; }
+
     private ListBox[] _partyLists;
-    public VerticalScrollBar PartyScrollBar;
-    public ListBox<Army> HeroNameList;
-    public ListBox<Hero> HeroHealthList;
-    public ListBox HeroLevelList;
-    public Panel HeroHeroInfoPanel;
-    public VerticalScrollBar HeroScrollBar;
-    public Memo IncomeMemo;
-    public VerticalScrollBar IncomeScrollBar;
-    public Label IncomeLabel;
-    public VerticalScrollBar UpkeepScrollBar;
-    public Label UpkeepLabel;
-    public Label NetIncomeLabel;
-    public Label TreasuryLabel;
-    public Memo IncomeValueMemo;
-    public Memo UpkeepValueMemo;
+
+    public VerticalScrollBar PartyScrollBar { get; private set; }
+    public ListBox<Army> HeroNameList { get; private set; }
+    public ListBox<Hero> HeroHealthList { get; private set; }
+    public ListBox HeroLevelList { get; private set; }
+    public Panel HeroHeroInfoPanel { get; private set; }
+    public VerticalScrollBar HeroScrollBar { get; private set; }
+    public Memo IncomeMemo { get; private set; }
+    public VerticalScrollBar IncomeScrollBar { get; private set; }
+    public Label IncomeLabel { get; private set; }
+    public VerticalScrollBar UpkeepScrollBar { get; private set; }
+    public Label UpkeepLabel { get; private set; }
+    public Label NetIncomeLabel { get; private set; }
+    public Label TreasuryLabel { get; private set; }
+    public Memo IncomeValueMemo { get; private set; }
+    public Memo UpkeepValueMemo { get; private set; }
 
     // AoWRealm.pas:238
     public void UpdateIncome()

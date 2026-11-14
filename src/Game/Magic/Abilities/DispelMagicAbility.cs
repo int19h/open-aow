@@ -177,7 +177,7 @@ public partial class DispelMagicAbility : TouchAbility
             selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [dispelMagic]);
             if (troop != null)
             {
-                if (troop.Owner is HeroList)
+                if (troop.Owner is IHeroHolder)
                 {
                     var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     selector.Setup(troop, empty.Units);

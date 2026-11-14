@@ -14,20 +14,21 @@ public partial class MultiWindow : UIModule
     public MultiWindow(UIContext ui) : base(ui)
     { }
 
-    public Panel JoinPanel;
-    public ListBox GamesList;
-    public Button JoinButton;
-    public Panel MultiPanel;
-    public Panel GamePanel;
-    public Button TcpButton;
-    public Button IpxButton;
-    public Panel TcpPanel;
-    public Edit TcpNameEdit;
-    public Edit IPAddressEdit;
-    public Panel LanPanel;
-    public Panel BottomPanel;
-    public Edit IpxNameEdit;
-    public Panel EmailPanel;
+    public Panel JoinPanel { get; private set; }
+    public ListBox GamesList { get; private set; }
+    public Button JoinButton { get; private set; }
+    public Panel MultiPanel { get; private set; }
+    public Panel GamePanel { get; private set; }
+    public Button TcpButton { get; private set; }
+    public Button IpxButton { get; private set; }
+    public Panel TcpPanel { get; private set; }
+    public Edit TcpNameEdit { get; private set; }
+    public Edit IPAddressEdit { get; private set; }
+    public Panel LanPanel { get; private set; }
+    public Panel BottomPanel { get; private set; }
+    public Edit IpxNameEdit { get; private set; }
+    public Panel EmailPanel { get; private set; }
+
     private string _pendingMap = "";
     private int _menuHeight;
 

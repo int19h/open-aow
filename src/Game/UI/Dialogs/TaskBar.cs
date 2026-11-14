@@ -18,40 +18,41 @@ public partial class TaskBar : UIModule
     public TaskBar(UIContext ui) : base(ui)
     { }
 
-    public Window TaskWindow;
-    public MenuBar WorldStartMenuBar;
-    public Edit WorldMessageEdit;
-    public Label WorldGoldIncomeLabel;
-    public Label WorldGoldTotalLabel;
-    public TurnButton WorldTurnButton;
-    public Button PartyButton;
-    public Button StructureButton;
-    public Button ChatButton;
-    public Label WorldTimeLabel;
-    public Frame PlayerIndicatorFrame;
-    public Image CurrentPlayerImage;
-    public Panel WorldPanel;
-    public MenuBar CombatStartMenuBar;
-    public Edit CombatMessageEdit;
-    public TurnButton CombatTurnButton;
-    public Button CombatScannerButton;
-    public Button CombatUnitButton;
-    public Label CombatTimeLabel;
-    public Frame CombatPlayerIndicatorFrame;
-    public Image CombatCurrentPlayerImage;
-    public Panel CombatPanel;
-    public Button CombatChatButton;
-    public Label WorldGoldSignLabel;
-    public Label WorldManaIncomeLabel;
-    public Label WorldManaTotalLabel;
-    public Label WorldManaSignLabel;
-    public Label CombatGoldIncomeLabel;
-    public Label CombatGoldTotalLabel;
-    public Label CombatGoldSignLabel;
-    public Label CombatManaIncomeLabel;
-    public Label CombatManaTotalLabel;
-    public Label CombatManaSignLabel;
-    public CheckBox AutoCombatCheckBox;
+    public Window TaskWindow { get; private set; }
+    public MenuBar WorldStartMenuBar { get; private set; }
+    public Edit WorldMessageEdit { get; set; }
+    public Label WorldGoldIncomeLabel { get; private set; }
+    public Label WorldGoldTotalLabel { get; private set; }
+    public TurnButton WorldTurnButton { get; set; }
+    public Button PartyButton { get; private set; }
+    public Button StructureButton { get; private set; }
+    public Button ChatButton { get; private set; }
+    public Label WorldTimeLabel { get; private set; }
+    public Frame PlayerIndicatorFrame { get; set; }
+    public Image CurrentPlayerImage { get; private set; }
+    public Panel WorldPanel { get; private set; }
+    public MenuBar CombatStartMenuBar { get; private set; }
+    public Edit CombatMessageEdit { get; private set; }
+    public TurnButton CombatTurnButton { get; private set; }
+    public Button CombatScannerButton { get; private set; }
+    public Button CombatUnitButton { get; private set; }
+    public Label CombatTimeLabel { get; private set; }
+    public Frame CombatPlayerIndicatorFrame { get; private set; }
+    public Image CombatCurrentPlayerImage { get; private set; }
+    public Panel CombatPanel { get; private set; }
+    public Button CombatChatButton { get; private set; }
+    public Label WorldGoldSignLabel { get; private set; }
+    public Label WorldManaIncomeLabel { get; private set; }
+    public Label WorldManaTotalLabel { get; private set; }
+    public Label WorldManaSignLabel { get; private set; }
+    public Label CombatGoldIncomeLabel { get; private set; }
+    public Label CombatGoldTotalLabel { get; private set; }
+    public Label CombatGoldSignLabel { get; private set; }
+    public Label CombatManaIncomeLabel { get; private set; }
+    public Label CombatManaTotalLabel { get; private set; }
+    public Label CombatManaSignLabel { get; private set; }
+    public CheckBox AutoCombatCheckBox { get; private set; }
+
     private int _indicatorFrame;
     private int _indicatorStep;
 

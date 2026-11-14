@@ -26,111 +26,111 @@ public partial class SpellBook : UIModule
     public SpellBook(UIContext ui) : base(ui)
     { }
 
-    public Label LeftHeaderLabel;
-    public Panel LeftSpellPage;
-    public Panel Spell1Panel;
-    public Label Spell1SpellLabel;
-    public Label Spell1ClassLabel;
-    public Memo Spell1Memo;
-    public Label Spell1CostLabel;
-    public Image Spell1Icon;
-    public Panel Spell2Panel;
-    public Label Spell2SpellLabel;
-    public Label Spell2ClassLabel;
-    public Memo Spell2Memo;
-    public Label Spell2CostLabel;
-    public Image Spell2Icon;
-    public Panel Spell3Panel;
-    public Label Spell3SpellLabel;
-    public Label Spell3ClassLabel;
-    public Memo Spell3Memo;
-    public Label Spell3CostLabel;
-    public Image Spell3Icon;
-    public Panel Spell4Panel;
-    public Label Spell4SpellLabel;
-    public Label Spell4ClassLabel;
-    public Memo Spell4Memo;
-    public Label Spell4CostLabel;
-    public Image Spell4Icon;
-    public Label RightHeaderLabel;
-    public Panel RightSpellPage;
-    public Panel Spell5Panel;
-    public Label Spell5SpellLabel;
-    public Label Spell5ClassLabel;
-    public Memo Spell5Memo;
-    public Label Spell5CostLabel;
-    public Image Spell5Icon;
-    public Panel Spell6Panel;
-    public Label Spell6SpellLabel;
-    public Label Spell6ClassLabel;
-    public Memo Spell6Memo;
-    public Label Spell6CostLabel;
-    public Image Spell6Icon;
-    public Panel Spell7Panel;
-    public Label Spell7SpellLabel;
-    public Label Spell7ClassLabel;
-    public Memo Spell7Memo;
-    public Label Spell7CostLabel;
-    public Image Spell7Icon;
-    public Panel Spell8Panel;
-    public Label Spell8SpellLabel;
-    public Label Spell8ClassLabel;
-    public Memo Spell8Memo;
-    public Label Spell8CostLabel;
-    public Image Spell8Icon;
-    public Button Spell1Button;
-    public Label CurrentPointsLabel;
-    public Label SlashLabel;
-    public Label CastingPointsMaxLabel;
-    public Button GlobalButton;
-    public Button UnitButton;
-    public Button CombatButton;
-    public Button InfoButton;
-    public Button PreviousButton;
-    public Button NextButton;
-    public Button Spell2Button;
-    public Button Spell3Button;
-    public Button Spell4Button;
-    public Button Spell5Button;
-    public Button Spell6Button;
-    public Button Spell7Button;
-    public Button Spell8Button;
-    public Panel CastingPage;
-    public Panel CastingPanel;
-    public Label CastingSpellLabel;
-    public Label CastingClassLabel;
-    public Memo CastingMemo;
-    public Label CastingCostLabel;
-    public Panel LeftInfoPage;
-    public Label CastingStatusLabel;
-    public Label CastingPointsLabel;
-    public Button CastingButton;
-    public Button Sphere4Button;
-    public Button Sphere3Button;
-    public Button Sphere2Button;
-    public Button Sphere1Button;
-    public Button Sphere5Button;
-    public Button Sphere6Button;
-    public Button Sphere7Button;
-    public Label SpellBookLabel;
-    public Label NameLabel;
-    public Label ManaPoolLabel;
-    public BookWindow Book;
-    public Label NoneCastingLabel;
-    public Panel ResearchPage;
-    public Label ResearchNameLabel;
-    public Label ResearchClassLabel;
-    public Memo ResearchMemo;
-    public Label ResearchCostLabel;
-    public Label ResearchStatusLabel;
-    public Label ResearchNoneLabel;
-    public Panel ResearchPanel;
-    public Label ResearchLabel;
-    public Panel RightInfoPage;
-    public Label ResearchPointsLabel;
-    public Label ResearchManaPoolLabel;
-    public Label ResearchBookLabel;
-    public Button CancelResearchButton;
+    public Label LeftHeaderLabel { get; private set; }
+    public Panel LeftSpellPage { get; private set; }
+    public Panel Spell1Panel { get; private set; }
+    public Label Spell1SpellLabel { get; private set; }
+    public Label Spell1ClassLabel { get; private set; }
+    public Memo Spell1Memo { get; private set; }
+    public Label Spell1CostLabel { get; private set; }
+    public Image Spell1Icon { get; private set; }
+    public Panel Spell2Panel { get; private set; }
+    public Label Spell2SpellLabel { get; private set; }
+    public Label Spell2ClassLabel { get; private set; }
+    public Memo Spell2Memo { get; private set; }
+    public Label Spell2CostLabel { get; private set; }
+    public Image Spell2Icon { get; private set; }
+    public Panel Spell3Panel { get; private set; }
+    public Label Spell3SpellLabel { get; private set; }
+    public Label Spell3ClassLabel { get; private set; }
+    public Memo Spell3Memo { get; private set; }
+    public Label Spell3CostLabel { get; private set; }
+    public Image Spell3Icon { get; private set; }
+    public Panel Spell4Panel { get; private set; }
+    public Label Spell4SpellLabel { get; private set; }
+    public Label Spell4ClassLabel { get; private set; }
+    public Memo Spell4Memo { get; private set; }
+    public Label Spell4CostLabel { get; private set; }
+    public Image Spell4Icon { get; private set; }
+    public Label RightHeaderLabel { get; private set; }
+    public Panel RightSpellPage { get; private set; }
+    public Panel Spell5Panel { get; private set; }
+    public Label Spell5SpellLabel { get; private set; }
+    public Label Spell5ClassLabel { get; private set; }
+    public Memo Spell5Memo { get; private set; }
+    public Label Spell5CostLabel { get; private set; }
+    public Image Spell5Icon { get; private set; }
+    public Panel Spell6Panel { get; private set; }
+    public Label Spell6SpellLabel { get; private set; }
+    public Label Spell6ClassLabel { get; private set; }
+    public Memo Spell6Memo { get; private set; }
+    public Label Spell6CostLabel { get; private set; }
+    public Image Spell6Icon { get; private set; }
+    public Panel Spell7Panel { get; private set; }
+    public Label Spell7SpellLabel { get; private set; }
+    public Label Spell7ClassLabel { get; private set; }
+    public Memo Spell7Memo { get; private set; }
+    public Label Spell7CostLabel { get; private set; }
+    public Image Spell7Icon { get; private set; }
+    public Panel Spell8Panel { get; private set; }
+    public Label Spell8SpellLabel { get; private set; }
+    public Label Spell8ClassLabel { get; private set; }
+    public Memo Spell8Memo { get; private set; }
+    public Label Spell8CostLabel { get; private set; }
+    public Image Spell8Icon { get; private set; }
+    public Button Spell1Button { get; private set; }
+    public Label CurrentPointsLabel { get; private set; }
+    public Label SlashLabel { get; private set; }
+    public Label CastingPointsMaxLabel { get; private set; }
+    public Button GlobalButton { get; private set; }
+    public Button UnitButton { get; private set; }
+    public Button CombatButton { get; private set; }
+    public Button InfoButton { get; private set; }
+    public Button PreviousButton { get; private set; }
+    public Button NextButton { get; private set; }
+    public Button Spell2Button { get; private set; }
+    public Button Spell3Button { get; private set; }
+    public Button Spell4Button { get; private set; }
+    public Button Spell5Button { get; private set; }
+    public Button Spell6Button { get; private set; }
+    public Button Spell7Button { get; private set; }
+    public Button Spell8Button { get; private set; }
+    public Panel CastingPage { get; private set; }
+    public Panel CastingPanel { get; private set; }
+    public Label CastingSpellLabel { get; private set; }
+    public Label CastingClassLabel { get; private set; }
+    public Memo CastingMemo { get; private set; }
+    public Label CastingCostLabel { get; private set; }
+    public Panel LeftInfoPage { get; private set; }
+    public Label CastingStatusLabel { get; private set; }
+    public Label CastingPointsLabel { get; private set; }
+    public Button CastingButton { get; private set; }
+    public Button Sphere4Button { get; private set; }
+    public Button Sphere3Button { get; private set; }
+    public Button Sphere2Button { get; private set; }
+    public Button Sphere1Button { get; private set; }
+    public Button Sphere5Button { get; private set; }
+    public Button Sphere6Button { get; private set; }
+    public Button Sphere7Button { get; private set; }
+    public Label SpellBookLabel { get; private set; }
+    public Label NameLabel { get; private set; }
+    public Label ManaPoolLabel { get; private set; }
+    public BookWindow Book { get; private set; }
+    public Label NoneCastingLabel { get; private set; }
+    public Panel ResearchPage { get; private set; }
+    public Label ResearchNameLabel { get; private set; }
+    public Label ResearchClassLabel { get; private set; }
+    public Memo ResearchMemo { get; private set; }
+    public Label ResearchCostLabel { get; private set; }
+    public Label ResearchStatusLabel { get; private set; }
+    public Label ResearchNoneLabel { get; private set; }
+    public Panel ResearchPanel { get; private set; }
+    public Label ResearchLabel { get; private set; }
+    public Panel RightInfoPage { get; private set; }
+    public Label ResearchPointsLabel { get; private set; }
+    public Label ResearchManaPoolLabel { get; private set; }
+    public Label ResearchBookLabel { get; private set; }
+    public Button CancelResearchButton { get; private set; }
 
     public byte Mode { get; set; }
     // world casting, combat casting, research, researched

@@ -895,9 +895,9 @@ public partial class StrategicMap : GameMap
             objectValue.Release();
         }
 
-        for (int i = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Count - 1; i <= last; i++)
+        for (int i = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.Count - 1; i <= last; i++)
         {
-            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.GetHero(i).Copy(GetEngine());
+            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.Heroes.GetHero(i).Copy(GetEngine());
             HeroControl.RegisterHero((Hero)objectValue);
             objectValue.Release();
         }

@@ -20,29 +20,30 @@ public partial class FastBattleWindow : UIModule
     public FastBattleWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Label LeftSideLabel;
-    public Label RightSideLabel;
-    public Panel Party1Panel;
-    public Image Party1Background;
-    public Panel Party2Panel;
-    public Image Party2Background;
-    public Panel Party3Panel;
-    public Image Party3Background;
-    public Panel Party4Panel;
-    public Image Party4Background;
-    public Panel Party5Panel;
-    public Image Party5Background;
-    public Panel Party6Panel;
-    public Image Party6Background;
-    public Panel Party7Panel;
-    public Image Party7Background;
-    public HorizontalScrollBar SequencePositionSlider;
-    public HorizontalScrollBar SequenceSpeedSlider;
-    public Image GlowImage;
-    public Label ModeLabel;
-    public UserDrawBox LeftShieldView;
-    public UserDrawBox RightShieldView;
+    public Window MainWindow { get; private set; }
+    public Label LeftSideLabel { get; private set; }
+    public Label RightSideLabel { get; private set; }
+    public Panel Party1Panel { get; private set; }
+    public Image Party1Background { get; private set; }
+    public Panel Party2Panel { get; private set; }
+    public Image Party2Background { get; private set; }
+    public Panel Party3Panel { get; private set; }
+    public Image Party3Background { get; private set; }
+    public Panel Party4Panel { get; private set; }
+    public Image Party4Background { get; private set; }
+    public Panel Party5Panel { get; private set; }
+    public Image Party5Background { get; private set; }
+    public Panel Party6Panel { get; private set; }
+    public Image Party6Background { get; private set; }
+    public Panel Party7Panel { get; private set; }
+    public Image Party7Background { get; private set; }
+    public HorizontalScrollBar SequencePositionSlider { get; private set; }
+    public HorizontalScrollBar SequenceSpeedSlider { get; private set; }
+    public Image GlowImage { get; private set; }
+    public Label ModeLabel { get; private set; }
+    public UserDrawBox LeftShieldView { get; private set; }
+    public UserDrawBox RightShieldView { get; private set; }
+
     private byte _phase;
     private int _phaseFrame;
     private int _animationFrame;

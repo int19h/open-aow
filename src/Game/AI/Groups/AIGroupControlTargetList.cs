@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
-
 namespace Aow.Game.AI.Groups;
 
 // children. group control
@@ -12,7 +10,7 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupControlTarget, so the cast never fails.
-    public AIGroupControlTarget this[int index] => (AIGroupControlTarget)GetChild(index);
+    public AIGroupControlTarget this[int index] => Targets[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupControlTarget;
 
@@ -23,24 +21,17 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
 
     public AIGroupControl Control { get; set; }
 
+    /// <summary>The targets of this list, in their stored order.</summary>
+    public AIGroupControlTargetCollection Targets => new(this);
+
     // AIGroup.pas:684
-    public AIGroupControlTarget GetTargets(int index)
-    {
-        Assert(index >= 0 && index < Count, "", "AIGroup.pas", 687);
-        return this[index];
-    }
+    public AIGroupControlTarget GetTargets(int index) => Targets.GetTargets(index);
 
     // AIGroup.pas:696
-    public void SortOnPriority()
-    {
-        SortChildren<AIGroupControlTarget>(CompareAIGroupTargetPriority);
-    }
+    public void SortOnPriority() => Targets.SortOnPriority();
 
     // AIGroup.pas:706
-    public void SortOnDataB()
-    {
-        SortChildren<AIGroupControlTarget>(CompareAIGroupTargetDataB);
-    }
+    public void SortOnDataB() => Targets.SortOnDataB();
 
     // AIGroup.pas:711
     public void Add(AIGroupControlTarget target)
@@ -75,30 +66,7 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
     }
 
     // AIGroup.pas:739
-    public int IndexOfMapCoordinate(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (location == this[result].Location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
-
-    private static int CompareAIGroupTargetPriority(AIGroupControlTarget item1, AIGroupControlTarget item2)
-    {
-        return item2.Data.Priority - item1.Data.Priority;
-    }
-
-    private static int CompareAIGroupTargetDataB(AIGroupControlTarget item1, AIGroupControlTarget item2)
-    {
-        return item2.DataB - item1.DataB;
-    }
+    public int IndexOfMapCoordinate(MapCoordinate location) => Targets.IndexOfMapCoordinate(location);
 
     // Engine.pas:631
 

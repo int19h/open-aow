@@ -1,4 +1,4 @@
-# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i, PE-4-a)
+# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i, PE-4-a, PE-4-b)
 
 State: PE-1 is implemented for the pilot classes. PE-2a adds version 2 of the own document,
 symbolic enums and sets, and fixed integer arrays as lists, 2026-11-07. PE-2b adds version 3,
@@ -46,7 +46,10 @@ reaches, with no document change, 2026-11-14. PE-4-a retires `ReadWrite`, `MainR
 reached, and deletes the storage streams (section 15). `StoreEngineObject` and
 `RetrieveEngineObject` write and read through the tree and the original backend with the packet's
 class table, which is the legacy packet adapter of step 4. No own-document shape changes,
-2026-11-14. The transport schema of step 4 and step 5 are not implemented.
+2026-11-14. PE-4-b names that packet write as the transport profile of the same schema classes
+(section 16). A value the legacy packet cannot carry is refused with its path, and the own
+document keeps it. The adapter stays that legacy image until `docs/specs/networking.md` replaces
+it. Step 5 is not implemented.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -69,13 +72,20 @@ through `AddChild`, and then releases the reference each loaded child took when 
 the same bracket as `MainReadWrite`. `UnitList.MainPersist` (Delphi `TUnitList`) then calls `Release` on every child,
 the same loop as `MainReadWrite`. `Army.MainPersist` does the same, because an army no longer derives from `UnitList`
 (issue 158 part 4) and keeps the unit list's part itself. Its children are its troops, written through
-`NodeChildren` with the same slots, class ids and stored-child test. `HeroInventory.MainPersist`,
+`NodeChildren` with the same slots, class ids and stored-child test. `AIGroup.MainPersist` does the same release,
+because an AI group no longer derives from `UnitUserList` (issue 158 part 7) and keeps the unit list's part itself.
+Its children are its troops, written through `NodeChildren` with the same slots, class ids and stored-child test
+(a child the group owns). A group holds its troops as references, so a troop whose owner is its army is not stored
+on the group. `UnitUserList.MainPersist` does the same release, because a unit user list no longer derives from `UnitList` (issue 158 part 8) and keeps the unit list's part itself. Its children are its troops, written through `NodeChildren` with the same slots, class ids and stored-child test. A list holds its troops as references and does not set their owner, so a troop whose owner is its army is not stored on the list. `AIGroupManager` no longer derives from `AIGroupList`. It stores the groups it owns as node children of an `ENode`, with the same slots, class ids and stored-child test, because `AIGroupList` did not override the child write. `HeroInventory.MainPersist`,
 `HeroItems.MainPersist` and `ItemLibrary.MainPersist` do the same release, because a hero's inventory,
 the items a hero wears and an item library no longer derive from `ItemList` (issue 158 part 5) and keep
 the item list's part themselves. Their children are their items, written through `NodeChildren` with the
-same slots, class ids and stored-child test. The game's loads and saves of the
+same slots, class ids and stored-child test. `HeroLibrary` (Delphi `THeroLibrary`) no longer derives from
+`HeroList` (issue 158 part 6). Its heroes stay its node children, written through `ReferenceChildren` with
+the same slots, class ids and stored-child test, because it derives from `EReferenceNode` and keeps that
+write. The game's loads and saves of the
 in-scope profiles (section 12) and its copies, assignments, comparisons and original object files
-(section 13) go through the tree, and so do the packets (section 15).
+(section 13) go through the tree, and so do the packets (sections 15 and 16).
 
 Nothing is refused. `TreePersistenceRefusal` returns null, and `PersistRefusalTests` pins every
 product engine class as persisting through the tree. `Enchantment` (Delphi `TEnchantment`),
@@ -453,7 +463,7 @@ PE-2a, version 2, stores enum bytes, sets and fixed integer arrays as names and 
 
 PE-3 rewrites each `ReadWrite` into `Persist` and moves own load and save onto `DocumentBackend`. Original import and export stay. Own formats are not stable yet, so no historical document decoder stays (issue 230). PE-3-g moves the game's loads and saves of the in-scope profiles onto the tree (section 12).
 
-PE-4 separates token-event transport from disk persistence. Packet widths stay on the legacy adapters until networking changes them.
+PE-4 separates token-event transport from disk persistence. PE-4-a writes packets through the legacy image. PE-4-b keeps that image on the transport profile of the same schema classes (section 16). A port-range member, a list longer than a fixed array and any other value the original image does not hold are refused with their paths and are not truncated. The own document keeps the value. `docs/specs/networking.md` replaces the adapter. Packet widths stay on the legacy image until then.
 
 PE-5 proves extended arrays and richer cases, lossless own reload, strict refusal of unrepresentable exports, and the G1, G2 and G-own gate, and checks that no Delphi image remains on the own disk path or in the stable mod interface.
 
@@ -911,3 +921,47 @@ local.
 
 No own-document shape changes. The stored names are the same literals. An own save written before
 this step loads after it.
+
+PE-4-b (section 16) is the transport profile of this write. The bytes of a packet the legacy
+image carries stay the bytes this section pinned.
+
+## 16. Transport apart from disk (PE-4-b)
+
+A packet and an own document use one schema. `FormatSchema` (`schema.json`) is the class table.
+`SchemaClass` holds the names, the parents, the codecs and the stored ids. `PacketClassTable`
+picks the engine table of that schema for the class ids inside a packet. The tactical table
+holds the combat classes and every class of the strategic table at the same ids, so a class
+enlisted there uses `tactical`. A class enlisted in no table uses `game`. Any other class uses
+the first table it lists. A second copy of the classes drifts from those names and codecs.
+
+The difference is the profile of the write. `EncodeContext.Profile` names the use. A disk image
+uses the engine name. `GameBoundary.WritePacket` writes the object under the profile `packet`
+(`TransportProfile.Name`), and the outer property table uses the same name. That name is the
+transport profile. It is the packet use of the disk schema. `FileProfile.All` holds the disk
+containers, and a packet has no file container.
+
+`TransportProfile.Carries` is the rule of the legacy packet image. A present member whose stored
+id, data id or dynamic minimum is `0x40000000` or higher is port state or mod state
+(own-formats.md 6.2). The own document stores it through `DocumentBackend`. The legacy packet
+refuses it with `E_UNREPRESENTABLE` and the member's document path, and `WritePacket` returns no
+bytes. An absent member holds no state. The packet omits it, which is the absence the original
+image already uses. A list longer than a fixed array's count is refused by that array's codec
+with the path. The message says that export does not truncate. A member the class does not
+declare, a value outside its stored range and a codec the image does not store are refused with
+the path by the same image write. The disk image path uses the engine name, so this rule
+stays on the packet. PE-5 teaches the original export to refuse the same reserved ids.
+
+No product class has a port-range member yet. PE-5 adds the first one. The product test builds a
+`TokenEvent` through a schema, with a port-range integer, a nested port-range integer, a mod-range
+integer and a fixed array of two, the way the converter's refusal tests build a schema. The packet
+refuses the port member and names `root.PortState`. It refuses the nested member and names
+`root.Detail.Note`. It refuses the mod member and names `root.ModState`. The own document keeps
+each integer. The same packet write refuses three scores and names `root.Scores`. A token event
+that holds only `TokenCounter` writes the same object bytes under the profile as it writes on the
+disk image path, and the schema of that event still declares the port member.
+
+The wire bytes of every packet the adapter carries today stay the bytes section 15 pinned. The
+profile changes no codec and no class table.
+
+This is the legacy packet adapter of own-formats.md 6.3 step 4. `docs/specs/networking.md`
+replaces it. This specification does not define that file.

@@ -595,12 +595,20 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   An army (Delphi `TArmy`, a `TUnitList` in the original) is no longer a unit list. It owns its
   troops as its node children, which keeps their slots, stored order, messages and change
   notifications, and exposes them as `Army.Units`, a `UnitCollection`: a typed view of the
-  holder's slots with the troop queries and sorts of `TUnitList`. A `UnitList` stays an engine
-  object for troops held apart from an army (generated defenders and rebels, campaign transfer
-  units) and for the unit user lists and AI groups that derive from it, and exposes `Units` too.
-  The hooks of `TUnitList` that an army overrides (`CanAddUnit`, `AddUnit`, `GetLocation`,
-  `Changed`) are the internal `IUnitHolder` of both holders. A troop's owner is a `TroopOwner`
-  union: the army it stands in, a unit list, or the hero list of a hero no army holds. An item's
+  holder's slots with the troop queries and sorts of `TUnitList`. An AI group (Delphi `TAIGroup`,
+  a `TUnitUserList` in the original) is no longer a unit user list. It holds its troops as
+  references in its node children, which keeps their slots, stored order, messages and change
+  notifications, and exposes them as `Units` on the same collection. It does not own the troops.
+  A `UnitList` stays an engine object for troops held apart from an army (generated defenders and
+  rebels, campaign transfer units) and exposes `Units` too. A unit user list (Delphi
+  `TUnitUserList`) is no longer a unit list. It holds its troops as references in its node
+  children, which keeps their slots, stored order, messages and change notifications, and exposes
+  them as `Units` on the same collection. Adding a troop takes a reference and does not set the
+  owner. Disposing the list releases the references and does not dispose the troops. The hooks of
+  `TUnitList` that an army, a unit user list and an AI group override (`CanAddUnit`, `AddUnit`,
+  `GetLocation`, `Changed`) are the internal `IUnitHolder` of those holders. A troop's owner is a
+  `TroopOwner` union: the army it stands in, a unit list, a unit user list a caller has set as the
+  owner, a hero list, or a hero library. An item's
   owner is an `ItemOwner` union: the item list it lies in, a hero's inventory, the items a hero
   wears, or an item library. A hero's inventory (Delphi `THeroInventory`), the items a hero wears
   (Delphi `THeroItems`) and an item library (Delphi `TItemLibrary`) are no longer item lists.
@@ -608,11 +616,19 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   An `ItemList` stays an engine object for items held apart from those three (items on the
   ground, a prisoners' army, a campaign transfer, an item hex and an exploration site). A
   dungeon's prisoners keep the items left on the battlefield in their own item list, apart from
-  the troops. The children of the reference lists (token events, move targets, combat and
-  diplomatic actions, the AI's targets and productions), event logs and players take their list
-  as their owner, which is also the owner a reference list gives its ownerless children while it
-  saves them. Hero lists stay reference lists in this part. The reference lists move from list
-  inheritance to owner-exposed collections in later parts of that issue.
+  the troops. A hero library (Delphi `THeroLibrary`) is no longer a hero list. It holds its heroes
+  as references in its node children and exposes them as `Heroes`, a `HeroCollection`. A `HeroList`
+  stays the reference list a player, a campaign transfer and the hero control hold. The AI group
+  manager (Delphi `TAIGroupManager`) is no longer an AI group list. It owns the groups it creates
+  as its node children and exposes them as `Groups`, an `AIGroupCollection`. A player's `AIGroups`
+  stays an `AIGroupList`, a runtime index that does not change a group's owner. A player's
+  `Armies` is an `ArmyCollection` over the private `ArmyList` that holds the back-pointer, the
+  update bracket and the change events. The other reference lists stay list nodes and forward
+  their queries to a struct collection: the player list, a player's diplomatic actions, token
+  events, event logs, move targets, combat actions and the AI's recruitment, target and production
+  lists. The children of those lists take their list as their typed owner. A reference list stores
+  a child that has no owner or that has the list as its owner, and the tree write leaves every
+  owner as it is.
 - Every engine object reaches its engine through `GetEngine()` (issue 224), and nothing reads an
   engine global. An object with an owner walks to its owner. An object without one walks to its
   `Holder`, the object that created it and keeps it: the engine for the rules it registers and

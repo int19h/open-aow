@@ -71,7 +71,7 @@ public partial class UnitSpell : Spell
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                if (source.Owner is HeroList)
+                if (source.Owner is IHeroHolder)
                 {
                     result = false;
                 }
@@ -123,7 +123,7 @@ public partial class UnitSpell : Spell
             if (TargetRange == 0)
             {
                 caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
-                if (source.Owner is HeroList)
+                if (source.Owner is IHeroHolder)
                 {
                     var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     SetupUnitSelectionControl(caster, source, empty.Units);
@@ -207,7 +207,7 @@ public partial class UnitSpell : Spell
     public virtual bool ValidTargetUnit(Troop source, Troop target) => true;
 
     // Spells.PAS:1228
-    public virtual void ValidateUnitSelection(Troop source, UnitList targets, ref byte selection)
+    public virtual void ValidateUnitSelection(Troop source, UnitUserList targets, ref byte selection)
     {
         var count = targets.GetCount();
         selection = (byte)(selection & SelectionMasks[count]);
@@ -250,7 +250,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1254
-    public virtual bool CastSpell(Troop source, UnitList targets)
+    public virtual bool CastSpell(Troop source, UnitUserList targets)
     {
         bool result;
         UnitSpellTokenEvent eventValue;

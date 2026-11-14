@@ -15,9 +15,10 @@ public partial class VideoDialog : UIModule
     public VideoDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public ListBox DisplayModesList;
-    public CheckBox ResolutionCheckBox;
+    public Window Window { get; private set; }
+    public ListBox DisplayModesList { get; private set; }
+    public CheckBox ResolutionCheckBox { get; private set; }
+
     private DisplayModeList _displayModes;
     private ScreenMode _fullScreen;
 

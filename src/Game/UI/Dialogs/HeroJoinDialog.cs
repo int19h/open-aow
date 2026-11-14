@@ -21,15 +21,16 @@ public partial class HeroJoinDialog : UIModule
     public HeroJoinDialog(UIContext ui) : base(ui)
     { }
 
-    public Panel UnitPanel;
-    public Button MiddleButton;
-    public Button RightButton;
-    public Button LeftButton;
-    public Window Window;
-    public Label HeroNameLabel;
-    public Label HeroLevelLabel;
-    public Image FaceFrame;
-    public Memo JoinMemo;
+    public Panel UnitPanel { get; private set; }
+    public Button MiddleButton { get; private set; }
+    public Button RightButton { get; private set; }
+    public Button LeftButton { get; private set; }
+    public Window Window { get; private set; }
+    public Label HeroNameLabel { get; private set; }
+    public Label HeroLevelLabel { get; private set; }
+    public Image FaceFrame { get; private set; }
+    public Memo JoinMemo { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private JoinEventLog _joinEvent;
     private bool _detailsOpen;

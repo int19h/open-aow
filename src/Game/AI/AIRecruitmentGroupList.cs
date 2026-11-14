@@ -13,7 +13,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIRecruitmentGroup, so the cast never fails.
-    public AIRecruitmentGroup this[int index] => (AIRecruitmentGroup)GetChild(index);
+    public AIRecruitmentGroup this[int index] => Groups[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIRecruitmentGroup;
 
@@ -22,18 +22,14 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
     public AIRecruitmentGroupList(ECustomNode owner) : base(owner)
     { }
 
+    /// <summary>The recruitment groups of this list, in their stored order.</summary>
+    public AIRecruitmentGroupCollection Groups => new(this);
+
     // AIGroup.pas:800
-    public AIRecruitmentGroup GetRecruitmentGroups(int index)
-    {
-        Assert(index >= 0 && index < Count, "", "AIGroup.pas", 802);
-        return this[index];
-    }
+    public AIRecruitmentGroup GetRecruitmentGroups(int index) => Groups.GetRecruitmentGroups(index);
 
     // AIGroup.pas:811
-    public void SortOnMovePoints()
-    {
-        SortChildren<AIRecruitmentGroup>(CompareAIRecruitmentGroupMovePoints);
-    }
+    public void SortOnMovePoints() => Groups.SortOnMovePoints();
 
     // AIGroup.pas:816
     public void OutputDebugInfo()
@@ -82,42 +78,10 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
     }
 
     // AIGroup.pas:861
-    public bool UnitExists(Troop troop)
-    {
-        int I;
-        bool result = false;
-        I = Count;
-        while (!result && I != 0)
-        {
-            I -= 1;
-            result = this[I].Group.IndexOf(troop) != -1;
-        }
-
-        return result;
-    }
+    public bool UnitExists(Troop troop) => Groups.UnitExists(troop);
 
     // AIGroup.pas:874
-    public AIRecruitmentGroup FindUnit(Troop troop)
-    {
-        int I;
-        AIRecruitmentGroup result = null;
-        I = Count;
-        while (result == null && I != 0)
-        {
-            I -= 1;
-            if (this[I].Group.IndexOf(troop) != -1)
-            {
-                result = this[I];
-            }
-        }
-
-        return result;
-    }
-
-    private static int CompareAIRecruitmentGroupMovePoints(AIRecruitmentGroup item1, AIRecruitmentGroup item2)
-    {
-        return item2.MovePoints - item1.MovePoints;
-    }
+    public AIRecruitmentGroup FindUnit(Troop troop) => Groups.FindUnit(troop);
 
     // Engine.pas:631
 

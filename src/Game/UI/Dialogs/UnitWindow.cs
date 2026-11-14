@@ -22,74 +22,75 @@ public partial class UnitWindow : UIModule
     public UnitWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public TabPanel UnitTabs;
-    public Button BottomCloseButton;
-    public Memo InfoMemo;
-    public Image ManaIcon;
-    public Label ManaLabel;
-    public ListBox AbilityAbilityList;
-    public Button AbilityUseButton;
-    public ListBox AbilityTypeList;
-    public ListBox AbilitySourceList;
-    public VerticalScrollBar AbilityScrollBar;
-    public VerticalScrollBar InfoScrollBar;
-    public Panel InfoTextPanel;
-    public Panel InfoLeaderPanel;
-    public Button Sphere4Button;
-    public Panel SpherePanel;
-    public Button Sphere3Button;
-    public Button Sphere2Button;
-    public Button Sphere1Button;
-    public Button Sphere5Button;
-    public Button Sphere6Button;
-    public Button Sphere7Button;
-    public Image AlignmentImage;
-    public Label AlignmentLabel;
-    public Image TypeIcon;
-    public Label TypeValueLabel;
-    public Label SphereLabel;
-    public Panel InventoryPanel;
-    public CheckBox Backpack1CheckBox;
-    public CheckBox Backpack2CheckBox;
-    public CheckBox Backpack3CheckBox;
-    public CheckBox Backpack4CheckBox;
-    public CheckBox Backpack5CheckBox;
-    public CheckBox Backpack6CheckBox;
-    public CheckBox Backpack7CheckBox;
-    public CheckBox Backpack8CheckBox;
-    public CheckBox HeadSlotCheckBox;
-    public CheckBox TorsoSlotCheckBox;
-    public CheckBox AttackSlotCheckBox;
-    public CheckBox DefendSlotCheckBox;
-    public CheckBox LeftRingCheckBox;
-    public CheckBox RightRingCheckBox;
-    public CheckBox Ground3CheckBox;
-    public CheckBox Ground2CheckBox;
-    public CheckBox Ground1CheckBox;
-    public CheckBox Ground4CheckBox;
-    public CheckBox Ground5CheckBox;
-    public Button DisbandButton;
-    public Button ItemUseButton;
-    public Label UnitNameLabel;
-    public Image UnitMovesIcon;
-    public Label UnitAttackLabel;
-    public Label UnitDefenseLabel;
-    public Label UnitMovesLabel;
-    public Label UnitDamageLabel;
-    public Label UnitResistanceLabel;
-    public Label UnitHitsLabel;
-    public Label LevelLabel;
-    public Label MoraleLabel;
-    public Image UpkeepIcon;
-    public Label UpkeepLabel;
-    public Button GroundPreviousButton;
-    public Button GroundNextButton;
-    public Image RelationIcon;
-    public Label RelationValueLabel;
-    public Label ExperienceLabel;
-    public Button NextUnitButton;
-    public Button PreviousUnitButton;
+    public Window MainWindow { get; private set; }
+    public TabPanel UnitTabs { get; private set; }
+    public Button BottomCloseButton { get; private set; }
+    public Memo InfoMemo { get; private set; }
+    public Image ManaIcon { get; private set; }
+    public Label ManaLabel { get; private set; }
+    public ListBox AbilityAbilityList { get; private set; }
+    public Button AbilityUseButton { get; private set; }
+    public ListBox AbilityTypeList { get; private set; }
+    public ListBox AbilitySourceList { get; private set; }
+    public VerticalScrollBar AbilityScrollBar { get; private set; }
+    public VerticalScrollBar InfoScrollBar { get; private set; }
+    public Panel InfoTextPanel { get; private set; }
+    public Panel InfoLeaderPanel { get; private set; }
+    public Button Sphere4Button { get; private set; }
+    public Panel SpherePanel { get; private set; }
+    public Button Sphere3Button { get; private set; }
+    public Button Sphere2Button { get; private set; }
+    public Button Sphere1Button { get; private set; }
+    public Button Sphere5Button { get; private set; }
+    public Button Sphere6Button { get; private set; }
+    public Button Sphere7Button { get; private set; }
+    public Image AlignmentImage { get; private set; }
+    public Label AlignmentLabel { get; private set; }
+    public Image TypeIcon { get; private set; }
+    public Label TypeValueLabel { get; private set; }
+    public Label SphereLabel { get; private set; }
+    public Panel InventoryPanel { get; private set; }
+    public CheckBox Backpack1CheckBox { get; private set; }
+    public CheckBox Backpack2CheckBox { get; private set; }
+    public CheckBox Backpack3CheckBox { get; private set; }
+    public CheckBox Backpack4CheckBox { get; private set; }
+    public CheckBox Backpack5CheckBox { get; private set; }
+    public CheckBox Backpack6CheckBox { get; private set; }
+    public CheckBox Backpack7CheckBox { get; private set; }
+    public CheckBox Backpack8CheckBox { get; private set; }
+    public CheckBox HeadSlotCheckBox { get; private set; }
+    public CheckBox TorsoSlotCheckBox { get; private set; }
+    public CheckBox AttackSlotCheckBox { get; private set; }
+    public CheckBox DefendSlotCheckBox { get; private set; }
+    public CheckBox LeftRingCheckBox { get; private set; }
+    public CheckBox RightRingCheckBox { get; private set; }
+    public CheckBox Ground3CheckBox { get; private set; }
+    public CheckBox Ground2CheckBox { get; private set; }
+    public CheckBox Ground1CheckBox { get; private set; }
+    public CheckBox Ground4CheckBox { get; private set; }
+    public CheckBox Ground5CheckBox { get; private set; }
+    public Button DisbandButton { get; private set; }
+    public Button ItemUseButton { get; private set; }
+    public Label UnitNameLabel { get; private set; }
+    public Image UnitMovesIcon { get; private set; }
+    public Label UnitAttackLabel { get; private set; }
+    public Label UnitDefenseLabel { get; private set; }
+    public Label UnitMovesLabel { get; private set; }
+    public Label UnitDamageLabel { get; private set; }
+    public Label UnitResistanceLabel { get; private set; }
+    public Label UnitHitsLabel { get; private set; }
+    public Label LevelLabel { get; private set; }
+    public Label MoraleLabel { get; private set; }
+    public Image UpkeepIcon { get; private set; }
+    public Label UpkeepLabel { get; private set; }
+    public Button GroundPreviousButton { get; private set; }
+    public Button GroundNextButton { get; private set; }
+    public Image RelationIcon { get; private set; }
+    public Label RelationValueLabel { get; private set; }
+    public Label ExperienceLabel { get; private set; }
+    public Button NextUnitButton { get; private set; }
+    public Button PreviousUnitButton { get; private set; }
+
     private int _highlight;
     private ItemType _itemType;
     private int _highlightStep;

@@ -21,8 +21,8 @@ public partial class SetupEvents : UIModule
     public SetupEvents(UIContext ui) : base(ui)
     { }
 
-    public GDPlay DirectPlay;
-    public SetupControl SetupControl;
+    public GDPlay DirectPlay { get; set; }
+    public SetupControl SetupControl { get; set; }
 
     public bool LobbyGame { get; }
 

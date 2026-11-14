@@ -12,10 +12,11 @@ public partial class PasswordDialog : UIModule
     public PasswordDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label TitleLabel;
-    public Label PasswordLabel;
-    public Edit PasswordEdit;
+    public Window Window { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Label PasswordLabel { get; private set; }
+    public Edit PasswordEdit { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private PasswordEventLog _passwordEvent;
 

@@ -686,7 +686,7 @@ public partial class ProductionControl : EngineObject
         AIGroup group;
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            group = StrategicMap.Current.AIGroupManager.FindId(Settings.GroupId);
+            group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
             if (group != null)
             {
                 group.Productions.Add(this, Settings.Unit);
@@ -700,7 +700,7 @@ public partial class ProductionControl : EngineObject
         AIGroup group;
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            group = StrategicMap.Current.AIGroupManager.FindId(Settings.GroupId);
+            group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
             if (group != null)
             {
                 group.Productions.DeleteUnit(Settings.Unit);

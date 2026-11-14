@@ -15,20 +15,20 @@ public partial class FactionSelectionWindow : UIModule
     public FactionSelectionWindow(UIContext ui) : base(ui)
     { }
 
-    public Panel FactionPanel;
-    public Label TopLabel;
-    public Panel LightPanel;
-    public Memo LightTextMemo;
-    public Button LightStartButton;
-    public Button LightBackButton;
-    public Image LightSphereImage;
-    public Panel DarkPanel;
-    public Button DarkStartButton;
-    public Button DarkBackButton;
-    public Label LightNameLabel;
-    public Memo DarkTextMemo;
-    public Label DarkNameLabel;
-    public Image DarkSphereImage;
+    public Panel FactionPanel { get; private set; }
+    public Label TopLabel { get; private set; }
+    public Panel LightPanel { get; private set; }
+    public Memo LightTextMemo { get; private set; }
+    public Button LightStartButton { get; private set; }
+    public Button LightBackButton { get; private set; }
+    public Image LightSphereImage { get; private set; }
+    public Panel DarkPanel { get; private set; }
+    public Button DarkStartButton { get; private set; }
+    public Button DarkBackButton { get; private set; }
+    public Label LightNameLabel { get; private set; }
+    public Memo DarkTextMemo { get; private set; }
+    public Label DarkNameLabel { get; private set; }
+    public Image DarkSphereImage { get; private set; }
 
     public int Fade { get; set; }
     public int FadeImage { get; private set; }

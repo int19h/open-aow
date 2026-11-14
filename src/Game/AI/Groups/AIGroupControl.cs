@@ -185,12 +185,12 @@ public partial class AIGroupControl : EngineObject
         finished = false;
         while (!finished)
         {
-            I = Group.Count;
+            I = Group.Units.Count;
             found = false;
             while (!found && I != 0)
             {
                 I -= 1;
-                Group.GetUnit(I).GetLocation(out X, out Y, out L);
+                Group.Units.GetUnit(I).GetLocation(out X, out Y, out L);
                 found = X != Location.X || Y != Location.Y || L != Location.MapLevel;
             }
 
@@ -199,17 +199,17 @@ public partial class AIGroupControl : EngineObject
                 var behavior = Group.GroupClass.Behavior;
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
                 group.Status = group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
-                I = Group.Count - 1;
+                I = Group.Units.Count - 1;
                 for (; I >= 0; I -= 1)
                 {
-                    Group.GetUnit(I).GetLocation(out unitX, out unitY, out unitL);
+                    Group.Units.GetUnit(I).GetLocation(out unitX, out unitY, out unitL);
                     if (X == unitX && Y == unitY && L == unitL)
                     {
-                        group.AddUnit(Group.GetUnit(I));
+                        group.AddUnit(Group.Units.GetUnit(I));
                     }
                 }
 
-                if (group.Count != 0)
+                if (group.Units.Count != 0)
                 {
                     Group.Status = Group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
                     result = true;
@@ -260,11 +260,11 @@ public partial class AIGroupControl : EngineObject
             MoveExecutor.AddUnit(troop);
         }
 
-        for (int I = 0, last = Group.Count - 1; I <= last; I++)
+        for (int I = 0, last = Group.Units.Count - 1; I <= last; I++)
         {
-            if (Group.GetUnit(I) != Group.Leader)
+            if (Group.Units.GetUnit(I) != Group.Leader)
             {
-                var unit = Group.GetUnit(I);
+                var unit = Group.Units.GetUnit(I);
                 MoveExecutor.AddUnit(unit);
             }
         }
@@ -329,7 +329,7 @@ public partial class AIGroupControl : EngineObject
             _immunityTypes = AbilityRules.s_allDamageTypes;
             StrengthMax = 0;
             Array.Clear(_strength);
-            if (Group.Count != 0)
+            if (Group.Units.Count != 0)
             {
                 MovePointTable.Fill(1);
             }
@@ -338,9 +338,9 @@ public partial class AIGroupControl : EngineObject
                 MovePointTable.Fill(-1);
             }
 
-            for (int I = Group.Count - 1; I >= 0; I--)
+            for (int I = Group.Units.Count - 1; I >= 0; I--)
             {
-                troop = Group.GetUnit(I);
+                troop = Group.Units.GetUnit(I);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(out movePointTable);
                 MovePointTable.Maximize(movePointTable);
@@ -415,19 +415,19 @@ public partial class AIGroupControl : EngineObject
         for (int I = CombatPredictor.Sides[0].Count - 1; I >= 0; I--)
         {
             var units = CombatPredictor.Sides[0].GetUnits(I);
-            if (Group.IndexOf(units.Troop) == -1)
+            if (Group.Units.IndexOf(units.Troop) == -1)
             {
                 var units2 = CombatPredictor.Sides[0].GetUnits(I);
                 CombatPredictor.DeleteUnit(units2.Troop);
             }
         }
 
-        for (int I = Group.Count - 1; I >= 0; I--)
+        for (int I = Group.Units.Count - 1; I >= 0; I--)
         {
-            var troop = Group.GetUnit(I);
+            var troop = Group.Units.GetUnit(I);
             if (CombatPredictor.Sides[0].IndexOfUnit(troop) == -1)
             {
-                var fGroupUnit = Group.GetUnit(I);
+                var fGroupUnit = Group.Units.GetUnit(I);
                 CombatPredictor.AddUnit(fGroupUnit);
             }
         }

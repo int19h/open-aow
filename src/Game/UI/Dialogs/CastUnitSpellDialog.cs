@@ -19,26 +19,26 @@ public partial class CastUnitSpellDialog : UIModule
     public CastUnitSpellDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Panel UnitPanel;
-    public Panel TopPanel;
-    public Label SpellUpkeepLabel;
-    public Label SpellManaLabel;
-    public Label CastingManaLabel;
-    public Label SpellNameLabel;
-    public Label CasterNameLabel;
-    public Label CastingPointsLabel;
-    public CheckBox Unit1CheckBox;
-    public CheckBox Unit2CheckBox;
-    public CheckBox Unit3CheckBox;
-    public CheckBox Unit4CheckBox;
-    public CheckBox Unit5CheckBox;
-    public CheckBox Unit6CheckBox;
-    public CheckBox Unit7CheckBox;
-    public CheckBox Unit8CheckBox;
-    public Image SpellFrame;
-    public Image FaceFrame;
-    public Label SelectionInfoLabel;
+    public Window Window { get; private set; }
+    public Panel UnitPanel { get; private set; }
+    public Panel TopPanel { get; private set; }
+    public Label SpellUpkeepLabel { get; private set; }
+    public Label SpellManaLabel { get; private set; }
+    public Label CastingManaLabel { get; private set; }
+    public Label SpellNameLabel { get; private set; }
+    public Label CasterNameLabel { get; private set; }
+    public Label CastingPointsLabel { get; private set; }
+    public CheckBox Unit1CheckBox { get; private set; }
+    public CheckBox Unit2CheckBox { get; private set; }
+    public CheckBox Unit3CheckBox { get; private set; }
+    public CheckBox Unit4CheckBox { get; private set; }
+    public CheckBox Unit5CheckBox { get; private set; }
+    public CheckBox Unit6CheckBox { get; private set; }
+    public CheckBox Unit7CheckBox { get; private set; }
+    public CheckBox Unit8CheckBox { get; private set; }
+    public Image SpellFrame { get; private set; }
+    public Image FaceFrame { get; private set; }
+    public Label SelectionInfoLabel { get; private set; }
 
     public UnitSpellCaster Caster { get; set; }
 

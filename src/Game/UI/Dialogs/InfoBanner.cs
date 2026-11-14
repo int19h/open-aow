@@ -9,9 +9,9 @@ public partial class InfoBanner : UIModule
     public InfoBanner(UIContext ui) : base(ui)
     { }
 
-    public Label HeaderLabel;
-    public Memo InfoMemo;
-    public Menu BannerMenu;
+    public Label HeaderLabel { get; private set; }
+    public Memo InfoMemo { get; private set; }
+    public Menu BannerMenu { get; private set; }
 
     // AoWInfoBanner.pas:35
     public void ShowInfo(string header, StringCollection description)

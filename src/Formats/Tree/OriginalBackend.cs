@@ -10,8 +10,13 @@ namespace Aow.Formats.Tree;
 /// </summary>
 public static class OriginalBackend
 {
-    public static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine) =>
-        ImageTree.Write(node, classValue, schema, engine);
+    /// <summary>
+    /// Writes the original image. <paramref name="profile"/> names the use. Null uses
+    /// <paramref name="engine"/>, the disk image. <see cref="TransportProfile.Name"/> is the
+    /// legacy packet, and it refuses a member that image cannot carry.
+    /// </summary>
+    public static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, string? profile = null) =>
+        ImageTree.Write(node, classValue: classValue, schema: schema, engine: engine, profile: profile);
 
     public static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine) =>
         ImageTree.Read(image, classValue, schema, engine);

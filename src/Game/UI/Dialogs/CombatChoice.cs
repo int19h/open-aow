@@ -19,11 +19,12 @@ public partial class CombatChoice : UIModule
     public CombatChoice(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Button FightButton;
-    public Button CancelButton;
-    public CheckBox TacticalCombatCheckBox;
-    public UserDrawBox MapView;
+    public Window Window { get; private set; }
+    public Button FightButton { get; private set; }
+    public Button CancelButton { get; private set; }
+    public CheckBox TacticalCombatCheckBox { get; private set; }
+    public UserDrawBox MapView { get; private set; }
+
     private CombatTypeRequestEventLog _request;
     private event NotifyEvent<object> OnDone;
 

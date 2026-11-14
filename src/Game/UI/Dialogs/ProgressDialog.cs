@@ -10,8 +10,8 @@ public partial class ProgressDialog : UIModule
     public ProgressDialog(UIContext ui) : base(ui)
     { }
 
-    public Label TitleLabel;
-    public Label StatusLabel;
-    public Window Window;
-    public Gauge ProgressBar;
+    public Label TitleLabel { get; private set; }
+    public Label StatusLabel { get; private set; }
+    public Window Window { get; private set; }
+    public Gauge ProgressBar { get; private set; }
 }

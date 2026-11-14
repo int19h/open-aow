@@ -26,89 +26,90 @@ public partial class CityScreen : UIModule
     public CityScreen(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Panel UnitPanel;
-    public ListBox UnitAbilitiesList;
-    public Image UnitMovesIcon;
-    public Label UnitAttackLabel;
-    public Label UnitDefenseLabel;
-    public Label UnitMovesLabel;
-    public Label UnitDamageLabel;
-    public Label UnitResistanceLabel;
-    public Label UnitHitsLabel;
-    public Label UnitAlignmentLabel;
-    public Label UnitLevelLabel;
-    public Label StructureNameLabel;
-    public Label UnitCostLabel;
-    public Label UnitLabel;
-    public Label UnitTurnsLabel;
-    public CheckBox Production1CheckBox;
-    public CheckBox Production2CheckBox;
-    public CheckBox Production3CheckBox;
-    public CheckBox Production4CheckBox;
-    public CheckBox Production5CheckBox;
-    public CheckBox Production6CheckBox;
-    public CheckBox Production7CheckBox;
-    public CheckBox Production8CheckBox;
-    public CheckBox Production9CheckBox;
-    public CheckBox Production10CheckBox;
-    public CheckBox Production11CheckBox;
-    public CheckBox Production12CheckBox;
-    public CheckBox Action4CheckBox;
-    public CheckBox Action5CheckBox;
-    public CheckBox Action6CheckBox;
-    public CheckBox Action1CheckBox;
-    public CheckBox Action2CheckBox;
-    public CheckBox Action3CheckBox;
-    public Panel UpgradePanel;
-    public Label UpgradeLabel;
-    public Memo UpgradeMemo;
-    public Image Oval;
-    public Image LeftShadow;
-    public Image RightShadow;
-    public Button CityButton3;
-    public Button CityButton1;
-    public ListBox QueueList;
-    public Panel ActivityPanel;
-    public Panel InfoPanel2;
-    public Label ActiveActionLabel;
-    public Label ActiveActionTurnsLabel;
-    public Panel ActivityPanel2;
-    public Gauge ActiveActionTurnsBar;
-    public Button CityButton2;
-    public Panel InfoPanel;
-    public Panel PopulationPanel;
-    public Memo PopulationMemo;
-    public Memo PopulationHeader;
-    public Memo IncomeMemo;
-    public Memo IncomeHeader;
-    public Memo EnhancementsMemo;
-    public Memo EnhancementsHeader;
-    public Frame RightPillar;
-    public Frame LeftPillar;
-    public Label QueueLabel;
-    public CheckBox LoopQueueCheckBox;
-    public Label RepeatLabel;
-    public Panel ActiveActionPanel;
-    public Image CurrentActionImage;
-    public Panel UnitPictureFramePanel;
-    public Image UpgradePicture;
-    public Label UpgradeCostLabel;
-    public Label UpgradeTurnsLabel;
-    public Panel MigratePanel;
-    public Label MigrateTurnsLabel;
-    public ListBox<MigrationItem> MigrationRaceList;
-    public ListBox MigrationRelationList;
-    public ListBox MigrationTurnsList;
-    public VerticalScrollBar MigrationScrollBar;
-    public Label CurrentRaceLabel;
-    public Label CurrentRelationLabel;
-    public Label UpgradeInfoLabel;
-    public Memo IncomeGoldMemo;
-    public Label MigrateInfoLabel;
-    public UserDrawBox MapView;
-    public Button NextCityButton;
-    public Button PreviousCityButton;
+    public Window Window { get; private set; }
+    public Panel UnitPanel { get; private set; }
+    public ListBox UnitAbilitiesList { get; private set; }
+    public Image UnitMovesIcon { get; private set; }
+    public Label UnitAttackLabel { get; private set; }
+    public Label UnitDefenseLabel { get; private set; }
+    public Label UnitMovesLabel { get; private set; }
+    public Label UnitDamageLabel { get; private set; }
+    public Label UnitResistanceLabel { get; private set; }
+    public Label UnitHitsLabel { get; private set; }
+    public Label UnitAlignmentLabel { get; private set; }
+    public Label UnitLevelLabel { get; private set; }
+    public Label StructureNameLabel { get; private set; }
+    public Label UnitCostLabel { get; private set; }
+    public Label UnitLabel { get; private set; }
+    public Label UnitTurnsLabel { get; private set; }
+    public CheckBox Production1CheckBox { get; private set; }
+    public CheckBox Production2CheckBox { get; private set; }
+    public CheckBox Production3CheckBox { get; private set; }
+    public CheckBox Production4CheckBox { get; private set; }
+    public CheckBox Production5CheckBox { get; private set; }
+    public CheckBox Production6CheckBox { get; private set; }
+    public CheckBox Production7CheckBox { get; private set; }
+    public CheckBox Production8CheckBox { get; private set; }
+    public CheckBox Production9CheckBox { get; private set; }
+    public CheckBox Production10CheckBox { get; private set; }
+    public CheckBox Production11CheckBox { get; private set; }
+    public CheckBox Production12CheckBox { get; private set; }
+    public CheckBox Action4CheckBox { get; private set; }
+    public CheckBox Action5CheckBox { get; private set; }
+    public CheckBox Action6CheckBox { get; private set; }
+    public CheckBox Action1CheckBox { get; private set; }
+    public CheckBox Action2CheckBox { get; private set; }
+    public CheckBox Action3CheckBox { get; private set; }
+    public Panel UpgradePanel { get; private set; }
+    public Label UpgradeLabel { get; private set; }
+    public Memo UpgradeMemo { get; private set; }
+    public Image Oval { get; private set; }
+    public Image LeftShadow { get; private set; }
+    public Image RightShadow { get; private set; }
+    public Button CityButton3 { get; private set; }
+    public Button CityButton1 { get; private set; }
+    public ListBox QueueList { get; private set; }
+    public Panel ActivityPanel { get; private set; }
+    public Panel InfoPanel2 { get; private set; }
+    public Label ActiveActionLabel { get; private set; }
+    public Label ActiveActionTurnsLabel { get; private set; }
+    public Panel ActivityPanel2 { get; private set; }
+    public Gauge ActiveActionTurnsBar { get; private set; }
+    public Button CityButton2 { get; private set; }
+    public Panel InfoPanel { get; private set; }
+    public Panel PopulationPanel { get; private set; }
+    public Memo PopulationMemo { get; private set; }
+    public Memo PopulationHeader { get; private set; }
+    public Memo IncomeMemo { get; private set; }
+    public Memo IncomeHeader { get; private set; }
+    public Memo EnhancementsMemo { get; private set; }
+    public Memo EnhancementsHeader { get; private set; }
+    public Frame RightPillar { get; private set; }
+    public Frame LeftPillar { get; private set; }
+    public Label QueueLabel { get; private set; }
+    public CheckBox LoopQueueCheckBox { get; private set; }
+    public Label RepeatLabel { get; private set; }
+    public Panel ActiveActionPanel { get; private set; }
+    public Image CurrentActionImage { get; private set; }
+    public Panel UnitPictureFramePanel { get; private set; }
+    public Image UpgradePicture { get; private set; }
+    public Label UpgradeCostLabel { get; private set; }
+    public Label UpgradeTurnsLabel { get; private set; }
+    public Panel MigratePanel { get; private set; }
+    public Label MigrateTurnsLabel { get; private set; }
+    public ListBox<MigrationItem> MigrationRaceList { get; private set; }
+    public ListBox MigrationRelationList { get; private set; }
+    public ListBox MigrationTurnsList { get; private set; }
+    public VerticalScrollBar MigrationScrollBar { get; private set; }
+    public Label CurrentRaceLabel { get; private set; }
+    public Label CurrentRelationLabel { get; private set; }
+    public Label UpgradeInfoLabel { get; private set; }
+    public Memo IncomeGoldMemo { get; private set; }
+    public Label MigrateInfoLabel { get; private set; }
+    public UserDrawBox MapView { get; private set; }
+    public Button NextCityButton { get; private set; }
+    public Button PreviousCityButton { get; private set; }
+
     private City _city;
     private CombatMap _preview;
     private int _viewX;

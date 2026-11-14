@@ -90,7 +90,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         for (int I = _spareUnits.Count - 1; I >= 0; I--)
         {
             troop = _spareUnits.GetUnit(I);
-            if (GroupControl.Group.IndexOf(troop) == -1)
+            if (GroupControl.Group.Units.IndexOf(troop) == -1)
             {
                 _spareUnits.DeleteUnit(troop);
             }
@@ -126,11 +126,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
         GroupControl = control;
         GroupControl.Targets.Validate();
         _movesMin = 50;
-        for (int I = GroupControl.Group.Count - 1; I >= 0; I--)
+        for (int I = GroupControl.Group.Units.Count - 1; I >= 0; I--)
         {
-            if (GroupControl.Group.GetUnit(I).GetMoves() < _movesMin)
+            if (GroupControl.Group.Units.GetUnit(I).GetMoves() < _movesMin)
             {
-                _movesMin = GroupControl.Group.GetUnit(I).GetMoves();
+                _movesMin = GroupControl.Group.Units.GetUnit(I).GetMoves();
             }
         }
 
@@ -659,7 +659,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     Done();
                     break;
                 case 30:
-                    ValidateTargetRequirements(GroupControl.Group, _target, null, _spareUnits, MinimumStrength);
+                    ValidateTargetRequirements(GroupControl.Group.Units, _target, null, _spareUnits, MinimumStrength);
                     if (_spareUnits.Count != 0)
                     {
                         _target.Status = _target.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
@@ -1043,7 +1043,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         if (((double)BattleFieldFactor > 0 || (double)CurrentBattleFieldFactor > 0) && target.Data.TargetType != AITargetType.Negotiate)
         {
             BattleFieldInfo.SetupBattleFieldInfo(out info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
-            info.Units = GroupControl.Group;
+            info.Units = GroupControl.Group.Units;
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, _battleFieldRadius, ref info);
             result = Round((double)GetRequiredBattleFieldSuperiority(target) * (info.Strength - info.FriendlyStrength));
@@ -1087,7 +1087,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3359
-    public bool ValidateTargetRequirements(UnitList units, AIGroupControlTarget target, UnitList required, UnitList optional, int minimumStrength)
+    public bool ValidateTargetRequirements(UnitCollection units, AIGroupControlTarget target, UnitUserList required, UnitUserList optional, int minimumStrength)
     {
         int strength;
         CombatPredictor predictor;
@@ -1098,7 +1098,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         predictor = new CombatPredictor(this);
         requiredUnits = new UnitUserList(null) { Holder = CreationHolder() };
         optionalUnits = new UnitUserList(null) { Holder = CreationHolder() };
-        predictor.AddUnits(units.Units);
+        predictor.AddUnits(units);
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
             predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
@@ -1156,12 +1156,12 @@ public partial class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3406
-    public bool ValidMultiTarget(UnitList units, AIGroupControlTarget target, UnitList required, UnitList optional)
+    public bool ValidMultiTarget(UnitUserList units, AIGroupControlTarget target, UnitUserList required, UnitUserList optional)
     {
         bool result;
         if (!TargetOverlapFound(_nextTarget, null) && (_target.Location.MapLevel != target.Location.MapLevel || HexGeometry.DeltaHexToRadius(_target.Location.X, _target.Location.Y, target.Location.X, target.Location.Y) > 1))
         {
-            result = ValidateTargetRequirements(_spareUnits, _nextTarget, required, optional, MinimumStrength);
+            result = ValidateTargetRequirements(_spareUnits.Units, _nextTarget, required, optional, MinimumStrength);
             bool condition = result;
             if (condition)
             {

@@ -18,23 +18,23 @@ public partial class EmailGameSettingsDialog : UIModule
     public EmailGameSettingsDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Edit LocalEmailAddressEdit;
-    public Edit EmailAddressEdit1;
-    public Panel PlayerPanel;
-    public Label PlayerLabel1;
-    public VerticalScrollBar PlayerScrollBar;
-    public Label PlayerLabel2;
-    public Label PlayerLabel3;
-    public Edit EmailAddressEdit2;
-    public Edit EmailAddressEdit3;
-    public Label PlayerLabel4;
-    public Edit EmailAddressEdit4;
-    public Edit EmailGameNameEdit;
-    public Label PlayerLabel5;
-    public Edit EmailAddressEdit5;
-    public Label PlayerLabel6;
-    public Edit EmailAddressEdit6;
+    public Window Window { get; private set; }
+    public Edit LocalEmailAddressEdit { get; private set; }
+    public Edit EmailAddressEdit1 { get; private set; }
+    public Panel PlayerPanel { get; private set; }
+    public Label PlayerLabel1 { get; private set; }
+    public VerticalScrollBar PlayerScrollBar { get; private set; }
+    public Label PlayerLabel2 { get; private set; }
+    public Label PlayerLabel3 { get; private set; }
+    public Edit EmailAddressEdit2 { get; private set; }
+    public Edit EmailAddressEdit3 { get; private set; }
+    public Label PlayerLabel4 { get; private set; }
+    public Edit EmailAddressEdit4 { get; private set; }
+    public Edit EmailGameNameEdit { get; private set; }
+    public Label PlayerLabel5 { get; private set; }
+    public Edit EmailAddressEdit5 { get; private set; }
+    public Label PlayerLabel6 { get; private set; }
+    public Edit EmailAddressEdit6 { get; private set; }
 
     public StringList EmailAddresses { get; private set; }
 

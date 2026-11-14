@@ -16,12 +16,12 @@ public partial class SynchronizeDialog : UIModule
     public SynchronizeDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Image LeftShield;
-    public Label PlayerNameLabel;
-    public Label PlayerRaceLabel;
-    public Label TurnLabel;
-    public Image RightShield;
+    public Window Window { get; private set; }
+    public Image LeftShield { get; private set; }
+    public Label PlayerNameLabel { get; private set; }
+    public Label PlayerRaceLabel { get; private set; }
+    public Label TurnLabel { get; private set; }
+    public Image RightShield { get; private set; }
 
     // AoWSyncDlg.pas:45
     public PlayerSetupSettings GetPlayerSetup()

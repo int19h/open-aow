@@ -11,7 +11,7 @@ public partial class IntroScene : UIModule
     public IntroScene(UIContext ui) : base(ui)
     { }
 
-    public UserWindow Window;
+    public UserWindow Window { get; private set; }
 
     // AoWIntroScene.pas:173
     public void Finish()

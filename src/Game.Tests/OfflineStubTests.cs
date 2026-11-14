@@ -46,14 +46,18 @@ public sealed class OfflineStubTests
         }
     }
 
-    // Creates every component field of a module, as its layout does, without the layout's
-    // images, fonts and event bindings.
+    // Creates every layout component of a module, as its layout does, without the layout's
+    // images, fonts and event bindings. Issue 254 stores those components in properties. A private
+    // setter is the layout's own write. A public setter is a property the test assigns itself.
     private static T Populate<T>(T module) where T : Component
     {
-        foreach (var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        foreach (var property in typeof(T).GetProperties(flags))
         {
-            if (field.FieldType.IsSubclassOf(typeof(Component)) && field.FieldType.GetConstructor([typeof(Component)]) is { } constructor)
-                field.SetValue(module, constructor.Invoke([module]));
+            if (!property.PropertyType.IsSubclassOf(typeof(Component))) continue;
+            if (property.GetSetMethod(nonPublic: true) is not { IsPublic: false } setter) continue;
+            if (property.PropertyType.GetConstructor([typeof(Component)]) is not { } constructor) continue;
+            setter.Invoke(module, [constructor.Invoke([module])]);
         }
         return module;
     }

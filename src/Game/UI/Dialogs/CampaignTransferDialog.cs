@@ -19,57 +19,58 @@ public partial class CampaignTransferDialog : UIModule
     public CampaignTransferDialog(UIContext ui) : base(ui)
     { }
 
-    public CheckBox AvailableHero1CheckBox;
-    public CheckBox AvailableHero2CheckBox;
-    public CheckBox AvailableHero3CheckBox;
-    public CheckBox AvailableHero4CheckBox;
-    public CheckBox AvailableItem1CheckBox;
-    public Panel AvailableItemPanel;
-    public CheckBox AvailableItem2CheckBox;
-    public CheckBox AvailableItem3CheckBox;
-    public CheckBox AvailableItem4CheckBox;
-    public CheckBox AvailableUnit1CheckBox;
-    public Panel AvailableUnitPanel;
-    public CheckBox AvailableUnit2CheckBox;
-    public CheckBox AvailableUnit3CheckBox;
-    public CheckBox AvailableUnit4CheckBox;
-    public BookWindow Book;
-    public Panel TransferPanel;
-    public Label TransferPointsLabel;
-    public Label AvailableGoldLabel;
-    public Label AvailableManaLabel;
-    public Panel AvailableHeroPanel;
-    public CheckBox TransferHero1CheckBox;
-    public CheckBox TransferHero2CheckBox;
-    public CheckBox TransferHero3CheckBox;
-    public CheckBox TransferHero4CheckBox;
-    public CheckBox TransferItem1CheckBox;
-    public Panel TransferItemPanel;
-    public CheckBox TransferItem2CheckBox;
-    public CheckBox TransferItem3CheckBox;
-    public CheckBox TransferItem4CheckBox;
-    public CheckBox TransferUnit1CheckBox;
-    public Panel TransferUnitPanel;
-    public CheckBox TransferUnit2CheckBox;
-    public CheckBox TransferUnit3CheckBox;
-    public CheckBox TransferUnit4CheckBox;
-    public Panel TransferHeroPanel;
-    public HorizontalScrollBar GoldSlider;
-    public HorizontalScrollBar ManaSlider;
-    public Button AvailableHeroPreviousButton;
-    public Button AvailableItemPreviousButton;
-    public Button AvailableUnitPreviousButton;
-    public Button AvailableHeroNextButton;
-    public Button AvailableItemNextButton;
-    public Button AvailableUnitNextButton;
-    public Button TransferHeroPreviousButton;
-    public Button TransferItemPreviousButton;
-    public Button TransferUnitPreviousButton;
-    public Button TransferHeroNextButton;
-    public Button TransferItemNextButton;
-    public Button TransferUnitNextButton;
-    public Label TransferGoldLabel;
-    public Label TransferManaLabel;
+    public CheckBox AvailableHero1CheckBox { get; private set; }
+    public CheckBox AvailableHero2CheckBox { get; private set; }
+    public CheckBox AvailableHero3CheckBox { get; private set; }
+    public CheckBox AvailableHero4CheckBox { get; private set; }
+    public CheckBox AvailableItem1CheckBox { get; private set; }
+    public Panel AvailableItemPanel { get; private set; }
+    public CheckBox AvailableItem2CheckBox { get; private set; }
+    public CheckBox AvailableItem3CheckBox { get; private set; }
+    public CheckBox AvailableItem4CheckBox { get; private set; }
+    public CheckBox AvailableUnit1CheckBox { get; private set; }
+    public Panel AvailableUnitPanel { get; private set; }
+    public CheckBox AvailableUnit2CheckBox { get; private set; }
+    public CheckBox AvailableUnit3CheckBox { get; private set; }
+    public CheckBox AvailableUnit4CheckBox { get; private set; }
+    public BookWindow Book { get; private set; }
+    public Panel TransferPanel { get; private set; }
+    public Label TransferPointsLabel { get; private set; }
+    public Label AvailableGoldLabel { get; private set; }
+    public Label AvailableManaLabel { get; private set; }
+    public Panel AvailableHeroPanel { get; private set; }
+    public CheckBox TransferHero1CheckBox { get; private set; }
+    public CheckBox TransferHero2CheckBox { get; private set; }
+    public CheckBox TransferHero3CheckBox { get; private set; }
+    public CheckBox TransferHero4CheckBox { get; private set; }
+    public CheckBox TransferItem1CheckBox { get; private set; }
+    public Panel TransferItemPanel { get; private set; }
+    public CheckBox TransferItem2CheckBox { get; private set; }
+    public CheckBox TransferItem3CheckBox { get; private set; }
+    public CheckBox TransferItem4CheckBox { get; private set; }
+    public CheckBox TransferUnit1CheckBox { get; private set; }
+    public Panel TransferUnitPanel { get; private set; }
+    public CheckBox TransferUnit2CheckBox { get; private set; }
+    public CheckBox TransferUnit3CheckBox { get; private set; }
+    public CheckBox TransferUnit4CheckBox { get; private set; }
+    public Panel TransferHeroPanel { get; private set; }
+    public HorizontalScrollBar GoldSlider { get; private set; }
+    public HorizontalScrollBar ManaSlider { get; private set; }
+    public Button AvailableHeroPreviousButton { get; private set; }
+    public Button AvailableItemPreviousButton { get; private set; }
+    public Button AvailableUnitPreviousButton { get; private set; }
+    public Button AvailableHeroNextButton { get; private set; }
+    public Button AvailableItemNextButton { get; private set; }
+    public Button AvailableUnitNextButton { get; private set; }
+    public Button TransferHeroPreviousButton { get; private set; }
+    public Button TransferItemPreviousButton { get; private set; }
+    public Button TransferUnitPreviousButton { get; private set; }
+    public Button TransferHeroNextButton { get; private set; }
+    public Button TransferItemNextButton { get; private set; }
+    public Button TransferUnitNextButton { get; private set; }
+    public Label TransferGoldLabel { get; private set; }
+    public Label TransferManaLabel { get; private set; }
+
     private int _leftHero;
     private int _rightHero;
     private int _leftUnit;

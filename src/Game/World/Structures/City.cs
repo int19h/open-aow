@@ -536,7 +536,7 @@ public partial class City : PlayerCropStructure
     public override bool GetRazed() => Mode.Contains(ModeElement.Razed);
 
     // City.pas:1111
-    public override void SetupRazeDefenderAIGroup(UnitList armies, UnitList units)
+    public override void SetupRazeDefenderAIGroup(UnitUserList armies, UnitUserList units)
     {
         AIGroup group;
         if (StrategicMap.Current.Random(8) == 0)

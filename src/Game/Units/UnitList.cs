@@ -201,7 +201,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>, IUnitHolde
         }
     }
 
-    internal static sbyte UnitsToIndependentRelation(UnitList units, sbyte defaultRelation)
+    internal static sbyte UnitsToIndependentRelation(UnitUserList units, sbyte defaultRelation)
     {
         sbyte result;
         bool sameRace;

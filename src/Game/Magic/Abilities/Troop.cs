@@ -29,9 +29,9 @@ namespace Aow.Game.Magic.Abilities;
 // FRefCount. FUnitID. FGroupID. FGroup: TAIGroup. FUnitStatus
 public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopOwner>
 {
-    // A troop stands in an army or a unit list, or a hero stands in a hero list while no army
-    // holds it. TroopOwner reads that owner without a cast.
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is Army or UnitList or HeroList;
+    // A troop stands in an army or a unit list, or a hero stands in a hero list or a hero library
+    // while no army holds it. TroopOwner reads that owner without a cast.
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is Army or UnitList or UnitUserList or IHeroHolder;
 
     TroopOwner IOwned<TroopOwner>.Owner => TroopOwner.Of(Owner);
 
@@ -509,7 +509,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:494
     public virtual void SetPlayer(sbyte player)
     {
-        UnitUserList list;
+        AIGroup list;
         if (player != Player)
         {
             AddRef();
@@ -625,7 +625,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         StrategicMap.Current.UnitControl.RegisterUnit(this);
         if (GroupId != 0 && Player >= 0)
         {
-            group = StrategicMap.Current.AIGroupManager.FindId(GroupId);
+            group = StrategicMap.Current.AIGroupManager.Groups.FindId(GroupId);
             if (group != null)
             {
                 group.AddUnit(this);
@@ -647,7 +647,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:777
     public virtual void Deactivate()
     {
-        UnitUserList group;
+        AIGroup group;
         group = Group;
         if (group != null)
         {
@@ -814,9 +814,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual int JoinAmount(sbyte player)
     {
         int result;
-        UnitUserList group;
+        AIGroup group;
         group = Group;
-        if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge)
+        if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge)
         {
             result = 0;
         }
@@ -832,7 +832,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual bool OfferToJoin(sbyte player)
     {
         bool result;
-        UnitUserList group;
+        AIGroup group;
         Alignment alignment;
         if (CanJoin(player))
         {
@@ -844,7 +844,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             else
             {
                 group = Group;
-                if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge)
+                if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge)
                 {
                     var players = StrategicMap.Current.Players.GetPlayers(player);
                     alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
@@ -874,13 +874,13 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1872
     public virtual void GetJoinMessage(sbyte player, int count, int amount, JoinMode mode, StringCollection messages)
     {
-        UnitUserList group;
+        AIGroup group;
         messages.Clear();
         switch (mode)
         {
             case JoinMode.Default:
                 group = Group;
-                if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge && amount == 0)
+                if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge && amount == 0)
                 {
                     if (count == 0)
                     {
@@ -915,7 +915,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1209
     public virtual void Killed()
     {
-        UnitUserList group;
+        AIGroup group;
         UnitStatus = UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
         ResetLifeMasteryBlessing();
         ResetLifeMasteryFear();
@@ -979,9 +979,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
     }
 
-    // A hero list is not an army or a unit list. Callers treat that owner as absent. A unit list
-    // that is not an army fails the cast.
-    internal Army ArmyOwner => Owner is HeroList ? null : (Army)Owner;
+    // A hero list or a hero library is not an army or a unit list. Callers treat that owner as
+    // absent. A unit list or a unit user list fails the cast.
+    internal Army ArmyOwner => Owner is IHeroHolder ? null : (Army)Owner;
 
     // The army or unit list that holds this troop, or null for a hero list or no owner.
     internal IUnitHolder UnitHolder => Owner as IUnitHolder;

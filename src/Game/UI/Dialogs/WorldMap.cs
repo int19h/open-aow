@@ -31,36 +31,37 @@ public partial class WorldMap : UIModule
     public WorldMap(UIContext ui) : base(ui)
     { }
 
-    public Memo LeftPageMemo;
-    public Image RightPagePicture;
-    public Panel WorldPanel;
-    public Image Path1Image;
-    public Image Path2Image;
-    public Image Path3Image;
-    public Image PlayerPawnImage;
-    public Image EnemyPawnImage;
-    public Label DescriptionLabel;
-    public Button BackButton;
-    public Button NextButton;
-    public Button CancelButton;
-    public Button BookStartButton;
-    public Label LeftPageLabel;
-    public Memo RightPageMemo;
-    public Label RightPageLabel;
-    public Image LeftPagePicture;
-    public BookWindow Book;
-    public Panel InfoPanel;
-    public Button QuitButton;
-    public Button ShowButton;
-    public Label SelectLabel;
-    public Image StarImage;
-    public Frame HeroFrame;
-    public Frame Ally1Frame;
-    public Frame Ally2Frame;
-    public Frame Ally3Frame;
-    public Button SetButton;
-    public VerticalScrollBar LeftPageScrollBar;
-    public VerticalScrollBar RightPageScrollBar;
+    public Memo LeftPageMemo { get; private set; }
+    public Image RightPagePicture { get; private set; }
+    public Panel WorldPanel { get; private set; }
+    public Image Path1Image { get; private set; }
+    public Image Path2Image { get; private set; }
+    public Image Path3Image { get; private set; }
+    public Image PlayerPawnImage { get; private set; }
+    public Image EnemyPawnImage { get; private set; }
+    public Label DescriptionLabel { get; private set; }
+    public Button BackButton { get; private set; }
+    public Button NextButton { get; private set; }
+    public Button CancelButton { get; private set; }
+    public Button BookStartButton { get; private set; }
+    public Label LeftPageLabel { get; private set; }
+    public Memo RightPageMemo { get; private set; }
+    public Label RightPageLabel { get; private set; }
+    public Image LeftPagePicture { get; private set; }
+    public BookWindow Book { get; private set; }
+    public Panel InfoPanel { get; private set; }
+    public Button QuitButton { get; private set; }
+    public Button ShowButton { get; private set; }
+    public Label SelectLabel { get; private set; }
+    public Image StarImage { get; private set; }
+    public Frame HeroFrame { get; private set; }
+    public Frame Ally1Frame { get; private set; }
+    public Frame Ally2Frame { get; private set; }
+    public Frame Ally3Frame { get; private set; }
+    public Button SetButton { get; private set; }
+    public VerticalScrollBar LeftPageScrollBar { get; private set; }
+    public VerticalScrollBar RightPageScrollBar { get; private set; }
+
     private int _starImageValue;
     private int _starStep;
     private int _starIntensity;

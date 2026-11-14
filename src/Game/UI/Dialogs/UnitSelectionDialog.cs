@@ -17,21 +17,21 @@ public partial class UnitSelectionDialog : UIModule
     public UnitSelectionDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Panel UnitPanel;
-    public Panel SourcePanel;
-    public Label SourceNameLabel;
-    public CheckBox Unit1CheckBox;
-    public CheckBox Unit2CheckBox;
-    public CheckBox Unit3CheckBox;
-    public CheckBox Unit4CheckBox;
-    public CheckBox Unit5CheckBox;
-    public CheckBox Unit6CheckBox;
-    public CheckBox Unit7CheckBox;
-    public CheckBox Unit8CheckBox;
-    public Image SourceFace;
-    public Label SelectionInfoLabel;
-    public Label SelectionLabel;
+    public Window Window { get; private set; }
+    public Panel UnitPanel { get; set; }
+    public Panel SourcePanel { get; private set; }
+    public Label SourceNameLabel { get; private set; }
+    public CheckBox Unit1CheckBox { get; set; }
+    public CheckBox Unit2CheckBox { get; private set; }
+    public CheckBox Unit3CheckBox { get; private set; }
+    public CheckBox Unit4CheckBox { get; private set; }
+    public CheckBox Unit5CheckBox { get; private set; }
+    public CheckBox Unit6CheckBox { get; private set; }
+    public CheckBox Unit7CheckBox { get; private set; }
+    public CheckBox Unit8CheckBox { get; private set; }
+    public Image SourceFace { get; private set; }
+    public Label SelectionInfoLabel { get; private set; }
+    public Label SelectionLabel { get; private set; }
 
     public UnitSelector Event { get; set; }
 
