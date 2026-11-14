@@ -3,6 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
+using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -150,6 +151,30 @@ public sealed class OwnershipTroopTests
         Assert.True(army.DeleteUnit(first));
         Assert.Null(first.Owner);
         Assert.Empty(army.Units);
+    }
+
+    // Issue 158 part 7: an AI group is not a unit list. It holds troop references in its node
+    // children and reads them through Units. The troop's owner stays the army.
+    [Fact]
+    public void AnAIGroupHoldsTroopReferencesAndDoesNotOwnThem()
+    {
+        var group = new AIGroup(null!) { Holder = EngineFixture.Engine };
+        var army = new Army(null!) { Holder = EngineFixture.Engine };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
+        Assert.False(typeof(UnitList).IsAssignableFrom(typeof(AIGroup)));
+        Assert.False(typeof(UnitUserList).IsAssignableFrom(typeof(AIGroup)));
+        Assert.True(army.Units.AddUnit(troop));
+        Assert.True(group.AddUnit(troop));
+        Assert.Same(army, troop.Owner);
+        Assert.Same(group, troop.Group);
+        Assert.Same(troop, group.Units[0]);
+        Assert.Same(troop, group.GetChild(0));
+        Assert.Same(troop, group.Units.FindId(7));
+        Assert.Same(group, group.Units.Holder);
+        IOwner<Troop> typed = group;
+        Assert.Same(troop, typed[0]);
+        Assert.Throws<ArgumentException>(() => troop.SetOwner(group));
+        Assert.Same(army, troop.Owner);
     }
 
     [Fact]

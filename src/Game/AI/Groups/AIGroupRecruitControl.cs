@@ -260,7 +260,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
         bool result;
         if (group.PathStrength != 0)
         {
-            result = group.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
+            result = group.Group.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
             if (!result)
             {
                 if (Mode != AIGroupRecruitControlMode.ForceRecruit)
@@ -290,12 +290,12 @@ public partial class AIGroupRecruitControl : AIGroupTask
         Troop troop;
         bool result = false;
         units = new UnitUserList(null) { Holder = CreationHolder() };
-        I = group.Group.Count - 1;
+        I = group.Group.Units.Count - 1;
         for (; I >= 0; I -= 1)
         {
-            if (UsefulRecruitUnit(group.Group.GetUnit(I)))
+            if (UsefulRecruitUnit(group.Group.Units.GetUnit(I)))
             {
-                units.AddUnit(group.Group.GetUnit(I));
+                units.AddUnit(group.Group.Units.GetUnit(I));
             }
         }
 

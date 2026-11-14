@@ -31,7 +31,7 @@ public partial class NormalAIGroupControl : BehaviorAIGroupControl
                 State += 1;
                 break;
             case 1:
-                if (Group.Count > 0)
+                if (Group.Units.Count > 0)
                 {
                     Targets.Clear();
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };

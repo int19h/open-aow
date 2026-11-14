@@ -117,7 +117,7 @@
   },
   "Aow.Game.AI.Groups.AIGroup": {
     "id": 136272,
-    "parent": "Aow.Game.Units.UnitUserList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.AI.Groups.AIGroupControl": {
     "id": 80,

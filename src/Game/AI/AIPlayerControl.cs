@@ -88,7 +88,7 @@ public partial class AIPlayerControl : EngineObject
     public int ListAvailableTransporters(UnitList units)
     {
         Troop troop;
-        UnitUserList group;
+        AIGroup group;
         int result = 0;
         var player = Player;
         for (int I = 0, last = player.Armies.Count - 1; I <= last; I++)
@@ -273,9 +273,9 @@ public partial class AIPlayerControl : EngineObject
                 if (group.TargetType != AIGroupTargetStatus.Execute && group.EngineClass.ClassId != 136281 && group.EngineClass.ClassId != 136294 && group.EngineClass.ClassId != 136273 && group.EngineClass.ClassId != 136275 && group.EngineClass.ClassId != 136295)
                 {
                     groupPriority = group.GetProcessPriority() * -10;
-                    for (int J = group.Count - 1; J >= 0; J--)
+                    for (int J = group.Units.Count - 1; J >= 0; J--)
                     {
-                        troop = group.GetUnit(J);
+                        troop = group.Units.GetUnit(J);
                         if (!(troop is Hero))
                         {
                             unitPriority = troop.GetMoves();

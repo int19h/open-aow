@@ -517,7 +517,8 @@ public partial class Army : EChangeNotifyNode, IChildList<Troop>, IUnitHolder
                 behavior = GroupBehavior.Passive;
             }
 
-            includeUnit = info.Units == null || info.Units.IndexOfChild(troop) == -1;
+            // A default collection has no holder and counts every troop, as a missing list did.
+            includeUnit = info.Units.Holder is null || info.Units.IndexOf(troop) == -1;
             if (includeUnit && info.Requests.Contains(BattleFieldInfoRequestsElement.IgnorePassiveIndependents))
             {
                 includeUnit = troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive && troop.Group.GroupClass.Behavior != GroupBehavior.Guard;

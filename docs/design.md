@@ -595,11 +595,15 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   An army (Delphi `TArmy`, a `TUnitList` in the original) is no longer a unit list. It owns its
   troops as its node children, which keeps their slots, stored order, messages and change
   notifications, and exposes them as `Army.Units`, a `UnitCollection`: a typed view of the
-  holder's slots with the troop queries and sorts of `TUnitList`. A `UnitList` stays an engine
-  object for troops held apart from an army (generated defenders and rebels, campaign transfer
-  units) and for the unit user lists and AI groups that derive from it, and exposes `Units` too.
-  The hooks of `TUnitList` that an army overrides (`CanAddUnit`, `AddUnit`, `GetLocation`,
-  `Changed`) are the internal `IUnitHolder` of both holders. A troop's owner is a `TroopOwner`
+  holder's slots with the troop queries and sorts of `TUnitList`. An AI group (Delphi `TAIGroup`,
+  a `TUnitUserList` in the original) is no longer a unit user list. It holds its troops as
+  references in its node children, which keeps their slots, stored order, messages and change
+  notifications, and exposes them as `Units` on the same collection. It does not own the troops.
+  A `UnitList` stays an engine object for troops held apart from an army (generated defenders and
+  rebels, campaign transfer units) and for the unit user lists that derive from it, and exposes
+  `Units` too. The hooks of `TUnitList` that an army and an AI group override (`CanAddUnit`,
+  `AddUnit`, `GetLocation`, `Changed`) are the internal `IUnitHolder` of those holders. A troop's
+  owner is a `TroopOwner`
   union: the army it stands in, a unit list, a hero list, or a hero library. An item's
   owner is an `ItemOwner` union: the item list it lies in, a hero's inventory, the items a hero
   wears, or an item library. A hero's inventory (Delphi `THeroInventory`), the items a hero wears
@@ -610,10 +614,11 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   dungeon's prisoners keep the items left on the battlefield in their own item list, apart from
   the troops. A hero library (Delphi `THeroLibrary`) is no longer a hero list. It holds its heroes
   as references in its node children and exposes them as `Heroes`, a `HeroCollection`. A `HeroList`
-  stays the reference list a player, a campaign transfer and the hero control hold. The other
-  reference lists stay list nodes in this part: unit user lists and the AI groups that derive from
-  them, the player list, a player's armies and diplomatic actions, token events, event logs, move
-  targets, combat actions and the AI's target and production lists. The children of those lists
+  stays the reference list a player, a campaign transfer and the hero control hold. A unit user
+  list stays the reference-holding unit list its callers expose. The other reference lists stay
+  list nodes: the player list, a player's armies, groups and diplomatic actions, the AI group
+  manager, token events, event logs, move targets, combat actions and the AI's target and
+  production lists. The children of those lists
   take their list as their typed owner. A reference list stores a child that has no owner or that
   has the list as its owner, and the tree write leaves every owner as it is.
 - Every engine object reaches its engine through `GetEngine()` (issue 224), and nothing reads an

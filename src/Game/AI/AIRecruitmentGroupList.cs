@@ -90,7 +90,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
         while (!result && I != 0)
         {
             I -= 1;
-            result = this[I].Group.IndexOf(troop) != -1;
+            result = this[I].Group.Units.IndexOf(troop) != -1;
         }
 
         return result;
@@ -105,7 +105,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
         while (result == null && I != 0)
         {
             I -= 1;
-            if (this[I].Group.IndexOf(troop) != -1)
+            if (this[I].Group.Units.IndexOf(troop) != -1)
             {
                 result = this[I];
             }

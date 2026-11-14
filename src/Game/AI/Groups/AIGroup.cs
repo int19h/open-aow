@@ -19,10 +19,27 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class AIGroup : UnitUserList, IAIGroupClass
+// The original's TAIGroup derives from TUnitUserList. The port's group holds its troops as
+// references in its node children (it routes messages to them and notifies their changes) and
+// reads them through Units. It does not own the troops. Their owner stays the army or the unit
+// list that holds them. The members below that carry a Unit.PAS line are TUnitList's part.
+public partial class AIGroup : EChangeNotifyNode, IChildList<Troop>, IUnitHolder, IAIGroupClass
 {
     // AIGroup.pas:101
     public new const int ClassId = 136272;
+
+    /// <summary>The troops of this group, in their stored order.</summary>
+    public UnitCollection Units => new(this);
+
+    // A group takes troops only.
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Troop;
+
+    Troop IOwner<Troop>.this[int index] => Units[index];
+
+    int IChildSink<Troop>.AddChild(Troop child) => AddChild(child);
+
+    // Unit.PAS:2188
+    public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
 
     // AIGroup.pas:57
     public AIGroup(ECustomNode owner) : base(owner)
@@ -66,7 +83,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     // AIGroup.pas:72
     public override void Dispose()
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.UnitControl == null && Count != 0)
+        if (StrategicMap.Current != null && StrategicMap.Current.UnitControl == null && Units.Count != 0)
         {
             // { Original diagnostic raises and immediately swallows its exception. }
             try
@@ -109,6 +126,50 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         TargetMode = persister.RawByte("TargetMode", value: TargetMode);
     }
 
+    // Unit.PAS:2294. The load releases the reference each loaded child took when it was created.
+    public override void MainPersist(IPersister persister)
+    {
+        base.MainPersist(persister);
+        if (persister.Loading)
+        {
+            for (int index = 0, last = Units.Count - 1; index <= last; index++)
+            {
+                Units[index].Release();
+            }
+        }
+    }
+
+    // Unit.PAS:2184
+    public override void DestroyAllChildren()
+    {
+        Clear();
+    }
+
+    // Unit.PAS:2162
+    public override int RemoveChild(EngineObject child)
+    {
+        int result = base.RemoveChild(child);
+        if (result != -1)
+        {
+            child.Release();
+        }
+
+        return result;
+    }
+
+    // Unit.PAS:2167
+    public override int AddChild(EngineObject child)
+    {
+        CheckChild(child);
+        if (CanAddUnit((Troop)child))
+        {
+            child.AddRef();
+            return base.AddChild(child);
+        }
+
+        return -1;
+    }
+
     // AIGroup.pas:88
     public override int AddRef()
     {
@@ -133,9 +194,9 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public override void Clear()
     {
         Troop transporter;
-        while (Count != 0)
+        while (Units.Count != 0)
         {
-            DeleteUnit(this[Count - 1]);
+            DeleteUnit(Units[Units.Count - 1]);
         }
 
         transporter = Transporter;
@@ -167,7 +228,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:162
-    public override void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
+    public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         MapCoordinate location = default;
         location = GetLocation();
@@ -177,11 +238,11 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:365
-    public override bool AddUnit(Troop troop)
+    public virtual bool AddUnit(Troop troop)
     {
         bool result;
         AIGroup group;
-        if (IndexOf(troop) == -1)
+        if (Units.IndexOf(troop) == -1)
         {
             group = troop.Group;
             if (group != null)
@@ -218,7 +279,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:401
-    public override bool DeleteUnit(Troop troop)
+    public virtual bool DeleteUnit(Troop troop)
     {
         bool result;
         int I;
@@ -240,20 +301,20 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
                 leader.GetLocation(out x1, out y1, out l1);
                 Leader = null;
                 LeaderId = -1;
-                I = Count;
+                I = Units.Count;
                 while (I != 0 && Leader == null)
                 {
                     I -= 1;
-                    this[I].GetLocation(out x2, out y2, out l2);
+                    Units[I].GetLocation(out x2, out y2, out l2);
                     if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
-                        SetLeader(this[I]);
+                        SetLeader(Units[I]);
                     }
                 }
 
-                if (Leader == null && Count != 0)
+                if (Leader == null && Units.Count != 0)
                 {
-                    SetLeader(this[0]);
+                    SetLeader(Units[0]);
                 }
             }
 
@@ -284,7 +345,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:391
-    public override bool AddUnits(UnitCollection units)
+    public virtual bool AddUnits(UnitCollection units)
     {
         AddRef();
         for (int I = units.Count - 1; I >= 0; I--)
@@ -363,7 +424,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public virtual bool GetRecruitableUnits(AIGroup recruiter, UnitList units, UnitList recruitable) => false;
 
     // AIGroup.pas:144
-    public int GetProcessPriority() => Count + (ProcessPriority << 16);
+    public int GetProcessPriority() => Units.Count + (ProcessPriority << 16);
 
     // AIGroup.pas:171
     public bool GetAdjacent()
@@ -373,9 +434,9 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         sbyte Y = default;
         sbyte L = default;
         locations = new MapCoordinateList();
-        for (int I = Count - 1; I >= 0; I--)
+        for (int I = Units.Count - 1; I >= 0; I--)
         {
-            GetUnit(I).GetLocation(out X, out Y, out L);
+            Units.GetUnit(I).GetLocation(out X, out Y, out L);
             locations.Add(HexGeometry.PackMapCoordinate(X, Y, L));
         }
 
@@ -387,7 +448,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     // AIGroup.pas:186
     public void SetLeader(Troop troop)
     {
-        if (IndexOf(troop) != -1)
+        if (Units.IndexOf(troop) != -1)
         {
             Leader = troop;
             LeaderId = troop.UnitId;
@@ -398,11 +459,11 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public int GetMovePointsMin()
     {
         int result = 50;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int I = Units.Count - 1; I >= 0; I--)
         {
-            if (result > GetUnit(I).GetMovePoints())
+            if (result > Units.GetUnit(I).GetMovePoints())
             {
-                result = GetUnit(I).GetMovePoints();
+                result = Units.GetUnit(I).GetMovePoints();
             }
         }
 
@@ -413,11 +474,11 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public int GetMovesMin()
     {
         int result = 50;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int I = Units.Count - 1; I >= 0; I--)
         {
-            if (result > GetUnit(I).GetMoves())
+            if (result > Units.GetUnit(I).GetMoves())
             {
-                result = GetUnit(I).GetMoves();
+                result = Units.GetUnit(I).GetMoves();
             }
         }
 
@@ -571,7 +632,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public void ValidateEmpty()
     {
         bool empty;
-        empty = Count == 0 && TransporterId == -1;
+        empty = Units.Count == 0 && TransporterId == -1;
         if (empty && !Status.Contains(AIGroupStatusElement.Empty))
         {
             Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
@@ -652,7 +713,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
             StrategicMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
         }
 
-        Leader = FindId(LeaderId);
+        Leader = Units.FindId(LeaderId);
         Assert(Transporter != null || TransporterId == -1, "", "AIGroup.pas", 485);
     }
 
