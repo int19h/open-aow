@@ -36,8 +36,8 @@ public partial class Control : UIComponent
     //   manager's direct child... of a window placed in the manager) }
     public override void Update()
     {
-        Rect R = default;
-        BaseWindow W;
+        Rect r = default;
+        BaseWindow w;
         if (Valid)
         {
             if (Visible)
@@ -80,15 +80,15 @@ public partial class Control : UIComponent
                                     _toolTip.Sized = false;
                                 }
 
-                                W = _window;
-                                while (W.OwnerComponent is BaseWindow)
+                                w = _window;
+                                while (w.OwnerComponent is BaseWindow)
                                 {
-                                    W = (BaseWindow)W.OwnerComponent;
+                                    w = (BaseWindow)w.OwnerComponent;
                                 }
 
-                                if (_window != W)
+                                if (_window != w)
                                 {
-                                    var rectangle = new Rect(_window.WinLeft + W.WinLeft + WinLeft, _window.WinTop + W.WinTop + WinTop, _window.WinLeft + W.WinLeft + ToolTipLeft, _window.WinTop + W.WinTop + WinTop + WinHeight);
+                                    var rectangle = new Rect(_window.WinLeft + w.WinLeft + WinLeft, _window.WinTop + w.WinTop + WinTop, _window.WinLeft + w.WinLeft + ToolTipLeft, _window.WinTop + w.WinTop + WinTop + WinHeight);
                                     _toolTip.ControlRectangle = rectangle;
                                 }
                                 else
@@ -120,14 +120,14 @@ public partial class Control : UIComponent
                 {
                     if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                     {
-                        R = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
+                        r = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
                     }
                     else
                     {
-                        R = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
+                        r = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
                     }
 
-                    OwnerComponent.AddDrawRectangle(ref R, this);
+                    OwnerComponent.AddDrawRectangle(ref r, this);
                     Drawn = false;
                 }
                 else
@@ -136,14 +136,14 @@ public partial class Control : UIComponent
                     {
                         if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                         {
-                            R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
+                            r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                         }
                         else
                         {
-                            R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
+                            r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                         }
 
-                        OwnerComponent.AddDrawRectangle(ref R, this);
+                        OwnerComponent.AddDrawRectangle(ref r, this);
                     }
                 }
 
@@ -151,15 +151,15 @@ public partial class Control : UIComponent
                 {
                     if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                     {
-                        R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
+                        r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                     }
                     else
                     {
-                        R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
+                        r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                     }
 
                     var indexOf = OwnerComponent.Children.IndexOf(this);
-                    OwnerComponent.InvalidateRectangle(indexOf, ref R, this);
+                    OwnerComponent.InvalidateRectangle(indexOf, ref r, this);
                 }
 
                 OldRectangle.Left = WinLeft;
@@ -173,14 +173,14 @@ public partial class Control : UIComponent
                 {
                     if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                     {
-                        R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
+                        r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                     }
                     else
                     {
-                        R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
+                        r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                     }
 
-                    OwnerComponent.AddDrawRectangle(ref R, this);
+                    OwnerComponent.AddDrawRectangle(ref r, this);
                     Hidden = false;
                 }
             }
@@ -233,9 +233,9 @@ public partial class Control : UIComponent
     public void SetToolStrings(StringList value)
     {
         _toolTipText.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             _toolTipText.Add(valueValue);
         }
     }

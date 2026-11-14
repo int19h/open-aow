@@ -21,7 +21,7 @@ public sealed class MapCoordinateEqualityTests
     {
         var location = new MapCoordinate(X: 3, Y: 4, MapLevel: 1);
         var step = new PathStep(Location: location, MoveCost: 7);
-        Assert.True(location == HexGeometry.PackMapCoordinate(X: 3, Y: 4, L: 1));
+        Assert.True(location == HexGeometry.PackMapCoordinate(x: 3, y: 4, mapLevel: 1));
         Assert.True(step != new PathStep(Location: location, MoveCost: 0));
         Assert.Equal(0x0701_0403, PathStepImage.From(step).ToInt32());
         Assert.Equal(step, PathStepImage.From(step).ToValue());

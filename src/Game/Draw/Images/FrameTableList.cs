@@ -267,11 +267,11 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9499
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I] == 0)
+            if (this[i] == 0)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -291,13 +291,13 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9566
     public void LoadFromStream(Stream stream)
     {
-        int N = default;
+        int n = default;
         Clear();
         stream.ReadExactly(Bytes.Of(ref _defaultValue, 4));
-        stream.ReadExactly(Bytes.Of(ref N, 4));
-        SetCapacity(N);
-        stream.ReadExactly(MemoryMarshal.AsBytes(_list.AsSpan(0, N)));
-        _count = N;
+        stream.ReadExactly(Bytes.Of(ref n, 4));
+        SetCapacity(n);
+        stream.ReadExactly(MemoryMarshal.AsBytes(_list.AsSpan(0, n)));
+        _count = n;
     }
 
     /// <summary><see cref="LoadFromStream"/> from a stored default and stored items.</summary>
@@ -306,9 +306,9 @@ public partial class FrameTableList : Persistent
         Clear();
         _defaultValue = defaultValue;
         SetCapacity(items.Count);
-        for (int I = 0; I < items.Count; I++)
+        for (int i = 0; i < items.Count; i++)
         {
-            _list[I] = items[I];
+            _list[i] = items[i];
         }
 
         _count = items.Count;
@@ -327,9 +327,9 @@ public partial class FrameTableList : Persistent
     public string GetItemString()
     {
         string result = "";
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = result + IntToStr(_list[I]) + ",";
+            result = result + IntToStr(_list[i]) + ",";
         }
 
         if (!IsEmpty(result))
@@ -345,44 +345,44 @@ public partial class FrameTableList : Persistent
     //   is 0 }
     public void SetItemString(string value)
     {
-        int I;
-        int N;
-        string S;
-        I = value.Length;
-        for (; I >= 1; I -= 1)
+        int i;
+        int n;
+        string s;
+        i = value.Length;
+        for (; i >= 1; i -= 1)
         {
-            if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[I - 1])))
+            if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[i - 1])))
             {
-                value = RtlUnit.Delete(value, I, 1);
+                value = RtlUnit.Delete(value, i, 1);
             }
         }
 
         Clear();
-        I = Pos(",", value);
+        i = Pos(",", value);
         while (!IsEmpty(value))
         {
-            if (I != 0)
+            if (i != 0)
             {
-                S = Copy(value, 1, I - 1);
-                value = RtlUnit.Delete(value, 1, I);
+                s = Copy(value, 1, i - 1);
+                value = RtlUnit.Delete(value, 1, i);
             }
             else
             {
-                S = value;
+                s = value;
                 value = "";
             }
 
-            if (!IsEmpty(S))
+            if (!IsEmpty(s))
             {
-                N = StrToInt(S);
+                n = StrToInt(s);
             }
             else
             {
-                N = 0;
+                n = 0;
             }
 
-            Add(N);
-            I = Pos(",", value);
+            Add(n);
+            i = Pos(",", value);
         }
     }
 

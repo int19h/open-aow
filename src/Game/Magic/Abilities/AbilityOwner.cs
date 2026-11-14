@@ -124,14 +124,14 @@ public partial class AbilityOwner : CustomAbilityList
     {
         Ability ability;
         text.Clear();
-        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
+        for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
-                    text.AddObject(ability.GetName(this), IntToObject(I));
+                    text.AddObject(ability.GetName(this), IntToObject(i));
                 }
             }
         }
@@ -210,11 +210,11 @@ public partial class AbilityOwner : CustomAbilityList
     {
         Set<AbilitySelectionType> types;
         types = GetAbilitySelectionTypes();
-        for (int I = GetAbCount() - 1; I >= 0; I--)
+        for (int i = GetAbCount() - 1; i >= 0; i--)
         {
-            if (GetAbilitySetAt(I) && (GamePack.Current.AbilityControl.GetAbility(I).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
+            if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
             {
-                SetAbilitySet(I, 0);
+                SetAbilitySet(i, 0);
             }
         }
     }
@@ -242,11 +242,11 @@ public partial class AbilityOwner : CustomAbilityList
         }
 
         SetAbilityCount(source.GetAbCount());
-        for (int I = source.GetAbCount() - 1; I >= 0; I--)
+        for (int i = source.GetAbCount() - 1; i >= 0; i--)
         {
-            if (source.GetAbilitySetAt(I) != GetAbilitySetAt(I))
+            if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(I, (byte)(source.GetAbilitySetAt(I) ? 1 : 0));
+                SetAbilitySet(i, (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
             }
         }
 
@@ -326,19 +326,19 @@ public partial class AbilityOwner : CustomAbilityList
     public void UpdateDefaultAbilities(AbilityOwner source)
     {
         AbilityData data;
-        for (int I = source.GetAbCount() - 1; I >= 0; I--)
+        for (int i = source.GetAbCount() - 1; i >= 0; i--)
         {
-            if (source.GetAbilitySetAt(I) && (!GetAbilitySetAt(I) || source.GetAbLevel(I) > GetAbLevel(I)))
+            if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetAbLevel(i) > GetAbLevel(i)))
             {
-                data = source.GetAbilityData(I);
+                data = source.GetAbilityData(i);
                 if (data != null)
                 {
-                    RemoveAbilityDataId(I);
+                    RemoveAbilityDataId(i);
                     data = (AbilityData)data.Copy(GetEngine());
                     AddAbilityData(data);
                 }
 
-                SetAbilitySet(I, 1);
+                SetAbilitySet(i, 1);
             }
         }
     }
@@ -347,11 +347,11 @@ public partial class AbilityOwner : CustomAbilityList
     public sbyte GetAbilityAttackAll()
     {
         sbyte result = 0;
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(I))
+            if (GetAbEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetAttack(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetAttack(this));
             }
         }
 
@@ -362,11 +362,11 @@ public partial class AbilityOwner : CustomAbilityList
     public sbyte GetAbilityDefenseAll()
     {
         sbyte result = 0;
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(I))
+            if (GetAbEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetDefense(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetDefense(this));
             }
         }
 
@@ -377,11 +377,11 @@ public partial class AbilityOwner : CustomAbilityList
     public sbyte GetAbilityResistanceAll()
     {
         sbyte result = 0;
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(I))
+            if (GetAbEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetResistance(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetResistance(this));
             }
         }
 
@@ -392,11 +392,11 @@ public partial class AbilityOwner : CustomAbilityList
     public sbyte GetAbilityDamageAll()
     {
         sbyte result = 0;
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(I))
+            if (GetAbEnabled(i))
             {
-                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetDamage(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetDamage(this));
             }
         }
 
@@ -457,11 +457,11 @@ public partial class AbilityOwner : CustomAbilityList
     {
         Set<WallCombatFeaturesElement> result = Set<WallCombatFeaturesElement>.Of();
         // { Original intersects into an empty set, so the result is always empty. }
-        for (int I = GetAbCount() - 1; I >= 0; I--)
+        for (int i = GetAbCount() - 1; i >= 0; i--)
         {
-            if (GetAbEnabled(I))
+            if (GetAbEnabled(i))
             {
-                result = result & GamePack.Current.AbilityControl.GetAbility(I).GetWallCombatFeatures(this);
+                result = result & GamePack.Current.AbilityControl.GetAbility(i).GetWallCombatFeatures(this);
             }
         }
 
@@ -567,11 +567,11 @@ public partial class AbilityOwner : CustomAbilityList
     {
         try
         {
-            for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+            for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
             {
-                if (GetAbilitySetAt(I))
+                if (GetAbilitySetAt(i))
                 {
-                    GamePack.Current.AbilityControl.GetAbility(I).NewDay(this);
+                    GamePack.Current.AbilityControl.GetAbility(i).NewDay(this);
                 }
             }
         }
@@ -583,11 +583,11 @@ public partial class AbilityOwner : CustomAbilityList
     // Ability.PAS:1977
     public void TriggerNewTurn(sbyte player)
     {
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                GamePack.Current.AbilityControl.GetAbility(I).NewTurn(this, player);
+                GamePack.Current.AbilityControl.GetAbility(i).NewTurn(this, player);
             }
         }
     }
@@ -595,11 +595,11 @@ public partial class AbilityOwner : CustomAbilityList
     // Ability.PAS:1984
     public void TriggerNewCombatTurn(CombatObject combat, sbyte player)
     {
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                GamePack.Current.AbilityControl.GetAbility(I).NewCombatTurn(combat, player);
+                GamePack.Current.AbilityControl.GetAbility(i).NewCombatTurn(combat, player);
             }
         }
     }
@@ -607,11 +607,11 @@ public partial class AbilityOwner : CustomAbilityList
     // Ability.PAS:1991
     public void TriggerCombatDone(CombatObject combat)
     {
-        for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                GamePack.Current.AbilityControl.GetAbility(I).CombatDone(combat);
+                GamePack.Current.AbilityControl.GetAbility(i).CombatDone(combat);
             }
         }
     }
@@ -622,15 +622,15 @@ public partial class AbilityOwner : CustomAbilityList
         Ability ability;
         string name;
         text.Clear();
-        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
+        for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(i);
                 name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {
-                    text.AddObject(name, IntToObject(I));
+                    text.AddObject(name, IntToObject(i));
                 }
             }
         }

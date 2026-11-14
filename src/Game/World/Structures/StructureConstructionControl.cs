@@ -50,17 +50,17 @@ public partial class StructureConstructionControl : ConstructionControl
     public virtual bool ValidateLocation(Troop troop, ref string reason)
     {
         StructureResource resource;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         MapLevel level;
         MapField mapField;
         HexNumberWalkData walk = default;
         bool result = true;
         resource = StructureResource(troop);
-        troop.GetLocation(out X, out Y, out L);
-        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        troop.GetLocation(out x, out y, out l);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(l);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

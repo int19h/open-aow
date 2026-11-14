@@ -119,7 +119,7 @@ public partial class Edit : Control
     // AoWEdit.pas:155
     public override void Draw(LockedSurface lockedSurface)
     {
-        string S = "";
+        string s = "";
         Rect oldClip = default;
         try
         {
@@ -144,13 +144,13 @@ public partial class Edit : Control
                 }
                 else
                 {
-                    S = "";
-                    for (int I = 0, last = _shownChars - 1; I <= last; I++)
+                    s = "";
+                    for (int i = 0, last = _shownChars - 1; i <= last; i++)
                     {
-                        S = S + Cp1252.Text(_passWordChar);
+                        s = s + Cp1252.Text(_passWordChar);
                     }
 
-                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, S, lockedSurface);
+                    _font.SetText(Window.WinLeft + WinLeft + _borderWidth, Window.WinTop + WinTop + _borderHeight, s, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
@@ -172,8 +172,8 @@ public partial class Edit : Control
     // AoWEdit.pas:197
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int W = default;
-        int I = default;
+        int w = default;
+        int i = default;
         bool oldRedraw;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -207,15 +207,15 @@ public partial class Edit : Control
                     }
                     else
                     {
-                        I = 0;
-                        W = _font.GetTextWidth(Copy(_text, FirstChar, I + 1));
-                        while (X > Window.WinLeft + WinLeft + _borderWidth + W && _text.Length > I + FirstChar - 1)
+                        i = 0;
+                        w = _font.GetTextWidth(Copy(_text, FirstChar, i + 1));
+                        while (X > Window.WinLeft + WinLeft + _borderWidth + w && _text.Length > i + FirstChar - 1)
                         {
-                            I += 1;
-                            W = _font.GetTextWidth(Copy(_text, FirstChar, I + 1));
+                            i += 1;
+                            w = _font.GetTextWidth(Copy(_text, FirstChar, i + 1));
                         }
 
-                        _cursorPosition = I;
+                        _cursorPosition = i;
                     }
 
                     _cursorShown = _editable;
@@ -277,7 +277,7 @@ public partial class Edit : Control
     // AoWEdit.pas:289
     public override void CheckKeyPress(ref byte key)
     {
-        byte C = default;
+        byte c = default;
         bool scroll;
         Handled = Redraw;
         scroll = true;
@@ -309,10 +309,10 @@ public partial class Edit : Control
                 case >= 14 and <= 31:
                     break;
                 default:
-                    C = key;
+                    c = key;
                     if (_text.Length < _maxChars || _maxChars == 0)
                     {
-                        _text = Copy(_text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(C) + Copy(_text, FirstChar + _cursorPosition, _text.Length - _cursorPosition - FirstChar + 1);
+                        _text = Copy(_text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(_text, FirstChar + _cursorPosition, _text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition += 1;
                         _cursorPosition = _cursorPosition + FirstChar - 1;
                         FirstChar = 1;

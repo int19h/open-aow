@@ -80,13 +80,13 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     // ImageLib.pas:7203
     public virtual void UnregisterPalette()
     {
-        LibraryImagePalette P;
+        LibraryImagePalette p;
         if (!_ownPalette && _imagePalette != null)
         {
-            P = new LibraryImagePalette();
-            P.Assign(_imagePalette);
+            p = new LibraryImagePalette();
+            p.Assign(_imagePalette);
             Owner.PaletteManager.UnregisterPalette(_imagePalette._index);
-            _imagePalette = P;
+            _imagePalette = p;
             _remapPalette = _imagePalette.Palette;
             _ownPalette = true;
         }
@@ -121,11 +121,11 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     public override int RemapToPixelFormat(int pixelFormatId)
     {
         int result;
-        Palette P;
-        P = _imagePalette.RemapPalette(pixelFormatId);
-        if (P != null)
+        Palette p;
+        p = _imagePalette.RemapPalette(pixelFormatId);
+        if (p != null)
         {
-            _remapPalette = P;
+            _remapPalette = p;
             result = PixelFormats.GFXE_OK;
         }
         else

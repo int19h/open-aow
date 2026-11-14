@@ -62,11 +62,11 @@ public sealed class LibraryImageClass
 
         if (rects != null && imageClass != null)
         {
-            for (int I = 0, last = rects.Count - 1; I <= last; I++)
+            for (int i = 0, last = rects.Count - 1; i <= last; i++)
             {
                 if (rects.Count > 1)
                 {
-                    Progress(RtlUnit.Round((double)(I * 90) / (rects.Count - 1)) + 10, "Grabbing Image " + RtlUnit.IntToStr(I + 1));
+                    Progress(RtlUnit.Round((double)(i * 90) / (rects.Count - 1)) + 10, "Grabbing Image " + RtlUnit.IntToStr(i + 1));
                 }
                 else
                 {
@@ -74,8 +74,8 @@ public sealed class LibraryImageClass
                 }
 
                 image = imageClass.CreateInstance(null);
-                grabInfo.FileIndex = I;
-                var rectangle = rects.Rectangles[I];
+                grabInfo.FileIndex = i;
+                var rectangle = rects.Rectangles[i];
                 if (image.GrabImage(lockedSurface, rectangle.Bounds, grabInfo))
                 {
                     imageLibrary.Add(image);

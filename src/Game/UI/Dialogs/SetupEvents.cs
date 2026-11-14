@@ -41,12 +41,12 @@ public partial class SetupEvents : UIModule
         UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
         if (StrategicMap.Current != null)
         {
-            for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+            for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
-                if (I != StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I].ConnectionMode == ConnectionMode.Remote)
+                if (i != StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i].ConnectionMode == ConnectionMode.Remote)
                 {
-                    var player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I];
-                    var playerLeader = StrategicMap.Current.Players.GetPlayers(I);
+                    var player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
+                    var playerLeader = StrategicMap.Current.Players.GetPlayers(i);
                     UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, IntToObject(player.SystemId));
                     UI.ChatWindow.PlayerList.Selected = 0;
                 }

@@ -205,9 +205,7 @@ public partial class Teleport : Structure
                 armyHexSprite.Army.ResetDestinationPosition();
                 path = new MovePath();
                 path.AddMapCoordinate(_destinationX, _destinationY, _destinationMapLevel);
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                path.AddMapCoordinate(GetHexX(), hexY, hexLevel);
+                path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
                 field = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationMapLevel);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)

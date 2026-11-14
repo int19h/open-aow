@@ -71,13 +71,13 @@ public partial class CombatData : EngineObject
     // Combat2.pas:212
     public bool GetSideLeaderInvolved(byte side)
     {
-        int I;
+        int i;
         bool result = false;
-        I = InvolvedLeaders.Count;
-        while (!result && I != 0)
+        i = InvolvedLeaders.Count;
+        while (!result && i != 0)
         {
-            I -= 1;
-            var item = InvolvedLeaders[I];
+            i -= 1;
+            var item = InvolvedLeaders[i];
             result = Players.GetPlayers((sbyte)item).SideIndex == side;
         }
 
@@ -107,14 +107,14 @@ public partial class CombatData : EngineObject
     // Combat2.pas:253
     public CombatObject FindId(int id)
     {
-        int I;
-        I = CombatObjects.Count;
-        while (I != 0)
+        int i;
+        i = CombatObjects.Count;
+        while (i != 0)
         {
-            I -= 1;
-            if (((CombatObject)CombatObjects.GetChild(I)).Id == id)
+            i -= 1;
+            if (((CombatObject)CombatObjects.GetChild(i)).Id == id)
             {
-                return (CombatObject)CombatObjects.GetChild(I);
+                return (CombatObject)CombatObjects.GetChild(i);
             }
         }
 
@@ -124,15 +124,15 @@ public partial class CombatData : EngineObject
     // Combat2.pas:269
     public CombatObject FindPosition(byte position)
     {
-        int I;
+        int i;
         CombatObject result = null;
-        I = CombatObjects.Count;
-        while (I != 0 && result == null)
+        i = CombatObjects.Count;
+        while (i != 0 && result == null)
         {
-            I -= 1;
-            if (position == ((CombatObject)CombatObjects.GetChild(I)).Position)
+            i -= 1;
+            if (position == ((CombatObject)CombatObjects.GetChild(i)).Position)
             {
-                result = (CombatObject)CombatObjects.GetChild(I);
+                result = (CombatObject)CombatObjects.GetChild(i);
             }
         }
 

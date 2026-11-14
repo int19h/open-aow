@@ -29,16 +29,16 @@ public partial class TouchAbility : AdjustableAbility
         CombatObject target;
         FastBattleCommand command;
         AbilityDamageValues values = default;
-        for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.TargetSide.GetObjects(I);
+            target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target) && FastBattleValidRoundDistance(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
                     command = new FastBattleCommand(AbilityId);
-                    command.Target = commands.TargetSide.GetObjects(I);
+                    command.Target = commands.TargetSide.GetObjects(i);
                     command.SourceDamageValue = values.SourceDamage;
                     command.TargetDamageValue = values.TargetDamage;
                     command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);

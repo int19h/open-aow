@@ -76,15 +76,15 @@ public partial class ChatWindow : UIModule
     // AOWChatWin.pas:97
     public void PlayerListPreDrawItem(in Rect drawRectangle, int drawItem, in LockedSurface lockedSurface)
     {
-        sbyte Player;
+        sbyte player2;
         if (drawItem != 0)
         {
             var objectValue = PlayerList.Items.Objects[drawItem];
-            Player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
+            player2 = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
-            if (Player > 0 && Player < StrategicMap.Current.Players.Count)
+            if (player2 > 0 && player2 < StrategicMap.Current.Players.Count)
             {
-                var player = StrategicMap.Current.Players.GetPlayers(Player);
+                var player = StrategicMap.Current.Players.GetPlayers(player2);
                 PlayerList.TextColor = AbilityRules.RaceColors[player.PlayerRace];
             }
         }

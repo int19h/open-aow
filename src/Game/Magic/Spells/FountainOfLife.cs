@@ -40,17 +40,17 @@ public partial class FountainOfLife : CityEnchantmentSpell
     {
         bool result = default;
         City targetCity = default;
-        Animation A = default;
+        Animation a = default;
         result = base.ExecuteTokenEvent(eventValue, source, executeCount);
         if (executeCount == 0)
         {
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
-            A = new Animation(null) { Holder = CreationHolder() };
-            A.AnimationLevel = 27;
-            A.OnShow += ShowFountain;
-            A.AnimationMap = StrategicMap.Current;
-            A.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));
-            A.Activate();
+            a = new Animation(null) { Holder = CreationHolder() };
+            a.AnimationLevel = 27;
+            a.OnShow += ShowFountain;
+            a.AnimationMap = StrategicMap.Current;
+            a.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));
+            a.Activate();
         }
 
         return result;
@@ -65,25 +65,25 @@ public partial class FountainOfLife : CityEnchantmentSpell
         int cy = default;
         int cx = default;
         int vx;
-        int T;
+        int t;
         int deltaY;
         HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), out cx, out cy);
         cx = cx + 10 - X;
         cy = cy - Y + 10;
         // { Original resets the process-wide random seed for every draw. }
         RandSeed = 0;
-        for (int I = 0; I <= 100; I++)
+        for (int i = 0; i <= 100; i++)
         {
             vx = Random(100) - 50;
             vy = Random(5) + 7;
             offset = Round((double)vx * 0.1);
-            T = Random(30);
-            if (T < animation.FrameCounter && animation.FrameCounter - T < 90)
+            t = Random(30);
+            if (t < animation.FrameCounter && animation.FrameCounter - t < 90)
             {
-                T = (animation.FrameCounter - T) % 30;
-                deltaX = Round((double)(T * vx) / 30);
-                deltaY = vy * T - Round((double)((double)T * 0.25) * T);
-                if (T > 0)
+                t = (animation.FrameCounter - t) % 30;
+                deltaX = Round((double)(t * vx) / 30);
+                deltaY = vy * t - Round((double)((double)t * 0.25) * t);
+                if (t > 0)
                 {
                     GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
                 }

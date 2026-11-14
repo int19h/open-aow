@@ -120,11 +120,11 @@ public partial class LeaderSetupWindow : UIModule
         if (RaceComboBox.Visible)
         {
             RaceComboBox.Items.Clear();
-            for (int I = 0, last = Setup.Items.Count - 1; I <= last; I++)
+            for (int i = 0, last = Setup.Items.Count - 1; i <= last; i++)
             {
-                var item = Setup.Items[I];
+                var item = Setup.Items[i];
                 var raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[item]);
-                var item2 = Setup.Items[I];
+                var item2 = Setup.Items[i];
                 RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
             }
 
@@ -318,15 +318,15 @@ public partial class LeaderSetupWindow : UIModule
         Ability ability;
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
-        for (int I = 0, last = GamePack.Current.AbilityControl.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.AbilityControl.GetAbility(I) != null && (GamePack.Current.AbilityControl.GetAbility(I).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
+            if (GamePack.Current.AbilityControl.GetAbility(i) != null && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
             {
-                if (GamePack.Current.AbilityControl.GetAbility(I).CanExpand(Leader))
+                if (GamePack.Current.AbilityControl.GetAbility(i).CanExpand(Leader))
                 {
-                    var expandName = GamePack.Current.AbilityControl.GetAbility(I).ExpandName(Leader);
-                    AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(I));
-                    var expandCost = GamePack.Current.AbilityControl.GetAbility(I).ExpandCost(Leader);
+                    var expandName = GamePack.Current.AbilityControl.GetAbility(i).ExpandName(Leader);
+                    AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
+                    var expandCost = GamePack.Current.AbilityControl.GetAbility(i).ExpandCost(Leader);
                     AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
                 }
             }
@@ -334,13 +334,13 @@ public partial class LeaderSetupWindow : UIModule
 
         SelectedAbilitiesList.Items.Clear();
         SelectedAbilitiesCostList.Items.Clear();
-        for (int I = 0, last = Leader.GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = Leader.GetAbCount() - 1; i <= last; i++)
         {
-            ability = GamePack.Current.AbilityControl.GetAbility(I);
-            if (Leader.GetAbilitySetAt(I) && (Leader.HeroResource.Abilities.GetAbilitySetAt(I) || (ability.SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
+            ability = GamePack.Current.AbilityControl.GetAbility(i);
+            if (Leader.GetAbilitySetAt(i) && (Leader.HeroResource.Abilities.GetAbilitySetAt(i) || (ability.SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
             {
-                name = GamePack.Current.AbilityControl.GetAbility(I).GetName(Leader);
-                if (Leader.HeroResource.Abilities.GetAbilitySetAt(I) && Leader.HeroResource.Abilities.GetAbLevel(I) == Leader.GetAbilityLevel(I))
+                name = GamePack.Current.AbilityControl.GetAbility(i).GetName(Leader);
+                if (Leader.HeroResource.Abilities.GetAbilitySetAt(i) && Leader.HeroResource.Abilities.GetAbLevel(i) == Leader.GetAbilityLevel(i))
                 {
                     name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";
@@ -351,7 +351,7 @@ public partial class LeaderSetupWindow : UIModule
                 }
 
                 SelectedAbilitiesCostList.Items.Add(cost);
-                SelectedAbilitiesList.Items.AddObject(name, IntToObject(I));
+                SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
             }
         }
 
@@ -451,9 +451,9 @@ public partial class LeaderSetupWindow : UIModule
     public void UpdateSpheres()
     {
         Button button;
-        for (int I = 0; I <= 6; I++)
+        for (int i = 0; i <= 6; i++)
         {
-            switch (I)
+            switch (i)
             {
                 case 0:
                     button = SelectedSphere1Button;
@@ -481,10 +481,10 @@ public partial class LeaderSetupWindow : UIModule
                     break;
             }
 
-            if (I < Leader.GetSphereCount())
+            if (i < Leader.GetSphereCount())
             {
                 button.Visible = true;
-                switch ((int)Leader.GetSpheres(I) & 127)
+                switch ((int)Leader.GetSpheres(i) & 127)
                 {
                     case 1:
                         button.ImageLibraryIndexDown = 28;
@@ -523,7 +523,7 @@ public partial class LeaderSetupWindow : UIModule
                 button.Visible = false;
             }
 
-            if (I < _fixedSpheres)
+            if (i < _fixedSpheres)
             {
                 button.CaptureInput = false;
                 button.ImageLibraryIndexUp = button.ImageLibraryIndexUp + 1;
@@ -664,7 +664,7 @@ public partial class LeaderSetupWindow : UIModule
     {
         LeaderSetupControl setup;
         int index;
-        Rect R;
+        Rect r;
         FaceResource face;
         setup = Setup;
         index = Leader.FaceIndex;
@@ -681,13 +681,13 @@ public partial class LeaderSetupWindow : UIModule
         }
 
         var image = sender;
-        R = new Rect(Phase1Panel.WinLeft + image.WinLeft + 2, Phase1Panel.WinTop + image.WinTop, Phase1Panel.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.WinTop + image.WinTop + image.WinHeight - 2);
+        r = new Rect(Phase1Panel.WinLeft + image.WinLeft + 2, Phase1Panel.WinTop + image.WinTop, Phase1Panel.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.WinTop + image.WinTop + image.WinHeight - 2);
 
         if (setup.OriginalLeader.GetFace() != null)
         {
             face = GamePack.Current.FaceResources.GetFaceResource(index);
             face.AddRef();
-            face.GetFaceImage().ShowStretched(R, lockedSurface);
+            face.GetFaceImage().ShowStretched(r, lockedSurface);
             face.Release();
         }
     }
@@ -811,16 +811,16 @@ public partial class LeaderSetupWindow : UIModule
     public void MainFaceFrPreDraw(Frame sender, LockedSurface lockedSurface)
     {
         LeaderSetupControl setup;
-        Rect R;
+        Rect r;
         setup = Setup;
         if (_phase > 1)
         {
             var frame = sender;
-            R = new Rect(LeaderMainPanel.WinLeft + frame.WinLeft + 2, LeaderMainPanel.WinTop + frame.WinTop, LeaderMainPanel.WinLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.WinTop + frame.WinTop + frame.WinHeight - 2);
+            r = new Rect(LeaderMainPanel.WinLeft + frame.WinLeft + 2, LeaderMainPanel.WinTop + frame.WinTop, LeaderMainPanel.WinLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.WinTop + frame.WinTop + frame.WinHeight - 2);
 
             if (setup.OriginalLeader.GetFace() != null)
             {
-                setup.OriginalLeader.GetFace().ShowStretched(R, lockedSurface);
+                setup.OriginalLeader.GetFace().ShowStretched(r, lockedSurface);
             }
         }
     }
@@ -1036,9 +1036,9 @@ public partial class LeaderSetupWindow : UIModule
                 {
                     var leader = Leader;
                     leader.ClearSpheres();
-                    for (int I = 0, last = Setup.Leader.GetSphereCount() - 1; I <= last; I++)
+                    for (int i = 0, last = Setup.Leader.GetSphereCount() - 1; i <= last; i++)
                     {
-                        leader.AddSphere(Setup.Leader.GetSpheres(I));
+                        leader.AddSphere(Setup.Leader.GetSpheres(i));
                     }
 
                     UpdateLeader();
@@ -1228,8 +1228,7 @@ public partial class LeaderSetupWindow : UIModule
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
-                var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }
         }
     }
@@ -1244,8 +1243,7 @@ public partial class LeaderSetupWindow : UIModule
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
-                var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }
         }
     }

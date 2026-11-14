@@ -39,14 +39,14 @@ public partial class CommandCombatAction : SingleTargetCombatAction
             source = (CombatUnit)combat.CombatData.FindId(SourceId);
             target = (CombatUnit)combat.CombatData.FindId(TargetId);
             source.SetExperience(source.GetExperience() + target.GetLevel());
-            for (int I = 0; I <= 2; I++)
+            for (int i = 0; i <= 2; i++)
             {
-                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).ResetCommandedUnits(target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).ResetCommandedUnits(target);
             }
 
-            for (int I = 0; I <= 2; I++)
+            for (int i = 0; i <= 2; i++)
             {
-                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).Uncommand(target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[i])).Uncommand(target);
             }
 
             if (source.GetSide() != target.GetSide())

@@ -249,10 +249,10 @@ public partial class ListBox : Control
     //   to F11C, original) clipped to the inside, the selected one on its highlight texture }
     public override void Draw(LockedSurface lockedSurface)
     {
-        int L = default;
-        int W = default;
-        int T = default;
-        int H = default;
+        int l = default;
+        int w = default;
+        int t = default;
+        int h = default;
         Rect oldClip = default;
         try
         {
@@ -275,40 +275,40 @@ public partial class ListBox : Control
                         var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        L = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
+                        l = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
                         var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        T = Window.WinTop + WinTop + imageLibraryFrame5.Height;
+                        t = Window.WinTop + WinTop + imageLibraryFrame5.Height;
                         var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        H = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
+                        h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
                         var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        W = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
+                        w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
-                        L = Window.WinLeft + WinLeft;
-                        T = Window.WinTop + WinTop;
-                        H = WinHeight;
-                        W = WinWidth - _scrollWidth;
+                        l = Window.WinLeft + WinLeft;
+                        t = Window.WinTop + WinTop;
+                        h = WinHeight;
+                        w = WinWidth - _scrollWidth;
                         break;
                 }
 
-                if (L + W < oldClip.Right)
+                if (l + w < oldClip.Right)
                 {
-                    lockedSurface.ClipRectangle.Right = L + W;
+                    lockedSurface.ClipRectangle.Right = l + w;
                 }
 
-                if (T + H < oldClip.Bottom)
+                if (t + h < oldClip.Bottom)
                 {
-                    lockedSurface.ClipRectangle.Bottom = T + H;
+                    lockedSurface.ClipRectangle.Bottom = t + h;
                 }
 
-                for (int I = 0, last = VisibleRows; I <= last; I++)
+                for (int i = 0, last = VisibleRows; i <= last; i++)
                 {
                     var count = _items.Count;
-                    if (FirstShownItem + I < count)
+                    if (FirstShownItem + i < count)
                     {
-                        _drawItem = FirstShownItem + I;
-                        _drawItemRectangle = new Rect(L, _itemHeight * I + T, L + W, (I + 1) * _itemHeight + T);
+                        _drawItem = FirstShownItem + i;
+                        _drawItemRectangle = new Rect(l, _itemHeight * i + t, l + w, (i + 1) * _itemHeight + t);
                         if (_drawItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
@@ -319,12 +319,12 @@ public partial class ListBox : Control
                             OnPreDrawItem(this, _drawItemRectangle, _drawItem, ref lockedSurface);
                         }
 
-                        if (FirstShownItem + I == _selected)
+                        if (FirstShownItem + i == _selected)
                         {
                             _font.Color = SelectedColor;
                             if (_textOnly == 0)
                             {
-                                var rectangle = new SizedRectangle(L, _itemHeight * I + T, W, _itemHeight);
+                                var rectangle = new SizedRectangle(l, _itemHeight * i + t, w, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
                             }
                         }
@@ -336,20 +336,20 @@ public partial class ListBox : Control
                         switch (_textAlign)
                         {
                             case TextAlignment.Left:
-                                var item = _items[FirstShownItem + I];
-                                _font.SetText(_borderWidth + L, _borderHeight + T + _itemHeight * I, item, lockedSurface);
+                                var item = _items[FirstShownItem + i];
+                                _font.SetText(_borderWidth + l, _borderHeight + t + _itemHeight * i, item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
-                                var item2 = _items[FirstShownItem + I];
+                                var item2 = _items[FirstShownItem + i];
                                 var textWidth = _font.GetTextWidth(item2);
-                                var item3 = _items[FirstShownItem + I];
-                                _font.SetText(L + W - _borderWidth - textWidth, _borderHeight + T + _itemHeight * I, item3, lockedSurface);
+                                var item3 = _items[FirstShownItem + i];
+                                _font.SetText(l + w - _borderWidth - textWidth, _borderHeight + t + _itemHeight * i, item3, lockedSurface);
                                 break;
                             default:
-                                var item4 = _items[FirstShownItem + I];
+                                var item4 = _items[FirstShownItem + i];
                                 var fontTextWidth = _font.GetTextWidth(item4);
-                                var item5 = _items[FirstShownItem + I];
-                                _font.SetText(L + W / 2 - fontTextWidth / 2, _borderHeight + T + _itemHeight * I, item5, lockedSurface);
+                                var item5 = _items[FirstShownItem + i];
+                                _font.SetText(l + w / 2 - fontTextWidth / 2, _borderHeight + t + _itemHeight * i, item5, lockedSurface);
                                 break;
                         }
 
@@ -376,7 +376,7 @@ public partial class ListBox : Control
     //   back inside the window manager when it would stick out }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int I;
+        int i;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         if (!OwnerComponent.Handled && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
@@ -385,18 +385,18 @@ public partial class ListBox : Control
             if (_textOnly == 0)
             {
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                I = (Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
+                i = (Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
             }
             else
             {
-                I = (Y - Window.WinTop - WinTop) / _itemHeight + FirstShownItem;
+                i = (Y - Window.WinTop - WinTop) / _itemHeight + FirstShownItem;
             }
 
-            if (_items.Count > I)
+            if (_items.Count > i)
             {
-                if (I != _selected)
+                if (i != _selected)
                 {
-                    _selected = I;
+                    _selected = i;
                     Drawn = false;
                     RaiseChange(this);
                 }

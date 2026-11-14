@@ -91,10 +91,10 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     // HSEngine.pas:3711
     public void Unselect(HexSprite hexSprite)
     {
-        int I;
-        I = IndexOfChild(hexSprite);
+        int i;
+        i = IndexOfChild(hexSprite);
         _locationHexSprite.Remove(hexSprite);
-        if (I != -1)
+        if (i != -1)
         {
             DropChild(hexSprite);
             if (IndexOfChild(hexSprite) == -1)
@@ -130,18 +130,18 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     public HexSprite FindClass(Type classValue)
     {
         HexSprite hexSprite;
-        int I;
+        int i;
         HexSprite result = null;
-        I = 0;
-        while (I != Count && result == null)
+        i = 0;
+        while (i != Count && result == null)
         {
-            hexSprite = this[I];
+            hexSprite = this[i];
             if (classValue.IsInstanceOfType(hexSprite))
             {
-                result = this[I];
+                result = this[i];
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

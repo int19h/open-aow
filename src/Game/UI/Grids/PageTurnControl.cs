@@ -70,20 +70,20 @@ public partial class PageTurnControl
         float cosValue;
         float angle;
         float target;
-        int I;
+        int i;
         angle = 0;
-        I = 511;
+        i = 511;
         while ((double)angle < (double)Math.PI / 2)
         {
             cosValue = (float)Math.Cos(angle);
-            target = (float)((double)I / 511);
+            target = (float)((double)i / 511);
             if ((double)((double)cosValue - target) > 0)
             {
-                _inverseCos[I] = angle;
+                _inverseCos[i] = angle;
             }
             else
             {
-                I -= 1;
+                i -= 1;
             }
 
             angle = (float)((double)angle + 1E-05);
@@ -95,25 +95,25 @@ public partial class PageTurnControl
     {
         int sourceY;
         int height;
-        int Y;
+        int y;
         Span<byte> source;
         int sourceP;
         int sourcePitch;
         if (destination.ClipRectangle.Left <= destinationX && destinationX < destination.ClipRectangle.Right)
         {
             sourceY = top;
-            Y = destinationY + top;
+            y = destinationY + top;
             height = bottom - top;
-            if (Y < destination.ClipRectangle.Top)
+            if (y < destination.ClipRectangle.Top)
             {
-                height -= destination.ClipRectangle.Top - Y;
-                sourceY += destination.ClipRectangle.Top - Y;
-                Y = destination.ClipRectangle.Top;
+                height -= destination.ClipRectangle.Top - y;
+                sourceY += destination.ClipRectangle.Top - y;
+                y = destination.ClipRectangle.Top;
             }
 
-            if (height + Y > destination.ClipRectangle.Bottom)
+            if (height + y > destination.ClipRectangle.Bottom)
             {
-                height -= height + Y - destination.ClipRectangle.Bottom;
+                height -= height + y - destination.ClipRectangle.Bottom;
             }
 
             if (height > 0)
@@ -133,7 +133,7 @@ public partial class PageTurnControl
                 }
 
                 var destinationLocal = destination.Data;
-                int destinationP = destination.DataIndex + destinationX * 2 + destination.Pitch * Y;
+                int destinationP = destination.DataIndex + destinationX * 2 + destination.Pitch * y;
                 BlitColumn(source, sourceP, sourcePitch, destinationLocal, destinationP, destination.Pitch, height);
             }
         }
@@ -263,23 +263,23 @@ public partial class PageTurnControl
         int arcLength;
         int sourceBase;
         int limit;
-        Rect R = default;
+        Rect r = default;
         int sourceOffset;
-        int I;
+        int i;
         if ((double)_radius >= 1)
         {
             height = (float)((double)_shadow * _scale);
             width = (float)((double)_radius * _scale);
-            R.Left = _sourceX1;
-            R.Top = _sourceY1;
-            R.Right = _sourceX1 + _width + _position;
-            R.Bottom = _sourceY1 + _height;
-            LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source1, R, destination, X, Y);
-            R.Left = _sourceX2 + _width + _position;
-            R.Top = _sourceY2;
-            R.Right = _width * 2 + _sourceX2;
-            R.Bottom = _sourceY2 + _height;
-            LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, R, destination, X + _width + _position, Y);
+            r.Left = _sourceX1;
+            r.Top = _sourceY1;
+            r.Right = _sourceX1 + _width + _position;
+            r.Bottom = _sourceY1 + _height;
+            LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source1, r, destination, X, Y);
+            r.Left = _sourceX2 + _width + _position;
+            r.Top = _sourceY2;
+            r.Right = _width * 2 + _sourceX2;
+            r.Bottom = _sourceY2 + _height;
+            LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width + _position, Y);
             var pi = Math.PI;
             originalLength = Round((double)((double)pi * _radius) * 0.25);
             var mathPI = Math.PI;
@@ -292,8 +292,8 @@ public partial class PageTurnControl
             step = (float)((double)1 / _shadow);
             cosValue = 0;
             sourceOffset = 0;
-            I = 0;
-            while (sourceOffset < limit && I < span)
+            i = 0;
+            while (sourceOffset < limit && i < span)
             {
                 angle = GetInverseCos(cosValue);
                 sourceOffset = arcLength - Round((double)radiusFactor * angle);
@@ -302,16 +302,16 @@ public partial class PageTurnControl
                 {
                     if (arcLength - sourceOffset + arcLength < limit)
                     {
-                        BlitVerticalScanLine(sourceBase + sourceOffset, X + _width + _position + I, Y - offset, destination, _height - Round(width), _height);
+                        BlitVerticalScanLine(sourceBase + sourceOffset, X + _width + _position + i, Y - offset, destination, _height - Round(width), _height);
                     }
                     else
                     {
-                        BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, _height);
+                        BlitVerticalScanLine(sourceBase + sourceOffset, baseX + i, Y - offset, destination, 0, _height);
                     }
                 }
 
                 cosValue = (float)((double)cosValue + step);
-                I += 1;
+                i += 1;
             }
 
             var pi2 = Math.PI;
@@ -320,21 +320,21 @@ public partial class PageTurnControl
             radiusFactor = (float)((double)((double)2 / Math.PI) * arcLength);
             baseX = X + _width + _position;
             span = Round(_shadow);
-            I = span;
+            i = span;
             cosValue = 1;
             limit = _width * 2 - sourceBase;
-            while (sourceOffset >= limit && I >= 0)
+            while (sourceOffset >= limit && i >= 0)
             {
                 angle = GetInverseCos(cosValue);
                 sourceOffset = -Round((double)radiusFactor * angle);
                 offset = Round((double)((double)Math.Sin(angle) * height) + height);
                 if (sourceOffset >= limit)
                 {
-                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, _height);
+                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + i, Y - offset, destination, 0, _height);
                 }
 
                 cosValue = (float)((double)cosValue - step);
-                I -= 1;
+                i -= 1;
             }
 
             var pi3 = Math.PI;
@@ -346,7 +346,7 @@ public partial class PageTurnControl
             width = (float)((double)((double)_radius * _scale) * 0.707);
             limit = _width * 2 - sourceBase;
             sourceOffset = Round(arcLength);
-            I = span;
+            i = span;
             cosValue = 0;
             step = (float)((double)0.707 / ((double)_shadow * _shade));
             if ((double)step > 1)
@@ -354,7 +354,7 @@ public partial class PageTurnControl
                 step = (float)1;
             }
 
-            while (sourceOffset >= limit && I >= 0)
+            while (sourceOffset >= limit && i >= 0)
             {
                 angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
@@ -363,17 +363,17 @@ public partial class PageTurnControl
                 offset = Round((double)((double)Math.Sin(angle) * height) - width);
                 if (sourceOffset >= limit)
                 {
-                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, _height);
+                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + i, Y - offset, destination, 0, _height);
                 }
 
                 cosValue = (float)((double)cosValue + step);
-                I -= 1;
+                i -= 1;
             }
 
             baseX = X + _width + _position - span * 2;
             sourceOffset = 0;
-            I = span;
-            while (sourceOffset >= limit && I >= 0 && (double)cosValue > 0)
+            i = span;
+            while (sourceOffset >= limit && i >= 0 && (double)cosValue > 0)
             {
                 cosValue = (float)((double)cosValue - step);
                 angle = GetInverseCos(cosValue);
@@ -383,19 +383,19 @@ public partial class PageTurnControl
                 offset = Round((double)((double)1 - Math.Sin(angle)) * height);
                 if (sourceOffset >= limit)
                 {
-                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, _height);
+                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + i, Y - offset, destination, 0, _height);
                 }
 
-                I -= 1;
+                i -= 1;
             }
 
-            R.Left = _sourceX2;
-            R.Top = _sourceY2;
-            R.Right = _sourceX2 + _width - _position - Round((double)originalLength * ((double)((double)2 * _shade) + 2));
-            R.Bottom = _sourceY2 + _height;
-            if (R.Right > R.Left)
+            r.Left = _sourceX2;
+            r.Top = _sourceY2;
+            r.Right = _sourceX2 + _width - _position - Round((double)originalLength * ((double)((double)2 * _shade) + 2));
+            r.Bottom = _sourceY2 + _height;
+            if (r.Right > r.Left)
             {
-                LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, R, destination, baseX - (R.Right - R.Left), Y);
+                LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, baseX - (r.Right - r.Left), Y);
             }
         }
     }
@@ -409,13 +409,13 @@ public partial class PageTurnControl
         float step;
         float sourceX;
         int offset;
-        Rect R = default;
+        Rect r = default;
         int pageWidth;
-        R.Left = _sourceX2 + _width;
-        R.Top = _sourceY2;
-        R.Right = _sourceX2 + _width * 2;
-        R.Bottom = _sourceY2 + _height;
-        LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, R, destination, X + _width, Y);
+        r.Left = _sourceX2 + _width;
+        r.Top = _sourceY2;
+        r.Right = _sourceX2 + _width * 2;
+        r.Bottom = _sourceY2 + _height;
+        LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
         var pi = Math.PI;
         height = Round((double)Math.Sin((double)((double)_position * pi) / 180) * _width);
         var mathPI = Math.PI;
@@ -426,10 +426,10 @@ public partial class PageTurnControl
             baseX = X + _width;
             pageWidth = _width;
             sourceX = pageWidth;
-            for (int I = 0; I <= width - 1; I++)
+            for (int i = 0; i <= width - 1; i++)
             {
-                offset = Round((double)((double)((double)I / width) * height) * _scale);
-                BlitVerticalScanLine(Round(sourceX), baseX + I, Y - offset, destination, 0, _height);
+                offset = Round((double)((double)((double)i / width) * height) * _scale);
+                BlitVerticalScanLine(Round(sourceX), baseX + i, Y - offset, destination, 0, _height);
                 sourceX = (float)((double)sourceX + step);
             }
         }
@@ -441,10 +441,10 @@ public partial class PageTurnControl
                 step = (float)((double)_width / width);
                 baseX = X + _width;
                 sourceX = _width * 3;
-                for (int I = 0; I <= width - 1; I++)
+                for (int i = 0; i <= width - 1; i++)
                 {
-                    offset = Round((double)((double)((double)I / width) * height) * _scale);
-                    BlitVerticalScanLine(Round(sourceX), baseX - I, Y - offset, destination, 0, _height);
+                    offset = Round((double)((double)((double)i / width) * height) * _scale);
+                    BlitVerticalScanLine(Round(sourceX), baseX - i, Y - offset, destination, 0, _height);
                     sourceX = (float)((double)sourceX - step);
                 }
             }

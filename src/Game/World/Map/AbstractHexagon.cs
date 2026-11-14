@@ -30,17 +30,16 @@ public partial class AbstractHexagon : MapObject
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
         HexControl control;
-        MapObjectResource R;
+        MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             control = ((AbstractHexagonResource)_resource).GetHexControl();
             if (control != null)
             {
-                var classId = _resource.EngineClass.ClassId;
-                R = control.GetRandomResource(message.TerrainType, classId);
-                if (R != null)
+                r = control.GetRandomResource(classId: _resource.EngineClass.ClassId, terrainType: message.TerrainType);
+                if (r != null)
                 {
-                    SetResource(R);
+                    SetResource(r);
                     UpdateTransitions();
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
@@ -106,8 +105,7 @@ public partial class AbstractHexagon : MapObject
                 bool test = hexSprite.GetLevel() < 10;
                 if (!test)
                 {
-                    var overlay = GetOverlay(0);
-                    test = mapField.CanChangeTerrain(this, GetTerrain(0), overlay);
+                    test = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));
                 }
 
                 condition = test && !(hexSprite is AbstractBorderHexagon);

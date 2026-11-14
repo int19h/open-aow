@@ -52,20 +52,20 @@ public partial class ConstructDialog : UIModule
     {
         int days = default;
         int gold = default;
-        Troop U;
+        Troop u;
         string name = "";
         ConstructAbility ability;
         ConstructionControl control;
         Window.Drawn = false;
-        U = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+        u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
         ability = (ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125);
-        for (int I = 0, last = ability.ConstructionControls.Count - 1; I <= last; I++)
+        for (int i = 0, last = ability.ConstructionControls.Count - 1; i <= last; i++)
         {
-            control = ability.ConstructionControls.GetConstructionControl(I);
-            control.GetInfo(U, out name, out gold, out days);
+            control = ability.ConstructionControls.GetConstructionControl(i);
+            control.GetInfo(u, out name, out gold, out days);
             ConstructionList.Items.AddObject(name, control);
             if (gold != 0)
             {
@@ -134,7 +134,7 @@ public partial class ConstructDialog : UIModule
     {
         string reason = "";
         ConstructionControl control;
-        Troop U;
+        Troop u;
         UI.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
@@ -145,11 +145,11 @@ public partial class ConstructDialog : UIModule
 
         if (condition)
         {
-            U = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+            u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
             control = ConstructionList.Items.Objects[ConstructionList.Selected];
-            if (control.CanConstruct(U, ref reason))
+            if (control.CanConstruct(u, ref reason))
             {
-                if (control.Construct(U))
+                if (control.Construct(u))
                 {
                     Window.Visible = false;
                 }

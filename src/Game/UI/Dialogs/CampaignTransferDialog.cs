@@ -85,30 +85,30 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:683
     public void UpdateControls()
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
-        TransferPointsLabel.Text = IntToStr(S.TransferPointsLeft) + "/" + IntToStr(S.TransferPointsMax);
-        TransferManaLabel.Text = IntToStr(S.SelectedTransferMana);
-        TransferGoldLabel.Text = IntToStr(S.SelectedTransferGold);
-        AvailableManaLabel.Text = IntToStr(S.TransferManaMax - S.SelectedTransferMana);
-        AvailableGoldLabel.Text = IntToStr(S.TransferGoldMax - S.SelectedTransferGold);
-        ManaSlider.Position = S.SelectedTransferMana;
-        GoldSlider.Position = S.SelectedTransferGold;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
+        TransferPointsLabel.Text = IntToStr(s.TransferPointsLeft) + "/" + IntToStr(s.TransferPointsMax);
+        TransferManaLabel.Text = IntToStr(s.SelectedTransferMana);
+        TransferGoldLabel.Text = IntToStr(s.SelectedTransferGold);
+        AvailableManaLabel.Text = IntToStr(s.TransferManaMax - s.SelectedTransferMana);
+        AvailableGoldLabel.Text = IntToStr(s.TransferGoldMax - s.SelectedTransferGold);
+        ManaSlider.Position = s.SelectedTransferMana;
+        GoldSlider.Position = s.SelectedTransferGold;
         AvailableHeroPreviousButton.Visible = _leftHero != 0;
-        var count = S.Heroes.Count;
+        var count = s.Heroes.Count;
         AvailableHeroNextButton.Visible = count > _leftHero + 4;
         AvailableItemPreviousButton.Visible = _leftItem != 0;
-        var fItemsCount = S.Items.Count;
+        var fItemsCount = s.Items.Count;
         AvailableItemNextButton.Visible = fItemsCount > _leftItem + 4;
         AvailableUnitPreviousButton.Visible = _leftUnit != 0;
-        var fUnitsCount = S.Units.Count;
+        var fUnitsCount = s.Units.Count;
         AvailableUnitNextButton.Visible = fUnitsCount > _leftUnit + 4;
         TransferHeroPreviousButton.Visible = _rightHero != 0;
-        TransferHeroNextButton.Visible = _rightHero + 4 < S.SelectedHeroes.Count;
+        TransferHeroNextButton.Visible = _rightHero + 4 < s.SelectedHeroes.Count;
         TransferItemPreviousButton.Visible = _rightItem != 0;
-        TransferItemNextButton.Visible = _rightItem + 4 < S.SelectedItems.Count;
+        TransferItemNextButton.Visible = _rightItem + 4 < s.SelectedItems.Count;
         TransferUnitPreviousButton.Visible = _rightUnit != 0;
-        TransferUnitNextButton.Visible = _rightUnit + 4 < S.SelectedUnits.Count;
+        TransferUnitNextButton.Visible = _rightUnit + 4 < s.SelectedUnits.Count;
         Book.Drawn = false;
     }
 
@@ -349,32 +349,32 @@ public partial class CampaignTransferDialog : UIModule
     public void LHeroesDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         Hero objectValue;
-        CampaignTransferSettings S;
-        Rect R;
-        S = UI.Engine.Campaign.TransferSettings;
-        objectValue = S.Heroes.GetHero(_leftHero + slot);
+        CampaignTransferSettings s;
+        Rect r;
+        s = UI.Engine.Campaign.TransferSettings;
+        objectValue = s.Heroes.GetHero(_leftHero + slot);
         if (objectValue != null)
         {
             var checkBox = sender;
-            R = new Rect(AvailableHeroPanel.WinLeft + checkBox.WinLeft + 1, AvailableHeroPanel.WinTop + checkBox.WinTop + 2, AvailableHeroPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableHeroPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            r = new Rect(AvailableHeroPanel.WinLeft + checkBox.WinLeft + 1, AvailableHeroPanel.WinTop + checkBox.WinTop + 2, AvailableHeroPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableHeroPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-            R.Left += 1;
-            objectValue.ShowFace(R, lockedSurface);
-            R.Left -= 1;
-            if (S.SelectedHeroes.IndexOf(_leftHero + slot) != -1)
+            r.Left += 1;
+            objectValue.ShowFace(r, lockedSurface);
+            r.Left -= 1;
+            if (s.SelectedHeroes.IndexOf(_leftHero + slot) != -1)
             {
-                UI.Graphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
+                UI.Graphics.CityWindow[5].ShowBlended(r.Left, r.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
             }
 
             if (sender.Lit)
             {
-                UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
             }
 
-            UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+            UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
             UI.Fonts.Age8.Color = 16777215;
             var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-            UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+            UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
         }
     }
 
@@ -382,30 +382,30 @@ public partial class CampaignTransferDialog : UIModule
     public void RHeroesDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         Hero objectValue;
-        CampaignTransferSettings S;
-        Rect R;
-        S = UI.Engine.Campaign.TransferSettings;
-        if (_rightHero + slot < S.SelectedHeroes.Count)
+        CampaignTransferSettings s;
+        Rect r;
+        s = UI.Engine.Campaign.TransferSettings;
+        if (_rightHero + slot < s.SelectedHeroes.Count)
         {
-            var selectedHero = S.SelectedHeroes[_rightHero + slot];
-            objectValue = S.Heroes.GetHero(selectedHero);
+            var selectedHero = s.SelectedHeroes[_rightHero + slot];
+            objectValue = s.Heroes.GetHero(selectedHero);
             if (objectValue != null)
             {
                 var checkBox = sender;
-                R = new Rect(TransferHeroPanel.WinLeft + checkBox.WinLeft + 1, TransferHeroPanel.WinTop + checkBox.WinTop + 2, TransferHeroPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferHeroPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(TransferHeroPanel.WinLeft + checkBox.WinLeft + 1, TransferHeroPanel.WinTop + checkBox.WinTop + 2, TransferHeroPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferHeroPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                R.Left += 1;
-                objectValue.ShowFace(R, lockedSurface);
-                R.Left -= 1;
+                r.Left += 1;
+                objectValue.ShowFace(r, lockedSurface);
+                r.Left -= 1;
                 if (sender.Lit)
                 {
-                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -414,40 +414,40 @@ public partial class CampaignTransferDialog : UIModule
     public void LUnitsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         Troop objectValue;
-        CampaignTransferSettings S;
+        CampaignTransferSettings s;
         UnitShowInfo info = default;
-        Rect R;
-        S = UI.Engine.Campaign.TransferSettings;
-        var count = S.Units.Count;
+        Rect r;
+        s = UI.Engine.Campaign.TransferSettings;
+        var count = s.Units.Count;
         if (_leftUnit + slot < count)
         {
-            objectValue = S.Units.GetUnit(_leftUnit + slot);
+            objectValue = s.Units.GetUnit(_leftUnit + slot);
             if (objectValue != null)
             {
                 var checkBox = sender;
-                R = new Rect(AvailableUnitPanel.WinLeft + checkBox.WinLeft + 1, AvailableUnitPanel.WinTop + checkBox.WinTop + 2, AvailableUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(AvailableUnitPanel.WinLeft + checkBox.WinLeft + 1, AvailableUnitPanel.WinTop + checkBox.WinTop + 2, AvailableUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                UI.Graphics.CityWindow[4].Show(R.Left + 1, R.Top, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
                 info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
                 info.Animation = UnitAnimation.StandStill;
                 info.Frame = 0;
                 info.Looped = false;
-                objectValue.Show(R.Left - 8, R.Top, lockedSurface, info);
-                if (S.SelectedUnits.IndexOf(_leftUnit + slot) != -1)
+                objectValue.Show(r.Left - 8, r.Top, lockedSurface, info);
+                if (s.SelectedUnits.IndexOf(_leftUnit + slot) != -1)
                 {
-                    UI.Graphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
+                    UI.Graphics.CityWindow[5].ShowBlended(r.Left, r.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
                 }
 
                 if (sender.Lit)
                 {
-                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -456,35 +456,35 @@ public partial class CampaignTransferDialog : UIModule
     public void RUnitsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         Troop objectValue;
-        CampaignTransferSettings S;
+        CampaignTransferSettings s;
         UnitShowInfo info = default;
-        Rect R;
-        S = UI.Engine.Campaign.TransferSettings;
-        if (_rightUnit + slot < S.SelectedUnits.Count)
+        Rect r;
+        s = UI.Engine.Campaign.TransferSettings;
+        if (_rightUnit + slot < s.SelectedUnits.Count)
         {
-            var selectedUnit = S.SelectedUnits[_rightUnit + slot];
-            objectValue = S.Units.GetUnit(selectedUnit);
+            var selectedUnit = s.SelectedUnits[_rightUnit + slot];
+            objectValue = s.Units.GetUnit(selectedUnit);
             if (objectValue != null)
             {
                 var checkBox = sender;
-                R = new Rect(TransferUnitPanel.WinLeft + checkBox.WinLeft + 1, TransferUnitPanel.WinTop + checkBox.WinTop + 2, TransferUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(TransferUnitPanel.WinLeft + checkBox.WinLeft + 1, TransferUnitPanel.WinTop + checkBox.WinTop + 2, TransferUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                UI.Graphics.CityWindow[4].Show(R.Left + 1, R.Top, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
                 info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
                 info.Animation = UnitAnimation.StandStill;
                 info.Frame = 0;
                 info.Looped = false;
-                objectValue.Show(R.Left - 8, R.Top, lockedSurface, info);
+                objectValue.Show(r.Left - 8, r.Top, lockedSurface, info);
                 if (sender.Lit)
                 {
-                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -493,31 +493,31 @@ public partial class CampaignTransferDialog : UIModule
     public void LItemsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         Item objectValue;
-        CampaignTransferSettings S;
-        Rect R;
-        S = UI.Engine.Campaign.TransferSettings;
-        objectValue = S.Items.GetItem(_leftItem + slot);
+        CampaignTransferSettings s;
+        Rect r;
+        s = UI.Engine.Campaign.TransferSettings;
+        objectValue = s.Items.GetItem(_leftItem + slot);
         if (objectValue != null)
         {
             var checkBox = sender;
-            R = new Rect(AvailableItemPanel.WinLeft + checkBox.WinLeft + 2, AvailableItemPanel.WinTop + checkBox.WinTop + 2, AvailableItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            r = new Rect(AvailableItemPanel.WinLeft + checkBox.WinLeft + 2, AvailableItemPanel.WinTop + checkBox.WinTop + 2, AvailableItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-            UI.Graphics.CityWindow[4].Show(R.Left, R.Top, lockedSurface);
-            objectValue.Show(R.Left + 5, R.Top + 10, lockedSurface);
-            if (S.SelectedItems.IndexOf(_leftItem + slot) != -1)
+            UI.Graphics.CityWindow[4].Show(r.Left, r.Top, lockedSurface);
+            objectValue.Show(r.Left + 5, r.Top + 10, lockedSurface);
+            if (s.SelectedItems.IndexOf(_leftItem + slot) != -1)
             {
-                UI.Graphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
+                UI.Graphics.CityWindow[5].ShowBlended(r.Left, r.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
             }
 
             if (sender.Lit)
             {
-                UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
             }
 
-            UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+            UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
             UI.Fonts.Age8.Color = 16777215;
             var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-            UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+            UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
         }
     }
 
@@ -525,29 +525,29 @@ public partial class CampaignTransferDialog : UIModule
     public void RItemsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         Item objectValue;
-        CampaignTransferSettings S;
-        Rect R;
-        S = UI.Engine.Campaign.TransferSettings;
-        if (_rightItem + slot < S.SelectedItems.Count)
+        CampaignTransferSettings s;
+        Rect r;
+        s = UI.Engine.Campaign.TransferSettings;
+        if (_rightItem + slot < s.SelectedItems.Count)
         {
-            var selectedItem = S.SelectedItems[_rightItem + slot];
-            objectValue = S.Items.GetItem(selectedItem);
+            var selectedItem = s.SelectedItems[_rightItem + slot];
+            objectValue = s.Items.GetItem(selectedItem);
             if (objectValue != null)
             {
                 var checkBox = sender;
-                R = new Rect(TransferItemPanel.WinLeft + checkBox.WinLeft + 2, TransferItemPanel.WinTop + checkBox.WinTop + 2, TransferItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(TransferItemPanel.WinLeft + checkBox.WinLeft + 2, TransferItemPanel.WinTop + checkBox.WinTop + 2, TransferItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                UI.Graphics.CityWindow[4].Show(R.Left, R.Top, lockedSurface);
-                objectValue.Show(R.Left + 5, R.Top + 10, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(r.Left, r.Top, lockedSurface);
+                objectValue.Show(r.Left + 5, r.Top + 10, lockedSurface);
                 if (sender.Lit)
                 {
-                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -618,12 +618,12 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:539
     public void AddBtnClick()
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         switch (_leftKind)
         {
             case 1:
-                if (S.AddHero(_leftSelection))
+                if (s.AddHero(_leftSelection))
                 {
                     AvailableHeroPanel.Drawn = false;
                     TransferHeroPanel.Drawn = false;
@@ -633,7 +633,7 @@ public partial class CampaignTransferDialog : UIModule
 
                 break;
             case 2:
-                if (S.AddItem(_leftSelection))
+                if (s.AddItem(_leftSelection))
                 {
                     AvailableItemPanel.Drawn = false;
                     TransferItemPanel.Drawn = false;
@@ -643,7 +643,7 @@ public partial class CampaignTransferDialog : UIModule
 
                 break;
             case 3:
-                if (S.AddUnit(_leftSelection))
+                if (s.AddUnit(_leftSelection))
                 {
                     AvailableUnitPanel.Drawn = false;
                     TransferUnitPanel.Drawn = false;
@@ -658,12 +658,12 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:569
     public void RemoveBtnClick()
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         switch (_rightKind)
         {
             case 1:
-                if (S.DeleteHero(S.SelectedHeroes[_rightSelection]))
+                if (s.DeleteHero(s.SelectedHeroes[_rightSelection]))
                 {
                     AvailableHeroPanel.Drawn = false;
                     TransferHeroPanel.Drawn = false;
@@ -675,7 +675,7 @@ public partial class CampaignTransferDialog : UIModule
 
                 break;
             case 2:
-                if (S.DeleteItem(S.SelectedItems[_rightSelection]))
+                if (s.DeleteItem(s.SelectedItems[_rightSelection]))
                 {
                     AvailableItemPanel.Drawn = false;
                     TransferItemPanel.Drawn = false;
@@ -687,7 +687,7 @@ public partial class CampaignTransferDialog : UIModule
 
                 break;
             case 3:
-                if (S.DeleteUnit(S.SelectedUnits[_rightSelection]))
+                if (s.DeleteUnit(s.SelectedUnits[_rightSelection]))
                 {
                     AvailableUnitPanel.Drawn = false;
                     TransferUnitPanel.Drawn = false;
@@ -704,61 +704,61 @@ public partial class CampaignTransferDialog : UIModule
     // AoWCampaignTransferDlg.pas:605
     public void LHeroesUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 1 && slot + _leftHero == _leftSelection;
         var checkBox = sender;
-        checkBox.CaptureInput = !checkBox.Checked && S.Heroes.Count > slot + _leftHero && S.SelectedHeroes.IndexOf(slot + _leftHero) == -1;
+        checkBox.CaptureInput = !checkBox.Checked && s.Heroes.Count > slot + _leftHero && s.SelectedHeroes.IndexOf(slot + _leftHero) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:617
     public void LItemsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 2 && slot + _leftItem == _leftSelection;
         var checkBox = sender;
-        checkBox.CaptureInput = !checkBox.Checked && S.Items.Count > slot + _leftItem && S.SelectedItems.IndexOf(slot + _leftItem) == -1;
+        checkBox.CaptureInput = !checkBox.Checked && s.Items.Count > slot + _leftItem && s.SelectedItems.IndexOf(slot + _leftItem) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:629
     public void LUnitsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 3 && slot + _leftUnit == _leftSelection;
         var checkBox = sender;
-        checkBox.CaptureInput = !checkBox.Checked && S.Units.Count > slot + _leftUnit && S.SelectedUnits.IndexOf(slot + _leftUnit) == -1;
+        checkBox.CaptureInput = !checkBox.Checked && s.Units.Count > slot + _leftUnit && s.SelectedUnits.IndexOf(slot + _leftUnit) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:641
     public void RHeroesUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 1 && slot + _rightHero == _rightSelection;
         var checkBox = sender;
-        checkBox.CaptureInput = !checkBox.Checked && slot + _rightHero < S.SelectedHeroes.Count;
+        checkBox.CaptureInput = !checkBox.Checked && slot + _rightHero < s.SelectedHeroes.Count;
     }
 
     // AoWCampaignTransferDlg.pas:652
     public void RItemsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 2 && slot + _rightItem == _rightSelection;
         var checkBox = sender;
-        checkBox.CaptureInput = !checkBox.Checked && slot + _rightItem < S.SelectedItems.Count;
+        checkBox.CaptureInput = !checkBox.Checked && slot + _rightItem < s.SelectedItems.Count;
     }
 
     // AoWCampaignTransferDlg.pas:663
     public void RUnitsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings S;
-        S = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s;
+        s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 3 && slot + _rightUnit == _rightSelection;
         var checkBox = sender;
-        checkBox.CaptureInput = !checkBox.Checked && slot + _rightUnit < S.SelectedUnits.Count;
+        checkBox.CaptureInput = !checkBox.Checked && slot + _rightUnit < s.SelectedUnits.Count;
     }
 
     // AoWCampaignTransferDlg.pas:674

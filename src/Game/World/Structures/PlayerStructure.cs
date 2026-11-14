@@ -468,13 +468,13 @@ public partial class PlayerStructure : Structure
 
             if (Player > 0 && StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations)
             {
-                for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
-                    if (_victoryLocations[I])
+                    if (_victoryLocations[i])
                     {
-                        if (I == Player || StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
+                        if (i == Player || StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)i) == DiplomaticRelation.Alliance)
                         {
-                            StrategicMap.Current.Players.GetPlayers(I).CheckCaptureLocations();
+                            StrategicMap.Current.Players.GetPlayers(i).CheckCaptureLocations();
                         }
                     }
                 }
@@ -541,8 +541,8 @@ public partial class PlayerStructure : Structure
     public virtual void UpdateUnfog()
     {
         int range;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             return;
@@ -561,12 +561,12 @@ public partial class PlayerStructure : Structure
         {
             if (UnfogRange != 0)
             {
-                for (int I = 0, last = _resource.TerrainList.Count - 1; I <= last; I++)
+                for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
                 {
-                    if (_resource.TerrainList.Terrain[I] >= 0)
+                    if (_resource.TerrainList.Terrain[i] >= 0)
                     {
-                        HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                        StrategicMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
+                        HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                        StrategicMap.Current.FogArea(x, y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -574,12 +574,12 @@ public partial class PlayerStructure : Structure
             UnfogRange = (byte)range;
             if (UnfogRange != 0)
             {
-                for (int I = 0, last = _resource.TerrainList.Count - 1; I <= last; I++)
+                for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
                 {
-                    if (_resource.TerrainList.Terrain[I] >= 0)
+                    if (_resource.TerrainList.Terrain[i] >= 0)
                     {
-                        HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                        StrategicMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
+                        HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                        StrategicMap.Current.UnFogArea(x, y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -589,21 +589,21 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2233
     public virtual void UpdateExploration()
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
             for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
             {
                 if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
-                    for (int I = 0, lastI = _resource.TerrainList.Count - 1; I <= lastI; I++)
+                    for (int i = 0, lastI = _resource.TerrainList.Count - 1; i <= lastI; i++)
                     {
-                        if (_resource.TerrainList.Terrain[I] >= 0)
+                        if (_resource.TerrainList.Terrain[i] >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
+                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
                             var visibilityRange = VisibilityRange();
-                            StrategicMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)player, visibilityRange);
+                            StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)player, visibilityRange);
                         }
                     }
                 }
@@ -654,10 +654,7 @@ public partial class PlayerStructure : Structure
             log.HexX = GetHexX();
             log.HexY = GetHexY();
             log.HexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexLevel = GetHexLevel();
-            var hexX = GetHexX();
-            EventLog.DistributeLocationEventLog(log, Player, hexX, hexY, hexLevel, false);
+            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
             log.Release();
         }
     }
@@ -756,17 +753,17 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2002
     public void RegisterVictoryLocations()
     {
-        for (int I = 1, last = _victoryLocations.Count - 1; I <= last; I++)
+        for (int i = 1, last = _victoryLocations.Count - 1; i <= last; i++)
         {
-            if (_victoryLocations[I])
+            if (_victoryLocations[i])
             {
-                if (StrategicMap.Current.Players.GetPlayers(I) != null)
+                if (StrategicMap.Current.Players.GetPlayers(i) != null)
                 {
-                    StrategicMap.Current.Players.GetPlayers(I).RegisterVictoryLocation(this);
+                    StrategicMap.Current.Players.GetPlayers(i).RegisterVictoryLocation(this);
                 }
                 else
                 {
-                    _victoryLocations[I] = false;
+                    _victoryLocations[i] = false;
                 }
             }
         }
@@ -775,11 +772,11 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2013
     public void UnregisterVictoryLocations()
     {
-        for (int I = 1, last = _victoryLocations.Count - 1; I <= last; I++)
+        for (int i = 1, last = _victoryLocations.Count - 1; i <= last; i++)
         {
-            if (_victoryLocations[I] && StrategicMap.Current.Players.GetPlayers(I) != null)
+            if (_victoryLocations[i] && StrategicMap.Current.Players.GetPlayers(i) != null)
             {
-                StrategicMap.Current.Players.GetPlayers(I).UnregisterVictoryLocation(this);
+                StrategicMap.Current.Players.GetPlayers(i).UnregisterVictoryLocation(this);
             }
         }
     }
@@ -790,19 +787,19 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2220
     public void UpdatePlayerSeen()
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
-            for (int I = 0, last = _resource.TerrainList.Count - 1; I <= last; I++)
+            for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
             {
-                if (_resource.TerrainList.Terrain[I] >= 0)
+                if (_resource.TerrainList.Terrain[i] >= 0)
                 {
-                    HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
+                    HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
                     var hexLevel = GetHexLevel();
                     var visibilityRange = VisibilityRange();
                     var trueVisionRange = TrueVisionRange();
-                    StrategicMap.Current.UpdatePlayerSeen(Player, X, Y, hexLevel, visibilityRange, trueVisionRange);
+                    StrategicMap.Current.UpdatePlayerSeen(Player, x, y, hexLevel, visibilityRange, trueVisionRange);
                 }
             }
         }

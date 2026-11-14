@@ -46,9 +46,9 @@ public partial class StrikeAbility : AdjustableAbility
         CombatObject target;
         FastBattleCommand command;
         AbilityDamageValues values = default;
-        for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.TargetSide.GetObjects(I);
+            target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && FastBattleValidRoundDistance(commands.Source, target) && CanExecuteMelee(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
@@ -79,7 +79,7 @@ public partial class StrikeAbility : AdjustableAbility
     public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
         MeleeRound round;
-        int I;
+        int i;
         bool stop;
         CombatObject target;
         CombatAction action;
@@ -89,7 +89,7 @@ public partial class StrikeAbility : AdjustableAbility
         round = new MeleeRound(this);
         round.Calculate(source, target);
         stop = false;
-        I = 0;
+        i = 0;
         if (source is FastBattleUnit)
         {
             ((FastBattleUnit)source).State = ((FastBattleUnit)source).State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
@@ -105,13 +105,13 @@ public partial class StrikeAbility : AdjustableAbility
             }
         }
 
-        while (I < round.Count && !stop)
+        while (i < round.Count && !stop)
         {
-            action = round.CreateStrikeCombatAction(I);
+            action = round.CreateStrikeCombatAction(i);
             if (action != null)
             {
                 source.Combat.ExecuteCombatAction(action);
-                round.GetMeleeStrike(I, out strike);
+                round.GetMeleeStrike(i, out strike);
                 switch (strike.Side)
                 {
                     case CombatSideIndex.Attacker:
@@ -125,7 +125,7 @@ public partial class StrikeAbility : AdjustableAbility
                 action.Release();
             }
 
-            I += 1;
+            i += 1;
         }
 
         bool result = round.Count != 0;

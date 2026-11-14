@@ -44,11 +44,11 @@ public partial class BloodShrine : Structure
     public void ExecuteBloodlust(ArmyHexSprite armyHexSprite)
     {
         Troop troop = default;
-        Rect R = default;
+        Rect r = default;
         BloodShrineAnimation animation = default;
-        for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            troop = armyHexSprite.Army.Units.GetUnit(I);
+            troop = armyHexSprite.Army.Units.GetUnit(i);
             GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 
@@ -72,8 +72,8 @@ public partial class BloodShrine : Structure
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
             animation = new BloodShrineAnimation(null) { Holder = CreationHolder() };
-            R = new Rect(-16, -8, 32, 40);
-            animation.SetDimensions(R);
+            r = new Rect(-16, -8, 32, 40);
+            animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;
             var hexLevel = GetHexLevel();

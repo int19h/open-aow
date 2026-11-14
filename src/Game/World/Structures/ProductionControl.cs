@@ -329,13 +329,13 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:282
     public virtual bool GetQueueLocked()
     {
-        int I;
-        I = Queue.Count;
-        bool result = I >= GetQueueSizeMax();
-        while (!result && I != 0)
+        int i;
+        i = Queue.Count;
+        bool result = i >= GetQueueSizeMax();
+        while (!result && i != 0)
         {
-            I -= 1;
-            result = LockQueueProduction(Queue.GetItem(I));
+            i -= 1;
+            result = LockQueueProduction(Queue.GetItem(i));
         }
 
         return result;
@@ -440,9 +440,9 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:347
     public virtual void PlayerChanged()
     {
-        for (int I = Queue.Count - 1; I >= 1; I--)
+        for (int i = Queue.Count - 1; i >= 1; i--)
         {
-            Queue.GetItem(I)?.Dispose();
+            Queue.GetItem(i)?.Dispose();
         }
 
         UnregisterGroupProduction();
@@ -852,24 +852,24 @@ public partial class ProductionControl : EngineObject
     public int FindOptimalResearchProduction(CombatPredictor predictor, int gold)
     {
         int result;
-        Player Player;
+        Player playerPlayer;
         Unit unit;
         DoubleItemList productions;
         int priority;
         int minimum;
         bool include;
         var player = GetPlayer();
-        Player = StrategicMap.Current.Players.GetPlayers(player);
+        playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
         unit = new Unit(null) { Holder = CreationHolder() };
         productions = new DoubleItemList();
-        for (int I = UnitProductions.Count - 1; I >= 0; I--)
+        for (int i = UnitProductions.Count - 1; i >= 0; i--)
         {
-            if (!UnitProductions.GetItem(I).Researched)
+            if (!UnitProductions.GetItem(i).Researched)
             {
-                include = UnitResearchGold(I) <= gold;
+                include = UnitResearchGold(i) <= gold;
                 if (predictor != null)
                 {
-                    var unitProduction = UnitProductions.GetItem(I);
+                    var unitProduction = UnitProductions.GetItem(i);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                     priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }
@@ -877,12 +877,12 @@ public partial class ProductionControl : EngineObject
                 }
                 else
                 {
-                    priority = RosterTables.GetUnitIndexAIPriority(UnitProductions.GetItem(I).UnitIndex, Player.PlayerIndex, 0, engine: GetEngine());
+                    priority = RosterTables.GetUnitIndexAIPriority(UnitProductions.GetItem(i).UnitIndex, playerPlayer.PlayerIndex, 0, engine: GetEngine());
                 }
 
                 if (include)
                 {
-                    productions.AddAbility(I, priority);
+                    productions.AddAbility(i, priority);
                 }
             }
         }

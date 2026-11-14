@@ -34,28 +34,28 @@ public partial class MountainMapObject : Hexes.Terrain
     // Mountain.pas:136
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        int I;
+        int i;
         bool valid;
         TerrainList list;
         MapField mapField;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         HexSprite hexSprite;
-        I = 0;
+        i = 0;
         valid = true;
         list = _resource.TerrainList;
-        while (valid && I < list.Count)
+        while (valid && i < list.Count)
         {
-            if (list.Terrain[I] >= 0 || list.Overlay[I] >= 0)
+            if (list.Terrain[i] >= 0 || list.Overlay[i] >= 0)
             {
-                HexGeometry.CenterHexNumberToHex(hexX, hexY, I, ref X, ref Y);
-                if (X >= 0 && Y >= 0 && X < mapContainer.Width && Y < mapContainer.Height)
+                HexGeometry.CenterHexNumberToHex(hexX, hexY, i, ref x, ref y);
+                if (x >= 0 && y >= 0 && x < mapContainer.Width && y < mapContainer.Height)
                 {
-                    mapField = mapContainer.GetField(X, Y, hexLevel);
+                    mapField = mapContainer.GetField(x, y, hexLevel);
                     hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
                     if (hexSprite != null && hexSprite.EngineClass.ClassId == 131432)
                     {
-                        valid = ValidMountainOverlap(mapField, list.Overlay[I]);
+                        valid = ValidMountainOverlap(mapField, list.Overlay[i]);
                     }
                     else
                     {
@@ -64,7 +64,7 @@ public partial class MountainMapObject : Hexes.Terrain
                 }
             }
 
-            I += 1;
+            i += 1;
         }
 
         return valid && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, _resource.TerrainList);
@@ -74,14 +74,14 @@ public partial class MountainMapObject : Hexes.Terrain
     public bool ValidMountainOverlap(MapField mapField, sbyte overlay)
     {
         bool valid;
-        int I;
+        int i;
         MapObject hexSprite;
         sbyte otherOverlay;
         valid = true;
-        I = 0;
-        while (I != mapField.Count && valid)
+        i = 0;
+        while (i != mapField.Count && valid)
         {
-            hexSprite = (MapObject)mapField.HexSpriteList[I];
+            hexSprite = (MapObject)mapField.HexSpriteList[i];
             if (hexSprite.EngineClass.ClassId == 131432)
             {
                 var hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
@@ -89,7 +89,7 @@ public partial class MountainMapObject : Hexes.Terrain
                 valid = !((otherOverlay == 0 && overlay == 0) || (otherOverlay == 1 && overlay == 1));
             }
 
-            I += 1;
+            i += 1;
         }
 
         return valid;

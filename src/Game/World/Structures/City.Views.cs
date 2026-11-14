@@ -31,12 +31,12 @@ public partial class City
     public override string CombatMapName(CombatMapSite site)
     {
         string stem = "0";
-        for (int I = 1; I <= 6; I += 1)
+        for (int i = 1; i <= 6; i += 1)
         {
-            if (site.NeighborHolds(I, typeof(City)))
+            if (site.NeighborHolds(i, typeof(City)))
             {
-                stem = stem + IntToStr(I);
-                site.FixTag(I);
+                stem = stem + IntToStr(i);
+                site.FixTag(i);
             }
         }
 

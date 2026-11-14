@@ -22,60 +22,60 @@ internal static class PixelRemap
 
     internal static void RemapSurface24To565(SurfaceView source, SurfaceView destination, int width, int height)
     {
-        for (int Y = 0; Y <= height - 1; Y++)
+        for (int y = 0; y <= height - 1; y++)
         {
-            var S = source.Row(Y, width * 3);
-            var D = PixelFormats.Words(destination.Row(Y, width * 2));
-            for (int X = 0; X <= width - 1; X++)
+            var s = source.Row(y, width * 3);
+            var d = PixelFormats.Words(destination.Row(y, width * 2));
+            for (int x = 0; x <= width - 1; x++)
             {
-                int I = X * 3;
-                D[X] = (ushort)(((S[I + 2] & 248) << 8) + ((S[I + 1] & 252) << 3) + (S[I] >> 3));
+                int i = x * 3;
+                d[x] = (ushort)(((s[i + 2] & 248) << 8) + ((s[i + 1] & 252) << 3) + (s[i] >> 3));
             }
         }
     }
 
     internal static void RemapSurface24To555(SurfaceView source, SurfaceView destination, int width, int height)
     {
-        for (int Y = 0; Y <= height - 1; Y++)
+        for (int y = 0; y <= height - 1; y++)
         {
-            var S = source.Row(Y, width * 3);
-            var D = PixelFormats.Words(destination.Row(Y, width * 2));
-            for (int X = 0; X <= width - 1; X++)
+            var s = source.Row(y, width * 3);
+            var d = PixelFormats.Words(destination.Row(y, width * 2));
+            for (int x = 0; x <= width - 1; x++)
             {
-                int I = X * 3;
-                D[X] = (ushort)(((S[I + 2] & 248) << 7) + ((S[I + 1] & 248) << 2) + (S[I] >> 3));
+                int i = x * 3;
+                d[x] = (ushort)(((s[i + 2] & 248) << 7) + ((s[i + 1] & 248) << 2) + (s[i] >> 3));
             }
         }
     }
 
     internal static void RemapSurface555To24(SurfaceView source, SurfaceView destination, int width, int height)
     {
-        for (int Y = 0; Y <= height - 1; Y++)
+        for (int y = 0; y <= height - 1; y++)
         {
-            var S = PixelFormats.Words(source.Row(Y, width * 2));
-            var D = destination.Row(Y, width * 3);
-            for (int X = 0; X <= width - 1; X++)
+            var s = PixelFormats.Words(source.Row(y, width * 2));
+            var d = destination.Row(y, width * 3);
+            for (int x = 0; x <= width - 1; x++)
             {
-                int I = X * 3;
-                D[I + 2] = (byte)((S[X] & 31744) >> 7);
-                D[I + 1] = (byte)((S[X] & 992) >> 2);
-                D[I] = (byte)((S[X] & 31) << 3);
+                int i = x * 3;
+                d[i + 2] = (byte)((s[x] & 31744) >> 7);
+                d[i + 1] = (byte)((s[x] & 992) >> 2);
+                d[i] = (byte)((s[x] & 31) << 3);
             }
         }
     }
 
     internal static void RemapSurface565To24(SurfaceView source, SurfaceView destination, int width, int height)
     {
-        for (int Y = 0; Y <= height - 1; Y++)
+        for (int y = 0; y <= height - 1; y++)
         {
-            var S = PixelFormats.Words(source.Row(Y, width * 2));
-            var D = destination.Row(Y, width * 3);
-            for (int X = 0; X <= width - 1; X++)
+            var s = PixelFormats.Words(source.Row(y, width * 2));
+            var d = destination.Row(y, width * 3);
+            for (int x = 0; x <= width - 1; x++)
             {
-                int I = X * 3;
-                D[I + 2] = (byte)((S[X] & 63488) >> 8);
-                D[I + 1] = (byte)((S[X] & 2016) >> 3);
-                D[I] = (byte)((S[X] & 31) << 3);
+                int i = x * 3;
+                d[i + 2] = (byte)((s[x] & 63488) >> 8);
+                d[i + 1] = (byte)((s[x] & 2016) >> 3);
+                d[i] = (byte)((s[x] & 31) << 3);
             }
         }
     }
@@ -84,31 +84,31 @@ internal static class PixelRemap
 
     internal static void RemapSurface32To555(SurfaceView source, SurfaceView destination, int width, int height)
     {
-        for (int Y = 0; Y <= height - 1; Y++)
+        for (int y = 0; y <= height - 1; y++)
         {
-            var S = source.Row(Y, width * 4);
-            var D = PixelFormats.Words(destination.Row(Y, width * 2));
-            for (int X = 0; X <= width - 1; X++)
+            var s = source.Row(y, width * 4);
+            var d = PixelFormats.Words(destination.Row(y, width * 2));
+            for (int x = 0; x <= width - 1; x++)
             {
-                int I = X * 4;
-                D[X] = (ushort)(((S[I + 1] & 248) << 7) + ((S[I + 2] & 248) << 2) + (S[I + 3] >> 3));
+                int i = x * 4;
+                d[x] = (ushort)(((s[i + 1] & 248) << 7) + ((s[i + 2] & 248) << 2) + (s[i + 3] >> 3));
             }
         }
     }
 
     internal static void RemapSurface08To24(SurfaceView source, SurfaceView destination, int width, int height, Palette palette)
     {
-        for (int Y = 0; Y <= height - 1; Y++)
+        for (int y = 0; y <= height - 1; y++)
         {
-            var S = source.Row(Y, width);
-            var D = destination.Row(Y, width * 3);
-            for (int X = 0; X <= width - 1; X++)
+            var s = source.Row(y, width);
+            var d = destination.Row(y, width * 3);
+            for (int x = 0; x <= width - 1; x++)
             {
-                Palette.Entry E = palette[S[X]];
-                int I = X * 3;
-                D[I + 2] = E.Red;
-                D[I + 1] = E.Green;
-                D[I] = E.Blue;
+                Palette.Entry e = palette[s[x]];
+                int i = x * 3;
+                d[i + 2] = e.Red;
+                d[i + 1] = e.Green;
+                d[i] = e.Blue;
             }
         }
     }
@@ -116,17 +116,17 @@ internal static class PixelRemap
     internal static int RemapPixelInfo(int pixelInfo, int sourcePixelFormatId, Palette sourcePalette, int destinationPixelFormatId, Palette destinationPalette)
     {
         int result;
-        byte R;
-        byte G;
-        byte B;
-        byte A;
+        byte r;
+        byte g;
+        byte b;
+        byte a;
         switch (sourcePixelFormatId)
         {
             case PixelFormats.pfPAL8:
                 if (sourcePalette != null)
                 {
-                    (R, G, B) = (sourcePalette[pixelInfo].Red, sourcePalette[pixelInfo].Green, sourcePalette[pixelInfo].Blue);
-                    A = 0;
+                    (r, g, b) = (sourcePalette[pixelInfo].Red, sourcePalette[pixelInfo].Green, sourcePalette[pixelInfo].Blue);
+                    a = 0;
                 }
                 else
                 {
@@ -135,40 +135,40 @@ internal static class PixelRemap
 
                 break;
             case PixelFormats.pfRGB565:
-                R = (byte)(((int)(((uint)pixelInfo) >> 8)) & 248);
-                G = (byte)(((int)(((uint)pixelInfo) >> 3)) & 252);
-                B = (byte)((pixelInfo << 3) & 248);
-                A = 0;
+                r = (byte)(((int)(((uint)pixelInfo) >> 8)) & 248);
+                g = (byte)(((int)(((uint)pixelInfo) >> 3)) & 252);
+                b = (byte)((pixelInfo << 3) & 248);
+                a = 0;
                 break;
             case PixelFormats.pfRGB555:
-                R = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
-                G = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
-                B = (byte)((pixelInfo << 3) & 248);
-                A = 0;
+                r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
+                g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
+                b = (byte)((pixelInfo << 3) & 248);
+                a = 0;
                 break;
             case PixelFormats.pfARGB1555:
-                R = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
-                G = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
-                B = (byte)((pixelInfo << 3) & 248);
-                A = (byte)(((int)(((uint)pixelInfo) >> 8)) & 1);
+                r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
+                g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
+                b = (byte)((pixelInfo << 3) & 248);
+                a = (byte)(((int)(((uint)pixelInfo) >> 8)) & 1);
                 break;
             case PixelFormats.pfRGB24:
-                R = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                G = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
-                B = (byte)(pixelInfo & 255);
-                A = 0;
+                r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
+                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                b = (byte)(pixelInfo & 255);
+                a = 0;
                 break;
             case PixelFormats.pfBGR24:
-                R = (byte)(pixelInfo & 255);
-                G = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
-                B = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                A = 0;
+                r = (byte)(pixelInfo & 255);
+                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                b = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
+                a = 0;
                 break;
             case PixelFormats.pfRGB32:
-                A = (byte)(((int)(((uint)pixelInfo) >> 24)) & 255);
-                R = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                G = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
-                B = (byte)(pixelInfo & 255);
+                a = (byte)(((int)(((uint)pixelInfo) >> 24)) & 255);
+                r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
+                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                b = (byte)(pixelInfo & 255);
                 break;
             default:
                 throw new NotSupportedException("Source PixelFormat not supported");
@@ -179,7 +179,7 @@ internal static class PixelRemap
             case PixelFormats.pfPAL8:
                 if (destinationPalette != null)
                 {
-                    result = destinationPalette.GetNearestColor(R + (G << 8) + (B << 16));
+                    result = destinationPalette.GetNearestColor(r + (g << 8) + (b << 16));
                 }
                 else
                 {
@@ -188,22 +188,22 @@ internal static class PixelRemap
 
                 break;
             case PixelFormats.pfRGB565:
-                result = ((R & 248) << 8) + ((G & 252) << 3) + (int)(((uint)(B & 248)) >> 3);
+                result = ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3);
                 break;
             case PixelFormats.pfRGB555:
-                result = ((R & 248) << 7) + ((G & 248) << 2) + (int)(((uint)(B & 248)) >> 3);
+                result = ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3);
                 break;
             case PixelFormats.pfARGB1555:
-                result = ((A & 128) << 8) + ((R & 248) << 7) + ((G & 248) << 2) + (int)(((uint)(B & 248)) >> 3);
+                result = ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3);
                 break;
             case PixelFormats.pfRGB24:
-                result = (R << 16) + (G << 8) + B;
+                result = (r << 16) + (g << 8) + b;
                 break;
             case PixelFormats.pfBGR24:
-                result = R + (G << 8) + (B << 16);
+                result = r + (g << 8) + (b << 16);
                 break;
             case PixelFormats.pfRGB32:
-                result = (A << 24) + (R << 16) + (G << 8) + B;
+                result = (a << 24) + (r << 16) + (g << 8) + b;
                 break;
             default:
                 throw new NotSupportedException("Destination PixelFormat not supported");

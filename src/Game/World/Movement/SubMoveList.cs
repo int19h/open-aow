@@ -24,11 +24,11 @@ public partial class SubMoveList : ENode, IChildList<PathFindingStep>
     public int DeleteMapCoordinate(MapCoordinate location)
     {
         int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            if (location == this[I].Location)
+            if (location == this[i].Location)
             {
-                this[I]?.Dispose();
+                this[i]?.Dispose();
                 result += 1;
             }
         }

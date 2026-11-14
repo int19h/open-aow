@@ -26,18 +26,18 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     // Shipyard.pas:100
     public override bool ValidateLocation(Troop troop, ref string reason)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         MapLevel mapLevel;
         HexNumberWalkData walk = default;
         bool result = base.ValidateLocation(troop, ref reason);
         if (result)
         {
             result = false;
-            troop.GetLocation(out X, out Y, out L);
-            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            troop.GetLocation(out x, out y, out l);
+            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
             while (walk.HexNumber < 7 && !result)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -62,11 +62,11 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     public override StructureResource StructureResource(Troop troop)
     {
         StructureResource result;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        troop.GetLocation(out X, out Y, out L);
-        if (L == 0)
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        troop.GetLocation(out x, out y, out l);
+        if (l == 0)
         {
             result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(60);
         }

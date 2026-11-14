@@ -22,13 +22,13 @@ public partial class ProductionControlList : IDisposable
 
     public int Remove(ProductionControl Item)
     {
-        int Index = IndexOf(Item);
-        if (Index >= 0)
+        int index = IndexOf(Item);
+        if (index >= 0)
         {
-            FItems.RemoveAt(Index);
+            FItems.RemoveAt(index);
         }
 
-        return Index;
+        return index;
     }
 
     public void Dispose() => FItems.Clear();

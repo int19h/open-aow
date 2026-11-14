@@ -43,8 +43,7 @@ public partial class SummonSpell : Spell
         string reason = "";
         if (AIBasePriority != -1)
         {
-            var aiUpkeepPriority = GetAIUpkeepPriority();
-            canCast = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            canCast = AIRequestCastSpellExpense(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             canCast = canCast && ((Hero)source).CanCastSpell(SpellId, ref reason);
             if (canCast)
             {
@@ -64,8 +63,7 @@ public partial class SummonSpell : Spell
         var hero = (Hero)source;
         if (hero.CanCastSpell(SpellId, ref reason))
         {
-            var aiUpkeepPriority = GetAIUpkeepPriority();
-            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 result = this.Activate(source);

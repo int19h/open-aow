@@ -61,11 +61,11 @@ public partial class EmailGameSettingsDialog : UIModule
     // AoWEmailGameSettingsDlg.pas:100
     public void EmailAddressEdit1Change(Edit sender, int slot)
     {
-        int I;
-        I = slot + PlayerScrollBar.Position;
-        if (I < EmailAddresses.Count)
+        int i;
+        i = slot + PlayerScrollBar.Position;
+        if (i < EmailAddresses.Count)
         {
-            EmailAddresses[I] = sender.Text;
+            EmailAddresses[i] = sender.Text;
         }
     }
 
@@ -77,11 +77,11 @@ public partial class EmailGameSettingsDialog : UIModule
         {
             if (_setupControl != null)
             {
-                for (int I = 0, last = EmailAddresses.Count - 1; I <= last; I++)
+                for (int i = 0, last = EmailAddresses.Count - 1; i <= last; i++)
                 {
-                    var objectValue = EmailAddresses.Objects[I];
+                    var objectValue = EmailAddresses.Objects[i];
                     index = _setupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
-                    var emailAddress = EmailAddresses[I];
+                    var emailAddress = EmailAddresses[i];
                     _setupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
                 }
 
@@ -126,17 +126,17 @@ public partial class EmailGameSettingsDialog : UIModule
     // AoWEmailGameSettingsDlg.pas:152
     public void Player6PnlDrawBack(Panel sender, LockedSurface lockedSurface, int slot)
     {
-        RaceResource R;
-        int I;
+        RaceResource r;
+        int i;
         var panel = sender;
-        I = slot + PlayerScrollBar.Position;
-        if (I < EmailAddresses.Count)
+        i = slot + PlayerScrollBar.Position;
+        if (i < EmailAddresses.Count)
         {
-            var objectValue = EmailAddresses.Objects[I];
-            R = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
-            R.AddRef();
-            R.ImageLibrary[38].Show(panel.WinLeft, panel.WinTop, lockedSurface);
-            R.Release();
+            var objectValue = EmailAddresses.Objects[i];
+            r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
+            r.AddRef();
+            r.ImageLibrary[38].Show(panel.WinLeft, panel.WinTop, lockedSurface);
+            r.Release();
         }
     }
 
@@ -186,13 +186,13 @@ public partial class EmailGameSettingsDialog : UIModule
     // AoWEmailGameSettingsDlg.pas:199
     public bool SettingsComplete()
     {
-        int I;
-        I = EmailAddresses.Count;
+        int i;
+        i = EmailAddresses.Count;
         bool result = !IsEmpty(LocalEmailAddressEdit.Text) && !IsEmpty(EmailGameNameEdit.Text);
-        while (result && I != 0)
+        while (result && i != 0)
         {
-            I -= 1;
-            result = !IsEmpty(EmailAddresses[I]);
+            i -= 1;
+            result = !IsEmpty(EmailAddresses[i]);
         }
 
         return result;
@@ -212,15 +212,15 @@ public partial class EmailGameSettingsDialog : UIModule
     // AoWEmailGameSettingsDlg.pas:220
     public void Execute(SetupControl control)
     {
-        SetupControl C;
+        SetupControl c;
         ResetSettings();
         _setupControl = control;
-        C = _setupControl;
-        for (int I = 0, last = C.Settings.Count - 1; I <= last; I++)
+        c = _setupControl;
+        for (int i = 0, last = c.Settings.Count - 1; i <= last; i++)
         {
-            if (C.Settings.GetSettings(I).Behavior.PlayerType == 0)
+            if (c.Settings.GetSettings(i).Behavior.PlayerType == 0)
             {
-                var setting = C.Settings.GetSettings(I);
+                var setting = c.Settings.GetSettings(i);
                 var localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
                 EmailAddresses.AddObject(localEmailAddress, IntToObject(setting.Race));
             }

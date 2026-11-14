@@ -19,40 +19,40 @@ internal static class EffectPaths
             steps = 2;
         }
 
-        for (int I = 0; I <= steps - 1; I++)
+        for (int i = 0; i <= steps - 1; i++)
         {
             xYZ = new Point3D();
             list.Add(xYZ);
-            xYZ.X = x1 + (x2 - x1) * I / (steps - 1);
-            xYZ.Y = y1 + (y2 - y1) * I / (steps - 1);
+            xYZ.X = x1 + (x2 - x1) * i / (steps - 1);
+            xYZ.Y = y1 + (y2 - y1) * i / (steps - 1);
         }
     }
 
     internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int X, int Y, SwarmDirection direction, ref Point3DList list)
     {
         int total;
-        int B;
+        int b;
         float radiusLocal;
-        float R;
+        float r;
         Point3D xYZ;
         total = 0;
         do
         {
             radiusLocal = (float)((double)((double)angle * Math.PI) / 180);
-            B = (phase + angle) % 180;
-            switch (B)
+            b = (phase + angle) % 180;
+            switch (b)
             {
                 case >= 0 and <= 89:
-                    R = (float)((double)((double)((double)B / 90 * ((double)B / 90)) * radius) + radius);
+                    r = (float)((double)((double)((double)b / 90 * ((double)b / 90)) * radius) + radius);
                     break;
                 default:
-                    R = (float)((double)((double)((double)(180 - B) / 90 * ((double)(180 - B) / 90)) * radius) + radius);
+                    r = (float)((double)((double)((double)(180 - b) / 90 * ((double)(180 - b) / 90)) * radius) + radius);
                     break;
             }
 
             xYZ = new Point3D();
-            xYZ.X = Round((double)Math.Sin(radiusLocal) * R) + X;
-            xYZ.Y = Round((double)Math.Cos(radiusLocal) * R) + Y;
+            xYZ.X = Round((double)Math.Sin(radiusLocal) * r) + X;
+            xYZ.Y = Round((double)Math.Cos(radiusLocal) * r) + Y;
             list.Add(xYZ);
             switch (direction)
             {
@@ -128,42 +128,42 @@ internal static class EffectPaths
         list[count - 1].Z = 1;
     }
 
-    internal static void MakeArcPath(int X, int Y, int angle, ref float Z, ref float speed, ref float vz, ref float gravity, ref Point3DList list)
+    internal static void MakeArcPath(int x, int y, int angle, ref float z, ref float speed, ref float vz, ref float gravity, ref Point3DList list)
     {
         float effect;
         float fy;
         float deltaX;
         float deltaY;
         Point3D xYZ;
-        effect = X;
-        fy = Y;
+        effect = x;
+        fy = y;
         deltaX = (float)((double)Math.Cos(angle) * speed);
         deltaY = (float)((double)Math.Sin(angle) * speed);
         if ((double)gravity > 0)
         {
-            while ((double)Z >= 0)
+            while ((double)z >= 0)
             {
                 xYZ = new Point3D();
                 xYZ.X = Round(effect);
                 xYZ.Y = Round(fy);
-                xYZ.Z = Round(Z);
+                xYZ.Z = Round(z);
                 list.Add(xYZ);
                 effect = (float)((double)effect + deltaX);
                 fy = (float)((double)fy + deltaY);
                 vz = (float)((double)vz - gravity);
-                Z = (float)((double)Z + vz);
+                z = (float)((double)z + vz);
             }
         }
     }
 
     internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, short stepSize, short height, ref Point3DList list)
     {
-        int I;
+        int i;
         int steps;
         int deltaX;
         int deltaY;
         Point3D xYZ;
-        I = 0;
+        i = 0;
         deltaX = Math.Abs(x2 - x1);
         deltaY = Math.Abs(y2 - y1);
         steps = (deltaX + deltaY) / stepSize;
@@ -172,15 +172,15 @@ internal static class EffectPaths
             steps = 2;
         }
 
-        while (I <= steps)
+        while (i <= steps)
         {
             xYZ = new Point3D();
             list.Add(xYZ);
-            xYZ.X = x1 + (x2 - x1) * I / steps;
-            xYZ.Y = y1 + (y2 - y1) * I / steps;
+            xYZ.X = x1 + (x2 - x1) * i / steps;
+            xYZ.Y = y1 + (y2 - y1) * i / steps;
             var pi = Math.PI;
-            xYZ.Z = Round((double)Math.Sin((double)((double)I * pi) / steps) * height);
-            I += 1;
+            xYZ.Z = Round((double)Math.Sin((double)((double)i * pi) / steps) * height);
+            i += 1;
         }
     }
 

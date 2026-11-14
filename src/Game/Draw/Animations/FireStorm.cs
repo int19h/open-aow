@@ -27,21 +27,21 @@ public partial class FireStorm : Storm
     // Storms.pas:527
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int frame;
         ImageSequence sequence;
         var hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
-        X = X - pixelXSurface + 8;
-        Y = Y - pixelYSurface;
+        HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
+        x = x - pixelXSurface + 8;
+        y = y - pixelYSurface;
         sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         while (sequence != null)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
             {
-                sequence.ImageLibrary[frame].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
+                sequence.ImageLibrary[frame].Show(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface);
             }
 
             sequence = sequence.Next;
@@ -59,7 +59,7 @@ public partial class FireStorm : Storm
     {
         base.UpdateTargetSelection(selection);
         // { Original adds to the map selection, without clearing its existing hexes. }
-        for (int I = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; I <= last; I++)
+        for (int i = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; i <= last; i++)
         {
             StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
@@ -68,13 +68,13 @@ public partial class FireStorm : Storm
     // Storms.pas:545
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
-        Rect R = default;
+        Rect r = default;
         base.InitializeStorm(player, X, Y, L);
-        R.Left = -80;
-        R.Right = 96;
-        R.Top = -80;
-        R.Bottom = 96;
-        SetDimensions(R);
+        r.Left = -80;
+        r.Right = 96;
+        r.Top = -80;
+        r.Bottom = 96;
+        SetDimensions(r);
         StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
         PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
@@ -88,9 +88,7 @@ public partial class FireStorm : Storm
         NewFrame();
         if (FrameCounter == 20)
         {
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            AbilityRules.TriggerStormDamage(StormType.Fire, GetHexX(), hexY, hexLevel, 0, 2, StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Fire, x: GetHexX(), innerRadius: 0, outerRadius: 2, player: StrategicMap.Current.CurrentPlayer);
             var hexLevel2 = GetHexLevel();
             var hexY2 = GetHexY();
             var hexX = GetHexX();

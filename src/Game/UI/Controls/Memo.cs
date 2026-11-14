@@ -73,7 +73,7 @@ public partial class Memo : Control
     {
         Lines?.Dispose();
         _items?.Dispose();
-        for (int I = 0, last = ColorList.Count - 1; I <= last; I++)
+        for (int i = 0, last = ColorList.Count - 1; i <= last; i++)
         {
         }
 
@@ -117,10 +117,10 @@ public partial class Memo : Control
     public override void SetSize()
     {
         int length;
-        int W;
+        int w;
         ReadOnlySpan<byte> text;
-        string S;
-        int J;
+        string s;
+        int j;
         int start;
         int tw;
         ColorChange cc;
@@ -165,30 +165,30 @@ public partial class Memo : Control
             _topItem = _verticalScrollBar.Position;
         }
 
-        for (int I = 0, last = ColorList.Count - 1; I <= last; I++)
+        for (int i = 0, last = ColorList.Count - 1; i <= last; i++)
         {
-            cc = ColorList[I];
+            cc = ColorList[i];
         }
 
         ColorList.Clear();
         Lines.Clear();
-        for (int I = 0, last = _items.Count - 1; I <= last; I++)
+        for (int i = 0, last = _items.Count - 1; i <= last; i++)
         {
             Lines.Add("");
             var colorChange = new ColorChange();
             ColorList.Add(colorChange);
-            J = 0;
+            j = 0;
             start = 0;
             if (!NoFrame)
             {
-                W = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + _borderWidth * 2;
+                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + _borderWidth * 2;
             }
             else
             {
-                W = _borderWidth * 2;
+                w = _borderWidth * 2;
             }
 
-            string item = NullTerminatedText(_items[I]);
+            string item = NullTerminatedText(_items[i]);
             text = Cp1252.Encode(item);
             length = text.Length;
             if (length > 6 && text[0] == _colorChangeChar)
@@ -197,35 +197,34 @@ public partial class Memo : Control
                 cc.HasColor = true;
                 try
                 {
-                    var item2 = _items[I];
-                    cc.Color = StrToInt("$" + Copy(item2, 2, 6));
+                    cc.Color = StrToInt("$" + Copy(_items[i], index: 2, count: 6));
                 }
                 catch
                 {
                 }
 
-                J = 8;
+                j = 8;
                 start = 7;
             }
 
-            while (J < length)
+            while (j < length)
             {
-                if (text[J] == 32 || J == length - 1)
+                if (text[j] == 32 || j == length - 1)
                 {
-                    S = Copy(item, start + 1, J + 1 - start);
-                    tw = _font.GetTextWidth(S);
-                    if (W + tw > WinWidth)
+                    s = Copy(item, start + 1, j + 1 - start);
+                    tw = _font.GetTextWidth(s);
+                    if (w + tw > WinWidth)
                     {
-                        Lines.Add(S);
+                        Lines.Add(s);
                         var colorChange2 = new ColorChange();
                         ColorList.Add(colorChange2);
                         if (!NoFrame)
                         {
-                            W = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + _borderWidth * 2);
+                            w = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + _borderWidth * 2);
                         }
                         else
                         {
-                            W = tw + _borderWidth * 2;
+                            w = tw + _borderWidth * 2;
                         }
                     }
                     else
@@ -233,14 +232,14 @@ public partial class Memo : Control
                         var count = Lines.Count;
                         var line = Lines[count - 1];
                         var fLinesCount = Lines.Count;
-                        Lines[fLinesCount - 1] = line + S;
-                        W = W + tw;
+                        Lines[fLinesCount - 1] = line + s;
+                        w = w + tw;
                     }
 
-                    start = J + 1;
+                    start = j + 1;
                 }
 
-                J += 1;
+                j += 1;
             }
         }
 
@@ -304,7 +303,7 @@ public partial class Memo : Control
     // { Update follows the scroll bar and blinks the cursor }
     public override void Update()
     {
-        int P;
+        int p;
         base.Update();
         if (Visible)
         {
@@ -312,9 +311,9 @@ public partial class Memo : Control
             {
                 if (_verticalScrollBar.Position != _topItem)
                 {
-                    P = _verticalScrollBar.Position;
-                    _topItem = P;
-                    if (Lines.Count < P + _numberVisible)
+                    p = _verticalScrollBar.Position;
+                    _topItem = p;
+                    if (Lines.Count < p + _numberVisible)
                     {
                         _topItem = Lines.Count - _numberVisible;
                     }
@@ -378,11 +377,11 @@ public partial class Memo : Control
     //   cursor }
     public override void Draw(LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
-        int W = default;
+        int x = default;
+        int y = default;
+        int w = default;
         Rect oldClip = default;
-        int H = default;
+        int h = default;
         ColorChange cc = default;
         try
         {
@@ -405,39 +404,39 @@ public partial class Memo : Control
                         var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        X = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
+                        x = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
                         var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        Y = Window.WinTop + WinTop + imageLibraryFrame5.Height;
+                        y = Window.WinTop + WinTop + imageLibraryFrame5.Height;
                         var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        H = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
+                        h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
                         var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        W = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
+                        w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
-                        X = Window.WinLeft + WinLeft;
-                        Y = Window.WinTop + WinTop;
-                        H = WinHeight;
-                        W = WinWidth - _scrollWidth;
+                        x = Window.WinLeft + WinLeft;
+                        y = Window.WinTop + WinTop;
+                        h = WinHeight;
+                        w = WinWidth - _scrollWidth;
                         break;
                 }
 
-                if (X + W < oldClip.Right)
+                if (x + w < oldClip.Right)
                 {
-                    lockedSurface.ClipRectangle.Right = X + W;
+                    lockedSurface.ClipRectangle.Right = x + w;
                 }
 
-                if (Y + H < oldClip.Bottom)
+                if (y + h < oldClip.Bottom)
                 {
-                    lockedSurface.ClipRectangle.Bottom = Y + H;
+                    lockedSurface.ClipRectangle.Bottom = y + h;
                 }
 
-                for (int I = 0, last = _numberVisible; I <= last; I++)
+                for (int i = 0, last = _numberVisible; i <= last; i++)
                 {
                     var count = Lines.Count;
-                    if (_topItem + I < count)
+                    if (_topItem + i < count)
                     {
-                        cc = ColorList[_topItem + I];
+                        cc = ColorList[_topItem + i];
                         if (cc.HasColor)
                         {
                             _font.Color = cc.Color;
@@ -446,23 +445,23 @@ public partial class Memo : Control
                         switch (_textAlign)
                         {
                             case TextAlignment.Left:
-                                var line = Lines[_topItem + I];
-                                _font.SetText(_borderWidth + X, _borderHeight + Y + _itemHeight * I, line, lockedSurface);
+                                var line = Lines[_topItem + i];
+                                _font.SetText(_borderWidth + x, _borderHeight + y + _itemHeight * i, line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
-                                var line2 = Lines[_topItem + I];
+                                var line2 = Lines[_topItem + i];
                                 var textWidth = _font.GetTextWidth(line2);
-                                var line3 = Lines[_topItem + I];
-                                _font.SetText(X + W - _borderWidth - textWidth, _borderHeight + Y + _itemHeight * I, line3, lockedSurface);
+                                var line3 = Lines[_topItem + i];
+                                _font.SetText(x + w - _borderWidth - textWidth, _borderHeight + y + _itemHeight * i, line3, lockedSurface);
                                 break;
                             default:
-                                var line4 = Lines[_topItem + I];
+                                var line4 = Lines[_topItem + i];
                                 var fontTextWidth = _font.GetTextWidth(line4);
-                                var line5 = Lines[_topItem + I];
-                                _font.SetText(X + W / 2 - fontTextWidth / 2, _borderHeight + Y + _itemHeight * I, line5, lockedSurface);
+                                var line5 = Lines[_topItem + i];
+                                _font.SetText(x + w / 2 - fontTextWidth / 2, _borderHeight + y + _itemHeight * i, line5, lockedSurface);
                                 break;
                         }
-                        _itemRectangle = new Rect(X, Y + _itemHeight * I, X + W, Y + (I + 1) * _itemHeight);
+                        _itemRectangle = new Rect(x, y + _itemHeight * i, x + w, y + (i + 1) * _itemHeight);
                         if (_itemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
@@ -487,7 +486,7 @@ public partial class Memo : Control
                 {
                     var line = Lines[_currentLine];
                     var textWidth = _font.GetTextWidth(Copy(line, 1, _currentColumn));
-                    _font.SetText(_borderWidth + X + textWidth, _borderHeight + Y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    _font.SetText(_borderWidth + x + textWidth, _borderHeight + y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -535,7 +534,7 @@ public partial class Memo : Control
     {
         bool changed;
         bool moved;
-        byte C = default;
+        byte c = default;
         Handled = Redraw;
         changed = false;
         moved = false;
@@ -594,20 +593,20 @@ public partial class Memo : Control
                     break;
                 default:
                     {
-                        C = key;
+                        c = key;
                         if (Lines[_currentLine].Length == _currentColumn)
                         {
                             var itemLength = _items[_realLine];
                             var item = _items[_realLine];
                             var item2 = _items[_realLine];
-                            _items[_realLine] = Copy(item2, 1, _realColumn + 1) + Cp1252.Text(C) + Copy(item, _realColumn + 2, itemLength.Length - _realColumn);
+                            _items[_realLine] = Copy(item2, 1, _realColumn + 1) + Cp1252.Text(c) + Copy(item, _realColumn + 2, itemLength.Length - _realColumn);
                         }
                         else
                         {
                             var itemLength = _items[_realLine];
                             var item = _items[_realLine];
                             var item2 = _items[_realLine];
-                            _items[_realLine] = Copy(item2, 1, _realColumn) + Cp1252.Text(C) + Copy(item, _realColumn + 1, itemLength.Length - _realColumn);
+                            _items[_realLine] = Copy(item2, 1, _realColumn) + Cp1252.Text(c) + Copy(item, _realColumn + 1, itemLength.Length - _realColumn);
                         }
 
                         _realColumn += 1;
@@ -799,11 +798,11 @@ public partial class Memo : Control
     {
         Lines.Clear();
         _items.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             Lines.Add(valueValue);
-            var valueValue2 = value[I];
+            var valueValue2 = value[i];
             _items.Add(valueValue2);
         }
 
@@ -873,12 +872,12 @@ public partial class Memo : Control
     public void CurrentToReal()
     {
         int length;
-        int I;
+        int i;
         length = _items[0].Length;
         _realColumn = 0;
         _realLine = 0;
-        I = 0;
-        while (I <= _currentLine)
+        i = 0;
+        while (i <= _currentLine)
         {
             var line = Lines[_currentLine];
             _realColumn = _realColumn + line.Length;
@@ -889,7 +888,7 @@ public partial class Memo : Control
                 length = _items[_realLine].Length;
             }
 
-            I += 1;
+            i += 1;
         }
 
         _realColumn = _realColumn + _currentColumn;
@@ -900,34 +899,34 @@ public partial class Memo : Control
     public void RealToCurrent()
     {
         int length;
-        int I;
+        int i;
         SetSize();
         length = _items[0].Length;
         _currentColumn = 0;
         _currentLine = 0;
-        I = 0;
-        while (I < _realLine)
+        i = 0;
+        while (i < _realLine)
         {
             var line = Lines[_currentLine];
             _currentColumn = _currentColumn + line.Length;
             if (_currentColumn >= length)
             {
                 _currentColumn = 0;
-                I += 1;
-                length = _items[I].Length;
+                i += 1;
+                length = _items[i].Length;
             }
 
             _currentLine += 1;
         }
 
-        I = Lines[_currentLine].Length;
-        while (I < _realColumn && Lines.Count > _currentLine)
+        i = Lines[_currentLine].Length;
+        while (i < _realColumn && Lines.Count > _currentLine)
         {
             _currentLine += 1;
-            I = I + Lines[_currentLine].Length;
+            i = i + Lines[_currentLine].Length;
         }
 
-        _currentColumn = Lines[_currentLine].Length + _realColumn - I;
+        _currentColumn = Lines[_currentLine].Length + _realColumn - i;
     }
 
     // AoWMemo.pas:842

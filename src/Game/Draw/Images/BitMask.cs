@@ -56,11 +56,11 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     // ImageLib.pas:4676
     public override void SetWidth(int value)
     {
-        int W;
-        W = _xshift + _maskLeft + _maskWidth;
-        if (value < W)
+        int w;
+        w = _xshift + _maskLeft + _maskWidth;
+        if (value < w)
         {
-            value = W;
+            value = w;
         }
 
         base.SetWidth(value);
@@ -69,11 +69,11 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     // ImageLib.pas:4685
     public override void SetHeight(int value)
     {
-        int H;
-        H = _yshift + _maskTop + _maskHeight;
-        if (value < H)
+        int h;
+        h = _yshift + _maskTop + _maskHeight;
+        if (value < h)
         {
-            value = H;
+            value = h;
         }
 
         base.SetHeight(value);
@@ -199,14 +199,14 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         bottom = minRectangle.Bottom;
         _maskHeight = bottom - top;
         AllocateMaskData(_maskWidth, _maskHeight);
-        for (int Y = top; Y <= bottom - 1; Y++)
+        for (int y = top; y <= bottom - 1; y++)
         {
-            offset = (Y - minRectangle.Top) * _pitch;
-            for (int X = minRectangle.Left, last = minRectangle.Right - 1; X <= last; X++)
+            offset = (y - minRectangle.Top) * _pitch;
+            for (int x = minRectangle.Left, last = minRectangle.Right - 1; x <= last; x++)
             {
                 if (!((GrabInfo)grabInfo).Inverse)
                 {
-                    AddBit(GetPixelInfo(lockedSurface, X, Y) != transparentColor);
+                    AddBit(GetPixelInfo(lockedSurface, x, y) != transparentColor);
                 }
             }
 

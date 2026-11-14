@@ -18,14 +18,14 @@ public partial class SingleCombatHex : AbstractHexagon
     // SingleCombatHex.pas:47
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-        X = X - pixelXSurface - 8;
-        Y = Y - pixelYSurface;
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        x = x - pixelXSurface - 8;
+        y = y - pixelYSurface;
         sequence = _resource.ImageSequenceList.GetImageSequence(0);
-        sequence.ImageLibrary.Get(sequence.ImageIndex).Show(X, Y, lockedSurface);
+        sequence.ImageLibrary.Get(sequence.ImageIndex).Show(x, y, lockedSurface);
     }
 
     // SingleCombatHex.pas:44

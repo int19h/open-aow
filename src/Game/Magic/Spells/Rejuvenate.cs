@@ -33,7 +33,7 @@ public partial class Rejuvenate : GlobalTargetSpell
         target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
-        for (int I = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; I <= last; I++)
+        for (int i = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; i <= last; i++)
         {
             target.HexNumbers.Add(0);
         }

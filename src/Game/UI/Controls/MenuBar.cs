@@ -38,11 +38,11 @@ public partial class MenuBar : Control
     // AOWMenuBar.pas:74
     public override void Dispose()
     {
-        WindowControl M;
-        for (int I = 0, last = Menus.Count - 1; I <= last; I++)
+        WindowControl m;
+        for (int i = 0, last = Menus.Count - 1; i <= last; i++)
         {
-            M = Menus[I];
-            M.DetachMenuBar();
+            m = Menus[i];
+            m.DetachMenuBar();
         }
 
         Menus.Clear();
@@ -87,9 +87,9 @@ public partial class MenuBar : Control
         }
 
         SetWinHeightWithoutInvalidate(_imageLibraryButton[_imageLibraryIndexUp].Height);
-        for (int I = 0, last = Menus.Count - 1; I <= last; I++)
+        for (int i = 0, last = Menus.Count - 1; i <= last; i++)
         {
-            (Menus[I]).Aligned = false;
+            (Menus[i]).Aligned = false;
         }
 
         base.SetSize();
@@ -98,9 +98,9 @@ public partial class MenuBar : Control
     // AOWMenuBar.pas:122
     public override void ReAlign()
     {
-        for (int I = 0, last = Menus.Count - 1; I <= last; I++)
+        for (int i = 0, last = Menus.Count - 1; i <= last; i++)
         {
-            (Menus[I]).Aligned = false;
+            (Menus[i]).Aligned = false;
         }
 
         base.ReAlign();
@@ -119,34 +119,34 @@ public partial class MenuBar : Control
                 RaisePreDraw(this, lockedSurface);
 
                 oldClip = lockedSurface.ClipRectangle;
-                for (int I = 0, last = _items.Count - 1; I <= last; I++)
+                for (int i = 0, last = _items.Count - 1; i <= last; i++)
                 {
-                    if (I != _selected)
+                    if (i != _selected)
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
                             _font.Color = SelectedColor;
-                            var item = _items[I];
+                            var item = _items[i];
                             var count2 = _items.Count;
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * I / count2 + _borderWidth, Window.WinTop + WinTop + _borderHeight, item, lockedSurface);
+                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + _borderWidth, Window.WinTop + WinTop + _borderHeight, item, lockedSurface);
                         }
                     }
                     else
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
                             _font.Color = Color;
-                            var item = _items[I];
+                            var item = _items[i];
                             var count2 = _items.Count;
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * I / count2 + _borderWidth, Window.WinTop + WinTop + _borderHeight + 1, item, lockedSurface);
+                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + _borderWidth, Window.WinTop + WinTop + _borderHeight + 1, item, lockedSurface);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ public partial class MenuBar : Control
     //   was selected; a click outside the bar closes the selected item }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int I = default;
+        int i = default;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
@@ -175,8 +175,8 @@ public partial class MenuBar : Control
             if (button == MouseButton.Left)
             {
                 var count = _items.Count;
-                I = (X - Window.WinLeft - WinLeft) / (WinWidth / count);
-                if (I == _selected)
+                i = (X - Window.WinLeft - WinLeft) / (WinWidth / count);
+                if (i == _selected)
                 {
                     _selected = -1;
                     RaiseChange(this);
@@ -185,15 +185,15 @@ public partial class MenuBar : Control
                 }
                 else
                 {
-                    if (!_ignoreClickOnLastSelected || (I > -1 && I != _lastSelected))
+                    if (!_ignoreClickOnLastSelected || (i > -1 && i != _lastSelected))
                     {
-                        _selected = I;
-                        _lastSelected = I;
-                        I = 0;
+                        _selected = i;
+                        _lastSelected = i;
+                        i = 0;
                         int last = Menus.Count - 1;
-                        for (; I <= last; I += 1)
+                        for (; i <= last; i += 1)
                         {
-                            var component = Menus[I];
+                            var component = Menus[i];
                             if (component._ownerItem == this._selected)
                             {
                                 component.SetVisible(true);
@@ -284,9 +284,9 @@ public partial class MenuBar : Control
     public void SetFStrings(StringList value)
     {
         _items.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             _items.Add(valueValue);
         }
     }

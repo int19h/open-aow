@@ -36,7 +36,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
     public virtual void KeyDown(ref ushort key, Set<ShiftState> shift)
     {
         ushort translatedKey;
-        int I;
+        int i;
         bool prefix;
         bool complete;
         CheatTokenEvent cheat;
@@ -197,21 +197,21 @@ public partial class HexSpriteMapKeyboard : EngineObject
                     break;
                 case HexSpriteMapKeyboardMode.Cheat:
                     _cheatText = _cheatText + Cp1252.Text((byte)key);
-                    I = 10;
+                    i = 10;
                     complete = false;
                     prefix = false;
-                    while (I != 0 && !complete)
+                    while (i != 0 && !complete)
                     {
-                        I -= 1;
-                        prefix = prefix || CompareText(_cheatText, RtlUnit.Copy(s_cheatNames[I], 1, _cheatText.Length)) == 0;
-                        complete = CompareText(_cheatText, s_cheatNames[I]) == 0;
+                        i -= 1;
+                        prefix = prefix || CompareText(_cheatText, RtlUnit.Copy(s_cheatNames[i], 1, _cheatText.Length)) == 0;
+                        complete = CompareText(_cheatText, s_cheatNames[i]) == 0;
                     }
 
                     if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                     {
                         cheat = new CheatTokenEvent(null) { Holder = CreationHolder() };
                         cheat.Player = StrategicMap.Current.SeatedPlayer;
-                        cheat.CheatId = I;
+                        cheat.CheatId = i;
                         StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(cheat);
                         cheat.Release();
                         _cheatText = "";

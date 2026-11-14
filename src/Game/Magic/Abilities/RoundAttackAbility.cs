@@ -59,10 +59,10 @@ public partial class RoundAttackAbility : TouchAbility
             action.Release();
         }
 
-        for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
+        for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
         {
             var side = target.GetSide();
-            other = combat.Sides[(int)side].GetObjects(I);
+            other = combat.Sides[(int)side].GetObjects(i);
             if (other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.GetRound() - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
             {
                 targets.Add(other);
@@ -166,11 +166,11 @@ public partial class RoundAttackAbility : TouchAbility
             damageValues.DamageTypes = damageTypes - immunityTypes;
             combat = attacker.Combat;
             count = 0;
-            for (int I = combat.Sides[(int)defender.GetSide()].GetCount() - 1; I >= 0; I--)
+            for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 // { Preserve the original saved registers. }
                 var side = defender.GetSide();
-                target = combat.Sides[(int)side].GetObjects(I);
+                target = combat.Sides[(int)side].GetObjects(i);
                 // { Original tests Defender's flying ability here, rather than Target's. }
                 if (target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.GetRoundDistance() && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
                 {

@@ -10,8 +10,7 @@ public partial class DisplayController
     public virtual int WaitForVerticalBlank()
     {
         var clock = RtlUnit.Clock;
-        double target = _lastVerticalBlank + _display.FrameTime;
-        clock.WaitUntil(target);
+        clock.WaitUntil(_lastVerticalBlank + _display.FrameTime);
         _lastVerticalBlank = clock.ElapsedMilliseconds;
         return 0;
     }

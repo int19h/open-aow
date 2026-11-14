@@ -55,11 +55,11 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
-        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
+        for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {
-            for (int J = playerLocal.Armies.GetArmy(I).Units.Count - 1; J >= 0; J--)
+            for (int j = playerLocal.Armies.GetArmy(i).Units.Count - 1; j >= 0; j--)
             {
-                playerLocal.Armies.GetArmy(I).Units.GetUnit(J).ResetFireMasteryProtection();
+                playerLocal.Armies.GetArmy(i).Units.GetUnit(j).ResetFireMasteryProtection();
             }
         }
 
@@ -98,11 +98,11 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
-        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
+        for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {
-            for (int J = playerLocal.Armies.GetArmy(I).Units.Count - 1; J >= 0; J--)
+            for (int j = playerLocal.Armies.GetArmy(i).Units.Count - 1; j >= 0; j--)
             {
-                playerLocal.Armies.GetArmy(I).Units.GetUnit(J).SetFireMasteryProtection();
+                playerLocal.Armies.GetArmy(i).Units.GetUnit(j).SetFireMasteryProtection();
             }
         }
 
@@ -117,19 +117,19 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         MapLevel mapLevel;
         Fire fire;
         RandSeed = StrategicMap.Current.Random(16777215);
-        for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
+        for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
         {
-            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
-            for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
+            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
+            for (int y = 1, lastY = mapLevel.Height - 1; y <= lastY; y++)
             {
-                for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+                for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
                 {
-                    chance = MapField.IgnitionChance(mapLevel.GetField(X, Y));
+                    chance = MapField.IgnitionChance(mapLevel.GetField(x, y));
                     if (chance > 0)
                     {
                         if (StrategicMap.Current.Random(10000) < chance * factor)
                         {
-                            fire = GamePack.Current.FireControl.PlaceFire(X, Y, L, FireType.Large);
+                            fire = GamePack.Current.FireControl.PlaceFire(x, y, l, FireType.Large);
                             if (fire != null)
                             {
                                 if (explosions)

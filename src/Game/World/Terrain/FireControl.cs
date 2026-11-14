@@ -29,18 +29,17 @@ public partial class FireControl : IDisposable
         Fire.Resource result;
         List<Fire.Resource> resources;
         resources = new List<Fire.Resource>();
-        for (int I = 0, last = _resources.Count - 1; I <= last; I++)
+        for (int i = 0, last = _resources.Count - 1; i <= last; i++)
         {
-            if (_resources[I].FireType == fireType)
+            if (_resources[i].FireType == fireType)
             {
-                resources.Add(_resources[I]);
+                resources.Add(_resources[i]);
             }
         }
 
         if (resources.Count != 0)
         {
-            var random = Random(resources.Count);
-            result = resources[random];
+            result = resources[Random(resources.Count)];
         }
         else
         {

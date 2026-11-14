@@ -34,17 +34,17 @@ public static class HexGeometry
     internal static int InverseHexNumber(int hexNumber)
     {
         int result;
-        int R;
-        int N;
+        int r;
+        int n;
         if (hexNumber < 37)
         {
             result = InverseHexNumberTable[hexNumber];
         }
         else
         {
-            R = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
-            N = R * 6;
-            result = (hexNumber - (R - 1) * R * 3 - 1 + (int)(((uint)N) >> 1)) % N + ((R - 1) * R * 3 + 1);
+            r = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
+            n = r * 6;
+            result = (hexNumber - (r - 1) * r * 3 - 1 + (int)(((uint)n) >> 1)) % n + ((r - 1) * r * 3 + 1);
         }
 
         return result;
@@ -52,36 +52,36 @@ public static class HexGeometry
 
     internal static void CenterHexNumberToHex(int hexX, int hexY, int hexNumber, ref int newHexX, ref int newHexY)
     {
-        int R;
+        int r;
         int side;
         int position;
         if (hexNumber != 0)
         {
-            R = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
-            hexNumber = hexNumber - (R - 1) * R * 3 - 1;
-            side = hexNumber / R;
-            position = hexNumber % R;
+            r = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
+            hexNumber = hexNumber - (r - 1) * r * 3 - 1;
+            side = hexNumber / r;
+            position = hexNumber % r;
             switch (side)
             {
                 case 0:
-                    HVtoHex(R, position - R, out newHexX, out newHexY);
+                    HVtoHex(r, position - r, out newHexX, out newHexY);
                     break;
                 case 1:
-                    newHexX = R;
-                    newHexY = position - (R + 1) / 2;
+                    newHexX = r;
+                    newHexY = position - (r + 1) / 2;
                     break;
                 case 2:
-                    HVtoHex(-position, R, out newHexX, out newHexY);
+                    HVtoHex(-position, r, out newHexX, out newHexY);
                     break;
                 case 3:
-                    HVtoHex(-R, R - position, out newHexX, out newHexY);
+                    HVtoHex(-r, r - position, out newHexX, out newHexY);
                     break;
                 case 4:
-                    newHexX = -R;
-                    newHexY = -position + R / 2;
+                    newHexX = -r;
+                    newHexY = -position + r / 2;
                     break;
                 case 5:
-                    HVtoHex(position, -R, out newHexX, out newHexY);
+                    HVtoHex(position, -r, out newHexX, out newHexY);
                     break;
             }
         }
@@ -191,7 +191,7 @@ public static class HexGeometry
         }
     }
 
-    internal static MapCoordinate PackMapCoordinate(sbyte X, sbyte Y, sbyte L) => new(X, Y, L);
+    internal static MapCoordinate PackMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => new(x, y, mapLevel);
 
     internal static ReadOnlySpan<byte> InverseHexNumberTable => [0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
@@ -222,7 +222,7 @@ public static class HexGeometry
 
     internal static void HexNumberToHex(int hexNumber, ref int hexX, ref int hexY)
     {
-        int R;
+        int r;
         int side;
         int position;
         if (hexNumber < 37)
@@ -232,31 +232,31 @@ public static class HexGeometry
         }
         else
         {
-            R = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
-            hexNumber = hexNumber - (R - 1) * R * 3 - 1;
-            side = hexNumber / R;
-            position = hexNumber % R;
+            r = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
+            hexNumber = hexNumber - (r - 1) * r * 3 - 1;
+            side = hexNumber / r;
+            position = hexNumber % r;
             switch (side)
             {
                 case 0:
-                    HVtoHex(R, position - R, out hexX, out hexY);
+                    HVtoHex(r, position - r, out hexX, out hexY);
                     break;
                 case 1:
-                    hexX = R;
-                    hexY = position - (R + 1) / 2;
+                    hexX = r;
+                    hexY = position - (r + 1) / 2;
                     break;
                 case 2:
-                    HVtoHex(-position, R, out hexX, out hexY);
+                    HVtoHex(-position, r, out hexX, out hexY);
                     break;
                 case 3:
-                    HVtoHex(-R, R - position, out hexX, out hexY);
+                    HVtoHex(-r, r - position, out hexX, out hexY);
                     break;
                 case 4:
-                    hexX = -R;
-                    hexY = -position + R / 2;
+                    hexX = -r;
+                    hexY = -position + r / 2;
                     break;
                 case 5:
-                    HVtoHex(position, -R, out hexX, out hexY);
+                    HVtoHex(position, -r, out hexX, out hexY);
                     break;
             }
         }
@@ -383,51 +383,51 @@ public static class HexGeometry
     internal static int HexToHexNumber(int hexX, int hexY)
     {
         int result;
-        int R;
+        int r;
         int side;
         int position;
-        int H = default;
-        int V = default;
-        R = HexToRadius(hexX, hexY);
-        if (R != 0)
+        int h = default;
+        int v = default;
+        r = HexToRadius(hexX, hexY);
+        if (r != 0)
         {
-            HexToHV(hexX, hexY, out H, out V);
-            if (R == H)
+            HexToHV(hexX, hexY, out h, out v);
+            if (r == h)
             {
                 side = 0;
-                position = V + R;
+                position = v + r;
             }
             else
             {
-                if (R == V)
+                if (r == v)
                 {
                     side = 2;
-                    position = -H;
+                    position = -h;
                 }
                 else
                 {
-                    if (-R == H)
+                    if (-r == h)
                     {
                         side = 3;
-                        position = -V + R;
+                        position = -v + r;
                     }
                     else
                     {
-                        if (-R == V)
+                        if (-r == v)
                         {
                             side = 5;
-                            position = H;
+                            position = h;
                         }
                         else
                         {
-                            if (R == hexX)
+                            if (r == hexX)
                             {
                                 side = 1;
                                 position = (hexX + 1) / 2 + hexY;
                             }
                             else
                             {
-                                if (R == -hexX)
+                                if (r == -hexX)
                                 {
                                     side = 4;
                                     position = -hexY - hexX / 2;
@@ -442,7 +442,7 @@ public static class HexGeometry
                 }
             }
 
-            result = position + ((R - 1) * R * 3 + 1 + side * R);
+            result = position + ((r - 1) * r * 3 + 1 + side * r);
         }
         else
         {
@@ -545,9 +545,9 @@ public static class HexGeometry
     internal static int HexToHexDirection(int hexX, int hexY)
     {
         int result;
-        int H;
-        H = HexToH(hexX, hexY);
-        if (H > 0)
+        int h;
+        h = HexToH(hexX, hexY);
+        if (h > 0)
         {
             if (hexX < 0)
             {
@@ -567,7 +567,7 @@ public static class HexGeometry
         }
         else
         {
-            if (H < 0)
+            if (h < 0)
             {
                 if (hexX > 0)
                 {

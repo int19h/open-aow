@@ -27,9 +27,9 @@ public partial class NewCombatTurnCombatAction : CombatAction
     public override void Execute(Battle combat)
     {
         combat.CombatData.CurrentPlayer = CombatPlayer;
-        for (int I = combat.CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = combat.CombatData.GetCount() - 1; i >= 0; i--)
         {
-            combat.CombatData.GetObjects(I).NewTurn(CombatPlayer);
+            combat.CombatData.GetObjects(i).NewTurn(CombatPlayer);
         }
     }
 

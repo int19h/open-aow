@@ -45,12 +45,12 @@ public partial class SynchronizeDialog : UIModule
     public void FaceFramePreDraw(LockedSurface surface)
     {
         PlayerSetupSettings settings;
-        Rect R;
+        Rect r;
         settings = GetPlayerSetup();
         if (settings != null)
         {
-            R = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-            settings.Leader.ShowFace(R, surface);
+            r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
+            settings.Leader.ShowFace(r, surface);
         }
     }
 
@@ -58,17 +58,17 @@ public partial class SynchronizeDialog : UIModule
     public void DlgShow()
     {
         PlayerSetupSettings settings;
-        int I;
-        int Day;
+        int i;
+        int day2;
         settings = GetPlayerSetup();
         if (settings != null)
         {
             if (!UI.SetupEvents.SetupControl.Settings.CustomizeLeaders)
             {
-                I = UI.SetupEvents.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
-                if (I != -1)
+                i = UI.SetupEvents.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
+                if (i != -1)
                 {
-                    var player = UI.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(I);
+                    var player = UI.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(i);
                     PlayerNameLabel.Text = player.Name;
                 }
                 else
@@ -83,14 +83,14 @@ public partial class SynchronizeDialog : UIModule
 
             var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
             PlayerRaceLabel.Text = raceNamesPlural;
-            Day = StrategicMap.Current.Day;
-            if (Day == 0)
+            day2 = StrategicMap.Current.Day;
+            if (day2 == 0)
             {
-                Day = 1;
+                day2 = 1;
             }
 
             var day = UI.Engine.TranslateResourceString(GameText.DayText);
-            TurnLabel.Text = day + " " + IntToStr(Day);
+            TurnLabel.Text = day + " " + IntToStr(day2);
             LeftShield.CurrentImage = settings.Race + 26;
             RightShield.CurrentImage = settings.Race + 26;
         }

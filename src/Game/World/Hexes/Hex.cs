@@ -47,14 +47,14 @@ public partial class Hex : AbstractHexagon
     // AoWHex.pas:119
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        MapObjectResource R;
+        MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             var classId = _resource.EngineClass.ClassId;
-            R = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
-            if (R != null)
+            r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
+            if (r != null)
             {
-                SetResource(R);
+                SetResource(r);
                 UpdateTransitions();
                 StrategicMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
             }

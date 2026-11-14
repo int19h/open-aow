@@ -113,16 +113,16 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     // ManaCrystals.pas:100
     public void UpdateAITarget(ref CrystalAIInfo info, ref int priority)
     {
-        int P;
+        int p;
         switch (info.Kind)
         {
             case 0:
                 if (info.Player != 0)
                 {
-                    P = _amount / 5 + 15;
-                    if (priority < P)
+                    p = _amount / 5 + 15;
+                    if (priority < p)
                     {
-                        priority = P;
+                        priority = p;
                     }
                 }
 
@@ -159,9 +159,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         log = new LocationTextEventLog(null) { Holder = CreationHolder() };
         log._player = (sbyte)(byte)armyHexSprite.Army.Player;
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
-        var hexLevel2 = GetHexLevel();
-        var hexY2 = GetHexY();
-        log.SetLocation(GetHexX(), hexY2, hexLevel2);
+        log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
         log.Release();
         Dispose();

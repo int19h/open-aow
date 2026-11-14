@@ -37,47 +37,47 @@ public partial class LookupBlendTableCollection100 : IDisposable
     public bool GenerateLookupTables(int bits, GenerateBlendTableProc proc, int count)
     {
         bool result;
-        BlendTable T;
-        float V;
-        int J;
+        BlendTable t;
+        float v;
+        int j;
         Clear();
         if (bits == 5 && count > 0)
         {
-            for (int I = 0; I <= count - 1; I++)
+            for (int i = 0; i <= count - 1; i++)
             {
                 switch (bits)
                 {
                     case 5:
-                        T = new BlendTable5Bit();
+                        t = new BlendTable5Bit();
                         break;
                     default:
-                        T = null;
+                        t = null;
                         break;
                 }
 
                 if (count != 1)
                 {
-                    V = (float)((double)I / (count - 1));
+                    v = (float)((double)i / (count - 1));
                 }
                 else
                 {
-                    V = (float)0.5;
+                    v = (float)0.5;
                 }
 
-                proc(T, V);
-                _tables.Add(T);
+                proc(t, v);
+                _tables.Add(t);
             }
 
-            for (int I = 0; I <= 100; I++)
+            for (int i = 0; i <= 100; i++)
             {
-                J = I * count / 100;
-                if (J == count)
+                j = i * count / 100;
+                if (j == count)
                 {
-                    J = count - 1;
+                    j = count - 1;
                 }
 
-                var blendTable = _tables.Tables[J];
-                Lookup[I] = blendTable;
+                var blendTable = _tables.Tables[j];
+                Lookup[i] = blendTable;
             }
 
             result = true;

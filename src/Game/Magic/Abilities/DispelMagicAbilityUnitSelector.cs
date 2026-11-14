@@ -23,21 +23,21 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
         Troop source;
         Troop target;
         string error = "";
-        int I;
+        int i;
         DispelMagicAbilityTokenEvent eventValue;
         source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            I = 0;
+            i = 0;
             target = null;
-            while (target == null && I != Units.GetCount())
+            while (target == null && i != Units.GetCount())
             {
-                if ((Selection & (1 << I)) != 0)
+                if ((Selection & (1 << i)) != 0)
                 {
-                    target = Units.GetUnit(I);
+                    target = Units.GetUnit(i);
                 }
 
-                I += 1;
+                i += 1;
             }
 
             if (target != null)

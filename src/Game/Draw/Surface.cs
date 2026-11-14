@@ -13,8 +13,8 @@ public partial class Surface : IDisposable
     {
         int result = default;
         LockedSurface lockedSurface = default;
-        int V;
-        ushort W;
+        int v;
+        ushort w;
         byte index;
         if (Succeeded(Lock(ref lockedSurface)))
         {
@@ -25,26 +25,26 @@ public partial class Surface : IDisposable
                 switch (lockedSurface.PixelFormatId)
                 {
                     case PixelFormats.pfRGB555:
-                        W = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
-                        result = (int)(((uint)(W & 31744)) >> 7) + ((W & 992) << 6) + ((W & 31) << 19);
+                        w = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
+                        result = (int)(((uint)(w & 31744)) >> 7) + ((w & 992) << 6) + ((w & 31) << 19);
                         break;
                     case PixelFormats.pfRGB565:
-                        W = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
-                        result = (int)(((uint)(W & 63488)) >> 8) + ((W & 2016) << 5) + ((W & 31) << 19);
+                        w = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
+                        result = (int)(((uint)(w & 63488)) >> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
                         break;
                     case PixelFormats.pfPAL8:
                         Assert(lockedSurface.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         index = lockedSurface.View().Byte(X + Y * lockedSurface.Pitch);
-                        Palette.Entry E = lockedSurface.Palette[index];
-                        result = E.Red + (E.Green << 8) + (E.Blue << 16);
+                        Palette.Entry e = lockedSurface.Palette[index];
+                        result = e.Red + (e.Green << 8) + (e.Blue << 16);
                         break;
                     case PixelFormats.pfRGB24:
-                        var P = lockedSurface.View(X + X + X + Y * lockedSurface.Pitch);
-                        result = P[2] + (P[1] << 8) + (P[0] << 16);
+                        var p = lockedSurface.View(X + X + X + Y * lockedSurface.Pitch);
+                        result = p[2] + (p[1] << 8) + (p[0] << 16);
                         break;
                     case PixelFormats.pfRGB32:
-                        V = (int)lockedSurface.View().Dword((X << 2) + Y * lockedSurface.Pitch);
-                        result = (int)(((uint)(V & 16711680)) >> 16) + (V & 65280) + ((V & 255) << 16);
+                        v = (int)lockedSurface.View().Dword((X << 2) + Y * lockedSurface.Pitch);
+                        result = (int)(((uint)(v & 16711680)) >> 16) + (v & 65280) + ((v & 255) << 16);
                         break;
                     default:
                         Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11999);
@@ -72,7 +72,7 @@ public partial class Surface : IDisposable
     {
         int result = default;
         LockedSurface lockedSurface = default;
-        int P;
+        int p;
         if (Succeeded(Lock(ref lockedSurface)))
         {
             try
@@ -93,8 +93,8 @@ public partial class Surface : IDisposable
                         }
                         else
                         {
-                            P = X + X + X + Y * lockedSurface.Pitch;
-                            result = lockedSurface.View().UInt16(P) + (lockedSurface.View().Byte(P + 2) << 16);
+                            p = X + X + X + Y * lockedSurface.Pitch;
+                            result = lockedSurface.View().UInt16(p) + (lockedSurface.View().Byte(p + 2) << 16);
                         }
 
                         break;
@@ -157,9 +157,9 @@ public partial class Surface : IDisposable
         int result;
         LockedSurface destinationSurface = default;
         LockedSurface sourceSurface = default;
-        Rect R = default;
-        SurfaceView S;
-        SurfaceView D;
+        Rect r = default;
+        SurfaceView s;
+        SurfaceView d;
         if (destination.PixelFormatId == PixelFormatId)
         {
             if (Succeeded(destination.Lock(ref destinationSurface)))
@@ -168,16 +168,16 @@ public partial class Surface : IDisposable
                 {
                     if (sourceRectangle is null)
                     {
-                        R.Left = 0;
-                        R.Right = sourceSurface.Width;
-                        R.Top = 0;
-                        R.Bottom = sourceSurface.Height;
-                        sourceRectangle = R;
+                        r.Left = 0;
+                        r.Right = sourceSurface.Width;
+                        r.Top = 0;
+                        r.Bottom = sourceSurface.Height;
+                        sourceRectangle = r;
                     }
 
-                    S = sourceSurface.View(sourceRectangle.Value.Left * sourceSurface.BitCount / 8 + sourceRectangle.Value.Top * sourceSurface.Pitch);
-                    D = destinationSurface.View(X * destinationSurface.BitCount / 8 + Y * destinationSurface.Pitch);
-                    BlitRects.BlitRectangle(S, D, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
+                    s = sourceSurface.View(sourceRectangle.Value.Left * sourceSurface.BitCount / 8 + sourceRectangle.Value.Top * sourceSurface.Pitch);
+                    d = destinationSurface.View(X * destinationSurface.BitCount / 8 + Y * destinationSurface.Pitch);
+                    BlitRects.BlitRectangle(s, d, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
                     Unlock();
                     result = PixelFormats.GFXE_OK;
                 }
@@ -205,77 +205,77 @@ public partial class Surface : IDisposable
     public virtual int BlitClipped(Surface destination, Rect? sourceRectangle, int X, int Y)
     {
         int result;
-        int W;
-        int H;
-        Rect R = default;
+        int w;
+        int h;
+        Rect r = default;
         if (sourceRectangle is null)
         {
-            R.Left = 0;
+            r.Left = 0;
             var width = GetWidth();
-            R.Right = width;
-            R.Top = 0;
+            r.Right = width;
+            r.Top = 0;
             var height = GetHeight();
-            R.Bottom = height;
+            r.Bottom = height;
         }
         else
         {
-            R = sourceRectangle.Value;
+            r = sourceRectangle.Value;
             var width = GetWidth();
-            if (R.Right > width)
+            if (r.Right > width)
             {
                 var width2 = GetWidth();
-                R.Right = width2;
+                r.Right = width2;
             }
 
-            if (R.Left < 0)
+            if (r.Left < 0)
             {
-                X = X - R.Left;
-                R.Left = 0;
+                X = X - r.Left;
+                r.Left = 0;
             }
         }
 
         if (X < 0)
         {
-            R.Left = R.Left - X;
+            r.Left = r.Left - X;
             X = 0;
         }
 
-        W = R.Right - R.Left;
-        if (destination.GetWidth() < X + W)
+        w = r.Right - r.Left;
+        if (destination.GetWidth() < X + w)
         {
-            W = W - (X + W - destination.GetWidth());
+            w = w - (X + w - destination.GetWidth());
         }
 
         var height2 = GetHeight();
-        if (R.Bottom > height2)
+        if (r.Bottom > height2)
         {
             var height = GetHeight();
-            R.Bottom = height;
+            r.Bottom = height;
         }
 
-        if (R.Top < 0)
+        if (r.Top < 0)
         {
-            Y = Y - R.Top;
-            R.Top = 0;
+            Y = Y - r.Top;
+            r.Top = 0;
         }
 
         if (Y < 0)
         {
-            R.Top = R.Top - Y;
+            r.Top = r.Top - Y;
             Y = 0;
         }
 
-        H = R.Bottom - R.Top;
-        if (destination.GetHeight() < H + Y)
+        h = r.Bottom - r.Top;
+        if (destination.GetHeight() < h + Y)
         {
-            H = H - (H + Y - destination.GetHeight());
+            h = h - (h + Y - destination.GetHeight());
         }
 
-        if (W > 0 && H > 0)
+        if (w > 0 && h > 0)
         {
-            R.Right = W + R.Left;
-            R.Bottom = R.Top + H;
-            result = Blit(destination, R, X, Y);
+            r.Right = w + r.Left;
+            r.Bottom = r.Top + h;
+            result = Blit(destination, r, X, Y);
         }
         else
         {
@@ -291,9 +291,9 @@ public partial class Surface : IDisposable
         int result;
         LockedSurface destinationSurface = default;
         LockedSurface sourceSurface = default;
-        Rect R = default;
-        SurfaceView S;
-        SurfaceView D;
+        Rect r = default;
+        SurfaceView s;
+        SurfaceView d;
         if (destination.PixelFormatId == PixelFormatId && (PixelFormatId & 255) == 16)
         {
             if (Succeeded(destination.Lock(ref destinationSurface)))
@@ -302,16 +302,16 @@ public partial class Surface : IDisposable
                 {
                     if (sourceRectangle is null)
                     {
-                        R.Left = 0;
-                        R.Right = sourceSurface.Width;
-                        R.Top = 0;
-                        R.Bottom = sourceSurface.Height;
-                        sourceRectangle = R;
+                        r.Left = 0;
+                        r.Right = sourceSurface.Width;
+                        r.Top = 0;
+                        r.Bottom = sourceSurface.Height;
+                        sourceRectangle = r;
                     }
 
-                    S = sourceSurface.View(sourceRectangle.Value.Left * sourceSurface.BitCount / 8 + sourceRectangle.Value.Top * sourceSurface.Pitch);
-                    D = destinationSurface.View(X * destinationSurface.BitCount / 8 + Y * destinationSurface.Pitch);
-                    BlitRects.BlitColorKey16(S, D, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
+                    s = sourceSurface.View(sourceRectangle.Value.Left * sourceSurface.BitCount / 8 + sourceRectangle.Value.Top * sourceSurface.Pitch);
+                    d = destinationSurface.View(X * destinationSurface.BitCount / 8 + Y * destinationSurface.Pitch);
+                    BlitRects.BlitColorKey16(s, d, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
                     result = PixelFormats.GFXE_OK;
                     Unlock();
                 }
@@ -339,77 +339,77 @@ public partial class Surface : IDisposable
     public virtual int BlitColorKeyClipped(Surface destination, Rect? sourceRectangle, int X, int Y, int colorKey)
     {
         int result;
-        int W;
-        int H;
-        Rect R = default;
+        int w;
+        int h;
+        Rect r = default;
         if (sourceRectangle is null)
         {
-            R.Left = 0;
+            r.Left = 0;
             var width = GetWidth();
-            R.Right = width;
-            R.Top = 0;
+            r.Right = width;
+            r.Top = 0;
             var height = GetHeight();
-            R.Bottom = height;
+            r.Bottom = height;
         }
         else
         {
-            R = sourceRectangle.Value;
+            r = sourceRectangle.Value;
             var width = GetWidth();
-            if (R.Right > width)
+            if (r.Right > width)
             {
                 var width2 = GetWidth();
-                R.Right = width2;
+                r.Right = width2;
             }
 
-            if (R.Left < 0)
+            if (r.Left < 0)
             {
-                X = X - R.Left;
-                R.Left = 0;
+                X = X - r.Left;
+                r.Left = 0;
             }
         }
 
         if (X < 0)
         {
-            R.Left = R.Left - X;
+            r.Left = r.Left - X;
             X = 0;
         }
 
-        W = R.Right - R.Left;
-        if (destination.GetWidth() < X + W)
+        w = r.Right - r.Left;
+        if (destination.GetWidth() < X + w)
         {
-            W = W - (X + W - destination.GetWidth());
+            w = w - (X + w - destination.GetWidth());
         }
 
         var height2 = GetHeight();
-        if (R.Bottom > height2)
+        if (r.Bottom > height2)
         {
             var height = GetHeight();
-            R.Bottom = height;
+            r.Bottom = height;
         }
 
-        if (R.Top < 0)
+        if (r.Top < 0)
         {
-            Y = Y - R.Top;
-            R.Top = 0;
+            Y = Y - r.Top;
+            r.Top = 0;
         }
 
         if (Y < 0)
         {
-            R.Top = R.Top - Y;
+            r.Top = r.Top - Y;
             Y = 0;
         }
 
-        H = R.Bottom - R.Top;
-        if (destination.GetHeight() < H + Y)
+        h = r.Bottom - r.Top;
+        if (destination.GetHeight() < h + Y)
         {
-            H = H - (H + Y - destination.GetHeight());
+            h = h - (h + Y - destination.GetHeight());
         }
 
-        if (W > 0 && H > 0)
+        if (w > 0 && h > 0)
         {
-            R.Right = W + R.Left;
-            R.Bottom = R.Top + H;
-            result = BlitColorKey(destination, R, X, Y, colorKey);
+            r.Right = w + r.Left;
+            r.Bottom = r.Top + h;
+            result = BlitColorKey(destination, r, X, Y, colorKey);
         }
         else
         {
@@ -423,17 +423,17 @@ public partial class Surface : IDisposable
     public virtual int BlitStretch(Surface destination, Rect? sourceRectangle, Rect? destinationRectangle)
     {
         int result;
-        Rect R = default;
+        Rect r = default;
         Rect dr = default;
         if (sourceRectangle is null)
         {
-            R.Left = 0;
+            r.Left = 0;
             var width = GetWidth();
-            R.Right = width;
-            R.Top = 0;
+            r.Right = width;
+            r.Top = 0;
             var height = GetHeight();
-            R.Bottom = height;
-            sourceRectangle = R;
+            r.Bottom = height;
+            sourceRectangle = r;
         }
 
         if (destinationRectangle is null)

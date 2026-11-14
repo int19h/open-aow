@@ -35,8 +35,8 @@ public partial class ResurrectHero : Spell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         bool result = default;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         TwinkleAnimation animation = default;
         HeroList heroes;
@@ -47,12 +47,12 @@ public partial class ResurrectHero : Spell
         ArmyInfoEventLog infoLog = default;
         if (executeCount == 0)
         {
-            source.GetLocation(out X, out Y, out layer);
-            StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+            source.GetLocation(out x, out y, out layer);
+            StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
             animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
             animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-            StrategicMap.Current.PlaceHex(animation, X, Y, layer);
-            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
+            StrategicMap.Current.PlaceHex(animation, x, y, layer);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, layer, 0))
             {
                 CastSounds.Play(0);
             }
@@ -62,31 +62,26 @@ public partial class ResurrectHero : Spell
         {
             heroes = new HeroList(null) { Holder = CreationHolder() };
             StrategicMap.Current.HeroControl.ListDeadHeroes(heroes);
-            for (int I = heroes.Count - 1; I >= 0; I--)
+            for (int i = heroes.Count - 1; i >= 0; i--)
             {
-                if (heroes.GetHero(I) is Leader || heroes.GetHero(I).GetLevel() > StrategicMap.Current.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
+                if (heroes.GetHero(i) is Leader || heroes.GetHero(i).GetLevel() > StrategicMap.Current.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
                 {
-                    heroes.RemoveChild(heroes.GetHero(I));
+                    heroes.RemoveChild(heroes.GetHero(i));
                 }
             }
 
             if (heroes.Count != 0)
             {
-                source.GetLocation(out X, out Y, out layer);
+                source.GetLocation(out x, out y, out layer);
                 var count = heroes.Count;
                 hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
-                army = hero.Place(X, Y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
                 log = new LocationTextEventLog(null) { Holder = CreationHolder() };
                 log._player = source.Player;
                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_resurrectedFormat), [hero.HeroName]);
-                var hexLevel = army.GetHexLevel();
-                var hexY = army.GetHexY();
-                log.SetLocation(army.GetHexX(), hexY, hexLevel);
-                var armyHexY = army.GetHexY();
-                var armyHexLevel = army.GetHexLevel();
-                var hexX = army.GetHexX();
-                EventLog.DistributeLocationEventLog(log, source.Player, hexX, armyHexY, armyHexLevel, false);
+                log.SetLocation(level: army.GetHexLevel(), y: army.GetHexY(), x: army.GetHexX());
+                EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: source.Player, execute: false);
                 log.Release();
                 if (hero.OfferToJoin(source.Player))
                 {

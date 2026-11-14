@@ -47,11 +47,11 @@ public partial class SpringOfLife : Structure
     public void ExecuteNaturesBlessing(ArmyHexSprite armyHexSprite)
     {
         SpringOfLifeAnimation animation = default;
-        Rect R = default;
+        Rect r = default;
         // { Keep the parameter in its original stack slot. }
-        for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            armyHexSprite.Army.Units.GetUnit(I).ExpandAbility(99);
+            armyHexSprite.Army.Units.GetUnit(i).ExpandAbility(99);
         }
 
         bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
@@ -74,8 +74,8 @@ public partial class SpringOfLife : Structure
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
             animation = new SpringOfLifeAnimation(null) { Holder = CreationHolder() };
-            R = new Rect(-16, -8, 32, 40);
-            animation.SetDimensions(R);
+            r = new Rect(-16, -8, 32, 40);
+            animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;
             var hexLevel = GetHexLevel();

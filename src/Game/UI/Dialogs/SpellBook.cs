@@ -242,7 +242,7 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:582
     public void UpdateSpellPages()
     {
-        Spell Spell;
+        Spell spellSpell;
         if (ValidateHero())
         {
             switch (Mode)
@@ -288,37 +288,37 @@ public partial class SpellBook : UIModule
                     break;
             }
 
-            for (int I = _spells.GetCount() - 1; I >= 0; I--)
+            for (int i = _spells.GetCount() - 1; i >= 0; i--)
             {
-                bool condition = _spells.GetSpell(I).SpellId >= 100;
+                bool condition = _spells.GetSpell(i).SpellId >= 100;
                 if (condition)
                 {
-                    var spell = _spells.GetSpell(I);
+                    var spell = _spells.GetSpell(i);
                     condition = TacticalTables.SpellTypes[spell.SpellId] == BattleEffectType.None;
                 }
 
                 if (condition)
                 {
-                    _spells.Delete(I);
+                    _spells.Delete(i);
                 }
             }
 
-            Spell = _spells.GetSpell(Page * 8);
-            ShowSpellEntry(Spell, Spell1Panel, Spell1Button, Spell1SpellLabel, Spell1ClassLabel, Spell1CostLabel, Spell1Memo, Spell1Icon);
-            Spell = _spells.GetSpell(Page * 8 + 1);
-            ShowSpellEntry(Spell, Spell2Panel, Spell2Button, Spell2SpellLabel, Spell2ClassLabel, Spell2CostLabel, Spell2Memo, Spell2Icon);
-            Spell = _spells.GetSpell(Page * 8 + 2);
-            ShowSpellEntry(Spell, Spell3Panel, Spell3Button, Spell3SpellLabel, Spell3ClassLabel, Spell3CostLabel, Spell3Memo, Spell3Icon);
-            Spell = _spells.GetSpell(Page * 8 + 3);
-            ShowSpellEntry(Spell, Spell4Panel, Spell4Button, Spell4SpellLabel, Spell4ClassLabel, Spell4CostLabel, Spell4Memo, Spell4Icon);
-            Spell = _spells.GetSpell(Page * 8 + 4);
-            ShowSpellEntry(Spell, Spell5Panel, Spell5Button, Spell5SpellLabel, Spell5ClassLabel, Spell5CostLabel, Spell5Memo, Spell5Icon);
-            Spell = _spells.GetSpell(Page * 8 + 5);
-            ShowSpellEntry(Spell, Spell6Panel, Spell6Button, Spell6SpellLabel, Spell6ClassLabel, Spell6CostLabel, Spell6Memo, Spell6Icon);
-            Spell = _spells.GetSpell(Page * 8 + 6);
-            ShowSpellEntry(Spell, Spell7Panel, Spell7Button, Spell7SpellLabel, Spell7ClassLabel, Spell7CostLabel, Spell7Memo, Spell7Icon);
-            Spell = _spells.GetSpell(Page * 8 + 7);
-            ShowSpellEntry(Spell, Spell8Panel, Spell8Button, Spell8SpellLabel, Spell8ClassLabel, Spell8CostLabel, Spell8Memo, Spell8Icon);
+            spellSpell = _spells.GetSpell(Page * 8);
+            ShowSpellEntry(spellSpell, Spell1Panel, Spell1Button, Spell1SpellLabel, Spell1ClassLabel, Spell1CostLabel, Spell1Memo, Spell1Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 1);
+            ShowSpellEntry(spellSpell, Spell2Panel, Spell2Button, Spell2SpellLabel, Spell2ClassLabel, Spell2CostLabel, Spell2Memo, Spell2Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 2);
+            ShowSpellEntry(spellSpell, Spell3Panel, Spell3Button, Spell3SpellLabel, Spell3ClassLabel, Spell3CostLabel, Spell3Memo, Spell3Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 3);
+            ShowSpellEntry(spellSpell, Spell4Panel, Spell4Button, Spell4SpellLabel, Spell4ClassLabel, Spell4CostLabel, Spell4Memo, Spell4Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 4);
+            ShowSpellEntry(spellSpell, Spell5Panel, Spell5Button, Spell5SpellLabel, Spell5ClassLabel, Spell5CostLabel, Spell5Memo, Spell5Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 5);
+            ShowSpellEntry(spellSpell, Spell6Panel, Spell6Button, Spell6SpellLabel, Spell6ClassLabel, Spell6CostLabel, Spell6Memo, Spell6Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 6);
+            ShowSpellEntry(spellSpell, Spell7Panel, Spell7Button, Spell7SpellLabel, Spell7ClassLabel, Spell7CostLabel, Spell7Memo, Spell7Icon);
+            spellSpell = _spells.GetSpell(Page * 8 + 7);
+            ShowSpellEntry(spellSpell, Spell8Panel, Spell8Button, Spell8SpellLabel, Spell8ClassLabel, Spell8CostLabel, Spell8Memo, Spell8Icon);
             if (Mode == 0)
             {
                 _playerPages.Count = StrategicMap.Current.SeatedPlayer + 1;
@@ -341,7 +341,7 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:691
     public void UpdateInfoPages()
     {
-        sbyte Player;
+        sbyte player2;
         Leader leader;
         Button button;
         PlayerMagicControl control;
@@ -350,17 +350,17 @@ public partial class SpellBook : UIModule
         {
             if (Mode == 1)
             {
-                Player = CombatMap.Current.SeatedPlayer;
+                player2 = CombatMap.Current.SeatedPlayer;
             }
             else
             {
-                Player = StrategicMap.Current.SeatedPlayer;
+                player2 = StrategicMap.Current.SeatedPlayer;
             }
 
-            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
-            for (int I = 0; I <= 6; I++)
+            leader = StrategicMap.Current.Players.GetPlayers(player2).Leader;
+            for (int i = 0; i <= 6; i++)
             {
-                switch (I)
+                switch (i)
                 {
                     case 0:
                         button = Sphere1Button;
@@ -388,10 +388,10 @@ public partial class SpellBook : UIModule
                         break;
                 }
 
-                if (I < leader.GetSphereCount())
+                if (i < leader.GetSphereCount())
                 {
                     button.Visible = true;
-                    switch ((int)leader.GetSpheres(I) & 127)
+                    switch ((int)leader.GetSpheres(i) & 127)
                     {
                         case 1:
                             button.ImageLibraryIndexDown = 28;
@@ -432,7 +432,7 @@ public partial class SpellBook : UIModule
             }
 
             NameLabel.Text = _hero.HeroName;
-            var player = StrategicMap.Current.Players.GetPlayers(Player);
+            var player = StrategicMap.Current.Players.GetPlayers(player2);
             var manaPool = UI.Engine.TranslateResourceString(s_manaPoolText);
             ManaPoolLabel.Text = manaPool + ": " + IntToStr(player.MagicControl.Mana);
             var castingPoints = _hero.GetCastingPoints();
@@ -440,7 +440,7 @@ public partial class SpellBook : UIModule
             var castingPointsMax = _hero.GetCastingPointsMax();
             CastingPointsLabel.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
             ResearchManaPoolLabel.Text = ManaPoolLabel.Text;
-            var netPowerToResearch = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetNetPowerToResearch();
+            var netPowerToResearch = StrategicMap.Current.Players.GetPlayers(player2).MagicControl.GetNetPowerToResearch();
             var researchPoints = UI.Engine.TranslateResourceString(s_researchPointsText);
             ResearchPointsLabel.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
@@ -450,7 +450,7 @@ public partial class SpellBook : UIModule
                 SpellBookLabel.Visible = false;
                 ResearchBookLabel.Visible = true;
                 CastingPage.Visible = false;
-                control = StrategicMap.Current.Players.GetPlayers(Player).MagicControl;
+                control = StrategicMap.Current.Players.GetPlayers(player2).MagicControl;
                 if (control.ResearchSpellId != 0)
                 {
                     ResearchPanel.Visible = true;
@@ -996,17 +996,17 @@ public partial class SpellBook : UIModule
     public void SpellIconDraw(Image sender, LockedSurface lockedSurface, int slot)
     {
         int index;
-        int X;
-        int Y;
+        int x;
+        int y;
         index = Page * 8 + slot;
         if (index >= 0 && index < _spells.GetCount())
         {
             if (_spells.GetSpell(index).CastImages.GetImageSequence(10) != null)
             {
                 var image = sender;
-                X = image.Window.WinLeft;
-                Y = image.Window.WinTop;
-                _spells.GetSpell(index).CastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, lockedSurface);
+                x = image.Window.WinLeft;
+                y = image.Window.WinTop;
+                _spells.GetSpell(index).CastImages.Show(10, image.WinLeft + x, image.WinTop + y, 0, lockedSurface);
             }
         }
     }
@@ -1126,17 +1126,17 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:315
     public void FaceDraw(Image sender, LockedSurface lockedSurface)
     {
-        Rect R;
-        R = new Rect(LeftInfoPage.WinLeft + sender.WinLeft, LeftInfoPage.WinTop + sender.WinTop, LeftInfoPage.WinLeft + sender.WinLeft + sender.WinWidth, LeftInfoPage.WinTop + sender.WinTop + sender.WinHeight);
+        Rect r;
+        r = new Rect(LeftInfoPage.WinLeft + sender.WinLeft, LeftInfoPage.WinTop + sender.WinTop, LeftInfoPage.WinLeft + sender.WinLeft + sender.WinWidth, LeftInfoPage.WinTop + sender.WinTop + sender.WinHeight);
 
-        _hero.GetFace().ShowStretched(R, lockedSurface);
+        _hero.GetFace().ShowStretched(r, lockedSurface);
     }
 
     // AoWSpellBook.pas:325
     public void ResearchIcnDraw(Controls.Control sender, LockedSurface lockedSurface)
     {
         Spell spell;
-        int X;
+        int x;
         var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         spell = GamePack.Current.SpellControl.GetSpell(player.MagicControl.ResearchSpellId);
         if (spell == null && Mode == 3)
@@ -1146,8 +1146,8 @@ public partial class SpellBook : UIModule
 
         if (spell != null)
         {
-            X = sender.Window.WinLeft;
-            spell.CastImages.Show(10, sender.WinLeft + X, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
+            x = sender.Window.WinLeft;
+            spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
         }
     }
 
@@ -1155,7 +1155,7 @@ public partial class SpellBook : UIModule
     public void CastingIcnDraw(Controls.Control sender, LockedSurface lockedSurface)
     {
         Spell spell;
-        int X;
+        int x;
         if (_hero != null)
         {
             if (_hero.Casting())
@@ -1163,8 +1163,8 @@ public partial class SpellBook : UIModule
                 spell = GamePack.Current.SpellControl.GetSpell(_hero.CastingSpellId);
                 if (spell != null)
                 {
-                    X = sender.Window.WinLeft;
-                    spell.CastImages.Show(10, sender.WinLeft + X, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
+                    x = sender.Window.WinLeft;
+                    spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
                 }
             }
         }

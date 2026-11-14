@@ -321,9 +321,9 @@ public partial class ExplorationSite : Structure
         CombatObject objectValue;
         Troop troop;
         data = combat.CombatData;
-        for (int I = 0, last = data.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = data.GetCount() - 1; i <= last; i++)
         {
-            objectValue = data.GetObjects(I);
+            objectValue = data.GetObjects(i);
             if (objectValue is CombatUnit && objectValue.GetPlayer() == 0)
             {
                 troop = ((CombatUnit)objectValue).Troop;
@@ -402,9 +402,9 @@ public partial class ExplorationSite : Structure
         {
             list = new UnitIndexList();
             collections = ((ExplorationSiteResource)_resource).DefenderCollections;
-            for (int I = collections.GetCollectionCount(collection) - 1; I >= 0; I--)
+            for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
-                list.Add(collections.GetU(collection, I));
+                list.Add(collections.GetU(collection, i));
             }
 
             try

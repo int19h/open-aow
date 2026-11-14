@@ -55,9 +55,9 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
             combatUnit.Troop.ListEnchantments(enchantments);
             wasSummoned = combatUnit.Troop.GetAbilityEnabled(155);
 
-            for (int I = EnchantmentIds.Count - 1; I >= 0; I--)
+            for (int i = EnchantmentIds.Count - 1; i >= 0; i--)
             {
-                enchantment = enchantments.FindId(EnchantmentIds[I]);
+                enchantment = enchantments.FindId(EnchantmentIds[i]);
                 if (enchantment != null)
                 {
                     enchantment.Dispel();
@@ -102,25 +102,25 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
     // AoWAb.PAS:3994
     public void Generate(CombatObject source, CombatObject target, int dispelMana)
     {
-        EnchantmentList Enchantments;
+        EnchantmentList enchantmentList;
         int chance;
         SourceId = source.Id;
         TargetId = target.Id;
         if (source is CombatUnit && target is CombatUnit)
         {
-            Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
-            ((CombatUnit)target).Troop.ListEnchantments(Enchantments);
-            for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
+            enchantmentList = new EnchantmentList(null) { Holder = CreationHolder() };
+            ((CombatUnit)target).Troop.ListEnchantments(enchantmentList);
+            for (int i = enchantmentList.GetCount() - 1; i >= 0; i--)
             {
-                chance = Enchantments.GetEnchantments(I).DispelChance(dispelMana);
+                chance = enchantmentList.GetEnchantments(i).DispelChance(dispelMana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
-                    var enchantments = Enchantments.GetEnchantments(I);
+                    var enchantments = enchantmentList.GetEnchantments(i);
                     EnchantmentIds.Add(enchantments.EnchantmentId);
                 }
             }
 
-            Enchantments?.Dispose();
+            enchantmentList?.Dispose();
         }
     }
 

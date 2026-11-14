@@ -242,11 +242,11 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
     // HSEngine.pas:1759
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I].Equals(Default))
+            if (this[i].Equals(Default))
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }

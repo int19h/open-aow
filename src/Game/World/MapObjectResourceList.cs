@@ -26,22 +26,22 @@ public partial class MapObjectResourceList : EResourceList, IChildList<MapObject
     // MAPOBJ.PAS:646
     public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, ref DelphiList<MapObjectResource> list)
     {
-        MapObjectResource R;
+        MapObjectResource r;
         int[] iCell = new int[1];
-        ref int I = ref iCell[0];
+        ref int i = ref iCell[0];
         // { Preserve the original stack locals. }
         bool result = false;
-        I = 0;
+        i = 0;
         int last = Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            R = this[I];
-            if (R.EngineClass.ClassId == classId)
+            r = this[i];
+            if (r.EngineClass.ClassId == classId)
             {
-                if (terrainList == null || R.TerrainList.CompareTerrain(terrainList, mode))
+                if (terrainList == null || r.TerrainList.CompareTerrain(terrainList, mode))
                 {
                     result = true;
-                    list.Add(R);
+                    list.Add(r);
                 }
             }
         }

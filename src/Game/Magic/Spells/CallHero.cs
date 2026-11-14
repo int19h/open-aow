@@ -36,14 +36,14 @@ public partial class CallHero : Spell
     {
         bool showSource;
         bool showTarget;
-        sbyte X = default;
-        sbyte Y = default;
+        sbyte x = default;
+        sbyte y = default;
         sbyte layer = default;
         Hero hero;
         ArmyHexSprite army;
         ImageSequenceAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out X, out Y, out layer);
+        source.GetLocation(out x, out y, out layer);
         hero = FindCallHero(source);
         if (hero != null)
         {
@@ -52,8 +52,8 @@ public partial class CallHero : Spell
                 hero.SetHitPoints(hero.GetHits());
             }
 
-            army = hero.Place(X, Y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-            showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(X, Y, layer, StrategicMap.Current.SeatedPlayer);
+            army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+            showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
             {
@@ -70,7 +70,7 @@ public partial class CallHero : Spell
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
-                    StrategicMap.Current.PlaceHex(animation, X, Y, layer);
+                    StrategicMap.Current.PlaceHex(animation, x, y, layer);
                 }
             }
 
@@ -102,7 +102,7 @@ public partial class CallHero : Spell
                 StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, 0);
             }
 
-            bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(X, Y, layer, 0);
+            bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, layer, 0);
             if (!test)
             {
                 var hexLevel = army.GetHexLevel();
@@ -161,9 +161,9 @@ public partial class CallHero : Spell
         DoubleItemList<Hero> heroes;
         int index;
         heroes = new DoubleItemList<Hero>();
-        for (int I = StrategicMap.Current.HeroControl.GetCount() - 1; I >= 0; I--)
+        for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
         {
-            hero = StrategicMap.Current.HeroControl.GetHero(I);
+            hero = StrategicMap.Current.HeroControl.GetHero(i);
             if (hero.Player == 0 && hero.Owner is Army && hero.ArmyOwner.X != -1)
             {
                 if (hero.OfferToJoin(source.Player))
@@ -179,9 +179,9 @@ public partial class CallHero : Spell
 
         if (heroes.Count == 0)
         {
-            for (int I = StrategicMap.Current.HeroControl.GetCount() - 1; I >= 0; I--)
+            for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
             {
-                hero = StrategicMap.Current.HeroControl.GetHero(I);
+                hero = StrategicMap.Current.HeroControl.GetHero(i);
                 if (!hero.UnitStatus.Contains(UnitStatusElement.Killed) && hero.Player <= 0 && hero.Owner == null)
                 {
                     if (hero.OfferToJoin(source.Player))

@@ -46,9 +46,9 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     // HSEngine.pas:3173
     public override void PersistFields(IPersister persister)
     {
-        byte W;
-        byte H;
-        byte L;
+        byte w;
+        byte h;
+        byte l;
         base.PersistFields(persister);
         if (persister.Loading)
         {
@@ -57,15 +57,15 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
             _map.MapContainer = this;
         }
 
-        W = (byte)_width;
-        W = persister.Byte("Width", value: W);
-        _width = W;
-        H = (byte)_height;
-        H = persister.Byte("Height", value: H);
-        _height = H;
-        L = (byte)_levelCount;
-        L = persister.Byte("LevelCount", value: L);
-        _levelCount = L;
+        w = (byte)_width;
+        w = persister.Byte("Width", value: w);
+        _width = w;
+        h = (byte)_height;
+        h = persister.Byte("Height", value: h);
+        _height = h;
+        l = (byte)_levelCount;
+        l = persister.Byte("LevelCount", value: l);
+        _levelCount = l;
     }
 
     // HSEngine.pas:3197
@@ -158,10 +158,10 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         try
         {
             levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
-            for (int I = 0, last = settings.Levels - 1; I <= last; I++)
+            for (int i = 0, last = settings.Levels - 1; i <= last; i++)
             {
                 level = (MapLevel)levelClass.CreateInstance(this, holder: CreationHolder());
-                level.HexLevel = I;
+                level.HexLevel = i;
                 _engine.ActivateEngineObject(level);
                 level.New(settings);
             }
@@ -180,9 +180,9 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     // HSEngine.pas:3323
     public virtual void UpdateTerrain()
     {
-        for (int I = 0, last = _levelCount - 1; I <= last; I++)
+        for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            this[I].UpdateTerrain();
+            this[i].UpdateTerrain();
         }
     }
 
@@ -192,18 +192,18 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     // HSEngine.pas:3331
     public void Loaded()
     {
-        for (int I = 0, last = _levelCount - 1; I <= last; I++)
+        for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            this[I].Loaded();
+            this[i].Loaded();
         }
     }
 
     // HSEngine.pas:3339
     public void Activate()
     {
-        for (int I = 0, last = _levelCount - 1; I <= last; I++)
+        for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            this[I].Activate();
+            this[i].Activate();
         }
     }
 

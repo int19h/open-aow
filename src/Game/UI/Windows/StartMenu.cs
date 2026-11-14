@@ -18,13 +18,13 @@ public partial class StartMenu : Menu
     // StartMenu.pas:30
     public override void SetSize()
     {
-        WindowManager M;
+        WindowManager m;
         base.SetSize();
         SetWinHeightWithoutInvalidate(377);
-        M = _windowManager;
-        if (M != null && OwnerMenuBar != null)
+        m = _windowManager;
+        if (m != null && OwnerMenuBar != null)
         {
-            SetWinTopWithoutInvalidate(M.WinHeight - 393);
+            SetWinTopWithoutInvalidate(m.WinHeight - 393);
         }
 
         SetWinLeftWithoutInvalidate(0);
@@ -33,8 +33,8 @@ public partial class StartMenu : Menu
     // StartMenu.pas:41
     public override void SetVisible(bool value)
     {
-        WindowManager M = default;
-        MenuBar B = default;
+        WindowManager m = default;
+        MenuBar b = default;
         if (value != Visible)
         {
             SetVisibleWithoutUpdate(value);
@@ -42,10 +42,10 @@ public partial class StartMenu : Menu
             {
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);
-                M = _windowManager;
-                if (M != null && OwnerMenuBar != null)
+                m = _windowManager;
+                if (m != null && OwnerMenuBar != null)
                 {
-                    SetWinTopWithoutInvalidate(M.WinHeight - 393);
+                    SetWinTopWithoutInvalidate(m.WinHeight - 393);
                 }
 
                 SetWinLeftWithoutInvalidate(0);
@@ -62,11 +62,11 @@ public partial class StartMenu : Menu
             }
             else
             {
-                B = OwnerMenuBar;
-                if (B != null)
+                b = OwnerMenuBar;
+                if (b != null)
                 {
-                    B.Selected = -1;
-                    B.Drawn = false;
+                    b.Selected = -1;
+                    b.Drawn = false;
                 }
 
                 Hidden = true;
@@ -101,7 +101,7 @@ public partial class StartMenu : Menu
                     oldClip = lockedSurface.ClipRectangle;
                     _font.Color = Color;
                     _imageLibraryWholeMenu[Highlighted + 1].ShowClipped(0, 0, lockedSurface);
-                    for (int I = 0, last = Items.Count - 1; I <= last; I++)
+                    for (int i = 0, last = Items.Count - 1; i <= last; i++)
                     {
                         if (Items.Count > 0)
                         {
@@ -112,25 +112,25 @@ public partial class StartMenu : Menu
                                 lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame.Width;
                             }
 
-                            if (I == Highlighted)
+                            if (i == Highlighted)
                             {
                                 _font.Color = SelectedColor;
                             }
 
-                            var item = Items[I];
+                            var item = Items[i];
                             var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
                             var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrame2.Width, WinTop + _borderHeight + imageLibraryFrameHeight.Height + ItemHeight * I, item, lockedSurface);
-                            if (I == Highlighted)
+                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrame2.Width, WinTop + _borderHeight + imageLibraryFrameHeight.Height + ItemHeight * i, item, lockedSurface);
+                            if (i == Highlighted)
                             {
                                 _font.Color = Color;
                             }
 
-                            DrawItem = I;
+                            DrawItem = i;
                             var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + ItemHeight * I, WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + (I + 1) * ItemHeight);
+                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + ItemHeight * i, WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + (i + 1) * ItemHeight);
                             RaiseDrawItem(this);
 
                             lockedSurface.ClipRectangle = oldClip;

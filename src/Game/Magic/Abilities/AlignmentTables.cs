@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AlignmentTables
 {
-    internal static Status AlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(AlignmentStatusValues[(int)A][(int)B]);
+    internal static Status AlignmentToStatus(Alignment alignment, Alignment otherAlignment) => Race.StatusValueToStatus(AlignmentStatusValues[(int)alignment][(int)otherAlignment]);
 
     internal static sbyte AlignmentToIndependentRelation(Alignment alignment)
     {

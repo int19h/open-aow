@@ -230,13 +230,13 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
     public void NewFrame(object sender)
     {
         WorldEffectHexSprite effect;
-        int Count;
+        int count2;
         int radiusX;
         int radiusY;
         float gravity = default;
         float vz = default;
         float speed = default;
-        float Z = default;
+        float z = default;
         try
         {
             Frame += 1;
@@ -250,18 +250,18 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             {
                                 radiusX = 200;
                                 radiusY = 200;
-                                for (int I = 0; I <= 29; I++)
+                                for (int i = 0; i <= 29; i++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.HatredParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     radiusX = -radiusX;
                                     var pi = Math.PI;
-                                    var sin = Math.Sin((double)((double)(I * 6 + Frame * 4) * pi) / 180);
+                                    var sin = Math.Sin((double)((double)(i * 6 + Frame * 4) * pi) / 180);
                                     var random = Random(10);
                                     var random2 = Random(12);
                                     var mathPI = Math.PI;
-                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((double)(random2 + (I * 12 + Frame * 4)) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, 75, ref effect.Path);
+                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((double)(random2 + (i * 12 + Frame * 4)) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, 75, ref effect.Path);
                                 }
                             }
 
@@ -280,18 +280,18 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             {
                                 radiusX = 200;
                                 radiusY = 200;
-                                for (int I = 0; I <= 29; I++)
+                                for (int i = 0; i <= 29; i++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.TranqParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     radiusX = -radiusX;
                                     var pi = Math.PI;
-                                    var sin = Math.Sin((double)((double)(I * 6 + Frame * 4) * pi) / 180);
+                                    var sin = Math.Sin((double)((double)(i * 6 + Frame * 4) * pi) / 180);
                                     var random = Random(10);
                                     var random2 = Random(12);
                                     var mathPI = Math.PI;
-                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((double)(random2 + (I * 12 + Frame * 4)) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, 75, ref effect.Path);
+                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((double)(random2 + (i * 12 + Frame * 4)) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, 75, ref effect.Path);
                                 }
                             }
 
@@ -310,16 +310,16 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             {
                                 radiusX = 150;
                                 radiusY = 150;
-                                for (int I = 0; I <= 59; I++)
+                                for (int i = 0; i <= 59; i++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.WMLParticle);
                                     effect.Layer = Layer;
                                     radiusX = -radiusX;
                                     var pi = Math.PI;
-                                    var sin = Math.Sin((double)((double)(I * 6 + Frame * 4) * pi) / 180);
+                                    var sin = Math.Sin((double)((double)(i * 6 + Frame * 4) * pi) / 180);
                                     var random = Random(10);
                                     var mathPI = Math.PI;
-                                    var cos = Math.Cos((double)((double)(I * 6 + Frame * 4) * mathPI) / 180);
+                                    var cos = Math.Cos((double)((double)(i * 6 + Frame * 4) * mathPI) / 180);
                                     var random2 = Random(10);
                                     EffectPaths.MakeLinePath(X, Y, X + Round((double)cos * (radiusX + random2)), Y + Round((double)sin * (radiusY + random)) / 2, 50, ref effect.Path);
                                 }
@@ -339,8 +339,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             if (Frame % 5 == 0)
                             {
                                 GamePack.Current.SpellControl.GetSpell(45).CastSounds.Play(1);
-                                Count = Random(10) + 100;
-                                for (int J = 0; J <= Count; J++)
+                                count2 = Random(10) + 100;
+                                for (int j = 0; j <= count2; j++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.WMParticle);
                                     effect.X = 50;
@@ -348,23 +348,23 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                     speed = (float)((double)(Random(50) + 50) * 0.1);
                                     gravity = (float)0.1;
                                     vz = (float)((double)(Random(5) + 5) * 0.1);
-                                    Z = 0;
-                                    EffectPaths.MakeArcPath(0, 0, Random(360), ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                    z = 0;
+                                    EffectPaths.MakeArcPath(0, 0, Random(360), ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                                 }
                             }
 
                             {
-                                for (int J = 0; J <= 1; J++)
+                                for (int j = 0; j <= 1; j++)
                                 {
-                                    Count = Random(3) + 7;
-                                    for (int I = 1; I <= Count - 1; I++)
+                                    count2 = Random(3) + 7;
+                                    for (int i = 1; i <= count2 - 1; i++)
                                     {
                                         effect = StrategicMap.Current.AddEffect(WorldEffectType.WMParticle);
                                         var pi = Math.PI;
                                         effect.X = 50 + Round((double)Math.Cos((double)((double)((double)(Frame * 360) * 0.005) * pi) / 180) * Frame) / 4;
                                         var mathPI = Math.PI;
                                         effect.Y = 50 + Round((double)Math.Sin((double)((double)((double)(Frame * 360) * 0.005) * mathPI) / 180) * Frame) / 8;
-                                        if (J == 1)
+                                        if (j == 1)
                                         {
                                             effect.X = 100 - effect.X;
                                             effect.Y = 100 - effect.Y;
@@ -373,8 +373,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                         speed = (float)((double)(Random(10) + 30) * 0.1);
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + Frame / 2) * 0.1);
-                                        Z = 0;
-                                        EffectPaths.MakeArcPath(0, 0, I * 360 / Count, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                        z = 0;
+                                        EffectPaths.MakeArcPath(0, 0, i * 360 / count2, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                                     }
                                 }
                             }
@@ -393,21 +393,21 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             radiusX = 200;
                             radiusY = 200;
                             {
-                                for (int I = 0; I <= 29; I++)
+                                for (int i = 0; i <= 29; i++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.SWParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     radiusX = -radiusX;
                                     var pi = Math.PI;
-                                    var sin = Math.Sin((double)((double)(I * 12 + Frame * 5) * pi) / 180);
+                                    var sin = Math.Sin((double)((double)(i * 12 + Frame * 5) * pi) / 180);
                                     var random = Random(10);
                                     var mathPI = Math.PI;
-                                    EffectPaths.MakeArcPathXY((short)Round((double)Math.Cos((double)((double)(I * 12 + Frame * 5) * mathPI) / 180) * (radiusX + Random(10))), (short)(Round((double)sin * (radiusY + random)) / 2), 0, -150, 100, 10, ref effect.Path);
-                                    for (int J = 0, last = effect.Path.Count - 1; J <= last; J++)
+                                    EffectPaths.MakeArcPathXY((short)Round((double)Math.Cos((double)((double)(i * 12 + Frame * 5) * mathPI) / 180) * (radiusX + Random(10))), (short)(Round((double)sin * (radiusY + random)) / 2), 0, -150, 100, 10, ref effect.Path);
+                                    for (int j = 0, last = effect.Path.Count - 1; j <= last; j++)
                                     {
-                                        var point = effect.Path[J];
-                                        effect.Path[J].Z = -point.Z;
+                                        var point = effect.Path[j];
+                                        effect.Path[j].Z = -point.Z;
                                     }
                                 }
                             }
@@ -420,8 +420,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case >= 15 and <= 44:
                             if (Frame % 5 == 0)
                             {
-                                Count = Random(10) + 100;
-                                for (int J = 0; J <= Count; J++)
+                                count2 = Random(10) + 100;
+                                for (int j = 0; j <= count2; j++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.SWBeamParticle);
                                     effect.X = 50;
@@ -429,8 +429,8 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                     speed = (float)((double)(Random(50) + 50) * 0.1);
                                     gravity = (float)0.1;
                                     vz = (float)((double)(Random(5) + 5) * 0.1);
-                                    Z = 0;
-                                    EffectPaths.MakeArcPath(0, -150, Random(360), ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
+                                    z = 0;
+                                    EffectPaths.MakeArcPath(0, -150, Random(360), ref z, ref speed, ref vz, ref gravity, ref effect.Path);
                                 }
                             }
 
@@ -446,14 +446,14 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                     {
                         case >= 0 and <= 49:
                             {
-                                for (int I = 0; I <= 29; I++)
+                                for (int i = 0; i <= 29; i++)
                                 {
                                     effect = StrategicMap.Current.AddEffect(WorldEffectType.EMParticle);
                                     radiusX = Random(12);
                                     var pi = Math.PI;
-                                    effect.X = Round((double)Math.Cos((double)((double)(I * 12 + radiusX) * pi) / 180) * Frame) + 50;
+                                    effect.X = Round((double)Math.Cos((double)((double)(i * 12 + radiusX) * pi) / 180) * Frame) + 50;
                                     var mathPI = Math.PI;
-                                    effect.Y = Round((double)Math.Sin((double)((double)(I * 12 + radiusX) * mathPI) / 180) * Frame) / 2 + 50;
+                                    effect.Y = Round((double)Math.Sin((double)((double)(i * 12 + radiusX) * mathPI) / 180) * Frame) / 2 + 50;
                                     EffectPaths.MakeLinePath(0, 0, 0, Frame * 3 - 200, 30, ref effect.Path);
                                 }
                             }

@@ -18,8 +18,8 @@ public partial class TacticalBattleUnitHexSprite
     {
         ImageSequence sequence;
         int index;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int deltaX = default;
         int deltaY = default;
         double progress;
@@ -37,9 +37,9 @@ public partial class TacticalBattleUnitHexSprite
                 OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
             }
 
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-            pixelXSurface = X - pixelXSurface + OffsetX;
-            pixelYSurface = Y - pixelYSurface - 8 + OffsetY;
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+            pixelXSurface = x - pixelXSurface + OffsetX;
+            pixelYSurface = y - pixelYSurface - 8 + OffsetY;
             if (Unit.GetPlayer() > 0)
             {
                 var player = Unit.GetPlayer();

@@ -109,14 +109,14 @@ public partial class PyreScreen : UIModule
     // AOWPyreScrn.pas:54
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
     {
-        Rect R = default;
+        Rect r = default;
         if (StrategicMap.Current != null)
         {
-            R.Left = DeadPanel.WinLeft + LeaderFaceFrame.WinLeft + 45;
-            R.Right = R.Left + 103;
-            R.Top = DeadPanel.WinTop + LeaderFaceFrame.WinTop + 35;
-            R.Bottom = R.Top + 128;
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader.ShowFace(R, lockedSurface);
+            r.Left = DeadPanel.WinLeft + LeaderFaceFrame.WinLeft + 45;
+            r.Right = r.Left + 103;
+            r.Top = DeadPanel.WinTop + LeaderFaceFrame.WinTop + 35;
+            r.Bottom = r.Top + 128;
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader.ShowFace(r, lockedSurface);
         }
     }
 
@@ -140,19 +140,19 @@ public partial class PyreScreen : UIModule
     // AOWPyreScrn.pas:77
     public void PyreAnimationDraw(LockedSurface lockedSurface)
     {
-        int X;
-        int Y;
+        int x;
+        int y;
         int frame;
         string text;
-        X = PyreAnimationView.WinWidth / 2;
-        Y = PyreAnimationView.WinHeight + 20 - _animationFrame / 2;
-        if (Y < 400)
+        x = PyreAnimationView.WinWidth / 2;
+        y = PyreAnimationView.WinHeight + 20 - _animationFrame / 2;
+        if (y < 400)
         {
-            Y = 400;
+            y = 400;
         }
 
-        Y += DeadPanel.WinTop;
-        X += DeadPanel.WinLeft;
+        y += DeadPanel.WinTop;
+        x += DeadPanel.WinLeft;
         switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
@@ -164,12 +164,12 @@ public partial class PyreScreen : UIModule
 
                 UI.Graphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_yourReignHasEndedText);
-                UI.Fonts.Age15BlackOnBrown.SetTextCentered(X, Y, text, lockedSurface);
+                UI.Fonts.Age15BlackOnBrown.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
                 UI.Graphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
-                UI.Fonts.Age15WhiteOnGrey.SetTextCentered(X, Y, text, lockedSurface);
+                UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text, lockedSurface);
                 break;
         }
     }
@@ -208,19 +208,19 @@ public partial class PyreScreen : UIModule
         AudioPlayback.SetMusicVolume(0);
         AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, 1);
         window.Players.Clear();
-        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
+            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                window.Players.Add((byte)I);
+                window.Players.Add((byte)i);
             }
         }
 
-        for (int I = 0; I <= 11; I++)
+        for (int i = 0; i <= 11; i++)
         {
-            (window.Controls[I]).Visible = I < window.Players.Count;
-            bool condition = I < window.Players.Count && window.Players[I] == StrategicMap.Current.SeatedPlayer;
-            (window.Controls[I]).Checked = condition;
+            (window.Controls[i]).Visible = i < window.Players.Count;
+            bool condition = i < window.Players.Count && window.Players[i] == StrategicMap.Current.SeatedPlayer;
+            (window.Controls[i]).Checked = condition;
         }
 
         if (window.UI.Engine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)

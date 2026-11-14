@@ -34,11 +34,11 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:70
     public override void Dispose()
     {
-        WindowControl P;
-        for (int I = 0, last = Panels.Count - 1; I <= last; I++)
+        WindowControl p;
+        for (int i = 0, last = Panels.Count - 1; i <= last; i++)
         {
-            P = Panels[I];
-            P.DetachMenuBar();
+            p = Panels[i];
+            p.DetachMenuBar();
         }
 
         Panels.Clear();
@@ -103,38 +103,38 @@ public partial class TabPanel : Control
                 RaisePreDraw(this, lockedSurface);
 
                 oldClip = lockedSurface.ClipRectangle;
-                for (int I = 0, last = _items.Count - 1; I <= last; I++)
+                for (int i = 0, last = _items.Count - 1; i <= last; i++)
                 {
-                    if (I != _selected)
+                    if (i != _selected)
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
                             _font.Color = SelectedColor;
-                            var item = _items[I];
+                            var item = _items[i];
                             var textWidth = _font.GetTextWidth(item);
                             var count2 = _items.Count;
-                            var item2 = _items[I];
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeight, item2, lockedSurface);
+                            var item2 = _items[i];
+                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeight, item2, lockedSurface);
                         }
                     }
                     else
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
                             _font.Color = Color;
-                            var item = _items[I];
+                            var item = _items[i];
                             var textWidth = _font.GetTextWidth(item);
                             var count2 = _items.Count;
-                            var item2 = _items[I];
-                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
+                            var item2 = _items[i];
+                            _font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
@@ -230,9 +230,9 @@ public partial class TabPanel : Control
     public void SetFStrings(StringList value)
     {
         _items.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             _items.Add(valueValue);
         }
     }
@@ -244,9 +244,9 @@ public partial class TabPanel : Control
         if (value != _selected)
         {
             _selected = value;
-            for (int I = 0, last = Panels.Count - 1; I <= last; I++)
+            for (int i = 0, last = Panels.Count - 1; i <= last; i++)
             {
-                var component = Panels[I];
+                var component = Panels[i];
                 if (component._ownerItem == this._selected)
                 {
                     component.SetVisible(true);

@@ -37,11 +37,11 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
     // Combat2.pas:704
     public override int Release()
     {
-        int N;
+        int n;
         RefCount -= 1;
-        N = RefCount;
-        int result = N;
-        if (N == 0)
+        n = RefCount;
+        int result = n;
+        if (n == 0)
         {
             Dispose();
         }

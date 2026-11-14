@@ -88,21 +88,21 @@ public partial class GlobalMagicControl : EngineObject
     public void OutOfMana(sbyte player, int mana)
     {
         int index;
-        int I;
+        int i;
         GlobalEnchantment enchantment;
         PlayerMagicEventLog log;
         index = 0;
         while (index != -1 && mana > 0 && Enchantments.GetCount() != 0)
         {
-            I = Enchantments.GetCount();
+            i = Enchantments.GetCount();
             // { Original may select the last enchantment of another player. }
-            index = I - 1;
-            while (I != 0)
+            index = i - 1;
+            while (i != 0)
             {
-                I -= 1;
-                if (Enchantments.GetEnchantments(I).PlayerIndex == player && Enchantments.GetEnchantments(I).GetUpkeep() < Enchantments.GetEnchantments(index).GetUpkeep())
+                i -= 1;
+                if (Enchantments.GetEnchantments(i).PlayerIndex == player && Enchantments.GetEnchantments(i).GetUpkeep() < Enchantments.GetEnchantments(index).GetUpkeep())
                 {
-                    index = I;
+                    index = i;
                 }
             }
 
@@ -126,11 +126,11 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2688
     public void RemovePlayerEnchantments(sbyte player)
     {
-        for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
+        for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            if (player == Enchantments.GetEnchantments(I).PlayerIndex)
+            if (player == Enchantments.GetEnchantments(i).PlayerIndex)
             {
-                Enchantments.GetEnchantments(I).Remove((byte)player);
+                Enchantments.GetEnchantments(i).Remove((byte)player);
             }
         }
     }
@@ -171,11 +171,11 @@ public partial class GlobalMagicControl : EngineObject
     public int GetEnchantmentUpkeep(sbyte player)
     {
         int result = 0;
-        for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
+        for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            if (player == Enchantments.GetEnchantments(I).PlayerIndex)
+            if (player == Enchantments.GetEnchantments(i).PlayerIndex)
             {
-                result += Enchantments.GetEnchantments(I).GetUpkeep();
+                result += Enchantments.GetEnchantments(i).GetUpkeep();
             }
         }
 
@@ -186,9 +186,9 @@ public partial class GlobalMagicControl : EngineObject
     public void UpdateActiveEnchantments()
     {
         ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
-        for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
+        for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            var enchantments = Enchantments.GetEnchantments(I);
+            var enchantments = Enchantments.GetEnchantments(i);
             ActiveEnchantments = ActiveEnchantments + Set<GlobalEnchantmentType>.Of(enchantments.EnchantmentType);
         }
     }
@@ -196,14 +196,14 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2704
     public int IndexOfId(int id)
     {
-        int I;
-        I = Enchantments.GetCount();
-        while (I != 0)
+        int i;
+        i = Enchantments.GetCount();
+        while (i != 0)
         {
-            I -= 1;
-            if (id == Enchantments.GetEnchantments(I)._enchantmentId)
+            i -= 1;
+            if (id == Enchantments.GetEnchantments(i)._enchantmentId)
             {
-                return I;
+                return i;
             }
         }
 

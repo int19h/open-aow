@@ -170,9 +170,9 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
         var armyLocal = army.Army;
-        for (int I = 0, last = armyLocal.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
-            troop = armyLocal.Units.GetUnit(I);
+            troop = armyLocal.Units.GetUnit(i);
             bool condition = troop.GetAlignment() != Alignment.None;
             if (condition)
             {
@@ -211,10 +211,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         log.ValidateGameOver();
         if (damaged != 0)
         {
-            var hexY = GetHexY();
-            var hexLevel = GetHexLevel();
-            var hexX = GetHexX();
-            EventLog.DistributeLocationEventLog(log, log._player, hexX, hexY, hexLevel, true);
+            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log._player, execute: true);
         }
 
         log.Release();
@@ -267,14 +264,14 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     // UnHolyG.pas:169
     public bool CanDoDamage(UnitCollection units)
     {
-        int I;
+        int i;
         Troop troop;
         bool result = false;
-        I = units.Count;
-        while (!result && I != 0)
+        i = units.Count;
+        while (!result && i != 0)
         {
-            I -= 1;
-            troop = units.GetUnit(I);
+            i -= 1;
+            troop = units.GetUnit(i);
             bool condition = !troop.GetImmunityTypes().Contains(DamageType.Death) && troop.GetAlignment() != Alignment.None;
             if (condition)
             {

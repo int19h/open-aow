@@ -46,8 +46,8 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         int intensity;
         int radius;
         int direction;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int delay;
         if (StrategicMap.Current.ViewMapLevel == _layer)
         {
@@ -58,9 +58,9 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
                 HexGeometry.HexToPixel(this._x, this._y, out pixelX, out pixelY);
                 pixelX = pixelX - pixelXSurface - 8;
                 pixelY -= pixelYSurface;
-                for (int I = _hexes.Count - 1; I >= 0; I--)
+                for (int i = _hexes.Count - 1; i >= 0; i--)
                 {
-                    HexGeometry.HexNumberToPixel(_hexes[I], ref hex, ref hy);
+                    HexGeometry.HexNumberToPixel(_hexes[i], ref hex, ref hy);
                     hex += pixelX;
                     hy += pixelY;
                     GamePack.Current.GeneralImages[5].ShowBlended(hex, hy, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
@@ -69,15 +69,15 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
 
             // { Original bug: Xhp/Yhp are uninitialized outside high detail. }
             RandSeed = StrategicMap.Current.InitialRandomSeed;
-            for (int I = 0; I <= 200; I++)
+            for (int i = 0; i <= 200; i++)
             {
                 radius = Random(448);
                 direction = Random(360);
                 delay = Random(20);
                 if (_frame - delay >= 0)
                 {
-                    AbilityRules.PolarToCartesian(direction, radius, out X, out Y);
-                    GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + X, pixelY + Y, _frame - delay, lockedSurface);
+                    AbilityRules.PolarToCartesian(direction, radius, out x, out y);
+                    GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
                 }
             }
 

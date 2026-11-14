@@ -47,21 +47,21 @@ public partial class BaseWindow : WindowControl
     // AoWBaseWin.pas:56
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
-        UIComponent C;
+        UIComponent c;
         if (index > -1 && Valid && Visible)
         {
-            for (int I = index, last = Children.Count - 1; I <= last; I++)
+            for (int i = index, last = Children.Count - 1; i <= last; i++)
             {
-                C = Children[I];
-                if (C.Valid && C.Visible && rectangle.Right >= C.WinLeft && C.WinLeft + C.WinWidth >= rectangle.Left && rectangle.Bottom >= C.WinTop && C.WinTop + C.WinHeight >= rectangle.Top && C != sender)
+                c = Children[i];
+                if (c.Valid && c.Visible && rectangle.Right >= c.WinLeft && c.WinLeft + c.WinWidth >= rectangle.Left && rectangle.Bottom >= c.WinTop && c.WinTop + c.WinHeight >= rectangle.Top && c != sender)
                 {
-                    if (C is BaseWindow)
+                    if (c is BaseWindow)
                     {
-                        C.InvalidateRectangle(0, ref rectangle, this);
+                        c.InvalidateRectangle(0, ref rectangle, this);
                     }
                     else
                     {
-                        C.Drawn = false;
+                        c.Drawn = false;
                     }
                 }
             }
@@ -153,13 +153,13 @@ public partial class BaseWindow : WindowControl
     //   one. A window without a back surface draws itself and its controls straight into Surface. }
     public override void DrawSurface(Surface surface)
     {
-        UIComponent C = default;
-        DirtyRectangle D = default;
+        UIComponent c = default;
+        DirtyRectangle d = default;
         int oldLeft;
         int oldTop;
         bool locked;
         LockedSurface lockedSurface = default;
-        Rect R = default;
+        Rect r = default;
         try
         {
             if (Valid && Visible)
@@ -209,15 +209,15 @@ public partial class BaseWindow : WindowControl
                         {
                             if (Priority >= _windowManager.OverlayPriority)
                             {
-                                for (int J = 0, last = DrawCount - 1; J <= last; J++)
+                                for (int j = 0, last = DrawCount - 1; j <= last; j++)
                                 {
-                                    D = DrawList[J];
-                                    R = lockedSurface.ClipRectangle;
-                                    var rectangle = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right + 1, D.Rectangle.Bottom + 1);
+                                    d = DrawList[j];
+                                    r = lockedSurface.ClipRectangle;
+                                    var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                                     lockedSurface.ClipRectangle = rectangle;
                                     Draw(lockedSurface);
-                                    lockedSurface.ClipRectangle = R;
-                                    InvalidateRectangle(0, ref D.Rectangle, null);
+                                    lockedSurface.ClipRectangle = r;
+                                    InvalidateRectangle(0, ref d.Rectangle, null);
                                 }
                             }
                         }
@@ -233,39 +233,39 @@ public partial class BaseWindow : WindowControl
                     {
                         if (Priority >= _windowManager.OverlayPriority || !Drawn)
                         {
-                            for (int I = 0, lastI = Children.Count - 1; I <= lastI; I++)
+                            for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                             {
-                                C = Children[I];
-                                if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
+                                c = Children[i];
+                                if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                                 {
-                                    if (!Drawn && C is BaseWindow)
+                                    if (!Drawn && c is BaseWindow)
                                     {
-                                        C.SurfaceValid = false;
+                                        c.SurfaceValid = false;
                                     }
 
-                                    C.Drawn = false;
-                                    C.Draw(lockedSurface);
-                                    for (int J = 0, last = DrawCount - 1; J <= last; J++)
+                                    c.Drawn = false;
+                                    c.Draw(lockedSurface);
+                                    for (int j = 0, last = DrawCount - 1; j <= last; j++)
                                     {
-                                        D = DrawList[J];
-                                        InvalidateRectangle(I + 1, ref D.Rectangle, null);
+                                        d = DrawList[j];
+                                        InvalidateRectangle(i + 1, ref d.Rectangle, null);
                                     }
 
                                     DrawCount = 0;
-                                    if (!C.Drawn || !Drawn)
+                                    if (!c.Drawn || !Drawn)
                                     {
                                         if (SurfaceValid)
                                         {
-                                            R = new Rect(C.WinLeft, C.WinTop, C.WinLeft + C.WinWidth, C.WinTop + C.WinHeight);
-                                            AddBlitRectangle(ref R, C);
+                                            r = new Rect(c.WinLeft, c.WinTop, c.WinLeft + c.WinWidth, c.WinTop + c.WinHeight);
+                                            AddBlitRectangle(ref r, c);
                                         }
 
-                                        C.FirstDraw = C.Drawn;
-                                        R = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth - 1, WinTop + C.WinTop + C.WinHeight - 1);
-                                        InvalidateRectangle(I + 1, ref R, C);
+                                        c.FirstDraw = c.Drawn;
+                                        r = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth - 1, WinTop + c.WinTop + c.WinHeight - 1);
+                                        InvalidateRectangle(i + 1, ref r, c);
                                     }
 
-                                    C.Drawn = true;
+                                    c.Drawn = true;
                                 }
                             }
 
@@ -287,23 +287,22 @@ public partial class BaseWindow : WindowControl
                                 {
                                     RaisePreDrawSurface(this, BackSurface, 0, 0);
 
-                                    for (int J = 0, last = BlitCount - 1; J <= last; J++)
+                                    for (int j = 0, last = BlitCount - 1; j <= last; j++)
                                     {
-                                        D = BlitList[J];
-                                        R = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right + 1, D.Rectangle.Bottom + 1);
+                                        d = BlitList[j];
+                                        r = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                                         if (!Masked)
                                         {
-                                            BackSurface.BlitAreaClipped(surface, R, D.Rectangle.Left + oldLeft, D.Rectangle.Top + oldTop);
+                                            BackSurface.BlitAreaClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop);
                                         }
                                         else
                                         {
-                                            var pixelFormatId = BackSurface.GetPixelFormatId();
-                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(_maskColor, pixelFormatId, null);
-                                            BackSurface.BlitAreaColorKeyClipped(surface, R, D.Rectangle.Left + oldLeft, D.Rectangle.Top + oldTop, color2PixelInfo);
+                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: _maskColor, palette: null);
+                                            BackSurface.BlitAreaColorKeyClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, color2PixelInfo);
                                         }
 
-                                        R = new Rect(D.Rectangle.Left + oldLeft, D.Rectangle.Top + oldTop, D.Rectangle.Right + oldLeft, D.Rectangle.Bottom + oldTop);
-                                        _windowManager.AddBlitRectangle(ref R, this);
+                                        r = new Rect(d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, d.Rectangle.Right + oldLeft, d.Rectangle.Bottom + oldTop);
+                                        _windowManager.AddBlitRectangle(ref r, this);
                                     }
 
                                     RaiseDrawSurface(this, surface, 0, 0);
@@ -321,13 +320,13 @@ public partial class BaseWindow : WindowControl
                     }
                     else
                     {
-                        for (int I = 0, last = Children.Count - 1; I <= last; I++)
+                        for (int i = 0, last = Children.Count - 1; i <= last; i++)
                         {
-                            C = Children[I];
-                            if (!Drawn || !C.Drawn || C is BaseWindow)
+                            c = Children[i];
+                            if (!Drawn || !c.Drawn || c is BaseWindow)
                             {
-                                C.Draw(lockedSurface);
-                                C.Drawn = true;
+                                c.Draw(lockedSurface);
+                                c.Drawn = true;
                             }
                         }
 
@@ -366,7 +365,7 @@ public partial class BaseWindow : WindowControl
     //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
     public override void DrawTo(LockedSurface lockedSurface)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         int oldLeft;
         int oldTop;
         bool ok;
@@ -421,13 +420,13 @@ public partial class BaseWindow : WindowControl
             if (ok)
             {
                 Draw(lockedSurface);
-                for (int I = 0, last = Children.Count - 1; I <= last; I++)
+                for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
-                    C = Children[I];
-                    if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
+                    c = Children[i];
+                    if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                     {
-                        C.Draw(lockedSurface);
-                        C.Drawn = true;
+                        c.Draw(lockedSurface);
+                        c.Drawn = true;
                     }
                 }
 

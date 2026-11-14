@@ -17,9 +17,9 @@ public partial class NewCombatRoundCombatAction : CombatAction
         var combatData = combat.CombatData;
         combatData.Round += 1;
 
-        for (int I = combat.CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = combat.CombatData.GetCount() - 1; i >= 0; i--)
         {
-            combat.CombatData.GetObjects(I).NewRound();
+            combat.CombatData.GetObjects(i).NewRound();
         }
     }
 

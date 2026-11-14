@@ -54,8 +54,7 @@ public partial class ProductionPlaceControl : ProductionControl
         var name = Settings.Unit.GetName();
         var fProductionPlaceName = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
-        var productionPlaceHexY = productionPlace.HexY;
-        log.SetLocation(productionPlace.HexX, productionPlaceHexY, productionPlace.HexLevel);
+        log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
 
@@ -74,8 +73,7 @@ public partial class ProductionPlaceControl : ProductionControl
         var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
-        var hexY = productionPlace.HexY;
-        log.SetLocation(productionPlace.HexX, hexY, productionPlace.HexLevel);
+        log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
     }

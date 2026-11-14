@@ -216,10 +216,10 @@ public partial class UnitHexSprite : HexSprite
     // UnitHS.PAS:809
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
-        return PlaceHex(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
+        int x = default;
+        int y = default;
+        HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
+        return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
     }
 
     // UnitHS.PAS:779
@@ -290,8 +290,7 @@ public partial class UnitHexSprite : HexSprite
             // { Read Shadow directly. }
             if (_shadow != null)
             {
-                var showPriority = _shadow.GetShowPriority();
-                visibilityList.AddSortChild(_shadow, showPriority);
+                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
         }
     }
@@ -300,12 +299,12 @@ public partial class UnitHexSprite : HexSprite
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (!Moving())
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
-            if (Owner.HexX != X || Owner.HexY != Y)
+            HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
+            if (Owner.HexX != x || Owner.HexY != y)
             {
                 result = false;
             }
@@ -340,29 +339,29 @@ public partial class UnitHexSprite : HexSprite
     {
         MapField field;
         HexSprite hexSprite;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         field = Owner;
         if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
         {
-            HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref X, ref Y);
-            field = Owner.Owner.GetField(X, Y);
-            HexGeometry.HexToPixel(X, Y, out X, out Y);
+            HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref x, ref y);
+            field = Owner.Owner.GetField(x, y);
+            HexGeometry.HexToPixel(x, y, out x, out y);
         }
         else
         {
-            HexGeometry.HexToPixel(field.HexX, field.HexY, out X, out Y);
+            HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         }
 
         hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-        _showPriority = 1744830464 + ((Y + 34 + 6) << 13) + (X + 16);
+        _showPriority = 1744830464 + ((y + 34 + 6) << 13) + (x + 16);
         if (hexSprite != this && hexSprite != null && hexSprite.GetShowPriority() >= _showPriority)
         {
             _showPriority = hexSprite.GetShowPriority() + 2;
         }
 
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-        SortMapField(Owner.Owner.Map.MapContainer, X - 18, Y - 32, Owner.HexLevel, 64, 64);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        SortMapField(Owner.Owner.Map.MapContainer, x - 18, y - 32, Owner.HexLevel, 64, 64);
     }
 
     // UnitHS.PAS:766

@@ -52,19 +52,19 @@ public partial class DisjunctionDialog : UIModule
         magic = StrategicMap.Current.GlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
-        for (int I = 0, last = magic.Enchantments.Count - 1; I <= last; I++)
+        for (int i = 0, last = magic.Enchantments.Count - 1; i <= last; i++)
         {
-            if (magic.Enchantments.GetEnchantments(I).PlayerIndex != StrategicMap.Current.SeatedPlayer)
+            if (magic.Enchantments.GetEnchantments(i).PlayerIndex != StrategicMap.Current.SeatedPlayer)
             {
-                if (magic.Enchantments.GetEnchantments(I).VisibleForPlayer(StrategicMap.Current.SeatedPlayer))
+                if (magic.Enchantments.GetEnchantments(i).VisibleForPlayer(StrategicMap.Current.SeatedPlayer))
                 {
-                    if (magic.Enchantments.GetEnchantments(I).CanDispel(StrategicMap.Current.SeatedPlayer, ref reason))
+                    if (magic.Enchantments.GetEnchantments(i).CanDispel(StrategicMap.Current.SeatedPlayer, ref reason))
                     {
-                        reason = magic.Enchantments.GetEnchantments(I).GetName();
-                        var name = magic.Enchantments.GetEnchantments(I).GetName();
-                        var enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(I);
+                        reason = magic.Enchantments.GetEnchantments(i).GetName();
+                        var name = magic.Enchantments.GetEnchantments(i).GetName();
+                        var enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
                         EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId._enchantmentId));
-                        var enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(I);
+                        var enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
                         var player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         OwnerList.Items.Add(player.Leader.HeroName);
                     }
@@ -272,30 +272,30 @@ public partial class DisjunctionDialog : UIModule
     // AoWDisjunctionDlg.pas:148
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         LockedSurface mapSurfaceDescription = default;
-        Rect R;
-        int W;
-        int H;
-        R = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
-        W = R.Right - R.Left;
-        H = R.Bottom - R.Top;
-        HexGeometry.HexToPixel(_mapX, _mapY, out X, out Y);
-        X = X + 16 - (int)(((uint)W) >> 1);
-        Y = Y + 16 - (int)(((uint)H) >> 1);
-        if (X < 16)
+        Rect r;
+        int w;
+        int h;
+        r = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
+        w = r.Right - r.Left;
+        h = r.Bottom - r.Top;
+        HexGeometry.HexToPixel(_mapX, _mapY, out x, out y);
+        x = x + 16 - (int)(((uint)w) >> 1);
+        y = y + 16 - (int)(((uint)h) >> 1);
+        if (x < 16)
         {
-            X = 16;
+            x = 16;
         }
 
-        if (Y < 16)
+        if (y < 16)
         {
-            Y = 16;
+            y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, R, out mapSurfaceDescription);
-        StrategicMap.Current.SetViewPort(X, Y, _mapL, R.Right - R.Left, R.Bottom - R.Top);
+        LockedSurface.CreateFrom(lockedSurface, r, out mapSurfaceDescription);
+        StrategicMap.Current.SetViewPort(x, y, _mapL, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);

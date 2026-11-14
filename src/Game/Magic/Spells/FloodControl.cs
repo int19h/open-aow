@@ -73,13 +73,13 @@ public partial class FloodControl : EngineObject
         StrategicMap.Current.LockMapChangedEvent();
         mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
         // { Original includes the last row when walking neighbouring hexagons. }
-        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
+        for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+            for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
-                if (mapLevel.GetField(X, Y).TerrainType == 0)
+                if (mapLevel.GetField(x, y).TerrainType == 0)
                 {
-                    HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 1);
+                    HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 1);
                     while (walk.Radius == 1)
                     {
                         mapField = mapLevel.GetField(walk.X, walk.Y);
@@ -108,14 +108,14 @@ public partial class FloodControl : EngineObject
             }
         }
 
-        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
+        for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            index = (Width * Y + 1) * 2;
-            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+            index = (Width * y + 1) * 2;
+            for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 if (OriginalTerrain[index] != 0)
                 {
-                    mapField = mapLevel.GetField(X, Y);
+                    mapField = mapLevel.GetField(x, y);
                     terrainType = mapField.TerrainType;
                     if (terrainType != 0)
                     {
@@ -144,14 +144,14 @@ public partial class FloodControl : EngineObject
         MapObjectResource resource;
         StrategicMap.Current.LockMapChangedEvent();
         mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
-        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
+        for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            index = (Width * Y + 1) * 2;
-            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+            index = (Width * y + 1) * 2;
+            for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 if (OriginalTerrain[index] != 0)
                 {
-                    mapField = mapLevel.GetField(X, Y);
+                    mapField = mapLevel.GetField(x, y);
                     if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)mapField.TerrainType))
                     {
                         mapField.TerrainType = OriginalTerrain[index];
@@ -165,25 +165,25 @@ public partial class FloodControl : EngineObject
 
         resources = GamePack.Current.MapObjectResourceList;
         candidates = new DelphiList<MapObjectResource>();
-        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
+        for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            index = (Width * Y + 1) * 2;
-            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
+            index = (Width * y + 1) * 2;
+            for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 overlay = OriginalTerrain[index + 1];
                 if (overlay > 0)
                 {
-                    mapField = mapLevel.GetField(X, Y);
+                    mapField = mapLevel.GetField(x, y);
                     if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlay))
                     {
-                        GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)X, (sbyte)Y, 0, mapField.TerrainType);
+                        GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)x, (sbyte)y, 0, mapField.TerrainType);
                     }
                     else
                     {
                         candidates.Clear();
-                        for (int I = 0, lastI = resources.Count - 1; I <= lastI; I++)
+                        for (int i = 0, lastI = resources.Count - 1; i <= lastI; i++)
                         {
-                            resource = resources[I];
+                            resource = resources[i];
                             if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
                             {
                                 candidates.Add(resource);
@@ -192,7 +192,7 @@ public partial class FloodControl : EngineObject
 
                         if (candidates.Count != 0)
                         {
-                            candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, (sbyte)X, (sbyte)Y, 0);
+                            candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, (sbyte)x, (sbyte)y, 0);
                         }
                     }
                 }

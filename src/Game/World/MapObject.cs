@@ -411,8 +411,7 @@ public partial class MapObject : HexSprite
             bool condition = hexSprite == null || hexSprite.GetLevel() < 10;
             if (condition)
             {
-                var overlay = GetOverlay(0);
-                condition = mapField.CanChangeTerrain(this, GetTerrain(0), overlay);
+                condition = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));
             }
 
             result = condition;

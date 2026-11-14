@@ -203,9 +203,9 @@ public partial class GlobalEnchantment : EngineObject
         {
             AddRef();
             location = GetLocation();
-            for (int I = 1, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+            for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
-                if (VisibleForPlayer((sbyte)I))
+                if (VisibleForPlayer((sbyte)i))
                 {
                     log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                     log._player = (sbyte)player;
@@ -213,7 +213,7 @@ public partial class GlobalEnchantment : EngineObject
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_dispelledFormat), [name]);
-                    StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     log.Release();
                 }
             }
@@ -256,9 +256,9 @@ public partial class GlobalEnchantment : EngineObject
         {
             AddRef();
             location = GetLocation();
-            for (int I = 1, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+            for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
-                if (VisibleForPlayer((sbyte)I))
+                if (VisibleForPlayer((sbyte)i))
                 {
                     log = new GlobalEnchantmentEventLog(null) { Holder = CreationHolder() };
                     log._player = PlayerIndex;
@@ -266,7 +266,7 @@ public partial class GlobalEnchantment : EngineObject
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [name]);
-                    StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     log.Release();
                 }
             }

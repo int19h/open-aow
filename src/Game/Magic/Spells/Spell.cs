@@ -161,15 +161,15 @@ public partial class Spell : EngineObject
     // Spells.PAS:54
     public virtual bool Activate(Troop source)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            source.GetLocation(out X, out Y, out L);
-            if (X != -1)
+            source.GetLocation(out x, out y, out l);
+            if (x != -1)
             {
-                StrategicMap.Current.MakeVisible(X, Y, L, 3);
+                StrategicMap.Current.MakeVisible(x, y, l, 3);
             }
         }
 
@@ -179,15 +179,15 @@ public partial class Spell : EngineObject
 
     public bool ActivateStatic(Troop source)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            source.GetLocation(out X, out Y, out L);
-            if (X != -1)
+            source.GetLocation(out x, out y, out l);
+            if (x != -1)
             {
-                StrategicMap.Current.MakeVisible(X, Y, L, 3);
+                StrategicMap.Current.MakeVisible(x, y, l, 3);
             }
         }
 

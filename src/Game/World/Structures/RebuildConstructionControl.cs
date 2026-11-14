@@ -16,11 +16,11 @@ public partial class RebuildConstructionControl : ConstructionControl
     // AoWAb.PAS:5404
     public Structure GetStructure(Troop troop)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        troop.GetLocation(out X, out Y, out L);
-        Structure result = (Structure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(Structure));
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        troop.GetLocation(out x, out y, out l);
+        Structure result = (Structure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(Structure));
         if (result != null)
         {
             if (!result.GetRazed() || result.GetBuilding())

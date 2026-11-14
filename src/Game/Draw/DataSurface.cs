@@ -64,8 +64,8 @@ public partial class DataSurface : Surface
     {
         LockedSurface lockedSurface = default;
         Rect rr = default;
-        int W;
-        int H;
+        int w;
+        int h;
         int result = surface.Lock(ref lockedSurface);
         if (Succeeded(result))
         {
@@ -82,11 +82,11 @@ public partial class DataSurface : Surface
                     R = rr;
                 }
 
-                W = R.Value.Right - R.Value.Left;
-                H = R.Value.Bottom - R.Value.Top;
-                if (W > 0 && H > 0)
+                w = R.Value.Right - R.Value.Left;
+                h = R.Value.Bottom - R.Value.Top;
+                if (w > 0 && h > 0)
                 {
-                    Resize(W, H);
+                    Resize(w, h);
                     SetPalette(lockedSurface.Palette);
                     X = R.Value.Left;
                     Y = R.Value.Top;

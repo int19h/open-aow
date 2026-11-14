@@ -126,13 +126,13 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:450
     public override LibraryImage GetCellImage()
     {
-        int I;
-        I = 0;
+        int i;
+        i = 0;
         LibraryImage result = null;
-        while (I != _imageLibrary.Count && result == null)
+        while (i != _imageLibrary.Count && result == null)
         {
-            result = _imageLibrary.Get(I);
-            I += 1;
+            result = _imageLibrary.Get(i);
+            i += 1;
         }
 
         if (result == null && _imageSequenceList != null)
@@ -175,28 +175,28 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:420
     public override void Draw(Canvas canvas, Rect rectangle, Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
-        int I;
+        int i;
         LibraryImage image;
         ImageSequence sequence;
         Rect drawRectangle = default;
-        I = 0;
+        i = 0;
         image = null;
-        while (I != _imageLibrary.Count && image == null)
+        while (i != _imageLibrary.Count && image == null)
         {
-            image = _imageLibrary.Get(I);
-            I += 1;
+            image = _imageLibrary.Get(i);
+            i += 1;
         }
 
         if (image == null && _imageSequenceList != null)
         {
-            I = 0;
+            i = 0;
             sequence = null;
-            while (I != _imageSequenceList.Count && sequence == null)
+            while (i != _imageSequenceList.Count && sequence == null)
             {
-                sequence = _imageSequenceList.GetImageSequence(I);
+                sequence = _imageSequenceList.GetImageSequence(i);
                 if (sequence == null)
                 {
-                    I += 1;
+                    i += 1;
                 }
             }
 
@@ -270,11 +270,11 @@ public partial class MapObjectResource : EngineResource
     {
         int hexX = default;
         int hexY = default;
-        for (int I = _terrainList.Count - 1; I >= 0; I--)
+        for (int i = _terrainList.Count - 1; i >= 0; i--)
         {
-            if (_terrainList.GetTerrain(I) >= 0)
+            if (_terrainList.GetTerrain(i) >= 0)
             {
-                HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                HexGeometry.CenterHexNumberToHex(X, Y, i, ref hexX, ref hexY);
                 _engine.HexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
             }
         }

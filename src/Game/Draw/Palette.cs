@@ -61,20 +61,20 @@ public partial class Palette
                     {
                         case PixelFormats.pfRGB565:
                             {
-                                for (int I = 0; I <= 255; I++)
+                                for (int i = 0; i <= 255; i++)
                                 {
-                                    Entry paletteEntry = this[I];
-                                    this[I] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Blue) >> 3)) };
+                                    Entry paletteEntry = this[i];
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Blue) >> 3)) };
                                 }
                             }
 
                             break;
                         case PixelFormats.pfRGB555:
                             {
-                                for (int I = 0; I <= 255; I++)
+                                for (int i = 0; i <= 255; i++)
                                 {
-                                    Entry paletteEntry = this[I];
-                                    this[I] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Blue) >> 3)) };
+                                    Entry paletteEntry = this[i];
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Blue) >> 3)) };
                                 }
                             }
 
@@ -93,20 +93,20 @@ public partial class Palette
                     {
                         case PixelFormats.pfRGB565:
                             {
-                                for (int I = 0; I <= 255; I++)
+                                for (int i = 0; i <= 255; i++)
                                 {
-                                    Entry paletteEntry = this[I];
-                                    this[I] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Red) >> 3)) };
+                                    Entry paletteEntry = this[i];
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Red) >> 3)) };
                                 }
                             }
 
                             break;
                         case PixelFormats.pfRGB555:
                             {
-                                for (int I = 0; I <= 255; I++)
+                                for (int i = 0; i <= 255; i++)
                                 {
-                                    Entry paletteEntry = this[I];
-                                    this[I] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Red) >> 3)) };
+                                    Entry paletteEntry = this[i];
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Red) >> 3)) };
                                 }
                             }
 
@@ -142,38 +142,38 @@ public partial class Palette
     public bool Compare(Palette palette)
     {
         bool result;
-        int I;
+        int i;
         if (palette.PixelFormatId == PixelFormatId)
         {
             switch (PixelFormatId & 31)
             {
                 case 8:
                     result = true;
-                    I = 255;
-                    while (I >= 0 && result)
+                    i = 255;
+                    while (i >= 0 && result)
                     {
-                        result = palette[I].PackedColor == this[I].PackedColor;
-                        I -= 1;
+                        result = palette[i].PackedColor == this[i].PackedColor;
+                        i -= 1;
                     }
 
                     break;
                 case 16:
                     result = true;
-                    I = 255;
-                    while (I >= 0 && result)
+                    i = 255;
+                    while (i >= 0 && result)
                     {
-                        result = palette[I].PackedColor == this[I].PackedColor;
-                        I -= 1;
+                        result = palette[i].PackedColor == this[i].PackedColor;
+                        i -= 1;
                     }
 
                     break;
                 case 24:
                     result = true;
-                    I = 255;
-                    while (I >= 0 && result)
+                    i = 255;
+                    while (i >= 0 && result)
                     {
-                        result = palette[I].PackedColor == this[I].PackedColor && palette[I].Blue == this[I].Blue;
-                        I -= 1;
+                        result = palette[i].PackedColor == this[i].PackedColor && palette[i].Blue == this[i].Blue;
+                        i -= 1;
                     }
 
                     break;

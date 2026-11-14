@@ -79,31 +79,31 @@ public partial class PartyJoinDialog : UIModule
     public void DrawUnit(int index, in Rect R, ref LockedSurface surface)
     {
         Units.Alignment alignment;
-        int X;
-        int Y;
+        int x;
+        int y;
         Rect oldClip;
         UnitShowInfo info;
         if (index < _units.GetCount())
         {
             oldClip = surface.ClipRectangle;
             surface.ClipRectangle = R;
-            X = (R.Right + R.Left) / 2;
-            Y = (R.Top + R.Bottom) / 2;
+            x = (R.Right + R.Left) / 2;
+            y = (R.Top + R.Bottom) / 2;
             alignment = _units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
+                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
+            _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
+                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -181,18 +181,18 @@ public partial class PartyJoinDialog : UIModule
     // AoWPartyJoin.pas:179
     public void FaceFramePreDraw(LockedSurface surface)
     {
-        Rect R = default;
+        Rect r = default;
         if (ValidateJoin())
         {
-            R.Left = FaceFrame.WinLeft + Window.WinLeft;
-            R.Right = FaceFrame.WinWidth + R.Left;
-            R.Top = FaceFrame.WinTop + Window.WinTop;
-            R.Bottom = FaceFrame.WinHeight + R.Top;
+            r.Left = FaceFrame.WinLeft + Window.WinLeft;
+            r.Right = FaceFrame.WinWidth + r.Left;
+            r.Top = FaceFrame.WinTop + Window.WinTop;
+            r.Bottom = FaceFrame.WinHeight + r.Top;
             if (_faceUnit != null)
             {
                 if (_faceUnit.GetFace() != null)
                 {
-                    _faceUnit.GetFace().ShowStretched(R, surface);
+                    _faceUnit.GetFace().ShowStretched(r, surface);
                 }
             }
         }
@@ -201,15 +201,15 @@ public partial class PartyJoinDialog : UIModule
     // AoWPartyJoin.pas:194
     public void U1PreDraw(Frame sender, LockedSurface surface, int slot)
     {
-        Rect R = default;
+        Rect r = default;
         if (ValidateJoin())
         {
-            R.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
-            R.Right = sender.WinWidth + R.Left;
-            R.Top = sender.WinTop + UnitPanel.WinTop;
-            R.Bottom = sender.WinHeight + R.Top;
+            r.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
+            r.Right = sender.WinWidth + r.Left;
+            r.Top = sender.WinTop + UnitPanel.WinTop;
+            r.Bottom = sender.WinHeight + r.Top;
 
-            DrawUnit(slot, R, ref surface);
+            DrawUnit(slot, r, ref surface);
         }
     }
 

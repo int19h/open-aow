@@ -22,16 +22,16 @@ public partial class ConstructionControlList : ENode, IChildList<ConstructionCon
     // AoWAb.PAS:5523
     public ConstructionControl FindId(int id)
     {
-        int I;
+        int i;
         ConstructionControl result = null;
-        I = GetCount();
-        while (result == null && I != 0)
+        i = GetCount();
+        while (result == null && i != 0)
         {
-            I -= 1;
+            i -= 1;
             // { Read the list again after the virtual ID call. }
-            if (this[I].Id() == id)
+            if (this[i].Id() == id)
             {
-                result = this[I];
+                result = this[i];
             }
         }
 

@@ -272,10 +272,10 @@ public partial class HexSpriteMapMouse : IDisposable
     public int GetHexX()
     {
         int result = default;
-        int Y = default;
+        int y = default;
         if (_x != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, 0, out result, out Y);
+            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, 0, out result, out y);
             if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
@@ -293,10 +293,10 @@ public partial class HexSpriteMapMouse : IDisposable
     public int GetHexY()
     {
         int result = default;
-        int X = default;
+        int x = default;
         if (_y != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, _hexSpriteMap.ViewPixelY + _y, out X, out result);
+            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, _hexSpriteMap.ViewPixelY + _y, out x, out result);
             if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;

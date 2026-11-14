@@ -54,12 +54,12 @@ public static class PixelFormats
     internal static Surface CreateSurfaceFromImageFile(string fileName)
     {
         Surface result;
-        ImageFileClass C;
+        ImageFileClass c;
         var extractFileExt = ExtractFileExt(fileName);
-        C = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
-        if (C != null)
+        c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
+        if (c != null)
         {
-            result = C.CreateSurface(fileName);
+            result = c.CreateSurface(fileName);
         }
         else
         {
@@ -75,7 +75,7 @@ public static class PixelFormats
         bool swapped;
         Span<int> masks = stackalloc int[4];
         int bits;
-        int T;
+        int t;
         int result = bitCount;
         masks[0] = mask;
         order[3] = 3;
@@ -88,37 +88,37 @@ public static class PixelFormats
         do
         {
             swapped = false;
-            for (int I = 0; I <= 2; I++)
+            for (int i = 0; i <= 2; i++)
             {
-                if (((masks[order[I]] < 0 || masks[order[I + 1]] < masks[order[I]]) && masks[order[I + 1]] > 0) || (masks[order[I]] == 0 && masks[order[I + 1]] != 0))
+                if (((masks[order[i]] < 0 || masks[order[i + 1]] < masks[order[i]]) && masks[order[i + 1]] > 0) || (masks[order[i]] == 0 && masks[order[i + 1]] != 0))
                 {
-                    T = order[I];
-                    order[I] = order[I + 1];
-                    order[I + 1] = (byte)T;
+                    t = order[i];
+                    order[i] = order[i + 1];
+                    order[i + 1] = (byte)t;
                     swapped = true;
                 }
             }
         }
         while (!!swapped);
-        for (int I = 0; I <= 3; I++)
+        for (int i = 0; i <= 3; i++)
         {
-            result = result + (I << (order[I] * 2 + 8));
+            result = result + (i << (order[i] * 2 + 8));
         }
 
-        for (int I = 0; I <= 3; I++)
+        for (int i = 0; i <= 3; i++)
         {
             bits = 0;
-            while (masks[I] != 0)
+            while (masks[i] != 0)
             {
-                if ((masks[I] & 1) != 0)
+                if ((masks[i] & 1) != 0)
                 {
                     bits += 1;
                 }
 
-                masks[I] = (int)(((uint)masks[I]) >> 1);
+                masks[i] = (int)(((uint)masks[i]) >> 1);
             }
 
-            result = result + (bits << (I * 4 + 16));
+            result = result + (bits << (i * 4 + 16));
         }
 
         return result;

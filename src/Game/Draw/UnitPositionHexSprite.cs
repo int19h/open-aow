@@ -49,10 +49,10 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     // AoWTC.pas:5074
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-        _images[_imageIndex].ShowClipped(X - pixelXSurface - 8, Y - pixelYSurface - 8, lockedSurface);
+        int x = default;
+        int y = default;
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+        _images[_imageIndex].ShowClipped(x - pixelXSurface - 8, y - pixelYSurface - 8, lockedSurface);
     }
 
     // AoWTC.pas:5031
@@ -61,8 +61,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
         base.Activate();
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index))
         {
-            var hexY = GetHexY();
-            var packMapCoordinate = HexGeometry.PackMapCoordinate(GetHexX(), hexY, 0);
+            var packMapCoordinate = HexGeometry.PackMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: 0);
             CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, new UnitPosition(Location: packMapCoordinate, Facing: 0));
             _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
             UpdateImageIndex();

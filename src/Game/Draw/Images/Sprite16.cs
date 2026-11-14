@@ -79,11 +79,11 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:4276
     public override void SetWidth(int value)
     {
-        int W;
-        W = _xshift + _spriteX + _spriteWidth;
-        if (value < W)
+        int w;
+        w = _xshift + _spriteX + _spriteWidth;
+        if (value < w)
         {
-            value = W;
+            value = w;
         }
 
         base.SetWidth(value);
@@ -92,11 +92,11 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:4285
     public override void SetHeight(int value)
     {
-        int W;
-        W = _yshift + _spriteY + _spriteHeight;
-        if (value < W)
+        int w;
+        w = _yshift + _spriteY + _spriteHeight;
+        if (value < w)
         {
-            value = W;
+            value = w;
         }
 
         base.SetHeight(value);
@@ -148,9 +148,9 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     {
         base.ReadDiscardableImageData(stream);
         AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
-        for (int Y = 0, last = _spriteHeight - 1; Y <= last; Y++)
+        for (int y = 0, last = _spriteHeight - 1; y <= last; y++)
         {
-            stream.ReadExactly(_buffer.AsSpan(Y * _pitch, _spriteWidth * 2));
+            stream.ReadExactly(_buffer.AsSpan(y * _pitch, _spriteWidth * 2));
         }
 
         _colorKey = _transparentColor;
@@ -160,9 +160,9 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        for (int Y = 0, last = _spriteHeight - 1; Y <= last; Y++)
+        for (int y = 0, last = _spriteHeight - 1; y <= last; y++)
         {
-            stream.Write(_buffer.AsSpan(Y * _pitch, _spriteWidth * 2));
+            stream.Write(_buffer.AsSpan(y * _pitch, _spriteWidth * 2));
         }
     }
 
@@ -201,8 +201,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     {
         int destinationX;
         int right;
-        int W;
-        int H;
+        int w;
+        int h;
         int sx;
         int sy;
         int destinationY;
@@ -211,13 +211,13 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         SurfaceView destination;
         X += _spriteX;
         destinationX = _xshift + X;
-        W = _spriteWidth;
+        w = _spriteWidth;
         right = _spriteWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
             destinationX = lockedSurface.ClipRectangle.Left;
-            W -= sx;
+            w -= sx;
         }
         else
         {
@@ -226,20 +226,20 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
         if (right > lockedSurface.ClipRectangle.Right)
         {
-            W -= right - lockedSurface.ClipRectangle.Right;
+            w -= right - lockedSurface.ClipRectangle.Right;
         }
 
-        if (W > 0)
+        if (w > 0)
         {
             Y += _spriteY;
             destinationY = Y + _yshift;
-            H = _spriteHeight;
+            h = _spriteHeight;
             bottom = destinationY + _spriteHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
                 destinationY = lockedSurface.ClipRectangle.Top;
-                H -= sy;
+                h -= sy;
             }
             else
             {
@@ -248,10 +248,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
             if (bottom > lockedSurface.ClipRectangle.Bottom)
             {
-                H -= bottom - lockedSurface.ClipRectangle.Bottom;
+                h -= bottom - lockedSurface.ClipRectangle.Bottom;
             }
 
-            if (H > 0)
+            if (h > 0)
             {
                 if (!DataLoaded)
                 {
@@ -260,7 +260,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
+                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
                     }
                     else
                     {
@@ -269,7 +269,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
+                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
                     }
 
                     if (_loadMode == LoadMode.LoadFreeOnDemand)
@@ -283,7 +283,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
+                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
                     }
                     else
                     {
@@ -292,7 +292,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
+                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
                     }
                 }
             }
@@ -304,8 +304,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     {
         int destinationX;
         int right;
-        int W;
-        int H;
+        int w;
+        int h;
         int sx;
         int sy;
         int destinationY;
@@ -314,13 +314,13 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         SurfaceView destination;
         X += _spriteX;
         destinationX = _xshift + X;
-        W = _spriteWidth;
+        w = _spriteWidth;
         right = _spriteWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
             destinationX = lockedSurface.ClipRectangle.Left;
-            W -= sx;
+            w -= sx;
         }
         else
         {
@@ -329,20 +329,20 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
         if (right > lockedSurface.ClipRectangle.Right)
         {
-            W -= right - lockedSurface.ClipRectangle.Right;
+            w -= right - lockedSurface.ClipRectangle.Right;
         }
 
-        if (W > 0)
+        if (w > 0)
         {
             Y += _spriteY;
             destinationY = Y + _yshift;
-            H = _spriteHeight;
+            h = _spriteHeight;
             bottom = destinationY + _spriteHeight;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
                 destinationY = lockedSurface.ClipRectangle.Top;
-                H -= sy;
+                h -= sy;
             }
             else
             {
@@ -351,10 +351,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
             if (bottom > lockedSurface.ClipRectangle.Bottom)
             {
-                H -= bottom - lockedSurface.ClipRectangle.Bottom;
+                h -= bottom - lockedSurface.ClipRectangle.Bottom;
             }
 
-            if (H > 0)
+            if (h > 0)
             {
                 if (!DataLoaded)
                 {
@@ -366,10 +366,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -383,10 +383,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -405,10 +405,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -422,10 +422,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey555(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
+                                BlendColorKey565(source, destination, w, h, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -472,9 +472,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     var height = surface.GetHeight();
                     gr.Bottom = height;
                     surface.Lock(ref lSD);
-                    var surfaceWidth = surface.GetWidth();
-                    var surfaceHeight = surface.GetHeight();
-                    if (LockedSurface.RemapSurfacePart(lockedSurface, R.Left, R.Top, surfaceWidth, surfaceHeight, lSD, 0, 0) != 0)
+                    if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
@@ -509,9 +507,9 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 _spriteHeight = bottom - top;
                 _dataSize = _spriteWidth * _spriteHeight * 2;
                 AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
-                for (int Y = top; Y <= bottom - 1; Y++)
+                for (int y = top; y <= bottom - 1; y++)
                 {
-                    lSD.View().Bytes(lSD.Pitch * Y + mr.Left * 2, _spriteWidth * 2).CopyTo(_buffer.AsSpan((Y - mr.Top) * _pitch, _spriteWidth * 2));
+                    lSD.View().Bytes(lSD.Pitch * y + mr.Left * 2, _spriteWidth * 2).CopyTo(_buffer.AsSpan((y - mr.Top) * _pitch, _spriteWidth * 2));
                 }
             }
             finally

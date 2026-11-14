@@ -131,17 +131,16 @@ public partial class CombatSpell : Spell
                 }
             }
 
-            for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
             {
-                target = commands.TargetSide.GetObjects(I);
+                target = commands.TargetSide.GetObjects(i);
                 if (target.GetEnabled() && target.FastBattleRoundDistance() <= distance)
                 {
-                    var wallSituation = commands.Source.Combat.GetWallSituation(commands.Source, target);
-                    FastBattleGetDamageValues(commands.Source, target, wallSituation, ref values);
+                    FastBattleGetDamageValues(wallSituation: commands.Source.Combat.GetWallSituation(commands.Source, target), source: commands.Source, target: target, values: ref values);
                     if (values.SourceDamage != 0)
                     {
                         command = new FastBattleSpellCommand(52, creator: this);
-                        command.Target = commands.TargetSide.GetObjects(I);
+                        command.Target = commands.TargetSide.GetObjects(i);
                         command.MoveCost = 1;
                         command.SpellId = SpellId;
                         command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
@@ -163,11 +162,11 @@ public partial class CombatSpell : Spell
         DelphiList<CombatObject> targets;
         Combat.Battle combat;
         target = command.Target;
-        for (int I = 0, last = CombatInfo.RepeatCount - 1; I <= last; I++)
+        for (int i = 0, last = CombatInfo.RepeatCount - 1; i <= last; i++)
         {
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                action = CreateCombatAction(source, target, I == 0);
+                action = CreateCombatAction(source, target, i == 0);
                 source.Combat.ExecuteCombatAction(action);
                 action.Release();
             }
@@ -197,10 +196,10 @@ public partial class CombatSpell : Spell
                 }
             }
 
-            for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
+            for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 var side = target.GetSide();
-                other = combat.Sides[(int)side].GetObjects(I);
+                other = combat.Sides[(int)side].GetObjects(i);
                 bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && distance >= other.FastBattleRoundDistance();
                 if (condition)
                 {
@@ -219,7 +218,7 @@ public partial class CombatSpell : Spell
             while (count != 0 && targets.Count != 0)
             {
                 other = targets[StrategicMap.Current.Random(targets.Count)];
-                for (int J = 0, last = CombatInfo.RepeatCount - 1; J <= last; J++)
+                for (int j = 0, last = CombatInfo.RepeatCount - 1; j <= last; j++)
                 {
                     if (!other.Status.Contains(CombatObjectStatusElement.Destroyed))
                     {
@@ -301,10 +300,10 @@ public partial class CombatSpell : Spell
                     }
                 }
 
-                for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
+                for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
                 {
                     var side = target.GetSide();
-                    other = combat.Sides[(int)side].GetObjects(I);
+                    other = combat.Sides[(int)side].GetObjects(i);
                     if (target != other && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
                     {
                         count += 1;

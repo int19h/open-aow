@@ -120,9 +120,7 @@ public abstract partial record ProductionOrder
         var eventValue = new CityProductionEventLog(null) { Holder = control };
         eventValue._player = control.GetPlayer();
         eventValue.Text = text;
-        var hexLevel = city.GetHexLevel();
-        var hexY = city.GetHexY();
-        eventValue.SetLocation(city.GetHexX(), hexY, hexLevel);
+        eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(eventValue._player).EventLogbook.AddEvent(eventValue);
         eventValue.Release();
     }

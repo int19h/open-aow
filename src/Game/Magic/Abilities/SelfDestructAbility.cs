@@ -70,9 +70,7 @@ public partial class SelfDestructAbility : TouchAbility
             var protectionTypes = defender.GetProtectionTypes();
             var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var defenderProtectionTypes = defender.GetProtectionTypes();
-            var defenderImmunityTypes = defender.GetImmunityTypes();
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
             var attackerHitPoints = attacker.GetHitPoints();
             damageValues.TargetDamage = attackerHitPoints * 100;
@@ -109,9 +107,7 @@ public partial class SelfDestructAbility : TouchAbility
             var protectionTypes = defender.GetProtectionTypes();
             var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var defenderProtectionTypes = defender.GetProtectionTypes();
-            var defenderImmunityTypes = defender.GetImmunityTypes();
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
             var attackerHitPoints = attacker.GetHitPoints();
             damageValues.TargetDamage = attackerHitPoints * 100;
