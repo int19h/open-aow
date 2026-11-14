@@ -1,11 +1,8 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Units;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -22,12 +19,12 @@ public partial class CombatParty : EngineObject
 
     public Army Army { get; }
 
-    public int X;
-    public int Y;
-    public int MapLevel;
-    public byte Wall;
-    public byte Position;
-    public byte PlayerIndex;
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int MapLevel { get; set; }
+    public byte Wall { get; set; }
+    public byte Position { get; set; }
+    public byte PlayerIndex { get; set; }
 
     // Combat2.pas:40
     public override void Dispose()
@@ -38,17 +35,6 @@ public partial class CombatParty : EngineObject
     }
 
     // Combat2.pas:50
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref X, 11);
-        stream.Int32(ref Y, 12);
-        stream.Int32(ref MapLevel, 13);
-        stream.Byte(ref PlayerIndex, 14);
-        stream.Bytes(Bytes.Of(ref Wall, 1), 1, 15);
-        stream.Byte(ref Position, 16);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

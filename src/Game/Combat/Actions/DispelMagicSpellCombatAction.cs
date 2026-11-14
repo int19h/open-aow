@@ -1,6 +1,5 @@
 // Translated from UnitSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -16,17 +15,10 @@ public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
     public DispelMagicSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int SpellId;
-    public int ManaCost;
+    public int SpellId { get; set; }
+    public int ManaCost { get; set; }
 
     // UnitSpells.pas:980
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref SpellId, 60);
-        stream.Int32(ref ManaCost, 61);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

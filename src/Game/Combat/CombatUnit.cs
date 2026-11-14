@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -33,9 +32,11 @@ public partial class CombatUnit : CombatObject
         _unitGraphicsResourceIndex = -1;
     }
 
-    public Troop Troop;
+    public Troop Troop { get; set; }
+
     private CombatParty _party;
-    public bool Disabled;
+
+    public bool Disabled { get; set; }
 
     public Set<WallCombatFeaturesElement> WallCombatFeaturesValue { get; private set; }
 
@@ -49,27 +50,6 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1382
-    public override void ReadWrite(StorageStream stream)
-    {
-        Troop U = default;
-        base.ReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            stream.Created(ref U, null, 20);
-            SetUnit(U);
-            if (U != null)
-            {
-                U.Release();
-            }
-        }
-        else
-        {
-            stream.Created(ref Troop, null, 20);
-        }
-
-        stream.Boolean(ref Disabled, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         Troop U = default;

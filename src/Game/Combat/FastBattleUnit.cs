@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Combat.Actions;
@@ -30,15 +29,9 @@ public partial class FastBattleUnit : CombatUnit
 
     public int RoundDistance { get; set; }
 
-    public Set<FastBattleUnitStateElement> State;
+    public Set<FastBattleUnitStateElement> State { get; set; }
 
     // AIGroup.pas:6797
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferSet(ref State, 1, 40, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

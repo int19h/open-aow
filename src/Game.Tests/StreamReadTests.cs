@@ -31,7 +31,9 @@ public sealed class StreamReadTests
     [Fact]
     public void ShortStorageReadThrows()
     {
-        var list = new ByteList();
+        // The integer list's payload, which the token events still store. The byte list's payload
+        // methods went with the combat ReadWrite methods (issue 185 PE-3-i part 4).
+        var list = new Int32List();
         using var stream = new MemoryStream();
         Assert.Throws<EndOfStreamException>(() => list.LoadFromStream(stream));
     }

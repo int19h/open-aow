@@ -1,6 +1,4 @@
 // Translated from Engine.pas.
-using Aow.Engine.Storage;
-
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
@@ -19,9 +17,9 @@ public partial class EngineResource : EngineObject
     { }
 
     private ECustomNode _resourceList;
-    internal int _resourceId;
-    internal int _editId;
-    internal int _editIndex;
+    private int _resourceId;
+    private int _editId;
+    private int _editIndex;
 
     // Engine.pas:8513
     public override void SetOwner(ECustomNode owner)
@@ -31,14 +29,6 @@ public partial class EngineResource : EngineObject
     }
 
     // Engine.pas:8542
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _resourceId, 1);
-        stream.Int32(ref _editId, 2);
-        stream.Int32(ref _editIndex, 3);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

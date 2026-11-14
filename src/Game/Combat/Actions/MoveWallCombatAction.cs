@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -15,17 +14,10 @@ public partial class MoveWallCombatAction : CombatAction
     public MoveWallCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public byte CombatObjectId;
-    public byte InsideWall;
+    public byte CombatObjectId { get; set; }
+    public byte InsideWall { get; set; }
 
     // Combat2.pas:1075
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref CombatObjectId, 1), 1, 20);
-        stream.Bytes(Bytes.Of(ref InsideWall, 1), 1, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

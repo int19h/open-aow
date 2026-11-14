@@ -1,6 +1,5 @@
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -21,19 +20,12 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
 
     private byte _sourceId;
     private byte _targetId;
-    public int ManaCost;
+
+    public int ManaCost { get; set; }
+
     private bool _succeeded;
 
     // CombatSpells.pas:1713
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref _sourceId, 20);
-        stream.Byte(ref _targetId, 21);
-        stream.Int32(ref ManaCost, 22);
-        stream.Boolean(ref _succeeded, 23);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

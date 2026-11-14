@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -32,11 +31,6 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     public int ConquerCount { get; private set; }
 
     // Combat.pas:6002
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

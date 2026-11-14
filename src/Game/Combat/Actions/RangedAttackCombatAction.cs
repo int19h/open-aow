@@ -1,13 +1,10 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -19,15 +16,9 @@ public partial class RangedAttackCombatAction : DamageCombatAction
     public RangedAttackCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int AbilityId;
+    public int AbilityId { get; set; }
 
     // AoWAb.PAS:4631
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref AbilityId, 4), 4, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

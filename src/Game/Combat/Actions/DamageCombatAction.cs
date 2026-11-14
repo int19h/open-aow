@@ -2,7 +2,6 @@
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -13,7 +12,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -28,21 +26,13 @@ public partial class DamageCombatAction : SingleTargetCombatAction
     {
     }
 
-    public byte Damage;
-    public Set<DamageType> DamageTypes;
-    public Set<DamageType> Effects;
+    public byte Damage { get; set; }
+    public Set<DamageType> DamageTypes { get; set; }
+    public Set<DamageType> Effects { get; set; }
 
     public byte DamageDone { get; protected set; }
 
     // Combat2.pas:777
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Damage, 15);
-        TransferRecord<PackedDamageTypes, Set<DamageType>>(ref Effects, 2, 16, stream.Bytes);
-        TransferRecord<PackedDamageTypes, Set<DamageType>>(ref DamageTypes, 2, 17, stream.Bytes);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

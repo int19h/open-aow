@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -10,8 +9,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -23,15 +20,9 @@ public partial class StrikeCombatAction : DamageCombatAction
     public StrikeCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public Set<StrikeModeElement> StrikeMode;
+    public Set<StrikeModeElement> StrikeMode { get; set; }
 
     // AoWAb.PAS:1157
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferSet(ref StrikeMode, 1, 20, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

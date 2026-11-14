@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
@@ -98,12 +97,12 @@ public sealed partial class PersistEquivalenceTests
     public void TokenEventResourceEditSettingsMatchesTheConverter()
     {
         Check("ControlStyleObject", new ControlStyleObject(null!) { Holder = EngineFixture.Engine });
-        var zeroStyle = new ControlStyleObject(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0) };
+        var zeroStyle = new ControlStyleObject(null!) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
         Check("ControlStyleObject", zeroStyle);
-        var bits = new ControlStyleObject(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0xA5) };
+        var bits = new ControlStyleObject(null!) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0xA5) };
         Check("ControlStyleObject", bits);
         Check("ResourceEditSettings", new ResourceEditSettings(null!) { Holder = EngineFixture.Engine });
-        var editors = new ResourceEditSettings(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0) };
+        var editors = new ResourceEditSettings(null!) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
         editors.Editors.AddObject("", Runtime.IntToObject(0));
         editors.Editors.AddObject("Gate", Runtime.IntToObject(4));
         Check("ResourceEditSettings", editors);
@@ -113,14 +112,14 @@ public sealed partial class PersistEquivalenceTests
     public void ItemGraphicsMatchesTheConverter()
     {
         Check("EngineResource", new EngineResource(null!) { Holder = EngineFixture.Engine });
-        Check("EngineResource", new EngineResource(null!) { Holder = EngineFixture.Engine, _resourceId = int.MinValue, _editId = int.MaxValue, _editIndex = 0 });
+        Check("EngineResource", new EngineResource(null!) { Holder = EngineFixture.Engine, ResourceId = int.MinValue, EditId = int.MaxValue, EditIndex = 0 });
         Check("ItemGraphics", new ItemGraphics(null!) { Holder = EngineFixture.Engine });
         var zero = new ItemGraphics(null!)
         {
             Holder = EngineFixture.Engine,
-            _resourceId = 0,
-            _editId = 0,
-            _editIndex = 0,
+            ResourceId = 0,
+            EditId = 0,
+            EditIndex = 0,
             ImageLibraryName = "",
             ImageIndex = 0,
             ItemType = 0,
@@ -130,9 +129,9 @@ public sealed partial class PersistEquivalenceTests
         var full = new ItemGraphics(null!)
         {
             Holder = EngineFixture.Engine,
-            _resourceId = int.MaxValue,
-            _editId = int.MinValue,
-            _editIndex = 3,
+            ResourceId = int.MaxValue,
+            EditId = int.MinValue,
+            EditIndex = 3,
             ImageLibraryName = "Jörg",
             ImageIndex = int.MinValue,
             ItemType = (ItemType)255,
@@ -381,12 +380,6 @@ public sealed partial class PersistEquivalenceTests
         {
         }
 
-        public override void ReadWrite(StorageStream stream)
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Read)) throw new InvalidOperationException("frozen water failed");
-            base.ReadWrite(stream);
-        }
-
         public override void PersistFields(IPersister persister)
         {
             if (persister.Loading) throw new InvalidOperationException("frozen water failed");
@@ -512,7 +505,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void SetsCoverEmptyFullAndUnnamedBits()
     {
-        Check("ControlStyleObject", new ControlStyleObject(null!) { Holder = EngineFixture.Engine, _controlStyle = Set<ControlStyleElement>.FromMask(0xFF) });
+        Check("ControlStyleObject", new ControlStyleObject(null!) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0xFF) });
         Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.FromMask(0), SourceId = 0, TargetId = 0 });
         Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive), SourceId = 255, TargetId = 1 });
         Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.FromMask(0xFF), SourceId = 4, TargetId = 5 });

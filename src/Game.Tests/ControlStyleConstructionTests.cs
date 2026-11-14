@@ -5,6 +5,7 @@ using Aow.Engine.Storage;
 
 using Aow.Game.Audio;
 using Aow.Game.Draw.Images;
+using Aow.Game.Net;
 
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -349,15 +350,20 @@ public sealed class ControlStyleConstructionTests
         return engine;
     }
 
+    // The stream reads the communication settings of a player, a class of Game/Net that keeps its
+    // ReadWrite until PE-4-a. A control style object, which these tests read before, persists
+    // through the tree since issue 185 PE-3-i part 4, and the stream reads its image through the
+    // original backend.
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
     public void TruncatedBinaryReadDestroysOnlyTheNewObject(bool propagate)
     {
         var engine = CreateEngine();
+        engine.RegisterEngineClasses([EngineClass.Of<PlayerCommunicationSettings>()]);
         var owner = new EngineFixture.Owner();
         var existing = new EngineObject(owner);
-        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject source = new PlayerCommunicationSettings(null!) { Holder = EngineFixture.Engine, SystemId = 7 };
         using var stream = new TruncatedStream();
         try
         {
@@ -382,7 +388,7 @@ public sealed class ControlStyleConstructionTests
                     reader.Created(ref result, owner, 7);
                 Assert.Equal("Stream read error", message);
                 Assert.Null(result);
-                Assert.IsType<ControlStyleObject>(engine.Created);
+                Assert.IsType<PlayerCommunicationSettings>(engine.Created);
                 Assert.Null(engine.Created!.Owner);
                 Assert.Same(existing, Assert.Single(owner.Members));
                 Assert.Equal(1, owner.Removals);
@@ -409,9 +415,10 @@ public sealed class ControlStyleConstructionTests
     public void EmptyChildReadUsesTheDefaultMessageAndHonorsContinuation(bool propagate)
     {
         var engine = CreateEngine();
+        engine.RegisterEngineClasses([EngineClass.Of<PlayerCommunicationSettings>()]);
         var owner = new EngineFixture.Owner();
         var existing = new EngineObject(owner);
-        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject source = new PlayerCommunicationSettings(null!) { Holder = EngineFixture.Engine, SystemId = 7 };
         using var stream = new EmptyMessageStream();
         try
         {
@@ -436,7 +443,7 @@ public sealed class ControlStyleConstructionTests
                     reader.Created(ref result, owner, 7);
                 Assert.Equal("Error Reading EObject", message);
                 Assert.Null(result);
-                Assert.IsType<ControlStyleObject>(engine.Created);
+                Assert.IsType<PlayerCommunicationSettings>(engine.Created);
                 Assert.Null(engine.Created!.Owner);
                 Assert.Same(existing, Assert.Single(owner.Members));
                 Assert.Equal(1, owner.Removals);
