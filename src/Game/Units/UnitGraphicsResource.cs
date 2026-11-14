@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
@@ -42,7 +41,8 @@ public partial class UnitGraphicsResource : EngineResource
         SfxLibraries[4] = sfxLibrary5;
     }
 
-    public string Name = "";
+    public string Name { get; set; } = "";
+
     private int _faceIndex;
     private CustomImageLibrary _faceImageLibrary;
     private string _faceImageLibraryName = "";
@@ -50,7 +50,8 @@ public partial class UnitGraphicsResource : EngineResource
     public ImageSequenceList Sequences { get; }
 
     private int _refCount;
-    public byte MoveAnimationSpeed;
+
+    public byte MoveAnimationSpeed { get; set; }
 
     public SfxLibrary[] SfxLibraries { get; } = new SfxLibrary[5];
 
@@ -72,31 +73,17 @@ public partial class UnitGraphicsResource : EngineResource
     }
 
     // UnitHS.PAS:116
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Payload(5, Sequences.LoadFromStream, Sequences.SaveToStream);
-        if (!stream.StorageMode().Contains(EngineServices.Text))
-        {
-            stream.String(ref _faceImageLibraryName, 6);
-            stream.String(ref Name, 7);
-        }
-
-        stream.Int32(ref _faceIndex, 8);
-        stream.Bytes(Bytes.Of(ref MoveAnimationSpeed, 1), 1, 10);
-        stream.Object(SfxLibraries[0], 15);
-        stream.Object(SfxLibraries[1], 16);
-        stream.Object(SfxLibraries[2], 17);
-        stream.Object(SfxLibraries[3], 18);
-        stream.Object(SfxLibraries[4], 19);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         PersistSupport.ImageSequences(persister, name: "Sequences", list: Sequences);
-        _faceImageLibraryName = persister.String("FaceImageLibraryName", value: _faceImageLibraryName);
-        Name = persister.String("Name", value: Name);
+        // The original leaves both names out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            _faceImageLibraryName = persister.String("FaceImageLibraryName", value: _faceImageLibraryName);
+            Name = persister.String("Name", value: Name);
+        }
+
         _faceIndex = persister.Int32("FaceIndex", value: _faceIndex);
         MoveAnimationSpeed = persister.RawByte("MoveAnimationSpeed", value: MoveAnimationSpeed);
         persister.Object("SelectSfxLibrary", objectValue: SfxLibraries[0]);

@@ -21,7 +21,7 @@ public partial class ArmyId : EngineObject
 
     public Int32List UnitIds { get; }
 
-    public sbyte Player;
+    public sbyte Player { get; set; }
 
     public sbyte X { get; set; }
     public sbyte Y { get; set; }

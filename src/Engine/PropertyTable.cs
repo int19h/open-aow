@@ -121,6 +121,22 @@ public partial class PropertyTable : IDisposable
         return result;
     }
 
+    // The smallest stored offset of the current table above an offset, or -1. A stored value runs
+    // to the next larger offset, as the original backend bounds it.
+    public int NextOffset(int offset)
+    {
+        int result = -1;
+        for (int i = _first; i < _count; i++)
+        {
+            if (_items[i].Offset > offset && (result == -1 || _items[i].Offset < result))
+            {
+                result = _items[i].Offset;
+            }
+        }
+
+        return result;
+    }
+
     // Engine.pas:2330
     public void BackupSettings()
     {

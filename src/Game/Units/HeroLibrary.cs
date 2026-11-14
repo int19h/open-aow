@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 
@@ -16,17 +15,11 @@ public partial class HeroLibrary : HeroList
     public HeroLibrary(ECustomNode owner) : base(owner)
     { }
 
-    public string LibraryName = "";
+    public string LibraryName { get; set; } = "";
+
     private int _nextLibraryId;
 
     // Hero.PAS:2639
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref LibraryName, 20);
-        stream.Int32(ref _nextLibraryId, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

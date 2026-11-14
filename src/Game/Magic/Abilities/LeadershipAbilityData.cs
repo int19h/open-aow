@@ -1,6 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -14,25 +14,19 @@ public partial class LeadershipAbilityData : MultiLevelAbilityData
     public LeadershipAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public byte ExternalLevel;
-    public string ExternalSource = "";
+    public byte ExternalLevel { get; set; }
+    public string ExternalSource { get; set; } = "";
 
     // AoWAb.PAS:957
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref ExternalLevel, 25);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref ExternalSource, 26);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         ExternalLevel = persister.Byte("ExternalLevel", value: ExternalLevel);
-        ExternalSource = persister.String("ExternalSource", value: ExternalSource);
+        // The original leaves the external source out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            ExternalSource = persister.String("ExternalSource", value: ExternalSource);
+        }
     }
 
     // Engine.pas:524

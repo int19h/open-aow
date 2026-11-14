@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -36,16 +35,6 @@ public partial class UnitControl : EngineObject
     }
 
     // Unit.PAS:14
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _nextUnitId, 10);
-        if (_nextUnitId <= 0)
-        {
-            _nextUnitId = 1;
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

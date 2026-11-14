@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
@@ -39,12 +38,12 @@ public partial class Ability : EngineObject
     public int AbilityId { get; set; }
     public StringList Description { get; }
 
-    public int SkillPointCost;
+    public int SkillPointCost { get; protected set; }
 
     public SfxLibrary SfxLibrary { get; }
     public ImageSequenceList ImageSequences { get; init; }
 
-    public Set<AbilitySelectionType> SelectionTypes;
+    public Set<AbilitySelectionType> SelectionTypes { get; set; }
 
     // Ability.PAS:1245
     public override void Dispose()
@@ -56,16 +55,6 @@ public partial class Ability : EngineObject
     }
 
     // Ability.PAS:1654
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(Description, 5);
-        stream.Int32(ref SkillPointCost, 6);
-        stream.Object(SfxLibrary, 7);
-        stream.Payload(8, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
-        TransferSet(ref SelectionTypes, 2, 9, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

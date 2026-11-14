@@ -1,6 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 
@@ -36,34 +36,18 @@ public partial class ItemLibraryManager : EngineObject
     }
 
     // Army.PAS:4981
-    public override void ReadWrite(StorageStream stream)
-    {
-        string directory;
-        base.ReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
-        {
-            directory = ExtractFilePath(GetEngine().HssFileName);
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                ReadUserLibraries();
-                GetEngine().ReadFromFile(directory + "ITEMS.PFS", SystemLibrary, null);
-            }
-            else
-            {
-                GetEngine().WriteToFile(directory + "ITEMS.PFS", SystemLibrary, null);
-                WriteUserLibraries();
-            }
-        }
-        else
-        {
-            stream.Object(SystemLibrary, 20);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         string directory;
         base.PersistFields(persister);
+        // Under the text-only mode of the translate stream the original visits the system library
+        // in place and touches no file.
+        if (PersistSupport.Translating(persister))
+        {
+            persister.Object("SystemLibrary", objectValue: SystemLibrary);
+            return;
+        }
+
         directory = ExtractFilePath(GetEngine().HssFileName);
         if (persister.Loading)
         {

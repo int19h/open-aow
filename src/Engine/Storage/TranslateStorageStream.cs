@@ -65,7 +65,7 @@ public partial class TranslateStorageStream : StorageStream
         try
         {
             _propertyTable.BackupSettings();
-            objectValue.MainReadWrite(this);
+            PersistObject(objectValue);
             _propertyTable.RestoreSettings();
         }
         catch
@@ -84,6 +84,11 @@ public partial class TranslateStorageStream : StorageStream
             }
         }
     }
+
+    // A class whose ReadWrite is retired (PE-3-i) is visited through its tree methods, with a
+    // persister that translates its strings and loads and saves nothing.
+    private protected override void PersistTree(EngineObject objectValue) =>
+        objectValue.MainPersist(new TranslatePersister(this, node: objectValue));
 
     // Engine.pas:10882
     public override void SizedObject(EngineObject objectValue, int id)

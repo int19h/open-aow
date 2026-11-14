@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -52,11 +49,11 @@ public partial class Army : UnitList
 
     public Set<ArmyStatusElement> Status { get; set; }
 
-    public Set<ArmyModeElement> Mode;
-    public sbyte Player;
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
+    public Set<ArmyModeElement> Mode { get; set; }
+    public sbyte Player { get; set; }
+    public sbyte X { get; set; }
+    public sbyte Y { get; set; }
+    public sbyte MapLevel { get; set; }
 
     public sbyte IndependentRelation { get; private set; }
 
@@ -69,11 +66,12 @@ public partial class Army : UnitList
 
     internal void ClearUpdateHandler() => OnUpdate = null;
 
-    public GroupBehavior OldAIBehavior;
-    public sbyte DestinationX;
-    public sbyte DestinationY;
-    public sbyte DestinationMapLevel;
-    public Set<ArmyUserModeElement> UserMode;
+    public GroupBehavior OldAIBehavior { get; set; }
+    public sbyte DestinationX { get; set; }
+    public sbyte DestinationY { get; set; }
+    public sbyte DestinationMapLevel { get; set; }
+    public Set<ArmyUserModeElement> UserMode { get; set; }
+
     private byte _visibilityRanges;
 
     public byte ConcealedUnits { get; private set; }
@@ -91,29 +89,6 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1898
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 4);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 5);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 6);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 7);
-        if (!stream.StorageMode().Contains(StorageModeElement.Write) || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
-        {
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 8);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 9);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationMapLevel), 10);
-            TransferSet(ref UserMode, 1, 13, stream.Bytes, 0);
-        }
-
-        stream.Bytes(Bytes.Of(ref OldAIBehavior, 1), 1, 11);
-        TransferSet(ref Mode, 1, 12, stream.Bytes, 0);
-        if (stream.StorageMode().Contains(StorageModeElement.Read) && Mode.Contains(ArmyModeElement.Moving))
-        {
-            Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -131,7 +106,8 @@ public partial class Army : UnitList
 
         OldAIBehavior = persister.Enum("OldAIBehavior", value: OldAIBehavior);
         Mode = persister.Set("Mode", value: Mode);
-        if (persister.Loading && Mode.Contains(ArmyModeElement.Moving))
+        // The translate stream's mode holds read, so the original clears the flag there too.
+        if ((persister.Loading || PersistSupport.Translating(persister)) && Mode.Contains(ArmyModeElement.Moving))
         {
             Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
         }

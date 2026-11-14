@@ -30,7 +30,7 @@ public sealed class OwnershipTroopTests
         using var memory = new MemoryStream();
         using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
         {
-            objectValue.MainReadWrite(writer);
+            writer.PersistObject(objectValue);
         }
 
         return memory.ToArray();
@@ -40,7 +40,7 @@ public sealed class OwnershipTroopTests
     {
         using var memory = new MemoryStream(image);
         using var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        objectValue.MainReadWrite(reader);
+        reader.PersistObject(objectValue);
     }
 
     [Fact]

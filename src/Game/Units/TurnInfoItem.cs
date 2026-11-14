@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Units;
@@ -13,23 +12,13 @@ public partial class TurnInfoItem : EngineObject
     public TurnInfoItem(ECustomNode owner) : base(owner)
     { }
 
-    public int Gold;
-    public int Mana;
-    public int Structures;
-    public int ArmyStrength;
-    public byte Heroes;
+    public int Gold { get; set; }
+    public int Mana { get; set; }
+    public int Structures { get; set; }
+    public int ArmyStrength { get; set; }
+    public byte Heroes { get; set; }
 
     // Player.PAS:161
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Gold, 25);
-        stream.Int32(ref Mana, 26);
-        stream.Int32(ref Structures, 27);
-        stream.Int32(ref ArmyStrength, 28);
-        stream.Byte(ref Heroes, 29);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

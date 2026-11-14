@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Units;
@@ -13,17 +12,10 @@ public partial class UnitProduction : EngineObject
     public UnitProduction(ECustomNode owner) : base(owner)
     { }
 
-    public int UnitIndex;
-    public bool Researched;
+    public int UnitIndex { get; set; }
+    public bool Researched { get; set; }
 
     // Structur.PAS:7
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref UnitIndex, 20);
-        stream.Boolean(ref Researched, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

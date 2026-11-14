@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -40,54 +37,9 @@ public partial class Unit : Troop
     private sbyte _abilityDamage;
 
     // Unit.PAS:2132
-    public override void ReadWrite(StorageStream stream)
-    {
-        short resourceIndex = default;
-        UnitResource resource;
-        base.ReadWrite(stream);
-        stream.Byte(ref _experience, 7);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 8);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hitPoints), 9);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of())
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Compare))
-            {
-                resourceIndex = (short)UnitResource.UnitResourceIndex();
-                stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
-            }
-            else
-            {
-                if (stream.StorageMode().Contains(StorageModeElement.Read))
-                {
-                    stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
-                    resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
-                    UnitResource = resource;
-                    if (resource == null)
-                    {
-                        throw new KeyNotFoundException("unit resource missing (" + IntToStr(resourceIndex) + ")");
-                    }
-                }
-                else
-                {
-                    resource = UnitResource;
-                    if (resource != null)
-                    {
-                        resourceIndex = (short)resource.UnitResourceIndex();
-                    }
-                    else
-                    {
-                        resourceIndex = -1;
-                    }
-
-                    stream.UInt16(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
-                }
-            }
-        }
-    }
-
-    // ReadWrite stores the resource index as a signed 16-bit value through the unsigned stream
+    // The original ReadWrite stores the resource index as a signed 16-bit value through the unsigned stream
     // call, and a unit with no resource stores -1. The load looks the resource up in the game set
-    // and refuses a missing one, as ReadWrite does.
+    // and refuses a missing one, as the original ReadWrite does.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

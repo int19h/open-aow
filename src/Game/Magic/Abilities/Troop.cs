@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
@@ -43,17 +40,18 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // SetOwner observes this count before the base body, as in Unit.PAS:95.
     public int RefCount { get; private set; } = 1;
 
-    public int UnitId;
-    public int GroupId;
+    public int UnitId { get; set; }
+    public int GroupId { get; set; }
 
     public AIGroup Group { get; set; }
 
     // group
-    public sbyte Player;
+    public sbyte Player { get; set; }
 
     public Set<UnitStatusElement> UnitStatus { get; set; }
 
-    public sbyte MoraleValue;
+    public sbyte MoraleValue { get; set; }
+
     private readonly byte[] _offensiveStrength = new byte[10];
 
     public byte MaxOffensiveStrength { get; private set; }
@@ -103,40 +101,6 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1762
-    public override void ReadWrite(StorageStream stream)
-    {
-        EngineObject legacy;
-        base.ReadWrite(stream);
-        stream.Int32(ref GroupId, 4);
-        stream.Int32(ref UnitId, -1, 5);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 6);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 47);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            try
-            {
-                legacy = null;
-                stream.Created(ref legacy, null, 48);
-                if (legacy != null)
-                {
-                    LegacyGroupBehavior = (byte)((GroupControl)(object)legacy).Behavior();
-                }
-                else
-                {
-                    LegacyGroupBehavior = 0;
-                }
-            }
-            catch
-            {
-            }
-        }
-        else
-        {
-            // { Original retains the obsolete object loaded for behavior conversion. }
-            LegacyGroupBehavior = 0;
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         EngineObject legacy;

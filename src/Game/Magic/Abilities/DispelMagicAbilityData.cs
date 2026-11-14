@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -14,17 +13,10 @@ public partial class DispelMagicAbilityData : AbilityData
     public DispelMagicAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public bool Enabled;
-    public byte Level;
+    public bool Enabled { get; set; }
+    public byte Level { get; set; }
 
     // AoWAb.PAS:4034
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Boolean(ref Enabled, 10);
-        stream.Byte(ref Level, 11);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

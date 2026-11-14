@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 
@@ -16,17 +15,11 @@ public partial class ItemLibrary : ItemList
     public ItemLibrary(ECustomNode owner) : base(owner)
     { }
 
-    public string Name = "";
+    public string Name { get; set; } = "";
+
     private int _lastId;
 
     // Army.PAS:4933
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref Name, 20);
-        stream.Int32(ref _lastId, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

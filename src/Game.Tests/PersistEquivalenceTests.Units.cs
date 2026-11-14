@@ -1,4 +1,5 @@
 using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Tree;
@@ -6,6 +7,8 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+
+using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 
@@ -188,6 +191,89 @@ public sealed partial class PersistEquivalenceTests
         {
             File.Delete(heroes);
             File.Delete(items);
+        }
+    }
+
+    // GameEngine.TranslateEngineObject runs the translate stream over a loaded map. The family's
+    // classes have no ReadWrite since PE-3-i, so the stream visits them through their tree methods
+    // and visits what the original ReadWrite visited under its mode (read, text only, translate):
+    // a hero's name and nickname but not its library name, the owner name, name and description of
+    // an item outside a library, and nothing of a library item outside an item library.
+    [Fact]
+    public void TheTranslateStreamVisitsTheStringsTheOriginalReadWriteVisited()
+    {
+        WithDestroyingMap(_ =>
+        {
+            using var army = new Army(null!) { Holder = EngineFixture.Engine };
+            var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", LibraryName = "Mine", Player = 1 };
+            hero.SetNickname("the Swift");
+            hero.SetOwner(army);
+            var sword = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 4, OwnerName = "Lair", Name = "Sword", LibraryId = -1 };
+            sword.SetOwner(hero.Inventory);
+            using var lair = new ItemList(null!) { Holder = EngineFixture.Engine };
+            var loot = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 5, OwnerName = "Lair", Name = "Sword", LibraryId = -1 };
+            loot.SetOwner(lair);
+            var ring = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 6, OwnerName = "Shop", Name = "Ring", LibraryId = 3 };
+            ring.SetOwner(lair);
+            var before = TreeWriter.Write(army, Factory);
+
+            var dictionary = new Dictionary<string, string>
+            {
+                ["Archer"] = "Bogenschütze",
+                ["the Swift"] = "der Schnelle",
+                ["Lair"] = "Hort",
+                ["Sword"] = "Schwert",
+                ["Shop"] = "Laden",
+                ["Ring"] = "Reif",
+                ["Mine"] = "Meins",
+            };
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(army, 0);
+                Assert.Equal(["Archer", "the Swift", "Lair", "Sword", "lines 0"], stream.Visited);
+            }
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(lair, 0);
+                Assert.Equal(["Lair", "Sword", "lines 0"], stream.Visited);
+            }
+
+            Assert.Equal("Bogenschütze", hero.HeroName);
+            Assert.Equal("der Schnelle", hero.Nickname);
+            Assert.Equal("Mine", hero.LibraryName);
+            Assert.Equal("Hort", sword.OwnerName);
+            Assert.Equal("Schwert", sword.Name);
+            Assert.Equal(("Hort", "Schwert"), (loot.OwnerName, loot.Name));
+            Assert.Equal(("Shop", "Ring"), (ring.OwnerName, ring.Name));
+            Assert.Same(hero, army.GetChild(0));
+            Assert.Same(sword, hero.Inventory.GetItem(0));
+            Assert.Equal(2, lair.Count);
+            // Apart from the translated strings the army writes the tree it wrote before.
+            hero.HeroName = "Archer";
+            hero.SetNickname("the Swift");
+            sword.OwnerName = "Lair";
+            sword.Name = "Sword";
+            Assert.True(before.ValueEquals(TreeWriter.Write(army, Factory)));
+        });
+    }
+
+    // The translate stream of TranslateTextStream with a small dictionary in place of the game's,
+    // recording what it visits.
+    private sealed class DictionaryStream(Dictionary<string, string> dictionary) : TranslateStorageStream(EngineFixture.Engine)
+    {
+        public List<string> Visited { get; } = [];
+
+        public override void TranslateString(ref string value)
+        {
+            Visited.Add(value);
+            value = dictionary.GetValueOrDefault(value, value);
+        }
+
+        public override void TranslateStrings(ref StringCollection lines)
+        {
+            Visited.Add("lines " + lines.Count);
+            for (int index = 0; index < lines.Count; index++)
+                lines[index] = dictionary.GetValueOrDefault(lines[index], lines[index]);
         }
     }
 
