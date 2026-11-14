@@ -133,7 +133,7 @@ public partial class CampaignTransferSettings : EngineObject
     }
 
     // Diplomacy.pas:1804
-    public void GenerateTransferUnits(UnitList units)
+    public void GenerateTransferUnits(UnitUserList units)
     {
         int index;
         int maxUnits;

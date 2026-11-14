@@ -12,9 +12,10 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 /// <summary>
-/// The troops of an army, a unit list or an AI group, in the holder's child slots and their stored
-/// order. The holder owns the slots. An army and a unit list own the troops they add. A unit user
-/// list and an AI group hold references and release them. The holder checks each troop that enters,
+/// The troops of an army, a unit list, a unit user list or an AI group, in the holder's child
+/// slots and their stored order. The holder owns the slots. An army and a unit list own the troops
+/// they add. A unit user list and an AI group hold references and release them. The holder checks
+/// each troop that enters,
 /// notifies its changes, routes messages to its troops and stores the slots. This collection reads
 /// them typed and sorts them. A default value has no holder and throws on use, as a missing list
 /// does.
@@ -24,8 +25,8 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     private readonly EChangeNotifyNode _holder;
     private readonly IUnitHolder _hooks;
 
-    // An army, a unit list and an AI group admit only troops (AcceptsChild), so every slot holds a
-    // troop or is empty.
+    // An army, a unit list, a unit user list and an AI group admit only troops (AcceptsChild), so
+    // every slot holds a troop or is empty.
     internal UnitCollection(Army holder)
     {
         _holder = holder;
@@ -44,7 +45,13 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         _hooks = holder;
     }
 
-    /// <summary>The army, unit list or AI group that holds the troops.</summary>
+    internal UnitCollection(UnitUserList holder)
+    {
+        _holder = holder;
+        _hooks = holder;
+    }
+
+    /// <summary>The army, unit list, unit user list or AI group that holds the troops.</summary>
     public EChangeNotifyNode Holder => _holder;
 
     // The holder's CanAddUnit, which an army and its kinds override.

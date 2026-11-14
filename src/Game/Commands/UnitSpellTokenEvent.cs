@@ -127,7 +127,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     }
 
     // Spells.PAS:1143
-    public void Initialize(int spellId, Troop source, UnitList targets, int mana)
+    public void Initialize(int spellId, Troop source, UnitUserList targets, int mana)
     {
         EventSpellId = spellId;
         EventPlayerIndex = (byte)source.Player;

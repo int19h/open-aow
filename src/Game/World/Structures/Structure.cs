@@ -609,7 +609,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1755
-    public virtual void SetupRazeDefenderAIGroup(UnitList attackers, UnitList defenders)
+    public virtual void SetupRazeDefenderAIGroup(UnitUserList attackers, UnitUserList defenders)
     {
         HuntAIGroup group;
         var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, 5);
@@ -875,8 +875,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         bool result;
         UnitList defenders;
-        UnitList placed;
-        UnitList attackers;
+        UnitUserList placed;
+        UnitUserList attackers;
         Troop troop;
         defenders = new UnitList(null) { Holder = CreationHolder() };
         placed = new UnitUserList(null) { Holder = CreationHolder() };
@@ -1046,7 +1046,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public virtual bool CanDoubleClick() => false;
 
     // Structur.PAS:1508
-    public virtual int ListUnits(UnitList list)
+    public virtual int ListUnits(UnitUserList list)
     {
         HexNumberWalkData walk = default;
         int count;
@@ -1211,7 +1211,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result;
         CombatPredictor predictor;
         UnitList defenders;
-        UnitList units;
+        UnitUserList units;
         if (!GetRazed() && GetRazeable())
         {
             predictor = new CombatPredictor(this);

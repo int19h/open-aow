@@ -330,7 +330,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:3549
-    public bool CanDoDamage(UnitList units)
+    public bool CanDoDamage(UnitUserList units)
     {
         int I;
         Troop troop;

@@ -421,7 +421,7 @@ public partial class AIGroup : EChangeNotifyNode, IChildList<Troop>, IUnitHolder
     public virtual bool CooperateWithGroup(AIGroup group, AIGroupControlTarget target) => group.GroupClass.Behavior == GroupClass.Behavior;
 
     // AIGroup.pas:473
-    public virtual bool GetRecruitableUnits(AIGroup recruiter, UnitList units, UnitList recruitable) => false;
+    public virtual bool GetRecruitableUnits(AIGroup recruiter, UnitUserList units, UnitUserList recruitable) => false;
 
     // AIGroup.pas:144
     public int GetProcessPriority() => Units.Count + (ProcessPriority << 16);

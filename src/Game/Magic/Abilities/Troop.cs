@@ -31,7 +31,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 {
     // A troop stands in an army or a unit list, or a hero stands in a hero list or a hero library
     // while no army holds it. TroopOwner reads that owner without a cast.
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is Army or UnitList or IHeroHolder;
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is Army or UnitList or UnitUserList or IHeroHolder;
 
     TroopOwner IOwned<TroopOwner>.Owner => TroopOwner.Of(Owner);
 
@@ -625,7 +625,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         StrategicMap.Current.UnitControl.RegisterUnit(this);
         if (GroupId != 0 && Player >= 0)
         {
-            group = StrategicMap.Current.AIGroupManager.FindId(GroupId);
+            group = StrategicMap.Current.AIGroupManager.Groups.FindId(GroupId);
             if (group != null)
             {
                 group.AddUnit(this);
@@ -980,7 +980,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // A hero list or a hero library is not an army or a unit list. Callers treat that owner as
-    // absent. A unit list that is not an army fails the cast.
+    // absent. A unit list or a unit user list fails the cast.
     internal Army ArmyOwner => Owner is IHeroHolder ? null : (Army)Owner;
 
     // The army or unit list that holds this troop, or null for a hero list or no owner.

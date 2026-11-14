@@ -44,7 +44,7 @@ public partial class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:946
-    public override bool CastSpell(Troop source, UnitList targets)
+    public override bool CastSpell(Troop source, UnitUserList targets)
     {
         bool result;
         CosmeticSurgerySpellCaster caster;

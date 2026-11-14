@@ -8,7 +8,7 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroup, so the cast never fails.
-    public AIGroup this[int index] => (AIGroup)GetChild(index);
+    public AIGroup this[int index] => Groups[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroup;
 
@@ -17,71 +17,20 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
     public AIGroupList(ECustomNode owner) : base(owner)
     { }
 
-    // AIGroup.pas:526
-    public AIGroup GetGroups(int index)
-    {
-        AIGroup result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
+    /// <summary>The groups of this list, in their stored order.</summary>
+    public AIGroupCollection Groups => new(this);
 
-        return result;
-    }
+    // AIGroup.pas:526
+    public AIGroup GetGroups(int index) => Groups.GetGroups(index);
 
     // AIGroup.pas:533
-    public int IndexOfId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (id == this[result].GroupId)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => Groups.IndexOfId(id);
 
     // AIGroup.pas:544
-    public AIGroup FindId(int id)
-    {
-        AIGroup result;
-        int I;
-        I = IndexOfId(id);
-        if (I != -1)
-        {
-            result = this[I];
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
+    public AIGroup FindId(int id) => Groups.FindId(id);
 
     // AIGroup.pas:559
-    public void SortOnProcessPriority()
-    {
-        SortChildren<AIGroup>(CompareAIGroupProcessPriority);
-    }
-
-    private static int CompareAIGroupProcessPriority(AIGroup item1, AIGroup item2)
-    {
-        int number = item2.GetProcessPriority() - item1.GetProcessPriority();
-        if (number == 0)
-        {
-            number = item2.GroupId - item1.GroupId;
-        }
-        return number;
-    }
+    public void SortOnProcessPriority() => Groups.SortOnProcessPriority();
 
     // Engine.pas:631
 

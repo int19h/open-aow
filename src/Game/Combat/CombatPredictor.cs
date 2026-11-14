@@ -756,7 +756,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:899
-    public void ListRequiredUnits(UnitList required, UnitList optional, UnitList useless, int superiority)
+    public void ListRequiredUnits(UnitUserList required, UnitUserList optional, UnitUserList useless, int superiority)
     {
         DoubleItemList<CombatPredictorUnit> list = default;
         int total = default;
@@ -928,13 +928,13 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:988
-    public void ListRequiredUnits(UnitList required, int superiority)
+    public void ListRequiredUnits(UnitUserList required, int superiority)
     {
         ListRequiredUnits(required, null, null, superiority);
     }
 
     // CombatPredictor.pas:991
-    public void ListOptionalUnits(UnitList optional, int superiority)
+    public void ListOptionalUnits(UnitUserList optional, int superiority)
     {
         ListRequiredUnits(null, optional, null, superiority);
     }

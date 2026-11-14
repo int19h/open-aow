@@ -55,7 +55,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         _upkeepChangedEventsStore = new();
         Structures = new PlayerStructureList(null) { Holder = CreationHolder() };
         Structures.Player = this;
-        Armies = new ArmyList(null) { Holder = CreationHolder() };
+        _armies = new ArmyList(null) { Holder = CreationHolder() };
         AIControl = new AIPlayerControl(null) { Holder = CreationHolder() };
         AIControl.Player = this;
         AIBudget = new AIBudgetManager(null) { Holder = CreationHolder() };
@@ -64,8 +64,8 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         MagicControl = new PlayerMagicControl(null) { Holder = CreationHolder() };
         MagicControl.Player = this;
         Statistics = new PlayerStatistics(null) { Holder = CreationHolder() };
-        Armies.Player = this;
-        Armies.Events += ArmiesChanged;
+        _armies.Player = this;
+        _armies.Events += ArmiesChanged;
         Heroes = new HeroList(null) { Holder = CreationHolder() };
         InitialGold = 250;
         BaseIncome = 0;
@@ -140,7 +140,11 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     private readonly PlayerStructureList _victoryLocations;
 
     public ProductionControlList ProductionControls { get; }
-    public ArmyList Armies { get; }
+
+    private readonly ArmyList _armies;
+
+    /// <summary>The armies registered with this player, in the list's child slots.</summary>
+    public ArmyCollection Armies => new(_armies);
     public bool SingleProcessCycle { get; private set; }
 
     public byte ViewX { get; set; }
@@ -227,7 +231,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     public override void Dispose()
     {
         PlayerStructureList structures;
-        ArmyList armies;
+        ArmyCollection armies;
         try
         {
             _incomeChangedEventsStore.Clear();
@@ -345,7 +349,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
             try
             {
-                Armies?.Dispose();
+                _armies.Dispose();
                 AIGroups?.Dispose();
                 AIBudget?.Dispose();
                 Structures?.Dispose();
@@ -653,7 +657,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     {
         GameOverEventLog eventValue;
         PlayerStructureList structures;
-        ArmyList armies;
+        ArmyCollection armies;
         Campaign campaign;
         if (value != GameOverStatus && GameOverStatus == GameOverStatus.None)
         {
@@ -847,7 +851,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     {
         _updateCount += 1;
         Structures.BeginUpdate();
-        Armies.BeginUpdate();
+        _armies.BeginUpdate();
         MagicControl.BeginUpdate();
     }
 
@@ -864,7 +868,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         }
 
         Structures.EndUpdate();
-        Armies.EndUpdate();
+        _armies.EndUpdate();
         MagicControl.EndUpdate();
     }
 

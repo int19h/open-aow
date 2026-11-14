@@ -8,9 +8,12 @@ namespace Aow.Game.Net;
 // there, and this class registers under the same class id, so the stored bytes are the same.
 public class TokenEventReferenceList(ECustomNode owner) : EReferenceNode(owner), IChildList<TokenEvent>
 {
+    /// <summary>The events of this list, in their stored order.</summary>
+    public TokenEventCollection Events => new(this);
+
     // The token event in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a token event, so the cast never fails.
-    public TokenEvent this[int index] => (TokenEvent)GetChild(index);
+    public TokenEvent this[int index] => Events[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is TokenEvent;
 

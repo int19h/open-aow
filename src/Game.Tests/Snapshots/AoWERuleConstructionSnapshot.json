@@ -19486,7 +19486,7 @@
                     "BitList._count": 0,
                     "BitList._default": 0
                   },
-                  "Player.Armies": {
+                  "Player._armies": {
                     "$type": "Aow.Game.Units.ArmyList",
                     "ArmyList.Player": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[0]",
                     "EChangeNotifyEventList._eventsStore": {
@@ -20079,7 +20079,7 @@
                     "BitList._count": 0,
                     "BitList._default": 0
                   },
-                  "Player.Armies": {
+                  "Player._armies": {
                     "$type": "Aow.Game.Units.ArmyList",
                     "ArmyList.Player": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[1]",
                     "EChangeNotifyEventList._eventsStore": {
@@ -20672,7 +20672,7 @@
                     "BitList._count": 0,
                     "BitList._default": 0
                   },
-                  "Player.Armies": {
+                  "Player._armies": {
                     "$type": "Aow.Game.Units.ArmyList",
                     "ArmyList.Player": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[2]",
                     "EChangeNotifyEventList._eventsStore": {
@@ -23671,7 +23671,7 @@
           "BitList._count": 0,
           "BitList._default": 0
         },
-        "Player.Armies": {
+        "Player._armies": {
           "$type": "Aow.Game.Units.ArmyList",
           "ArmyList.Player": "$ref:$",
           "EChangeNotifyEventList._eventsStore": {
@@ -24335,7 +24335,7 @@
                 "BitList._count": 0,
                 "BitList._default": 0
               },
-              "Player.Armies": {
+              "Player._armies": {
                 "$type": "Aow.Game.Units.ArmyList",
                 "ArmyList.Player": "$ref:$.ENode._children.DelphiList\u00601.items[0]",
                 "EChangeNotifyEventList._eventsStore": {
@@ -24928,7 +24928,7 @@
                 "BitList._count": 0,
                 "BitList._default": 0
               },
-              "Player.Armies": {
+              "Player._armies": {
                 "$type": "Aow.Game.Units.ArmyList",
                 "ArmyList.Player": "$ref:$.ENode._children.DelphiList\u00601.items[1]",
                 "EChangeNotifyEventList._eventsStore": {
@@ -25521,7 +25521,7 @@
                 "BitList._count": 0,
                 "BitList._default": 0
               },
-              "Player.Armies": {
+              "Player._armies": {
                 "$type": "Aow.Game.Units.ArmyList",
                 "ArmyList.Player": "$ref:$.ENode._children.DelphiList\u00601.items[2]",
                 "EChangeNotifyEventList._eventsStore": {
