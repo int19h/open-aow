@@ -202,9 +202,9 @@ public partial class CampaignTransferSettings : EngineObject
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             Leader.ExecuteCancelCasting();
-            for (int J = Leader.Inventory.Count - 1; J >= 0; J--)
+            for (int J = Leader.Inventory.Items.Count - 1; J >= 0; J--)
             {
-                item = Leader.Inventory.GetItem(J);
+                item = Leader.Inventory.Items.GetItem(J);
                 if (item != null)
                 {
                     copyItem = (Item)item.Copy(GetEngine());
@@ -215,9 +215,9 @@ public partial class CampaignTransferSettings : EngineObject
             }
 
             Leader.Inventory.Clear();
-            for (int J = Leader.HeroItems.Count - 1; J >= 0; J--)
+            for (int J = Leader.HeroItems.Items.Count - 1; J >= 0; J--)
             {
-                item = Leader.HeroItems.GetItem(J);
+                item = Leader.HeroItems.Items.GetItem(J);
                 if (item != null)
                 {
                     copyItem = (Item)item.Copy(GetEngine());
@@ -240,9 +240,9 @@ public partial class CampaignTransferSettings : EngineObject
                         hero.RemoveEnchantments();
                         hero.RemoveHandicaps();
                         hero.ExecuteCancelCasting();
-                        for (int J = hero.Inventory.Count - 1; J >= 0; J--)
+                        for (int J = hero.Inventory.Items.Count - 1; J >= 0; J--)
                         {
-                            item = hero.Inventory.GetItem(J);
+                            item = hero.Inventory.Items.GetItem(J);
                             if (item != null)
                             {
                                 copyItem = (Item)item.Copy(GetEngine());
@@ -253,9 +253,9 @@ public partial class CampaignTransferSettings : EngineObject
                         }
 
                         hero.Inventory.Clear();
-                        for (int J = hero.HeroItems.Count - 1; J >= 0; J--)
+                        for (int J = hero.HeroItems.Items.Count - 1; J >= 0; J--)
                         {
-                            item = hero.HeroItems.GetItem(J);
+                            item = hero.HeroItems.Items.GetItem(J);
                             if (item != null)
                             {
                                 copyItem = (Item)item.Copy(GetEngine());

@@ -875,8 +875,8 @@ public partial class Hero : Troop
                 StrategicMap.Current.Players.GetPlayers(Player).Heroes.AddChild(this);
             }
 
-            Inventory.RegisterItems();
-            HeroItems.RegisterItems();
+            Inventory.Items.RegisterItems();
+            HeroItems.Items.RegisterItems();
         }
     }
 
@@ -994,11 +994,11 @@ public partial class Hero : Troop
     public override void Killed()
     {
         HeroItemPosition position;
-        for (int I = Inventory.Count - 1; I >= 0; I--)
+        for (int I = Inventory.Items.Count - 1; I >= 0; I--)
         {
-            if (Inventory.GetItem(I) != null)
+            if (Inventory.Items.GetItem(I) != null)
             {
-                ExecutePlaceItem(Inventory.GetItem(I).ItemId, HeroItemPosition.Ground);
+                ExecutePlaceItem(Inventory.Items.GetItem(I).ItemId, HeroItemPosition.Ground);
             }
         }
 
@@ -1185,11 +1185,11 @@ public partial class Hero : Troop
     public void DropItemsOnMap(StrategicMap map, sbyte X, sbyte Y, sbyte L)
     {
         HeroItemPosition position;
-        for (int I = Inventory.Count - 1; I >= 0; I--)
+        for (int I = Inventory.Items.Count - 1; I >= 0; I--)
         {
-            if (Inventory.GetItem(I) != null)
+            if (Inventory.Items.GetItem(I) != null)
             {
-                Inventory.GetItem(I).PlaceOnMap(map, X, Y, L);
+                Inventory.Items.GetItem(I).PlaceOnMap(map, X, Y, L);
             }
         }
 
@@ -2038,16 +2038,16 @@ public partial class Hero : Troop
         bool result;
         Item item1;
         Item item2;
-        ItemList owner1;
-        ItemList owner2;
+        EChangeNotifyNode owner1;
+        EChangeNotifyNode owner2;
         int index1;
         int index2;
         if (CanSwapItem(itemId1, itemId2))
         {
             item1 = StrategicMap.Current.ItemControl.FindItem(itemId1);
             item2 = StrategicMap.Current.ItemControl.FindItem(itemId2);
-            owner1 = item1.Owner;
-            owner2 = item2.Owner;
+            owner1 = (EChangeNotifyNode)item1.Owner;
+            owner2 = (EChangeNotifyNode)item2.Owner;
             owner1.BeginUpdate();
             owner2.BeginUpdate();
             index1 = item1.Owner.FindChildIndex(item1);

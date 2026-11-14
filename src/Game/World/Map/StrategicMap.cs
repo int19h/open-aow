@@ -888,9 +888,9 @@ public partial class StrategicMap : GameMap
             InitializeMapLevel((sbyte)L);
         }
 
-        for (int I = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Count - 1; I <= last; I++)
+        for (int I = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Items.Count - 1; I <= last; I++)
         {
-            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.GetItem(I).Copy(GetEngine());
+            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.Items.GetItem(I).Copy(GetEngine());
             ItemControl.RegisterItem((Item)objectValue);
             objectValue.Release();
         }

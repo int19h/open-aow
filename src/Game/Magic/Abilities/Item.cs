@@ -23,17 +23,18 @@ namespace Aow.Game.Magic.Abilities;
 
 // ID, owner name, status, references, library ID, library name, value, name, type, spell ID,
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
-public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
+public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 {
     public new const int ClassId = 131688;
 
-    // The item list the item lies in. AcceptsOwner admits only an item list, so the cast never
-    // fails.
-    public new ItemList Owner { get => (ItemList)base.Owner; set => SetOwner(value); }
+    // An item lies in an item list, a hero's inventory, the items a hero wears or an item
+    // library. AcceptsOwner admits only those.
+    protected sealed override bool AcceptsOwner(ECustomNode owner) =>
+        owner is ItemList or HeroInventory or HeroItems or ItemLibrary;
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is ItemList;
+    ItemOwner IOwned<ItemOwner>.Owner => ItemOwner.Of(Owner);
 
-    void IOwnedSink<ItemList>.SetOwner(ItemList owner) => SetOwner(owner);
+    void IOwnedSink<ItemOwner>.SetOwner(ItemOwner owner) => SetOwner(owner.Node);
 
     // Army.PAS:4211
     public Item(ECustomNode owner) : base(owner)
@@ -363,9 +364,9 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     // Army.PAS:4320
     public void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
-        if (Owner != null)
+        if (Owner is IItemHolder holder)
         {
-            Owner.GetLocation(out X, out Y, out L);
+            holder.GetLocation(out X, out Y, out L);
         }
         else
         {

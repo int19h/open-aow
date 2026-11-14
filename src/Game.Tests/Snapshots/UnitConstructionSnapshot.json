@@ -403,7 +403,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -429,7 +429,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -522,7 +522,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -548,7 +548,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -641,7 +641,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -667,7 +667,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -764,7 +764,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -790,7 +790,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -891,7 +891,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -917,7 +917,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -1018,7 +1018,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -1044,7 +1044,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,

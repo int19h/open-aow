@@ -66,7 +66,11 @@ through `AddChild`, and then releases the reference each loaded child took when 
 the same bracket as `MainReadWrite`. `UnitList.MainPersist` (Delphi `TUnitList`) then calls `Release` on every child,
 the same loop as `MainReadWrite`. `Army.MainPersist` does the same, because an army no longer derives from `UnitList`
 (issue 158 part 4) and keeps the unit list's part itself. Its children are its troops, written through
-`NodeChildren` with the same slots, class ids and stored-child test. `ReadWrite` is unchanged. The game's loads and saves of the
+`NodeChildren` with the same slots, class ids and stored-child test. `HeroInventory.MainPersist`,
+`HeroItems.MainPersist` and `ItemLibrary.MainPersist` do the same release, because a hero's inventory,
+the items a hero wears and an item library no longer derive from `ItemList` (issue 158 part 5) and keep
+the item list's part themselves. Their children are their items, written through `NodeChildren` with the
+same slots, class ids and stored-child test. `ReadWrite` is unchanged. The game's loads and saves of the
 in-scope profiles (section 12) and its copies, assignments, comparisons and original object files
 (section 13) no longer call it.
 

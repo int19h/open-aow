@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
@@ -7,10 +8,22 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-// { Interface declaration run owned by P2. }
-// inherited FOwner is the hero. FChildren holds inventory slots
-public partial class HeroInventory : ItemList
+// The original's THeroInventory derives from TItemList. The port's inventory owns its items as
+// its node children and reads them through Items. FOwner is the hero.
+public partial class HeroInventory : EChangeNotifyNode, IChildList<Item>, IItemHolder
 {
+    /// <summary>The items in this inventory, in their stored order.</summary>
+    public ItemCollection Items => new(this);
+
+    Item IOwner<Item>.this[int index] => Items[index];
+
+    // An inventory takes items only.
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Item;
+
+    int IChildSink<Item>.AddChild(Item child) => AddChild(child);
+
+    public event NotifyEvent<object> OnChanged;
+
     // Hero.PAS:274
     public HeroInventory(ECustomNode owner) : base(null)
     {
@@ -27,11 +40,95 @@ public partial class HeroInventory : ItemList
     // Hero.PAS:297
     public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(ControlStyleElement.ArrayMode);
 
+    // Army.PAS:4516, the item list's release of each loaded child.
+    public override void MainPersist(IPersister persister)
+    {
+        base.MainPersist(persister);
+        if (persister.Loading)
+        {
+            for (int I = 0, last = Count - 1; I <= last; I++)
+            {
+                if (GetChild(I) != null)
+                {
+                    Items[I].Release();
+                }
+            }
+        }
+    }
+
+    // Army.PAS:4546
+    public override void Clear()
+    {
+        EngineObject child;
+        for (int I = Count - 1; I >= 0; I--)
+        {
+            if (GetChild(I) != null)
+            {
+                child = Items[I];
+                if (child != null)
+                {
+                    if (child.Owner != this)
+                    {
+                        child.Release();
+                        DeleteChildAt(I);
+                    }
+                    else
+                    {
+                        child.SetOwner(null);
+                    }
+                }
+            }
+        }
+
+        base.Clear();
+    }
+
+    // Army.PAS:4531
+    public override void DestroyAllChildren()
+    {
+        Clear();
+        base.DestroyAllChildren();
+    }
+
+    // Army.PAS:4519
+    public override int RemoveChild(EngineObject child)
+    {
+        int result = base.RemoveChild(child);
+        if (result != -1)
+        {
+            child.Release();
+        }
+
+        return result;
+    }
+
+    // Army.PAS:4525
+    public override int AddChild(EngineObject child)
+    {
+        int result = base.AddChild(child);
+        if (result != -1)
+        {
+            child.AddRef();
+        }
+
+        return result;
+    }
+
+    // Army.PAS:4564
+    public override void Changed()
+    {
+        base.Changed();
+        if (OnChanged != null)
+        {
+            OnChanged(this);
+        }
+    }
+
     // Hero.PAS:286
     public int GetFreeSlot()
     {
         int result = 0;
-        while (result < Count && result != 8)
+        while (result < Items.Count && result != 8)
         {
             if (GetChild(result) == null)
             {
@@ -49,9 +146,9 @@ public partial class HeroInventory : ItemList
     {
         Item item;
         int result = 0;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int I = 0, last = Items.Count - 1; I <= last; I++)
         {
-            item = this[I];
+            item = Items[I];
             if (item != null && result < item.GetAbCount())
             {
                 result = item.GetAbCount();
@@ -66,9 +163,9 @@ public partial class HeroInventory : ItemList
     {
         Item item;
         AbilityOwner result = null;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int I = 0, last = Items.Count - 1; I <= last; I++)
         {
-            item = this[I];
+            item = Items[I];
             if (item != null && item.GetAbEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -88,9 +185,9 @@ public partial class HeroInventory : ItemList
         Item item;
         bool result = false;
         I = 0;
-        while (!result && I < Count)
+        while (!result && I < Items.Count)
         {
-            item = this[I];
+            item = Items[I];
             result = item != null && item.ItemType == ItemType.Use && item.GetAbEnabled(abilityId);
             I += 1;
         }
@@ -105,9 +202,9 @@ public partial class HeroInventory : ItemList
         Item item;
         bool result = false;
         I = 0;
-        while (!result && I < Count)
+        while (!result && I < Items.Count)
         {
-            item = this[I];
+            item = Items[I];
             result = item != null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
             I += 1;
         }
@@ -120,9 +217,9 @@ public partial class HeroInventory : ItemList
     {
         Item item;
         AbilityOwner result = null;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int I = 0, last = Items.Count - 1; I <= last; I++)
         {
-            item = this[I];
+            item = Items[I];
             if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -144,9 +241,9 @@ public partial class HeroInventory : ItemList
         {
             case >= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8:
                 I = (int)position - (int)HeroItemPosition.InventorySlot1;
-                if (I < Count && I >= 0)
+                if (I < Items.Count && I >= 0)
                 {
-                    result = GetItem(I);
+                    result = Items.GetItem(I);
                 }
                 else
                 {

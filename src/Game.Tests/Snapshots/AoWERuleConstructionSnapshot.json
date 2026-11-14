@@ -16437,7 +16437,7 @@
         "EChangeNotifyNode._updateCount": 0,
         "EngineObject._owner": "$owner",
         "HeroInventory.Hero": null,
-        "ItemList.OnChanged": null
+        "HeroInventory.OnChanged": null
       }
     }
   },
@@ -16454,7 +16454,7 @@
         "EChangeNotifyNode._updateCount": 0,
         "EngineObject._owner": "$owner",
         "HeroItems.Hero": null,
-        "ItemList.OnChanged": null
+        "HeroItems.OnChanged": null
       }
     }
   },
@@ -17501,7 +17501,7 @@
         "EngineObject._owner": "$owner",
         "ItemLibrary._lastId": 0,
         "ItemLibrary.Name": "",
-        "ItemList.OnChanged": null
+        "ItemLibrary.OnChanged": null
       }
     }
   },
@@ -17531,7 +17531,7 @@
           "EngineObject._owner": null,
           "ItemLibrary._lastId": 0,
           "ItemLibrary.Name": "",
-          "ItemList.OnChanged": null
+          "ItemLibrary.OnChanged": null
         }
       }
     }
@@ -17622,7 +17622,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -17648,7 +17648,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -17757,7 +17757,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -17783,7 +17783,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -19626,7 +19626,7 @@
                       "EChangeNotifyNode._updateCount": 0,
                       "EngineObject._owner": null,
                       "HeroItems.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                      "ItemList.OnChanged": null
+                      "HeroItems.OnChanged": null
                     },
                     "Hero.HeroName": "",
                     "Hero.HeroResource": null,
@@ -19652,7 +19652,7 @@
                       "EChangeNotifyNode._updateCount": 0,
                       "EngineObject._owner": null,
                       "HeroInventory.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                      "ItemList.OnChanged": null
+                      "HeroInventory.OnChanged": null
                     },
                     "Hero.Level": 1,
                     "Hero.LibraryId": -1,
@@ -20219,7 +20219,7 @@
                       "EChangeNotifyNode._updateCount": 0,
                       "EngineObject._owner": null,
                       "HeroItems.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                      "ItemList.OnChanged": null
+                      "HeroItems.OnChanged": null
                     },
                     "Hero.HeroName": "",
                     "Hero.HeroResource": null,
@@ -20245,7 +20245,7 @@
                       "EChangeNotifyNode._updateCount": 0,
                       "EngineObject._owner": null,
                       "HeroInventory.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                      "ItemList.OnChanged": null
+                      "HeroInventory.OnChanged": null
                     },
                     "Hero.Level": 1,
                     "Hero.LibraryId": -1,
@@ -20812,7 +20812,7 @@
                       "EChangeNotifyNode._updateCount": 0,
                       "EngineObject._owner": null,
                       "HeroItems.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                      "ItemList.OnChanged": null
+                      "HeroItems.OnChanged": null
                     },
                     "Hero.HeroName": "",
                     "Hero.HeroResource": null,
@@ -20838,7 +20838,7 @@
                       "EChangeNotifyNode._updateCount": 0,
                       "EngineObject._owner": null,
                       "HeroInventory.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.ENode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                      "ItemList.OnChanged": null
+                      "HeroInventory.OnChanged": null
                     },
                     "Hero.Level": 1,
                     "Hero.LibraryId": -1,
@@ -23811,7 +23811,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$.Player.LeaderSetup",
-            "ItemList.OnChanged": null
+            "HeroItems.OnChanged": null
           },
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
@@ -23837,7 +23837,7 @@
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$.Player.LeaderSetup",
-            "ItemList.OnChanged": null
+            "HeroInventory.OnChanged": null
           },
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
@@ -24475,7 +24475,7 @@
                   "EChangeNotifyNode._updateCount": 0,
                   "EngineObject._owner": null,
                   "HeroItems.Hero": "$ref:$.ENode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                  "ItemList.OnChanged": null
+                  "HeroItems.OnChanged": null
                 },
                 "Hero.HeroName": "",
                 "Hero.HeroResource": null,
@@ -24501,7 +24501,7 @@
                   "EChangeNotifyNode._updateCount": 0,
                   "EngineObject._owner": null,
                   "HeroInventory.Hero": "$ref:$.ENode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                  "ItemList.OnChanged": null
+                  "HeroInventory.OnChanged": null
                 },
                 "Hero.Level": 1,
                 "Hero.LibraryId": -1,
@@ -25068,7 +25068,7 @@
                   "EChangeNotifyNode._updateCount": 0,
                   "EngineObject._owner": null,
                   "HeroItems.Hero": "$ref:$.ENode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                  "ItemList.OnChanged": null
+                  "HeroItems.OnChanged": null
                 },
                 "Hero.HeroName": "",
                 "Hero.HeroResource": null,
@@ -25094,7 +25094,7 @@
                   "EChangeNotifyNode._updateCount": 0,
                   "EngineObject._owner": null,
                   "HeroInventory.Hero": "$ref:$.ENode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                  "ItemList.OnChanged": null
+                  "HeroInventory.OnChanged": null
                 },
                 "Hero.Level": 1,
                 "Hero.LibraryId": -1,
@@ -25661,7 +25661,7 @@
                   "EChangeNotifyNode._updateCount": 0,
                   "EngineObject._owner": null,
                   "HeroItems.Hero": "$ref:$.ENode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                  "ItemList.OnChanged": null
+                  "HeroItems.OnChanged": null
                 },
                 "Hero.HeroName": "",
                 "Hero.HeroResource": null,
@@ -25687,7 +25687,7 @@
                   "EChangeNotifyNode._updateCount": 0,
                   "EngineObject._owner": null,
                   "HeroInventory.Hero": "$ref:$.ENode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                  "ItemList.OnChanged": null
+                  "HeroInventory.OnChanged": null
                 },
                 "Hero.Level": 1,
                 "Hero.LibraryId": -1,
