@@ -1,6 +1,5 @@
 // Translated from HolyG.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 
@@ -32,19 +31,11 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
 
     public Set<HolySummoning> Mode { get; set; }
 
-    public sbyte Player;
-    public sbyte Duration;
-    public sbyte OriginalOverlay;
+    public sbyte Player { get; set; }
+    public sbyte Duration { get; set; }
+    public sbyte OriginalOverlay { get; set; }
 
     // HolyG.pas:201
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.SByte(ref Player, -1, 40);
-        stream.SByte(ref Duration, -1, 41);
-        stream.SByte(ref OriginalOverlay, -1, 42);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

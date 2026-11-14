@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -18,17 +17,10 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
 
     public new const int ClassId = 131436;
 
-    public sbyte DaysRemaining;
-    public sbyte CasterPlayer;
+    public sbyte DaysRemaining { get; set; }
+    public sbyte CasterPlayer { get; set; }
 
     // Structur.PAS:4487
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.SByte(ref DaysRemaining, 30);
-        stream.SByte(ref CasterPlayer, 31);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -89,6 +89,35 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
+    // The original map's children are the selection, four visibility lists and the timer, so its
+    // map container stores at slot 6. The timer is gone (PE-3-i part 2): the live list holds the
+    // container at index 5 with no placeholder, and both backends still store and read it at slot
+    // 6, which loads back at index 5.
+    [Fact]
+    public void AMapStoresItsContainerAtTheOriginalSlotSix()
+    {
+        using var map = new GameMap(null!) { Holder = EngineFixture.Engine };
+        var container = new MapContainer(map) { Holder = EngineFixture.Engine };
+        Assert.Equal(6, map.Count);
+        Assert.Same(container, map.GetChild(5));
+        var classValue = s_schema.Get("GameMap");
+        var tree = TreeWriter.Write(map, Factory);
+        Assert.Equal([6], ChildSlots(tree));
+        var image = OriginalBackend.Write(tree, classValue, s_schema, "game");
+        var read = OriginalBackend.Read(image, classValue, s_schema, "game");
+        Assert.Equal([6], ChildSlots(read));
+        Assert.Equal([6], ChildSlots(DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game")));
+        using var loaded = new GameMap(null!) { Holder = EngineFixture.Engine };
+        TreeReader.Read(read, loaded, Factory);
+        Assert.Equal(6, loaded.Count);
+        Assert.IsType<MapContainer>(loaded.GetChild(5));
+        Assert.Same(loaded.GetChild(5), loaded.MapContainer);
+        Assert.True(tree.ValueEquals(TreeWriter.Write(loaded, Factory)));
+    }
+
+    private static List<int> ChildSlots(ObjectNode tree) =>
+        [.. tree.Members.Where(member => member.Name == "Children").SelectMany(member => ((ChildListNode)member.Value).Children).Select(child => child.Slot ?? -1)];
+
     // Sign.ReadWrite stores TextSeen only when a map is current and is not a network map. A
     // network map's write leaves it out, and both loads leave a stored one unread.
     [Fact]
@@ -112,6 +141,95 @@ public sealed partial class PersistEquivalenceTests
             AlikeOutcome(() => Load(viaReadWrite, local), () => TreeReader.Read(OriginalBackend.Read(local, classValue, s_schema, "game"), viaPersist, Factory), "Sign network load");
             Assert.False(viaPersist.TextSeen[2]);
             Assert.Equal(viaReadWrite.TextSeen[2], viaPersist.TextSeen[2]);
+        });
+    }
+
+    // PE-3-i part 2: the world classes have no ReadWrite, so the translate stream visits them
+    // through their tree methods and visits what the original ReadWrite visited under its mode
+    // (read, text only, translate). A text item's lines but not its name, a sign's lines and not its
+    // resource, a structure resource's name and description but not its sound, and a map level's
+    // fields with their stored sprites. A map visits its name, author and description, leaves its
+    // songs out and keeps its modified flag, where a save resets it.
+    [Fact]
+    public void TheTranslateStreamVisitsTheWorldStringsTheOriginalReadWriteVisited()
+    {
+        WithDestroyingMap(map =>
+        {
+            var dictionary = new Dictionary<string, string>
+            {
+                ["Welcome"] = "Willkommen",
+                ["Intro"] = "Einleitung",
+                ["Beware"] = "Vorsicht",
+                ["Tower"] = "Turm",
+                ["bell.wav"] = "glocke.wav",
+                ["A tall tower"] = "Ein hoher Turm",
+            };
+            using var texts = new TextControl(null!) { Holder = EngineFixture.Engine };
+            var item = new TextControlItem(null!) { Holder = EngineFixture.Engine, Id = 3, Name = "Intro" };
+            item.Text.Add("Welcome");
+            item.SetOwner(texts);
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(texts, 0);
+                Assert.Equal(["lines 1"], stream.Visited);
+                Assert.Equal(["TextControl", "TextControlItem"], stream.Objects);
+            }
+            Assert.Equal("Willkommen", item.Text[0]);
+            Assert.Equal("Intro", item.Name);
+
+            using var sign = new Sign(null!) { Holder = EngineFixture.Engine };
+            sign.Text.Add("Beware");
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(sign, 0);
+                Assert.Equal(["lines 1"], stream.Visited);
+            }
+            Assert.Equal("Vorsicht", sign.Text[0]);
+
+            using var resource = new StructureResource(null!) { Holder = EngineFixture.Engine };
+            resource.Description.Add("A tall tower");
+            typeof(StructureResource).GetProperty(nameof(StructureResource.SelectSfx))!.SetValue(resource, "bell.wav");
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(resource, 0);
+                Assert.Contains("lines 1", stream.Visited);
+                Assert.DoesNotContain("bell.wav", stream.Visited);
+            }
+            Assert.Equal("Ein hoher Turm", resource.Description[0]);
+            Assert.Equal("bell.wav", resource.SelectSfx);
+
+            using var level = new MapLevel(null!) { Holder = EngineFixture.Engine };
+            level.CreateMapFieldList(width: 1, height: 1);
+            var field = level.GetField(0, 0);
+            var post = new Sign(null!) { Holder = EngineFixture.Engine };
+            post.Text.Add("Beware");
+            // A sign's show priority reads its resource, which the fixture does not load, so the
+            // sprite goes into the field's list directly.
+            post.SetOwnerWithoutNotify(field);
+            field._hexSpriteList = [post];
+            field._count = 1;
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(level, 0);
+                Assert.Equal(["lines 1"], stream.Visited);
+                Assert.Equal(["MapLevel", "MapField", "Sign"], stream.Objects);
+            }
+            Assert.Equal("Vorsicht", post.Text[0]);
+
+            map.MapName = "Tower";
+            map.Description.Add("Welcome");
+            map.SetModified();
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(map, 0);
+                Assert.Contains("Tower", stream.Visited);
+                Assert.Contains("TextControl", stream.Objects);
+                Assert.DoesNotContain("StartupSongList", stream.Objects);
+                Assert.DoesNotContain("SongList", stream.Objects);
+            }
+            Assert.Equal("Turm", map.MapName);
+            Assert.Equal("Willkommen", map.Description[0]);
+            Assert.True(map.Status.Contains(HexSpriteMapStatusElement.Modified));
         });
     }
 

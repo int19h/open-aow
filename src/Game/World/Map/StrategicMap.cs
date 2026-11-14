@@ -1,11 +1,8 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -52,9 +49,11 @@ public partial class StrategicMap : GameMap
     public bool IgnoreStreamErrors { get; private set; }
     public TargetSelectionControl TargetSelection { get; }
 
-    public string MapName = "";
+    public string MapName { get; set; } = "";
+
     private string _author = "";
-    public int SphereCount;
+
+    public int SphereCount { get; private set; }
 
     public StringList Description { get; }
     public ItemControl ItemControl { get; private set; }
@@ -64,14 +63,15 @@ public partial class StrategicMap : GameMap
 
     private StrategicMapIndependentAIMode _independentAIMode;
     private readonly StringList _objectives;
-    public sbyte HeroCountMax;
+
+    public sbyte HeroCountMax { get; private set; }
 
     public StartupSongList StartupSongs { get; }
     public SongList GameSongs { get; }
 
-    public StrategicMapGameStatus GameStatus;
-    public StrategicMapGameResult GameResult;
-    public GameType GameType;
+    public StrategicMapGameStatus GameStatus { get; private set; }
+    public StrategicMapGameResult GameResult { get; set; }
+    public GameType GameType { get; private set; }
 
     public CombatMap CombatMap { get; set; }
     public Battle Combat { get; private set; }
@@ -81,34 +81,37 @@ public partial class StrategicMap : GameMap
     public AIGroupManager AIGroupManager { get; private set; }
     public HexSpriteMapKeyboard Keyboard { get; }
 
-    public bool UnlimitedMoves;
+    public bool UnlimitedMoves { get; set; }
 
     public bool RequestCombatType { get; set; }
 
-    public PlayerConnectionType ConnectionType;
+    public PlayerConnectionType ConnectionType { get; set; }
 
     public TextControl TextControl { get; }
     public PlayerList Players { get; set; }
     public RaceList Races { get; set; }
 
-    public bool FixedLeaders;
-    public bool LeadersFixed;
-    public bool StartingGame;
-    public bool AlliedVictory;
-    public byte VictoryMode;
-    public StrategicMapVictoryCondition VictoryCondition;
-    public int VictoryMana;
-    public int VictoryGold;
-    public int DayLimit;
-    public int TurnTime;
+    public bool FixedLeaders { get; set; }
+    public bool LeadersFixed { get; set; }
+    public bool StartingGame { get; set; }
+    public bool AlliedVictory { get; set; }
+    public byte VictoryMode { get; set; }
+    public StrategicMapVictoryCondition VictoryCondition { get; private set; }
+    public int VictoryMana { get; private set; }
+    public int VictoryGold { get; private set; }
+    public int DayLimit { get; set; }
+    public int TurnTime { get; set; }
+
     private int _turnTimeElapsed;
     private int _turnTimeBeep;
     private int _turnTimerStart;
-    public StrategicMapTurnOrderMode TurnOrderMode;
+
+    public StrategicMapTurnOrderMode TurnOrderMode { get; private set; }
 
     public ByteList TurnOrder { get; }
 
-    public int Day;
+    public int Day { get; set; }
+
     private string _sessionName = "";
 
     internal EventStore<Leader> OnLeaderChangedStore { get; }
@@ -125,7 +128,8 @@ public partial class StrategicMap : GameMap
     public MapCampaignSettings CampaignSettings { get; }
     public sbyte EditorPlayer { get; }
 
-    public bool ShowAllPlayers;
+    public bool ShowAllPlayers { get; private set; }
+
     private int _relationsChangedLockCount;
 
     private readonly EventStore<StrategicMap> _playerChangedEventsStore;
@@ -347,13 +351,14 @@ public partial class StrategicMap : GameMap
         remove => CombatMapDestroyedEventsStore.Remove(value);
     }
 
-    public int InitialRandomSeed;
-    public int DefendersSeed;
+    public int InitialRandomSeed { get; set; }
+    public int DefendersSeed { get; set; }
+
     private int _synchronizeCount;
 
     public bool DebugSave { get; private set; }
 
-    public PlayMode PlayMode;
+    public PlayMode PlayMode { get; private set; }
 
     public TokenManager TokenManager { get; set; }
     public PlayerCommunicator PlayerCommunicator { get; }
@@ -481,130 +486,11 @@ public partial class StrategicMap : GameMap
         UnlockMapChangedEvent();
     }
 
-    // AoWHSMap.PAS:2160
-    public override void ReadWrite(StorageStream stream)
-    {
-        int X = default;
-        int Y = default;
-        int L = default;
-        if (stream.StorageMode().Contains(StorageModeElement.Read) && !stream.StorageMode().Contains(StorageModeElement.Translate))
-        {
-            stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_oneMomentPleaseText), 0);
-        }
-
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write, StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
-        {
-            ResetModified();
-        }
-
-        IgnoreStreamErrors = false;
-        if (Status.Contains(HexSpriteMapStatusElement.Editting))
-        {
-            stream.SetErrorHandler(OnStreamError);
-        }
-
-        stream.Bytes(Bytes.Of(ref ConnectionType, 1), 1, 31);
-        if (ConnectionType == PlayerConnectionType.Network)
-        {
-            X = _viewPixelX;
-            _viewPixelX = 0;
-            Y = _viewPixelY;
-            _viewPixelY = 0;
-            L = _viewMapLevel;
-            _viewMapLevel = 0;
-        }
-        else
-        {
-            X = 0;
-            Y = 0;
-            L = 0;
-        }
-
-        base.ReadWrite(stream);
-        if (ConnectionType == PlayerConnectionType.Network)
-        {
-            _viewPixelX = X;
-            _viewPixelY = Y;
-            _viewMapLevel = L;
-        }
-
-        stream.String(ref _author, 7);
-        stream.Lines(Description, 11);
-        stream.Lines(_objectives, 12);
-        stream.Bytes(Bytes.Of(ref _independentAIMode, 1), 1, 13);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref CurrentPlayer), 16);
-        stream.Bytes(Bytes.Of(ref TurnOrderMode, 1), 1, 17);
-        stream.Payload(18, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
-        stream.Int32(ref Day, 19);
-        stream.String(ref _sessionName, 20);
-        stream.Object(Players, 21);
-        stream.Object(Races, 22);
-        stream.Boolean(ref ExplorationEnabled, 23);
-        if (!stream.StorageMode().Contains(StorageModeElement.Preview))
-        {
-            stream.Object(HeroControl, 24);
-        }
-
-        stream.String(ref MapName, 25);
-        stream.Boolean(ref FogEnabled, 26);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HeroCountMax), 27);
-        stream.Int32(ref DefendersSeed, 28);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && !stream.StorageMode().Contains(StorageModeElement.Preview) && !stream.StorageMode().Contains(StorageModeElement.Compare))
-        {
-            stream.Object(StartupSongs, 29);
-        }
-
-        stream.Object(ItemControl, 30);
-        stream.Bytes(Bytes.Of(ref GameStatus, 1), 1, 34);
-        stream.Bytes(Bytes.Of(ref GameResult, 1), 1, 35);
-        stream.Int32(ref InitialRandomSeed, 36);
-        stream.Bytes(Bytes.Of(ref GameType, 1), 1, 37);
-        stream.Object(UnitControl, 38);
-        stream.Bytes(Bytes.Of(ref PlayMode, 1), 1, 39);
-        stream.Object(GlobalMagicControl, 40);
-        stream.Int32(ref SphereCount, 5, 41);
-        stream.Object(TextControl, 42);
-        stream.Object(CampaignSettings, 43);
-        // { Original stores the hero control twice. }
-        stream.Object(HeroControl, 44);
-        stream.Bytes(Bytes.Of(ref VictoryCondition, 1), 1, 45);
-        stream.Int32(ref VictoryMana, 46);
-        stream.Int32(ref VictoryGold, 47);
-        stream.Boolean(ref FixedLeaders, 48);
-        stream.Boolean(ref AlliedVictory, 49);
-        stream.Object(AIGroupManager, 50);
-        stream.Int32(ref DayLimit, 51);
-        stream.Int32(ref TurnTime, 52);
-        stream.Boolean(ref UnlimitedMoves, 53);
-        stream.Object(StructureControl, 54);
-        if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
-        {
-            stream.Int32(ref _turnTimeElapsed, 55);
-        }
-
-        stream.Object(TutorialControl, 56);
-        if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
-        {
-            stream.Int32(ref _turnTimeBeep, 58);
-        }
-
-        stream.Boolean(ref LeadersFixed, 59);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && !stream.StorageMode().Contains(StorageModeElement.Preview) && ConnectionType != PlayerConnectionType.Network)
-        {
-            stream.Object(GameSongs, 60);
-        }
-
-        stream.Boolean(ref StartingGame, 61);
-        stream.Boolean(ref ShowAllPlayers, 62);
-        stream.Bytes(Bytes.Of(ref VictoryMode, 1), 1, 63);
-        RandSeed = DefendersSeed;
-    }
-
-    // The tree form of ReadWrite. A load shows its progress to the load's handler where ReadWrite
-    // calls Stream.ShowProgress. The editor's error handler is the one its caller passes to the
-    // tree load (persistence-tree.md 7), so none is set here. A preview leaves the hero control and
-    // the startup songs unread, a network map leaves the game songs unread, and ReadWrite never
-    // reads UnknownProperty57, so a load skips those members as ReadWrite does.
+    // AoWHSMap.PAS:2160. A load shows its progress to the load's handler where the original calls
+    // Stream.ShowProgress. The editor's error handler of a load is the one its caller passes to the
+    // tree load (persistence-tree.md 7). A preview leaves the hero control and the startup songs
+    // unread, a network map leaves the game songs unread, and the original never reads
+    // UnknownProperty57, so a load skips those members as the original does.
     public override void PersistFields(IPersister persister)
     {
         if (persister.Loading)
@@ -612,20 +498,28 @@ public partial class StrategicMap : GameMap
             PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_oneMomentPleaseText), percent: 0);
         }
 
-        if (!persister.Loading)
+        bool translating = PersistSupport.Translating(persister);
+        if (!persister.Loading && !translating)
         {
             ResetModified();
         }
 
         IgnoreStreamErrors = false;
+        if (translating && Status.Contains(HexSpriteMapStatusElement.Editting))
+        {
+            // The original sets the editor's handler on every stream it runs on. A tree load takes the
+            // handler its caller passes, and the translate stream still takes it here.
+            PersistSupport.SetTranslateErrorHandler(persister, OnStreamError);
+        }
+
         ConnectionType = persister.Enum("ConnectionType", value: ConnectionType);
         int x;
         int y;
         int level;
         if (ConnectionType == PlayerConnectionType.Network)
         {
-            (x, y, level) = (_viewPixelX, _viewPixelY, _viewMapLevel);
-            (_viewPixelX, _viewPixelY, _viewMapLevel) = (0, 0, 0);
+            (x, y, level) = (ViewPixelX, ViewPixelY, ViewMapLevel);
+            (ViewPixelX, ViewPixelY, ViewMapLevel) = (0, 0, 0);
         }
         else
         {
@@ -635,7 +529,7 @@ public partial class StrategicMap : GameMap
         base.PersistFields(persister);
         if (ConnectionType == PlayerConnectionType.Network)
         {
-            (_viewPixelX, _viewPixelY, _viewMapLevel) = (x, y, level);
+            (ViewPixelX, ViewPixelY, ViewMapLevel) = (x, y, level);
         }
 
         _author = persister.String("Author", value: _author);
@@ -663,7 +557,8 @@ public partial class StrategicMap : GameMap
         FogEnabled = persister.Boolean("FogEnabled", value: FogEnabled);
         HeroCountMax = PersistSupport.UnsignedByte(persister, name: "HeroCountMax", value: HeroCountMax);
         DefendersSeed = persister.Int32("DefendersSeed", value: DefendersSeed);
-        if (!persister.Preview)
+        // The original leaves the songs out under text only, which the translate stream's mode holds.
+        if (!persister.Preview && !translating)
         {
             persister.Object("StartupSongs", objectValue: StartupSongs);
         }
@@ -707,7 +602,7 @@ public partial class StrategicMap : GameMap
         }
 
         LeadersFixed = persister.Boolean("LeadersFixed", value: LeadersFixed);
-        if (!persister.Preview && ConnectionType != PlayerConnectionType.Network)
+        if (!persister.Preview && !translating && ConnectionType != PlayerConnectionType.Network)
         {
             persister.Object("GameSongs", objectValue: GameSongs);
         }
@@ -724,28 +619,6 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2241
-    public override void MainReadWrite(StorageStream stream)
-    {
-        string fileName;
-        base.MainReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Day == 0)
-        {
-            if (GameType == GameType.Campaign)
-            {
-                fileName = GetEngine().StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
-            }
-            else
-            {
-                fileName = GetEngine().StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
-            }
-
-            if (FileExists(fileName))
-            {
-                GetEngine().TranslateEngineObjectFromFile(this, fileName);
-            }
-        }
-    }
-
     public override void MainPersist(IPersister persister)
     {
         string fileName;
@@ -1146,10 +1019,10 @@ public partial class StrategicMap : GameMap
         }
 
         SelectedArmy.ShowMovePaths(lockedSurface);
-        TargetSelection.ShowSelection(_viewPixelX, _viewPixelY, lockedSurface);
+        TargetSelection.ShowSelection(ViewPixelX, ViewPixelY, lockedSurface);
         if (((GameMapMouse)Mouse).SelectionRectangle.Left != -1)
         {
-            DrawSelectionRectangle(_viewPixelX, _viewPixelY, ((GameMapMouse)Mouse).SelectionRectangle, lockedSurface);
+            DrawSelectionRectangle(ViewPixelX, ViewPixelY, ((GameMapMouse)Mouse).SelectionRectangle, lockedSurface);
         }
     }
 
@@ -2245,7 +2118,7 @@ public partial class StrategicMap : GameMap
         {
             var hexY = Mouse.HexY;
             var hexX = Mouse.HexX;
-            field = MapContainer.GetField(hexX, hexY, _viewMapLevel);
+            field = MapContainer.GetField(hexX, hexY, ViewMapLevel);
             if (Current.ExplorationEnabled && !field.GetExplored(Current.SeatedPlayer))
             {
                 return;
@@ -2255,7 +2128,7 @@ public partial class StrategicMap : GameMap
             {
                 var pixelY = Mouse.PixelY;
                 var pixelX = Mouse.PixelX;
-                if (Selection.CanSelectLocation(pixelX, pixelY, _viewMapLevel) && !((GameMapMouse)Mouse).GetSelectingRectangle())
+                if (Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !((GameMapMouse)Mouse).GetSelectingRectangle())
                 {
                     Mouse.CursorMode = 257;
                 }
@@ -3016,23 +2889,13 @@ public partial class StrategicMap : GameMap
             AlliedVictory = false;
         }
 
-        public bool AlliedVictory;
-        public int TransferPointsMax;
-        public int TransferGoldMax;
-        public int TransferManaMax;
-        public int HeroLevelMax;
+        public bool AlliedVictory { get; private set; }
+        public int TransferPointsMax { get; private set; }
+        public int TransferGoldMax { get; private set; }
+        public int TransferManaMax { get; private set; }
+        public int HeroLevelMax { get; private set; }
 
         // Diplomacy.pas:1726
-        public override void ReadWrite(StorageStream stream)
-        {
-            base.ReadWrite(stream);
-            stream.Int32(ref TransferPointsMax, 20);
-            stream.Int32(ref TransferGoldMax, 21);
-            stream.Int32(ref TransferManaMax, 22);
-            stream.Int32(ref HeroLevelMax, 23);
-            stream.Boolean(ref AlliedVictory, 24);
-        }
-
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);

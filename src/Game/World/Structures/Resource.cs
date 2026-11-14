@@ -45,9 +45,9 @@ public partial class Resource : PlayerCropStructureResource
         int dX;
         int dY;
         LibraryImage image;
-        dX = _imageOffsetX + X;
+        dX = ImageOffsetX + X;
         dY = Y;
-        dY += _imageOffsetY;
+        dY += ImageOffsetY;
         image = city.WallBackImage;
         if (image != null)
         {

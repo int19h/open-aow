@@ -1,7 +1,6 @@
 // Translated from HSEngine.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -28,12 +27,12 @@ public partial class MapObjectResource : EngineResource
     }
 
     private GameEngine _engine;
-    protected internal int _showPriorityOffset;
+    private int _showPriorityOffset;
     private readonly ImageLibrary _imageLibrary;
     private ImageSequenceList _imageSequenceList;
     private readonly TerrainList _terrainList;
-    protected internal byte _level;
-    protected internal string _name = "";
+    private byte _level;
+    private string _name = "";
 
     // MAPOBJ.PAS:391
     public override void Dispose()
@@ -55,47 +54,6 @@ public partial class MapObjectResource : EngineResource
     public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // MAPOBJ.PAS:470
-    public override void ReadWrite(StorageStream stream)
-    {
-        bool complex = default;
-        base.ReadWrite(stream);
-        stream.Int32(ref _showPriorityOffset, 4);
-        stream.Byte(ref _level, 5);
-        stream.String(ref _name, 6);
-        stream.Payload(7, _terrainList.LoadFromStream, _terrainList.SaveToStream);
-        _imageLibrary.ReduceCount();
-        stream.Payload(8, _imageLibrary.LoadFromStream, _imageLibrary.SaveToStream);
-        if (!stream.StorageMode().Contains(EngineServices.Text))
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                stream.Boolean(ref complex, 9);
-                if (complex)
-                {
-                    if (_imageSequenceList == null)
-                    {
-                        _imageSequenceList = new ImageSequenceList(null, _imageLibrary);
-                    }
-                }
-                else
-                {
-                    _imageSequenceList?.Dispose();
-                    _imageSequenceList = null;
-                }
-            }
-            else
-            {
-                complex = _imageSequenceList != null;
-                stream.Boolean(ref complex, 9);
-            }
-
-            if (complex)
-            {
-                stream.Payload(10, _imageSequenceList.LoadFromStream, _imageSequenceList.SaveToStream);
-            }
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         bool complex = default;
@@ -312,7 +270,7 @@ public partial class MapObjectResource : EngineResource
     {
         int hexX = default;
         int hexY = default;
-        for (int I = _terrainList._count - 1; I >= 0; I--)
+        for (int I = _terrainList.Count - 1; I >= 0; I--)
         {
             if (_terrainList.GetTerrain(I) >= 0)
             {

@@ -2207,10 +2207,6 @@
     "id": 260,
     "parent": "Aow.Engine.Nodes.ECustomNode"
   },
-  "Aow.Engine.Nodes.ETimerNode": {
-    "id": 264,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
-  },
   "Aow.Engine.PluginControl": {
     "id": 80,
     "parent": "Aow.Engine.Nodes.EngineObject"

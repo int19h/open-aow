@@ -1,8 +1,5 @@
 // Translated from Cave.pas.
-using System.Runtime.InteropServices;
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -32,7 +29,7 @@ public partial class Cave : Structure
     // Cave.pas:160
     public new const int ClassId = 131966;
 
-    public CaveEntrance Entrance;
+    public CaveEntrance Entrance { get; private set; }
 
     // Cave.pas:134
     public override void Dispose()
@@ -68,12 +65,6 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:244
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref Entrance, 1), 1, 6);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

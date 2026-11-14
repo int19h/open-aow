@@ -263,6 +263,15 @@ public sealed partial class PersistEquivalenceTests
     {
         public List<string> Visited { get; } = [];
 
+        // The classes of the objects the stream visits, in order.
+        public List<string> Objects { get; } = [];
+
+        public override void Object(EngineObject objectValue, int id)
+        {
+            Objects.Add(objectValue.GetType().Name);
+            base.Object(objectValue, id);
+        }
+
         public override void TranslateString(ref string value)
         {
             Visited.Add(value);

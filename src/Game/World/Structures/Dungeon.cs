@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
@@ -45,13 +44,6 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:114
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Prisoners, 8);
-        stream.Bytes(Bytes.Of(ref _prisonersMode, 1), 1, 9);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -288,12 +280,6 @@ public partial class Dungeon : ExplorationSite
         }
 
         // Dungeon.pas:286
-        public override void ReadWrite(StorageStream stream)
-        {
-            base.ReadWrite(stream);
-            stream.Payload(30, PrisonerCollections.LoadFromStream, PrisonerCollections.SaveToStream);
-        }
-
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);

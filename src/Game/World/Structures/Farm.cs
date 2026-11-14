@@ -1,6 +1,5 @@
 // Translated from Farm.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
@@ -22,15 +21,9 @@ public partial class Farm : PlayerCropStructure
     // Farm.pas:54
     public new const int ClassId = 131950;
 
-    public Set<ModeElement> Mode;
+    public Set<ModeElement> Mode { get; set; }
 
     // Farm.pas:81
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferSet(ref Mode, 1, 20, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

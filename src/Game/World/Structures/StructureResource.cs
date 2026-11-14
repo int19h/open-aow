@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -38,12 +37,13 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     public bool ConnectRoads { get; protected set; }
     public byte FlagType { get; private set; }
 
-    public string SelectSfx = "";
+    public string SelectSfx { get; private set; } = "";
+
     private bool _selectSfxLooped;
 
     public StringCollection Description { get; }
 
-    public int ScannerIcon;
+    public int ScannerIcon { get; private set; }
 
     public bool Razeable { get; protected set; }
     public bool CastsShadow { get; protected set; }
@@ -61,33 +61,21 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     }
 
     // Structur.PAS:1929
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Boolean(ref _selectSfxLooped, 20);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref SelectSfx, 21);
-        }
-
-        stream.Lines(Description, 22);
-        stream.Int32(ref ScannerIcon, 23);
-        stream.Payload(28, Defenders.LoadFromStream, Defenders.SaveToStream);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            CalculatePadIndex();
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         _selectSfxLooped = persister.Boolean("SelectSfxLooped", value: _selectSfxLooped);
-        SelectSfx = persister.String("SelectSfx", value: SelectSfx);
+        // The original leaves the sound out under text only, which the translate stream's mode holds.
+        if (!PersistSupport.Translating(persister))
+        {
+            SelectSfx = persister.String("SelectSfx", value: SelectSfx);
+        }
+
         PersistSupport.Lines(persister, name: "Description", lines: Description);
         ScannerIcon = persister.Int32("ScannerIcon", value: ScannerIcon);
         PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: Defenders);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original calculates the index there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             CalculatePadIndex();
         }
@@ -132,7 +120,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
             }
             else
             {
-                ImageLibrary[index].ShowTransparent(X + _imageOffsetX, Y + _imageOffsetY, lockedSurface);
+                ImageLibrary[index].ShowTransparent(X + ImageOffsetX, Y + ImageOffsetY, lockedSurface);
             }
         }
         else

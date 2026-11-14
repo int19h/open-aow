@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -41,16 +40,6 @@ public partial class Sign : Structure
     }
 
     // Sign.pas:105
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(Text, 7);
-        if (StrategicMap.Current != null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
-        {
-            stream.Payload(8, TextSeen.LoadFromStream, TextSeen.SaveToStream);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -61,7 +50,7 @@ public partial class Sign : Structure
         }
         else
         {
-            // ReadWrite leaves a stored TextSeen unread with no map or on a network map.
+            // The original ReadWrite leaves a stored TextSeen unread with no map or on a network map.
             persister.Skip("TextSeen");
         }
     }

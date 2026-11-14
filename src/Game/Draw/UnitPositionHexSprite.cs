@@ -1,9 +1,6 @@
 // Translated from AoWTC.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Combat;
@@ -36,14 +33,6 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     private byte _direction;
 
     // AoWTC.pas:5060
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _position), 25);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _index), 26);
-        stream.Byte(ref _direction, 27);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

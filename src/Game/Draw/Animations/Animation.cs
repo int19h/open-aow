@@ -1,15 +1,12 @@
 // Translated from Animation.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 
 using Aow.Game.Net;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Animations;
 
@@ -32,7 +29,9 @@ public partial class Animation : HexSprite
     public byte AnimationLevel { get; set; }
 
     private Set<StateElement> _state;
-    public int FrameCounter;
+
+    public int FrameCounter { get; set; }
+
     public Rect Dimensions;
 
     public event ShowAnimationEvent OnShow;
@@ -61,16 +60,6 @@ public partial class Animation : HexSprite
     }
 
     // Animation.pas:276
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferRecord<RectImage, Rect>(ref Dimensions, 16, 10, stream.Bytes);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexX), 11);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexY), 12);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexLevel), 13);
-        stream.Int32(ref FrameCounter, 14);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

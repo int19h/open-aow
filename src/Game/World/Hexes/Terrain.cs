@@ -1,6 +1,5 @@
 // Translated from AoWTer.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -107,15 +106,9 @@ public partial class Terrain : TerrainMapObject
         public Resource(ECustomNode owner) : base(owner)
         { }
 
-        public int MapFieldResponse;
+        public int MapFieldResponse { get; private set; }
 
         // AoWTer.pas:116
-        public override void ReadWrite(StorageStream stream)
-        {
-            base.ReadWrite(stream);
-            stream.Int32(ref MapFieldResponse, 20);
-        }
-
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);

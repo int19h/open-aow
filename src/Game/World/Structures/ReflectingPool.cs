@@ -1,6 +1,5 @@
 // Translated from ReflectingPool.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -24,11 +23,6 @@ public partial class ReflectingPool : PlayerStructure
     private int _centerFrame;
 
     // ReflectingPool.pas:80
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

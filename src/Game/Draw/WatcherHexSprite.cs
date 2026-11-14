@@ -1,7 +1,6 @@
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic;
@@ -43,12 +42,6 @@ public partial class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1344
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Enchantment, 40);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

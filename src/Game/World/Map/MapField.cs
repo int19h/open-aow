@@ -1,7 +1,6 @@
 // Translated from HSEngine.pas and AoWE.pas.
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -64,87 +63,17 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
 
     void IOwnedSink<MapLevel>.SetOwner(MapLevel owner) => SetOwner(owner);
 
-    // HSEngine.pas:2029, then AoWHSMap.PAS:63 stores the flags.
-    // { Original tests the entire ECX register for a Boolean passed in CL. }
-    public override void ReadWrite(StorageStream stream)
-    {
-        int J;
-        int I;
-        EngineObject hexSprite = default;
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.Text)) == Set<StorageModeElement>.Of())
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                if (stream.StorageMode().Contains(StorageModeElement.Compare))
-                {
-                    J = 0;
-                    I = stream.PropertyTable.First;
-                    int last = stream.PropertyTable.Count - 1;
-                    for (; I <= last; I += 1)
-                    {
-                        if (stream.PropertyTable.Items[I].Id >= 50)
-                        {
-                            hexSprite = _hexSpriteList[J];
-                            stream.Created(ref hexSprite, this, stream.PropertyTable.Items[I].Id);
-                            J += 1;
-                        }
-                    }
-                }
-                else
-                {
-                    I = stream.PropertyTable.First;
-                    int last = stream.PropertyTable.Count - 1;
-                    for (; I <= last; I += 1)
-                    {
-                        J = stream.PropertyTable.Items[I].Id;
-                        if (J >= 50)
-                        {
-                            stream.Created(ref hexSprite, this, J);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                I = 50;
-                J = 0;
-                int last = _count - 1;
-                for (; J <= last; J += 1)
-                {
-                    hexSprite = _hexSpriteList[J];
-                    if (hexSprite != null && hexSprite.Owner == this && !hexSprite.GetControlStyle().Contains(EngineServices.Shared) && hexSprite.GetControlStyle().Contains(EngineServices.Stored))
-                    {
-                        stream.Created(ref hexSprite, this, I);
-                        I += 1;
-                    }
-                }
-            }
-        }
-        else
-        {
-            ReadWriteChildren(stream);
-        }
-
-        // AoWHSMap.PAS:66 stores the low word of the flags only.
-        ushort lowFlags = (ushort)FieldFlags;
-        stream.UInt16(ref lowFlags, 4);
-        FieldFlags = (FieldFlags & ~0xFFFF) | lowFlags;
-    }
-
     // HSEngine.pas:2075
-    public override void MainReadWrite(StorageStream stream)
-    {
-        ReadWrite(stream);
-    }
-
-    // The tree form of MainReadWrite: the fields only, with no Clear and no children.
+    // The fields only, with no Clear and no children, as the original MainReadWrite.
     public override void MainPersist(IPersister persister)
     {
         PersistFields(persister);
     }
 
-    // The tree form of ReadWrite. The stored sprites are a created sequence at ids 50 and on. A
-    // load creates each sprite with this field as owner and then places it, as rwCreateEObject does.
+    // HSEngine.pas:2029, then AoWHSMap.PAS:63 stores the low word of the flags. The stored sprites
+    // are a created sequence at ids 50 and on. A load creates each sprite with this field as owner
+    // and then places it, as rwCreateEObject does. The translate stream visits the stored sprites,
+    // as the original's text branch visits the children.
     public override void PersistFields(IPersister persister)
     {
         persister.CreatedSequence("HexSpriteList", new NodeChildren(this));

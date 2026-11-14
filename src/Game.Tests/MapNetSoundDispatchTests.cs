@@ -24,7 +24,6 @@ public sealed class MapNetSoundDispatchTests
         public override HexSpriteMapMouse CreateMouse()
         {
             Assert.Null(Selection);
-            Assert.Null(Timer);
             MouseCalls++;
             return new HexSpriteMapMouse();
         }
@@ -50,7 +49,6 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(1, converted.MouseCalls);
         Assert.Same(converted, converted.Mouse.HexSpriteMap);
         Assert.NotNull(converted.Selection);
-        Assert.NotNull(converted.Timer);
     }
 
     [Fact]

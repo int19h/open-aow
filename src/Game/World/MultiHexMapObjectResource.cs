@@ -1,6 +1,5 @@
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.World;
@@ -17,21 +16,12 @@ public partial class MultiHexMapObjectResource : MapObjectResource
         SetMainPointOffsetY(32);
     }
 
-    protected internal int _imageOffsetX;
-    protected internal int _imageOffsetY;
+    private int _imageOffsetX;
+    private int _imageOffsetY;
     private int _mainPointOffsetX;
     private int _mainPointOffsetY;
 
     // MAPOBJ.PAS:1256
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _imageOffsetX, 12);
-        stream.Int32(ref _imageOffsetY, 13);
-        stream.Int32(ref _mainPointOffsetX, 14);
-        stream.Int32(ref _mainPointOffsetY, 15);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -47,14 +37,14 @@ public partial class MultiHexMapObjectResource : MapObjectResource
     public virtual void SetMainPointOffsetX(int value)
     {
         _mainPointOffsetX = value;
-        CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, _level);
+        CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, Level);
     }
 
     // MAPOBJ.PAS:1250
     public virtual void SetMainPointOffsetY(int value)
     {
         _mainPointOffsetY = value;
-        CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, _level);
+        CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, Level);
     }
 
     public int ImageOffsetX { get => _imageOffsetX; set => _imageOffsetX = value; }

@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
@@ -53,12 +52,6 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:3054
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Army, 10);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

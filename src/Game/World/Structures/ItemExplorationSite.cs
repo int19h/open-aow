@@ -1,6 +1,5 @@
 // Translated from ItemExpS.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -40,13 +39,6 @@ public partial class ItemExplorationSite : ExplorationSite
     }
 
     // ItemExpS.pas:107
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(_items, 8);
-        stream.Bytes(Bytes.Of(ref _itemCount, 1), 1, 9);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

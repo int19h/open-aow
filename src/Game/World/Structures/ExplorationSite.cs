@@ -1,7 +1,6 @@
 // Translated from ExploreS.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
@@ -42,13 +41,6 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:293
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(_defenders, 5);
-        stream.Bytes(Bytes.Of(ref _defendersMode, 1), 1, 6);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

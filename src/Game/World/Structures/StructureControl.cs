@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using static Aow.Rtl.RtlUnit;
@@ -19,7 +18,8 @@ public partial class StructureControl : EngineObject
 
     private readonly ENode _structures;
     private int _nextId;
-    public int CityCount;
+
+    public int CityCount { get; private set; }
 
     // Structur.PAS:3227
     public override void Dispose()
@@ -29,13 +29,6 @@ public partial class StructureControl : EngineObject
     }
 
     // Structur.PAS:3245
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _nextId, 20);
-        stream.Int32(ref CityCount, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

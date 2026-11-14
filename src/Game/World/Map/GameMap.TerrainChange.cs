@@ -1,4 +1,3 @@
-
 using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Map;
@@ -10,12 +9,12 @@ public partial class GameMap
     {
         bool result = true;
         var saved = new TerrainList();
-        saved.SetCount(terrain._count);
+        saved.SetCount(terrain.Count);
         var mapLevel = _mapContainer.GetMapLevel(level);
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         bool InRange() => terrain.GetUsed(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height;
-        while (walk.HexNumber < terrain._count)
+        while (walk.HexNumber < terrain.Count)
         {
             if (InRange())
             {
@@ -29,13 +28,13 @@ public partial class GameMap
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
-        while (walk.HexNumber < terrain._count && result)
+        while (walk.HexNumber < terrain.Count && result)
         {
             if (InRange()) result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrain(sender);
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
-        while (walk.HexNumber < terrain._count)
+        while (walk.HexNumber < terrain.Count)
         {
             if (InRange())
             {

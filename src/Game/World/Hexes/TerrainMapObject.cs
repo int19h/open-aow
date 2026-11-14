@@ -113,7 +113,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         {
             if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                message.Result = ((TerrainMapObjectResource)_resource)._decorationType;
+                message.Result = ((TerrainMapObjectResource)_resource).DecorationType;
             }
         }
     }
@@ -156,7 +156,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                 if (resources[I] is TerrainMapObjectResource terrain)
                 {
                     R = terrain;
-                    found = R.EngineClass.ClassId == _resource.EngineClass.ClassId && R._decorationType == ((TerrainMapObjectResource)_resource)._decorationType && R._terrainType == ((TerrainMapObjectResource)_resource)._terrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
+                    found = R.EngineClass.ClassId == _resource.EngineClass.ClassId && R.DecorationType == ((TerrainMapObjectResource)_resource).DecorationType && R.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
                 }
             }
 
@@ -204,7 +204,7 @@ public partial class TerrainMapObject : MultiHexMapObject
             if (resources[I] is TerrainMapObjectResource terrain)
             {
                 R = terrain;
-                if (R.EngineClass.ClassId == _resource.EngineClass.ClassId && R._terrainType == ((TerrainMapObjectResource)_resource)._terrainType && R._decorationType == decorationType && R != _resource && R.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                if (R.EngineClass.ClassId == _resource.EngineClass.ClassId && R.TerrainType == ((TerrainMapObjectResource)_resource).TerrainType && R.DecorationType == decorationType && R != _resource && R.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
                     candidates.Add(R);
                 }

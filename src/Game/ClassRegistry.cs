@@ -14,7 +14,6 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Events;
-using Aow.Game.Layout;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
@@ -289,7 +288,6 @@ internal static class ClassRegistry
         EngineClass.Register(ENode.ClassId, static owner => new ENode(owner));
         EngineClass.Register(ResourceEditSettings.ClassId, static owner => new ResourceEditSettings(owner));
         EngineClass.Register(ESortNode.ClassId, static owner => new ESortNode(owner));
-        EngineClass.Register(ETimerNode.ClassId, static owner => new ETimerNode(owner));
         EngineClass.Register(EndTurnEventLog.ClassId, static owner => new EndTurnEventLog(owner));
         EngineClass.Register(GameOverEventLog.ClassId, static owner => new GameOverEventLog(owner));
         EngineClass.Register(EngineObject.ClassId, static (owner, holder) => new HelpMessageEventLog(owner, holder));
