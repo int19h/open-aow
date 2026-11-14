@@ -20,21 +20,12 @@ public partial class ChangeGlobalMagicTokenEvent : TokenEvent
 
     public new const int ClassId = 135446;
 
-    public ChangeGlobalMagicTokenEventMode Mode;
-    public byte PlayerIndex;
-    public int EnchantmentId;
-    public int Value;
+    public ChangeGlobalMagicTokenEventMode Mode { get; set; }
+    public byte PlayerIndex { get; set; }
+    public int EnchantmentId { get; set; }
+    public int Value { get; set; }
 
     // Spells.PAS:2720
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 20);
-        stream.Byte(ref PlayerIndex, 21);
-        stream.Int32(ref EnchantmentId, 22);
-        stream.Int32(ref Value, 23);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

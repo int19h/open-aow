@@ -16,17 +16,17 @@ public partial class TokenControl : IDisposable
     public virtual void Add(TokenEvent tokenEvent)
     {
         int I;
-        if (tokenEvent._tokenCounter != -1)
+        if (tokenEvent.TokenCounter != -1)
         {
             I = 0;
-            while (I != _events.Count && _events[I]._tokenCounter < tokenEvent._tokenCounter)
+            while (I != _events.Count && _events[I].TokenCounter < tokenEvent.TokenCounter)
             {
                 I += 1;
             }
 
             if (I < _events.Count)
             {
-                if (_events[I]._tokenCounter == tokenEvent._tokenCounter)
+                if (_events[I].TokenCounter == tokenEvent.TokenCounter)
                 {
                     throw new InvalidOperationException("Double TokenCounter defined");
                 }
@@ -62,7 +62,7 @@ public partial class TokenControl : IDisposable
                     {
                         tokenEvent = new SyncTokenEvent(null) { Holder = _tokenManager.Owner };
                         var syncValue = executor.GetSyncValue();
-                        ((SyncTokenEvent)tokenEvent)._syncValue = syncValue;
+                        ((SyncTokenEvent)tokenEvent).SyncValue = syncValue;
                         _events.Insert(0, tokenEvent);
                         tokenEvent.Release();
                     }
@@ -228,7 +228,7 @@ public partial class TokenControl : IDisposable
             passToken = false;
             while (inOrder && !passToken && I < _events.Count)
             {
-                inOrder = _events[I]._tokenCounter == executor.TokenCounter + I;
+                inOrder = _events[I].TokenCounter == executor.TokenCounter + I;
                 passToken = _events[I].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
                 I += 1;
             }

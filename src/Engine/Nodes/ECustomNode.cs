@@ -1,8 +1,6 @@
 // Translated from Engine.pas.
 using System.Collections;
 
-using Aow.Engine.Storage;
-
 using Aow.Formats.Tree;
 using Aow.Game;
 
@@ -22,20 +20,6 @@ public partial class ECustomNode : EngineObject, IOwner
     { }
 
     // Engine.pas:2666
-    public override void MainReadWrite(StorageStream stream)
-    {
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
-            {
-                Clear();
-            }
-        }
-
-        ReadWrite(stream);
-        ReadWriteChildren(stream);
-    }
-
     public override void MainPersist(IPersister persister)
     {
         if (persister.Loading)
@@ -119,11 +103,6 @@ public partial class ECustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:2661
-    public virtual void ReadWriteChildren(StorageStream stream)
-    {
-        stream.Children(this, 1);
-    }
-
     public virtual void PersistChildren(IPersister persister)
     {
         persister.Children("Children", children: new NodeChildren(this));

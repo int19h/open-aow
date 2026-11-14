@@ -1,7 +1,7 @@
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
@@ -19,7 +19,8 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     // GlobalSpells.pas:564
     public new const int ClassId = 135948;
 
-    public ArmyId ArmyId;
+    public ArmyId ArmyId { get; set; }
+
     public MapCoordinate WarpLocation;
 
     // The fourth byte of the packed location stored at id 30, 0 from every writer and in every
@@ -34,13 +35,13 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     }
 
     // GlobalSpells.pas:569
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
+        base.PersistFields(persister);
         int location = StoredCoordinateImage.From(WarpLocation, unknownBytes: UnknownBytes).ToInt32();
-        stream.Int32(ref location, 30);
+        location = persister.Int32("WarpLocation", value: location);
         (WarpLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-        stream.Created(ref ArmyId, null, 31);
+        ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 
     // GlobalSpells.pas:552

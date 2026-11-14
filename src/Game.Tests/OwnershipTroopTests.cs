@@ -1,6 +1,8 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
+using Aow.Formats;
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -28,20 +30,20 @@ public sealed class OwnershipTroopTests
 
     private static byte[] Image(EngineObject objectValue)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
-        {
-            writer.PersistObject(objectValue);
-        }
-
-        return memory.ToArray();
+        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        var root = TreeWriter.Write(objectValue, factory: factory);
+        var schema = FormatSchema.Current;
+        var classValue = schema.Get(factory.ClassName(objectValue));
+        return OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 
     private static void Load(EngineObject objectValue, byte[] image)
     {
-        using var memory = new MemoryStream(image);
-        using var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        reader.PersistObject(objectValue);
+        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        var schema = FormatSchema.Current;
+        var classValue = schema.Get(factory.ClassName(objectValue));
+        var root = OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
+        TreeReader.Read(root, objectValue: objectValue, factory: factory);
     }
 
     [Fact]

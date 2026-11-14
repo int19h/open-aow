@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.World.Map;
@@ -23,11 +23,13 @@ public partial class ProductionTokenEvent : TokenEvent
     public sbyte X;
     public sbyte Y;
     public sbyte MapLevel;
-    public sbyte Player;
-    public int Command;
-    public ProductionItem Item;
-    public bool Queue;
-    public int Index;
+
+    public sbyte Player { get; set; }
+    public int Command { get; set; }
+    public ProductionItem Item { get; set; }
+    public bool Queue { get; set; }
+    public int Index { get; set; }
+
     // An integer of unknown meaning that the original stores at id 27 and never reads. It round
     // trips unchanged.
     private int _unknownValue;
@@ -46,18 +48,18 @@ public partial class ProductionTokenEvent : TokenEvent
     }
 
     // Structur.PAS:168
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref Command, 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 21);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 22);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 23);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 24);
-        stream.Created(ref Item, null, 25);
-        stream.Int32(ref Index, 26);
-        stream.Int32(ref _unknownValue, 27);
-        stream.Boolean(ref Queue, 28);
+        base.PersistFields(persister);
+        Command = persister.Int32("Command", value: Command);
+        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
+        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
+        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Item = persister.Created("Item", objectValue: Item);
+        Index = persister.Int32("Index", value: Index);
+        _unknownValue = persister.Int32("UnknownValue", value: _unknownValue);
+        Queue = persister.Boolean("Queue", value: Queue);
     }
 
     // Structur.PAS:182

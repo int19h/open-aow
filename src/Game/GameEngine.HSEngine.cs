@@ -125,7 +125,7 @@ public partial class GameEngine : ENode
         return (string message, out bool continueLoad) =>
         {
             bool handled = true;
-            strategicMap.OnStreamError(stream: null, message: message, handled: ref handled);
+            strategicMap.OnStreamError(message: message, handled: ref handled);
             continueLoad = handled;
         };
     }

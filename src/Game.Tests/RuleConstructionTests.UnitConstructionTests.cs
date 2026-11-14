@@ -103,7 +103,6 @@ public sealed partial class RuleConstructionTests
         GameEngine engine = new GameEngine(null!);
         EngineObject source = CreateUnit(type, null!, 0);
         EngineObject result = null!;
-        var owner = new UnitOwner(false);
         using var memory = new MemoryStream();
         try
         {
@@ -116,19 +115,15 @@ public sealed partial class RuleConstructionTests
             if (source is HypotheticalUnit adjustable) adjustable.SetAbilityCount(0);
             ((Troop)source).UnitId = 317;
             ((Troop)source).GroupId = 29;
-            var writer = new StorageWriter(memory, engine, false);
-            writer.Created(ref source, null!, 7);
-            writer.Dispose();
+            engine.StoreEngineObject(memory, objectValue: source, progress: null);
             memory.Position = 0;
-            using (var reader = new StorageReader(memory, engine, false)) { reader.Created(ref result, owner, 7); }
+            result = engine.RetrieveEngineObject(memory, progress: null);
             var loaded = Assert.IsAssignableFrom<Troop>(result);
             Assert.IsType(type, loaded);
             Assert.Equal(1, loaded.RefCount);
             Assert.Equal(317, loaded.UnitId);
             Assert.Equal(29, loaded.GroupId);
-            Assert.Same(owner, loaded.Owner);
-            Assert.Same(loaded, Assert.Single(owner.Members));
-            Assert.Equal(new[] { $"insert:{(loaded is Hero ? 3 : 2)}:317:29" }, owner.Events);
+            Assert.Null(loaded.Owner);
         }
         finally
         {
@@ -141,7 +136,6 @@ public sealed partial class RuleConstructionTests
             StrategicMap.Current = previousMap;
             GamePack.Current = previousSet;
         }
-        Assert.Empty(owner.Members);
     }
 
     private static UnitOwner? s_refcountOwner;

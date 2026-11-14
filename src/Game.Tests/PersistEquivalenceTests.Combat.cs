@@ -123,7 +123,7 @@ public sealed partial class PersistEquivalenceTests
     // (persistence-tree.md 14). The test sends one with its data, a combat unit with its hero, a
     // player and an action, and compares what arrives with what was sent.
     [Fact]
-    public void ACombatLogbookTravelsThroughTheStorageStreams()
+    public void ACombatLogbookRoundTripsAsAPacket()
     {
         var enlisted = EnlistCombatClasses();
         try

@@ -1,6 +1,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Net;
 
@@ -13,10 +14,10 @@ public partial class TokenPackage : DataPackage
     private readonly TokenEventList _tokenEvents;
 
     // NetworkE.pas:1105
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Object(_tokenEvents, 5);
+        base.PersistFields(persister);
+        persister.Object("TokenEvents", objectValue: _tokenEvents);
     }
 
     // NetworkE.pas:1088

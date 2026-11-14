@@ -1,7 +1,9 @@
 // Translated from Arena.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Commands;
 
@@ -26,10 +28,10 @@ public partial class ArenaTokenEvent : StructureTokenEvent
     }
 
     // Arena.pas:89
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Payload(40, UnitIds.LoadFromStream, UnitIds.SaveToStream);
+        base.PersistFields(persister);
+        PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
     }
 
     // Arena.pas:74

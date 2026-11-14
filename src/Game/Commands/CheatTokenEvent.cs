@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 
 using Aow.Game.Magic.Abilities;
@@ -23,15 +23,15 @@ public partial class CheatTokenEvent : TokenEvent
 
     public new const int ClassId = 131829;
 
-    public sbyte Player;
-    public int CheatId;
+    public sbyte Player { get; set; }
+    public int CheatId { get; set; }
 
     // MoveT.PAS:3460
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.Int32(ref CheatId, 21);
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        CheatId = persister.Int32("CheatId", value: CheatId);
     }
 
     // MoveT.PAS:3467

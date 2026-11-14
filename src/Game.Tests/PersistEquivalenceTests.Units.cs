@@ -259,7 +259,7 @@ public sealed partial class PersistEquivalenceTests
 
     // The translate stream of TranslateTextStream with a small dictionary in place of the game's,
     // recording what it visits.
-    private sealed class DictionaryStream(Dictionary<string, string> dictionary) : TranslateStorageStream(EngineFixture.Engine)
+    private sealed class DictionaryStream(Dictionary<string, string> dictionary) : TranslateVisit(EngineFixture.Engine)
     {
         public List<string> Visited { get; } = [];
 

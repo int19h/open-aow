@@ -195,7 +195,7 @@ public sealed partial class PersistEquivalenceTests
 
     // A level of 5 by 3 fields: field [0][0] is empty, the others hold up to three frozen water
     // sprites and nonzero field flags. The grid, the sprite sequence and the progress reports
-    // match MainReadWrite on load and on save, through both backends.
+    // match the main visit on load and on save, through both backends.
     [Theory]
     [InlineData("MapLevel", "game")]
     [InlineData("CombatMapLevel", "tactical")]
@@ -297,7 +297,7 @@ public sealed partial class PersistEquivalenceTests
             try
             {
                 var streamError = Assert.Throws<InvalidOperationException>(() =>
-                    Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
+                    Load(stopped, image, static (string _, out bool cont) => cont = false));
                 var treeError = Assert.Throws<InvalidOperationException>(() =>
                     TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
                         static (string _, out bool cont) => cont = false));
@@ -1131,7 +1131,7 @@ public sealed partial class PersistEquivalenceTests
             try
             {
                 var streamError = Assert.Throws<InvalidOperationException>(() =>
-                    Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
+                    Load(stopped, image, static (string _, out bool cont) => cont = false));
                 var treeError = Assert.Throws<InvalidOperationException>(() =>
                     TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
                         static (string _, out bool cont) => cont = false));
@@ -1192,7 +1192,7 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             var streamError = Assert.Throws<InvalidOperationException>(() =>
-                Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
+                Load(stopped, image, static (string _, out bool cont) => cont = false));
             var treeError = Assert.Throws<InvalidOperationException>(() =>
                 TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
                     static (string _, out bool cont) => cont = false));
@@ -1329,9 +1329,8 @@ public sealed partial class PersistEquivalenceTests
         }
     }
 
-    // A reference list stores the children with no owner or with the list as owner. The stream
-    // write makes the list their owner while it writes and clears those owners after it, so the
-    // child the list owned before the write ends with no owner. The tree write leaves every owner.
+    // A reference list stores the children with no owner or with the list as owner. The write
+    // leaves every owner as it was.
     [Fact]
     public void AReferenceListStoresItsUnownedChildrenAndTakesOneReferenceEach()
     {
@@ -1353,7 +1352,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.Same(list, owned.Owner);
             Assert.Same(other, elsewhere.Owner);
             var image = Image(list);
-            Assert.Null(owned.Owner);
+            Assert.Same(list, owned.Owner);
             Assert.Same(other, elsewhere.Owner);
             var expected = PilotImage.Decode(image, "CombatActionList");
             Assert.Equal(2, ((JsonArray)expected["Children"]!).Items.Count);
@@ -1408,11 +1407,7 @@ public sealed partial class PersistEquivalenceTests
         var full = (CustomAbilityList)Blank("CustomAbilityList");
         try
         {
-            using (var memory = new MemoryStream(image))
-            using (var reader = new StorageReader(memory, EngineFixture.Engine, true))
-            {
-                reader.PersistObject(preview);
-            }
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), preview, Factory, preview: true);
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), previewTree, Factory, preview: true);
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), full, Factory);
             Assert.True(preview.GetAbilitySetAt(5));
@@ -1493,21 +1488,12 @@ public sealed partial class PersistEquivalenceTests
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
-    private static void Load(EngineObject objectValue, byte[] image, StorageStream.StorageStreamError? onError = null)
+    private static void Load(EngineObject objectValue, byte[] image, LoadErrorHandler? onError = null)
     {
-        using var memory = new MemoryStream();
-        memory.Write(image);
-        memory.Position = 0;
-        var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        if (onError is not null) reader.OnError += onError;
-        try
-        {
-            reader.PersistObject(objectValue);
-        }
-        finally
-        {
-            reader.Dispose();
-        }
+        var classValue = s_schema.Get(Factory.ClassName(objectValue));
+        string table = GameBoundary.PacketClassTable(classValue);
+        var root = OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: table);
+        TreeReader.Read(root, objectValue: objectValue, factory: Factory, onError: onError);
     }
 
     private static Ability PlaceAbility(int id)
@@ -1563,12 +1549,9 @@ public sealed partial class PersistEquivalenceTests
 
     private static byte[] Image(EngineObject objectValue)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false))
-        {
-            writer.PersistObject(objectValue);
-        }
-        return memory.ToArray();
+        var root = TreeWriter.Write(objectValue, factory: Factory);
+        var classValue = s_schema.Get(Factory.ClassName(objectValue));
+        return OriginalBackend.Write(root, classValue: classValue, schema: s_schema, engine: GameBoundary.PacketClassTable(classValue));
     }
 
     private static void EqualJson(JsonObject expected, JsonObject actual, string label)

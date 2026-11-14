@@ -28,7 +28,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     // EventLog.pas:481
     public override void MainPersist(IPersister persister)
     {
-        // The translate stream's mode holds read, so the original MainReadWrite brackets the visit
+        // The translate visit does not load, so the original main visit does not clear around the visit
         // with BeginUpdate and EndUpdate there too, and releases no log.
         bool translating = PersistSupport.Translating(persister);
         if (persister.Loading || translating)

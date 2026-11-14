@@ -1,9 +1,9 @@
 // Translated from Sign.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.World.Map;
@@ -25,9 +25,9 @@ public partial class UpdateSignTokenEvent : TokenEvent
 
     public StringList Text { get; }
 
-    public sbyte HexX;
-    public sbyte HexY;
-    public sbyte HexLevel;
+    public sbyte HexX { get; set; }
+    public sbyte HexY { get; set; }
+    public sbyte HexLevel { get; set; }
 
     // Sign.pas:199
     public override void Dispose()
@@ -37,13 +37,13 @@ public partial class UpdateSignTokenEvent : TokenEvent
     }
 
     // Sign.pas:205
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Lines(Text, 15);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexX), 16);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexY), 17);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 18);
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        HexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: HexX);
+        HexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: HexY);
+        HexLevel = PersistSupport.UnsignedByte(persister, name: "HexLevel", value: HexLevel);
     }
 
     // Sign.pas:196

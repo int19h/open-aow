@@ -2,7 +2,7 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
-
+using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Net;
@@ -21,13 +21,13 @@ public partial class SaveGameTokenEvent : TokenEvent
 
     public new const int ClassId = 135444;
 
-    public string FileName = "";
+    public string FileName { get; set; } = "";
 
     // MoveT.PAS:1848
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.String(ref FileName, 15);
+        base.PersistFields(persister);
+        FileName = persister.String("FileName", value: FileName);
     }
 
     // MoveT.PAS:1854

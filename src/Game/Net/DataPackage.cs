@@ -1,6 +1,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Game.Net;
 
@@ -15,16 +16,16 @@ public partial class DataPackage : EngineObject
 
     // NetworkE.pas:592
     // { The original does not call the inherited ReadWrite. }
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        stream.Int32(ref _sender, 1);
-        stream.Int32(ref _receiver, 2);
+        _sender = persister.Int32("Sender", value: _sender);
+        _receiver = persister.Int32("Receiver", value: _receiver);
     }
 
     // NetworkE.pas:598
-    public override void MainReadWrite(StorageStream stream)
+    public override void MainPersist(IPersister persister)
     {
-        ReadWrite(stream);
+        PersistFields(persister);
     }
 
     // NetworkE.pas:566

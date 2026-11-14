@@ -400,7 +400,7 @@ public sealed partial class PersistEquivalenceTests
     // sends a packet end to end, so the test sends a package as SetupControl.SendPackage stores it
     // and receives it as DataReceived reads it.
     [Fact]
-    public void ASetupPackageWithItsSettingsTravelsThroughTheStorageStreams()
+    public void ASetupPackageWithItsSettingsRoundTripsAsAPacket()
     {
         var enlisted = EnlistSessionClasses();
         try
@@ -434,7 +434,7 @@ public sealed partial class PersistEquivalenceTests
     // A token event stores a diplomatic action as a created object. The token event still has
     // its ReadWrite (PE-4-a), and the action goes through the tree inside the token event's image.
     [Fact]
-    public void ADiplomaticActionTokenEventTravelsThroughTheStorageStreams()
+    public void ADiplomaticActionTokenEventRoundTripsAsAPacket()
     {
         var descriptor = EngineClass.Of<DiplomaticActionTokenEvent>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
@@ -468,19 +468,12 @@ public sealed partial class PersistEquivalenceTests
     private static Player NewPlayer(int index) =>
         new(null!) { Holder = EngineFixture.Engine, PlayerIndex = (sbyte)index };
 
-    // The partial storage reader, as a preview load reads a map.
+    // A preview load, as a preview reads a map.
     private static void LoadPreview(EngineObject objectValue, byte[] image)
     {
-        using var memory = new MemoryStream(image);
-        var reader = new Aow.Engine.Storage.StorageReader(memory, engine: EngineFixture.Engine, partial: true);
-        try
-        {
-            reader.PersistObject(objectValue);
-        }
-        finally
-        {
-            reader.Dispose();
-        }
+        var classValue = s_schema.Get(Factory.ClassName(objectValue));
+        var root = OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game");
+        TreeReader.Read(root, objectValue: objectValue, factory: Factory, preview: true);
     }
 
     // The engine status is private state of the engine's map loads. The test sets it around the

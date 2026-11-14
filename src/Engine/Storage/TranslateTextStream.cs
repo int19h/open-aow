@@ -7,7 +7,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine.Storage;
 
-public partial class TranslateTextStream : TranslateStorageStream
+public partial class TranslateTextStream : TranslateVisit
 {
     public IvDictionary FDictionary;
 

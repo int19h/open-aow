@@ -469,7 +469,7 @@ sealed class MemberPersister : IPersister
             else if (found is ObjectNode node) nested = node;
             else throw Type(name, "an object");
             var child = new MemberPersister(nested, true, Factory, _path.Member(name), _errors, preview: Preview);
-            // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
+            // rwEObject wraps the main visit and leaves the caller's instance in place.
             try
             {
                 objectValue.Persist(child);
@@ -583,7 +583,7 @@ sealed class MemberPersister : IPersister
             if (value is not ObjectNode { ClassName: null } node)
                 throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a fixed object.", at);
             var reader = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors, preview: Preview);
-            // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
+            // rwEObject wraps the main visit and leaves the caller's instance in place.
             try
             {
                 objectValue.Persist(reader);
@@ -708,7 +708,7 @@ sealed class MemberPersister : IPersister
                     value: $"{node.Width} by {node.Height}", constraint: $"{width} by {height}");
             for (int i = 0; i < fields.Count; i++)
             {
-                // TEReadStorageStream.rwEObjectStream wraps MainReadWrite and leaves the field in place.
+                // The original object read wraps the main visit and leaves the field in place.
                 var reader = new MemberPersister(node.Fields[i], loading: true, factory: Factory, path: FieldPath(at, i, width), errors: _errors, preview: Preview);
                 try
                 {
@@ -751,7 +751,7 @@ sealed class MemberPersister : IPersister
             if (found is not SequenceNode node) throw Type(name, "a sequence of created objects");
             for (int k = 0; k < node.Items.Count; k++)
             {
-                // TEReadStorageStream.rwCreateEObject with an owner: a stored null creates nothing.
+                // The original created-object read with an owner: a stored null creates nothing.
                 if (node.Items[k] is NullNode) continue;
                 if (node.Items[k] is not ObjectNode { ClassName: string className } item)
                     throw TreeErrors.Fail(Codes.Type, "An item of " + name + " is a created object.", at.Item(k));

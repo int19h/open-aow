@@ -1,4 +1,7 @@
-using Aow.Engine.Storage;
+using Aow.Engine;
+using Aow.Formats;
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
@@ -35,13 +38,8 @@ public sealed class TypedNameRoundTripTests
             Assert.True(saved.AsSpan().IndexOf(Cp1252.Encode(typed)) > 0, "the saved bytes hold the typed name");
 
             loaded = new Leader(null!) { Holder = EngineFixture.Engine };
-            using (var memory = new MemoryStream())
-            {
-                memory.Write(saved);
-                memory.Position = 0;
-                using var reader = new StorageReader(memory, EngineFixture.Engine, false);
-                reader.PersistObject(loaded);
-            }
+            var classValue = FormatSchema.Current.Get("Leader");
+            TreeReader.Read(OriginalBackend.Read(saved, classValue: classValue, schema: FormatSchema.Current, engine: "game"), objectValue: loaded, factory: new EnginePersistableFactory(EngineFixture.Engine));
             Assert.Equal(typed, loaded.HeroName);
             Assert.Equal("Jörg €„äß", loaded.HeroName);
             Assert.Equal(saved, Save(loaded));
@@ -57,9 +55,10 @@ public sealed class TypedNameRoundTripTests
 
     private static byte[] Save(Leader leader)
     {
-        using var memory = new MemoryStream();
-        using (var writer = new StorageWriter(memory, EngineFixture.Engine, false)) { writer.PersistObject(leader); }
-        return memory.ToArray();
+        var factory = new EnginePersistableFactory(EngineFixture.Engine);
+        var root = TreeWriter.Write(leader, factory: factory);
+        var classValue = FormatSchema.Current.Get(factory.ClassName(leader));
+        return OriginalBackend.Write(root, classValue: classValue, schema: FormatSchema.Current, engine: "game");
     }
 
     private sealed class Keyboard(Edit edit) : IDisplayEvents

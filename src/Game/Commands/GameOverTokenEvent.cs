@@ -1,9 +1,9 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Net;
 
 using Aow.Game.Session;
@@ -21,15 +21,15 @@ public partial class GameOverTokenEvent : TokenEvent
 
     public new const int ClassId = 135441;
 
-    public sbyte Player;
-    public GameOverStatus GameOverStatus;
+    public sbyte Player { get; set; }
+    public GameOverStatus GameOverStatus { get; set; }
 
     // MoveT.PAS:3233
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.Bytes(Bytes.Of(ref GameOverStatus, 1), 1, 21);
+        base.PersistFields(persister);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        GameOverStatus = persister.Enum("GameOverStatus", value: GameOverStatus);
     }
 
     // MoveT.PAS:3240

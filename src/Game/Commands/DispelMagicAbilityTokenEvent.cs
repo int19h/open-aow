@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic;
@@ -23,19 +23,19 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
 
     public new const int ClassId = 131827;
 
-    public int SourceId;
-    public byte SourcePlayer;
-    public int TargetId;
-    public byte TargetPlayer;
+    public int SourceId { get; set; }
+    public byte SourcePlayer { get; set; }
+    public int TargetId { get; set; }
+    public byte TargetPlayer { get; set; }
 
     // AoWAb.PAS:4337
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref SourceId, 25);
-        stream.Byte(ref SourcePlayer, 26);
-        stream.Int32(ref TargetId, 27);
-        stream.Byte(ref TargetPlayer, 28);
+        base.PersistFields(persister);
+        SourceId = persister.Int32("SourceId", value: SourceId);
+        SourcePlayer = persister.Byte("SourcePlayer", value: SourcePlayer);
+        TargetId = persister.Int32("TargetId", value: TargetId);
+        TargetPlayer = persister.Byte("TargetPlayer", value: TargetPlayer);
     }
 
     // AoWAb.PAS:4345

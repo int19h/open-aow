@@ -1,10 +1,6 @@
 
 using System.Collections.Immutable;
 
-using Aow.Engine.Storage;
-
-using Aow.Game;
-
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -25,10 +21,6 @@ public static class EngineServices
     internal const ControlStyleElement Reserved2 = (ControlStyleElement)2;
 
     internal const ControlStyleElement KeepIndex = (ControlStyleElement)3;
-
-    internal const StorageModeElement Text = (StorageModeElement)2;
-
-    internal const StorageModeElement Partial = (StorageModeElement)3;
 
     internal static string ReplaceText(string S, string old, string newValue)
     {

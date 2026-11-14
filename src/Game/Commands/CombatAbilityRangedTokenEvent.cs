@@ -1,6 +1,7 @@
 // Translated from CombatTE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -27,12 +28,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     public new const int ClassId = 2236419;
 
     private TacticalBattleUnit _unit;
-    public int AbilityId;
-    public int SpellId;
-    public ushort SourceX;
-    public ushort SourceY;
-    public ushort TargetX;
-    public ushort TargetY;
+
+    public int AbilityId { get; set; }
+    public int SpellId { get; set; }
+    public ushort SourceX { get; set; }
+    public ushort SourceY { get; set; }
+    public ushort TargetX { get; set; }
+    public ushort TargetY { get; set; }
+
     private BattleEffectType _effectType;
     private int _strikeCount;
     private object _sound;
@@ -41,15 +44,15 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     private int _state;
 
     // CombatTE.pas:920
-    public override void ReadWrite(StorageStream stream)
+    public override void PersistFields(IPersister persister)
     {
-        base.ReadWrite(stream);
-        stream.Int32(ref AbilityId, 30);
-        stream.Int32(ref SpellId, 31);
-        stream.UInt16(ref TargetX, 32);
-        stream.UInt16(ref TargetY, 33);
-        stream.UInt16(ref SourceX, 34);
-        stream.UInt16(ref SourceY, 35);
+        base.PersistFields(persister);
+        AbilityId = persister.Int32("AbilityId", value: AbilityId);
+        SpellId = persister.Int32("SpellId", value: SpellId);
+        TargetX = persister.UInt16("TargetX", value: TargetX);
+        TargetY = persister.UInt16("TargetY", value: TargetY);
+        SourceX = persister.UInt16("SourceX", value: SourceX);
+        SourceY = persister.UInt16("SourceY", value: SourceY);
     }
 
     // CombatTE.pas:931
