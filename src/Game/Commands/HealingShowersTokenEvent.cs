@@ -71,9 +71,9 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                         army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                         if (army != null)
                         {
-                            for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
+                            for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
                             {
-                                troopObject = army.Army.GetUnit(I);
+                                troopObject = army.Army.Units.GetUnit(I);
                                 if (troopObject.GetHitPoints() < troopObject.GetHits())
                                 {
                                     troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() + 5));

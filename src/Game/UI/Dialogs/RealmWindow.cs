@@ -244,9 +244,9 @@ public partial class RealmWindow : UIModule
         HeroLevelList.Items.Clear();
         for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
         {
-            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.Count - 1; J <= lastJ; J++)
             {
-                U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).GetUnit(J);
+                U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.GetUnit(J);
                 if (U is Hero hero)
                 {
                     var army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I);
@@ -311,7 +311,7 @@ public partial class RealmWindow : UIModule
     {
         Troop U;
         Rect oldClip;
-        if (column < StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).GetCount())
+        if (column < StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.Count)
         {
             oldClip = lockedSurface.ClipRectangle;
             lockedSurface.ClipRectangle.Left = drawRectangle.Left + 2;
@@ -323,7 +323,7 @@ public partial class RealmWindow : UIModule
                 lockedSurface.ClipRectangle.Bottom = drawRectangle.Bottom;
             }
 
-            U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).GetUnit(column);
+            U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);
             if ((int)U.GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
             {
                 var alignment = U.GetAlignment();
@@ -403,10 +403,10 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:421
     public void Unit1LBChange(ListBox listBox, int slot)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetCount() > 0)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).Units.Count > 0)
         {
             listBox.PopupMenu = UI.UnitBanner.BannerMenu;
-            var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetUnit(slot);
+            var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             var armyHexSprite = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetArmyHexSprite();
             StrategicMap.Current.Select(armyHexSprite, true);
@@ -894,9 +894,9 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:866
     public void Unit1LBDoubleClick(ListBox sender, int slot)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).GetCount() > 0)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).Units.Count > 0)
         {
-            var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).GetUnit(slot);
+            var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             UI.UnitWindow.ShowUnit();
         }
@@ -949,9 +949,9 @@ public partial class RealmWindow : UIModule
     {
         for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
         {
-            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.Count - 1; J <= lastJ; J++)
             {
-                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).GetUnit(J).GetUnitGraphicsResourceIndex();
+                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.GetUnit(J).GetUnitGraphicsResourceIndex();
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
             }
         }
@@ -962,9 +962,9 @@ public partial class RealmWindow : UIModule
     {
         for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
         {
-            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.Count - 1; J <= lastJ; J++)
             {
-                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).GetUnit(J).GetUnitGraphicsResourceIndex();
+                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.GetUnit(J).GetUnitGraphicsResourceIndex();
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
             }
         }

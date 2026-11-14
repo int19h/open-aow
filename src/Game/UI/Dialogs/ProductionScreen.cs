@@ -589,9 +589,9 @@ public partial class ProductionScreen : UIModule
         army = _place.Owner.GetArmyHexSprite();
         if (army != null)
         {
-            for (int I = 0, last = army.Army.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
             {
-                var troop = army.Army.GetUnit(I);
+                var troop = army.Army.Units.GetUnit(I);
                 CombatMap.PlaceOverviewUnit(_preview, troop, 0, I);
             }
         }

@@ -56,14 +56,14 @@ public partial class TownGate : CityTargetSpell
         {
             newArmy = new ArmyHexSprite(null) { Holder = CreationHolder() };
             newArmy.Army.SetPlayer(army.Army.Player);
-            newArmy.Army.AddUnitSelection(army.Army, selection);
+            newArmy.Army.AddUnitSelection(army.Army.Units, selection);
             StrategicMap.Current.PlaceHex(newArmy, ((TownGateTokenEvent)eventValue).TeleportLocation.X, ((TownGateTokenEvent)eventValue).TeleportLocation.Y, ((TownGateTokenEvent)eventValue).TeleportLocation.MapLevel);
         }
         else
         {
             if (field.GetArmyHexSprite() != null)
             {
-                field.GetArmyHexSprite().Army.AddUnitSelection(army.Army, selection);
+                field.GetArmyHexSprite().Army.AddUnitSelection(army.Army.Units, selection);
             }
             else
             {
@@ -205,7 +205,7 @@ public partial class TownGate : CityTargetSpell
         {
             result = army.Army.ValidTerrain(selection, field.TerrainType, field.OverlayType);
             // { CanAddUnitSelection returns arOK (zero) when the destination accepts the selection. }
-            result = result && (field.GetArmyHexSprite() == null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army, selection) == AddUnitsResult.Ok);
+            result = result && (field.GetArmyHexSprite() == null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army.Units, selection) == AddUnitsResult.Ok);
         }
 
         return result;

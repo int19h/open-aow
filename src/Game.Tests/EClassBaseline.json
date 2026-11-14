@@ -377,7 +377,7 @@
   },
   "Aow.Game.Units.Army": {
     "id": 131606,
-    "parent": "Aow.Game.Units.UnitList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Commands.ArmyCombatMoveTokenEvent": {
     "id": 135426,

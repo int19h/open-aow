@@ -141,7 +141,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                             army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
                             if (army != null)
                             {
-                                var count = army.Army.Count;
+                                var count = army.Army.Units.Count;
                                 var target = Targets.GetTargets(I);
                                 target.DataB -= count << 2;
                             }
@@ -647,7 +647,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         {
             units = new UnitUserList(null) { Holder = CreationHolder() };
             passive = new UnitUserList(null) { Holder = CreationHolder() };
-            units.AddUnits(Group);
+            units.AddUnits(Group.Units);
             units.SortChildren<Troop>(CompareFortifyUnits);
             I = units.Count;
             while (I != 0 && excess > 0)
@@ -667,7 +667,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             if (passive.Count != 0)
             {
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Passive);
-                group.AddUnits(passive);
+                group.AddUnits(passive.Units);
                 group.Release();
             }
 

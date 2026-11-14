@@ -728,14 +728,14 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 {
                     army = armyHexSprite.Army;
                     selection = 0;
-                    for (int I = army.Count - 1; I >= 0; I--)
+                    for (int I = army.Units.Count - 1; I >= 0; I--)
                     {
                         selection = (byte)(selection << 1);
-                        if (army.GetUnit(I).UnitStatus.Contains(UnitStatusElement.Moving))
+                        if (army.Units.GetUnit(I).UnitStatus.Contains(UnitStatusElement.Moving))
                         {
                             selection = (byte)(selection | 1);
-                            var troop = army.GetUnit(I);
-                            army.GetUnit(I).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                            var troop = army.Units.GetUnit(I);
+                            army.Units.GetUnit(I).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                         }
                     }
 
@@ -768,10 +768,10 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
                 armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerX, combat.CombatData.AttackerY, combat.CombatData.AttackerMapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
-                    for (int I = armyHexSprite.Army.Count - 1; I >= 0; I--)
+                    for (int I = armyHexSprite.Army.Units.Count - 1; I >= 0; I--)
                     {
-                        var troop = armyHexSprite.Army.GetUnit(I);
-                        armyHexSprite.Army.GetUnit(I).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                        var troop = armyHexSprite.Army.Units.GetUnit(I);
+                        armyHexSprite.Army.Units.GetUnit(I).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                     }
 
                     if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)

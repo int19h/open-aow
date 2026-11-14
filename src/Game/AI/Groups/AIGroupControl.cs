@@ -399,7 +399,7 @@ public partial class AIGroupControl : EngineObject
                         location = group.GetLocation();
                         if (location.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y) <= 1)
                         {
-                            Group.AddUnits(group);
+                            Group.AddUnits(group.Units);
                         }
 
                         break;

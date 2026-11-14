@@ -105,7 +105,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         {
             if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                if (CanDoDamage(message.Param[0].As<ArmyHexSprite>().Army))
+                if (CanDoDamage(message.Param[0].As<ArmyHexSprite>().Army.Units))
                 {
                     message.Result = 1;
                 }
@@ -129,7 +129,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         int result;
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
+            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units))
             {
                 result = 1;
             }
@@ -172,9 +172,9 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         log._player = army.Army.Player;
         log.ArmyView.Setup(army.Army, 255);
         var armyLocal = army.Army;
-        for (int I = 0, last = armyLocal.Count - 1; I <= last; I++)
+        for (int I = 0, last = armyLocal.Units.Count - 1; I <= last; I++)
         {
-            troop = armyLocal.GetUnit(I);
+            troop = armyLocal.Units.GetUnit(I);
             bool condition = troop.GetAlignment() != Alignment.None;
             if (condition)
             {
@@ -263,7 +263,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     }
 
     // HolyG.pas:166
-    public bool CanDoDamage(UnitList units)
+    public bool CanDoDamage(UnitCollection units)
     {
         int I;
         Troop troop;

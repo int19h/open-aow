@@ -95,11 +95,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             {
                 ArmyId.RetrieveArmy(ref army, ref selection);
                 exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null);
-                for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
+                for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
                 {
                     if ((selection & (1 << I)) != 0)
                     {
-                        troopObject = army.Army.GetUnit(I);
+                        troopObject = army.Army.Units.GetUnit(I);
                         switch (troopObject.GetUnitLevel())
                         {
                             case 1:
@@ -190,11 +190,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location);
                         if (army.Army.ValidateSelection(255) != selection)
                         {
-                            for (int I = army.Army.Count - 1; I >= 0; I--)
+                            for (int I = army.Army.Units.Count - 1; I >= 0; I--)
                             {
                                 if ((selection & (1 << I)) != 0)
                                 {
-                                    troopObject = army.Army.GetUnit(I);
+                                    troopObject = army.Army.Units.GetUnit(I);
                                     movedUnits.AddUnit(troopObject);
                                     placed = troopObject.Place(location.X, location.Y, location.MapLevel, (sbyte)(byte)army.Army.Player, Set<UnitPlaceModeElement>.Of());
                                     if (placed != null)
@@ -206,7 +206,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         }
                         else
                         {
-                            movedUnits.AddUnits(army.Army);
+                            movedUnits.AddUnits(army.Army.Units);
                             army.MoveTo(mapField, 0);
                         }
 
@@ -214,7 +214,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         {
                             var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, 5);
                             group = StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
-                            group.AddUnits(movedUnits);
+                            group.AddUnits(movedUnits.Units);
                             ((HuntAIGroup)group).TargetUnitIds.Add(source.UnitId);
                             group.Release();
                         }

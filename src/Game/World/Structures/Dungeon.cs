@@ -98,7 +98,7 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:111
-    public override bool GetExplored() => Prisoners.Count == 0;
+    public override bool GetExplored() => Prisoners.Units.Count == 0;
 
     // Dungeon.pas:121
     public override void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
@@ -123,14 +123,14 @@ public partial class Dungeon : ExplorationSite
             log.Selection = 255;
             log.Gold = 0;
             log.JoinMode = JoinMode.Default;
-            log.FirstUnitId = Prisoners.GetUnit(0).UnitId;
-            for (int I = 0, last = Prisoners.Count - 1; I <= last; I++)
+            log.FirstUnitId = Prisoners.Units.GetUnit(0).UnitId;
+            for (int I = 0, last = Prisoners.Units.Count - 1; I <= last; I++)
             {
-                var troop = Prisoners.GetUnit(I);
+                var troop = Prisoners.Units.GetUnit(I);
                 log.UnitIds.Add(troop.UnitId);
             }
 
-            if (Prisoners.Count == 1)
+            if (Prisoners.Units.Count == 1)
             {
                 var liberatePrisonerMessage = AbilityRules.TranslateResourceString(GetEngine(), s_liberatePrisonerMessageText);
                 log.JoinMessage.Text = liberatePrisonerMessage;
@@ -168,7 +168,7 @@ public partial class Dungeon : ExplorationSite
                 list.Add(collections.GetU(collection, I));
             }
 
-            Int32List.FillWithRandomUnits(list, Prisoners, 4, (int)_prisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            Int32List.FillWithRandomUnits(list, Prisoners.Units, 4, (int)_prisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             list?.Dispose();
         }
     }
@@ -206,7 +206,7 @@ public partial class Dungeon : ExplorationSite
         hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
         if (hero == null)
         {
-            if (Prisoners.Count == 1)
+            if (Prisoners.Units.Count == 1)
             {
                 armyLog.Text = AbilityRules.TranslateResourceString(GetEngine(), s_onePrisonerLiberatedText);
                 var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
@@ -215,9 +215,9 @@ public partial class Dungeon : ExplorationSite
             }
             else
             {
-                var count = Prisoners.Count;
+                var count = Prisoners.Units.Count;
                 armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_prisonersLiberatedFormat), [IntToStr(count)]);
-                var fPrisonersCount = Prisoners.Count;
+                var fPrisonersCount = Prisoners.Units.Count;
                 var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
                 var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
                 armyLog.Messages.Text = format;
@@ -238,7 +238,7 @@ public partial class Dungeon : ExplorationSite
         army = new ArmyHexSprite(null) { Holder = CreationHolder() };
         army.Army.BeginUpdate();
         army.Army.SetPlayer(player);
-        army.Army.AddUnits(Prisoners);
+        army.Army.AddUnits(Prisoners.Units);
         var hexLevel5 = GetHexLevel();
         var hexY5 = GetHexY();
         army.Place(GetHexX(), hexY5, hexLevel5, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));

@@ -197,7 +197,7 @@ public partial class ExplorationSite : Structure
         if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
             player = armyHexSprite.Army.Player;
-            if (_defenders.GetCount() == 0)
+            if (_defenders.Units.Count == 0)
             {
                 ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
             }
@@ -409,7 +409,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                Int32List.FillWithRandomUnits(list, _defenders, 4, (int)_defendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                Int32List.FillWithRandomUnits(list, _defenders.Units, 4, (int)_defendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

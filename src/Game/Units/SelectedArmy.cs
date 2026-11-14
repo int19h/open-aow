@@ -162,7 +162,7 @@ public partial class SelectedArmy : MoveSelector
             MoveControlSettings.Player = armyHexSprite.Army.Player;
             MoveControlSettings.ArmyHexSprite = armyHexSprite;
             MoveControlSettings.SetDestinationPosition(X, Y, L);
-            MoveControlSettings.Units.AddUnits(armyHexSprite.Army, (byte)settings.Selection);
+            MoveControlSettings.Units.AddUnits(armyHexSprite.Army.Units, (byte)settings.Selection);
             if (StrategicMap.Current.ExplorationEnabled)
             {
                 MoveControlSettings.Mode = MoveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.ExploredTerrainOnly);
@@ -492,7 +492,7 @@ public partial class SelectedArmy : MoveSelector
             selection = GetArmyHexSprite().Army.ValidateMoveSelection(selection);
             if (_mode == SelectedArmyMode.BuildRoads)
             {
-                selection = (byte)(selection | (1 << GetArmyHexSprite().Army.IndexOfId(_roadBuilderId)));
+                selection = (byte)(selection | (1 << GetArmyHexSprite().Army.Units.IndexOfId(_roadBuilderId)));
             }
 
             if (selection != 0)
@@ -545,9 +545,9 @@ public partial class SelectedArmy : MoveSelector
         list = new Int32List();
         if (GetArmyHexSprite() != null)
         {
-            for (int I = 0, last = GetArmyHexSprite().Army.Count - 1; I <= last; I++)
+            for (int I = 0, last = GetArmyHexSprite().Army.Units.Count - 1; I <= last; I++)
             {
-                index = GetArmyHexSprite().Army.GetUnit(I).GetUnitGraphicsResourceIndex();
+                index = GetArmyHexSprite().Army.Units.GetUnit(I).GetUnitGraphicsResourceIndex();
                 list.Add(index);
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
             }
@@ -734,10 +734,10 @@ public partial class SelectedArmy : MoveSelector
     {
         string text;
         AIGroup group;
-        for (int I = 0, last = GetArmyHexSprite().Army.Count - 1; I <= last; I++)
+        for (int I = 0, last = GetArmyHexSprite().Army.Units.Count - 1; I <= last; I++)
         {
-            text = GetArmyHexSprite().Army.GetUnit(I).GetName() + "(ID:" + IntToStr(GetArmyHexSprite().Army.GetUnit(I).UnitId) + ")";
-            group = GetArmyHexSprite().Army.GetUnit(I).Group;
+            text = GetArmyHexSprite().Army.Units.GetUnit(I).GetName() + "(ID:" + IntToStr(GetArmyHexSprite().Army.Units.GetUnit(I).UnitId) + ")";
+            group = GetArmyHexSprite().Army.Units.GetUnit(I).Group;
             if (group != null)
             {
                 var behavior = group.GroupClass.Behavior;
@@ -754,7 +754,7 @@ public partial class SelectedArmy : MoveSelector
                     }
                 }
 
-                var troop = GetArmyHexSprite().Army.GetUnit(I);
+                var troop = GetArmyHexSprite().Army.Units.GetUnit(I);
                 if (group.Leader == troop)
                 {
                     text = text + "/Leader";
@@ -764,7 +764,7 @@ public partial class SelectedArmy : MoveSelector
             Creator.GetEngine().OutputDebugString(text);
         }
 
-        var strengthMax = GetArmyHexSprite().Army.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.None));
+        var strengthMax = GetArmyHexSprite().Army.Units.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.None));
         Creator.GetEngine().OutputDebugString("Army strength: " + IntToStr(strengthMax));
     }
 

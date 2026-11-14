@@ -98,14 +98,14 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                 {
                     I -= 1;
                     var item = _unitIds[I];
-                    unitIndex = ArmyHexSprite.Army.IndexOfId(item);
+                    unitIndex = ArmyHexSprite.Army.Units.IndexOfId(item);
                     if (unitIndex != -1)
                     {
                         Selection = (byte)(Selection | (1 << unitIndex));
                     }
 
                     var fUnitIdsItem = _unitIds[I];
-                    result = ArmyHexSprite.Army.IndexOfId(fUnitIdsItem) != -1;
+                    result = ArmyHexSprite.Army.Units.IndexOfId(fUnitIdsItem) != -1;
                 }
 
                 settings = new MoveControlSettings(null) { Holder = CreationHolder() };
@@ -158,7 +158,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         {
             armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
             armyHexSprite.Army.SetPlayer(ArmyHexSprite.Army.Player);
-            armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army, Selection);
+            armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army.Units, Selection);
             var item = Path[last];
             var fPathItem = Path[last];
             var item2 = Path[last];
@@ -207,7 +207,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             {
                 ArmyHexSprite.Army.UserMode = ArmyHexSprite.Army.UserMode & armyHexSprite.Army.UserMode;
                 armyHexSprite.Army.AssignSettings(ArmyHexSprite.Army);
-                armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army, 255);
+                armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army.Units, 255);
                 ArmyHexSprite = armyHexSprite;
                 if (selected)
                 {
@@ -448,11 +448,11 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             TargetY = path[0].Location.Y;
             TargetMapLevel = path[0].Location.MapLevel;
             Selection = armyHexSprite.Army.ValidateSelection(selection);
-            for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
+            for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
             {
                 if (((1 << I) & selection) != 0)
                 {
-                    var troop = armyHexSprite.Army.GetUnit(I);
+                    var troop = armyHexSprite.Army.Units.GetUnit(I);
                     _unitIds.Add(troop.UnitId);
                 }
             }

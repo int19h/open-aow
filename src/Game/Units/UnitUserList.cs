@@ -48,7 +48,7 @@ public partial class UnitUserList : UnitList
     }
 
     // Unit.PAS:2406
-    public void AddUnits(UnitList units, byte selection)
+    public void AddUnits(UnitCollection units, byte selection)
     {
         for (int I = 0, last = units.Count - 1; I <= last; I++)
         {

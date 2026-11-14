@@ -174,7 +174,7 @@ public partial class MoveControlSettings : EngineObject
     {
         ArmyHexSprite = army;
         Selection = selection;
-        Units.AddUnits(army.Army, selection);
+        Units.AddUnits(army.Army.Units, selection);
         SourceX = army.HexX;
         SourceY = army.HexY;
         SourceL = army.HexLevel;

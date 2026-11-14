@@ -145,12 +145,12 @@ public partial class HealingAbility : TouchAbility
                 if (troop.Owner is HeroList)
                 {
                     var empty = new UnitUserList(null) { Holder = CreationHolder() };
-                    selector.Setup(troop, empty);
+                    selector.Setup(troop, empty.Units);
                     empty.Dispose();
                 }
                 else
                 {
-                    selector.Setup(troop, troop.UnitListOwner);
+                    selector.Setup(troop, troop.OwnerUnits);
                 }
             }
 

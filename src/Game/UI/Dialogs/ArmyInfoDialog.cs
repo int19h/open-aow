@@ -37,13 +37,13 @@ public partial class ArmyInfoDialog : UIModule
         Units.Alignment alignment;
         int X;
         int Y;
-        if (index < _event.ArmyView.GetCount())
+        if (index < _event.ArmyView.Units.Count)
         {
             saveRectangle = lockedSurface.ClipRectangle;
             lockedSurface.ClipRectangle = R;
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
-            alignment = _event.ArmyView.GetUnit(index).GetAlignment();
+            alignment = _event.ArmyView.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
@@ -54,7 +54,7 @@ public partial class ArmyInfoDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _event.ArmyView.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
+            _event.ArmyView.Units.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
             if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
@@ -109,10 +109,10 @@ public partial class ArmyInfoDialog : UIModule
     // AoWArmyInfoDlg.pas:121
     public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = _event.ArmyView.GetCount();
+        var count = _event.ArmyView.Units.Count;
         if (slot < count)
         {
-            var troop = _event.ArmyView.GetUnit(slot);
+            var troop = _event.ArmyView.Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
@@ -145,14 +145,14 @@ public partial class ArmyInfoDialog : UIModule
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
         I = 0;
-        while ((_event.Selection & (1 << I)) == 0 && I != _event.ArmyView.GetCount())
+        while ((_event.Selection & (1 << I)) == 0 && I != _event.ArmyView.Units.Count)
         {
             I += 1;
         }
 
-        if (I < _event.ArmyView.GetCount())
+        if (I < _event.ArmyView.Units.Count)
         {
-            _event.ArmyView.GetUnit(I).ShowFace(R, lockedSurface);
+            _event.ArmyView.Units.GetUnit(I).ShowFace(R, lockedSurface);
         }
     }
 

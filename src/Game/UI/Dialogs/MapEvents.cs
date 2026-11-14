@@ -145,7 +145,7 @@ public partial class MapEvents : UIModule
             UI.General.SelectedUnits[I] = -1;
         }
 
-        for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
         {
             if (!army.GetUnitConcealedForPlayer(I, StrategicMap.Current.SeatedPlayer))
             {

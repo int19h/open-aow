@@ -354,9 +354,9 @@ public partial class General : UIModule
         {
             for (int I = 0; I <= 7; I++)
             {
-                if (SelectedUnits[I] > -1 && I < UnitList.Count)
+                if (SelectedUnits[I] > -1 && I < UnitList.Units.Count)
                 {
-                    if (U == UnitList.GetUnit(SelectedUnits[I]))
+                    if (U == UnitList.Units.GetUnit(SelectedUnits[I]))
                     {
                         result = I;
                     }

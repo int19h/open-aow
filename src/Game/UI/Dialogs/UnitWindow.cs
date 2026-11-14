@@ -742,7 +742,7 @@ public partial class UnitWindow : UIModule
                     }
                 }
 
-                var troop = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[I]);
+                var troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[I]);
                 UI.General.SelectedUnit = troop;
                 ShowUnit();
             }
@@ -770,7 +770,7 @@ public partial class UnitWindow : UIModule
                     I = 0;
                 }
 
-                var troop = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[I]);
+                var troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[I]);
                 UI.General.SelectedUnit = troop;
                 ShowUnit();
             }

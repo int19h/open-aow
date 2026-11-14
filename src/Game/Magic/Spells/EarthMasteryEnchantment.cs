@@ -39,9 +39,9 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
 
         for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Units.Count - 1; J >= 0; J--)
             {
-                playerLocal.Armies.GetArmy(I).GetUnit(J).ResetEarthMasteryStoneSkin();
+                playerLocal.Armies.GetArmy(I).Units.GetUnit(J).ResetEarthMasteryStoneSkin();
             }
         }
 
@@ -79,9 +79,9 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
 
         for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Units.Count - 1; J >= 0; J--)
             {
-                playerLocal.Armies.GetArmy(I).GetUnit(J).SetEarthMasteryStoneSkin();
+                playerLocal.Armies.GetArmy(I).Units.GetUnit(J).SetEarthMasteryStoneSkin();
             }
         }
 

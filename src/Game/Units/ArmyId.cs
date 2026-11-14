@@ -55,7 +55,7 @@ public partial class ArmyId : EngineObject
                 {
                     I -= 1;
                     var item = UnitIds[I];
-                    result = armyHexSprite.Army.IndexOfId(item) != -1;
+                    result = armyHexSprite.Army.Units.IndexOfId(item) != -1;
                 }
             }
             else
@@ -89,7 +89,7 @@ public partial class ArmyId : EngineObject
                 {
                     I -= 1;
                     var item = UnitIds[I];
-                    index = armyHexSprite.Army.IndexOfId(item);
+                    index = armyHexSprite.Army.Units.IndexOfId(item);
                     // { Original shifts by the missing unit index before reporting failure. }
                     selection = (byte)(selection | (1 << index));
                     result = index != -1;

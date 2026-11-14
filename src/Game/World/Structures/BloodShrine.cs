@@ -46,9 +46,9 @@ public partial class BloodShrine : Structure
         Troop troop = default;
         Rect R = default;
         BloodShrineAnimation animation = default;
-        for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
+        for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
         {
-            troop = armyHexSprite.Army.GetUnit(I);
+            troop = armyHexSprite.Army.Units.GetUnit(I);
             GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 

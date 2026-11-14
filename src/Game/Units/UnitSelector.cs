@@ -47,7 +47,7 @@ public partial class UnitSelector : IDisposable
     public virtual bool CanSelectUnit(Troop troop) => true;
 
     // Ability.PAS:662
-    public virtual void Setup(Troop source, UnitList units)
+    public virtual void Setup(Troop source, UnitCollection units)
     {
         if (source != null)
         {

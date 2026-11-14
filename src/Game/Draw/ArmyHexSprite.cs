@@ -228,7 +228,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                                         }
                                         else
                                         {
-                                            if (Army.ConcealedUnits != AbilityRules.ArmySelectionMasks[Army.Count])
+                                            if (Army.ConcealedUnits != AbilityRules.ArmySelectionMasks[Army.Units.Count])
                                             {
                                                 message.Result = Army.Player;
                                             }
@@ -451,7 +451,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         Army.SetUpdateHandler(ArmyUpdated);
         if (this == Owner.GetArmyHexSprite())
         {
-            if (Army.Count != 0)
+            if (Army.Units.Count != 0)
             {
                 UpdateUnitGraphicsResource();
             }
@@ -743,7 +743,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     public void ArmyUpdated(object sender)
     {
         MapFieldMessage message = default;
-        if (Army.Count != 0)
+        if (Army.Units.Count != 0)
         {
             message.MessageId = 4388;
             message.Param[0] = this;
@@ -779,7 +779,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                 I += 1;
             }
 
-            if (I >= Army.Count)
+            if (I >= Army.Units.Count)
             {
                 I = 0;
             }
@@ -790,8 +790,8 @@ public partial class ArmyHexSprite : UnitHexSprite
         }
 
         _unitIndex = (byte)I;
-        SetUnitGraphicsResourceIndex(Army.GetUnit(I).GetUnitGraphicsResourceIndex());
-        if (Army.GetUnit(I).GetMoveTypes().Contains(MoveType.Flying))
+        SetUnitGraphicsResourceIndex(Army.Units.GetUnit(I).GetUnitGraphicsResourceIndex());
+        if (Army.Units.GetUnit(I).GetMoveTypes().Contains(MoveType.Flying))
         {
             _unitYOffset = -8;
         }
@@ -819,13 +819,13 @@ public partial class ArmyHexSprite : UnitHexSprite
     public void ShowEnchantments(int X, int Y, in LockedSurface lockedSurface)
     {
         UnitShowInfo info = default;
-        if (Army.Count > _unitIndex)
+        if (Army.Units.Count > _unitIndex)
         {
             info.Overlays = Set<UnitOverlayModesElement>.Of();
             info.Animation = UnitAnimation.None;
             info.Frame = StrategicMap.Current.Frame + (int)(((uint)(X + Y + Y)) >> 4);
             info.Looped = true;
-            Army.GetUnit(_unitIndex).Show(X - 16, Y - 20, lockedSurface, info);
+            Army.Units.GetUnit(_unitIndex).Show(X - 16, Y - 20, lockedSurface, info);
         }
     }
 

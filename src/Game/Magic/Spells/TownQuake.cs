@@ -105,9 +105,9 @@ public partial class TownQuake : CityTargetSpell
         log.ArmyView.Setup(army.Army, 255);
         army.Army.BeginUpdate();
         damaged = false;
-        for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
+        for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
         {
-            troop = army.Army.GetUnit(I);
+            troop = army.Army.Units.GetUnit(I);
             damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
             if (damage > troop.GetHitPoints())
             {

@@ -284,7 +284,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:391
-    public override bool AddUnits(UnitList units)
+    public override bool AddUnits(UnitCollection units)
     {
         AddRef();
         for (int I = units.Count - 1; I >= 0; I--)

@@ -267,7 +267,7 @@ public partial class FastBattleWindow : UIModule
             {
                 if (combat.CombatData.Parties.GetParty((byte)I) != null)
                 {
-                    if (combat.CombatData.Parties.GetParty((byte)I).Army.GetCount() == 0)
+                    if (combat.CombatData.Parties.GetParty((byte)I).Army.Units.Count == 0)
                     {
                         if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(_viewer.Logbook.FinalData.CombatResult))
                         {

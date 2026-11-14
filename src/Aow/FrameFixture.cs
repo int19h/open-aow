@@ -366,7 +366,7 @@ internal sealed class FrameFixture
                 x = selected?.GetHexX(),
                 y = selected?.GetHexY(),
                 level = selected?.GetHexLevel(),
-                units = selected?.Army?.Count
+                units = selected?.Army?.Units.Count
             }) + "\n");
             if (fixture._values.GetValueOrDefault("save_state") == "true")
             {

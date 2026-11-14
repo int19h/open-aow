@@ -81,7 +81,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
                 otherLocation = group.GetLocation();
                 if (location.MapLevel == otherLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, otherLocation.X, otherLocation.Y) <= 1)
                 {
-                    Group.AddUnits(group);
+                    Group.AddUnits(group.Units);
                 }
             }
         }

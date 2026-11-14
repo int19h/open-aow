@@ -307,7 +307,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal void SelectArmyView(EventLog log, byte selection)
         {
             var info = (ArmyInfoEventLog)log;
-            if (info.ArmyView.GetCount() == 0)
+            if (info.ArmyView.Units.Count == 0)
             {
                 info.ArmyView.AddChild(new Unit(null!) { Holder = EngineFixture.Engine });
                 info.ArmyView.AddChild(new JoiningHero(false));

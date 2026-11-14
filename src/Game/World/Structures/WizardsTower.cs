@@ -105,9 +105,9 @@ public partial class WizardsTower : Structure
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             location = HexGeometry.PackMapCoordinate(GetHexX(), hexY, hexLevel);
-            while (!found && I != army.Count)
+            while (!found && I != army.Units.Count)
             {
-                group = army.GetUnit(I).Group;
+                group = army.Units.GetUnit(I).Group;
                 found = group != null && group.TargetMapCoordinate == AITargetLocation.At(location) && group.GoldBudget == cost;
                 I += 1;
             }

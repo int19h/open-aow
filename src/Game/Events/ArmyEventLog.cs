@@ -140,11 +140,11 @@ public partial class ArmyEventLog : EventLog
     {
         int I;
         bool result = false;
-        I = ArmyView.GetCount();
+        I = ArmyView.Units.Count;
         while (!result && I != 0)
         {
             I -= 1;
-            result = ArmyView.GetUnit(I) is Leader && ArmyView.GetUnit(I).GetHitPoints() <= DamageValues[I];
+            result = ArmyView.Units.GetUnit(I) is Leader && ArmyView.Units.GetUnit(I).GetHitPoints() <= DamageValues[I];
         }
 
         return result;
@@ -155,11 +155,11 @@ public partial class ArmyEventLog : EventLog
     {
         int I;
         bool result = true;
-        I = ArmyView.GetCount();
+        I = ArmyView.Units.Count;
         while (result && I != 0)
         {
             I -= 1;
-            result = result && ArmyView.GetUnit(I).GetHitPoints() <= DamageValues[I];
+            result = result && ArmyView.Units.GetUnit(I).GetHitPoints() <= DamageValues[I];
         }
 
         return result;

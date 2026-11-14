@@ -1078,7 +1078,7 @@ public partial class EChangeNotifyNode : ECustomNode
     protected void DeleteChildAt(int index) => _children.Delete(index);
 
     // Removes the empty slots.
-    protected void PackChildren() => _children.Pack();
+    public void PackChildren() => _children.Pack();
 
     // Drops every slot without disposing or releasing a child.
     public void ClearChildren() => _children.Clear();

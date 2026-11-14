@@ -39,7 +39,7 @@ public sealed class UnitSelectorTests
         {
             units.AddUnit(new WoundedHero(1, 10, 10));
             units.AddUnit(new WoundedHero(2, 4, 10));
-            selector.Setup(null!, units);
+            selector.Setup(null!, units.Units);
             // The sort puts the higher unit id first, so the wounded hero is item 0.
             Assert.Equal(2, selector.Units.GetUnit(0).UnitId);
             Assert.Equal(0b01, selector.Selectable);

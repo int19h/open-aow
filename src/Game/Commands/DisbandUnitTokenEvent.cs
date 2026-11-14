@@ -95,16 +95,16 @@ public partial class DisbandUnitTokenEvent : TokenEvent
                         }
                     }
 
-                    I = armyHexSprite.Army.IndexOfBehavior(behavior);
+                    I = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
                     if (I == -1)
                     {
-                        var indexOf = armyHexSprite.Army.IndexOf(troop);
+                        var indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetBehavior((byte)(1 << indexOf), behavior);
                     }
                     else
                     {
-                        var unit = armyHexSprite.Army.GetUnit(I);
-                        var indexOf = armyHexSprite.Army.IndexOf(troop);
+                        var unit = armyHexSprite.Army.Units.GetUnit(I);
+                        var indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetGroup((byte)(1 << indexOf), unit.Group);
                     }
                 }

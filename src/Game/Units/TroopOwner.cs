@@ -3,11 +3,12 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Units;
 
 /// <summary>
-/// The owner of a troop: the unit list it stands in, or the hero list of a hero that no army
-/// holds (a player's heroes, a hero library, a campaign transfer). A troop takes no other owner,
-/// so a read of its owner is one of these or empty.
+/// The owner of a troop: the army it stands in, a unit list that holds troops apart from an army
+/// (generated defenders and rebels, campaign transfer units), or the hero list of a hero that no
+/// army holds (a player's heroes, a hero library, a campaign transfer). A troop takes no other
+/// owner, so a read of its owner is one of these or empty.
 /// </summary>
-public union TroopOwner(UnitList, HeroList)
+public union TroopOwner(Army, UnitList, HeroList)
 {
     /// <summary>
     /// The owner a troop stores, read from the untyped owner. A troop admits only these kinds, so
@@ -16,6 +17,7 @@ public union TroopOwner(UnitList, HeroList)
     internal static TroopOwner Of(ECustomNode owner) => owner switch
     {
         null => default,
+        Army army => army,
         UnitList units => units,
         HeroList heroes => heroes,
         _ => throw new InvalidCastException("A troop does not take an owner of type " + owner.GetType().Name + "."),
