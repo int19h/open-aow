@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Net;
@@ -16,25 +15,15 @@ public partial class EmailGame : EngineObject
     public EmailGame(ECustomNode owner) : base(owner)
     { }
 
-    public string Name = "";
-    public int UniqueLocalId;
-    public int UniqueId;
-    public int SecurityId;
-    public string EmailAddress = "";
+    public string Name { get; set; } = "";
+    public int UniqueLocalId { get; set; }
+    public int UniqueId { get; set; }
+    public int SecurityId { get; set; }
+    public string EmailAddress { get; set; } = "";
 
     public int LastDay { get; set; }
 
     // Diplomacy.pas:2465
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref Name, 20);
-        stream.Int32(ref UniqueLocalId, 21);
-        stream.Int32(ref UniqueId, 22);
-        stream.String(ref EmailAddress, 23);
-        stream.Int32(ref SecurityId, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

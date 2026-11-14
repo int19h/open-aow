@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -30,7 +29,7 @@ public partial class JoinEventLog : EventLog
         JoinIndex = -1;
     }
 
-    public int FirstUnitId;
+    public int FirstUnitId { get; set; }
 
     public Int32List UnitIds { get; }
 
@@ -40,14 +39,14 @@ public partial class JoinEventLog : EventLog
     // corpus file, kept so that a loaded value saves back unchanged.
     public byte UnknownBytes { get; set; }
 
-    public byte Selection;
-    public int JoinIndex;
+    public byte Selection { get; set; }
+    public int JoinIndex { get; set; }
 
     public StringList JoinMessage { get; }
 
-    public int Gold;
-    public JoinMode JoinMode;
-    public string Text = "";
+    public int Gold { get; set; }
+    public JoinMode JoinMode { get; set; }
+    public string Text { get; set; } = "";
 
     // Diplomacy.pas:12
     public override void Dispose()
@@ -58,22 +57,6 @@ public partial class JoinEventLog : EventLog
     }
 
     // Diplomacy.pas:19
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref FirstUnitId, 21);
-        stream.Payload(22, UnitIds.LoadFromStream, UnitIds.SaveToStream);
-        stream.Byte(ref Selection, 23);
-        stream.Lines(JoinMessage, 24);
-        stream.Int32(ref Gold, 25);
-        int location = StoredCoordinateImage.From(_location, unknownBytes: UnknownBytes).ToInt32();
-        stream.Int32(ref location, 26);
-        (_location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-        stream.Bytes(Bytes.Of(ref JoinMode, 1), 1, 27);
-        stream.String(ref Text, 28);
-        stream.Int32(ref JoinIndex, -1, 29);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

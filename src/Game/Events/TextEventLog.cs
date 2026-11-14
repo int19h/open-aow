@@ -1,6 +1,5 @@
 // Translated from EventLog.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Events;
@@ -14,15 +13,9 @@ public partial class TextEventLog : EventLog
     // EventLog.pas:713
     public new const int ClassId = 131809;
 
-    public string Text = "";
+    public string Text { get; set; } = "";
 
     // EventLog.pas:716
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref Text, 15);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

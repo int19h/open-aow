@@ -1,7 +1,6 @@
 // Translated from EventLog.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -34,12 +33,6 @@ public partial class GameOverEventLog : EventLog
     }
 
     // EventLog.pas:780
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(Message, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

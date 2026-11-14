@@ -1,7 +1,6 @@
 // Translated from Sound.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -52,19 +51,14 @@ public partial class SongList : EngineObject
     }
 
     // Sound.pas:806
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(EngineServices.Text))
-        {
-            stream.Lines(_songs, 10);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Songs", lines: _songs);
+        // The original ReadWrite leaves out the songs under text only (the translate stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            PersistSupport.Lines(persister, name: "Songs", lines: _songs);
+        }
     }
 
     // Sound.pas:786

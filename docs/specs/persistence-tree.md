@@ -36,8 +36,11 @@ the units, abilities and items (`Game/Units`, `Game/Magic/Abilities`), and the s
 store those classes through the tree (section 14), with no document change, 2026-11-13. The second
 pull request retires them for the world map, terrain, structures, production and drawing
 (`Game/World` and its folders, `Game/Draw`) and deletes the map's timer node, with no document
-change, 2026-11-13. The other families keep `ReadWrite` until their PE-3-i pull request, and the
-token events and the packets keep it until PE-4-a.
+change, 2026-11-13. The third pull request retires them for the players, campaigns, diplomacy,
+event logs, spells, AI, interface and sound (`Game/Session`, `Game/Events`, `Game/AI`, `Game/Magic`,
+`Game/UI`, `Game/Audio` and the e-mail game), with no document change, 2026-11-13. The combat
+classes keep `ReadWrite` until the fourth pull request, and the token events and the packets keep
+it until PE-4-a.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -739,3 +742,43 @@ class, because both sides are the tree. The oracle compares the game with the na
 constructed test proves that a map stores its container at slot 6 on both backends and loads it
 back at index 5, and another that the translate stream visits the world classes as the original
 did.
+
+### 14.2 The session family
+
+The third pull request takes the family of PE-3-d, `Game/Session`, `Game/Events`, `Game/AI`,
+`Game/Magic` without its abilities, `Game/UI`, `Game/Audio` and `EmailGame` of `Game/Net`: 63
+methods (62 `ReadWrite` and `EventLogList.MainReadWrite`, none of them a `ReadWriteChildren`) go.
+The `ReadWrite` methods of the AI groups and the cosmetic surgery enchantment, dead since their
+bases retired in the first pull request, go with them. Two pairs of payload stream methods lost
+their last caller and are deleted: `BitList.LoadFromStream` and `SaveToStream` (the player's valid
+attack players) and `ImageSequenceList.LoadFromStream` and `SaveToStream` (a spell's cast images).
+The tree writes the same bytes through `PersistSupport.BitList` and `PersistSupport.ImageSequences`
+over `BitList.SaveImage` and `LoadImage` and `ImageSequenceList.SaveLayers` and `LoadLayers`. The
+chain methods of `ImageSequence` and `FrameTableList` stay, because `ImageSequence.Copy` calls them.
+
+This family holds most of what the packets carry. A setup message stores a setup package with its
+settings, their remote players and player setups, or a remote player, and a token event stores a
+diplomatic action or a global enchantment. The storage streams store each of them through the
+tree as section 14 says, and the token events and packets around them keep their `ReadWrite` until
+PE-4-a.
+
+The translate stream visits the campaign when it loads and the players, their event logs and the
+other objects of a map when a map loads. The tree methods keep the conditions of the deleted
+methods under its mode:
+
+- A player leaves out its settings, keeps its view where a save takes the map's view center,
+  visits its leader setup where a save in the editor stores the chosen leader, visits its stored
+  leader and registers it with the map's hero control, and sets its race, its logbook's player and
+  the default of its new relations, because the mode holds read and text only.
+- A campaign leaves out its map. A campaign scenario leaves out its name and file name. A world map
+  campaign scenario and a campaign page leave out their image library, a race resource its image
+  library name, a sound its file name and a song list its songs.
+- An event log list brackets the visit with `BeginUpdate` and `EndUpdate` and releases no log. A
+  diplomatic action builds its proposal with the translated message. A flood control sizes its
+  terrain array, the player relations reset their default and a race resets empty default
+  relations, because the mode holds read.
+
+A constructed test proves the visits of a player, an event log list, a diplomatic action, a
+campaign page and a sound. Two more send a setup package with its settings and a diplomatic action
+token event through `StoreEngineObject` and `RetrieveEngineObject` and compare what arrives with
+what was sent, because no gate layer sends a packet end to end.

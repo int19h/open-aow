@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -8,8 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
 
@@ -23,23 +20,15 @@ public partial class HeroEmergeEventLog : EventLog
 
     public new const int ClassId = 131832;
 
-    public int UnitId;
+    public int UnitId { get; set; }
+
     private int _emergeDay;
     private string _text = "";
     private HeroJoinMode _mode;
-    public string LocationName = "";
+
+    public string LocationName { get; set; } = "";
 
     // Hero.PAS:188
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref UnitId, 39);
-        stream.Int32(ref _emergeDay, 40);
-        stream.String(ref _text, 41);
-        stream.String(ref LocationName, 42);
-        stream.Bytes(Bytes.Of(ref _mode, 1), 1, 43);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

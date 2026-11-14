@@ -1,6 +1,5 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -15,15 +14,9 @@ public partial class HatredEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:841
     public new const int ClassId = 135957;
 
-    public int DaysActive;
+    public int DaysActive { get; set; }
 
     // GlobalEnchantmentSpells.pas:851
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref DaysActive, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

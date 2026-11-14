@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
@@ -39,9 +38,13 @@ public partial class RaceResource : EngineResource
 
     private string _imageLibraryName = "";
     private string _name = "";
-    public string RaceName = "";
+
+    public string RaceName { get; private set; } = "";
+
     private string _description = "";
-    public Set<Alignment> Alignments;
+
+    public Set<Alignment> Alignments { get; private set; }
+
     private int _references;
 
     public UnitIndexList UnitIndexes { get; }
@@ -63,33 +66,21 @@ public partial class RaceResource : EngineResource
     }
 
     // PlayerC.PAS:1861
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref _name, 5);
-        stream.String(ref RaceName, 6);
-        stream.String(ref _description, 7);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref _imageLibraryName, 8);
-        }
-
-        TransferSet(ref Alignments, 1, 9, stream.Bytes, 0);
-        stream.Payload(10, UnitIndexes.LoadFromStream, UnitIndexes.SaveToStream);
-        stream.Payload(11, SpecialUnitIndexes.LoadFromStream, SpecialUnitIndexes.SaveToStream);
-        stream.Int32(ref _heroUnitIndex, 12);
-        stream.Lines(_heroNames, 13);
-    }
-
-    // The tree form of ReadWrite. The image library name is stored on every game path, which
-    // never sets the text-only mode.
+    // A load and a save store the image library name. Only the translate stream sets the text-only
+    // mode.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         _name = persister.String("Name", value: _name);
         RaceName = persister.String("RaceName", value: RaceName);
         _description = persister.String("Description", value: _description);
-        _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
+        // The original ReadWrite leaves out the image library name under text only (the translate
+        // stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
+        }
+
         Alignments = persister.Set("Alignments", value: Alignments);
         PersistSupport.UnitIndexList(persister, name: "UnitIndexes", list: UnitIndexes);
         PersistSupport.UnitIndexList(persister, name: "SpecialUnitIndexes", list: SpecialUnitIndexes);

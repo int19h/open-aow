@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
@@ -27,14 +26,6 @@ public partial class PlayerStatistics : EngineObject
     }
 
     // Player.PAS:194
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(TurnInfo, 20);
-        stream.Int32(ref _unitsKilled, 21);
-        stream.Int32(ref _unitsLost, 22);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

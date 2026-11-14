@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -34,12 +33,13 @@ public partial class AIBudgetManager : EngineObject
     private readonly float _manaIncomeFactor;
     private readonly float _goldReserveFactor;
     private readonly float _manaReserveFactor;
-    public int ProductionGoldUpkeep;
-    public int ProductionManaUpkeep;
-    public int GoldUpkeep;
-    public int ManaUpkeep;
-    public int Gold;
-    public int Mana;
+
+    public int ProductionGoldUpkeep { get; set; }
+    public int ProductionManaUpkeep { get; set; }
+    public int GoldUpkeep { get; set; }
+    public int ManaUpkeep { get; set; }
+    public int Gold { get; set; }
+    public int Mana { get; set; }
 
     public AIBudget DefaultBudget { get; private set; }
 
@@ -51,18 +51,6 @@ public partial class AIBudgetManager : EngineObject
     }
 
     // AI.pas:1728
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Budgets, 20);
-        stream.Int32(ref Gold, 21);
-        stream.Int32(ref Mana, 22);
-        stream.Int32(ref GoldUpkeep, 23);
-        stream.Int32(ref ManaUpkeep, 24);
-        stream.Int32(ref ProductionGoldUpkeep, 25);
-        stream.Int32(ref ProductionManaUpkeep, 26);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

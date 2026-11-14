@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -29,30 +26,20 @@ public partial class GlobalEnchantment : EngineObject
         EnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
     }
 
-    public int _enchantmentId;
+    public int _enchantmentId { get; set; }
+
     private int _refCount;
 
     public Set<GlobalEnchantmentStatusElement> EnchantmentStatus { get; private set; }
     public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected set; }
 
-    public int DispelMana;
-    public GlobalEnchantmentType EnchantmentType;
-    public sbyte PlayerIndex;
-    public string Name = "";
-    public int EnchantmentManaUpkeep;
+    public int DispelMana { get; set; }
+    public GlobalEnchantmentType EnchantmentType { get; set; }
+    public sbyte PlayerIndex { get; set; }
+    public string Name { get; set; } = "";
+    public int EnchantmentManaUpkeep { get; set; }
 
     // Spells.PAS:2520
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _enchantmentId, 10);
-        stream.Bytes(Bytes.Of(ref EnchantmentType, 1), 1, 11);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 12);
-        stream.String(ref Name, 13);
-        stream.Int32(ref EnchantmentManaUpkeep, 14);
-        stream.Int32(ref DispelMana, 15);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

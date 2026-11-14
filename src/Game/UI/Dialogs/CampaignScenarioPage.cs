@@ -1,7 +1,6 @@
 // Translated from AoWVideoDlg.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -14,9 +13,9 @@ public partial class CampaignScenarioPage : EngineObject
     // AoWVideoDlg.pas:264
     public new const int ClassId = 2248706;
 
-    public string ImageLibrary = "";
-    public int ImageIndex;
-    public string Heading = "";
+    public string ImageLibrary { get; private set; } = "";
+    public int ImageIndex { get; private set; }
+    public string Heading { get; private set; } = "";
 
     public StringList Text { get; }
 
@@ -28,25 +27,17 @@ public partial class CampaignScenarioPage : EngineObject
     }
 
     // AoWVideoDlg.pas:268
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(Text, 10);
-        stream.String(ref Heading, 11);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref ImageLibrary, 12);
-        }
-
-        stream.Int32(ref ImageIndex, 13);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         PersistSupport.Lines(persister, name: "Text", lines: Text);
         Heading = persister.String("Heading", value: Heading);
-        ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
+        // The original ReadWrite leaves out the image library under text only (the translate stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
+        }
+
         ImageIndex = persister.Int32("ImageIndex", value: ImageIndex);
     }
 

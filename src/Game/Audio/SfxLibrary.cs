@@ -79,7 +79,7 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
         SfxSequence result = null;
         while (I != this.Count && result == null)
         {
-            if (this[I]._id == id)
+            if (this[I].Id == id)
             {
                 result = this[I];
             }
@@ -100,10 +100,10 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
         int result = -1;
         while (result == -1 && I != Count)
         {
-            id = this[I]._id;
+            id = this[I].Id;
             for (int J = I + 1, last = Count - 1; J <= last; J++)
             {
-                if (id == this[J]._id)
+                if (id == this[J].Id)
                 {
                     result = id;
                 }

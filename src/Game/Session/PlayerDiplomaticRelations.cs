@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -34,24 +33,14 @@ public partial class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:92
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Payload(20, _relations.LoadFromStream, _relations.SaveToStream);
-        stream.Object(_history, 21);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            _relations.Default = (int)DiplomaticRelation.Unknown;
-        }
-    }
-
-    // A load resets the default to Unknown after the list, as ReadWrite does.
+    // A load resets the default to Unknown after the list, as the original ReadWrite does.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         PersistSupport.ByteList(persister, "Relations", _relations);
         persister.Object("History", _history);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original ReadWrite resets it there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             _relations.Default = (byte)DiplomaticRelation.Unknown;
         }

@@ -1,11 +1,9 @@
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic;
@@ -38,13 +36,14 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         Enabled = false;
     }
 
-    public sbyte RaceIndex;
+    public sbyte RaceIndex { get; set; }
 
     public ByteList DefaultRelations { get; }
 
     // TStatus values
     private readonly Int32List _playerRelations;
-    public bool Enabled;
+
+    public bool Enabled { get; set; }
 
     // Ability.PAS:221
     public override void Dispose()
@@ -56,30 +55,6 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     }
 
     // Ability.PAS:343
-    public override void ReadWrite(StorageStream stream)
-    {
-        bool enabled = default;
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref RaceIndex), 2);
-        stream.Payload(3, _playerRelations.LoadFromStream, _playerRelations.SaveToStream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            // { Original leaves this local uninitialized if property 4 is absent. }
-            stream.Boolean(ref enabled, 4);
-            SetEnabled(enabled);
-        }
-        else
-        {
-            stream.Boolean(ref Enabled, 4);
-        }
-
-        stream.Payload(5, DefaultRelations.LoadFromStream, DefaultRelations.SaveToStream);
-        if (stream.StorageMode().Contains(StorageModeElement.Read) && DefaultRelations.Count == 0)
-        {
-            ResetDefaultRaceRelations();
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         bool enabled = default;
@@ -98,7 +73,9 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         }
 
         PersistSupport.ByteList(persister, name: "DefaultRelations", list: DefaultRelations);
-        if (persister.Loading && DefaultRelations.Count == 0)
+        // The translate stream's mode holds read, so the original ReadWrite resets the default
+        // relations there too.
+        if ((persister.Loading || PersistSupport.Translating(persister)) && DefaultRelations.Count == 0)
         {
             ResetDefaultRaceRelations();
         }

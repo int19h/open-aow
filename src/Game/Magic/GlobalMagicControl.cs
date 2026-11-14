@@ -1,9 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -29,7 +27,8 @@ public partial class GlobalMagicControl : EngineObject
         NextEnchantmentId = 1;
     }
 
-    public int NextEnchantmentId;
+    public int NextEnchantmentId { get; set; }
+
     private int _updateCount;
 
     public Set<GlobalEnchantmentType> ActiveEnchantments { get; set; }
@@ -54,15 +53,6 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2677
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Enchantments, 10);
-        stream.Int32(ref NextEnchantmentId, 11);
-        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)DoubleSphereManaCount).Slice(0, 36), 36, 0);
-        UpdateActiveEnchantments();
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

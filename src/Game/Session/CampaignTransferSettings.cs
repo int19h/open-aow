@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 
@@ -39,7 +38,7 @@ public partial class CampaignTransferSettings : EngineObject
         SelectedSpheres = new ByteList();
     }
 
-    public Leader Leader;
+    public Leader Leader { get; private set; }
 
     public HeroList Heroes { get; }
     public ItemList Items { get; }
@@ -75,33 +74,6 @@ public partial class CampaignTransferSettings : EngineObject
     }
 
     // Diplomacy.pas:1776
-    public override void ReadWrite(StorageStream stream)
-    {
-        Leader leader = default;
-        base.ReadWrite(stream);
-        stream.Object(Heroes, 20);
-        stream.Object(Items, 21);
-        stream.Object(Units, 22);
-        stream.Payload(23, _spells.LoadFromStream, _spells.SaveToStream);
-        stream.Int32(ref _researchSpellId, 24);
-        stream.Int32(ref _researchPointsLeft, 25);
-        stream.Int32(ref _researchPercentage, 26);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            leader = null;
-            stream.Created(ref leader, null, 27);
-            SetLeader(leader);
-            if (leader != null)
-            {
-                leader.Release();
-            }
-        }
-        else
-        {
-            stream.Created(ref Leader, null, 27);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         Leader leader = default;

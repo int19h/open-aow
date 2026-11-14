@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -8,8 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
@@ -25,30 +22,21 @@ public partial class PlayerMagicEventLog : EventLog
 
     public new const int ClassId = 131824;
 
-    public EventMode Mode;
+    public EventMode Mode { get; set; }
+
     public MapCoordinate Location;
 
     // The fourth byte of the packed location stored at id 24, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.
     public byte UnknownBytes { get; set; }
 
-    public int SpellId;
+    public int SpellId { get; set; }
+
     private int _value;
-    public string EnchantmentName = "";
+
+    public string EnchantmentName { get; set; } = "";
 
     // Spells.PAS:1854
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 20);
-        stream.Int32(ref SpellId, 21);
-        stream.Int32(ref _value, 22);
-        stream.String(ref EnchantmentName, 23);
-        int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
-        stream.Int32(ref location, 24);
-        (Location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

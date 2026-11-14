@@ -1,17 +1,12 @@
 // Translated from AoWSetup.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
 
@@ -21,16 +16,16 @@ public partial class PlayerSetupSettings : EngineObject
     // AoWSetup.pas:312
     public new const int ClassId = 131683;
 
-    public SetupPlayerBehavior Behavior;
-    public SetupPlayerBehavior OriginalBehavior;
-    public sbyte Race;
+    public SetupPlayerBehavior Behavior { get; set; }
+    public SetupPlayerBehavior OriginalBehavior { get; set; }
+    public sbyte Race { get; set; }
     // AoW.exe
-    public Set<PlayerSetupStatusElement> Status;
+    public Set<PlayerSetupStatusElement> Status { get; set; }
 
     public Leader Leader { get; private set; }
 
-    public byte PlayerId;
-    public byte BehaviorMode;
+    public byte PlayerId { get; set; }
+    public byte BehaviorMode { get; set; }
 
     public string EmailAddress { get; set; } = "";
 
@@ -43,18 +38,6 @@ public partial class PlayerSetupSettings : EngineObject
     }
 
     // AoWSetup.pas:315
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref PlayerId, 10);
-        TransferRecord<SetupPlayerBehaviorImage, SetupPlayerBehavior>(ref Behavior, 8, 11, stream.Bytes);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
-        stream.Bytes(Bytes.Of(ref BehaviorMode, 1), 1, 13);
-        stream.Object(Leader, 14);
-        TransferSet(ref Status, 1, 15, stream.Bytes, 0);
-        TransferRecord<SetupPlayerBehaviorImage, SetupPlayerBehavior>(ref OriginalBehavior, 8, 16, stream.Bytes);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

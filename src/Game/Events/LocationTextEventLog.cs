@@ -1,9 +1,6 @@
 // Translated from EventLog.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Events;
@@ -22,19 +19,11 @@ public partial class LocationTextEventLog : TextEventLog
     // EventLog.pas:728
     public new const int ClassId = 131816;
 
-    public sbyte HexX;
-    public sbyte HexY;
-    public sbyte HexLevel;
+    public sbyte HexX { get; set; }
+    public sbyte HexY { get; set; }
+    public sbyte HexLevel { get; set; }
 
     // EventLog.pas:731
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexX), 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexY), 21);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 22);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

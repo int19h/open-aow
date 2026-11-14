@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
@@ -41,7 +40,7 @@ public partial class AIPlayerControl : EngineObject
     public AIMoveExecutor MoveExecutor { get; private set; }
     public AIPlayerProcessPhase Phase { get; private set; }
 
-    public float DefenseStrengthMultiplier;
+    public float DefenseStrengthMultiplier { get; set; }
 
     // AI.pas:92
     public override void Dispose()
@@ -69,12 +68,6 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:108
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref DefenseStrengthMultiplier, 4), 4, 10);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

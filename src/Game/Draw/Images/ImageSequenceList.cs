@@ -99,54 +99,10 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
         return result;
     }
 
-    // ImageLib.pas:8959
-    public void LoadFromStream(Stream stream)
-    {
-        int N = default;
-        bool isNil = default;
-        ImageSequence sequence;
-        DestroyItems();
-        stream.ReadExactly(Bytes.Of(ref N, 4));
-        for (int I = 0, last = N - 1; I <= last; I++)
-        {
-            stream.ReadExactly(Bytes.Of(ref isNil, 1));
-            if (!isNil)
-            {
-                sequence = new ImageSequence(this);
-                sequence.LoadFromStream(stream);
-                base.Add(sequence);
-            }
-            else
-            {
-                base.Add(null);
-            }
-        }
-
-        if (_linked)
-        {
-            _linked = false;
-            LinkToImageLibrary();
-        }
-    }
-
-    // ImageLib.pas:8986
-    public void SaveToStream(Stream stream)
-    {
-        bool isNil = default;
-        ReduceCount();
-        stream.Write(ValueBytes(Count, 4));
-        for (int I = 0, last = Count - 1; I <= last; I++)
-        {
-            isNil = List[I] == null;
-            stream.Write(Bytes.Of(ref isNil, 1));
-            if (!isNil)
-            {
-                List[I].SaveToStream(stream);
-            }
-        }
-    }
-
-    /// <summary>The entries <see cref="SaveToStream"/> writes, after the same <see cref="ReduceCount"/>.</summary>
+    /// <summary>
+    /// The entries <c>TImageSequenceList.SaveToStream</c> (ImageLib.pas:8986) writes, after the same
+    /// <see cref="ReduceCount"/>.
+    /// </summary>
     internal List<IReadOnlyList<SequenceLayer>> SaveLayers()
     {
         ReduceCount();
@@ -160,9 +116,9 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     }
 
     /// <summary>
-    /// <see cref="LoadFromStream"/> from stored entries: the chains are built in entry and layer
-    /// order, and each frame-table layer draws its image index from <c>Random</c> where the stream
-    /// load draws it.
+    /// <c>TImageSequenceList.LoadFromStream</c> (ImageLib.pas:8959) from stored entries: the chains
+    /// are built in entry and layer order, and each frame-table layer draws its image index from
+    /// <c>Random</c> where the stream load draws it.
     /// </summary>
     internal void LoadLayers(IReadOnlyList<IReadOnlyList<SequenceLayer>> entries)
     {

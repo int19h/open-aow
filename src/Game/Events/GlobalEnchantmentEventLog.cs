@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -18,15 +15,9 @@ public partial class GlobalEnchantmentEventLog : LocationTextEventLog
 
     public new const int ClassId = 131819;
 
-    public sbyte EnchantmentPlayer;
+    public sbyte EnchantmentPlayer { get; set; }
 
     // Spells.PAS:2660
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref EnchantmentPlayer), 30);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

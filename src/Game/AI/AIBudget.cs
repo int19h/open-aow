@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -18,37 +17,20 @@ public partial class AIBudget : EngineObject
     public AIBudget(ECustomNode owner) : base(owner)
     { }
 
-    public int Priority;
-    public int RequiredGold;
-    public int RequiredMana;
-    public int GoldUpkeep;
-    public int ManaUpkeep;
-    public int Days;
-    public int DayGoldMax;
-    public int DayManaMax;
-    public int DayGold;
-    public int DayMana;
-    public int Gold;
-    public int Mana;
+    public int Priority { get; set; }
+    public int RequiredGold { get; set; }
+    public int RequiredMana { get; set; }
+    public int GoldUpkeep { get; set; }
+    public int ManaUpkeep { get; set; }
+    public int Days { get; set; }
+    public int DayGoldMax { get; set; }
+    public int DayManaMax { get; set; }
+    public int DayGold { get; set; }
+    public int DayMana { get; set; }
+    public int Gold { get; set; }
+    public int Mana { get; set; }
 
     // AI.pas:1658
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Priority, 30);
-        stream.Int32(ref RequiredGold, 31);
-        stream.Int32(ref RequiredMana, 32);
-        stream.Int32(ref GoldUpkeep, 33);
-        stream.Int32(ref ManaUpkeep, 34);
-        stream.Int32(ref Gold, 35);
-        stream.Int32(ref Mana, 36);
-        stream.Int32(ref Days, 37);
-        stream.Int32(ref DayGoldMax, 38);
-        stream.Int32(ref DayManaMax, 39);
-        stream.Int32(ref DayGold, 40);
-        stream.Int32(ref DayMana, 41);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

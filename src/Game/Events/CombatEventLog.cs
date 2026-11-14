@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
@@ -24,7 +23,7 @@ public partial class CombatEventLog : EventLog
     // Combat2.pas:413
     public new const int ClassId = 131810;
 
-    public CombatLogbook Logbook;
+    public CombatLogbook Logbook { get; private set; }
 
     // Combat2.pas:405
     public override void Dispose()
@@ -41,12 +40,6 @@ public partial class CombatEventLog : EventLog
     }
 
     // Combat2.pas:428
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Created(ref Logbook, null, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

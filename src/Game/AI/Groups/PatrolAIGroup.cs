@@ -1,9 +1,7 @@
 // Translated from IndependentAG.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -23,24 +21,10 @@ public partial class PatrolAIGroup : AIGroup, IAIGroupClass
     // every writer and in every corpus file, kept so that a loaded value saves back unchanged.
     public ushort UnknownBytes { get; set; }
 
-    public sbyte PreviousHeading;
-    public int PatrolStrength;
+    public sbyte PreviousHeading { get; set; }
+    public int PatrolStrength { get; set; }
 
     // IndependentAG.pas:304
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        int from = StoredCoordinateImage.From(PatrolFrom, unknownBytes: (byte)UnknownBytes).ToInt32();
-        stream.Int32(ref from, 40);
-        (PatrolFrom, var fromUnknown) = StoredCoordinateImage.FromInt32(from);
-        int to = StoredCoordinateImage.From(PatrolTo, unknownBytes: (byte)(UnknownBytes >> 8)).ToInt32();
-        stream.Int32(ref to, 41);
-        (PatrolTo, var toUnknown) = StoredCoordinateImage.FromInt32(to);
-        UnknownBytes = (ushort)(fromUnknown | (toUnknown << 8));
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PreviousHeading), 42);
-        stream.Int32(ref PatrolStrength, 43);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

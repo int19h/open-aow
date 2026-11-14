@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Commands;
@@ -45,50 +42,21 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     }
 
     private int _refCount;
-    public int Day;
-    public sbyte Source;
-    public sbyte Target;
+
+    public int Day { get; set; }
+    public sbyte Source { get; set; }
+    public sbyte Target { get; set; }
     // The census finds it written for every kind, 255 for the kinds that name no other player.
-    public sbyte OtherPlayer;
-    public DiplomaticActionReaction Reaction;
+    public sbyte OtherPlayer { get; set; }
+    public DiplomaticActionReaction Reaction { get; set; }
 
     public DiplomaticProposal Proposal { get; set; } = new DeclareWar();
 
-    public int EscrowGold;
-    public int EscrowMana;
-    public int EventLogId;
+    public int EscrowGold { get; set; }
+    public int EscrowMana { get; set; }
+    public int EventLogId { get; set; }
 
     // Diplomacy.pas:596
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        var (kind, gold, mana) = Proposal.ToFields();
-        var message = new StringList();
-        foreach (var line in Proposal.Message)
-        {
-            message.Add(line);
-        }
-
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Source), 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Target), 21);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref OtherPlayer), 22);
-        stream.Int32(ref gold, 23);
-        stream.Int32(ref mana, 24);
-        stream.Bytes(Bytes.Of(ref kind, 1), 1, 25);
-        stream.Bytes(Bytes.Of(ref Reaction, 1), 1, 26);
-        stream.Lines(message, 27);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
-        }
-
-        message?.Dispose();
-        stream.Int32(ref EscrowGold, 28);
-        stream.Int32(ref EscrowMana, 29);
-        stream.Int32(ref EventLogId, 30);
-        stream.Int32(ref Day, 31);
-    }
-
     // The proposal's kind is one stored byte (rwData), the discriminator of the case mapping.
     public override void PersistFields(IPersister persister)
     {
@@ -110,7 +78,9 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         kind = kindData[0];
         Reaction = persister.Enum("Reaction", value: Reaction);
         PersistSupport.Lines(persister, name: "Message", lines: message);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original ReadWrite builds the proposal
+        // with the translated message there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
         }

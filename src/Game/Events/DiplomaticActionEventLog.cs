@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
@@ -21,7 +20,7 @@ public partial class DiplomaticActionEventLog : EventLog
     // Diplomacy.pas:1199
     public new const int ClassId = 131347;
 
-    public DiplomaticAction Action;
+    public DiplomaticAction Action { get; set; }
 
     // Diplomacy.pas:1170
     public override void Dispose()
@@ -38,12 +37,6 @@ public partial class DiplomaticActionEventLog : EventLog
     }
 
     // Diplomacy.pas:1202
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Created(ref Action, null, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

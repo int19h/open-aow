@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -33,19 +32,7 @@ public partial class SpellControl : EngineObject
     }
 
     // Spells.PAS:588
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        for (int I = 0, last = RegisteredSpells.Count - 1; I <= last; I++)
-        {
-            if (RegisteredSpells[I] != null)
-            {
-                stream.Object(RegisteredSpells[I], I + 10);
-            }
-        }
-    }
-
-    // A slot no registered spell asks for stays unread, as ReadWrite leaves its id.
+    // A slot no registered spell asks for stays unread, as the original ReadWrite leaves its id.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

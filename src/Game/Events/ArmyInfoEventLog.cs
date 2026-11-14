@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
@@ -31,13 +30,13 @@ public partial class ArmyInfoEventLog : EventLog
 
     public ArmyView ArmyView { get; }
 
-    public byte Selection;
+    public byte Selection { get; set; }
 
     public StringCollection Messages { get; }
 
-    public string Title = "";
-    public string Text = "";
-    public string Description = "";
+    public string Title { get; set; } = "";
+    public string Text { get; set; } = "";
+    public string Description { get; set; } = "";
 
     public Set<ExecuteTrigger> Triggers { get; set; }
 
@@ -50,17 +49,6 @@ public partial class ArmyInfoEventLog : EventLog
     }
 
     // Army.PAS:273
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(ArmyView, 15);
-        stream.Lines(Messages, 16);
-        stream.Bytes(Bytes.Of(ref Selection, 1), 1, 17);
-        stream.String(ref Title, 18);
-        stream.String(ref Text, 19);
-        stream.String(ref Description, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

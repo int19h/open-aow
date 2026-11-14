@@ -1,9 +1,6 @@
 // Translated from EventLog.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Audio;
 
@@ -29,8 +26,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         RefCount = 1;
     }
 
-    public int _day = StrategicMap.Current is { } map ? map.Day : 0;
-    public int Id;
+    public int _day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
+    public int Id { get; set; }
+
     public sbyte _player = StrategicMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
 
     public int RefCount { get; private set; }
@@ -51,14 +49,6 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     }
 
     // EventLog.pas:358
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _day, 10);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _player), 11);
-        stream.Int32(ref Id, 12);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -1,9 +1,6 @@
 // Translated from GlobalEnchantmentSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -23,11 +20,11 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1240
     public new const int ClassId = 135960;
 
-    public bool Removed;
-    public sbyte RestoreDays;
-    public sbyte DispelPlayer;
+    public bool Removed { get; set; }
+    public sbyte RestoreDays { get; set; }
+    public sbyte DispelPlayer { get; set; }
     // alignment
-    public int TurnsActive;
+    public int TurnsActive { get; set; }
 
     public FloodControl FloodControl { get; }
 
@@ -39,16 +36,6 @@ public partial class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1250
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref TurnsActive, 20);
-        stream.Object(FloodControl, 21);
-        stream.Boolean(ref Removed, 22);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref DispelPlayer), 23);
-        stream.SByte(ref RestoreDays, -1, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

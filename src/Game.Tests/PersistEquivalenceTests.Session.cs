@@ -6,10 +6,13 @@ using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 
+using Aow.Game.Audio;
+using Aow.Game.Commands;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -48,8 +51,9 @@ public sealed partial class PersistEquivalenceTests
         Assert.Equal(proposal, loaded.Proposal);
     }
 
-    // While the map is edited, Player.ReadWrite stores the chosen leader where the leader setup
-    // goes. Otherwise it stores the leader setup. Both writes and both loads agree on each side.
+    // While the map is edited, the original Player.ReadWrite stores the chosen leader where the
+    // leader setup goes. Otherwise it stores the leader setup. Both writes and both loads agree on
+    // each side.
     [Fact]
     public void AnEditedPlayerStoresItsLeaderAsTheLeaderSetupOnBothPaths()
     {
@@ -74,8 +78,8 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
-    // Player.ReadWrite stores the leader setup only for a player other than 0. A stored leader
-    // setup of player 0 stays unread on both loads.
+    // The original Player.ReadWrite stores the leader setup only for a player other than 0. A
+    // stored leader setup of player 0 stays unread on both loads.
     [Fact]
     public void PlayerZeroLeavesAStoredLeaderSetupUnreadOnBothLoads()
     {
@@ -133,9 +137,9 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
-    // Player.ReadWrite reads a stored leader (property 19) only while the engine loads or saves a
-    // map, and never writes one. Otherwise both loads leave it unread. A preview load while the
-    // engine loads a map takes the leader on both paths without registering it.
+    // The original Player.ReadWrite reads a stored leader (property 19) only while the engine loads
+    // or saves a map, and never writes one. Otherwise both loads leave it unread. A preview load
+    // while the engine loads a map takes the leader on both paths without registering it.
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
@@ -180,8 +184,9 @@ public sealed partial class PersistEquivalenceTests
         Check("CampaignTransferSettings", objectValue: settings);
     }
 
-    // Race.ReadWrite sets the enabled flag through SetEnabled on a load, and an empty default
-    // relation list resets the defaults, so a load does not give back the converter's image.
+    // The original Race.ReadWrite sets the enabled flag through SetEnabled on a load, and an empty
+    // default relation list resets the defaults, so a load does not give back the converter's
+    // image.
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
@@ -300,6 +305,164 @@ public sealed partial class PersistEquivalenceTests
         var classes = added.Values.ToArray();
         EngineFixture.Engine.RegisterEngineClasses(classes);
         return classes;
+    }
+
+    // The translate stream visits this family through its tree methods (issue 185 PE-3-i part 3),
+    // under the conditions of the original ReadWrite: a player leaves out its settings and keeps
+    // its view, an event log list visits its logs' texts inside BeginUpdate and EndUpdate and
+    // keeps them, a diplomatic action builds its proposal with the translated message, a
+    // campaign page leaves out its image library and a sound leaves out its file name.
+    [Fact]
+    public void TheTranslateStreamVisitsTheSessionStringsTheOriginalReadWriteVisited()
+    {
+        WithDestroyingMap(map =>
+        {
+            var dictionary = new Dictionary<string, string>
+            {
+                ["Lord"] = "Herr",
+                ["Easy"] = "Leicht",
+                ["First"] = "Erste",
+                ["Hail"] = "Heil",
+                ["Intro"] = "Einleitung",
+                ["Once upon a time"] = "Es war einmal",
+                ["pages.ilb"] = "seiten.ilb",
+                ["bell.wav"] = "glocke.wav",
+            };
+            map.SeatedPlayer = 2;
+            using var player = NewPlayer(index: 2);
+            player.Settings = "Easy";
+            player.ViewX = 7;
+            typeof(Player).GetField("_description", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(player, value: "Lord");
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(player, 0);
+                Assert.Contains("Lord", stream.Visited);
+                Assert.DoesNotContain("Easy", stream.Visited);
+                Assert.Contains("EventLogbook", stream.Objects);
+                Assert.Contains("DiplomaticActionList", stream.Objects);
+            }
+            Assert.Equal("Easy", player.Settings);
+            Assert.Equal(7, player.ViewX);
+
+            using var list = new EventLogList(null!) { Holder = EngineFixture.Engine };
+            var log = new TextEventLog(null!) { Holder = EngineFixture.Engine, Text = "First" };
+            log.SetOwner(list);
+            int changes = 0;
+            list.OnChanged += _ => changes++;
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(list, 0);
+                Assert.Equal(["First"], stream.Visited);
+                Assert.Equal(["EventLogList", "TextEventLog"], stream.Objects);
+            }
+            Assert.Equal("Erste", log.Text);
+            Assert.Same(log, list.GetChild(0));
+            Assert.Equal(1, changes);
+
+            using var action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Hail"] } };
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(action, 0);
+                Assert.Equal(["lines 1"], stream.Visited);
+            }
+            Assert.Equal(DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Heil"] }, action.Proposal);
+
+            using var page = new CampaignScenarioPage(null!) { Holder = EngineFixture.Engine };
+            page.Text.Add("Once upon a time");
+            typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.Heading))!.SetValue(page, value: "Intro");
+            typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.ImageLibrary))!.SetValue(page, value: "pages.ilb");
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(page, 0);
+                Assert.Equal(["lines 1", "Intro"], stream.Visited);
+            }
+            Assert.Equal("Es war einmal", page.Text[0]);
+            Assert.Equal("Einleitung", page.Heading);
+            Assert.Equal("pages.ilb", page.ImageLibrary);
+
+            using var sequence = new SfxSequence(null!) { Holder = EngineFixture.Engine };
+            var sound = new Sfx(null!) { Holder = EngineFixture.Engine };
+            typeof(Sfx).GetField("_fileName", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(sound, value: "bell.wav");
+            sound.SetOwner(sequence);
+            using (var stream = new DictionaryStream(dictionary))
+            {
+                stream.Object(sequence, 0);
+                Assert.Empty(stream.Visited);
+                Assert.Equal(["SfxSequence", "Sfx"], stream.Objects);
+            }
+            Assert.Equal("bell.wav", typeof(Sfx).GetField("_fileName", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sound));
+        });
+    }
+
+    // A setup message stores this family's objects through the storage streams (the setup package,
+    // its settings, their remote players and the player setups). The streams store a retired
+    // class through the tree and the original backend (persistence-tree.md 14), and no gate layer
+    // sends a packet end to end, so the test sends a package as SetupControl.SendPackage stores it
+    // and receives it as DataReceived reads it.
+    [Fact]
+    public void ASetupPackageWithItsSettingsTravelsThroughTheStorageStreams()
+    {
+        var enlisted = EnlistSessionClasses();
+        try
+        {
+            using var settings = new SetupSettings(null!) { Holder = EngineFixture.Engine, MapName = "Islands", FileName = "islands.hsm", RandomSeed = 77, DayLimit = 40 };
+            new RemotePlayer(null!) { Holder = EngineFixture.Engine, Name = "Host", RemoteId = 5, Version = 136 }.SetOwner(settings.RemotePlayers);
+            new PlayerSetupSettings(null!) { Holder = EngineFixture.Engine, PlayerId = 1, Race = 3 }.SetOwner(settings);
+            using var package = new SetupPackage(null!) { Holder = EngineFixture.Engine, MessageId = 5, Param1 = 2, Param2 = 9 };
+            package.Data = settings.Copy(EngineFixture.Engine);
+            using var memory = new MemoryStream();
+            EngineFixture.Engine.StoreEngineObject(memory, objectValue: package, progress: null);
+            var sent = memory.ToArray();
+            memory.Position = 0;
+            using var received = Assert.IsType<SetupPackage>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            Assert.Equal((5, 2, 9), (received.MessageId, received.Param1, received.Param2));
+            var data = Assert.IsType<SetupSettings>(received.Data);
+            Assert.Equal(("Islands", "islands.hsm", 77, 40), (data.MapName, data.FileName, data.RandomSeed, data.DayLimit));
+            Assert.Equal(("Host", 5, 136), (data.RemotePlayers[0].Name, data.RemotePlayers[0].RemoteId, data.RemotePlayers[0].Version));
+            Assert.Equal((byte)1, ((PlayerSetupSettings)data.GetChild(0)).PlayerId);
+            Assert.True(package.Compare(received, engine: EngineFixture.Engine));
+            using var again = new MemoryStream();
+            EngineFixture.Engine.StoreEngineObject(again, objectValue: received, progress: null);
+            EqualBytes(sent, actual: again.ToArray(), label: "setup package resent");
+        }
+        finally
+        {
+            EngineFixture.Engine.UnregisterEngineClasses(enlisted);
+        }
+    }
+
+    // A token event stores a diplomatic action as a created object. The token event still has
+    // its ReadWrite (PE-4-a), and the action goes through the tree inside the token event's image.
+    [Fact]
+    public void ADiplomaticActionTokenEventTravelsThroughTheStorageStreams()
+    {
+        var descriptor = EngineClass.Of<DiplomaticActionTokenEvent>();
+        bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
+        if (added) EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        try
+        {
+            using var tokenEvent = new DiplomaticActionTokenEvent(null!) { Holder = EngineFixture.Engine, Operation = 3 };
+            tokenEvent.Action = new DiplomaticAction(null!)
+            {
+                Holder = EngineFixture.Engine,
+                Proposal = DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Hail", "Neighbor"] },
+                Source = 1,
+                Target = 2,
+                Day = 9,
+            };
+            using var memory = new MemoryStream();
+            EngineFixture.Engine.StoreEngineObject(memory, objectValue: tokenEvent, progress: null);
+            memory.Position = 0;
+            using var received = Assert.IsType<DiplomaticActionTokenEvent>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            Assert.Equal(3, received.Operation);
+            Assert.Equal(tokenEvent.Action.Proposal, received.Action.Proposal);
+            Assert.Equal(((sbyte)1, (sbyte)2, 9), (received.Action.Source, received.Action.Target, received.Action.Day));
+            EqualBytes(Image(tokenEvent.Action), actual: Image(received.Action), label: "diplomatic action received");
+        }
+        finally
+        {
+            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+        }
     }
 
     private static Player NewPlayer(int index) =>

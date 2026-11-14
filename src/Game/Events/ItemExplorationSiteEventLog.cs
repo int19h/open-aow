@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -28,7 +27,8 @@ public partial class ItemExplorationSiteEventLog : EventLog
     public Int32List ItemIds { get; }
     public StringList Messages { get; }
 
-    public string Title = "";
+    public string Title { get; set; } = "";
+
     public MapCoordinate Location;
 
     // ItemExpS.pas:194
@@ -40,14 +40,6 @@ public partial class ItemExplorationSiteEventLog : EventLog
     }
 
     // ItemExpS.pas:204
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Payload(20, ItemIds.LoadFromStream, ItemIds.SaveToStream);
-        stream.Lines(Messages, 21);
-        stream.String(ref Title, 22);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
