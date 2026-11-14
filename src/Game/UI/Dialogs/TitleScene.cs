@@ -28,12 +28,13 @@ public partial class TitleScene : UIModule
     public TitleScene(UIContext ui) : base(ui)
     { }
 
-    public ImageLibrary TitleSceneImages;
-    public UserWindow Window;
-    public Memo LegalNoticeMemo;
-    public Label DemoNoticeLabel;
-    public Label NameLabel;
-    public Label VersionLabel;
+    public ImageLibrary TitleSceneImages { get; private set; }
+    public UserWindow Window { get; private set; }
+    public Memo LegalNoticeMemo { get; private set; }
+    public Label DemoNoticeLabel { get; private set; }
+    public Label NameLabel { get; private set; }
+    public Label VersionLabel { get; private set; }
+
     private int _frame;
     private int _totalFrame;
 

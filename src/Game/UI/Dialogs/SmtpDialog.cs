@@ -16,15 +16,15 @@ public partial class SmtpDialog : UIModule
     public SmtpDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Button ExitButton;
-    public Label SendingGameLabel;
-    public Gauge ProgressBar;
-    public Label RecipientLabel;
-    public Panel SendPanel;
-    public Panel FailedPanel;
-    public MailMessage MailMessage;
-    public SmtpSender SmtpSender;
+    public Window Window { get; private set; }
+    public Button ExitButton { get; private set; }
+    public Label SendingGameLabel { get; private set; }
+    public Gauge ProgressBar { get; private set; }
+    public Label RecipientLabel { get; private set; }
+    public Panel SendPanel { get; private set; }
+    public Panel FailedPanel { get; private set; }
+    public MailMessage MailMessage { get; private set; }
+    public SmtpSender SmtpSender { get; private set; }
 
     private SmtpEventLog _event;
     private int _progress;

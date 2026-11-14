@@ -14,8 +14,9 @@ public partial class CityRebelDialog : UIModule
     public CityRebelDialog(UIContext ui) : base(ui)
     { }
 
-    public Window RebelWindow;
-    public Label CityNameLabel;
+    public Window RebelWindow { get; private set; }
+    public Label CityNameLabel { get; private set; }
+
     private event ExecuteDoneEvent OnClose;
     private CityRebellionEventLog _event;
 

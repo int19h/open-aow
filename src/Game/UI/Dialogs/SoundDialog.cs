@@ -17,25 +17,25 @@ public partial class SoundDialog : UIModule
     public SoundDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public ListBox SongList;
-    public Panel PlayListPanel;
-    public ListBox PlayList;
-    public Button AddButton;
-    public Button RemoveButton;
-    public Button PlayButton;
-    public Label CurrentSongLabel;
-    public Panel MainPanel;
-    public CheckBox SoundQualityNoneCheckBox;
-    public CheckBox SoundQualityLowCheckBox;
-    public CheckBox SoundQualityMediumCheckBox;
-    public CheckBox SoundQualityHighCheckBox;
-    public CheckBox MusicEnabledCheckBox;
-    public CheckBox EffectsEnabledCheckBox;
-    public HorizontalScrollBar MusicVolumeSlider;
-    public HorizontalScrollBar EffectsVolumeSlider;
-    public VerticalScrollBar SongScrollBar;
-    public CheckBox DirectSoundEnabledCheckBox;
+    public Window Window { get; private set; }
+    public ListBox SongList { get; private set; }
+    public Panel PlayListPanel { get; private set; }
+    public ListBox PlayList { get; private set; }
+    public Button AddButton { get; private set; }
+    public Button RemoveButton { get; private set; }
+    public Button PlayButton { get; private set; }
+    public Label CurrentSongLabel { get; private set; }
+    public Panel MainPanel { get; private set; }
+    public CheckBox SoundQualityNoneCheckBox { get; private set; }
+    public CheckBox SoundQualityLowCheckBox { get; private set; }
+    public CheckBox SoundQualityMediumCheckBox { get; private set; }
+    public CheckBox SoundQualityHighCheckBox { get; private set; }
+    public CheckBox MusicEnabledCheckBox { get; private set; }
+    public CheckBox EffectsEnabledCheckBox { get; private set; }
+    public HorizontalScrollBar MusicVolumeSlider { get; private set; }
+    public HorizontalScrollBar EffectsVolumeSlider { get; private set; }
+    public VerticalScrollBar SongScrollBar { get; private set; }
+    public CheckBox DirectSoundEnabledCheckBox { get; private set; }
 
     public int SoundQuality { get; set; }
 

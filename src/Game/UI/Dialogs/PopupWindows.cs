@@ -18,7 +18,7 @@ public partial class PopupWindows : UIModule
     public PopupWindows(UIContext ui) : base(ui)
     { }
 
-    public Menu OverviewsMenu;
+    public Menu OverviewsMenu { get; private set; }
 
     // AoWPWindows.pas:61
     public void SettingsMenuSelect(Menu sender)

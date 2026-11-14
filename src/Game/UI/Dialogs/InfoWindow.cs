@@ -19,62 +19,62 @@ public partial class InfoWindow : UIModule
     public InfoWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Label TitleLabel;
-    public Button MainButton;
-    public ArnoLine StructureLine;
-    public Label StructureNameLabel;
-    public Panel ProductionPlacePanel;
-    public Memo ActiveActionMemo;
-    public Panel SignPanel;
-    public Memo SignTextMemo;
-    public Panel CityPanel;
-    public Label CityRaceLabel;
-    public Panel CityBorderPanel;
-    public Image ProductionOrb;
-    public Panel SingleButtonPanel;
-    public Memo SingleButtonMemo;
-    public Panel AltarPanel;
-    public Gauge AltarChargeBar;
-    public Label GemLabel;
-    public Label ChargePercentLabel;
-    public Label DayLabel;
-    public Image OwnerShield;
-    public Panel NotYoursPanel;
-    public Memo NotYoursMemo;
-    public Label OwnerRaceLabel;
-    public Label ProductionOrbTurnsLabel;
-    public Image ProductionOrbTimeImage;
-    public Panel ConstructionPanel;
-    public Memo ConstructionMemo;
-    public Label ConstructionDaysLeftLabel;
-    public Panel RazePanel;
-    public Button RazeButton;
-    public Label CivilStatusLabel;
-    public Image RaceRelationIcon;
-    public Label CityIncomeLabel;
-    public Label CityLevelLabel;
-    public Image IncomeTypeIcon;
-    public Label IncomeValueLabel;
-    public Memo ActiveCityActionMemo;
-    public Label IncomeLabel;
-    public Label ProductionWarningLabel;
-    public Label CurrentActivityWarningLabel;
-    public Panel IncomePanel;
-    public Image IncomeTypeImage;
-    public Label IncomeAmountLabel;
-    public Memo IncomeMemo;
-    public Panel ItemPanel;
-    public Label ItemsInBagLabel;
-    public ListBox ItemBagList;
-    public VerticalScrollBar ItemBagScrollBar;
-    public Memo ItemBagMemo;
-    public Panel ExplorationSitePanel;
-    public Memo ExplorationSiteMemo;
-    public Label ExplorationSiteLabel;
-    public Label ExplorationSiteStatusLabel;
-    public Label PopulationRaceLabel;
-    public Label PopulationLabel;
+    public Window MainWindow { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Button MainButton { get; private set; }
+    public ArnoLine StructureLine { get; private set; }
+    public Label StructureNameLabel { get; private set; }
+    public Panel ProductionPlacePanel { get; private set; }
+    public Memo ActiveActionMemo { get; private set; }
+    public Panel SignPanel { get; private set; }
+    public Memo SignTextMemo { get; private set; }
+    public Panel CityPanel { get; private set; }
+    public Label CityRaceLabel { get; private set; }
+    public Panel CityBorderPanel { get; private set; }
+    public Image ProductionOrb { get; private set; }
+    public Panel SingleButtonPanel { get; private set; }
+    public Memo SingleButtonMemo { get; private set; }
+    public Panel AltarPanel { get; private set; }
+    public Gauge AltarChargeBar { get; private set; }
+    public Label GemLabel { get; private set; }
+    public Label ChargePercentLabel { get; private set; }
+    public Label DayLabel { get; private set; }
+    public Image OwnerShield { get; private set; }
+    public Panel NotYoursPanel { get; private set; }
+    public Memo NotYoursMemo { get; private set; }
+    public Label OwnerRaceLabel { get; private set; }
+    public Label ProductionOrbTurnsLabel { get; private set; }
+    public Image ProductionOrbTimeImage { get; private set; }
+    public Panel ConstructionPanel { get; private set; }
+    public Memo ConstructionMemo { get; private set; }
+    public Label ConstructionDaysLeftLabel { get; private set; }
+    public Panel RazePanel { get; private set; }
+    public Button RazeButton { get; private set; }
+    public Label CivilStatusLabel { get; private set; }
+    public Image RaceRelationIcon { get; private set; }
+    public Label CityIncomeLabel { get; private set; }
+    public Label CityLevelLabel { get; private set; }
+    public Image IncomeTypeIcon { get; private set; }
+    public Label IncomeValueLabel { get; private set; }
+    public Memo ActiveCityActionMemo { get; private set; }
+    public Label IncomeLabel { get; private set; }
+    public Label ProductionWarningLabel { get; private set; }
+    public Label CurrentActivityWarningLabel { get; private set; }
+    public Panel IncomePanel { get; private set; }
+    public Image IncomeTypeImage { get; private set; }
+    public Label IncomeAmountLabel { get; private set; }
+    public Memo IncomeMemo { get; private set; }
+    public Panel ItemPanel { get; private set; }
+    public Label ItemsInBagLabel { get; private set; }
+    public ListBox ItemBagList { get; private set; }
+    public VerticalScrollBar ItemBagScrollBar { get; private set; }
+    public Memo ItemBagMemo { get; private set; }
+    public Panel ExplorationSitePanel { get; private set; }
+    public Memo ExplorationSiteMemo { get; private set; }
+    public Label ExplorationSiteLabel { get; private set; }
+    public Label ExplorationSiteStatusLabel { get; private set; }
+    public Label PopulationRaceLabel { get; private set; }
+    public Label PopulationLabel { get; private set; }
 
     public ItemHexSprite ItemBag { get; set; }
     // Renderers of the structure views (Structure.Views.cs): the panel of each InfoPanel key and the

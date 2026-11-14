@@ -17,8 +17,9 @@ public partial class MapWindow : UIModule
     public MapWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public HexSpriteMapViewer MapViewer;
+    public Window MainWindow { get; set; }
+    public HexSpriteMapViewer MapViewer { get; set; }
+
     public Rect WorldRectangle;
     public Rect MapRectangle;
 

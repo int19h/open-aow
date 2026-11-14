@@ -17,11 +17,12 @@ public partial class CityJoinDialog : UIModule
     public CityJoinDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label ApproachLabel;
-    public Frame CelticFrame;
-    public Memo Memo;
-    public ArnoLine CityPictureLine;
+    public Window Window { get; private set; }
+    public Label ApproachLabel { get; private set; }
+    public Frame CelticFrame { get; private set; }
+    public Memo Memo { get; private set; }
+    public ArnoLine CityPictureLine { get; private set; }
+
     private sbyte _race;
     private event ExecuteDoneEvent Done;
     private NegotiateRequestEventLog _event;
