@@ -138,7 +138,7 @@ public partial class TownGate : CityTargetSpell
         bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
         if (result)
         {
-            if (source.Owner is HeroList)
+            if (source.Owner is IHeroHolder)
             {
                 return false;
             }

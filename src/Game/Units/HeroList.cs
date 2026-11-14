@@ -5,11 +5,10 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class HeroList : EReferenceNode, IChildList<Hero>
+public partial class HeroList : EReferenceNode, IChildList<Hero>, IHeroHolder
 {
-    // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a Hero, so the cast never fails.
-    public Hero this[int index] => (Hero)GetChild(index);
+    // The hero in slot index, without a range check.
+    public Hero this[int index] => Heroes[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Hero;
 
@@ -18,40 +17,14 @@ public partial class HeroList : EReferenceNode, IChildList<Hero>
     public HeroList(ECustomNode owner) : base(owner)
     { }
 
+    /// <summary>The heroes of this list, in their stored order.</summary>
+    public HeroCollection Heroes => new(this);
+
     // Hero.PAS:2395
-    public Hero FindHero(int id)
-    {
-        int I;
-        I = 0;
-        Hero result = null;
-        while (I != Count && result == null)
-        {
-            if (id == this[I].UnitId)
-            {
-                result = this[I];
-            }
-
-            I += 1;
-        }
-
-        return result;
-    }
+    public Hero FindHero(int id) => Heroes.FindHero(id);
 
     // Hero.PAS:2407
-    public Hero GetHero(int index)
-    {
-        Hero result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
+    public Hero GetHero(int index) => Heroes.GetHero(index);
 
     // Engine.pas:631
 

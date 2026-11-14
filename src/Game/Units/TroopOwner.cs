@@ -4,11 +4,11 @@ namespace Aow.Game.Units;
 
 /// <summary>
 /// The owner of a troop: the army it stands in, a unit list that holds troops apart from an army
-/// (generated defenders and rebels, campaign transfer units), or the hero list of a hero that no
-/// army holds (a player's heroes, a hero library, a campaign transfer). A troop takes no other
+/// (generated defenders and rebels, campaign transfer units), the hero list of a hero that no
+/// army holds (a player's heroes, a campaign transfer), or a hero library. A troop takes no other
 /// owner, so a read of its owner is one of these or empty.
 /// </summary>
-public union TroopOwner(Army, UnitList, HeroList)
+public union TroopOwner(Army, UnitList, HeroLibrary, HeroList)
 {
     /// <summary>
     /// The owner a troop stores, read from the untyped owner. A troop admits only these kinds, so
@@ -19,6 +19,7 @@ public union TroopOwner(Army, UnitList, HeroList)
         null => default,
         Army army => army,
         UnitList units => units,
+        HeroLibrary library => library,
         HeroList heroes => heroes,
         _ => throw new InvalidCastException("A troop does not take an owner of type " + owner.GetType().Name + "."),
     };

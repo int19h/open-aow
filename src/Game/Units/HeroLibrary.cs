@@ -9,9 +9,20 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// LibraryName. NextLibraryId
-public partial class HeroLibrary : HeroList
+// The original's THeroLibrary derives from THeroList. The port's library holds its heroes as
+// references in its node children and reads them through Heroes.
+public partial class HeroLibrary : EReferenceNode, IChildList<Hero>, IHeroHolder
 {
+    /// <summary>The heroes of this library, in their stored order.</summary>
+    public HeroCollection Heroes => new(this);
+
+    Hero IOwner<Hero>.this[int index] => Heroes[index];
+
+    // A library takes heroes only.
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Hero;
+
+    int IChildSink<Hero>.AddChild(Hero child) => AddChild(child);
+
     public HeroLibrary(ECustomNode owner) : base(owner)
     { }
 
@@ -33,7 +44,7 @@ public partial class HeroLibrary : HeroList
         CheckChild(child);
         var hero = (Hero)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
-        if (hero.LibraryId == 0 || FindHero(hero.LibraryId) != null)
+        if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) != null)
         {
             hero.LibraryId = CreateUniqueLibraryId();
         }
@@ -44,7 +55,7 @@ public partial class HeroLibrary : HeroList
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        return Count - 1;
+        return Heroes.Count - 1;
     }
 
     // Hero.PAS:2580
@@ -60,12 +71,12 @@ public partial class HeroLibrary : HeroList
                 _nextLibraryId = 0;
             }
 
-            while (I != Count && this[I].LibraryId != _nextLibraryId)
+            while (I != Heroes.Count && Heroes[I].LibraryId != _nextLibraryId)
             {
                 I += 1;
             }
         }
-        while (!(I == Count));
+        while (!(I == Heroes.Count));
         return _nextLibraryId;
     }
 
@@ -98,13 +109,13 @@ public partial class HeroLibrary : HeroList
     public Hero FindLibraryId(int id)
     {
         int I;
-        I = Count;
+        I = Heroes.Count;
         while (I != 0)
         {
             I -= 1;
-            if (id == this[I].LibraryId)
+            if (id == Heroes[I].LibraryId)
             {
-                return this[I];
+                return Heroes[I];
             }
         }
 
