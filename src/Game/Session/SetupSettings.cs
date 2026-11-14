@@ -1,10 +1,7 @@
 // Translated from AoWSetup.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -23,28 +20,28 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:356
     public new const int ClassId = 131680;
 
-    public int HostRemoteId;
-    public string FileName = "";
-    public string MapName = "";
-    public int MapCrc;
-    public int SetCrc;
-    public int MapDay;
-    public byte PlayMode;
-    public bool ExplorationEnabled;
-    public bool LeadersOnMap;
-    public bool AlliedVictory;
-    public byte VictoryCondition;
-    public byte IndependentAIMode;
-    public bool CustomizeLeaders;
-    public int RandomSeed;
-    public int DayLimit;
-    public int TurnTime;
+    public int HostRemoteId { get; set; }
+    public string FileName { get; set; } = "";
+    public string MapName { get; set; } = "";
+    public int MapCrc { get; set; }
+    public int SetCrc { get; set; }
+    public int MapDay { get; set; }
+    public byte PlayMode { get; set; }
+    public bool ExplorationEnabled { get; set; }
+    public bool LeadersOnMap { get; set; }
+    public bool AlliedVictory { get; set; }
+    public byte VictoryCondition { get; set; }
+    public byte IndependentAIMode { get; set; }
+    public bool CustomizeLeaders { get; set; }
+    public int RandomSeed { get; set; }
+    public int DayLimit { get; set; }
+    public int TurnTime { get; set; }
 
     public RemotePlayerList RemotePlayers { get; }
 
-    public byte ConnectionType;
-    public byte TacticalBattleAvailability;
-    public bool AlwaysViewTacticalBattle;
+    public byte ConnectionType { get; set; }
+    public byte TacticalBattleAvailability { get; set; }
+    public bool AlwaysViewTacticalBattle { get; set; }
 
     public string EmailGameName { get; set; } = "";
 
@@ -56,31 +53,6 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:402
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref FileName, 10);
-        stream.Bytes(Bytes.Of(ref PlayMode, 1), 1, 11);
-        stream.Boolean(ref ExplorationEnabled, 12);
-        stream.String(ref MapName, 13);
-        stream.Bytes(Bytes.Of(ref VictoryCondition, 1), 1, 14);
-        stream.Bytes(Bytes.Of(ref IndependentAIMode, 1), 1, 15);
-        stream.Boolean(ref CustomizeLeaders, 16);
-        stream.Int32(ref RandomSeed, 17);
-        stream.Boolean(ref LeadersOnMap, 18);
-        stream.Int32(ref DayLimit, 19);
-        stream.Int32(ref TurnTime, 20);
-        stream.Object(RemotePlayers, 21);
-        stream.Int32(ref HostRemoteId, 22);
-        stream.Int32(ref MapDay, 23);
-        stream.Boolean(ref AlliedVictory, 24);
-        stream.Bytes(Bytes.Of(ref ConnectionType, 1), 1, 25);
-        stream.Int32(ref MapCrc, 26);
-        stream.Int32(ref SetCrc, 27);
-        stream.Bytes(Bytes.Of(ref TacticalBattleAvailability, 1), 1, 28);
-        stream.Boolean(ref AlwaysViewTacticalBattle, 29);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

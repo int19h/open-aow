@@ -1,17 +1,13 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using System.Runtime.InteropServices;
-
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
@@ -19,8 +15,9 @@ namespace Aow.Game.Magic.Spells;
 // Width, Height, OriginalTerrain
 public partial class FloodControl : EngineObject
 {
-    public int Width;
-    public int Height;
+    public int Width { get; set; }
+    public int Height { get; set; }
+
     public sbyte[] OriginalTerrain = [];
 
     // GlobalEnchantmentSpells.pas:1072
@@ -35,22 +32,6 @@ public partial class FloodControl : EngineObject
     }
 
     // GlobalEnchantmentSpells.pas:1078
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Width, 20);
-        stream.Int32(ref Height, 21);
-        if (Width != 0)
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                Array.Resize(ref OriginalTerrain, Width * Height * 2);
-            }
-
-            stream.Bytes(MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, Width * Height * 2)), Width * Height * 2, 22);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -59,7 +40,8 @@ public partial class FloodControl : EngineObject
         if (Width != 0)
         {
             int count = Width * Height * 2;
-            if (persister.Loading) Array.Resize(ref OriginalTerrain, count);
+            // The translate stream's mode holds read, so the original ReadWrite sizes the array there too.
+            if (persister.Loading || PersistSupport.Translating(persister)) Array.Resize(ref OriginalTerrain, count);
             persister.Bytes("OriginalTerrain", MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, count)));
         }
     }

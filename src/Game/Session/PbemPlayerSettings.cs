@@ -1,13 +1,10 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Net;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
 
@@ -21,7 +18,7 @@ public partial class PbemPlayerSettings : EngineObject
         EmailGame = new EmailGame(null) { Holder = CreationHolder() };
     }
 
-    public Set<PbemPlayerStatusElement> Status;
+    public Set<PbemPlayerStatusElement> Status { get; set; }
 
     public EmailGame EmailGame { get; }
 
@@ -33,13 +30,6 @@ public partial class PbemPlayerSettings : EngineObject
     }
 
     // Player.PAS:249
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferSet(ref Status, 1, 20, stream.Bytes, 0);
-        stream.Object(EmailGame, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

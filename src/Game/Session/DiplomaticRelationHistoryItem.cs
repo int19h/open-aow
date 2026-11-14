@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -16,17 +13,10 @@ public partial class DiplomaticRelationHistoryItem : EngineObject
     public DiplomaticRelationHistoryItem(ECustomNode owner) : base(owner)
     { }
 
-    public int Day;
-    public DiplomaticRelation Relation;
+    public int Day { get; set; }
+    public DiplomaticRelation Relation { get; set; }
 
     // Player.PAS:33
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Day, 20);
-        stream.Bytes(Bytes.Of(ref Relation, 1), 1, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

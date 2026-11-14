@@ -38,7 +38,7 @@ public sealed class ResourcePayloadTests
         {
             using var viaStream = new ImageSequenceList(null, null);
             RtlUnit.RandSeed = Seed;
-            viaStream.LoadFromStream(new MemoryStream(payload));
+            StreamLoad(viaStream, payload: payload);
             int streamSeed = RtlUnit.RandSeed;
             // Three frame-table layers draw three times.
             Assert.Equal(Advance(Seed, draws: 3), streamSeed);
@@ -50,14 +50,14 @@ public sealed class ResourcePayloadTests
                 TreeReader.Read(tree, objectValue: viaTree, factory: Factory);
                 Assert.Equal(streamSeed, RtlUnit.RandSeed);
                 Assert.Equal(Indices(viaStream), Indices(viaTree.Sequences));
-                Assert.Equal(Saved(viaStream.SaveToStream), Saved(viaTree.Sequences.SaveToStream));
+                Assert.Equal(StreamSaved(viaStream), StreamSaved(viaTree.Sequences));
                 viaTree.Dispose();
             }
             // The save writes what SaveToStream writes and draws nothing.
             RtlUnit.RandSeed = Seed;
             var written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: viaStream)), factory: Factory);
             Assert.Equal(Seed, RtlUnit.RandSeed);
-            Assert.Equal(Saved(viaStream.SaveToStream), Payload("MapObjectResource", "ImageSequenceList", written));
+            Assert.Equal(StreamSaved(viaStream), Payload("MapObjectResource", "ImageSequenceList", written));
         }
         finally
         {
@@ -72,7 +72,7 @@ public sealed class ResourcePayloadTests
         try
         {
             var holder = new Holder((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
-            holder.Sequences.LoadFromStream(new MemoryStream(Sequences()));
+            StreamLoad(holder.Sequences, payload: Sequences());
             RtlUnit.RandSeed = Seed;
             TreeReader.Read(new ObjectNode(null, null), objectValue: holder, factory: Factory);
             Assert.Equal(Seed, RtlUnit.RandSeed);
@@ -147,8 +147,10 @@ public sealed class ResourcePayloadTests
 
     // A load sets the capacity in whole 32-bit words and extends the count to it, as Delphi's
     // TBitList.SetCapacity does through Put, so a stored list loads whole only at a count of a
-    // multiple of 32. A list of count 13 saves 2 bytes. Count 32 with the default byte 2 loads the
-    // same image through the stream and through the tree.
+    // multiple of 32. TBitList.SaveToStream (Engine.pas:4791) writes the default byte, the count and
+    // the bytes of the bits: a list of count 13 saves 2 bytes of bits. The stream methods went with
+    // the last ReadWrite that called them (issue 185 PE-3-i), so the images are spelled out. Count
+    // 32 with the default byte 2 loads the stored image through both backends.
     [Fact]
     public void ABitListLoadsTheImageTheStreamLoads()
     {
@@ -157,12 +159,11 @@ public sealed class ResourcePayloadTests
         counted[2] = true;
         counted[12] = true;
         var saved = TreeWriter.Write(new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: counted)), factory: Factory);
-        Assert.Equal(Saved(counted.SaveToStream), Payload("Player", "AIValidAttackPlayers", saved));
-        Assert.Equal(7, Saved(counted.SaveToStream).Length);
+        Assert.Equal([0, 13, 0, 0, 0, 0x05, 0x10], Payload("Player", "AIValidAttackPlayers", saved));
 
         byte[] payload = [2, 32, 0, 0, 0, 0x05, 0x10, 0x00, 0x80];
         var source = new BitList();
-        source.LoadFromStream(new MemoryStream(payload));
+        source.LoadImage(new BitListImage(Default: 2, Count: 32, Bits: [0x05, 0x10, 0x00, 0x80]));
         var written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: source)), factory: Factory);
         Assert.Equal(payload, Payload("Player", "AIValidAttackPlayers", written));
         foreach (var tree in Backends("Player", Stored("Player", "AIValidAttackPlayers", payload)))
@@ -170,15 +171,65 @@ public sealed class ResourcePayloadTests
             var loaded = new BitList();
             loaded.Add(true);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: loaded)), factory: Factory);
-            Assert.Equal(payload, Saved(loaded.SaveToStream));
+            Assert.Equal(payload, BitImage(loaded));
             Assert.True(loaded[31]);
             Assert.False(loaded[30]);
         }
         var untouched = new BitList();
         untouched.Add(true);
-        var before = Saved(untouched.SaveToStream);
+        var before = BitImage(untouched);
         TreeReader.Read(new ObjectNode(null, null), objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: untouched)), factory: Factory);
-        Assert.Equal(before, Saved(untouched.SaveToStream));
+        Assert.Equal(before, BitImage(untouched));
+    }
+
+    // The bytes TBitList.SaveToStream writes for a list: its default byte, its count and its bits.
+    private static byte[] BitImage(BitList list)
+    {
+        var image = list.SaveImage();
+        var bytes = new byte[5 + image.Bits.Length];
+        bytes[0] = image.Default;
+        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(start: 1), value: image.Count);
+        image.Bits.CopyTo(bytes, index: 5);
+        return bytes;
+    }
+
+    // TImageSequenceList.LoadFromStream (ImageLib.pas:8959): the count, then per entry a nil flag
+    // and the chain, which TImageSequence.LoadFromStream reads. The list's own stream methods went
+    // with the last ReadWrite that called them (issue 185 PE-3-i), so the test holds them as the
+    // reference over the chain methods the port keeps.
+    private static void StreamLoad(ImageSequenceList list, byte[] payload)
+    {
+        using var stream = new MemoryStream(payload);
+        using var reader = new BinaryReader(stream);
+        list.DestroyItems();
+        int count = reader.ReadInt32();
+        for (int i = 0; i < count; i++)
+        {
+            if (reader.ReadBoolean())
+            {
+                list.Add(null);
+                continue;
+            }
+            var sequence = new ImageSequence(list);
+            sequence.LoadFromStream(stream);
+            list.Add(sequence);
+        }
+    }
+
+    // TImageSequenceList.SaveToStream (ImageLib.pas:8986): the count after ReduceCount, then per
+    // entry a nil flag and the chain.
+    private static byte[] StreamSaved(ImageSequenceList list)
+    {
+        using var stream = new MemoryStream();
+        list.ReduceCount();
+        stream.Write(BitConverter.GetBytes(list.Count));
+        for (int i = 0; i < list.Count; i++)
+        {
+            var sequence = list.GetImageSequence(i);
+            stream.WriteByte(sequence is null ? (byte)1 : (byte)0);
+            sequence?.SaveToStream(stream);
+        }
+        return stream.ToArray();
     }
 
     // The seed after the given number of Random calls.

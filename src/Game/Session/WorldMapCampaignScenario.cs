@@ -2,10 +2,8 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.UI.Dialogs;
-using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -15,20 +13,22 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     // AoWVideoDlg.pas:304
     public new const int ClassId = 2248705;
 
-    public string ImageLibrary = "";
-    public string PathDescription = "";
-    public string Description = "";
+    public string ImageLibrary { get; private set; } = "";
+    public string PathDescription { get; private set; } = "";
+    public string Description { get; private set; } = "";
+
     // A Boolean of unknown meaning that the original stores at id 15 and never reads. It round
     // trips unchanged.
     private bool _unknownFlag;
-    public int MapX;
-    public int MapY;
+
+    public int MapX { get; private set; }
+    public int MapY { get; private set; }
 
     public Int32List Paths { get; }
     public WMCampaignScenarioPageList IntroPages { get; }
     public WMCampaignScenarioPageList OutroPages { get; }
 
-    public byte MapKind;
+    public byte MapKind { get; private set; }
 
     // AoWVideoDlg.pas:295
     public override void Dispose()
@@ -40,29 +40,15 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     }
 
     // AoWVideoDlg.pas:308
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref ImageLibrary, 12);
-        }
-
-        stream.String(ref PathDescription, 13);
-        stream.String(ref Description, 14);
-        stream.Boolean(ref _unknownFlag, 15);
-        stream.Int32(ref MapX, 16);
-        stream.Int32(ref MapY, 17);
-        stream.Object(IntroPages, 19);
-        stream.Object(OutroPages, 20);
-        stream.Payload(21, Paths.LoadFromStream, Paths.SaveToStream);
-        stream.Bytes(Bytes.Of(ref MapKind, 1), 1, 22);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
+        // The original ReadWrite leaves out the image library under text only (the translate stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
+        }
+
         PathDescription = persister.String("PathDescription", value: PathDescription);
         Description = persister.String("Description", value: Description);
         _unknownFlag = persister.Boolean("UnknownFlag", value: _unknownFlag);

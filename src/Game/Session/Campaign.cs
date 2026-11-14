@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 
@@ -43,17 +42,17 @@ public partial class Campaign : EngineObject
     public Int32List CompletedScenarios { get; }
     public ByteList RaceHistory { get; }
 
-    public bool ScenarioStarted;
+    public bool ScenarioStarted { get; set; }
 
     public CampaignTransferSettings TransferSettings { get; }
 
-    public int CurrentScenarioId;
+    public int CurrentScenarioId { get; set; }
 
     public int NextScenarioId { get; private set; }
     public string FileName { get; set; } = "";
 
-    public CampaignDifficultyLevel DifficultyLevel;
-    public PlayMode PlayMode;
+    public CampaignDifficultyLevel DifficultyLevel { get; set; }
+    public PlayMode PlayMode { get; set; }
 
     // Diplomacy.pas:2261
     public override void Dispose()
@@ -67,53 +66,6 @@ public partial class Campaign : EngineObject
     }
 
     // Diplomacy.pas:2295
-    public override void ReadWrite(StorageStream stream)
-    {
-        int size = default;
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                stream.Int32(ref size, 5);
-                Stream.SetLength(size);
-                stream.Bytes(Stream.GetBuffer().AsSpan(0, size), size, 6);
-            }
-            else
-            {
-                size = (int)Stream.Length;
-                stream.Int32(ref size, 5);
-                stream.Bytes(Stream.GetBuffer().AsSpan(0, size), size, 6);
-            }
-        }
-
-        stream.Object(TransferSettings, 7);
-        stream.Object(Scenarios, 10);
-        stream.String(ref _name, 12);
-        stream.Int32(ref CurrentScenarioId, 13);
-        stream.Payload(14, CompletedScenarios.LoadFromStream, CompletedScenarios.SaveToStream);
-        stream.Boolean(ref ScenarioStarted, 15);
-        stream.Payload(16, RaceHistory.LoadFromStream, RaceHistory.SaveToStream);
-        stream.Bytes(Bytes.Of(ref PlayMode, 1), 1, 17);
-        stream.Bytes(Bytes.Of(ref DifficultyLevel, 1), 1, 19);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            for (int I = 0, last = Scenarios.Count - 1; I <= last; I++)
-            {
-                if (Scenarios.GetScenario(I).Id == 0)
-                {
-                    var uniqueId = Scenarios.CreateUniqueId();
-                    Scenarios.GetScenario(I).Id = uniqueId;
-                }
-            }
-        }
-
-        if (stream.StorageMode().Contains(StorageModeElement.Read) && !stream.StorageMode().Contains(StorageModeElement.TextOnly) && CompletedScenarios.Count == 0 && !ScenarioStarted)
-        {
-            PlayMode = PlayMode.Simultaneous;
-        }
-    }
-
     // The map is the whole HSM file the stream holds (ids 5 and 6), a nested world-hsm document
     // on the tree. An absent map loads as an empty stream, as a stored size of 0 does.
     public override void PersistFields(IPersister persister)
@@ -125,8 +77,9 @@ public partial class Campaign : EngineObject
             Stream.SetLength(image.Length);
             image.CopyTo(Stream.GetBuffer().AsSpan(start: 0, length: image.Length));
         }
-        else
+        else if (!PersistSupport.Translating(persister))
         {
+            // The original ReadWrite leaves out the map under text only (the translate stream).
             persister.NestedDocument("Map", profile: "world-hsm", image: Stream.GetBuffer().AsSpan(start: 0, length: (int)Stream.Length).ToArray());
         }
 

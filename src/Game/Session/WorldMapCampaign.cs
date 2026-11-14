@@ -1,6 +1,5 @@
 // Translated from AoWVideoDlg.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 
@@ -18,18 +17,12 @@ public partial class WorldMapCampaign : Campaign
     // AoWVideoDlg.pas:334
     public new const int ClassId = 2248704;
 
-    public int Faction;
+    public int Faction { get; private set; }
 
     public int State { get; set; }
     public int Page { get; set; }
 
     // AoWVideoDlg.pas:337
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Faction, 30);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

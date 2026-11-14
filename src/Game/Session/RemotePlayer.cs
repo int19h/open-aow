@@ -1,10 +1,7 @@
 // Translated from AoWSetup.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -16,23 +13,13 @@ public partial class RemotePlayer : EngineObject
     public RemotePlayer(ECustomNode owner) : base(owner)
     { }
 
-    public string Name = "";
-    public int RemoteId;
-    public byte PreferredRace;
-    public MapValidationInfo MapValidation;
-    public int Version;
+    public string Name { get; set; } = "";
+    public int RemoteId { get; set; }
+    public byte PreferredRace { get; set; }
+    public MapValidationInfo MapValidation { get; set; }
+    public int Version { get; set; }
 
     // AoWSetup.pas:269
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.String(ref Name, 20);
-        stream.Bytes(Bytes.Of(ref RemoteId, 4), 4, 21);
-        stream.Byte(ref PreferredRace, 22);
-        stream.Bytes(Bytes.Of(ref MapValidation, 1), 1, 23);
-        stream.Int32(ref Version, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

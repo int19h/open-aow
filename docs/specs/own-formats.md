@@ -1069,9 +1069,10 @@ PE-3-h moves copies, assignments and comparisons onto the tree and reads and wri
 files, the system hero and item libraries and the e-mail game index, which stay original files,
 through the original backend (`persistence-tree.md` 13). PE-3-i retires `ReadWrite` family by
 family: the units, abilities and items have none since its first pull request, the world map,
-terrain, structures, production and drawing none since its second, and the storage streams store
-them through the tree (`persistence-tree.md` 14). `ReadWrite` remains for the other
-families until their PE-3-i pull requests and for the token events and the packets (PE-4-a), and
+terrain, structures, production and drawing none since its second, the players, campaigns,
+diplomacy, event logs, spells, AI, interface and sound classes none since its third, and the
+storage streams store them through the tree (`persistence-tree.md` 14). `ReadWrite` remains for
+the combat classes until the fourth pull request and for the token events and the packets (PE-4-a), and
 steps 4 and 5 are not implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
 section 10 names them as that step's prerequisite.

@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -33,11 +32,11 @@ public partial class ArmyEventLog : EventLog
 
     public ArmyView ArmyView { get; }
 
-    public string ArmyText = "";
+    public string ArmyText { get; set; } = "";
 
     public StringCollection ArmyMessages { get; }
 
-    public int ArmyIcon;
+    public int ArmyIcon { get; set; }
 
     public ByteList DamageValues { get; }
     public ByteList DamageTypes { get; }
@@ -55,18 +54,6 @@ public partial class ArmyEventLog : EventLog
     }
 
     // Army.PAS:162
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(ArmyView, 15);
-        stream.String(ref ArmyText, 16);
-        stream.Lines(ArmyMessages, 17);
-        stream.Int32(ref ArmyIcon, 18);
-        stream.Payload(19, DamageValues.LoadFromStream, DamageValues.SaveToStream);
-        stream.Payload(20, DamageTypes.LoadFromStream, DamageTypes.SaveToStream);
-        stream.Boolean(ref _gameOver, 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

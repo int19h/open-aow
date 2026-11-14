@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -33,12 +32,6 @@ public partial class TutorialControl : EngineObject
     }
 
     // AoWHSMap.PAS:11
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Payload(20, _shownMessages.LoadFromStream, _shownMessages.SaveToStream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

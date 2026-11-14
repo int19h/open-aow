@@ -1,11 +1,8 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
@@ -146,9 +143,10 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     public ArmyList Armies { get; }
     public bool SingleProcessCycle { get; private set; }
 
-    public byte ViewX;
-    public byte ViewY;
-    public byte ViewMapLevel;
+    public byte ViewX { get; set; }
+    public byte ViewY { get; set; }
+    public byte ViewMapLevel { get; set; }
+
     private string _password = "";
     private StringList _messages;
 
@@ -156,18 +154,19 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     public DiplomaticRelationList LegacyNewRelations { get; }
     public PlayerDiplomaticRelations DiplomaticRelations { get; }
 
-    public GameOverStatus GameOverStatus;
-    public PlayerStatus Status;
+    public GameOverStatus GameOverStatus { get; private set; }
+    public PlayerStatus Status { get; set; }
+
     private int _busyCount;
 
     public string Name { get; set; } = "";
 
-    public sbyte MoraleValue;
+    public sbyte MoraleValue { get; set; }
 
     public PlayerMagicControl MagicControl { get; }
     public Leader LeaderSetup { get; }
 
-    public int Day;
+    public int Day { get; set; }
 
     public PlayerStatistics Statistics { get; }
 
@@ -175,9 +174,12 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     public PlayerStructureList KnownStructures { get; }
 
-    public int BaseHeroJoinLevel;
+    public int BaseHeroJoinLevel { get; private set; }
+
     private int _lastHeroJoinDay;
-    public int EmergingHeroId;
+
+    public int EmergingHeroId { get; private set; }
+
     private int _lastHeroEmergeDay;
     private int _highestHeroLevel;
 
@@ -193,21 +195,23 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     public PbemPlayerSettings PbemSettings { get; private set; }
 
-    public bool HeroEmerging;
-    public sbyte PlayerRace;
-    public sbyte PlayerIndex;
-    public PlayerType PlayerType;
-    public PlayerBehavior Behavior;
-    public bool Participating;
-    public int InitialGold;
-    public int BaseIncome;
-    public int BaseHeroJoinDay;
+    public bool HeroEmerging { get; set; }
+    public sbyte PlayerRace { get; set; }
+    public sbyte PlayerIndex { get; set; }
+    public PlayerType PlayerType { get; set; }
+    public PlayerBehavior Behavior { get; set; }
+    public bool Participating { get; private set; }
+    public int InitialGold { get; set; }
+    public int BaseIncome { get; private set; }
+    public int BaseHeroJoinDay { get; set; }
 
     public int HeroJoinDay { get; set; }
 
-    public string Settings = "";
+    public string Settings { get; set; } = "";
+
     private string _description = "";
-    public int Gems;
+
+    public int Gems { get; private set; }
 
     public int ArmyUpkeep { get; private set; }
 
@@ -215,7 +219,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     public int Income { get; private set; }
 
-    public Leader Leader;
+    public Leader Leader { get; set; }
 
     public EventLogbook EventLogbook { get; }
 
@@ -373,145 +377,33 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     }
 
     // Player.PAS:1023
-    public override void ReadWrite(StorageStream stream)
-    {
-        int X = default;
-        int Y = default;
-        int L = default;
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PlayerRace), 2);
-        stream.Bytes(Bytes.Of(ref PlayerType, 1), 1, 3);
-        stream.Boolean(ref Participating, 4);
-        stream.Int32(ref InitialGold, 5);
-        stream.Int32(ref BaseIncome, 6);
-        stream.Bytes(Bytes.Of(ref Status, 1), 1, 10);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref Settings, 11);
-        }
-
-        stream.String(ref _description, 12);
-        stream.Int32(ref Gems, 16);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 18);
-        if ((GetEngine().Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            if (!stream.StorageMode().Contains(StorageModeElement.Write))
-            {
-                stream.Created(ref Leader, null, 19);
-                if (Leader != null && !stream.StorageMode().Contains(StorageModeElement.Preview))
-                {
-                    Leader.Player = PlayerIndex;
-                    StrategicMap.Current.HeroControl.RegisterHero(Leader);
-                }
-            }
-        }
-
-        if (stream.StorageMode().Contains(StorageModeElement.Write))
-        {
-            if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
-            {
-                StrategicMap.Current.GetViewCenter(out X, out Y, out L);
-                ViewX = (byte)X;
-                ViewY = (byte)Y;
-                ViewMapLevel = (byte)L;
-                stream.Byte(ref ViewX, 20);
-                stream.Byte(ref ViewY, 21);
-                stream.Byte(ref ViewMapLevel, 22);
-            }
-        }
-        else
-        {
-            stream.Byte(ref ViewX, 20);
-            stream.Byte(ref ViewY, 21);
-            stream.Byte(ref ViewMapLevel, 22);
-        }
-
-        if (!stream.StorageMode().Contains(StorageModeElement.Preview))
-        {
-            stream.Object(EventLogbook, 23);
-        }
-
-        stream.String(ref _password, 24);
-        stream.Bytes(Bytes.Of(ref GameOverStatus, 1), 1, 25);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            stream.Payload(26, LegacyNewRelations.LoadFromStream, LegacyNewRelations.SaveToStream);
-        }
-
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 27);
-        stream.Object(AIControl, 28);
-        stream.Bytes(Bytes.Of(ref Behavior, 1), 1, 29);
-        if (PlayerIndex != 0)
-        {
-            if (stream.StorageMode().Contains(StorageModeElement.Write) && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
-            {
-                stream.Object(Leader, 30);
-            }
-            else
-            {
-                stream.Object(LeaderSetup, 30);
-            }
-        }
-
-        stream.Object(MagicControl, 31);
-        stream.Payload(32, FirstDaySeen.LoadFromStream, FirstDaySeen.SaveToStream);
-        stream.Payload(33, _lastDaySeen.LoadFromStream, _lastDaySeen.SaveToStream);
-        stream.Int32(ref Day, 34);
-        stream.Object(Statistics, 35);
-        stream.Int32(ref BaseHeroJoinLevel, 36);
-        stream.Int32(ref _lastHeroJoinDay, 37);
-        stream.Int32(ref _lastHeroEmergeDay, 38);
-        stream.Int32(ref _highestHeroLevel, 39);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            SetRace(PlayerRace);
-            EventLogbook.Player = PlayerIndex;
-            LegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
-        }
-
-        stream.Lines(_messages, 40);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            stream.Payload(41, LegacyRelations.LoadFromStream, LegacyRelations.SaveToStream);
-        }
-
-        stream.Int32(ref EmergingHeroId, 50);
-        stream.Object(AIBudget, 51);
-        stream.Object(DiplomaticActions, 52);
-        stream.Payload(53, AIValidAttackPlayers.LoadFromStream, AIValidAttackPlayers.SaveToStream);
-        stream.Object(PbemSettings, 54);
-        stream.Boolean(ref HeroEmerging, 56);
-        if (stream.StorageMode().Contains(StorageModeElement.Read) || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
-        {
-            stream.Int32(ref BaseHeroJoinDay, 57);
-        }
-
-        stream.Object(DiplomaticRelations, 58);
-        if (PlayerIndex == 0)
-        {
-            PlayerType = PlayerType.Independent;
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         int X = default;
         int Y = default;
         int L = default;
         base.PersistFields(persister);
+        // The translate stream's mode is read and text only. The original ReadWrite leaves out the
+        // settings there, visits and registers the leader, keeps the view, visits the leader setup
+        // and does the work of the read branch.
+        bool translating = PersistSupport.Translating(persister);
         PlayerRace = PersistSupport.UnsignedByte(persister, name: "PlayerRace", value: PlayerRace);
         PlayerType = persister.Enum("PlayerType", value: PlayerType);
         Participating = persister.Boolean("Participating", value: Participating);
         InitialGold = persister.Int32("InitialGold", value: InitialGold);
         BaseIncome = persister.Int32("BaseIncome", value: BaseIncome);
         Status = persister.Enum("Status", value: Status);
-        Settings = persister.String("Settings", value: Settings);
+        if (!translating)
+        {
+            Settings = persister.String("Settings", value: Settings);
+        }
+
         _description = persister.String("Description", value: _description);
         Gems = persister.Int32("Gems", value: Gems);
         PlayerIndex = PersistSupport.UnsignedByte(persister, name: "PlayerIndex", value: PlayerIndex);
-        if ((GetEngine().Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of())
+        if ((GetEngine().Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || translating)
         {
-            if (persister.Loading)
+            if (persister.Loading || translating)
             {
                 Leader = persister.Created("Leader", objectValue: Leader);
                 if (Leader != null && !persister.Preview)
@@ -526,7 +418,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
             persister.Skip("Leader");
         }
 
-        if (!persister.Loading)
+        if (!persister.Loading && !translating)
         {
             if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
@@ -567,7 +459,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         Behavior = persister.Enum("Behavior", value: Behavior);
         if (PlayerIndex != 0)
         {
-            if (!persister.Loading && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
+            if (!persister.Loading && !translating && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
             {
                 persister.Object("LeaderSetup", objectValue: Leader);
             }
@@ -590,7 +482,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         _lastHeroJoinDay = persister.Int32("LastHeroJoinDay", value: _lastHeroJoinDay);
         _lastHeroEmergeDay = persister.Int32("LastHeroEmergeDay", value: _lastHeroEmergeDay);
         _highestHeroLevel = persister.Int32("HighestHeroLevel", value: _highestHeroLevel);
-        if (persister.Loading)
+        if (persister.Loading || translating)
         {
             SetRace(PlayerRace);
             EventLogbook.Player = PlayerIndex;
@@ -609,7 +501,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         var attackPlayers = PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: AIValidAttackPlayers);
         persister.Object("PbemSettings", objectValue: PbemSettings);
         HeroEmerging = persister.Boolean("HeroEmerging", value: HeroEmerging);
-        if (persister.Loading || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
+        if (persister.Loading || translating || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
             BaseHeroJoinDay = persister.Int32("BaseHeroJoinDay", value: BaseHeroJoinDay);
         }

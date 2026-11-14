@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -21,15 +20,9 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
     {
     }
 
-    public int FaceIndex;
+    public int FaceIndex { get; set; }
 
     // AoWAb.PAS:895
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref FaceIndex, 25);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

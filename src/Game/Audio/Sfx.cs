@@ -1,6 +1,6 @@
 // Translated from Sound.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Audio;
@@ -16,19 +16,14 @@ public partial class Sfx : EngineObject
     private string _fileName = "";
 
     // Sound.pas:1027
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(EngineServices.Text))
-        {
-            stream.String(ref _fileName, 5);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _fileName = persister.String("FileName", value: _fileName);
+        // The original ReadWrite leaves out the file name under text only (the translate stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            _fileName = persister.String("FileName", value: _fileName);
+        }
     }
 
     // Sound.pas:1034

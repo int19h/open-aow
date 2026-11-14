@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Audio;
@@ -41,11 +40,11 @@ public partial class Spell : EngineObject
     public Set<SpellControlTypeElement> SpellControlTypes { get; protected set; }
     public int SpellId { get; protected set; }
 
-    public int BaseManaCost;
-    public int ResearchCost;
-    public int ManaUpkeep;
-    public MagicSphere MagicSphere;
-    public byte SpellLevel;
+    public int BaseManaCost { get; protected set; }
+    public int ResearchCost { get; private set; }
+    public int ManaUpkeep { get; protected set; }
+    public MagicSphere MagicSphere { get; protected set; }
+    public byte SpellLevel { get; protected set; }
 
     public SpellType SpellType { get; protected set; }
     // stGlobal guard
@@ -64,19 +63,6 @@ public partial class Spell : EngineObject
     }
 
     // Spells.PAS:31
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(SpellText, 10);
-        stream.Object(CastSounds, 11);
-        stream.Payload(12, CastImages.LoadFromStream, CastImages.SaveToStream);
-        stream.Int32(ref BaseManaCost, 13);
-        stream.Int32(ref ManaUpkeep, 14);
-        stream.Int32(ref ResearchCost, 15);
-        stream.Bytes(Bytes.Of(ref MagicSphere, 1), 1, 16);
-        stream.Byte(ref SpellLevel, 17);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

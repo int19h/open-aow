@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -29,12 +26,6 @@ public partial class AIGroupManager : AIGroupList
     }
 
     // AIGroup.pas:577
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _nextId, 1, 30);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

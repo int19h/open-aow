@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Commands;
@@ -13,8 +10,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
@@ -30,14 +25,15 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     // Diplomacy.pas:279
     public new const int ClassId = 131814;
 
-    public sbyte X;
-    public sbyte Y;
-    public sbyte MapLevel;
+    public sbyte X { get; set; }
+    public sbyte Y { get; set; }
+    public sbyte MapLevel { get; set; }
 
     public int MovePoints { get; set; }
 
-    public ArmyId ArmyId;
-    public NegotiateObject Object;
+    public ArmyId ArmyId { get; set; }
+    public NegotiateObject Object { get; set; }
+
     private int _data1;
     private int _data2;
 
@@ -55,18 +51,6 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     }
 
     // Diplomacy.pas:284
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref X), 40);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Y), 41);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 42);
-        stream.Bytes(Bytes.Of(ref Object, 1), 1, 43);
-        stream.Int32(ref _data1, 44);
-        stream.Int32(ref _data2, 45);
-        stream.Created(ref ArmyId, null, 46);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

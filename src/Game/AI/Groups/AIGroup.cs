@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -50,21 +47,21 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public Troop Transporter { get; private set; }
     public AIGroupProductionList Productions { get; }
 
-    public int GroupId;
-    public sbyte Player;
-    public int LeaderId;
-    public int TransporterId;
-    public sbyte IndependentRelation;
+    public int GroupId { get; set; }
+    public sbyte Player { get; set; }
+    public int LeaderId { get; set; }
+    public int TransporterId { get; set; }
+    public sbyte IndependentRelation { get; set; }
 
     public AITargetLocation TargetMapCoordinate { get; set; }
 
-    public AIGroupTargetStatus TargetType;
-    public int GoldBudget;
-    public int ManaBudget;
-    public int TargetMovePoints;
-    public byte TargetMode;
-    public byte ProcessPriority;
-    public byte RecruitmentPriority;
+    public AIGroupTargetStatus TargetType { get; set; }
+    public int GoldBudget { get; set; }
+    public int ManaBudget { get; set; }
+    public int TargetMovePoints { get; set; }
+    public byte TargetMode { get; set; }
+    public byte ProcessPriority { get; set; }
+    public byte RecruitmentPriority { get; set; }
 
     // AIGroup.pas:72
     public override void Dispose()
@@ -92,26 +89,6 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:104
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref GroupId, 20);
-        stream.Int32(ref TransporterId, -1, 21);
-        stream.Int32(ref LeaderId, -1, 22);
-        int target = TargetMapCoordinate.ToStored().ToInt32();
-        stream.Int32(ref target, 23);
-        TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(target));
-        stream.Bytes(Bytes.Of(ref TargetType, 1), 1, 24);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 25);
-        stream.Bytes(Bytes.Of(ref IndependentRelation, 1), 1, 26);
-        stream.Byte(ref ProcessPriority, 27);
-        stream.Byte(ref RecruitmentPriority, 28);
-        stream.Int32(ref GoldBudget, 29);
-        stream.Int32(ref ManaBudget, 30);
-        stream.Int32(ref TargetMovePoints, 31);
-        stream.Bytes(Bytes.Of(ref TargetMode, 1), 1, 32);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

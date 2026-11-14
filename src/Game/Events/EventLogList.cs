@@ -1,6 +1,6 @@
 // Translated from EventLog.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -26,41 +26,25 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     public event NotifyEvent<object> OnChanged;
 
     // EventLog.pas:481
-    public override void MainReadWrite(StorageStream stream)
-    {
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            BeginUpdate();
-        }
-
-        base.MainReadWrite(stream);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-            {
-                for (int I = 0, last = Count - 1; I <= last; I++)
-                {
-                    this[I].Release();
-                }
-            }
-
-            EndUpdate();
-        }
-    }
-
     public override void MainPersist(IPersister persister)
     {
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original MainReadWrite brackets the visit
+        // with BeginUpdate and EndUpdate there too, and releases no log.
+        bool translating = PersistSupport.Translating(persister);
+        if (persister.Loading || translating)
         {
             BeginUpdate();
         }
 
         base.MainPersist(persister);
-        if (persister.Loading)
+        if (persister.Loading || translating)
         {
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            if (persister.Loading)
             {
-                this[I].Release();
+                for (int I = 0, last = Count - 1; I <= last; I++)
+                {
+                    this[I].Release();
+                }
             }
 
             EndUpdate();

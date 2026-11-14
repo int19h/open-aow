@@ -349,21 +349,14 @@ public partial class BitList : Persistent
     // Engine.pas:4775
     public bool Compare(BitList list) => list._count == _count && CompareMem(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), list.List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), (int)(((uint)(_count + 7)) >> 3));
 
-    // Engine.pas:4782
-    public void LoadFromStream(Stream stream)
-    {
-        Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, 1));
-        stream.ReadExactly(Bytes.Of(ref _count, 4));
-        SetCapacity(_count);
-        stream.ReadExactly(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
-    }
-
-    /// <summary>The image <see cref="SaveToStream"/> writes, the default as its stored byte.</summary>
+    /// <summary>The image <c>TBitList.SaveToStream</c> (Engine.pas:4791) writes, the default as its stored byte.</summary>
     internal BitListImage SaveImage() =>
         new(_default, _count, List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)).ToArray());
 
-    /// <summary><see cref="LoadFromStream"/> from a stored image. A default byte other than 0 and 1 stays that byte.</summary>
+    /// <summary>
+    /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other
+    /// than 0 and 1 stays that byte.
+    /// </summary>
     internal void LoadImage(BitListImage image)
     {
         Clear();
@@ -371,14 +364,6 @@ public partial class BitList : Persistent
         _count = image.Count;
         SetCapacity(_count);
         image.Bits.CopyTo(List.Span);
-    }
-
-    // Engine.pas:4791
-    public void SaveToStream(Stream stream)
-    {
-        stream.Write(Bytes.Of(ref _default, 1));
-        stream.Write(Bytes.Of(ref _count, 4));
-        stream.Write(List.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }

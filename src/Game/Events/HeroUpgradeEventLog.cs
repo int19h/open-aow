@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -19,21 +18,12 @@ public partial class HeroUpgradeEventLog : EventLog
 
     public new const int ClassId = 131825;
 
-    public int UnitId;
-    public byte OldLevel;
-    public byte NewLevel;
-    public int UpgradeDay;
+    public int UnitId { get; set; }
+    public byte OldLevel { get; set; }
+    public byte NewLevel { get; set; }
+    public int UpgradeDay { get; set; }
 
     // Hero.PAS:57
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref UnitId, 25);
-        stream.Byte(ref OldLevel, 26);
-        stream.Byte(ref NewLevel, 27);
-        stream.Int32(ref UpgradeDay, 28);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

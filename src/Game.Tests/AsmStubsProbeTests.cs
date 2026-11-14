@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
+using Aow.Formats.Tree;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
@@ -269,33 +270,28 @@ public sealed class AsmStubsProbeTests
         return lines;
     }
 
+    // The original TBitList.LoadFromStream (Engine.pas:4782) and SaveToStream (Engine.pas:4791)
+    // are the load and save of the stored image, which the port keeps as LoadImage and SaveImage
+    // (the stream methods went with the last ReadWrite that called them, issue 185 PE-3-i). The
+    // load reads the bits after SetCapacity has raised the count, so the read ends at the stored
+    // header and the bits of the raised count.
     private static List<string> BitListStreamLines()
     {
         var lines = new List<string>();
         int[] sizes = [1, 3, 13, 31, 32, 33];
         foreach (int count in sizes)
         {
-            var stream = new MemoryStream();
             var list = new BitList();
-            bool defaultValue = false;
-            var data = new byte[64];
+            var data = new byte[(count + 7) >> 3];
             data.AsSpan().Fill(0xA5);
-            stream.Write(in defaultValue, 1);
-            stream.Write(in count, 4);
-            stream.Write(data);
-            stream.Position = 0;
-            list.LoadFromStream(stream);
+            list.LoadImage(new BitListImage(Default: 0, Count: count, Bits: data));
             string tag = Decrement(count);
             AddNumber(lines, "Engine.TBitList.Load_count_" + tag, list.Count);
             AddNumber(lines, "Engine.TBitList.Load_capacity_" + tag, list.Capacity);
-            AddNumber(lines, "Engine.TBitList.Load_position_" + tag, (int)stream.Position);
-            stream.Clear();
-            list.SaveToStream(stream);
-            AddNumber(lines, "Engine.TBitList.Save_size_" + tag, (int)stream.Length);
-            stream.Position = 1;
-            int saved = 0;
-            stream.Read(ref saved, 4);
-            AddNumber(lines, "Engine.TBitList.Save_count_" + tag, saved);
+            AddNumber(lines, "Engine.TBitList.Load_position_" + tag, 5 + ((list.Count + 7) >> 3));
+            var saved = list.SaveImage();
+            AddNumber(lines, "Engine.TBitList.Save_size_" + tag, 5 + saved.Bits.Length);
+            AddNumber(lines, "Engine.TBitList.Save_count_" + tag, saved.Count);
         }
 
         return lines;

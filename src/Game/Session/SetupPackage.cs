@@ -1,6 +1,5 @@
 // Translated from AoWSetup.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
@@ -10,10 +9,10 @@ public partial class SetupPackage : EngineObject
     // AoWSetup.pas:254
     public new const int ClassId = 131681;
 
-    public int MessageId;
-    public int Param2;
-    public int Param1;
-    public EngineObject Data;
+    public int MessageId { get; set; }
+    public int Param2 { get; set; }
+    public int Param1 { get; set; }
+    public EngineObject Data { get; set; }
 
     // AoWSetup.pas:245
     public override void Dispose()
@@ -29,15 +28,6 @@ public partial class SetupPackage : EngineObject
     }
 
     // AoWSetup.pas:257
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref MessageId, 20);
-        stream.Int32(ref Param2, 21);
-        stream.Int32(ref Param1, 22);
-        stream.Created(ref Data, null, 23);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -27,21 +24,12 @@ public partial class Enchantment : EngineObject
         EnchantmentId = 0;
     }
 
-    public int EnchantmentId;
-    public sbyte Source;
-    public int Upkeep;
-    public sbyte DispelResistance;
+    public int EnchantmentId { get; set; }
+    public sbyte Source { get; set; }
+    public int Upkeep { get; set; }
+    public sbyte DispelResistance { get; set; }
 
     // Spells.PAS:1726
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref DispelResistance), 10);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Source), 11);
-        stream.Int32(ref Upkeep, 12);
-        stream.Int32(ref EnchantmentId, 13);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -3,7 +3,6 @@ using Aow.Engine;
 
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Commands;
@@ -53,27 +52,31 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     private int _nextEnchantmentId;
-    public bool CheatEnabled;
+
+    public bool CheatEnabled { get; set; }
 
     public Player Player { get; set; }
 
     private int _updateCount;
-    public int ExternalMana;
-    public int ExternalPower;
-    private readonly ExternalPowerSource _externalPowerSource;
-    public int Mana;
 
-    public int ResearchPercentage;
+    public int ExternalMana { get; set; }
+    public int ExternalPower { get; private set; }
+
+    private readonly ExternalPowerSource _externalPowerSource;
+
+    public int Mana { get; private set; }
+
+    public int ResearchPercentage { get; set; }
 
     public Int32List Spells { get; }
 
-    public int ResearchSpellId;
-    public int ResearchPointsLeft;
+    public int ResearchSpellId { get; set; }
+    public int ResearchPointsLeft { get; set; }
 
     public EnchantmentList Enchantments { get; init; }
     public PowerSourceList PowerSources { get; }
 
-    public Set<PlayerEnchantmentType> ActiveEnchantments;
+    public Set<PlayerEnchantmentType> ActiveEnchantments { get; private set; }
 
     public Set<PlayerEnchantmentType> EnemyEnchantments { get; private set; }
 
@@ -116,23 +119,6 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:1947
-    // { Original bug: cleanup errors are silently swallowed. }
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Mana, 20);
-        stream.Int32(ref ResearchPercentage, 50, 21);
-        stream.Payload(22, Spells.LoadFromStream, Spells.SaveToStream);
-        stream.Int32(ref ResearchSpellId, 23);
-        stream.Int32(ref ResearchPointsLeft, 24);
-        stream.Object(Enchantments, 25);
-        TransferSet(ref ActiveEnchantments, 1, 26, stream.Bytes, 0);
-        stream.Int32(ref ExternalMana, 27);
-        stream.Int32(ref ExternalPower, 28);
-        stream.Boolean(ref CheatEnabled, 29);
-        stream.Int32(ref _nextEnchantmentId, 30);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

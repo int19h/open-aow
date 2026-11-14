@@ -1,6 +1,5 @@
 // Translated from Sound.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using static Aow.Rtl.RtlUnit;
@@ -23,15 +22,9 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
     public SfxSequence(ECustomNode owner) : base(owner)
     { }
 
-    internal int _id;
+    private int _id;
 
     // Sound.pas:1057
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref _id, 5);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

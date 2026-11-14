@@ -2,7 +2,6 @@
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -22,14 +21,6 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
     public byte UnknownBytes { get; set; }
 
     // IndependentAG.pas:170
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        int location = StoredCoordinateImage.From(GuardLocation, unknownBytes: UnknownBytes).ToInt32();
-        stream.Int32(ref location, 50);
-        (GuardLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

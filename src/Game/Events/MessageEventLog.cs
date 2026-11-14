@@ -1,7 +1,6 @@
 // Translated from EventLog.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -24,13 +23,13 @@ public partial class MessageEventLog : EventLog
         Layout = MessageEventLogLayout.Normal;
     }
 
-    public string Title = "";
+    public string Title { get; set; } = "";
 
     public string Header { get; } = "";
     public StringCollection Message { get; }
 
-    public MessageEventLogLayout Layout;
-    public MessageEventLogButtons Buttons;
+    public MessageEventLogLayout Layout { get; set; }
+    public MessageEventLogButtons Buttons { get; set; }
 
     public PressedEventLogButton PressedButton { get; private set; }
 
@@ -42,15 +41,6 @@ public partial class MessageEventLog : EventLog
     }
 
     // EventLog.pas:835
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(Message, 30);
-        stream.Bytes(Bytes.Of(ref Layout, 1), 1, 31);
-        stream.Bytes(Bytes.Of(ref Buttons, 1), 1, 32);
-        stream.String(ref Title, 33);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

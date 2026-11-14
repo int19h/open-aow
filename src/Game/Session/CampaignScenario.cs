@@ -1,6 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
@@ -17,28 +17,24 @@ public partial class CampaignScenario : EngineObject
 
     }
 
-    public int Id;
+    public int Id { get; set; }
+
     private string _name = "";
-    public string FileName = "";
+
+    public string FileName { get; private set; } = "";
 
     // Diplomacy.pas:2203
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Id, 9);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref _name, 10);
-            stream.String(ref FileName, 11);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         Id = persister.Int32("Id", value: Id);
-        _name = persister.String("Name", value: _name);
-        FileName = persister.String("FileName", value: FileName);
+        // The original ReadWrite leaves out the name and the file name under text only (the
+        // translate stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            _name = persister.String("Name", value: _name);
+            FileName = persister.String("FileName", value: FileName);
+        }
     }
 
     // intf_P5_08.inc:71

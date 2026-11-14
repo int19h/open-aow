@@ -1541,8 +1541,6 @@ public sealed partial class PersistEquivalenceTests
         {
         }
 
-        public override void ReadWrite(StorageStream stream) => throw new InvalidOperationException("hatred failed");
-
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("hatred failed");
     }
 
@@ -1551,8 +1549,6 @@ public sealed partial class PersistEquivalenceTests
         public ThrowingEnchantments(ECustomNode owner) : base(owner)
         {
         }
-
-        public override void ReadWrite(StorageStream stream) => throw new InvalidOperationException("enchantments failed");
 
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("enchantments failed");
     }
