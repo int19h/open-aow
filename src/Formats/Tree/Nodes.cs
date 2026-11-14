@@ -15,6 +15,34 @@ public abstract class TreeValue
     {
         return [];
     }
+
+    /// <summary>
+    /// Whether <paramref name="other"/> is a node of the same kind that holds the same value, with
+    /// nested members, items and children equal in the same order. Two trees of one class that are
+    /// equal write the same original image (<c>TEObject.Compare</c> compares those images).
+    /// </summary>
+    public abstract bool ValueEquals(TreeValue other);
+
+    /// <summary>Whether two lists hold equal values in the same order.</summary>
+    protected static bool ItemsEqual<T>(IReadOnlyList<T> left, IReadOnlyList<T> right, Func<T, T, bool> equal)
+    {
+        if (left.Count != right.Count) return false;
+        for (int i = 0; i < left.Count; i++)
+            if (!equal(left[i], right[i])) return false;
+        return true;
+    }
+
+    /// <summary>Whether two member lists hold the same names with equal values in the same order.</summary>
+    protected static bool MembersEqual(IReadOnlyList<(string Name, TreeValue Value)> left, IReadOnlyList<(string Name, TreeValue Value)> right) =>
+        ItemsEqual(left, right: right, equal: static (one, other) => one.Name == other.Name && one.Value.ValueEquals(other.Value));
+
+    /// <summary>Whether two lists of tree values are equal item by item.</summary>
+    protected static bool ValuesEqual<T>(IReadOnlyList<T> left, IReadOnlyList<T> right) where T : TreeValue =>
+        ItemsEqual(left, right: right, equal: static (one, other) => one.ValueEquals(other));
+
+    /// <summary>Whether two lists of plain values are equal item by item.</summary>
+    protected static bool PlainEqual<T>(IReadOnlyList<T> left, IReadOnlyList<T> right) =>
+        ItemsEqual(left, right: right, equal: static (one, other) => EqualityComparer<T>.Default.Equals(one, other));
 }
 
 /// <summary>A signed or unsigned integer of a fixed width. The document stores the number only.</summary>
@@ -23,6 +51,9 @@ public sealed class IntegerNode(int width, bool signed, long value) : TreeValue
     public int Width { get; } = width;
     public bool Signed { get; } = signed;
     public long Value { get; } = value;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is IntegerNode node && node.Width == Width && node.Signed == Signed && node.Value == Value;
 }
 
 /// <summary>
@@ -35,6 +66,9 @@ public sealed class EnumNode(string typeName, int width, bool signed, long value
     public int Width { get; } = width;
     public bool Signed { get; } = signed;
     public long Value { get; } = value;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is EnumNode node && node.TypeName == TypeName && node.Width == Width && node.Signed == Signed && node.Value == Value;
 }
 
 /// <summary>
@@ -46,6 +80,9 @@ public sealed class SetNode(string typeName, int width, ulong mask) : TreeValue
     public string TypeName { get; } = typeName;
     public int Width { get; } = width;
     public ulong Mask { get; } = mask;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is SetNode node && node.TypeName == TypeName && node.Width == Width && node.Mask == Mask;
 }
 
 /// <summary>A cross reference. Version 1 writes the key as a plain integer and keeps the domain here.</summary>
@@ -53,6 +90,9 @@ public sealed class ReferenceNode(string domain, int key) : TreeValue
 {
     public string Domain { get; } = domain;
     public int Key { get; } = key;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is ReferenceNode node && node.Domain == Domain && node.Key == Key;
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
@@ -64,12 +104,18 @@ public sealed class ReferenceNode(string domain, int key) : TreeValue
 public sealed class BooleanNode(bool value) : TreeValue
 {
     public bool Value { get; } = value;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is BooleanNode node && node.Value == Value;
 }
 
 /// <summary>Text that maps through code page 1252. An empty string is not stored.</summary>
 public sealed class StringNode(string value) : TreeValue
 {
     public string Value { get; } = value;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is StringNode node && node.Value == Value;
 }
 
 /// <summary>
@@ -94,6 +140,13 @@ public sealed class LinesNode : TreeValue
         var lines = Original.StringsCodec.Lines(text);
         return lines is null ? new LinesNode(null, text) : new LinesNode(lines, null);
     }
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is LinesNode node && node.RawText == RawText && LinesEqual(Lines, node.Lines);
+
+    // Two line lists, either of them absent when the block is raw text.
+    internal static bool LinesEqual(IReadOnlyList<string>? left, IReadOnlyList<string>? right) =>
+        left is null || right is null ? left is null && right is null : PlainEqual(left, right);
 }
 
 /// <summary>rwStringsEx. The object values are signed 32-bit integers, one per line.</summary>
@@ -117,6 +170,9 @@ public sealed class LinesWithValuesNode : TreeValue
         var lines = Original.StringsCodec.Lines(text);
         return lines is null ? new LinesWithValuesNode(null, text, objects) : new LinesWithValuesNode(lines, null, objects);
     }
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is LinesWithValuesNode node && node.RawText == RawText && LinesNode.LinesEqual(Lines, node.Lines) && PlainEqual(Objects, node.Objects);
 }
 
 /// <summary>
@@ -126,6 +182,9 @@ public sealed class LinesWithValuesNode : TreeValue
 public sealed class BytesNode(byte[] data) : TreeValue
 {
     public byte[] Data { get; } = data;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is BytesNode node && node.Data.AsSpan().SequenceEqual(Data);
 }
 
 /// <summary>
@@ -137,19 +196,29 @@ public sealed class SingleNode(int bits) : TreeValue
     public int Bits { get; } = bits;
 
     public float Value => BitConverter.Int32BitsToSingle(Bits);
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is SingleNode node && node.Bits == Bits;
 }
 
 /// <summary>Pairs of signed bytes in stored order (Delphi <c>TTerrainList</c>: terrain type and overlay type).</summary>
 public sealed class PairListNode(IReadOnlyList<(sbyte First, sbyte Second)> pairs) : TreeValue
 {
     public IReadOnlyList<(sbyte First, sbyte Second)> Pairs { get; } = pairs;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is PairListNode node && PlainEqual(Pairs, node.Pairs);
 }
 
 /// <summary>
 /// The frame table of an image sequence layer (Delphi <c>TFrameTableList</c>): the stored default
 /// and the image indices. The image stores every item, with no runs.
 /// </summary>
-public sealed record FrameTable(int Default, IReadOnlyList<int> Items);
+public sealed record FrameTable(int Default, IReadOnlyList<int> Items)
+{
+    /// <summary>Whether two frame tables hold the same default and the same items.</summary>
+    public bool ValueEquals(FrameTable other) => other.Default == Default && other.Items.SequenceEqual(Items);
+}
 
 /// <summary>
 /// One layer of an image sequence chain (Delphi <c>TImageSequence</c>). <see cref="Mode"/> is the
@@ -171,6 +240,11 @@ public sealed record SequenceLayer
 
     /// <summary>True for the modes whose layer stores a frame table.</summary>
     public static bool HasFrameTable(byte mode) => mode is 4 or 5;
+
+    /// <summary>Whether two layers hold the same values, their frame tables item by item.</summary>
+    public bool ValueEquals(SequenceLayer other) =>
+        this with { Frames = null } == other with { Frames = null }
+            && (Frames is null || other.Frames is null ? Frames is null && other.Frames is null : Frames.ValueEquals(other.Frames));
 }
 
 /// <summary>
@@ -180,12 +254,18 @@ public sealed record SequenceLayer
 public sealed class ImageSequenceListNode(IReadOnlyList<IReadOnlyList<SequenceLayer>?> entries) : TreeValue
 {
     public IReadOnlyList<IReadOnlyList<SequenceLayer>?> Entries { get; } = entries;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is ImageSequenceListNode node && ItemsEqual(Entries, right: node.Entries, equal: static (one, two) =>
+            one is null || two is null ? one is null && two is null : ItemsEqual(one, right: two, equal: static (left, right) => left.ValueEquals(right)));
 }
 
 /// <summary>A stored null, the class id 0 of rwCreateEObject.</summary>
 public sealed class NullNode : TreeValue
 {
     public static NullNode Instance { get; } = new();
+
+    public override bool ValueEquals(TreeValue other) => other is NullNode;
 }
 
 /// <summary>
@@ -205,6 +285,9 @@ public sealed class ObjectNode : TreeValue
     public string? ClassName { get; }
     public int? Slot { get; }
     public IReadOnlyList<(string Name, TreeValue Value)> Members => _members;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is ObjectNode node && node.ClassName == ClassName && node.Slot == Slot && MembersEqual(Members, node.Members);
 
     internal void Add(string name, TreeValue value) => _members.Add((name, value));
 
@@ -244,6 +327,9 @@ public sealed class RecordNode : TreeValue
 
     public IReadOnlyList<(string Name, TreeValue Value)> Members => _members;
 
+    public override bool ValueEquals(TreeValue other) =>
+        other is RecordNode node && MembersEqual(Members, node.Members);
+
     internal void Add(string name, TreeValue value) => _members.Add((name, value));
 
     public TreeValue? Find(string name)
@@ -279,6 +365,9 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
     public IReadOnlyList<int> Indices { get; } = indices;
     public byte Residue { get; } = residue;
 
+    public override bool ValueEquals(TreeValue other) =>
+        other is BitArrayNode node && node.Count == Count && node.Residue == Residue && PlainEqual(Indices, node.Indices);
+
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
@@ -297,6 +386,9 @@ public sealed class BitListNode(byte defaultValue, int count, int[] indices, byt
     public int Count { get; } = count;
     public IReadOnlyList<int> Indices { get; } = indices;
     public byte Residue { get; } = residue;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is BitListNode node && node.Default == Default && node.Count == Count && node.Residue == Residue && PlainEqual(Indices, node.Indices);
 }
 
 /// <summary>
@@ -316,6 +408,9 @@ public sealed class DefaultListNode(int width, long defaultValue, IReadOnlyList<
     public int Width { get; } = width;
     public long Default { get; } = defaultValue;
     public IReadOnlyList<long> Items { get; } = items;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is DefaultListNode node && node.Width == Width && node.Default == Default && PlainEqual(Items, node.Items);
 }
 
 /// <summary>One slot of a keyed dynamic member: an object node or the stored null.</summary>
@@ -333,6 +428,9 @@ public sealed class SlotListNode : TreeValue
     private readonly List<SlotEntry> _entries = [];
 
     public IReadOnlyList<SlotEntry> Entries => _entries;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is SlotListNode node && ItemsEqual(Entries, right: node.Entries, equal: static (one, two) => one.Slot == two.Slot && one.Value.ValueEquals(two.Value));
 
     internal void Add(int slot, TreeValue value) => _entries.Add(new SlotEntry(slot, value));
 
@@ -371,6 +469,9 @@ public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fi
     /// <summary>The fields in row order: the field at x, y is at <c>y * Width + x</c>.</summary>
     public IReadOnlyList<ObjectNode> Fields { get; } = fields;
 
+    public override bool ValueEquals(TreeValue other) =>
+        other is GridNode node && node.Width == Width && node.Height == Height && ValuesEqual(Fields, node.Fields);
+
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         for (int i = 0; i < Fields.Count; i++)
@@ -400,6 +501,9 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
 {
     public IReadOnlyList<TreeValue> Items { get; } = items;
 
+    public override bool ValueEquals(TreeValue other) =>
+        other is SequenceNode node && ValuesEqual(Items, node.Items);
+
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         for (int i = 0; i < Items.Count; i++)
@@ -423,12 +527,18 @@ public sealed class NestedDocumentNode(string profile, byte[] image) : TreeValue
 {
     public string Profile { get; } = profile;
     public byte[] Image { get; } = image;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is NestedDocumentNode node && node.Profile == Profile && node.Image.AsSpan().SequenceEqual(Image);
 }
 
 /// <summary>A variable-length list. Version 1 refuses it. It is not the children of a node.</summary>
 public sealed class ListNode : TreeValue
 {
     public List<TreeValue> Items { get; } = [];
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is ListNode node && ValuesEqual(Items, node.Items);
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
@@ -450,6 +560,9 @@ public sealed class ListNode : TreeValue
 public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValue
 {
     public IReadOnlyList<ObjectNode> Children { get; } = children;
+
+    public override bool ValueEquals(TreeValue other) =>
+        other is ChildListNode node && ValuesEqual(Children, node.Children);
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {

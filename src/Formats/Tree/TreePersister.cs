@@ -43,6 +43,24 @@ public static class TreeWriter
         objectValue.Persist(persister);
         return node;
     }
+
+    /// <summary>
+    /// Writes one object the way <c>TEngine.WriteEObject</c> writes it (<c>rwEObject</c> with id
+    /// 0): a failure of the root leaves the root out of the image, which a load then reads as an
+    /// object with no stored member. The tree of such a write is an empty object node. A failure
+    /// inside a nested object still throws (persistence-tree.md 13).
+    /// </summary>
+    public static ObjectNode WriteObject(IPersistable objectValue, IPersistableFactory factory)
+    {
+        try
+        {
+            return Write(objectValue, factory: factory);
+        }
+        catch (System.Exception)
+        {
+            return new ObjectNode(null, null);
+        }
+    }
 }
 
 /// <summary>

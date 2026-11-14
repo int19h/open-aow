@@ -309,38 +309,6 @@ public partial class GameEngine : ENode
         objectValue.MessageProc(ref message, this);
     }
 
-    // Engine.pas:8895
-    public void WriteEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
-    {
-        StorageStream S;
-        S = new StorageWriter(stream, this, false);
-        S.OnProgress += progress;
-        try
-        {
-            S.Object(objectValue, 0);
-        }
-        finally
-        {
-            S?.Dispose();
-        }
-    }
-
-    // Engine.pas:8908
-    public void ReadEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
-    {
-        StorageStream S;
-        S = new StorageReader(stream, this, false);
-        S.OnProgress += progress;
-        try
-        {
-            S.Object(objectValue, 0);
-        }
-        finally
-        {
-            S?.Dispose();
-        }
-    }
-
     // Engine.pas:8947
     public void StoreEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
@@ -430,28 +398,20 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8997
+    // The original image of the object goes to the file: the tree through the original backend,
+    // as WriteEObject wrote it (persistence-tree.md 13). The system hero and item libraries and
+    // the e-mail game index stay original files.
     public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        MemoryStream M;
-        Stream F = default;
-        M = new MemoryStream();
+        var image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
+        Stream F = OpenFile(fileName, 65535);
         try
         {
-            WriteEngineObject(M, objectValue, progress);
-            F = OpenFile(fileName, 65535);
-            try
-            {
-                M.Position = 0;
-                F.CopyFrom(M, (int)M.Length);
-            }
-            finally
-            {
-                F?.Dispose();
-            }
+            F.Write(image);
         }
         finally
         {
-            M?.Dispose();
+            F?.Dispose();
         }
     }
 
@@ -471,10 +431,9 @@ public partial class GameEngine : ENode
             F?.Dispose();
         }
 
-        M.Position = 0;
         try
         {
-            ReadEngineObject(M, objectValue, progress);
+            ReadObjectImage(M.ToArray(), objectValue: objectValue, progress: progress, classTable: "game");
         }
         finally
         {
@@ -483,7 +442,9 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9037
-    public void WriteToFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
+    // A game set file: the object image between two CRC words. classTable names the engine table
+    // of the classes the file holds ("tactical" for the combat resources).
+    public void WriteToFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
         int crc1 = default;
         int crc2 = default;
@@ -492,7 +453,7 @@ public partial class GameEngine : ENode
         M = new MemoryStream();
         try
         {
-            WriteEngineObject(M, objectValue, progress);
+            M.Write(WriteObjectImage(objectValue, progress: progress, classTable: classTable));
             var size = (int)M.Length;
             crc1 = EngineServices.GetCrc32(M.GetBuffer(), size);
             M.Write(Bytes.Of(ref crc1, 4));
@@ -517,7 +478,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9061
-    public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
+    public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
         MemoryStream M;
         Stream F;
@@ -545,8 +506,8 @@ public partial class GameEngine : ENode
 
                 if (condition)
                 {
-                    M.Position = 4;
-                    ReadEngineObject(M, objectValue, progress);
+                    var imageSize = (int)M.Length - 8;
+                    ReadObjectImage(M.GetBuffer().AsSpan(4, imageSize).ToArray(), objectValue: objectValue, progress: progress, classTable: classTable);
                     result = true;
                 }
             }
@@ -558,6 +519,27 @@ public partial class GameEngine : ENode
         }
 
         return result;
+    }
+
+    // The image TEngine.WriteEObject writes for an object (Engine.pas:8895): the tree of the object
+    // through the original backend under its class, inside the outer table of id 0. classTable
+    // names the engine table of the class ids of the created objects inside.
+    public byte[] WriteObjectImage(EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
+    {
+        var factory = new EnginePersistableFactory(this, progress: progress);
+        var root = TreeWriter.Write(objectValue, factory: factory);
+        return GameBoundary.WriteWrittenObject(root, className: factory.ClassName(objectValue), classTable: classTable);
+    }
+
+    // Loads an object image as TEngine.ReadEObject loads it (Engine.pas:8908): the original backend
+    // reads the root under the class of the object, and the tree loads into the object. A failure
+    // of the object goes to the load's handler as rwEObject passes it to OnError, and no handler
+    // continues.
+    public void ReadObjectImage(byte[] image, EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
+    {
+        var factory = new EnginePersistableFactory(this, progress: progress);
+        var root = GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable);
+        TreeReader.ReadObject(root, objectValue: objectValue, factory: factory);
     }
 
     public List<EngineClass> EngineClasses { get => _engineClasses; }

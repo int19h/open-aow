@@ -175,38 +175,17 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2511
+    // The original compares the images WriteEObject writes. Two objects of one class whose trees
+    // are equal write equal images (persistence-tree.md 13).
     public virtual bool Compare(EngineObject objectValue, GameEngine engine)
     {
-        MemoryStream s1;
-        MemoryStream s2;
-        bool result = false;
         if (EngineClass.ClassId != objectValue.EngineClass.ClassId)
         {
-            return result;
+            return false;
         }
 
-        s1 = new MemoryStream();
-        s2 = new MemoryStream();
-        try
-        {
-            engine.WriteEngineObject(s1, this, null);
-            engine.WriteEngineObject(s2, objectValue, null);
-            bool condition = s1.Length == s2.Length;
-            if (condition)
-            {
-                var size = (int)s1.Length;
-                condition = CompareMem(s1.GetBuffer().AsSpan(0, size), s2.GetBuffer().AsSpan(0, size), size);
-            }
-
-            result = condition;
-        }
-        finally
-        {
-            s1?.Dispose();
-            s2?.Dispose();
-        }
-
-        return result;
+        var factory = new EnginePersistableFactory(engine);
+        return TreeWriter.WriteObject(this, factory: factory).ValueEquals(TreeWriter.WriteObject(objectValue, factory: factory));
     }
 
     // Engine.pas:2466
@@ -232,20 +211,14 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2529
+    // The original writes the source with WriteEObject and reads the image into this object with
+    // ReadEObject. The source's tree loads into this object the same way: the load clears it
+    // first, a member the source leaves out takes its fallback, and a failure goes to the load's
+    // handler, of which a copy has none (persistence-tree.md 13).
     public virtual void Assign(EngineObject source, GameEngine engine)
     {
-        MemoryStream S;
-        S = new MemoryStream();
-        try
-        {
-            engine.WriteEngineObject(S, source, null);
-            S.Position = 0;
-            engine.ReadEngineObject(S, this, null);
-        }
-        finally
-        {
-            S.Dispose();
-        }
+        var factory = new EnginePersistableFactory(engine);
+        TreeReader.ReadObject(TreeWriter.WriteObject(source, factory: factory), objectValue: this, factory: factory);
     }
 
     // Engine.pas:2483
@@ -285,23 +258,13 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2543
+    // A new object of this class loads the tree of this one, as Assign loads it.
     public EngineObject Copy(GameEngine engine)
     {
-        EngineObject result = default;
-        MemoryStream S;
-        S = new MemoryStream();
-        try
-        {
-            engine.WriteEngineObject(S, this, null);
-            S.Position = 0;
-            result = EngineClass.CreateInstance(null, holder: engine);
-            engine.ReadEngineObject(S, result, null);
-        }
-        finally
-        {
-            S.Dispose();
-        }
-
+        var factory = new EnginePersistableFactory(engine);
+        var tree = TreeWriter.WriteObject(this, factory: factory);
+        var result = EngineClass.CreateInstance(null, holder: engine);
+        TreeReader.ReadObject(tree, objectValue: result, factory: factory);
         return result;
     }
 

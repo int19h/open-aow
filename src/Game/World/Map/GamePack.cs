@@ -255,7 +255,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
                 stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_loadingItemsText), 90);
                 loaded = loaded && GetEngine().ReadFromFileCrc(path + "ITEMGFX.PFS", ItemGraphicsResources, null);
                 loaded = loaded && GetEngine().ReadFromFileCrc(path + "FACERES.PFS", FaceResources, null);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", CombatResources, null);
+                loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
                 loaded = loaded && GetEngine().ReadFromFileCrc(path + "SPELLS.PFS", SpellControl, null);
                 loaded = loaded && GetEngine().ReadFromFileCrc(path + "TEXT.PFS", TextControl, null);
                 if (!loaded)
@@ -273,7 +273,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
                 GetEngine().WriteToFileCrc(path + "HERORES.PFS", HeroResources, null);
                 GetEngine().WriteToFileCrc(path + "ITEMGFX.PFS", ItemGraphicsResources, null);
                 GetEngine().WriteToFileCrc(path + "FACERES.PFS", FaceResources, null);
-                GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", CombatResources, null);
+                GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
                 GetEngine().WriteToFileCrc(path + "SPELLS.PFS", SpellControl, null);
                 GetEngine().WriteToFileCrc(path + "TEXT.PFS", TextControl, null);
             }
@@ -332,7 +332,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
             PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingItemsText), percent: 90);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "SPELLS.PFS", objectValue: SpellControl, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "TEXT.PFS", objectValue: TextControl, progress: null);
             if (!loaded)
@@ -350,7 +350,7 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
             GetEngine().WriteToFileCrc(path + "HERORES.PFS", objectValue: HeroResources, progress: null);
             GetEngine().WriteToFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
             GetEngine().WriteToFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
-            GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null);
+            GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
             GetEngine().WriteToFileCrc(path + "SPELLS.PFS", objectValue: SpellControl, progress: null);
             GetEngine().WriteToFileCrc(path + "TEXT.PFS", objectValue: TextControl, progress: null);
         }

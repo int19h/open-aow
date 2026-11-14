@@ -204,13 +204,13 @@ public sealed class PersistCorpusTests
         return classes;
     }
 
-    // Unitres.pfs holds a CRC word before the stored object, as GameEngine.ReadFromFileCrc reads it.
+    // Unitres.pfs holds the stored object between two CRC words, and GameEngine.ReadFromFileCrc
+    // reads the image between them.
     private static UnitResourceList UnitResources()
     {
         var list = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
-        using var memory = new MemoryStream(File.ReadAllBytes(Path.Combine(Root, "Release", "Unitres.pfs")));
-        memory.Position = 4;
-        EngineFixture.Engine.ReadEngineObject(memory, list, progress: null);
+        var bytes = File.ReadAllBytes(Path.Combine(Root, "Release", "Unitres.pfs"));
+        EngineFixture.Engine.ReadObjectImage(bytes[4..^4], objectValue: list, progress: null, classTable: "game");
         return list;
     }
 
@@ -355,6 +355,22 @@ public sealed class PersistCorpusTests
                 finally
                 {
                     Release(fromImage);
+                }
+                // PE-3-h: a copy goes through the tree and loads what the stream copy of the
+                // instance loaded (WriteEObject, then ReadEObject into a new object).
+                Runtime.RandSeed = seed;
+                var copied = loaded.Copy(EngineFixture.Engine);
+                var streamCopied = Blank(classValue.Name);
+                try
+                {
+                    Runtime.RandSeed = seed;
+                    Load(streamCopied, Image(loaded));
+                    EqualBytes(Image(streamCopied), actual: Image(copied), label: file + " " + classValue.Name + " copy");
+                }
+                finally
+                {
+                    Release(streamCopied);
+                    Release(copied);
                 }
             }
             finally

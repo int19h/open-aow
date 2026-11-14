@@ -525,6 +525,14 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
     internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context) =>
         (context.Schema.Get(RootFamily), ReadTop(context, start: 0, end: context.Data.Length, layout: new LayoutBuilder()), context.Data.Length);
 
+    /// <summary>The image TEngine.WriteEObject writes: the outer table with the root at id 0, then the root.</summary>
+    internal override byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context)
+    {
+        var output = new ByteBuffer(rootImage.Length + 16);
+        WriteTop(context, root: rootImage, layout: null, at: new JsonObject(), output: output);
+        return output.ToArray();
+    }
+
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {
         CheckContainer(context, container, "profile", "compression");
