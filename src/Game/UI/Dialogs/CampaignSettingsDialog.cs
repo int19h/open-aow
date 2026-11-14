@@ -16,9 +16,9 @@ public partial class CampaignSettingsDialog : UIModule
     public CampaignSettingsDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public ComboBox DifficultyLevelComboBox;
-    public ComboBox TurnModeComboBox;
+    public Window Window { get; private set; }
+    public ComboBox DifficultyLevelComboBox { get; private set; }
+    public ComboBox TurnModeComboBox { get; private set; }
 
     // AoWCampaignSettings.pas:45
     public void DlgShow()

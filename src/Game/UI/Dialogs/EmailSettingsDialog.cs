@@ -11,10 +11,10 @@ public partial class EmailSettingsDialog : UIModule
     public EmailSettingsDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Edit LocalEmailAddressEdit;
-    public Edit SmtpServerEdit;
-    public Edit AttachmentDirectoryEdit;
+    public Window Window { get; private set; }
+    public Edit LocalEmailAddressEdit { get; private set; }
+    public Edit SmtpServerEdit { get; private set; }
+    public Edit AttachmentDirectoryEdit { get; private set; }
 
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()

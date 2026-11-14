@@ -18,14 +18,14 @@ public partial class PowerDialog : UIModule
     public PowerDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label NetManaLabel;
-    public Label ResearchLeftLabel;
-    public Label SpellNameLabel;
-    public Label PowerLabel;
-    public Label ManaLabel;
-    public Label ResearchLabel;
-    public HorizontalScrollBar PowerSlider;
+    public Window Window { get; private set; }
+    public Label NetManaLabel { get; private set; }
+    public Label ResearchLeftLabel { get; private set; }
+    public Label SpellNameLabel { get; private set; }
+    public Label PowerLabel { get; private set; }
+    public Label ManaLabel { get; private set; }
+    public Label ResearchLabel { get; private set; }
+    public HorizontalScrollBar PowerSlider { get; private set; }
 
     // AoWPowerDlg.pas:70
     public void Execute()

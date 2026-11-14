@@ -18,14 +18,15 @@ public partial class DisjunctionDialog : UIModule
     public DisjunctionDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label DisjunctionChanceLabel;
-    public Label DisjunctionManaLabel;
-    public ListBox OwnerList;
-    public ListBox EnchantmentList;
-    public VerticalScrollBar EnchantmentsScrollBar;
-    public HorizontalScrollBar ChanceSlider;
-    public UserDrawBox MapView;
+    public Window Window { get; private set; }
+    public Label DisjunctionChanceLabel { get; private set; }
+    public Label DisjunctionManaLabel { get; private set; }
+    public ListBox OwnerList { get; private set; }
+    public ListBox EnchantmentList { get; private set; }
+    public VerticalScrollBar EnchantmentsScrollBar { get; private set; }
+    public HorizontalScrollBar ChanceSlider { get; private set; }
+    public UserDrawBox MapView { get; private set; }
+
     private DisjunctionSpellCaster _caster;
     private int _sortOrder;
     private sbyte _mapX;

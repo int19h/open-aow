@@ -17,14 +17,14 @@ public partial class PlayerInfoWindow : UIModule
     public PlayerInfoWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public ListBox EventList;
-    public Label OfTheLabel;
-    public Label TurnLabel;
-    public Image RaceShield;
-    public Panel FaceFrame;
-    public Label PlayerLabel;
-    public Label RaceLabel;
+    public Window MainWindow { get; private set; }
+    public ListBox EventList { get; private set; }
+    public Label OfTheLabel { get; private set; }
+    public Label TurnLabel { get; private set; }
+    public Image RaceShield { get; private set; }
+    public Panel FaceFrame { get; private set; }
+    public Label PlayerLabel { get; private set; }
+    public Label RaceLabel { get; private set; }
 
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()

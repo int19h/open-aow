@@ -18,12 +18,13 @@ public partial class ArmyInfoDialog : UIModule
     public ArmyInfoDialog(UIContext ui) : base(ui)
     { }
 
-    public Panel UnitPanel;
-    public Label TitleLabel;
-    public Window Window;
-    public Memo MessageMemo;
-    public Image FaceFrame;
-    public Label HeaderLabel;
+    public Panel UnitPanel { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Window Window { get; private set; }
+    public Memo MessageMemo { get; private set; }
+    public Image FaceFrame { get; private set; }
+    public Label HeaderLabel { get; private set; }
+
     private bool _unitInfoShown;
     private event ExecuteDoneEvent OnClose;
     private ArmyInfoEventLog _event;

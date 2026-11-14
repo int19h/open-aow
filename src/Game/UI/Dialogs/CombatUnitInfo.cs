@@ -17,36 +17,36 @@ public partial class CombatUnitInfo : UIModule
     public CombatUnitInfo(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Image UnitMovesIcon;
-    public Label UnitAttackLabel;
-    public Label UnitDefenseLabel;
-    public Label UnitMovesLabel;
-    public Label UnitDamageLabel;
-    public Label UnitResistanceLabel;
-    public Label UnitHitsLabel;
-    public Memo UnitNameMemo;
-    public ListBox UnitAbilityList;
-    public Label AbilityNameLabel;
-    public Panel CombatUnitPanel;
-    public ListBox TargetAbilityList;
-    public Panel CombatAbilityPanel;
-    public Label AbilityAttackLabel;
-    public ListBox AbilityStatisticsList;
-    public Label AbilityDamageLabel;
-    public Label TargetUnitLabel;
-    public Panel TargetSelectPanel;
-    public Panel NoTargetPanel;
-    public Gauge UnitHitsGauge;
-    public Gauge UnitManaGauge;
-    public Image TargetMovesIcon;
-    public Label TargetAttackLabel;
-    public Label TargetDefenseLabel;
-    public Label TargetMovesLabel;
-    public Label TargetDamageLabel;
-    public Label TargetResistanceLabel;
-    public Label TargetHitsLabel;
-    public Panel UnitFramePanel;
+    public Window MainWindow { get; private set; }
+    public Image UnitMovesIcon { get; private set; }
+    public Label UnitAttackLabel { get; private set; }
+    public Label UnitDefenseLabel { get; private set; }
+    public Label UnitMovesLabel { get; private set; }
+    public Label UnitDamageLabel { get; private set; }
+    public Label UnitResistanceLabel { get; private set; }
+    public Label UnitHitsLabel { get; private set; }
+    public Memo UnitNameMemo { get; private set; }
+    public ListBox UnitAbilityList { get; private set; }
+    public Label AbilityNameLabel { get; private set; }
+    public Panel CombatUnitPanel { get; private set; }
+    public ListBox TargetAbilityList { get; private set; }
+    public Panel CombatAbilityPanel { get; private set; }
+    public Label AbilityAttackLabel { get; private set; }
+    public ListBox AbilityStatisticsList { get; private set; }
+    public Label AbilityDamageLabel { get; private set; }
+    public Label TargetUnitLabel { get; private set; }
+    public Panel TargetSelectPanel { get; private set; }
+    public Panel NoTargetPanel { get; private set; }
+    public Gauge UnitHitsGauge { get; private set; }
+    public Gauge UnitManaGauge { get; private set; }
+    public Image TargetMovesIcon { get; private set; }
+    public Label TargetAttackLabel { get; private set; }
+    public Label TargetDefenseLabel { get; private set; }
+    public Label TargetMovesLabel { get; private set; }
+    public Label TargetDamageLabel { get; private set; }
+    public Label TargetResistanceLabel { get; private set; }
+    public Label TargetHitsLabel { get; private set; }
+    public Panel UnitFramePanel { get; private set; }
 
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()

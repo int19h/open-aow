@@ -11,12 +11,12 @@ public partial class Pop3Dialog : UIModule
     public Pop3Dialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public ListBox FoundEmailGamesList;
-    public Panel ExitPanel;
-    public Panel StartExitPanel;
-    public Edit LocalEmailAddressEdit;
-    public Label AttachmentDirectoryLabel;
+    public Window Window { get; private set; }
+    public ListBox FoundEmailGamesList { get; private set; }
+    public Panel ExitPanel { get; private set; }
+    public Panel StartExitPanel { get; private set; }
+    public Edit LocalEmailAddressEdit { get; private set; }
+    public Label AttachmentDirectoryLabel { get; private set; }
 
     private int _checkDelay;
 
