@@ -286,7 +286,7 @@ internal sealed class FrameFixture
                     var hero = world.HeroControl.GetHero(i);
                     sbyte x = -1, y = -1, level = -1;
                     hero.GetLocation(out x, out y, out level);
-                    object[] Items(ItemList list) => Enumerable.Range(0, list.GetCount())
+                    object[] Items(ItemCollection list) => Enumerable.Range(0, list.Count)
                         .Select(index => list.GetItem(index))
                         .OfType<Item>()
                         .Select(item => (object)new { FItemID = item.ItemId, name = item.Name, type = item.ItemType.ToString() }).ToArray();
@@ -300,8 +300,8 @@ internal sealed class FrameFixture
                         attack = hero.GetAttack(),
                         defense = hero.GetDefense(),
                         damage = hero.GetDamage(),
-                        equipped = Items(hero.HeroItems),
-                        inventory = Items(hero.Inventory)
+                        equipped = Items(hero.HeroItems.Items),
+                        inventory = Items(hero.Inventory.Items)
                     });
                 }
                 File.WriteAllText(Path.Combine(output, "heroes.json"), JsonSerializer.Serialize(heroes,

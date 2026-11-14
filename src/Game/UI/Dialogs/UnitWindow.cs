@@ -520,10 +520,10 @@ public partial class UnitWindow : UIModule
         if (component.Tag != -1)
         {
             U = (Hero)UI.General.SelectedUnit;
-            item = U.Inventory.FindItem(component.Tag);
+            item = U.Inventory.Items.FindItem(component.Tag);
             if (item == null)
             {
-                item = U.HeroItems.FindItem(component.Tag);
+                item = U.HeroItems.Items.FindItem(component.Tag);
             }
 
             if (item == null)

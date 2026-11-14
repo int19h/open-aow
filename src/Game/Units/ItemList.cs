@@ -4,18 +4,18 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
 // inherited children, update lock. change event
-public partial class ItemList : EChangeNotifyNode, IChildList<Item>
+public partial class ItemList : EChangeNotifyNode, IChildList<Item>, IItemHolder
 {
+    /// <summary>The items of this list.</summary>
+    public ItemCollection Items => new(this);
+
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only an Item, so the cast never fails.
-    public Item this[int index] => (Item)GetChild(index);
+    public Item this[int index] => Items[index];
 
     // An item list takes items only. A list of one kind of item narrows that through AcceptsItem,
     // and cannot widen it.
@@ -121,20 +121,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
     }
 
     // Army.PAS:4587
-    public virtual Item GetItem(int index)
-    {
-        Item result;
-        if (index >= 0 && index < Count)
-        {
-            result = this[index];
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
+    public virtual Item GetItem(int index) => Items.GetItem(index);
 
     // Army.PAS:4596
     public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
@@ -145,65 +132,19 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
     }
 
     // Army.PAS:4570
-    public Item FindItem(int itemId)
-    {
-        Item result;
-        int I;
-        Item item;
-        if (this != null)
-        {
-            I = 0;
-            result = null;
-            while (I != Count && result == null)
-            {
-                item = this[I];
-                if (item != null && itemId == item.ItemId)
-                {
-                    result = item;
-                }
-
-                I += 1;
-            }
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
+    public Item FindItem(int itemId) => Items.FindItem(itemId);
 
     // Army.PAS:4593
-    public void Update()
-    {
-        SortOnType();
-    }
+    public void Update() => Items.Update();
 
     // Army.PAS:4609
-    public void SortOnName()
-    {
-        SortChildrenStable<Item>(CompareItemNames);
-    }
+    public void SortOnName() => Items.SortOnName();
 
     // Army.PAS:4619
-    public void SortOnType()
-    {
-        SortChildrenStable<Item>(CompareItemTypes);
-    }
+    public void SortOnType() => Items.SortOnType();
 
     // Army.PAS:4622
-    public void RegisterItems()
-    {
-        Item item;
-        for (int I = Count - 1; I >= 0; I--)
-        {
-            item = this[I];
-            if (item != null && !item.Status.Contains(ItemStatusElement.Registered))
-            {
-                StrategicMap.Current.ItemControl.RegisterItem(item);
-            }
-        }
-    }
+    public void RegisterItems() => Items.RegisterItems();
 
     // Army.PAS:4633
     public new void LockChanged()
@@ -224,11 +165,6 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
             return RtlUnit.CompareText(item1.OwnerName, item2.OwnerName);
         }
         return 0;
-    }
-
-    private static int CompareItemTypes(Item item1, Item item2)
-    {
-        return item1.ItemType - item2.ItemType;
     }
 
     // intf_P2_04.inc:118

@@ -813,11 +813,11 @@
   },
   "Aow.Game.Units.HeroInventory": {
     "id": 265,
-    "parent": "Aow.Game.Units.ItemList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Units.HeroItems": {
     "id": 265,
-    "parent": "Aow.Game.Units.ItemList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Events.HeroJoinEventLog": {
     "id": 131828,
@@ -917,7 +917,7 @@
   },
   "Aow.Game.Units.ItemLibrary": {
     "id": 265,
-    "parent": "Aow.Game.Units.ItemList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Units.ItemLibraryManager": {
     "id": 80,

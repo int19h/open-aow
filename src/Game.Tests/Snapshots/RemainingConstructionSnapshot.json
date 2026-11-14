@@ -39852,7 +39852,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "ItemList.OnChanged": null
+                "HeroItems.OnChanged": null
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -39878,7 +39878,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "ItemList.OnChanged": null
+                "HeroInventory.OnChanged": null
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -39987,7 +39987,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "ItemList.OnChanged": null
+                "HeroItems.OnChanged": null
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40013,7 +40013,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "ItemList.OnChanged": null
+                "HeroInventory.OnChanged": null
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40145,7 +40145,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "ItemList.OnChanged": null
+                "HeroItems.OnChanged": null
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40171,7 +40171,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "ItemList.OnChanged": null
+                "HeroInventory.OnChanged": null
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40280,7 +40280,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "ItemList.OnChanged": null
+                "HeroItems.OnChanged": null
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40306,7 +40306,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "ItemList.OnChanged": null
+                "HeroInventory.OnChanged": null
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40465,7 +40465,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "ItemList.OnChanged": null
+                "HeroItems.OnChanged": null
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40491,7 +40491,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "ItemList.OnChanged": null
+                "HeroInventory.OnChanged": null
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,
@@ -40638,7 +40638,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "ItemList.OnChanged": null
+                "HeroItems.OnChanged": null
               },
               "Hero.HeroName": "",
               "Hero.HeroResource": null,
@@ -40664,7 +40664,7 @@
                 "EChangeNotifyNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "ItemList.OnChanged": null
+                "HeroInventory.OnChanged": null
               },
               "Hero.Level": 1,
               "Hero.LibraryId": -1,

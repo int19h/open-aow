@@ -50,7 +50,7 @@ public partial class UnitWindow
                 s_selectedItem = check;
                 _highlight = 50;
                 _highlightStep = 10;
-                var item = hero.Inventory.FindItem(check.Tag) ?? hero.HeroItems.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
+                var item = hero.Inventory.Items.FindItem(check.Tag) ?? hero.HeroItems.Items.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
                 if (item is not null)
                 {
                     _cursorImage = item.GetImage();
