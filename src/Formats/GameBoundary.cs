@@ -321,11 +321,16 @@ public static class GameBoundary
     }
 
     /// <summary>
-    /// The engine table of the class ids inside a packet. The strategic table when the class
-    /// lists it or lists none, otherwise the first table the class lists.
+    /// The engine table of the class ids inside a packet. The stream resolved those ids through
+    /// the engine that owned the stream. That engine registered the combat classes, and the
+    /// tactical table holds those classes and every class of the strategic table, at the same
+    /// ids. A class enlisted in the tactical table uses it. A class enlisted in none uses the
+    /// strategic table. Any other class uses the first table it lists.
     /// </summary>
     public static string PacketClassTable(SchemaClass classValue) =>
-        classValue.Engines.Contains("game") || classValue.Engines.Count == 0 ? "game" : classValue.Engines[0];
+        classValue.Engines.Contains("tactical") ? "tactical"
+        : classValue.Engines.Count == 0 ? "game"
+        : classValue.Engines[0];
 
     /// <summary>
     /// Converts a tree the game wrote to the canonical document bytes (own-formats.md 4.2): the

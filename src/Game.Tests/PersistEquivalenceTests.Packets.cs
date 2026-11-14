@@ -97,6 +97,38 @@ public sealed partial class PersistEquivalenceTests
         Assert.Null(EngineFixture.Engine.RetrieveEngineObject(new MemoryStream(packet), progress: null));
     }
 
+    // A tactical frame sends a token package whose list holds a combat move. The stream resolves
+    // that class in the tactical table. StoreEngineObject writes the package and
+    // RetrieveEngineObject reads the same bytes back.
+    [Fact]
+    public void ATokenPackageWithACombatMoveRoundTripsAsAPacket()
+    {
+        var descriptor = EngineClass.Of<CombatMoveTokenEvent>();
+        bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
+        if (added) EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        CombatMoveTokenEvent move = new(null!) { Holder = EngineFixture.Engine, TokenCounter = 4 };
+        try
+        {
+            using var package = new TokenPackage(null!) { Holder = EngineFixture.Engine };
+            package.TokenEvents.Add(move);
+            using var memory = new MemoryStream();
+            EngineFixture.Engine.StoreEngineObject(memory, objectValue: package, progress: null);
+            byte[] sent = memory.ToArray();
+            memory.Position = 0;
+            using var received = Assert.IsType<TokenPackage>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            var child = Assert.IsType<CombatMoveTokenEvent>(received.TokenEvents[0]);
+            Assert.Equal(4, child.TokenCounter);
+            using var again = new MemoryStream();
+            EngineFixture.Engine.StoreEngineObject(again, objectValue: received, progress: null);
+            EqualBytes(sent, actual: again.ToArray(), label: "combat token package resent");
+        }
+        finally
+        {
+            move.Release();
+            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+        }
+    }
+
     private static void Alike(string className, EngineObject objectValue)
     {
         EngineObject? viaPersist = null;

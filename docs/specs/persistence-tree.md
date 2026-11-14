@@ -871,7 +871,11 @@ its `ReadWrite` and read back equal, before those methods were deleted. After th
 same tests compare the tree with the original backend and with a load of the packet.
 
 `StoreEngineObject` and `RetrieveEngineObject` write and read through the tree and
-`OriginalBackend`, with the packet's class table. The class id is the live `EngineClass.ClassId`.
+`OriginalBackend`, with the packet's class table. The stream resolved the class ids inside
+through the engine that owned the stream. That engine registered the combat classes, and the
+tactical table holds those classes and every class of the strategic table, at the same ids, so a
+class enlisted in the tactical table uses it. A class enlisted in no table uses the strategic
+table, and any other class uses the first table it lists. The class id is the live `EngineClass.ClassId`.
 The outer property id is 0, which is the image the storage writer wrote for a created object. A
 null object writes class id 0 inside that table. A failure of the root writes one zero byte. A
 failure inside a nested object throws and the packet is not written. `PlayerCommunicator` and
