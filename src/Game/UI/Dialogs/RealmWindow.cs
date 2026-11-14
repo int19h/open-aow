@@ -129,7 +129,7 @@ public partial class RealmWindow : UIModule
     public void UpdateCities()
     {
         PlayerStructure structure;
-        City C;
+        City c;
         CityNameList.Items.Clear();
         CityRaceList.Items.Clear();
         CityIncomeList.Items.Clear();
@@ -140,19 +140,19 @@ public partial class RealmWindow : UIModule
         CityRelationList.Items.Clear();
         CityActionList.Items.Clear();
         CityEnchantmentList.Items.Clear();
-        for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; i <= last; i++)
         {
-            structure = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(I);
+            structure = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
             if (structure is City)
             {
-                C = (City)structure;
-                var name = C.GetName();
-                CityNameList.Items.AddObject(name, C);
-                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[C.Race]);
+                c = (City)structure;
+                var name = c.GetName();
+                CityNameList.Items.AddObject(name, c);
+                var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
                 CityRaceList.Items.Add(raceNamesPlural);
-                CityIncomeList.Items.Add(IntToStr(C.Income));
-                CityLevelList.Items.Add(IntToStr(C.UpgradeLevel));
-                switch (C.WallType)
+                CityIncomeList.Items.Add(IntToStr(c.Income));
+                CityLevelList.Items.Add(IntToStr(c.UpgradeLevel));
+                switch (c.WallType)
                 {
                     case 1:
                         CityWallList.Items.Add("1");
@@ -165,7 +165,7 @@ public partial class RealmWindow : UIModule
                         break;
                 }
 
-                switch (C.GetCivilStatus())
+                switch (c.GetCivilStatus())
                 {
                     case City.CivilStatus.Unrest:
                         CityMoraleList.Items.Add("1");
@@ -184,7 +184,7 @@ public partial class RealmWindow : UIModule
                         break;
                 }
 
-                switch ((int)StrategicMap.Current.Races.GetRace(C.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 127)
+                switch ((int)StrategicMap.Current.Races.GetRace(c.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 127)
                 {
                     case 0:
                         CityRelationList.Items.Add("0");
@@ -206,11 +206,11 @@ public partial class RealmWindow : UIModule
                         break;
                 }
 
-                var activeOrder = C.GetActiveOrder();
-                CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(C) : "-");
+                var activeOrder = c.GetActiveOrder();
+                CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
 
                 CityEnchantmentList.Items.Add("-");
-                var size = C.GetSize();
+                var size = c.GetSize();
                 CitySizeList.Items.Add(IntToStr(size));
             }
         }
@@ -222,9 +222,9 @@ public partial class RealmWindow : UIModule
         PlayerStructure place;
         PlaceNameList.Items.Clear();
         PlaceActionList.Items.Clear();
-        for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; i <= last; i++)
         {
-            place = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(I);
+            place = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
             if (!(place is City))
             {
                 var editName = place.EditName();
@@ -238,22 +238,22 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:283
     public void UpdateHeroes()
     {
-        Troop U;
+        Troop u;
         HeroNameList.Items.Clear();
         HeroHealthList.Items.Clear();
         HeroLevelList.Items.Clear();
-        for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; i <= last; i++)
         {
-            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.Count - 1; J <= lastJ; J++)
+            for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.GetUnit(J);
-                if (U is Hero hero)
+                u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j);
+                if (u is Hero hero)
                 {
-                    var army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I);
-                    var name = U.GetName();
+                    var army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
+                    var name = u.GetName();
                     HeroNameList.Items.AddObject(name, army);
-                    var hitPoints = U.GetHitPoints();
-                    var hits = U.GetHits();
+                    var hitPoints = u.GetHitPoints();
+                    var hits = u.GetHits();
                     HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), hero);
                     var level = hero.GetLevel();
                     HeroLevelList.Items.Add(IntToStr(level));
@@ -309,7 +309,7 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:345
     public void DrawArmyUnit(int column, in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        Troop U;
+        Troop u;
         Rect oldClip;
         if (column < StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.Count)
         {
@@ -323,21 +323,21 @@ public partial class RealmWindow : UIModule
                 lockedSurface.ClipRectangle.Bottom = drawRectangle.Bottom;
             }
 
-            U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);
-            if ((int)U.GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
+            u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);
+            if ((int)u.GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
             {
-                var alignment = U.GetAlignment();
+                var alignment = u.GetAlignment();
                 var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                 unitBackground.ShowClipped(drawRectangle.Left - (unitBackground.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (unitBackground.Height - (drawRectangle.Bottom - drawRectangle.Top - 10)) / 2, lockedSurface);
             }
 
-            var previewImage = U.GetPreviewImage();
-            var uPreviewImage = U.GetPreviewImage();
-            U.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1List.ItemHeight - 10)) / 2, lockedSurface, UI.General.UnitShowInfo);
+            var previewImage = u.GetPreviewImage();
+            var uPreviewImage = u.GetPreviewImage();
+            u.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1List.ItemHeight - 10)) / 2, lockedSurface, UI.General.UnitShowInfo);
             var gauge = UnitGauge;
             gauge.Visible = true;
-            gauge.Max = U.GetHits();
-            gauge.Position = U.GetHitPoints();
+            gauge.Max = u.GetHits();
+            gauge.Position = u.GetHitPoints();
             gauge.WinLeft = drawRectangle.Left - PartyListPanel.WinLeft + 5;
             gauge.WinWidth = drawRectangle.Right - drawRectangle.Left - 10;
             gauge.WinTop = drawRectangle.Top + Unit1List.ItemHeight - PartyListPanel.WinTop - 9;
@@ -878,15 +878,15 @@ public partial class RealmWindow : UIModule
     {
         int index;
         Hero hero;
-        Rect R;
+        Rect r;
         index = HeroNameList.Selected;
         if (index > -1)
         {
             hero = HeroHealthList.Items.Objects[index << 0];
-            R = new Rect(HeroHeroInfoPanel.WinLeft + 1, HeroHeroInfoPanel.WinTop + 1, HeroHeroInfoPanel.WinLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.WinTop + HeroHeroInfoPanel.WinHeight - 1);
+            r = new Rect(HeroHeroInfoPanel.WinLeft + 1, HeroHeroInfoPanel.WinTop + 1, HeroHeroInfoPanel.WinLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.WinTop + HeroHeroInfoPanel.WinHeight - 1);
             if (hero.GetFace() != null)
             {
-                hero.ShowFace(R, lockedSurface);
+                hero.ShowFace(r, lockedSurface);
             }
         }
     }
@@ -947,11 +947,11 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:916
     public void T4PnlShow()
     {
-        for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; i <= last; i++)
         {
-            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.Count - 1; J <= lastJ; J++)
+            for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.GetUnit(J).GetUnitGraphicsResourceIndex();
+                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
             }
         }
@@ -960,11 +960,11 @@ public partial class RealmWindow : UIModule
     // AoWRealm.pas:926
     public void T4PnlHide()
     {
-        for (int I = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetCount() - 1; i <= last; i++)
         {
-            for (int J = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.Count - 1; J <= lastJ; J++)
+            for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(I).Units.GetUnit(J).GetUnitGraphicsResourceIndex();
+                var unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
                 GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
             }
         }

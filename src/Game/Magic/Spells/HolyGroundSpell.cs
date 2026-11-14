@@ -35,7 +35,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
     {
         base.SetupTargetSelection(source, targetSelection);
         targetSelection.HexNumbers.Clear();
-        for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
+        for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
         {
             targetSelection.HexNumbers.Add(0);
         }

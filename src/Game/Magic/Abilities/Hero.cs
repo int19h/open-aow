@@ -273,12 +273,12 @@ public partial class Hero : Troop
         count = GetAbilityCount();
         sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= count; I++)
+        for (int i = 0; i <= count; i++)
         {
-            owner = GetSuperlativeEnabledAbilityOwner(I);
+            owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner != null)
             {
-                result = (sbyte)(result + owner.GetAbilityAttack(I));
+                result = (sbyte)(result + owner.GetAbilityAttack(i));
             }
         }
 
@@ -304,12 +304,12 @@ public partial class Hero : Troop
         count = GetAbilityCount();
         sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= count; I++)
+        for (int i = 0; i <= count; i++)
         {
-            owner = GetSuperlativeEnabledAbilityOwner(I);
+            owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner != null)
             {
-                result = (sbyte)(result + owner.GetAbilityDefense(I));
+                result = (sbyte)(result + owner.GetAbilityDefense(i));
             }
         }
 
@@ -337,12 +337,12 @@ public partial class Hero : Troop
         count = GetAbilityCount();
         sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= count; I++)
+        for (int i = 0; i <= count; i++)
         {
-            owner = GetSuperlativeEnabledAbilityOwner(I);
+            owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner != null)
             {
-                result = (sbyte)(result + owner.GetAbilityDamage(I));
+                result = (sbyte)(result + owner.GetAbilityDamage(i));
             }
         }
 
@@ -368,12 +368,12 @@ public partial class Hero : Troop
         count = GetAbilityCount();
         sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= count; I++)
+        for (int i = 0; i <= count; i++)
         {
-            owner = GetSuperlativeEnabledAbilityOwner(I);
+            owner = GetSuperlativeEnabledAbilityOwner(i);
             if (owner != null)
             {
-                result = (sbyte)(result + owner.GetAbilityResistance(I));
+                result = (sbyte)(result + owner.GetAbilityResistance(i));
             }
         }
 
@@ -994,11 +994,11 @@ public partial class Hero : Troop
     public override void Killed()
     {
         HeroItemPosition position;
-        for (int I = Inventory.Items.Count - 1; I >= 0; I--)
+        for (int i = Inventory.Items.Count - 1; i >= 0; i--)
         {
-            if (Inventory.Items.GetItem(I) != null)
+            if (Inventory.Items.GetItem(i) != null)
             {
-                ExecutePlaceItem(Inventory.Items.GetItem(I).ItemId, HeroItemPosition.Ground);
+                ExecutePlaceItem(Inventory.Items.GetItem(i).ItemId, HeroItemPosition.Ground);
             }
         }
 
@@ -1057,19 +1057,19 @@ public partial class Hero : Troop
     public virtual void EditDropMessage(ref EngineMessage message)
     {
         MapLevel level;
-        int L;
-        int X = default;
-        int Y = default;
+        int l;
+        int x = default;
+        int y = default;
         int player;
         bool placed;
         level = message.Param[0].As<MapLevel>();
-        L = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out X, out Y);
-        if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
+        l = message.Data[1];
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out x, out y);
+        if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
         {
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                player = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetPlayer();
+                player = StrategicMap.Current.MapContainer.GetField(x, y, l).GetPlayer();
                 if (player == -1)
                 {
                     player = StrategicMap.Current.EditorPlayer;
@@ -1080,7 +1080,7 @@ public partial class Hero : Troop
                 player = -1;
             }
 
-            placed = Place(X, Y, L, (sbyte)player, Set<UnitPlaceModeElement>.Of()) != null;
+            placed = Place(x, y, l, (sbyte)player, Set<UnitPlaceModeElement>.Of()) != null;
         }
         else
         {
@@ -1148,14 +1148,14 @@ public partial class Hero : Troop
     public int UsedSkillPoints()
     {
         int result = UnitAttack * 5 + UnitDefense * 5 + UnitDamage * 10 + UnitResistance * 5 + UnitHits * 5 + UnitMoves * 2;
-        for (int I = GetAbCount() - 1; I >= 0; I--)
+        for (int i = GetAbCount() - 1; i >= 0; i--)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                result += GamePack.Current.AbilityControl.GetAbility(I).GetSkillPoints(this);
-                if (HeroResource.Abilities.GetAbilitySetAt(I))
+                result += GamePack.Current.AbilityControl.GetAbility(i).GetSkillPoints(this);
+                if (HeroResource.Abilities.GetAbilitySetAt(i))
                 {
-                    result -= GamePack.Current.AbilityControl.GetAbility(I).GetSkillPoints(HeroResource.Abilities);
+                    result -= GamePack.Current.AbilityControl.GetAbility(i).GetSkillPoints(HeroResource.Abilities);
                 }
             }
         }
@@ -1166,15 +1166,15 @@ public partial class Hero : Troop
     // Hero.PAS:782
     public sbyte EmergedToPlayer()
     {
-        int I;
-        I = StrategicMap.Current.Players.Count;
+        int i;
+        i = StrategicMap.Current.Players.Count;
         sbyte result = -1;
-        while (I != 1 && result == -1)
+        while (i != 1 && result == -1)
         {
-            I -= 1;
-            if (StrategicMap.Current.Players.GetPlayers(I).EmergingHeroId == UnitId)
+            i -= 1;
+            if (StrategicMap.Current.Players.GetPlayers(i).EmergingHeroId == UnitId)
             {
-                result = (sbyte)I;
+                result = (sbyte)i;
             }
         }
 
@@ -1185,11 +1185,11 @@ public partial class Hero : Troop
     public void DropItemsOnMap(StrategicMap map, sbyte X, sbyte Y, sbyte L)
     {
         HeroItemPosition position;
-        for (int I = Inventory.Items.Count - 1; I >= 0; I--)
+        for (int i = Inventory.Items.Count - 1; i >= 0; i--)
         {
-            if (Inventory.Items.GetItem(I) != null)
+            if (Inventory.Items.GetItem(i) != null)
             {
-                Inventory.Items.GetItem(I).PlaceOnMap(map, X, Y, L);
+                Inventory.Items.GetItem(i).PlaceOnMap(map, X, Y, L);
             }
         }
 
@@ -1262,9 +1262,9 @@ public partial class Hero : Troop
         int total;
         int quotient;
         total = 0;
-        for (int I = 1; I <= level - 1; I++)
+        for (int i = 1; i <= level - 1; i++)
         {
-            quotient = I / 5;
+            quotient = i / 5;
             if (quotient <= 5)
             {
                 total += s_heroExperienceTable[quotient].Experience;
@@ -1649,14 +1649,14 @@ public partial class Hero : Troop
     // Hero.PAS:1269
     public void ValidateHeroUpgrade()
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         int level;
         int oldLevel;
         HeroUpgradeEventLog log;
-        GetLocation(out X, out Y, out L);
-        if (Player != 0 && X != -1)
+        GetLocation(out x, out y, out l);
+        if (Player != 0 && x != -1)
         {
             UpgradePending = false;
             level = GetLevel();
@@ -1706,7 +1706,7 @@ public partial class Hero : Troop
                 log.UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day;
                 log._player = Player;
                 log.UnitId = UnitId;
-                EventLog.DistributeLocationEventLog(log, Player, X, Y, L, true);
+                EventLog.DistributeLocationEventLog(log, Player, x, y, l, true);
                 log.Release();
                 if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
                 {
@@ -1931,16 +1931,16 @@ public partial class Hero : Troop
         sbyte ix = default;
         sbyte iy = default;
         sbyte imageLibrary = default;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         bool result = false;
         item = StrategicMap.Current.ItemControl.FindItem(itemId);
         if (item != null)
         {
-            GetLocation(out X, out Y, out L);
+            GetLocation(out x, out y, out l);
             item.GetLocation(out ix, out iy, out imageLibrary);
-            if (StrategicMap.Current.CombatMap != null || (X == ix && Y == iy && L == imageLibrary))
+            if (StrategicMap.Current.CombatMap != null || (x == ix && y == iy && l == imageLibrary))
             {
                 if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position))
                 {
@@ -2197,11 +2197,11 @@ public partial class Hero : Troop
     {
         EventLogbook logbook;
         logbook = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook;
-        for (int I = logbook.GetCount() - 1; I >= 0; I--)
+        for (int i = logbook.GetCount() - 1; i >= 0; i--)
         {
-            if (logbook.GetLogs(I) is SpellCastEventLog && ((SpellCastEventLog)logbook.GetLogs(I)).UnitId == UnitId)
+            if (logbook.GetLogs(i) is SpellCastEventLog && ((SpellCastEventLog)logbook.GetLogs(i)).UnitId == UnitId)
             {
-                logbook.GetLogs(I).SetOwner(null);
+                logbook.GetLogs(i).SetOwner(null);
             }
         }
     }

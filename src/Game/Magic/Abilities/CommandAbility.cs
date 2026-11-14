@@ -43,16 +43,16 @@ public partial class CommandAbility : TouchAbility
             distance += 2;
         }
 
-        for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.TargetSide.GetObjects(I);
+            target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && target.FastBattleRoundDistance() <= distance && CanTouch(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
                     command = new FastBattleCommand(AbilityId);
-                    command.Target = commands.TargetSide.GetObjects(I);
+                    command.Target = commands.TargetSide.GetObjects(i);
                     command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
                     command.MoveCost = 0;
                     commands.Add(command);
@@ -241,8 +241,7 @@ public partial class CommandAbility : TouchAbility
     public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
         CommandCombatAction result = new CommandCombatAction(null) { Holder = CreationHolder() };
-        bool condition = !(target.Troop is Leader) && CombatTouchRole(source, target);
-        result.Initialize(source.Id, target.Id, condition);
+        result.Initialize(successful: !(target.Troop is Leader) && CombatTouchRole(source, target), sourceId: source.Id, targetId: target.Id);
         result.AbilityId = AbilityId;
         return result;
     }
@@ -259,9 +258,9 @@ public partial class CommandAbility : TouchAbility
             data = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
             if (data != null)
             {
-                for (int I = data.CommandedUnits.Count - 1; I >= 0; I--)
+                for (int i = data.CommandedUnits.Count - 1; i >= 0; i--)
                 {
-                    target = (CombatUnit)source.Combat.CombatData.FindId(data.CommandedUnits.List[I]);
+                    target = (CombatUnit)source.Combat.CombatData.FindId(data.CommandedUnits.List[i]);
                     if (target != null)
                     {
                         Uncommand(target);

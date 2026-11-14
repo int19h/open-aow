@@ -269,9 +269,9 @@ public partial class CustomDisplay : Component
             if (_activeDisplayController.GetSurface(1).Width != width || _activeDisplayController.GetSurface(1).Height != height)
             {
                 _activeDisplayController.ResizeBackSurfaces(_backSurfaceWidth, _backSurfaceHeight);
-                for (int I = 1, last = (int)_bufferingScheme; I <= last; I++)
+                for (int i = 1, last = (int)_bufferingScheme; i <= last; i++)
                 {
-                    SurfaceDataLost(I);
+                    SurfaceDataLost(i);
                 }
             }
         }

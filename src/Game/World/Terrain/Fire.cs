@@ -111,15 +111,15 @@ public partial class Fire : ImageLibraryTerrainMapObject
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (_explosionFrame != 0)
         {
             frame = StrategicMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
-                _resource.ImageSequenceList.Show(20, X - pixelXSurface, Y - pixelYSurface, frame, lockedSurface);
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+                _resource.ImageSequenceList.Show(20, x - pixelXSurface, y - pixelYSurface, frame, lockedSurface);
             }
             else
             {
@@ -295,12 +295,12 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3422
     public void CalculateShowPriority(MapField mapField)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         HexSprite hexSprite;
-        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out X, out Y);
+        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out x, out y);
         hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-        _showPriority = 1744830464 + ((Y + 36) << 13) + (X + 16);
+        _showPriority = 1744830464 + ((y + 36) << 13) + (x + 16);
         if (hexSprite != this && hexSprite != null)
         {
             if (hexSprite.GetShowPriority() >= _showPriority)
@@ -332,14 +332,14 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3549
     public bool CanDoDamage(UnitList units)
     {
-        int I;
+        int i;
         Troop troop;
         bool result = false;
-        I = units.GetCount();
-        while (!result && I != 0)
+        i = units.GetCount();
+        while (!result && i != 0)
         {
-            I -= 1;
-            troop = units.GetUnit(I);
+            i -= 1;
+            troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageType.Fire);
         }
 

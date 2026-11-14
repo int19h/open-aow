@@ -301,8 +301,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     // AoWTC.pas:3370
     public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         MovementHexSprite movement;
         AbilityCombatInfo abilityInfo = default;
         AbilityCombatInfo enemyInfo = default;
@@ -383,7 +383,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         else
         {
             var hexY = GetHexY();
-            HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, info.HexNumber, ref X, ref Y);
+            HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, info.HexNumber, ref x, ref y);
             if (moveResult.Code < 30)
             {
                 moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
@@ -424,7 +424,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 return;
             }
 
-            if (((MoveControl)info.Sender).DestinationX >= 0 && ((MoveControl)info.Sender).DestinationY >= 0 && HexGeometry.DeltaHexToRadius(X, Y, ((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY) <= 1)
+            if (((MoveControl)info.Sender).DestinationX >= 0 && ((MoveControl)info.Sender).DestinationY >= 0 && HexGeometry.DeltaHexToRadius(x, y, ((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY) <= 1)
             {
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY].FindOwnedChild(2228484) != null)
                 {
@@ -472,9 +472,9 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             CombatMap.Current.NewFrameEvents -= NewFrame;
         }
 
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            (Abilities[I] as IDisposable)?.Dispose();
+            (Abilities[i] as IDisposable)?.Dispose();
         }
 
         Abilities?.Clear();
@@ -596,11 +596,11 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         index = -1;
         if (CombatMap.Current.CurrentCombatPlayer == CombatMap.Current.SeatedCombatPlayer)
         {
-            for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+            for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
             {
-                if ((Abilities[I]).Ability == abilityId)
+                if ((Abilities[i]).Ability == abilityId)
                 {
-                    index = I;
+                    index = i;
                 }
             }
 
@@ -654,9 +654,9 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             }
         }
 
-        for (int I = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; i <= last; i++)
         {
-            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(I);
+            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(i);
             moveSettings.Path.Clear();
         }
 
@@ -689,9 +689,9 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         }
 
         int result = spellId;
-        for (int I = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; i <= last; i++)
         {
-            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(I);
+            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(i);
             moveSettings.Path.Clear();
         }
 
@@ -718,20 +718,20 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public void CreateTacticalBattleAbilityList()
     {
         CombatAbilityRef ability;
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            (Abilities[I] as IDisposable)?.Dispose();
+            (Abilities[i] as IDisposable)?.Dispose();
         }
 
         Abilities.Clear();
         CombatAbilityCount = 0;
-        for (int I = 1; I <= 169; I++)
+        for (int i = 1; i <= 169; i++)
         {
-            if (Unit.GetAbilityEnabled(I))
+            if (Unit.GetAbilityEnabled(i))
             {
                 ability = new CombatAbilityRef();
-                ability.Ability = I;
-                if (GamePack.Current.AbilityControl.GetAbility(I).GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && GamePack.Current.AbilityControl.GetAbility(I).GetCombatMode(Unit.Troop) != CombatMode.Melee)
+                ability.Ability = i;
+                if (GamePack.Current.AbilityControl.GetAbility(i).GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && GamePack.Current.AbilityControl.GetAbility(i).GetCombatMode(Unit.Troop) != CombatMode.Melee)
                 {
                     Abilities.Insert(CombatAbilityCount, ability);
                     CombatAbilityCount += 1;
@@ -758,20 +758,20 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             sources.Clear();
         }
 
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            var ability = Abilities[I];
-            names.AddObject(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[I]).Ability));
+            var ability = Abilities[i];
+            names.AddObject(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[i]).Ability));
             if (types != null)
             {
-                var ability2 = Abilities[I];
+                var ability2 = Abilities[i];
                 var abilityType = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
                 types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
             {
-                var ability2 = Abilities[I];
+                var ability2 = Abilities[i];
                 sources.Add(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(Unit.Troop));
             }
         }

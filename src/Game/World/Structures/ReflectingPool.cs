@@ -117,8 +117,8 @@ public partial class ReflectingPool : PlayerStructure
     public override void UpdateUnfog()
     {
         int range;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             if (Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1)
@@ -141,12 +141,12 @@ public partial class ReflectingPool : PlayerStructure
             {
                 if (UnfogRange != 0)
                 {
-                    for (int I = 0, last = _resource.TerrainList.Count - 1; I <= last; I++)
+                    for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
                     {
-                        if (_resource.TerrainList.GetTerrain(I) >= 0)
+                        if (_resource.TerrainList.GetTerrain(i) >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                            StrategicMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
+                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                            StrategicMap.Current.FogArea(x, y, Owner.HexLevel, UnfogRange);
                         }
                     }
                 }
@@ -154,12 +154,12 @@ public partial class ReflectingPool : PlayerStructure
                 UnfogRange = (byte)range;
                 if (UnfogRange != 0)
                 {
-                    for (int I = 0, last = _resource.TerrainList.Count - 1; I <= last; I++)
+                    for (int i = 0, last = _resource.TerrainList.Count - 1; i <= last; i++)
                     {
-                        if (_resource.TerrainList.GetTerrain(I) >= 0)
+                        if (_resource.TerrainList.GetTerrain(i) >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                            StrategicMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
+                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
+                            StrategicMap.Current.UnFogArea(x, y, Owner.HexLevel, UnfogRange);
                         }
                     }
                 }
@@ -170,21 +170,21 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:157
     public override void UpdateExploration()
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            for (int P = 1, last = StrategicMap.Current.Players.Count - 1; P <= last; P++)
+            for (int p = 1, last = StrategicMap.Current.Players.Count - 1; p <= last; p++)
             {
-                if (PoolVisionPlayer((sbyte)P))
+                if (PoolVisionPlayer((sbyte)p))
                 {
-                    for (int I = 0, lastI = _resource.TerrainList.Count - 1; I <= lastI; I++)
+                    for (int i = 0, lastI = _resource.TerrainList.Count - 1; i <= lastI; i++)
                     {
-                        if (_resource.TerrainList.GetTerrain(I) >= 0)
+                        if (_resource.TerrainList.GetTerrain(i) >= 0)
                         {
-                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
+                            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, i, ref x, ref y);
                             var visibilityRange = VisibilityRange();
-                            StrategicMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)P, visibilityRange);
+                            StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)p, visibilityRange);
                         }
                     }
                 }
@@ -198,11 +198,11 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:61
     public void ListReflectingPools(ref PlayerStructureList list)
     {
-        for (int P = StrategicMap.Current.Players.Count - 1; P >= 0; P--)
+        for (int p = StrategicMap.Current.Players.Count - 1; p >= 0; p--)
         {
-            for (int I = StrategicMap.Current.Players.GetPlayers(P).KnownStructures.Count - 1; I >= 0; I--)
+            for (int i = StrategicMap.Current.Players.GetPlayers(p).KnownStructures.Count - 1; i >= 0; i--)
             {
-                var structure = StrategicMap.Current.Players.GetPlayers(P).KnownStructures.GetStructure(I);
+                var structure = StrategicMap.Current.Players.GetPlayers(p).KnownStructures.GetStructure(i);
                 list.AddChild(structure);
             }
         }
@@ -271,13 +271,13 @@ public partial class ReflectingPool : PlayerStructure
     public void UpdateReflectingPoolsExploration()
     {
         Player player;
-        for (int P = StrategicMap.Current.Players.Count - 1; P >= 0; P--)
+        for (int p = StrategicMap.Current.Players.Count - 1; p >= 0; p--)
         {
-            player = StrategicMap.Current.Players.GetPlayers(P);
-            for (int I = player.KnownStructures.Count - 1; I >= 0; I--)
+            player = StrategicMap.Current.Players.GetPlayers(p);
+            for (int i = player.KnownStructures.Count - 1; i >= 0; i--)
             {
-                player.KnownStructures.GetStructure(I).UpdateExploration();
-                player.KnownStructures.GetStructure(I).UpdateUnfog();
+                player.KnownStructures.GetStructure(i).UpdateExploration();
+                player.KnownStructures.GetStructure(i).UpdateUnfog();
             }
         }
     }
@@ -285,15 +285,15 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:217
     public bool PoolVisionPlayer(sbyte player)
     {
-        int P;
+        int p;
         bool result = StrategicMap.Current.Players.GetPlayers(player).KnownStructures.Count != 0;
         if (!result)
         {
-            P = StrategicMap.Current.Players.Count;
-            while (P > 1 && !result)
+            p = StrategicMap.Current.Players.Count;
+            while (p > 1 && !result)
             {
-                P -= 1;
-                result = StrategicMap.Current.Players.GetPlayers(P).KnownStructures.Count != 0 && StrategicMap.Current.Players.GetPlayers(P).DiplomaticRelations.GetDiplomaticRelation(player) == DiplomaticRelation.Alliance;
+                p -= 1;
+                result = StrategicMap.Current.Players.GetPlayers(p).KnownStructures.Count != 0 && StrategicMap.Current.Players.GetPlayers(p).DiplomaticRelations.GetDiplomaticRelation(player) == DiplomaticRelation.Alliance;
             }
         }
 
@@ -303,12 +303,12 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:233
     public void NotifyPlayerChanged(MapField mapField, int distance)
     {
-        for (int P = 1, last = StrategicMap.Current.Players.Count - 1; P <= last; P++)
+        for (int p = 1, last = StrategicMap.Current.Players.Count - 1; p <= last; p++)
         {
-            if (PoolVisionPlayer((sbyte)P))
+            if (PoolVisionPlayer((sbyte)p))
             {
                 var trueVisionRange = TrueVisionRange();
-                StrategicMap.Current.UpdatePlayerSeen(P, mapField.HexX, mapField.HexY, mapField.HexLevel, distance, trueVisionRange);
+                StrategicMap.Current.UpdatePlayerSeen(p, mapField.HexX, mapField.HexY, mapField.HexLevel, distance, trueVisionRange);
             }
         }
     }

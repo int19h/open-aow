@@ -131,8 +131,7 @@ public partial class CombatUnitInfo : UIModule
                     ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (ability != null)
                     {
-                        var name = ability.GetName(UI.General.CombatUnit.Unit.Troop);
-                        InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
+                        InfoBanner.SetInfoBanner(caption: ability.GetName(UI.General.CombatUnit.Unit.Troop), banner: UI.InfoBanner, description: ability.Description);
                     }
                 }
             }

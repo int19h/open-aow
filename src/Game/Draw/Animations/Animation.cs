@@ -122,27 +122,27 @@ public partial class Animation : HexSprite
     // Animation.pas:199
     public override int GetShowPriority()
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
-        return (AnimationLevel << 26) + ((Y + Dimensions.Bottom) << 13) + X;
+        int x = default;
+        int y = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        return (AnimationLevel << 26) + ((y + Dimensions.Bottom) << 13) + x;
     }
 
     // Animation.pas:315
     public override void Connect()
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (!_state.Contains(StateElement.Placed))
         {
-            HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
-                PlaceOnMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
+                PlaceOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, _hexLevel, x + Dimensions.Right, y + Dimensions.Bottom);
             }
             else
             {
-                PlaceUserOnMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
+                PlaceUserOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, _hexLevel, x + Dimensions.Right, y + Dimensions.Bottom);
             }
 
             _state = _state + Set<StateElement>.Of(StateElement.Placed);
@@ -152,18 +152,18 @@ public partial class Animation : HexSprite
     // Animation.pas:332
     public override void Disconnect()
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         if (_state.Contains(StateElement.Placed))
         {
-            HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
-                RemoveFromMap(X + Dimensions.Left, Y + Dimensions.Top, X + Dimensions.Right, Y + Dimensions.Bottom);
+                RemoveFromMap(x + Dimensions.Left, y + Dimensions.Top, x + Dimensions.Right, y + Dimensions.Bottom);
             }
             else
             {
-                RemoveUserFromMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
+                RemoveUserFromMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, _hexLevel, x + Dimensions.Right, y + Dimensions.Bottom);
             }
 
             _state = _state - Set<StateElement>.Of(StateElement.Placed);
@@ -182,10 +182,10 @@ public partial class Animation : HexSprite
     // Animation.pas:349
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
-        return PlaceHex(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
+        int x = default;
+        int y = default;
+        HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
+        return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
     }
 
     // Animation.pas:372

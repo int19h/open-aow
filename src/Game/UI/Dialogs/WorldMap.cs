@@ -584,9 +584,9 @@ public partial class WorldMap : UIModule
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
             leader = (Leader)leaderSetupControl.OriginalLeader.Copy(UI.Engine);
-            for (int I = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; I <= last; I++)
+            for (int i = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; i <= last; i++)
             {
-                var sphere = leader.GetSpheres(I);
+                var sphere = leader.GetSpheres(i);
                 GetCampaign().TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
             }
 
@@ -1070,7 +1070,7 @@ public partial class WorldMap : UIModule
     // AoWWorldMap.pas:733
     public void BookWinUpdate()
     {
-        Rect R;
+        Rect r;
         switch (BookAction)
         {
             case 3:
@@ -1097,8 +1097,8 @@ public partial class WorldMap : UIModule
 
         if (BookStartButton.Visible != s_bookStartVisible)
         {
-            R = new Rect(Book.WinLeft + BookStartButton.WinLeft, Book.WinTop + BookStartButton.WinTop, Book.WinLeft + BookStartButton.WinLeft + BookStartButton.WinWidth, Book.WinTop + BookStartButton.WinTop + BookStartButton.WinHeight);
-            UI.General.Manager.AddDrawRectangle(ref R, Book);
+            r = new Rect(Book.WinLeft + BookStartButton.WinLeft, Book.WinTop + BookStartButton.WinTop, Book.WinLeft + BookStartButton.WinLeft + BookStartButton.WinWidth, Book.WinTop + BookStartButton.WinTop + BookStartButton.WinHeight);
+            UI.General.Manager.AddDrawRectangle(ref r, Book);
             s_bookStartVisible = BookStartButton.Visible;
         }
     }
@@ -1169,47 +1169,47 @@ public partial class WorldMap : UIModule
     // AoWWorldMap.pas:806
     public void Ally1PnlPreDraw(LockedSurface surface)
     {
-        Rect R;
-        R = new Rect(InfoPanel.WinLeft + Ally1Frame.WinLeft, InfoPanel.WinTop + Ally1Frame.WinTop, InfoPanel.WinLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.WinTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
+        Rect r;
+        r = new Rect(InfoPanel.WinLeft + Ally1Frame.WinLeft, InfoPanel.WinTop + Ally1Frame.WinTop, InfoPanel.WinLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.WinTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 0)
         {
             var raceHistory = GetCampaign().RaceHistory[0];
-            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
+            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, surface);
         }
     }
 
     // AoWWorldMap.pas:818
     public void Ally2PnlPreDraw(LockedSurface surface)
     {
-        Rect R;
-        R = new Rect(InfoPanel.WinLeft + Ally2Frame.WinLeft, InfoPanel.WinTop + Ally2Frame.WinTop, InfoPanel.WinLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.WinTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
+        Rect r;
+        r = new Rect(InfoPanel.WinLeft + Ally2Frame.WinLeft, InfoPanel.WinTop + Ally2Frame.WinTop, InfoPanel.WinLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.WinTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 1)
         {
             var raceHistory = GetCampaign().RaceHistory[1];
-            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
+            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, surface);
         }
     }
 
     // AoWWorldMap.pas:830
     public void Ally3PnlPreDraw(LockedSurface surface)
     {
-        Rect R;
-        R = new Rect(InfoPanel.WinLeft + Ally3Frame.WinLeft, InfoPanel.WinTop + Ally3Frame.WinTop, InfoPanel.WinLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.WinTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
+        Rect r;
+        r = new Rect(InfoPanel.WinLeft + Ally3Frame.WinLeft, InfoPanel.WinTop + Ally3Frame.WinTop, InfoPanel.WinLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.WinTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 2)
         {
             var raceHistory = GetCampaign().RaceHistory[2];
-            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
+            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(r, surface);
         }
     }
 
     // AoWWorldMap.pas:842
     public void HeroPnlPreDraw(LockedSurface surface)
     {
-        Rect R;
-        R = new Rect(InfoPanel.WinLeft + HeroFrame.WinLeft, InfoPanel.WinTop + HeroFrame.WinTop, InfoPanel.WinLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.WinTop + HeroFrame.WinTop + HeroFrame.WinHeight);
+        Rect r;
+        r = new Rect(InfoPanel.WinLeft + HeroFrame.WinLeft, InfoPanel.WinTop + HeroFrame.WinTop, InfoPanel.WinLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.WinTop + HeroFrame.WinTop + HeroFrame.WinHeight);
         if (GetCampaign().TransferSettings.Leader != null)
         {
-            GetCampaign().TransferSettings.Leader.ShowFace(R, surface);
+            GetCampaign().TransferSettings.Leader.ShowFace(r, surface);
         }
     }
 

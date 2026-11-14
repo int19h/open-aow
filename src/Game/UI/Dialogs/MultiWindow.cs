@@ -34,18 +34,18 @@ public partial class MultiWindow : UIModule
     // AOWMultiWin.pas:362
     public int ConnectProvider(ConnectionType kind)
     {
-        int I = 0;
+        int i = 0;
         int found = -1;
         int result = 0;
-        while (I < UI.SetupEvents.DirectPlay.ConnectionItems.Count)
+        while (i < UI.SetupEvents.DirectPlay.ConnectionItems.Count)
         {
-            if (UI.SetupEvents.DirectPlay.ConnectionItems[I].FType == kind)
+            if (UI.SetupEvents.DirectPlay.ConnectionItems[i].FType == kind)
             {
-                found = I;
-                I = UI.SetupEvents.DirectPlay.ConnectionItems.Count;
+                found = i;
+                i = UI.SetupEvents.DirectPlay.ConnectionItems.Count;
             }
 
-            I++;
+            i++;
         }
 
         if (found > -1)

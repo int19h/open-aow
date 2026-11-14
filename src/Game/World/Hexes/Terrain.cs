@@ -59,18 +59,18 @@ public partial class Terrain : TerrainMapObject
     // AoWTer.pas:67
     public void ValidateDeadTreeRegrow()
     {
-        TerrainMapObjectResource R;
+        TerrainMapObjectResource r;
         MapField oldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
-                R = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 1, 0);
-                if (R != null)
+                r = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 1, 0);
+                if (r != null)
                 {
                     oldOwner = Owner;
                     RemoveFromMap();
-                    SetResource(R);
+                    SetResource(r);
                     Owner = oldOwner;
                     PlaceOnMap();
                     if (_resource.Level <= 15)

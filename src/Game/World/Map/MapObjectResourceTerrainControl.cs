@@ -22,7 +22,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     internal void Initialize()
     {
         Clear();
-        for (int I = 0, last = _hexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; I <= last; I++)
+        for (int i = 0, last = _hexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; i <= last; i++)
         {
             var list = new DelphiList<MapObjectResource>();
             _resources.Add(list);
@@ -54,10 +54,10 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     {
         if (_resources != null)
         {
-            for (int I = _resources.Count - 1; I >= 0; I--)
+            for (int i = _resources.Count - 1; i >= 0; i--)
             {
-                (_resources[I] as IDisposable)?.Dispose();
-                _resources.RemoveAt(I);
+                (_resources[i] as IDisposable)?.Dispose();
+                _resources.RemoveAt(i);
             }
         }
     }
@@ -77,18 +77,18 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public virtual MapObject CreateMapObject(sbyte terrainType)
     {
         MapObject result;
-        int I;
+        int i;
         DelphiList<MapObjectResource> list;
         int count;
-        MapObjectResource R;
-        I = terrainType;
-        list = _resources[I];
+        MapObjectResource r;
+        i = terrainType;
+        list = _resources[i];
         count = list.Count;
         if (count != 0)
         {
             var random = Random(count);
-            R = list.List[random];
-            result = (MapObject)R.CreateResourceUser();
+            r = list.List[random];
+            result = (MapObject)r.CreateResourceUser();
         }
         else
         {
@@ -102,34 +102,34 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public virtual MapObject Place(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType)
     {
         DelphiList<MapObjectResource> list;
-        MapObjectResource R;
+        MapObjectResource r;
         MapField mapField;
         MapObject mapObject;
         MapObject result = null;
         list = _resources[terrainType];
         if (list.Count != 0)
         {
-            R = null;
+            r = null;
             mapField = container.GetField(X, Y, L);
             mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
             if (mapObject != null)
             {
-                R = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
-                if (R != null)
+                r = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
+                if (r != null)
                 {
-                    mapObject.SetResource(R);
+                    mapObject.SetResource(r);
                     mapField.UpdateTerrain();
                     result = mapObject;
                 }
             }
 
-            if (R == null)
+            if (r == null)
             {
                 var random = Random(list.Count);
-                R = list.List[random];
-                if (R != null)
+                r = list.List[random];
+                if (r != null)
                 {
-                    result = R.PlaceResourceUser(container.Map, X, Y, L);
+                    result = r.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -140,32 +140,32 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     // HSEngine.pas:4637
     public virtual MapObject PlaceClass(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType, int classId)
     {
-        MapObjectResource R;
+        MapObjectResource r;
         MapField mapField;
         MapObject mapObject;
         MapObject result = null;
         if ((_resources[terrainType]).Count != 0)
         {
-            R = null;
+            r = null;
             mapField = container.GetField(X, Y, L);
             mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
             if (mapObject != null && mapObject._resource.EngineClass.ClassId == classId)
             {
-                R = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
-                if (R != null)
+                r = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
+                if (r != null)
                 {
-                    mapObject.SetResource(R);
+                    mapObject.SetResource(r);
                     mapField.UpdateTerrain();
                     result = mapObject;
                 }
             }
 
-            if (R == null)
+            if (r == null)
             {
-                R = GetRandomResource(terrainType, classId);
-                if (R != null)
+                r = GetRandomResource(terrainType, classId);
+                if (r != null)
                 {
-                    result = R.PlaceResourceUser(container.Map, X, Y, L);
+                    result = r.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -178,13 +178,13 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     {
         MapObjectResource result;
         DelphiList<MapObjectResource> list;
-        int I;
+        int i;
         list = _resources[terrainType];
         if (list.Count != 0)
         {
-            I = 0;
+            i = 0;
             result = null;
-            while (I != _tries && result == null)
+            while (i != _tries && result == null)
             {
                 var random = Random(list.Count);
                 result = list.List[random];
@@ -193,21 +193,21 @@ public partial class MapObjectResourceTerrainControl : EngineObject
                     result = null;
                 }
 
-                I += 1;
+                i += 1;
             }
 
             if (result == null)
             {
-                I = 0;
-                while (I != list.Count && result == null)
+                i = 0;
+                while (i != list.Count && result == null)
                 {
-                    result = list.List[I];
+                    result = list.List[i];
                     if (result.EngineClass.ClassId != classId)
                     {
                         result = null;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
             }
         }

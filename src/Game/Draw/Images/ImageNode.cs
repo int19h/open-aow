@@ -82,16 +82,16 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         _width = 0;
         _height = 0;
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (Images[I]._width > _width)
+            if (Images[i]._width > _width)
             {
-                _width = Images[I]._width;
+                _width = Images[i]._width;
             }
 
-            if (Images[I]._height > _height)
+            if (Images[i]._height > _height)
             {
-                _height = Images[I]._height;
+                _height = Images[i]._height;
             }
         }
     }
@@ -144,19 +144,19 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1376
     public void Remove(LibraryImage image)
     {
-        int I;
-        I = _count;
-        while (I >= 0 && image != Images[I])
+        int i;
+        i = _count;
+        while (i >= 0 && image != Images[i])
         {
-            I -= 1;
+            i -= 1;
         }
 
-        if (I >= 0)
+        if (i >= 0)
         {
             _count -= 1;
-            if (I < _count)
+            if (i < _count)
             {
-                MoveElements(Images, I + 1, Images, I, _count - I);
+                MoveElements(Images, i + 1, Images, i, _count - i);
             }
 
             UpdateDimensions();
@@ -193,9 +193,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1408
     public override void SaveToStream(Stream stream, Stream dataStream)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            WriteImageToStream(Images[I], stream, dataStream);
+            WriteImageToStream(Images[i], stream, dataStream);
         }
 
         WriteImageToStream(null, stream);
@@ -204,9 +204,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1416
     public override void SaveToStream(Stream stream)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            WriteImageToStream(Images[I], stream);
+            WriteImageToStream(Images[i], stream);
         }
 
         WriteImageToStream(null, stream);
@@ -240,9 +240,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1449
     public override void Clear()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            Images[I].Dispose();
+            Images[i].Dispose();
         }
 
         _count = 0;
@@ -252,18 +252,18 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1458
     public override void SetReloadingEnabled(bool value)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].SetReloadingEnabled(false);
+            Images[i].SetReloadingEnabled(false);
         }
     }
 
     // ImageLib.pas:1465
     public override void SetOwner(CustomImageLibrary owner)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].SetOwner(owner);
+            Images[i].SetOwner(owner);
         }
 
         SetOwnerWithoutReloadCheck(owner);
@@ -272,13 +272,13 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1473
     public override int RemapToPixelFormat(int pixelFormatId)
     {
-        int I;
+        int i;
         int result = 0;
-        I = _count;
-        while (I != 0 && result == 0)
+        i = _count;
+        while (i != 0 && result == 0)
         {
-            I -= 1;
-            result = Images[I].RemapToPixelFormat(pixelFormatId);
+            i -= 1;
+            result = Images[i].RemapToPixelFormat(pixelFormatId);
         }
 
         return result;
@@ -287,36 +287,36 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1486
     public override void Show(int X, int Y, in LockedSurface lockedSurface)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].Show(X, Y, lockedSurface);
+            Images[i].Show(X, Y, lockedSurface);
         }
     }
 
     // ImageLib.pas:1493
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].ShowOpaque(X, Y, lockedSurface);
+            Images[i].ShowOpaque(X, Y, lockedSurface);
         }
     }
 
     // ImageLib.pas:1500
     public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].ShowTransparent(X, Y, lockedSurface);
+            Images[i].ShowTransparent(X, Y, lockedSurface);
         }
     }
 
     // ImageLib.pas:1507
     public override void ShowBlended(int X, int Y, in LockedSurface lockedSurface, BlendTable table)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].ShowBlended(X, Y, lockedSurface, table);
+            Images[i].ShowBlended(X, Y, lockedSurface, table);
         }
     }
 
@@ -330,22 +330,22 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1550
     public override void Show(int X, int Y, in LockedSurface lockedSurface, in ShowInfo showInfo)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].Show(X, Y, lockedSurface, showInfo);
+            Images[i].Show(X, Y, lockedSurface, showInfo);
         }
     }
 
     // ImageLib.pas:1557
     public override bool SupportShowMode(ShowMode showMode, int pixelFormatId)
     {
-        int I;
-        I = _count;
+        int i;
+        i = _count;
         bool result = true;
-        while (result && I != 0)
+        while (result && i != 0)
         {
-            I -= 1;
-            result = Images[I].SupportShowMode(showMode, pixelFormatId);
+            i -= 1;
+            result = Images[i].SupportShowMode(showMode, pixelFormatId);
         }
 
         return result;
@@ -354,9 +354,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1570
     public override void SetLoadMode(LoadMode value)
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].SetLoadMode(value);
+            Images[i].SetLoadMode(value);
         }
 
         _loadMode = value;
@@ -365,9 +365,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1578
     public override void ReleaseDiscardableImageData()
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].ReleaseDiscardableImageData();
+            Images[i].ReleaseDiscardableImageData();
         }
 
         DataLoaded = false;
@@ -376,9 +376,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1586
     public override void LoadDiscardableImageData()
     {
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            Images[I].LoadDiscardableImageData();
+            Images[i].LoadDiscardableImageData();
         }
 
         DataLoaded = true;

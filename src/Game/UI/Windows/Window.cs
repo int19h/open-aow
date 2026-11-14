@@ -337,7 +337,7 @@ public partial class Window : GenericWindow
     //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         Redraw = false;
         Dragging = 0;
@@ -348,18 +348,18 @@ public partial class Window : GenericWindow
                 SetPriority(Priority);
             }
 
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.Handled = false;
-                if ((!Handled || C.Redraw) && C.Visible == true && C.CaptureInput)
+                c = Children[i];
+                c.Handled = false;
+                if ((!Handled || c.Redraw) && c.Visible == true && c.CaptureInput)
                 {
-                    C.CheckMouseDown(button, shift, X, Y);
+                    c.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
-                    C.Redraw = true;
+                    c.Redraw = true;
                     Handled = true;
                     Redraw = true;
                 }
@@ -482,21 +482,21 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:376
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible && Valid)
         {
             Dragging = 0;
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.Handled = false;
-                if ((!Handled || C.Redraw == true) && C.Visible == true && C.CaptureInput)
+                c = Children[i];
+                c.Handled = false;
+                if ((!Handled || c.Redraw == true) && c.Visible == true && c.CaptureInput)
                 {
-                    C.CheckMouseUp(button, shift, X, Y);
+                    c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -532,8 +532,8 @@ public partial class Window : GenericWindow
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         bool resized;
-        int I = default;
-        UIComponent C = default;
+        int i = default;
+        UIComponent c = default;
         Handled = false;
         OldCursor = _cursor;
         _cursor = WindowCursor;
@@ -593,7 +593,7 @@ public partial class Window : GenericWindow
                                 }
                             }
 
-                            I = WinLeft + WinWidth;
+                            i = WinLeft + WinWidth;
                             SetWinWidthWithoutInvalidate(WinWidth - X + WinLeft + DragX);
                             if (WinWidth < _minWidth)
                             {
@@ -605,7 +605,7 @@ public partial class Window : GenericWindow
                                 SetWinWidthWithoutInvalidate(_maxWidth);
                             }
 
-                            SetWinLeftWithoutInvalidate(I - WinWidth);
+                            SetWinLeftWithoutInvalidate(i - WinWidth);
                             resized = true;
                             break;
                         case 2:
@@ -646,7 +646,7 @@ public partial class Window : GenericWindow
                                 }
                             }
 
-                            I = WinTop + WinHeight;
+                            i = WinTop + WinHeight;
                             SetWinHeightWithoutInvalidate(WinHeight - Y + WinTop + DragY);
                             if (WinHeight < _minHeight)
                             {
@@ -658,7 +658,7 @@ public partial class Window : GenericWindow
                                 SetWinHeightWithoutInvalidate(_maxHeight);
                             }
 
-                            SetWinTopWithoutInvalidate(I - WinHeight);
+                            SetWinTopWithoutInvalidate(i - WinHeight);
                             resized = true;
                             break;
                         case 2:
@@ -695,17 +695,17 @@ public partial class Window : GenericWindow
                     break;
             }
 
-            I = Children.Count - 1;
-            for (; I >= 0; I -= 1)
+            i = Children.Count - 1;
+            for (; i >= 0; i -= 1)
             {
-                C = Children[I];
-                C.Handled = false;
-                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.Visible == true && C.CaptureInput)
+                c = Children[i];
+                c.Handled = false;
+                if ((!Handled || c.Redraw == true || c.ToolTipCount > 0) && c.Visible == true && c.CaptureInput)
                 {
-                    C.CheckMouseMove(shift, X, Y);
+                    c.CheckMouseMove(shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }

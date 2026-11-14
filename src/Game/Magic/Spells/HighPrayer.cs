@@ -78,16 +78,16 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1026
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatSide Side;
+        CombatSide combatSide;
         CombatObject target;
         int value;
         FastBattleSpellCommand command;
         value = 0;
         var side = commands.Source.GetSide();
-        Side = commands.Combat.Sides[(int)side];
-        for (int I = Side.GetCount() - 1; I >= 0; I--)
+        combatSide = commands.Combat.Sides[(int)side];
+        for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
-            target = Side.GetObjects(I);
+            target = combatSide.GetObjects(i);
             if (target.CombatValue != 0 && target is CombatUnit)
             {
                 value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.GetHitPoints()) * 100, 0, commands.Source, target);
@@ -122,14 +122,14 @@ public partial class HighPrayer : CombatSpell
     {
         int value;
         int healing;
-        CombatSide Side;
+        CombatSide combatSide;
         CombatObject ally;
         value = 0;
         var side = source.GetSide();
-        Side = source.Combat.Sides[(int)side];
-        for (int I = Side.GetCount() - 1; I >= 0; I--)
+        combatSide = source.Combat.Sides[(int)side];
+        for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
-            ally = Side.GetObjects(I);
+            ally = combatSide.GetObjects(i);
             if (ally.CombatValue != 0 && ally is CombatUnit)
             {
                 healing = ally.GetHits() - ally.GetHitPoints();

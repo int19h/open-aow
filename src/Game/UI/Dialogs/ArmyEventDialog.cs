@@ -37,9 +37,9 @@ public partial class ArmyEventDialog : UIModule
         int offset;
         var byteList = _units;
         offset = X - byteList.Count * 16;
-        for (int I = 0, last = byteList.Count - 1; I <= last; I++)
+        for (int i = 0, last = byteList.Count - 1; i <= last; i++)
         {
-            DrawUnit(I, I * 32 + offset, Y, lockedSurface);
+            DrawUnit(i, i * 32 + offset, Y, lockedSurface);
         }
     }
 
@@ -94,16 +94,14 @@ public partial class ArmyEventDialog : UIModule
                 var unit7 = _units[index];
                 var damageValue2 = eventValue.DamageValues[unit7];
                 var unit8 = _units[index];
-                var hitPointsToHitPercent = HitChance.HitPointsToHitPercent((sbyte)(byte)(hitPoints - damageValue2), eventValue.ArmyView.Units.GetUnit(unit8).GetHits());
-                HitChance.ShowHitPercent(X, Y, lockedSurface, hitPointsToHitPercent);
+                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((sbyte)(byte)(hitPoints - damageValue2), eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface);
             }
             else
             {
                 var unit4 = _units[index];
                 var hits = eventValue.ArmyView.Units.GetUnit(unit4).GetHits();
                 var unit5 = _units[index];
-                var hitPointsToHitPercent = HitChance.HitPointsToHitPercent(eventValue.ArmyView.Units.GetUnit(unit5).GetHitPoints(), hits);
-                HitChance.ShowHitPercent(X, Y, lockedSurface, hitPointsToHitPercent);
+                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(eventValue.ArmyView.Units.GetUnit(unit5).GetHitPoints(), hits), x: X, y: Y, surface: lockedSurface);
             }
         }
         else
@@ -120,9 +118,9 @@ public partial class ArmyEventDialog : UIModule
         ExecuteDoneEvent notify;
         int resource = default;
         UI.General.Manager.OverlayPriority = 0;
-        for (int I = 0, last = _units.Count - 1; I <= last; I++)
+        for (int i = 0, last = _units.Count - 1; i <= last; i++)
         {
-            var unit = _units[I];
+            var unit = _units[i];
             resource = _event.ArmyView.Units.GetUnit(unit).GetUnitGraphicsResourceIndex();
             if (resource != -1)
             {
@@ -212,12 +210,12 @@ public partial class ArmyEventDialog : UIModule
         dialog.EventTextLabel.Text = text;
         army = log.ArmyView;
         dialog._units.Clear();
-        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
-            if (!army.GetUnitConcealedForPlayer(I, StrategicMap.Current.SeatedPlayer) || log.DamageValues[I] != 0)
+            if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
             {
-                dialog._units.Add((byte)I);
-                image = log.ArmyView.Units.GetUnit(I).GetUnitGraphicsResourceIndex();
+                dialog._units.Add((byte)i);
+                image = log.ArmyView.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
                 if (image != -1)
                 {
                     GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();

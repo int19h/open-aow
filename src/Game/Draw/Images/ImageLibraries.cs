@@ -8,15 +8,15 @@ public static class ImageLibraries
 {
     internal static void RegisterLibraryImageClasses(ReadOnlySpan<LibraryImageClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            if (classes[I].ClassId != 0 && LibraryCatalog.FindLibraryImageClass(classes[I].ClassId) == null)
+            if (classes[i].ClassId != 0 && LibraryCatalog.FindLibraryImageClass(classes[i].ClassId) == null)
             {
-                LibraryImageClasses.Add(classes[I]);
+                LibraryImageClasses.Add(classes[i]);
             }
             else
             {
-                throw new InvalidOperationException("Image ClassID is already used (" + classes[I].StorageKey + ")");
+                throw new InvalidOperationException("Image ClassID is already used (" + classes[i].StorageKey + ")");
             }
         }
     }

@@ -165,11 +165,11 @@ public partial class TerrainList : IDisposable
         int hexY = default;
         HexNumberWalkData walk = default;
         UInt16List result = new UInt16List();
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (GetTerrain(I) >= 0)
+            if (GetTerrain(i) >= 0)
             {
-                HexGeometry.HexNumberToHex(I, ref hexX, ref hexY);
+                HexGeometry.HexNumberToHex(i, ref hexX, ref hexY);
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 1);
                 while (walk.HexNumber != 7)
                 {
@@ -193,27 +193,27 @@ public partial class TerrainList : IDisposable
     // HSEngine.pas:1538
     public bool CompareTerrain(TerrainList list, Set<TerrainCompareModeElement> mode)
     {
-        int I;
-        int N;
+        int i;
+        int n;
         int t1;
         int t2;
         int o1;
         int o2;
         bool result = true;
-        I = 0;
+        i = 0;
         if (_count >= list._count)
         {
-            N = _count;
+            n = _count;
         }
         else
         {
-            N = list._count;
+            n = list._count;
         }
 
-        while (result && I != N)
+        while (result && i != n)
         {
-            t1 = GetTerrain(I);
-            t2 = list.GetTerrain(I);
+            t1 = GetTerrain(i);
+            t2 = list.GetTerrain(i);
             if (!(t1 < 0 && t2 < 0))
             {
                 result = t1 >= 0 && t2 >= 0 && (!mode.Contains(TerrainCompareModeElement.SameTerrainType) || t1 == t2);
@@ -221,15 +221,15 @@ public partial class TerrainList : IDisposable
 
             if (result)
             {
-                o1 = GetOverlay(I);
-                o2 = list.GetOverlay(I);
+                o1 = GetOverlay(i);
+                o2 = list.GetOverlay(i);
                 if (!(o1 < 0 && o2 < 0))
                 {
                     result = !mode.Contains(TerrainCompareModeElement.SameOverlayType) || o1 == o2;
                 }
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

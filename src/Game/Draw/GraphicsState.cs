@@ -15,16 +15,16 @@ public static class GraphicsState
 
     internal static void RegisterImageFileClasses(ReadOnlySpan<ImageFileClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            var extension = classes[I].Extension;
+            var extension = classes[i].Extension;
             if (ImageFileClassList.FindClass(extension) == null)
             {
-                ImageFileClassList.Add(classes[I]);
+                ImageFileClassList.Add(classes[i]);
             }
             else
             {
-                throw new InvalidOperationException("ImageFile class with " + classes[I].Extension + " extension is already registered");
+                throw new InvalidOperationException("ImageFile class with " + classes[i].Extension + " extension is already registered");
             }
         }
     }

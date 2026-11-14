@@ -28,11 +28,11 @@ public partial class InterfaceImageLibrary : ImageLibrary
         }
         else
         {
-            for (int I = index; I <= index + count - 1; I++)
+            for (int i = index; i <= index + count - 1; i++)
             {
-                if (!ImageExist(I))
+                if (!ImageExist(i))
                 {
-                    MessageBox(0, Name + " Image # " + IntToStr(I) + " is invalid", "Error - " + sender.Name, 0);
+                    MessageBox(0, Name + " Image # " + IntToStr(i) + " is invalid", "Error - " + sender.Name, 0);
                     result = null;
                 }
             }
@@ -81,15 +81,15 @@ public partial class InterfaceImageLibrary : ImageLibrary
             lockedSurface.ClipRectangle.Right = area.Left + area.Width - item3.Width;
         }
 
-        for (int I = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; I <= last; I++)
+        for (int i = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; i <= last; i++)
         {
             var item3 = this[index];
             var item4 = this[index + 1];
-            this[index + 1].ShowClipped(area.Left + item3.Width + item4.Width * I, area.Top, lockedSurface);
+            this[index + 1].ShowClipped(area.Left + item3.Width + item4.Width * i, area.Top, lockedSurface);
             var item5 = this[index + 5];
             var item6 = this[index + 6];
             var item7 = this[index + 6];
-            this[index + 6].ShowClipped(area.Left + item5.Width + item6.Width * I, area.Top + area.Height - item7.Height, lockedSurface);
+            this[index + 6].ShowClipped(area.Left + item5.Width + item6.Width * i, area.Top + area.Height - item7.Height, lockedSurface);
         }
 
         var rectangle2 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
@@ -101,15 +101,15 @@ public partial class InterfaceImageLibrary : ImageLibrary
             lockedSurface.ClipRectangle.Bottom = area.Top + area.Height - item3.Height;
         }
 
-        for (int I = 0, last = (area.Height - this[index].Height - this[index + 5].Height) / this[index + 3].Height; I <= last; I++)
+        for (int i = 0, last = (area.Height - this[index].Height - this[index + 5].Height) / this[index + 3].Height; i <= last; i++)
         {
             var item3 = this[index];
             var item4 = this[index + 3];
-            this[index + 3].ShowClipped(area.Left, area.Top + item3.Height + item4.Height * I, lockedSurface);
+            this[index + 3].ShowClipped(area.Left, area.Top + item3.Height + item4.Height * i, lockedSurface);
             var item5 = this[index + 2];
             var item6 = this[index + 4];
             var item7 = this[index + 4];
-            this[index + 4].ShowClipped(area.Left + area.Width - item7.Width, area.Top + item5.Height + item6.Height * I, lockedSurface);
+            this[index + 4].ShowClipped(area.Left + area.Width - item7.Width, area.Top + item5.Height + item6.Height * i, lockedSurface);
         }
 
         var rectangle3 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
@@ -160,13 +160,13 @@ public partial class InterfaceImageLibrary : ImageLibrary
             lockedSurface.ClipRectangle.Bottom = area.Top + area.Height;
         }
 
-        for (int J = 0, last = area.Height / this[index].Height; J <= last; J++)
+        for (int j = 0, last = area.Height / this[index].Height; j <= last; j++)
         {
-            for (int I = 0, lastI = area.Width / this[index].Width; I <= lastI; I++)
+            for (int i = 0, lastI = area.Width / this[index].Width; i <= lastI; i++)
             {
                 var libraryImage = this[index];
                 var item = this[index];
-                this[index].ShowClipped(area.Left + item.Width * I, area.Top + libraryImage.Height * J, lockedSurface);
+                this[index].ShowClipped(area.Left + item.Width * i, area.Top + libraryImage.Height * j, lockedSurface);
             }
         }
 
@@ -242,11 +242,11 @@ public partial class InterfaceImageLibrary : ImageLibrary
             lockedSurface.ClipRectangle.Right = area.Left + area.Width - item.Width;
         }
 
-        for (int I = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; I <= last; I++)
+        for (int i = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; i <= last; i++)
         {
             var item2 = this[index];
             var item3 = this[index + 1];
-            this[index + 1].ShowClipped(area.Left + item2.Width + item3.Width * I, area.Top, lockedSurface);
+            this[index + 1].ShowClipped(area.Left + item2.Width + item3.Width * i, area.Top, lockedSurface);
         }
 
         var rectangle2 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
@@ -293,11 +293,11 @@ public partial class InterfaceImageLibrary : ImageLibrary
             lockedSurface.ClipRectangle.Bottom = area.Top + area.Height - item.Height;
         }
 
-        for (int I = 0, last = (area.Height - this[index].Height - this[index + 2].Height) / this[index + 1].Height; I <= last; I++)
+        for (int i = 0, last = (area.Height - this[index].Height - this[index + 2].Height) / this[index + 1].Height; i <= last; i++)
         {
             var item2 = this[index];
             var item3 = this[index + 1];
-            this[index + 1].ShowClipped(area.Left, area.Top + item2.Height + item3.Height * I, lockedSurface);
+            this[index + 1].ShowClipped(area.Left, area.Top + item2.Height + item3.Height * i, lockedSurface);
         }
 
         var rectangle2 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);

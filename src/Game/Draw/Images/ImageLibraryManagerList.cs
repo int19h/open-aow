@@ -36,9 +36,9 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     public void UnloadImageLibrary()
     {
         ImageLibraryManagerObject objectValue;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = Objects[I];
+            objectValue = Objects[i];
             if (objectValue != null && objectValue.ImageLibrary != null)
             {
                 objectValue.ImageLibrary.ReleaseDiscardableImageData();
@@ -62,13 +62,13 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     //   finds the owned libraries. }
     public ImageLibraryManagerObject AddImageLibraryManagerObject(string name, CustomImageLibrary imageLibrary)
     {
-        string S;
+        string s;
         ImageLibraryManagerObject objectValue;
-        S = UpperCase(name);
+        s = UpperCase(name);
         objectValue = new ImageLibraryManagerObject();
         objectValue.ImageLibrary = imageLibrary;
-        AddObject(S, objectValue);
-        HashTable.Remove(S);
+        AddObject(s, objectValue);
+        HashTable.Remove(s);
         return objectValue;
     }
 
@@ -92,9 +92,9 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     {
         ImageLibraryManagerObject objectValue;
         HashTable.Clear();
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = Objects[I];
+            objectValue = Objects[i];
             if (objectValue != null)
             {
                 objectValue.ImageLibrary?.Dispose();
@@ -168,11 +168,11 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     // ImageLib.pas:8229
     public override void LoadFromStream(Stream stream)
     {
-        int N = default;
+        int n = default;
         string name = "";
         CustomImageLibrary imageLibrary;
-        stream.ReadExactly(Bytes.Of(ref N, 4));
-        for (int I = 0, last = N - 1; I <= last; I++)
+        stream.ReadExactly(Bytes.Of(ref n, 4));
+        for (int i = 0, last = n - 1; i <= last; i++)
         {
             LibraryDrawing.ReadStringFromStream(ref name, stream);
             imageLibrary = new ImageLibrary(null);
@@ -184,15 +184,15 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     // ImageLib.pas:8245
     public override void SaveToStream(Stream stream)
     {
-        int I;
-        I = Count;
-        stream.Write(Bytes.Of(ref I, 4));
-        I = 0;
+        int i;
+        i = Count;
+        stream.Write(Bytes.Of(ref i, 4));
+        i = 0;
         int last = Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            LibraryDrawing.WriteStringToStream(Strings[I], stream);
-            Objects[I].ImageLibrary.SaveToStream(stream);
+            LibraryDrawing.WriteStringToStream(Strings[i], stream);
+            Objects[i].ImageLibrary.SaveToStream(stream);
         }
     }
 

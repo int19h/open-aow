@@ -148,17 +148,17 @@ public partial class PlayerInfoWindow : UIModule
     // AoWPInfoWin.pas:116
     public void CenterButtonClick()
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out X, out Y, out L);
-            if (X > -1)
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out x, out y, out l);
+            if (x > -1)
             {
-                StrategicMap.Current.CenterViewTo(X, Y, L);
-                StrategicMap.Current.PlayCenterAnimation(X, Y, L);
+                StrategicMap.Current.CenterViewTo(x, y, l);
+                StrategicMap.Current.PlayCenterAnimation(x, y, l);
             }
         }
     }
@@ -172,13 +172,13 @@ public partial class PlayerInfoWindow : UIModule
     // AoWPInfoWin.pas:137
     public void FaceFrDraw(LockedSurface lockedSurface)
     {
-        Rect R;
+        Rect r;
         if (StrategicMap.Current.SeatedPlayer > -1)
         {
-            R = new Rect(FaceFrame.WinLeft + 3, FaceFrame.WinTop + 3, FaceFrame.WinLeft + FaceFrame.WinWidth - 3, FaceFrame.WinTop + FaceFrame.WinHeight - 3);
+            r = new Rect(FaceFrame.WinLeft + 3, FaceFrame.WinTop + 3, FaceFrame.WinLeft + FaceFrame.WinWidth - 3, FaceFrame.WinTop + FaceFrame.WinHeight - 3);
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace() != null)
             {
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace().ShowStretched(R, lockedSurface);
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace().ShowStretched(r, lockedSurface);
             }
         }
     }

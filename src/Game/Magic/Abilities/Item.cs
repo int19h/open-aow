@@ -484,17 +484,17 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4474
-    public bool PlaceOnMap(GameMap map, sbyte X, sbyte Y, sbyte L)
+    public bool PlaceOnMap(GameMap map, sbyte x, sbyte y, sbyte level)
     {
         bool result;
         ItemHexSprite hexSprite;
-        if (X >= 0 && Y >= 0 && L >= 0 && X < map.MapContainer.Width && Y < map.MapContainer.Height && L < map.MapContainer.LevelCount && map.MapContainer.GetField(X, Y, L).TerrainType != 15)
+        if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
-            hexSprite = (ItemHexSprite)map.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            hexSprite = (ItemHexSprite)map.MapContainer.GetField(x, y, level).FindOwnedChild(131697);
             if (hexSprite == null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
-                if (!map.PlaceHex(hexSprite, X, Y, L))
+                if (!map.PlaceHex(hexSprite, x, y, level))
                 {
                     hexSprite?.Dispose();
                     hexSprite = null;

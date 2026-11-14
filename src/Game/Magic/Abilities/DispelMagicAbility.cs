@@ -109,9 +109,9 @@ public partial class DispelMagicAbility : TouchAbility
         CombatObject target;
         FastBattleCommand command;
         AbilityDamageValues values = default;
-        for (int I = 0, last = commands.SourceSide.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = commands.SourceSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.SourceSide.GetObjects(I);
+            target = commands.SourceSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);

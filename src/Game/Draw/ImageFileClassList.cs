@@ -17,21 +17,21 @@ public partial class ImageFileClassList : DelphiList<ImageFileClass>
     public ImageFileClass FindClass(string ext)
     {
         ImageFileClass result;
-        int I;
-        I = 0;
+        int i;
+        i = 0;
         if (!IsEmpty(ext) && ext[0] == 46)
         {
             ext = Copy(ext, 2, ext.Length - 1);
         }
 
-        while (I != Count && CompareText(List[I].Extension, ext) != 0)
+        while (i != Count && CompareText(List[i].Extension, ext) != 0)
         {
-            I += 1;
+            i += 1;
         }
 
-        if (I != Count)
+        if (i != Count)
         {
-            result = List[I];
+            result = List[i];
         }
         else
         {

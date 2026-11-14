@@ -159,11 +159,11 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         {
             terrainList = new TerrainList();
             terrainList.Assign(_resource.TerrainList);
-            for (int I = 0, last = terrainList.Count - 1; I <= last; I++)
+            for (int i = 0, last = terrainList.Count - 1; i <= last; i++)
             {
-                if (terrainList.GetTerrain(I) >= 0)
+                if (terrainList.GetTerrain(i) >= 0)
                 {
-                    terrainList.SetTerrain(I, _terrainType);
+                    terrainList.SetTerrain(i, _terrainType);
                 }
             }
 

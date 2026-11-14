@@ -34,21 +34,21 @@ public partial class TwinkleAnimation : Animation
         ImageSequence sequence;
         int oldSeed;
         int delay;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int deltaX = default;
         int deltaY = default;
         int radius;
         int angle;
         int index;
         oldSeed = RandSeed;
-        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
-        pixelXSurface = X - pixelXSurface + 16;
-        pixelYSurface = Y - pixelYSurface + 16;
+        HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+        pixelXSurface = x - pixelXSurface + 16;
+        pixelYSurface = y - pixelYSurface + 16;
         var hexX = GetHexX();
         var hexY = GetHexY();
         RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY * 3;
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
             radius = Random(_radius);
             angle = Random(360);

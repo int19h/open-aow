@@ -88,7 +88,7 @@ public partial class WizardsTower : Structure
     {
         Army army;
         AIGroup group;
-        int I;
+        int i;
         string reason = "";
         int cost;
         bool found;
@@ -99,17 +99,15 @@ public partial class WizardsTower : Structure
         {
             army = placedArmy.Army;
             group = null;
-            I = 0;
+            i = 0;
             cost = BuyCost();
             found = false;
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            location = HexGeometry.PackMapCoordinate(GetHexX(), hexY, hexLevel);
-            while (!found && I != army.Units.Count)
+            location = HexGeometry.PackMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            while (!found && i != army.Units.Count)
             {
-                group = army.Units.GetUnit(I).Group;
+                group = army.Units.GetUnit(i).Group;
                 found = group != null && group.TargetMapCoordinate == AITargetLocation.At(location) && group.GoldBudget == cost;
-                I += 1;
+                i += 1;
             }
 
             if (found && CanBuy(army.Player, ref reason))

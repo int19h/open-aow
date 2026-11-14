@@ -89,13 +89,13 @@ public partial class StructureTokenEvent : TokenEvent
     }
 
     // Structur.PAS:2537
-    public void Initialize(int classId, sbyte X, sbyte Y, sbyte L)
+    public void Initialize(int classId, sbyte x, sbyte y, sbyte mapLevel)
     {
         MapField mapField;
         Structure structure;
-        this._x = X;
-        this._y = Y;
-        _mapLevel = L;
+        this._x = x;
+        this._y = y;
+        _mapLevel = mapLevel;
         mapField = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel);
         structure = (Structure)mapField.FindOwnedChild(classId);
         Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);

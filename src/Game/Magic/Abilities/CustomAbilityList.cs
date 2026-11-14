@@ -61,14 +61,14 @@ public partial class CustomAbilityList : EngineObject
     {
         Ability ability;
         text.Clear();
-        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
+        for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
-                    text.AddObject(ability.GetName(null), IntToObject(I));
+                    text.AddObject(ability.GetName(null), IntToObject(i));
                 }
             }
         }
@@ -108,11 +108,11 @@ public partial class CustomAbilityList : EngineObject
             count = GetAbCount();
         }
 
-        for (int I = 0; I <= count - 1; I++)
+        for (int i = 0; i <= count - 1; i++)
         {
-            if (source.GetAbilitySetAt(I) != GetAbilitySetAt(I))
+            if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(I, (byte)(source.GetAbilitySetAt(I) ? 1 : 0));
+                SetAbilitySet(i, (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
             }
         }
     }
@@ -134,11 +134,11 @@ public partial class CustomAbilityList : EngineObject
     public bool ComposeAbility(CustomAbilityList source)
     {
         bool result = false;
-        for (int I = 0, last = source.GetAbCount() - 1; I <= last; I++)
+        for (int i = 0, last = source.GetAbCount() - 1; i <= last; i++)
         {
-            if (source.GetAbilitySetAt(I) && !GetAbilitySetAt(I))
+            if (source.GetAbilitySetAt(i) && !GetAbilitySetAt(i))
             {
-                SetAbilitySet(I, 1);
+                SetAbilitySet(i, 1);
                 result = true;
             }
         }
@@ -150,11 +150,11 @@ public partial class CustomAbilityList : EngineObject
     public string GetItemString()
     {
         string result = "";
-        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
+        for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
-            if (GetAbilitySetAt(I))
+            if (GetAbilitySetAt(i))
             {
-                result = result + IntToStr(I) + ",";
+                result = result + IntToStr(i) + ",";
             }
         }
 
@@ -170,15 +170,15 @@ public partial class CustomAbilityList : EngineObject
     public void SetItemString(string S)
     {
         string part;
-        int P;
+        int p;
         Clear();
-        P = Pos(",", S);
+        p = Pos(",", S);
         while (!IsEmpty(S))
         {
-            if (P != 0)
+            if (p != 0)
             {
-                part = RtlUnit.Copy(S, 1, P - 1);
-                S = Delete(S, 1, P);
+                part = RtlUnit.Copy(S, 1, p - 1);
+                S = Delete(S, 1, p);
             }
             else
             {
@@ -191,7 +191,7 @@ public partial class CustomAbilityList : EngineObject
                 SetAbilitySet(StrToInt(part), 1);
             }
 
-            P = Pos(",", S);
+            p = Pos(",", S);
         }
     }
 

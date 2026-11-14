@@ -645,8 +645,8 @@ public partial class ArmyHexSprite : UnitHexSprite
         sbyte[] resultCell = new sbyte[1];
         ref sbyte result = ref resultCell[0];
         MapLevel level;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int deltaX = default;
         int deltaY = default;
         ImageSequenceAnimation animation;
@@ -697,10 +697,10 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             level = Owner.Owner;
             var hexY = GetHexY();
-            HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, direction, ref X, ref Y);
-            if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
+            HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, direction, ref x, ref y);
+            if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {
-                if (level.GetField(X, Y).TerrainType == 7)
+                if (level.GetField(x, y).TerrainType == 7)
                 {
                     if (GamePack.Current.AbilityControl.GetAbility(42).ImageSequences.GetImageSequence(0) != null)
                     {
@@ -770,28 +770,28 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:2770
     public void UpdateUnitGraphicsResource()
     {
-        int I;
+        int i;
         if (Army.Status.Contains(ArmyStatusElement.Concealed))
         {
-            I = 0;
-            while ((((int)(((uint)Army.ConcealedUnits) >> I)) & 1) == 1)
+            i = 0;
+            while ((((int)(((uint)Army.ConcealedUnits) >> i)) & 1) == 1)
             {
-                I += 1;
+                i += 1;
             }
 
-            if (I >= Army.Units.Count)
+            if (i >= Army.Units.Count)
             {
-                I = 0;
+                i = 0;
             }
         }
         else
         {
-            I = 0;
+            i = 0;
         }
 
-        _unitIndex = (byte)I;
-        SetUnitGraphicsResourceIndex(Army.Units.GetUnit(I).GetUnitGraphicsResourceIndex());
-        if (Army.Units.GetUnit(I).GetMoveTypes().Contains(MoveType.Flying))
+        _unitIndex = (byte)i;
+        SetUnitGraphicsResourceIndex(Army.Units.GetUnit(i).GetUnitGraphicsResourceIndex());
+        if (Army.Units.GetUnit(i).GetMoveTypes().Contains(MoveType.Flying))
         {
             _unitYOffset = -8;
         }
@@ -830,7 +830,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:3490
-    public bool Place(sbyte X, sbyte Y, sbyte L, Set<ArmyPlaceModeElement> mode)
+    public bool Place(sbyte x, sbyte y, sbyte mapLevel, Set<ArmyPlaceModeElement> mode)
     {
         MapLevel level;
         MapField field;
@@ -838,8 +838,8 @@ public partial class ArmyHexSprite : UnitHexSprite
         HexNumberWalkData walk = default;
         int player;
         bool result = false;
-        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         while (!result && (walk.Radius == 0 || mode.Contains(ArmyPlaceModeElement.ScanArea)) && walk.Radius < 30)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -856,7 +856,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                         field.SendMapFieldMessage(ref message);
                         if (message.Result.Int == 0)
                         {
-                            if (Army.CanPlace((sbyte)walk.X, (sbyte)walk.Y, L))
+                            if (Army.CanPlace((sbyte)walk.X, (sbyte)walk.Y, mapLevel))
                             {
                                 MoveTo(field, 0);
                                 result = true;

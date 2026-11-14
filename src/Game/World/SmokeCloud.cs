@@ -153,9 +153,7 @@ public partial class SmokeCloud : MultiHexMapObject
         {
             smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
         }
-
-        var hexY = HexY;
-        UpdateConcealment(HexX, hexY, HexLevel);
+        UpdateConcealment(hexY: HexY, hexX: HexX, hexLevel: HexLevel);
         UpdateVisibleForSeatedPlayer();
     }
 
@@ -167,10 +165,7 @@ public partial class SmokeCloud : MultiHexMapObject
         {
             Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
-
-        var hexLevel = GetHexLevel();
-        var hexY = GetHexY();
-        UpdateConcealment(GetHexX(), hexY, hexLevel);
+        UpdateConcealment(hexLevel: GetHexLevel(), hexY: GetHexY(), hexX: GetHexX());
     }
 
     // SmokeCloud.pas:238

@@ -108,7 +108,7 @@ public partial class MeleeRound : IDisposable
         attackerCount = 0;
         defenderCount = 0;
         SetCount(_attackerStrikes + _defenderStrikes);
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if (side == CombatSideIndex.Attacker)
             {
@@ -121,11 +121,11 @@ public partial class MeleeRound : IDisposable
                 target = _attackerUnit;
             }
 
-            ref Strike strike = ref _strikes[I];
+            ref Strike strike = ref _strikes[i];
             strike.Side = side;
-            if (I == 0 || (I == 1 && side != firstSide))
+            if (i == 0 || (i == 1 && side != firstSide))
             {
-                if (side == CombatSideIndex.Attacker && I == 0 && source.GetAbilityEnabled(111))
+                if (side == CombatSideIndex.Attacker && i == 0 && source.GetAbilityEnabled(111))
                 {
                     strike.DamageBonus += 2;
                 }
@@ -268,7 +268,7 @@ public partial class MeleeRound : IDisposable
         attackerCount = 0;
         defenderCount = 0;
         SetCount(_attackerStrikes + _defenderStrikes);
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if (side == CombatSideIndex.Attacker)
             {
@@ -281,11 +281,11 @@ public partial class MeleeRound : IDisposable
                 target = _attacker;
             }
 
-            ref Strike strike = ref _strikes[I];
+            ref Strike strike = ref _strikes[i];
             strike.Side = side;
-            if (I == 0 || (I == 1 && side != firstSide))
+            if (i == 0 || (i == 1 && side != firstSide))
             {
-                if (side == CombatSideIndex.Attacker && I == 0 && source.GetAbilityEnabled(111))
+                if (side == CombatSideIndex.Attacker && i == 0 && source.GetAbilityEnabled(111))
                 {
                     strike.DamageBonus += 2;
                 }
@@ -464,13 +464,13 @@ public partial class MeleeRound : IDisposable
     // AoWAb.PAS:1786
     public void CalculateDamageValue()
     {
-        int I;
+        int i;
         int lifeStealingDamageValue;
         bool lifeStealing;
         CombatObject source;
         _attackerDamageValue = 0;
         _defenderDamageValue = 0;
-        I = 0;
+        i = 0;
         lifeStealingDamageValue = 0;
         source = _attacker;
         if (source != null)
@@ -490,26 +490,26 @@ public partial class MeleeRound : IDisposable
             }
         }
 
-        while (I != Count)
+        while (i != Count)
         {
-            if (_strikes[I].Side == CombatSideIndex.Attacker)
+            if (_strikes[i].Side == CombatSideIndex.Attacker)
             {
-                _attackerDamageValue += _strikes[I].DamageValue;
-                if (_strikes[I].DamageValue > 100)
+                _attackerDamageValue += _strikes[i].DamageValue;
+                if (_strikes[i].DamageValue > 100)
                 {
                     lifeStealingDamageValue += 100;
                 }
                 else
                 {
-                    lifeStealingDamageValue += _strikes[I].DamageValue;
+                    lifeStealingDamageValue += _strikes[i].DamageValue;
                 }
             }
             else
             {
-                _defenderDamageValue += _strikes[I].DamageValue;
+                _defenderDamageValue += _strikes[i].DamageValue;
             }
 
-            I += 1;
+            i += 1;
         }
 
         if (lifeStealing && _defenderDamageValue > 0)

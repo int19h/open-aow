@@ -31,15 +31,15 @@ public partial class ImageSequenceAnimation : Animation
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         ImageSequence sequence;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int index;
         base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         if (GetHexLevel() == AnimationMap.ViewMapLevel)
         {
-            HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
-            pixelXSurface = X - pixelXSurface + 16 + PixelXOffset;
-            pixelYSurface = Y - pixelYSurface + 16 + PixelYOffset;
+            HexGeometry.HexToPixel(_hexX, _hexY, out x, out y);
+            pixelXSurface = x - pixelXSurface + 16 + PixelXOffset;
+            pixelYSurface = y - pixelYSurface + 16 + PixelYOffset;
             if (!Looped)
             {
                 sequence = ImageSequence;
@@ -88,7 +88,7 @@ public partial class ImageSequenceAnimation : Animation
     public void UpdateDimensions()
     {
         ImageSequence sequence;
-        Rect R = default;
+        Rect r = default;
         Dimensions.Left = 0;
         Dimensions.Right = 0;
         Dimensions.Top = 0;
@@ -96,8 +96,8 @@ public partial class ImageSequenceAnimation : Animation
         sequence = ImageSequence;
         while (sequence != null)
         {
-            sequence.GetDimensions(out R);
-            UnionRect(out Dimensions, Dimensions, R);
+            sequence.GetDimensions(out r);
+            UnionRect(out Dimensions, Dimensions, r);
             sequence = sequence.Next;
         }
 

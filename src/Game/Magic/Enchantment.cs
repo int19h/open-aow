@@ -91,16 +91,16 @@ public partial class Enchantment : EngineObject
     public virtual bool CenterToLocation()
     {
         bool result;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        GetLocation(out X, out Y, out L);
-        if (X != -1)
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        GetLocation(out x, out y, out l);
+        if (x != -1)
         {
-            if (StrategicMap.Current.Visible(X, Y, L, 0))
+            if (StrategicMap.Current.Visible(x, y, l, 0))
             {
-                StrategicMap.Current.CenterViewTo(X, Y, L);
-                StrategicMap.Current.PlayCenterAnimation(X, Y, L);
+                StrategicMap.Current.CenterViewTo(x, y, l);
+                StrategicMap.Current.PlayCenterAnimation(x, y, l);
             }
             else
             {

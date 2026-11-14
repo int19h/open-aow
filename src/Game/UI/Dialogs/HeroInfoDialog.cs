@@ -59,31 +59,31 @@ public partial class HeroInfoDialog : UIModule
     public void DrawUnit(int index, in Rect R, ref LockedSurface surface)
     {
         Units.Alignment alignment;
-        int X;
-        int Y;
+        int x;
+        int y;
         Rect oldClip;
         UnitShowInfo info;
         if (index < _armyInfo.ArmyView.Units.Count)
         {
             oldClip = surface.ClipRectangle;
             surface.ClipRectangle = R;
-            X = (R.Right + R.Left) / 2;
-            Y = (R.Top + R.Bottom) / 2;
+            x = (R.Right + R.Left) / 2;
+            y = (R.Top + R.Bottom) / 2;
             alignment = _armyInfo.ArmyView.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
+                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _armyInfo.ArmyView.Units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
+            _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
+                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -100,30 +100,30 @@ public partial class HeroInfoDialog : UIModule
     // AoWHeroInfoDlg.pas:152
     public void FaceFramePreDraw(LockedSurface surface)
     {
-        Rect R = default;
+        Rect r = default;
         Hero hero;
-        int I;
-        R.Left = this.FaceFrame.WinLeft + Window.WinLeft;
-        R.Right = this.FaceFrame.WinWidth + R.Left;
-        R.Top = this.FaceFrame.WinTop + Window.WinTop;
-        R.Bottom = this.FaceFrame.WinHeight + R.Top;
+        int i;
+        r.Left = this.FaceFrame.WinLeft + Window.WinLeft;
+        r.Right = this.FaceFrame.WinWidth + r.Left;
+        r.Top = this.FaceFrame.WinTop + Window.WinTop;
+        r.Bottom = this.FaceFrame.WinHeight + r.Top;
 
         hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, RosterTables.AllHeroTypes);
         if (hero.GetFace() != null)
         {
-            hero.ShowFace(R, surface);
+            hero.ShowFace(r, surface);
         }
         else
         {
-            I = 0;
-            while (((1 << I) & _armyInfo.Selection) == 0 && I != _armyInfo.ArmyView.Units.Count)
+            i = 0;
+            while (((1 << i) & _armyInfo.Selection) == 0 && i != _armyInfo.ArmyView.Units.Count)
             {
-                I += 1;
+                i += 1;
             }
 
-            if (I < _armyInfo.ArmyView.Units.Count)
+            if (i < _armyInfo.ArmyView.Units.Count)
             {
-                _armyInfo.ArmyView.Units.GetUnit(I).ShowFace(R, surface);
+                _armyInfo.ArmyView.Units.GetUnit(i).ShowFace(r, surface);
             }
         }
     }
@@ -131,13 +131,13 @@ public partial class HeroInfoDialog : UIModule
     // AoWHeroInfoDlg.pas:175
     public void U1PreDraw(Frame sender, LockedSurface surface, int slot)
     {
-        Rect R = default;
-        R.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
-        R.Right = sender.WinWidth + R.Left;
-        R.Top = sender.WinTop + UnitPanel.WinTop;
-        R.Bottom = sender.WinHeight + R.Top;
+        Rect r = default;
+        r.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
+        r.Right = sender.WinWidth + r.Left;
+        r.Top = sender.WinTop + UnitPanel.WinTop;
+        r.Bottom = sender.WinHeight + r.Top;
 
-        DrawUnit(slot, R, ref surface);
+        DrawUnit(slot, r, ref surface);
     }
 
     // AoWHeroInfoDlg.pas:189

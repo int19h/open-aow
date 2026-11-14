@@ -45,18 +45,18 @@ public partial class CombatWall : CombatObject
         if (TargetPriorityInvalid)
         {
             count = 0;
-            for (int I = TargetedBy.Count - 1; I >= 0; I--)
+            for (int i = TargetedBy.Count - 1; i >= 0; i--)
             {
-                if (TargetedBy.List[I].Second == 0)
+                if (TargetedBy.List[i].Second == 0)
                 {
                     count += 1;
                 }
             }
 
             TargetPriority = 0;
-            for (int I = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; I >= 0; I--)
+            for (int i = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; i >= 0; i--)
             {
-                objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(I);
+                objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
                 TargetPriority += objectValue.IncomingCombatValue - objectValue.IncomingWallCombatValue;
             }
 
@@ -160,10 +160,7 @@ public partial class CombatWall : CombatObject
                 GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
                 break;
         }
-
-        var hits = GetHits();
-        var hitPointsToHitPercent = HitChance.HitPointsToHitPercent((sbyte)_hitPoints, hits);
-        HitChance.ShowHitPercent(X, Y - 10, surface, hitPointsToHitPercent);
+        HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: (sbyte)_hitPoints), x: X, y: Y - 10, surface: surface);
     }
 
     // Combat.pas:1773

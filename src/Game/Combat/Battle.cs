@@ -158,9 +158,9 @@ public partial class Battle : EngineObject
         {
             case >= 4 and <= 5:
                 {
-                    for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+                    for (int i = CombatData.GetCount() - 1; i >= 0; i--)
                     {
-                        if (CombatData.GetObjects(I).Status.Contains(CombatObjectStatusElement.Fled))
+                        if (CombatData.GetObjects(i).Status.Contains(CombatObjectStatusElement.Fled))
                         {
                             CombatResult = CombatResult.Fled;
                         }
@@ -174,9 +174,9 @@ public partial class Battle : EngineObject
     // Combat.pas:6227
     public virtual void ObjectDestroyed(CombatObject combatObject)
     {
-        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
-            CombatData.GetObjects(I).ObjectDestroyed(combatObject);
+            CombatData.GetObjects(i).ObjectDestroyed(combatObject);
         }
 
         _executedEventsStore.Raise(this);
@@ -186,11 +186,11 @@ public partial class Battle : EngineObject
     // Combat.pas:6218
     public virtual void ObjectSideChanged(CombatObject combatObject)
     {
-        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
             if (!combatObject.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                CombatData.GetObjects(I).ObjectSideChanged(combatObject);
+                CombatData.GetObjects(i).ObjectSideChanged(combatObject);
             }
         }
 
@@ -248,22 +248,22 @@ public partial class Battle : EngineObject
     // Combat.pas:6405
     public virtual void Initialize()
     {
-        int J;
+        int j;
         CombatWall wall;
         byte wallType;
         byte player;
         LockExecuted();
         Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
         wallType = 0;
-        J = 0;
-        while (wallType == 0 && J != CombatData.Parties.Count)
+        j = 0;
+        while (wallType == 0 && j != CombatData.Parties.Count)
         {
-            if (CombatData.Parties.GetParty((byte)J) != null)
+            if (CombatData.Parties.GetParty((byte)j) != null)
             {
-                wallType = CombatData.Parties.GetParty((byte)J).Wall;
+                wallType = CombatData.Parties.GetParty((byte)j).Wall;
             }
 
-            J += 1;
+            j += 1;
         }
 
         if (wallType != 0)
@@ -280,9 +280,9 @@ public partial class Battle : EngineObject
         }
 
         CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
-        for (int I = 0, last = CombatData.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = CombatData.Players.Count - 1; i <= last; i++)
         {
-            player = (byte)I;
+            player = (byte)i;
             if (CombatData.TurnOrder.IndexOf(player) == -1 && CombatData.Players.GetPlayers((sbyte)player).SideIndex == 1)
             {
                 CombatData.TurnOrder.Add(player);
@@ -290,18 +290,18 @@ public partial class Battle : EngineObject
         }
 
         CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
-        for (int I = 0, last = CombatData.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = CombatData.Players.Count - 1; i <= last; i++)
         {
-            player = (byte)I;
+            player = (byte)i;
             if (CombatData.TurnOrder.IndexOf(player) == -1 && CombatData.Players.GetPlayers((sbyte)player).SideIndex == 0)
             {
                 CombatData.TurnOrder.Add(player);
             }
         }
 
-        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
-            CombatData.GetObjects(I).Initialize(this);
+            CombatData.GetObjects(i).Initialize(this);
         }
 
         Logbook.SetInitialData(CombatData);
@@ -320,10 +320,10 @@ public partial class Battle : EngineObject
         CombatData finalData;
         MapFieldMessage message = default;
         Assert((Status & Set<CombatStatusElement>.Of(CombatStatusElement.Executing, CombatStatusElement.Activated)) == Set<CombatStatusElement>.Of(CombatStatusElement.Executing), "Combat Finalize Failure", "Combat.pas", 6523);
-        for (int I = 0, last = CombatData.DefeatedLeaders.Count - 1; I <= last; I++)
+        for (int i = 0, last = CombatData.DefeatedLeaders.Count - 1; i <= last; i++)
         {
             data = CombatData;
-            var item = data.DefeatedLeaders[I];
+            var item = data.DefeatedLeaders[i];
             var players = data.Players.GetPlayers((sbyte)item);
             StrategicMap.Current.GameOver(players.Player, GameOverStatus.Lost);
             Logbook.PlayerEliminated = true;
@@ -332,17 +332,17 @@ public partial class Battle : EngineObject
         Logbook.SetFinalData(CombatData);
         Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
         data = CombatData;
-        for (int I = data.GetCount() - 1; I >= 0; I--)
+        for (int i = data.GetCount() - 1; i >= 0; i--)
         {
-            CombatData.GetObjects(I).CombatDone();
+            CombatData.GetObjects(i).CombatDone();
         }
 
         for (int modeOrdinal = (int)FinalizeMode.Original; modeOrdinal <= (int)FinalizeMode.All; modeOrdinal++)
         {
             mode = (FinalizeMode)modeOrdinal;
-            for (int I = data.GetCount() - 1; I >= 0; I--)
+            for (int i = data.GetCount() - 1; i >= 0; i--)
             {
-                CombatData.GetObjects(I).Finalize(mode);
+                CombatData.GetObjects(i).Finalize(mode);
             }
         }
 
@@ -389,16 +389,16 @@ public partial class Battle : EngineObject
         Assert(!Status.Contains(CombatStatusElement.Activated), "Combat already activated", "Combat.pas", 6595);
         Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
         CombatData.Parties.Activate(this);
-        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
-            CombatData.GetObjects(I).Activate(this);
+            CombatData.GetObjects(i).Activate(this);
         }
 
         if (Status.Contains(CombatStatusElement.Executing))
         {
-            for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+            for (int i = CombatData.GetCount() - 1; i >= 0; i--)
             {
-                CombatData.GetObjects(I).SetupTargets();
+                CombatData.GetObjects(i).SetupTargets();
             }
 
             UpdateSidesSettings();
@@ -410,9 +410,9 @@ public partial class Battle : EngineObject
     {
         Assert(Status.Contains(CombatStatusElement.Activated), "Combat Failure during Deactivating", "Combat.pas", 6612);
         Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
-        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
+        for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
-            CombatData.GetObjects(I).Deactivate();
+            CombatData.GetObjects(i).Deactivate();
         }
 
         CombatData.Parties.Deactivate(this);
@@ -421,21 +421,21 @@ public partial class Battle : EngineObject
     // Combat.pas:6180
     public virtual void NewTurn(byte combatPlayer)
     {
-        NewCombatTurnCombatAction A;
-        A = new NewCombatTurnCombatAction(null) { Holder = CreationHolder() };
-        A.CombatPlayer = combatPlayer;
-        ExecuteCombatAction(A);
-        A.Release();
+        NewCombatTurnCombatAction a;
+        a = new NewCombatTurnCombatAction(null) { Holder = CreationHolder() };
+        a.CombatPlayer = combatPlayer;
+        ExecuteCombatAction(a);
+        a.Release();
         UpdateSidesSettings();
     }
 
     // Combat.pas:6169
     public virtual void NewRound()
     {
-        NewCombatRoundCombatAction A;
-        A = new NewCombatRoundCombatAction(null) { Holder = CreationHolder() };
-        ExecuteCombatAction(A);
-        A.Release();
+        NewCombatRoundCombatAction a;
+        a = new NewCombatRoundCombatAction(null) { Holder = CreationHolder() };
+        ExecuteCombatAction(a);
+        a.Release();
     }
 
     // Combat.pas:6094
@@ -540,11 +540,11 @@ public partial class Battle : EngineObject
     public bool PlayerTypeInvolved(Set<PlayerType> types)
     {
         bool result = false;
-        for (int I = 0, last = CombatData.Parties.Count - 1; I <= last; I++)
+        for (int i = 0, last = CombatData.Parties.Count - 1; i <= last; i++)
         {
-            if (CombatData.Parties.GetParty((byte)I) != null)
+            if (CombatData.Parties.GetParty((byte)i) != null)
             {
-                var party = CombatData.Parties.GetParty((byte)I);
+                var party = CombatData.Parties.GetParty((byte)i);
                 var players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
                 if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType))
                 {
@@ -576,16 +576,16 @@ public partial class Battle : EngineObject
     // { }
     public void NextTurn()
     {
-        int I;
+        int i;
         if (CombatData.TurnOrder.Count != 0)
         {
-            I = CombatData.TurnOrder.IndexOf(CombatData.CurrentPlayer) + 1;
-            if (I >= CombatData.TurnOrder.Count)
+            i = CombatData.TurnOrder.IndexOf(CombatData.CurrentPlayer) + 1;
+            if (i >= CombatData.TurnOrder.Count)
             {
-                I = 0;
+                i = 0;
             }
 
-            NewTurn(CombatData.TurnOrder[I]);
+            NewTurn(CombatData.TurnOrder[i]);
         }
     }
 
@@ -620,11 +620,11 @@ public partial class Battle : EngineObject
     // { }
     public void SetLogbookHeader(string header)
     {
-        UpdateHeaderCombatAction A;
-        A = new UpdateHeaderCombatAction(null) { Holder = CreationHolder() };
-        A.Header = header;
-        ExecuteCombatAction(A);
-        A.Release();
+        UpdateHeaderCombatAction a;
+        a = new UpdateHeaderCombatAction(null) { Holder = CreationHolder() };
+        a.Header = header;
+        ExecuteCombatAction(a);
+        a.Release();
     }
 
     // Combat.pas:6245
@@ -733,14 +733,13 @@ public partial class Battle : EngineObject
         transporter = army.Transporter(255);
         transport = transporter != null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
         index = 0;
-        for (int I = army.Units.Count - 1; I >= 0; I--)
+        for (int i = army.Units.Count - 1; i >= 0; i--)
         {
-            valid = army.Units.GetUnit(I).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+            valid = army.Units.GetUnit(i).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
             if (valid || transport)
             {
                 unitObject = CreateCombatUnit();
-                var troop = army.Units.GetUnit(I);
-                unitObject.Setup(CreateUniqueCombatObjectId(), (byte)(int)side, troop, (byte)((position << 4) + index), player);
+                unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
                 if (!valid)
                 {
                     unitObject.Disabled = true;
@@ -786,11 +785,10 @@ public partial class Battle : EngineObject
 
         party = CombatData.Parties.CreateParty(this, (byte)(position << 0), player, X, Y, L, army);
         index = 0;
-        for (int I = army.Units.Count - 1; I >= 0; I--)
+        for (int i = army.Units.Count - 1; i >= 0; i--)
         {
             unitObject = CreateCombatUnit();
-            var troop = army.Units.GetUnit(I);
-            unitObject.Setup(CreateUniqueCombatObjectId(), (byte)(int)side, troop, (byte)((position << 4) + index), player);
+            unitObject.Setup(troop: army.Units.GetUnit(i), id: CreateUniqueCombatObjectId(), side: (byte)(int)side, position: (byte)((position << 4) + index), combatPlayer: player);
             CombatData.AddObject(unitObject);
             index += 1;
         }
@@ -929,15 +927,15 @@ public partial class Battle : EngineObject
     // Combat.pas:6659
     public bool DefendersAvailable()
     {
-        int I;
+        int i;
         CombatObject objectValue;
         bool result = false;
-        I = 0;
-        while (!result && I != CombatData.GetCount())
+        i = 0;
+        while (!result && i != CombatData.GetCount())
         {
-            objectValue = CombatData.GetObjects(I);
+            objectValue = CombatData.GetObjects(i);
             result = objectValue.CombatPlayer != -1 && CombatData.Players.GetPlayers(objectValue.CombatPlayer).SideIndex == 1 && !objectValue.Status.Contains(CombatObjectStatusElement.Destroyed);
-            I += 1;
+            i += 1;
         }
 
         return result;

@@ -49,11 +49,11 @@ public partial class AbilityControl : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            if (Abilities[I] != null)
+            if (Abilities[i] != null)
             {
-                persister.ObjectSlot("Abilities", slot: I, objectValue: Abilities[I]);
+                persister.ObjectSlot("Abilities", slot: i, objectValue: Abilities[i]);
             }
         }
 
@@ -121,11 +121,11 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2116
     public void UnregisterAll()
     {
-        for (int I = Abilities.Count - 1; I >= 0; I--)
+        for (int i = Abilities.Count - 1; i >= 0; i--)
         {
-            if (Abilities[I] != null)
+            if (Abilities[i] != null)
             {
-                UnregisterAbility(Abilities[I]);
+                UnregisterAbility(Abilities[i]);
             }
         }
     }
@@ -134,13 +134,13 @@ public partial class AbilityControl : EngineObject
     public void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
     {
         text.Clear();
-        for (int I = 0, last = this.Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = this.Abilities.Count - 1; i <= last; i++)
         {
-            if (this.Abilities[I] != null)
+            if (this.Abilities[i] != null)
             {
-                if (((this.Abilities[I]).SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (this.Abilities[I]).SelectionTypes == Set<AbilitySelectionType>.Of()))
+                if (((this.Abilities[i]).SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (this.Abilities[i]).SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    text.AddObject((this.Abilities[I]).GetName(null), IntToObject(I));
+                    text.AddObject((this.Abilities[i]).GetName(null), IntToObject(i));
                 }
             }
         }
@@ -151,11 +151,11 @@ public partial class AbilityControl : EngineObject
     {
         DelphiList<Ability> list = default;
         list = new DelphiList<Ability>();
-        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
+        for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            if (Abilities[I] != null)
+            if (Abilities[i] != null)
             {
-                list.Add(Abilities[I]);
+                list.Add(Abilities[i]);
             }
         }
 
@@ -165,9 +165,9 @@ public partial class AbilityControl : EngineObject
         }
 
         // { Original frees the temporary list only after all ability callbacks succeed. }
-        for (int I = 0, last = list.Count - 1; I <= last; I++)
+        for (int i = 0, last = list.Count - 1; i <= last; i++)
         {
-            list[I].ListInfo(text, mode);
+            list[i].ListInfo(text, mode);
             text.Add("-------------------------------------------------");
             text.Add("");
         }
@@ -189,8 +189,7 @@ public partial class AbilityControl : EngineObject
 
     public static int CompareAbilityNames(Ability item1, Ability item2)
     {
-        var name = item2.GetName(null);
-        return CompareStr(item1.GetName(null), name);
+        return CompareStr(b: item2.GetName(null), a: item1.GetName(null));
     }
 
     internal static void UnregisterPassiveAbilities(AbilityControl control)

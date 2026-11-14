@@ -47,13 +47,8 @@ public sealed partial record Loot : ProductionOrder
         var log = new LocationTextEventLog(null) { Holder = control };
         log._player = control.GetPlayer();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
-        var hexLevel = city.GetHexLevel();
-        var hexY = city.GetHexY();
-        log.SetLocation(city.GetHexX(), hexY, hexLevel);
-        var cityHexY = city.GetHexY();
-        var cityHexLevel = city.GetHexLevel();
-        var hexX = city.GetHexX();
-        EventLog.DistributeLocationEventLog(log, control.GetPlayer(), hexX, cityHexY, cityHexLevel, false);
+        log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
+        EventLog.DistributeLocationEventLog(y: city.GetHexY(), level: city.GetHexLevel(), x: city.GetHexX(), log: log, player: control.GetPlayer(), execute: false);
         log.Release();
         city._overlay.SetMode(CityOverlayHexSprite.OverlayMode.Looting);
         control.Status = ProductionControlStatus.Producing;

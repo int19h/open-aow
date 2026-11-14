@@ -107,19 +107,19 @@ public partial class CastUnitSpellDialog : UIModule
     // AoWCastUnitSpellDlg.pas:163
     public void FaceFramePreDraw(LockedSurface surface)
     {
-        Troop U;
-        Rect R = default;
-        U = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
-        if (U != null)
+        Troop u;
+        Rect r = default;
+        u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
+        if (u != null)
         {
-            if (U.GetFace() != null)
+            if (u.GetFace() != null)
             {
-                R.Left = this.FaceFrame.WinLeft + TopPanel.WinLeft;
-                R.Right = R.Left + this.FaceFrame.WinWidth;
-                R.Top = this.FaceFrame.WinTop + TopPanel.WinTop;
-                R.Bottom = R.Top + this.FaceFrame.WinHeight;
+                r.Left = this.FaceFrame.WinLeft + TopPanel.WinLeft;
+                r.Right = r.Left + this.FaceFrame.WinWidth;
+                r.Top = this.FaceFrame.WinTop + TopPanel.WinTop;
+                r.Bottom = r.Top + this.FaceFrame.WinHeight;
 
-                U.GetFace().ShowStretched(R, surface);
+                u.GetFace().ShowStretched(r, surface);
             }
         }
     }
@@ -133,20 +133,20 @@ public partial class CastUnitSpellDialog : UIModule
     public void SpellFrPreDraw(LockedSurface surface)
     {
         Spell spell;
-        Rect R = default;
+        Rect r = default;
         if (Caster != null)
         {
             spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
             if (spell != null)
             {
-                R.Left = this.SpellFrame.WinLeft + TopPanel.WinLeft;
-                R.Right = R.Left + this.SpellFrame.WinWidth;
-                R.Top = this.SpellFrame.WinTop + TopPanel.WinTop;
-                R.Bottom = R.Top + this.SpellFrame.WinHeight;
+                r.Left = this.SpellFrame.WinLeft + TopPanel.WinLeft;
+                r.Right = r.Left + this.SpellFrame.WinWidth;
+                r.Top = this.SpellFrame.WinTop + TopPanel.WinTop;
+                r.Bottom = r.Top + this.SpellFrame.WinHeight;
 
                 if (spell.CastImages.GetImageSequence(10) != null)
                 {
-                    spell.CastImages.Show(10, R.Left + 5, R.Top + 15, 0, surface);
+                    spell.CastImages.Show(10, r.Left + 5, r.Top + 15, 0, surface);
                 }
             }
         }

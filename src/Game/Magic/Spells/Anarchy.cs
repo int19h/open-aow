@@ -36,33 +36,31 @@ public partial class Anarchy : CityTargetSpell
         bool result = default;
         City targetCity = default;
         LocationTextEventLog log = default;
-        ImageSequenceAnimation A = default;
+        ImageSequenceAnimation a = default;
         if (executeCount == 0)
         {
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
             log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log._player = source.Player;
             log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName]);
-            var hexLevel = targetCity.GetHexLevel();
-            var hexY = targetCity.GetHexY();
-            log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
+            log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
             StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
             log.Release();
             PlayDefaultCityEffects(source, targetCity);
             targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
             {
-                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
-                A.SetPixelXOffset(A.PixelXOffset - 16);
-                A.SetPixelYOffset(A.PixelYOffset - 16);
-                A.OnShow += ShowAnimation;
-                A.Looped = true;
-                A.FrameCount = 120;
+                a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
+                a.SetPixelXOffset(a.PixelXOffset - 16);
+                a.SetPixelYOffset(a.PixelYOffset - 16);
+                a.OnShow += ShowAnimation;
+                a.Looped = true;
+                a.FrameCount = 120;
                 var targetCityHexLevel = targetCity.GetHexLevel();
                 var targetCityHexY = targetCity.GetHexY();
                 var hexX = targetCity.GetHexX();
-                StrategicMap.Current.PlaceHex(A, hexX, targetCityHexY, targetCityHexLevel);
+                StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
             }
 
             result = true;

@@ -70,9 +70,9 @@ public partial class ResultsWindow : UIModule
         _maxHeroes = 1;
         _maxStructures = 1;
         _maxStrength = 1;
-        for (int I = 0, last = Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
-            var player = Players[I];
+            var player = Players[i];
             stats = StrategicMap.Current.Players.GetPlayers(player).Statistics;
             var count = stats.TurnInfo.GetCount();
             if (_maxTurns < count)
@@ -80,42 +80,42 @@ public partial class ResultsWindow : UIModule
                 _maxTurns = stats.TurnInfo.GetCount();
             }
 
-            for (int J = 0, lastJ = stats.TurnInfo.GetCount() - 1; J <= lastJ; J++)
+            for (int j = 0, lastJ = stats.TurnInfo.GetCount() - 1; j <= lastJ; j++)
             {
-                var turnInfo = stats.TurnInfo.GetTurnInfo(J);
+                var turnInfo = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxArmies < turnInfo.ArmyStrength)
                 {
-                    _maxArmies = stats.TurnInfo.GetTurnInfo(J).ArmyStrength;
+                    _maxArmies = stats.TurnInfo.GetTurnInfo(j).ArmyStrength;
                 }
 
-                var fTurnInfoTurnInfo = stats.TurnInfo.GetTurnInfo(J);
+                var fTurnInfoTurnInfo = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxGold < fTurnInfoTurnInfo.Gold)
                 {
-                    _maxGold = stats.TurnInfo.GetTurnInfo(J).Gold;
+                    _maxGold = stats.TurnInfo.GetTurnInfo(j).Gold;
                 }
 
-                var turnInfo2 = stats.TurnInfo.GetTurnInfo(J);
+                var turnInfo2 = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxMana < turnInfo2.Mana)
                 {
-                    _maxMana = stats.TurnInfo.GetTurnInfo(J).Mana;
+                    _maxMana = stats.TurnInfo.GetTurnInfo(j).Mana;
                 }
 
-                var turnInfo3 = stats.TurnInfo.GetTurnInfo(J);
+                var turnInfo3 = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxHeroes < turnInfo3.Heroes)
                 {
-                    _maxHeroes = stats.TurnInfo.GetTurnInfo(J).Heroes;
+                    _maxHeroes = stats.TurnInfo.GetTurnInfo(j).Heroes;
                 }
 
-                var turnInfo4 = stats.TurnInfo.GetTurnInfo(J);
+                var turnInfo4 = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxStructures < turnInfo4.Structures)
                 {
-                    _maxStructures = stats.TurnInfo.GetTurnInfo(J).Structures;
+                    _maxStructures = stats.TurnInfo.GetTurnInfo(j).Structures;
                 }
 
-                var superiority = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
+                var superiority = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
                 if (_maxStrength < superiority)
                 {
-                    _maxStrength = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
+                    _maxStrength = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
                 }
             }
         }
@@ -132,36 +132,36 @@ public partial class ResultsWindow : UIModule
         bounds.Top = ResultsPanel.WinTop + AxisImage.WinTop + 4;
         bounds.Right = ResultsPanel.WinLeft + AxisImage.WinLeft + 338;
         bounds.Bottom = ResultsPanel.WinTop + AxisImage.WinTop + 117;
-        for (int I = 0, last = Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
             if (GoldCheckBox.Checked)
             {
-                DrawGold((sbyte)Players[I], bounds, surface);
+                DrawGold((sbyte)Players[i], bounds, surface);
             }
 
             if (ManaCheckBox.Checked)
             {
-                DrawMana((sbyte)Players[I], bounds, surface);
+                DrawMana((sbyte)Players[i], bounds, surface);
             }
 
             if (HeroesCheckBox.Checked)
             {
-                DrawHeroes((sbyte)Players[I], bounds, surface);
+                DrawHeroes((sbyte)Players[i], bounds, surface);
             }
 
             if (StructuresCheckBox.Checked)
             {
-                DrawStructures((sbyte)Players[I], bounds, surface);
+                DrawStructures((sbyte)Players[i], bounds, surface);
             }
 
             if (ArmiesCheckBox.Checked)
             {
-                DrawArmies((sbyte)Players[I], bounds, surface);
+                DrawArmies((sbyte)Players[i], bounds, surface);
             }
 
             if (StrengthCheckBox.Checked)
             {
-                DrawStrength((sbyte)Players[I], bounds, surface);
+                DrawStrength((sbyte)Players[i], bounds, surface);
             }
         }
     }
@@ -194,10 +194,10 @@ public partial class ResultsWindow : UIModule
 
             yStep = (float)((double)height / maximum);
             lastY = values[0];
-            for (int I = 1, last = values.Count - 1; I <= last; I++)
+            for (int i = 1, last = values.Count - 1; i <= last; i++)
             {
-                nextY = values[I];
-                x1 = Round((double)(I - 1) * xStep);
+                nextY = values[i];
+                x1 = Round((double)(i - 1) * xStep);
                 y1 = Round((double)lastY * yStep);
                 // { Original advances from the rounded previous x coordinate. }
                 x2 = Round((double)x1 + xStep);
@@ -227,9 +227,9 @@ public partial class ResultsWindow : UIModule
         TurnInfo info;
         values = new Int32List();
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
-        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(I).Gold);
+            values.Add(info.GetTurnInfo(i).Gold);
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -245,9 +245,9 @@ public partial class ResultsWindow : UIModule
         TurnInfo info;
         values = new Int32List();
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
-        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(I).Mana);
+            values.Add(info.GetTurnInfo(i).Mana);
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -263,9 +263,9 @@ public partial class ResultsWindow : UIModule
         TurnInfo info;
         values = new Int32List();
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
-        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(I).Heroes);
+            values.Add(info.GetTurnInfo(i).Heroes);
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -281,9 +281,9 @@ public partial class ResultsWindow : UIModule
         TurnInfo info;
         values = new Int32List();
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
-        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(I).ArmyStrength);
+            values.Add(info.GetTurnInfo(i).ArmyStrength);
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -299,9 +299,9 @@ public partial class ResultsWindow : UIModule
         TurnInfo info;
         values = new Int32List();
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
-        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(I).Structures);
+            values.Add(info.GetTurnInfo(i).Structures);
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -317,9 +317,9 @@ public partial class ResultsWindow : UIModule
         TurnInfo info;
         values = new Int32List();
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
-        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(I).GetSuperiority());
+            values.Add(info.GetTurnInfo(i).GetSuperiority());
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -415,16 +415,16 @@ public partial class ResultsWindow : UIModule
     // AoWResultsWin.pas:339
     public void P1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)
     {
-        Rect R;
+        Rect r;
         var component = sender;
         if (slot < Players.Count)
         {
-            R = new Rect(component.WinLeft + ResultsPanel.WinLeft + 1, component.WinTop + ResultsPanel.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.WinTop - 1);
+            r = new Rect(component.WinLeft + ResultsPanel.WinLeft + 1, component.WinTop + ResultsPanel.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.WinTop - 1);
             var player = Players[slot];
             if (StrategicMap.Current.Players.GetPlayers(player).GetFace() != null)
             {
                 var player2 = Players[slot];
-                StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(R, surface);
+                StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(r, surface);
             }
 
             var player3 = Players[slot];

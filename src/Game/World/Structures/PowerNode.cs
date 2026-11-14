@@ -96,37 +96,37 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:96
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int P;
+        int p;
         switch (info.Mode)
         {
             case AITargetMode.Attack:
                 if (info.Player != Player && !GetRazed())
                 {
-                    P = data.Priority;
+                    p = data.Priority;
                     if (Player == 0)
                     {
-                        P = 50;
+                        p = 50;
                     }
                     else
                     {
                         if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                         {
-                            P = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
-                            if (P < 25)
+                            p = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                            if (p < 25)
                             {
-                                P = 25;
+                                p = 25;
                             }
 
-                            if (P > 75)
+                            if (p > 75)
                             {
-                                P = 75;
+                                p = 75;
                             }
                         }
                     }
 
-                    if (data.Priority < P)
+                    if (data.Priority < p)
                     {
-                        data.Priority = P;
+                        data.Priority = p;
                     }
                 }
 

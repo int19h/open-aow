@@ -165,15 +165,15 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     // PoisonP.pas:105
     public bool CanDoDamage(UnitList units)
     {
-        int I;
-        Troop U;
+        int i;
+        Troop u;
         bool result = false;
-        I = units.Count;
-        while (!result && I != 0)
+        i = units.Count;
+        while (!result && i != 0)
         {
-            I -= 1;
-            U = units.GetUnit(I);
-            result = !U.GetImmunityTypes().Contains(DamageType.Poison) && !U.GetAbilityEnabled(1);
+            i -= 1;
+            u = units.GetUnit(i);
+            result = !u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1);
         }
 
         return result;
@@ -185,7 +185,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         int count;
         UnitCollection units;
         ArmyEventLog log;
-        Troop U;
+        Troop u;
         int damage;
         count = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
@@ -197,24 +197,24 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         log.ArmyIcon = 1;
         log.ArmyView.Setup(armyHexSprite.Army, 255);
         units = armyHexSprite.Army.Units;
-        for (int I = 0, last = units.Count - 1; I <= last; I++)
+        for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
-            U = units.GetUnit(I);
-            U.AddRef();
-            if (!U.GetImmunityTypes().Contains(DamageType.Poison) && !U.GetAbilityEnabled(1))
+            u = units.GetUnit(i);
+            u.AddRef();
+            if (!u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1))
             {
-                damage = U.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
-                if (damage > U.GetHitPoints())
+                damage = u.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
+                if (damage > u.GetHitPoints())
                 {
-                    damage = U.GetHitPoints();
+                    damage = u.GetHitPoints();
                 }
 
                 if (damage != 0)
                 {
-                    U.SetHitPoints((sbyte)(U.GetHitPoints() - damage));
-                    if (U.GetHitPoints() != 0)
+                    u.SetHitPoints((sbyte)(u.GetHitPoints() - damage));
+                    if (u.GetHitPoints() != 0)
                     {
-                        U.ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
+                        u.ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
                     }
 
                     count += 1;
@@ -229,16 +229,13 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
                 log.DamageTypes.Add((int)DamageType.None);
             }
 
-            U.Release();
+            u.Release();
         }
 
         log.ValidateGameOver();
         if (count != 0)
         {
-            var hexY = GetHexY();
-            var hexLevel = GetHexLevel();
-            var hexX = GetHexX();
-            EventLog.DistributeLocationEventLog(log, log._player, hexX, hexY, hexLevel, true);
+            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log._player, execute: true);
         }
 
         armyHexSprite.Army.Validate();

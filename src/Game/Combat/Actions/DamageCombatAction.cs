@@ -137,9 +137,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
                 {
                     ShowDamageEffects(Effects, X, Y, viewer.Time - hitFrame, surface);
                 }
-
-                var damageTypesToDamageType = DamageTypesToDamageType(DamageTypes);
-                AbilityRules.ShowDamageIcon(GetEngine(), X, Y, surface, DamageDone, damageTypesToDamageType);
+                AbilityRules.ShowDamageIcon(damageType: DamageTypesToDamageType(DamageTypes), engine: GetEngine(), x: X, y: Y, surface: surface, damage: DamageDone);
             }
             else
             {

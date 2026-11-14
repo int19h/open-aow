@@ -26,32 +26,32 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
     // Combat2.pas:73
     public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army army)
     {
-        CombatParty P;
+        CombatParty p;
         if (GetParty(position) == null)
         {
-            P = new CombatParty(null) { Holder = CreationHolder() };
-            P.PlayerIndex = combatPlayer;
-            P.Position = position;
-            P.X = X;
-            P.Y = Y;
-            P.MapLevel = L;
-            P.SetArrayOwner(this, position);
-            P.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
+            p = new CombatParty(null) { Holder = CreationHolder() };
+            p.PlayerIndex = combatPlayer;
+            p.Position = position;
+            p.X = X;
+            p.Y = Y;
+            p.MapLevel = L;
+            p.SetArrayOwner(this, position);
+            p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
             var players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
-            P.Army.SetPlayer(players.Player);
+            p.Army.SetPlayer(players.Player);
             if (army != null)
             {
-                P.Army.AssignSettings(army);
+                p.Army.AssignSettings(army);
             }
 
-            P.Army.Activate();
+            p.Army.Activate();
         }
         else
         {
             throw new InvalidOperationException("CombatParty already exists!");
         }
 
-        return P;
+        return p;
     }
 
     // Combat2.pas:96
@@ -73,11 +73,11 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
     // Combat2.pas:99
     public void Activate(Battle combat)
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                this[I].Activate(combat);
+                this[i].Activate(combat);
             }
         }
     }
@@ -85,11 +85,11 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
     // Combat2.pas:107
     public void Deactivate(Battle combat)
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                this[I].Deactivate(combat);
+                this[i].Deactivate(combat);
             }
         }
     }

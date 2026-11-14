@@ -191,9 +191,9 @@ public partial class Panel : BaseWindow
                     SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 }
 
-                for (int I = 0, last = Children.Count - 1; I <= last; I++)
+                for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
-                    Children[I].Setup();
+                    Children[i].Setup();
                 }
 
                 SetWinLeftWithoutInvalidate(savedLeft);
@@ -213,7 +213,7 @@ public partial class Panel : BaseWindow
     //   panel moved or changed size, its old rectangle is redrawn in the owner }
     public override void Update()
     {
-        Rect R = default;
+        Rect r = default;
         if (Visible)
         {
             int savedLeft = WinLeft;
@@ -226,9 +226,9 @@ public partial class Panel : BaseWindow
 
             RaiseUpdate(this);
 
-            for (int I = 0, last = Children.Count - 1; I <= last; I++)
+            for (int i = 0, last = Children.Count - 1; i <= last; i++)
             {
-                Children[I].Update();
+                Children[i].Update();
             }
 
             SetWinLeftWithoutInvalidate(savedLeft);
@@ -237,20 +237,20 @@ public partial class Panel : BaseWindow
             {
                 if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                 {
-                    R = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
+                    r = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
                 }
                 else
                 {
-                    R = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
+                    r = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
                 }
 
                 if (Masked)
                 {
-                    OwnerComponent.AddDrawRectangle(ref R, this);
+                    OwnerComponent.AddDrawRectangle(ref r, this);
                 }
                 else
                 {
-                    OwnerComponent.AddBlitRectangle(ref R, this);
+                    OwnerComponent.AddBlitRectangle(ref r, this);
                 }
             }
 
@@ -265,14 +265,14 @@ public partial class Panel : BaseWindow
             {
                 if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                 {
-                    R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
+                    r = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                 }
                 else
                 {
-                    R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
+                    r = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                 }
 
-                OwnerComponent.AddDrawRectangle(ref R, this);
+                OwnerComponent.AddDrawRectangle(ref r, this);
                 Hidden = false;
             }
         }
@@ -289,8 +289,8 @@ public partial class Panel : BaseWindow
     {
         int oldLeft;
         int oldTop;
-        UIComponent C;
-        Rect R = default;
+        UIComponent c;
+        Rect r = default;
         if (Valid && Visible && WindowStyle != Style.Blank)
         {
             AddDrawRectangle(ref rectangle, sender);
@@ -300,26 +300,26 @@ public partial class Panel : BaseWindow
         oldTop = WinTop;
         SetWinLeftWithoutInvalidate(WinLeft + (OwnerComponent.WinLeft));
         SetWinTopWithoutInvalidate(WinTop + (OwnerComponent.WinTop));
-        for (int I = index, last = Children.Count - 1; I <= last; I++)
+        for (int i = index, last = Children.Count - 1; i <= last; i++)
         {
-            C = Children[I];
-            if (C.Visible)
+            c = Children[i];
+            if (c.Visible)
             {
-                if (((WinLeft + C.WinLeft >= rectangle.Left && WinLeft + C.WinLeft <= rectangle.Right) || (WinLeft + C.WinLeft <= rectangle.Left && rectangle.Left <= WinLeft + C.WinLeft + C.WinWidth)) && ((WinTop + C.WinTop >= rectangle.Top && WinTop + C.WinTop <= rectangle.Bottom) || (WinTop + C.WinTop <= rectangle.Top && rectangle.Top <= WinTop + C.WinTop + C.WinHeight)) && C != sender)
+                if (((WinLeft + c.WinLeft >= rectangle.Left && WinLeft + c.WinLeft <= rectangle.Right) || (WinLeft + c.WinLeft <= rectangle.Left && rectangle.Left <= WinLeft + c.WinLeft + c.WinWidth)) && ((WinTop + c.WinTop >= rectangle.Top && WinTop + c.WinTop <= rectangle.Bottom) || (WinTop + c.WinTop <= rectangle.Top && rectangle.Top <= WinTop + c.WinTop + c.WinHeight)) && c != sender)
                 {
-                    if (C is BaseWindow)
+                    if (c is BaseWindow)
                     {
-                        C.InvalidateRectangle(0, ref rectangle, this);
+                        c.InvalidateRectangle(0, ref rectangle, this);
                     }
                     else
                     {
-                        if (C.Drawn)
+                        if (c.Drawn)
                         {
-                            C.Drawn = false;
-                            if (C.Masked)
+                            c.Drawn = false;
+                            if (c.Masked)
                             {
-                                R = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth, WinTop + C.WinTop + C.WinHeight);
-                                AddDrawRectangle(ref R, this);
+                                r = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth, WinTop + c.WinTop + c.WinHeight);
+                                AddDrawRectangle(ref r, this);
                             }
                         }
                     }
@@ -415,8 +415,8 @@ public partial class Panel : BaseWindow
     {
         Rect blitRectangle = default;
         Rect oldClip = default;
-        UIComponent C = default;
-        DirtyRectangle D = default;
+        UIComponent c = default;
+        DirtyRectangle d = default;
         void DrawBack()
         {
             if (WindowStyle != Style.Blank)
@@ -480,17 +480,17 @@ public partial class Panel : BaseWindow
 
                 if (SurfaceValid)
                 {
-                    for (int J = 0, last = DrawCount - 1; J <= last; J++)
+                    for (int j = 0, last = DrawCount - 1; j <= last; j++)
                     {
-                        D = DrawList[J];
+                        d = DrawList[j];
                         oldClip = lockedSurface.ClipRectangle;
-                        var rectangle = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right + 1, D.Rectangle.Bottom + 1);
+                        var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                         lockedSurface.ClipRectangle = rectangle;
                         DrawBack();
                         lockedSurface.ClipRectangle = oldClip;
                         SetWinLeftWithoutInvalidate(savedLeft);
                         SetWinTopWithoutInvalidate(savedTop);
-                        InvalidateRectangle(0, ref D.Rectangle, D.Owner);
+                        InvalidateRectangle(0, ref d.Rectangle, d.Owner);
                         SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
                         SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                     }
@@ -503,35 +503,35 @@ public partial class Panel : BaseWindow
 
                 DrawCount = 0;
                 Drawn = SurfaceValid;
-                for (int I = 0, lastI = Children.Count - 1; I <= lastI; I++)
+                for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                 {
-                    C = Children[I];
-                    if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
+                    c = Children[i];
+                    if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                     {
-                        C.Drawn = false;
-                        if (!Drawn && C is BaseWindow)
+                        c.Drawn = false;
+                        if (!Drawn && c is BaseWindow)
                         {
-                            C.SurfaceValid = false;
+                            c.SurfaceValid = false;
                         }
 
-                        C.Draw(lockedSurface);
-                        C.FirstDraw = C.Drawn;
-                        C.Drawn = true;
-                        for (int J = 0, last = DrawCount - 1; J <= last; J++)
+                        c.Draw(lockedSurface);
+                        c.FirstDraw = c.Drawn;
+                        c.Drawn = true;
+                        for (int j = 0, last = DrawCount - 1; j <= last; j++)
                         {
-                            D = DrawList[J];
-                            InvalidateRectangle(I + 1, ref D.Rectangle, null);
+                            d = DrawList[j];
+                            InvalidateRectangle(i + 1, ref d.Rectangle, null);
                         }
 
                         DrawCount = 0;
-                        if (!Drawn || !C.FirstDraw)
+                        if (!Drawn || !c.FirstDraw)
                         {
-                            blitRectangle = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth, WinTop + C.WinTop + C.WinHeight);
+                            blitRectangle = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth, WinTop + c.WinTop + c.WinHeight);
                             OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
                             SetWinLeftWithoutInvalidate(savedLeft);
                             SetWinTopWithoutInvalidate(savedTop);
-                            blitRectangle = new Rect(_window.WinLeft + WinLeft + C.WinLeft, _window.WinTop + WinTop + C.WinTop, _window.WinLeft + WinLeft + C.WinLeft + C.WinWidth - 1, _window.WinTop + WinTop + C.WinTop + C.WinHeight - 1);
-                            InvalidateRectangle(I + 1, ref blitRectangle, C);
+                            blitRectangle = new Rect(_window.WinLeft + WinLeft + c.WinLeft, _window.WinTop + WinTop + c.WinTop, _window.WinLeft + WinLeft + c.WinLeft + c.WinWidth - 1, _window.WinTop + WinTop + c.WinTop + c.WinHeight - 1);
+                            InvalidateRectangle(i + 1, ref blitRectangle, c);
                             SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
                             SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                         }
@@ -574,7 +574,7 @@ public partial class Panel : BaseWindow
     // window's position, so the panel still stands at the absolute position while they run.
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible == true)
         {
@@ -588,23 +588,23 @@ public partial class Panel : BaseWindow
                 Handled = _window.Handled;
             }
 
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.Handled = false;
-                if ((!Handled || C.Redraw) && C.Visible == true && C.CaptureInput)
+                c = Children[i];
+                c.Handled = false;
+                if ((!Handled || c.Redraw) && c.Visible == true && c.CaptureInput)
                 {
-                    C.CheckMouseDown(button, shift, X, Y);
+                    c.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
-                    C.Redraw = true;
+                    c.Redraw = true;
                 }
             }
 
@@ -622,7 +622,7 @@ public partial class Panel : BaseWindow
     // AoWPanel.pas:558
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible == true)
         {
@@ -635,16 +635,16 @@ public partial class Panel : BaseWindow
                 Handled = _window.Handled;
             }
 
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.Handled = false;
-                if ((!Handled || C.Redraw == true) && C.Visible == true && C.CaptureInput)
+                c = Children[i];
+                c.Handled = false;
+                if ((!Handled || c.Redraw == true) && c.Visible == true && c.CaptureInput)
                 {
-                    C.CheckMouseUp(button, shift, X, Y);
+                    c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -668,7 +668,7 @@ public partial class Panel : BaseWindow
     // AoWPanel.pas:600
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible == true)
         {
@@ -681,16 +681,16 @@ public partial class Panel : BaseWindow
                 Handled = _window.Handled;
             }
 
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                C.Handled = false;
-                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.Visible == true && C.CaptureInput)
+                c = Children[i];
+                c.Handled = false;
+                if ((!Handled || c.Redraw == true || c.ToolTipCount > 0) && c.Visible == true && c.CaptureInput)
                 {
-                    C.CheckMouseMove(shift, X, Y);
+                    c.CheckMouseMove(shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -722,42 +722,42 @@ public partial class Panel : BaseWindow
     //   one, in priority order }
     public virtual void SetTabPanel(TabPanel value)
     {
-        int I;
+        int i;
         int newIndex;
-        Panel P;
+        Panel p;
         if (value != _tabPanel)
         {
             if (_tabPanel != null)
             {
-                I = 0;
-                while (I < _tabPanel.Panels.Count)
+                i = 0;
+                while (i < _tabPanel.Panels.Count)
                 {
-                    P = _tabPanel.Panels[I];
-                    if (P == this)
+                    p = _tabPanel.Panels[i];
+                    if (p == this)
                     {
-                        _tabPanel.Panels.RemoveAt(I);
-                        I = _tabPanel.Panels.Count;
+                        _tabPanel.Panels.RemoveAt(i);
+                        i = _tabPanel.Panels.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
             }
 
             _tabPanel = value;
             if (_tabPanel != null)
             {
-                I = 0;
+                i = 0;
                 newIndex = -1;
-                while (I < _tabPanel.Panels.Count)
+                while (i < _tabPanel.Panels.Count)
                 {
-                    P = _tabPanel.Panels[I];
-                    if (P.Priority > Priority)
+                    p = _tabPanel.Panels[i];
+                    if (p.Priority > Priority)
                     {
-                        newIndex = I;
-                        I = _tabPanel.Panels.Count;
+                        newIndex = i;
+                        i = _tabPanel.Panels.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
                 if (newIndex == -1)

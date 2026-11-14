@@ -160,8 +160,7 @@ public partial class PossessAbility : TouchAbility
     public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
     {
         PossessCombatAction result = new PossessCombatAction(null) { Holder = CreationHolder() };
-        var combatTouchRole = CombatTouchRole((CombatUnit)source, target);
-        result.Initialize(source.Id, target.Id, combatTouchRole);
+        result.Initialize(successful: CombatTouchRole((CombatUnit)source, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }
 

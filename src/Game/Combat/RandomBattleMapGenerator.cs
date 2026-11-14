@@ -39,9 +39,9 @@ public partial class RandomBattleMapGenerator : IDisposable
     // AoWTC.pas:4149
     public virtual void Dispose()
     {
-        for (int I = 0; I <= 285; I++)
+        for (int i = 0; i <= 285; i++)
         {
-            _resources[I]?.Clear();
+            _resources[i]?.Clear();
         }
     }
 
@@ -49,19 +49,19 @@ public partial class RandomBattleMapGenerator : IDisposable
     public RandomBattleMapGenerator(EngineObject creator)
     {
         Creator = creator;
-        for (int I = 0; I <= 285; I++)
+        for (int i = 0; i <= 285; i++)
         {
             var list = new List<MapObjectResource>();
-            _resources[I] = list;
+            _resources[i] = list;
         }
 
-        for (int J = 0, last = GamePack.Current.CombatResources.GetCount() - 1; J <= last; J++)
+        for (int j = 0, last = GamePack.Current.CombatResources.GetCount() - 1; j <= last; j++)
         {
-            if (GamePack.Current.CombatResources.Resources[J] is CombatTerrain.Resource)
+            if (GamePack.Current.CombatResources.Resources[j] is CombatTerrain.Resource)
             {
-                var mapObjectResource = GamePack.Current.CombatResources.Resources[J];
-                var mapObjectResource2 = GamePack.Current.CombatResources.Resources[J];
-                var mapObjectResource3 = GamePack.Current.CombatResources.Resources[J];
+                var mapObjectResource = GamePack.Current.CombatResources.Resources[j];
+                var mapObjectResource2 = GamePack.Current.CombatResources.Resources[j];
+                var mapObjectResource3 = GamePack.Current.CombatResources.Resources[j];
                 _resources[(sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19 + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
             }
         }
@@ -76,9 +76,9 @@ public partial class RandomBattleMapGenerator : IDisposable
     public CombatMap RandomMap(TacticalBattle combat, int X, int Y, int L)
     {
         byte[] terrainBuffer = [];
-        int I;
-        int J = default;
-        int K = default;
+        int i;
+        int j = default;
+        int k = default;
         int hexX = default;
         int terrainType = default;
         int tag = default;
@@ -97,9 +97,9 @@ public partial class RandomBattleMapGenerator : IDisposable
             int hexX = default;
             int hexY = default;
             bool result = false;
-            for (int I = first; I <= last; I++)
+            for (int i2 = first; i2 <= last; i2++)
             {
-                HexGeometry.CenterHexNumberToHex(X, Y, ClusterCheckBox[I], ref hexX, ref hexY);
+                HexGeometry.CenterHexNumberToHex(X, Y, ClusterCheckBox[i2], ref hexX, ref hexY);
                 kind = terrainBuffer[hexY * 65 + hexX];
                 result = result || kind == 1 || kind == 2 || kind == 3 || kind == 5 || kind == 6 || kind == 7 || kind == 11 || kind == 14 || kind == 15 || kind == 16 || kind == 17 || kind == 18 || kind == 252 || kind == 253 || kind == 254;
             }
@@ -131,32 +131,32 @@ public partial class RandomBattleMapGenerator : IDisposable
         CombatPlacement.CombatYLocation = Y;
         CombatPlacement.CombatLLocation = L;
         RandSeed = Y * 128 + X + L * 16384 + StrategicMap.Current.InitialRandomSeed;
-        I = 0;
-        for (; I <= 6; I += 1)
+        i = 0;
+        for (; i <= 6; i += 1)
         {
-            HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-            var mapField = StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K];
-            _terrain[I] = mapField.TerrainType;
-            var combatTerrainTag = StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K].GetCombatTerrainTag();
-            _tags[I] = (sbyte)combatTerrainTag;
+            HexGeometry.CenterHexNumberToHex(X, Y, i, ref j, ref k);
+            var mapField = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
+            _terrain[i] = mapField.TerrainType;
+            var combatTerrainTag = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].GetCombatTerrainTag();
+            _tags[i] = (sbyte)combatTerrainTag;
         }
 
         if (_terrain[0] == 0 || _terrain[0] == 9 || _terrain[0] == 10)
         {
-            I = 1;
-            for (; I <= 6; I += 1)
+            i = 1;
+            for (; i <= 6; i += 1)
             {
-                _terrain[I] = _terrain[0];
+                _terrain[i] = _terrain[0];
             }
         }
         else
         {
-            I = 1;
-            for (; I <= 6; I += 1)
+            i = 1;
+            for (; i <= 6; i += 1)
             {
-                if (_terrain[I] == 0 || _terrain[I] == 15 || _terrain[I] == 10 || _terrain[I] == 9)
+                if (_terrain[i] == 0 || _terrain[i] == 15 || _terrain[i] == 10 || _terrain[i] == 9)
                 {
-                    _terrain[I] = _terrain[0];
+                    _terrain[i] = _terrain[0];
                 }
             }
         }
@@ -174,8 +174,8 @@ public partial class RandomBattleMapGenerator : IDisposable
             // The kind names the map (Structure.Views.cs) and reports what the map takes from the combat.
             var site = new CombatMapSite(siteCombat, randomTerrain, (direction, kind) =>
             {
-                HexGeometry.CenterHexNumberToHex(X, Y, direction, ref J, ref K);
-                return StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHexSprite(kind) != null;
+                HexGeometry.CenterHexNumberToHex(X, Y, direction, ref j, ref k);
+                return StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].FindNoneTransparentHexSprite(kind) != null;
             });
             fileName = fileName + structure.CombatMapName(site);
             randomTerrain = site.RandomTerrain;
@@ -409,35 +409,35 @@ public partial class RandomBattleMapGenerator : IDisposable
                         switch (shape)
                         {
                             case 1:
-                                J = 0;
+                                j = 0;
                                 break;
                             case 2:
-                                J = 1;
+                                j = 1;
                                 break;
                             case 3:
-                                J = 2;
+                                j = 2;
                                 break;
                             case 4:
-                                J = 3;
+                                j = 3;
                                 break;
                             case 5:
-                                J = 4;
+                                j = 4;
                                 break;
                             case 6:
-                                J = 5;
+                                j = 5;
                                 break;
                             case 7:
-                                J = 6;
+                                j = 6;
                                 break;
                             default:
-                                J = -1;
+                                j = -1;
                                 break;
                         }
 
-                        if (J > -1)
+                        if (j > -1)
                         {
-                            HexGeometry.CenterHexNumberToHex(X, Y, J, ref K, ref hexX);
-                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[K, hexX].FindOwnedChild(131946) == null)
+                            HexGeometry.CenterHexNumberToHex(X, Y, j, ref k, ref hexX);
+                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[k, hexX].FindOwnedChild(131946) == null)
                             {
                                 CombatMap.Current.ClearTerrain(column, row, 0, 0, -1);
                             }
@@ -450,12 +450,12 @@ public partial class RandomBattleMapGenerator : IDisposable
 
             if (StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].OverlayType == 4)
             {
-                I = 0;
-                for (; I <= 6; I += 1)
+                i = 0;
+                for (; i <= 6; i += 1)
                 {
-                    HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-                    var item = StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K];
-                    weights[I] = item.OverlayType;
+                    HexGeometry.CenterHexNumberToHex(X, Y, i, ref j, ref k);
+                    var item = StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k];
+                    weights[i] = item.OverlayType;
                 }
 
                 for (int row = 6; row <= 52; row++)
@@ -549,34 +549,34 @@ public partial class RandomBattleMapGenerator : IDisposable
             {
                 for (int column = 3; column <= 29; column++)
                 {
-                    I = shapeBuffer[row * 65 + column * 2];
-                    if (I > 0)
+                    i = shapeBuffer[row * 65 + column * 2];
+                    if (i > 0)
                     {
-                        if (_tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2] == 251)
+                        if (_tags[i - 1] == 127 || terrainBuffer[row * 65 + column * 2] == 251)
                         {
-                            I = 0;
+                            i = 0;
                         }
                     }
 
-                    if (I > 0)
+                    if (i > 0)
                     {
-                        terrainType = _terrain[I - 1];
-                        tag = _tags[I - 1];
-                        I = 0;
-                        for (; I <= 18; I += 1)
+                        terrainType = _terrain[i - 1];
+                        tag = _tags[i - 1];
+                        i = 0;
+                        for (; i <= 18; i += 1)
                         {
-                            weights[I] = _terrainWeights[terrainType * 19 + I];
+                            weights[i] = _terrainWeights[terrainType * 19 + i];
                             if (tag < 14)
                             {
-                                weights[I] += _tagWeights[tag * 19 + I];
+                                weights[i] += _tagWeights[tag * 19 + i];
                             }
                         }
 
-                        I = 0;
-                        for (; I <= 2; I += 1)
+                        i = 0;
+                        for (; i <= 2; i += 1)
                         {
-                            HexGeometry.CenterHexNumberToHex(column * 2, row, ClusterCheckBox[I], ref J, ref K);
-                            tag = terrainBuffer[K * 65 + J];
+                            HexGeometry.CenterHexNumberToHex(column * 2, row, ClusterCheckBox[i], ref j, ref k);
+                            tag = terrainBuffer[k * 65 + j];
                             if (tag <= 19)
                             {
                                 weights[tag] += _neighborWeights[tag];
@@ -625,80 +625,80 @@ public partial class RandomBattleMapGenerator : IDisposable
                             }
                         }
 
-                        J = 0;
-                        I = 0;
-                        for (; I <= 18; I += 1)
+                        j = 0;
+                        i = 0;
+                        for (; i <= 18; i += 1)
                         {
-                            J += weights[I];
+                            j += weights[i];
                         }
 
-                        tag = Random(J) - weights[0];
-                        J = 0;
-                        while (tag > 0 && J < 18)
+                        tag = Random(j) - weights[0];
+                        j = 0;
+                        while (tag > 0 && j < 18)
                         {
-                            J += 1;
-                            tag -= weights[J];
+                            j += 1;
+                            tag -= weights[j];
                         }
 
                         if (terrainType == 8)
                         {
-                            J = 17;
+                            j = 17;
                         }
 
-                        switch (J)
+                        switch (j)
                         {
                             case 14:
-                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 252;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 252;
                                 break;
                             case 15:
-                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 253;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 253;
                                 break;
                             case 16:
-                                HexGeometry.CenterHexNumberToHex(column * 2, row, 1, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 254;
-                                HexGeometry.CenterHexNumberToHex(column * 2, row, 2, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 254;
-                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 1, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 2, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 254;
                                 break;
                         }
 
-                        terrainBuffer[row * 65 + column * 2] = (byte)J;
+                        terrainBuffer[row * 65 + column * 2] = (byte)j;
                     }
                 }
 
                 for (int column = 3; column <= 29; column++)
                 {
-                    I = shapeBuffer[row * 65 + column * 2 + 1];
-                    if (I > 0)
+                    i = shapeBuffer[row * 65 + column * 2 + 1];
+                    if (i > 0)
                     {
-                        if (_tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2 + 1] == 251)
+                        if (_tags[i - 1] == 127 || terrainBuffer[row * 65 + column * 2 + 1] == 251)
                         {
-                            I = 0;
+                            i = 0;
                         }
                     }
 
-                    if (I > 0)
+                    if (i > 0)
                     {
-                        terrainType = _terrain[I - 1];
-                        tag = _tags[I - 1];
-                        I = 0;
-                        for (; I <= 18; I += 1)
+                        terrainType = _terrain[i - 1];
+                        tag = _tags[i - 1];
+                        i = 0;
+                        for (; i <= 18; i += 1)
                         {
-                            weights[I] = _terrainWeights[terrainType * 19 + I];
+                            weights[i] = _terrainWeights[terrainType * 19 + i];
                             if (tag < 14)
                             {
-                                weights[I] += _tagWeights[tag * 19 + I];
+                                weights[i] += _tagWeights[tag * 19 + i];
                             }
                         }
 
-                        I = 0;
-                        for (; I <= 2; I += 1)
+                        i = 0;
+                        for (; i <= 2; i += 1)
                         {
-                            HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, ClusterCheckBox[I], ref J, ref K);
-                            tag = terrainBuffer[K * 65 + J];
+                            HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, ClusterCheckBox[i], ref j, ref k);
+                            tag = terrainBuffer[k * 65 + j];
                             if (tag <= 19)
                             {
                                 weights[tag] += _neighborWeights[tag];
@@ -747,47 +747,47 @@ public partial class RandomBattleMapGenerator : IDisposable
                             }
                         }
 
-                        J = 0;
-                        I = 0;
-                        for (; I <= 18; I += 1)
+                        j = 0;
+                        i = 0;
+                        for (; i <= 18; i += 1)
                         {
-                            J += weights[I];
+                            j += weights[i];
                         }
 
-                        tag = Random(J) - weights[0];
-                        J = 0;
-                        while (tag > 0 && J < 18)
+                        tag = Random(j) - weights[0];
+                        j = 0;
+                        while (tag > 0 && j < 18)
                         {
-                            J += 1;
-                            tag -= weights[J];
+                            j += 1;
+                            tag -= weights[j];
                         }
 
                         if (terrainType == 8)
                         {
-                            J = 17;
+                            j = 17;
                         }
 
-                        switch (J)
+                        switch (j)
                         {
                             case 14:
-                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 252;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 252;
                                 break;
                             case 15:
-                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 253;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 253;
                                 break;
                             case 16:
-                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 1, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 254;
-                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 2, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 254;
-                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref K, ref hexX);
-                                terrainBuffer[hexX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 1, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 2, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref k, ref hexX);
+                                terrainBuffer[hexX * 65 + k] = 254;
                                 break;
                         }
 
-                        terrainBuffer[row * 65 + column * 2 + 1] = (byte)J;
+                        terrainBuffer[row * 65 + column * 2 + 1] = (byte)j;
                     }
                 }
             }
@@ -796,23 +796,23 @@ public partial class RandomBattleMapGenerator : IDisposable
             {
                 for (int column = 6; column <= 58; column++)
                 {
-                    I = shapeBuffer[row * 65 + column];
-                    if (I > 0)
+                    i = shapeBuffer[row * 65 + column];
+                    if (i > 0)
                     {
-                        J = terrainBuffer[row * 65 + column];
-                        if (J == 17)
+                        j = terrainBuffer[row * 65 + column];
+                        if (j == 17)
                         {
                             CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = 7;
                         }
                         else
                         {
-                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = _terrain[I - 1];
-                            if (J > 0 && J < 19)
+                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = _terrain[i - 1];
+                            if (j > 0 && j < 19)
                             {
-                                if (_resources[_terrain[I - 1] * 19 + J].Count > 0)
+                                if (_resources[_terrain[i - 1] * 19 + j].Count > 0)
                                 {
-                                    var random = Random(_resources[_terrain[I - 1] * 19 + J].Count);
-                                    (_resources[_terrain[I - 1] * 19 + J][random]).PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
+                                    var random = Random(_resources[_terrain[i - 1] * 19 + j].Count);
+                                    (_resources[_terrain[i - 1] * 19 + j][random]).PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
                                 }
                             }
                         }
@@ -839,11 +839,11 @@ public partial class RandomBattleMapGenerator : IDisposable
     public void PlaceCombatUnits()
     {
         int position;
-        int I;
-        int J = default;
+        int i;
+        int j = default;
         int temporary = default;
         DelphiList<CombatObject> units;
-        TacticalBattleUnit U;
+        TacticalBattleUnit u;
         TacticalBattleUnit other;
         int direction;
         Span<bool> used = stackalloc bool[8];
@@ -855,33 +855,33 @@ public partial class RandomBattleMapGenerator : IDisposable
         for (; position <= 7; position += 1)
         {
             units.Clear();
-            I = 0;
+            i = 0;
             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
-            for (; I <= last; I += 1)
+            for (; i <= last; i += 1)
             {
-                if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit)
+                if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit)
                 {
-                    if (CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled())
+                    if (CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled())
                     {
-                        if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(I).Position) >> 4) == position)
+                        if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(i).Position) >> 4) == position)
                         {
-                            units.Add(CombatMap.Current.Combat.CombatData.GetObjects(I));
-                            U = (TacticalBattleUnit)units[units.Count - 1];
-                            U.PositionIndex = (byte)(U.Position & 15);
-                            U.PositionGroup = (byte)(int)(((uint)U.Position) >> 4);
-                            if (U.PositionGroup == 7)
+                            units.Add(CombatMap.Current.Combat.CombatData.GetObjects(i));
+                            u = (TacticalBattleUnit)units[units.Count - 1];
+                            u.PositionIndex = (byte)(u.Position & 15);
+                            u.PositionGroup = (byte)(int)(((uint)u.Position) >> 4);
+                            if (u.PositionGroup == 7)
                             {
-                                U.PositionGroup = 1;
+                                u.PositionGroup = 1;
                             }
 
-                            if (U.PositionGroup == 0)
+                            if (u.PositionGroup == 0)
                             {
                                 _homePosition = 0;
                             }
 
                             if (_homePosition == -1)
                             {
-                                if (U.GetSide() == CombatSideIndex.Defender)
+                                if (u.GetSide() == CombatSideIndex.Defender)
                                 {
                                     if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
                                     {
@@ -889,32 +889,32 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 }
                             }
 
-                            if (_homePosition > 0 && U.PositionGroup == _homePosition)
+                            if (_homePosition > 0 && u.PositionGroup == _homePosition)
                             {
-                                U.PositionGroup = 0;
+                                u.PositionGroup = 0;
                             }
 
-                            var side = U.GetSide();
-                            CombatMap.Current.PositionStatus[U.PositionGroup] = (byte)side;
+                            var side = u.GetSide();
+                            CombatMap.Current.PositionStatus[u.PositionGroup] = (byte)side;
                         }
                     }
                 }
             }
 
-            I = 0;
+            i = 0;
             int limit = units.Count - 1;
-            for (; I <= limit; I += 1)
+            for (; i <= limit; i += 1)
             {
-                U = (TacticalBattleUnit)units[I];
-                J = I + 1;
+                u = (TacticalBattleUnit)units[i];
+                j = i + 1;
                 int last2 = units.Count - 1;
-                for (; J <= last2; J += 1)
+                for (; j <= last2; j += 1)
                 {
-                    other = (TacticalBattleUnit)units[J];
-                    if (U.GetPositionValue() < other.GetPositionValue())
+                    other = (TacticalBattleUnit)units[j];
+                    if (u.GetPositionValue() < other.GetPositionValue())
                     {
-                        temporary = U.PositionIndex;
-                        U.PositionIndex = other.PositionIndex;
+                        temporary = u.PositionIndex;
+                        u.PositionIndex = other.PositionIndex;
                         other.PositionIndex = (byte)temporary;
                     }
                 }
@@ -930,8 +930,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                 {
                     if (CombatMap.Current.PositionStatus[position] == 1)
                     {
-                        HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, position, ref J, ref temporary);
-                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[J, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
+                        HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, position, ref j, ref temporary);
+                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[j, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
                         {
                             _homePosition = position;
                             CombatMap.Current.PositionStatus[position] = (int)CombatSideIndex.Neutral;
@@ -980,28 +980,28 @@ public partial class RandomBattleMapGenerator : IDisposable
             position = 0;
             while (position < Items.GetCount())
             {
-                I = Random(CombatMap.Current.UnitPositions.Positions.Count - 16);
-                J = I - 1;
-                if (J < 0)
+                i = Random(CombatMap.Current.UnitPositions.Positions.Count - 16);
+                j = i - 1;
+                if (j < 0)
                 {
-                    J = CombatMap.Current.UnitPositions.Positions.Count - 17;
+                    j = CombatMap.Current.UnitPositions.Positions.Count - 17;
                 }
 
                 // { Original indexes its eight-slot occupancy array with the position-list index. }
-                while (used[I] && I != J)
+                while (used[i] && i != j)
                 {
-                    I += 1;
-                    if (I > CombatMap.Current.UnitPositions.Positions.Count - 17)
+                    i += 1;
+                    if (i > CombatMap.Current.UnitPositions.Positions.Count - 17)
                     {
-                        I = 0;
+                        i = 0;
                     }
                 }
 
-                used[I] = true;
-                J = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Location.X;
-                temporary = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Location.Y;
+                used[i] = true;
+                j = CombatMap.Current.UnitPositions.GetUnitPosition(2, i).Location.X;
+                temporary = CombatMap.Current.UnitPositions.GetUnitPosition(2, i).Location.Y;
                 itemHexSprite = new TacticalBattleItemHexSprite(null) { Holder = Creator.CreationHolder() };
-                if (CombatMap.Current.PlaceHex(itemHexSprite, J, temporary, 0))
+                if (CombatMap.Current.PlaceHex(itemHexSprite, j, temporary, 0))
                 {
                     Items.GetItem(position).SetOwner(itemHexSprite.Items);
                 }
@@ -1018,8 +1018,8 @@ public partial class RandomBattleMapGenerator : IDisposable
     {
         TacticalBattleUnitHexSprite unitHexSprite;
         TacticalBattleUnitHexSprite targetHexSprite;
-        int X;
-        int Y;
+        int x;
+        int y;
         int position;
         int slot;
         int hexNumber;
@@ -1034,8 +1034,8 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         position = unitHexSprite.Unit.PositionGroup;
         slot = unitHexSprite.Unit.PositionIndex;
-        X = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Location.X;
-        Y = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Location.Y;
+        x = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Location.X;
+        y = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Location.Y;
         if (side == CombatSideIndex.Defender && _randomTerrain)
         {
             switch (position)
@@ -1043,8 +1043,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                 case 0:
                     if (direction > 0)
                     {
-                        X = DefensePositionX[(direction - 1) * 8 + slot];
-                        Y = DefensePositionY[(direction - 1) * 8 + slot];
+                        x = DefensePositionX[(direction - 1) * 8 + slot];
+                        y = DefensePositionY[(direction - 1) * 8 + slot];
                         unitHexSprite.SetDirection((byte)direction);
                     }
                     else
@@ -1076,26 +1076,26 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                     break;
                 case 1:
-                    Y += 2;
+                    y += 2;
                     break;
                 case 2:
-                    X -= 2;
-                    Y += 1;
+                    x -= 2;
+                    y += 1;
                     break;
                 case 3:
-                    X -= 2;
-                    Y -= 1;
+                    x -= 2;
+                    y -= 1;
                     break;
                 case 4:
-                    Y -= 2;
+                    y -= 2;
                     break;
                 case 5:
-                    X += 2;
-                    Y -= 1;
+                    x += 2;
+                    y -= 1;
                     break;
                 case 6:
-                    X += 2;
-                    Y += 1;
+                    x += 2;
+                    y += 1;
                     break;
             }
         }
@@ -1146,7 +1146,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         hexNumber = 0;
         do
         {
-            HexGeometry.CenterHexNumberToHex(X, Y, hexNumber, ref hexX, ref hexY);
+            HexGeometry.CenterHexNumberToHex(x, y, hexNumber, ref hexX, ref hexY);
             slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType;
             targetHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484);
             hexNumber += 1;

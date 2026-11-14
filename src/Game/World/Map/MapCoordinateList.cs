@@ -61,45 +61,45 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
 
     private static void QuickSortMapCoordinate(Span<MapCoordinate> sortList, int L, int R, XYLSortCompare sCompare)
     {
-        int I;
-        int J;
-        MapCoordinate P;
-        MapCoordinate T = default;
+        int i;
+        int j;
+        MapCoordinate p;
+        MapCoordinate t = default;
         do
         {
-            I = L;
-            J = R;
-            P = sortList[(int)(((uint)(L + R)) >> 1)];
+            i = L;
+            j = R;
+            p = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
-                while (sCompare(sortList[I], P) < 0)
+                while (sCompare(sortList[i], p) < 0)
                 {
-                    I += 1;
+                    i += 1;
                 }
 
-                while (sCompare(sortList[J], P) > 0)
+                while (sCompare(sortList[j], p) > 0)
                 {
-                    J -= 1;
+                    j -= 1;
                 }
 
-                if (I <= J)
+                if (i <= j)
                 {
-                    T = sortList[I];
-                    sortList[I] = sortList[J];
-                    sortList[J] = T;
-                    I += 1;
-                    J -= 1;
+                    t = sortList[i];
+                    sortList[i] = sortList[j];
+                    sortList[j] = t;
+                    i += 1;
+                    j -= 1;
                 }
             }
-            while (!(I > J));
-            if (L < J)
+            while (!(i > j));
+            if (L < j)
             {
-                QuickSortMapCoordinate(sortList, L, J, sCompare);
+                QuickSortMapCoordinate(sortList, L, j, sCompare);
             }
 
-            L = I;
+            L = i;
         }
-        while (!(I >= R));
+        while (!(i >= R));
     }
 
     // Delphi marked the reached locations in the flag byte of a working list. The marks are a
@@ -115,16 +115,16 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
             HexNumberWalkData.InitializeHexNumberWalk(out walk, mapCoordinate.X, mapCoordinate.Y, 1);
             while (walk.Radius <= 1)
             {
-                for (int I = 0, last = locations.Count - 1; I <= last; I++)
+                for (int i = 0, last = locations.Count - 1; i <= last; i++)
                 {
-                    if (!reached[I])
+                    if (!reached[i])
                     {
-                        var item = locations[I];
+                        var item = locations[i];
                         var packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
                         if (item == packMapCoordinate)
                         {
-                            reached[I] = true;
-                            Connect(locations[I]);
+                            reached[i] = true;
+                            Connect(locations[i]);
                         }
                     }
                 }
@@ -134,9 +134,9 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
         }
 
         locations = new MapCoordinateList();
-        for (int I = 0, last = list.Count - 1; I <= last; I++)
+        for (int i = 0, last = list.Count - 1; i <= last; i++)
         {
-            var mapCoordinate = list[I];
+            var mapCoordinate = list[i];
             if (locations.IndexOf(mapCoordinate) == -1)
             {
                 locations.Add(mapCoordinate);
@@ -151,9 +151,9 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
                 reached[0] = true;
                 Connect(locations[0]);
                 result = true;
-                for (int I = 0, last = locations.Count - 1; I <= last; I++)
+                for (int i = 0, last = locations.Count - 1; i <= last; i++)
                 {
-                    if (!reached[I])
+                    if (!reached[i])
                     {
                         result = false;
                     }

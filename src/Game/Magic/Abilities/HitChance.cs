@@ -58,18 +58,18 @@ internal static class HitChance
         return result;
     }
 
-    internal static void ShowHitPercent(int X, int Y, in LockedSurface surface, int percent)
+    internal static void ShowHitPercent(int x, int y, in LockedSurface surface, int percent)
     {
         LockedSurface lockedSurface;
         lockedSurface = surface;
-        GamePack.Current.CombatImages[0].Show(X + 20, Y + 54, lockedSurface);
-        lockedSurface.ClipRectangle.Right = X + 20 + (percent + 3) / 4;
+        GamePack.Current.CombatImages[0].Show(x + 20, y + 54, lockedSurface);
+        lockedSurface.ClipRectangle.Right = x + 20 + (percent + 3) / 4;
         if (lockedSurface.ClipRectangle.Right > surface.ClipRectangle.Right)
         {
             lockedSurface.ClipRectangle.Right = surface.ClipRectangle.Right;
         }
 
-        GamePack.Current.CombatImages[1].Show(X + 20, Y + 54, lockedSurface);
+        GamePack.Current.CombatImages[1].Show(x + 20, y + 54, lockedSurface);
     }
 
 }

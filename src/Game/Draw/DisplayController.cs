@@ -20,14 +20,14 @@ public partial class DisplayController : Component
     public virtual int BlitInvalidatedSurface(int index)
     {
         int result;
-        Matrix M;
+        Matrix m;
         int bw = default;
         int bh = default;
         int pixelX2 = default;
         int pixelY2 = default;
         int blockWidth = default;
         int blockHeight = default;
-        int V;
+        int v;
         Rect clipR = default;
         Rect sourceR = default;
         Rect destinationR = default;
@@ -35,14 +35,14 @@ public partial class DisplayController : Component
         {
             result = 0;
             var inverseMatrix = GetInverseMatrix();
-            M = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
-            for (int I = 0, last = GetInverseMatrix().Width - 1; I <= last; I++)
+            m = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
+            for (int i = 0, last = GetInverseMatrix().Width - 1; i <= last; i++)
             {
-                for (int J = 0, lastJ = GetInverseMatrix().Height - 1; J <= lastJ; J++)
+                for (int j = 0, lastJ = GetInverseMatrix().Height - 1; j <= lastJ; j++)
                 {
-                    if (GetInverseMatrix().GetValue((byte)I, (byte)J) != 0)
+                    if (GetInverseMatrix().GetValue((byte)i, (byte)j) != 0)
                     {
-                        M.SetValue((byte)I, (byte)J, 1);
+                        m.SetValue((byte)i, (byte)j, 1);
                     }
                 }
             }
@@ -51,25 +51,25 @@ public partial class DisplayController : Component
             clipR.Right = GetSurface(1).Width;
             clipR.Top = 0;
             clipR.Bottom = GetSurface(1).Height;
-            for (int J = 0, lastJ = M.Height - 1; J <= lastJ; J++)
+            for (int j = 0, lastJ = m.Height - 1; j <= lastJ; j++)
             {
-                for (int I = 0, last = M.Width - 1; I <= last; I++)
+                for (int i = 0, last = m.Width - 1; i <= last; i++)
                 {
                     if (result >= 0)
                     {
-                        V = GetInverseMatrix().GetValue((byte)I, (byte)J);
-                        if (V != 0)
+                        v = GetInverseMatrix().GetValue((byte)i, (byte)j);
+                        if (v != 0)
                         {
-                            GetInverseMatrix().SetValue((byte)I, (byte)J, (byte)(V - 1));
+                            GetInverseMatrix().SetValue((byte)i, (byte)j, (byte)(v - 1));
                         }
 
-                        if (M.GetValue((byte)I, (byte)J) != 0)
+                        if (m.GetValue((byte)i, (byte)j) != 0)
                         {
-                            GetInverseBlockSize(I, J, M, ref bw, ref bh);
-                            GetPixelPositionOfBlock(I, J, clipR, out sourceR.Left, out sourceR.Top, out blockWidth, out blockHeight);
+                            GetInverseBlockSize(i, j, m, ref bw, ref bh);
+                            GetPixelPositionOfBlock(i, j, clipR, out sourceR.Left, out sourceR.Top, out blockWidth, out blockHeight);
                             if (bw > 1 || bh > 1)
                             {
-                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, clipR, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
+                                GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, clipR, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
                                 sourceR.Right = pixelX2 + blockWidth;
                                 sourceR.Bottom = pixelY2 + blockHeight;
                             }
@@ -80,7 +80,7 @@ public partial class DisplayController : Component
                             }
 
                             var primarySurfaceRegion = GetPrimarySurfaceRegion();
-                            GetPixelPositionOfBlock(I, J, primarySurfaceRegion.Value, out destinationR.Left, out destinationR.Top, out blockWidth, out blockHeight);
+                            GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out destinationR.Left, out destinationR.Top, out blockWidth, out blockHeight);
                             var primarySurfaceRegion2 = GetPrimarySurfaceRegion();
                             destinationR.Left += primarySurfaceRegion2.Value.Left;
                             var primarySurfaceRegion3 = GetPrimarySurfaceRegion();
@@ -88,7 +88,7 @@ public partial class DisplayController : Component
                             if (bw > 1 || bh > 1)
                             {
                                 var primarySurfaceRegion4 = GetPrimarySurfaceRegion();
-                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, primarySurfaceRegion4.Value, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
+                                GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, primarySurfaceRegion4.Value, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
                                 var primarySurfaceRegion5 = GetPrimarySurfaceRegion();
                                 destinationR.Right = pixelX2 + blockWidth + primarySurfaceRegion5.Value.Left;
                                 var primarySurfaceRegion6 = GetPrimarySurfaceRegion();
@@ -102,11 +102,11 @@ public partial class DisplayController : Component
 
                             var surface = GetSurface(0);
                             result = GetSurface(index).BlitStretch(surface, sourceR, destinationR);
-                            for (int X = 0, lastX = bw - 1; X <= lastX; X++)
+                            for (int x = 0, lastX = bw - 1; x <= lastX; x++)
                             {
-                                for (int Y = 0, lastY = bh - 1; Y <= lastY; Y++)
+                                for (int y = 0, lastY = bh - 1; y <= lastY; y++)
                                 {
-                                    M.SetValue((byte)(I + X), (byte)(J + Y), 0);
+                                    m.SetValue((byte)(i + x), (byte)(j + y), 0);
                                 }
                             }
                         }
@@ -114,7 +114,7 @@ public partial class DisplayController : Component
                 }
             }
 
-            M.Dispose();
+            m.Dispose();
         }
         else
         {
@@ -336,11 +336,11 @@ public partial class DisplayController : Component
     {
         if (_inverseMatrix != null)
         {
-            for (int I = 0, last = this._inverseMatrix.Width - 1; I <= last; I++)
+            for (int i = 0, last = this._inverseMatrix.Width - 1; i <= last; i++)
             {
-                for (int J = 0, lastJ = this._inverseMatrix.Height - 1; J <= lastJ; J++)
+                for (int j = 0, lastJ = this._inverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    this._inverseMatrix.SetValue((byte)I, (byte)J, 1);
+                    this._inverseMatrix.SetValue((byte)i, (byte)j, 1);
                 }
             }
         }
@@ -360,63 +360,63 @@ public partial class DisplayController : Component
         int w2;
         int h1;
         // P and Q are indexes into Matrix.FData.
-        int P;
-        int Q;
-        int N;
-        int L;
+        int p;
+        int q;
+        int n;
+        int l;
         int off;
         bool ok;
-        P = X + matrix.Width * Y;
-        if (matrix.Data[P] != 0)
+        p = X + matrix.Width * Y;
+        if (matrix.Data[p] != 0)
         {
             h1 = 0;
-            Q = P;
+            q = p;
             w1 = matrix.Width - X;
             size1 = 0;
             do
             {
-                N = w1;
-                L = 0;
-                while (N != 0 && matrix.Data[Q + L] != 0)
+                n = w1;
+                l = 0;
+                while (n != 0 && matrix.Data[q + l] != 0)
                 {
-                    L += 1;
-                    N -= 1;
+                    l += 1;
+                    n -= 1;
                 }
 
-                ok = L * h1 >= size1;
+                ok = l * h1 >= size1;
                 if (ok)
                 {
                     h1 += 1;
-                    Q = Q + matrix.Width;
-                    w1 = L;
-                    size1 = h1 * L;
+                    q = q + matrix.Width;
+                    w1 = l;
+                    size1 = h1 * l;
                 }
             }
             while (!(!ok || h1 + Y == matrix.Height));
             bh = h1;
             bw = w1;
             w2 = 0;
-            Q = P;
+            q = p;
             h2 = matrix.Height - Y;
             size2 = 0;
             do
             {
-                N = h2;
-                L = 0;
+                n = h2;
+                l = 0;
                 off = 0;
-                while (N != 0 && matrix.Data[Q + off] != 0)
+                while (n != 0 && matrix.Data[q + off] != 0)
                 {
-                    L += 1;
-                    N -= 1;
+                    l += 1;
+                    n -= 1;
                     off += matrix.Width;
                 }
 
-                ok = L * w2 >= size2;
+                ok = l * w2 >= size2;
                 if (ok)
                 {
-                    Q += 1;
+                    q += 1;
                     w2 += 1;
-                    h2 = L;
+                    h2 = l;
                     size2 = w2 * h2;
                 }
             }
@@ -443,25 +443,25 @@ public partial class DisplayController : Component
     // DisplayC.pas:964
     public virtual void GetPixelPositionOfBlock(int bx, int by, Rect R, out int pixelX, out int pixelY, out int bw, out int bh)
     {
-        int W;
-        int H;
-        W = (R.Right - R.Left + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
-        H = (R.Bottom - R.Top + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
-        pixelX = W * bx;
-        pixelY = H * by;
-        bw = W;
-        bh = H;
+        int w;
+        int h;
+        w = (R.Right - R.Left + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
+        h = (R.Bottom - R.Top + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
+        pixelX = w * bx;
+        pixelY = h * by;
+        bw = w;
+        bh = h;
     }
 
     // DisplayC.pas:976
     public virtual void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, out int bx, out int by)
     {
-        int W;
-        int H;
-        W = (R.Right - R.Left + 1 + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
-        H = (R.Bottom - R.Top + 1 + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
-        bx = (pixelX - R.Left) / W;
-        by = (pixelY - R.Top) / H;
+        int w;
+        int h;
+        w = (R.Right - R.Left + 1 + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
+        h = (R.Bottom - R.Top + 1 + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
+        bx = (pixelX - R.Left) / w;
+        by = (pixelY - R.Top) / h;
     }
 
     // DisplayC.pas:988
@@ -473,18 +473,18 @@ public partial class DisplayController : Component
         int bx2 = default;
         int by1 = default;
         int by2 = default;
-        Matrix M;
-        Rect R = default;
+        Matrix m;
+        Rect r = default;
         if (_inverseMatrix != null)
         {
-            M = _inverseMatrix;
-            R.Left = 0;
-            R.Right = GetSurface(1).Width;
-            R.Top = 0;
-            R.Bottom = GetSurface(1).Height;
-            GetBlockPositionOfPixel(X, Y, R, out bx1, out by1);
-            GetBlockPositionOfPixel(X + W, Y + H, R, out bx2, out by2);
-            if (M.Width > bx1 && M.Height > by1 && by2 >= 0 && by1 >= 0)
+            m = _inverseMatrix;
+            r.Left = 0;
+            r.Right = GetSurface(1).Width;
+            r.Top = 0;
+            r.Bottom = GetSurface(1).Height;
+            GetBlockPositionOfPixel(X, Y, r, out bx1, out by1);
+            GetBlockPositionOfPixel(X + W, Y + H, r, out bx2, out by2);
+            if (m.Width > bx1 && m.Height > by1 && by2 >= 0 && by1 >= 0)
             {
                 if (bx1 < 0)
                 {
@@ -496,14 +496,14 @@ public partial class DisplayController : Component
                     by1 = 0;
                 }
 
-                if (M.Width <= bx2)
+                if (m.Width <= bx2)
                 {
-                    bx2 = M.Width - 1;
+                    bx2 = m.Width - 1;
                 }
 
-                if (M.Height <= by2)
+                if (m.Height <= by2)
                 {
-                    by2 = M.Height - 1;
+                    by2 = m.Height - 1;
                 }
 
                 X = bx1;
@@ -514,7 +514,7 @@ public partial class DisplayController : Component
                     int limit = by2;
                     for (; Y <= limit; Y += 1)
                     {
-                        M.SetValue((byte)X, (byte)Y, value);
+                        m.SetValue((byte)X, (byte)Y, value);
                     }
                 }
             }
@@ -534,13 +534,13 @@ public partial class DisplayController : Component
     // { Counts frames; every 5 frames the frame rate is measured. }
     public virtual void NewFrame()
     {
-        int T;
+        int t;
         if (_frameCount >= 5)
         {
-            T = PixelFormats.GetElapsedMilliseconds();
-            _display.CurrentFrameRate = Round((double)5000 / (T - _lastFrameTime + 1));
+            t = PixelFormats.GetElapsedMilliseconds();
+            _display.CurrentFrameRate = Round((double)5000 / (t - _lastFrameTime + 1));
             _frameCount = 0;
-            _lastFrameTime = T;
+            _lastFrameTime = t;
         }
 
         _frameCount = (ushort)(_frameCount + 1);

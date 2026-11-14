@@ -17,9 +17,9 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:6994
     internal void UpdateIndices()
     {
-        for (int I = 0, last = _palettes.Count - 1; I <= last; I++)
+        for (int i = 0, last = _palettes.Count - 1; i <= last; i++)
         {
-            (_palettes[I])._index = I;
+            (_palettes[i])._index = i;
         }
     }
 
@@ -39,16 +39,16 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:7001
     public void LoadFromStream(Stream stream)
     {
-        int N = default;
-        LibraryImagePalette P;
+        int n = default;
+        LibraryImagePalette p;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref N, 4));
-        for (int I = 0, last = N - 1; I <= last; I++)
+        stream.ReadExactly(Bytes.Of(ref n, 4));
+        for (int i = 0, last = n - 1; i <= last; i++)
         {
-            P = new LibraryImagePalette();
-            P.LoadFromStream(stream);
-            _palettes.Add(P);
-            P._index = I;
+            p = new LibraryImagePalette();
+            p.LoadFromStream(stream);
+            _palettes.Add(p);
+            p._index = i;
         }
     }
 
@@ -56,18 +56,18 @@ public partial class PaletteManager : IDisposable
     public void SaveToStream(Stream stream)
     {
         stream.Write(ValueBytes(_palettes.Count, 4));
-        for (int I = 0, last = _palettes.Count - 1; I <= last; I++)
+        for (int i = 0, last = _palettes.Count - 1; i <= last; i++)
         {
-            (_palettes[I]).SaveToStream(stream);
+            (_palettes[i]).SaveToStream(stream);
         }
     }
 
     // ImageLib.pas:7025
     public void Clear()
     {
-        for (int I = _palettes.Count - 1; I >= 0; I--)
+        for (int i = _palettes.Count - 1; i >= 0; i--)
         {
-            (_palettes[I])?.Dispose();
+            (_palettes[i])?.Dispose();
         }
 
         _palettes.Clear();
@@ -85,31 +85,31 @@ public partial class PaletteManager : IDisposable
     public LibraryImagePalette RegisterPalette(Palette palette)
     {
         LibraryImagePalette result;
-        int I;
+        int i;
         bool found;
-        LibraryImagePalette P;
-        I = _palettes.Count;
+        LibraryImagePalette p;
+        i = _palettes.Count;
         found = false;
-        while (I != 0 && !found)
+        while (i != 0 && !found)
         {
-            I -= 1;
-            found = palette.Compare((_palettes[I]).Palette);
+            i -= 1;
+            found = palette.Compare((_palettes[i]).Palette);
         }
 
         if (!found)
         {
-            P = new LibraryImagePalette();
-            P.Palette.Assign(palette);
-            P._index = _palettes.Count;
-            P.RefCount = 1;
-            _palettes.Add(P);
-            result = P;
+            p = new LibraryImagePalette();
+            p.Palette.Assign(palette);
+            p._index = _palettes.Count;
+            p.RefCount = 1;
+            _palettes.Add(p);
+            result = p;
         }
         else
         {
-            var libraryImagePalette = _palettes[I];
+            var libraryImagePalette = _palettes[i];
             ((LibraryImagePalette)libraryImagePalette).RefCount += 1;
-            result = _palettes[I];
+            result = _palettes[i];
         }
 
         return result;
@@ -118,14 +118,14 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:7068
     public void UnregisterPalette(int index)
     {
-        LibraryImagePalette P;
-        P = _palettes[index];
-        P.RefCount -= 1;
-        if (P.RefCount <= 0)
+        LibraryImagePalette p;
+        p = _palettes[index];
+        p.RefCount -= 1;
+        if (p.RefCount <= 0)
         {
             _palettes.RemoveAt(index);
             UpdateIndices();
-            P?.Dispose();
+            p?.Dispose();
         }
     }
 

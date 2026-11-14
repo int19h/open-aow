@@ -162,7 +162,7 @@ public partial class FactionSelectionWindow : UIModule
     // AoWSelFactionWin.pas:174
     public void FactionPnlUpdate()
     {
-        Rect R;
+        Rect r;
         if (UI.FactionSelectionWindow.Fade >= 0)
         {
             UI.FactionSelectionWindow.Fade -= 6;
@@ -197,9 +197,9 @@ public partial class FactionSelectionWindow : UIModule
                 }
             }
 
-            R = new Rect(this.FactionPanel.WinLeft, this.FactionPanel.WinTop, this.FactionPanel.WinLeft + this.FactionPanel.WinWidth, FactionPanel.WinTop + this.FactionPanel.WinHeight);
+            r = new Rect(this.FactionPanel.WinLeft, this.FactionPanel.WinTop, this.FactionPanel.WinLeft + this.FactionPanel.WinWidth, FactionPanel.WinTop + this.FactionPanel.WinHeight);
 
-            UI.TitleWindow.MainWindow.AddBlitRectangle(ref R, null);
+            UI.TitleWindow.MainWindow.AddBlitRectangle(ref r, null);
         }
     }
 
@@ -236,8 +236,7 @@ public partial class FactionSelectionWindow : UIModule
         ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
         WorldMapCampaign campaign = dialog.UI.WorldMap.GetCampaign();
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
-        int index = campaign.Scenarios.IndexOfId(id);
-        WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(dialog.UI.WorldMap.GetCampaign(), index);
+        WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.GetCampaign());
         StrategicMap hexSpriteMap = (StrategicMap)dialog.UI.Engine.CreatePreviewHsm(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
         int i;
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)

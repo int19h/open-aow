@@ -94,7 +94,7 @@ public partial class Tornado : GlobalTargetSpell
         DelphiList<MapField> locations;
         bool found;
         int index;
-        int X;
+        int x;
         locations = new DelphiList<MapField>();
         army.Army.CreateMovePointTable(selection, out table);
         var hexY = army.HexY;
@@ -103,10 +103,10 @@ public partial class Tornado : GlobalTargetSpell
         mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 15)
         {
-            X = walk.X;
-            if (X >= 0 && walk.Y >= 0 && X < mapLevel.Width && walk.Y < mapLevel.Height)
+            x = walk.X;
+            if (x >= 0 && walk.Y >= 0 && x < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                mapField = mapLevel.GetField(X, walk.Y);
+                mapField = mapLevel.GetField(x, walk.Y);
                 if (SpellTableCost(table, terrainType: mapField.TerrainType, overlayType: mapField.OverlayType) != -1)
                 {
                     locations.Add(mapField);

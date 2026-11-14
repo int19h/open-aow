@@ -62,7 +62,7 @@ public partial class NewTurnDialog : UIModule
     public void ShowNewTurn(NewTurnEventLog eventValue, ExecuteDoneEvent done)
     {
         sbyte race;
-        int Day;
+        int day2;
         switch (eventValue.Mode)
         {
             case NewTurnEventLogMode.Dialog:
@@ -91,15 +91,15 @@ public partial class NewTurnDialog : UIModule
 
                 if (StrategicMap.Current.Day > 0)
                 {
-                    Day = StrategicMap.Current.Day;
+                    day2 = StrategicMap.Current.Day;
                 }
                 else
                 {
-                    Day = 1;
+                    day2 = 1;
                 }
 
                 var day = UI.Engine.TranslateResourceString(GameText.DayText);
-                TurnLabel.Text = day + " " + IntToStr(Day);
+                TurnLabel.Text = day + " " + IntToStr(day2);
                 race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {
@@ -149,21 +149,21 @@ public partial class NewTurnDialog : UIModule
     // AoWNewTurnDialog.pas:116
     public void FaceFramePreDraw(LockedSurface surface)
     {
-        Rect R;
+        Rect r;
         if (CombatMap.Current != null)
         {
             if (StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader != null)
             {
-                R = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-                StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(R, surface);
+                r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
+                StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(r, surface);
             }
         }
         else
         {
             if (StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader != null)
             {
-                R = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-                StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(R, surface);
+                r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
+                StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(r, surface);
             }
         }
     }

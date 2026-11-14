@@ -208,14 +208,14 @@ public partial class PoisonCloud : MultiHexMapObject
     // PoisonC.pas:129
     public bool CanDoDamage(UnitList units)
     {
-        int I;
+        int i;
         Troop troop;
         bool result = false;
-        I = units.GetCount();
-        while (!result && I != 0)
+        i = units.GetCount();
+        while (!result && i != 0)
         {
-            I -= 1;
-            troop = units.GetUnit(I);
+            i -= 1;
+            troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageType.Poison) && !troop.GetAbilityEnabled(1);
         }
 
@@ -235,16 +235,16 @@ public partial class PoisonCloud : MultiHexMapObject
     public void TriggerDamage()
     {
         MapFieldMessage message = default;
-        HexNumberWalkData Walk = default;
+        HexNumberWalkData hexNumberWalkData = default;
         MapLevel level;
         level = Owner.Owner;
         var hexY = GetHexY();
         var hexX = GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(out Walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
         message.MessageId = 4432;
         message.Param[0] = (int)StormType.Pestilence;
         message.Param[2] = Player;
-        ref var walk = ref Walk;
+        ref var walk = ref hexNumberWalkData;
         while (_resource.TerrainList.Count > walk.HexNumber)
         {
             if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
@@ -253,7 +253,7 @@ public partial class PoisonCloud : MultiHexMapObject
                 level.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
             }
 
-            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
 

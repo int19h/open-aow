@@ -32,16 +32,16 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1049
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         TwinkleAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(out X, out Y, out L);
-        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        source.GetLocation(out x, out y, out l);
+        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
         animation.Setup(GamePack.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
-        StrategicMap.Current.PlaceHex(animation, X, Y, L);
+        StrategicMap.Current.PlaceHex(animation, x, y, l);
         CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;

@@ -38,9 +38,9 @@ public partial class Arena : Structure
         {
             if (CanTrainUnits((sbyte)tokenEvent.Param, ((ArenaTokenEvent)tokenEvent).UnitIds, ref errorText))
             {
-                for (int I = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; I <= last; I++)
+                for (int i = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; i <= last; i++)
                 {
-                    var unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[I];
+                    var unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[i];
                     troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                     if (troop != null)
                     {
@@ -129,18 +129,18 @@ public partial class Arena : Structure
     {
         bool result;
         int total;
-        int I;
+        int i;
         int cost;
         Troop troop;
         if (units.Count != 0)
         {
             total = 0;
-            I = units.Count;
+            i = units.Count;
             result = true;
-            while (result && I != 0)
+            while (result && i != 0)
             {
-                I -= 1;
-                var unit = units[I];
+                i -= 1;
+                var unit = units[i];
                 troop = StrategicMap.Current.UnitControl.FindUnit(unit);
                 if (troop != null)
                 {
@@ -236,13 +236,13 @@ public partial class Arena : Structure
             log = new EnterArenaEventLog(null) { Holder = CreationHolder() };
             log.Arena = this;
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
+            for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
-                var troop = army.Army.Units.GetUnit(I);
+                var troop = army.Army.Units.GetUnit(i);
                 log.UnitIds.Add(troop.UnitId);
-                if (UnitTrainCost(army.Army.Units.GetUnit(I)) != -1)
+                if (UnitTrainCost(army.Army.Units.GetUnit(i)) != -1)
                 {
-                    log.Trainable = (byte)(log.Trainable | (1 << I));
+                    log.Trainable = (byte)(log.Trainable | (1 << i));
                 }
             }
 

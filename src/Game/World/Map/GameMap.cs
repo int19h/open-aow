@@ -343,9 +343,9 @@ public partial class GameMap : ENode
             throw new InvalidOperationException("Static scene is invalid, call UpdateStaticScene!");
         }
 
-        for (int I = _staticVisibleHexSprite._count - 1; I >= 0; I--)
+        for (int i = _staticVisibleHexSprite._count - 1; i >= 0; i--)
         {
-            _staticVisibleHexSprite[I].Show(_viewPixelX, _viewPixelY, lockedSurface);
+            _staticVisibleHexSprite[i].Show(_viewPixelX, _viewPixelY, lockedSurface);
         }
     }
 
@@ -357,9 +357,9 @@ public partial class GameMap : ENode
             throw new InvalidOperationException("Dynamic scene is invalid, call UpdateDynamicScene!");
         }
 
-        for (int I = _dynamicVisibleHexSprite._count - 1; I >= 0; I--)
+        for (int i = _dynamicVisibleHexSprite._count - 1; i >= 0; i--)
         {
-            _dynamicVisibleHexSprite[I].Show(_viewPixelX, _viewPixelY, lockedSurface);
+            _dynamicVisibleHexSprite[i].Show(_viewPixelX, _viewPixelY, lockedSurface);
         }
     }
 
@@ -376,11 +376,11 @@ public partial class GameMap : ENode
     // HSMAP.PAS:273
     public virtual void FillLevelWithResource(int L, MapObjectResource resource)
     {
-        for (int Y = 0, last = _mapContainer.Height - 1; Y <= last; Y++)
+        for (int y = 0, last = _mapContainer.Height - 1; y <= last; y++)
         {
-            for (int X = 0, lastX = _mapContainer.Width - 1; X <= lastX; X++)
+            for (int x = 0, lastX = _mapContainer.Width - 1; x <= lastX; x++)
             {
-                resource.PlaceResourceUser(this, (sbyte)X, (sbyte)Y, (sbyte)L);
+                resource.PlaceResourceUser(this, (sbyte)x, (sbyte)y, (sbyte)L);
             }
         }
     }
@@ -488,7 +488,7 @@ public partial class GameMap : ENode
         int count;
         MapField mapField;
         HexNumberWalkData walk = default;
-        Rect R = default;
+        Rect r = default;
         MapLevel mapLevel;
         LockTerrainChangedEvent();
         list = new SByteList();
@@ -540,31 +540,31 @@ public partial class GameMap : ENode
         list?.Dispose();
         if (count != 0)
         {
-            R.Left = X - radius;
-            if (R.Left < 0)
+            r.Left = X - radius;
+            if (r.Left < 0)
             {
-                R.Left = 0;
+                r.Left = 0;
             }
 
-            R.Right = X + radius + 1;
-            if (R.Right > mapLevel.Width)
+            r.Right = X + radius + 1;
+            if (r.Right > mapLevel.Width)
             {
-                R.Left = mapLevel.Width;
+                r.Left = mapLevel.Width;
             }
 
-            R.Top = Y - radius;
-            if (R.Top < 0)
+            r.Top = Y - radius;
+            if (r.Top < 0)
             {
-                R.Top = 0;
+                r.Top = 0;
             }
 
-            R.Bottom = Y + radius + 1;
-            if (R.Bottom > mapLevel.Height)
+            r.Bottom = Y + radius + 1;
+            if (r.Bottom > mapLevel.Height)
             {
-                R.Bottom = mapLevel.Height;
+                r.Bottom = mapLevel.Height;
             }
 
-            NotifyTerrainChanged(R, (sbyte)L);
+            NotifyTerrainChanged(r, (sbyte)L);
         }
 
         return count;
@@ -582,7 +582,7 @@ public partial class GameMap : ENode
         sbyte overlayType = default;
         MapField mapField;
         HexNumberWalkData walk = default;
-        Rect R = default;
+        Rect r = default;
         MapLevel mapLevel;
         if (changeTerrainProc != null)
         {
@@ -650,9 +650,7 @@ public partial class GameMap : ENode
 
                     if (terrainChangedProc != null)
                     {
-                        var item = orgList[walk.HexNumber * 2 + 1];
-                        var orgListItem = orgList[walk.HexNumber * 2];
-                        terrainChangedProc(mapLevel.GetField(walk.X, walk.Y), orgListItem, item);
+                        terrainChangedProc(originalOverlayType: orgList[walk.HexNumber * 2 + 1], originalTerrainType: orgList[walk.HexNumber * 2], mapField: mapLevel.GetField(walk.X, walk.Y));
                     }
                 }
 
@@ -665,31 +663,31 @@ public partial class GameMap : ENode
             newList?.Dispose();
             if (count != 0)
             {
-                R.Left = X - radius;
-                if (R.Left < 0)
+                r.Left = X - radius;
+                if (r.Left < 0)
                 {
-                    R.Left = 0;
+                    r.Left = 0;
                 }
 
-                R.Right = X + radius + 1;
-                if (R.Right > mapLevel.Width)
+                r.Right = X + radius + 1;
+                if (r.Right > mapLevel.Width)
                 {
-                    R.Left = mapLevel.Width;
+                    r.Left = mapLevel.Width;
                 }
 
-                R.Top = Y - radius;
-                if (R.Top < 0)
+                r.Top = Y - radius;
+                if (r.Top < 0)
                 {
-                    R.Top = 0;
+                    r.Top = 0;
                 }
 
-                R.Bottom = Y + radius + 1;
-                if (R.Bottom > mapLevel.Height)
+                r.Bottom = Y + radius + 1;
+                if (r.Bottom > mapLevel.Height)
                 {
-                    R.Bottom = mapLevel.Height;
+                    r.Bottom = mapLevel.Height;
                 }
 
-                NotifyTerrainChanged(R, (sbyte)L);
+                NotifyTerrainChanged(r, (sbyte)L);
             }
 
             result = count;
@@ -715,11 +713,11 @@ public partial class GameMap : ENode
             maxX = ViewHexX + ViewWidthHex - 1;
             maxY = ViewHexY + ViewHeightHex - 1;
             level = MapContainer.GetMapLevel(ViewMapLevel);
-            for (int X = ViewHexX; X <= maxX; X++)
+            for (int x = ViewHexX; x <= maxX; x++)
             {
-                for (int Y = maxY, last = ViewHexY; Y >= last; Y--)
+                for (int y = maxY, last = ViewHexY; y >= last; y--)
                 {
-                    field = level.GetField(X, Y);
+                    field = level.GetField(x, y);
                     if (field.GetExplored(SeatedPlayer))
                     {
                         field.CopyStaticVisibleHexSprite(StaticVisibleHexSprite);
@@ -746,17 +744,17 @@ public partial class GameMap : ENode
         maxX = _viewHexX + _viewWidthHex - 1;
         maxY = _viewHexY + _viewHeightHex - 1;
         mapLevel = _mapContainer.GetMapLevel(_viewMapLevel);
-        for (int X = _viewHexX; X <= maxX; X++)
+        for (int x = _viewHexX; x <= maxX; x++)
         {
-            for (int Y = maxY, last = _viewHexY; Y >= last; Y--)
+            for (int y = maxY, last = _viewHexY; y >= last; y--)
             {
-                mapLevel.GetField(X, Y).CopyStaticVisibleHexSprite(_staticVisibleHexSprite);
+                mapLevel.GetField(x, y).CopyStaticVisibleHexSprite(_staticVisibleHexSprite);
             }
         }
 
-        for (int X = 0, last = _staticFixedVisibleHexSprite._count - 1; X <= last; X++)
+        for (int x = 0, last = _staticFixedVisibleHexSprite._count - 1; x <= last; x++)
         {
-            _staticFixedVisibleHexSprite[X].MakeVisible(_staticVisibleHexSprite);
+            _staticFixedVisibleHexSprite[x].MakeVisible(_staticVisibleHexSprite);
         }
 
         _staticVisibleHexSprite.Sort();
@@ -778,11 +776,11 @@ public partial class GameMap : ENode
             level = MapContainer.GetMapLevel(ViewMapLevel);
             if (SeatedPlayer != -1)
             {
-                for (int X = ViewHexX; X <= maxX; X++)
+                for (int x = ViewHexX; x <= maxX; x++)
                 {
-                    for (int Y = maxY, last = ViewHexY; Y >= last; Y--)
+                    for (int y = maxY, last = ViewHexY; y >= last; y--)
                     {
-                        field = level.GetField(X, Y);
+                        field = level.GetField(x, y);
                         if (field.GetExplored(SeatedPlayer))
                         {
                             field.CopyDynamicVisibleHexSprite(DynamicVisibleHexSprite);
@@ -790,9 +788,9 @@ public partial class GameMap : ENode
                     }
                 }
 
-                for (int X = 0, last = DynamicFixedVisibleHexSprite.Count - 1; X <= last; X++)
+                for (int x = 0, last = DynamicFixedVisibleHexSprite.Count - 1; x <= last; x++)
                 {
-                    DynamicFixedVisibleHexSprite[X].MakeVisible(DynamicVisibleHexSprite);
+                    DynamicFixedVisibleHexSprite[x].MakeVisible(DynamicVisibleHexSprite);
                 }
 
                 DynamicVisibleHexSprite.Sort();
@@ -816,17 +814,17 @@ public partial class GameMap : ENode
         maxX = _viewHexX + _viewWidthHex - 1;
         maxY = _viewHexY + _viewHeightHex - 1;
         mapLevel = _mapContainer.GetMapLevel(_viewMapLevel);
-        for (int X = _viewHexX; X <= maxX; X++)
+        for (int x = _viewHexX; x <= maxX; x++)
         {
-            for (int Y = maxY, last = _viewHexY; Y >= last; Y--)
+            for (int y = maxY, last = _viewHexY; y >= last; y--)
             {
-                mapLevel.GetField(X, Y).CopyDynamicVisibleHexSprite(_dynamicVisibleHexSprite);
+                mapLevel.GetField(x, y).CopyDynamicVisibleHexSprite(_dynamicVisibleHexSprite);
             }
         }
 
-        for (int X = 0, last = _dynamicFixedVisibleHexSprite._count - 1; X <= last; X++)
+        for (int x = 0, last = _dynamicFixedVisibleHexSprite._count - 1; x <= last; x++)
         {
-            _dynamicFixedVisibleHexSprite[X].MakeVisible(_dynamicVisibleHexSprite);
+            _dynamicFixedVisibleHexSprite[x].MakeVisible(_dynamicVisibleHexSprite);
         }
 
         _dynamicVisibleHexSprite.Sort();
@@ -884,33 +882,33 @@ public partial class GameMap : ENode
     public void TerrainChangedRadius(sbyte X, sbyte Y, sbyte L, int radius)
     {
         MapLevel mapLevel;
-        Rect R = default;
+        Rect r = default;
         mapLevel = _mapContainer.GetMapLevel(L);
-        R.Left = X - radius;
-        if (R.Left < 0)
+        r.Left = X - radius;
+        if (r.Left < 0)
         {
-            R.Left = 0;
+            r.Left = 0;
         }
 
-        R.Right = X + radius + 1;
-        if (R.Right > mapLevel.Width)
+        r.Right = X + radius + 1;
+        if (r.Right > mapLevel.Width)
         {
-            R.Right = mapLevel.Width;
+            r.Right = mapLevel.Width;
         }
 
-        R.Top = Y - radius;
-        if (R.Top < 0)
+        r.Top = Y - radius;
+        if (r.Top < 0)
         {
-            R.Top = 0;
+            r.Top = 0;
         }
 
-        R.Bottom = Y + radius + 1;
-        if (R.Bottom > mapLevel.Height)
+        r.Bottom = Y + radius + 1;
+        if (r.Bottom > mapLevel.Height)
         {
-            R.Bottom = mapLevel.Height;
+            r.Bottom = mapLevel.Height;
         }
 
-        NotifyTerrainChanged(R, L);
+        NotifyTerrainChanged(r, L);
     }
 
     // HSMAP.PAS:178
@@ -945,30 +943,30 @@ public partial class GameMap : ENode
     // HSMAP.PAS:208
     public int GetMaxPixelX()
     {
-        int X = default;
-        int Y = default;
-        HexGeometry.HexToPixel(this._mapContainer.Width - 1, this._mapContainer.Height - 1, out X, out Y);
+        int x = default;
+        int y = default;
+        HexGeometry.HexToPixel(this._mapContainer.Width - 1, this._mapContainer.Height - 1, out x, out y);
 
-        X += 40;
-        return X;
+        x += 40;
+        return x;
     }
 
     // HSMAP.PAS:218
     public int GetMaxPixelY()
     {
-        int Y = default;
-        int X = default;
+        int y = default;
+        int x = default;
         if (this._mapContainer.Height > 1)
         {
-            HexGeometry.HexToPixel(1, this._mapContainer.Height - 1, out X, out Y);
+            HexGeometry.HexToPixel(1, this._mapContainer.Height - 1, out x, out y);
         }
         else
         {
-            HexGeometry.HexToPixel(0, this._mapContainer.Height - 1, out X, out Y);
+            HexGeometry.HexToPixel(0, this._mapContainer.Height - 1, out x, out y);
         }
 
-        Y += 32;
-        return Y;
+        y += 32;
+        return y;
     }
 
     // HSMAP.PAS:231
@@ -984,7 +982,7 @@ public partial class GameMap : ENode
         HexNumberWalkData walk = default;
         MapLevel mapLevel;
         MapFieldMessage message = default;
-        Rect R = default;
+        Rect r = default;
         LockTerrainChangedEvent();
         mapLevel = _mapContainer.GetMapLevel(L);
         HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
@@ -1005,31 +1003,31 @@ public partial class GameMap : ENode
         }
 
         UnlockTerrainChangedEvent();
-        R.Left = X - radius;
-        if (R.Left < 0)
+        r.Left = X - radius;
+        if (r.Left < 0)
         {
-            R.Left = 0;
+            r.Left = 0;
         }
 
-        R.Right = X + radius + 1;
-        if (R.Right > mapLevel.Width)
+        r.Right = X + radius + 1;
+        if (r.Right > mapLevel.Width)
         {
-            R.Left = mapLevel.Width;
+            r.Left = mapLevel.Width;
         }
 
-        R.Top = Y - radius;
-        if (R.Top < 0)
+        r.Top = Y - radius;
+        if (r.Top < 0)
         {
-            R.Top = 0;
+            r.Top = 0;
         }
 
-        R.Bottom = Y + radius + 1;
-        if (R.Bottom > mapLevel.Height)
+        r.Bottom = Y + radius + 1;
+        if (r.Bottom > mapLevel.Height)
         {
-            R.Bottom = mapLevel.Height;
+            r.Bottom = mapLevel.Height;
         }
 
-        NotifyTerrainChanged(R, (sbyte)L);
+        NotifyTerrainChanged(r, (sbyte)L);
     }
 
     // HSMAP.PAS:561
@@ -1127,9 +1125,9 @@ public partial class GameMap : ENode
     {
         try
         {
-            for (int I = _staticVisibleHexSprite._count - 1; I >= 0; I--)
+            for (int i = _staticVisibleHexSprite._count - 1; i >= 0; i--)
             {
-                _staticVisibleHexSprite[I].SetVisible(false);
+                _staticVisibleHexSprite[i].SetVisible(false);
             }
 
             _staticVisibleHexSprite.QuickClear();
@@ -1144,15 +1142,15 @@ public partial class GameMap : ENode
     // HSMAP.PAS:654
     public void ResetVisibleDynamicHexSprite()
     {
-        for (int I = _dynamicVisibleHexSprite._count - 1; I >= 0; I--)
+        for (int i = _dynamicVisibleHexSprite._count - 1; i >= 0; i--)
         {
             try
             {
-                _dynamicVisibleHexSprite[I].SetVisible(false);
+                _dynamicVisibleHexSprite[i].SetVisible(false);
             }
             catch
             {
-                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + _dynamicVisibleHexSprite.Items[I].Child.GetType().Name + ")");
+                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + _dynamicVisibleHexSprite.Items[i].Child.GetType().Name + ")");
             }
         }
 
@@ -1379,25 +1377,25 @@ public partial class GameMap : ENode
     // AoWHSMap.PAS:871
     public virtual void DropHeroItem(Hero hero, Item item)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        hero.GetLocation(out X, out Y, out L);
-        item.PlaceOnMap(this, X, Y, L);
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        hero.GetLocation(out x, out y, out l);
+        item.PlaceOnMap(this, x, y, l);
     }
 
     // AoWHSMap.PAS:878
     public virtual ItemList GetHeroItemsOnGround(Hero hero)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         ItemHexSprite items;
         ItemList result = null;
-        hero.GetLocation(out X, out Y, out L);
-        if (X != -1)
+        hero.GetLocation(out x, out y, out l);
+        if (x != -1)
         {
-            items = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            items = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(131697);
             if (items != null)
             {
                 result = items.Items;
@@ -1476,47 +1474,47 @@ public partial class GameMap : ENode
     // AoWHSMap.PAS:451
     public void MapChangedRadius(int X, int Y, int L, int radius)
     {
-        Rect R = default;
+        Rect r = default;
         MapLevel level;
         level = MapContainer.GetMapLevel(L);
-        R.Left = X - radius;
-        if (R.Left < 0)
+        r.Left = X - radius;
+        if (r.Left < 0)
         {
-            R.Left = 0;
+            r.Left = 0;
         }
 
-        R.Right = X + radius + 1;
-        if (R.Right > level.Width)
+        r.Right = X + radius + 1;
+        if (r.Right > level.Width)
         {
-            R.Right = level.Width;
+            r.Right = level.Width;
         }
 
-        R.Top = Y - radius;
-        if (R.Top < 0)
+        r.Top = Y - radius;
+        if (r.Top < 0)
         {
-            R.Top = 0;
+            r.Top = 0;
         }
 
-        R.Bottom = Y + radius + 1;
-        if (R.Bottom > level.Height)
+        r.Bottom = Y + radius + 1;
+        if (r.Bottom > level.Height)
         {
-            R.Bottom = level.Height;
+            r.Bottom = level.Height;
         }
 
-        NotifyTerrainChanged(R, (sbyte)L);
+        NotifyTerrainChanged(r, (sbyte)L);
     }
 
     // AoWHSMap.PAS:468
     public void InvalidateMap()
     {
-        Rect R = default;
-        R.Left = 0;
-        R.Right = MapContainer.Width;
-        R.Top = 0;
-        R.Bottom = MapContainer.Height;
-        for (int I = 0, last = MapContainer.LevelCount - 1; I <= last; I++)
+        Rect r = default;
+        r.Left = 0;
+        r.Right = MapContainer.Width;
+        r.Top = 0;
+        r.Bottom = MapContainer.Height;
+        for (int i = 0, last = MapContainer.LevelCount - 1; i <= last; i++)
         {
-            NotifyMapChanged(R, I);
+            NotifyMapChanged(r, i);
         }
     }
 
@@ -1557,47 +1555,47 @@ public partial class GameMap : ENode
     // AoWHSMap.PAS:506
     public void ScannerIconsChangedRadius(int hexX, int hexY, int hexLevel, int radius)
     {
-        Rect R = default;
+        Rect r = default;
         MapLevel level;
         level = MapContainer.GetMapLevel(hexLevel);
-        R.Left = hexX - radius;
-        if (R.Left < 0)
+        r.Left = hexX - radius;
+        if (r.Left < 0)
         {
-            R.Left = 0;
+            r.Left = 0;
         }
 
-        R.Right = hexX + radius + 1;
-        if (R.Right > level.Width)
+        r.Right = hexX + radius + 1;
+        if (r.Right > level.Width)
         {
-            R.Right = level.Width;
+            r.Right = level.Width;
         }
 
-        R.Top = hexY - radius;
-        if (R.Top < 0)
+        r.Top = hexY - radius;
+        if (r.Top < 0)
         {
-            R.Top = 0;
+            r.Top = 0;
         }
 
-        R.Bottom = hexY + radius + 1;
-        if (R.Bottom > level.Height)
+        r.Bottom = hexY + radius + 1;
+        if (r.Bottom > level.Height)
         {
-            R.Bottom = level.Height;
+            r.Bottom = level.Height;
         }
 
-        NotifyScannerIconsChanged(R, hexLevel);
+        NotifyScannerIconsChanged(r, hexLevel);
     }
 
     // AoWHSMap.PAS:522
     public void InvalidateScannerIcons()
     {
-        Rect R = default;
-        R.Left = 0;
-        R.Right = MapContainer.Width;
-        R.Top = 0;
-        R.Bottom = MapContainer.Height;
-        for (int I = 0, last = MapContainer.LevelCount - 1; I <= last; I++)
+        Rect r = default;
+        r.Left = 0;
+        r.Right = MapContainer.Width;
+        r.Top = 0;
+        r.Bottom = MapContainer.Height;
+        for (int i = 0, last = MapContainer.LevelCount - 1; i <= last; i++)
         {
-            NotifyScannerIconsChanged(R, I);
+            NotifyScannerIconsChanged(r, i);
         }
     }
 

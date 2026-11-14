@@ -15,7 +15,7 @@ public class PathStepList : DefaultItemList<PathStep>
     }
 
     // HSEngine.pas:1614
-    public int AddMapCoordinate(sbyte X, sbyte Y, sbyte L) => Add(new PathStep(Location: new MapCoordinate(X, Y, L), MoveCost: 0));
+    public int AddMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => Add(new PathStep(Location: new MapCoordinate(x, y, mapLevel), MoveCost: 0));
 
     // HSEngine.pas:1709
     public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
@@ -64,39 +64,39 @@ public class PathStepList : DefaultItemList<PathStep>
     // HSEngine.pas:1850
     public void SaveToStream(Stream stream)
     {
-        int I;
+        int i;
         int run = default;
         int count = Count;
         int DefaultRun()
         {
-            int J;
+            int j;
             int result = 0;
-            J = I;
-            while (J < Count && List[J] == Default)
+            j = i;
+            while (j < Count && List[j] == Default)
             {
                 result += 1;
-                J += 1;
+                j += 1;
             }
 
             return result;
         }
 
-        I = 0;
+        i = 0;
         WriteStep(stream, Default);
         stream.Write(Bytes.Of(ref count, 4));
-        while (Count != I)
+        while (Count != i)
         {
             run = DefaultRun();
             if (run > 0)
             {
                 WriteStep(stream, Default);
                 stream.Write(Bytes.Of(ref run, 4));
-                I += run;
+                i += run;
             }
             else
             {
-                WriteStep(stream, List[I]);
-                I += 1;
+                WriteStep(stream, List[i]);
+                i += 1;
             }
         }
     }

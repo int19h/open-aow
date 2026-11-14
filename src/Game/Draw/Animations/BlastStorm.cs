@@ -26,17 +26,17 @@ public partial class BlastStorm : Storm
     // Storms.pas:338
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int frame;
         frame = FrameCounter % _stormImages.Count;
         var hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
         var stormImageWidth = _stormImages[frame];
-        X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
+        x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
         var stormImageHeight = _stormImages[frame];
-        Y = Y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
-        _stormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
+        y = y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
+        _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
     }
 
     // Storms.pas:358
@@ -50,7 +50,7 @@ public partial class BlastStorm : Storm
     {
         base.UpdateTargetSelection(selection);
         selection.HexNumbers.Clear();
-        for (int I = 0, last = HexGeometry.RadiusToHexNumber(5) - 1; I <= last; I++)
+        for (int i = 0, last = HexGeometry.RadiusToHexNumber(5) - 1; i <= last; i++)
         {
             selection.HexNumbers.Add(0);
         }
@@ -59,7 +59,7 @@ public partial class BlastStorm : Storm
     // Storms.pas:276
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
-        Rect R = default;
+        Rect r = default;
         base.InitializeStorm(player, X, Y, L);
         var stormFileName = StormFileName();
         _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
@@ -68,11 +68,11 @@ public partial class BlastStorm : Storm
             _stormImages.LoadDiscardableImageData();
         }
 
-        R.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
-        R.Right = (int)(((uint)_stormImages[0].Width) >> 1);
-        R.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
-        R.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
-        SetDimensions(R);
+        r.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
+        r.Right = (int)(((uint)_stormImages[0].Width) >> 1);
+        r.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
+        r.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
+        SetDimensions(r);
         StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 4);
         if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 4))
         {
@@ -127,10 +127,7 @@ public partial class BlastStorm : Storm
 
         if (_stormImages.Count == FrameCounter)
         {
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
-            AbilityRules.TriggerStormDamage(StormType(), hexX, hexY, hexLevel, 0, 4, StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);
             result = false;
         }
         else

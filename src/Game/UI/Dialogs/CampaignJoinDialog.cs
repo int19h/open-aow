@@ -139,9 +139,9 @@ public partial class CampaignJoinDialog : UIModule
     // AoWCampaignJoin.pas:77
     public void DefaultFacePnlDraw(LockedSurface lockedSurface)
     {
-        Rect R;
-        R = new Rect(DefaultFacePanel.WinLeft + 1, DefaultFacePanel.WinTop + 1, DefaultFacePanel.WinLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.WinTop + DefaultFacePanel.WinHeight - 2);
-        Leader.ShowFace(R, lockedSurface);
+        Rect r;
+        r = new Rect(DefaultFacePanel.WinLeft + 1, DefaultFacePanel.WinTop + 1, DefaultFacePanel.WinLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.WinTop + DefaultFacePanel.WinHeight - 2);
+        Leader.ShowFace(r, lockedSurface);
     }
 
     // AoWCampaignJoin.pas:88
@@ -183,19 +183,19 @@ public partial class CampaignJoinDialog : UIModule
     // AoWCampaignJoin.pas:114
     public void ScrollTextDBDraw(LockedSurface lockedSurface)
     {
-        int X;
-        int Y;
+        int x;
+        int y;
         lockedSurface.ClipRectangle.Left = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft;
         lockedSurface.ClipRectangle.Right = lockedSurface.ClipRectangle.Left + ScrollTextView.WinWidth;
         lockedSurface.ClipRectangle.Top = CharacterGenerationPanel.WinTop + ScrollTextView.WinTop;
         lockedSurface.ClipRectangle.Bottom = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight;
-        X = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + ScrollTextView.WinWidth / 2;
-        Y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
-        for (int I = 0, last = ScrollText.Count - 1; I <= last; I++)
+        x = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + ScrollTextView.WinWidth / 2;
+        y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
+        for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)
         {
-            var scrollText = ScrollText[I];
-            UI.Fonts.Age15WhiteOnGrey.SetTextCentered(X, Y, scrollText, lockedSurface);
-            Y += 20;
+            var scrollText = ScrollText[i];
+            UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, scrollText, lockedSurface);
+            y += 20;
         }
     }
 

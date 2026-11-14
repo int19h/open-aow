@@ -28,7 +28,7 @@ public partial class UnitBanner : UIModule
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()
     {
-        CombatAbilityRef A;
+        CombatAbilityRef a;
         if (UI.General.SelectedUnit != null)
         {
             var name = UI.General.SelectedUnit.GetName();
@@ -53,10 +53,10 @@ public partial class UnitBanner : UIModule
             MovesIcon.CurrentImage = moveTypesToInt32;
             AbilityList.Items.Clear();
             UI.General.BuildAbilities();
-            for (int I = 0, last = UI.General.Abilities.Count - 1; I <= last; I++)
+            for (int i = 0, last = UI.General.Abilities.Count - 1; i <= last; i++)
             {
-                A = UI.General.Abilities[I];
-                var name2 = GamePack.Current.AbilityControl.GetAbility(A.Ability).GetName(UI.General.SelectedUnit);
+                a = UI.General.Abilities[i];
+                var name2 = GamePack.Current.AbilityControl.GetAbility(a.Ability).GetName(UI.General.SelectedUnit);
                 AbilityList.Items.Add(name2);
             }
 

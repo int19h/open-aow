@@ -58,11 +58,11 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:2910
     public override void SetWidth(int value)
     {
-        int W;
-        W = _xshift + _spriteX + _spriteWidth;
-        if (value < W)
+        int w;
+        w = _xshift + _spriteX + _spriteWidth;
+        if (value < w)
         {
-            value = W;
+            value = w;
         }
 
         base.SetWidth(value);
@@ -71,11 +71,11 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:2919
     public override void SetHeight(int value)
     {
-        int W;
-        W = _yshift + _spriteY + _spriteHeight;
-        if (value < W)
+        int w;
+        w = _yshift + _spriteY + _spriteHeight;
+        if (value < w)
         {
-            value = W;
+            value = w;
         }
 
         base.SetHeight(value);
@@ -277,7 +277,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         LockedSurface lSD = default;
         Rect gr = default;
         Rect mr = default;
-        int C;
+        int c;
         void AddWord(ushort W)
         {
             if (_dataSize <= position)
@@ -338,9 +338,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                     var height = surface.GetHeight();
                     gr.Bottom = height;
                     surface.Lock(ref lSD);
-                    var surfaceWidth = surface.GetWidth();
-                    var surfaceHeight = surface.GetHeight();
-                    if (LockedSurface.RemapSurfacePart(lockedSurface, R.Left, R.Top, surfaceWidth, surfaceHeight, lSD, 0, 0) != 0)
+                    if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
@@ -371,17 +369,17 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                 _spriteY = mr.Top - gr.Top;
                 _spriteWidth = mr.Right - mr.Left;
                 _spriteHeight = mr.Bottom - mr.Top;
-                for (int Y = mr.Top, last = mr.Bottom - 1; Y <= last; Y++)
+                for (int y = mr.Top, last = mr.Bottom - 1; y <= last; y++)
                 {
-                    int row = lSD.Pitch * Y;
+                    int row = lSD.Pitch * y;
                     StartRow();
-                    for (int X = mr.Left, lastX = mr.Right - 1; X <= lastX; X++)
+                    for (int x = mr.Left, lastX = mr.Right - 1; x <= lastX; x++)
                     {
-                        C = lSD.View().UInt16(row + X + X);
-                        if (C != _colorKey)
+                        c = lSD.View().UInt16(row + x + x);
+                        if (c != _colorKey)
                         {
                             FlushSkip();
-                            AddWord((ushort)C);
+                            AddWord((ushort)c);
                         }
                         else
                         {

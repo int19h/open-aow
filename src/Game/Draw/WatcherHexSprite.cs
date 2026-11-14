@@ -84,8 +84,8 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1255
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int deltaX = default;
         int deltaY = default;
         int radius;
@@ -105,12 +105,12 @@ public partial class WatcherHexSprite : SingleHexSprite
         if (condition)
         {
             var hexY = HexY;
-            HexGeometry.HexToPixel(HexX, hexY, out X, out Y);
-            X = X - pixelXSurface + 16;
-            Y = Y - pixelYSurface + 16;
+            HexGeometry.HexToPixel(HexX, hexY, out x, out y);
+            x = x - pixelXSurface + 16;
+            y = y - pixelYSurface + 16;
             if (GamePack.Current.SpellControl.GetSpell(57).CastImages != null)
             {
-                GamePack.Current.SpellControl.GetSpell(57).CastImages.ShowLooped(1, X, Y, StrategicMap.Current.Frame, lockedSurface);
+                GamePack.Current.SpellControl.GetSpell(57).CastImages.ShowLooped(1, x, y, StrategicMap.Current.Frame, lockedSurface);
             }
 
             if (_animationFrame != -1)
@@ -122,21 +122,21 @@ public partial class WatcherHexSprite : SingleHexSprite
                 {
                     intensity = 100 - _animationFrame;
                     var hexY2 = HexY;
-                    HexGeometry.HexToPixel(HexX, hexY2, out X, out Y);
-                    X = X - pixelXSurface - 8;
-                    Y = Y - pixelYSurface;
-                    for (int I = _unexplored.Count - 1; I >= 0; I--)
+                    HexGeometry.HexToPixel(HexX, hexY2, out x, out y);
+                    x = x - pixelXSurface - 8;
+                    y = y - pixelYSurface;
+                    for (int i = _unexplored.Count - 1; i >= 0; i--)
                     {
-                        HexGeometry.HexNumberToPixel(_unexplored[I], ref pixelX, ref pixelY);
-                        pixelX += X;
-                        pixelY += Y;
+                        HexGeometry.HexNumberToPixel(_unexplored[i], ref pixelX, ref pixelY);
+                        pixelX += x;
+                        pixelY += y;
                         GamePack.Current.GeneralImages[5].ShowBlended(pixelX, pixelY, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
                     }
                 }
 
                 // { Original resets the shared random generator for deterministic particles. }
                 RandSeed = StrategicMap.Current.InitialRandomSeed;
-                for (int I = 0; I <= 300; I++)
+                for (int i = 0; i <= 300; i++)
                 {
                     radius = Random(VisibilityRange() << 5);
                     angle = Random(360);
@@ -144,7 +144,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                     if (_animationFrame - delay >= 0)
                     {
                         AbilityRules.PolarToCartesian(angle, radius, out deltaX, out deltaY);
-                        GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, X + deltaX, Y + deltaY, _animationFrame - delay, lockedSurface);
+                        GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, x + deltaX, y + deltaY, _animationFrame - delay, lockedSurface);
                     }
                 }
 
@@ -309,15 +309,15 @@ public partial class WatcherHexSprite : SingleHexSprite
         int ownerPlayer;
         if (Activated())
         {
-            for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+            for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
                 ownerPlayer = Enchantment.PlayerIndex;
-                if (ownerPlayer == I || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I) == 2)
+                if (ownerPlayer == i || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)i) == 2)
                 {
                     var visibilityRange = VisibilityRange();
                     var hexY = HexY;
                     var hexX = HexX;
-                    StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)I, visibilityRange);
+                    StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)i, visibilityRange);
                 }
             }
         }

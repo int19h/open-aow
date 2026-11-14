@@ -213,19 +213,19 @@ public static class AbilityRules
 
     internal static int RoadConstructionCost(sbyte player, MovePath path, int movePoints)
     {
-        int I;
+        int i;
         int points;
         MapField field;
         int result = 0;
-        I = path.Count;
+        i = path.Count;
         points = 0;
-        while (I != 0 && points <= movePoints)
+        while (i != 0 && points <= movePoints)
         {
-            I -= 1;
-            points += path[I].MoveCost;
+            i -= 1;
+            points += path[i].MoveCost;
             if (points <= movePoints)
             {
-                var item = path[I];
+                var item = path[i];
                 field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Location);
                 if (CanConstructRoad(player, field))
                 {
@@ -252,11 +252,11 @@ public static class AbilityRules
         return result;
     }
 
-    internal static void ShowDamageIcon(GameEngine engine, int X, int Y, in LockedSurface surface, int damage, DamageType damageType)
+    internal static void ShowDamageIcon(GameEngine engine, int x, int y, in LockedSurface surface, int damage, DamageType damageType)
     {
         if (damageType != DamageType.None)
         {
-            GamePack.Current.CombatImages[(int)damageType + 10].Show(X + 15, Y + 10, surface);
+            GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, surface);
             if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType))
             {
                 engine.CombatFont.Color = 0;
@@ -266,7 +266,7 @@ public static class AbilityRules
                 engine.CombatFont.Color = 16777215;
             }
 
-            engine.CombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(damage), surface);
+            engine.CombatFont.SetTextCentered(x + 34, y + 36, IntToStr(damage), surface);
         }
     }
 
@@ -382,7 +382,7 @@ public static class AbilityRules
         int tries;
         int difference;
         int bestIndex;
-        int I;
+        int i;
         int delta;
         Unit unit;
         int result = 0;
@@ -396,7 +396,7 @@ public static class AbilityRules
                 if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     bestIndex = index;
-                    I = 20;
+                    i = 20;
                     difference = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                     do
                     {
@@ -411,9 +411,9 @@ public static class AbilityRules
                             }
                         }
 
-                        I -= 1;
+                        i -= 1;
                     }
-                    while (!(I == 0));
+                    while (!(i == 0));
                     index = bestIndex;
                 }
 
@@ -582,9 +582,9 @@ public static class AbilityRules
     internal static string Encode(string text, int mode)
     {
         string result = "";
-        for (int I = 1; I <= text.Length; I++)
+        for (int i = 1; i <= text.Length; i++)
         {
-            result = result + Cp1252.Text((byte)(Cp1252.Byte(text[I - 1]) ^ ((text.Length + (I + 5)) & 255)));
+            result = result + Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + (i + 5)) & 255)));
         }
 
         return result;
@@ -610,8 +610,8 @@ public static class AbilityRules
     {
         int result;
         UnitUserList units;
-        int I;
-        int J;
+        int i;
+        int j;
         int distance;
         HexNumberWalkData walk = default;
         BattleFieldInfo info = default;
@@ -622,11 +622,11 @@ public static class AbilityRules
         {
             distance = Round((double)range * 0.5);
             result = 0;
-            I = movePath.Count - 1;
+            i = movePath.Count - 1;
             units = null;
-            if (movePath.Count - targetRange < I)
+            if (movePath.Count - targetRange < i)
             {
-                I = movePath.Count - targetRange;
+                i = movePath.Count - targetRange;
             }
 
             BattleFieldInfo.SetupBattleFieldInfo(out info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
@@ -661,50 +661,50 @@ public static class AbilityRules
                 info.Units = units;
             }
 
-            while (I >= 0)
+            while (i >= 0)
             {
                 info.Strength = 0;
-                var item = movePath[I];
-                var movePathItem = movePath[I];
-                var item2 = movePath[I];
+                var item = movePath[i];
+                var movePathItem = movePath[i];
+                var item2 = movePath[i];
                 StrategicMap.Current.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, range, ref info);
                 if (info.Strength > result)
                 {
                     result = info.Strength;
                 }
 
-                J = I;
+                j = i;
                 while (true)
                 {
-                    bool condition = J >= 0;
+                    bool condition = j >= 0;
                     if (condition)
                     {
-                        var item3 = movePath[J];
-                        var item4 = movePath[I];
+                        var item3 = movePath[j];
+                        var item4 = movePath[i];
                         condition = item3.Location.MapLevel == item4.Location.MapLevel;
                     }
 
-                    if (!(condition && J > I - distance))
+                    if (!(condition && j > i - distance))
                         break;
-                    J -= 1;
+                    j -= 1;
                 }
 
-                bool test = J == 0;
+                bool test = j == 0;
                 if (!test)
                 {
-                    var item3 = movePath[I];
-                    var item4 = movePath[J];
+                    var item3 = movePath[i];
+                    var item4 = movePath[j];
                     test = item3.Location.MapLevel != item4.Location.MapLevel;
                 }
 
                 if (test)
                 {
-                    if (J - 1 != I)
+                    if (j - 1 != i)
                     {
                         info.Strength = 0;
-                        var item3 = movePath[J + 1];
-                        var item4 = movePath[J + 1];
-                        var item5 = movePath[J + 1];
+                        var item3 = movePath[j + 1];
+                        var item4 = movePath[j + 1];
+                        var item5 = movePath[j + 1];
                         StrategicMap.Current.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, range, ref info);
                         if (info.Strength > result)
                         {
@@ -713,7 +713,7 @@ public static class AbilityRules
                     }
                 }
 
-                I = J;
+                i = j;
             }
 
             if (units != null)
@@ -831,16 +831,16 @@ public static class AbilityRules
 
     internal static Set<DamageType> AllDamageTypes { get; } = Set<DamageType>.FromMask(1023UL);
 
-    internal static void TriggerStormDamage(StormType storm, sbyte X, sbyte Y, sbyte L, sbyte innerRadius, sbyte outerRadius, sbyte player)
+    internal static void TriggerStormDamage(StormType storm, sbyte x, sbyte y, sbyte mapLevel, sbyte innerRadius, sbyte outerRadius, sbyte player)
     {
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
         MapLevel level;
-        level = StrategicMap.Current.MapContainer.MapLevels[L];
+        level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
         message.MessageId = 4432;
         message.Param[0] = (int)storm;
         message.Param[2] = player;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
         while (walk.Radius <= outerRadius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

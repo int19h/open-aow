@@ -114,7 +114,7 @@ public partial class Gauge : Control
     public override void Draw(LockedSurface lockedSurface)
     {
         Rect oldClip = default;
-        int P = default;
+        int p = default;
         try
         {
             if (Valid && Visible)
@@ -127,14 +127,14 @@ public partial class Gauge : Control
                     case GaugeType.Normal:
                         var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                        P = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (_max - _min);
+                        p = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (_max - _min);
                         var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        if (Window.WinLeft + P + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
+                        if (Window.WinLeft + p + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
                             var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            lockedSurface.ClipRectangle.Left = Window.WinLeft + P + WinLeft + imageLibraryFrame3.Width;
+                            lockedSurface.ClipRectangle.Left = Window.WinLeft + p + WinLeft + imageLibraryFrame3.Width;
                         }
 
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
@@ -150,20 +150,20 @@ public partial class Gauge : Control
                         var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         var filFrameItem = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrameWidth2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle3 = new SizedRectangle(Window.WinLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.WinTop + WinTop + filFrameItem.Height, P, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
+                        var rectangle3 = new SizedRectangle(Window.WinLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.WinTop + WinTop + filFrameItem.Height, p, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                         break;
                     case GaugeType.Borderless:
-                        P = _position * WinWidth / (_max - _min);
-                        if (Window.WinLeft + P + WinLeft > lockedSurface.ClipRectangle.Left)
+                        p = _position * WinWidth / (_max - _min);
+                        if (Window.WinLeft + p + WinLeft > lockedSurface.ClipRectangle.Left)
                         {
-                            lockedSurface.ClipRectangle.Left = Window.WinLeft + P + WinLeft;
+                            lockedSurface.ClipRectangle.Left = Window.WinLeft + p + WinLeft;
                         }
 
-                        var rectangle4 = new SizedRectangle(Window.WinLeft + P + WinLeft, Window.WinTop + WinTop, WinWidth - P, WinHeight);
+                        var rectangle4 = new SizedRectangle(Window.WinLeft + p + WinLeft, Window.WinTop + WinTop, WinWidth - p, WinHeight);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle4, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
-                        var rectangle5 = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, P, WinHeight);
+                        var rectangle5 = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, p, WinHeight);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle5, ref lockedSurface);
                         break;
                 }

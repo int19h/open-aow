@@ -19,9 +19,9 @@ public partial class Point3DList : IDisposable
     // aowFX.pas:98
     public virtual void Dispose()
     {
-        for (int I = 0, last = _list.Count - 1; I <= last; I++)
+        for (int i = 0, last = _list.Count - 1; i <= last; i++)
         {
-            _ = GetXYZ(I);
+            _ = GetXYZ(i);
         }
 
         _list?.Clear();
@@ -30,9 +30,9 @@ public partial class Point3DList : IDisposable
     // aowFX.pas:108
     public void Clear()
     {
-        for (int I = 0, last = _list.Count - 1; I <= last; I++)
+        for (int i = 0, last = _list.Count - 1; i <= last; i++)
         {
-            _ = GetXYZ(I);
+            _ = GetXYZ(i);
         }
 
         _list.Clear();
@@ -82,9 +82,9 @@ public partial class Point3DList : IDisposable
         Point3D xYZ;
         deltaX = 0;
         deltaY = 0;
-        for (int I = 1, last = list.Count - 2; I <= last; I++)
+        for (int i = 1, last = list.Count - 2; i <= last; i++)
         {
-            xYZ = list[I];
+            xYZ = list[i];
             rx = Random(3);
             ry = Random(3);
             if (rx - deltaX > 1)

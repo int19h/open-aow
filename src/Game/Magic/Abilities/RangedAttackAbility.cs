@@ -83,17 +83,16 @@ public partial class RangedAttackAbility : AdjustableAbility
         CombatObject target;
         AbilityDamageValues values = default;
         FastBattleCommand command;
-        for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.TargetSide.GetObjects(I);
+            target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && FastBattleValidRoundDistance(commands.Source, target))
             {
-                var wallSituation = commands.Source.Combat.GetWallSituation(commands.Source, target);
-                FastBattleGetDamageValues(commands.Source, target, wallSituation, ref values);
+                FastBattleGetDamageValues(wallSituation: commands.Source.Combat.GetWallSituation(commands.Source, target), attacker: commands.Source, defender: target, damageValues: ref values);
                 if (values.SourceDamage != 0)
                 {
                     command = new FastBattleCommand(AbilityId);
-                    command.Target = commands.TargetSide.GetObjects(I);
+                    command.Target = commands.TargetSide.GetObjects(i);
                     command.MoveCost = 1;
                     command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
                     commands.Add(command);
@@ -120,7 +119,7 @@ public partial class RangedAttackAbility : AdjustableAbility
 
         if (target.GetEnabled())
         {
-            for (int I = GetAttackRepeatRangedAttack(source.GetAbilityOwner()) - 1; I >= 0; I--)
+            for (int i = GetAttackRepeatRangedAttack(source.GetAbilityOwner()) - 1; i >= 0; i--)
             {
                 action = CreateRangedAttackCombatAction(source, target, penalty);
                 source.Combat.ExecuteCombatAction(action);
@@ -313,9 +312,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     {
         RangedAttackCombatAction action;
         action = new RangedAttackCombatAction(null) { Holder = CreationHolder() };
-        var damageRangedAttack = GetDamageRangedAttack(source.GetAbilityOwner());
-        var damageTypesRangedAttack = GetDamageTypesRangedAttack(source.GetAbilityOwner());
-        action.Generate(source, target, (sbyte)(GetAttackRangedAttack(source.GetAbilityOwner()) - attackPenalty), damageRangedAttack, damageTypesRangedAttack);
+        action.Generate(damage: GetDamageRangedAttack(source.GetAbilityOwner()), damageTypes: GetDamageTypesRangedAttack(source.GetAbilityOwner()), source: source, target: target, attack: (sbyte)(GetAttackRangedAttack(source.GetAbilityOwner()) - attackPenalty));
         action.AbilityId = AbilityId;
         return action;
     }

@@ -79,23 +79,23 @@ public partial class Menu : GenericWindow
     //   submenus }
     public override void Dispose()
     {
-        int I;
-        Menu M;
-        I = 0;
+        int i;
+        Menu m;
+        i = 0;
         if (_ownerMenu != null)
         {
             try
             {
-                while (I < _ownerMenu.SubMenus.Count)
+                while (i < _ownerMenu.SubMenus.Count)
                 {
-                    M = _ownerMenu.SubMenus[I];
-                    if (M == this)
+                    m = _ownerMenu.SubMenus[i];
+                    if (m == this)
                     {
-                        _ownerMenu.SubMenus.RemoveAt(I);
-                        I = _ownerMenu.SubMenus.Count;
+                        _ownerMenu.SubMenus.RemoveAt(i);
+                        i = _ownerMenu.SubMenus.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
             }
             catch
@@ -103,21 +103,21 @@ public partial class Menu : GenericWindow
             }
         }
 
-        I = 0;
+        i = 0;
         if (_ownerMenuBar != null)
         {
             try
             {
-                while (I < _ownerMenuBar.Menus.Count)
+                while (i < _ownerMenuBar.Menus.Count)
                 {
-                    M = _ownerMenuBar.Menus[I];
-                    if (M == this)
+                    m = _ownerMenuBar.Menus[i];
+                    if (m == this)
                     {
-                        _ownerMenuBar.Menus.RemoveAt(I);
-                        I = _ownerMenuBar.Menus.Count;
+                        _ownerMenuBar.Menus.RemoveAt(i);
+                        i = _ownerMenuBar.Menus.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
             }
             catch
@@ -126,11 +126,11 @@ public partial class Menu : GenericWindow
         }
 
         _items.Dispose();
-        I = 0;
+        i = 0;
         int last = SubMenus.Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            (SubMenus[I]).DetachMenu();
+            (SubMenus[i]).DetachMenu();
         }
 
         SubMenus.Clear();
@@ -170,7 +170,7 @@ public partial class Menu : GenericWindow
     public override void SetSize()
     {
         MenuBar mb;
-        BaseWindow W;
+        BaseWindow w;
         if (_itemHeight == 0)
         {
             _itemHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Height;
@@ -207,11 +207,11 @@ public partial class Menu : GenericWindow
         if (_windowManager != null && _ownerMenuBar != null)
         {
             mb = _ownerMenuBar;
-            W = mb.Window;
-            if (W != null)
+            w = mb.Window;
+            if (w != null)
             {
                 var count = mb.Items.Count;
-                SetWinLeftWithoutInvalidate(W.WinLeft + mb.WinLeft + mb.WinWidth / count * _ownerMenuBar.Selected);
+                SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + mb.WinWidth / count * _ownerMenuBar.Selected);
                 SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
                 if (_windowManager.WinWidth < WinLeft + WinWidth)
                 {
@@ -275,7 +275,7 @@ public partial class Menu : GenericWindow
     //   previous item are hidden and those of the highlighted item are shown beside it }
     public override void Update()
     {
-        Menu M;
+        Menu m;
         if (Valid && Visible)
         {
             base.Update();
@@ -289,26 +289,26 @@ public partial class Menu : GenericWindow
                 {
                     if (Highlighted != _subMenuItem)
                     {
-                        for (int I = 0, last = SubMenus.Count - 1; I <= last; I++)
+                        for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
                         {
-                            M = SubMenus[I];
-                            if (M._ownerItem == _subMenuItem)
+                            m = SubMenus[i];
+                            if (m._ownerItem == _subMenuItem)
                             {
-                                M.SetVisible(false);
+                                m.SetVisible(false);
                             }
                         }
                     }
 
-                    for (int I = 0, last = SubMenus.Count - 1; I <= last; I++)
+                    for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
                     {
-                        M = SubMenus[I];
-                        if (M._ownerItem == Highlighted)
+                        m = SubMenus[i];
+                        if (m._ownerItem == Highlighted)
                         {
                             var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                            M.SetWinLeft(WinLeft + WinWidth - imageLibraryFrame.Width);
+                            m.SetWinLeft(WinLeft + WinWidth - imageLibraryFrame.Width);
                             var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                            M.SetWinTop(WinTop + imageLibraryFrameHeight.Height + _itemHeight * Highlighted);
-                            M.SetVisible(true);
+                            m.SetWinTop(WinTop + imageLibraryFrameHeight.Height + _itemHeight * Highlighted);
+                            m.SetVisible(true);
                             _subMenuItem = Highlighted;
                         }
                     }
@@ -353,7 +353,7 @@ public partial class Menu : GenericWindow
     public override void SetVisible(bool value)
     {
         MenuBar bar = default;
-        BaseWindow W = default;
+        BaseWindow w = default;
         MenuBar mb = default;
         if (value != Visible)
         {
@@ -370,11 +370,11 @@ public partial class Menu : GenericWindow
                     if (_windowManager != null && _ownerMenuBar != null)
                     {
                         mb = _ownerMenuBar;
-                        W = mb.Window;
-                        if (W != null)
+                        w = mb.Window;
+                        if (w != null)
                         {
                             var count = mb.Items.Count;
-                            SetWinLeftWithoutInvalidate(W.WinLeft + mb.WinLeft + mb.WinWidth / count * _ownerMenuBar.Selected);
+                            SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + mb.WinWidth / count * _ownerMenuBar.Selected);
                             SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
                             if (_windowManager.WinWidth < WinLeft + WinWidth)
                             {
@@ -453,7 +453,7 @@ public partial class Menu : GenericWindow
                 oldClip = lockedSurface.ClipRectangle;
                 if (_items.Count > 0)
                 {
-                    for (int I = 0, last = _items.Count - 1; I <= last; I++)
+                    for (int i = 0, last = _items.Count - 1; i <= last; i++)
                     {
                         var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
@@ -462,16 +462,16 @@ public partial class Menu : GenericWindow
                             lockedSurface.ClipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
                         }
 
-                        if (I < _items.Count && _items.Count > 0)
+                        if (i < _items.Count && _items.Count > 0)
                         {
-                            if (I == Highlighted)
+                            if (i == Highlighted)
                             {
                                 _font.Color = SelectedColor;
                                 var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                                 var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                                 var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame];
                                 var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                                var rectangle3 = new SizedRectangle(WinLeft + imageLibraryFrame9.Width, WinTop + imageLibraryFrame8.Height + _itemHeight * I, WinWidth - imageLibraryFrame6.Width - imageLibraryFrame7.Width, _itemHeight);
+                                var rectangle3 = new SizedRectangle(WinLeft + imageLibraryFrame9.Width, WinTop + imageLibraryFrame8.Height + _itemHeight * i, WinWidth - imageLibraryFrame6.Width - imageLibraryFrame7.Width, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                             }
                             else
@@ -479,17 +479,17 @@ public partial class Menu : GenericWindow
                                 _font.Color = Color;
                             }
 
-                            var item = _items[I];
+                            var item = _items[i];
                             var filFrameItem = _imageLibraryFrame[_imageLibraryIndexFrame];
                             var imageLibraryFrameWidth2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrameWidth2.Width, WinTop + _borderHeight + filFrameItem.Height + _itemHeight * I, item, lockedSurface);
-                            DrawItem = I;
+                            _font.SetText(WinLeft + _borderWidth + imageLibraryFrameWidth2.Width, WinTop + _borderHeight + filFrameItem.Height + _itemHeight * i, item, lockedSurface);
+                            DrawItem = i;
                             var imageLibraryFrameHeight2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var imageLibraryFrameHeight3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                             var imageLibraryFrameHeight4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var imageLibraryFrameHeight5 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                             var imageLibraryFrameWidth3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + imageLibraryFrameHeight5.Height * I, WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + imageLibraryFrameHeight3.Height * (I + 1));
+                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + imageLibraryFrameHeight5.Height * i, WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + imageLibraryFrameHeight3.Height * (i + 1));
                             if (OnDrawItem != null)
                             {
                                 OnDrawItem(this);
@@ -512,25 +512,25 @@ public partial class Menu : GenericWindow
     //   shows its submenus; a click outside hides the menu unless a submenu took it }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         bool show;
         bool keep;
-        Menu M = default;
+        Menu m = default;
         Handled = false;
         Redraw = false;
         SelectedItem = -1;
         keep = true;
         if (Visible == true)
         {
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                if (!Handled && C.CaptureInput)
+                c = Children[i];
+                if (!Handled && c.CaptureInput)
                 {
-                    C.CheckMouseDown(button, shift, X, Y);
+                    c.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -546,21 +546,21 @@ public partial class Menu : GenericWindow
                     if (Highlighted > -1)
                     {
                         show = false;
-                        for (int I = 0, last = SubMenus.Count - 1; I <= last; I++)
+                        for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
                         {
-                            M = SubMenus[I];
-                            if (M.Handled && M.Visible)
+                            m = SubMenus[i];
+                            if (m.Handled && m.Visible)
                             {
                                 show = true;
                             }
 
-                            if (M._ownerItem == Highlighted && !M.Handled)
+                            if (m._ownerItem == Highlighted && !m.Handled)
                             {
                                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                                M.SetWinLeft(WinLeft + WinWidth - imageLibraryFrame.Width);
+                                m.SetWinLeft(WinLeft + WinWidth - imageLibraryFrame.Width);
                                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                                M.SetWinTop(WinTop + imageLibraryFrameHeight.Height + _itemHeight * Highlighted);
-                                M.SetVisible(true);
+                                m.SetWinTop(WinTop + imageLibraryFrameHeight.Height + _itemHeight * Highlighted);
+                                m.SetVisible(true);
                                 show = true;
                                 Redraw = true;
                                 _subMenuItem = Highlighted;
@@ -578,12 +578,12 @@ public partial class Menu : GenericWindow
             else
             {
                 show = false;
-                for (int I = 0, last = SubMenus.Count - 1; I <= last; I++)
+                for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
                 {
-                    M = SubMenus[I];
-                    if (M.Handled == true)
+                    m = SubMenus[i];
+                    if (m.Handled == true)
                     {
-                        if (M.Visible == true)
+                        if (m.Visible == true)
                         {
                             show = true;
                             Redraw = true;
@@ -616,19 +616,19 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:634
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
         if (Visible == true)
         {
-            for (int I = Children.Count - 1; I >= 0; I--)
+            for (int i = Children.Count - 1; i >= 0; i--)
             {
-                C = Children[I];
-                if ((!Handled || C.Redraw == true) && C.CaptureInput)
+                c = Children[i];
+                if ((!Handled || c.Redraw == true) && c.CaptureInput)
                 {
-                    C.CheckMouseUp(button, shift, X, Y);
+                    c.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
@@ -647,9 +647,9 @@ public partial class Menu : GenericWindow
     //   the old item are hidden (by the item index into the submenu list: original bug) }
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         int oldHighlighted;
-        int I;
+        int i;
         // { Keep the child on the stack and I in a register. }
         Handled = false;
         InResizeArea = true;
@@ -658,23 +658,23 @@ public partial class Menu : GenericWindow
             Redraw = true;
             oldHighlighted = Highlighted;
             _cursor = -2;
-            I = Children.Count - 1;
-            for (; I >= 0; I -= 1)
+            i = Children.Count - 1;
+            for (; i >= 0; i -= 1)
             {
-                C = Children[I];
-                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.CaptureInput)
+                c = Children[i];
+                if ((!Handled || c.Redraw == true || c.ToolTipCount > 0) && c.CaptureInput)
                 {
-                    C.CheckMouseMove(shift, X, Y);
+                    c.CheckMouseMove(shift, X, Y);
                 }
 
-                if (C.Handled == true)
+                if (c.Handled == true)
                 {
                     Handled = true;
                 }
             }
 
             Handled = true;
-            I = -1;
+            i = -1;
             var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
             bool condition = X > WinLeft + imageLibraryFrameWidth.Width - 1;
             if (condition)
@@ -700,24 +700,24 @@ public partial class Menu : GenericWindow
             if (passed)
             {
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                I = (Y - WinTop - imageLibraryFrame.Height) / _itemHeight;
+                i = (Y - WinTop - imageLibraryFrame.Height) / _itemHeight;
                 RaiseMouseMove(this, shift, X, Y);
             }
 
-            if (I > -2 && I < _items.Count)
+            if (i > -2 && i < _items.Count)
             {
-                Highlighted = I;
+                Highlighted = i;
             }
 
-            if (I == -1)
+            if (i == -1)
             {
                 if (_subMenuItem > -1)
                 {
-                    I = 0;
+                    i = 0;
                     int last = SubMenus.Count - 1;
-                    for (; I <= last; I += 1)
+                    for (; i <= last; i += 1)
                     {
-                        var component = SubMenus[I];
+                        var component = SubMenus[i];
                         if (component.Handled == true)
                         {
                             this.Highlighted = component._ownerItem;
@@ -743,13 +743,13 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:714
     public override void CheckKeyPress(ref byte key)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
-        for (int I = 0, last = Children.Count - 1; I <= last; I++)
+        for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            C = Children[I];
-            C.CheckKeyPress(ref key);
-            if (C.Handled == true)
+            c = Children[i];
+            c.CheckKeyPress(ref key);
+            if (c.Handled == true)
             {
                 Handled = true;
             }
@@ -761,13 +761,13 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:731
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        UIComponent C = default;
+        UIComponent c = default;
         Handled = false;
-        for (int I = 0, last = Children.Count - 1; I <= last; I++)
+        for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            C = Children[I];
-            C.CheckKeyDown(ref key, shift);
-            if (C.Handled == true)
+            c = Children[i];
+            c.CheckKeyDown(ref key, shift);
+            if (c.Handled == true)
             {
                 Handled = true;
             }
@@ -787,42 +787,42 @@ public partial class Menu : GenericWindow
     //   in priority order }
     public virtual void SetMenu(Menu value)
     {
-        int I;
+        int i;
         int newIndex;
-        Menu M;
+        Menu m;
         if (value != _ownerMenu)
         {
             if (_ownerMenu != null)
             {
-                I = 0;
-                while (I < _ownerMenu.SubMenus.Count)
+                i = 0;
+                while (i < _ownerMenu.SubMenus.Count)
                 {
-                    M = _ownerMenu.SubMenus[I];
-                    if (M == this)
+                    m = _ownerMenu.SubMenus[i];
+                    if (m == this)
                     {
-                        _ownerMenu.SubMenus.RemoveAt(I);
-                        I = _ownerMenu.SubMenus.Count;
+                        _ownerMenu.SubMenus.RemoveAt(i);
+                        i = _ownerMenu.SubMenus.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
             }
 
             _ownerMenu = value;
             if (_ownerMenu != this && _ownerMenu != null)
             {
-                I = 0;
+                i = 0;
                 newIndex = -1;
-                while (I < _ownerMenu.SubMenus.Count)
+                while (i < _ownerMenu.SubMenus.Count)
                 {
-                    M = _ownerMenu.SubMenus[I];
-                    if (M.Priority > Priority)
+                    m = _ownerMenu.SubMenus[i];
+                    if (m.Priority > Priority)
                     {
-                        newIndex = I;
-                        I = _ownerMenu.SubMenus.Count;
+                        newIndex = i;
+                        i = _ownerMenu.SubMenus.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
                 if (newIndex == -1)
@@ -841,42 +841,42 @@ public partial class Menu : GenericWindow
     // { SetMenuBar: the same for the menu list of the menu bar }
     public virtual void SetMenuBar(MenuBar value)
     {
-        int I;
+        int i;
         int newIndex;
-        Menu M;
+        Menu m;
         if (value != _ownerMenuBar)
         {
             if (_ownerMenuBar != null)
             {
-                I = 0;
-                while (I < _ownerMenuBar.Menus.Count)
+                i = 0;
+                while (i < _ownerMenuBar.Menus.Count)
                 {
-                    M = _ownerMenuBar.Menus[I];
-                    if (M == this)
+                    m = _ownerMenuBar.Menus[i];
+                    if (m == this)
                     {
-                        _ownerMenuBar.Menus.RemoveAt(I);
-                        I = _ownerMenuBar.Menus.Count;
+                        _ownerMenuBar.Menus.RemoveAt(i);
+                        i = _ownerMenuBar.Menus.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
             }
 
             _ownerMenuBar = value;
             if (_ownerMenuBar != null)
             {
-                I = 0;
+                i = 0;
                 newIndex = -1;
-                while (I < _ownerMenuBar.Menus.Count)
+                while (i < _ownerMenuBar.Menus.Count)
                 {
-                    M = _ownerMenuBar.Menus[I];
-                    if (M.Priority > Priority)
+                    m = _ownerMenuBar.Menus[i];
+                    if (m.Priority > Priority)
                     {
-                        newIndex = I;
-                        I = _ownerMenuBar.Menus.Count;
+                        newIndex = i;
+                        i = _ownerMenuBar.Menus.Count;
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
                 if (newIndex == -1)
@@ -921,9 +921,9 @@ public partial class Menu : GenericWindow
     public void SetFStrings(StringList value)
     {
         _items.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             _items.Add(valueValue);
         }
     }
@@ -932,9 +932,9 @@ public partial class Menu : GenericWindow
     public void SetITStrings(StringList value)
     {
         _itemTypes.Clear();
-        for (int I = 0, last = value.Count - 1; I <= last; I++)
+        for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
-            var valueValue = value[I];
+            var valueValue = value[i];
             _itemTypes.Add(valueValue);
         }
     }

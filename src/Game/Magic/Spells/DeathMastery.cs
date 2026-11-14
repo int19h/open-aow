@@ -33,13 +33,13 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1618
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
-        source.GetLocation(out X, out Y, out L);
-        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        source.GetLocation(out x, out y, out l);
+        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         var animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 28;
         animation.OnShow += ShowAnimation;
@@ -59,10 +59,10 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int count;
-        int X;
-        int Y;
+        int x;
+        int y;
         int speed;
-        int D;
+        int d;
         int image;
         RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
         switch (GetEngine().AnimationDetail)
@@ -78,17 +78,17 @@ public partial class DeathMastery : GlobalEnchantmentSpell
                 break;
         }
 
-        for (int I = 0; I <= count - 1; I++)
+        for (int i = 0; i <= count - 1; i++)
         {
-            X = Random(animation.Tag & 65535);
-            Y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+            x = Random(animation.Tag & 65535);
+            y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
             speed = Random(15) + 5;
             image = Random(3);
             // { Preserve the original image/displacement register lifetimes. }
-            D = (animation.FrameCounter - 45) * speed;
-            X -= D * 2;
-            Y += D;
-            CastImages.Show(image, lockedSurface.ClipRectangle.Left + X, lockedSurface.ClipRectangle.Top + Y, 0, lockedSurface);
+            d = (animation.FrameCounter - 45) * speed;
+            x -= d * 2;
+            y += d;
+            CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
         }
 
         if (animation.FrameCounter == 90)

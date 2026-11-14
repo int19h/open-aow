@@ -29,14 +29,14 @@ public partial class AbstractRoad : MapObject
     // MAPOBJ.PAS:848
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        MapObjectResource R;
+        MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             var classId = _resource.EngineClass.ClassId;
-            R = ((AbstractRoadResource)_resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
-            if (R != null)
+            r = ((AbstractRoadResource)_resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
+            if (r != null)
             {
-                SetResource(R);
+                SetResource(r);
                 UpdateTransitions();
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();

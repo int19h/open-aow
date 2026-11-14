@@ -35,30 +35,30 @@ public partial class ArmyInfoDialog : UIModule
         UnitShowInfo info;
         LibraryImage image;
         Units.Alignment alignment;
-        int X;
-        int Y;
+        int x;
+        int y;
         if (index < _event.ArmyView.Units.Count)
         {
             saveRectangle = lockedSurface.ClipRectangle;
             lockedSurface.ClipRectangle = R;
-            X = (R.Right + R.Left) / 2;
-            Y = (R.Top + R.Bottom) / 2;
+            x = (R.Right + R.Left) / 2;
+            y = (R.Top + R.Bottom) / 2;
             alignment = _event.ArmyView.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
+                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, lockedSurface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _event.ArmyView.Units.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
+            _event.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface, info);
             if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
+                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
@@ -126,33 +126,33 @@ public partial class ArmyInfoDialog : UIModule
     // AoWArmyInfoDlg.pas:134
     public void U1PreDraw(Frame sender, LockedSurface lockedSurface, int slot)
     {
-        Rect R = default;
-        R.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
-        R.Right = sender.WinWidth + R.Left;
-        R.Top = sender.WinTop + UnitPanel.WinTop;
-        R.Bottom = sender.WinHeight + R.Top;
-        DrawUnit(slot, R, ref lockedSurface);
+        Rect r = default;
+        r.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
+        r.Right = sender.WinWidth + r.Left;
+        r.Top = sender.WinTop + UnitPanel.WinTop;
+        r.Bottom = sender.WinHeight + r.Top;
+        DrawUnit(slot, r, ref lockedSurface);
     }
 
     // AoWArmyInfoDlg.pas:146
     public void FaceFramePreDraw(LockedSurface lockedSurface)
     {
-        Rect R = default;
-        int I;
-        R.Left = this.FaceFrame.WinLeft + Window.WinLeft;
-        R.Right = this.FaceFrame.WinWidth + R.Left;
-        R.Top = this.FaceFrame.WinTop + Window.WinTop;
-        R.Bottom = this.FaceFrame.WinHeight + R.Top;
+        Rect r = default;
+        int i;
+        r.Left = this.FaceFrame.WinLeft + Window.WinLeft;
+        r.Right = this.FaceFrame.WinWidth + r.Left;
+        r.Top = this.FaceFrame.WinTop + Window.WinTop;
+        r.Bottom = this.FaceFrame.WinHeight + r.Top;
 
-        I = 0;
-        while ((_event.Selection & (1 << I)) == 0 && I != _event.ArmyView.Units.Count)
+        i = 0;
+        while ((_event.Selection & (1 << i)) == 0 && i != _event.ArmyView.Units.Count)
         {
-            I += 1;
+            i += 1;
         }
 
-        if (I < _event.ArmyView.Units.Count)
+        if (i < _event.ArmyView.Units.Count)
         {
-            _event.ArmyView.Units.GetUnit(I).ShowFace(R, lockedSurface);
+            _event.ArmyView.Units.GetUnit(i).ShowFace(r, lockedSurface);
         }
     }
 

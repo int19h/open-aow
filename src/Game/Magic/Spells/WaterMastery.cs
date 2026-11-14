@@ -29,14 +29,14 @@ public partial class WaterMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:819
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         // { Original ignores the event step. }
         base.ExecuteTokenEvent(eventValue, source, 0);
-        source.GetLocation(out X, out Y, out L);
+        source.GetLocation(out x, out y, out l);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Water);
-        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         CastSounds.Play(0);
         StrategicMap.Current.AddEffect(WorldEffectType.WaterMastery);
         CastingDone(source, BaseManaCost);

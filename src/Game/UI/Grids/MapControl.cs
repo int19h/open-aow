@@ -181,13 +181,13 @@ public partial class MapControl : Component
         StrategicMap.Current.ExitingGame += ExitGameEvent;
         StrategicMap.Current.CombatMapCreated += ActivateCombatMap;
         StrategicMap.Current.CombatMapDestroyed += DeactivateCombatMap;
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).GemsChanged += GemsChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).IncomeChanged += IncomeChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).UpkeepChanged += UpkeepChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).LogbookChanged += LogbookChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).MagicControl.Changed += PlayerMagicChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).GemsChanged += GemsChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).IncomeChanged += IncomeChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).UpkeepChanged += UpkeepChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).LogbookChanged += LogbookChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).MagicControl.Changed += PlayerMagicChanged;
         }
     }
 
@@ -228,13 +228,13 @@ public partial class MapControl : Component
         StrategicMap.Current.ExitingGame -= ExitGameEvent;
         StrategicMap.Current.CombatMapCreated -= ActivateCombatMap;
         StrategicMap.Current.CombatMapDestroyed -= DeactivateCombatMap;
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).GemsChanged -= GemsChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).IncomeChanged -= IncomeChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).UpkeepChanged -= UpkeepChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).LogbookChanged -= LogbookChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).MagicControl.Changed -= PlayerMagicChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).GemsChanged -= GemsChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).IncomeChanged -= IncomeChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).UpkeepChanged -= UpkeepChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).LogbookChanged -= LogbookChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(i)).MagicControl.Changed -= PlayerMagicChanged;
         }
     }
 

@@ -245,20 +245,20 @@ public partial class ComboBox : Control
                         lockedSurface.ClipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth;
                     }
 
-                    for (int I = 0, last = _openListRows - 1; I <= last; I++)
+                    for (int i = 0, last = _openListRows - 1; i <= last; i++)
                     {
-                        if (I < _items.Count)
+                        if (i < _items.Count)
                         {
-                            if (_firstShownItem + I == _hoverItem)
+                            if (_firstShownItem + i == _hoverItem)
                             {
                                 _font.Color = SelectedColor;
                             }
 
                             var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
                             var imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
-                            var item = _items[_firstShownItem + I];
-                            _font.SetText(Window.WinLeft + WinLeft + _listBorderWidth, Window.WinTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + _listBorderHeight + _itemHeight * I, item, lockedSurface);
-                            if (_firstShownItem + I == _hoverItem)
+                            var item = _items[_firstShownItem + i];
+                            _font.SetText(Window.WinLeft + WinLeft + _listBorderWidth, Window.WinTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + _listBorderHeight + _itemHeight * i, item, lockedSurface);
+                            if (_firstShownItem + i == _hoverItem)
                             {
                                 _font.Color = Color;
                             }
@@ -450,7 +450,7 @@ public partial class ComboBox : Control
     // { CheckMouseUp selects the item under the mouse in the open list and closes the list }
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int I = default;
+        int i = default;
         Handled = false;
         MouseDown = false;
         Redraw = false;
@@ -482,10 +482,10 @@ public partial class ComboBox : Control
                     if (X < Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth)
                     {
                         var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                        I = (Y - Window.WinTop - WinTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
-                        if (I < _items.Count)
+                        i = (Y - Window.WinTop - WinTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + _firstShownItem;
+                        if (i < _items.Count)
                         {
-                            _selected = I;
+                            _selected = i;
                         }
 
                         _open = false;

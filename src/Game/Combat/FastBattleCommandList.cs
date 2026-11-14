@@ -40,9 +40,9 @@ public partial class FastBattleCommandList : IDisposable
     // AIGroup.pas:6734
     public void Clear()
     {
-        for (int I = _commands.Count - 1; I >= 0; I--)
+        for (int i = _commands.Count - 1; i >= 0; i--)
         {
-            (_commands.List[I] as IDisposable)?.Dispose();
+            (_commands.List[i] as IDisposable)?.Dispose();
         }
 
         _commands.Clear();

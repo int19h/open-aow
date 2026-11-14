@@ -183,9 +183,9 @@ public partial class CombatMap : GameMap
         Mouse.SetCapture(this);
         Mouse.OnMove += MouseMoveEvent;
         Mouse.CursorMode = 256;
-        for (int I = 0; I <= 7; I++)
+        for (int i = 0; i <= 7; i++)
         {
-            PositionStatus[I] = 2;
+            PositionStatus[i] = 2;
         }
     }
 
@@ -207,38 +207,38 @@ public partial class CombatMap : GameMap
     public override void InitializeNewMap()
     {
         HexControl control;
-        for (int X = 6, last = MapContainer.Width - 7; X <= last; X++)
+        for (int x = 6, last = MapContainer.Width - 7; x <= last; x++)
         {
-            for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
+            for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
             {
-                GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
+                GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 1);
             }
         }
 
         control = Engine.HexSpriteSet.HexControl;
-        for (int X = 0, last = MapContainer.Width - 1; X <= last; X++)
+        for (int x = 0, last = MapContainer.Width - 1; x <= last; x++)
         {
-            for (int Y = 0; Y <= 5; Y++)
+            for (int y = 0; y <= 5; y++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
 
-            for (int Y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; Y <= lastY; Y++)
+            for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
         }
 
-        for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
+        for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
         {
-            for (int X = 0; X <= 5; X++)
+            for (int x = 0; x <= 5; x++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
 
-            for (int X = MapContainer.Width - 6, last = MapContainer.Width - 1; X <= last; X++)
+            for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
         }
     }
@@ -267,24 +267,24 @@ public partial class CombatMap : GameMap
     // AoWTC.pas:2429
     public override void NewFrame()
     {
-        int I;
+        int i;
         BattleEffectSprite effect;
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            I = 0;
-            while (I < Effects.Count)
+            i = 0;
+            while (i < Effects.Count)
             {
-                effect = Effects[I];
+                effect = Effects[i];
                 if (effect.Done)
                 {
                     DynamicFixedVisibleHexSprite.RemoveChild(effect);
                     DynamicVisibleHexSprite.RemoveChild(effect);
                     effect?.Dispose();
-                    Effects.RemoveAt(I);
+                    Effects.RemoveAt(i);
                 }
                 else
                 {
-                    I += 1;
+                    i += 1;
                 }
             }
         }
@@ -320,34 +320,34 @@ public partial class CombatMap : GameMap
     // AoWTC.pas:2515
     public override void DropHeroItem(Hero hero, Item item)
     {
-        sbyte X;
-        sbyte Y;
-        sbyte L;
+        sbyte x;
+        sbyte y;
+        sbyte l;
         ItemHexSprite hexSprite;
-        int I;
-        X = -1;
-        Y = -1;
-        L = -1;
-        I = Combat.CombatData.GetCount();
-        while (I != 0 && X == -1)
+        int i;
+        x = -1;
+        y = -1;
+        l = -1;
+        i = Combat.CombatData.GetCount();
+        while (i != 0 && x == -1)
         {
-            I -= 1;
-            if (Combat.CombatData.GetObjects(I) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(I)).Troop == hero)
+            i -= 1;
+            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(i)).Troop == hero)
             {
-                X = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX();
-                Y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
-                L = 0;
+                x = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX();
+                y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
+                l = 0;
             }
         }
 
-        if (X > -1)
+        if (x > -1)
         {
-            hexSprite = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            hexSprite = (ItemHexSprite)MapContainer.GetField(x, y, l).FindOwnedChild(131697);
             if (hexSprite == null)
             {
                 hexSprite = new TacticalBattleItemHexSprite(null) { Holder = CreationHolder() };
                 // { Original bug: a failed placement leaves the new item sprite allocated. }
-                if (Current.PlaceHex(hexSprite, X, Y, L))
+                if (Current.PlaceHex(hexSprite, x, y, l))
                 {
                     item.SetOwner(hexSprite.Items);
                 }
@@ -363,14 +363,14 @@ public partial class CombatMap : GameMap
     public override ItemList GetHeroItemsOnGround(Hero hero)
     {
         ItemHexSprite hexSprite;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         ItemList result = null;
-        GetUnitLocation(hero, out X, ref Y, ref L);
-        if (X > -1)
+        GetUnitLocation(hero, out x, ref y, ref l);
+        if (x > -1)
         {
-            hexSprite = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            hexSprite = (ItemHexSprite)MapContainer.GetField(x, y, l).FindOwnedChild(131697);
             if (hexSprite != null)
             {
                 result = hexSprite.Items;
@@ -426,7 +426,7 @@ public partial class CombatMap : GameMap
     // AoWTC.pas:2296
     public void NewTurn(sbyte player)
     {
-        TacticalBattleUnit U;
+        TacticalBattleUnit u;
         EngineMessage message = default;
         CurrentCombatPlayer = player;
         if (player == 0)
@@ -462,23 +462,23 @@ public partial class CombatMap : GameMap
                 SetSeatedCombatPlayer(CurrentCombatPlayer);
                 if (Players.GetPlayers(CurrentCombatPlayer).LastX == 0)
                 {
-                    U = GetNextUnit(null, true, true);
-                    if (U != null)
+                    u = GetNextUnit(null, true, true);
+                    if (u != null)
                     {
-                        var hexX = U.UnitHexSprite.GetHexX();
+                        var hexX = u.UnitHexSprite.GetHexX();
                         Players.GetPlayers(CurrentCombatPlayer).LastX = hexX;
-                        var hexY = U.UnitHexSprite.GetHexY();
+                        var hexY = u.UnitHexSprite.GetHexY();
                         Players.GetPlayers(CurrentCombatPlayer).LastY = hexY;
                         if (ExplorationEnabled)
                         {
-                            for (int I = 0, last = Players.GetCount() - 1; I <= last; I++)
+                            for (int i = 0, last = Players.GetCount() - 1; i <= last; i++)
                             {
-                                if (CurrentCombatPlayer != I)
+                                if (CurrentCombatPlayer != i)
                                 {
-                                    var fUnitHexSpriteHexX = U.UnitHexSprite.GetHexX();
-                                    Players.GetPlayers((sbyte)I).LastX = fUnitHexSpriteHexX;
-                                    var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
-                                    Players.GetPlayers((sbyte)I).LastY = fUnitHexSpriteHexY;
+                                    var fUnitHexSpriteHexX = u.UnitHexSprite.GetHexX();
+                                    Players.GetPlayers((sbyte)i).LastX = fUnitHexSpriteHexX;
+                                    var fUnitHexSpriteHexY = u.UnitHexSprite.GetHexY();
+                                    Players.GetPlayers((sbyte)i).LastY = fUnitHexSpriteHexY;
                                 }
                             }
                         }
@@ -552,9 +552,9 @@ public partial class CombatMap : GameMap
     public bool GetEndTurnStatus()
     {
         bool result = true;
-        for (int I = 0, last = Players.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = Players.GetCount() - 1; i <= last; i++)
         {
-            result = result && Players.GetPlayers((sbyte)I).EndTurn;
+            result = result && Players.GetPlayers((sbyte)i).EndTurn;
         }
 
         return result;
@@ -564,7 +564,7 @@ public partial class CombatMap : GameMap
     public TacticalBattleUnit GetNextUnit(TacticalBattleUnit U, bool allUnits, bool forward)
     {
         int index;
-        int I;
+        int i;
         int start;
         int step;
         if (U != null && !U.GetEnabled())
@@ -583,20 +583,20 @@ public partial class CombatMap : GameMap
         }
 
         index = 0;
-        I = 0;
+        i = 0;
         start = 0;
         if (U != null)
         {
-            while (I < this.Combat.CombatData.GetCount())
+            while (i < this.Combat.CombatData.GetCount())
             {
-                if (this.Combat.CombatData.GetObjects(I) == U)
+                if (this.Combat.CombatData.GetObjects(i) == U)
                 {
-                    index = I + step;
-                    start = I;
-                    I = this.Combat.CombatData.GetCount();
+                    index = i + step;
+                    start = i;
+                    i = this.Combat.CombatData.GetCount();
                 }
 
-                I += 1;
+                i += 1;
             }
         }
 
@@ -689,23 +689,23 @@ public partial class CombatMap : GameMap
     // AoWTC.pas:2497
     public void SelectNextUnit(bool forward)
     {
-        TacticalBattleUnit U;
-        int X = default;
-        int Y = default;
+        TacticalBattleUnit u;
+        int x = default;
+        int y = default;
         if (SeatedCombatPlayer == CurrentCombatPlayer)
         {
-            U = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, false, forward);
-            if (U != null)
+            u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, false, forward);
+            if (u != null)
             {
-                if (UnitSelection.GetTacticalBattleUnitHexSprite() != U.UnitHexSprite)
+                if (UnitSelection.GetTacticalBattleUnitHexSprite() != u.UnitHexSprite)
                 {
-                    Players.GetPlayers(SeatedCombatPlayer).LastUnit = U;
-                    var hexY = U.UnitHexSprite.GetHexY();
-                    CenterViewTo(U.UnitHexSprite.GetHexX(), hexY, 0);
+                    Players.GetPlayers(SeatedCombatPlayer).LastUnit = u;
+                    var hexY = u.UnitHexSprite.GetHexY();
+                    CenterViewTo(u.UnitHexSprite.GetHexX(), hexY, 0);
                     Selection.UnselectLocation();
-                    var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
-                    HexGeometry.HexToPixel(U.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, out X, out Y);
-                    Selection.SelectLocation(X, Y, 0);
+                    var fUnitHexSpriteHexY = u.UnitHexSprite.GetHexY();
+                    HexGeometry.HexToPixel(u.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, out x, out y);
+                    Selection.SelectLocation(x, y, 0);
                 }
             }
         }
@@ -718,21 +718,21 @@ public partial class CombatMap : GameMap
     // that are not tactical units, which has the same result.
     public void GetUnitLocation(Troop U, out sbyte X, ref sbyte Y, ref sbyte L)
     {
-        int I;
+        int i;
         X = -1;
-        I = 0;
-        while (I < Combat.CombatData.GetCount())
+        i = 0;
+        while (i < Combat.CombatData.GetCount())
         {
-            if (Combat.CombatData.GetObjects(I) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(I)).Troop == U && Combat.CombatData.GetObjects(I).GetEnabled())
+            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(i)).Troop == U && Combat.CombatData.GetObjects(i).GetEnabled())
             {
-                X = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX();
-                Y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
+                X = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX();
+                Y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
                 L = 0;
-                I = Combat.CombatData.GetCount();
+                i = Combat.CombatData.GetCount();
             }
             else
             {
-                I += 1;
+                i += 1;
             }
         }
     }
@@ -774,32 +774,32 @@ public partial class CombatMap : GameMap
         return result;
     }
 
-    internal static void PlaceOverviewUnit(CombatMap map, Troop U, int position, int index)
+    internal static void PlaceOverviewUnit(CombatMap map, Troop unit, int position, int index)
     {
         OverviewUnitHexSprite hexSprite;
         sbyte overlay;
         TacticalBattleUnitHexSprite occupant;
         int x0;
         int y0;
-        int X = default;
-        int Y = default;
-        int I;
-        MapCoordinate P;
+        int x = default;
+        int y = default;
+        int i;
+        MapCoordinate p;
         hexSprite = new OverviewUnitHexSprite(null) { Holder = map };
-        hexSprite.SetU(U);
-        P = map.UnitPositions.GetUnitPosition(position, index).Location;
-        x0 = P.X;
-        y0 = P.Y;
-        I = 0;
+        hexSprite.SetU(unit);
+        p = map.UnitPositions.GetUnitPosition(position, index).Location;
+        x0 = p.X;
+        y0 = p.Y;
+        i = 0;
         do
         {
-            HexGeometry.CenterHexNumberToHex(x0, y0, I, ref X, ref Y);
-            overlay = Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
-            occupant = (TacticalBattleUnitHexSprite)Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
-            I += 1;
+            HexGeometry.CenterHexNumberToHex(x0, y0, i, ref x, ref y);
+            overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType;
+            occupant = (TacticalBattleUnitHexSprite)Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
+            i += 1;
         }
         while (!(overlay != 8 && occupant == null));
-        if (!map.PlaceHex(hexSprite, X, Y, 0))
+        if (!map.PlaceHex(hexSprite, x, y, 0))
         {
             hexSprite?.Dispose();
         }

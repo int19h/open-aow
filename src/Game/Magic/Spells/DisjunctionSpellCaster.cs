@@ -170,7 +170,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
         Troop source;
-        int Mana;
+        int mana2;
         bool result = false;
         source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (SelectedEnchantment() != null)
@@ -179,10 +179,10 @@ public partial class DisjunctionSpellCaster : SpellCaster
             {
                 if (source is Hero hero)
                 {
-                    Mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
+                    mana2 = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
                     var spell = GamePack.Current.SpellControl.GetSpell(51);
                     var mana = GetMana();
-                    if (Mana >= spell.BaseManaCost + mana)
+                    if (mana2 >= spell.BaseManaCost + mana)
                     {
                         result = true;
                     }

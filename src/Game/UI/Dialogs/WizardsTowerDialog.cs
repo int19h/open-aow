@@ -84,20 +84,20 @@ public partial class WizardsTowerDialog : UIModule
     // AoWWizardsTowerDlg.pas:87
     public void SpellIcnDraw(Image sender, LockedSurface lockedSurface)
     {
-        Spell S;
-        int X;
-        int Y;
+        Spell s;
+        int x;
+        int y;
         var wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
-            S = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
-            if (S != null)
+            s = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
+            if (s != null)
             {
-                if (S.CastImages.GetImageSequence(10) != null)
+                if (s.CastImages.GetImageSequence(10) != null)
                 {
-                    X = sender.Window.WinLeft;
-                    Y = sender.Window.WinTop;
-                    S.CastImages.Show(10, sender.WinLeft + X, sender.WinTop + Y, 0, lockedSurface);
+                    x = sender.Window.WinLeft;
+                    y = sender.Window.WinTop;
+                    s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, 0, lockedSurface);
                 }
             }
         }

@@ -174,9 +174,9 @@ public static class GameTables
 
     internal static void InitializeHitProbabilities()
     {
-        for (int I = 0; I <= 19; I++)
+        for (int i = 0; i <= 19; i++)
         {
-            s_hitProbabilities[I] = (float)((double)(20 - I) * 0.05);
+            s_hitProbabilities[i] = (float)((double)(20 - i) * 0.05);
         }
     }
 

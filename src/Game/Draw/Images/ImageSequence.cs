@@ -92,7 +92,7 @@ public partial class ImageSequence : IDisposable
     public LibraryImage GetPreviewImage()
     {
         LibraryImage result;
-        int I;
+        int i;
         if (this != null)
         {
             result = null;
@@ -108,11 +108,11 @@ public partial class ImageSequence : IDisposable
 
             if (result == null)
             {
-                I = 0;
-                while (I != _imageLibrary.Count && result == null)
+                i = 0;
+                while (i != _imageLibrary.Count && result == null)
                 {
-                    result = _imageLibrary[I];
-                    I += 1;
+                    result = _imageLibrary[i];
+                    i += 1;
                 }
             }
         }
@@ -140,9 +140,9 @@ public partial class ImageSequence : IDisposable
                 case SequenceMode.FrameTable:
                 case SequenceMode.RandomFrameTable:
                     {
-                        for (int I = 0, last = _frameTable.Count - 1; I <= last; I++)
+                        for (int i = 0, last = _frameTable.Count - 1; i <= last; i++)
                         {
-                            var item = _frameTable[I];
+                            var item = _frameTable[i];
                             image = _imageLibrary.GetSafe(item);
                             if (image != null)
                             {
@@ -157,9 +157,9 @@ public partial class ImageSequence : IDisposable
                 case SequenceMode.UpDown:
                 case SequenceMode.Random:
                     {
-                        for (int I = 0, last = _imageLibrary.Count - 1; I <= last; I++)
+                        for (int i = 0, last = _imageLibrary.Count - 1; i <= last; i++)
                         {
-                            image = _imageLibrary.GetSafe(I);
+                            image = _imageLibrary.GetSafe(i);
                             if (image != null)
                             {
                                 image.GetVisualDimensions(out ir);

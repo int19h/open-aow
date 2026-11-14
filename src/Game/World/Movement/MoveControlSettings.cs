@@ -107,9 +107,9 @@ public partial class MoveControlSettings : EngineObject
     {
         Path.Clear();
         ProcessedMapFields.Clear();
-        for (int I = 0, last = _levelCount - 1; I <= last; I++)
+        for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            Array.Resize(ref _levelData[I], 0);
+            Array.Resize(ref _levelData[i], 0);
         }
 
         Array.Resize(ref _rowOffsets, 0);
@@ -133,11 +133,11 @@ public partial class MoveControlSettings : EngineObject
         ProcessedMapFields.Clear();
         MovePointsMax = 4095;
         MovePointTable.Fill(-1);
-        for (int I = 0, last = _levelCount - 1; I <= last; I++)
+        for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            if (_levelData[I] is not null)
+            if (_levelData[i] is not null)
             {
-                _levelData[I].AsSpan(0, _width * _height).Fill(16777215);
+                _levelData[i].AsSpan(0, _width * _height).Fill(16777215);
             }
         }
 
@@ -211,18 +211,18 @@ public partial class MoveControlSettings : EngineObject
             offset = 0;
             rowSize = width * 4;
             Array.Resize(ref _rowOffsets, height);
-            for (int I = 0; I <= height - 1; I++)
+            for (int i = 0; i <= height - 1; i++)
             {
-                _rowOffsets[I] = offset;
+                _rowOffsets[i] = offset;
                 offset += rowSize;
             }
 
             Array.Resize(ref _levelData, levelCount);
             Array.Clear(_levelData);
-            for (int I = 1; I <= 6; I++)
+            for (int i = 1; i <= 6; i++)
             {
-                EvenOffsets[I] = HexGeometry.HexNumberToXYTable[0][I].X * 4 + HexGeometry.HexNumberToXYTable[0][I].Y * (width * 4);
-                OddOffsets[I] = HexGeometry.HexNumberToXYTable[1][I].X * 4 + HexGeometry.HexNumberToXYTable[1][I].Y * (width * 4);
+                EvenOffsets[i] = HexGeometry.HexNumberToXYTable[0][i].X * 4 + HexGeometry.HexNumberToXYTable[0][i].Y * (width * 4);
+                OddOffsets[i] = HexGeometry.HexNumberToXYTable[1][i].X * 4 + HexGeometry.HexNumberToXYTable[1][i].Y * (width * 4);
             }
         }
         else
@@ -236,11 +236,11 @@ public partial class MoveControlSettings : EngineObject
     {
         if (!_movePointsClear)
         {
-            for (int I = 0, last = _levelCount - 1; I <= last; I++)
+            for (int i = 0, last = _levelCount - 1; i <= last; i++)
             {
-                if (_levelData[I] is not null)
+                if (_levelData[i] is not null)
                 {
-                    _levelData[I].AsSpan(0, _width * _height).Fill(16777215);
+                    _levelData[i].AsSpan(0, _width * _height).Fill(16777215);
                 }
             }
 

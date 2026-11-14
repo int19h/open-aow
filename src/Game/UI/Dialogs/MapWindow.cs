@@ -178,14 +178,14 @@ public partial class MapWindow : UIModule
     // AOWMWindow.pas:163
     public void MapWindowKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
     {
-        ushort K;
+        ushort k;
         if (StrategicMap.Current != null && CombatMap.Current == null)
         {
             StrategicMap.Current.Keyboard.KeyDown(ref key, shift);
             PressEndTurnShortcut(key, shift);
         }
 
-        K = key;
+        k = key;
         switch (UI.Engine.Language)
         {
             case 4:
@@ -194,14 +194,14 @@ public partial class MapWindow : UIModule
                     case 65:
                         if (shift.Contains(ShiftState.Ctrl))
                         {
-                            K = 79;
+                            k = 79;
                         }
 
                         break;
                     case 71:
                         if (shift.Contains(ShiftState.Ctrl))
                         {
-                            K = 83;
+                            k = 83;
                         }
 
                         break;
@@ -212,7 +212,7 @@ public partial class MapWindow : UIModule
 
         if (MapViewer != null && StrategicMap.Current != null)
         {
-            switch (K)
+            switch (k)
             {
                 case 37:
                     UI.MapWindow.MapViewer.SceneX = UI.MapWindow.MapViewer.SceneX - 32;
@@ -271,7 +271,7 @@ public partial class MapWindow : UIModule
                     break;
                 case 79:
                 case 114:
-                    if (CombatMap.Current == null && (K == 114 || shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current == null && (k == 114 || shift.Contains(ShiftState.Ctrl)))
                     {
                         UI.FileDialogWindow.Mode = 0;
                         UI.FileDialogWindow.Window.Visible = true;
@@ -280,7 +280,7 @@ public partial class MapWindow : UIModule
                     break;
                 case 83:
                 case 115:
-                    if (CombatMap.Current == null && (K == 115 || shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current == null && (k == 115 || shift.Contains(ShiftState.Ctrl)))
                     {
                         UI.FileDialogWindow.Mode = 1;
                         UI.FileDialogWindow.Window.Visible = true;

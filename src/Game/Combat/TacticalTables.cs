@@ -99,8 +99,8 @@ internal static class TacticalTables
 
     internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
     {
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         switch (ability)
         {
             case 55:
@@ -121,11 +121,10 @@ internal static class TacticalTables
             case 30:
             case 31:
             case >= 86 and <= 90:
-                var xyz = new Point3D();
-                path.Add(xyz);
-                HexGeometry.HexToPixel(x2, y2, out X, out Y);
-                path[0].X = X + 12;
-                path[0].Y = Y + 12;
+                path.Add(new Point3D());
+                HexGeometry.HexToPixel(x2, y2, out x, out y);
+                path[0].X = x + 12;
+                path[0].Y = y + 12;
                 obstacles.Clear();
                 break;
             case 52:
@@ -163,11 +162,10 @@ internal static class TacticalTables
                             case BattleEffectType.ShockWave:
                             case BattleEffectType.SacFlame:
                             case BattleEffectType.Winds:
-                                var xyz2 = new Point3D();
-                                path.Add(xyz2);
-                                HexGeometry.HexToPixel(x2, y2, out X, out Y);
-                                path[0].X = X + 12;
-                                path[0].Y = Y + 12;
+                                path.Add(new Point3D());
+                                HexGeometry.HexToPixel(x2, y2, out x, out y);
+                                path[0].X = x + 12;
+                                path[0].Y = y + 12;
                                 obstacles.Clear();
                                 break;
                             default:
@@ -187,14 +185,14 @@ internal static class TacticalTables
 
     internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
     {
-        int I;
-        int A;
-        int B;
+        int i;
+        int a;
+        int b;
         int hexX = default;
         int hexY = default;
         int steps;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         int lastX = default;
         int lastY = default;
         int startX = default;
@@ -208,41 +206,41 @@ internal static class TacticalTables
         CityWall wall;
         path.Clear();
         obstacles.Clear();
-        HexGeometry.HexToPixel(x1, y1, out X, out Y);
+        HexGeometry.HexToPixel(x1, y1, out x, out y);
         HexGeometry.HexToPixel(x2, y2, out lastX, out lastY);
-        X += 13;
-        Y += 13;
+        x += 13;
+        y += 13;
         lastX = lastX + 13 + offsetX;
         lastY = lastY + 13 + offsetY;
-        I = 0;
-        A = Math.Abs(x2 - x1);
-        B = Math.Abs(y2 - y1);
-        steps = (A + B) * 100 / speed;
+        i = 0;
+        a = Math.Abs(x2 - x1);
+        b = Math.Abs(y2 - y1);
+        steps = (a + b) * 100 / speed;
         if (steps < 2)
         {
             steps = 2;
         }
 
-        while (I <= steps)
+        while (i <= steps)
         {
             point = new Point3D();
             path.Add(point);
-            point.X = (lastX - X) * I / steps + X;
-            point.Y = (lastY - Y) * I / steps + Y;
-            B = steps / 2;
-            if (I > B)
+            point.X = (lastX - x) * i / steps + x;
+            point.Y = (lastY - y) * i / steps + y;
+            b = steps / 2;
+            if (i > b)
             {
-                A = steps - I + 1;
+                a = steps - i + 1;
             }
             else
             {
-                if (I == B)
+                if (i == b)
                 {
-                    A = I;
+                    a = i;
                 }
                 else
                 {
-                    A = I + 1;
+                    a = i + 1;
                 }
             }
 
@@ -252,11 +250,11 @@ internal static class TacticalTables
             }
             else
             {
-                height = A * steps * arc / 10;
+                height = a * steps * arc / 10;
                 point.Z = Round(Math.Sqrt(height)) - steps * 10 / arc;
             }
 
-            I += 1;
+            i += 1;
         }
 
         lastX = 0;
@@ -266,44 +264,44 @@ internal static class TacticalTables
         var count = path.Count;
         point = path[count - 1];
         HexGeometry.PixelToHex(point.X, point.Y, out endX, out endY);
-        I = 0;
+        i = 0;
         int last = path.Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            point = path[I];
-            HexGeometry.PixelToHex(point.X, point.Y, out X, out Y);
-            if ((X != startX || Y != startY) && (X != endX || Y != endY))
+            point = path[i];
+            HexGeometry.PixelToHex(point.X, point.Y, out x, out y);
+            if ((x != startX || y != startY) && (x != endX || y != endY))
             {
                 steps = 0;
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].TerrainType == 15)
                 {
                     steps = 3;
                 }
                 else
                 {
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
+                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].TerrainType == 7)
                     {
                         steps = 3;
                     }
                     else
                     {
-                        A = HexGeometry.DeltaHexToRadius(X, Y, startX, startY);
+                        a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
                         if (!includeUnits)
                         {
                             unitHexSprite = null;
                         }
                         else
                         {
-                            unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2228484);
                         }
 
-                        wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+                        wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229508);
                         if (wall == null && side == CombatSideIndex.Attacker)
                         {
-                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
+                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229510) as CityWall;
                         }
 
-                        if (A == 1)
+                        if (a == 1)
                         {
                             if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != side)
                             {
@@ -317,7 +315,7 @@ internal static class TacticalTables
                         }
                         else
                         {
-                            if (A > 1)
+                            if (a > 1)
                             {
                                 if (unitHexSprite != null)
                                 {
@@ -326,7 +324,7 @@ internal static class TacticalTables
 
                                 if (wall == null)
                                 {
-                                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
+                                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].OverlayType == 8)
                                     {
                                         steps = 1;
                                     }
@@ -335,24 +333,24 @@ internal static class TacticalTables
                                 {
                                     if (wall.HitPoints > 0)
                                     {
-                                        if (A > 2)
+                                        if (a > 2)
                                         {
                                             steps = 2;
                                         }
                                         else
                                         {
                                             wall = null;
-                                            B = 1;
-                                            while (wall == null && B < 7)
+                                            b = 1;
+                                            while (wall == null && b < 7)
                                             {
-                                                HexGeometry.CenterHexNumberToHex(startX, startY, B, ref hexX, ref hexY);
+                                                HexGeometry.CenterHexNumberToHex(startX, startY, b, ref hexX, ref hexY);
                                                 wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508);
                                                 if (wall == null)
                                                 {
                                                     wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 }
 
-                                                B += 1;
+                                                b += 1;
                                             }
 
                                             if (wall == null)
@@ -372,55 +370,55 @@ internal static class TacticalTables
                     switch (steps)
                     {
                         case 1:
-                            HexGeometry.HexToPixel(X, Y, out A, out B);
-                            A = point.X + 11 - A;
-                            if (A > 23)
+                            HexGeometry.HexToPixel(x, y, out a, out b);
+                            a = point.X + 11 - a;
+                            if (a > 23)
                             {
-                                A = 47 - A;
+                                a = 47 - a;
                             }
 
-                            B = point.Y + 3 - B;
-                            if (B > 15)
+                            b = point.Y + 3 - b;
+                            if (b > 15)
                             {
-                                B = 31 - B;
+                                b = 31 - b;
                             }
 
-                            A = (A + B - point.Z) * 2;
+                            a = (a + b - point.Z) * 2;
                             break;
                         case 2:
-                            A = 200 - point.Z * 3;
+                            a = 200 - point.Z * 3;
                             break;
                         case 3:
-                            A = 100;
+                            a = 100;
                             break;
                         case 4:
-                            A = 50;
+                            a = 50;
                             break;
                     }
 
-                    if (A > 0)
+                    if (a > 0)
                     {
-                        if (X != lastX || Y != lastY)
+                        if (x != lastX || y != lastY)
                         {
                             obstacle = new RangedObstacle();
-                            obstacle.PathIndex = I;
+                            obstacle.PathIndex = i;
                             obstacles.Add(obstacle);
-                            lastX = X;
-                            lastY = Y;
+                            lastX = x;
+                            lastY = y;
                             steps = 1;
                         }
                         else
                         {
                             obstacle = obstacles[obstacles.Count - 1];
-                            if (steps == 2 && obstacle.Chance < A)
+                            if (steps == 2 && obstacle.Chance < a)
                             {
-                                obstacle.Chance = A;
+                                obstacle.Chance = a;
                             }
                         }
 
                         if (steps != 2 && steps != 4)
                         {
-                            obstacle.Chance += A;
+                            obstacle.Chance += a;
                         }
 
                         if (obstacle.Chance > 100)

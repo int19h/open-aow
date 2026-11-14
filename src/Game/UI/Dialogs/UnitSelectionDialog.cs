@@ -100,17 +100,17 @@ public partial class UnitSelectionDialog : UIModule
     // AoWUnitSelDlg.pas:186
     public void Execute(UnitSelectionActivation request)
     {
-        Troop U;
+        Troop u;
         ResetSelection();
         _eventLog = request;
         _eventLog.AddRef();
         Event = request.UnitSelector;
         Event.AddRef();
-        U = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
-        if (U != null)
+        u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+        if (u != null)
         {
             SourcePanel.Visible = true;
-            var name = U.GetName();
+            var name = u.GetName();
             SourceNameLabel.Text = name;
         }
         else
@@ -227,21 +227,21 @@ public partial class UnitSelectionDialog : UIModule
     // AoWUnitSelDlg.pas:151
     public void SourceFacePreDraw(LockedSurface lockedSurface)
     {
-        Rect R = default;
-        Troop U;
+        Rect r = default;
+        Troop u;
         if (Event != null)
         {
-            U = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
-            if (U != null)
+            u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+            if (u != null)
             {
-                R.Left = this.SourceFace.WinLeft + SourcePanel.WinLeft;
-                R.Right = this.SourceFace.WinWidth + R.Left;
-                R.Top = this.SourceFace.WinTop + SourcePanel.WinTop;
-                R.Bottom = this.SourceFace.WinHeight + R.Top;
+                r.Left = this.SourceFace.WinLeft + SourcePanel.WinLeft;
+                r.Right = this.SourceFace.WinWidth + r.Left;
+                r.Top = this.SourceFace.WinTop + SourcePanel.WinTop;
+                r.Bottom = this.SourceFace.WinHeight + r.Top;
 
-                if (U.GetFace() != null)
+                if (u.GetFace() != null)
                 {
-                    U.GetFace().ShowStretched(R, lockedSurface);
+                    u.GetFace().ShowStretched(r, lockedSurface);
                 }
             }
         }

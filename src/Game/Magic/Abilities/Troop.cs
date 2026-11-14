@@ -747,7 +747,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         bool result;
         Alignment alignment;
         DiplomaticRelation relation;
-        int I;
+        int i;
         bool condition = Group == null;
         if (!condition)
         {
@@ -767,15 +767,15 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                     if (relation == DiplomaticRelation.Unknown && this is Unit)
                     {
                         result = false;
-                        I = StrategicMap.Current.Races.Count;
-                        while (!result && I != 0)
+                        i = StrategicMap.Current.Races.Count;
+                        while (!result && i != 0)
                         {
-                            I -= 1;
-                            bool test = StrategicMap.Current.Races.GetRace(I).GetPlayerRelation(player) >= Status.Polite;
+                            i -= 1;
+                            bool test = StrategicMap.Current.Races.GetRace(i).GetPlayerRelation(player) >= Status.Polite;
                             if (test)
                             {
                                 var unitResourceIndex = ((Unit)this).UnitResource.UnitResourceIndex();
-                                test = GamePack.Current.RaceResources.GetRaceResource(I).UnitIndexes.IndexOf(unitResourceIndex) != -1;
+                                test = GamePack.Current.RaceResources.GetRaceResource(i).UnitIndexes.IndexOf(unitResourceIndex) != -1;
                             }
 
                             result = test;
@@ -1052,8 +1052,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
         else
         {
-            var alignment = troop.GetAlignment();
-            result = AlignmentTables.AlignmentToStatus(GetAlignment(), alignment);
+            result = AlignmentTables.AlignmentToStatus(otherAlignment: troop.GetAlignment(), alignment: GetAlignment());
         }
 
         return result;
@@ -1074,9 +1073,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 value += StrategicMap.Current.Players.GetPlayers(player).MoraleValue;
             }
 
-            for (int I = Owner.Count - 1; I >= 0; I--)
+            for (int i = Owner.Count - 1; i >= 0; i--)
             {
-                troop = OwnerUnits[I];
+                troop = OwnerUnits[i];
                 if (troop.GetAbilityEnabled(37) && troop != this)
                 {
                     value += 30;
@@ -1116,16 +1115,16 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:358
     public void UpdateEnchanted()
     {
-        int I;
+        int i;
         AbilityTypeList list;
         bool enchanted;
         list = GamePack.Current.AbilityControl.AbilitiesByType[4];
         enchanted = false;
-        I = list.Count;
-        while (!enchanted && I != 0)
+        i = list.Count;
+        while (!enchanted && i != 0)
         {
-            I -= 1;
-            enchanted = GetAbilityEnabled(list.GetAbility(I).AbilityId);
+            i -= 1;
+            enchanted = GetAbilityEnabled(list.GetAbility(i).AbilityId);
         }
 
         if (enchanted)
@@ -1145,9 +1144,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         AbilityTypeList list;
         AddRef();
         list = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        for (int I = list.Count - 1; I >= 0; I--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            ability = list.GetAbility(I);
+            ability = list.GetAbility(i);
             if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
                 RemoveAbility(ability.AbilityId);
@@ -1174,9 +1173,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         AbilityTypeList list;
         UnitEnchantmentAbilityData data;
         list = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        for (int I = list.Count - 1; I >= 0; I--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            ability = list.GetAbility(I);
+            ability = list.GetAbility(i);
             if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
                 data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
@@ -1195,9 +1194,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         AbilityTypeList list;
         UnitEnchantmentAbilityData data;
         list = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        for (int I = list.Count - 1; I >= 0; I--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            ability = list.GetAbility(I);
+            ability = list.GetAbility(i);
             if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
                 data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
@@ -1239,16 +1238,16 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:463
     public bool CanDispelEnchantment(sbyte player)
     {
-        int I;
+        int i;
         AbilityTypeList list;
         UnitEnchantment enchantment;
         list = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        I = list.Count;
+        i = list.Count;
         bool result = false;
-        while (!result && I != 0)
+        while (!result && i != 0)
         {
-            I -= 1;
-            enchantment = AbilityToEnchantment(list.GetAbility(I).AbilityId);
+            i -= 1;
+            enchantment = AbilityToEnchantment(list.GetAbility(i).AbilityId);
             if (enchantment == null || player == enchantment.Source)
             {
                 result = false;
@@ -1268,9 +1267,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         AbilityTypeList abilities;
         UnitEnchantment enchantment;
         abilities = GamePack.Current.AbilityControl.AbilitiesByType[4];
-        for (int I = abilities.Count - 1; I >= 0; I--)
+        for (int i = abilities.Count - 1; i >= 0; i--)
         {
-            enchantment = AbilityToEnchantment(abilities.GetAbility(I).AbilityId);
+            enchantment = AbilityToEnchantment(abilities.GetAbility(i).AbilityId);
             if (enchantment != null)
             {
                 list.AddChild(enchantment);
@@ -1361,9 +1360,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         AbilityDamageValues info = default;
         int result = 0;
         abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
-        for (int I = abilities.Count - 1; I >= 0; I--)
+        for (int i = abilities.Count - 1; i >= 0; i--)
         {
-            ability = abilities.GetAbility(I);
+            ability = abilities.GetAbility(i);
             if (GetAbilityEnabled(ability.AbilityId))
             {
                 ability.GetDamageValues(this, target, (WallSituation)mode, ref info);
