@@ -20,18 +20,19 @@ public partial class ArenaDialog : UIModule
     public ArenaDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Panel UnitPanel;
-    public CheckBox Unit1CheckBox;
-    public CheckBox Unit2CheckBox;
-    public CheckBox Unit3CheckBox;
-    public CheckBox Unit4CheckBox;
-    public CheckBox Unit5CheckBox;
-    public CheckBox Unit6CheckBox;
-    public CheckBox Unit7CheckBox;
-    public CheckBox Unit8CheckBox;
-    public Label SelectionInfoLabel;
-    public UserDrawBox MapView;
+    public Window Window { get; private set; }
+    public Panel UnitPanel { get; private set; }
+    public CheckBox Unit1CheckBox { get; private set; }
+    public CheckBox Unit2CheckBox { get; private set; }
+    public CheckBox Unit3CheckBox { get; private set; }
+    public CheckBox Unit4CheckBox { get; private set; }
+    public CheckBox Unit5CheckBox { get; private set; }
+    public CheckBox Unit6CheckBox { get; private set; }
+    public CheckBox Unit7CheckBox { get; private set; }
+    public CheckBox Unit8CheckBox { get; private set; }
+    public Label SelectionInfoLabel { get; private set; }
+    public UserDrawBox MapView { get; private set; }
+
     private EnterArenaEventLog _event;
     private event ExecuteDoneEvent OnClose;
 

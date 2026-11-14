@@ -16,11 +16,11 @@ public partial class ChatWindow : UIModule
     public ChatWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Memo ChatMemo;
-    public Edit ChatEdit;
-    public ListBox PlayerList;
-    public VerticalScrollBar ChatScrollBar;
+    public Window MainWindow { get; private set; }
+    public Memo ChatMemo { get; private set; }
+    public Edit ChatEdit { get; private set; }
+    public ListBox PlayerList { get; private set; }
+    public VerticalScrollBar ChatScrollBar { get; private set; }
 
     public bool ScrollPending { get; set; }
 

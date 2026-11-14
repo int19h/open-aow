@@ -13,10 +13,11 @@ public partial class HelpWindow : UIModule
     public HelpWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public VerticalScrollBar HelpScrollBar;
-    public Memo HeaderMemo;
-    public Memo HelpMemo;
+    public Window MainWindow { get; private set; }
+    public VerticalScrollBar HelpScrollBar { get; private set; }
+    public Memo HeaderMemo { get; private set; }
+    public Memo HelpMemo { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private HelpMessageEventLog _helpEvent;
 

@@ -11,8 +11,8 @@ public partial class CombatScanner : UIModule
     public CombatScanner(UIContext ui) : base(ui)
     { }
 
-    public Window CombatScannerWindow;
-    public Scanner Scanner;
+    public Window CombatScannerWindow { get; private set; }
+    public Scanner Scanner { get; private set; }
 
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()

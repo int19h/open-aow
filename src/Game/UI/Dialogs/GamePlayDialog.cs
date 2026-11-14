@@ -19,28 +19,29 @@ public partial class GamePlayDialog : UIModule
     public GamePlayDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public CheckBox AutoSaveCheckBox;
-    public CheckBox SkipIntroCheckBox;
-    public Edit PasswordEdit;
-    public ComboBox CombatResolveModeComboBox;
-    public CheckBox Classic1CheckBox;
-    public CheckBox Classic2CheckBox;
-    public CheckBox Classic3CheckBox;
-    public CheckBox Classic4CheckBox;
-    public CheckBox Classic5CheckBox;
-    public CheckBox Classic6CheckBox;
-    public CheckBox Simultaneous1CheckBox;
-    public CheckBox Simultaneous2CheckBox;
-    public CheckBox Simultaneous3CheckBox;
-    public CheckBox Simultaneous4CheckBox;
-    public CheckBox Simultaneous5CheckBox;
-    public CheckBox Simultaneous6CheckBox;
-    public CheckBox Classic7CheckBox;
-    public CheckBox Simultaneous7CheckBox;
-    public ComboBox MovementSpeedComboBox;
-    public CheckBox Classic8CheckBox;
-    public CheckBox Simultaneous8CheckBox;
+    public Window Window { get; private set; }
+    public CheckBox AutoSaveCheckBox { get; private set; }
+    public CheckBox SkipIntroCheckBox { get; private set; }
+    public Edit PasswordEdit { get; private set; }
+    public ComboBox CombatResolveModeComboBox { get; private set; }
+    public CheckBox Classic1CheckBox { get; private set; }
+    public CheckBox Classic2CheckBox { get; private set; }
+    public CheckBox Classic3CheckBox { get; private set; }
+    public CheckBox Classic4CheckBox { get; private set; }
+    public CheckBox Classic5CheckBox { get; private set; }
+    public CheckBox Classic6CheckBox { get; private set; }
+    public CheckBox Simultaneous1CheckBox { get; private set; }
+    public CheckBox Simultaneous2CheckBox { get; private set; }
+    public CheckBox Simultaneous3CheckBox { get; private set; }
+    public CheckBox Simultaneous4CheckBox { get; private set; }
+    public CheckBox Simultaneous5CheckBox { get; private set; }
+    public CheckBox Simultaneous6CheckBox { get; private set; }
+    public CheckBox Classic7CheckBox { get; private set; }
+    public CheckBox Simultaneous7CheckBox { get; private set; }
+    public ComboBox MovementSpeedComboBox { get; private set; }
+    public CheckBox Classic8CheckBox { get; private set; }
+    public CheckBox Simultaneous8CheckBox { get; private set; }
+
     private string _newPassword = "";
 
     // AoWGamePlayDlg.pas:200

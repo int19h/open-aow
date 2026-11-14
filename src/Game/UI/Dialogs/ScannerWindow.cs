@@ -11,13 +11,13 @@ public partial class ScannerWindow : UIModule
     public ScannerWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public TabPanel ScannerTabs;
-    public CheckBox BuildingCheckBox;
-    public CheckBox ArmyCheckBox;
-    public CheckBox NaturalCheckBox;
-    public Scanner Scanner;
-    public Label TitleLabel;
+    public Window MainWindow { get; private set; }
+    public TabPanel ScannerTabs { get; private set; }
+    public CheckBox BuildingCheckBox { get; private set; }
+    public CheckBox ArmyCheckBox { get; private set; }
+    public CheckBox NaturalCheckBox { get; private set; }
+    public Scanner Scanner { get; private set; }
+    public Label TitleLabel { get; private set; }
 
     // AoWSWindow.pas:51
     public void ScannerTabChange()

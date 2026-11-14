@@ -16,10 +16,11 @@ public partial class ConstructDialog : UIModule
     public ConstructDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public ListBox<ConstructionControl> ConstructionList;
-    public ListBox ConstructionCostList;
-    public ListBox ConstructionTurnsList;
+    public Window Window { get; private set; }
+    public ListBox<ConstructionControl> ConstructionList { get; private set; }
+    public ListBox ConstructionCostList { get; private set; }
+    public ListBox ConstructionTurnsList { get; private set; }
+
     private AbilityActivation _request;
 
     // AoWConstructDlg.pas:117

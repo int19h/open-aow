@@ -16,10 +16,10 @@ public partial class CampaignJoinDialog : UIModule
     public CampaignJoinDialog(UIContext ui) : base(ui)
     { }
 
-    public Panel CharacterGenerationPanel;
-    public Panel LeaderTypePanel;
-    public Panel DefaultFacePanel;
-    public UserDrawBox ScrollTextView;
+    public Panel CharacterGenerationPanel { get; private set; }
+    public Panel LeaderTypePanel { get; private set; }
+    public Panel DefaultFacePanel { get; private set; }
+    public UserDrawBox ScrollTextView { get; private set; }
 
     public byte Stage { get; set; }
     public int Faction { get; set; }

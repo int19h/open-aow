@@ -12,11 +12,12 @@ public partial class ConfirmationDialog : UIModule
     public ConfirmationDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Label TitleLabel;
-    public Label MessageLabel;
-    public Panel OKPanel;
-    public Panel YesNoPanel;
+    public Window Window { get; private set; }
+    public Label TitleLabel { get; private set; }
+    public Label MessageLabel { get; private set; }
+    public Panel OKPanel { get; private set; }
+    public Panel YesNoPanel { get; private set; }
+
     // The original stored an action code that yesBtnClick switched on.
     private Action _onConfirmed;
 

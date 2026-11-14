@@ -19,65 +19,66 @@ public partial class ControlWindow : UIModule
     public ControlWindow(UIContext ui) : base(ui)
     { }
 
-    public Window MainWindow;
-    public Frame Unit1Frame;
-    public Frame Unit2Frame;
-    public Frame Unit3Frame;
-    public Frame Unit4Frame;
-    public Frame Unit5Frame;
-    public Frame Unit6Frame;
-    public Frame Unit7Frame;
-    public Frame Unit8Frame;
-    public Label MovesLabel;
-    public Label PartyStatusLabel;
-    public Image Unit1MovesIcon;
-    public Image Unit2MovesIcon;
-    public Image Unit3MovesIcon;
-    public Image Unit4MovesIcon;
-    public Image Unit5MovesIcon;
-    public Image Unit6MovesIcon;
-    public Image Unit7MovesIcon;
-    public Image Unit8MovesIcon;
-    public Image MoveIcon;
-    public Panel PartyMovesPanel;
-    public Gauge Unit1Gauge;
-    public Gauge Unit2Gauge;
-    public Gauge Unit3Gauge;
-    public Gauge Unit4Gauge;
-    public Gauge Unit5Gauge;
-    public Gauge Unit6Gauge;
-    public Gauge Unit7Gauge;
-    public Gauge Unit8Gauge;
-    public CheckBox Unit1CheckBox;
-    public CheckBox Unit2CheckBox;
-    public CheckBox Unit3CheckBox;
-    public CheckBox Unit5CheckBox;
-    public CheckBox Unit6CheckBox;
-    public CheckBox Unit7CheckBox;
-    public CheckBox Unit4CheckBox;
-    public CheckBox Unit8CheckBox;
-    public Frame EmptySlot1Frame;
-    public Frame EmptySlot2Frame;
-    public Frame EmptySlot3Frame;
-    public Frame EmptySlot4Frame;
-    public Frame EmptySlot5Frame;
-    public Frame EmptySlot6Frame;
-    public Frame EmptySlot7Frame;
-    public Frame EmptySlot8Frame;
-    public Frame EmptyCheck1Frame;
-    public Frame EmptyCheck2Frame;
-    public Frame EmptyCheck3Frame;
-    public Frame EmptyCheck4Frame;
-    public Frame EmptyCheck5Frame;
-    public Frame EmptyCheck6Frame;
-    public Frame EmptyCheck7Frame;
-    public Frame EmptyCheck8Frame;
-    public Panel PartyInfoPanel;
-    public Label PartyInfoLabel;
-    public Panel PartyControlPanel;
-    public CheckBox PartyGuardCheckBox;
-    public Label PartyActionLabel1;
-    public Label PartyActionLabel2;
+    public Window MainWindow { get; private set; }
+    public Frame Unit1Frame { get; private set; }
+    public Frame Unit2Frame { get; private set; }
+    public Frame Unit3Frame { get; private set; }
+    public Frame Unit4Frame { get; private set; }
+    public Frame Unit5Frame { get; private set; }
+    public Frame Unit6Frame { get; private set; }
+    public Frame Unit7Frame { get; private set; }
+    public Frame Unit8Frame { get; private set; }
+    public Label MovesLabel { get; private set; }
+    public Label PartyStatusLabel { get; private set; }
+    public Image Unit1MovesIcon { get; private set; }
+    public Image Unit2MovesIcon { get; private set; }
+    public Image Unit3MovesIcon { get; private set; }
+    public Image Unit4MovesIcon { get; private set; }
+    public Image Unit5MovesIcon { get; private set; }
+    public Image Unit6MovesIcon { get; private set; }
+    public Image Unit7MovesIcon { get; private set; }
+    public Image Unit8MovesIcon { get; private set; }
+    public Image MoveIcon { get; private set; }
+    public Panel PartyMovesPanel { get; private set; }
+    public Gauge Unit1Gauge { get; private set; }
+    public Gauge Unit2Gauge { get; private set; }
+    public Gauge Unit3Gauge { get; private set; }
+    public Gauge Unit4Gauge { get; private set; }
+    public Gauge Unit5Gauge { get; private set; }
+    public Gauge Unit6Gauge { get; private set; }
+    public Gauge Unit7Gauge { get; private set; }
+    public Gauge Unit8Gauge { get; private set; }
+    public CheckBox Unit1CheckBox { get; private set; }
+    public CheckBox Unit2CheckBox { get; private set; }
+    public CheckBox Unit3CheckBox { get; private set; }
+    public CheckBox Unit5CheckBox { get; private set; }
+    public CheckBox Unit6CheckBox { get; private set; }
+    public CheckBox Unit7CheckBox { get; private set; }
+    public CheckBox Unit4CheckBox { get; private set; }
+    public CheckBox Unit8CheckBox { get; private set; }
+    public Frame EmptySlot1Frame { get; private set; }
+    public Frame EmptySlot2Frame { get; private set; }
+    public Frame EmptySlot3Frame { get; private set; }
+    public Frame EmptySlot4Frame { get; private set; }
+    public Frame EmptySlot5Frame { get; private set; }
+    public Frame EmptySlot6Frame { get; private set; }
+    public Frame EmptySlot7Frame { get; private set; }
+    public Frame EmptySlot8Frame { get; private set; }
+    public Frame EmptyCheck1Frame { get; private set; }
+    public Frame EmptyCheck2Frame { get; private set; }
+    public Frame EmptyCheck3Frame { get; private set; }
+    public Frame EmptyCheck4Frame { get; private set; }
+    public Frame EmptyCheck5Frame { get; private set; }
+    public Frame EmptyCheck6Frame { get; private set; }
+    public Frame EmptyCheck7Frame { get; private set; }
+    public Frame EmptyCheck8Frame { get; private set; }
+    public Panel PartyInfoPanel { get; private set; }
+    public Label PartyInfoLabel { get; private set; }
+    public Panel PartyControlPanel { get; private set; }
+    public CheckBox PartyGuardCheckBox { get; private set; }
+    public Label PartyActionLabel1 { get; private set; }
+    public Label PartyActionLabel2 { get; private set; }
+
     private byte _selection;
 
     // AOWControlWin.pas:294

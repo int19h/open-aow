@@ -18,12 +18,13 @@ public partial class HeroInfoDialog : UIModule
     public HeroInfoDialog(UIContext ui) : base(ui)
     { }
 
-    public Panel UnitPanel;
-    public Window Window;
-    public Label HeroNameLabel;
-    public Label HeroLevelLabel;
-    public Image FaceFrame;
-    public Memo MessageMemo;
+    public Panel UnitPanel { get; private set; }
+    public Window Window { get; private set; }
+    public Label HeroNameLabel { get; private set; }
+    public Label HeroLevelLabel { get; private set; }
+    public Image FaceFrame { get; private set; }
+    public Memo MessageMemo { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private ArmyInfoEventLog _armyInfo;
     private bool _detailsOpen;

@@ -16,11 +16,12 @@ public partial class SendEmailGameDialog : UIModule
     public SendEmailGameDialog(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Edit EmailAddressEdit;
-    public CheckBox ManualCheckBox;
-    public CheckBox AutomatedCheckBox;
-    public Label RecipientNameLabel;
+    public Window Window { get; private set; }
+    public Edit EmailAddressEdit { get; private set; }
+    public CheckBox ManualCheckBox { get; private set; }
+    public CheckBox AutomatedCheckBox { get; private set; }
+    public Label RecipientNameLabel { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private SendEmailGameEventLog _sendEvent;
 

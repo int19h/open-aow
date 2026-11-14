@@ -14,10 +14,11 @@ public partial class TutorialWindow : UIModule
     public TutorialWindow(UIContext ui) : base(ui)
     { }
 
-    public Window Window;
-    public Memo MessageMemo;
-    public Memo HeaderMemo;
-    public VerticalScrollBar AbilityScrollBar;
+    public Window Window { get; private set; }
+    public Memo MessageMemo { get; private set; }
+    public Memo HeaderMemo { get; private set; }
+    public VerticalScrollBar AbilityScrollBar { get; private set; }
+
     private event ExecuteDoneEvent Done;
     private EventLog _event;
 
