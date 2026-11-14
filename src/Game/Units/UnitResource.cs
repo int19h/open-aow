@@ -113,7 +113,8 @@ public partial class UnitResource : TroopResource
         BloodType = persister.Enum("BloodType", value: BloodType);
         persister.Object("SilverRankAbilities", objectValue: Abilities[(int)Unit.Rank.Silver]);
         persister.Object("GoldRankAbilities", objectValue: Abilities[(int)Unit.Rank.Gold]);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original validates the abilities there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
             {

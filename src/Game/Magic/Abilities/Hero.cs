@@ -189,7 +189,11 @@ public partial class Hero : Troop
             persister.Skip("HeroItems");
         }
 
-        LibraryName = persister.String("LibraryName", value: LibraryName);
+        // The original leaves the library name out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            LibraryName = persister.String("LibraryName", value: LibraryName);
+        }
         _usedSkillPoints = persister.Int32("UsedSkillPoints", value: _usedSkillPoints);
         if (persister.Loading)
         {

@@ -64,7 +64,9 @@ public partial class AbilityOwner : CustomAbilityList
             return;
         }
 
-        if (AbilityData == null)
+        // Under the translate stream the original takes its read branch, and the stream's empty
+        // property table holds no ability bits, so no ability data is visited.
+        if (AbilityData == null || PersistSupport.Translating(persister))
         {
             return;
         }

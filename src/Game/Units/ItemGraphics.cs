@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
@@ -34,7 +35,11 @@ public partial class ItemGraphics : EngineResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        ImageLibraryName = persister.String("ImageLibraryName", value: ImageLibraryName);
+        // The original leaves the library name out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            ImageLibraryName = persister.String("ImageLibraryName", value: ImageLibraryName);
+        }
         ImageIndex = persister.Int32("ImageIndex", value: ImageIndex);
         ItemType = persister.Enum("ItemType", value: ItemType);
         Hidden = persister.Boolean("Hidden", value: Hidden);

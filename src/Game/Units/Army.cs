@@ -106,7 +106,8 @@ public partial class Army : UnitList
 
         OldAIBehavior = persister.Enum("OldAIBehavior", value: OldAIBehavior);
         Mode = persister.Set("Mode", value: Mode);
-        if (persister.Loading && Mode.Contains(ArmyModeElement.Moving))
+        // The translate stream's mode holds read, so the original clears the flag there too.
+        if ((persister.Loading || PersistSupport.Translating(persister)) && Mode.Contains(ArmyModeElement.Moving))
         {
             Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
         }

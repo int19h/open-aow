@@ -117,8 +117,25 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _itemGraphicsIndex = persister.Int32("ItemGraphicsIndex", value: _itemGraphicsIndex);
-        OwnerName = persister.String("OwnerName", value: OwnerName);
+        // Under the text-only mode of the translate stream the original visits an item of a library
+        // only for its owner name, and that only inside an item library, and never visits the
+        // library name.
+        bool translating = PersistSupport.Translating(persister);
+        if (!translating || !GetLibraryItem())
+        {
+            _itemGraphicsIndex = persister.Int32("ItemGraphicsIndex", value: _itemGraphicsIndex);
+        }
+
+        if (!translating || Owner is ItemLibrary || !GetLibraryItem())
+        {
+            OwnerName = persister.String("OwnerName", value: OwnerName);
+        }
+
+        if (translating && GetLibraryItem())
+        {
+            return;
+        }
+
         Name = persister.String("Name", value: Name);
         Availability = persister.Enum("Availability", value: Availability);
         Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
@@ -132,7 +149,10 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         _obtainValue = persister.Int32("ObtainValue", value: _obtainValue);
         _spellId = persister.Int32("SpellId", value: _spellId);
         LibraryId = persister.Int32("LibraryId", value: LibraryId, fallback: -1);
-        LibraryName = persister.String("LibraryName", value: LibraryName);
+        if (!translating)
+        {
+            LibraryName = persister.String("LibraryName", value: LibraryName);
+        }
     }
 
     // Army.PAS:4229

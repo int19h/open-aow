@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -31,7 +32,11 @@ public partial class FaceResource : EngineResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
+        // The original leaves the library name out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
+        }
         _imageIndex = persister.Int32("ImageIndex", value: _imageIndex);
         DeveloperOnly = persister.Boolean("DeveloperOnly", value: DeveloperOnly);
     }

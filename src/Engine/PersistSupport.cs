@@ -1,5 +1,6 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game;
@@ -234,8 +235,21 @@ public static class PersistSupport
         }
     }
 
+    /// <summary>
+    /// True when the translate stream visits the object (<see cref="TranslatePersister"/>). The
+    /// original <c>ReadWrite</c> ran under that stream's mode (read, text only, translate), and a
+    /// tree method asks this where that mode visited other members than a save does.
+    /// </summary>
+    public static bool Translating(IPersister persister) => persister is TranslatePersister;
+
     public static void Lines(IPersister persister, string name, StringCollection lines)
     {
+        if (persister is TranslatePersister translate)
+        {
+            translate.Lines(lines);
+            return;
+        }
+
         var copy = new List<string>(lines.Count);
         for (int i = 0; i < lines.Count; i++) copy.Add(lines[i]);
         persister.Lines(name, copy);
@@ -254,6 +268,12 @@ public static class PersistSupport
 
     public static void LinesWithValues(IPersister persister, string name, StringCollection lines)
     {
+        if (persister is TranslatePersister translate)
+        {
+            translate.Lines(lines);
+            return;
+        }
+
         var copy = new List<string>(lines.Count);
         var objects = new List<int>(lines.Count);
         for (int i = 0; i < lines.Count; i++)

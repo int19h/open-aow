@@ -666,6 +666,24 @@ is retired through the tree, where they called `MainReadWrite`:
 - The class ids of the created objects inside resolve in the game engine table when it enlists
   the stored class, otherwise in the first table that does.
 
+`TranslateStorageStream` (the stream of `GameEngine.TranslateEngineObject`, which translates the
+strings of a loaded map) visits an object of a retired class through its tree methods. It runs
+`MainPersist` with `TranslatePersister`, which loads and saves nothing: a string goes through
+`TranslateString`, a string list (`PersistSupport.Lines` and `LinesWithValues`) through
+`TranslateStrings`, and an object, a created object and the children the node owns go back to the
+stream, which visits a class that still has `ReadWrite` through `MainReadWrite`. The stream's mode
+is read, text only and translate, and the deleted `ReadWrite` methods visit other members under it
+than a save does. The tree methods ask `PersistSupport.Translating` there and keep each condition:
+a hero, a face resource, an item graphic, a unit graphics resource and a leadership ability datum
+leave out their library names, image library names or external source, an item of a library is
+visited only for its owner name and only inside an item library, the library managers visit their
+system library in place instead of reading or writing a file, an ability owner visits no ability
+data, and the army (its moving flag), the army view (the morale of its units) and the unit
+resource (the validation of its abilities) do the work of the read branch, because the mode holds
+read. A tree write, a string map and a read back would visit every string the tree holds and run
+the load's side effects (the clear, new children, the releases), so the stream does not take that
+way.
+
 The tests that used the stream as the reference of this family now reach these classes through
 the same bridge (`StorageStream.PersistObject`), so their stream side is the tree. What still
 proves the family: the converter's document of the tree's original image equals the document

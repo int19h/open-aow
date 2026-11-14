@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
@@ -21,7 +22,11 @@ public partial class LeadershipAbilityData : MultiLevelAbilityData
     {
         base.PersistFields(persister);
         ExternalLevel = persister.Byte("ExternalLevel", value: ExternalLevel);
-        ExternalSource = persister.String("ExternalSource", value: ExternalSource);
+        // The original leaves the external source out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            ExternalSource = persister.String("ExternalSource", value: ExternalSource);
+        }
     }
 
     // Engine.pas:524

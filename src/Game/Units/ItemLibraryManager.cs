@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Tree;
@@ -39,6 +40,14 @@ public partial class ItemLibraryManager : EngineObject
     {
         string directory;
         base.PersistFields(persister);
+        // Under the text-only mode of the translate stream the original visits the system library
+        // in place and touches no file.
+        if (PersistSupport.Translating(persister))
+        {
+            persister.Object("SystemLibrary", objectValue: SystemLibrary);
+            return;
+        }
+
         directory = ExtractFilePath(GetEngine().HssFileName);
         if (persister.Loading)
         {

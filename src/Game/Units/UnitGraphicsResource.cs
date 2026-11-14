@@ -77,8 +77,13 @@ public partial class UnitGraphicsResource : EngineResource
     {
         base.PersistFields(persister);
         PersistSupport.ImageSequences(persister, name: "Sequences", list: Sequences);
-        _faceImageLibraryName = persister.String("FaceImageLibraryName", value: _faceImageLibraryName);
-        Name = persister.String("Name", value: Name);
+        // The original leaves both names out under the text-only mode of the translate stream.
+        if (!PersistSupport.Translating(persister))
+        {
+            _faceImageLibraryName = persister.String("FaceImageLibraryName", value: _faceImageLibraryName);
+            Name = persister.String("Name", value: Name);
+        }
+
         _faceIndex = persister.Int32("FaceIndex", value: _faceIndex);
         MoveAnimationSpeed = persister.RawByte("MoveAnimationSpeed", value: MoveAnimationSpeed);
         persister.Object("SelectSfxLibrary", objectValue: SfxLibraries[0]);
