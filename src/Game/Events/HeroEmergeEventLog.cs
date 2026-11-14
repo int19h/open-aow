@@ -119,7 +119,7 @@ public partial class HeroEmergeEventLog : EventLog
         HeroJoinEventLog result;
         Hero hero;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player) && hero.Owner is not HeroList)
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player) && hero.Owner is not IHeroHolder)
         {
             result = new HeroJoinEventLog(null) { Holder = CreationHolder() };
             result.JoinIndex = Id;

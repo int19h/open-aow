@@ -39,7 +39,7 @@ public partial class WarpParty : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            if (source.Owner is HeroList)
+            if (source.Owner is IHeroHolder)
             {
                 return false;
             }

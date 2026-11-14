@@ -73,7 +73,10 @@ the same loop as `MainReadWrite`. `Army.MainPersist` does the same, because an a
 `HeroItems.MainPersist` and `ItemLibrary.MainPersist` do the same release, because a hero's inventory,
 the items a hero wears and an item library no longer derive from `ItemList` (issue 158 part 5) and keep
 the item list's part themselves. Their children are their items, written through `NodeChildren` with the
-same slots, class ids and stored-child test. The game's loads and saves of the
+same slots, class ids and stored-child test. `HeroLibrary` (Delphi `THeroLibrary`) no longer derives from
+`HeroList` (issue 158 part 6). Its heroes stay its node children, written through `ReferenceChildren` with
+the same slots, class ids and stored-child test, because it derives from `EReferenceNode` and keeps that
+write. The game's loads and saves of the
 in-scope profiles (section 12) and its copies, assignments, comparisons and original object files
 (section 13) go through the tree, and so do the packets (section 15).
 

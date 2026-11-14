@@ -71,7 +71,7 @@ public partial class UnitSpell : Spell
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                if (source.Owner is HeroList)
+                if (source.Owner is IHeroHolder)
                 {
                     result = false;
                 }
@@ -123,7 +123,7 @@ public partial class UnitSpell : Spell
             if (TargetRange == 0)
             {
                 caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
-                if (source.Owner is HeroList)
+                if (source.Owner is IHeroHolder)
                 {
                     var empty = new UnitUserList(null) { Holder = CreationHolder() };
                     SetupUnitSelectionControl(caster, source, empty.Units);

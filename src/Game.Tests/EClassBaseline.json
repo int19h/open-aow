@@ -825,7 +825,7 @@
   },
   "Aow.Game.Units.HeroLibrary": {
     "id": 256,
-    "parent": "Aow.Game.Units.HeroList"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Units.HeroLibraryManager": {
     "id": 80,

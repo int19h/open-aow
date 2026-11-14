@@ -24,6 +24,7 @@ public sealed class OwnershipTroopTests
     {
         Army => "army",
         UnitList => "units",
+        HeroLibrary => "library",
         HeroList => "heroes",
         null => "none",
     };
@@ -216,6 +217,43 @@ public sealed class OwnershipTroopTests
         ground.SetOwner(site);
         Assert.True(ground.Owner is ItemList);
         Assert.Same(site, ground.Owner);
+    }
+
+    // Issue 158 part 6: a hero library is not a hero list. It holds its heroes as references and
+    // reads them through Heroes. A player's hero list stays a hero list, and a hero that joins it
+    // stays ownerless.
+    [Fact]
+    public void ALibraryHoldsItsHeroesInHeroes()
+    {
+        var library = new HeroLibrary(null!) { Holder = EngineFixture.Engine };
+        var list = new HeroList(null!) { Holder = EngineFixture.Engine };
+        var stored = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 3 };
+        Assert.False(typeof(HeroList).IsAssignableFrom(typeof(HeroLibrary)));
+        Assert.True(typeof(EReferenceNode).IsAssignableFrom(typeof(HeroLibrary)));
+        Assert.True(typeof(HeroList).IsAssignableFrom(list.GetType()));
+
+        stored.SetOwner(library);
+        Assert.Same(library, stored.Owner);
+        Assert.False(stored.Owner is HeroList);
+        Assert.True(stored.Owner is HeroLibrary);
+        Assert.Same(library, ((IOwned<TroopOwner>)stored).Owner.Node);
+        Assert.Equal("library", Kind(((IOwned<TroopOwner>)stored).Owner));
+        Assert.Same(stored, library.Heroes[0]);
+        Assert.Same(stored, library.GetChild(0));
+        Assert.Same(library, library.Heroes.Holder);
+        Assert.Same(stored, library.Heroes.FindHero(3));
+        Assert.Same(stored, library.Heroes.GetHero(0));
+        Assert.Null(library.Heroes.GetHero(1));
+        Assert.Null(stored.ArmyOwner);
+        Assert.Null(stored.UnitHolder);
+
+        var referenced = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        referenced.SetOwner(list);
+        Assert.Null(referenced.Owner);
+        Assert.True(referenced.Owner is not HeroLibrary);
+        Assert.Same(referenced, list.Heroes[0]);
+        Assert.Same(referenced, list.GetHero(0));
+        Assert.Same(list, list.Heroes.Holder);
     }
 
     // A dungeon combat hands the items left on the battlefield to the prisoners. They lie in the
