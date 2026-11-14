@@ -681,12 +681,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
     {
         int I;
         Troop troop;
-        I = Group.Count;
-        bool result = Group.GetStrength(DamageType.Wall) != 0;
+        I = Group.Units.Count;
+        bool result = Group.Units.GetStrength(DamageType.Wall) != 0;
         while (!result && I != 0)
         {
             I -= 1;
-            troop = Group.GetUnit(I);
+            troop = Group.Units.GetUnit(I);
             result = troop.GetAbilityEnabled(52) && ((SpellCastingAbility)GamePack.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(troop);
         }
 

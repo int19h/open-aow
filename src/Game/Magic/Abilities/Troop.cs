@@ -509,7 +509,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:494
     public virtual void SetPlayer(sbyte player)
     {
-        UnitUserList list;
+        AIGroup list;
         if (player != Player)
         {
             AddRef();
@@ -647,7 +647,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:777
     public virtual void Deactivate()
     {
-        UnitUserList group;
+        AIGroup group;
         group = Group;
         if (group != null)
         {
@@ -814,9 +814,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual int JoinAmount(sbyte player)
     {
         int result;
-        UnitUserList group;
+        AIGroup group;
         group = Group;
-        if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge)
+        if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge)
         {
             result = 0;
         }
@@ -832,7 +832,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual bool OfferToJoin(sbyte player)
     {
         bool result;
-        UnitUserList group;
+        AIGroup group;
         Alignment alignment;
         if (CanJoin(player))
         {
@@ -844,7 +844,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             else
             {
                 group = Group;
-                if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge)
+                if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge)
                 {
                     var players = StrategicMap.Current.Players.GetPlayers(player);
                     alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
@@ -874,13 +874,13 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1872
     public virtual void GetJoinMessage(sbyte player, int count, int amount, JoinMode mode, StringCollection messages)
     {
-        UnitUserList group;
+        AIGroup group;
         messages.Clear();
         switch (mode)
         {
             case JoinMode.Default:
                 group = Group;
-                if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge && amount == 0)
+                if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge && amount == 0)
                 {
                     if (count == 0)
                     {
@@ -915,7 +915,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1209
     public virtual void Killed()
     {
-        UnitUserList group;
+        AIGroup group;
         UnitStatus = UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
         ResetLifeMasteryBlessing();
         ResetLifeMasteryFear();

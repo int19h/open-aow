@@ -13,7 +13,9 @@ public struct BattleFieldInfo
     public sbyte IndependentRelation { get; }
     public Set<BattleFieldInfoRequestsElement> Requests { get; set; }
     public Set<DamageType> DamageTypes { get; private set; }
-    public UnitList Units { get; set; }
+
+    // The troops already counted. A default value has no holder and counts every troop.
+    public UnitCollection Units { get; set; }
     public Set<byte> FriendlyRelations { get; set; }
     public Set<byte> EnemyRelations { get; set; }
     public int FriendlyStrength { get; set; }

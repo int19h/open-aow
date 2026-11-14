@@ -127,7 +127,7 @@ public partial class GroupDefenseSelector : IDisposable
         DefenseLocation = MapCoordinate.None;
         candidates = new UnitUserList(null) { Holder = Creator.CreationHolder() };
         HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
-        while (walk.Radius <= 1 && Defenders.Count != group.Count)
+        while (walk.Radius <= 1 && Defenders.Count != group.Units.Count)
         {
             mapField = level.GetField(walk.X, walk.Y);
             if (mapField.GetPlayer() == group.Player)

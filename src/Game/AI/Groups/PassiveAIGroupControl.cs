@@ -29,13 +29,13 @@ public partial class PassiveAIGroupControl : AIGroupControl
                 location = Group.GetLocation();
                 selector = new GroupDefenseSelector(this);
                 selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
-                if (selector.Defenders.Count != Group.Count && Group.Player != 0)
+                if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
                 {
                     var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                     group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
-                    for (int I = Group.Count - 1; I >= 0; I--)
+                    for (int I = Group.Units.Count - 1; I >= 0; I--)
                     {
-                        troop = Group.GetUnit(I);
+                        troop = Group.Units.GetUnit(I);
                         if (selector.Defenders.IndexOf(troop) == -1)
                         {
                             group.AddUnit(troop);

@@ -658,7 +658,7 @@ public static class AbilityRules
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                info.Units = units;
+                info.Units = units.Units;
             }
 
             while (I >= 0)
