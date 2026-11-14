@@ -56,12 +56,12 @@ public partial class PrisonersJoinEventLog : JoinEventLog
         dungeon = (Dungeon)StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
         if (dungeon != null)
         {
-            for (int I = 0, last = dungeon.Prisoners.Count - 1; I <= last; I++)
+            for (int I = 0, last = dungeon.Prisoners.Units.Count - 1; I <= last; I++)
             {
-                var unitType = dungeon.Prisoners.GetUnit(I).GetUnitType();
+                var unitType = dungeon.Prisoners.Units.GetUnit(I).GetUnitType();
                 if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
                 {
-                    index = dungeon.Prisoners.GetUnit(I).GetUnitGraphicsResourceIndex();
+                    index = dungeon.Prisoners.Units.GetUnit(I).GetUnitGraphicsResourceIndex();
                     if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) != null)
                     {
                         var random = Random(15);

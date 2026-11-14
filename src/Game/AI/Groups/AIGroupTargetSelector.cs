@@ -690,11 +690,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                             var behavior = group.GroupClass.Behavior;
                             Group = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
 
-                            Group.AddUnits(required);
+                            Group.AddUnits(required.Units);
                             Group.SetupTarget(_nextTarget, AIGroupTargetStatus.Execute, 0);
                             Group.Release();
                             _spareUnits.Clear();
-                            _spareUnits.AddUnits(optional);
+                            _spareUnits.AddUnits(optional.Units);
                             if (_spareUnits.Count == 0)
                             {
                                 State = 32;
@@ -1098,7 +1098,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         predictor = new CombatPredictor(this);
         requiredUnits = new UnitUserList(null) { Holder = CreationHolder() };
         optionalUnits = new UnitUserList(null) { Holder = CreationHolder() };
-        predictor.AddUnits(units);
+        predictor.AddUnits(units.Units);
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
             predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
@@ -1141,12 +1141,12 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
         if (required != null)
         {
-            required.AddUnits(requiredUnits);
+            required.AddUnits(requiredUnits.Units);
         }
 
         if (optional != null)
         {
-            optional.AddUnits(optionalUnits);
+            optional.AddUnits(optionalUnits.Units);
         }
 
         optionalUnits?.Dispose();

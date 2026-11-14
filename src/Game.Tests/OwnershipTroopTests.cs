@@ -20,6 +20,7 @@ public sealed class OwnershipTroopTests
 {
     private static string Kind(TroopOwner owner) => owner switch
     {
+        Army => "army",
         UnitList => "units",
         HeroList => "heroes",
         null => "none",
@@ -60,10 +61,21 @@ public sealed class OwnershipTroopTests
 
         troop.SetOwner(army);
         Assert.Same(army, troop.Owner);
-        Assert.Same(army, troop.UnitListOwner);
+        Assert.Same(army, troop.OwnerUnits.Holder);
+        Assert.Same(army, troop.UnitHolder);
         Assert.Same(army, troop.ArmyOwner);
+        Assert.Equal("army", Kind(((IOwned<TroopOwner>)troop).Owner));
+        Assert.Same(army, ((IOwned<TroopOwner>)troop).Owner.Node);
+        Assert.Same(troop, army.Units[0]);
+
+        // A unit list that is not an army holds generated troops apart from an army.
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        troop.SetOwner(units);
+        Assert.Empty(army.Units);
+        Assert.Same(units, troop.UnitHolder);
         Assert.Equal("units", Kind(((IOwned<TroopOwner>)troop).Owner));
-        Assert.Same(troop, army[0]);
+        Assert.Throws<InvalidCastException>(() => troop.ArmyOwner);
+        troop.SetOwner(army);
 
         // A hero list holds references: the hero joins it ownerless, and the list owns it only
         // while it saves or loads it.
@@ -72,7 +84,7 @@ public sealed class OwnershipTroopTests
         Assert.Same(hero, heroes[0]);
         hero.SetOwnerWithoutNotify(heroes);
         Assert.Same(heroes, hero.Owner);
-        Assert.Null(hero.UnitListOwner);
+        Assert.Null(hero.UnitHolder);
         Assert.Null(hero.ArmyOwner);
         Assert.Equal("heroes", Kind(((IOwned<TroopOwner>)hero).Owner));
         Assert.Same(heroes, ((IOwned<TroopOwner>)hero).Owner.Node);
@@ -91,21 +103,50 @@ public sealed class OwnershipTroopTests
         Assert.Throws<ArgumentException>(() => army.AddChild(node));
         Assert.Throws<ArgumentException>(() => army.SetChild(0, child: node));
         Assert.Throws<ArgumentException>(() => units.AddChild(item));
-        Assert.Equal(0, army.Count);
+        Assert.Empty(army.Units);
         Assert.Equal(0, units.Count);
 
         var first = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 1 };
         var second = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 2 };
         ((IChildSink<Troop>)army).AddChild(first);
-        army.SetUnit(3, troop: second);
-        Assert.Equal(4, army.Count);
-        Assert.Same(first, army[0]);
-        Assert.Null(army[1]);
-        Assert.Null(army[2]);
-        Assert.Same(second, army.GetUnit(3));
+        army.SetChild(3, child: second);
+        Assert.Equal(4, army.Units.Count);
+        Assert.Same(first, army.Units[0]);
+        Assert.Null(army.Units[1]);
+        Assert.Null(army.Units[2]);
+        Assert.Same(second, army.Units.GetUnit(3));
         IOwner<EngineObject> read = army;
         Assert.Same(second, read[3]);
         node.Dispose();
+    }
+
+    // Issue 158 part 4: an army is not a unit list. It holds its troops as its children and reads
+    // them through Units, and the collection adds through the holder's own hooks.
+    [Fact]
+    public void AnArmyHoldsItsTroopsInUnitsAndAddsThroughItsOwnHooks()
+    {
+        var army = new Army(null!) { Holder = EngineFixture.Engine };
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        var first = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 1 };
+        var second = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 2 };
+        Assert.False(typeof(UnitList).IsAssignableFrom(typeof(Army)));
+        Assert.True(army.Units.AddUnit(first));
+        Assert.True(units.Units.AddUnit(second));
+        Assert.Same(army, first.Owner);
+        Assert.Same(units, second.Owner);
+        Assert.Same(army, army.Units.Holder);
+        Assert.Equal(new Troop[] { first }, army.Units);
+        Assert.Same(first, army.GetChild(0));
+        Assert.Same(first, army.Units.FindId(1));
+        Assert.Equal(0, army.Units.IndexOfId(1));
+        Assert.Equal(-1, army.Units.IndexOfId(2));
+        Assert.Null(army.Units.GetUnit(1));
+        IOwner<Troop> typed = army;
+        Assert.Same(first, typed[0]);
+        Assert.Equal(1, typed.Count);
+        Assert.True(army.DeleteUnit(first));
+        Assert.Null(first.Owner);
+        Assert.Empty(army.Units);
     }
 
     [Fact]
@@ -118,7 +159,7 @@ public sealed class OwnershipTroopTests
         Assert.Throws<ArgumentException>(() => item.SetOwner(army));
         Assert.Throws<ArgumentException>(() => item.SetOwnerWithoutNotify(army));
         Assert.Null(item.Owner);
-        Assert.Equal(0, army.Count);
+        Assert.Empty(army.Units);
 
         ((IOwnedSink<ItemList>)item).SetOwner(items);
         Assert.Same(items, item.Owner);
@@ -139,10 +180,10 @@ public sealed class OwnershipTroopTests
         var before = Image(prisoners);
         var item = new Item(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => item.SetOwner(prisoners));
-        Assert.Equal(0, prisoners.Count);
+        Assert.Empty(prisoners.Units);
         item.SetOwner(prisoners.Items);
         Assert.Same(prisoners.Items, item.Owner);
-        Assert.Equal(0, prisoners.Count);
+        Assert.Empty(prisoners.Units);
         Assert.Equal(1, prisoners.Items.Count);
         Assert.Equal(before, Image(prisoners));
         Assert.Null(prisoners.Items.Owner);

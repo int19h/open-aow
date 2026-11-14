@@ -55,7 +55,7 @@ public partial class GroupDefenseSelector : IDisposable
             group = P.AIGroups.GetGroups(I);
             if (group.DefendLocation(location, priority))
             {
-                units.AddUnits(group);
+                units.AddUnits(group.Units);
                 result = true;
             }
         }

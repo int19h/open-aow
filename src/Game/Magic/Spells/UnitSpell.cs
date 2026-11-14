@@ -48,7 +48,7 @@ public partial class UnitSpell : Spell
             valid = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, 0);
             valid = valid && source.Owner is Army;
             valid = valid && ((Hero)source).CanCastSpell(SpellId, ref reason);
-            if (valid && AIRetrieveOptimalTargetUnit(source, source.UnitListOwner, ref target, ref priority))
+            if (valid && AIRetrieveOptimalTargetUnit(source, source.OwnerUnits, ref target, ref priority))
             {
                 action = CreateCastSpellAction();
                 SetupCastSpellAction(source, action);
@@ -75,7 +75,7 @@ public partial class UnitSpell : Spell
                 {
                     result = false;
                 }
-                else if (AIRetrieveOptimalTargetUnit(source, source.UnitListOwner, ref target, ref priority))
+                else if (AIRetrieveOptimalTargetUnit(source, source.OwnerUnits, ref target, ref priority))
                 {
                     eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
                     eventValue.Initialize(SpellId, source, null, BaseManaCost);
@@ -126,12 +126,12 @@ public partial class UnitSpell : Spell
                 if (source.Owner is HeroList)
                 {
                     var empty = new UnitUserList(null) { Holder = CreationHolder() };
-                    SetupUnitSelectionControl(caster, source, empty);
+                    SetupUnitSelectionControl(caster, source, empty.Units);
                     empty.Dispose();
                 }
                 else
                 {
-                    SetupUnitSelectionControl(caster, source, source.UnitListOwner);
+                    SetupUnitSelectionControl(caster, source, source.OwnerUnits);
                 }
 
                 StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
@@ -224,13 +224,13 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1238
-    public virtual void SetupUnitSelectionControl(UnitSpellCaster caster, Troop source, UnitList targets)
+    public virtual void SetupUnitSelectionControl(UnitSpellCaster caster, Troop source, UnitCollection targets)
     {
         caster.CasterSourceId = source.UnitId;
         caster.CasterSpellId = SpellId;
-        for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = targets.Count - 1; I <= last; I++)
         {
-            if (!((Army)targets).GetUnitConcealedForPlayer(I, source.Player))
+            if (!((Army)targets.Holder).GetUnitConcealedForPlayer(I, source.Player))
             {
                 var troop = targets.GetUnit(I);
                 caster.TargetUnits.AddUnit(troop);
@@ -280,7 +280,7 @@ public partial class UnitSpell : Spell
     {
         UnitSpellCaster caster;
         caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
-        SetupUnitSelectionControl(caster, source, party.Army);
+        SetupUnitSelectionControl(caster, source, party.Army.Units);
         StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
         caster.Release();
     }
@@ -327,13 +327,13 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1422
-    public virtual bool AIRetrieveOptimalTargetUnit(Troop source, UnitList targets, ref Troop target, ref int priority)
+    public virtual bool AIRetrieveOptimalTargetUnit(Troop source, UnitCollection targets, ref Troop target, ref int priority)
     {
         bool result;
         DoubleItemList<Troop> list;
         int value;
         list = new DoubleItemList<Troop>();
-        for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = targets.Count - 1; I <= last; I++)
         {
             if (ValidTargetUnit(source, targets.GetUnit(I)) && targets.GetUnit(I).GetUnitType() != UnitType.Machine)
             {

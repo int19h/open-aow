@@ -49,9 +49,9 @@ public partial class SpringOfLife : Structure
         SpringOfLifeAnimation animation = default;
         Rect R = default;
         // { Keep the parameter in its original stack slot. }
-        for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
+        for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
         {
-            armyHexSprite.Army.GetUnit(I).ExpandAbility(99);
+            armyHexSprite.Army.Units.GetUnit(I).ExpandAbility(99);
         }
 
         bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;

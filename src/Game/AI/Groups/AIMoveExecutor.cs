@@ -148,11 +148,11 @@ public partial class AIMoveExecutor : EngineObject
     // AIGroup.pas:6053
     public void AddArmy(ArmyHexSprite army, byte selection)
     {
-        for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
+        for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
             {
-                AddUnit(army.Army.GetUnit(I));
+                AddUnit(army.Army.Units.GetUnit(I));
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -511,9 +511,9 @@ public partial class AIMoveExecutor : EngineObject
         army = StrategicMap.Current.MapContainer.GetField(this.Transporter.Location.X, this.Transporter.Location.Y, this.Transporter.Location.MapLevel).GetArmyHexSprite();
 
         I = 0;
-        while (capacity > 0 && I != army.Army.Count)
+        while (capacity > 0 && I != army.Army.Units.Count)
         {
-            troop = army.Army.GetUnit(I);
+            troop = army.Army.Units.GetUnit(I);
             if (troop != Transporter.Troop)
             {
                 if (Units.IndexOfUnitId(troop.UnitId) == -1 && !troop.GetTransporting())
@@ -528,9 +528,9 @@ public partial class AIMoveExecutor : EngineObject
         }
 
         I = 0;
-        while (I != army.Army.Count)
+        while (I != army.Army.Units.Count)
         {
-            troop = army.Army.GetUnit(I);
+            troop = army.Army.Units.GetUnit(I);
             if (troop != Transporter.Troop)
             {
                 if (Units.IndexOfUnitId(troop.UnitId) == -1)

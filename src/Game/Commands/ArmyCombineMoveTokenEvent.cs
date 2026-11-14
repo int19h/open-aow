@@ -34,7 +34,7 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
             {
                 sourceArmy = ArmyHexSprite.Army;
                 targetArmy = armyHexSprite.Army;
-                combineResult = targetArmy.CanAddUnitSelection(sourceArmy, 255);
+                combineResult = targetArmy.CanAddUnitSelection(sourceArmy.Units, 255);
                 if (combineResult != AddUnitsResult.Ok)
                 {
                     ShowCombineFailure(combineResult);

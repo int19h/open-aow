@@ -405,7 +405,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:507
-    public void AddUnits(UnitList units)
+    public void AddUnits(UnitCollection units)
     {
         for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
@@ -499,7 +499,7 @@ public partial class CombatPredictor : IDisposable
         MapField field;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
-        AddUnits(army.Army);
+        AddUnits(army.Army.Units);
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         var armyLocal = army.Army;
         player = (byte)armyLocal.Player;
@@ -536,9 +536,9 @@ public partial class CombatPredictor : IDisposable
                             message.Param[0] = levelField;
                             message.Result = 0;
                             field.SendMapFieldMessage(ref message);
-                            for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
+                            for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
                             {
-                                U = armyHexSprite.Army.GetUnit(I);
+                                U = armyHexSprite.Army.Units.GetUnit(I);
                                 if (U.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
                                     AddUnit(U, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
@@ -597,9 +597,9 @@ public partial class CombatPredictor : IDisposable
                             message.Param[0] = levelField;
                             message.Result = 0;
                             field.SendMapFieldMessage(ref message);
-                            for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
+                            for (int I = 0, last = armyHexSprite.Army.Units.Count - 1; I <= last; I++)
                             {
-                                U = armyHexSprite.Army.GetUnit(I);
+                                U = armyHexSprite.Army.Units.GetUnit(I);
                                 if (U.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
                                     AddUnit(U, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));

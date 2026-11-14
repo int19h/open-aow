@@ -183,7 +183,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     public void TriggerArmyDamage(ArmyHexSprite armyHexSprite)
     {
         int count;
-        UnitList units;
+        UnitCollection units;
         ArmyEventLog log;
         Troop U;
         int damage;
@@ -196,7 +196,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
         log.ArmyView.Setup(armyHexSprite.Army, 255);
-        units = armyHexSprite.Army;
+        units = armyHexSprite.Army.Units;
         for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
             U = units.GetUnit(I);

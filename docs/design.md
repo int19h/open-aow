@@ -592,13 +592,21 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   children stay in one ordered list, so slots and stored order do not change. The resource lists
   take resources only and narrow that to their own kind through `AcceptsResource`, and the unit
   and item lists take troops and items through `AcceptsTroop` and `AcceptsItem` in the same way.
-  A troop's owner is a `TroopOwner` union: the unit list it stands in, or the hero list of a hero
-  no army holds. An item's owner is an item list. A dungeon's prisoners keep the items left on
+  An army (Delphi `TArmy`, a `TUnitList` in the original) is no longer a unit list. It owns its
+  troops as its node children, which keeps their slots, stored order, messages and change
+  notifications, and exposes them as `Army.Units`, a `UnitCollection`: a typed view of the
+  holder's slots with the troop queries and sorts of `TUnitList`. A `UnitList` stays an engine
+  object for troops held apart from an army (generated defenders and rebels, campaign transfer
+  units) and for the unit user lists and AI groups that derive from it, and exposes `Units` too.
+  The hooks of `TUnitList` that an army overrides (`CanAddUnit`, `AddUnit`, `GetLocation`,
+  `Changed`) are the internal `IUnitHolder` of both holders. A troop's owner is a `TroopOwner`
+  union: the army it stands in, a unit list, or the hero list of a hero no army holds. An item's owner is an item list. A dungeon's prisoners keep the items left on
   the battlefield in their own item list, apart from the troops. The children of the reference
   lists (token events, move targets, combat and diplomatic actions, the AI's targets and
   productions), event logs and players take their list as their owner, which is also the owner a
-  reference list gives its ownerless children while it saves them. The move from list
-  inheritance to owner-exposed collections comes in a later part of that issue.
+  reference list gives its ownerless children while it saves them. Item lists, hero lists and
+  the reference lists move from list inheritance to owner-exposed collections in later parts of
+  that issue.
 - Every engine object reaches its engine through `GetEngine()` (issue 224), and nothing reads an
   engine global. An object with an owner walks to its owner. An object without one walks to its
   `Holder`, the object that created it and keeps it: the engine for the rules it registers and

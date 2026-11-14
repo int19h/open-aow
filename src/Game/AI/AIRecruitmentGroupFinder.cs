@@ -96,9 +96,9 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
         armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
         if (armyHexSprite != null)
         {
-            for (int I = armyHexSprite.Army.Count - 1; I >= 0; I--)
+            for (int I = armyHexSprite.Army.Units.Count - 1; I >= 0; I--)
             {
-                troop = armyHexSprite.Army.GetUnit(I);
+                troop = armyHexSprite.Army.Units.GetUnit(I);
                 if (troop.Group != null && troop.Group.Leader == troop && troop.Group != _control.Group)
                 {
                     group = new AIRecruitmentGroup(null) { Holder = CreationHolder() };

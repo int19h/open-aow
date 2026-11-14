@@ -110,7 +110,7 @@ public partial class AIMoveTargetSelector : EngineObject
         Reset();
         var mapCoordinate = army.GetMapCoordinate();
         SourceLocation = mapCoordinate;
-        Units.AddUnits(army.Army, selection);
+        Units.AddUnits(army.Army.Units, selection);
         TargetInfo.Player = army.Army.Player;
         if (TargetInfo.Player == 0)
         {
@@ -252,7 +252,7 @@ public partial class AIMoveTargetSelector : EngineObject
 
                     _settings.MovePointsMax = MovePointsMax;
                     _settings.MovePointTable = MovePointTable;
-                    _settings.Units.AddUnits(Units);
+                    _settings.Units.AddUnits(Units.Units);
                     _state = 1;
                 }
                 else
@@ -349,7 +349,7 @@ public partial class AIMoveTargetSelector : EngineObject
 
                     _settings.MovePointsMax = MovePointsMin;
                     _settings.MovePointTable = MovePointTable;
-                    _settings.Units.AddUnits(Units);
+                    _settings.Units.AddUnits(Units.Units);
                     _transporter.CreateMovePointTable(out _transportMovePointTable);
                     for (int terrain = 0; terrain <= 15; terrain++)
                     {

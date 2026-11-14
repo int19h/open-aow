@@ -63,13 +63,13 @@ public partial class HeroInfoDialog : UIModule
         int Y;
         Rect oldClip;
         UnitShowInfo info;
-        if (index < _armyInfo.ArmyView.GetCount())
+        if (index < _armyInfo.ArmyView.Units.Count)
         {
             oldClip = surface.ClipRectangle;
             surface.ClipRectangle = R;
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
-            alignment = _armyInfo.ArmyView.GetUnit(index).GetAlignment();
+            alignment = _armyInfo.ArmyView.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
@@ -79,7 +79,7 @@ public partial class HeroInfoDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _armyInfo.ArmyView.GetUnit(index).Show(X - 33, Y - 35, surface, info);
+            _armyInfo.ArmyView.Units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
@@ -116,14 +116,14 @@ public partial class HeroInfoDialog : UIModule
         else
         {
             I = 0;
-            while (((1 << I) & _armyInfo.Selection) == 0 && I != _armyInfo.ArmyView.GetCount())
+            while (((1 << I) & _armyInfo.Selection) == 0 && I != _armyInfo.ArmyView.Units.Count)
             {
                 I += 1;
             }
 
-            if (I < _armyInfo.ArmyView.GetCount())
+            if (I < _armyInfo.ArmyView.Units.Count)
             {
-                _armyInfo.ArmyView.GetUnit(I).ShowFace(R, surface);
+                _armyInfo.ArmyView.Units.GetUnit(I).ShowFace(R, surface);
             }
         }
     }
@@ -143,10 +143,10 @@ public partial class HeroInfoDialog : UIModule
     // AoWHeroInfoDlg.pas:189
     public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = _armyInfo.ArmyView.GetCount();
+        var count = _armyInfo.ArmyView.Units.Count;
         if (slot < count)
         {
-            var troop = _armyInfo.ArmyView.GetUnit(slot);
+            var troop = _armyInfo.ArmyView.Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {

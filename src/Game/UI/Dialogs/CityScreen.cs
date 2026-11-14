@@ -827,9 +827,9 @@ public partial class CityScreen : UIModule
             var hexX = army.GetHexX();
             var fCityHexY = _city.GetHexY();
             direction = HexGeometry.DeltaHexToHexNumber(_city.GetHexX(), fCityHexY, hexX, armyHexY);
-            for (int J = 0, lastJ = army.Army.GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = army.Army.Units.Count - 1; J <= lastJ; J++)
             {
-                var troop = army.Army.GetUnit(J);
+                var troop = army.Army.Units.GetUnit(J);
                 CombatMap.PlaceOverviewUnit(_preview, troop, direction, J);
             }
         }

@@ -76,14 +76,14 @@ public partial class AIGroupDefenseControl : AIGroupTask
                             if (index == -1)
                             {
                                 group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);
-                                group.AddUnits(_selector.Defenders);
+                                group.AddUnits(_selector.Defenders.Units);
                                 group.SetupTarget(GroupControl.Location, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
                                 group.Release();
                             }
                             else
                             {
                                 group = units.GetUnit(index).Group;
-                                group.AddUnits(_selector.Defenders);
+                                group.AddUnits(_selector.Defenders.Units);
                             }
 
                             units?.Dispose();

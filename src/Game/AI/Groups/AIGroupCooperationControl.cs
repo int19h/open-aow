@@ -308,7 +308,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
                 group.Productions.ChangeGroup(J, _control.Group);
             }
 
-            _control.Group.AddUnits(group);
+            _control.Group.AddUnits(group.Units);
             _control.Group.SetLeader(leader);
         }
     }

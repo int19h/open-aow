@@ -38,17 +38,17 @@ public partial class ArmyCombatMoveTokenEvent
         ArmyHexSprite.SetOwner(null);
         otherArmyHexSprite = source.GetArmyHexSprite();
         ArmyHexSprite.SetOwner(source);
-        for (int I = 0, last = ArmyHexSprite.Army.Count - 1; I <= last; I++)
+        for (int I = 0, last = ArmyHexSprite.Army.Units.Count - 1; I <= last; I++)
         {
             if ((Selection & 1) != 0)
             {
-                var unit = ArmyHexSprite.Army.GetUnit(I);
-                ArmyHexSprite.Army.GetUnit(I).UnitStatus = unit.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                var unit = ArmyHexSprite.Army.Units.GetUnit(I);
+                ArmyHexSprite.Army.Units.GetUnit(I).UnitStatus = unit.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
             else
             {
-                var unit = ArmyHexSprite.Army.GetUnit(I);
-                ArmyHexSprite.Army.GetUnit(I).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                var unit = ArmyHexSprite.Army.Units.GetUnit(I);
+                ArmyHexSprite.Army.Units.GetUnit(I).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
             Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -58,9 +58,9 @@ public partial class ArmyCombatMoveTokenEvent
         {
             ArmyHexSprite.Army.BeginUpdate();
             ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
-            for (int I = otherArmyHexSprite.Army.Count - 1; I >= 0; I--)
+            for (int I = otherArmyHexSprite.Army.Units.Count - 1; I >= 0; I--)
             {
-                troop = otherArmyHexSprite.Army.GetUnit(I);
+                troop = otherArmyHexSprite.Army.Units.GetUnit(I);
                 troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                 ArmyHexSprite.Army.AddUnit(troop);
             }
@@ -163,19 +163,19 @@ public partial class ArmyCombatMoveTokenEvent
                 armyHexSprite.Army.AssignSettings(ArmyHexSprite.Army);
                 armyHexSprite.Direction = ArmyHexSprite.Direction;
                 armyHexSprite.Army.SetPlayer(ArmyHexSprite.Army.Player);
-                for (int I = ArmyHexSprite.Army.Count - 1; I >= 0; I--)
+                for (int I = ArmyHexSprite.Army.Units.Count - 1; I >= 0; I--)
                 {
-                    if (ArmyHexSprite.Army.GetUnit(I).UnitStatus.Contains(UnitStatusElement.Moving))
+                    if (ArmyHexSprite.Army.Units.GetUnit(I).UnitStatus.Contains(UnitStatusElement.Moving))
                     {
-                        var unit = ArmyHexSprite.Army.GetUnit(I);
-                        ArmyHexSprite.Army.GetUnit(I).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
-                        var fArmyUnit = ArmyHexSprite.Army.GetUnit(I);
+                        var unit = ArmyHexSprite.Army.Units.GetUnit(I);
+                        ArmyHexSprite.Army.Units.GetUnit(I).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                        var fArmyUnit = ArmyHexSprite.Army.Units.GetUnit(I);
                         armyHexSprite.Army.AddUnit(fArmyUnit);
                     }
                 }
 
                 armyHexSprite.Army.EndUpdate();
-                if (armyHexSprite.Army.Count != 0)
+                if (armyHexSprite.Army.Units.Count != 0)
                 {
                     var item3 = Path[MoveIndex];
                     var item4 = Path[MoveIndex];

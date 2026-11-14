@@ -98,7 +98,7 @@ public partial class AnimateHero : Spell
                 else
                 {
                     infoLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
-                    var indexOf = army.Army.IndexOf(hero);
+                    var indexOf = army.Army.Units.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
                     infoLog.Selection = 255;
                     infoLog._player = source.Player;

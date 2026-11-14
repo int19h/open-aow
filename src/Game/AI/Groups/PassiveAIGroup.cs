@@ -61,7 +61,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
         }
         else
         {
-            recruitable.AddUnits(units);
+            recruitable.AddUnits(units.Units);
             result = true;
         }
 

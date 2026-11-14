@@ -251,7 +251,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2191
     public void ExecuteRecruitment()
     {
-        _control.Group.AddUnits(Units);
+        _control.Group.AddUnits(Units.Units);
     }
 
     // AIGroup.pas:2196
@@ -308,7 +308,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
             }
             else
             {
-                recruitable.AddUnits(units);
+                recruitable.AddUnits(units.Units);
             }
 
             I = 0;

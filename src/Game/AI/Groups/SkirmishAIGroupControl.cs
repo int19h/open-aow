@@ -91,7 +91,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
 
                 var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
-                group.AddUnits(Group);
+                group.AddUnits(Group.Units);
                 group.Release();
                 Done();
                 break;

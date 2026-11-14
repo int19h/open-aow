@@ -614,7 +614,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         HuntAIGroup group;
         var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, 5);
         group = (HuntAIGroup)StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
-        group.AddUnits(defenders);
+        group.AddUnits(defenders.Units);
         for (int I = attackers.Count - 1; I >= 0; I--)
         {
             if (attackers.GetUnit(I).Player != 0)
@@ -858,7 +858,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 indexes.Add(unitIndexListCollection.GetU(collection, I));
             }
 
-            Int32List.FillWithRandomUnits(indexes, units, 4, ((StructureResource)_resource).RazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            Int32List.FillWithRandomUnits(indexes, units.Units, 4, ((StructureResource)_resource).RazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             while (units.Count > 8)
             {
                 units.DeleteUnit(units.GetUnit(units.Count - 1));
@@ -1063,8 +1063,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army != null)
                 {
-                    list.AddUnits(army.Army);
-                    result += army.Army.Count;
+                    list.AddUnits(army.Army.Units);
+                    result += army.Army.Units.Count;
                 }
             }
 

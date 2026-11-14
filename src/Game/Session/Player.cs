@@ -635,7 +635,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         int result = 0;
         for (int I = Armies.Count - 1; I >= 0; I--)
         {
-            result += Armies.GetArmy(I).Count;
+            result += Armies.GetArmy(I).Units.Count;
         }
 
         return result;
@@ -1489,9 +1489,9 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
             for (int I = 0, last = Armies.Count - 1; I <= last; I++)
             {
                 army = Armies.GetArmy(I);
-                for (int J = army.Count - 1; J >= 0; J--)
+                for (int J = army.Units.Count - 1; J >= 0; J--)
                 {
-                    troop = army.GetUnit(J);
+                    troop = army.Units.GetUnit(J);
                     if (info.ArmyStrength < 1073741823)
                     {
                         var strengthMax = troop.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
@@ -1592,9 +1592,9 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
     // Player.PAS:1134
     public void GetLeaderLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
-        if (Leader != null && Leader.UnitListOwner != null)
+        if (Leader?.UnitHolder is { } holder)
         {
-            Leader.UnitListOwner.GetLocation(out X, out Y, out L);
+            holder.GetLocation(out X, out Y, out L);
         }
         else
         {

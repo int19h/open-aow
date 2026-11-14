@@ -543,7 +543,7 @@ public partial class City : PlayerCropStructure
         {
             var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, 5);
             group = StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Refuge);
-            group.AddUnits(units);
+            group.AddUnits(units.Units);
             group.Release();
         }
         else
@@ -2178,9 +2178,9 @@ public partial class City : PlayerCropStructure
             ListArmies(armies);
             for (int I = 0, last = armies.Count - 1; I <= last; I++)
             {
-                for (int J = 0, lastJ = armies.GetArmyHexSprite(I).Army.Count - 1; J <= lastJ; J++)
+                for (int J = 0, lastJ = armies.GetArmyHexSprite(I).Army.Units.Count - 1; J <= lastJ; J++)
                 {
-                    U = armies.GetArmyHexSprite(I).Army.GetUnit(J);
+                    U = armies.GetArmyHexSprite(I).Army.Units.GetUnit(J);
                     if (U.MoraleValue <= 40)
                     {
                         predictor.AddOpponent(U, 0);
@@ -2288,9 +2288,9 @@ public partial class City : PlayerCropStructure
                 ListArmies(armies);
                 for (int I = 0, last = armies.Count - 1; I <= last; I++)
                 {
-                    for (int J = 0, lastJ = armies.GetArmyHexSprite(I).Army.Count - 1; J <= lastJ; J++)
+                    for (int J = 0, lastJ = armies.GetArmyHexSprite(I).Army.Units.Count - 1; J <= lastJ; J++)
                     {
-                        U = armies.GetArmyHexSprite(I).Army.GetUnit(J);
+                        U = armies.GetArmyHexSprite(I).Army.Units.GetUnit(J);
                         if (U.MoraleValue <= 40)
                         {
                             predictor.AddOpponent(U, 0);
@@ -2809,7 +2809,7 @@ public partial class City : PlayerCropStructure
     {
         int saved = RandSeed;
         RandSeed = GetHexX() * 10 + StrategicMap.Current.InitialRandomSeed + GetHexY();
-        Int32List.FillWithRandomUnits(GamePack.Current.RaceResources.GetRaceResource(Race).UnitIndexes, units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
+        Int32List.FillWithRandomUnits(GamePack.Current.RaceResources.GetRaceResource(Race).UnitIndexes, units.Units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
         // The source restores only after a successful fill.
         RandSeed = saved;
     }

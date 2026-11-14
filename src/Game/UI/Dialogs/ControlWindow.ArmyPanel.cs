@@ -76,7 +76,7 @@ public partial class ControlWindow
             if (index == -1) continue;
             byte selection = (byte)(1 << index);
             icons[i].CurrentImage = UI.General.MoveTypesToInt32(army.MoveTypes(selection));
-            var troop = army.GetUnit(index);
+            var troop = army.Units.GetUnit(index);
             gauges[i].Max = troop.GetHits();
             gauges[i].Position = troop.GetHitPoints();
             checks[i].Text = UnitMoveText(army.MovePoints(selection));

@@ -360,11 +360,11 @@ public partial class Battle : EngineObject
             while (armyIndex != 0 && !alive)
             {
                 armyIndex -= 1;
-                unitIndex = player.Armies.GetArmy(armyIndex).Count;
+                unitIndex = player.Armies.GetArmy(armyIndex).Units.Count;
                 while (!alive && unitIndex != 0)
                 {
                     unitIndex -= 1;
-                    alive = player.Armies.GetArmy(armyIndex).GetUnit(unitIndex).GetHitPoints() != 0;
+                    alive = player.Armies.GetArmy(armyIndex).Units.GetUnit(unitIndex).GetHitPoints() != 0;
                 }
             }
 
@@ -733,13 +733,13 @@ public partial class Battle : EngineObject
         transporter = army.Transporter(255);
         transport = transporter != null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
         index = 0;
-        for (int I = army.Count - 1; I >= 0; I--)
+        for (int I = army.Units.Count - 1; I >= 0; I--)
         {
-            valid = army.GetUnit(I).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+            valid = army.Units.GetUnit(I).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
             if (valid || transport)
             {
                 unitObject = CreateCombatUnit();
-                var troop = army.GetUnit(I);
+                var troop = army.Units.GetUnit(I);
                 unitObject.Setup(CreateUniqueCombatObjectId(), (byte)(int)side, troop, (byte)((position << 4) + index), player);
                 if (!valid)
                 {
@@ -786,10 +786,10 @@ public partial class Battle : EngineObject
 
         party = CombatData.Parties.CreateParty(this, (byte)(position << 0), player, X, Y, L, army);
         index = 0;
-        for (int I = army.Count - 1; I >= 0; I--)
+        for (int I = army.Units.Count - 1; I >= 0; I--)
         {
             unitObject = CreateCombatUnit();
-            var troop = army.GetUnit(I);
+            var troop = army.Units.GetUnit(I);
             unitObject.Setup(CreateUniqueCombatObjectId(), (byte)(int)side, troop, (byte)((position << 4) + index), player);
             CombatData.AddObject(unitObject);
             index += 1;

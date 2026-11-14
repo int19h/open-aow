@@ -334,7 +334,7 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:300
-    public byte CanEnterSelection(UnitList units)
+    public byte CanEnterSelection(UnitCollection units)
     {
         int L;
         MapField field;
@@ -369,7 +369,7 @@ public partial class Cave : Structure
     {
         ArmyHexSprite armyHexSprite;
         armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-        return armyHexSprite != null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army) != 0;
+        return armyHexSprite != null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army.Units) != 0;
     }
 
     // Cave.pas:325
@@ -386,7 +386,7 @@ public partial class Cave : Structure
         armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (armyHexSprite != null && CanEnter(armyHexSprite.Army.Player))
         {
-            selection = CanEnterSelection(armyHexSprite.Army);
+            selection = CanEnterSelection(armyHexSprite.Army.Units);
             L = 0;
             path = new MovePath();
             switch (Entrance)
@@ -487,7 +487,7 @@ public partial class Cave : Structure
         if (CanEnter(player))
         {
             armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            if (CanEnterSelection(armyHexSprite.Army) != armyHexSprite.Army.ValidateSelection(255))
+            if (CanEnterSelection(armyHexSprite.Army.Units) != armyHexSprite.Army.ValidateSelection(255))
             {
                 log = new EnterCaveEventLog(null, holder: CreationHolder());
                 log.Cave = this;

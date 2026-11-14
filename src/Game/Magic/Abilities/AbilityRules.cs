@@ -650,7 +650,7 @@ public static class AbilityRules
                             army = field.GetArmyHexSprite();
                             if (army != null && army.Army.Player != player)
                             {
-                                units.AddUnits(army.Army);
+                                units.AddUnits(army.Army.Units);
                             }
                         }
                     }

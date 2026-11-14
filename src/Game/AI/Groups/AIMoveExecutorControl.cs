@@ -222,10 +222,10 @@ public partial class AIMoveExecutorControl : EngineObject
         {
             existingArmy = armyHexSprite.Army;
             I = 0;
-            int last = existingArmy.Count - 1;
+            int last = existingArmy.Units.Count - 1;
             for (; I <= last; I += 1)
             {
-                troop = armyHexSprite.Army.GetUnit(I);
+                troop = armyHexSprite.Army.Units.GetUnit(I);
                 index = Executor.Units.IndexOfUnitId(troop.UnitId);
                 if (index == -1 || Executor.Units.GetUnits(index).Status != AIMoveExecutorUnitStatus.Queued)
                 {

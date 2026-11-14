@@ -236,11 +236,11 @@ public partial class Arena : Structure
             log = new EnterArenaEventLog(null) { Holder = CreationHolder() };
             log.Arena = this;
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
+            for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
             {
-                var troop = army.Army.GetUnit(I);
+                var troop = army.Army.Units.GetUnit(I);
                 log.UnitIds.Add(troop.UnitId);
-                if (UnitTrainCost(army.Army.GetUnit(I)) != -1)
+                if (UnitTrainCost(army.Army.Units.GetUnit(I)) != -1)
                 {
                     log.Trainable = (byte)(log.Trainable | (1 << I));
                 }

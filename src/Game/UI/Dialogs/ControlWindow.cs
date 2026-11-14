@@ -85,20 +85,20 @@ public partial class ControlWindow : UIModule
     {
         if (UI.General.SelectedUnits[index] != -1)
         {
-            if (UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage() != null)
+            if (UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage() != null)
             {
                 lockedSurface.ClipRectangle = R;
                 // { Original tests the unsorted index when checking the background library. }
-                if ((int)UI.General.UnitList.GetUnit(index).GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
+                if ((int)UI.General.UnitList.Units.GetUnit(index).GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
                 {
-                    var alignment = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
+                    var alignment = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
                     var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                     unitBackground.ShowClipped(R.Left + (R.Right - R.Left - unitBackground.Width) / 2, R.Top + (R.Bottom - R.Top - unitBackground.Height) / 2, lockedSurface);
                 }
 
-                var previewImage = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                var previewImage2 = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, lockedSurface, UI.General.UnitShowInfo);
+                var previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                var previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, lockedSurface, UI.General.UnitShowInfo);
             }
         }
     }
@@ -128,9 +128,9 @@ public partial class ControlWindow : UIModule
     // AOWControlWin.pas:333
     public void Unit1FrameMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        if (UI.General.UnitList != null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.GetUnit(UI.General.SelectedUnits[slot]) != null)
+        if (UI.General.UnitList != null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]) != null)
         {
-            var troop = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[slot]);
+            var troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {

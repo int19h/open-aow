@@ -29,9 +29,9 @@ namespace Aow.Game.Magic.Abilities;
 // FRefCount. FUnitID. FGroupID. FGroup: TAIGroup. FUnitStatus
 public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopOwner>
 {
-    // A troop stands in a unit list, or a hero stands in a hero list while no army holds it.
-    // TroopOwner reads that owner without a cast.
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is UnitList or HeroList;
+    // A troop stands in an army or a unit list, or a hero stands in a hero list while no army
+    // holds it. TroopOwner reads that owner without a cast.
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is Army or UnitList or HeroList;
 
     TroopOwner IOwned<TroopOwner>.Owner => TroopOwner.Of(Owner);
 
@@ -224,9 +224,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             }
         }
 
-        if (Owner != null && Owner is UnitList)
+        if (UnitHolder is { } holder)
         {
-            UnitListOwner.Changed();
+            holder.Changed();
         }
     }
 
@@ -356,7 +356,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual int GetUnitGraphicsResourceIndex() => -1;
 
     // Unit.PAS:1480
-    public virtual bool CanAddToList(UnitList list) => true;
+    public virtual bool CanAddToList(UnitCollection list) => true;
 
     // Unit.PAS:179
     public virtual Set<WallCombatFeaturesElement> GetWallCombatFeatures()
@@ -983,15 +983,19 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // that is not an army fails the cast.
     internal Army ArmyOwner => Owner is HeroList ? null : (Army)Owner;
 
-    // The owner is a unit list or a hero list (AcceptsOwner), so this reads the unit list or null.
-    internal UnitList UnitListOwner => Owner as UnitList;
+    // The army or unit list that holds this troop, or null for a hero list or no owner.
+    internal IUnitHolder UnitHolder => Owner as IUnitHolder;
+
+    // The troops of the army or unit list that holds this troop. Without one it is the default
+    // collection, which throws on use as the missing list did.
+    internal UnitCollection OwnerUnits => UnitHolder?.Units ?? default;
 
     // Unit.PAS:189
     public void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
-        if (Owner is UnitList)
+        if (UnitHolder is { } holder)
         {
-            UnitListOwner.GetLocation(out hexX, out hexY, out hexLevel);
+            holder.GetLocation(out hexX, out hexY, out hexLevel);
         }
         else
         {
@@ -1072,7 +1076,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
             for (int I = Owner.Count - 1; I >= 0; I--)
             {
-                troop = UnitListOwner[I];
+                troop = OwnerUnits[I];
                 if (troop.GetAbilityEnabled(37) && troop != this)
                 {
                     value += 30;

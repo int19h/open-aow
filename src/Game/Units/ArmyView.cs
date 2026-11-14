@@ -40,8 +40,8 @@ public partial class ArmyView : Army
         base.MainPersist(persister);
         // The translate stream's mode holds read, so the original sets the morale there too.
         if (!persister.Loading && !PersistSupport.Translating(persister)) return;
-        for (int i = 0; i < GetCount(); i++)
-            GetUnit(i).MoraleValue = (sbyte)MoraleValues[i];
+        for (int i = 0; i < Units.Count; i++)
+            Units.GetUnit(i).MoraleValue = (sbyte)MoraleValues[i];
     }
 
     // Army.PAS:138
@@ -66,20 +66,20 @@ public partial class ArmyView : Army
         X = army.X;
         Y = army.Y;
         MapLevel = army.MapLevel;
-        for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
             {
-                troop = (Troop)army.GetUnit(I).Copy(GetEngine());
+                troop = (Troop)army.Units.GetUnit(I).Copy(GetEngine());
                 troop.SetOwner(this);
                 troop.Release();
-                var unit = army.GetUnit(I);
-                var count = GetCount();
+                var unit = army.Units.GetUnit(I);
+                var count = Units.Count;
                 MoraleValues[count - 1] = unit.MoraleValue;
                 for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
                     var unitConcealedForPlayer = army.GetUnitConcealedForPlayer(I, (sbyte)player);
-                    SetUnitConcealedForPlayer(GetCount() - 1, (sbyte)player, unitConcealedForPlayer);
+                    SetUnitConcealedForPlayer(Units.Count - 1, (sbyte)player, unitConcealedForPlayer);
                 }
             }
 

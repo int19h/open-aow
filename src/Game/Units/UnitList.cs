@@ -14,11 +14,10 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited FChildren, UpdateCount
-public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
+public partial class UnitList : EChangeNotifyNode, IChildList<Troop>, IUnitHolder
 {
-    // The troop in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a troop, so the cast never fails.
-    public Troop this[int index] => (Troop)GetChild(index);
+    // The troop in slot index, without a range check.
+    public Troop this[int index] => Units[index];
 
     // A unit list takes troops only. A list of one kind of troop narrows that through
     // AcceptsTroop, and cannot widen it.
@@ -30,6 +29,9 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
 
     public UnitList(ECustomNode owner) : base(owner)
     { }
+
+    /// <summary>The troops of this list.</summary>
+    public UnitCollection Units => new(this);
 
     // Unit.PAS:2294
     public override void MainPersist(IPersister persister)
@@ -96,28 +98,10 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     public virtual sbyte GetPlayer() => -1;
 
     // Unit.PAS:2366
-    public virtual int GetStrength(DamageType damageType)
-    {
-        int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
-        {
-            result += this[I].GetStrength(damageType);
-        }
-
-        return result;
-    }
+    public int GetStrength(DamageType damageType) => Units.GetStrength(damageType);
 
     // Unit.PAS:2373
-    public virtual int GetStrengthMax(Set<DamageType> damageTypes)
-    {
-        int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
-        {
-            result += this[I].GetStrengthMax(damageTypes);
-        }
-
-        return result;
-    }
+    public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
     public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
@@ -128,25 +112,13 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     }
 
     // Unit.PAS:2338
-    public virtual void SortUnits()
-    {
-        BeginUpdate();
-        PackChildren();
-        SortChildren<Troop>(CompareUnits);
-        EndUpdate();
-    }
+    public void SortUnits() => Units.Sort();
 
     // Unit.PAS:2349
-    public virtual void SortOnMoves()
-    {
-        BeginUpdate();
-        PackChildren();
-        SortChildren<Troop>(CompareUnitMoves);
-        EndUpdate();
-    }
+    public void SortOnMoves() => Units.SortOnMoves();
 
     // Unit.PAS:2188
-    public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(this);
+    public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
 
     // Unit.PAS:2192
     public virtual bool CanDeleteUnit(Troop troop) => true;
@@ -176,7 +148,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     }
 
     // Unit.PAS:2201
-    public virtual bool AddUnits(UnitList units)
+    public virtual bool AddUnits(UnitCollection units)
     {
         for (int I = units.Count - 1; I >= 0; I--)
         {
@@ -187,106 +159,25 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     }
 
     // Unit.PAS:2217
-    public int IndexOf(Troop troop) => IndexOfChild(troop);
+    public int IndexOf(Troop troop) => Units.IndexOf(troop);
 
     // Unit.PAS:2221
-    public int IndexOfId(int id)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].UnitId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfId(int id) => Units.IndexOfId(id);
 
     // Unit.PAS:2231
-    public int IndexOfBehavior(GroupBehavior behavior)
-    {
-        AIGroup group;
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            group = this[result].Group;
-            if (group != null && group.GroupClass.Behavior == behavior)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfBehavior(GroupBehavior behavior) => Units.IndexOfBehavior(behavior);
 
     // Unit.PAS:2243
-    public int IndexOfGroup(AIGroup group)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Group == group)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfGroup(AIGroup group) => Units.IndexOfGroup(group);
 
     // Unit.PAS:2253
-    public int IndexOfGroupId(int id)
-    {
-        AIGroup group;
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            group = this[result].Group;
-            if (group != null && group.GroupId == id)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfGroupId(int id) => Units.IndexOfGroupId(id);
 
     // Unit.PAS:2265
-    public Troop FindId(int id)
-    {
-        Troop result;
-        int I;
-        I = Count;
-        while (I != 0)
-        {
-            I -= 1;
-            result = this[I];
-            if (result.UnitId == id)
-            {
-                return result;
-            }
-        }
-
-        return null;
-    }
+    public Troop FindId(int id) => Units.FindId(id);
 
     // Unit.PAS:2277
-    public Troop GetUnit(int index)
-    {
-        // { Original accepts negative indexes and reads the backing array directly. }
-        if (index < Count)
-        {
-            return this[index];
-        }
-
-        return null;
-    }
+    public Troop GetUnit(int index) => Units.GetUnit(index);
 
     // Unit.PAS:2287
     public void SetUnit(int index, Troop troop)
@@ -309,80 +200,6 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
             Changed();
         }
     }
-
-    private static int CompareUnits(Troop item1, Troop item2)
-    {
-        int s1;
-        int s2;
-        var troop = item1;
-        s1 = troop.GetUnitLevel();
-        if (troop.GetTransporter())
-        {
-            s1 += 500;
-        }
-
-        if (item1 is Hero)
-        {
-            s1 += 50;
-            if (item1 is Leader)
-            {
-                s1 += 100;
-            }
-        }
-
-        var troop2 = item2;
-        s2 = troop2.GetUnitLevel();
-        if (troop2.GetTransporter())
-        {
-            s2 += 500;
-        }
-
-        if (item2 is Hero)
-        {
-            s2 += 50;
-            if (item2 is Leader)
-            {
-                s2 += 100;
-            }
-        }
-
-        int result = s2 - s1;
-        if (result == 0)
-        {
-            if (item1.UnitStatus.Contains(UnitStatusElement.Enchanted))
-            {
-                s1 = 1;
-            }
-            else
-            {
-                s1 = 0;
-            }
-
-            if (item2.UnitStatus.Contains(UnitStatusElement.Enchanted))
-            {
-                s2 = 1;
-            }
-            else
-            {
-                s2 = 0;
-            }
-
-            result = s2 - s1;
-        }
-
-        if (result == 0)
-        {
-            result = item2.GetUnitGraphicsResourceIndex() - item1.GetUnitGraphicsResourceIndex();
-            if (result == 0)
-            {
-                result = item2.UnitId - item1.UnitId;
-            }
-        }
-
-        return result;
-    }
-
-    private static int CompareUnitMoves(Troop item1, Troop item2) => item2.GetMoves() - item1.GetMoves();
 
     internal static sbyte UnitsToIndependentRelation(UnitList units, sbyte defaultRelation)
     {
@@ -479,9 +296,5 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
 
         return result;
     }
-
-    // Engine.pas:680
-
-    // Engine.pas:680
 
 }

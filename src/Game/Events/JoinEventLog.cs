@@ -144,16 +144,16 @@ public partial class JoinEventLog : EventLog
         Gold = army.JoinAmount(player, Selection);
         JoinMode = joinMode;
         UnitIds.Clear();
-        for (int I = 0, last = army.Count - 1; I <= last; I++)
+        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
         {
             if (FirstUnitId == 0 && ((1 << I) & Selection) != 0)
             {
-                FirstUnitId = army.GetUnit(I).UnitId;
+                FirstUnitId = army.Units.GetUnit(I).UnitId;
                 var selectionCount = army.SelectionCount(Selection);
-                army.GetUnit(I).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
+                army.Units.GetUnit(I).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
             }
 
-            var troop = army.GetUnit(I);
+            var troop = army.Units.GetUnit(I);
             UnitIds.Add(troop.UnitId);
         }
 

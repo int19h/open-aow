@@ -95,9 +95,9 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 log.ArmyView.Setup(army.Army, 255);
                 army.Army.BeginUpdate();
                 damaged = false;
-                for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
+                for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
                 {
-                    troopObject = army.Army.GetUnit(I);
+                    troopObject = army.Army.Units.GetUnit(I);
                     if (!troopObject.GetMoveTypes().Contains(MoveType.Flying))
                     {
                         if (troopObject.GetAbilityEnabled(2))

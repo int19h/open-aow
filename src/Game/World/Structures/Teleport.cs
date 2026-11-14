@@ -167,7 +167,7 @@ public partial class Teleport : Structure
             {
                 otherArmy = field.GetArmyHexSprite();
                 // { Original rejects a same-player army when CanAddUnits succeeds. }
-                if (otherArmy != null && (byte)armyHexSprite.Army.Player == (byte)otherArmy.Army.Player && otherArmy.Army.CanAddUnits(armyHexSprite.Army) != 0)
+                if (otherArmy != null && (byte)armyHexSprite.Army.Player == (byte)otherArmy.Army.Player && otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) != 0)
                 {
                     return result;
                 }

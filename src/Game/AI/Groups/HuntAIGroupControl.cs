@@ -39,7 +39,7 @@ public partial class HuntAIGroupControl : AIGroupControl
                 {
                     I -= 1;
                     var item = group.TargetUnitIds[I];
-                    found = army.Army.IndexOfId(item) != -1;
+                    found = army.Army.Units.IndexOfId(item) != -1;
                 }
 
                 if (found)
@@ -94,7 +94,7 @@ public partial class HuntAIGroupControl : AIGroupControl
                 else
                 {
                     newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Patrol);
-                    newGroup.AddUnits(Group);
+                    newGroup.AddUnits(Group.Units);
                     newGroup.Release();
                     Done();
                 }

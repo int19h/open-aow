@@ -97,7 +97,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
         Selector.TargetInfo.Player = control.Group.Player;
         Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
         Selector.TargetInfo.Mode = AITargetMode.Attack;
-        Selector.Units.AddUnits(control.Group);
+        Selector.Units.AddUnits(control.Group.Units);
         Mode = Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
         return true;
     }

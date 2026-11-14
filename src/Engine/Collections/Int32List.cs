@@ -537,7 +537,7 @@ public partial class Int32List : Persistent
 
     internal static void FillInteger(Span<int> buffer, int count, int value) => EngineServices.Fill(buffer, count, value);
 
-    internal static int FillWithRandomUnits(Int32List indexes, UnitList units, int level, int value, Set<UnitType> types)
+    internal static int FillWithRandomUnits(Int32List indexes, UnitCollection units, int level, int value, Set<UnitType> types)
     {
         Unit testUnit;
         int index;
@@ -559,10 +559,10 @@ public partial class Int32List : Persistent
             return condition && unit.GetUnitLevel() <= level && units.CanAddUnit(unit);
         }
 
-        testUnit = new Unit(null) { Holder = units };
+        testUnit = new Unit(null) { Holder = units.Holder };
         int result = 0;
         tries = 50;
-        units.BeginUpdate();
+        units.Holder.BeginUpdate();
         while (result < value && tries != 0)
         {
             tries -= 1;
@@ -600,7 +600,7 @@ public partial class Int32List : Persistent
                         index = bestIndex;
                     }
 
-                    unit = new Unit(null) { Holder = units };
+                    unit = new Unit(null) { Holder = units.Holder };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                     units.AddUnit(unit);
                     result += unit.GetObtainValue();
@@ -610,7 +610,7 @@ public partial class Int32List : Persistent
             }
         }
 
-        units.EndUpdate();
+        units.Holder.EndUpdate();
         testUnit.Release();
         return result;
     }
