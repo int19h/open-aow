@@ -206,7 +206,7 @@ public partial class PoisonCloud : MultiHexMapObject
     }
 
     // PoisonC.pas:129
-    public bool CanDoDamage(UnitList units)
+    public bool CanDoDamage(UnitUserList units)
     {
         int I;
         Troop troop;

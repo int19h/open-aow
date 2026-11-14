@@ -36,7 +36,7 @@ public sealed class UncheckedOwnerCastTests
     // The list is the owner without going through AddChild.
     private sealed class PlacedUnit : Troop
     {
-        public PlacedUnit(int id, UnitList list) : base(null!)
+        public PlacedUnit(int id, UnitUserList list) : base(null!)
         {
             UnitId = id;
             SetOwnerWithoutNotify(list);

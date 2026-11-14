@@ -25,6 +25,7 @@ public sealed class OwnershipTroopTests
     {
         Army => "army",
         UnitList => "units",
+        UnitUserList => "users",
         HeroLibrary => "library",
         HeroList => "heroes",
         null => "none",
@@ -175,6 +176,31 @@ public sealed class OwnershipTroopTests
         Assert.Same(troop, typed[0]);
         Assert.Throws<ArgumentException>(() => troop.SetOwner(group));
         Assert.Same(army, troop.Owner);
+    }
+
+    // Issue 158 part 8: a unit user list is not a unit list. It holds troop references in its
+    // node children and reads them through Units. AddUnit leaves the owner alone. SetOwner
+    // accepts the list.
+    [Fact]
+    public void AUnitUserListHoldsTroopReferencesAndCanOwnThem()
+    {
+        var list = new UnitUserList(null!) { Holder = EngineFixture.Engine };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        Assert.False(typeof(UnitList).IsAssignableFrom(typeof(UnitUserList)));
+        Assert.True(list.AddUnit(troop));
+        Assert.Null(troop.Owner);
+        Assert.Same(troop, list.Units[0]);
+        Assert.Same(troop, list.GetChild(0));
+        Assert.Same(list, list.Units.Holder);
+        troop.SetOwner(list);
+        Assert.Same(list, troop.Owner);
+        Assert.Same(list, troop.UnitHolder);
+        Assert.Equal("users", Kind(((IOwned<TroopOwner>)troop).Owner));
+        Assert.Same(list, troop.OwnerUnits.Holder);
+        Assert.Throws<InvalidCastException>(() => troop.ArmyOwner);
+        list.Clear();
+        Assert.Empty(list.Units);
+        Assert.Same(list, troop.Owner);
     }
 
     [Fact]

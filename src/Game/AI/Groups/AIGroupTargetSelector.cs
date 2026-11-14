@@ -1087,7 +1087,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3359
-    public bool ValidateTargetRequirements(UnitCollection units, AIGroupControlTarget target, UnitList required, UnitList optional, int minimumStrength)
+    public bool ValidateTargetRequirements(UnitCollection units, AIGroupControlTarget target, UnitUserList required, UnitUserList optional, int minimumStrength)
     {
         int strength;
         CombatPredictor predictor;
@@ -1156,7 +1156,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3406
-    public bool ValidMultiTarget(UnitList units, AIGroupControlTarget target, UnitList required, UnitList optional)
+    public bool ValidMultiTarget(UnitUserList units, AIGroupControlTarget target, UnitUserList required, UnitUserList optional)
     {
         bool result;
         if (!TargetOverlapFound(_nextTarget, null) && (_target.Location.MapLevel != target.Location.MapLevel || HexGeometry.DeltaHexToRadius(_target.Location.X, _target.Location.Y, target.Location.X, target.Location.Y) > 1))

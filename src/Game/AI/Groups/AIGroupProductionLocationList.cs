@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Structures;
 
-using static Aow.Rtl.RtlUnit;
-
 namespace Aow.Game.AI.Groups;
 
 // children
@@ -12,7 +10,7 @@ public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProductionLocation, so the cast never fails.
-    public AIGroupProductionLocation this[int index] => (AIGroupProductionLocation)GetChild(index);
+    public AIGroupProductionLocation this[int index] => Locations[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupProductionLocation;
 
@@ -21,18 +19,14 @@ public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<
     public AIGroupProductionLocationList(ECustomNode owner) : base(owner)
     { }
 
+    /// <summary>The production locations of this list, in their stored order.</summary>
+    public AIGroupProductionLocationCollection Locations => new(this);
+
     // AIGroup.pas:907
-    public AIGroupProductionLocation GetProductionLocation(int index)
-    {
-        Assert(index >= 0 && index < Count, "", "AIGroup.pas", 909);
-        return this[index];
-    }
+    public AIGroupProductionLocation GetProductionLocation(int index) => Locations.GetProductionLocation(index);
 
     // AIGroup.pas:919
-    public void SortOnMovePoints()
-    {
-        SortChildren<AIGroupProductionLocation>(CompareAIProductionLocationMovePoints);
-    }
+    public void SortOnMovePoints() => Locations.SortOnMovePoints();
 
     // AIGroup.pas:924
     public void Add(AIGroupProductionLocation location)
@@ -47,38 +41,10 @@ public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<
     }
 
     // AIGroup.pas:934
-    public int IndexOfPC(ProductionControl control)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].ProductionControl == control)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfPC(ProductionControl control) => Locations.IndexOfPC(control);
 
     // AIGroup.pas:945
-    public AIGroupProductionLocation FindPC(ProductionControl control)
-    {
-        AIGroupProductionLocation result;
-        int I;
-        I = IndexOfPC(control);
-        if (I != -1)
-        {
-            result = this[I];
-        }
-        else
-        {
-            result = null;
-        }
-
-        return result;
-    }
+    public AIGroupProductionLocation FindPC(ProductionControl control) => Locations.FindPC(control);
 
     // AIGroup.pas:956
     public bool Validate(AIGroupControl control)
@@ -96,11 +62,6 @@ public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<
         }
 
         return result;
-    }
-
-    private static int CompareAIProductionLocationMovePoints(AIGroupProductionLocation item1, AIGroupProductionLocation item2)
-    {
-        return item2.MovePoints - item1.MovePoints;
     }
 
     // Engine.pas:631

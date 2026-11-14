@@ -10,7 +10,7 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveTarget, so the cast never fails.
-    public MoveTarget this[int index] => (MoveTarget)GetChild(index);
+    public MoveTarget this[int index] => Targets[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is MoveTarget;
 
@@ -19,24 +19,14 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     public MoveTargetList(ECustomNode owner) : base(owner)
     { }
 
+    /// <summary>The targets of this list, in their stored order.</summary>
+    public MoveTargetCollection Targets => new(this);
+
     // AIGroup.pas:4240
-    public MoveTarget GetTarget(int index) => this[index];
+    public MoveTarget GetTarget(int index) => Targets.GetTarget(index);
 
     // AIGroup.pas:4245
-    public int IndexOfMapCoordinate(MapCoordinate location)
-    {
-        int result = Count;
-        while (result != 0)
-        {
-            result -= 1;
-            if (this[result].Location == location)
-            {
-                return result;
-            }
-        }
-
-        return -1;
-    }
+    public int IndexOfMapCoordinate(MapCoordinate location) => Targets.IndexOfMapCoordinate(location);
 
     // AIGroup.pas:4256
     public void AddTarget(MapCoordinate location, int movePoints, int transporterId, in AITargetData data)
@@ -52,15 +42,7 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     }
 
     // AIGroup.pas:4275
-    public void SortOnMovePoints()
-    {
-        SortChildren<MoveTarget>(CompareMoveTargets);
-    }
-
-    private static int CompareMoveTargets(MoveTarget item1, MoveTarget item2)
-    {
-        return item1.MovePoints - item2.MovePoints;
-    }
+    public void SortOnMovePoints() => Targets.SortOnMovePoints();
 
     // Engine.pas:631
 

@@ -207,7 +207,7 @@ public partial class UnitSpell : Spell
     public virtual bool ValidTargetUnit(Troop source, Troop target) => true;
 
     // Spells.PAS:1228
-    public virtual void ValidateUnitSelection(Troop source, UnitList targets, ref byte selection)
+    public virtual void ValidateUnitSelection(Troop source, UnitUserList targets, ref byte selection)
     {
         var count = targets.GetCount();
         selection = (byte)(selection & SelectionMasks[count]);
@@ -250,7 +250,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1254
-    public virtual bool CastSpell(Troop source, UnitList targets)
+    public virtual bool CastSpell(Troop source, UnitUserList targets)
     {
         bool result;
         UnitSpellTokenEvent eventValue;

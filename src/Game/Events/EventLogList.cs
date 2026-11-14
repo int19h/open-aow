@@ -12,7 +12,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EventLog, so the cast never fails.
-    public EventLog this[int index] => (EventLog)GetChild(index);
+    public EventLog this[int index] => Logs[index];
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is EventLog;
 
@@ -20,6 +20,9 @@ public partial class EventLogList : ENode, IChildList<EventLog>
 
     public EventLogList(ECustomNode owner) : base(owner)
     { }
+
+    /// <summary>The logs of this list, in their stored order.</summary>
+    public EventLogCollection Logs => new(this);
 
     private int _updateCount;
 
@@ -122,7 +125,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     }
 
     // EventLog.pas:505
-    public EventLog GetEvents(int index) => this[index];
+    public EventLog GetEvents(int index) => Logs.GetEvents(index);
 
     // EventLog.pas:508
     public void AddEvent(EventLog eventValue)
@@ -137,23 +140,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     }
 
     // EventLog.pas:514
-    public EventLog FindId(int id)
-    {
-        int I;
-        I = GetCount();
-        EventLog result = null;
-        while (I != 0 && result == null)
-        {
-            I -= 1;
-            if (this[I].Id == id)
-            {
-                result = this[I];
-                break;
-            }
-        }
-
-        return result;
-    }
+    public EventLog FindId(int id) => Logs.FindId(id);
 
     // Engine.pas:631
 }

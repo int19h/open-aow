@@ -51,11 +51,11 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1012
     public int IndexOfTokenCounter(int tokenCounter)
     {
-        int result = List.Count;
+        int result = List.Events.Count;
         while (result != 0)
         {
             result -= 1;
-            if (List[result].TokenCounter == tokenCounter)
+            if (List.Events[result].TokenCounter == tokenCounter)
             {
                 return result;
             }
@@ -69,8 +69,8 @@ public partial class TokenEventList : EngineObject
     {
         int C;
         int result = 0;
-        C = List.Count;
-        while (result != C && List[result].EngineClass.ClassId != classId)
+        C = List.Events.Count;
+        while (result != C && List.Events[result].EngineClass.ClassId != classId)
         {
             result += 1;
         }
@@ -84,10 +84,10 @@ public partial class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:1036
-    public TokenEvent GetEvent(int index) => List[index];
+    public TokenEvent GetEvent(int index) => List.Events[index];
 
     // NetworkE.pas:1041
-    public int GetCount() => List.Count;
+    public int GetCount() => List.Events.Count;
 
     // NetworkE.pas:1056
     public void SortOnTokenCounter()
