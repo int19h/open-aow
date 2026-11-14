@@ -606,7 +606,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         EmergingHeroId = persister.Int32("EmergingHeroId", value: EmergingHeroId);
         persister.Object("AIBudget", objectValue: AIBudget);
         persister.Object("DiplomaticActions", objectValue: DiplomaticActions);
-        PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: AIValidAttackPlayers);
+        var attackPlayers = PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: AIValidAttackPlayers);
         persister.Object("PbemSettings", objectValue: PbemSettings);
         HeroEmerging = persister.Boolean("HeroEmerging", value: HeroEmerging);
         if (persister.Loading || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
@@ -615,6 +615,19 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         }
 
         persister.Object("DiplomaticRelations", objectValue: DiplomaticRelations);
+        // The stream load of the list reads the start of the data stored after it, the members
+        // from PbemSettings on, into the bits past a stored count that does not fill 32 bits.
+        if (attackPlayers != null)
+        {
+            PersistSupport.BitListOverRead(persister, list: AIValidAttackPlayers, stored: attackPlayers, owner: this, following: tail =>
+            {
+                tail.Object("PbemSettings", objectValue: PbemSettings);
+                tail.Boolean("HeroEmerging", value: HeroEmerging);
+                tail.Int32("BaseHeroJoinDay", value: BaseHeroJoinDay);
+                tail.Object("DiplomaticRelations", objectValue: DiplomaticRelations);
+            });
+        }
+
         if (PlayerIndex == 0)
         {
             PlayerType = PlayerType.Independent;

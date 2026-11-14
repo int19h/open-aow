@@ -457,14 +457,14 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     // The preflight raises before the current campaign closes (own-formats.md 2.7).
     public void LoadCampaign(string fileName)
     {
-        LoadCampaign(fileName, FileBoundary.LoadOrRaise(fileName, GameProfile.Campaign));
+        LoadCampaign(fileName, tree: FileBoundary.OpenOrRaise(fileName, profile: GameProfile.Campaign));
     }
 
-    // Loads a campaign file whose preflight has passed, from its engine image.
-    public void LoadCampaign(string fileName, byte[] image)
+    // Loads a campaign file whose preflight has passed, from its tree.
+    public void LoadCampaign(string fileName, GameFileTree tree)
     {
         CloseCampaign();
-        Campaign = (Campaign)RetrieveFromImage(image, null);
+        Campaign = (Campaign)RetrieveFromTree(tree, progress: null);
         TranslateEngineObjectFromFile(Campaign, StartupDirectory + "Dict\\" + "Campaign" + ".mld");
         Campaign.FileName = fileName;
     }

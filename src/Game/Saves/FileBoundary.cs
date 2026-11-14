@@ -3,8 +3,10 @@ using System.Buffers.Binary;
 
 using System.Security.Cryptography;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Rtl.Host;
 
@@ -14,8 +16,9 @@ namespace Aow.Game.Saves;
 /// The game's file boundary for the in-scope profiles (own-formats.md 4.1 and 4.2). Every
 /// in-scope engine routine reads and writes through it with an explicit profile. Reads go
 /// through the host's file service and run the whole preflight before the engine touches the
-/// current game. Writes convert the engine-written image, validate and serialize it, write a
-/// sibling temporary through the file service and replace the old file atomically.
+/// current game, and a load reads the tree of the validated document. Writes write the tree,
+/// validate and serialize it, write a sibling temporary through the file service and replace the
+/// old file atomically.
 /// </summary>
 public static class FileBoundary
 {
@@ -26,10 +29,47 @@ public static class FileBoundary
     public static FileLogRecord? LastFailure { get; private set; }
 
     /// <summary>
-    /// Reads a file and prepares its engine image. A refusal returns null, is logged and leaves
+    /// Reads a file and prepares the engine image of its validated document, for the CRC forms,
+    /// the header listings and the network transfer. A refusal returns null, is logged and leaves
     /// the current game and the file untouched.
     /// </summary>
-    public static byte[]? Load(string fileName, GameProfile profile, string operation = "open")
+    public static byte[]? Load(string fileName, GameProfile profile, string operation = "open") =>
+        Prepare(fileName, profile: profile, operation: operation) is { } prepared ? prepared.Image : null;
+
+    /// <summary>
+    /// Reads a file and prepares the tree the engine loads (own-formats.md 4.1, persistence-tree.md
+    /// 6): an own document through the document backend, an original through the original backend
+    /// over the image its G1 check passed. A refusal returns null, is logged and leaves the current
+    /// game and the file untouched.
+    /// </summary>
+    public static GameFileTree? Open(string fileName, GameProfile profile, string operation = "open")
+    {
+        if (Prepare(fileName, profile: profile, operation: operation) is not { } prepared) return null;
+        try
+        {
+            return prepared.Result is { } result ? GameBoundary.ReadTree(result, use: profile) : GameBoundary.ReadImageTree(prepared.Image, use: profile);
+        }
+        catch (ConversionException error)
+        {
+            var report = prepared.Report;
+            report.Error = error.Diagnostic;
+            report.Validation = "refused";
+            Record(RtlUnit.Files, fileName: fileName, report: report);
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Like Open, for the routines whose original raised on a failed open: the refusal raises
+    /// EGameFileError after it is logged, before the caller changes anything.
+    /// </summary>
+    public static GameFileTree OpenOrRaise(string fileName, GameProfile profile) =>
+        Open(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
+
+    // One preflight: the result of a fresh one, or the image of a cached preview.
+    private sealed record Prepared(byte[] Image, GameFileReport Report, GameFileResult? Result);
+
+    private static Prepared? Prepare(string fileName, GameProfile profile, string operation)
     {
         var files = RtlUnit.Files;
         byte[] bytes;
@@ -51,12 +91,13 @@ public static class FileBoundary
         if (preview && Previews.TryGet(key, out var cached))
         {
             Record(new FileLogRecord(fileName, layer, cached.Report, cached: true));
-            return cached.Image;
+            return new Prepared(cached.Image, Report: cached.Report, Result: null);
         }
         var result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
         Record(new FileLogRecord(fileName, layer, result.Report));
-        if (preview && result.Bytes is not null) Previews.Add(key, new PreviewEntry(result.Bytes, result.Report));
-        return result.Bytes;
+        if (result.Bytes is null) return null;
+        if (preview) Previews.Add(key, new PreviewEntry(result.Bytes, result.Report));
+        return new Prepared(result.Bytes, Report: result.Report, Result: result);
     }
 
     /// <summary>The session preview cache. Only successful preflights enter it.</summary>
@@ -70,14 +111,28 @@ public static class FileBoundary
         Load(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
 
     /// <summary>
-    /// Converts and writes an engine-written image. Serialization and validation finish before
-    /// anything is written. A failure raises EGameFileError and keeps the old file. The root is the
-    /// object the image holds, for the gate's save shadow (<see cref="SaveShadow"/>).
+    /// Writes an object through the tree (own-formats.md 4.2, persistence-tree.md 6): the tree
+    /// writer, the document backend, the validation, the serialization and the atomic replacement.
+    /// Everything before the replacement finishes before anything is written. A failure raises
+    /// EGameFileError and keeps the old file. <paramref name="headerName"/> is the name a scenario
+    /// set stores in its header.
     /// </summary>
-    public static void Save(string fileName, GameProfile profile, byte[] image, EngineObject? root = null)
+    public static void Save(string fileName, GameProfile profile, EngineObject root, ProgressEvent? progress = null, string? headerName = null)
     {
         var files = RtlUnit.Files;
-        var result = GameBoundary.PrepareSave(image, fileName, profile, FormatMapping.Validators);
+        GameFileResult result;
+        try
+        {
+            var tree = TreeWriter.Write(root, factory: new EnginePersistableFactory(root.GetEngine(), progress: progress));
+            result = GameBoundary.PrepareSave(tree, className: NameTable.Stored(root.GetType()), fileName: fileName, use: profile, validators: FormatMapping.Validators, headerName: headerName);
+        }
+        catch (ConversionException error)
+        {
+            result = new GameFileResult
+            {
+                Report = new GameFileReport { Operation = "write", Profile = profile, Kind = profile.WriteKind, Format = DetectedFormat.OwnJson.ToString(), Error = error.Diagnostic },
+            };
+        }
         if (result.Bytes is null)
         {
             Record(files, fileName, result.Report);
@@ -94,7 +149,6 @@ public static class FileBoundary
             throw new GameFileErrorException(LastFailure!);
         }
         Record(files, fileName, result.Report);
-        if (SaveShadow.Active && root is not null) SaveShadow.Compare(fileName, profile, root, result.Document!);
     }
 
     /// <summary>

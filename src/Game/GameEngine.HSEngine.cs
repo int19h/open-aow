@@ -5,6 +5,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 
 using Aow.Game.Saves;
 
@@ -62,13 +63,13 @@ public partial class GameEngine : ENode
 
     // HSEngine.pas:5210
     // The preflight of the file boundary finishes before the current map is freed. A refused
-    // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1).
+    // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1). The map
+    // loads through the tree of the validated document, with the editor's error handler when it
+    // loads for editing (persistence-tree.md 7).
     public virtual void LoadHsm(string fileName, bool edit, Aow.Engine.ProgressEvent progress, GameProfile profile)
     {
-        CompressStream stream;
-        HsmHeader header = default;
-        byte[] image = FileBoundary.Load(fileName, profile);
-        if (image == null)
+        var tree = FileBoundary.Open(fileName, profile: profile);
+        if (tree == null)
         {
             return;
         }
@@ -81,95 +82,82 @@ public partial class GameEngine : ENode
 
         try
         {
-            stream = new CompressStream();
+            SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
+            var expandFileName = ExpandFileName(fileName);
+            _hexSpriteMap.FileName = expandFileName;
+            _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            if (edit)
+            {
+                _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+            }
+
             try
             {
-                stream.LoadImage(image);
-                stream.ReadExactly(Bytes.Of(ref header, 16));
-                stream.Position = header.Size;
-                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
-                {
-                    SetHexSpriteMap((GameMap)CreateEngineObject(header.ClassId, this));
-                    var expandFileName = ExpandFileName(fileName);
-                    _hexSpriteMap.FileName = expandFileName;
-                    _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                    if (edit)
-                    {
-                        _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
-                    }
-
-                    try
-                    {
-                        _hexSpriteMap.SetProgressHandler(progress);
-                        ReadEngineObject(stream, _hexSpriteMap, progress);
-                        ActivateEngineObject(_hexSpriteMap);
-                        _hexSpriteMap.ClearProgressHandler();
-                        OnHsmLoadedStore.Raise(_hexSpriteMap);
-                    }
-                    catch
-                    {
-                        _hexSpriteMap?.Dispose();
-                        SetHexSpriteMap(null);
-                    }
-
-                    _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                }
+                _hexSpriteMap.SetProgressHandler(progress);
+                ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap));
+                ActivateEngineObject(_hexSpriteMap);
+                _hexSpriteMap.ClearProgressHandler();
+                OnHsmLoadedStore.Raise(_hexSpriteMap);
             }
-            finally
+            catch
             {
-                stream?.Dispose();
+                _hexSpriteMap?.Dispose();
+                SetHexSpriteMap(null);
             }
+
+            _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
         }
     }
 
+    // TAoWHSMap.ReadWrite assigns OnStreamError as the stream's error handler when the map loads
+    // for editing. The tree load takes it as the load's handler (persistence-tree.md 7). Another
+    // load has none, so a failed nested object is dropped and the load goes on.
+    private static LoadErrorHandler EditorErrorHandler(GameMap map)
+    {
+        if (map is not StrategicMap strategicMap || !strategicMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        {
+            return null;
+        }
+
+        return (string message, out bool continueLoad) =>
+        {
+            bool handled = true;
+            strategicMap.OnStreamError(stream: null, message: message, handled: ref handled);
+            continueLoad = handled;
+        };
+    }
+
     // HSEngine.pas:5137
     public virtual GameMap CreatePreviewHsm(string fileName, GameProfile profile)
     {
-        CompressStream stream;
         string fullName;
-        HsmHeader header = default;
         GameMap result = null;
-        byte[] image;
         fullName = ExpandFileName(fileName);
-        image = FileBoundary.Load(fullName, profile, "preview");
-        if (image == null)
+        var tree = FileBoundary.Open(fullName, profile: profile, operation: "preview");
+        if (tree == null)
         {
             return null;
         }
 
         try
         {
-            stream = new CompressStream();
+            result = (GameMap)CreateEngineObject(tree.ClassId, this);
+            result.FileName = ExpandFileName(fileName);
+            _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             try
             {
-                stream.LoadImage(image);
-                stream.ReadExactly(Bytes.Of(ref header, 16));
-                stream.Position = header.Size;
-                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
-                {
-                    result = (GameMap)CreateEngineObject(header.ClassId, this);
-                    result.FileName = ExpandFileName(fileName);
-                    _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                    try
-                    {
-                        ReadPreviewEngineObject(stream, result, null);
-                    }
-                    catch
-                    {
-                        result?.Dispose();
-                        result = null;
-                    }
-
-                    _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                }
+                ReadTree(tree, objectValue: result, progress: null, preview: true);
             }
-            finally
+            catch
             {
-                stream?.Dispose();
+                result?.Dispose();
+                result = null;
             }
+
+            _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -179,32 +167,21 @@ public partial class GameEngine : ENode
     }
 
     // HSEngine.pas:5291
-    // The engine writes the image in memory and the file boundary writes the document, so a
-    // failed conversion or write keeps the old file (own-formats.md 4.2).
+    // The tree of the map goes to the file boundary, which writes the document, so a failed
+    // conversion or write keeps the old file (own-formats.md 4.2). The header's class is the
+    // stored class of the map.
     public virtual void SaveHsm(string fileName, Aow.Engine.ProgressEvent progress, GameProfile profile)
     {
-        CompressStream stream;
-        HsmHeader header;
         if (_hexSpriteMap != null)
         {
-            header = default;
-            header.Size = 16;
-            var classId = _hexSpriteMap.EngineClass.ClassId;
-            header.ClassId = classId;
-            header.Reserved = 0;
-            HsmId.CopyTo(header.Id);
-            stream = new CompressStream();
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
             {
-                stream.Write(Bytes.Of(ref header, 16));
-                WriteEngineObject(stream, _hexSpriteMap, progress);
-                FileBoundary.Save(fileName, profile, stream.GetBuffer().AsSpan(0, (int)stream.Length).ToArray(), root: _hexSpriteMap);
+                FileBoundary.Save(fileName, profile: profile, root: _hexSpriteMap, progress: progress);
             }
             finally
             {
                 _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
-                stream?.Dispose();
             }
         }
     }
@@ -264,37 +241,19 @@ public partial class GameEngine : ENode
     }
 
     // HSEngine.pas:5024
-    // The preflight raises before the current set is cleared (own-formats.md 2.7).
+    // The preflight raises before the current set is cleared (own-formats.md 2.7). It checked the
+    // header and the CRC of an original, so the set loads through the tree of the validated
+    // document.
     public void LoadHss(string fileName, bool edit, Aow.Engine.ProgressEvent progress, GameProfile profile)
     {
-        MemoryStream memory;
-        HssHeader header = default;
         EngineMessage message = default;
-        int crc;
-        byte[] image = FileBoundary.LoadOrRaise(ExpandFileName(fileName), profile);
+        var tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
         _hexSpriteSet.Clear();
         _hssFileName = ExpandFileName(fileName);
         _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
-        memory = ImageStream(image);
         try
         {
-            memory.Read(Bytes.Of(ref header, 52));
-            memory.Position = header.Size;
-            var size = (int)memory.Length;
-            crc = MemoryMarshal.Read<int>(memory.GetBuffer().AsSpan(size - 4, 4));
-            bool condition = header.Id != "HSS\0";
-            if (!condition)
-            {
-                var memorySize = (int)memory.Length;
-                condition = crc != EngineServices.GetCrc32(memory.GetBuffer(), memorySize - 4);
-            }
-
-            if (condition)
-            {
-                throw new ArgumentException("Invalid HSSET");
-            }
-
-            ReadEngineObject(memory, _hexSpriteSet, progress);
+            ReadTree(tree, objectValue: _hexSpriteSet, progress: progress);
             ActivateEngineObject(_hexSpriteSet);
             EngineMessage.InitializeMessage(out message, 65556, this);
             _hexSpriteSet.MessageProc(ref message, this);
@@ -304,37 +263,27 @@ public partial class GameEngine : ENode
         finally
         {
             _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHss);
-            memory?.Dispose();
         }
     }
 
     // HSEngine.pas:5060
+    // The header names the set as the original header does, a short string of at most 40
+    // characters. The file boundary writes the header and the tree of the set.
     public void SaveHss(string fileName, Aow.Engine.ProgressEvent progress, GameProfile profile)
     {
-        MemoryStream memory;
-        int crc = default;
         HssHeader header = default;
         if (_hexSpriteSet != null)
         {
-            header.Size = 52;
             header.Name = _hexSpriteSet.Name;
-            header.Id = "HSS\0";
             _hssFileName = ExpandFileName(fileName);
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHss);
-            memory = new MemoryStream();
             try
             {
-                memory.Write(Bytes.Of(ref header, 52));
-                WriteEngineObject(memory, _hexSpriteSet, progress);
-                var size = (int)memory.Length;
-                crc = EngineServices.GetCrc32(memory.GetBuffer(), size);
-                memory.Write(Bytes.Of(ref crc, 4));
-                FileBoundary.Save(_hssFileName, profile, memory.GetBuffer().AsSpan(0, (int)memory.Length).ToArray(), root: _hexSpriteSet);
+                FileBoundary.Save(_hssFileName, profile: profile, root: _hexSpriteSet, progress: progress, headerName: header.Name);
             }
             finally
             {
                 _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHss);
-                memory?.Dispose();
             }
         }
     }
@@ -342,10 +291,8 @@ public partial class GameEngine : ENode
     // HSEngine.pas:5100
     public void LoadPreviewHsm(string fileName, GameProfile profile)
     {
-        CompressStream stream;
-        HsmHeader header = default;
-        byte[] image = FileBoundary.Load(fileName, profile, "preview");
-        if (image == null)
+        var tree = FileBoundary.Open(fileName, profile: profile, operation: "preview");
+        if (tree == null)
         {
             return;
         }
@@ -358,36 +305,22 @@ public partial class GameEngine : ENode
 
         try
         {
-            stream = new CompressStream();
+            SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
+            _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
+            var expandFileName = ExpandFileName(fileName);
+            _hexSpriteMap.FileName = expandFileName;
+            _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             try
             {
-                stream.LoadImage(image);
-                stream.ReadExactly(Bytes.Of(ref header, 16));
-                stream.Position = header.Size;
-                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
-                {
-                    SetHexSpriteMap((GameMap)CreateEngineObject(header.ClassId, this));
-                    _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
-                    var expandFileName = ExpandFileName(fileName);
-                    _hexSpriteMap.FileName = expandFileName;
-                    _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                    try
-                    {
-                        ReadEngineObject(stream, _hexSpriteMap, null);
-                    }
-                    catch
-                    {
-                        _hexSpriteMap?.Dispose();
-                        SetHexSpriteMap(null);
-                    }
-
-                    _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                }
+                ReadTree(tree, objectValue: _hexSpriteMap, progress: null);
             }
-            finally
+            catch
             {
-                stream?.Dispose();
+                _hexSpriteMap?.Dispose();
+                SetHexSpriteMap(null);
             }
+
+            _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -397,57 +330,40 @@ public partial class GameEngine : ENode
     // HSEngine.pas:5171
     public GameMap LoadHsmMap(string fileName, bool edit, Aow.Engine.ProgressEvent progress, GameProfile profile)
     {
-        CompressStream stream;
         string fullName;
-        HsmHeader header = default;
         GameMap result = null;
-        byte[] image;
         fullName = ExpandFileName(fileName);
-        image = FileBoundary.Load(fullName, profile);
-        if (image == null)
+        var tree = FileBoundary.Open(fullName, profile: profile);
+        if (tree == null)
         {
             return null;
         }
 
         try
         {
-            stream = new CompressStream();
+            result = (GameMap)CreateEngineObject(tree.ClassId, null);
+            result.FileName = fullName;
+            _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+            if (edit)
+            {
+                result.Status = result.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+            }
+
             try
             {
-                stream.LoadImage(image);
-                stream.ReadExactly(Bytes.Of(ref header, 16));
-                stream.Position = header.Size;
-                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
-                {
-                    result = (GameMap)CreateEngineObject(header.ClassId, null);
-                    result.FileName = fullName;
-                    _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                    if (edit)
-                    {
-                        result.Status = result.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
-                    }
-
-                    try
-                    {
-                        result.SetProgressHandler(progress);
-                        ReadEngineObject(stream, result, progress);
-                        ActivateEngineObject(result);
-                        result.ClearProgressHandler();
-                        OnHsmLoadedStore.Raise(result);
-                    }
-                    catch
-                    {
-                        result?.Dispose();
-                        result = null;
-                    }
-
-                    _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                }
+                result.SetProgressHandler(progress);
+                ReadTree(tree, objectValue: result, progress: progress, onError: EditorErrorHandler(result));
+                ActivateEngineObject(result);
+                result.ClearProgressHandler();
+                OnHsmLoadedStore.Raise(result);
             }
-            finally
+            catch
             {
-                stream?.Dispose();
+                result?.Dispose();
+                result = null;
             }
+
+            _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
         }
         catch
         {
@@ -457,10 +373,11 @@ public partial class GameEngine : ENode
     }
 
     // HSEngine.pas:5251
+    // The stream holds an original map file (a campaign's map, a map a network host sent). The
+    // original backend reads its tree from the inflated image, and the map loads through the tree.
     public void LoadHsmFromStream(Stream stream, bool edit, Aow.Engine.ProgressEvent progress)
     {
         CompressStream cStream;
-        HsmHeader header = default;
         if (_hexSpriteMap != null)
         {
             _hexSpriteMap?.Dispose();
@@ -473,33 +390,29 @@ public partial class GameEngine : ENode
             try
             {
                 cStream.LoadFromStream(stream);
-                cStream.ReadExactly(Bytes.Of(ref header, 16));
-                cStream.Position = header.Size;
-                if (((ReadOnlySpan<byte>)header.Id).SequenceEqual(HsmId))
+                var tree = GameBoundary.ReadImageTree(cStream.ToArray(), use: GameProfile.WorldMap);
+                SetHexSpriteMap((GameMap)CreateEngineObject(tree.ClassId, this));
+                _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+                if (edit)
                 {
-                    SetHexSpriteMap((GameMap)CreateEngineObject(header.ClassId, this));
-                    _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
-                    if (edit)
-                    {
-                        _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
-                    }
-
-                    try
-                    {
-                        _hexSpriteMap.SetProgressHandler(progress);
-                        ReadEngineObject(cStream, _hexSpriteMap, progress);
-                        ActivateEngineObject(_hexSpriteMap);
-                        _hexSpriteMap.ClearProgressHandler();
-                        OnHsmLoadedStore.Raise(_hexSpriteMap);
-                    }
-                    catch
-                    {
-                        _hexSpriteMap?.Dispose();
-                        SetHexSpriteMap(null);
-                    }
-
-                    _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
+                    _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                 }
+
+                try
+                {
+                    _hexSpriteMap.SetProgressHandler(progress);
+                    ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap));
+                    ActivateEngineObject(_hexSpriteMap);
+                    _hexSpriteMap.ClearProgressHandler();
+                    OnHsmLoadedStore.Raise(_hexSpriteMap);
+                }
+                catch
+                {
+                    _hexSpriteMap?.Dispose();
+                    SetHexSpriteMap(null);
+                }
+
+                _status = _status - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
             }
             finally
             {
@@ -512,24 +425,19 @@ public partial class GameEngine : ENode
     }
 
     // HSEngine.pas:5316
+    // The original backend writes the image of the map's tree, the 16-byte header and the root,
+    // which the stream compresses as before.
     public void SaveHsmToStream(Stream stream, Aow.Engine.ProgressEvent progress)
     {
         CompressStream cStream;
-        HsmHeader header;
         if (_hexSpriteMap != null)
         {
-            header = default;
-            header.Size = 16;
-            var classId = _hexSpriteMap.EngineClass.ClassId;
-            header.ClassId = classId;
-            header.Reserved = 0;
-            HsmId.CopyTo(header.Id);
             cStream = new CompressStream();
             _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
             {
-                cStream.Write(Bytes.Of(ref header, 16));
-                WriteEngineObject(cStream, _hexSpriteMap, progress);
+                var tree = TreeWriter.Write(_hexSpriteMap, factory: new EnginePersistableFactory(this, progress: progress));
+                cStream.Write(GameBoundary.WriteImage(tree, className: NameTable.Stored(_hexSpriteMap.GetType()), use: GameProfile.WorldMap));
                 cStream.SaveToStream(stream);
             }
             finally
@@ -606,7 +514,5 @@ public partial class GameEngine : ENode
         add => _onHssCloseStore.Add(value);
         remove => _onHssCloseStore.Remove(value);
     }
-
-    private static ReadOnlySpan<byte> HsmId => "HSM\0"u8;
 
 }

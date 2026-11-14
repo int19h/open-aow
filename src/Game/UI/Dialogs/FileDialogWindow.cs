@@ -818,8 +818,8 @@ public partial class FileDialogWindow : UIModule
 
     private static void LoadCampaign(General controller, string name)
     {
-        byte[] image = FileBoundary.Load(name, GameProfile.Campaign);
-        if (image == null)
+        var tree = FileBoundary.Open(name, profile: GameProfile.Campaign);
+        if (tree == null)
         {
             return;
         }
@@ -829,7 +829,7 @@ public partial class FileDialogWindow : UIModule
             controller.UI.Engine.CloseHsm(null);
         }
 
-        controller.UI.Engine.LoadCampaign(name, image);
+        controller.UI.Engine.LoadCampaign(name, tree: tree);
         if (controller.UI.Engine.Campaign != null)
         {
             if (controller.UI.Engine.Campaign.ScenarioStarted)

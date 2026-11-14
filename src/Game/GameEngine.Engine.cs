@@ -6,6 +6,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
+using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
@@ -340,38 +341,6 @@ public partial class GameEngine : ENode
         }
     }
 
-    // Engine.pas:8921
-    public void WritePreviewEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
-    {
-        StorageStream S;
-        S = new StorageWriter(stream, this, true);
-        S.OnProgress += progress;
-        try
-        {
-            S.Object(objectValue, 0);
-        }
-        finally
-        {
-            S?.Dispose();
-        }
-    }
-
-    // Engine.pas:8934
-    public void ReadPreviewEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
-    {
-        StorageStream S;
-        S = new StorageReader(stream, this, true);
-        S.OnProgress += progress;
-        try
-        {
-            S.Object(objectValue, 0);
-        }
-        finally
-        {
-            S?.Dispose();
-        }
-    }
-
     // Engine.pas:8947
     public void StoreEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
     {
@@ -412,43 +381,30 @@ public partial class GameEngine : ENode
     // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
     public EngineObject RetrieveFromFile(string fileName, Engine.ProgressEvent progress, GameProfile profile)
     {
-        return RetrieveFromImage(FileBoundary.LoadOrRaise(fileName, profile), progress);
+        return RetrieveFromTree(FileBoundary.OpenOrRaise(fileName, profile: profile), progress: progress);
     }
 
-    // Retrieves the object of an engine image whose preflight has passed.
-    public EngineObject RetrieveFromImage(byte[] image, Engine.ProgressEvent progress)
+    // Retrieves the object of a tree whose preflight has passed, as RetrieveEObject retrieves the
+    // object of a stream: the stored class is created and loaded, and a failure gives nil.
+    public EngineObject RetrieveFromTree(GameFileTree tree, Engine.ProgressEvent progress)
     {
-        EngineObject result = default;
-        MemoryStream M;
-        M = ImageStream(image);
-        try
-        {
-            result = RetrieveEngineObject(M, progress);
-        }
-        finally
-        {
-            M?.Dispose();
-        }
+        return (EngineObject)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
+    }
 
-        return result;
+    // Loads the tree of a prepared file into an object the caller holds, as ReadEObject loads a
+    // stream (persistence-tree.md 6 and 7). A failure of the object goes to the error handler as
+    // rwEObject passes it to OnError. No handler continues.
+    public void ReadTree(GameFileTree tree, EngineObject objectValue, Engine.ProgressEvent progress, bool preview = false, LoadErrorHandler onError = null)
+    {
+        TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview);
     }
 
     // Engine.pas:8985
-    // The engine writes the image in memory. The boundary converts, validates and replaces the
+    // The tree of the object goes to the file boundary, which converts, validates and replaces the
     // file only after the whole document is serialized.
     public void StoreInFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile)
     {
-        MemoryStream M;
-        M = new MemoryStream();
-        try
-        {
-            StoreEngineObject(M, objectValue, progress);
-            FileBoundary.Save(fileName, profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray(), root: objectValue);
-        }
-        finally
-        {
-            M?.Dispose();
-        }
+        FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
     }
 
     // An engine image in a memory stream at position 0, for the routines that read it.
@@ -464,32 +420,13 @@ public partial class GameEngine : ENode
     // three-argument form below stays the original byte path of the excluded PFS callers.
     public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile)
     {
-        MemoryStream M;
-        M = new MemoryStream();
-        try
-        {
-            WriteEngineObject(M, objectValue, progress);
-            FileBoundary.Save(fileName, profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray(), root: objectValue);
-        }
-        finally
-        {
-            M?.Dispose();
-        }
+        FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
     }
 
     // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
     public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile)
     {
-        MemoryStream M;
-        M = ImageStream(FileBoundary.LoadOrRaise(fileName, profile));
-        try
-        {
-            ReadEngineObject(M, objectValue, progress);
-        }
-        finally
-        {
-            M?.Dispose();
-        }
+        ReadTree(FileBoundary.OpenOrRaise(fileName, profile: profile), objectValue: objectValue, progress: progress);
     }
 
     // Engine.pas:8997

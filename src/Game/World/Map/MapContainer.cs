@@ -108,6 +108,8 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         }
     }
 
+    // A preview reads the container's own members and leaves its stored levels unread, as
+    // MainReadWrite does, so the load skips them.
     public override void MainPersist(IPersister persister)
     {
         if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))
@@ -117,6 +119,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
         else
         {
             PersistFields(persister);
+            persister.Skip("Children");
         }
     }
 

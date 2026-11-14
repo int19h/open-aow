@@ -299,11 +299,17 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         }
     }
 
-    // The tree form of ReadWrite. A tree load has no progress handler, so it shows no progress.
-    // The game set files beside the scenario set are read and written as ReadWrite does, and the
-    // text-only branch that stores them inline is dead (TextOnly is false on every tree path).
+    // The tree form of ReadWrite. A load shows its progress to the load's handler at the points
+    // where ReadWrite calls Stream.ShowProgress. The game set files beside the scenario set are read
+    // and written as ReadWrite does, and the text-only branch that stores them inline is dead
+    // (TextOnly is false on every tree path).
     public override void PersistFields(IPersister persister)
     {
+        if (persister.Loading)
+        {
+            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingGamePackText), percent: 0);
+        }
+
         var engine = PersistSupport.Engine(persister);
         SetEngine(engine);
         _pluginControl.Engine = engine;
@@ -318,9 +324,12 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         if (persister.Loading)
         {
             bool loaded = GetEngine().ReadFromFileCrc(path + "ABILITY.PFS", objectValue: AbilityControl, progress: null);
+            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingUnitsText), percent: 70);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITRES.PFS", objectValue: UnitResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
+            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingHeroesText), percent: 80);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "HERORES.PFS", objectValue: HeroResources, progress: null);
+            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingItemsText), percent: 90);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null);
@@ -330,6 +339,8 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
             {
                 throw new InvalidOperationException("CRC-CHECK FAILED");
             }
+
+            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_gamePackLoadedText), percent: 100);
         }
         else
         {

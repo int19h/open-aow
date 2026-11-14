@@ -38,29 +38,44 @@ public sealed class ValidationContext(JsonObject document, FileProfile profile, 
         };
 }
 
+/// <summary>
+/// What <see cref="DocumentValidation.Check"/> found: every finding, and the engine image of the
+/// document when the structural step passed.
+/// </summary>
+public sealed record DocumentCheck(IReadOnlyList<FormatDiagnostic> Findings, byte[]? Image);
+
 public static class DocumentValidation
 {
     /// <summary>
     /// Runs the structural validation, then every validator. It returns every finding, so a
     /// caller refuses before any destructive load step and leaves the current state intact.
     /// </summary>
-    public static IReadOnlyList<FormatDiagnostic> Run(JsonObject document, IEnumerable<IDocumentValidator> validators, string? file = null)
+    public static IReadOnlyList<FormatDiagnostic> Run(JsonObject document, IEnumerable<IDocumentValidator> validators, string? file = null) =>
+        Check(document, validators, file).Findings;
+
+    /// <summary>
+    /// <see cref="Run"/> that also returns the engine image the structural step encoded. The
+    /// structural step is the strict encoding of the export without its compression
+    /// (<see cref="GameFiles.ExportImage"/>), so it refuses whatever the export refuses. A
+    /// validator runs only when the structure passed.
+    /// </summary>
+    public static DocumentCheck Check(JsonObject document, IEnumerable<IDocumentValidator> validators, string? file = null)
     {
-        var findings = new List<FormatDiagnostic>();
         FileProfile profile;
         string kind;
+        byte[] image;
         try
         {
             (profile, kind, _, _) = GameFiles.Envelope(document, file);
-            GameFiles.Export(document, null, file);
+            image = GameFiles.ExportImage(document, file);
         }
         catch (ConversionException error)
         {
-            findings.Add(error.Diagnostic);
-            return findings;
+            return new DocumentCheck(Findings: [error.Diagnostic], Image: null);
         }
+        var findings = new List<FormatDiagnostic>();
         var context = new ValidationContext(document, profile, kind, file);
         foreach (var validator in validators) findings.AddRange(validator.Validate(context));
-        return findings;
+        return new DocumentCheck(Findings: findings, Image: image);
     }
 }

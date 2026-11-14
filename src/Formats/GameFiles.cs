@@ -136,7 +136,7 @@ public static class GameFiles
         return common == expected.Length && common == actual.Length ? null : common;
     }
 
-    private static JsonObject NewDocument(string kind, JsonObject container, JsonObject root) => new JsonObject()
+    internal static JsonObject NewDocument(string kind, JsonObject container, JsonObject root) => new JsonObject()
         .Add("$format", new JsonString(OwnFormat.FormatName))
         .Add("$version", new JsonInteger(OwnFormat.CurrentVersion))
         .Add("$kind", new JsonString(kind))

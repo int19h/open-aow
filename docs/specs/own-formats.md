@@ -455,7 +455,9 @@ Validation protects loading and execution invariants, not strategic sense. It
 never guesses a repair. Legacy exceptions and compatibility normalization are
 narrow named rules backed by original fixtures, not blanket integer exemptions.
 
-What runs in version 1. Structural validation is the strict image encoding of
+What runs in version 1. `DocumentValidation.Run` and `DocumentValidation.Check`
+(`src/Formats/Validation.cs`) run before every destructive game load and before every game save
+is written. Structural validation is the strict image encoding of
 `GameFiles.ExportImage`: unknown members, classes and properties, incompatible families,
 duplicate slots, dimensions and row lengths, storage ranges and mistyped reserved members fail
 there. The game validators are `FormatMapping.Validators`, one `unit-content` validator over the
@@ -699,21 +701,23 @@ as representable satisfy G2, including defaults, empty containers and nested ima
 
 For in-scope profiles, `GameFiles` is the only file boundary. Original loads read
 through `IRtlHost.Files`, import to a document, validate for game context, export
-for unmasked G1 comparison, then produce the engine image. Own loads classify,
-parse, validate and produce the engine image. No conversion step creates
-game objects. Existing engine loading starts only after preflight succeeds.
+for unmasked G1 comparison, then read the tree of that image through the original
+backend. Own loads classify, parse, validate and read the tree through the document
+backend. No conversion step creates game objects. The engine loads the tree only after
+the preflight succeeds (`persistence-tree.md` 12).
 
 G1 mismatch, unknown members and conversion failures are load errors. There is
 no automatic original-byte fallback or recovery bypass in 9.7. Report the first
 differing offset for reconstructed-original mismatches. Preflight failures preserve
 the current game and source file.
 
-Saves convert the engine-written image to a document, validate and finish
-serialization before replacement. `ReadWrite`, binary streams and in-memory
-images remain the engine protocol for 9.7. `LoadHsmFromStream` and
-`SaveHsmToStream` remain internal image operations for campaigns. Internal port
-images do not pass for original exports, which undergo strict representability
-checks separately.
+Saves write the tree of the saved object, write its document through the document
+backend, validate and finish serialization before replacement. Until PE-3-g the engine
+wrote an image through `ReadWrite` and the boundary imported it. Since PE-3-g no engine
+image is on the own disk path (section 6.3). `LoadHsmFromStream` and `SaveHsmToStream`
+read and write the original image of a campaign map in memory through the original
+backend. Internal port images do not pass for original exports, which undergo strict
+representability checks separately.
 
 In-scope callers of `LoadHsm`, `LoadHsmMap`, `CreatePreviewHsm`, `SaveHsm`, `LoadHss`,
 `RetrieveFromFile`, `StoreInFile`, `ReadFromFile`, `WriteToFile` and CRC forms take
@@ -722,10 +726,10 @@ previews and nested campaigns. Excluded PFS callers retain their original paths.
 New direct opens of in-scope files must enter this inventory and boundary.
 
 In the code the boundary has two halves. `GameBoundary` in `src/Formats/GameBoundary.cs`
-converts: `PrepareLoad` takes the file's bytes and a caller profile and returns the engine
-image or the refusal, and `PrepareSave` imports the engine-written image, validates the
-document, checks that the document's own image equals the engine's, and returns the canonical
-bytes. `FileBoundary` in `src/Game/Saves/FileBoundary.cs` reads and writes through
+converts: `PrepareLoad` takes the file's bytes and a caller profile and returns the validated
+document and its image or the refusal, `ReadTree` returns the tree the engine loads, and
+`PrepareSave` takes the tree the game wrote, writes and validates the document and returns the
+canonical bytes. `FileBoundary` in `src/Game/Saves/FileBoundary.cs` reads and writes through
 `IRtlHost.Files`, runs the unit validators, logs and caches previews. A caller profile
 (`GameProfile`) names the original profile, the kinds it accepts and the kind it writes:
 `world-map` (`world-hsm`, kinds `save`, `map` and `campaign-map`, writes `save`),
@@ -1058,8 +1062,11 @@ layers, the terrain list as pairs, the ILB library as base64, the flood terrain 
 hexagons, the single as a number and the fixed dynamic items with their slot, and puts these
 shapes, the grouped lists and a bit list member on the tree and the direct path. With it step 2
 is implemented: the mapped classes are the only shapes the direct path refuses, and PE-3 owns
-them. Steps 3 to 5 are not implemented. `ReadWrite` and the converter
-remain the game's path until step 3. The private roadmap allocates the five steps as briefs
+them. PE-3-b to PE-3-e put the engine classes on the tree, and PE-3-g moves the game's own
+loads and saves onto it: no engine image remains on the own disk path, and an original load reads
+its tree through the original backend after the converter's G1 check (`persistence-tree.md` 12).
+`ReadWrite` remains for copies, assignments and comparisons, the game set files, the e-mail game
+index and the packets (PE-3-h and PE-4-a), and steps 4 and 5 are not implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
 section 10 names them as that step's prerequisite.
 
@@ -1258,6 +1265,29 @@ on the same machine while another implementer run was active:
 | `Keepers.CAM` with After the Fall (`.acg`) | 146672 | 146672 | 3359784 | 680 ms | 409 ms | 649 ms | 230.3 MiB |
 | `Release.hss` | 1060096 | 1060096 | 2222594 | 108 ms | 47 ms | 45 ms | 122.0 MiB |
 
+PE-3-g measured the game's own routines after the switch to the tree (`persistence-tree.md` 12)
+with `Aow.Headless --measure-persistence`, one process per file, which the pacing layer of the gate
+runs and reports in its summary line. The original load is the game's load of the original file:
+`LoadHsm` of a map or save, which also loads the scenario set the map names, `LoadCampaign` and
+`LoadHsm` of After the Fall for Keepers, and `LoadHss`. The save writes the own document
+(`SaveHsm`, `SaveCampaign` with its embedded map, and `SaveHss` with the nine game set files beside
+it), and the own load loads that document back (with `LoadCampaignMap` for the campaign). Each
+time holds the engine's work, so it is not the boundary time of the table above. Debug build, as
+the pacing layer runs it, on the same machine in use:
+
+| file | own JSON | original load | save | own load | peak |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `Valley Highman.csm` | 3026465 | 1458 ms | 512 ms | 1065 ms | 189.1 MiB |
+| `After the Fall.HSM` | 3037212 | 1407 ms | 498 ms | 1009 ms | 191.4 MiB |
+| `large-original-a/day-20.asg` | 4164393 | 1557 ms | 557 ms | 1210 ms | 204.7 MiB |
+| `Keepers.CAM` with After the Fall (`.acg`) | 3260581 | 1483 ms | 762 ms | 1447 ms | 215.1 MiB |
+| `Release.hss` | 2680454 | 331 ms | 415 ms | 248 ms | 136.9 MiB |
+
+A Release run right before it measured 539 to 824 ms for the saves of the maps and the campaign
+and 1354 to 2087 ms for their loads, slower than the Debug run, which shows the noise of the
+machine in use. The own JSON of a map saved by the game holds the state after the game's load, so
+its size differs from the converter's document of the original file in the table above.
+
 A world map or save as an own document is 3.9 to 4.5 times the size of its engine image and 36
 to 38 times the size of its compressed original. The listing and the preview cache are in 4.3, the live representations in
 6.1. Pacing at the gate: 300 frames at 32.895 to 33.108 ms. The last gate before the switch with
@@ -1308,8 +1338,9 @@ pins the rule to exactly one occurrence in that file.
   names. PE-2c-4 put the map fields, the sprites and the campaign map on the tree. Version 5
   (PE-2c-5) stores the resource payloads, the flood terrain, the single and the fixed dynamic
   items, and puts them, the grouped lists and a bit list member on the tree. Version 6 (issue 230)
-  renames the stored members to their C# names. Steps 3 to 5 are
-  not implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
+  renames the stored members to their C# names. PE-3-b to PE-3-g implement the own disk path of
+  step 3: the game loads and saves the in-scope profiles through the tree, with no engine image
+  on that path. Steps 4 and 5 and the rest of step 3 are not implemented. The exit is a
   prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and
   the private roadmap allocates it as briefs PE-1 to PE-5 before step 10.4 publishes the API
   baseline.
