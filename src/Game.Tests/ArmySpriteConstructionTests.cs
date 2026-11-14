@@ -63,14 +63,15 @@ public sealed class ArmySpriteConstructionTests
         OrderingRecording.Check("ArmySpriteConstruction", actual);
     }
 
-    // The army of the sprite stores through the tree since its ReadWrite is retired (PE-3-i), and a
-    // set the tree loads carries explicit bounds where a constructed set has the default ones.
+    // The sprite and its army store through the tree since their ReadWrite is retired (PE-3-i), so
+    // the storage streams write and read them through the tree, and a set the tree loads carries
+    // explicit bounds where a constructed set has the default ones.
     // Both bound the same members and compare equal, so the snapshots leave the bounds out.
     private static string WithoutSetBounds(string snapshot) =>
         Regex.Replace(snapshot, pattern: @"""Set\\u00601\.(bounded|high|low)"":[^,}]*,?", replacement: "");
 
     [Fact]
-    public void SavedArmyReturnsThroughCreateEngineObjectAndReadWrite()
+    public void SavedArmyReturnsThroughCreateEngineObjectAndTheStorageStreams()
     {
         using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
         EngineObject source = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
@@ -79,10 +80,10 @@ public sealed class ArmySpriteConstructionTests
         try
         {
             ((ArmyHexSprite)source).Army.Player = 2;
-            using (var writer = new StorageWriter(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
+            using (var writer = new StorageWriter(memory, fixture.Engine, false)) { writer.PersistObject(source); }
             memory.Position = 0;
             loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
-            using (var reader = new StorageReader(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
+            using (var reader = new StorageReader(memory, fixture.Engine, false)) { reader.PersistObject(loaded); }
             Assert.IsType<ArmyHexSprite>(loaded);
             Assert.Equal(WithoutSetBounds(OrderingRecording.Snapshot(source)), WithoutSetBounds(OrderingRecording.Snapshot(loaded)));
         }

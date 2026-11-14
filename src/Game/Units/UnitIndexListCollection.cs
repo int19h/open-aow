@@ -25,18 +25,6 @@ public partial class UnitIndexListCollection : IDisposable
         _units?.Dispose();
     }
 
-    // Unit.PAS:2424
-    public void LoadFromStream(Stream stream)
-    {
-        _units.LoadFromStream(stream);
-    }
-
-    // Unit.PAS:2428
-    public void SaveToStream(Stream stream)
-    {
-        _units.SaveToStream(stream);
-    }
-
     // Unit.PAS:2432
     public int GetCollectionCount(int index)
     {

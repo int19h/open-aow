@@ -1,13 +1,11 @@
 // Translated from Tower.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -20,15 +18,9 @@ public partial class Tower : PlayerStructure
     // Tower.pas:55
     public new const int ClassId = 132158;
 
-    public Set<StateElement> State;
+    public Set<StateElement> State { get; set; }
 
     // Tower.pas:96
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferSet(ref State, 1, 20, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

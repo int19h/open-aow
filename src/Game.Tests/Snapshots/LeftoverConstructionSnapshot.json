@@ -13159,14 +13159,14 @@
             "$type": "Aow.Game.World.Map.StrategicMap",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 6,
+              "DelphiList\u00601.count": 5,
               "DelphiList\u00601.items": [
                 "$ref:$.GameMap._selection",
                 "$ref:$.GameMap._staticVisibleHexSprite",
                 "$ref:$.GameMap._dynamicVisibleHexSprite",
                 "$ref:$.GameMap._staticFixedVisibleHexSprite",
                 "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
-                "$ref:$.GameMap._timer",
+                null,
                 null,
                 null
               ]
@@ -13451,64 +13451,6 @@
               "Set\u00601.low": 0
             },
             "GameMap._terrainChangedLockCounter": 0,
-            "GameMap._timer": {
-              "$type": "Aow.Engine.Nodes.ETimerNode",
-              "ETimerNode._count": 0,
-              "ETimerNode._tick": 0,
-              "ETimerNode._timerLists": [
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                }
-              ],
-              "EngineObject._owner": "$owner"
-            },
             "GameMap._version": 0,
             "GameMap._viewHeight": 0,
             "GameMap._viewHeightHex": 0,
@@ -13562,7 +13504,7 @@
                     "EngineClass.ClassId": 136288,
                     "EngineClass.Type": "Aow.Game.AI.Groups.HuntAIGroup",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_783"
+                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_782"
                     ]
                   }
                 }
@@ -13700,7 +13642,7 @@
                       "EngineClass.ClassId": 80,
                       "EngineClass.Type": "Aow.Game.AI.StructurePhase1AIPlayerAction",
                       "EngineClass._create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_368"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_367"
                       ]
                     },
                     "AIPlayerActionClass.SupportedPhases": {
@@ -13766,7 +13708,7 @@
                       "EngineClass.ClassId": 80,
                       "EngineClass.Type": "Aow.Game.AI.StructurePhase2AIPlayerAction",
                       "EngineClass._create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_369"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_368"
                       ]
                     },
                     "AIPlayerActionClass.SupportedPhases": {
@@ -17210,14 +17152,14 @@
             "$type": "Aow.Game.World.Map.StrategicMap",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList\u00601.count": 6,
+              "DelphiList\u00601.count": 5,
               "DelphiList\u00601.items": [
                 "$ref:$.GameMap._selection",
                 "$ref:$.GameMap._staticVisibleHexSprite",
                 "$ref:$.GameMap._dynamicVisibleHexSprite",
                 "$ref:$.GameMap._staticFixedVisibleHexSprite",
                 "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
-                "$ref:$.GameMap._timer",
+                null,
                 null,
                 null
               ]
@@ -17502,64 +17444,6 @@
               "Set\u00601.low": 0
             },
             "GameMap._terrainChangedLockCounter": 0,
-            "GameMap._timer": {
-              "$type": "Aow.Engine.Nodes.ETimerNode",
-              "ETimerNode._count": 0,
-              "ETimerNode._tick": 0,
-              "ETimerNode._timerLists": [
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                },
-                {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
-                }
-              ],
-              "EngineObject._owner": "$owner"
-            },
             "GameMap._version": 0,
             "GameMap._viewHeight": 0,
             "GameMap._viewHeightHex": 0,
@@ -17613,7 +17497,7 @@
                     "EngineClass.ClassId": 136288,
                     "EngineClass.Type": "Aow.Game.AI.Groups.HuntAIGroup",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_783"
+                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_782"
                     ]
                   }
                 }
@@ -17751,7 +17635,7 @@
                       "EngineClass.ClassId": 80,
                       "EngineClass.Type": "Aow.Game.AI.StructurePhase1AIPlayerAction",
                       "EngineClass._create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_368"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_367"
                       ]
                     },
                     "AIPlayerActionClass.SupportedPhases": {
@@ -17817,7 +17701,7 @@
                       "EngineClass.ClassId": 80,
                       "EngineClass.Type": "Aow.Game.AI.StructurePhase2AIPlayerAction",
                       "EngineClass._create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_369"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_368"
                       ]
                     },
                     "AIPlayerActionClass.SupportedPhases": {
@@ -21299,7 +21183,6 @@
                 "Set\u00601.low": 0
               },
               "GameMap._terrainChangedLockCounter": 0,
-              "GameMap._timer": null,
               "GameMap._version": 0,
               "GameMap._viewHeight": 0,
               "GameMap._viewHeightHex": 0,

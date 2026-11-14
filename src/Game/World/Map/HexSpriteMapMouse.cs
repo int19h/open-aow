@@ -106,7 +106,7 @@ public partial class HexSpriteMapMouse : IDisposable
             {
                 var pixelY = GetPixelY();
                 var pixelX = GetPixelX();
-                _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap._viewMapLevel);
+                _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap.ViewMapLevel);
                 result = false;
             }
             else
@@ -233,7 +233,7 @@ public partial class HexSpriteMapMouse : IDisposable
         int result;
         if (_x != -2147483648)
         {
-            result = _hexSpriteMap._viewPixelX + _x;
+            result = _hexSpriteMap.ViewPixelX + _x;
             if (result > _hexSpriteMap.GetMaxPixelX() || result < 0)
             {
                 result = -2147483648;
@@ -253,7 +253,7 @@ public partial class HexSpriteMapMouse : IDisposable
         int result;
         if (_y != -2147483648)
         {
-            result = _hexSpriteMap._viewPixelY + _y;
+            result = _hexSpriteMap.ViewPixelY + _y;
             if (result > _hexSpriteMap.GetMaxPixelY() || result < 0)
             {
                 result = -2147483648;
@@ -275,7 +275,7 @@ public partial class HexSpriteMapMouse : IDisposable
         int Y = default;
         if (_x != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap._viewPixelX + _x, 0, out result, out Y);
+            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, 0, out result, out Y);
             if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
@@ -296,7 +296,7 @@ public partial class HexSpriteMapMouse : IDisposable
         int X = default;
         if (_y != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap._viewPixelX + _x, _hexSpriteMap._viewPixelY + _y, out X, out result);
+            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, _hexSpriteMap.ViewPixelY + _y, out X, out result);
             if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;

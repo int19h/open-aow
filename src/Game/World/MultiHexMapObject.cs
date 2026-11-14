@@ -1,11 +1,7 @@
 // Translated from HSEngine.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -28,13 +24,6 @@ public partial class MultiHexMapObject : MapObject
     protected internal sbyte _hexY;
 
     // MAPOBJ.PAS:923
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexX), 3);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _hexY), 4);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -57,7 +46,7 @@ public partial class MultiHexMapObject : MapObject
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
-        return _resource._showPriorityOffset + (pixelY << 13) + pixelX;
+        return _resource.ShowPriorityOffset + (pixelY << 13) + pixelX;
     }
 
     // MAPOBJ.PAS:944
@@ -126,7 +115,7 @@ public partial class MultiHexMapObject : MapObject
         HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         if (_resource.ImageSequenceList == null)
         {
-            _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)_resource)._imageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)_resource)._imageOffsetY, lockedSurface);
+            _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)_resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)_resource).ImageOffsetY, lockedSurface);
         }
         else
         {
@@ -224,7 +213,7 @@ public partial class MultiHexMapObject : MapObject
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            result = hexNumber < _resource.TerrainList._count && (_resource.TerrainList.GetTerrain(hexNumber) >= 0 || _resource.TerrainList.GetOverlay(hexNumber) >= 0);
+            result = hexNumber < _resource.TerrainList.Count && (_resource.TerrainList.GetTerrain(hexNumber) >= 0 || _resource.TerrainList.GetOverlay(hexNumber) >= 0);
         }
         else
         {
@@ -243,7 +232,7 @@ public partial class MultiHexMapObject : MapObject
         HexSprite hexSprite;
         HexNumberWalkData walk = default;
         bool result = true;
-        count = _resource.TerrainList._count;
+        count = _resource.TerrainList.Count;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (result && walk.HexNumber < count)
         {
@@ -311,7 +300,7 @@ public partial class MultiHexMapObject : MapObject
 
         counts.Clear();
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
-        while (walk.HexNumber < terrainList._count)
+        while (walk.HexNumber < terrainList.Count)
         {
             if ((terrainList.GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
@@ -342,7 +331,7 @@ public partial class MultiHexMapObject : MapObject
     {
         int count;
         HexNumberWalkData walk = default;
-        count = _resource.TerrainList._count;
+        count = _resource.TerrainList.Count;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
@@ -360,7 +349,7 @@ public partial class MultiHexMapObject : MapObject
     {
         int count;
         HexNumberWalkData walk = default;
-        count = _resource.TerrainList._count;
+        count = _resource.TerrainList.Count;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {

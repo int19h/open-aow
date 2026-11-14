@@ -1,8 +1,6 @@
 // Translated from CombatILTer.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.World.Terrain;
@@ -15,17 +13,10 @@ public partial class CombatImageLibraryTerrainResource : ImageLibraryTerrainMapO
     // CombatILTer.pas:175
     public new const int ClassId = 2228535;
 
-    public sbyte BurnValue;
-    public sbyte Defense;
+    public sbyte BurnValue { get; private set; }
+    public sbyte Defense { get; private set; }
 
     // CombatILTer.pas:181
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref BurnValue), 21);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

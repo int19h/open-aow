@@ -1,6 +1,5 @@
 // Translated from PrdPlace.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
@@ -50,7 +49,8 @@ public partial class ProductionPlace : PlayerStructure
 
     public ProductionPlaceControl ProductionControl { get; }
 
-    public byte RazedState;
+    public byte RazedState { get; set; }
+
     private byte _defenderLevel;
 
     // PrdPlace.pas:283
@@ -63,14 +63,6 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:528
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(ProductionControl, 8);
-        stream.Bytes(Bytes.Of(ref _defenderLevel, 1), 1, 9);
-        stream.Bytes(Bytes.Of(ref RazedState, 1), 1, 10);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

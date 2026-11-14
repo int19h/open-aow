@@ -97,7 +97,6 @@ public sealed class MapNetSoundConstructionTests
                 Assert.IsType<GameMapMouse>(map.Mouse);
                 Assert.Same(map, map.Mouse.HexSpriteMap);
                 Assert.Same(map, map.Selection.Owner);
-                Assert.Same(map, map.Timer.Owner);
                 Assert.Equal(0, map.HexSpriteChangedEventsStore.Count);
                 Assert.Equal(0, map.TerrainChangedEventsStore.Count);
                 Assert.Equal(0, map.ViewPortChangedEventsStore.Count);

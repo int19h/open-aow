@@ -1,6 +1,5 @@
 // Translated from WizardsTower.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
@@ -17,7 +16,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -37,18 +35,10 @@ public partial class WizardsTower : Structure
     private bool _generateSpell;
     private Set<MagicSphere> _magicSpheres;
     private byte _spellLevel;
-    public int SpellId;
+
+    public int SpellId { get; private set; }
 
     // WizardsTower.pas:87
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Boolean(ref _generateSpell, 30);
-        TransferSet(ref _magicSpheres, 2, 31, stream.Bytes, 0);
-        stream.Byte(ref _spellLevel, 32);
-        stream.Bytes(Bytes.Of(ref SpellId, 4), 4, 33);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

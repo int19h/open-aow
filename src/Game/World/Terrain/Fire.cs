@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
@@ -33,22 +30,17 @@ public partial class Fire : ImageLibraryTerrainMapObject
     public new const int ClassId = 132990;
 
     private Set<ModeElement> _mode;
-    public sbyte TurnsLeft;
-    public byte Age;
+
+    public sbyte TurnsLeft { get; set; }
+    public byte Age { get; set; }
+
     private int _showPriority;
-    public sbyte Player;
+
+    public sbyte Player { get; set; }
+
     private int _explosionFrame;
 
     // Structur.PAS:3402
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 5);
-        TransferSet(ref _mode, 1, 6, stream.Bytes, 0);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 7);
-        stream.Byte(ref Age, 8);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -448,7 +440,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
 
         public new const int ClassId = 132991;
 
-        public FireType FireType;
+        public FireType FireType { get; private set; }
 
         // Structur.PAS:3685
         // FireType
@@ -463,12 +455,6 @@ public partial class Fire : ImageLibraryTerrainMapObject
         }
 
         // Structur.PAS:3707
-        public override void ReadWrite(StorageStream stream)
-        {
-            base.ReadWrite(stream);
-            stream.Bytes(Bytes.Of(ref FireType, 1), 1, 20);
-        }
-
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);

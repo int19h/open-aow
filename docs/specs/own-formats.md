@@ -1068,8 +1068,9 @@ its tree through the original backend after the converter's G1 check (`persisten
 PE-3-h moves copies, assignments and comparisons onto the tree and reads and writes the game set
 files, the system hero and item libraries and the e-mail game index, which stay original files,
 through the original backend (`persistence-tree.md` 13). PE-3-i retires `ReadWrite` family by
-family: the units, abilities and items have none since its first pull request, and the storage
-streams store them through the tree (`persistence-tree.md` 14). `ReadWrite` remains for the other
+family: the units, abilities and items have none since its first pull request, the world map,
+terrain, structures, production and drawing none since its second, and the storage streams store
+them through the tree (`persistence-tree.md` 14). `ReadWrite` remains for the other
 families until their PE-3-i pull requests and for the token events and the packets (PE-4-a), and
 steps 4 and 5 are not implemented. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`

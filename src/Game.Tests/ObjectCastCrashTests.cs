@@ -1,4 +1,3 @@
-
 using Aow.Game.Audio;
 using Aow.Game.Draw.Animations;
 
@@ -201,13 +200,13 @@ public sealed class ObjectCastCrashTests
             var list = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
             list.AddChild(new MapObjectResource(null!) { Holder = EngineFixture.Engine });
             var match = new TerrainMapObjectResource(null!) { Holder = EngineFixture.Engine };
-            match._terrainType = 4;
-            match._decorationType = 2;
+            match.TerrainType = 4;
+            match.DecorationType = 2;
             list.AddChild(match);
 
             var resource = new TerrainMapObjectResource(null!) { Holder = EngineFixture.Engine };
-            resource._terrainType = 4;
-            resource._decorationType = 9;
+            resource.TerrainType = 4;
+            resource.DecorationType = 9;
             var finder = new ListedTerrain(list);
             finder._resource = resource;
             Assert.Same(match, finder.FindDecorationResource(2));

@@ -1,6 +1,5 @@
 // Translated from Mine.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
@@ -27,7 +26,8 @@ public partial class Mine : PlayerStructure
     // Mine.pas:82
     public new const int ClassId = 131962;
 
-    public byte State;
+    public byte State { get; set; }
+
     private readonly PlayerStructureIncomeSource _incomeSource;
 
     // Mine.pas:76
@@ -38,12 +38,6 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:172
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref State, 1), 1, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

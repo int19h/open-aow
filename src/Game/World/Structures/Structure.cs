@@ -1,11 +1,8 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
@@ -50,12 +47,13 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
 
     public new const int ClassId = 131914;
 
-    public int StructureId;
+    public int StructureId { get; set; }
 
     public int UpdateCount { get; private set; }
 
-    public sbyte BuildingPlayer;
-    public byte BuildingDays;
+    public sbyte BuildingPlayer { get; set; }
+    public byte BuildingDays { get; private set; }
+
     private StructureShadow _shadow;
 
     public bool Fogged { get; private set; }
@@ -81,14 +79,6 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1038
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref BuildingDays, 0);
-        stream.Int32(ref StructureId, 98);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref BuildingPlayer), 255, 99);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

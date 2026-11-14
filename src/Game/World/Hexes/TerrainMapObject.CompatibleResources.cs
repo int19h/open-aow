@@ -1,6 +1,5 @@
-using Aow.Engine.Nodes;
-
 using Aow.Game.World.Map;
+
 using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
@@ -16,8 +15,8 @@ public partial class TerrainMapObject
             var child = resources[i];
             if (child.EngineClass.ClassId != _resource.EngineClass.ClassId) continue;
             var resource = (TerrainMapObjectResource)child;
-            if (resource._decorationType == ((TerrainMapObjectResource)_resource)._decorationType &&
-                resource._terrainType == terrainType && resource != _resource &&
+            if (resource.DecorationType == ((TerrainMapObjectResource)_resource).DecorationType &&
+                resource.TerrainType == terrainType && resource != _resource &&
                 resource.TerrainList.CompareTerrain(_resource.TerrainList,
                     Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 candidates.Add(resource);
@@ -36,8 +35,8 @@ public partial class TerrainMapObject
             var child = resources[i];
             if (child.EngineClass.ClassId != _resource.EngineClass.ClassId) continue;
             var resource = (TerrainMapObjectResource)child;
-            if (decorationType != -1 && resource._decorationType != decorationType) continue;
-            if (resource._terrainType != terrainType || resource == _resource ||
+            if (decorationType != -1 && resource.DecorationType != decorationType) continue;
+            if (resource.TerrainType != terrainType || resource == _resource ||
                 !resource.TerrainList.CompareTerrain(_resource.TerrainList, default)) continue;
             bool compatible = true;
             int j = resource.TerrainList.Count;

@@ -29,8 +29,8 @@ public sealed class MapViewerCenteringTests
         public override void DrawStaticScene(ref LockedSurface lockedSurface)
         {
             PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0xFFFFFF, lockedSurface);
-            PixelFormats.ColorFillSurfaceDescription(new Rect(16 - _viewPixelX, 0, 17 - _viewPixelX, lockedSurface.Height), 0x0000FF, lockedSurface);
-            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - _viewPixelY, lockedSurface.Width, 17 - _viewPixelY), 0x0000FF, lockedSurface);
+            PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), 0x0000FF, lockedSurface);
+            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), 0x0000FF, lockedSurface);
         }
     }
 

@@ -1,7 +1,6 @@
 // Translated from PrdPlace.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Units;
@@ -31,12 +30,6 @@ public partial class ProductionPlaceResource : PlayerStructureResource
     }
 
     // PrdPlace.pas:730
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Payload(18, Units.LoadFromStream, Units.SaveToStream);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

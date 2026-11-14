@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -19,11 +18,11 @@ public partial class TextControlItem : EngineObject
         Text = new StringList();
     }
 
-    public int Id;
+    public int Id { get; set; }
 
     public StringCollection Text { get; }
 
-    public string Name = "";
+    public string Name { get; set; } = "";
 
     // Structur.PAS:4400
     public override void Dispose()
@@ -33,23 +32,16 @@ public partial class TextControlItem : EngineObject
     }
 
     // Structur.PAS:4411
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Id, 9);
-        stream.Lines(Text, 10);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            stream.String(ref Name, 11);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         Id = persister.Int32("Id", value: Id);
         PersistSupport.Lines(persister, name: "Text", lines: Text);
-        Name = persister.String("Name", value: Name);
+        // The original leaves the name out under text only, which the translate stream's mode holds.
+        if (!PersistSupport.Translating(persister))
+        {
+            Name = persister.String("Name", value: Name);
+        }
     }
 
     // intf_P1_04.inc:67

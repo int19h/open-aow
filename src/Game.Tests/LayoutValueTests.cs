@@ -87,15 +87,6 @@ public sealed class LayoutValueTests
         Assert.False(terrain.GetUsed(2));
         terrain.SetTandO(2, 0x807F);
         Assert.True(terrain.GetUsed(2));
-
-        using var stream = new MemoryStream();
-        terrain.SaveToStream(stream);
-        Assert.Equal([3, 0, 0, 0, 0xFE, 0x05, 0x03, 0xFE, 0x7F, 0x80], stream.ToArray());
-        var loaded = new TerrainList();
-        stream.Position = 0;
-        loaded.LoadFromStream(stream);
-        Assert.Equal(3, loaded.Count);
-        Assert.Equal(0x807F, loaded.GetTandO(2));
     }
 
     [Fact]

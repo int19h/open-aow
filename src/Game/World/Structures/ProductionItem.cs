@@ -1,6 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -25,19 +25,6 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
     public ProductionOrder Order { get; set; } = new UnknownOrder(0, 0, 0);
 
     // Structur.PAS:63
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        var (kind, parameter, groupId) = Order.ToFields();
-        stream.Int32(ref kind, 20);
-        stream.Int32(ref parameter, 21);
-        stream.Int32(ref groupId, 22);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            Order = ProductionOrder.FromFields(kind, parameter, groupId);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -45,7 +32,8 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
         kind = persister.Int32("Kind", value: kind);
         parameter = persister.Int32("Parameter", value: parameter);
         groupId = persister.Int32("GroupId", value: groupId);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original sets the order there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             Order = ProductionOrder.FromFields(kind, parameter, groupId);
         }

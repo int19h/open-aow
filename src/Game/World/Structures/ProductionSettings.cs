@@ -1,9 +1,6 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -18,16 +15,16 @@ public partial class ProductionSettings : EngineObject
     public ProductionSettings(ECustomNode owner) : base(owner)
     { }
 
-    public int Gold;
-    public int Mana;
-    public sbyte TurnsLeft;
-    public int GoldUpkeep;
-    public int ManaUpkeep;
-    public sbyte TurnsTotal;
-    public sbyte Player;
-    public int GroupId;
-    public Unit Unit;
-    public int UnitProductionIndex;
+    public int Gold { get; set; }
+    public int Mana { get; set; }
+    public sbyte TurnsLeft { get; set; }
+    public int GoldUpkeep { get; set; }
+    public int ManaUpkeep { get; set; }
+    public sbyte TurnsTotal { get; set; }
+    public sbyte Player { get; set; }
+    public int GroupId { get; set; }
+    public Unit Unit { get; set; }
+    public int UnitProductionIndex { get; set; }
 
     // Structur.PAS:114
     public override void Dispose()
@@ -37,21 +34,6 @@ public partial class ProductionSettings : EngineObject
     }
 
     // Structur.PAS:120
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref Gold, 10);
-        stream.Int32(ref Mana, 11);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 12);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref TurnsTotal), 13);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 14);
-        stream.Int32(ref GroupId, 15);
-        stream.Int32(ref UnitProductionIndex, 16);
-        stream.Created(ref Unit, null, 17);
-        stream.Int32(ref GoldUpkeep, 18);
-        stream.Int32(ref ManaUpkeep, 19);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -1,6 +1,4 @@
-using System.Reflection;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -20,11 +18,6 @@ public sealed class EngineLeafConstructionTests
         {
             Assert.Same(this, child.Owner);
             if (child is PluginControl plugin) Assert.Null(plugin.UsedPlugins);
-            if (child is ETimerNode timer)
-            {
-                var lists = Field<ListArray10>(timer, "_timerLists");
-                for (int i = 0; i < 10; i++) Assert.Null(lists[i]);
-            }
             ObservedBeforeLeafBody.Add(child);
             base.AddChild(child);
             return Members.Count - 1;
@@ -38,32 +31,22 @@ public sealed class EngineLeafConstructionTests
     }
 
     [Theory]
-    [InlineData(0, false)]
-    [InlineData(0, true)]
-    [InlineData(1, false)]
-    [InlineData(1, true)]
-    public void LeafCreationRoutesKeepTypeOwnerAndState(int kind, bool owned)
+    [InlineData(false)]
+    [InlineData(true)]
+    public void LeafCreationRoutesKeepTypeOwnerAndState(bool owned)
     {
         GameEngine engine = CreateEngine();
         var owner = new LeafOwner();
         ECustomNode argument = owned ? owner : null!;
-        Type type = kind switch
-        {
-            0 => typeof(ETimerNode),
-            _ => typeof(PluginControl)
-        };
+        Type type = typeof(PluginControl);
         var meta = EngineClass.Of(type);
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
-        EngineObject direct = kind switch
-        {
-            0 => new ETimerNode(argument),
-            _ => new PluginControl(argument)
-        };
+        EngineObject direct = new PluginControl(argument);
         EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
         EngineObject? copy = null;
         try
         {
-            Assert.Equal(kind == 0 ? 264 : 80, meta.ClassId);
+            Assert.Equal(80, meta.ClassId);
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
@@ -78,12 +61,6 @@ public sealed class EngineLeafConstructionTests
             AssertLeafState(copy);
             if (copy is PluginControl copiedPlugin)
                 Assert.NotSame(((PluginControl)direct).UsedPlugins, copiedPlugin.UsedPlugins);
-            if (copy is ETimerNode copiedTimer)
-            {
-                var original = Field<ListArray10>(direct, "_timerLists");
-                var copied = Field<ListArray10>(copiedTimer, "_timerLists");
-                for (int i = 0; i < 10; i++) Assert.NotSame(original[i], copied[i]);
-            }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
             Assert.Equal(owned ? 3 : 0, owner.ObservedBeforeLeafBody.Count);
         }
@@ -100,12 +77,6 @@ public sealed class EngineLeafConstructionTests
     {
         switch (value)
         {
-            case ETimerNode timer:
-                Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);
-                var lists = Field<ListArray10>(timer, "_timerLists");
-                for (int i = 0; i < 10; i++) { Assert.NotNull(lists[i]); Assert.Equal(0, lists[i].Count); Assert.Equal(0, lists[i].Capacity); }
-                Assert.Equal(10, Enumerable.Range(0, 10).Select(i => lists[i]).Distinct().Count());
-                break;
             case PluginControl plugin:
                 Assert.Null(plugin.Engine);
                 var strings = Assert.IsType<StringList>(plugin.UsedPlugins);

@@ -1,7 +1,6 @@
 // Translated from FlagEvents.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Events;
@@ -34,13 +33,6 @@ public partial class FlagMessageEvent : FlagEvent
     }
 
     // FlagEvents.pas:197
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Lines(_message, 40);
-        stream.String(ref _helpFileName, 41);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

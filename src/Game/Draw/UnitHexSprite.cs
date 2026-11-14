@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Units;
@@ -33,7 +32,7 @@ public partial class UnitHexSprite : HexSprite
 
     public UnitGraphicsResource UnitGraphicsResource { get; set; }
 
-    public byte Direction;
+    public byte Direction { get; set; }
 
     public sbyte MoveStep { get; set; }
     // -1 when idle
@@ -68,16 +67,6 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:208
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Direction, 9);
-        if (!stream.StorageMode().Contains(StorageModeElement.SetupCompare) && Direction == 0)
-        {
-            Direction = 3;
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -86,11 +75,6 @@ public partial class UnitHexSprite : HexSprite
         {
             Direction = 3;
         }
-    }
-
-    // UnitHS.PAS:610
-    public override void TimerEvent(int tick, EngineObject sender)
-    {
     }
 
     // UnitHS.PAS:655

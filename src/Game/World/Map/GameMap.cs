@@ -1,9 +1,7 @@
 // Translated from HSEngine.pas and AoWE.pas.
-using System.Runtime.CompilerServices;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
@@ -20,14 +18,16 @@ namespace Aow.Game.World.Map;
 
 // the map. FMouse, FMapContainer, FEngine, FSelection, FStaticVisibleHS, FDynamicVisibleHS (the
 // sprites in the view port), FStaticFixedVisibleHS, FDynamicFixedVisibleHS (sprites shown
-// wherever the view is), FTimer, FStaticSceneInvalid, FDynamicSceneInvalid, FVersion,
+// wherever the view is), FStaticSceneInvalid, FDynamicSceneInvalid, FVersion,
 // _hssFileName, _status, _frame, TerrainChanged, OnCenterView, OnChangeView,
 // OnViewLevel, OnProgress, _terrainChangedLockCounter, FrameStarted,
 // ViewPortChanged, MapDestroying, _hexSpriteChangedEvents, _fileName, _viewPixelX, _viewPixelY,
 // FViewL, FViewWidth, FViewHeight (the view port in pixels), FViewXhx, FViewYhx, FViewWidthHX,
 // FViewHeightHX (the hexagons it covers). Persisted (ReadWrite): 2 FHSSFileName (rwString, not
 // in text streams), 3 FVersion (rwByte of a Shortint copy), 4 FViewXhp, 5 FViewYhp, 6 FViewL
-// (rwInteger). FVersion is a guessed name: nothing but ReadWrite touches it
+// (rwInteger). FVersion is a guessed name: nothing but ReadWrite touches it. The original's FTimer
+// (the Delphi timer node, child slot 5) is gone (issue 185 PE-3-i): no file stores it, nothing
+// raised a timer event, and the stored children keep their original slots through ChildSlots
 public partial class GameMap : ENode
 {
     public new const int ClassId = 66048;
@@ -46,7 +46,6 @@ public partial class GameMap : ENode
         _staticFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         _dynamicFixedVisibleHexSprite = new VisibilityList(this);
         _dynamicFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _timer = new ETimerNode(this);
         HexSpriteChangedEventsStore = new();
         TerrainChangedEventsStore = new();
         ViewPortChangedEventsStore = new();
@@ -75,7 +74,6 @@ public partial class GameMap : ENode
     private readonly VisibilityList _dynamicVisibleHexSprite;
     private readonly VisibilityList _staticFixedVisibleHexSprite;
     private readonly VisibilityList _dynamicFixedVisibleHexSprite;
-    private readonly ETimerNode _timer;
     private bool _staticSceneInvalid;
     private bool _dynamicSceneInvalid;
     private int _version;
@@ -158,9 +156,9 @@ public partial class GameMap : ENode
     }
 
     private string _fileName = "";
-    protected internal int _viewPixelX;
-    protected internal int _viewPixelY;
-    protected internal int _viewMapLevel;
+    private int _viewPixelX;
+    private int _viewPixelY;
+    private int _viewMapLevel;
     private int _viewWidth;
     private int _viewHeight;
     private int _viewHexX;
@@ -210,35 +208,8 @@ public partial class GameMap : ENode
     public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2);
 
     // HSMAP.PAS:240
-    public override void ReadWrite(StorageStream stream)
-    {
-        sbyte B = default;
-        base.ReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Partial)) == Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Partial))
-        {
-            _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
-        }
-
-        if (!stream.StorageMode().Contains(EngineServices.Text))
-        {
-            stream.String(ref _hssFileName, 2);
-        }
-
-        if (!stream.StorageMode().Contains(EngineServices.Partial) && stream.StorageMode().Contains(StorageModeElement.Read) && !IsEmpty(_hssFileName))
-        {
-            ((GameEngine)stream.Engine).InitializeHexSpriteSet(stream.Engine.StartupDirectory + _hssFileName, stream.ProgressHandler);
-        }
-
-        B = (sbyte)_version;
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref B), 3);
-        _version = B;
-        stream.Int32(ref _viewPixelX, 4);
-        stream.Int32(ref _viewPixelY, 5);
-        stream.Int32(ref _viewMapLevel, 6);
-    }
-
-    // The tree form of ReadWrite. The hex sprite set of a full load reports its progress to the
-    // load's handler, as ReadWrite passes Stream.ProgressHandler. Everything else follows ReadWrite.
+    // The hex sprite set of a full load reports its progress to the load's handler, as the original
+    // ReadWrite passes Stream.ProgressHandler. Everything else follows the original ReadWrite.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -247,8 +218,15 @@ public partial class GameMap : ENode
             _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
         }
 
-        _hssFileName = persister.String("HssFileName", value: _hssFileName);
-        if (!persister.Preview && persister.Loading && !IsEmpty(_hssFileName))
+        // The original leaves the file name out of a text stream. Under the translate stream's mode
+        // (read, text only) it still initializes the hexagon sprite set of the name the map holds.
+        bool translating = PersistSupport.Translating(persister);
+        if (!translating)
+        {
+            _hssFileName = persister.String("HssFileName", value: _hssFileName);
+        }
+
+        if (!persister.Preview && (persister.Loading || translating) && !IsEmpty(_hssFileName))
         {
             var engine = PersistSupport.Engine(persister);
             engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: PersistSupport.Progress(persister));
@@ -261,15 +239,6 @@ public partial class GameMap : ENode
     }
 
     // HSMAP.PAS:261
-    public override void MainReadWrite(StorageStream stream)
-    {
-        base.MainReadWrite(stream);
-        if (!_status.Contains(HexSpriteMapStatusElement.PreviewMode) && (stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.SetupCompare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            _mapContainer.Loaded();
-        }
-    }
-
     public override void MainPersist(IPersister persister)
     {
         base.MainPersist(persister);
@@ -277,6 +246,37 @@ public partial class GameMap : ENode
         {
             _mapContainer.Loaded();
         }
+    }
+
+    // The original's node children are the selection, the four visibility lists and the timer at
+    // slots 0 to 5, so the map container a map creates stores at slot 6. The timer is gone, and
+    // every child after the visibility lists stores one slot past its index, so the document's
+    // slot and the original image's id stay as they were and the live list holds no placeholder.
+    private const int RetiredTimerSlot = 5;
+
+    public override void PersistChildren(IPersister persister)
+    {
+        persister.Children("Children", children: new ChildSlots(this));
+    }
+
+    // The child collection of a map: NodeChildren with the slot table above.
+    private sealed class ChildSlots(GameMap map) : IChildCollection
+    {
+        private readonly NodeChildren _children = new(map);
+
+        public int Count => _children.Count;
+
+        public IPersistable Get(int index) => _children.Get(index);
+
+        public bool IsStored(int index) => _children.IsStored(index);
+
+        public int Slot(int index) => index < RetiredTimerSlot ? index : index + 1;
+
+        public bool KeepIndex => _children.KeepIndex;
+
+        public void Attach(IPersistable child) => _children.Attach(child);
+
+        public void Place(int slot, IPersistable child) => _children.Place(slot > RetiredTimerSlot ? slot - 1 : slot, child);
     }
 
     // HSMAP.PAS:81
@@ -1174,7 +1174,6 @@ public partial class GameMap : ENode
     public VisibilityList DynamicVisibleHexSprite { get => _dynamicVisibleHexSprite; }
     public VisibilityList StaticFixedVisibleHexSprite { get => _staticFixedVisibleHexSprite; }
     public VisibilityList DynamicFixedVisibleHexSprite { get => _dynamicFixedVisibleHexSprite; }
-    public ETimerNode Timer { get => _timer; }
     public bool StaticSceneInvalid { get => _staticSceneInvalid; set => _staticSceneInvalid = value; }
     public bool DynamicSceneInvalid { get => _dynamicSceneInvalid; set => _dynamicSceneInvalid = value; }
     public int Version { get => _version; set => _version = value; }
@@ -1213,9 +1212,9 @@ public partial class GameMap : ENode
     }
 
     public string FileName { get => _fileName; set => _fileName = value; }
-    public int ViewPixelX { get => _viewPixelX; }
-    public int ViewPixelY { get => _viewPixelY; }
-    public int ViewMapLevel { get => _viewMapLevel; }
+    public int ViewPixelX { get => _viewPixelX; protected set => _viewPixelX = value; }
+    public int ViewPixelY { get => _viewPixelY; protected set => _viewPixelY = value; }
+    public int ViewMapLevel { get => _viewMapLevel; protected set => _viewMapLevel = value; }
     public int ViewWidth { get => _viewWidth; }
     public int ViewHeight { get => _viewHeight; }
     public int ViewHexX { get => _viewHexX; }
@@ -1229,7 +1228,7 @@ public partial class GameMap : ENode
     public delegate void ChangeViewEvent(int Xhp, int Yhp, int Lhp);
     public delegate void ViewLevelEvent(int Lhx);
 
-    public sbyte CurrentPlayer;
+    public sbyte CurrentPlayer { get; set; }
 
     public sbyte SeatedPlayer { get; set; }
 
@@ -1264,8 +1263,9 @@ public partial class GameMap : ENode
     }
 
     private int _scannerIconsChangedLockCount;
-    public bool FogEnabled;
-    public bool ExplorationEnabled;
+
+    public bool FogEnabled { get; protected set; }
+    public bool ExplorationEnabled { get; set; }
 
     public bool ShowGrid { get; set; }
 

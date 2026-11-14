@@ -158,10 +158,13 @@ public static class PersistSupport
     /// <c>SaveToStream</c>). The save reduces the count first, as <c>SaveToStream</c> does. A
     /// present member replaces the sequences, and each frame-table layer draws its image index
     /// from <c>Random</c> in entry and layer order, at the point of the load where
-    /// <c>LoadFromStream</c> draws it. An absent member leaves the list as it was.
+    /// <c>LoadFromStream</c> draws it. An absent member leaves the list as it was. The translate
+    /// stream visits no payload (<c>TEStorageStream.rwStreamProc</c> does nothing there), so the
+    /// list is not reduced either.
     /// </summary>
     public static void ImageSequences(IPersister persister, string name, ImageSequenceList list)
     {
+        if (Translating(persister)) return;
         if (!persister.Loading)
         {
             persister.ImageSequences(name, entries: list.SaveLayers());
@@ -176,9 +179,11 @@ public static class PersistSupport
     /// <summary>
     /// A TTerrainList stream. The save packs the trailing pairs of none first, as
     /// <c>SaveToStream</c> does. A present member replaces the pairs, an absent member leaves them.
+    /// The translate stream visits no payload, so it packs nothing.
     /// </summary>
     public static void TerrainList(IPersister persister, string name, TerrainList list)
     {
+        if (Translating(persister)) return;
         var pairs = new List<(sbyte First, sbyte Second)>();
         if (!persister.Loading)
         {
@@ -203,9 +208,11 @@ public static class PersistSupport
     /// <summary>
     /// An ILB library stream. The save writes the library as <c>SaveToStream</c> writes it, and a
     /// present member loads through <c>LoadFromStream</c>. An absent member leaves the library.
+    /// The translate stream visits no payload.
     /// </summary>
     public static void ImageLibrary(IPersister persister, string name, CustomImageLibrary library)
     {
+        if (Translating(persister)) return;
         if (!persister.Loading)
         {
             using var output = new MemoryStream();
@@ -241,6 +248,16 @@ public static class PersistSupport
     /// tree method asks this where that mode visited other members than a save does.
     /// </summary>
     public static bool Translating(IPersister persister) => persister is TranslatePersister;
+
+    /// <summary>
+    /// Sets the error handler of the translate stream that visits the object, as the original
+    /// <c>ReadWrite</c> of a map in the editor sets it on its stream. Other persisters take the
+    /// handler their caller passes to the load.
+    /// </summary>
+    public static void SetTranslateErrorHandler(IPersister persister, StorageStream.StorageStreamError handler)
+    {
+        if (persister is TranslatePersister translate) translate.Stream.SetErrorHandler(handler);
+    }
 
     public static void Lines(IPersister persister, string name, StringCollection lines)
     {

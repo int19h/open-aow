@@ -2589,12 +2589,6 @@
       "properties": []
     },
     {
-      "name": "ETimerNode",
-      "parent": "ECustomNode",
-      "id": 264,
-      "properties": []
-    },
-    {
       "name": "EarthMastery",
       "parent": "GlobalEnchantmentSpell",
       "id": 80,

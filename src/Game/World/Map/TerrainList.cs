@@ -3,7 +3,6 @@ using Aow.Engine.Collections;
 
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Map;
 
@@ -11,7 +10,7 @@ namespace Aow.Game.World.Map;
 // type. -2: none). The stream holds the pairs as two signed bytes each.
 public partial class TerrainList : IDisposable
 {
-    internal int _count;
+    private int _count;
     private (sbyte Terrain, sbyte Overlay)[] _list = [];
 
     // HSEngine.pas:1411
@@ -25,33 +24,6 @@ public partial class TerrainList : IDisposable
     {
         SetCount(source._count);
         Array.Copy(source._list, 0, _list, 0, _count);
-    }
-
-    // HSEngine.pas:1562
-    public virtual void LoadFromStream(Stream stream)
-    {
-        stream.ReadExactly(Bytes.Of(ref _count, 4));
-        SetCount(_count);
-        var bytes = new byte[_count * 2];
-        stream.ReadExactly(bytes);
-        for (int I = 0; I < _count; I++)
-        {
-            _list[I] = ((sbyte)bytes[I * 2], (sbyte)bytes[I * 2 + 1]);
-        }
-    }
-
-    // HSEngine.pas:1569
-    public virtual void SaveToStream(Stream stream)
-    {
-        Pack();
-        stream.Write(Bytes.Of(ref _count, 4));
-        var bytes = new byte[_count * 2];
-        for (int I = 0; I < _count; I++)
-        {
-            (bytes[I * 2], bytes[I * 2 + 1]) = ((byte)_list[I].Terrain, (byte)_list[I].Overlay);
-        }
-
-        stream.Write(bytes);
     }
 
     // HSEngine.pas:1423

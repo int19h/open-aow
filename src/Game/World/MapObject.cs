@@ -57,7 +57,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:150
-    public override int GetTerrainCount() => _resource.TerrainList._count;
+    public override int GetTerrainCount() => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:155
     public override sbyte GetOverlay(int index)
@@ -78,10 +78,10 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:167
-    public override int GetOverlayCount() => _resource.TerrainList._count;
+    public override int GetOverlayCount() => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:16
-    public override byte GetLevel() => _resource._level;
+    public override byte GetLevel() => _resource.Level;
 
     // MAPOBJ.PAS:8
     public override void SetVisible(bool value)
@@ -142,7 +142,7 @@ public partial class MapObject : HexSprite
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        return _resource._showPriorityOffset + (pixelY << 13) + pixelX;
+        return _resource.ShowPriorityOffset + (pixelY << 13) + pixelX;
     }
 
     // MAPOBJ.PAS:235
@@ -358,7 +358,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:126
-    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting) && _resource.TerrainList._count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
+    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting) && _resource.TerrainList.Count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
 
     // MAPOBJ.PAS:172
     public override void Select()
@@ -377,13 +377,13 @@ public partial class MapObject : HexSprite
     public override string EditName()
     {
         string result;
-        if (IsEmpty(_resource._name))
+        if (IsEmpty(_resource.Name))
         {
             result = _resource.ResourceEditName();
         }
         else
         {
-            result = _resource._name;
+            result = _resource.Name;
         }
 
         return result;

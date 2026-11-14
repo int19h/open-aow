@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic;
@@ -20,7 +19,8 @@ public partial class CityEnchantment : GlobalEnchantment
     // City.pas:2722
     public new const int ClassId = 131820;
 
-    public CityEnchantmentId CityEnchantmentId;
+    public CityEnchantmentId CityEnchantmentId { get; set; }
+
     public MapCoordinate EnchantmentLocation;
 
     // The fourth byte of the packed location stored at id 21, 0 from every writer and in every
@@ -28,15 +28,6 @@ public partial class CityEnchantment : GlobalEnchantment
     public byte UnknownBytes { get; set; }
 
     // City.pas:2727
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref CityEnchantmentId, 1), 1, 20);
-        int location = StoredCoordinateImage.From(EnchantmentLocation, unknownBytes: UnknownBytes).ToInt32();
-        stream.Int32(ref location, 21);
-        (EnchantmentLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

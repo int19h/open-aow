@@ -133,7 +133,6 @@ type,FileBoundary,Aow.Game.Saves.FileBoundary
 type,FileLogRecord,Aow.Game.Saves.FileLogRecord
 type,FileProfile,Aow.Formats.Original.FileProfile
 type,FixedArrayCodec,Aow.Formats.Original.FixedArrayCodec
-type,FixedArray_Aow_Rtl_TList_10,Aow.Engine.Buffers.ListArray10
 type,FixedArray_Aow_Units_AoWE_TAbilityOwner_3,Aow.Game.Magic.Abilities.AbilityOwnerArray3
 type,FixedObjectCodec,Aow.Formats.Original.FixedObjectCodec
 type,FixtureClock,Aow.Platform.FixtureClock
@@ -990,7 +989,6 @@ type,TEResourceEditSettings,Aow.Engine.Nodes.ResourceEditSettings
 type,TEResourceList,Aow.Engine.Nodes.EResourceList
 type,TESortNode,Aow.Engine.Nodes.ESortNode
 type,TEStorageStream,Aow.Engine.Storage.StorageStream
-type,TETimerNode,Aow.Engine.Nodes.ETimerNode
 type,TEWriteStorageStream,Aow.Engine.Storage.StorageWriter
 type,TEarthMastery,Aow.Game.Magic.Spells.EarthMastery
 type,TEarthMasteryEnchantment,Aow.Game.Magic.Spells.EarthMasteryEnchantment

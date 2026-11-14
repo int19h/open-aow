@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Audio;
@@ -221,88 +220,10 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         SpellControl?.Dispose();
     }
 
-    // Ability.PAS:131 around HSEngine.pas:3410.
-    public override void ReadWrite(StorageStream stream)
-    {
-        string path = "";
-        bool loaded = default;
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_loadingGamePackText), 0);
-        }
-
-        SetEngine(stream.Engine);
-        _pluginControl.Engine = stream.Engine;
-        base.ReadWrite(stream);
-        stream.String(ref _name, 4);
-        stream.Object(_mapObjectResourceList, 5);
-        stream.Object(_resourceEditSettings, 6);
-        stream.Object(_pluginControl, 7);
-
-        stream.Object(RaceResources, 10);
-        stream.Object(ItemLibraries, 11);
-        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
-        {
-            path = ExtractFilePath(GetEngine().HssFileName);
-            if (stream.StorageMode().Contains(StorageModeElement.Read))
-            {
-                loaded = GetEngine().ReadFromFileCrc(path + "ABILITY.PFS", AbilityControl, null);
-                stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_loadingUnitsText), 70);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITRES.PFS", UnitResources, null);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITGFX.PFS", UnitGraphicsResources, null);
-                stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_loadingHeroesText), 80);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "HERORES.PFS", HeroResources, null);
-                stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_loadingItemsText), 90);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "ITEMGFX.PFS", ItemGraphicsResources, null);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "FACERES.PFS", FaceResources, null);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "SPELLS.PFS", SpellControl, null);
-                loaded = loaded && GetEngine().ReadFromFileCrc(path + "TEXT.PFS", TextControl, null);
-                if (!loaded)
-                {
-                    throw new InvalidOperationException("CRC-CHECK FAILED");
-                }
-
-                stream.ShowProgress(this, AbilityRules.TranslateResourceString(GetEngine(), s_gamePackLoadedText), 100);
-            }
-            else
-            {
-                GetEngine().WriteToFileCrc(path + "ABILITY.PFS", AbilityControl, null);
-                GetEngine().WriteToFileCrc(path + "UNITRES.PFS", UnitResources, null);
-                GetEngine().WriteToFileCrc(path + "UNITGFX.PFS", UnitGraphicsResources, null);
-                GetEngine().WriteToFileCrc(path + "HERORES.PFS", HeroResources, null);
-                GetEngine().WriteToFileCrc(path + "ITEMGFX.PFS", ItemGraphicsResources, null);
-                GetEngine().WriteToFileCrc(path + "FACERES.PFS", FaceResources, null);
-                GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
-                GetEngine().WriteToFileCrc(path + "SPELLS.PFS", SpellControl, null);
-                GetEngine().WriteToFileCrc(path + "TEXT.PFS", TextControl, null);
-            }
-        }
-        else
-        {
-            stream.Object(UnitResources, 111);
-            stream.Object(UnitGraphicsResources, 112);
-            stream.Object(HeroResources, 113);
-            stream.Object(ItemGraphicsResources, 114);
-            stream.Object(FaceResources, 115);
-            stream.Object(SpellControl, 117);
-            stream.Object(AbilityControl, 118);
-            stream.Object(TextControl, 119);
-        }
-
-        stream.Object(HeroLibraries, 17);
-        stream.Payload(18, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            ImageSequences.LinkToImageLibrary();
-            HssCrc = RetrieveHssCrc();
-        }
-    }
-
-    // The tree form of ReadWrite. A load shows its progress to the load's handler at the points
-    // where ReadWrite calls Stream.ShowProgress. The game set files beside the scenario set are read
-    // and written as ReadWrite does, and the text-only branch that stores them inline is dead
-    // (TextOnly is false on every tree path).
+    // Ability.PAS:131 around HSEngine.pas:3410. A load shows its progress to the load's handler at
+    // the points where the original calls Stream.ShowProgress. The game set files beside the scenario
+    // set are read and written as the original does. Its text-only branch, which stores them inline,
+    // runs only under the translate stream, which visits them in place.
     public override void PersistFields(IPersister persister)
     {
         if (persister.Loading)
@@ -321,7 +242,20 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
         persister.Object("RaceResources", objectValue: RaceResources);
         persister.Object("ItemLibraries", objectValue: ItemLibraries);
         string path = ExtractFilePath(GetEngine().HssFileName);
-        if (persister.Loading)
+        if (PersistSupport.Translating(persister))
+        {
+            // The translate stream's mode holds text only, under which the original visits the game
+            // set inline (ids 111 to 119) and reads and writes no file.
+            persister.Object("UnitResources", objectValue: UnitResources);
+            persister.Object("UnitGraphicsResources", objectValue: UnitGraphicsResources);
+            persister.Object("HeroResources", objectValue: HeroResources);
+            persister.Object("ItemGraphicsResources", objectValue: ItemGraphicsResources);
+            persister.Object("FaceResources", objectValue: FaceResources);
+            persister.Object("SpellControl", objectValue: SpellControl);
+            persister.Object("AbilityControl", objectValue: AbilityControl);
+            persister.Object("TextControl", objectValue: TextControl);
+        }
+        else if (persister.Loading)
         {
             bool loaded = GetEngine().ReadFromFileCrc(path + "ABILITY.PFS", objectValue: AbilityControl, progress: null);
             PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingUnitsText), percent: 70);
@@ -357,7 +291,8 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
 
         persister.Object("HeroLibraries", objectValue: HeroLibraries);
         PersistSupport.ImageSequences(persister, name: "ImageSequences", list: ImageSequences);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original links and takes the CRC there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             ImageSequences.LinkToImageLibrary();
             HssCrc = RetrieveHssCrc();
@@ -479,17 +414,6 @@ public partial class GamePack : ECustomOwner, IChildList<GamePackChild>
     public int HssCrc { get; private set; }
 
     // Ability.PAS:194
-    public override void MainReadWrite(StorageStream stream)
-    {
-        string dictionaryFile;
-        base.MainReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            dictionaryFile = GetEngine().StartupDirectory + "Dict\\" + "Release" + ".mld";
-            GetEngine().TranslateEngineObjectFromFile(this, dictionaryFile);
-        }
-    }
-
     public override void MainPersist(IPersister persister)
     {
         string dictionaryFile;

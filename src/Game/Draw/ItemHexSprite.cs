@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
@@ -35,15 +34,6 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5278
-    public override void ReadWrite(StorageStream stream)
-    {
-        Items.BeginUpdate();
-        base.ReadWrite(stream);
-        stream.Object(Items, 4);
-        stream.Bytes(Bytes.Of(ref _generateMode, 1), 1, 5);
-        Items.EndUpdate();
-    }
-
     public override void PersistFields(IPersister persister)
     {
         Items.BeginUpdate();

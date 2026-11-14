@@ -2,10 +2,7 @@
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -47,30 +44,6 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // HSEngine.pas:3173
-    public override void ReadWrite(StorageStream stream)
-    {
-        byte W;
-        byte H;
-        byte L;
-        base.ReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            _map = Owner;
-            _engine = stream.Engine;
-            _map.MapContainer = this;
-        }
-
-        W = (byte)_width;
-        stream.Byte(ref W, 3);
-        _width = W;
-        H = (byte)_height;
-        stream.Byte(ref H, 4);
-        _height = H;
-        L = (byte)_levelCount;
-        stream.Byte(ref L, 5);
-        _levelCount = L;
-    }
-
     public override void PersistFields(IPersister persister)
     {
         byte W;
@@ -96,20 +69,8 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     }
 
     // HSEngine.pas:3197
-    public override void MainReadWrite(StorageStream stream)
-    {
-        if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))
-        {
-            base.MainReadWrite(stream);
-        }
-        else
-        {
-            ReadWrite(stream);
-        }
-    }
-
-    // A preview reads the container's own members and leaves its stored levels unread, as
-    // MainReadWrite does, so the load skips them.
+    // A preview reads the container's own members and leaves its stored levels unread, as the
+    // original MainReadWrite does, so the load skips them.
     public override void MainPersist(IPersister persister)
     {
         if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))

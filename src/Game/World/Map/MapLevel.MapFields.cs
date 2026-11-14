@@ -1,9 +1,6 @@
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -54,55 +51,8 @@ public partial class MapLevel
         base.Dispose();
     }
 
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        var mode = stream.StorageMode();
-        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text))
-            == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            Engine = stream.Engine;
-            _mapContainer = Owner;
-            _map = _mapContainer.Map;
-        }
-        byte width = (byte)_width, height = (byte)_height, level = (byte)_hexLevel;
-        stream.Byte(ref width, 3);
-        stream.Byte(ref height, 4);
-        stream.Byte(ref level, 5);
-        _width = width;
-        _height = height;
-        _hexLevel = level;
-        MapProgress progress = new()
-        {
-            Level = _hexLevel,
-            Percent = 0,
-            ProgressType = mode.Contains(StorageModeElement.Read) ? MapProgressType.Loading : MapProgressType.Saving
-        };
-        bool notify = !mode.Contains(StorageModeElement.Translate);
-        if (notify) _map.NotifyProgress(progress);
-        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare))
-            == Set<StorageModeElement>.Of(StorageModeElement.Read) && width != 0)
-            CreateMapFieldList(width, height);
-        if (mode.Contains(StorageModeElement.SetupCompare))
-            foreach (var field in _fields) field.Status += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
-        var property = stream.OpenProperty(6);
-        if (property != null || mode.Contains(EngineServices.Text))
-        {
-            int step = _count / 10;
-            for (int i = 0; i < _count; i++)
-            {
-                stream.SizedObject(_fields[i], i + 100);
-                if (--step == 0)
-                {
-                    progress.Percent += 10;
-                    if (notify) _map.NotifyProgress(progress);
-                    step = _count / 10;
-                }
-            }
-        }
-    }
-
-    // The tree form of ReadWrite. The fields are a grid member, read only when present, written always.
+    // The fields are a grid member, read only when present, written always, where the original
+    // ReadWrite stores them as sized objects at ids 100 and on.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -122,7 +72,9 @@ public partial class MapLevel
             Percent = 0,
             ProgressType = loading ? MapProgressType.Loading : MapProgressType.Saving,
         };
-        _map.NotifyProgress(progress);
+        // The translate stream notifies no progress, as the original's test of Translate says.
+        bool notify = !PersistSupport.Translating(persister);
+        if (notify) _map.NotifyProgress(progress);
         if (loading && _width != 0)
             CreateMapFieldList(_width, _height);
         if (loading && !persister.Has("Fields"))
@@ -136,7 +88,7 @@ public partial class MapLevel
             if (--step == 0)
             {
                 progress.Percent += 10;
-                _map.NotifyProgress(progress);
+                if (notify) _map.NotifyProgress(progress);
                 step = _count / 10;
             }
         });

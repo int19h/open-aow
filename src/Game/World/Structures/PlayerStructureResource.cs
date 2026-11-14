@@ -1,6 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
@@ -24,19 +24,11 @@ public partial class PlayerStructureResource : StructureResource
     public FlagControl FlagControl { get; private set; }
 
     // Structur.PAS:2456
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            GenerateFlagPositions();
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original generates the positions there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             GenerateFlagPositions();
         }

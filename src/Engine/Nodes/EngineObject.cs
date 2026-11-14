@@ -9,8 +9,6 @@ using Aow.Game;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
-
 namespace Aow.Engine.Nodes;
 
 // _owner
@@ -243,11 +241,6 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     {
         var factory = new EnginePersistableFactory(engine);
         TreeReader.ReadObject(TreeWriter.WriteObject(source, factory: factory), objectValue: this, factory: factory);
-    }
-
-    // Engine.pas:2483
-    public virtual void TimerEvent(int tick, EngineObject sender)
-    {
     }
 
     // Engine.pas:2585

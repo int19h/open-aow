@@ -33,9 +33,11 @@ objects onto an in-memory tree and the game set files, the system hero and item 
 e-mail game index onto the original backend (section 13), with no document change, 2026-11-13.
 The first pull request of PE-3-i retires `ReadWrite`, `MainReadWrite` and `ReadWriteChildren` of
 the units, abilities and items (`Game/Units`, `Game/Magic/Abilities`), and the storage streams
-store those classes through the tree (section 14), with no document change, 2026-11-13. The
-other families keep `ReadWrite` until their PE-3-i pull request, and the token events and the
-packets keep it until PE-4-a.
+store those classes through the tree (section 14), with no document change, 2026-11-13. The second
+pull request retires them for the world map, terrain, structures, production and drawing
+(`Game/World` and its folders, `Game/Draw`) and deletes the map's timer node, with no document
+change, 2026-11-13. The other families keep `ReadWrite` until their PE-3-i pull request, and the
+token events and the packets keep it until PE-4-a.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -684,10 +686,56 @@ read. A tree write, a string map and a read back would visit every string the tr
 the load's side effects (the clear, new children, the releases), so the stream does not take that
 way.
 
-The tests that used the stream as the reference of this family now reach these classes through
+### 14.1 The world family
+
+The second pull request takes the family of PE-3-c, `Game/World` and its folders and `Game/Draw`: 70
+methods (65 `ReadWrite`, 5 `MainReadWrite` of `GameMap`, `GamePack`, `MapContainer`, `MapField` and
+`StrategicMap`, none of them a `ReadWriteChildren`) go. Two pairs of payload stream methods lost
+their last caller and are deleted: `TerrainList.LoadFromStream` and `SaveToStream`, and
+`UnitIndexListCollection.LoadFromStream` and `SaveToStream`. The tree writes the same bytes through
+`PersistSupport.TerrainList` and `PersistSupport.UnitIndexListCollection`. The other payloads of
+the family (`ByteList`, `Int32List`, `BitList`, `ImageSequenceList` and the ILB library) keep their
+stream methods, which other families, the ILB files and the image sequence list itself still call.
+
+The translate stream visits the maps, the game set and their objects when a map or the game set
+loads (`GamePack.MainPersist`, `StrategicMap.MainPersist`). The tree methods keep the conditions of
+the deleted methods under its mode:
+
+- The game set visits its unit, unit graphics, hero, item graphics and face resources, its spells,
+  abilities and texts in place (the text-only branch, ids 111 to 119), where a load or a save reads
+  or writes the files beside the scenario set. It links its image sequences and takes the CRC of
+  the hexagon sprite set, because the mode holds read.
+- A map leaves out its hexagon sprite set's file name, and initializes the set of the name it holds
+  when that name is not empty, as the read branch does. A strategic map does not reset its modified
+  flag, leaves out its startup and game songs, and sets the editor's error handler on the stream
+  when the map is being edited.
+- A map level notifies no progress and visits every field. A field visits its stored sprites. A map
+  object visits nothing. A text item leaves out its name and a structure resource its sound. A
+  player structure resource generates its flag positions, a structure resource calculates its pad
+  index and a production item sets its order, because the mode holds read.
+- `PersistSupport.ImageSequences`, `TerrainList` and `ImageLibrary` visit nothing, as the stream's
+  `rwStreamProc` visits no payload there, so the image sequence list is not reduced and the terrain
+  list is not packed.
+
+The map's timer node (`TETimerNode`, class 264) is deleted with `GameMap.Timer`,
+`EngineObject.TimerEvent`, the empty override of `UnitHexSprite`, its registration, its schema
+class and its name table row. No installed file, oracle input or own document stores the class, and
+nothing in the game raised a timer event. The original map's node children are the selection, the
+four visibility lists and the timer at slots 0 to 5, so the map container a map creates stores at
+slot 6. `GameMap.PersistChildren` gives its child collection a slot table: a child after the
+visibility lists stores one slot past its index, and a stored slot after 5 loads one index lower.
+The live list holds no placeholder, and the document's `$slot` and the original image's id of the
+map container stay 6. Only the tree writes a map (every class of the map chain is retired), so no
+writer derives the slot from the list index. An own document never stored the timer, which is
+stored and shared and so is never written.
+
+The tests that used the stream as the reference of these families now reach these classes through
 the same bridge (`StorageStream.PersistObject`), so their stream side is the tree. What still
-proves the family: the converter's document of the tree's original image equals the document
+proves a retired family: the converter's document of the tree's original image equals the document
 backend's document, and the converter's encoding of a document equals the tree's image of the
 object the document loads, in the constructed tests and for every instance of the corpus walk.
 The walk leaves out its two byte comparisons with the stream's write and load for a retired
-class, because both sides are the tree. The oracle compares the game with the native game.
+class, because both sides are the tree. The oracle compares the game with the native game. A
+constructed test proves that a map stores its container at slot 6 on both backends and loads it
+back at index 5, and another that the translate stream visits the world classes as the original
+did.

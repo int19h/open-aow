@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
@@ -34,8 +31,9 @@ public partial class PlayerStructure : Structure
 
     public new const int ClassId = 131916;
 
-    public sbyte Player;
-    public byte ProductionPriority;
+    public sbyte Player { get; set; }
+    public byte ProductionPriority { get; private set; }
+
     private byte _flagId;
     private readonly BitList _victoryLocations;
 
@@ -49,14 +47,6 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2180
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 5);
-        stream.Payload(6, _victoryLocations.LoadFromStream, _victoryLocations.SaveToStream);
-        stream.Byte(ref ProductionPriority, 7);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

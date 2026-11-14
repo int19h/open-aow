@@ -1,6 +1,5 @@
 // Translated from Altar.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
@@ -27,17 +26,11 @@ public partial class Altar : PlayerStructure
     public new const int ClassId = 132081;
 
     private Storm _storm;
-    public AltarMode Mode;
-    public byte RechargeDays;
+
+    public AltarMode Mode { get; set; }
+    public byte RechargeDays { get; private set; }
 
     // Altar.pas:226
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref RechargeDays, 15);
-        stream.Bytes(Bytes.Of(ref Mode, 1), 1, 16);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

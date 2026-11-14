@@ -1,9 +1,6 @@
 // Translated from Teleport.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Audio;
 using Aow.Game.Commands;
@@ -18,7 +15,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -38,18 +34,10 @@ public partial class Teleport : Structure
     private sbyte _destinationX;
     private sbyte _destinationY;
     private sbyte _destinationMapLevel;
-    public Set<StateElement> State;
+
+    public Set<StateElement> State { get; set; }
 
     // Teleport.pas:122
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 7);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 8);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationMapLevel), 9);
-        TransferSet(ref State, 1, 10, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

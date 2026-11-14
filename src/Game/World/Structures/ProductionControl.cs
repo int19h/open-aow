@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
@@ -44,11 +43,11 @@ public partial class ProductionControl : EngineObject
     public int UpdateCount { get; private set; }
     public ProductionQueue Queue { get; }
 
-    public bool LoopQueue;
+    public bool LoopQueue { get; private set; }
 
     public UnitProductionList UnitProductions { get; }
 
-    public ProductionControlStatus Status;
+    public ProductionControlStatus Status { get; set; }
 
     public ProductionSettings Settings { get; }
 
@@ -62,16 +61,6 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:783
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Queue, 20);
-        stream.Object(UnitProductions, 21);
-        stream.Object(Settings, 22);
-        stream.Bytes(Bytes.Of(ref Status, 1), 1, 23);
-        stream.Boolean(ref LoopQueue, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

@@ -18,6 +18,10 @@ namespace Aow.Engine.Storage;
 /// </summary>
 internal sealed class TranslatePersister(TranslateStorageStream stream, EngineObject node) : IPersister
 {
+    // The stream that visits the object. A map in the editor sets its error handler, as the original
+    // ReadWrite sets it on the stream it runs on.
+    internal TranslateStorageStream Stream => stream;
+
     public bool Loading => false;
 
     public bool Preview => false;

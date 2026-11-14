@@ -8,7 +8,6 @@ using Aow.Formats.Tree;
 using Aow.Game.Draw.Images;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 
@@ -86,27 +85,29 @@ public sealed class ResourcePayloadTests
         }
     }
 
+    // TTerrainList.SaveToStream (HSEngine.pas:1569) packs the trailing pairs of none and writes the
+    // count and the pairs, LoadFromStream (HSEngine.pas:1562) reads them back. The stream methods
+    // are gone with the last ReadWrite that called them (issue 185 PE-3-i), so the image is spelled
+    // out: two pairs, terrain 1 with no overlay (-2), then no terrain with overlay 4.
     [Fact]
-    public void ATerrainListLoadsThePairsTheStreamLoads()
+    public void ATerrainListStoresAndLoadsThePackedPairs()
     {
         var source = new TerrainList();
         source.SetTerrain(0, 1);
         source.SetOverlay(1, 4);
         source.SetTerrain(3, -2);
         var written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.TerrainList(persister, name: "TerrainList", list: source)), factory: Factory);
-        var payload = Saved(source.SaveToStream);
-        // The save packs the two trailing pairs of none, as SaveToStream does.
+        byte[] payload = [2, 0, 0, 0, 1, 0xFE, 0xFE, 4];
         Assert.Equal(2, source.Count);
         Assert.Equal(payload, Payload("MapObjectResource", "TerrainList", written));
-        var viaStream = new TerrainList();
-        viaStream.LoadFromStream(new MemoryStream(payload));
         foreach (var tree in Backends("MapObjectResource", Stored("MapObjectResource", "TerrainList", payload)))
         {
             var loaded = new TerrainList();
             loaded.SetTerrain(5, 9);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.TerrainList(persister, name: "TerrainList", list: loaded)), factory: Factory);
-            Assert.Equal(viaStream.Count, loaded.Count);
-            Assert.Equal(Saved(viaStream.SaveToStream), Saved(loaded.SaveToStream));
+            Assert.Equal(2, loaded.Count);
+            Assert.Equal([1, -2], new[] { loaded.GetTerrain(0), loaded.GetTerrain(1) });
+            Assert.Equal([-2, 4], new[] { loaded.GetOverlay(0), loaded.GetOverlay(1) });
         }
     }
 
@@ -128,9 +129,9 @@ public sealed class ResourcePayloadTests
     public void AUnitIndexListCollectionIsItsFlatList()
     {
         using var source = new UnitIndexListCollection();
-        source.LoadFromStream(new MemoryStream(Flat(-1, [198, 201, 199, -1, -1, -1, -1, -1, 203, 200])));
+        source.Units.LoadFromStream(new MemoryStream(Flat(-1, [198, 201, 199, -1, -1, -1, -1, -1, 203, 200])));
         var written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: source)), factory: Factory);
-        var payload = Saved(source.SaveToStream);
+        var payload = Saved(source.Units.SaveToStream);
         Assert.Equal(payload, Payload("StructureResource", "Defenders", written));
         var document = DocumentBackend.Write(written, s_schema.Get("StructureResource"), s_schema, "game");
         Assert.Equal("""{"groups": [[198, 201, 199], [203, 200]], "count": 10}""", Compact(document["Defenders"]!));
@@ -138,7 +139,7 @@ public sealed class ResourcePayloadTests
         {
             using var loaded = new UnitIndexListCollection();
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: loaded)), factory: Factory);
-            Assert.Equal(payload, Saved(loaded.SaveToStream));
+            Assert.Equal(payload, Saved(loaded.Units.SaveToStream));
             Assert.Equal(3, loaded.GetCollectionCount(0));
             Assert.Equal(2, loaded.GetCollectionCount(1));
         }
