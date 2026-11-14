@@ -21538,7 +21538,7 @@
             },
             "GamePack._resourceEditSettings": {
               "$type": "Aow.Engine.Nodes.ResourceEditSettings",
-              "ControlStyleObject._controlStyle": {
+              "ControlStyleObject.ControlStyle": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 3,
                 "Set\u00601.b": 0,
@@ -21854,7 +21854,7 @@
             },
             "GamePack.FlagControl": {
               "$type": "Aow.Game.World.FlagControl",
-              "ControlStyleObject._controlStyle": {
+              "ControlStyleObject.ControlStyle": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 2,
                 "Set\u00601.b": 0,
@@ -22057,7 +22057,7 @@
             },
             "GamePack.PadControl": {
               "$type": "Aow.Game.World.PadControl",
-              "ControlStyleObject._controlStyle": {
+              "ControlStyleObject.ControlStyle": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 2,
                 "Set\u00601.b": 0,
@@ -22382,7 +22382,7 @@
             },
             "GamePack._resourceEditSettings": {
               "$type": "Aow.Engine.Nodes.ResourceEditSettings",
-              "ControlStyleObject._controlStyle": {
+              "ControlStyleObject.ControlStyle": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 3,
                 "Set\u00601.b": 0,
@@ -22698,7 +22698,7 @@
             },
             "GamePack.FlagControl": {
               "$type": "Aow.Game.World.FlagControl",
-              "ControlStyleObject._controlStyle": {
+              "ControlStyleObject.ControlStyle": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 2,
                 "Set\u00601.b": 0,
@@ -22901,7 +22901,7 @@
             },
             "GamePack.PadControl": {
               "$type": "Aow.Game.World.PadControl",
-              "ControlStyleObject._controlStyle": {
+              "ControlStyleObject.ControlStyle": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 2,
                 "Set\u00601.b": 0,

@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -9,8 +8,6 @@ using Aow.Game.Draw;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -22,19 +19,11 @@ public partial class SingleTargetCombatAction : CombatAction
     {
     }
 
-    public Set<SingleTargetModeElement> Mode;
-    public byte SourceId;
-    public byte TargetId;
+    public Set<SingleTargetModeElement> Mode { get; set; }
+    public byte SourceId { get; set; }
+    public byte TargetId { get; set; }
 
     // Combat2.pas:732
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref SourceId, 10);
-        stream.Byte(ref TargetId, 11);
-        TransferSet(ref Mode, 1, 12, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

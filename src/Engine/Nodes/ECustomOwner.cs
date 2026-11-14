@@ -1,11 +1,8 @@
 // Translated from Engine.pas.
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine.Nodes;
 
@@ -47,12 +44,6 @@ public partial class ECustomOwner : ENode
     }
 
     // Engine.pas:8282
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        TransferSet(ref _controlStyle, 1, 2, stream.Bytes, 0);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

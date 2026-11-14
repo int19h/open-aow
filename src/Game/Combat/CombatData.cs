@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -26,23 +25,23 @@ public partial class CombatData : EngineObject
         InvolvedLeaders = new ByteList();
     }
 
-    public int X;
-    public int Y;
-    public int MapLevel;
-    public int AttackerX;
-    public int AttackerY;
-    public int AttackerMapLevel;
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int MapLevel { get; set; }
+    public int AttackerX { get; set; }
+    public int AttackerY { get; set; }
+    public int AttackerMapLevel { get; set; }
 
     public byte[] TerrainAndOverlayTypes { get; } = new byte[2];
 
-    public Set<DamageType> ImmunityTypes;
-    public sbyte AttackerPlayer;
-    public sbyte DefenderPlayer;
+    public Set<DamageType> ImmunityTypes { get; private set; }
+    public sbyte AttackerPlayer { get; set; }
+    public sbyte DefenderPlayer { get; set; }
 
     public ByteList InvolvedLeaders { get; set; }
     public ByteList DefeatedLeaders { get; set; }
 
-    public byte CombatResult;
+    public byte CombatResult { get; set; }
 
     public byte CurrentPlayer { get; set; }
     public ENode CombatObjects { get; set; }
@@ -50,10 +49,10 @@ public partial class CombatData : EngineObject
     public CombatPartyList Parties { get; }
     public ByteList TurnOrder { get; }
 
-    public int Round;
-    public string Header = "";
-    public byte WallType;
-    public bool WallBreached;
+    public int Round { get; set; }
+    public string Header { get; set; } = "";
+    public byte WallType { get; set; }
+    public bool WallBreached { get; set; }
 
     public CombatWall Wall { get; set; }
 

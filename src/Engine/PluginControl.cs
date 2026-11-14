@@ -1,6 +1,5 @@
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game;
 
@@ -70,19 +69,15 @@ public partial class PluginControl : EngineObject
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
 
     // Engine.pas:9331
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(StorageModeElement.Translate))
-        {
-            stream.Lines(_usedPlugins, 1);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "UsedPlugins", lines: _usedPlugins);
+        // The original ReadWrite leaves out the used plug-ins under translate (the translate
+        // stream), so a translated name does not reach the plug-in check of the list's change.
+        if (!PersistSupport.Translating(persister))
+        {
+            PersistSupport.Lines(persister, name: "UsedPlugins", lines: _usedPlugins);
+        }
     }
 
     public GameEngine Engine { get => _engine; set => _engine = value; }

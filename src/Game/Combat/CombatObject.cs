@@ -1,10 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Combat.Actions;
@@ -39,7 +36,7 @@ public partial class CombatObject : EngineObject
 
     public Battle Combat { get; set; }
 
-    public byte Id;
+    public byte Id { get; set; }
 
     public QuadItemList<CombatObject> Targets { get; }
     public QuadItemList<CombatObject> TargetedBy { get; }
@@ -62,9 +59,9 @@ public partial class CombatObject : EngineObject
     public int TargetStrength { get; protected set; }
     public bool TargetStrengthInvalid { get; private set; }
 
-    public sbyte CombatPlayer;
-    public byte Position;
-    public Set<CombatObjectStatusElement> Status;
+    public sbyte CombatPlayer { get; private set; }
+    public byte Position { get; set; }
+    public Set<CombatObjectStatusElement> Status { get; set; }
 
     public Set<CombatObjectControlModeElement> ControlMode { get; set; }
 
@@ -82,19 +79,6 @@ public partial class CombatObject : EngineObject
     }
 
     // Combat.pas:5620
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Position, 10);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref CombatPlayer), 12);
-        TransferSet(ref Status, 1, 13, stream.Bytes, 0);
-        stream.Bytes(Bytes.Of(ref Id, 1), 1, 14);
-        if (stream.StorageMode().Contains(StorageModeElement.Read))
-        {
-            Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
@@ -102,7 +86,9 @@ public partial class CombatObject : EngineObject
         CombatPlayer = PersistSupport.UnsignedByte(persister, name: "CombatPlayer", value: CombatPlayer);
         Status = persister.Set("Status", value: Status);
         Id = persister.RawByte("Id", value: Id);
-        if (persister.Loading)
+        // The translate stream's mode holds read, so the original ReadWrite clears the activated
+        // flag there too.
+        if (persister.Loading || PersistSupport.Translating(persister))
         {
             Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         }

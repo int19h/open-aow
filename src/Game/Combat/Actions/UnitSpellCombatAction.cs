@@ -1,9 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
@@ -21,25 +19,15 @@ public partial class UnitSpellCombatAction : CombatAction
     public UnitSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int SpellId;
-    public byte SourceId;
-    public byte TargetId;
+    public int SpellId { get; set; }
+    public byte SourceId { get; set; }
+    public byte TargetId { get; set; }
 
     public int[] SpellData { get; } = new int[2];
 
-    public int Mana;
+    public int Mana { get; set; }
 
     // Spells.PAS:1102
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Int32(ref SpellId, 20);
-        stream.Byte(ref SourceId, 21);
-        stream.Byte(ref TargetId, 22);
-        stream.Bytes(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 23);
-        stream.Int32(ref Mana, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

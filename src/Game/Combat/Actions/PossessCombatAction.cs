@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -23,15 +22,9 @@ public partial class PossessCombatAction : SingleTargetCombatAction
     public PossessCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public bool Successful;
+    public bool Successful { get; private set; }
 
     // AoWAb.PAS:2471
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Boolean(ref Successful, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

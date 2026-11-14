@@ -2,7 +2,6 @@
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Combat.Actions;
@@ -53,7 +52,7 @@ public partial class Battle : EngineObject
 
     public CombatResult CombatResult { get; protected set; }
 
-    public CombatLogbook Logbook;
+    public CombatLogbook Logbook { get; private set; }
 
     public CombatSide[] Sides { get; } = new CombatSide[2];
 
@@ -103,15 +102,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6103
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Object(Sides[(int)CombatSideIndex.Attacker], 10);
-        stream.Object(Sides[(int)CombatSideIndex.Defender], 11);
-        stream.Created(ref Logbook, null, 12);
-        stream.Object(CombatData, 13);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

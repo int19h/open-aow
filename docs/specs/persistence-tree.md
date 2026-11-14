@@ -38,9 +38,12 @@ pull request retires them for the world map, terrain, structures, production and
 (`Game/World` and its folders, `Game/Draw`) and deletes the map's timer node, with no document
 change, 2026-11-13. The third pull request retires them for the players, campaigns, diplomacy,
 event logs, spells, AI, interface and sound (`Game/Session`, `Game/Events`, `Game/AI`, `Game/Magic`,
-`Game/UI`, `Game/Audio` and the e-mail game), with no document change, 2026-11-13. The combat
-classes keep `ReadWrite` until the fourth pull request, and the token events and the packets keep
-it until PE-4-a.
+`Game/UI`, `Game/Audio` and the e-mail game), with no document change, 2026-11-13. The fourth
+pull request retires them for the battles, combat data, logbooks and combat actions
+(`Game/Combat`, `Game/Combat/Actions`) and for the engine base classes no token event or packet
+reaches, with no document change, 2026-11-14. The token events and the packets keep `ReadWrite`
+until PE-4-a, with the base methods of `EngineObject`, `ECustomNode` and `EReferenceNode` they
+reach.
 
 The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
 Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
@@ -782,3 +785,67 @@ A constructed test proves the visits of a player, an event log list, a diplomati
 campaign page and a sound. Two more send a setup package with its settings and a diplomatic action
 token event through `StoreEngineObject` and `RetrieveEngineObject` and compare what arrives with
 what was sent, because no gate layer sends a packet end to end.
+
+### 14.3 The combat family and the engine bases
+
+The fourth pull request takes the family of PE-3-e, `Game/Combat` and `Game/Combat/Actions`: 31
+`ReadWrite` methods go. With them go the storage methods of the engine base classes that no token
+event or packet reaches: `EChangeNotifyNode.MainReadWrite` and the `ReadWrite` of
+`ControlStyleObject`, `EControlStyleNode`, `ECustomOwner`, `ESortNode`, `EngineResource`,
+`ResourceEditSettings` and `PluginControl`. Every class outside `Game/Commands` and `Game/Net` that
+stored through one of them now persists only through the tree. The payload methods
+`ByteList.LoadFromStream` and `SaveToStream` lost their last caller (the combat data's leader and
+turn order lists and the target list of a multi-target spell) and are deleted. The tree writes the
+same bytes through `PersistSupport.ByteList`. `Int32List` keeps its payload methods, which the
+token events still call.
+
+Five base methods stay, each reached by a class that keeps its `ReadWrite` until PE-4-a:
+
+- `EngineObject.ReadWrite`, through `base.ReadWrite` of `TokenEvent` (and so of every token
+  event), `PlayerCommunicationSettings` and `TokenEventList`, and through
+  `ECustomNode.MainReadWrite` of the token event list. `DataPackage` does not call it.
+- `EngineObject.MainReadWrite`, through `StorageStream.PersistObject` for every token event,
+  `PlayerCommunicationSettings` and `TokenEventList`. `DataPackage` has its own.
+- `ECustomNode.MainReadWrite`, `ECustomNode.ReadWriteChildren` and
+  `EReferenceNode.ReadWriteChildren`, through the token event list of `TokenEventList`
+  (`TokenEventReferenceList`), whose children are token events that the tree refuses.
+
+A class whose chain holds only these five methods and no tree method of its own (a plain node or
+list) stores through them, and the stream writes the same image as the tree for it.
+
+No token event or packet stores an object of the combat family. A battle's logbook reaches the
+players as a combat event log in their event logbooks, which the saves store through the tree.
+
+The storage reader now reads more classes through the original backend (every resource list, for
+example). Where the image holds a class id that the stored class's engine table does not hold, the
+reader fails as `TEngine.CreateEObject` fails, with "Unregistered E-ClassID found". The original
+read the other children of such a list and skipped the unknown one. The original backend reads the
+whole image or nothing, so the bridge loads nothing of that object. No packet holds such an
+object. The original backend's game table does not hold a tactical battle unit, so the bridge
+refuses to store combat data that holds one, where the original `ReadWrite` stored it under the
+combat unit's class id. No packet holds combat data, and a logbook's copy of the battle's data
+holds combat units (section 13).
+
+The translate stream visits the combat data, logbooks, battles and the units of a battle through
+the tree methods. They keep the conditions of the deleted methods under its mode: a combat object
+clears its activated flag, because the mode holds read, the resource edit settings leave out their
+editors (text only), and the plug-in control leaves out its plug-ins (translate), so a
+translated name does not reach the check of the plug-in list. A combat unit visits its troop in place,
+as the original's translate branch does.
+
+A constructed test proves the visits of a combat unit, combat data, an action, the resource edit
+settings and the plug-in control. Another sends a combat logbook with its data, a unit, a player
+and an action through `StoreEngineObject` and `RetrieveEngineObject` and compares what arrives with
+what was sent.
+
+After this pull request only the token events and the packets use the storage streams. What
+PE-4-a still needs from them: `StorageWriter` and `StorageReader` for the packets that
+`PlayerCommunicator` and `SetupControl` send through `StoreEngineObject` and
+`RetrieveEngineObject`, the bridge (`EngineObject.StreamRetired`, `StorageStream.PersistObject` and
+the `PersistTree` of the writer and the reader) for the retired objects inside them (an army id, a
+diplomatic action, a global enchantment, a production item, an animation, a hero's abilities, a
+setup package with its settings), and `TranslateStorageStream` for `GameEngine.TranslateEngineObject`.
+Once the token events and the packets have tree methods, every class is retired, the five base
+methods and `StreamRetired` go, the packets go through the original backend with the packet's
+class table, and the translate stream visits only through `TranslatePersister`, which then needs
+the stream only for its translate methods.

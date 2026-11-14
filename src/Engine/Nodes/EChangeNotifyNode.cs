@@ -1,6 +1,4 @@
 // Translated from Engine.pas.
-using Aow.Engine.Storage;
-
 using Aow.Formats.Tree;
 using Aow.Game;
 
@@ -830,20 +828,6 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7971
-    public override void MainReadWrite(StorageStream stream)
-    {
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            BeginUpdate();
-        }
-
-        base.MainReadWrite(stream);
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
-        {
-            EndUpdate();
-        }
-    }
-
     public override void MainPersist(IPersister persister)
     {
         if (persister.Loading)

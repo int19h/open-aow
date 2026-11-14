@@ -2,7 +2,6 @@
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -14,13 +13,15 @@ namespace Aow.Game.Combat.Actions;
 // source ID, target byte list, casting mana, success, spell ID
 public partial class MultiTargetCombatSpellCombatAction : CombatAction
 {
-    public byte SourceId;
+    public byte SourceId { get; protected set; }
 
     public ByteList TargetIds { get; }
 
-    public int ManaCost;
+    public int ManaCost { get; set; }
+
     private bool _succeeded;
-    public int SpellId;
+
+    public int SpellId { get; protected set; }
 
     // CombatSpells.pas:563
     public override void Dispose()
@@ -30,16 +31,6 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
     }
 
     // CombatSpells.pas:569
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref SourceId, 20);
-        stream.Payload(21, TargetIds.LoadFromStream, TargetIds.SaveToStream);
-        stream.Int32(ref ManaCost, 22);
-        stream.Boolean(ref _succeeded, 23);
-        stream.Int32(ref SpellId, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

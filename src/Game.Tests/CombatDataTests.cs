@@ -5,6 +5,10 @@ using Aow.Game.Combat;
 
 namespace Aow.Game.Tests;
 
+// The storage streams store combat data through the tree and the engine's classes since issue 185
+// PE-3-i part 4, so these tests share the engine fixture with the others that change its state.
+[Collection("Engine")]
+[EngineState]
 public sealed class CombatDataTests
 {
     private sealed class ObservedNode() : ENode(null!)

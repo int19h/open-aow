@@ -1,6 +1,7 @@
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 
+using Aow.Formats;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 
@@ -583,7 +584,16 @@ public partial class StorageReader : StorageStream
             _stream.Position = _objectStart;
             _stream.ReadExactly(image);
             _stream.Position = position;
-            root = OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: ClassTable(classValue));
+            try
+            {
+                root = OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: ClassTable(classValue));
+            }
+            catch (ConversionException error) when (error.Diagnostic.Code == Codes.UnknownClass && int.TryParse(error.Diagnostic.Value, out int classId))
+            {
+                // The stream's own load of a class id its table does not hold failed as
+                // TEngine.CreateEObject fails.
+                throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")", error);
+            }
         }
 
         TreeReader.Read(root, objectValue: objectValue, factory: factory, onError: ContinueAfter, preview: _partial);

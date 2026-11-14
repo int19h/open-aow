@@ -1,6 +1,4 @@
 // Translated from Engine.pas.
-using Aow.Engine.Storage;
-
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -100,19 +98,14 @@ public partial class ResourceEditSettings : ControlStyleObject
     }
 
     // Engine.pas:8720
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        if (!stream.StorageMode().Contains(EngineServices.Text))
-        {
-            stream.LinesWithObjects(_editors, 3);
-        }
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.LinesWithValues(persister, "Editors", _editors);
+        // The original ReadWrite leaves out the editors under text only (the translate stream).
+        if (!PersistSupport.Translating(persister))
+        {
+            PersistSupport.LinesWithValues(persister, "Editors", _editors);
+        }
     }
 
     public StringList Editors { get => _editors; }

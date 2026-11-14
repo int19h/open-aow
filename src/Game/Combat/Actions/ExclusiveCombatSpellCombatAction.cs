@@ -1,6 +1,5 @@
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Game.Draw;
@@ -15,23 +14,13 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
     public ExclusiveCombatSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public byte SourceId;
-    public byte TargetId;
-    public int ManaCost;
-    public bool Succeeded;
-    public int SpellId;
+    public byte SourceId { get; set; }
+    public byte TargetId { get; set; }
+    public int ManaCost { get; set; }
+    public bool Succeeded { get; set; }
+    public int SpellId { get; set; }
 
     // CombatSpells.pas:502
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref SourceId, 20);
-        stream.Byte(ref TargetId, 21);
-        stream.Int32(ref ManaCost, 22);
-        stream.Boolean(ref Succeeded, 23);
-        stream.Int32(ref SpellId, 24);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

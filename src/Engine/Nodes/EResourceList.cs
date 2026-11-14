@@ -41,7 +41,7 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
         I = 0;
         while (!found && I != this.Count)
         {
-            found = this.GetChild(I) != null && id == this[I]._resourceId;
+            found = this.GetChild(I) != null && id == this[I].ResourceId;
             I += 1;
         }
 
@@ -66,9 +66,9 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
         bool found;
         if (index < Count)
         {
-            id = GetResource(index)._resourceId;
+            id = GetResource(index).ResourceId;
             var resource = GetResource(index);
-            resource._resourceId = resource._resourceId ^ 65535;
+            resource.ResourceId = resource.ResourceId ^ 65535;
 
             if (FindResource(id) != null)
             {
@@ -89,11 +89,11 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
                     tries += 1;
                 }
 
-                GetResource(index)._resourceId = newId;
+                GetResource(index).ResourceId = newId;
             }
             else
             {
-                GetResource(index)._resourceId = id;
+                GetResource(index).ResourceId = id;
             }
         }
     }

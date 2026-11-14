@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
@@ -15,15 +14,9 @@ public partial class CombatObjectTurnDoneCombatAction : CombatAction
     public CombatObjectTurnDoneCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public byte CombatObjectId;
+    public byte CombatObjectId { get; set; }
 
     // Combat2.pas:1041
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Bytes(Bytes.Of(ref CombatObjectId, 1), 1, 20);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);

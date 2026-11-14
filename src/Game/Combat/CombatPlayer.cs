@@ -1,12 +1,7 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Nodes;
-using Aow.Engine.Storage;
 using Aow.Formats.Tree;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -18,19 +13,11 @@ public partial class CombatPlayer : EngineObject
     public CombatPlayer(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte Player;
-    public byte IndependentRelation;
-    public byte SideIndex;
+    public sbyte Player { get; set; }
+    public byte IndependentRelation { get; set; }
+    public byte SideIndex { get; set; }
 
     // Combat2.pas:118
-    public override void ReadWrite(StorageStream stream)
-    {
-        base.ReadWrite(stream);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
-        stream.Byte(ref IndependentRelation, 21);
-        stream.Bytes(Bytes.Of(ref SideIndex, 1), 1, 22);
-    }
-
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
