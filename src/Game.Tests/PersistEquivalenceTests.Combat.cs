@@ -131,7 +131,7 @@ public sealed partial class PersistEquivalenceTests
             var data = logbook.InitialData;
             data.Header = "Siege";
             data.Round = 3;
-            data.X = 7;
+            data.Location = data.Location with { X = 7 };
             data.TurnOrder.Add(1);
             _ = new CombatPlayer(data.Players) { Holder = EngineFixture.Engine, Player = 2, IndependentRelation = 1 };
             var hero = new Hero(null!) { Holder = EngineFixture.Engine, HeroName = "Archer", Player = 2 };
@@ -150,7 +150,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 Assert.True(received.PlayerEliminated);
                 var receivedData = received.InitialData;
-                Assert.Equal(("Siege", 3, 7, 1), (receivedData.Header, receivedData.Round, receivedData.X, receivedData.TurnOrder.Count));
+                Assert.Equal(("Siege", 3, 7, 1), (receivedData.Header, receivedData.Round, receivedData.Location.X, receivedData.TurnOrder.Count));
                 Assert.Equal((sbyte)2, receivedData.Players[0].Player);
                 var receivedUnit = Assert.IsType<CombatUnit>(receivedData.CombatObjects.GetChild(0));
                 Assert.Equal("Archer", Assert.IsType<Hero>(receivedUnit.Troop).HeroName);

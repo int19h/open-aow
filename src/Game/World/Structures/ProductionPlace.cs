@@ -425,9 +425,7 @@ public partial class ProductionPlace : PlayerStructure
             log.Player = newPlayer;
             var editName = EditName();
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
-            log.HexX = HexX;
-            log.HexY = HexY;
-            log.HexLevel = HexLevel;
+            log.Location = new MapCoordinate(HexX, HexY, HexLevel);
             EventLog.DistributeLocationEventLog(y: HexY, x: HexX, log: log, player: Player, level: HexLevel, execute: false);
             log.Release();
         }

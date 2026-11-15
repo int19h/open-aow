@@ -61,7 +61,10 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         sbyte targetY = default;
         sbyte targetL = default;
         bool result = base.Validate(source);
-        source.GetLocation(out x, out y, out l);
+        var coordinate12 = source.GetLocation();
+        x = coordinate12.X;
+        y = coordinate12.Y;
+        l = coordinate12.MapLevel;
         i = TargetUnitIds.Count;
         while (result && i != 0)
         {
@@ -70,7 +73,10 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             target = StrategicMap.Current.UnitControl.FindUnit(item);
             if (target != null)
             {
-                target.GetLocation(out targetX, out targetY, out targetL);
+                var coordinate13 = target.GetLocation();
+                targetX = coordinate13.X;
+                targetY = coordinate13.Y;
+                targetL = coordinate13.MapLevel;
                 result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
                 if (result)
                 {
@@ -101,7 +107,10 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         base.Process(source, value);
         if (_targetUnits.GetCount() != 0)
         {
-            _targetUnits.GetUnit(0).GetLocation(out x, out y, out l);
+            var coordinate14 = _targetUnits.GetUnit(0).GetLocation();
+            x = coordinate14.X;
+            y = coordinate14.Y;
+            l = coordinate14.MapLevel;
             GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, x, y, l);
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {

@@ -47,9 +47,7 @@ public partial class TargetSelectionControl : IDisposable
     internal void SetValidateTargetHandler(ValidateTargetEvent handler) => OnValidateTarget = handler;
 
     public int Range { get; set; }
-    public int SourceX { get; set; }
-    public int SourceY { get; set; }
-    public int SourceL { get; set; }
+    public MapCoordinate SourceLocation { get; set; }
     public object Source { get; set; }
 
     internal EventStore<TargetSelectionControl> OnChangeStore { get; }
@@ -61,9 +59,7 @@ public partial class TargetSelectionControl : IDisposable
     }
 
     public TargetSelectionChange Change { get; private set; }
-    public sbyte TargetX { get; private set; }
-    public sbyte TargetY { get; private set; }
-    public sbyte TargetL { get; private set; }
+    public MapCoordinate Target { get; private set; }
     public StringCollection Text { get; }
     public string Title { get; set; } = "";
     public string CancelText { get; set; } = "";
@@ -120,7 +116,7 @@ public partial class TargetSelectionControl : IDisposable
                 mouse = StrategicMap.Current.Mouse;
                 if (mouse.Capture == this && mouse.Button == MouseButton.Left)
                 {
-                    if (ValidTarget(TargetX, TargetY, TargetL))
+                    if (ValidTarget(Target.X, Target.Y, Target.MapLevel))
                     {
                         TriggerOnChangeEvent(TargetSelectionChange.Selected);
                         if (!Status.Contains(TargetSelectionStatusElement.Activated))
@@ -142,7 +138,7 @@ public partial class TargetSelectionControl : IDisposable
         {
             if (TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
             {
-                result = HexGeometry.DeltaHexToRadius(SourceX, SourceY, X, Y) <= Range;
+                result = HexGeometry.DeltaHexToRadius(SourceLocation.X, SourceLocation.Y, X, Y) <= Range;
             }
             else
             {
@@ -151,7 +147,7 @@ public partial class TargetSelectionControl : IDisposable
 
             if (TargetMode.Contains(TargetSelectionModeElement.FixedLevel))
             {
-                result = result && L == SourceL;
+                result = result && L == SourceLocation.MapLevel;
             }
 
             mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
@@ -192,9 +188,7 @@ public partial class TargetSelectionControl : IDisposable
     {
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            TargetX = (sbyte)StrategicMap.Current.Mouse.GetHexX();
-            TargetY = (sbyte)StrategicMap.Current.Mouse.GetHexY();
-            TargetL = (sbyte)StrategicMap.Current.ViewMapLevel;
+            Target = new MapCoordinate((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)StrategicMap.Current.Mouse.GetHexY(), (sbyte)StrategicMap.Current.ViewMapLevel);
             bool condition = StrategicMap.Current.Mouse.GetHexX() != -1 && StrategicMap.Current.Mouse.GetHexY() != -1;
             if (condition)
             {
@@ -222,9 +216,9 @@ public partial class TargetSelectionControl : IDisposable
         int y = default;
         int xs;
         int ys;
-        if (Status.Contains(TargetSelectionStatusElement.Activated) && TargetX != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
+        if (Status.Contains(TargetSelectionStatusElement.Activated) && Target.X != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
         {
-            HexGeometry.HexToPixel(TargetX, TargetY, out x, out y);
+            HexGeometry.HexToPixel(Target.X, Target.Y, out x, out y);
             x -= pixelXSurface;
             y -= pixelYSurface;
             for (int i = 0, last = HexNumbers.Count - 1; i <= last; i++)

@@ -231,7 +231,9 @@ public partial class UnitSpell : Spell
         caster.CasterSpellId = SpellId;
         for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
-            if (!((Army)targets.Holder).GetUnitConcealedForPlayer(i, source.Player))
+            // Concealment lives on an army. Another holder keeps no such record, so none of its
+            // troops is concealed.
+            if (targets.Holder is not Army holder || !holder.GetUnitConcealedForPlayer(i, source.Player))
             {
                 var troop = targets.GetUnit(i);
                 caster.TargetUnits.AddUnit(troop);
@@ -403,9 +405,9 @@ public partial class UnitSpell : Spell
                     ResetTargetSelection();
                     break;
                 case TargetSelectionChange.Selected:
-                    if (control.TargetX != -1)
+                    if (control.Target.X != -1)
                     {
-                        party = StrategicMap.Current.MapContainer.GetField(control.TargetX, control.TargetY, control.TargetL).GetArmyHexSprite();
+                        party = StrategicMap.Current.MapContainer.GetField(control.Target.X, control.Target.Y, control.Target.MapLevel).GetArmyHexSprite();
                         if (party != null && ValidTargetParty(source, party))
                         {
                             TargetPartySelected(source, party);
@@ -447,10 +449,11 @@ public partial class UnitSpell : Spell
             control.Range = 0;
         }
 
-        source.GetLocation(out x, out y, out l);
-        control.SourceX = x;
-        control.SourceY = y;
-        control.SourceL = l;
+        var coordinate85 = source.GetLocation();
+        x = coordinate85.X;
+        y = coordinate85.Y;
+        l = coordinate85.MapLevel;
+        control.SourceLocation = new MapCoordinate(x, y, l);
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetPartyFormat), [SpellName]);

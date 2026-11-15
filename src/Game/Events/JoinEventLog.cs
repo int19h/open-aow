@@ -25,7 +25,7 @@ public partial class JoinEventLog : EventLog
     {
         UnitIds = new Int32List();
         JoinMessage = new StringList();
-        _location = new MapCoordinate(X: -1, Y: -1, MapLevel: -1);
+        _location = new MapCoordinate(-1, -1, -1);
         JoinIndex = -1;
     }
 
@@ -89,8 +89,11 @@ public partial class JoinEventLog : EventLog
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop != null && troop.Player == 0)
             {
-                troop.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                var coordinate20 = troop.GetLocation();
+                sbyte locationX = coordinate20.X;
+                sbyte locationY = coordinate20.Y;
+                sbyte locationMapLevel = coordinate20.MapLevel;
+                location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 result = _location.X == location.X && _location.Y == location.Y && _location.MapLevel == location.MapLevel;
             }
         }
@@ -157,7 +160,7 @@ public partial class JoinEventLog : EventLog
             UnitIds.Add(troop.UnitId);
         }
 
-        _location = HexGeometry.PackMapCoordinate(army.X, army.Y, army.MapLevel);
+        _location = HexGeometry.PackMapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
     }
 
 }

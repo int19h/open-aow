@@ -23,7 +23,7 @@ public partial class ProductionPlaceEventLog : ProductionEventLog
             place = GetProductionPlace();
             if (place != null && StrategicMap.Current.SeatedPlayer == place.Player)
             {
-                StrategicMap.Current.CenterViewTo(HexX, HexY, HexLevel);
+                StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
                 StrategicMap.Current.TriggerExecuteEventLog(this, true, done);
             }
         }
@@ -32,6 +32,6 @@ public partial class ProductionPlaceEventLog : ProductionEventLog
     }
 
     // PrdPlace.pas:739
-    public ProductionPlace GetProductionPlace() => (ProductionPlace)StrategicMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindNoneTransparentHexSprite(typeof(ProductionPlace));
+    public ProductionPlace GetProductionPlace() => (ProductionPlace)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(ProductionPlace));
 
 }

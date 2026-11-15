@@ -17,12 +17,7 @@ public partial class IncomeSource : EngineObject
     public virtual int Income() => 0;
 
     // Player.PAS:212
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Player.PAS:219
     public virtual void CenterToLocation()
@@ -30,7 +25,10 @@ public partial class IncomeSource : EngineObject
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        GetLocation(out x, out y, out l);
+        var coordinate33 = GetLocation();
+        x = coordinate33.X;
+        y = coordinate33.Y;
+        l = coordinate33.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);

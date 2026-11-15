@@ -24,7 +24,7 @@ public partial class CityProductionEventLog : ProductionEventLog
             city = GetCity();
             if (city != null && StrategicMap.Current.SeatedPlayer == city.Player)
             {
-                StrategicMap.Current.CenterViewTo(HexX, HexY, HexLevel);
+                StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
                 StrategicMap.Current.TriggerExecuteEventLog(this, true, done);
             }
         }
@@ -33,6 +33,6 @@ public partial class CityProductionEventLog : ProductionEventLog
     }
 
     // City.pas:3200
-    public City GetCity() => (City)StrategicMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindNoneTransparentHexSprite(typeof(City));
+    public City GetCity() => (City)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(City));
 
 }

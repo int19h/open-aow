@@ -58,10 +58,13 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     }
 
     // CitySpells.pas:182
-    public void SetLocation(sbyte X, sbyte Y, sbyte L)
+    public void SetLocation(MapCoordinate location)
     {
-        _targetLocation = new MapCoordinate(X: X, Y: Y, MapLevel: L);
+        _targetLocation = location;
     }
+
+    public void SetLocation(sbyte x, sbyte y, sbyte level) =>
+        SetLocation(new MapCoordinate(x, y, level));
 
     // CitySpells.pas:204
     public City GetSelectedCity() => (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite(typeof(City));

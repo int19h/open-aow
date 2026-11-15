@@ -59,7 +59,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 {
                     _moveSettings.Player = control.Group.Player;
                     _moveSettings.Mode = _moveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                    _moveSettings.SetSourcePosition(control.Location.X, control.Location.Y, control.Location.MapLevel);
+                    _moveSettings.SetSourcePosition(control.Location);
                 }
 
                 {

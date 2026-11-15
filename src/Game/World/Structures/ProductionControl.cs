@@ -305,24 +305,20 @@ public partial class ProductionControl : EngineObject
     {
         ProductionTokenEvent eventValue;
         eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
-        var x = eventValue.X;
-        var y = eventValue.Y;
-        var mapLevel = eventValue.MapLevel;
-        GetLocation(out x, out y, out mapLevel);
-        eventValue.X = x;
-        eventValue.Y = y;
-        eventValue.MapLevel = mapLevel;
+        var x = eventValue.Location.X;
+        var y = eventValue.Location.Y;
+        var mapLevel = eventValue.Location.MapLevel;
+        var coordinate35 = GetLocation();
+        x = coordinate35.X;
+        y = coordinate35.Y;
+        mapLevel = coordinate35.MapLevel;
+        eventValue.Location = new MapCoordinate(x, y, mapLevel);
         eventValue.Player = GetPlayer();
         return eventValue;
     }
 
     // Structur.PAS:776
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // intf_P1_02.inc:133
     public virtual sbyte GetPlayer()

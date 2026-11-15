@@ -309,7 +309,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                 var unitResearchGold = control.UnitResearchGold(j);
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
-                                    control.GetLocation(out x, out y, out l);
+                                    var coordinate2 = control.GetLocation();
+                                    x = coordinate2.X;
+                                    y = coordinate2.Y;
+                                    l = coordinate2.MapLevel;
                                     structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                     priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
@@ -402,7 +405,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                     var controlUnitProductionGold = control.UnitProductionGold(j);
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
-                                        control.GetLocation(out x, out y, out l);
+                                        var coordinate3 = control.GetLocation();
+                                        x = coordinate3.X;
+                                        y = coordinate3.Y;
+                                        l = coordinate3.MapLevel;
                                         structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                         priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)

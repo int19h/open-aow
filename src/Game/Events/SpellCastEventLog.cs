@@ -66,7 +66,10 @@ public partial class SpellCastEventLog : EventLog
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null)
         {
-            troop.GetLocation(out x, out y, out l);
+            var coordinate21 = troop.GetLocation();
+            x = coordinate21.X;
+            y = coordinate21.Y;
+            l = coordinate21.MapLevel;
             CenterViewTo(x, y, l);
         }
     }

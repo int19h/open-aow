@@ -562,7 +562,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = Group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-        settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
+        settings.SetSourcePosition(location);
         settings.MovePointsMax = radius;
         settings.ArmyHexSprite = null;
         settings.Selection = 0;

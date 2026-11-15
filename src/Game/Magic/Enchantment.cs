@@ -80,12 +80,7 @@ public partial class Enchantment : EngineObject
     public virtual int GetAIUpkeepPriority() => 0;
 
     // Spells.PAS:1704
-    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
-    {
-        X = -1;
-        Y = -1;
-        L = -1;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Spells.PAS:1706
     public virtual bool CenterToLocation()
@@ -94,7 +89,10 @@ public partial class Enchantment : EngineObject
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        GetLocation(out x, out y, out l);
+        var coordinate22 = GetLocation();
+        x = coordinate22.X;
+        y = coordinate22.Y;
+        l = coordinate22.MapLevel;
         if (x != -1)
         {
             if (StrategicMap.Current.Visible(x, y, l, 0))

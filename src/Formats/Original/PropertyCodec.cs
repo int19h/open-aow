@@ -54,6 +54,17 @@ public abstract partial class PropertyCodec
     internal virtual Tree.TreeValue ReadPairImage(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ImageFrame frame) =>
         throw new InvalidOperationException(GetType().Name + " stores one entry.");
 
+    /// <summary>True when one member is several original entries, as a coordinate is.</summary>
+    internal virtual bool GroupsEntries => false;
+
+    /// <summary>Reads the entries of a grouped member. The base stores one entry.</summary>
+    internal virtual Tree.TreeValue ReadGroupImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame) =>
+        throw new InvalidOperationException(GetType().Name + " stores one entry.");
+
+    /// <summary>Reads the entries of a grouped member into a document value. The base stores one entry.</summary>
+    internal virtual JsonValue DecodeGroup(DecodeContext context, IReadOnlyList<SlotImage> entries, ValueSite site) =>
+        throw new InvalidOperationException(GetType().Name + " stores one entry.");
+
     /// <summary>
     /// Writes the entries of a dynamic member into the object's table. The base refuses the
     /// member. A created member overrides it, keyed by slot or in sequence.
@@ -117,6 +128,7 @@ public abstract partial class PropertyCodec
             "children" => new ChildrenCodec(),
             "map-fields" => new MapFieldsCodec(),
             "campaign-map" => new CampaignMapCodec(),
+            "coordinate" => CoordinateCodec.Create(source, path),
             "enum" => new EnumCodec(TypeName(source, "enum"), CheckedWidth(source, path, "enum"), Signed(source)),
             "set" => new SetCodec(TypeName(source, "set"), CheckedWidth(source, path, "set")),
             "int-array" => new FixedArrayCodec(CheckedWidth(source, path, "int-array"), Signed(source), Count(source)),

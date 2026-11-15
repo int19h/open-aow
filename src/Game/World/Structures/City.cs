@@ -1049,9 +1049,7 @@ public partial class City : PlayerCropStructure
             log.Player = newPlayer;
             var editName = EditName();
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
-            log.HexX = GetHexX();
-            log.HexY = GetHexY();
-            log.HexLevel = GetHexLevel();
+            log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
             log.Release();
         }
@@ -2062,9 +2060,7 @@ public partial class City : PlayerCropStructure
                     log = new CityRebellionEventLog(null) { Holder = CreationHolder() };
                     log.Player = Player;
                     log.CityName = GetName();
-                    log.HexX = GetHexX();
-                    log.HexY = GetHexY();
-                    log.HexLevel = GetHexLevel();
+                    log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
                     EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
                     log.Release();
                     SetPlayer(0);

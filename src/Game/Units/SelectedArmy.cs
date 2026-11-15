@@ -706,13 +706,13 @@ public partial class SelectedArmy : MoveSelector
                 armyHexSprite = (ArmyHexSprite)MoveSettingsList.GetMoveSettings(i).MoveObject;
                 if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    if (armyHexSprite.Army.DestinationX != -1 && armyHexSprite.Army.DestinationX != 0)
+                    if (armyHexSprite.Army.Destination.X != -1 && armyHexSprite.Army.Destination.X != 0)
                     {
                         var army = armyHexSprite.Army;
-                        field = StrategicMap.Current.MapContainer.GetField(army.DestinationX, army.DestinationY, army.DestinationMapLevel);
+                        field = StrategicMap.Current.MapContainer.GetField(army.Destination.X, army.Destination.Y, army.Destination.MapLevel);
                         if (ValidateSelection(field))
                         {
-                            CalculateMovePath(i, army.DestinationX, army.DestinationY, army.DestinationMapLevel);
+                            CalculateMovePath(i, army.Destination.X, army.Destination.Y, army.Destination.MapLevel);
                         }
                         else
                         {

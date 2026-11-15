@@ -154,6 +154,14 @@ internal static class ImageTree
             }
             else if (prop.Codec.ImageRefusal is string reason)
                 throw context.Fail(Codes.Type, reason, located[first].Start, memberPath);
+            else if (prop.Codec.GroupsEntries)
+            {
+                var images = new SlotImage[last - first];
+                for (int k = first; k < last; k++)
+                    images[k - first] = new SlotImage(located[k].Entry.Id, located[k].Start, located[k].End);
+                var grouped = new ImageFrame { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
+                node.Add(prop.Name, prop.Codec.ReadGroupImage(context, images, grouped));
+            }
             else if (prop.DataId is int dataId)
             {
                 // A member of two entries, its id and its data id. Either one can be absent.

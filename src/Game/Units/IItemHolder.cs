@@ -1,3 +1,5 @@
+using Aow.Game.World.Map;
+
 namespace Aow.Game.Units;
 
 /// <summary>
@@ -8,7 +10,7 @@ internal interface IItemHolder
 {
     ItemCollection Items { get; }
 
-    void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel);
+    MapCoordinate GetLocation();
 
     void Changed();
 }

@@ -44,7 +44,10 @@ public partial class TownGate : CityTargetSpell
         sbyte y = default;
         sbyte l = default;
         ImageSequenceAnimation a;
-        source.GetLocation(out x, out y, out l);
+        var coordinate84 = source.GetLocation();
+        x = coordinate84.X;
+        y = coordinate84.Y;
+        l = coordinate84.MapLevel;
         ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation);
         army.Army.ResetDestinationPosition();
@@ -139,12 +142,13 @@ public partial class TownGate : CityTargetSpell
         bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
         if (result)
         {
-            if (source.Owner is IHeroHolder)
+            // Without an army the source has no party to teleport.
+            if (source.ArmyOwner is not Army armyOwner)
             {
                 return false;
             }
 
-            army = source.ArmyOwner.GetArmyHexSprite();
+            army = armyOwner.GetArmyHexSprite();
             if (army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
             {
                 selection = StrategicMap.Current.SelectedArmy.GetSelection();

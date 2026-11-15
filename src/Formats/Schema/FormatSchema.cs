@@ -292,7 +292,9 @@ public sealed class SchemaClass
             {
                 // A subclass property with an inherited id shadows the inherited one: the base
                 // never writes it for this class (THuntAG id 30, TAoWTerrainResource id 20).
-                if (p.Id is int shadowed) readWrite.RemoveAll(q => q.Id == shadowed);
+                // A coordinate shadows on any of its three ids, and a subclass id that matches
+                // any of those three drops the whole coordinate.
+                readWrite.RemoveAll(q => SharesImageId(q, p));
                 (p.IsChildrenPhase ? children : readWrite).Add(p);
             }
         if (keepChildren && children.Count == 0)
@@ -321,11 +323,19 @@ public sealed class SchemaClass
         foreach (var p in _effective)
         {
             if (!_byName.TryAdd(p.Name, p)) throw new InvalidOperationException($"Class {Name} has two members named {p.Name}.");
-            if (p.Id is int id && !_byId.TryAdd(id, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {id}.");
-            if (p.DataId is int dataId && !_byId.TryAdd(dataId, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {dataId}.");
+            foreach (int imageId in p.ImageIds)
+                if (!_byId.TryAdd(imageId, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {imageId}.");
             if (p.DynamicMinimum is not null) _dynamic.Add(p);
         }
         _dynamic.Sort((a, b) => b.DynamicMinimum!.Value.CompareTo(a.DynamicMinimum!.Value));
+    }
+
+    // True when the two properties share an original id. A coordinate counts each part id.
+    private static bool SharesImageId(SchemaProperty existing, SchemaProperty incoming)
+    {
+        foreach (int id in incoming.ImageIds)
+            if (existing.ImageIds.Contains(id)) return true;
+        return false;
     }
 
     public SchemaProperty? PropertyById(int id)
@@ -356,6 +366,18 @@ public sealed class SchemaProperty
         SlotBase = source["slotBase"] is JsonInteger s ? (int)s.Value : null;
         IsChildrenPhase = source["phase"] is JsonString { Value: "children" };
         Codec = PropertyCodec.Create(source, schema, owner.Name + "." + Name);
+        ImageIds = ImageIdList(Id, DataId, Codec);
+    }
+
+    private static int[] ImageIdList(int? id, int? dataId, PropertyCodec codec)
+    {
+        var ids = new List<int>();
+        if (id is int own) ids.Add(own);
+        if (dataId is int data && !ids.Contains(data)) ids.Add(data);
+        if (codec is CoordinateCodec coordinate)
+            foreach (int extra in coordinate.ImageIds)
+                if (!ids.Contains(extra)) ids.Add(extra);
+        return [.. ids];
     }
 
     public SchemaClass Owner { get; }
@@ -364,6 +386,9 @@ public sealed class SchemaProperty
 
     /// <summary>The second id of a codec that stores two properties, the campaign map's data.</summary>
     public int? DataId { get; }
+
+    /// <summary>Every original id of the property. A coordinate lists its three part ids.</summary>
+    public IReadOnlyList<int> ImageIds { get; }
     public int? DynamicMinimum { get; }
 
     /// <summary>The id of a dynamic member minus this value is its slot. Null for sprites.</summary>

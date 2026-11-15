@@ -192,14 +192,17 @@ public partial class AIMoveTargetSelector : EngineObject
         {
             gaps = new Int32List();
             target = _bufferedTargets.GetTarget(0);
-            _transporter.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+            var coordinate106 = _transporter.GetLocation();
+            sbyte locationX = coordinate106.X;
+            sbyte locationY = coordinate106.Y;
+            sbyte locationMapLevel = coordinate106.MapLevel;
+            location = new MapCoordinate(locationX, locationY, locationMapLevel);
             if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
                 _settings.Reset();
                 _settings.Player = TargetInfo.Player;
                 _settings.Mode = _settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-                _settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
+                _settings.SetSourcePosition(location);
 
                 _settings.MovePointsMax = MovePointsMax;
                 _settings.MovePointTable = _transportMovePointTable;
@@ -258,7 +261,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     _settings.Reset();
                     _settings.Player = TargetInfo.Player;
                     _settings.Mode = _settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-                    _settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
+                    _settings.SetSourcePosition(SourceLocation);
 
                     _settings.MovePointsMax = MovePointsMax;
                     _settings.MovePointTable = MovePointTable;
@@ -355,7 +358,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     _settings.Reset();
                     _settings.Player = TargetInfo.Player;
                     _settings.Mode = _settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
-                    _settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
+                    _settings.SetSourcePosition(SourceLocation);
 
                     _settings.MovePointsMax = MovePointsMin;
                     _settings.MovePointTable = MovePointTable;

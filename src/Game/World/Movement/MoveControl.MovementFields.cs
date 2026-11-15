@@ -20,7 +20,7 @@ public partial class MoveControl
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
         MapField neighbor = null;
-        while (field != null && (field.HexX != _sourceX || field.HexY != _sourceY || field.HexLevel != _sourceL) && !failed)
+        while (field != null && (field.HexX != Source.X || field.HexY != Source.Y || field.HexLevel != Source.MapLevel) && !failed)
         {
             path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
             int cost = OnMovePoint(field, 1);
@@ -29,7 +29,7 @@ public partial class MoveControl
             {
                 neighbor = NeighborField(field, direction);
                 if (Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel) != points - cost) continue;
-                bool source = neighbor.HexX == _sourceX && neighbor.HexY == _sourceY && neighbor.HexLevel == _sourceL;
+                bool source = neighbor.HexX == Source.X && neighbor.HexY == Source.Y && neighbor.HexLevel == Source.MapLevel;
                 int over = source || (neighbor.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : neighbor.CanMoveOver(this);
                 found = over != 0 && ((field.FieldFlags & MapField.MoveOnFlag) == 0 || field.CanMoveOn(this, cost, over) != -1);
             }
@@ -80,7 +80,7 @@ public partial class MoveControl
             int old = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
             if (old <= points || points > MovePointsLimit) break;
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) _processedMapFields.Add(field);
-            if (field.HexX == DestinationX && field.HexY == DestinationY && field.HexLevel == DestinationL) MovePointsLimit = points;
+            if (field.HexX == Destination.X && field.HexY == Destination.Y && field.HexLevel == Destination.MapLevel) MovePointsLimit = points;
             Settings.SetMovePoints(field.HexX, field.HexY, field.HexLevel, points);
             if ((field.FieldFlags & MapField.MoveOverFlag) == 0) moveOverCode = 1;
             else moveOverCode = field.CanMoveOver(this);

@@ -866,7 +866,14 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public sbyte HexX { get => GetHexX(); }
     public sbyte HexY { get => GetHexY(); }
     public sbyte HexLevel { get => GetHexLevel(); }
-    public MapCoordinate MapCoordinate { get => GetMapCoordinate(); }
+
+    // Computed from GetHexX, GetHexY and GetHexLevel. A sprite that stores the position overrides this.
+    public virtual MapCoordinate Location
+    {
+        get => GetMapCoordinate();
+        set => throw new InvalidOperationException("This sprite computes its location from its hex.");
+    }
+
     public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
     public int ShowPriority { get => GetShowPriority(); }
 

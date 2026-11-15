@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
-
+using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Game.Combat;
@@ -33,9 +33,7 @@ public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
             p = new CombatParty(null) { Holder = CreationHolder() };
             p.PlayerIndex = combatPlayer;
             p.Position = position;
-            p.X = X;
-            p.Y = Y;
-            p.MapLevel = L;
+            p.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
             p.SetArrayOwner(this, position);
             p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
             var players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);

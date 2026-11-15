@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 
 using static Aow.Rtl.RtlUnit;
@@ -88,7 +86,10 @@ public partial class HeroEmergeEventLog : EventLog
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u != null)
         {
-            u.GetLocation(out x, out y, out l);
+            var coordinate17 = u.GetLocation();
+            x = coordinate17.X;
+            y = coordinate17.Y;
+            l = coordinate17.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);
@@ -120,20 +121,20 @@ public partial class HeroEmergeEventLog : EventLog
         HeroJoinEventLog result;
         Hero hero;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.Owner is not IHeroHolder)
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
             result = new HeroJoinEventLog(null) { Holder = CreationHolder() };
             result.JoinIndex = Id;
             switch (_mode)
             {
                 case HeroJoinMode.Emerged:
-                    result.SetupJoinArmy(hero.ArmyOwner, Player, result.JoinMode);
+                    result.SetupJoinArmy(army, Player, result.JoinMode);
                     result.FirstUnitId = hero.UnitId;
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroEmergedOfferFormat), [hero.HeroName, LocationName, result.Gold]);
                     result.JoinMessage.Text = format;
                     break;
                 case HeroJoinMode.Resurrected:
-                    result.SetupJoinArmy(hero.ArmyOwner, Player, result.JoinMode);
+                    result.SetupJoinArmy(army, Player, result.JoinMode);
                     result.FirstUnitId = hero.UnitId;
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroResurrectedOfferFormat), [hero.HeroName, result.Gold]);
                     result.JoinMessage.Text = formattedText;

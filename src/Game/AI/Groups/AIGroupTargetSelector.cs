@@ -609,8 +609,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     {
                         if (GroupControl.Group.Productions.Count != 0)
                         {
-                            GroupControl.Group.Productions.GetProductions(0).Control.GetLocation(out var locationX, out var locationY, out var locationMapLevel);
-                            location = new MapCoordinate(X: locationX, Y: locationY, MapLevel: locationMapLevel);
+                            var coordinate101 = GroupControl.Group.Productions.GetProductions(0).Control.GetLocation();
+                            sbyte locationX = coordinate101.X;
+                            sbyte locationY = coordinate101.Y;
+                            sbyte locationMapLevel = coordinate101.MapLevel;
+                            location = new MapCoordinate(locationX, locationY, locationMapLevel);
                             GroupControl.SetupME();
                             GroupControl.ExecuteME(location.X, location.Y, location.MapLevel);
                             result = true;

@@ -80,7 +80,7 @@ public sealed class OwnershipTroopTests
         Assert.Empty(army.Units);
         Assert.Same(units, troop.UnitHolder);
         Assert.Equal("units", Kind(((IOwned<TroopOwner>)troop).Owner));
-        Assert.Throws<InvalidCastException>(() => troop.ArmyOwner);
+        Assert.Null(troop.ArmyOwner);
         troop.SetOwner(army);
 
         // A hero list holds references: the hero joins it ownerless, and the list owns it only
@@ -198,7 +198,7 @@ public sealed class OwnershipTroopTests
         Assert.Same(list, troop.UnitHolder);
         Assert.Equal("users", Kind(((IOwned<TroopOwner>)troop).Owner));
         Assert.Same(list, troop.OwnerUnits.Holder);
-        Assert.Throws<InvalidCastException>(() => troop.ArmyOwner);
+        Assert.Null(troop.ArmyOwner);
         list.Clear();
         Assert.Empty(list.Units);
         Assert.Same(list, troop.Owner);

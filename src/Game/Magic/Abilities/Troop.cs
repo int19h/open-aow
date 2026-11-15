@@ -568,7 +568,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             morale = GetRelationValue(player, independentRelation);
             if (race != -1)
             {
-                GetLocation(out hexX, out hexY, out hexLevel);
+                var coordinate45 = GetLocation();
+                hexX = coordinate45.X;
+                hexY = coordinate45.Y;
+                hexLevel = coordinate45.MapLevel;
                 if (hexX != -1)
                 {
                     rawTerrain = (byte)StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType;
@@ -980,9 +983,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
     }
 
-    // A hero list or a hero library is not an army or a unit list. Callers treat that owner as
-    // absent. A unit list or a unit user list fails the cast.
-    internal Army ArmyOwner => Owner is IHeroHolder ? null : (Army)Owner;
+    // The army this troop stands in, or null for every other owner: a hero list, a hero
+    // library, a unit list, a unit user list, or no owner. The troop admits all of those owners,
+    // so the read cannot cast. Callers treat a missing army as absent.
+    internal Army ArmyOwner => Owner as Army;
 
     // The army or unit list that holds this troop, or null for a hero list or no owner.
     internal IUnitHolder UnitHolder => Owner as IUnitHolder;
@@ -992,18 +996,14 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     internal UnitCollection OwnerUnits => UnitHolder?.Units ?? default;
 
     // Unit.PAS:189
-    public void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
+    public MapCoordinate GetLocation()
     {
         if (UnitHolder is { } holder)
         {
-            holder.GetLocation(out hexX, out hexY, out hexLevel);
+            return holder.GetLocation();
         }
-        else
-        {
-            hexX = -1;
-            hexY = -1;
-            hexLevel = -1;
-        }
+
+        return MapCoordinate.None;
     }
 
     // Unit.PAS:231
@@ -1419,7 +1419,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sbyte hexY = default;
         sbyte hexLevel = default;
         MapField mapField;
-        GetLocation(out hexX, out hexY, out hexLevel);
+        var coordinate46 = GetLocation();
+        hexX = coordinate46.X;
+        hexY = coordinate46.Y;
+        hexLevel = coordinate46.MapLevel;
         if (hexX != -1)
         {
             mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1669,7 +1672,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sbyte hexLevel = default;
         MapField field;
         FrozenWaterHexSprite ice;
-        GetLocation(out hexX, out hexY, out hexLevel);
+        var coordinate47 = GetLocation();
+        hexX = coordinate47.X;
+        hexY = coordinate47.Y;
+        hexLevel = coordinate47.MapLevel;
         if (hexX > -1)
         {
             field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -1748,7 +1754,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         doubleDamage = GetAbilityEnabled(23);
         if (!doubleDamage && moves.Contains(MoveType.Flying))
         {
-            GetLocation(out hexX, out hexY, out hexLevel);
+            var coordinate48 = GetLocation();
+            hexX = coordinate48.X;
+            hexY = coordinate48.Y;
+            hexLevel = coordinate48.MapLevel;
             if (hexX != -1)
             {
                 field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
@@ -2009,7 +2018,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             result = 4;
         }
 
-        GetLocation(out hexX, out hexY, out hexLevel);
+        var coordinate49 = GetLocation();
+        hexX = coordinate49.X;
+        hexY = coordinate49.Y;
+        hexLevel = coordinate49.MapLevel;
         if (hexLevel != 0 && !GetAbilityEnabled(39) || hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
         {
             result = (int)(((uint)(result + 1)) >> 1);

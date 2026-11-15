@@ -712,9 +712,7 @@
       "id": 131815,
       "properties": [
         {"name": "Dimensions", "id": 10, "codec": "record", "record": "Rect", "size": 16},
-        {"name": "HexX", "id": 11, "codec": "u8"},
-        {"name": "HexY", "id": 12, "codec": "u8"},
-        {"name": "HexLevel", "id": 13, "codec": "u8"},
+        {"name": "Location", "id": 11, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 11}, {"name": "Y", "id": 12}, {"name": "MapLevel", "id": 13}] },
         {"name": "FrameCounter", "id": 14, "codec": "i32"}
       ]
     },
@@ -1021,12 +1019,8 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Player", "id": 4, "codec": "u8"},
-        {"name": "X", "id": 5, "codec": "u8"},
-        {"name": "Y", "id": 6, "codec": "u8"},
-        {"name": "MapLevel", "id": 7, "codec": "u8"},
-        {"name": "DestinationX", "id": 8, "codec": "u8"},
-        {"name": "DestinationY", "id": 9, "codec": "u8"},
-        {"name": "DestinationMapLevel", "id": 10, "codec": "u8"},
+        {"name": "Location", "id": 5, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 5}, {"name": "Y", "id": 6}, {"name": "MapLevel", "id": 7}] },
+        {"name": "Destination", "id": 8, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 8}, {"name": "Y", "id": 9}, {"name": "MapLevel", "id": 10}] },
         {"name": "UserMode", "id": 13, "codec": "set", "set": "ArmyUserModeElement", "width": 1},
         {"name": "OldAIBehavior", "id": 11, "codec": "enum", "enum": "GroupBehavior", "width": 1, "signed": false},
         {"name": "Mode", "id": 12, "codec": "set", "set": "ArmyModeElement", "width": 1}
@@ -1509,9 +1503,7 @@
       "id": 131346,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "HexX", "id": 20, "codec": "i32"},
-        {"name": "HexY", "id": 21, "codec": "i32"},
-        {"name": "HexLevel", "id": 22, "codec": "i32"},
+        {"name": "Location", "id": 20, "codec": "coordinate", "width": 4, "parts": [{"name": "X", "id": 20}, {"name": "Y", "id": 21}, {"name": "MapLevel", "id": 22}] },
         {"name": "CityName", "id": 23, "codec": "string"}
       ]
     },
@@ -1603,9 +1595,7 @@
       "id": 131747,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "X", "id": 10, "codec": "i32"},
-        {"name": "Y", "id": 11, "codec": "i32"},
-        {"name": "MapLevel", "id": 12, "codec": "i32"},
+        {"name": "Location", "id": 10, "codec": "coordinate", "width": 4, "parts": [{"name": "X", "id": 10}, {"name": "Y", "id": 11}, {"name": "MapLevel", "id": 12}] },
         {"name": "ImmunityTypes", "id": 13, "codec": "set", "set": "DamageType", "width": 2},
         {"name": "AttackerPlayer", "id": 14, "codec": "u8"},
         {"name": "DefenderPlayer", "id": 15, "codec": "u8"},
@@ -1615,9 +1605,7 @@
         {"name": "CombatObjects", "id": 19, "codec": "object", "class": "ENode"},
         {"name": "Parties", "id": 20, "codec": "object", "class": "CombatPartyList"},
         {"name": "Header", "id": 21, "codec": "string"},
-        {"name": "AttackerX", "id": 22, "codec": "i32"},
-        {"name": "AttackerY", "id": 23, "codec": "i32"},
-        {"name": "AttackerMapLevel", "id": 24, "codec": "i32"},
+        {"name": "AttackerLocation", "id": 22, "codec": "coordinate", "width": 4, "parts": [{"name": "X", "id": 22}, {"name": "Y", "id": 23}, {"name": "MapLevel", "id": 24}] },
         {"name": "DefeatedLeaders", "id": 25, "codec": "byte-list", "domain": "combat-player"},
         {"name": "TurnOrder", "id": 26, "codec": "byte-list", "domain": "combat-player"},
         {"name": "WallType", "id": 27, "codec": "u8", "raw": true},
@@ -1779,9 +1767,7 @@
       "id": 131746,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "X", "id": 11, "codec": "i32"},
-        {"name": "Y", "id": 12, "codec": "i32"},
-        {"name": "MapLevel", "id": 13, "codec": "i32"},
+        {"name": "Location", "id": 11, "codec": "coordinate", "width": 4, "parts": [{"name": "X", "id": 11}, {"name": "Y", "id": 12}, {"name": "MapLevel", "id": 13}] },
         {"name": "PlayerIndex", "id": 14, "codec": "u8"},
         {"name": "Wall", "id": 15, "codec": "u8", "raw": true},
         {"name": "Position", "id": 16, "codec": "u8"}
@@ -4155,9 +4141,7 @@
       "id": 131816,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "HexX", "id": 20, "codec": "u8"},
-        {"name": "HexY", "id": 21, "codec": "u8"},
-        {"name": "HexLevel", "id": 22, "codec": "u8"}
+        {"name": "Location", "id": 20, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 20}, {"name": "Y", "id": 21}, {"name": "MapLevel", "id": 22}] }
       ]
     },
     {
@@ -4363,14 +4347,10 @@
       "properties": [
         {"name": "UnitIds", "id": 30, "codec": "int-list", "domain": "unit-id"},
         {"name": "Player", "id": 31, "codec": "u8"},
-        {"name": "TargetX", "id": 32, "codec": "u8"},
-        {"name": "TargetY", "id": 33, "codec": "u8"},
-        {"name": "TargetMapLevel", "id": 34, "codec": "u8"},
+        {"name": "Target", "id": 32, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 32}, {"name": "Y", "id": 33}, {"name": "MapLevel", "id": 34}] },
         {"name": "TargetPlayer", "id": 35, "codec": "u8"},
         {"name": "Mode", "id": 36, "codec": "set", "set": "ArmyMoveModeElement", "width": 1},
-        {"name": "DestinationX", "id": 37, "codec": "u8"},
-        {"name": "DestinationY", "id": 38, "codec": "u8"},
-        {"name": "DestinationMapLevel", "id": 39, "codec": "u8"}
+        {"name": "Destination", "id": 37, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 37}, {"name": "Y", "id": 38}, {"name": "MapLevel", "id": 39}] }
       ]
     },
     {
@@ -4504,9 +4484,7 @@
       "parent": "JoinEventLog",
       "id": 131814,
       "properties": [
-        {"name": "X", "id": 40, "codec": "u8"},
-        {"name": "Y", "id": 41, "codec": "u8"},
-        {"name": "MapLevel", "id": 42, "codec": "u8"},
+        {"name": "Hex", "id": 40, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 40}, {"name": "Y", "id": 41}, {"name": "MapLevel", "id": 42}] },
         {"name": "Object", "id": 43, "codec": "enum", "enum": "NegotiateObject", "width": 1, "signed": false},
         {"name": "Data1", "id": 44, "codec": "i32"},
         {"name": "Data2", "id": 45, "codec": "i32"},
@@ -4521,9 +4499,7 @@
       "properties": [
         {"name": "Gold", "id": 30, "codec": "i32"},
         {"name": "Offer", "id": 31, "codec": "enum", "enum": "NegotiateTokenEvent.NegotiateOffer", "width": 1, "signed": false},
-        {"name": "X", "id": 32, "codec": "u8"},
-        {"name": "Y", "id": 33, "codec": "u8"},
-        {"name": "MapLevel", "id": 34, "codec": "u8"},
+        {"name": "Location", "id": 32, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 32}, {"name": "Y", "id": 33}, {"name": "MapLevel", "id": 34}] },
         {"name": "Player", "id": 35, "codec": "u8"},
         {"name": "OwnerPlayer", "id": 36, "codec": "u8"},
         {"name": "Object", "id": 37, "codec": "enum", "enum": "NegotiateObject", "width": 1, "signed": false},
@@ -4727,9 +4703,7 @@
         {"name": "Gems", "id": 16, "codec": "i32"},
         {"name": "PlayerIndex", "id": 18, "codec": "u8"},
         {"name": "Leader", "id": 19, "codec": "created", "family": "Leader"},
-        {"name": "ViewX", "id": 20, "codec": "u8"},
-        {"name": "ViewY", "id": 21, "codec": "u8"},
-        {"name": "ViewMapLevel", "id": 22, "codec": "u8"},
+        {"name": "View", "id": 20, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 20}, {"name": "Y", "id": 21}, {"name": "MapLevel", "id": 22}] },
         {"name": "EventLogbook", "id": 23, "codec": "object", "class": "EventLogbook"},
         {"name": "Password", "id": 24, "codec": "string"},
         {"name": "GameOverStatus", "id": 25, "codec": "enum", "enum": "GameOverStatus", "width": 1, "signed": false},
@@ -5175,9 +5149,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Command", "id": 20, "codec": "i32"},
-        {"name": "X", "id": 21, "codec": "u8"},
-        {"name": "Y", "id": 22, "codec": "u8"},
-        {"name": "MapLevel", "id": 23, "codec": "u8"},
+        {"name": "Location", "id": 21, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 21}, {"name": "Y", "id": 22}, {"name": "MapLevel", "id": 23}] },
         {"name": "Player", "id": 24, "codec": "u8"},
         {"name": "Item", "id": 25, "codec": "created", "family": "ProductionItem"},
         {"name": "Index", "id": 26, "codec": "i32"},
@@ -5913,9 +5885,7 @@
       "id": 135937,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "X", "id": 20, "codec": "u8"},
-        {"name": "Y", "id": 21, "codec": "u8"},
-        {"name": "MapLevel", "id": 22, "codec": "u8"}
+        {"name": "Location", "id": 20, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 20}, {"name": "Y", "id": 21}, {"name": "MapLevel", "id": 22}] }
       ]
     },
     {
@@ -6009,9 +5979,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Action", "id": 15, "codec": "i32"},
-        {"name": "X", "id": 16, "codec": "u8"},
-        {"name": "Y", "id": 17, "codec": "u8"},
-        {"name": "MapLevel", "id": 18, "codec": "u8"},
+        {"name": "Location", "id": 16, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 16}, {"name": "Y", "id": 17}, {"name": "MapLevel", "id": 18}] },
         {"name": "Player", "id": 19, "codec": "u8"},
         {"name": "StructureClassId", "id": 20, "codec": "i32"},
         {"name": "Razed", "id": 21, "codec": "bool"},
@@ -6214,9 +6182,7 @@
       "id": 131332,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "DestinationX", "id": 7, "codec": "u8"},
-        {"name": "DestinationY", "id": 8, "codec": "u8"},
-        {"name": "DestinationMapLevel", "id": 9, "codec": "u8"},
+        {"name": "Destination", "id": 7, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 7}, {"name": "Y", "id": 8}, {"name": "MapLevel", "id": 9}] },
         {"name": "State", "id": 10, "codec": "set", "set": "Teleport.StateElement", "width": 1}
       ]
     },
@@ -6785,9 +6751,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Text", "id": 15, "codec": "strings"},
-        {"name": "HexX", "id": 16, "codec": "u8"},
-        {"name": "HexY", "id": 17, "codec": "u8"},
-        {"name": "HexLevel", "id": 18, "codec": "u8"}
+        {"name": "Location", "id": 16, "codec": "coordinate", "width": 1, "parts": [{"name": "X", "id": 16}, {"name": "Y", "id": 17}, {"name": "MapLevel", "id": 18}] }
       ]
     },
     {
