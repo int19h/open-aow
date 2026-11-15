@@ -642,7 +642,7 @@ public partial class Battle : EngineObject
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                armyHexSprite = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (armyHexSprite != null)
                 {
                     if (walk.HexNumber != 0)
@@ -846,7 +846,7 @@ public partial class Battle : EngineObject
         {
             ExplorationSite = 2;
             AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
-            armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).FindOwnedChild(131607);
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null)
             {
                 AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.Location.X, data.Location.Y, data.Location.MapLevel);

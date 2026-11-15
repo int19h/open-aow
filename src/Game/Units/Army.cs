@@ -852,7 +852,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
         l = coordinate26.MapLevel;
         if (x != -1)
         {
-            result = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild(131607);
+            result = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
         }
         else
         {

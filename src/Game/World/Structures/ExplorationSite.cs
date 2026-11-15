@@ -194,7 +194,7 @@ public partial class ExplorationSite : Structure
         Battle combat;
         sbyte player;
         CombatEventLog eventValue;
-        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
             player = armyHexSprite.Army.Player;
@@ -273,7 +273,7 @@ public partial class ExplorationSite : Structure
         ArmyHexSprite armyHexSprite = default;
         CombatTypeRequestEventLog request = default;
         StructureTokenEvent tokenEvent = default;
-        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
             var playerList = StrategicMap.Current.Players;
@@ -368,7 +368,7 @@ public partial class ExplorationSite : Structure
         ArmyHexSprite armyHexSprite;
         if (!GetExplored())
         {
-            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            armyHexSprite = Owner.GetArmyHexSprite();
             if (armyHexSprite == null || armyHexSprite.Army.Player != player)
             {
                 result = false;

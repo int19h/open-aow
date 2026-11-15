@@ -26,7 +26,7 @@ public sealed class TacticalBattleWallCastTests
     {
         var ai = new BattleAI(EngineFixture.Engine);
         var settings = new CombatMoveControlSettings(null!) { Holder = EngineFixture.Engine };
-        PathStepList path = new MovePath();
+        MovePath path = new MovePath();
         int value = 7;
         var combat = new TacticalBattle(null!) { Holder = EngineFixture.Engine };
         var objects = combat.CombatData.CombatObjects;

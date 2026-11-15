@@ -272,7 +272,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         ArmyHexSprite armyHexSprite;
         if (PoisonPlantActive())
         {
-            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            armyHexSprite = Owner.GetArmyHexSprite();
             if (armyHexSprite != null && player == armyHexSprite.Army.Player)
             {
                 TriggerArmyDamage(armyHexSprite);

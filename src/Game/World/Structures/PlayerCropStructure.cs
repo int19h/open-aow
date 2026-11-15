@@ -185,7 +185,7 @@ public partial class PlayerCropStructure : PlayerStructure
         HexSprite hexSprite;
         if (!GetRazed())
         {
-            army = (ArmyHexSprite)field.FindOwnedChild(131607);
+            army = field.GetArmyHexSprite();
             result = army == null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, Player) != DiplomaticRelation.War;
             if (result)
             {

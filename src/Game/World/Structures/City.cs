@@ -1104,7 +1104,7 @@ public partial class City : PlayerCropStructure
             {
                 if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (army != null)
                     {
                         if (player == -1)
@@ -1617,7 +1617,7 @@ public partial class City : PlayerCropStructure
         {
             if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army != null && (!selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || army.Army.Player != Player))
                 {
                     result = army.Place(mapLevel: GetHexLevel(), x: (sbyte)walk.X, y: (sbyte)walk.Y, mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
@@ -1651,7 +1651,7 @@ public partial class City : PlayerCropStructure
         {
             if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army != null)
                 {
                     result += army.Army.ObtainValue(255);
