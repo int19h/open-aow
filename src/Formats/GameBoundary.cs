@@ -280,9 +280,7 @@ public static class GameBoundary
         var schema = FormatSchema.Current;
         var profile = use.Profile;
         var classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
-        var context = new EncodeContext(schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
-        var rootImage = OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
-        return profile.WrapRootImage(rootImage, classValue: classValue, context: context);
+        return profile.WrapRootImage(context: new EncodeContext(schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine), classValue: classValue);
     }
 
     /// <summary>
@@ -311,9 +309,7 @@ public static class GameBoundary
         var schema = FormatSchema.Current;
         var profile = WrittenObject(className, classTable: classTable);
         var classValue = schema.Get(className);
-        var context = new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
-        var rootImage = OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable);
-        return profile.WrapRootImage(rootImage, classValue: classValue, context: context);
+        return profile.WrapRootImage(context: new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable), classValue: classValue);
     }
 
     private static WrittenObjectProfile WrittenObject(string className, string classTable) =>
@@ -359,8 +355,7 @@ public static class GameBoundary
     /// </summary>
     public static int ReadPacketClassId(byte[] image)
     {
-        var schema = FormatSchema.Current;
-        var context = new DecodeContext(image, schema: schema, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var context = new DecodeContext(schema: FormatSchema.Current, data: image, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         var table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
         if (table.Entries.Count == 0) return 0;
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
@@ -376,8 +371,7 @@ public static class GameBoundary
     {
         var schema = FormatSchema.Current;
         var classValue = schema.Get(className);
-        string classTable = PacketClassTable(classValue);
-        var context = new DecodeContext(image, schema: schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        var context = new DecodeContext(engine: PacketClassTable(classValue), data: image, schema: schema, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         if (context.Int32(start) == 0)

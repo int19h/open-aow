@@ -53,11 +53,8 @@ public sealed class MapShapeTests : FormatsTest
     [Fact]
     public void TheSpritesOfAFieldAreStoredAtIdsFromFifty()
     {
-        var classValue = Schema.Get("MapLevel");
-        var tree = TreeWriter.Write(Level(width: 1, height: 1, spritesPerField: [3]), s_factory);
-        var image = OriginalBackend.Write(tree, classValue, Schema, "game");
         // The field image is the value of id 6: its 32-bit length, then its table.
-        var field = FieldImage(image);
+        var field = FieldImage(OriginalBackend.Write(classValue: Schema.Get("MapLevel"), node: TreeWriter.Write(Level(width: 1, height: 1, spritesPerField: [3]), s_factory), schema: Schema, engine: "game"));
         Assert.Equal(4, field[0]);
         Assert.Equal([50, 51, 52, 4], new[] { field[1], field[3], field[5], field[7] });
     }
@@ -75,8 +72,7 @@ public sealed class MapShapeTests : FormatsTest
         TreeReader.Read(OriginalBackend.Read(image, classValue, Schema, "game"), loaded, s_factory);
         Assert.Empty(loaded.Fields);
         var untouched = Level(width: 1, height: 1, spritesPerField: [1]);
-        var absent = (JsonObject)JsonReader.Parse("""{"Width":1,"Height":1}"""u8, "map.json");
-        TreeReader.Read(DocumentBackend.Read(absent, classValue, Schema, "game"), untouched, s_factory);
+        TreeReader.Read(DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Width":1,"Height":1}"""u8, "map.json"), classValue: classValue, schema: Schema, engine: "game"), untouched, s_factory);
         Assert.Single(untouched.Fields[0].Sprites);
         Assert.Equal(0, untouched.Visited);
     }
@@ -287,11 +283,10 @@ public sealed class MapShapeTests : FormatsTest
     {
         var container = new JsonObject().Add("profile", new JsonString("world-hsm")).Add("compression", new JsonString(compression));
         if (compression == "cfs") container.Add("level", new JsonInteger(level));
-        var root = new JsonObject()
+        return GameFiles.Export(Envelope(root: new JsonObject()
             .Add("$class", new JsonString("StrategicMap"))
             .Add("Author", new JsonString("Fixture author"))
-            .Add("Description", new JsonArray().Add(new JsonString("A nested map")).Add(new JsonString("of a campaign save")));
-        return GameFiles.Export(Envelope("map", container, root)).Bytes;
+            .Add("Description", new JsonArray().Add(new JsonString("A nested map")).Add(new JsonString("of a campaign save"))), kind: "map", container: container)).Bytes;
     }
 
     private static byte[] Payload(byte[] file) => Cfs.HasMagic(file) ? file[5..] : file;

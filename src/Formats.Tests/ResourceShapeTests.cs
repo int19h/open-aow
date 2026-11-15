@@ -255,8 +255,7 @@ public sealed class ResourceShapeTests : FormatsTest
         var holder = new AbilitySlots();
         holder.Abilities[0].SkillPointCost = 5;
         holder.Abilities[3].SkillPointCost = -1;
-        var tree = TreeWriter.Write(holder, s_factory);
-        var document = BothBackends("AbilityControl", tree);
+        var document = BothBackends(node: TreeWriter.Write(holder, s_factory), className: "AbilityControl");
         Assert.Equal("""[{"$slot":0,"SkillPointCost":5},{"$slot":3,"SkillPointCost":-1}]""", Compact(document["Abilities"]!));
 
         // A slot no object asks for stays unread, and an object whose slot is absent keeps its state.
