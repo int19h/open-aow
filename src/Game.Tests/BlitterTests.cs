@@ -446,8 +446,7 @@ public sealed class BlitterTests
                 }
                 else { words.Add((ushort)(1 + random.Next(0xFFFF))); x++; }
             }
-            int length = 4 + words.Count * 2;
-            data.AddRange(BitConverter.GetBytes(length));
+            data.AddRange(BitConverter.GetBytes(4 + words.Count * 2));
             foreach (ushort word in words) data.AddRange(BitConverter.GetBytes(word));
             while ((data.Count & 3) != 0) data.Add(0xCC);
         }
@@ -485,8 +484,7 @@ public sealed class BlitterTests
                 if (random.Next(3) != 0)
                 {
                     int at = y * words * 4 + (x >> 5) * 4;
-                    uint bits = BinaryPrimitives.ReadUInt32LittleEndian(data.AsSpan(at)) | (0x80000000u >> (x & 31));
-                    BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan(at), bits);
+                    BinaryPrimitives.WriteUInt32LittleEndian(value: BinaryPrimitives.ReadUInt32LittleEndian(data.AsSpan(at)) | (0x80000000u >> (x & 31)), destination: data.AsSpan(at));
                 }
         return data;
     }

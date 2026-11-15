@@ -30,7 +30,7 @@ public sealed class StringNullTests
             () => Cp1252.Encode(null), () => Cp1252.Normalize(null),
             () => Cp1252.Compare(null, ""), () => Cp1252.Compare("", null),
             () => Cp1252.Comparer.Compare(null, ""), () => Cp1252.Comparer.Compare("", null),
-            () => { string value = Cp1252.Normalize((string?)null); Assert.Equal("", value); },
+            () => { Assert.Equal(actual: Cp1252.Normalize((string?)null), expected: ""); },
             () => { FormatArg value = (string?)null; Assert.True(value is string text && text.Length == 0); },
             () => RtlUnit.Length((string?)null), () => RtlUnit.IsEmpty(null),
             () => RtlUnit.Copy((string?)null, 1, 1), () => RtlUnit.Delete((string?)null, 1, 1),

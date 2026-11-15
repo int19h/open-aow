@@ -75,8 +75,7 @@ public sealed class CombatMapConstructionTests
                             ["DestroyEntries"] = destroyEntries,
                             ["FieldGraph"] = failure == 0 ? JsonNode.Parse(OrderingRecording.Snapshot(value!)) : null
                         };
-                        string key = $"failure{failure}.owner{owned}.route{route}";
-                        actual.Add(key, record);
+                        actual.Add($"failure{failure}.owner{owned}.route{route}", value: record);
                         if (failure == 0)
                         {
                             Assert.Same(value, published);

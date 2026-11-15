@@ -43,11 +43,11 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
     public void CreateUnitGraphicsSelectionList(StringCollection list)
     {
         list.Clear();
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                list.AddObject(this[I].Name, IntToObject(I));
+                list.AddObject(this[i].Name, IntToObject(i));
             }
         }
     }

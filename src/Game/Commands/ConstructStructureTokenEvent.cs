@@ -48,9 +48,9 @@ public partial class ConstructStructureTokenEvent : TokenEvent
         int gold = default;
         int days = default;
         ObservableNode owner;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         MapLevel level;
         HexNumberWalkData walk = default;
         ExecuteResult result = ExecuteResult.DoneHalt;
@@ -62,14 +62,14 @@ public partial class ConstructStructureTokenEvent : TokenEvent
             resource = control.StructureResource(troop);
             if (resource != null)
             {
-                troop.GetLocation(out X, out Y, out L);
-                level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+                troop.GetLocation(out x, out y, out l);
+                level = StrategicMap.Current.MapContainer.GetMapLevel(l);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
                     {
-                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L, 0, -1);
+                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, l, 0, -1);
                     }
 
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -78,7 +78,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                 bool locked = troop.Owner is not IHeroHolder;
                 owner = locked ? troop.OwnerUnits.Holder : null;
                 using var batch = locked ? owner.BeginUpdate() : default;
-                structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L);
+                structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, x, y, l);
                 if (structure != null)
                 {
                     control.GetInfo(troop, out text, out gold, out days);

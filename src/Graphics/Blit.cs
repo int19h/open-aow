@@ -59,7 +59,7 @@ public static partial class Blit
             uint first = Dword(source, si + offset), second = Dword(source, si + offset + 4);
             Dword(destination, di + offset, first); Dword(destination, di + offset + 4, second); offset += 8;
         }
-        if ((words & 1) != 0) { uint value = Dword(source, si + offset); Dword(destination, di + offset, value); offset += 4; }
+        if ((words & 1) != 0) { Dword(value: Dword(source, si + offset), d: destination, offset: di + offset); offset += 4; }
         for (int i = 0; i < tail; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
     }
 
@@ -85,7 +85,7 @@ public static partial class Blit
             {
                 int offset = 0;
                 for (int i = 0; i < head; i++) { byte value = s.Memory[si + offset]; d.Memory[di + offset++] = value; }
-                for (int i = 0; i < words; i++) { uint value = Dword(s.Memory, si + offset); Dword(d.Memory, di + offset, value); offset += 4; }
+                for (int i = 0; i < words; i++) { Dword(value: Dword(s.Memory, si + offset), d: d.Memory, offset: di + offset); offset += 4; }
                 for (int i = 0; i < tail; i++) { byte value = s.Memory[si + offset]; d.Memory[di + offset++] = value; }
             }
         }

@@ -45,9 +45,8 @@ public sealed partial class PersistEquivalenceTests
     public void AProductionItemDropsAFieldItsCaseDoesNotKeepOnBothLoads()
     {
         var classValue = s_schema.Get("ProductionItem");
-        var document = new JsonObject().Add("$case", new JsonString("Unknown")).Add("Kind", new JsonInteger(99))
-            .Add("Parameter", new JsonInteger(6)).Add("GroupId", new JsonInteger(3));
-        var image = PilotImage.Encode(document, "ProductionItem");
+        var image = PilotImage.Encode(new JsonObject().Add("$case", new JsonString("Unknown")).Add("Kind", new JsonInteger(99))
+            .Add("Parameter", new JsonInteger(6)).Add("GroupId", new JsonInteger(3)), className: "ProductionItem");
         using var viaReadWrite = new ProductionItem(null!) { Holder = EngineFixture.Engine };
         using var viaPersist = new ProductionItem(null!) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
@@ -103,8 +102,7 @@ public sealed partial class PersistEquivalenceTests
         var classValue = s_schema.Get("GameMap");
         var tree = TreeWriter.Write(map, Factory);
         Assert.Equal([6], ChildSlots(tree));
-        var image = OriginalBackend.Write(tree, classValue, s_schema, "game");
-        var read = OriginalBackend.Read(image, classValue, s_schema, "game");
+        var read = OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, "game"), classValue: classValue, schema: s_schema, engine: "game");
         Assert.Equal([6], ChildSlots(read));
         Assert.Equal([6], ChildSlots(DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game")));
         using var loaded = new GameMap(null!) { Holder = EngineFixture.Engine };

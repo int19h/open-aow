@@ -16,7 +16,7 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
     // AIGroup.pas:4978
     public override void CalculateMoves()
     {
-        int I;
+        int i;
         AIMoveExecutorArmyList armies;
         AIMoveExecutorMove move;
         byte moveResult = default;
@@ -81,34 +81,34 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                 armies?.Dispose();
                 break;
             case 1:
-                I = 0;
+                i = 0;
                 cannotMove = true;
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                while (cannotMove && I != armies.Count)
+                while (cannotMove && i != armies.Count)
                 {
-                    move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
+                    move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
                     cannotMove = moveResult != 0;
                     if (move != null)
                     {
                         move?.Dispose();
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
                 if (cannotMove)
                 {
-                    I = 0;
+                    i = 0;
                     move = null;
-                    while (move == null && I != armies.Count)
+                    while (move == null && i != armies.Count)
                     {
-                        move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
+                        move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
                         if (move != null)
                         {
                             Executor.ExecuteMoves();
                         }
 
-                        I += 1;
+                        i += 1;
                     }
                 }
 

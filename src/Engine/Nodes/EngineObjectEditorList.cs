@@ -28,16 +28,16 @@ public partial class EngineObjectEditorList
     public EditorClass FindEditor(int classId)
     {
         EditorClass result;
-        int I;
-        I = 0;
-        while (I != Count && classId != _list[I].EditorClassId)
+        int i;
+        i = 0;
+        while (i != Count && classId != _list[i].EditorClassId)
         {
-            I += 1;
+            i += 1;
         }
 
-        if (I != Count)
+        if (i != Count)
         {
-            result = _list[I];
+            result = _list[i];
         }
         else
         {

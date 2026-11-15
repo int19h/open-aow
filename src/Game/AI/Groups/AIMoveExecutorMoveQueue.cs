@@ -29,9 +29,9 @@ public partial class AIMoveExecutorMoveQueue : OwningNode, IChildList<AIMoveExec
     // AIGroup.pas:4513
     public void Reset()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            this[I].SetStatus(255, AIMoveExecutorUnitStatus.Ready);
+            this[i].SetStatus(255, AIMoveExecutorUnitStatus.Ready);
         }
 
         Clear();

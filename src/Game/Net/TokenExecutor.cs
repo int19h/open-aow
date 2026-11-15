@@ -256,19 +256,19 @@ public partial class TokenExecutor : IDisposable
     // { The next active token control after the current one; a wrap starts the next round }
     public void ActivateNextTacticalBattle()
     {
-        int N;
-        N = 0;
+        int n;
+        n = 0;
         while (true)
         {
             _activeTacticalBattleIndex += 1;
-            N += 1;
+            n += 1;
             if (TacticalBattleList.Count <= _activeTacticalBattleIndex)
             {
                 _activeTacticalBattleIndex = 0;
                 _round += 1;
             }
 
-            if ((TacticalBattleList[_activeTacticalBattleIndex]).Active || N > TacticalBattleList.Count)
+            if ((TacticalBattleList[_activeTacticalBattleIndex]).Active || n > TacticalBattleList.Count)
                 break;
         }
 
@@ -298,7 +298,7 @@ public partial class TokenExecutor : IDisposable
     public bool ProcessSystemTokenEvents()
     {
         bool result;
-        ExecuteResult R;
+        ExecuteResult r;
         if (!_state.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
         {
             if (SystemEvents[0].TokenCounter == -1)
@@ -307,8 +307,8 @@ public partial class TokenExecutor : IDisposable
                 SystemEvents[0].TokenCounter = _tokenCounter;
             }
 
-            R = ExecuteTokenEvent(SystemEvents[0]);
-            if (R == ExecuteResult.Done || R == ExecuteResult.DoneHalt)
+            r = ExecuteTokenEvent(SystemEvents[0]);
+            if (r == ExecuteResult.Done || r == ExecuteResult.DoneHalt)
             {
                 SystemEvents.Delete(0);
                 _tokenCounter += 1;
@@ -336,15 +336,15 @@ public partial class TokenExecutor : IDisposable
     //   control, for at most one round of token controls }
     public void Process()
     {
-        int I;
+        int i;
         bool prefetched;
-        ExecuteResult R;
+        ExecuteResult r;
         if (_activeTacticalBattle != null && !ProcessSystemTokenEvents())
         {
-            I = 0;
+            i = 0;
             prefetched = true;
-            R = ExecuteResult.Done;
-            while (_lockCount == 0 && prefetched == true && R == ExecuteResult.Done && I < TacticalBattleList.Count)
+            r = ExecuteResult.Done;
+            while (_lockCount == 0 && prefetched == true && r == ExecuteResult.Done && i < TacticalBattleList.Count)
             {
                 if (!_state.Contains(TokenExecutorState.Executing))
                 {
@@ -362,10 +362,10 @@ public partial class TokenExecutor : IDisposable
 
                 if (_state.Contains(TokenExecutorState.Executing))
                 {
-                    while (R == ExecuteResult.Done && Events.Count != 0)
+                    while (r == ExecuteResult.Done && Events.Count != 0)
                     {
-                        R = ExecuteTokenEvent(Events[0]);
-                        if (R == ExecuteResult.Done || R == ExecuteResult.DoneHalt)
+                        r = ExecuteTokenEvent(Events[0]);
+                        if (r == ExecuteResult.Done || r == ExecuteResult.DoneHalt)
                         {
                             Events.Delete(0);
                             _tokenCounter += 1;
@@ -384,7 +384,7 @@ public partial class TokenExecutor : IDisposable
 
                         _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
                         _prefetchTacticalBattle = null;
-                        I += 1;
+                        i += 1;
                     }
                 }
             }

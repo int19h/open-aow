@@ -76,8 +76,8 @@ public partial class EngineResource : EngineObject
     // Engine.pas:8525
     public virtual void Draw(Canvas canvas, Rect rectangle, Game.Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
-        Rect R = default;
-        LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref R);
+        Rect r = default;
+        LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref r);
     }
 
     public CustomNode ResourceList { get => _resourceList; set => _resourceList = value; }

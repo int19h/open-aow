@@ -97,11 +97,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             {
                 ArmyId.RetrieveArmy(ref army, ref selection);
                 exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null);
-                for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
+                for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                 {
-                    if ((selection & (1 << I)) != 0)
+                    if ((selection & (1 << i)) != 0)
                     {
-                        troopObject = army.Army.Units.GetUnit(I);
+                        troopObject = army.Army.Units.GetUnit(i);
                         switch (troopObject.GetUnitLevel())
                         {
                             case 1:
@@ -128,7 +128,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
                         if (chance < StrategicMap.Current.Random(100))
                         {
-                            selection = (byte)(selection & ~(1 << I));
+                            selection = (byte)(selection & ~(1 << i));
                         }
                     }
                 }
@@ -155,9 +155,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     log.ArmyMessages.Add(tornadoText);
                     log.ArmyIcon = 2;
                     log.ArmyView.Setup(army.Army, selection);
-                    var hexY = army.HexY;
-                    var hexX = army.HexX;
-                    EventLog.DistributeLocationEventLog(log, (sbyte)EventPlayerIndex, hexX, hexY, army.HexLevel, true);
+                    EventLog.DistributeLocationEventLog(y: army.HexY, x: army.HexX, log: log, player: (sbyte)EventPlayerIndex, level: army.HexLevel, execute: true);
                     log.Release();
                     location = ((Tornado)GamePack.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
                     if (location != MapCoordinate.None)
@@ -192,11 +190,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location);
                         if (army.Army.ValidateSelection(255) != selection)
                         {
-                            for (int I = army.Army.Units.Count - 1; I >= 0; I--)
+                            for (int i = army.Army.Units.Count - 1; i >= 0; i--)
                             {
-                                if ((selection & (1 << I)) != 0)
+                                if ((selection & (1 << i)) != 0)
                                 {
-                                    troopObject = army.Army.Units.GetUnit(I);
+                                    troopObject = army.Army.Units.GetUnit(i);
                                     movedUnits.AddUnit(troopObject);
                                     placed = troopObject.Place(location.X, location.Y, location.MapLevel, (sbyte)(byte)army.Army.Player, Set<UnitPlaceModeElement>.Of());
                                     if (placed != null)
@@ -244,8 +242,8 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         int pixelY = default;
         int xShift;
         int height;
-        int X;
-        int Y;
+        int x;
+        int y;
         float angle;
         int direction;
         int radius;
@@ -257,14 +255,14 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             pixelY -= pixelYSurface;
             _angle = this._angle + 20 + _animation.FrameCounter / 5;
             RandSeed = StrategicMap.Current.InitialRandomSeed;
-            for (int I = 0; I <= 200; I++)
+            for (int i = 0; i <= 200; i++)
             {
                 direction = Random(360);
-                if (animation.FrameCounter >= (int)(((uint)I) >> 2) && animation.FrameCounter <= (int)(((uint)I) >> 4) + 68)
+                if (animation.FrameCounter >= (int)(((uint)i) >> 2) && animation.FrameCounter <= (int)(((uint)i) >> 4) + 68)
                 {
-                    radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 7;
-                    height = 200 - I - 16;
-                    xShift = Round((double)((double)Math.Sin((double)((double)_animation.FrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
+                    radius = Round((double)((double)2.997 - Math.Log((double)((double)(i * 19) * 0.005) + 1)) * 35) + 7;
+                    height = 200 - i - 16;
+                    xShift = Round((double)((double)Math.Sin((double)((double)_animation.FrameCounter * 0.1) + (double)i * 0.02) * (200 - i)) * 0.25) + 16;
                     var pi = Math.PI;
                     angle = (float)((double)((double)(direction + _angle) * pi) / 180);
                     if (GetEngine().AnimationDetail == 0)
@@ -275,19 +273,19 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         if (GetEngine().AnimationDetail == 1)
                         {
-                            last = (int)(((uint)(200 - I)) >> 5);
+                            last = (int)(((uint)(200 - i)) >> 5);
                         }
                         else
                         {
-                            last = (int)(((uint)(200 - I)) >> 4);
+                            last = (int)(((uint)(200 - i)) >> 4);
                         }
                     }
 
                     for (int count = last; count >= 0; count--)
                     {
-                        X = Round((double)Math.Cos(angle) * radius) + xShift;
-                        Y = Round((double)((double)Math.Sin(angle) * radius) * 0.5) + height;
-                        GamePack.Current.SpellControl.GetSpell(68).CastImages.Show(0, pixelX + X, pixelY - Y, 0, lockedSurface);
+                        x = Round((double)Math.Cos(angle) * radius) + xShift;
+                        y = Round((double)((double)Math.Sin(angle) * radius) * 0.5) + height;
+                        GamePack.Current.SpellControl.GetSpell(68).CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

@@ -266,9 +266,7 @@ public sealed class UIConstructionTests
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
             states.Add("subscriptions:" + EngineFixture.Engine.OnHsmLoadedStore.Count + ":" + EngineFixture.Engine.OnHsmCloseStore.Count);
-            string actual = string.Join("\n", states);
-            string key = name + ".owner" + owned;
-            ConstructionSnapshot.Check("UiConstruction", key, actual);
+            ConstructionSnapshot.Check(actual: string.Join("\n", states), key: name + ".owner" + owned, name: "UiConstruction");
         }
     }
 }

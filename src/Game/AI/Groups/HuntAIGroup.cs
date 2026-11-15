@@ -42,14 +42,14 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
     // AIGroup.pas:1457
     public bool HuntingPlayer(sbyte player)
     {
-        int I;
+        int i;
         Troop troop;
         bool result = false;
-        I = TargetUnitIds.Count;
-        while (I != 0)
+        i = TargetUnitIds.Count;
+        while (i != 0)
         {
-            I -= 1;
-            troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[I]);
+            i -= 1;
+            troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
             result = troop != null && player == troop.Player;
         }

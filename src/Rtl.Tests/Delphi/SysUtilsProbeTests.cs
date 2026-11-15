@@ -49,9 +49,7 @@ public sealed class SysUtilsProbeTests
         }
         string report = differences.ToString().Replace("\r\n", "\n", StringComparison.Ordinal);
         output.WriteLine($"AnsiCompareText: {kinds.Values.Sum()} sign exceptions. {string.Join(", ", kinds.Select(k => $"{k.Key}={k.Value}"))}.");
-        // A checked-in list fixes the precise allowed order exceptions, including both directions.
-        string reportPath = Path.Combine(AppContext.BaseDirectory, "AnsiCompareText-order-exceptions.txt");
-        Assert.Equal(File.ReadAllText(reportPath).Replace("\r\n", "\n", StringComparison.Ordinal), report);
+        Assert.Equal(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "AnsiCompareText-order-exceptions.txt")).Replace("\r\n", "\n", StringComparison.Ordinal), report);
         probe.End();
     }
 

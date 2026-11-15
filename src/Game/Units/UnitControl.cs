@@ -51,9 +51,9 @@ public partial class UnitControl : EngineObject
     // Unit.PAS:24
     public void TriggerUnitsChanged()
     {
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int i = Units.Count - 1; i >= 0; i--)
         {
-            (Units[I]).Changed();
+            (Units[i]).Changed();
         }
     }
 

@@ -53,9 +53,9 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     public override MoveStatus LastMove()
     {
         Point3D point;
-        int I = default;
-        int X = default;
-        int Y = default;
+        int i = default;
+        int x = default;
+        int y = default;
         TacticalBattleUnitHexSprite hexSprite;
         MapFieldMessage message = default;
         MoveStatus result = MoveStatus.Moving;
@@ -248,10 +248,10 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         {
                                             if (TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] > 0)
                                             {
-                                                I = (TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6 + 1;
+                                                i = (TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6 + 1;
                                                 var path = Path[1];
-                                                HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, I, ref X, ref Y);
-                                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
+                                                HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
+                                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild(2228484);
                                                 if (hexSprite == null || hexSprite == Unit.UnitHexSprite)
                                                 {
                                                     PreviousUnit = null;
@@ -417,13 +417,13 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                                 message.MessageId = 200704;
                                                 message.Param[0] = Unit;
                                                 message.Result = -1;
-                                                I = 0;
-                                                for (; I <= 6; I += 1)
+                                                i = 0;
+                                                for (; i <= 6; i += 1)
                                                 {
                                                     var path = Path[1];
-                                                    HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, I, ref X, ref Y);
-                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
-                                                    EffectPaths.CreateFire(false, 50, X, Y, engine: GetEngine());
+                                                    HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
+                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
+                                                    EffectPaths.CreateFire(false, 50, x, y, engine: GetEngine());
                                                 }
 
                                                 Unit.DeathMethod = TacticalBattleUnitDeathMethod.Explode;
@@ -453,15 +453,15 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                             }
 
                             var hexY = Unit.UnitHexSprite.HexY;
-                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out I, out X);
+                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out i, out x);
                             if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
+                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
                             }
 
                             if (Strike.Effects != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
+                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
                             }
 
                             Step = TokenStep.ExecuteEndStrike;

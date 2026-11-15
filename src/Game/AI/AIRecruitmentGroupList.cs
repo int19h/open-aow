@@ -36,9 +36,9 @@ public partial class AIRecruitmentGroupList : ReferenceNode, IChildList<AIRecrui
     {
         string text;
         AIRecruitmentGroup group;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            group = GetRecruitmentGroups(I);
+            group = GetRecruitmentGroups(i);
             text = group.Group.GetType().Name + "(ID:" + IntToStr(group.Group.GroupId) + ")";
             text = text + "/Loc:(" + IntToStr(group.Location.X) + "," + IntToStr(group.Location.Y) + "," + IntToStr(group.Location.MapLevel) + ")";
             text = text + "/MP:" + IntToStr(group.MovePoints);
@@ -64,9 +64,9 @@ public partial class AIRecruitmentGroupList : ReferenceNode, IChildList<AIRecrui
     {
         AIRecruitmentGroup group;
         bool result = true;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            group = this[I];
+            group = this[i];
             if (!group.Validate(control))
             {
                 RemoveChild(group);

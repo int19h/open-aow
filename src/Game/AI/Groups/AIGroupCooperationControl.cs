@@ -66,21 +66,21 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:3017
     public override bool Process()
     {
-        int I;
+        int i;
         switch (State)
         {
             case 0:
                 StrategicMap.Current.AIExecutor.UseProcessTime(500);
                 _control.RecruitmentGroups.Validate(_control);
-                I = 0;
-                while (!Complete && I != _control.RecruitmentGroups.Count)
+                i = 0;
+                while (!Complete && i != _control.RecruitmentGroups.Count)
                 {
-                    if (ValidCooperationGroup(_control.RecruitmentGroups.GetRecruitmentGroups(I)))
+                    if (ValidCooperationGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i)))
                     {
-                        AddCooperationGroup(_control.RecruitmentGroups.GetRecruitmentGroups(I));
+                        AddCooperationGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i));
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
                 if ((Groups.Count != 0 && Mode == CooperationMode.AutoCooperate) || (Mode == CooperationMode.CompleteCooperateOnly && Complete))
@@ -110,12 +110,12 @@ public partial class AIGroupCooperationControl : AIGroupTask
         int days;
         int result = -1;
         // { Original bug: the first cooperation group is skipped. }
-        for (int I = 1, last = Groups.Count - 1; I <= last; I++)
+        for (int i = 1, last = Groups.Count - 1; i <= last; i++)
         {
-            moves = Groups.GetRecruitmentGroups(I).Group.GetMovesMin();
+            moves = Groups.GetRecruitmentGroups(i).Group.GetMovesMin();
             if (moves > 0)
             {
-                days = (Groups.GetRecruitmentGroups(I).MovePoints - 1) / moves;
+                days = (Groups.GetRecruitmentGroups(i).MovePoints - 1) / moves;
                 if (result < days)
                 {
                     result = days;
@@ -141,14 +141,14 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2883
     public void UpdateCompletion()
     {
-        DamageType D;
+        DamageType d;
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                D = (DamageType)dOrdinal;
-                if (_remainingStrengths[(int)D] > 0)
+                d = (DamageType)dOrdinal;
+                if (_remainingStrengths[(int)d] > 0)
                 {
                     Complete = false;
                     return;
@@ -185,18 +185,18 @@ public partial class AIGroupCooperationControl : AIGroupTask
     public void AddCooperationGroup(AIRecruitmentGroup group)
     {
         Troop troop;
-        DamageType D;
+        DamageType d;
         Groups.AddChild(group);
-        for (int I = group.Group.Units.Count - 1; I >= 0; I--)
+        for (int i = group.Group.Units.Count - 1; i >= 0; i--)
         {
-            troop = group.Group.Units.GetUnit(I);
+            troop = group.Group.Units.GetUnit(i);
             var strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                D = (DamageType)dOrdinal;
-                var strength = troop.GetStrength(D);
-                _remainingStrengths[(int)D] -= strength;
+                d = (DamageType)dOrdinal;
+                var strength = troop.GetStrength(d);
+                _remainingStrengths[(int)d] -= strength;
             }
 
             if (Superiority != -1)
@@ -291,9 +291,9 @@ public partial class AIGroupCooperationControl : AIGroupTask
     {
         AIGroup group;
         Troop leader;
-        for (int I = Groups.Count - 1; I >= 0; I--)
+        for (int i = Groups.Count - 1; i >= 0; i--)
         {
-            group = Groups.GetRecruitmentGroups(I).Group;
+            group = Groups.GetRecruitmentGroups(i).Group;
             if (group.TargetType == AIGroupTargetStatus.Setup && _target.MovePoints > group.TargetMovePoints)
             {
                 leader = group.Leader;
@@ -303,9 +303,9 @@ public partial class AIGroupCooperationControl : AIGroupTask
                 leader = _control.Group.Leader;
             }
 
-            for (int J = group.Productions.Count - 1; J >= 0; J--)
+            for (int j = group.Productions.Count - 1; j >= 0; j--)
             {
-                group.Productions.ChangeGroup(J, _control.Group);
+                group.Productions.ChangeGroup(j, _control.Group);
             }
 
             _control.Group.AddUnits(group.Units);

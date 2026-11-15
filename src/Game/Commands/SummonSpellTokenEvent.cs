@@ -48,39 +48,39 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     public override bool Process(Troop source, int value)
     {
         bool done;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        Unit U;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        Unit u;
         ArmyHexSprite army;
         UnitEnchantment enchantment;
         AIGroup group;
         ImageSequenceAnimation animation;
         base.Process(source, value);
         done = false;
-        source.GetLocation(out X, out Y, out L);
-        for (int I = 0, last = UnitIndices.Count - 1; I <= last; I++)
+        source.GetLocation(out x, out y, out l);
+        for (int i = 0, last = UnitIndices.Count - 1; i <= last; i++)
         {
-            U = new Unit(null) { Holder = CreationHolder() };
-            var unitIndex = UnitIndices[I];
-            U.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
-            army = U.Place(X, Y, L, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+            u = new Unit(null) { Holder = CreationHolder() };
+            var unitIndex = UnitIndices[i];
+            u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
+            army = u.Place(x, y, l, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             if (army != null)
             {
                 var hexY = army.GetHexY();
                 var hexX = army.GetHexX();
-                if (HexGeometry.DeltaHexToRadius(X, Y, hexX, hexY) <= 2)
+                if (HexGeometry.DeltaHexToRadius(x, y, hexX, hexY) <= 2)
                 {
-                    if (U.ExpandAbility(155))
+                    if (u.ExpandAbility(155))
                     {
-                        enchantment = ((UnitEnchantmentAbilityData)U.GetAbilityData(155)).Enchantment;
+                        enchantment = ((UnitEnchantmentAbilityData)u.GetAbilityData(155)).Enchantment;
                         enchantment.SetUpkeep(GamePack.Current.SpellControl.GetSpell(EventSpellId).ManaUpkeep);
                         enchantment.SetSource(source.Player);
-                        enchantment.DispelResistance = (sbyte)((SummonSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).GetDispelResistance(U);
+                        enchantment.DispelResistance = (sbyte)((SummonSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).GetDispelResistance(u);
                         group = source.Group;
                         if (group != null)
                         {
-                            group.AddUnit(U);
+                            group.AddUnit(u);
                         }
                     }
 
@@ -88,31 +88,31 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                 }
                 else
                 {
-                    U.SetOwner(null);
+                    u.SetOwner(null);
                 }
             }
 
-            U.Release();
+            u.Release();
         }
 
         if (done)
         {
             if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
-                StrategicMap.Current.MakeVisible(X, Y, L, 3);
+                StrategicMap.Current.MakeVisible(x, y, l, 3);
             }
 
-            StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-            if (StrategicMap.Current.Visible(X, Y, L, 0))
+            StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+            if (StrategicMap.Current.Visible(x, y, l, 0))
             {
                 if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-                    StrategicMap.Current.PlaceHex(animation, X, Y, L);
+                    StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
-                if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L, 0))
+                if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, l, 0))
                 {
                     GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
                 }

@@ -53,11 +53,11 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     // AIGroup.pas:4460
     public void AddUnits(AIMoveExecutorUnitList units, byte selection)
     {
-        for (int I = 0, last = units.Count - 1; I <= last; I++)
+        for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                AddChild(units.GetUnits(I));
+                AddChild(units.GetUnits(i));
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -73,9 +73,9 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     // AIGroup.pas:4476
     public void SetUnitStatus(AIMoveExecutorUnitStatus status)
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            this[I].Status = status;
+            this[i].Status = status;
         }
     }
 
@@ -88,9 +88,9 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
         if (army != null)
         {
             selection = 0;
-            for (int I = Count - 1; I >= 0; I--)
+            for (int i = Count - 1; i >= 0; i--)
             {
-                var units = GetUnits(I);
+                var units = GetUnits(i);
                 index = army.Army.FindChildIndex(units.Troop);
                 if (index != -1)
                 {

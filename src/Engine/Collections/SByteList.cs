@@ -273,11 +273,11 @@ public partial class SByteList : Persistent
     // Engine.pas:4092
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I] == _default)
+            if (this[i] == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -322,49 +322,49 @@ public partial class SByteList : Persistent
     // Engine.pas:4183
     public void SaveToStream(Stream stream)
     {
-        int I;
+        int i;
         int run;
-        byte B = default;
+        byte b = default;
         int DefaultRun()
         {
-            int J;
+            int j;
             int result = 0;
-            J = I;
-            while (J < _count && _list[J] == _default)
+            j = i;
+            while (j < _count && _list[j] == _default)
             {
                 result += 1;
-                J += 1;
+                j += 1;
             }
 
             return result;
         }
 
-        I = 0;
+        i = 0;
         stream.Write(Bytes.Of(ref _default, 1));
         stream.Write(Bytes.Of(ref _count, 4));
-        while (_count != I)
+        while (_count != i)
         {
             run = DefaultRun();
             if (run > 0)
             {
                 while (run > 255)
                 {
-                    B = 255;
+                    b = 255;
                     stream.Write(Bytes.Of(ref _default, 1));
-                    stream.Write(Bytes.Of(ref B, 1));
+                    stream.Write(Bytes.Of(ref b, 1));
                     run -= 255;
-                    I += 255;
+                    i += 255;
                 }
 
-                B = (byte)run;
+                b = (byte)run;
                 stream.Write(Bytes.Of(ref _default, 1));
-                stream.Write(Bytes.Of(ref B, 1));
-                I += run;
+                stream.Write(Bytes.Of(ref b, 1));
+                i += run;
             }
             else
             {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
-                I += 1;
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, 1)));
+                i += 1;
             }
         }
     }
@@ -375,13 +375,13 @@ public partial class SByteList : Persistent
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (_count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                chance = _list[I] + bonus;
+                chance = _list[i] + bonus;
                 if (chance < 0)
                 {
                     chance = 0;
@@ -390,10 +390,10 @@ public partial class SByteList : Persistent
                 total += chance;
             }
 
-            R = Random(total);
+            r = Random(total);
             total = 0;
             result = 0;
-            while (total < R)
+            while (total < r)
             {
                 chance = _list[result] + bonus;
                 if (chance < 0)

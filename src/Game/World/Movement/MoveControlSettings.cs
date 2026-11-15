@@ -154,11 +154,11 @@ public partial class MoveControlSettings : EngineObject
     }
 
     // MoveT.PAS:148
-    public void SetSourcePosition(int X, int Y, int L)
+    public void SetSourcePosition(int x, int y, int level)
     {
-        SourceX = X;
-        SourceY = Y;
-        SourceL = L;
+        SourceX = x;
+        SourceY = y;
+        SourceL = level;
     }
 
     // MoveT.PAS:155

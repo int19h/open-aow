@@ -45,8 +45,7 @@ public sealed class OwnershipTroopTests
         var factory = new EnginePersistableFactory(EngineFixture.Engine);
         var schema = FormatSchema.Current;
         var classValue = schema.Get(factory.ClassName(objectValue));
-        var root = OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue));
-        TreeReader.Read(root, objectValue: objectValue, factory: factory);
+        TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: GameBoundary.PacketClassTable(classValue)), objectValue: objectValue, factory: factory);
     }
 
     [Fact]

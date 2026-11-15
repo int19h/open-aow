@@ -81,8 +81,8 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
     {
         MapField mapField;
         int direction;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         void CheckFreeStrike()
         {
             int hexNumber = default;
@@ -198,15 +198,15 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                                 }
 
                                 var hexY = Unit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out X, out Y);
+                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out x, out y);
                                 if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes - Strike.Effects, false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.DamageTypes - Strike.Effects, false);
                                 }
 
                                 if (Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects, true);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.Effects, true);
                                 }
 
                                 Step = TokenStep.EndStrike;
@@ -384,9 +384,9 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         startIndex = path.MovePointsToPosition(unitObject.MovePoints);
         if (startIndex != path.Count - 1)
         {
-            for (int I = startIndex, last = path.Count - 1; I <= last; I++)
+            for (int i = startIndex, last = path.Count - 1; i <= last; i++)
             {
-                var pathLocal = path[I];
+                var pathLocal = path[i];
                 Path.Add(pathLocal);
             }
 
@@ -406,7 +406,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         MoveStatus result;
         MapField newField;
         MapField oldField;
-        Rect R;
+        Rect r;
         Move();
         oldField = Unit.UnitHexSprite.Owner;
         newField = GetMapField(Path[MoveIndex].Location);
@@ -424,9 +424,9 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                 var hexY = Unit.UnitHexSprite.HexY;
                 var hexX = Unit.UnitHexSprite.HexX;
                 var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
-                R = new Rect(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
+                r = new Rect(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
                 Unit.UnitHexSprite?.Dispose();
-                CombatMap.Current.TriggerMapChangedEvent(R, 0);
+                CombatMap.Current.TriggerMapChangedEvent(r, 0);
                 Unit.UnitHexSprite = null;
                 result = MoveStatus.Done;
             }

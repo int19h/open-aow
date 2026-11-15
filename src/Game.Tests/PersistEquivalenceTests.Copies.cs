@@ -428,8 +428,7 @@ public sealed partial class PersistEquivalenceTests
             }
             SameCopies(source, target);
             SameCopies(blank, target);
-            string table = classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0];
-            SameObjectImage(source, className, classTable: table);
+            SameObjectImage(classTable: classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0], source: source, className: className);
         }
         finally
         {

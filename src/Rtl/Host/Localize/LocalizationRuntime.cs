@@ -13,8 +13,7 @@ public static class LocalizationRuntime
 
     public static MldDictionary Dictionary(string name, int? language = null)
     {
-        string root = StartupDirectory.Length == 0 ? RtlUnit.Files.CurrentDirectory : StartupDirectory;
-        string path = Path.Combine(root, "Dict", name + ".mld");
+        string path = Path.Combine(StartupDirectory.Length == 0 ? RtlUnit.Files.CurrentDirectory : StartupDirectory, path2: "Dict", path3: name + ".mld");
         string key = RtlUnit.Files.ExpandPath(path);
         if (!s_dictionaries.TryGetValue(key, out var dictionary))
         {

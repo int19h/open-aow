@@ -46,11 +46,11 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(I) != null)
+                if (GetChild(i) != null)
                 {
-                    Items[I].Release();
+                    Items[i].Release();
                 }
             }
         }
@@ -60,17 +60,17 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     public override void Clear()
     {
         EngineObject child;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                child = Items[I];
+                child = Items[i];
                 if (child != null)
                 {
                     if (child.Owner != this)
                     {
                         child.Release();
-                        DeleteChildAt(I);
+                        DeleteChildAt(i);
                     }
                     else
                     {
@@ -146,9 +146,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     {
         Item item;
         int result = 0;
-        for (int I = 0, last = Items.Count - 1; I <= last; I++)
+        for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[I];
+            item = Items[i];
             if (item != null && result < item.GetAbCount())
             {
                 result = item.GetAbCount();
@@ -163,9 +163,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     {
         Item item;
         AbilityOwner result = null;
-        for (int I = 0, last = Items.Count - 1; I <= last; I++)
+        for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[I];
+            item = Items[i];
             if (item != null && item.GetAbEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -181,15 +181,15 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:331
     public bool GetAbilityEnabled(int abilityId)
     {
-        int I;
+        int i;
         Item item;
         bool result = false;
-        I = 0;
-        while (!result && I < Items.Count)
+        i = 0;
+        while (!result && i < Items.Count)
         {
-            item = Items[I];
+            item = Items[i];
             result = item != null && item.ItemType == ItemType.Use && item.GetAbEnabled(abilityId);
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -198,15 +198,15 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:344
     public bool GetAbilitySet(int abilityId)
     {
-        int I;
+        int i;
         Item item;
         bool result = false;
-        I = 0;
-        while (!result && I < Items.Count)
+        i = 0;
+        while (!result && i < Items.Count)
         {
-            item = Items[I];
+            item = Items[i];
             result = item != null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -217,9 +217,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     {
         Item item;
         AbilityOwner result = null;
-        for (int I = 0, last = Items.Count - 1; I <= last; I++)
+        for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[I];
+            item = Items[i];
             if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
                 if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
@@ -236,14 +236,14 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     public Item GetSlot(HeroItemPosition position)
     {
         Item result;
-        int I;
+        int i;
         switch (position)
         {
             case >= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8:
-                I = (int)position - (int)HeroItemPosition.InventorySlot1;
-                if (I < Items.Count && I >= 0)
+                i = (int)position - (int)HeroItemPosition.InventorySlot1;
+                if (i < Items.Count && i >= 0)
                 {
-                    result = Items.GetItem(I);
+                    result = Items.GetItem(i);
                 }
                 else
                 {

@@ -60,14 +60,14 @@ public partial class SpellCastEventLog : EventLog
     public override void ViewLocation()
     {
         Troop troop;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null)
         {
-            troop.GetLocation(out X, out Y, out L);
-            CenterViewTo(X, Y, L);
+            troop.GetLocation(out x, out y, out l);
+            CenterViewTo(x, y, l);
         }
     }
 

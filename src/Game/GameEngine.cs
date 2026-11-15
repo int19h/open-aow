@@ -414,14 +414,14 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             if (text.Length >= 4)
             {
                 value = 0;
-                for (int I = 1; I <= text.Length; I++)
+                for (int i = 1; i <= text.Length; i++)
                 {
-                    value += Cp1252.Byte(text[I - 1]);
+                    value += Cp1252.Byte(text[i - 1]);
                 }
 
-                for (int I = 1; I <= 4; I++)
+                for (int i = 1; i <= 4; i++)
                 {
-                    hex = IntToHex(Cp1252.Byte(text[I - 1]) * value + I, 6);
+                    hex = IntToHex(Cp1252.Byte(text[i - 1]) * value + i, 6);
                     result = result + hex[hex.Length - 1].ToString();
                     value += Cp1252.Byte(hex[hex.Length - 1]) + Cp1252.Byte(hex[0]);
                 }

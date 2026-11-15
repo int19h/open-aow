@@ -121,8 +121,7 @@ public sealed class OwnExtensionNameTests : IDisposable
     public void SavesLoadByContentAndTheDerivedNamePrefersTheOwnDocument()
     {
         byte[] original = File.ReadAllBytes(InstalledSave.Save);
-        var document = GameFiles.Import(original, GameProfile.WorldMap.Profile, "save", "After the Fall.asg").Document;
-        byte[] own = GameFiles.Write(document);
+        byte[] own = GameFiles.Write(GameFiles.Import(original, GameProfile.WorldMap.Profile, "save", "After the Fall.asg").Document);
         File.WriteAllBytes(Root(@"Save\Original.asg"), original);
         File.WriteAllBytes(Root(@"Save\Json.asg"), own);
         Install();

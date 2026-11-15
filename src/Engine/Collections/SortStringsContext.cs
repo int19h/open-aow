@@ -12,59 +12,59 @@ public struct SortStringsContext
 
     internal static void QuickSortStrings(ref SortStringsContext context, int L, int R)
     {
-        int I;
-        int J;
-        int M;
+        int i;
+        int j;
+        int m;
         object po;
-        string P;
+        string p;
         do
         {
-            I = L;
-            J = R;
-            M = (int)(((uint)(L + R)) >> 1);
-            P = context.Strings[M];
-            po = context.Strings.Objects[M];
+            i = L;
+            j = R;
+            m = (int)(((uint)(L + R)) >> 1);
+            p = context.Strings[m];
+            po = context.Strings.Objects[m];
             do
             {
                 while (true)
                 {
-                    var item = context.Strings.Objects[I];
-                    var stringsItem = context.Strings[I];
-                    if (!(context.Compare(stringsItem, P, item, po) < 0))
+                    var item = context.Strings.Objects[i];
+                    var stringsItem = context.Strings[i];
+                    if (!(context.Compare(stringsItem, p, item, po) < 0))
                         break;
-                    I += 1;
+                    i += 1;
                 }
 
                 while (true)
                 {
-                    var item = context.Strings.Objects[J];
-                    var stringsItem = context.Strings[J];
-                    if (!(context.Compare(stringsItem, P, item, po) > 0))
+                    var item = context.Strings.Objects[j];
+                    var stringsItem = context.Strings[j];
+                    if (!(context.Compare(stringsItem, p, item, po) > 0))
                         break;
-                    J -= 1;
+                    j -= 1;
                 }
 
-                if (I <= J)
+                if (i <= j)
                 {
-                    context.Strings.Exchange(I, J);
+                    context.Strings.Exchange(i, j);
                     if (context.ExchangeProc != null)
                     {
-                        context.ExchangeProc(context.ExchangeData, I, J);
+                        context.ExchangeProc(context.ExchangeData, i, j);
                     }
 
-                    I += 1;
-                    J -= 1;
+                    i += 1;
+                    j -= 1;
                 }
             }
-            while (!(I > J));
-            if (L < J)
+            while (!(i > j));
+            if (L < j)
             {
-                QuickSortStrings(ref context, L, J);
+                QuickSortStrings(ref context, L, j);
             }
 
-            L = I;
+            L = i;
         }
-        while (!(I >= R));
+        while (!(i >= R));
     }
 
 }

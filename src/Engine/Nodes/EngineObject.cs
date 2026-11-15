@@ -158,14 +158,14 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     // Engine.pas:2466
     public virtual EditorClass Editor()
     {
-        GameEngine E;
+        GameEngine e;
         EditorClass result = null;
-        E = GetEngine();
-        if (E != null)
+        e = GetEngine();
+        if (e != null)
         {
             for (var type = GetType(); type != typeof(EngineObject) && result == null; type = type.BaseType)
             {
-                result = E.Editors.FindEditor(EngineClass.Of(type).ClassId);
+                result = e.Editors.FindEditor(EngineClass.Of(type).ClassId);
             }
         }
 

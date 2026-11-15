@@ -184,42 +184,42 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     // Engine.pas:5254, the quicksort of QuickSortDoubleItem and QuickSortQuadItem.
     private static void QuickSort(Span<TRecord> sortList, int L, int R, RecordSortCompare<TRecord> sCompare)
     {
-        int I;
-        int J;
-        TRecord P;
+        int i;
+        int j;
+        TRecord p;
         do
         {
-            I = L;
-            J = R;
-            P = sortList[(int)(((uint)(L + R)) >> 1)];
+            i = L;
+            j = R;
+            p = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
-                while (sCompare(sortList[I], P) < 0)
+                while (sCompare(sortList[i], p) < 0)
                 {
-                    I += 1;
+                    i += 1;
                 }
 
-                while (sCompare(sortList[J], P) > 0)
+                while (sCompare(sortList[j], p) > 0)
                 {
-                    J -= 1;
+                    j -= 1;
                 }
 
-                if (I <= J)
+                if (i <= j)
                 {
-                    (sortList[I], sortList[J]) = (sortList[J], sortList[I]);
-                    I += 1;
-                    J -= 1;
+                    (sortList[i], sortList[j]) = (sortList[j], sortList[i]);
+                    i += 1;
+                    j -= 1;
                 }
             }
-            while (!(I > J));
-            if (L < J)
+            while (!(i > j));
+            if (L < j)
             {
-                QuickSort(sortList, L, J, sCompare);
+                QuickSort(sortList, L, j, sCompare);
             }
 
-            L = I;
+            L = i;
         }
-        while (!(I >= R));
+        while (!(i >= R));
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }

@@ -38,9 +38,9 @@ public partial class BitList : Persistent
                 List = resized;
             }
             _capacity = newCapacity;
-            for (int I = _count; I <= newCapacity - 1; I++)
+            for (int i = _count; i <= newCapacity - 1; i++)
             {
-                Put(I, _default != 0);
+                Put(i, _default != 0);
             }
         }
     }
@@ -63,9 +63,9 @@ public partial class BitList : Persistent
         {
             oldCount = _count;
             _count = newCount;
-            for (int I = oldCount, last = _count - 1; I <= last; I++)
+            for (int i = oldCount, last = _count - 1; i <= last; i++)
             {
-                Put(I, _default != 0);
+                Put(i, _default != 0);
             }
         }
         else
@@ -78,11 +78,11 @@ public partial class BitList : Persistent
     internal string GetItemString()
     {
         string result = "";
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (DefaultByte(Get(I)) != _default)
+            if (DefaultByte(Get(i)) != _default)
             {
-                result = result + IntToStr(I) + ",";
+                result = result + IntToStr(i) + ",";
             }
         }
 
@@ -98,15 +98,15 @@ public partial class BitList : Persistent
     internal void SetItemString(string S)
     {
         string item;
-        int P;
+        int p;
         Clear();
-        P = Pos(",", S);
+        p = Pos(",", S);
         while (!IsEmpty(S))
         {
-            if (P != 0)
+            if (p != 0)
             {
-                item = Copy(S, 1, P - 1);
-                S = RtlUnit.Delete(S, 1, P);
+                item = Copy(S, 1, p - 1);
+                S = RtlUnit.Delete(S, 1, p);
             }
             else
             {
@@ -119,7 +119,7 @@ public partial class BitList : Persistent
                 Put(StrToInt(item), _default == 0);
             }
 
-            P = Pos(",", S);
+            p = Pos(",", S);
         }
     }
 
@@ -127,9 +127,9 @@ public partial class BitList : Persistent
     internal int GetBitsSet()
     {
         int result = 0;
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (Get(I))
+            if (Get(i))
             {
                 result += 1;
             }
@@ -142,9 +142,9 @@ public partial class BitList : Persistent
     internal int GetBitsCleared()
     {
         int result = 0;
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            if (!Get(I))
+            if (!Get(i))
             {
                 result += 1;
             }
@@ -215,9 +215,9 @@ public partial class BitList : Persistent
         _count -= 1;
         if (index < _count)
         {
-            for (int I = index, last = _count - 1; I <= last; I++)
+            for (int i = index, last = _count - 1; i <= last; i++)
             {
-                Put(I, Get(I + 1));
+                Put(i, Get(i + 1));
             }
         }
     }
@@ -289,7 +289,7 @@ public partial class BitList : Persistent
         {
             _count += 1;
             // { sic: the original copies the same bit FCount - Index - 1 times instead of moving the tail }
-            for (int I = _count - 2; I >= index; I--)
+            for (int i = _count - 2; i >= index; i--)
             {
                 Put(index + 1, Get(index));
             }
@@ -337,11 +337,11 @@ public partial class BitList : Persistent
     // Engine.pas:4736
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (DefaultByte(this[I]) == _default)
+            if (DefaultByte(this[i]) == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }

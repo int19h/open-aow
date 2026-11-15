@@ -66,8 +66,7 @@ public sealed class TacticalBattleWallCastTests
             Assert.Equal((sbyte)4, x);
             Assert.Equal((sbyte)9, y);
             Assert.Equal((sbyte)0, l);
-            var other = new Troop(null!) { Holder = EngineFixture.Engine };
-            map.GetUnitLocation(other, out x, ref y, ref l);
+            map.GetUnitLocation(new Troop(null!) { Holder = EngineFixture.Engine }, x: out x, y: ref y, level: ref l);
             Assert.Equal((sbyte)-1, x);
         }
         finally

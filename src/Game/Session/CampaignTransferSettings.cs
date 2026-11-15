@@ -160,9 +160,9 @@ public partial class CampaignTransferSettings : EngineObject
             if (levelCounts[level - 1] != 0)
             {
                 candidates.Clear();
-                for (int I = 0, last = units.Count - 1; I <= last; I++)
+                for (int i = 0, last = units.Count - 1; i <= last; i++)
                 {
-                    troop = units.GetUnit(I);
+                    troop = units.GetUnit(i);
                     if (troop.GetUnitLevel() == level && Units.IndexOf(troop) == -1)
                     {
                         candidates.Add(troop);
@@ -202,9 +202,9 @@ public partial class CampaignTransferSettings : EngineObject
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             Leader.ExecuteCancelCasting();
-            for (int J = Leader.Inventory.Items.Count - 1; J >= 0; J--)
+            for (int j = Leader.Inventory.Items.Count - 1; j >= 0; j--)
             {
-                item = Leader.Inventory.Items.GetItem(J);
+                item = Leader.Inventory.Items.GetItem(j);
                 if (item != null)
                 {
                     copyItem = (Item)item.Copy(GetEngine());
@@ -215,9 +215,9 @@ public partial class CampaignTransferSettings : EngineObject
             }
 
             Leader.Inventory.Clear();
-            for (int J = Leader.HeroItems.Items.Count - 1; J >= 0; J--)
+            for (int j = Leader.HeroItems.Items.Count - 1; j >= 0; j--)
             {
-                item = Leader.HeroItems.Items.GetItem(J);
+                item = Leader.HeroItems.Items.GetItem(j);
                 if (item != null)
                 {
                     copyItem = (Item)item.Copy(GetEngine());
@@ -228,9 +228,9 @@ public partial class CampaignTransferSettings : EngineObject
             }
 
             Leader.HeroItems.Clear();
-            for (int I = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; i <= last; i++)
             {
-                troop = StrategicMap.Current.UnitControl.GetUnit(I);
+                troop = StrategicMap.Current.UnitControl.GetUnit(i);
                 if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && !(troop is Leader) && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
@@ -240,9 +240,9 @@ public partial class CampaignTransferSettings : EngineObject
                         hero.RemoveEnchantments();
                         hero.RemoveHandicaps();
                         hero.ExecuteCancelCasting();
-                        for (int J = hero.Inventory.Items.Count - 1; J >= 0; J--)
+                        for (int j = hero.Inventory.Items.Count - 1; j >= 0; j--)
                         {
-                            item = hero.Inventory.Items.GetItem(J);
+                            item = hero.Inventory.Items.GetItem(j);
                             if (item != null)
                             {
                                 copyItem = (Item)item.Copy(GetEngine());
@@ -253,9 +253,9 @@ public partial class CampaignTransferSettings : EngineObject
                         }
 
                         hero.Inventory.Clear();
-                        for (int J = hero.HeroItems.Items.Count - 1; J >= 0; J--)
+                        for (int j = hero.HeroItems.Items.Count - 1; j >= 0; j--)
                         {
-                            item = hero.HeroItems.Items.GetItem(J);
+                            item = hero.HeroItems.Items.GetItem(j);
                             if (item != null)
                             {
                                 copyItem = (Item)item.Copy(GetEngine());
@@ -486,38 +486,38 @@ public partial class CampaignTransferSettings : EngineObject
         while (!done)
         {
             candidates.Clear();
-            for (int I = 0, last = Heroes.Count - 1; I <= last; I++)
+            for (int i = 0, last = Heroes.Count - 1; i <= last; i++)
             {
-                if (SelectedHeroes.IndexOf(I) == -1)
+                if (SelectedHeroes.IndexOf(i) == -1)
                 {
-                    points = Heroes.GetHero(I).GetCampaignTransferPoints();
+                    points = Heroes.GetHero(i).GetCampaignTransferPoints();
                     if (points <= TransferPointsLeft)
                     {
-                        candidates.AddABCD(0, I, points, 0);
+                        candidates.AddABCD(0, i, points, 0);
                     }
                 }
             }
 
-            for (int I = 0, last = Items.Count - 1; I <= last; I++)
+            for (int i = 0, last = Items.Count - 1; i <= last; i++)
             {
-                if (SelectedItems.IndexOf(I) == -1)
+                if (SelectedItems.IndexOf(i) == -1)
                 {
-                    points = Items.GetItem(I).GetCampaignTransferPoints();
+                    points = Items.GetItem(i).GetCampaignTransferPoints();
                     if (points <= TransferPointsLeft)
                     {
-                        candidates.AddABCD(1, I, points, 0);
+                        candidates.AddABCD(1, i, points, 0);
                     }
                 }
             }
 
-            for (int I = 0, last = Units.Count - 1; I <= last; I++)
+            for (int i = 0, last = Units.Count - 1; i <= last; i++)
             {
-                if (SelectedUnits.IndexOf(I) == -1)
+                if (SelectedUnits.IndexOf(i) == -1)
                 {
-                    points = Units.GetUnit(I).GetCampaignTransferPoints();
+                    points = Units.GetUnit(i).GetCampaignTransferPoints();
                     if (points <= TransferPointsLeft)
                     {
-                        candidates.AddABCD(2, I, points, 0);
+                        candidates.AddABCD(2, i, points, 0);
                     }
                 }
             }
@@ -553,13 +553,13 @@ public partial class CampaignTransferSettings : EngineObject
     public void ExecuteSelection()
     {
         sbyte player;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         Leader leader;
         Troop troop;
         Hero hero;
-        Item Item;
+        Item itemItem;
         if (StrategicMap.Current != null)
         {
             StrategicMap.Current.SynchronizeBegin();
@@ -583,31 +583,31 @@ public partial class CampaignTransferSettings : EngineObject
             var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
             leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
-            leader.GetLocation(out X, out Y, out L);
+            leader.GetLocation(out x, out y, out l);
             if (Leader != null)
             {
                 leader.Deactivate();
                 leader.Assign(Leader, GetEngine());
                 leader.SetSpherePicksMax((byte)(leader.GetSphereCount() + SelectedSpheres.Count));
-                for (int I = 0, last = SelectedSpheres.Count - 1; I <= last; I++)
+                for (int i = 0, last = SelectedSpheres.Count - 1; i <= last; i++)
                 {
-                    leader.AddSphere((MagicSphere)SelectedSpheres[I]);
+                    leader.AddSphere((MagicSphere)SelectedSpheres[i]);
                 }
 
-                for (int J = SelectedItems.Count - 1; J >= 0; J--)
+                for (int j = SelectedItems.Count - 1; j >= 0; j--)
                 {
-                    var item = SelectedItems[J];
-                    Item = Items.GetItem(item);
-                    if (leader.UnitId == Item.ItemId)
+                    var item = SelectedItems[j];
+                    itemItem = Items.GetItem(item);
+                    if (leader.UnitId == itemItem.ItemId)
                     {
-                        var fSelectedItemsItem = SelectedItems[J];
-                        Item = (Item)Items.GetItem(fSelectedItemsItem).Copy(GetEngine());
-                        if (leader.AutoPlaceItem(Item))
+                        var fSelectedItemsItem = SelectedItems[j];
+                        itemItem = (Item)Items.GetItem(fSelectedItemsItem).Copy(GetEngine());
+                        if (leader.AutoPlaceItem(itemItem))
                         {
-                            SelectedItems.Delete(J);
+                            SelectedItems.Delete(j);
                         }
 
-                        Item.Release();
+                        itemItem.Release();
                     }
                 }
 
@@ -616,50 +616,50 @@ public partial class CampaignTransferSettings : EngineObject
                 leader.Activate();
             }
 
-            for (int I = SelectedUnits.Count - 1; I >= 0; I--)
+            for (int i = SelectedUnits.Count - 1; i >= 0; i--)
             {
-                var item = SelectedUnits[I];
+                var item = SelectedUnits[i];
                 troop = (Troop)Units.GetUnit(item).Copy(GetEngine());
                 troop.UnitId = -1;
-                troop.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                troop.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 troop.Release();
             }
 
-            for (int I = SelectedHeroes.Count - 1; I >= 0; I--)
+            for (int i = SelectedHeroes.Count - 1; i >= 0; i--)
             {
-                var item = SelectedHeroes[I];
+                var item = SelectedHeroes[i];
                 hero = (Hero)Heroes.GetHero(item).Copy(GetEngine());
-                for (int J = SelectedItems.Count - 1; J >= 0; J--)
+                for (int j = SelectedItems.Count - 1; j >= 0; j--)
                 {
-                    var fSelectedItemsItem = SelectedItems[J];
-                    Item = Items.GetItem(fSelectedItemsItem);
-                    if (hero.UnitId == Item.ItemId)
+                    var fSelectedItemsItem = SelectedItems[j];
+                    itemItem = Items.GetItem(fSelectedItemsItem);
+                    if (hero.UnitId == itemItem.ItemId)
                     {
-                        var item2 = SelectedItems[J];
-                        Item = (Item)Items.GetItem(item2).Copy(GetEngine());
-                        if (hero.AutoPlaceItem(Item))
+                        var item2 = SelectedItems[j];
+                        itemItem = (Item)Items.GetItem(item2).Copy(GetEngine());
+                        if (hero.AutoPlaceItem(itemItem))
                         {
-                            SelectedItems.Delete(J);
+                            SelectedItems.Delete(j);
                         }
 
-                        Item.Release();
+                        itemItem.Release();
                     }
                 }
 
                 hero.UnitId = -1;
                 hero.Mode = hero.Mode + Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
-                hero.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                hero.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 hero.Mode = hero.Mode - Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
                 hero.Release();
             }
 
-            for (int I = SelectedItems.Count - 1; I >= 0; I--)
+            for (int i = SelectedItems.Count - 1; i >= 0; i--)
             {
-                var item = SelectedItems[I];
-                Item = (Item)Items.GetItem(item).Copy(GetEngine());
-                StrategicMap.Current.ItemControl.RegisterItem(Item);
-                Item.PlaceOnMap(StrategicMap.Current, X, Y, L);
-                Item.Release();
+                var item = SelectedItems[i];
+                itemItem = (Item)Items.GetItem(item).Copy(GetEngine());
+                StrategicMap.Current.ItemControl.RegisterItem(itemItem);
+                itemItem.PlaceOnMap(StrategicMap.Current, x, y, l);
+                itemItem.Release();
             }
 
             StrategicMap.Current.SynchronizeEnd();

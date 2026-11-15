@@ -33,9 +33,9 @@ public partial class PassiveAIGroupControl : AIGroupControl
                 {
                     var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                     group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
-                    for (int I = Group.Units.Count - 1; I >= 0; I--)
+                    for (int i = Group.Units.Count - 1; i >= 0; i--)
                     {
-                        troop = Group.Units.GetUnit(I);
+                        troop = Group.Units.GetUnit(i);
                         if (selector.Defenders.IndexOf(troop) == -1)
                         {
                             group.AddUnit(troop);
@@ -73,9 +73,9 @@ public partial class PassiveAIGroupControl : AIGroupControl
         AIGroup group;
         player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         location = Group.GetLocation();
-        for (int I = player.AIGroups.Count - 1; I >= 0; I--)
+        for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
-            group = player.AIGroups.GetGroups(I);
+            group = player.AIGroups.GetGroups(i);
             if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == 136280 && Group.IndependentRelation == group.IndependentRelation)
             {
                 otherLocation = group.GetLocation();

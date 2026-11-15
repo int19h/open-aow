@@ -18,21 +18,21 @@ public partial class ResourceEditSettings : ControlStyleObject
     // Engine.pas:8677
     internal int GetUniqueEditId()
     {
-        int I;
+        int i;
         bool found;
         int result = 1;
-        I = 0;
+        i = 0;
         found = _editors.Count == 0;
         while (!found)
         {
-            if (result != ObjectToInt(_editors.Objects[I]))
+            if (result != ObjectToInt(_editors.Objects[i]))
             {
-                I += 1;
-                found = I == _editors.Count;
+                i += 1;
+                found = i == _editors.Count;
             }
             else
             {
-                I = 0;
+                i = 0;
                 result += 1;
             }
         }
@@ -56,25 +56,25 @@ public partial class ResourceEditSettings : ControlStyleObject
     // Engine.pas:8667
     public string GetUniqueEditorName(string name)
     {
-        string S;
-        S = name;
-        while (_editors.IndexOf(S) != -1)
+        string s;
+        s = name;
+        while (_editors.IndexOf(s) != -1)
         {
-            S = name + IntToStr(Random(268435455));
+            s = name + IntToStr(Random(268435455));
         }
 
-        return S;
+        return s;
     }
 
     // Engine.pas:8700
     public int GetEditId(string name)
     {
         int result;
-        int I;
-        I = _editors.IndexOf(name);
-        if (I != -1)
+        int i;
+        i = _editors.IndexOf(name);
+        if (i != -1)
         {
-            result = ObjectToInt(_editors.Objects[I]);
+            result = ObjectToInt(_editors.Objects[i]);
         }
         else
         {

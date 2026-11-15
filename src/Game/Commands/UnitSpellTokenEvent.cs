@@ -58,21 +58,21 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1159
     public override bool Validate(Hero source)
     {
-        int I;
+        int i;
         Troop target;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         sbyte targetX = default;
         sbyte targetY = default;
         sbyte targetL = default;
         bool result = base.Validate(source);
-        source.GetLocation(out X, out Y, out L);
-        I = TargetUnitIds.Count;
-        while (result && I != 0)
+        source.GetLocation(out x, out y, out l);
+        i = TargetUnitIds.Count;
+        while (result && i != 0)
         {
-            I -= 1;
-            var item = TargetUnitIds[I];
+            i -= 1;
+            var item = TargetUnitIds[i];
             target = StrategicMap.Current.UnitControl.FindUnit(item);
             if (target != null)
             {
@@ -82,7 +82,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
                 {
                     if (((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange != -1)
                     {
-                        result = HexGeometry.DeltaHexToRadius(X, Y, targetX, targetY) <= ((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange;
+                        result = HexGeometry.DeltaHexToRadius(x, y, targetX, targetY) <= ((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange;
                     }
                 }
 
@@ -100,18 +100,18 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1185
     public override bool Process(Troop source, int value)
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         Troop target;
         base.Process(source, value);
         if (_targetUnits.GetCount() != 0)
         {
-            _targetUnits.GetUnit(0).GetLocation(out X, out Y, out L);
-            GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, X, Y, L);
-            for (int I = 0, last = _targetUnits.GetCount() - 1; I <= last; I++)
+            _targetUnits.GetUnit(0).GetLocation(out x, out y, out l);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, x, y, l);
+            for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
-                target = _targetUnits.GetUnit(I);
+                target = _targetUnits.GetUnit(i);
                 target.AddRef();
                 if (((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, SpellData))
                 {
@@ -136,9 +136,9 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         if (targets != null && targets.GetCount() != 0)
         {
             TargetPlayer = (byte)targets.GetUnit(0).Player;
-            for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
             {
-                var troop = targets.GetUnit(I);
+                var troop = targets.GetUnit(i);
                 TargetUnitIds.Add(troop.UnitId);
             }
         }

@@ -52,11 +52,11 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
         if (army != null)
         {
             armySelection = 0;
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
                 if ((selection & 1) != 0)
                 {
-                    var units = GetUnits(I);
+                    var units = GetUnits(i);
                     index = army.Army.FindChildIndex(units.Troop);
                     if (index != -1)
                     {
@@ -81,9 +81,9 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     // AIGroup.pas:4587
     public void ResetTransporterSettings()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            GetUnits(I).ResetTransporterSettings();
+            GetUnits(i).ResetTransporterSettings();
         }
     }
 
@@ -94,13 +94,13 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public int Moves(byte selection)
     {
         int result = 65535;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                if (result > GetUnits(I).Troop.GetMoves())
+                if (result > GetUnits(i).Troop.GetMoves())
                 {
-                    result = GetUnits(I).Troop.GetMoves();
+                    result = GetUnits(i).Troop.GetMoves();
                 }
             }
 
@@ -119,13 +119,13 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public int MovePoints(byte selection)
     {
         int result = 65535;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                if (result > GetUnits(I).Troop.GetMovePoints())
+                if (result > GetUnits(i).Troop.GetMovePoints())
                 {
-                    result = GetUnits(I).Troop.GetMovePoints();
+                    result = GetUnits(i).Troop.GetMovePoints();
                 }
             }
 
@@ -146,17 +146,17 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
         bool all;
         byte result = 0;
         all = true;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (((1 << I) & selection) != 0)
+            if (((1 << i) & selection) != 0)
             {
-                if (!GetUnits(I).Troop.ValidTerrain(terrainType, overlayType))
+                if (!GetUnits(i).Troop.ValidTerrain(terrainType, overlayType))
                 {
                     all = false;
                 }
                 else
                 {
-                    result = (byte)(result | (1 << I));
+                    result = (byte)(result | (1 << i));
                 }
             }
         }

@@ -94,9 +94,9 @@ public partial class ItemLibraryManager : EngineObject
     public void WriteUserLibraries()
     {
         ItemLibrary itemLibrary;
-        for (int I = 1, last = Libraries.Count - 1; I <= last; I++)
+        for (int i = 1, last = Libraries.Count - 1; i <= last; i++)
         {
-            itemLibrary = GetLibrary(I);
+            itemLibrary = GetLibrary(i);
             var name = itemLibrary.GetName();
             itemLibrary.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.ItemList));
         }

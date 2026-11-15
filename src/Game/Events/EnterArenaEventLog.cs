@@ -63,11 +63,11 @@ public partial class EnterArenaEventLog : EventLog
     {
         Int32List units;
         units = new Int32List();
-        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
+        for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << i) & Selection) != 0)
             {
-                units.Add(UnitIds[I]);
+                units.Add(UnitIds[i]);
             }
         }
 
@@ -81,11 +81,11 @@ public partial class EnterArenaEventLog : EventLog
     {
         Int32List units;
         units = new Int32List();
-        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
+        for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << i) & Selection) != 0)
             {
-                units.Add(UnitIds[I]);
+                units.Add(UnitIds[i]);
             }
         }
 
@@ -101,11 +101,11 @@ public partial class EnterArenaEventLog : EventLog
         int total;
         Troop troop;
         total = 0;
-        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
+        for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << i) & Selection) != 0)
             {
-                var unitId = UnitIds[I];
+                var unitId = UnitIds[i];
                 troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                 if (troop != null)
                 {

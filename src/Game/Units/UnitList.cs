@@ -39,9 +39,9 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                this[I].Release();
+                this[i].Release();
             }
         }
     }
@@ -49,9 +49,9 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     // Unit.PAS:2177
     public override void Clear()
     {
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            this[I].SetOwner(null);
+            this[i].SetOwner(null);
         }
 
         ClearChildren();
@@ -150,9 +150,9 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     // Unit.PAS:2201
     public virtual bool AddUnits(UnitCollection units)
     {
-        for (int I = units.Count - 1; I >= 0; I--)
+        for (int i = units.Count - 1; i >= 0; i--)
         {
-            AddUnit(units.GetUnit(I));
+            AddUnit(units.GetUnit(i));
         }
 
         return true;
@@ -208,18 +208,18 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         bool evil;
         bool good;
         bool neutral;
-        int I;
+        int i;
         int race;
         Troop troop;
-        Alignment Alignment;
+        Alignment alignmentAlignment;
         sbyte relation;
         relation = -1;
         sameRace = true;
-        I = units.Count;
-        while (sameRace && I != 0)
+        i = units.Count;
+        while (sameRace && i != 0)
         {
-            I -= 1;
-            race = units[I].GetRace();
+            i -= 1;
+            race = units[i].GetRace();
             if (race != -1 && race != relation)
             {
                 if (relation == -1)
@@ -243,14 +243,14 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
             sameRace = false;
         }
 
-        I = units.Count;
-        while (sameRace && I != 0)
+        i = units.Count;
+        while (sameRace && i != 0)
         {
-            I -= 1;
-            bool condition = relation == units[I].GetRace();
+            i -= 1;
+            bool condition = relation == units[i].GetRace();
             if (!condition)
             {
-                var alignment = units[I].GetAlignment();
+                var alignment = units[i].GetAlignment();
                 condition = GamePack.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
             }
 
@@ -262,15 +262,15 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
             evil = true;
             good = true;
             neutral = true;
-            I = 0;
+            i = 0;
             int last = units.Count - 1;
-            for (; I <= last; I += 1)
+            for (; i <= last; i += 1)
             {
-                troop = units[I];
-                Alignment = troop.GetAlignment();
-                evil = evil && AlignmentTables.EvilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
-                good = good && AlignmentTables.GoodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));
-                neutral = neutral && AlignmentTables.NeutralAlignments.Contains(Alignment);
+                troop = units[i];
+                alignmentAlignment = troop.GetAlignment();
+                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(alignmentAlignment));
+                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(alignmentAlignment));
+                neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
             }
 
             if (good && !evil)

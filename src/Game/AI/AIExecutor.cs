@@ -223,7 +223,7 @@ public partial class AIExecutor : EngineObject
     public void Process()
     {
         bool done;
-        int I;
+        int i;
         int index;
         if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
         {
@@ -257,18 +257,18 @@ public partial class AIExecutor : EngineObject
                         {
                             ProcessCycles += 1;
                             done = false;
-                            I = 0;
-                            while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && I < _players.Count)
+                            i = 0;
+                            while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && i < _players.Count)
                             {
                                 done = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                                 if (done)
                                 {
                                     _playerProcessCycles += 1;
-                                    I = 0;
+                                    i = 0;
                                 }
                                 else
                                 {
-                                    I += 1;
+                                    i += 1;
                                 }
 
                                 _tokenControlDone = false;
@@ -288,7 +288,7 @@ public partial class AIExecutor : EngineObject
                             }
 
                             _tokenCycle += 1;
-                            if (I >= _players.Count || _tokenCycle >= _tokenCycles)
+                            if (i >= _players.Count || _tokenCycle >= _tokenCycles)
                             {
                                 TokenCyclesCaptured();
                             }

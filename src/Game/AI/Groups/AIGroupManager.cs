@@ -46,11 +46,11 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
     // AIGroup.pas:583
     public void RegisterAIGroupClasses(ReadOnlySpan<AIGroupClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            if (RegisteredClasses.IndexOf(classes[I]) == -1)
+            if (RegisteredClasses.IndexOf(classes[i]) == -1)
             {
-                RegisteredClasses.Add(classes[I]);
+                RegisteredClasses.Add(classes[i]);
             }
         }
     }
@@ -58,9 +58,9 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
     // AIGroup.pas:592
     public void UnregisterAIGroupClasses(ReadOnlySpan<AIGroupClass> classes)
     {
-        for (int I = 0, last = classes.Length - 1; I <= last; I++)
+        for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            RegisteredClasses.Remove(classes[I]);
+            RegisteredClasses.Remove(classes[i]);
         }
     }
 
@@ -68,19 +68,19 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
     public AIGroup CreateGroup(sbyte player, sbyte relation, GroupBehavior behavior)
     {
         AIGroup result;
-        int I;
+        int i;
         bool found;
         found = false;
-        I = RegisteredClasses.Count;
-        while (!found && I != 0)
+        i = RegisteredClasses.Count;
+        while (!found && i != 0)
         {
-            I -= 1;
-            found = behavior == (RegisteredClasses[I]).Behavior;
+            i -= 1;
+            found = behavior == (RegisteredClasses[i]).Behavior;
         }
 
         if (found)
         {
-            result = (RegisteredClasses[I]).CreateInstance(this, holder: CreationHolder());
+            result = (RegisteredClasses[i]).CreateInstance(this, holder: CreationHolder());
             result.GroupId = CreateUniqueId();
             result.Player = player;
             result.IndependentRelation = relation;

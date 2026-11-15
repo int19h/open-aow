@@ -12,19 +12,19 @@ public partial class EngineObjectList : DelphiList<EngineObject>
     public EngineObject FindObject(int classId)
     {
         EngineObject result;
-        int I;
+        int i;
         bool found;
-        I = 0;
+        i = 0;
         found = false;
-        while (!found && I < Count)
+        while (!found && i < Count)
         {
-            found = List[I] != null && classId == List[I].EngineClass.ClassId;
-            I += 1;
+            found = List[i] != null && classId == List[i].EngineClass.ClassId;
+            i += 1;
         }
 
         if (found)
         {
-            result = List[I - 1];
+            result = List[i - 1];
         }
         else
         {
@@ -38,19 +38,19 @@ public partial class EngineObjectList : DelphiList<EngineObject>
     public int FindObjectIndex(int classId)
     {
         int result;
-        int I;
+        int i;
         bool found;
-        I = 0;
+        i = 0;
         found = false;
-        while (!found && I < Count)
+        while (!found && i < Count)
         {
-            found = List[I] != null && classId == List[I].EngineClass.ClassId;
-            I += 1;
+            found = List[i] != null && classId == List[i].EngineClass.ClassId;
+            i += 1;
         }
 
         if (found)
         {
-            result = I - 1;
+            result = i - 1;
         }
         else
         {
@@ -75,14 +75,14 @@ public partial class EngineObjectList : DelphiList<EngineObject>
     // Engine.pas:7188
     public bool AllHaveClassId(int classId)
     {
-        int I;
+        int i;
         bool ok;
-        I = 0;
+        i = 0;
         ok = true;
-        while (I < Count)
+        while (i < Count)
         {
-            ok = List[I] == null || classId == List[I].EngineClass.ClassId;
-            I += 1;
+            ok = List[i] == null || classId == List[i].EngineClass.ClassId;
+            i += 1;
         }
 
         return ok && Count != 0;

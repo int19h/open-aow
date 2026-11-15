@@ -160,8 +160,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             {
                 path = new MovePath();
                 path.AddMapCoordinate((sbyte)X, (sbyte)Y, (sbyte)MapLevel);
-                var hexY = ArmyHexSprite.HexY;
-                path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
+                path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
                 move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
                 StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
@@ -181,8 +180,7 @@ public partial class NegotiateTokenEvent : TokenEvent
         {
             path = new MovePath();
             path.AddMapCoordinate((sbyte)X, (sbyte)Y, (sbyte)MapLevel);
-            var hexY = ArmyHexSprite.HexY;
-            path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
+            path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
             move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
             StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);

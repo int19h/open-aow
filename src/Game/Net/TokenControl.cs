@@ -15,23 +15,23 @@ public partial class TokenControl : IDisposable
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
     public virtual void Add(TokenEvent tokenEvent)
     {
-        int I;
+        int i;
         if (tokenEvent.TokenCounter != -1)
         {
-            I = 0;
-            while (I != _events.Count && _events[I].TokenCounter < tokenEvent.TokenCounter)
+            i = 0;
+            while (i != _events.Count && _events[i].TokenCounter < tokenEvent.TokenCounter)
             {
-                I += 1;
+                i += 1;
             }
 
-            if (I < _events.Count)
+            if (i < _events.Count)
             {
-                if (_events[I].TokenCounter == tokenEvent.TokenCounter)
+                if (_events[i].TokenCounter == tokenEvent.TokenCounter)
                 {
                     throw new InvalidOperationException("Double TokenCounter defined");
                 }
 
-                _events.Insert(I, tokenEvent);
+                _events.Insert(i, tokenEvent);
             }
             else
             {
@@ -50,7 +50,7 @@ public partial class TokenControl : IDisposable
     public virtual bool PrefetchTokenEvents(TokenExecutor executor)
     {
         bool result;
-        int N;
+        int n;
         TokenEvent tokenEvent;
         if (Global() || Local())
         {
@@ -72,9 +72,9 @@ public partial class TokenControl : IDisposable
                     tokenEvent.Release();
                 }
 
-                for (int I = 0, last = _events.Count - 1; I <= last; I++)
+                for (int i = 0, last = _events.Count - 1; i <= last; i++)
                 {
-                    executor.PrefetchTokenEvent(_events[I]);
+                    executor.PrefetchTokenEvent(_events[i]);
                 }
 
                 _events.Clear();
@@ -89,17 +89,17 @@ public partial class TokenControl : IDisposable
         {
             if (Remote())
             {
-                N = GetPrefetchableTokenEvents(executor);
-                if (N > 0)
+                n = GetPrefetchableTokenEvents(executor);
+                if (n > 0)
                 {
-                    for (int I = 0; I <= N - 1; I++)
+                    for (int i = 0; i <= n - 1; i++)
                     {
-                        executor.PrefetchTokenEvent(_events[I]);
+                        executor.PrefetchTokenEvent(_events[i]);
                     }
 
-                    for (int I = N - 1; I >= 0; I--)
+                    for (int i = n - 1; i >= 0; i--)
                     {
-                        _events.Delete(I);
+                        _events.Delete(i);
                     }
 
                     result = true;
@@ -162,9 +162,9 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1238
     public virtual void AddEvents(TokenEventList events)
     {
-        for (int I = 0, last = events.Count - 1; I <= last; I++)
+        for (int i = 0, last = events.Count - 1; i <= last; i++)
         {
-            AddEvent(events[I]);
+            AddEvent(events[i]);
         }
     }
 
@@ -218,24 +218,24 @@ public partial class TokenControl : IDisposable
     public int GetPrefetchableTokenEvents(TokenExecutor executor)
     {
         int result;
-        int I;
+        int i;
         bool inOrder;
         bool passToken;
         if (Remote())
         {
-            I = 0;
+            i = 0;
             inOrder = true;
             passToken = false;
-            while (inOrder && !passToken && I < _events.Count)
+            while (inOrder && !passToken && i < _events.Count)
             {
-                inOrder = _events[I].TokenCounter == executor.TokenCounter + I;
-                passToken = _events[I].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
-                I += 1;
+                inOrder = _events[i].TokenCounter == executor.TokenCounter + i;
+                passToken = _events[i].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
+                i += 1;
             }
 
             if (inOrder)
             {
-                result = I;
+                result = i;
             }
             else
             {

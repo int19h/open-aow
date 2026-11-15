@@ -24,14 +24,14 @@ public static class EngineServices
 
     internal static string ReplaceText(string S, string old, string newValue)
     {
-        int P;
+        int p;
         string result = "";
-        P = Pos(old, S);
-        while (P != 0)
+        p = Pos(old, S);
+        while (p != 0)
         {
-            result = result + Copy(S, 1, P - 1) + newValue;
-            S = Copy(S, P + old.Length, S.Length - P - old.Length + 1);
-            P = Pos(old, S);
+            result = result + Copy(S, 1, p - 1) + newValue;
+            S = Copy(S, p + old.Length, S.Length - p - old.Length + 1);
+            p = Pos(old, S);
         }
 
         return result + S;
@@ -58,9 +58,9 @@ public static class EngineServices
 
     internal static void ExchangeLinkedStrings(DelphiList<StringCollection> lists, int I, int J)
     {
-        for (int K = lists.Count - 1; K >= 0; K--)
+        for (int k = lists.Count - 1; k >= 0; k--)
         {
-            lists.List[K].Exchange(I, J);
+            lists.List[k].Exchange(I, J);
         }
     }
 
@@ -68,22 +68,22 @@ public static class EngineServices
     {
         const int polynomial = -306674912;
         var table = new int[256];
-        for (int I = 0; I <= 255; I++)
+        for (int i = 0; i <= 255; i++)
         {
-            int C = I;
-            for (int J = 7; J >= 0; J--)
+            int c = i;
+            for (int j = 7; j >= 0; j--)
             {
-                if ((C & 1) != 0)
+                if ((c & 1) != 0)
                 {
-                    C = ((int)(((uint)C) >> 1)) ^ polynomial;
+                    c = ((int)(((uint)c) >> 1)) ^ polynomial;
                 }
                 else
                 {
-                    C = (int)(((uint)C) >> 1);
+                    c = (int)(((uint)c) >> 1);
                 }
             }
 
-            table[I] = C;
+            table[i] = c;
         }
 
         return ImmutableArray.Create(table);

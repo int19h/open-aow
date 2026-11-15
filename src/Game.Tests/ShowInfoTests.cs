@@ -86,9 +86,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
         var table = new BlendTable5Bit();
         {
-            // A table writes 0 where the original wrote its address, and reads back as the percentage 0.
-            var user = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = table };
-            byte[] written = Written(user);
+            byte[] written = Written(new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = table });
             Assert.Equal(new byte[] { 2, 0, 0, 0, 0, 0, 0, 0 }, written);
             var back = Read(written);
             Assert.Equal(BlendMode.User, back.BlendMode);

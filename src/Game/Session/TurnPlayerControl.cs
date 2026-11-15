@@ -403,9 +403,9 @@ public partial class TurnPlayerControl : PlayerControl
         int index;
         book = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook;
         index = book.FindFirstLog(131811, StrategicMap.Current.CurrentPlayer, StrategicMap.Current.Day - 1);
-        for (int I = index + 1, last = book.GetCount() - 1; I <= last; I++)
+        for (int i = index + 1, last = book.GetCount() - 1; i <= last; i++)
         {
-            book.GetLogs(I).Execute(false, ExecuteTrigger.NewTurn, null);
+            book.GetLogs(i).Execute(false, ExecuteTrigger.NewTurn, null);
         }
     }
 

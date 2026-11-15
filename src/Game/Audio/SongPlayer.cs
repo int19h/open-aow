@@ -29,16 +29,16 @@ public partial class SongPlayer : IDisposable
     internal void SongsChanged(object sender)
     {
         _songNames.Clear();
-        for (int I = _songs.Count - 1; I >= 0; I--)
+        for (int i = _songs.Count - 1; i >= 0; i--)
         {
             try
             {
-                var songName = AudioPlayback.GetSongName(_songs[I]);
+                var songName = AudioPlayback.GetSongName(_songs[i]);
                 _songNames.Insert(0, songName);
             }
             catch
             {
-                _songs.Delete(I);
+                _songs.Delete(i);
             }
         }
 

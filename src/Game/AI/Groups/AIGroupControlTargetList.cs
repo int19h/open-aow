@@ -52,9 +52,9 @@ public partial class AIGroupControlTargetList : ReferenceNode, IChildList<AIGrou
         bool result = true;
         var count = Count;
         StrategicMap.Current.AIExecutor.UseProcessTime(count * 20);
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            target = this[I];
+            target = this[i];
             if (!target.Validate(Control))
             {
                 RemoveChild(target);

@@ -183,8 +183,7 @@ public sealed class MldDictionary
 
     private MldEntry? Find(string source)
     {
-        var key = ContextCode == 0 ? source : source + "\u007F";
-        return Search(_sorted, key, entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
+        return Search(key: ContextCode == 0 ? source : source + "\u007F", entries: _sorted, selector: entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
     }
 
     private static MldEntry? Search(MldEntry[] entries, string key, Func<MldEntry, string> selector)
@@ -213,9 +212,8 @@ public sealed class MldDictionary
     public string TranslateContext(string source, string form, string component)
     {
         if (source.Length == 0 || ContextCode == 0) return Translate(source);
-        var key = source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
-            + (ContextCode is 1 or 2 ? component : "");
-        return Translation(source, Search(_contextual, key, Key) ?? Find(source));
+        return Translation(source, Search(key: source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
+            + (ContextCode is 1 or 2 ? component : ""), entries: _contextual, selector: Key) ?? Find(source));
     }
 
     private sealed class Reader(byte[] data)

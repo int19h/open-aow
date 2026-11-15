@@ -36,9 +36,9 @@ public partial class StructureAIPlayerAction : AIPlayerAction
         base.Activate();
         if (Control.Player.PlayerIndex > 0)
         {
-            for (int I = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; I <= last; I++)
+            for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
             {
-                var structure = StrategicMap.Current.StructureControl.GetStructure(I);
+                var structure = StrategicMap.Current.StructureControl.GetStructure(i);
                 _structureIds.Add(structure.StructureId);
             }
 

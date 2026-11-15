@@ -23,7 +23,7 @@ public partial class HuntAIGroupControl : AIGroupControl
     {
         MapField field;
         ArmyHexSprite army;
-        int I;
+        int i;
         HuntAIGroup group;
         bool found;
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
@@ -34,11 +34,11 @@ public partial class HuntAIGroupControl : AIGroupControl
             {
                 group = (HuntAIGroup)Group;
                 found = false;
-                I = group.TargetUnitIds.Count;
-                while (!found && I != 0)
+                i = group.TargetUnitIds.Count;
+                while (!found && i != 0)
                 {
-                    I -= 1;
-                    var item = group.TargetUnitIds[I];
+                    i -= 1;
+                    var item = group.TargetUnitIds[i];
                     found = army.Army.Units.IndexOfId(item) != -1;
                 }
 
@@ -71,13 +71,13 @@ public partial class HuntAIGroupControl : AIGroupControl
             case 0:
                 group = (HuntAIGroup)Group;
                 {
-                    for (int I = group.TargetUnitIds.Count - 1; I >= 0; I--)
+                    for (int i = group.TargetUnitIds.Count - 1; i >= 0; i--)
                     {
-                        var item = group.TargetUnitIds[I];
+                        var item = group.TargetUnitIds[i];
                         troop = StrategicMap.Current.UnitControl.FindUnit(item);
                         if (troop == null || troop.Player == 0)
                         {
-                            group.TargetUnitIds.Delete(I);
+                            group.TargetUnitIds.Delete(i);
                         }
                     }
                 }

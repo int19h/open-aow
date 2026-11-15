@@ -11,16 +11,16 @@ public partial class SampleDataList : DelphiList<SampleData>
     public SampleData Find(string name)
     {
         SampleData result;
-        int I;
-        I = 0;
-        while (I != Count && CompareText(name, List[I].Name) != 0)
+        int i;
+        i = 0;
+        while (i != Count && CompareText(name, List[i].Name) != 0)
         {
-            I += 1;
+            i += 1;
         }
 
-        if (I != Count)
+        if (i != Count)
         {
-            result = List[I];
+            result = List[i];
         }
         else
         {
