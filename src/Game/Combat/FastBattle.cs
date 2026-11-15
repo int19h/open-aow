@@ -84,22 +84,13 @@ public partial class FastBattle : Battle
     }
 
     // AIGroup.pas:7160
-    public override void Initialize()
-    {
-        base.Initialize();
-    }
+    public override void Initialize() => base.Initialize();
 
     // AIGroup.pas:7165
-    public override void Activate()
-    {
-        base.Activate();
-    }
+    public override void Activate() => base.Activate();
 
     // AIGroup.pas:7170
-    public override void Deactivate()
-    {
-        base.Deactivate();
-    }
+    public override void Deactivate() => base.Deactivate();
 
     // AIGroup.pas:7144
     public int GetRoundDistanceMax()

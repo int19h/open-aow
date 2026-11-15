@@ -37,7 +37,11 @@ public sealed class MldDictionary
     public void Open(string path)
     {
         Close();
-        if (!RtlUnit.Files.FileExists(path)) return;
+        if (!RtlUnit.Files.FileExists(path))
+        {
+            return;
+        }
+
         using var stream = RtlUnit.Files.Open(path, RtlUnit.fmOpenRead);
         Read(stream);
         _fileName = path;
@@ -51,13 +55,19 @@ public sealed class MldDictionary
         var reader = new Reader(copy.ToArray());
         var bytes = reader.Data;
         if (bytes.Length < 42 || !bytes.AsSpan(0, 3).SequenceEqual("MLD"u8))
+        {
             throw new InvalidDataException("Invalid MLD header");
+        }
+
         Version = bytes[3];
         ByteOrder = bytes[4];
         CharacterSet = Version == 1 ? bytes[7] : bytes[5];
         ContextCode = bytes[6];
         if (Version is < 1 or > 3 || ByteOrder > 1 || CharacterSet > 1 || ContextCode > 3)
+        {
             throw new InvalidDataException("Unsupported MLD format");
+        }
+
         reader.LittleEndian = ByteOrder != 0;
         reader.Ansi = CharacterSet != 0;
         reader.Position = 12;
@@ -67,8 +77,16 @@ public sealed class MldDictionary
         _ = reader.Offset();
         int infoSize = reader.UInt16(), infoOffset = reader.Offset();
         if (Version == 1) { infoSize = 0; infoOffset = 0; }
-        if (languageCount == 0) throw new InvalidDataException("MLD has no native language");
-        if (localeCount != 0) throw new InvalidDataException("MLD locale records are unsupported");
+        if (languageCount == 0)
+        {
+            throw new InvalidDataException("MLD has no native language");
+        }
+
+        if (localeCount != 0)
+        {
+            throw new InvalidDataException("MLD locale records are unsupported");
+        }
+
         var coverage = new List<(int Start, int End)> { (0, 42) };
         var languages = new MldLanguage[languageCount];
         reader.Seek(languageOffset);
@@ -85,7 +103,10 @@ public sealed class MldDictionary
             int charset = Version >= 3 ? reader.UInt16() : 0;
             int codePage = reader.UInt16();
             if (reader.Ansi && codePage is not (0 or 1252))
+            {
                 throw new InvalidDataException($"Unsupported MLD code page {codePage}");
+            }
+
             byte options = reader.Byte();
             var english = reader.Text();
             var native = reader.Text();
@@ -95,7 +116,11 @@ public sealed class MldDictionary
             if (block is int size)
             {
                 int end = checked(start + size);
-                if (reader.Position > end) throw new InvalidDataException("MLD language overruns its block");
+                if (reader.Position > end)
+                {
+                    throw new InvalidDataException("MLD language overruns its block");
+                }
+
                 padding = end - reader.Position;
                 reader.Seek(end);
             }
@@ -112,7 +137,11 @@ public sealed class MldDictionary
             var form = ContextCode is 1 or 3 ? reader.Text() : "";
             var component = ContextCode is 1 or 2 ? reader.Text() : "";
             var translations = RtlUnit.Strings(languageCount - 1);
-            for (int j = 0; j < translations.Length; j++) translations[j] = reader.Text();
+            for (int j = 0; j < translations.Length; j++)
+            {
+                translations[j] = reader.Text();
+            }
+
             entries[i] = new(i, start, native, form, component, Array.AsReadOnly(translations));
         }
         coverage.Add((entryOffset, reader.Position));
@@ -123,7 +152,11 @@ public sealed class MldDictionary
             var description = reader.Text();
             var owner = reader.Text();
             var users = RtlUnit.Strings(reader.UInt16());
-            for (int i = 0; i < users.Length; i++) users[i] = reader.Text();
+            for (int i = 0; i < users.Length; i++)
+            {
+                users[i] = reader.Text();
+            }
+
             string? timestamp = null;
             if (Version >= 3)
             {
@@ -132,17 +165,28 @@ public sealed class MldDictionary
                 timestamp = FormattableString.Invariant($"{year:D4}-{month:D2}-{day:D2}T{hour:D2}:{minute:D2}:{second:D2}");
             }
             if (infoSize != 0 && reader.Position - infoOffset != infoSize)
+            {
                 throw new InvalidDataException("MLD info size differs from header");
+            }
+
             info = new(infoOffset, description, owner, Array.AsReadOnly(users), timestamp);
             coverage.Add((infoOffset, reader.Position));
         }
         int consumed = 0;
         foreach (var range in coverage.OrderBy(r => r.Start).ThenBy(r => r.End))
         {
-            if (range.Start != consumed) throw new InvalidDataException("MLD has gaps or overlapping sections");
+            if (range.Start != consumed)
+            {
+                throw new InvalidDataException("MLD has gaps or overlapping sections");
+            }
+
             consumed = range.End;
         }
-        if (consumed != bytes.Length) throw new InvalidDataException("MLD has unexplained trailing bytes");
+        if (consumed != bytes.Length)
+        {
+            throw new InvalidDataException("MLD has unexplained trailing bytes");
+        }
+
         Languages = Array.AsReadOnly(languages);
         Entries = Array.AsReadOnly(entries);
         Info = info;
@@ -164,9 +208,16 @@ public sealed class MldDictionary
 
     public void SetLanguage(int value)
     {
-        if (value is < -1 or > 5) throw new ArgumentOutOfRangeException(nameof(value));
+        if (value is < -1 or > 5)
+        {
+            throw new ArgumentOutOfRangeException(nameof(value));
+        }
+
         _language = value == -1 ? LocalizationLanguage.Automatic() : value;
-        if (_fileName is string path) Open(path);
+        if (_fileName is string path)
+        {
+            Open(path);
+        }
     }
 
     public void Close()
@@ -181,10 +232,7 @@ public sealed class MldDictionary
         Version = ByteOrder = CharacterSet = ContextCode = FileSize = ConsumedBytes = 0;
     }
 
-    private MldEntry? Find(string source)
-    {
-        return Search(key: ContextCode == 0 ? source : source + "\u007F", entries: _sorted, selector: entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
-    }
+    private MldEntry? Find(string source) => Search(key: ContextCode == 0 ? source : source + "\u007F", entries: _sorted, selector: entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
 
     private static MldEntry? Search(MldEntry[] entries, string key, Func<MldEntry, string> selector)
     {
@@ -193,16 +241,30 @@ public sealed class MldDictionary
         {
             int middle = low + ((high - low) >> 1);
             int comparison = Cp1252.Compare(selector(entries[middle]), key);
-            if (comparison == 0) return entries[middle];
-            if (comparison < 0) low = middle + 1;
-            else high = middle - 1;
+            if (comparison == 0)
+            {
+                return entries[middle];
+            }
+
+            if (comparison < 0)
+            {
+                low = middle + 1;
+            }
+            else
+            {
+                high = middle - 1;
+            }
         }
         return null;
     }
 
     private string Translation(string source, MldEntry? entry)
     {
-        if (entry is null || _language == 0 || _language > entry.Translations.Count) return source;
+        if (entry is null || _language == 0 || _language > entry.Translations.Count)
+        {
+            return source;
+        }
+
         var translated = entry.Translations[_language - 1];
         return translated.Length == 0 ? source : translated;
     }
@@ -211,7 +273,11 @@ public sealed class MldDictionary
 
     public string TranslateContext(string source, string form, string component)
     {
-        if (source.Length == 0 || ContextCode == 0) return Translate(source);
+        if (source.Length == 0 || ContextCode == 0)
+        {
+            return Translate(source);
+        }
+
         return Translation(source, Search(key: source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
             + (ContextCode is 1 or 2 ? component : ""), entries: _contextual, selector: Key) ?? Find(source));
     }
@@ -225,14 +291,21 @@ public sealed class MldDictionary
 
         public void Seek(int position)
         {
-            if ((uint)position > (uint)Data.Length) throw new InvalidDataException("MLD offset outside file");
+            if ((uint)position > (uint)Data.Length)
+            {
+                throw new InvalidDataException("MLD offset outside file");
+            }
+
             Position = position;
         }
 
         private ReadOnlySpan<byte> Take(int count)
         {
             if (count < 0 || Position < 0 || Position > Data.Length - count)
+            {
                 throw new InvalidDataException("Truncated MLD data");
+            }
+
             var span = Data.AsSpan(Position, count);
             Position += count;
             return span;
@@ -244,7 +317,11 @@ public sealed class MldDictionary
         public int Offset()
         {
             uint offset = LittleEndian ? BinaryPrimitives.ReadUInt32LittleEndian(Take(4)) : BinaryPrimitives.ReadUInt32BigEndian(Take(4));
-            if (offset > int.MaxValue) throw new InvalidDataException("MLD offset outside file");
+            if (offset > int.MaxValue)
+            {
+                throw new InvalidDataException("MLD offset outside file");
+            }
+
             return (int)offset;
         }
 
@@ -253,7 +330,11 @@ public sealed class MldDictionary
         public string Chars(int count)
         {
             var raw = Take(checked(count * (Ansi ? 1 : 2)));
-            if (Ansi) return Cp1252.Decode(raw.ToArray());
+            if (Ansi)
+            {
+                return Cp1252.Decode(raw.ToArray());
+            }
+
             var encoding = new UnicodeEncoding(!LittleEndian, false, true);
             return Cp1252.Normalize(encoding.GetString(raw));
         }

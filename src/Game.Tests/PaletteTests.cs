@@ -19,12 +19,12 @@ public sealed class PaletteTests
         for (int i = 0; i < 256; i++)
         {
             var entry = palette[i];
-            Assert.Equal(image[4 + 4 * i], entry.Red);
-            Assert.Equal(image[5 + 4 * i], entry.Green);
-            Assert.Equal(image[6 + 4 * i], entry.Blue);
-            Assert.Equal(image[7 + 4 * i], entry.Flags);
-            Assert.Equal(BitConverter.ToUInt16(image, 4 + 4 * i), entry.PackedColor);
-            Assert.Equal(BitConverter.ToUInt32(image, 4 + 4 * i), entry.Value);
+            Assert.Equal(image[4 + (4 * i)], entry.Red);
+            Assert.Equal(image[5 + (4 * i)], entry.Green);
+            Assert.Equal(image[6 + (4 * i)], entry.Blue);
+            Assert.Equal(image[7 + (4 * i)], entry.Flags);
+            Assert.Equal(BitConverter.ToUInt16(image, 4 + (4 * i)), entry.PackedColor);
+            Assert.Equal(BitConverter.ToUInt32(image, 4 + (4 * i)), entry.Value);
             Assert.Equal(entry.Value, palette.Pixels[i]);
         }
 
@@ -54,7 +54,11 @@ public sealed class PaletteTests
     {
         var palette = new Palette { PixelFormatId = from };
         var random = new Random(11);
-        for (int i = 0; i < 256; i++) palette[i] = new((uint)random.Next() ^ ((uint)random.Next() << 16));
+        for (int i = 0; i < 256; i++)
+        {
+            palette[i] = new((uint)random.Next() ^ ((uint)random.Next() << 16));
+        }
+
         uint[] before = palette.Pixels.ToArray();
 
         Assert.Equal(PixelFormats.GFXE_OK, palette.Remap(to));
@@ -79,7 +83,11 @@ public sealed class PaletteTests
     {
         var first = new Palette { PixelFormatId = format };
         var second = new Palette { PixelFormatId = format };
-        for (int i = 0; i < 256; i++) first[i] = second[i] = new((uint)(i * 0x0101_0101));
+        for (int i = 0; i < 256; i++)
+        {
+            first[i] = second[i] = new((uint)(i * 0x0101_0101));
+        }
+
         Assert.True(first.Compare(second));
         for (int shift = 0; shift < 32; shift += 8)
         {

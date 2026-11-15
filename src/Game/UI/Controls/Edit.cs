@@ -82,9 +82,9 @@ public partial class Edit : Control
             _cursorPosition = base.Text.Length;
         }
 
-        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * BorderWidth - 1)
+        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
         {
-            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * BorderWidth - 1)
+            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
             {
                 FirstChar += 1;
             }
@@ -198,9 +198,9 @@ public partial class Edit : Control
                     if (X > Window.WinLeft + WinLeft + BorderWidth + textWidth)
                     {
                         FirstChar = 1;
-                        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - 2 * BorderWidth - 1)
+                        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
                         {
-                            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * BorderWidth - 1)
+                            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
                             {
                                 FirstChar += 1;
                             }
@@ -326,7 +326,7 @@ public partial class Edit : Control
 
             if (scroll)
             {
-                while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - 2 * BorderWidth - 1)
+                while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
                 {
                     FirstChar += 1;
                     _cursorPosition -= 1;
@@ -402,16 +402,34 @@ public partial class Edit : Control
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         Handled = Redraw;
-        if (!_editable || !Redraw || !Valid || !Visible) return;
+        if (!_editable || !Redraw || !Valid || !Visible)
+        {
+            return;
+        }
+
         switch (key)
         {
             case 37:
-                if (_cursorPosition > 0) _cursorPosition--;
-                else if (FirstChar > 1) FirstChar--;
+                if (_cursorPosition > 0)
+                {
+                    _cursorPosition--;
+                }
+                else if (FirstChar > 1)
+                {
+                    FirstChar--;
+                }
+
                 break;
             case 39:
-                if (_shownChars > _cursorPosition) _cursorPosition++;
-                else if (FirstChar + _shownChars < base.Text.Length) FirstChar++;
+                if (_shownChars > _cursorPosition)
+                {
+                    _cursorPosition++;
+                }
+                else if (FirstChar + _shownChars < base.Text.Length)
+                {
+                    FirstChar++;
+                }
+
                 break;
             case 46:
                 if (_cursorPosition < base.Text.Length)

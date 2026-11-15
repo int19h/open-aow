@@ -95,10 +95,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
     public abstract int GetCount();
 
     // Engine.pas:2661
-    public virtual void PersistChildren(IPersister persister)
-    {
-        persister.Children("Children", children: new NodeChildren(this));
-    }
+    public virtual void PersistChildren(IPersister persister) => persister.Children("Children", children: new NodeChildren(this));
 
     // Engine.pas:2715
     public virtual bool SendToChild(ref EngineMessage message) => (message.MessageId & 1073741824) == 0;
@@ -327,7 +324,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         base.Dispose();
     }
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
     public sealed class ChildrenAccessor(CustomNode target)
     {

@@ -75,10 +75,7 @@ public partial class TroopResource : EngineResource
     public virtual int GetObtainValue() => 0;
 
     // UnitRes.PAS:33
-    public void SetUnitGraphicsResourceIndex(int value)
-    {
-        UnitGraphicsResourceIndex = value;
-    }
+    public void SetUnitGraphicsResourceIndex(int value) => UnitGraphicsResourceIndex = value;
 
     // UnitRes.PAS:48
     public void EditDropMessage(ref EngineMessage message)

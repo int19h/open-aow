@@ -41,10 +41,7 @@ public partial class ReferenceNode : OwningNode
     }
 
     // Engine.pas:8152
-    public override void DestroyAllChildren()
-    {
-        Clear();
-    }
+    public override void DestroyAllChildren() => Clear();
 
     // Engine.pas:8177
     public override int RemoveChild(EngineObject child)

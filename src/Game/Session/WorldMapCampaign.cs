@@ -36,10 +36,7 @@ public partial class WorldMapCampaign : Campaign
     }
 
     // AoWVideoDlg.pas:348
-    public override void Clear()
-    {
-        base.Clear();
-    }
+    public override void Clear() => base.Clear();
 
     // AoWVideoDlg.pas:343
     public override CampaignScenario CreateScenario() => new WorldMapCampaignScenario(null) { Holder = CreationHolder() };

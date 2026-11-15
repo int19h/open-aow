@@ -53,6 +53,8 @@ public sealed class MapCoordinateEqualityTests
         // HexSprite.GetMapCoordinate and MapField.GetMapCoordinate computed HexX + HexY shl 8 +
         // HexLevel shl 16. For a map position, whose components are not negative, those are the bytes.
         foreach (var (x, y, level) in new (sbyte, sbyte, sbyte)[] { (0, 0, 0), (113, 97, 2), (127, 127, 4) })
+        {
             Assert.Equal(x + (y << 8) + (level << 16), StoredCoordinateImage.From(HexGeometry.PackMapCoordinate(x, y, level), unknownBytes: 0).ToInt32());
+        }
     }
 }

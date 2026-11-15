@@ -50,10 +50,7 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     }
 
     // AIGroup.pas:24
-    public void Delete(int index)
-    {
-        GetProductions(index)?.Dispose();
-    }
+    public void Delete(int index) => GetProductions(index)?.Dispose();
 
     // AIGroup.pas:29
     public void DeleteUnit(Troop troop)

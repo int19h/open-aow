@@ -157,7 +157,7 @@ public partial class Scanner : Control
             {
                 if (UpdateStep > -1)
                 {
-                    DrawMap(0, _mapHeight * UpdateStep / _steps, _mapWidth, _mapHeight / _steps + 1);
+                    DrawMap(0, _mapHeight * UpdateStep / _steps, _mapWidth, (_mapHeight / _steps) + 1);
                 }
 
                 UpdateStep += 1;
@@ -228,7 +228,7 @@ public partial class Scanner : Control
                 _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
-                    var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + TLeft * WinWidth / _mapWidth, Window.WinTop + WinTop + TTop * WinHeight / _mapHeight, _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
+                    var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.WinTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
                     _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle2, ref surfaceDescription);
                 }
 
@@ -254,8 +254,8 @@ public partial class Scanner : Control
             mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
             oldLeft = TLeft;
             oldTop = TTop;
-            TLeft = X - _tWidth / 2;
-            TTop = mapY - _tHeight / 2;
+            TLeft = X - (_tWidth / 2);
+            TTop = mapY - (_tHeight / 2);
             if (TTop != oldTop || oldLeft != TLeft)
             {
                 Drawn = false;
@@ -298,8 +298,8 @@ public partial class Scanner : Control
                 oldTop = TTop;
                 mapX = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
                 mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
-                TLeft = mapX - _tWidth / 2;
-                TTop = mapY - _tHeight / 2;
+                TLeft = mapX - (_tWidth / 2);
+                TTop = mapY - (_tHeight / 2);
                 if (TTop != oldTop || TLeft != oldLeft)
                 {
                     Drawn = false;
@@ -738,14 +738,14 @@ public partial class Scanner : Control
                     {
                         for (int mapY = Y; mapY <= Y + height - 1; mapY++)
                         {
-                            var rectangle = new Rect(WinWidth * mapX / _mapWidth, _drawableHeight * mapY / _mapHeight + yOffset, (mapX + 1) * WinWidth / _mapWidth, (mapY + 1) * _drawableHeight / _mapHeight + yOffset);
+                            var rectangle = new Rect(WinWidth * mapX / _mapWidth, (_drawableHeight * mapY / _mapHeight) + yOffset, (mapX + 1) * WinWidth / _mapWidth, ((mapY + 1) * _drawableHeight / _mapHeight) + yOffset);
                             lockedSurface.ClipRectangle = rectangle;
                             explored = GetExplored(mapX, mapY);
                             if (explored == 0)
                             {
                                 for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
                                 {
-                                    for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _fogImageLibrary[0].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
+                                    for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _fogImageLibrary[0].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
                                     {
                                         var fogImageLibraryHeight = _fogImageLibrary[0];
                                         var fogImageLibraryWidth = _fogImageLibrary[0];
@@ -766,12 +766,12 @@ public partial class Scanner : Control
                                     overlayIndex = overlay + 1;
                                 }
 
-                                imageIndex = overlayIndex * 16 + terrain;
+                                imageIndex = (overlayIndex * 16) + terrain;
                                 if (terrain == 15)
                                 {
                                     for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
                                     {
-                                        for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _fogImageLibrary[0].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
+                                        for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _fogImageLibrary[0].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
                                         {
                                             var fogImageLibraryHeight = _fogImageLibrary[0];
                                             var fogImageLibraryWidth = _fogImageLibrary[0];
@@ -785,7 +785,7 @@ public partial class Scanner : Control
                                     {
                                         for (int tileX = WinWidth * mapX / _mapWidth / _tilesImageLibrary[imageIndex].Width, last = (mapX + 1) * WinWidth / _mapWidth / _tilesImageLibrary[imageIndex].Width; tileX <= last; tileX++)
                                         {
-                                            for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _tilesImageLibrary[imageIndex].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _tilesImageLibrary[imageIndex].Height; tileY <= lastTileY; tileY++)
+                                            for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _tilesImageLibrary[imageIndex].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _tilesImageLibrary[imageIndex].Height; tileY <= lastTileY; tileY++)
                                             {
                                                 var tilesImageLibraryHeight = _tilesImageLibrary[imageIndex];
                                                 var tilesImageLibraryWidth = _tilesImageLibrary[imageIndex];
@@ -808,7 +808,7 @@ public partial class Scanner : Control
                                     {
                                         for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[1].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[1].Width; tileX <= last; tileX++)
                                         {
-                                            for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _fogImageLibrary[1].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _fogImageLibrary[1].Height; tileY <= lastTileY; tileY++)
+                                            for (int tileY = ((_drawableHeight * mapY / _mapHeight) + yOffset) / _fogImageLibrary[1].Height, lastTileY = (((mapY + 1) * _drawableHeight / _mapHeight) + yOffset) / _fogImageLibrary[1].Height; tileY <= lastTileY; tileY++)
                                             {
                                                 var fogImageLibraryHeight = _fogImageLibrary[1];
                                                 var fogImageLibraryWidth = _fogImageLibrary[1];
@@ -872,36 +872,36 @@ public partial class Scanner : Control
                                 building = objectValue & 16711680;
                                 if (building > 0 && _buildings)
                                 {
-                                    imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + (((int)(((uint)building) >> 16)) & 63) * 6;
+                                    imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + ((((int)(((uint)building) >> 16)) & 63) * 6);
                                     if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                     {
                                         var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
                                         var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
-                                        _objectsImageLibrary[imageIndex].ShowClipped(WinWidth / (_mapWidth * 2) + x * WinWidth / _mapWidth - objectsImageLibraryWidth.Width / 2, WinHeight / (_mapHeight * 2) + y * WinHeight / _mapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
+                                        _objectsImageLibrary[imageIndex].ShowClipped((WinWidth / (_mapWidth * 2)) + (x * WinWidth / _mapWidth) - (objectsImageLibraryWidth.Width / 2), (WinHeight / (_mapHeight * 2)) + (y * WinHeight / _mapHeight) - (objectsImageLibraryHeight.Height / 2) + yOffset, lockedSurface);
                                     }
                                 }
                                 else
                                 {
                                     if (natural > 0 && _naturals)
                                     {
-                                        imageIndex = (int)(((uint)natural) >> 8) * 6 + 9;
+                                        imageIndex = ((int)(((uint)natural) >> 8) * 6) + 9;
                                         if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                         {
                                             var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
                                             var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
-                                            _objectsImageLibrary[imageIndex].ShowClipped(WinWidth / (_mapWidth * 2) + x * WinWidth / _mapWidth - objectsImageLibraryWidth.Width / 2, WinHeight / (_mapHeight * 2) + y * WinHeight / _mapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
+                                            _objectsImageLibrary[imageIndex].ShowClipped((WinWidth / (_mapWidth * 2)) + (x * WinWidth / _mapWidth) - (objectsImageLibraryWidth.Width / 2), (WinHeight / (_mapHeight * 2)) + (y * WinHeight / _mapHeight) - (objectsImageLibraryHeight.Height / 2) + yOffset, lockedSurface);
                                         }
                                     }
                                 }
 
                                 if (army > 0 && _armies)
                                 {
-                                    imageIndex = army * 6 + 8;
+                                    imageIndex = (army * 6) + 8;
                                     if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                     {
                                         var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
                                         var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
-                                        _objectsImageLibrary[imageIndex].ShowClipped(WinWidth / (_mapWidth * 2) + x * WinWidth / _mapWidth - objectsImageLibraryWidth.Width / 2, WinHeight / (_mapHeight * 2) + y * WinHeight / _mapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
+                                        _objectsImageLibrary[imageIndex].ShowClipped((WinWidth / (_mapWidth * 2)) + (x * WinWidth / _mapWidth) - (objectsImageLibraryWidth.Width / 2), (WinHeight / (_mapHeight * 2)) + (y * WinHeight / _mapHeight) - (objectsImageLibraryHeight.Height / 2) + yOffset, lockedSurface);
                                     }
                                 }
                             }

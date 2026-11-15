@@ -36,10 +36,7 @@ public partial class BookWindow : Window
     }
 
     // AoWBookWindow.pas:44
-    public BookWindow(Component owner) : base(owner)
-    {
-        PageTurn = new PageTurnControl();
-    }
+    public BookWindow(Component owner) : base(owner) => PageTurn = new PageTurnControl();
 
     // AoWBookWindow.pas:78
     public override void Update()

@@ -276,10 +276,7 @@ public partial class CombatUnit : CombatObject
     public override int GetExperience() => Troop.GetExperience();
 
     // Combat.pas:1480
-    public override void SetExperience(int value)
-    {
-        Troop.SetExperience(value);
-    }
+    public override void SetExperience(int value) => Troop.SetExperience(value);
 
     // Combat.pas:1483
     public override byte GetLevel() => (byte)Troop.GetUnitLevel();
@@ -296,7 +293,7 @@ public partial class CombatUnit : CombatObject
             level = u.GetAbilityLevel(64);
             if (level != 0)
             {
-                result = level * 2 + 4;
+                result = (level * 2) + 4;
             }
             else
             {
@@ -333,10 +330,7 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1271
-    public override void SetAbilityEnabled(int abilityId, bool enabled)
-    {
-        Troop.SetAbilitySet(abilityId, (byte)(enabled ? 1 : 0));
-    }
+    public override void SetAbilityEnabled(int abilityId, bool enabled) => Troop.SetAbilitySet(abilityId, (byte)(enabled ? 1 : 0));
 
     // Combat.pas:1274
     public override int GetAbilityLevel(int abilityId) => Troop.GetAbilityLevel(abilityId);
@@ -545,10 +539,7 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1124
-    public override void NewRound()
-    {
-        base.NewRound();
-    }
+    public override void NewRound() => base.NewRound();
 
     // Combat.pas:1127
     public override void CombatDone()
@@ -769,10 +760,7 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1522
-    public virtual void KillUnit()
-    {
-        Troop.Killed();
-    }
+    public virtual void KillUnit() => Troop.Killed();
 
     // Combat.pas:1087
     public void Setup(byte id, byte side, Troop troop, byte position, byte combatPlayer)

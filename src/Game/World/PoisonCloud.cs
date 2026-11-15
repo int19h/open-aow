@@ -19,10 +19,7 @@ namespace Aow.Game.World;
 // Player, TurnsRemaining, Drifting, Direction, Updated
 public partial class PoisonCloud : MultiHexMapObject
 {
-    public PoisonCloud(CustomNode owner) : base(owner)
-    {
-        _drifting = false;
-    }
+    public PoisonCloud(CustomNode owner) : base(owner) => _drifting = false;
 
     // PoisonC.pas:64
     public new const int ClassId = 135743;

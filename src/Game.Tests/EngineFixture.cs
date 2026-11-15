@@ -21,7 +21,11 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static void RestoreEngine()
     {
-        foreach (var pair in s_state) pair.Key.SetValue(Engine, pair.Value);
+        foreach (var pair in s_state)
+        {
+            pair.Key.SetValue(Engine, pair.Value);
+        }
+
         GamePack.Current = GameSet;
         StrategicMap.Current = null!;
     }
@@ -33,10 +37,16 @@ public sealed partial class EngineFixture : IDisposable
         Engine = GameEngine.Create(null!);
         GameSet = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
+        {
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (!field.IsInitOnly) s_state.Add(field, field.GetValue(Engine));
+                if (!field.IsInitOnly)
+                {
+                    s_state.Add(field, field.GetValue(Engine));
+                }
             }
+        }
+
         _host.RestoreServices();
     }
 
@@ -270,10 +280,7 @@ public sealed partial class EngineFixture : IDisposable
     {
         private readonly Owner _recorder;
 
-        public MapOwner(Owner recorder) : base(null!)
-        {
-            _recorder = recorder;
-        }
+        public MapOwner(Owner recorder) : base(null!) => _recorder = recorder;
 
         public Owner Recorder => _recorder;
 
@@ -308,7 +315,7 @@ public sealed partial class EngineFixture : IDisposable
 
     // Whether the owner is the recorder or an owner that forwards to it.
     internal static bool Forwards(CustomNode owner, Owner recorder) =>
-        ReferenceEquals(owner, recorder) || owner is IForwarder { Recorder: var forwarded } && forwarded == recorder;
+        ReferenceEquals(owner, recorder) || (owner is IForwarder { Recorder: var forwarded } && forwarded == recorder);
 
     internal static T Configure<T>(T value, Action<T> configure)
     {

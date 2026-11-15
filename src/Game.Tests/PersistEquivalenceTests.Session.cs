@@ -109,7 +109,11 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(map =>
         {
             map.SeatedPlayer = 2;
-            if (network) map.ConnectionType = PlayerConnectionType.Network;
+            if (network)
+            {
+                map.ConnectionType = PlayerConnectionType.Network;
+            }
+
             var player = NewPlayer(index: 2);
             player.BaseHeroJoinDay = 6;
             var document = DocumentBackend.Write(TreeWriter.Write(player, factory: Factory), classValue: s_schema.Get("Player"), schema: s_schema, engine: "game");
@@ -247,13 +251,20 @@ public sealed partial class PersistEquivalenceTests
                 byte[]? image = null;
                 ObjectNode? tree = null;
                 AlikeOutcome(() => image = Image(source), viaPersist: () => tree = TreeWriter.Write(source, factory: Factory), label: className + " write");
-                if (image is null || tree is null) return;
+                if (image is null || tree is null)
+                {
+                    return;
+                }
+
                 EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " write");
                 EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " original");
                 var stream = viaReadWrite = Blank(className);
                 var persisted = viaPersist = Blank(className);
                 bool loaded = AlikeOutcome(() => Load(stream, image: image), viaPersist: () => TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: engine), objectValue: persisted, factory: Factory), label: className + " load");
-                if (loaded) EqualBytes(Image(stream), actual: Image(persisted), label: className + " read");
+                if (loaded)
+                {
+                    EqualBytes(Image(stream), actual: Image(persisted), label: className + " read");
+                }
             }
             finally
             {
@@ -273,16 +284,44 @@ public sealed partial class PersistEquivalenceTests
         foreach (var engineClass in EngineClass.All)
         {
             var type = engineClass.Type;
-            if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract) continue;
-            if (type.Namespace is not { } space) continue;
-            if (type != typeof(EmailGame) && !s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal))) continue;
-            if (space.StartsWith("Aow.Game.Magic.Abilities", comparisonType: StringComparison.Ordinal)) continue;
-            if (EngineObject.TreePersistenceRefusal(type) is not null) continue;
-            if (FormatSchema.Current.Find(engineClass.StorageKey) is null) continue;
+            if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract)
+            {
+                continue;
+            }
+
+            if (type.Namespace is not { } space)
+            {
+                continue;
+            }
+
+            if (type != typeof(EmailGame) && !s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal)))
+            {
+                continue;
+            }
+
+            if (space.StartsWith("Aow.Game.Magic.Abilities", comparisonType: StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            if (EngineObject.TreePersistenceRefusal(type) is not null)
+            {
+                continue;
+            }
+
+            if (FormatSchema.Current.Find(engineClass.StorageKey) is null)
+            {
+                continue;
+            }
+
             names.Add(engineClass.StorageKey);
         }
         var data = new TheoryData<string>();
-        foreach (var name in names) data.Add(name);
+        foreach (var name in names)
+        {
+            data.Add(name);
+        }
+
         return data;
     }
 
@@ -295,9 +334,21 @@ public sealed partial class PersistEquivalenceTests
         var added = new Dictionary<int, EngineClass>();
         foreach (var engineClass in EngineClass.All)
         {
-            if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space) continue;
-            if (!s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal))) continue;
-            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId)) continue;
+            if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space)
+            {
+                continue;
+            }
+
+            if (!s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal)))
+            {
+                continue;
+            }
+
+            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId))
+            {
+                continue;
+            }
+
             added[engineClass.ClassId] = engineClass;
         }
         var classes = added.Values.ToArray();
@@ -340,7 +391,7 @@ public sealed partial class PersistEquivalenceTests
                 Assert.Contains("DiplomaticActionList", stream.Objects);
             }
             Assert.Equal("Easy", player.Settings);
-            Assert.Equal(7, unchecked((byte)(player.View.X)));
+            Assert.Equal(7, unchecked((byte)player.View.X));
 
             using var list = new EventLogList(null!) { Holder = EngineFixture.Engine };
             var log = new TextEventLog(null!) { Holder = EngineFixture.Engine, Text = "First" };
@@ -436,7 +487,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var descriptor = EngineClass.Of<DiplomaticActionTokenEvent>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
-        if (added) EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        if (added)
+        {
+            EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        }
+
         try
         {
             using var tokenEvent = new DiplomaticActionTokenEvent(null!) { Holder = EngineFixture.Engine, Operation = 3 };
@@ -459,7 +514,10 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            if (added)
+            {
+                EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            }
         }
     }
 
@@ -467,10 +525,7 @@ public sealed partial class PersistEquivalenceTests
         new(null!) { Holder = EngineFixture.Engine, PlayerIndex = (sbyte)index };
 
     // A preview load, as a preview reads a map.
-    private static void LoadPreview(EngineObject objectValue, byte[] image)
-    {
-        TreeReader.Read(node: OriginalBackend.Read(classValue: s_schema.Get(Factory.ClassName(objectValue)), image: image, schema: s_schema, engine: "game"), objectValue: objectValue, factory: Factory, preview: true);
-    }
+    private static void LoadPreview(EngineObject objectValue, byte[] image) => TreeReader.Read(node: OriginalBackend.Read(classValue: s_schema.Get(Factory.ClassName(objectValue)), image: image, schema: s_schema, engine: "game"), objectValue: objectValue, factory: Factory, preview: true);
 
     // The engine status is private state of the engine's map loads. The test sets it around the
     // body and puts the previous status back.

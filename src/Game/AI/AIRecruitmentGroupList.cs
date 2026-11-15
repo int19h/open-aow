@@ -48,16 +48,10 @@ public partial class AIRecruitmentGroupList : ReferenceNode, IChildList<AIRecrui
     }
 
     // AIGroup.pas:834
-    public void Add(AIRecruitmentGroup group)
-    {
-        AddChild(group);
-    }
+    public void Add(AIRecruitmentGroup group) => AddChild(group);
 
     // AIGroup.pas:839
-    public void Delete(int index)
-    {
-        RemoveChild(GetRecruitmentGroups(index));
-    }
+    public void Delete(int index) => RemoveChild(GetRecruitmentGroups(index));
 
     // AIGroup.pas:844
     public bool Validate(AIGroupControl control)

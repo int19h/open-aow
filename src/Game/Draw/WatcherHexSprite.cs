@@ -282,7 +282,10 @@ public partial class WatcherHexSprite : SingleHexSprite
             {
                 var visibilityRange = VisibilityRange();
                 if (!(walk.Radius <= visibilityRange))
+                {
                     break;
+                }
+
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     if (!level.Field[walk.X, walk.Y].GetExplored(StrategicMap.Current.SeatedPlayer))
@@ -360,7 +363,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     public int VisibilityRange()
     {
         int result = 8;
-        if (HexLevel != 0 || Enchantment.PlayerIndex > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
+        if (HexLevel != 0 || (Enchantment.PlayerIndex > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery)))
         {
             result += 1;
             result = (int)(((uint)result) >> 1);

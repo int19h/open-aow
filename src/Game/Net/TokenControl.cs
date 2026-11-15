@@ -155,10 +155,7 @@ public partial class TokenControl : IDisposable
     }
 
     // NetworkE.pas:1218
-    public virtual void AddLocalEvent(TokenEvent tokenEvent)
-    {
-        Add(tokenEvent);
-    }
+    public virtual void AddLocalEvent(TokenEvent tokenEvent) => Add(tokenEvent);
 
     // NetworkE.pas:1238
     public virtual void AddEvents(TokenEventList events)
@@ -181,10 +178,7 @@ public partial class TokenControl : IDisposable
     }
 
     // NetworkE.pas:1223
-    public void ClearEvents()
-    {
-        _events.Clear();
-    }
+    public void ClearEvents() => _events.Clear();
 
     // NetworkE.pas:1228
     public TokenEvent GetEvent(int index) => _events[index];
@@ -251,9 +245,9 @@ public partial class TokenControl : IDisposable
         return result;
     }
 
-    public TokenEventList Events { get => _events; }
-    public int Player { get => _player; }
+    public TokenEventList Events => _events;
+    public int Player => _player;
     public bool Active { get => _active; set => _active = value; }
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
 }

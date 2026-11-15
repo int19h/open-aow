@@ -173,10 +173,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
     }
 
     // PlayerC.PAS:1636
-    public override void PasswordValidated()
-    {
-        ContinueLoadedMap();
-    }
+    public override void PasswordValidated() => ContinueLoadedMap();
 
     // PlayerC.PAS:1652
     public override void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)

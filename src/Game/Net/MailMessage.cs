@@ -19,9 +19,7 @@ public partial class MailMessage : Component
     public MailAddressList Recipients { get; }
 
     // AoWSMTPDlg.pas:20
-    public void SetBody(StringCollection value)
-    {
+    public void SetBody(StringCollection value) =>
         /* TODO: Implement TmsMessage.SetBody. */
         throw new NotImplementedException();
-    }
 }

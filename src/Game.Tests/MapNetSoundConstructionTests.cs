@@ -40,7 +40,12 @@ public sealed class MapNetSoundConstructionTests
             typeof(PlayerCommunicationSettings), typeof(PlayerCommunicationSettingsList),
             typeof(TokenPackage), typeof(PassTokenTokenEvent), typeof(SyncTokenEvent), typeof(SongList), typeof(SfxLibrary)];
         foreach (Type type in types)
-            foreach (bool owned in new[] { false, true }) yield return [type, owned];
+        {
+            foreach (bool owned in new[] { false, true })
+            {
+                yield return [type, owned];
+            }
+        }
     }
 
     [Theory]
@@ -52,7 +57,10 @@ public sealed class MapNetSoundConstructionTests
         CustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, owner) : null!;
         var meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
+        {
             engine.UnregisterEngineClasses([previous]);
+        }
+
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
         var direct = type == typeof(MapLevel) ? new MapLevel(argument)
             : (EngineObject)Activator.CreateInstance(type, [argument])!;
@@ -70,8 +78,16 @@ public sealed class MapNetSoundConstructionTests
         }
         finally
         {
-            foreach (var value in values) value.Dispose();
-            if (argument is GameMap mapOwner) mapOwner.Dispose();
+            foreach (var value in values)
+            {
+                value.Dispose();
+            }
+
+            if (argument is GameMap mapOwner)
+            {
+                mapOwner.Dispose();
+            }
+
             engine.Dispose();
         }
         Assert.Empty(owner.Members);
@@ -157,7 +173,11 @@ public sealed class MapNetSoundConstructionTests
                 break;
             case DataPackage package:
                 Assert.Equal(1, package.RefCount);
-                if (package is TokenPackage tokens) Assert.Equal(0, tokens.TokenEvents.Count);
+                if (package is TokenPackage tokens)
+                {
+                    Assert.Equal(0, tokens.TokenEvents.Count);
+                }
+
                 break;
             case PlayerCommunicationSettings settings:
                 Assert.Equal(ConnectionMode.Local, settings.ConnectionMode);
@@ -268,8 +288,16 @@ public sealed class MapNetSoundConstructionTests
                 case PlayerCommunicationControl communication:
                     Assert.Equal(1, communication.RefCount);
                     Assert.Equal(0, communication.Count);
-                    if (value is RemotePlayerCommunicationControl remote) Assert.Equal(0, remote.PackageDataList.Count);
-                    if (value is LocalPlayerCommunicationControl local) Assert.Equal(0, local.PackageDataList.Count);
+                    if (value is RemotePlayerCommunicationControl remote)
+                    {
+                        Assert.Equal(0, remote.PackageDataList.Count);
+                    }
+
+                    if (value is LocalPlayerCommunicationControl local)
+                    {
+                        Assert.Equal(0, local.PackageDataList.Count);
+                    }
+
                     break;
                 case PackageDataList packages: Assert.Equal(0, packages.Count); break;
                 case TokenPackageDistributor distributor: Assert.Null(distributor.TokenManager); break;

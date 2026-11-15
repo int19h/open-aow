@@ -73,7 +73,7 @@ public partial class CombatUnitInfo : UIModule
             {
                 var ability = UI.General.CombatUnit.Abilities[drawItem];
                 var combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (UI.General.CombatUnit.Abilities[drawItem]).Ability != 52;
+                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
                     var moves = UI.General.CombatUnit.Unit.Troop.GetMoves();
@@ -148,7 +148,7 @@ public partial class CombatUnitInfo : UIModule
             {
                 var ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
                 var combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem]).Ability != 52)
+                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem].Ability != 52)
                 {
                     return;
                 }

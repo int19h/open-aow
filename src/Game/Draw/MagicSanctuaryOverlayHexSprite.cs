@@ -12,10 +12,7 @@ namespace Aow.Game.Draw;
 // Structure. FadeEndFrame
 public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
 {
-    public MagicSanctuaryOverlayHexSprite(CustomNode owner) : base(owner)
-    {
-        _fadeEndFrame = -1;
-    }
+    public MagicSanctuaryOverlayHexSprite(CustomNode owner) : base(owner) => _fadeEndFrame = -1;
 
     public MagicSanctuary Structure { get; set; }
 
@@ -38,7 +35,7 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
         HexGeometry.HexToPixel(Structure.StoredHexX, Structure.StoredHexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        sequence = ((World.MapObject)(Structure)).Resource.ImageSequenceList.GetImageSequence(19);
+        sequence = ((World.MapObject)Structure).Resource.ImageSequenceList.GetImageSequence(19);
         if (sequence != null)
         {
             blend = 50;
@@ -65,10 +62,7 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
     }
 
     // MagicSanctuary.pas:105
-    public void FadeUp()
-    {
-        _fadeEndFrame = StrategicMap.Current.Frame + 20;
-    }
+    public void FadeUp() => _fadeEndFrame = StrategicMap.Current.Frame + 20;
 
     // MagicSanctuary.pas:22
 

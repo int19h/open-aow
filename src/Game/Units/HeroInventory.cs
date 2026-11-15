@@ -26,10 +26,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     public event NotifyEvent<object> OnChanged;
 
     // Hero.PAS:274
-    public HeroInventory(CustomNode owner) : base(null)
-    {
-        SetOwnerWithoutNotify(owner);
-    }
+    public HeroInventory(CustomNode owner) : base(null) => SetOwnerWithoutNotify(owner);
 
     // Hero.PAS:280
     public override void Dispose()

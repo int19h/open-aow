@@ -32,7 +32,10 @@ public sealed class ClassRegistryTests
             var descriptor = EngineClass.Of(type);
             Assert.Equal(type, descriptor.Type);
             Assert.Equal((int)type.GetField("ClassId", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassId);
-            if (type != typeof(EngineObject)) Assert.Equal(type.BaseType, EngineClass.Of(type.BaseType!).Type);
+            if (type != typeof(EngineObject))
+            {
+                Assert.Equal(type.BaseType, EngineClass.Of(type.BaseType!).Type);
+            }
         }
         CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
         CheckFamily(typeof(IAIGroupClass), types, AIGroupClass.All.Select(c => c.Class.Type));
@@ -56,7 +59,9 @@ public sealed class ClassRegistryTests
             Assert.True(classValue is not null, "The format mapping names no schema class: " + name);
             Assert.NotEmpty(rules);
             foreach (var member in rules.SelectMany(r => r.Members))
+            {
                 Assert.True(member == "Children" ? classValue.KeepsChildren : classValue.PropertyByName(member) is not null, $"{name} has no member {member}.");
+            }
         }
         foreach (var name in FormatVersions.FlatMappings)
         {
@@ -131,8 +136,14 @@ public sealed class ClassRegistryTests
             // Construction alone leaves abstract nodes and world-linked objects incomplete.
             // Keep those existing teardown outcomes explicit, separate from factory identity.
             var error = Record.Exception(instance.Dispose);
-            if (cleanupError is null) Assert.Null(error);
-            else Assert.IsType(cleanupError, error);
+            if (cleanupError is null)
+            {
+                Assert.Null(error);
+            }
+            else
+            {
+                Assert.IsType(cleanupError, error);
+            }
         }
     }
 

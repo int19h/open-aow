@@ -39,7 +39,11 @@ public sealed class OfflineStubTests
 
         public void Dispose()
         {
-            for (int i = 0; i < s_globals.Length; i++) s_globals[i].SetValue(null, _values[i]);
+            for (int i = 0; i < s_globals.Length; i++)
+            {
+                s_globals[i].SetValue(null, _values[i]);
+            }
+
             StrategicMap.Current = _map;
             GamePack.Current.TextControl = _text;
             GamePack.Current.HeroResources = _heroes;
@@ -54,9 +58,21 @@ public sealed class OfflineStubTests
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         foreach (var property in typeof(T).GetProperties(flags))
         {
-            if (!property.PropertyType.IsSubclassOf(typeof(Component))) continue;
-            if (property.GetSetMethod(nonPublic: true) is not { IsPublic: false } setter) continue;
-            if (property.PropertyType.GetConstructor([typeof(Component)]) is not { } constructor) continue;
+            if (!property.PropertyType.IsSubclassOf(typeof(Component)))
+            {
+                continue;
+            }
+
+            if (property.GetSetMethod(nonPublic: true) is not { IsPublic: false } setter)
+            {
+                continue;
+            }
+
+            if (property.PropertyType.GetConstructor([typeof(Component)]) is not { } constructor)
+            {
+                continue;
+            }
+
             setter.Invoke(module, [constructor.Invoke([module])]);
         }
         return module;
@@ -277,7 +293,11 @@ public sealed class OfflineStubTests
         var recorder = new RecordingImage();
         var library = new CustomImageLibrary(null!);
         var images = new CustomImageLibrary.ImageItem[128];
-        for (int i = 0; i < 128; i++) images[i] = new() { Image = recorder, Reference = -1 };
+        for (int i = 0; i < 128; i++)
+        {
+            images[i] = new() { Image = recorder, Reference = -1 };
+        }
+
         SetField(library, "Images", images);
         SetField(library, "_count", 128);
         var level = new MapLevel(null!) { Holder = EngineFixture.Engine };
@@ -314,10 +334,7 @@ public sealed class OfflineStubTests
         Assert.True(animation.Finished);
     }
 
-    private static void SetField(object target, string name, object? value)
-    {
-        (MemberNames.Field(target.GetType(), name) ?? throw new MissingFieldException(name)).SetValue(target, value);
-    }
+    private static void SetField(object target, string name, object? value) => (MemberNames.Field(target.GetType(), name) ?? throw new MissingFieldException(name)).SetValue(target, value);
 
     private sealed class RecordingImage() : LibraryImage(null!)
     {

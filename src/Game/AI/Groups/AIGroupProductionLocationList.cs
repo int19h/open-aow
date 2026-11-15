@@ -29,16 +29,10 @@ public partial class AIGroupProductionLocationList : ReferenceNode, IChildList<A
     public void SortOnMovePoints() => Locations.SortOnMovePoints();
 
     // AIGroup.pas:924
-    public void Add(AIGroupProductionLocation location)
-    {
-        AddChild(location);
-    }
+    public void Add(AIGroupProductionLocation location) => AddChild(location);
 
     // AIGroup.pas:929
-    public void Delete(int index)
-    {
-        RemoveChild(GetProductionLocation(index));
-    }
+    public void Delete(int index) => RemoveChild(GetProductionLocation(index));
 
     // AIGroup.pas:934
     public int IndexOfPC(ProductionControl control) => Locations.IndexOfPC(control);

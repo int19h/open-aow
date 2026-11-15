@@ -12,10 +12,7 @@ namespace Aow.Game.World.Hexes;
 // TransitionLibrary (HexTrans.ILB)
 public partial class HexagonResource : AbstractHexagonResource
 {
-    public HexagonResource(CustomNode owner) : base(owner)
-    {
-        SetLevel(0);
-    }
+    public HexagonResource(CustomNode owner) : base(owner) => SetLevel(0);
 
     // Hexagon.pas:89
     public new const int ClassId = 131411;

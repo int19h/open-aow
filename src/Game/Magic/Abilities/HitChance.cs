@@ -11,7 +11,7 @@ internal static class HitChance
 {
     internal static bool HitRole(int attackDefense)
     {
-        attackDefense = attackDefense * 10 + 50;
+        attackDefense = (attackDefense * 10) + 50;
         if (attackDefense < 10)
         {
             attackDefense = 10;
@@ -28,7 +28,7 @@ internal static class HitChance
     internal static float HitRoleProbability(int attackDefense)
     {
         int chance;
-        chance = attackDefense * 10 + 50;
+        chance = (attackDefense * 10) + 50;
         if (chance < 10)
         {
             chance = 10;
@@ -64,7 +64,7 @@ internal static class HitChance
         lockedSurface = surface;
         GamePack.Current.CombatImages[0].Show(x + 20, y + 54, lockedSurface);
         var clipRectangle = lockedSurface.ClipRectangle;
-        clipRectangle.Right = x + 20 + (percent + 3) / 4;
+        clipRectangle.Right = x + 20 + ((percent + 3) / 4);
         lockedSurface.ClipRectangle = clipRectangle;
         if (lockedSurface.ClipRectangle.Right > surface.ClipRectangle.Right)
         {

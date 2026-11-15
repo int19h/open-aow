@@ -49,7 +49,7 @@ public partial class ArmyInfoDialog : UIModule
             {
                 // { D3 masks the enum index after the original full-byte guard. }
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, lockedSurface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface);
             }
 
             info = default;
@@ -59,7 +59,7 @@ public partial class ArmyInfoDialog : UIModule
             if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, lockedSurface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
@@ -158,10 +158,7 @@ public partial class ArmyInfoDialog : UIModule
     }
 
     // AoWArmyInfoDlg.pas:161
-    public void DlgHide()
-    {
-        ClearEvent();
-    }
+    public void DlgHide() => ClearEvent();
 
     // AoWArmyInfoDlg.pas:166
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

@@ -16,10 +16,7 @@ namespace Aow.Game.Combat;
 public partial class CombatPredictorUnit : IDisposable
 {
     // CombatPredictor.pas:1
-    public CombatPredictorUnit()
-    {
-        RoundTargets = new QuadItemList<CombatPredictorUnit>();
-    }
+    public CombatPredictorUnit() => RoundTargets = new QuadItemList<CombatPredictorUnit>();
 
     public Troop Troop { get; private set; }
     public int CpuId { get; set; }
@@ -387,7 +384,7 @@ public partial class CombatPredictorUnit : IDisposable
             v = RoundTargets.List[i].Second;
             if (u.CombatValueTotal != 0)
             {
-                priority = v * 100 * 1000 / u.IncomingCombatValue + u._targetPriority * 100 + v;
+                priority = (v * 100 * 1000 / u.IncomingCombatValue) + (u._targetPriority * 100) + v;
             }
             else
             {

@@ -55,10 +55,7 @@ public partial class FloodControl : EngineObject
     }
 
     // GlobalEnchantmentSpells.pas:1066
-    public FloodControl(CustomNode owner) : base(owner)
-    {
-        OriginalTerrain = [];
-    }
+    public FloodControl(CustomNode owner) : base(owner) => OriginalTerrain = [];
 
     // GlobalEnchantmentSpells.pas:1090
     public void Setup()
@@ -95,7 +92,7 @@ public partial class FloodControl : EngineObject
                         mapField = mapLevel.GetField(walk.X, walk.Y);
                         if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)mapField.OverlayType)) || (mapField.TerrainType == 0 && mapField.OverlayType == 5))
                         {
-                            index = (Width * walk.Y + walk.X) * 2;
+                            index = ((Width * walk.Y) + walk.X) * 2;
                             if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null)
                             {
                                 var originalTerrain = OriginalTerrain;
@@ -124,7 +121,7 @@ public partial class FloodControl : EngineObject
 
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            index = (Width * y + 1) * 2;
+            index = ((Width * y) + 1) * 2;
             for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 if (OriginalTerrain[index] != 0)
@@ -160,7 +157,7 @@ public partial class FloodControl : EngineObject
         mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            index = (Width * y + 1) * 2;
+            index = ((Width * y) + 1) * 2;
             for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 if (OriginalTerrain[index] != 0)
@@ -181,7 +178,7 @@ public partial class FloodControl : EngineObject
         candidates = new DelphiList<MapObjectResource>();
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
-            index = (Width * y + 1) * 2;
+            index = ((Width * y) + 1) * 2;
             for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 overlay = OriginalTerrain[index + 1];

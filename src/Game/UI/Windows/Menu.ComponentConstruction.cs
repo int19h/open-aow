@@ -8,9 +8,6 @@ public partial class Menu
 {
     public LayoutStrings LayoutItems
     {
-        set
-        {
-            value.CopyTo(Items);
-        }
+        set => value.CopyTo(Items);
     }
 }

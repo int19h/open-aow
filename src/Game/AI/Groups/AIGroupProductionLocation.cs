@@ -20,10 +20,7 @@ public partial class AIGroupProductionLocation : EngineObject, IOwned<AIGroupPro
     void IOwnedSink<AIGroupProductionLocationList>.SetOwner(AIGroupProductionLocationList owner) => SetOwner(owner);
 
     // AIGroup.pas:887
-    public AIGroupProductionLocation(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-    }
+    public AIGroupProductionLocation(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

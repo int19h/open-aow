@@ -94,7 +94,7 @@ public partial class PartyJoinDialog : UIModule
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
             info = default;
@@ -104,7 +104,7 @@ public partial class PartyJoinDialog : UIModule
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -112,16 +112,10 @@ public partial class PartyJoinDialog : UIModule
     }
 
     // AoWPartyJoin.pas:127
-    public void PartyJoinDialogCreate()
-    {
-        _units = new UnitUserList(null) { Holder = UI.Engine };
-    }
+    public void PartyJoinDialogCreate() => _units = new UnitUserList(null) { Holder = UI.Engine };
 
     // AoWPartyJoin.pas:132
-    public void PartyJoinDialogDestroy()
-    {
-        _units?.Dispose();
-    }
+    public void PartyJoinDialogDestroy() => _units?.Dispose();
 
     // AoWPartyJoin.pas:137
     public void LeftBtnClick()
@@ -235,10 +229,7 @@ public partial class PartyJoinDialog : UIModule
     }
 
     // AoWPartyJoin.pas:226
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWPartyJoin.pas:231
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

@@ -19,7 +19,12 @@ public sealed class GameProfile
         Profile = FileProfile.Find(profile) ?? throw new InvalidOperationException("Unknown file profile " + profile + ".");
         Kinds = kinds;
         foreach (var kind in kinds)
-            if (!Profile.Kinds.Contains(kind)) throw new InvalidOperationException($"Profile {profile} does not hold kind {kind}.");
+        {
+            if (!Profile.Kinds.Contains(kind))
+            {
+                throw new InvalidOperationException($"Profile {profile} does not hold kind {kind}.");
+            }
+        }
     }
 
     /// <summary>The name in file logs.</summary>
@@ -151,11 +156,17 @@ public static class GameBoundary
         var (profile, kind, _, _) = GameFiles.Envelope(read.Document, fileName);
         report.Kind = kind;
         if (profile != use.Profile)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Profile, $"The document has profile {profile.Name}, the game opens it as {use.Profile.Name}.")
             { File = fileName, Path = "$container.profile", Value = profile.Name, Constraint = use.Profile.Name, Span = ((JsonObject)read.Document["$container"]!)["profile"]!.Span });
+        }
+
         if (!use.Kinds.Contains(kind))
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"The document has kind {kind}, the game opens {string.Join(", ", use.Kinds)} here.")
             { File = fileName, Path = "$kind", Value = kind, Span = read.Document["$kind"]!.Span });
+        }
+
         Validate(read.Document, fileName: fileName, validators: validators, report: report);
         try
         {
@@ -212,7 +223,11 @@ public static class GameBoundary
     {
         report.Validation = "refused";
         var check = DocumentValidation.Check(document, validators: validators, file: fileName);
-        if (check.Findings.Count != 0) throw new ConversionException(check.Findings[0]);
+        if (check.Findings.Count != 0)
+        {
+            throw new ConversionException(check.Findings[0]);
+        }
+
         report.Validation = "passed";
     }
 
@@ -231,7 +246,10 @@ public static class GameBoundary
     /// </summary>
     public static GameFileTree ReadTree(GameFileResult result, GameProfile use)
     {
-        if (!result.Succeeded) throw new InvalidOperationException("A refused load has no tree.");
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException("A refused load has no tree.");
+        }
         // An own document is read here, including one whose original image cannot carry it.
         // Bytes of that load is null and is not an image.
         if (result.Own && result.Document is not null)
@@ -247,13 +265,27 @@ public static class GameBoundary
                 classValue = schema.Get(((JsonString)root["$class"]!).Value);
                 var members = new JsonObject();
                 foreach (var member in root.Members)
-                    if (member.Name != "$class") members.Members.Add(member);
+                {
+                    if (member.Name != "$class")
+                    {
+                        members.Members.Add(member);
+                    }
+                }
+
                 root = members;
             }
-            else classValue = schema.Get(profile.RootFamily);
+            else
+            {
+                classValue = schema.Get(profile.RootFamily);
+            }
+
             return new GameFileTree(Root: DocumentBackend.Read(root, classValue: classValue, schema: schema, engine: profile.Engine), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
         }
-        if (result.HasImage && result.Bytes is not null) return ReadImageTree(result.Bytes, use: use);
+        if (result.HasImage && result.Bytes is not null)
+        {
+            return ReadImageTree(result.Bytes, use: use);
+        }
+
         throw new InvalidOperationException("A load without an image has no tree.");
     }
 
@@ -338,7 +370,10 @@ public static class GameBoundary
         if (classId != 0)
         {
             if (root is null || className is null)
+            {
                 throw new ArgumentException("A packet with a class id stores its object.");
+            }
+
             var classValue = schema.Get(className);
             classTable = PacketClassTable(classValue);
             body.Bytes(OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable, profile: TransportProfile.Name));
@@ -357,7 +392,11 @@ public static class GameBoundary
     {
         var context = new DecodeContext(schema: FormatSchema.Current, data: image, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
         var table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
-        if (table.Entries.Count == 0) return 0;
+        if (table.Entries.Count == 0)
+        {
+            return 0;
+        }
+
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         return context.Int32(start);
@@ -375,7 +414,10 @@ public static class GameBoundary
         int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         if (context.Int32(start) == 0)
+        {
             throw new InvalidOperationException("A nil packet has no object.");
+        }
+
         return ImageTree.Read(context, start: start + 4, end: image.Length, classValue: classValue);
     }
 
@@ -415,7 +457,11 @@ public static class GameBoundary
             var profile = use.Profile;
             var classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
             var rootDocument = DocumentBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
-            if (profile.RootHasClass) rootDocument.Members.Insert(0, new JsonMember("$class", value: new JsonString(classValue.Name)));
+            if (profile.RootHasClass)
+            {
+                rootDocument.Members.Insert(0, new JsonMember("$class", value: new JsonString(classValue.Name)));
+            }
+
             var document = GameFiles.NewDocument(use.WriteKind, container: profile.SaveContainer(headerName), root: rootDocument);
             Validate(document, fileName: fileName, validators: validators, report: report);
             return new GameFileResult { Bytes = GameFiles.Write(document), Document = document, Report = report };

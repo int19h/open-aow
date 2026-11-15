@@ -864,10 +864,7 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6568
-    public void LockExecuted()
-    {
-        _executedLock += 1;
-    }
+    public void LockExecuted() => _executedLock += 1;
 
     // Combat.pas:6571
     // { }

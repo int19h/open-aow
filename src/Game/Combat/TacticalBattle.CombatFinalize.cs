@@ -20,7 +20,9 @@ public partial class TacticalBattle
         {
             int player = CombatData.Players.GetPlayers((sbyte)i).Player;
             if (World.Map.StrategicMap.Current.Players.GetPlayers((sbyte)player).PlayerType != PlayerType.Human)
+            {
                 RestorePlayerConnection(World.Map.StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl, player);
+            }
         }
         if (CombatMap.Current != null)
         {

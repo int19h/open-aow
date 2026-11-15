@@ -106,7 +106,7 @@ public partial class AIExecutor : EngineObject
             case AIExecutorProcessTimeMode.Dynamic:
                 // { Original behavior: the millisecond delta is multiplied by 1000. }
                 var elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
-                result = _processTime - (elapsedMilliseconds - _processStarted) * 1000;
+                result = _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
                 break;
             default:
                 result = -1;
@@ -189,10 +189,7 @@ public partial class AIExecutor : EngineObject
     }
 
     // AI.pas:654
-    public void Lock()
-    {
-        LockCount += 1;
-    }
+    public void Lock() => LockCount += 1;
 
     // AI.pas:659
     public void Unlock()

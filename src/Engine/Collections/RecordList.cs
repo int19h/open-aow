@@ -228,12 +228,9 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
 
     public TRecord this[int index] { get => Get(index); set => Put(index, value); }
 
-    public TRecord[] List { get => _list; }
+    public TRecord[] List => _list;
 
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
 
     // The record lists above with an object column. Engine.pas stored Integer(Object) in column A of a
     // TDoubleItemList or TQuadItemList and cast it back on read. These lists keep the reference itself,

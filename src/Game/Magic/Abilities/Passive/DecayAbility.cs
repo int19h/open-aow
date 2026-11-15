@@ -35,10 +35,7 @@ public partial class DecayAbility : DurationAbility
     }
 
     // PassiveAb.pas:868
-    public override void CombatDone(CombatObject combatObject)
-    {
-        combatObject.DestroyObject();
-    }
+    public override void CombatDone(CombatObject combatObject) => combatObject.DestroyObject();
 
     private static readonly string s_decayText = "Decay";
 }

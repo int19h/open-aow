@@ -142,16 +142,10 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
     public void RegisterItems() => Items.RegisterItems();
 
     // Army.PAS:4633
-    public new void LockChanged()
-    {
-        base.LockChanged();
-    }
+    public new void LockChanged() => base.LockChanged();
 
     // Army.PAS:4636
-    public new void UnlockChanged()
-    {
-        base.UnlockChanged();
-    }
+    public new void UnlockChanged() => base.UnlockChanged();
 
     public static int CompareItemNames(Item item1, Item item2)
     {

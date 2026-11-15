@@ -21,10 +21,7 @@ public partial class TokenPackage : DataPackage
     }
 
     // NetworkE.pas:1088
-    public TokenPackage(CustomNode owner) : base(owner)
-    {
-        _tokenEvents = new TokenEventList(null) { Holder = CreationHolder() };
-    }
+    public TokenPackage(CustomNode owner) : base(owner) => _tokenEvents = new TokenEventList(null) { Holder = CreationHolder() };
 
     // NetworkE.pas:1094
     public override void Dispose()
@@ -33,7 +30,7 @@ public partial class TokenPackage : DataPackage
         base.Dispose();
     }
 
-    public TokenEventList TokenEvents { get => _tokenEvents; }
+    public TokenEventList TokenEvents => _tokenEvents;
 
     private const short ClassIdTokenPackage = 1360;
 

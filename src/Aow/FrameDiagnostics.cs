@@ -33,6 +33,7 @@ internal sealed class FrameDiagnostics : IDisposable
     private void Random(RandomTraceEvent entry)
     {
         if (entry.Kind == "random" && (StrategicMap.Current is null || StrategicMap.Current is { Day: 1, Frame: <= 1 }))
+        {
             _writer.WriteLine(JsonSerializer.Serialize(new
             {
                 kind = "startup-random",
@@ -44,10 +45,20 @@ internal sealed class FrameDiagnostics : IDisposable
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
-        if (StrategicMap.Current is not { Day: 2 } map || entry.Kind != "random") return;
+        }
+
+        if (StrategicMap.Current is not { Day: 2 } map || entry.Kind != "random")
+        {
+            return;
+        }
+
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game").ToArray();
-        if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) })) return;
+        if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) }))
+        {
+            return;
+        }
+
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "random",
@@ -65,7 +76,11 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Cost(int cost, int used)
     {
-        if (StrategicMap.Current is not { Day: 2 } map) return;
+        if (StrategicMap.Current is not { Day: 2 } map)
+        {
+            return;
+        }
+
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "cost",
@@ -82,17 +97,26 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Snapshot(string name, UIContext ui)
     {
-        if (StrategicMap.Current is not { } map) return;
+        if (StrategicMap.Current is not { } map)
+        {
+            return;
+        }
+
         var viewer = ui.MapWindow.MapViewer;
         var window = ui.MapWindow.MainWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)
+        {
             for (int x = 0; x < level.Width; x++)
             {
-                int px = x * 32 + 8 - viewer.SceneX + window.WinLeft;
-                int py = y * 32 + (x & 1) * 16 - viewer.SceneY + window.WinTop;
-                if (px < -128 || py < -128 || px > window.WinWidth + 128 || py > window.WinHeight + 128) continue;
+                int px = (x * 32) + 8 - viewer.SceneX + window.WinLeft;
+                int py = (y * 32) + ((x & 1) * 16) - viewer.SceneY + window.WinTop;
+                if (px < -128 || py < -128 || px > window.WinWidth + 128 || py > window.WinHeight + 128)
+                {
+                    continue;
+                }
+
                 var field = level.GetField(x, y);
                 for (int i = 0; i < field.GetCount(); i++)
                 {
@@ -100,8 +124,11 @@ internal sealed class FrameDiagnostics : IDisposable
                     var resource = (child as MapObject)?.Resource;
                     var sequences = new List<object>();
                     if (resource?.ImageSequenceList is { } list)
+                    {
                         for (int index = 0; index < list.Count; index++)
+                        {
                             for (var sequence = list.GetImageSequence(index); sequence is not null; sequence = sequence.Next)
+                            {
                                 sequences.Add(new
                                 {
                                     index,
@@ -112,6 +139,10 @@ internal sealed class FrameDiagnostics : IDisposable
                                     lastFrame = typeof(ImageSequence).GetField("_lastFrame", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence),
                                     counter = typeof(ImageSequence).GetField("_frameCounter", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence)
                                 });
+                            }
+                        }
+                    }
+
                     objects.Add(new
                     {
                         x,
@@ -125,6 +156,8 @@ internal sealed class FrameDiagnostics : IDisposable
                     });
                 }
             }
+        }
+
         File.WriteAllText(Path.Combine(_output, "diagnostic-" + name + ".json"), JsonSerializer.Serialize(new
         {
             FDay = map.Day,

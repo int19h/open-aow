@@ -255,10 +255,7 @@ public partial class GameMap : OwningNode
     // slot and the original image's id stay as they were and the live list holds no placeholder.
     private const int RetiredTimerSlot = 5;
 
-    public override void PersistChildren(IPersister persister)
-    {
-        persister.Children("Children", children: new ChildSlots(this));
-    }
+    public override void PersistChildren(IPersister persister) => persister.Children("Children", children: new ChildSlots(this));
 
     // The child collection of a map: NodeChildren with the slot table above.
     private sealed class ChildSlots(GameMap map) : IChildCollection
@@ -603,12 +600,12 @@ public partial class GameMap : OwningNode
                     terrainType = mapField.TerrainType;
                     overlayType = mapField.OverlayType;
                     orgList[walk.HexNumber * 2] = terrainType;
-                    orgList[walk.HexNumber * 2 + 1] = overlayType;
+                    orgList[(walk.HexNumber * 2) + 1] = overlayType;
                     changeTerrainProc(mapField, ref terrainType, ref overlayType);
                     mapField.TerrainType = terrainType;
                     mapField.OverlayType = overlayType;
                     newList[walk.HexNumber * 2] = terrainType;
-                    newList[walk.HexNumber * 2 + 1] = overlayType;
+                    newList[(walk.HexNumber * 2) + 1] = overlayType;
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -623,7 +620,7 @@ public partial class GameMap : OwningNode
                     if (!mapField.CanChangeTerrain(mapObject))
                     {
                         mapField.TerrainType = orgList[walk.HexNumber * 2];
-                        mapField.OverlayType = orgList[walk.HexNumber * 2 + 1];
+                        mapField.OverlayType = orgList[(walk.HexNumber * 2) + 1];
                         changed[walk.HexNumber] = false;
                     }
                     else
@@ -644,7 +641,7 @@ public partial class GameMap : OwningNode
                     {
                         var item = newList[walk.HexNumber * 2];
                         mapLevel.GetField(walk.X, walk.Y).TerrainType = item;
-                        var newListItem = newList[walk.HexNumber * 2 + 1];
+                        var newListItem = newList[(walk.HexNumber * 2) + 1];
                         mapLevel.GetField(walk.X, walk.Y).OverlayType = newListItem;
                         mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                         count += 1;
@@ -652,7 +649,7 @@ public partial class GameMap : OwningNode
 
                     if (terrainChangedProc != null)
                     {
-                        terrainChangedProc(originalOverlayType: orgList[walk.HexNumber * 2 + 1], originalTerrainType: orgList[walk.HexNumber * 2], mapField: mapLevel.GetField(walk.X, walk.Y));
+                        terrainChangedProc(originalOverlayType: orgList[(walk.HexNumber * 2) + 1], originalTerrainType: orgList[walk.HexNumber * 2], mapField: mapLevel.GetField(walk.X, walk.Y));
                     }
                 }
 
@@ -866,10 +863,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:91
-    public void RemoveMapLevel(int index)
-    {
-        _mapContainer.RemoveLevel(index);
-    }
+    public void RemoveMapLevel(int index) => _mapContainer.RemoveLevel(index);
 
     // HSMAP.PAS:151
     public void NotifyTerrainChanged(in Rect R, sbyte L)
@@ -914,10 +908,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:178
-    public void LockTerrainChangedEvent()
-    {
-        _terrainChangedLockCounter += 1;
-    }
+    public void LockTerrainChangedEvent() => _terrainChangedLockCounter += 1;
 
     // HSMAP.PAS:183
     public void UnlockTerrainChangedEvent()
@@ -931,16 +922,10 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:198
-    public void SetModified()
-    {
-        _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
-    }
+    public void SetModified() => _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
 
     // HSMAP.PAS:203
-    public void ResetModified()
-    {
-        _status = _status - Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
-    }
+    public void ResetModified() => _status = _status - Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
 
     // HSMAP.PAS:208
     public int GetMaxPixelX()
@@ -1045,10 +1030,7 @@ public partial class GameMap : OwningNode
     public bool Place(HexSprite hexSprite, int pixelX, int pixelY, int L) => hexSprite.MainPlace(_mapContainer, pixelX, pixelY, L);
 
     // HSMAP.PAS:574
-    public void Remove(HexSprite hexSprite)
-    {
-        hexSprite.MainRemove();
-    }
+    public void Remove(HexSprite hexSprite) => hexSprite.MainRemove();
 
     // HSMAP.PAS:585
     public bool SetViewPort(int pixelX, int pixelY, int lHitPoints, int width, int height)
@@ -1161,25 +1143,22 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:745
-    public void InvalidateStaticScene(int hexX, int hexY, int hexLevel)
-    {
-        _staticSceneInvalid = _staticSceneInvalid || (hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY < _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel);
-    }
+    public void InvalidateStaticScene(int hexX, int hexY, int hexLevel) => _staticSceneInvalid = _staticSceneInvalid || (hexX >= _viewHexX && hexX < _viewHexX + _viewWidthHex && hexY >= _viewHexY && hexY < _viewHexY + _viewHeightHex && hexLevel == _viewMapLevel);
 
-    public HexSpriteMapMouse Mouse { get => _mouse; }
+    public HexSpriteMapMouse Mouse => _mouse;
     public MapContainer MapContainer { get => _mapContainer; internal set => _mapContainer = value; }
-    public GameEngine Engine { get => _engine; }
-    public HexSpriteSelection Selection { get => _selection; }
-    public VisibilityList StaticVisibleHexSprite { get => _staticVisibleHexSprite; }
-    public VisibilityList DynamicVisibleHexSprite { get => _dynamicVisibleHexSprite; }
-    public VisibilityList StaticFixedVisibleHexSprite { get => _staticFixedVisibleHexSprite; }
-    public VisibilityList DynamicFixedVisibleHexSprite { get => _dynamicFixedVisibleHexSprite; }
+    public GameEngine Engine => _engine;
+    public HexSpriteSelection Selection => _selection;
+    public VisibilityList StaticVisibleHexSprite => _staticVisibleHexSprite;
+    public VisibilityList DynamicVisibleHexSprite => _dynamicVisibleHexSprite;
+    public VisibilityList StaticFixedVisibleHexSprite => _staticFixedVisibleHexSprite;
+    public VisibilityList DynamicFixedVisibleHexSprite => _dynamicFixedVisibleHexSprite;
     public bool StaticSceneInvalid { get => _staticSceneInvalid; set => _staticSceneInvalid = value; }
     public bool DynamicSceneInvalid { get => _dynamicSceneInvalid; set => _dynamicSceneInvalid = value; }
     public int Version { get => _version; set => _version = value; }
     public string HssFileName { get => _hssFileName; set => SetHssFileName(value); }
     public Set<HexSpriteMapStatusElement> Status { get => _status; set => _status = value; }
-    public int Frame { get => _frame; }
+    public int Frame => _frame;
 
     public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
     {
@@ -1215,14 +1194,14 @@ public partial class GameMap : OwningNode
     public int ViewPixelX { get => _viewPixelX; protected set => _viewPixelX = value; }
     public int ViewPixelY { get => _viewPixelY; protected set => _viewPixelY = value; }
     public int ViewMapLevel { get => _viewMapLevel; protected set => _viewMapLevel = value; }
-    public int ViewWidth { get => _viewWidth; }
-    public int ViewHeight { get => _viewHeight; }
-    public int ViewHexX { get => _viewHexX; }
-    public int ViewHexY { get => _viewHexY; }
-    public int ViewWidthHex { get => _viewWidthHex; }
-    public int ViewHeightHex { get => _viewHeightHex; }
-    public int MaxPixelX { get => GetMaxPixelX(); }
-    public int MaxPixelY { get => GetMaxPixelY(); }
+    public int ViewWidth => _viewWidth;
+    public int ViewHeight => _viewHeight;
+    public int ViewHexX => _viewHexX;
+    public int ViewHexY => _viewHexY;
+    public int ViewWidthHex => _viewWidthHex;
+    public int ViewHeightHex => _viewHeightHex;
+    public int MaxPixelX => GetMaxPixelX();
+    public int MaxPixelY => GetMaxPixelY();
 
     public delegate void CenterViewEvent(int Xhx, int Yhx, int Lhx);
     public delegate void ChangeViewEvent(int Xhp, int Yhp, int Lhp);
@@ -1344,16 +1323,10 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:590
-    public virtual void SetSeatedPlayer(sbyte player)
-    {
-        SeatedPlayer = player;
-    }
+    public virtual void SetSeatedPlayer(sbyte player) => SeatedPlayer = player;
 
     // AoWHSMap.PAS:594
-    public virtual void SetCurrentPlayer(sbyte player)
-    {
-        CurrentPlayer = player;
-    }
+    public virtual void SetCurrentPlayer(sbyte player) => CurrentPlayer = player;
 
     // AoWHSMap.PAS:401
     public virtual void SetFogEnabled(bool value)
@@ -1460,10 +1433,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:430
-    public void LockMapChangedEvent()
-    {
-        MapChangedLockCount += 1;
-    }
+    public void LockMapChangedEvent() => MapChangedLockCount += 1;
 
     // AoWHSMap.PAS:435
     public void UnlockMapChangedEvent()
@@ -1542,10 +1512,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:490
-    public void LockScannerIconsChangedEvent()
-    {
-        _scannerIconsChangedLockCount += 1;
-    }
+    public void LockScannerIconsChangedEvent() => _scannerIconsChangedLockCount += 1;
 
     // AoWHSMap.PAS:495
     public void UnlockScannerIconsChangedEvent()
@@ -1777,10 +1744,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:867
-    public void UpdateFPS(int fPS)
-    {
-        FPS = fPS;
-    }
+    public void UpdateFPS(int fPS) => FPS = fPS;
 
     // AoWHSMap.PAS:892
     public void DrawSelectionRectangle(int pixelXSurface, int pixelYSurface, in Rect R, in LockedSurface lockedSurface)
@@ -1800,7 +1764,11 @@ public partial class GameMap : OwningNode
     public void DrawFog(in LockedSurface surface)
     {
         bool exploration = ExplorationEnabled || StrategicMap.Current.SeatedPlayer == -1;
-        if (!FogEnabled && !exploration) return;
+        if (!FogEnabled && !exploration)
+        {
+            return;
+        }
+
         var level = MapContainer.GetMapLevel(ViewMapLevel);
         for (int x = ViewHexX; x < ViewHexX + ViewWidthHex; x++)
         {
@@ -1812,9 +1780,14 @@ public partial class GameMap : OwningNode
             {
                 var field = level.GetField(x, y);
                 bool unexplored = exploration && (SeatedPlayer == -1 || !field.GetExplored(SeatedPlayer));
-                if (unexplored) GamePack.Current.GeneralImages[3].Show(pixelX, pixelY, surface);
+                if (unexplored)
+                {
+                    GamePack.Current.GeneralImages[3].Show(pixelX, pixelY, surface);
+                }
                 else if (FogEnabled && field.FogCount == 0)
+                {
                     GamePack.Current.GeneralImages[1].Show(pixelX, pixelY, surface);
+                }
             }
         }
     }
@@ -1830,8 +1803,12 @@ public partial class GameMap : OwningNode
             pixelX = pixelX - ViewPixelX - 8;
             pixelY = pixelY - ViewPixelY - 4 + 4;
             for (int y = ViewHexY; y <= maxY; y++, pixelY += 32)
+            {
                 if (level.GetField(x, y).TerrainType != 15)
+                {
                     GamePack.Current.FlagControl.Flags[7].Show(pixelX, pixelY, surface);
+                }
+            }
         }
     }
 
@@ -1846,8 +1823,5 @@ public partial class GameMap : OwningNode
         }
     }
 
-    private static void DrawLine16(int x1, int y1, int x2, int y2, int skip, ushort color, in LockedSurface lockedSurface)
-    {
-        Blit.DrawLine16(x1, y1, x2, y2, skip, color, lockedSurface.View());
-    }
+    private static void DrawLine16(int x1, int y1, int x2, int y2, int skip, ushort color, in LockedSurface lockedSurface) => Blit.DrawLine16(x1, y1, x2, y2, skip, color, lockedSurface.View());
 }

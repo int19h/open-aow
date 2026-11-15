@@ -15,7 +15,11 @@ public partial class Image
 
     public void SetImageLibrary(ImageLibrary value)
     {
-        if (value == _imageLibrary) return;
+        if (value == _imageLibrary)
+        {
+            return;
+        }
+
         Valid = false;
         _imageLibrary = value;
     }
@@ -23,10 +27,17 @@ public partial class Image
     public override void Validate()
     {
         if (_imageLibrary != null)
+        {
             _imageLibrary = _animate
                 ? _imageLibrary.CheckImageLibrary(_animationStart, _animationEnd + 1 - _animationStart, this)
                 : _imageLibrary.CheckImageLibrary(_currentImage, 1, this);
-        if (_imageLibrary != null) Valid = true;
+        }
+
+        if (_imageLibrary != null)
+        {
+            Valid = true;
+        }
+
         base.Validate();
     }
 
@@ -34,7 +45,11 @@ public partial class Image
     {
         try
         {
-            if (!Valid || !Visible) return;
+            if (!Valid || !Visible)
+            {
+                return;
+            }
+
             RaisePreDraw(this, surface);
             var rectangle = new SizedRectangle(Window.WinLeft + WinLeft,
                 Window.WinTop + WinTop, WinWidth, WinHeight);

@@ -13,10 +13,7 @@ public partial class DisplayModeList : IDisposable
     internal int GetCount() => _list.Count;
 
     // GFXE.pas:12611
-    public DisplayModeList()
-    {
-        _list = new List<DisplayModeItem>();
-    }
+    public DisplayModeList() => _list = new List<DisplayModeItem>();
 
     // GFXE.pas:12617
     public virtual void Dispose()
@@ -46,17 +43,14 @@ public partial class DisplayModeList : IDisposable
     }
 
     // GFXE.pas:12650
-    public void Delete(int index)
-    {
-        _list.RemoveAt(index);
-    }
+    public void Delete(int index) => _list.RemoveAt(index);
 
     public sealed class ItemsAccessor(DisplayModeList target)
     {
-        public DisplayModeItem this[int index] { get => target.GetItems(index); }
+        public DisplayModeItem this[int index] => target.GetItems(index);
     }
 
     public ItemsAccessor Items => new ItemsAccessor(this);
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
 }

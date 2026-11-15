@@ -65,7 +65,7 @@ public partial class ItemHexSprite : SingleHexSprite
         int pixelY = default;
         HexSprite hexSprite;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        int result = 1744830464 + ((pixelY + 33) << 13) + (pixelX + 16);
+        int result = 1744830464 + ((pixelY + 33) << 13) + pixelX + 16;
         hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite != null)
         {
@@ -98,10 +98,7 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5273
-    public override void Deactivate()
-    {
-        base.Deactivate();
-    }
+    public override void Deactivate() => base.Deactivate();
 
     // Army.PAS:5260
     public override bool CanSelect(int pixelX, int pixelY)

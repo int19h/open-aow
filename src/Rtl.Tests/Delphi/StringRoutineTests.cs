@@ -69,8 +69,13 @@ public sealed class StringRoutineTests
             var ansi = Ansi(text);
             Assert.Equal(RtlUnit.Length(ansi), RtlUnit.Length(text));
             for (int i = 1; i <= text.Length; i++)
+            {
                 foreach (byte b in new byte[] { 0, 88, 128, 255 })
+                {
                     Assert.Equal(RtlUnit.WithChar(ansi, i, Cp1252.Char(b)), RtlUnit.WithChar(text, i, Cp1252.Char(b)));
+                }
+            }
+
             foreach (int length in new[] { 0, 1, 3, 5, 8 })
             {
                 Assert.Equal(RtlUnit.Resized(ansi, length), RtlUnit.Resized(text, length));
@@ -82,7 +87,10 @@ public sealed class StringRoutineTests
                 Assert.Equal(text, ansi);
             }
             foreach (int index in new[] { int.MinValue, -1, 0, text.Length + 1, int.MaxValue })
+            {
                 Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(text, index, 'X'));
+            }
+
             Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.Resized(text, -1));
             string invalid = text;
             Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.SetLength(ref invalid, -1));
@@ -132,8 +140,12 @@ public sealed class StringRoutineTests
             Assert.Equal(RtlUnit.QuotedStr(Ansi(text)), RtlUnit.QuotedStr(text));
         }
         for (int b = 0; b < 256; b++)
+        {
             foreach (int count in new[] { -1, 0, 1, 3 })
+            {
                 Assert.Equal(RtlUnit.StringOfChar((byte)b, count), RtlUnit.StringOfChar(Cp1252.Char((byte)b), count));
+            }
+        }
     }
 
     [Fact]
@@ -148,9 +160,15 @@ public sealed class StringRoutineTests
         {
             Assert.Equal(RtlUnit.StrToIntDef(Ansi(text), 91), RtlUnit.StrToIntDef(text, 91));
             var error = Record.Exception(() => RtlUnit.StrToInt(Ansi(text)));
-            if (error is null) Assert.Equal(RtlUnit.StrToInt(Ansi(text)), RtlUnit.StrToInt(text));
-            else Assert.Equal(Assert.IsType<FormatException>(error).Message,
+            if (error is null)
+            {
+                Assert.Equal(RtlUnit.StrToInt(Ansi(text)), RtlUnit.StrToInt(text));
+            }
+            else
+            {
+                Assert.Equal(Assert.IsType<FormatException>(error).Message,
                 Assert.Throws<FormatException>(() => RtlUnit.StrToInt(text)).Message);
+            }
         }
     }
 
@@ -204,7 +222,11 @@ public sealed class StringRoutineTests
         Assert.Equal("\0\0", value);
         foreach (Func<string?, string> function in new Func<string?, string>[] {
             RtlUnit.UpperCase, RtlUnit.LowerCase, RtlUnit.AnsiUpperCase, RtlUnit.AnsiLowerCase,
-            RtlUnit.Trim, RtlUnit.TrimLeft, RtlUnit.TrimRight, RtlUnit.NullTerminatedText }) Assert.Equal("", function(null));
+            RtlUnit.Trim, RtlUnit.TrimLeft, RtlUnit.TrimRight, RtlUnit.NullTerminatedText })
+        {
+            Assert.Equal("", function(null));
+        }
+
         foreach (Func<string?, string?, int> function in new Func<string?, string?, int>[] {
             RtlUnit.CompareStr, RtlUnit.CompareText, RtlUnit.AnsiCompareStr, RtlUnit.AnsiCompareText })
         {

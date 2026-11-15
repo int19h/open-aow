@@ -25,8 +25,5 @@ public partial class TargetSelectionDialog : UIModule
     }
 
     // AoWTargetSelection.pas:51
-    public void MainBtnClick()
-    {
-        CloseClick();
-    }
+    public void MainBtnClick() => CloseClick();
 }

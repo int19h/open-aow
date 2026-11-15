@@ -169,8 +169,7 @@ dotnet_diagnostic.IDE0008.severity = suggestion
 dotnet_diagnostic.IDE0009.severity = warning
 # IDE0010 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0010.severity = suggestion
-# IDE0011 raises to warning in fix group 6 (braces).
-dotnet_diagnostic.IDE0011.severity = suggestion
+dotnet_diagnostic.IDE0011.severity = warning
 # IDE0016 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0016.severity = warning
 # IDE0017 raises to warning in the manual remainder.
@@ -181,20 +180,15 @@ dotnet_diagnostic.IDE0018.severity = suggestion
 dotnet_diagnostic.IDE0019.severity = suggestion
 # IDE0020 raises to warning in fix group 17 (pattern matching).
 dotnet_diagnostic.IDE0020.severity = suggestion
-# IDE0021 raises to warning in fix group 7 (expression bodies).
-dotnet_diagnostic.IDE0021.severity = suggestion
-# IDE0022 raises to warning in fix group 7 (expression bodies).
-dotnet_diagnostic.IDE0022.severity = suggestion
+dotnet_diagnostic.IDE0021.severity = warning
+dotnet_diagnostic.IDE0022.severity = warning
 # IDE0023 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0023.severity = warning
 # IDE0024 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0024.severity = warning
-# IDE0025 raises to warning in fix group 7 (expression bodies).
-dotnet_diagnostic.IDE0025.severity = suggestion
-# IDE0026 raises to warning in fix group 7 (expression bodies).
-dotnet_diagnostic.IDE0026.severity = suggestion
-# IDE0027 raises to warning in fix group 7 (expression bodies).
-dotnet_diagnostic.IDE0027.severity = suggestion
+dotnet_diagnostic.IDE0025.severity = warning
+dotnet_diagnostic.IDE0026.severity = warning
+dotnet_diagnostic.IDE0027.severity = warning
 # IDE0028 raises to warning in fix group 10 (collection initializers and collection expressions).
 dotnet_diagnostic.IDE0028.severity = suggestion
 # IDE0029 is clean on the code of 2026-11-15.
@@ -230,10 +224,8 @@ dotnet_diagnostic.IDE0044.severity = suggestion
 dotnet_diagnostic.IDE0045.severity = suggestion
 # IDE0046 raises to warning in fix group 11 (conditional expressions).
 dotnet_diagnostic.IDE0046.severity = suggestion
-# IDE0047 raises to warning in fix group 5 (parentheses).
-dotnet_diagnostic.IDE0047.severity = suggestion
-# IDE0048 raises to warning in fix group 5 (parentheses).
-dotnet_diagnostic.IDE0048.severity = suggestion
+dotnet_diagnostic.IDE0047.severity = warning
+dotnet_diagnostic.IDE0048.severity = warning
 # IDE0049 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0049.severity = warning
 # IDE0050 is clean on the code of 2026-11-15.

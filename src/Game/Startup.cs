@@ -27,10 +27,7 @@ public static class Startup
 
     private static readonly bool[] s_initialized = new bool[Units.Length];
 
-    public static void InitializeAll()
-    {
-        InitializeSelected(null);
-    }
+    public static void InitializeAll() => InitializeSelected(null);
 
     /// <summary>Creates the game engine the host owns, after the units. The engine registers the
     /// map-load handlers of the city and AI units and then the game's classes, in the order the
@@ -47,20 +44,11 @@ public static class Startup
         return engine;
     }
 
-    public static void FinalizeAll()
-    {
-        FinalizeSelected(null);
-    }
+    public static void FinalizeAll() => FinalizeSelected(null);
 
-    public static void InitializeSelected(string[] selection)
-    {
-        InitializeUnits(Units, s_initialized, selection);
-    }
+    public static void InitializeSelected(string[] selection) => InitializeUnits(Units, s_initialized, selection);
 
-    public static void FinalizeSelected(string[] selection)
-    {
-        FinalizeUnits(Units, s_initialized, selection);
-    }
+    public static void FinalizeSelected(string[] selection) => FinalizeUnits(Units, s_initialized, selection);
 
     /// <summary>Runs the initialization of every selected unit not yet initialized, in table
     /// order. A null selection selects every unit. A unit counts as initialized once its section

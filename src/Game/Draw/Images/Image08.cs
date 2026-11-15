@@ -146,9 +146,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
     //   remaps the palette again when it differs). }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
-    {
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
-    }
 }

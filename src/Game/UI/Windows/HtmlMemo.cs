@@ -52,7 +52,7 @@ public partial class HtmlMemo : BaseWindow
 
         for (int i = 0, last = _fonts.Count - 1; i <= last; i++)
         {
-            (_fonts[i])?.Dispose();
+            _fonts[i]?.Dispose();
         }
 
         _fonts?.Clear();
@@ -106,7 +106,7 @@ public partial class HtmlMemo : BaseWindow
                 start = 0;
                 length = s.Length;
                 var line = _lines[lineIndex];
-                w = Font.GetTextWidth(line) + BorderWidth * 2 + _scrollWidth;
+                w = Font.GetTextWidth(line) + (BorderWidth * 2) + _scrollWidth;
                 while (i < length)
                 {
                     if (s[i - 1] == 32 || i == length - 1)
@@ -123,7 +123,7 @@ public partial class HtmlMemo : BaseWindow
                             NewLine();
                             var line2 = _lines[lineIndex];
                             _lines[lineIndex] = line2 + word;
-                            w = BorderWidth * 2 + _scrollWidth + tw;
+                            w = (BorderWidth * 2) + _scrollWidth + tw;
                         }
                         else
                         {
@@ -740,7 +740,7 @@ public partial class HtmlMemo : BaseWindow
                                         var line3 = _lines[i];
                                         var textWidth = Font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
                                         var line4 = _lines[i];
-                                        Font.SetText(_textWidth / 2 - textWidth / 2, y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
+                                        Font.SetText((_textWidth / 2) - (textWidth / 2), y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
                                         break;
                                     case TextAlignment.Right:
                                         var line5 = _lines[i];
@@ -804,7 +804,7 @@ public partial class HtmlMemo : BaseWindow
                                     var textWidth = Font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
                                     var line4 = _lines[i];
                                     var line5 = _lines[i];
-                                    Font.SetText(_textWidth / 2 - textWidth / 2, y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
+                                    Font.SetText((_textWidth / 2) - (textWidth / 2), y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Right:
                                     var line6 = _lines[i];
@@ -899,10 +899,7 @@ public partial class HtmlMemo : BaseWindow
     }
 
     // AoWHTMLMemo.pas:134
-    public void SetWindow(BaseWindow value)
-    {
-        SetOwner(value);
-    }
+    public void SetWindow(BaseWindow value) => SetOwner(value);
 
     // AoWHTMLMemo.pas:139
     public void SetFStrings(StringList value)
@@ -958,7 +955,7 @@ public partial class HtmlMemo : BaseWindow
         i = 0;
         while (i < _fonts.Count && font == null)
         {
-            if ((_fonts[i]).FileName == fileName)
+            if (_fonts[i].FileName == fileName)
             {
                 font = _fonts[i];
             }

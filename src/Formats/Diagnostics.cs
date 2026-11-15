@@ -28,15 +28,42 @@ public sealed record FormatDiagnostic(string Code, string Message)
     {
         var head = new StringBuilder();
         head.Append(File ?? "<input>");
-        if (Span.IsKnown) head.Append(':').Append(Span.Line).Append(':').Append(Span.Column);
-        else if (Offset is long offset) head.Append(":0x").Append(offset.ToString("x", System.Globalization.CultureInfo.InvariantCulture));
-        if (Decompressed) head.Append(" (decompressed)");
+        if (Span.IsKnown)
+        {
+            head.Append(':').Append(Span.Line).Append(':').Append(Span.Column);
+        }
+        else if (Offset is long offset)
+        {
+            head.Append(":0x").Append(offset.ToString("x", System.Globalization.CultureInfo.InvariantCulture));
+        }
+
+        if (Decompressed)
+        {
+            head.Append(" (decompressed)");
+        }
+
         head.Append(' ').Append(Code);
-        if (Path is not null) head.Append(' ').Append(Path);
-        if (Profile is not null && Offset is not null) head.Append(" [").Append(Profile).Append(']');
+        if (Path is not null)
+        {
+            head.Append(' ').Append(Path);
+        }
+
+        if (Profile is not null && Offset is not null)
+        {
+            head.Append(" [").Append(Profile).Append(']');
+        }
+
         var text = new StringBuilder(head.ToString()).Append('\n').Append(Message);
-        if (Value is not null) text.Append(" Value: ").Append(Value).Append('.');
-        if (Constraint is not null) text.Append(" Constraint: ").Append(Constraint).Append('.');
+        if (Value is not null)
+        {
+            text.Append(" Value: ").Append(Value).Append('.');
+        }
+
+        if (Constraint is not null)
+        {
+            text.Append(" Constraint: ").Append(Constraint).Append('.');
+        }
+
         return text.ToString();
     }
 }

@@ -50,7 +50,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
             {
                 var side = source.GetSide();
                 var opponentSide = source.GetOpponentSide();
-                if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop))
+                if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || (combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop)))
                 {
                     var player = commands.Source.GetPlayer();
                     magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;

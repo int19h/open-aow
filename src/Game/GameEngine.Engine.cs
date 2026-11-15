@@ -78,7 +78,10 @@ public partial class GameEngine : OwningNode
         _controlNode = new ControlStyleNode(this);
         _controlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<ControlStyleNode>(), EngineClass.Of<EngineNode>(), EngineClass.Of<ResourceEditSettings>()]);
-        if (!s_fullConstruction) return;
+        if (!s_fullConstruction)
+        {
+            return;
+        }
 
         OnHsmLoadedStore = new();
         OnHsmCloseStore = new();
@@ -151,10 +154,7 @@ public partial class GameEngine : OwningNode
     }
 
     // Engine.pas:8771
-    public virtual void SetStartupDirectory(string value)
-    {
-        _startupDirectory = value;
-    }
+    public virtual void SetStartupDirectory(string value) => _startupDirectory = value;
 
     // Engine.pas:8766. A bare engine has no registry, so it keeps this body. Create has already
     // run InitializeBeforeInherited, and that path keeps the AoWEngine body.
@@ -338,7 +338,11 @@ public partial class GameEngine : OwningNode
         var image = new byte[count];
         stream.ReadExactly(image);
         int classId = GameBoundary.ReadPacketClassId(image);
-        if (classId == 0) return null;
+        if (classId == 0)
+        {
+            return null;
+        }
+
         var engineClass = GetEngineClass(classId);
         var factory = new EnginePersistableFactory(this, progress: progress);
         var root = GameBoundary.ReadPacket(image, className: engineClass.StorageKey);
@@ -348,33 +352,21 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8973
     // The file goes through the game's file boundary with the caller's profile. A refused
     // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
-    public EngineObject RetrieveFromFile(string fileName, Engine.ProgressEvent progress, GameProfile profile)
-    {
-        return RetrieveFromTree(FileBoundary.OpenOrRaise(fileName, profile: profile), progress: progress);
-    }
+    public EngineObject RetrieveFromFile(string fileName, Engine.ProgressEvent progress, GameProfile profile) => RetrieveFromTree(FileBoundary.OpenOrRaise(fileName, profile: profile), progress: progress);
 
     // Retrieves the object of a tree whose preflight has passed, as RetrieveEObject retrieves the
     // object of a stream: the stored class is created and loaded, and a failure gives nil.
-    public EngineObject RetrieveFromTree(GameFileTree tree, Engine.ProgressEvent progress)
-    {
-        return (EngineObject)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
-    }
+    public EngineObject RetrieveFromTree(GameFileTree tree, Engine.ProgressEvent progress) => (EngineObject)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
 
     // Loads the tree of a prepared file into an object the caller holds, as ReadEObject loads a
     // stream (persistence-tree.md 6 and 7). A failure of the object goes to the error handler as
     // rwEObject passes it to OnError. No handler continues.
-    public void ReadTree(GameFileTree tree, EngineObject objectValue, Engine.ProgressEvent progress, bool preview = false, LoadErrorHandler onError = null)
-    {
-        TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview);
-    }
+    public void ReadTree(GameFileTree tree, EngineObject objectValue, Engine.ProgressEvent progress, bool preview = false, LoadErrorHandler onError = null) => TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview);
 
     // Engine.pas:8985
     // The tree of the object goes to the file boundary, which converts, validates and replaces the
     // file only after the whole document is serialized.
-    public void StoreInFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile)
-    {
-        FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
-    }
+    public void StoreInFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile) => FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
 
     // An engine image in a memory stream at position 0, for the routines that read it.
     public static MemoryStream ImageStream(byte[] image)
@@ -387,16 +379,10 @@ public partial class GameEngine : OwningNode
 
     // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
     // three-argument form below stays the original byte path of the excluded PFS callers.
-    public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile)
-    {
-        FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
-    }
+    public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile) => FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
 
     // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
-    public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile)
-    {
-        ReadTree(FileBoundary.OpenOrRaise(fileName, profile: profile), objectValue: objectValue, progress: progress);
-    }
+    public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile) => ReadTree(FileBoundary.OpenOrRaise(fileName, profile: profile), objectValue: objectValue, progress: progress);
 
     // Engine.pas:8997
     // The original image of the object goes to the file: the tree through the original backend,
@@ -537,10 +523,10 @@ public partial class GameEngine : OwningNode
         TreeReader.ReadObject(GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable), objectValue: objectValue, factory: factory);
     }
 
-    public List<EngineClass> EngineClasses { get => _engineClasses; }
-    public Dictionary<int, EngineClass> ClassTable { get => _classTable; }
-    public EngineObjectEditorList Editors { get => _editors; }
-    public ControlStyleNode ControlNode { get => _controlNode; }
+    public List<EngineClass> EngineClasses => _engineClasses;
+    public Dictionary<int, EngineClass> ClassTable => _classTable;
+    public EngineObjectEditorList Editors => _editors;
+    public ControlStyleNode ControlNode => _controlNode;
 
     public event NotifyEvent<EngineDebugNotification> DebugEvents
     {
@@ -571,10 +557,7 @@ public partial class GameEngine : OwningNode
         message.Result = -1;
     }
 
-    internal static void UnregisterSoundEngineClasses(GameEngine engine)
-    {
-        engine.UnregisterEngineClasses([EngineClass.Of<SfxSequence>(), EngineClass.Of<SfxLibrary>(), EngineClass.Of<Sfx>()]);
-    }
+    internal static void UnregisterSoundEngineClasses(GameEngine engine) => engine.UnregisterEngineClasses([EngineClass.Of<SfxSequence>(), EngineClass.Of<SfxLibrary>(), EngineClass.Of<Sfx>()]);
 
     internal static void UnregisterStorms(GameEngine engine)
     {
@@ -595,39 +578,21 @@ public partial class GameEngine : OwningNode
         engine.GameSet.SpellControl.UnregisterSpellId(12);
     }
 
-    internal static void RegisterBorderHex(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<BorderHex>(), EngineClass.Of<BorderHex.Resource>()]);
-    }
+    internal static void RegisterBorderHex(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<BorderHex>(), EngineClass.Of<BorderHex.Resource>()]);
 
-    internal static void RegisterHex(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<Hex>(), EngineClass.Of<HexagonResource>()]);
-    }
+    internal static void RegisterHex(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<Hex>(), EngineClass.Of<HexagonResource>()]);
 
-    internal static void RegisterIsometricHex(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<IsometricHex>(), EngineClass.Of<IsometricHexResource>(), EngineClass.Of<UpperIsometricHex>(), EngineClass.Of<UpperIsometricHex.Resource>(), EngineClass.Of<LowerIsometricHex>(), EngineClass.Of<LowerIsometricHex.Resource>()]);
-    }
+    internal static void RegisterIsometricHex(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<IsometricHex>(), EngineClass.Of<IsometricHexResource>(), EngineClass.Of<UpperIsometricHex>(), EngineClass.Of<UpperIsometricHex.Resource>(), EngineClass.Of<LowerIsometricHex>(), EngineClass.Of<LowerIsometricHex.Resource>()]);
 
-    internal static void RegisterRoad(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<Road>(), EngineClass.Of<Road.Resource>()]);
-    }
+    internal static void RegisterRoad(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<Road>(), EngineClass.Of<Road.Resource>()]);
 
-    internal static void RegisterTerrain(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<TerrainMapObject>(), EngineClass.Of<TerrainMapObjectResource>()]);
-    }
+    internal static void RegisterTerrain(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<TerrainMapObject>(), EngineClass.Of<TerrainMapObjectResource>()]);
 
     internal static void RegisterHill(GameEngine engine)
     {
     }
 
-    internal static void RegisterAltar(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<Altar>(), EngineClass.Of<AltarResource>()]);
-    }
+    internal static void RegisterAltar(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<Altar>(), EngineClass.Of<AltarResource>()]);
 
     internal static void RegisterRandomNode(GameEngine engine)
     {
@@ -639,9 +604,6 @@ public partial class GameEngine : OwningNode
         engine.GameSet.SpellControl.UnregisterSpellId(13);
     }
 
-    internal static void UnregisterOverlayObject(GameEngine engine)
-    {
-        engine.UnregisterEngineClasses([EngineClass.Of<OverlayObject>(), EngineClass.Of<OverlayObject.Resource>()]);
-    }
+    internal static void UnregisterOverlayObject(GameEngine engine) => engine.UnregisterEngineClasses([EngineClass.Of<OverlayObject>(), EngineClass.Of<OverlayObject.Resource>()]);
 
 }

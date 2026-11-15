@@ -91,10 +91,7 @@ public partial class Label : Control
     }
 
     // AoWLabel.pas:128
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWLabel.pas:53
     public void SetGFont(ImageLibraryFont value)

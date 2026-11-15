@@ -61,9 +61,9 @@ public partial class BorderHex : AbstractBorderHexagon
     {
         int pixelX;
         int pixelY;
-        pixelX = Owner.HexX * 32 + 8;
-        pixelY = (Owner.HexX & 1) * 16 + Owner.HexY * 32;
-        return ((pixelY + 32) << 13) + (11 << 26) + (pixelX + 8);
+        pixelX = (Owner.HexX * 32) + 8;
+        pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
+        return ((pixelY + 32) << 13) + (11 << 26) + pixelX + 8;
     }
 
     // BorderHx.pas:95

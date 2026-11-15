@@ -18,12 +18,21 @@ public sealed unsafe class TrackerSong : IDisposable
 
     private static nint Resolve(string name, Assembly assembly, DllImportSearchPath? path)
     {
-        if (name != Library) return 0;
+        if (name != Library)
+        {
+            return 0;
+        }
         // A distribution's runtime package installs only the versioned name, the development package adds the plain one.
         string[] files = OperatingSystem.IsWindows() ? ["openmpt.dll"] : OperatingSystem.IsLinux() ? ["libopenmpt.so.0", "libopenmpt.so"] : ["libopenmpt.0.dylib", "libopenmpt.dylib"];
         foreach (string file in files)
+        {
             if (NativeLibrary.TryLoad(Path.Combine(AppContext.BaseDirectory, file), out nint handle) ||
-                NativeLibrary.TryLoad(file, assembly, path, out handle)) return handle;
+                NativeLibrary.TryLoad(file, assembly, path, out handle))
+            {
+                return handle;
+            }
+        }
+
         throw new DllNotFoundException($"Music is silent: {files[0]} is missing. Install the native libopenmpt libraries next to the game or system-wide.");
     }
 
@@ -37,10 +46,21 @@ public sealed unsafe class TrackerSong : IDisposable
             nint message = 0;
             nint result;
             fixed (byte* data = bytes)
+            {
                 result = Create(data, (nuint)bytes.Length, s_log, 0, s_errorHandler, 0, &code, &message, 0);
+            }
+
             string? detail = message == 0 ? null : Marshal.PtrToStringUTF8(message);
-            if (message != 0) FreeString(message);
-            if (result == 0) throw new InvalidDataException($"libopenmpt failed to load the song ({code}): {detail}");
+            if (message != 0)
+            {
+                FreeString(message);
+            }
+
+            if (result == 0)
+            {
+                throw new InvalidDataException($"libopenmpt failed to load the song ({code}): {detail}");
+            }
+
             var song = new TrackerSong(result);
             song.SetLoop(loop);
             LastError = null;
@@ -49,7 +69,11 @@ public sealed unsafe class TrackerSong : IDisposable
         catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException or InvalidDataException)
         {
             LastError = ex.Message;
-            if (LastError != s_reported) Console.Error.WriteLine(s_reported = LastError);
+            if (LastError != s_reported)
+            {
+                Console.Error.WriteLine(s_reported = LastError);
+            }
+
             return null;
         }
     }
@@ -61,10 +85,22 @@ public sealed unsafe class TrackerSong : IDisposable
     public int Render(int rate, Span<float> stereo)
     {
         Check();
-        if (rate <= 0 || stereo.Length % 2 != 0) throw new ArgumentException("Expected stereo frames at a positive rate.");
+        if (rate <= 0 || stereo.Length % 2 != 0)
+        {
+            throw new ArgumentException("Expected stereo frames at a positive rate.");
+        }
+
         int count;
-        fixed (float* data = stereo) count = checked((int)Read(_module, rate, (nuint)(stereo.Length / 2), data));
-        if (GetError(_module) != 0) throw new InvalidDataException("libopenmpt failed while rendering the song.");
+        fixed (float* data = stereo)
+        {
+            count = checked((int)Read(_module, rate, (nuint)(stereo.Length / 2), data));
+        }
+
+        if (GetError(_module) != 0)
+        {
+            throw new InvalidDataException("libopenmpt failed while rendering the song.");
+        }
+
         return count;
     }
 

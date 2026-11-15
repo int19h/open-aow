@@ -371,16 +371,10 @@ public partial class CombatObject : EngineObject
     }
 
     // Combat.pas:5697
-    public virtual void Initialize(Battle combat)
-    {
-        Combat = combat;
-    }
+    public virtual void Initialize(Battle combat) => Combat = combat;
 
     // Combat.pas:5700
-    public virtual void Finalize(FinalizeMode mode)
-    {
-        Dispose();
-    }
+    public virtual void Finalize(FinalizeMode mode) => Dispose();
 
     // Combat.pas:5614
     public virtual int FastBattleRoundDistance() => 0;
@@ -685,10 +679,7 @@ public partial class CombatObject : EngineObject
     }
 
     // Combat.pas:5515
-    public void RemoveTarget(CombatObject target)
-    {
-        DeleteTarget(Targets.IndexOfItemA(target));
-    }
+    public void RemoveTarget(CombatObject target) => DeleteTarget(Targets.IndexOfItemA(target));
 
     // Combat.pas:5518
     public void ResetTargets()

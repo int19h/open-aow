@@ -46,7 +46,10 @@ public sealed class PreInheritedTests
             Assert.Equal(1, _initialized);
             s_events.Add("hook");
             State = 17;
-            if (s_fail) throw new InvalidDataException("hook failure");
+            if (s_fail)
+            {
+                throw new InvalidDataException("hook failure");
+            }
         }
 
         public override void Dispose()

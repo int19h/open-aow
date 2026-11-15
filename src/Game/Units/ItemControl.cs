@@ -123,7 +123,7 @@ public partial class ItemControl : EngineObject
         while (i != 0)
         {
             i -= 1;
-            if ((_items[i]).ItemId == itemId)
+            if (_items[i].ItemId == itemId)
             {
                 return _items[i];
             }
@@ -133,10 +133,7 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4733
-    public void NotifyItemChanged(Item item)
-    {
-        _onItemChangedStore.Raise(item);
-    }
+    public void NotifyItemChanged(Item item) => _onItemChangedStore.Raise(item);
 
     // Army.PAS:4738
     public void NotifyChanged()
@@ -148,10 +145,7 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4743
-    public void BeginUpdate()
-    {
-        _updateLock += 1;
-    }
+    public void BeginUpdate() => _updateLock += 1;
 
     // Army.PAS:4748
     public void EndUpdate()
@@ -176,7 +170,7 @@ public partial class ItemControl : EngineObject
                 _lastId = 0;
             }
 
-            while (i != _items.Count && (_items[i]).ItemId != _lastId)
+            while (i != _items.Count && _items[i].ItemId != _lastId)
             {
                 i += 1;
             }
@@ -200,7 +194,7 @@ public partial class ItemControl : EngineObject
         BeginUpdate();
         for (int i = GetCount() - 1; i >= 0; i--)
         {
-            (_items[i]).UpdateFromLibrary();
+            _items[i].UpdateFromLibrary();
         }
 
         EndUpdate();
@@ -349,7 +343,7 @@ public partial class ItemControl : EngineObject
             _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
             for (int i = _items.Count - 1; i >= 0; i--)
             {
-                (_items[i]).Activate();
+                _items[i].Activate();
             }
         }
     }
@@ -362,7 +356,7 @@ public partial class ItemControl : EngineObject
             _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
             for (int i = _items.Count - 1; i >= 0; i--)
             {
-                (_items[i]).Deactivate();
+                _items[i].Deactivate();
             }
         }
     }

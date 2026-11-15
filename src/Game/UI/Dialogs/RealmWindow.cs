@@ -341,12 +341,12 @@ public partial class RealmWindow : UIModule
             {
                 var alignment = u.GetAlignment();
                 var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
-                unitBackground.ShowClipped(drawRectangle.Left - (unitBackground.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (unitBackground.Height - (drawRectangle.Bottom - drawRectangle.Top - 10)) / 2, lockedSurface);
+                unitBackground.ShowClipped(drawRectangle.Left - ((unitBackground.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((unitBackground.Height - (drawRectangle.Bottom - drawRectangle.Top - 10)) / 2), lockedSurface);
             }
 
             var previewImage = u.GetPreviewImage();
             var uPreviewImage = u.GetPreviewImage();
-            u.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1List.ItemHeight - 10)) / 2, lockedSurface, UI.General.UnitShowInfo);
+            u.Show(drawRectangle.Left - ((uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((previewImage.Height - (Unit1List.ItemHeight - 10)) / 2), lockedSurface, UI.General.UnitShowInfo);
             var gauge = UnitGauge;
             gauge.Visible = true;
             gauge.Max = u.GetHits();
@@ -378,20 +378,17 @@ public partial class RealmWindow : UIModule
         {
             case 49:
                 var listBoxIcon = UI.Graphics.ListIcons[7];
-                UI.Graphics.ListIcons[7].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+                UI.Graphics.ListIcons[7].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
                 break;
             case 50:
                 var listBoxIconWidth = UI.Graphics.ListIcons[8];
-                UI.Graphics.ListIcons[8].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIconWidth.Width / 2, drawRectangle.Top, lockedSurface);
+                UI.Graphics.ListIcons[8].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIconWidth.Width / 2), drawRectangle.Top, lockedSurface);
                 break;
         }
     }
 
     // AoWRealm.pas:398
-    public void Unit1LBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface, int slot)
-    {
-        DrawArmyUnit(slot, drawRectangle, drawItem, ref lockedSurface);
-    }
+    public void Unit1LBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface, int slot) => DrawArmyUnit(slot, drawRectangle, drawItem, ref lockedSurface);
 
     // AoWRealm.pas:403
     public void HeaderTabChange()
@@ -448,7 +445,7 @@ public partial class RealmWindow : UIModule
         string text = CityMoraleList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
         var listBoxIcon = UI.Graphics.ListIcons[icon + 9];
-        UI.Graphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+        UI.Graphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
     }
 
     // AoWRealm.pas:457
@@ -607,7 +604,7 @@ public partial class RealmWindow : UIModule
         if (icon != 45)
         {
             var listBoxIcon = UI.Graphics.ListIcons[icon - 23];
-            UI.Graphics.ListIcons[icon - 23].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+            UI.Graphics.ListIcons[icon - 23].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
         }
     }
 
@@ -625,7 +622,7 @@ public partial class RealmWindow : UIModule
         string text = CityRelationList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
         var listBoxIcon = UI.Graphics.ListIcons[icon + 14];
-        UI.Graphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+        UI.Graphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
     }
 
     // AoWRealm.pas:592
@@ -661,10 +658,7 @@ public partial class RealmWindow : UIModule
     }
 
     // AoWRealm.pas:625
-    public void PlaceScrollBarChange()
-    {
-        PlaceNameList.ListOffset = PlaceScrollBar.Position;
-    }
+    public void PlaceScrollBarChange() => PlaceNameList.ListOffset = PlaceScrollBar.Position;
 
     // AoWRealm.pas:630
     public void T2SNameClick(int button)
@@ -952,10 +946,7 @@ public partial class RealmWindow : UIModule
     }
 
     // AoWRealm.pas:911
-    public void GotoButClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void GotoButClick() => UI.General.PlayButtonSound(0);
 
     // AoWRealm.pas:916
     public void T4PnlShow()
@@ -1002,10 +993,7 @@ public partial class RealmWindow : UIModule
     }
 
     // AoWRealm.pas:946
-    public void IncomeSBChange()
-    {
-        IncomeValueMemo.ListOffset = IncomeScrollBar.Position;
-    }
+    public void IncomeSBChange() => IncomeValueMemo.ListOffset = IncomeScrollBar.Position;
 
     // AoWRealm.pas:951
     public void T3ActivityClick(int button)
@@ -1019,28 +1007,16 @@ public partial class RealmWindow : UIModule
     }
 
     // AoWRealm.pas:962
-    public void UpkeepSBChange()
-    {
-        UpkeepValueMemo.ListOffset = UpkeepScrollBar.Position;
-    }
+    public void UpkeepSBChange() => UpkeepValueMemo.ListOffset = UpkeepScrollBar.Position;
 
     // AoWRealm.pas:967
-    public void DlgShow()
-    {
-        UI.General.RegisterDialog(Window);
-    }
+    public void DlgShow() => UI.General.RegisterDialog(Window);
 
     // AoWRealm.pas:972
-    public void DlgHide()
-    {
-        UI.General.UnregisterDialog(Window);
-    }
+    public void DlgHide() => UI.General.UnregisterDialog(Window);
 
     // AoWRealm.pas:977
-    public void HelpClick()
-    {
-        UI.HelpWindow.ShowHelp(505);
-    }
+    public void HelpClick() => UI.HelpWindow.ShowHelp(505);
 
     private static readonly string s_buildersGuildsText = "Builder Guilds";
     private static readonly string s_citiesText = "Cities";

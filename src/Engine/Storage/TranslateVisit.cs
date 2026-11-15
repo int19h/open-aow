@@ -19,10 +19,7 @@ public partial class TranslateVisit : IDisposable
     public GameEngine Engine { get; }
 
     // Engine.pas:10825
-    public TranslateVisit(GameEngine engine)
-    {
-        Engine = engine;
-    }
+    public TranslateVisit(GameEngine engine) => Engine = engine;
 
     // Engine.pas:10831
     public virtual void Dispose()

@@ -22,7 +22,11 @@ public sealed class MsgArgTests
     private static string[] Cases(params ReadOnlySpan<MsgArg> arguments)
     {
         var result = new string[arguments.Length];
-        for (int i = 0; i < arguments.Length; i++) result[i] = CaseOf(arguments[i]);
+        for (int i = 0; i < arguments.Length; i++)
+        {
+            result[i] = CaseOf(arguments[i]);
+        }
+
         return result;
     }
 

@@ -22,16 +22,10 @@ public partial class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:982
-    public TokenEventList(CustomNode owner) : base(owner)
-    {
-        List = new TokenEventReferenceList(null) { Holder = CreationHolder() };
-    }
+    public TokenEventList(CustomNode owner) : base(owner) => List = new TokenEventReferenceList(null) { Holder = CreationHolder() };
 
     // NetworkE.pas:1046
-    public override void Clear()
-    {
-        List.Clear();
-    }
+    public override void Clear() => List.Clear();
 
     // NetworkE.pas:1006
     public override void Assign(EngineObject source, GameEngine engine)
@@ -90,10 +84,7 @@ public partial class TokenEventList : EngineObject
     public int GetCount() => List.Events.Count;
 
     // NetworkE.pas:1056
-    public void SortOnTokenCounter()
-    {
-        List.SortChildren<TokenEvent>(CompareTokenCounter);
-    }
+    public void SortOnTokenCounter() => List.SortChildren<TokenEvent>(CompareTokenCounter);
 
     // NetworkE.pas:1061
     public void AddEvents(TokenEventList events)
@@ -106,10 +97,7 @@ public partial class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:1069
-    public void Add(TokenEvent tokenEvent)
-    {
-        List.AddChild(tokenEvent);
-    }
+    public void Add(TokenEvent tokenEvent) => List.AddChild(tokenEvent);
 
     // NetworkE.pas:1074
     public void Delete(int index)
@@ -126,15 +114,12 @@ public partial class TokenEventList : EngineObject
         List.InsertChild(index, tokenEvent);
     }
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
-    public TokenEvent this[int index] { get => GetEvent(index); }
+    public TokenEvent this[int index] => GetEvent(index);
 
     private const short ClassIdTokenEventList = 1362;
 
-    private static int CompareTokenCounter(TokenEvent item1, TokenEvent item2)
-    {
-        return item1.TokenCounter - item2.TokenCounter;
-    }
+    private static int CompareTokenCounter(TokenEvent item1, TokenEvent item2) => item1.TokenCounter - item2.TokenCounter;
 
 }

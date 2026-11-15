@@ -73,7 +73,11 @@ public partial class ControlWindow
         for (int i = 0; i < 8; i++)
         {
             int index = UI.General.SelectedUnits[i];
-            if (index == -1) continue;
+            if (index == -1)
+            {
+                continue;
+            }
+
             byte selection = (byte)(1 << index);
             icons[i].CurrentImage = UI.General.MoveTypesToInt32(army.MoveTypes(selection));
             var troop = army.Units.GetUnit(index);
@@ -84,7 +88,11 @@ public partial class ControlWindow
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!UI.TaskBar.PartyButton.Visible) MainWindow.Visible = true;
+        if (!UI.TaskBar.PartyButton.Visible)
+        {
+            MainWindow.Visible = true;
+        }
+
         UI.TaskBar.PartyButton.Visible = true;
     }
 }

@@ -252,10 +252,7 @@ public partial class FactionSelectionWindow : UIModule
         }
     }
 
-    private static void LoadWorldCampaign(WorldMap dialog, string name)
-    {
-        dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + name));
-    }
+    private static void LoadWorldCampaign(WorldMap dialog, string name) => dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + name));
 
     private static void ParseFontText(string text, StringCollection strings, ImageLibraryFont font, int maxWidth)
     {

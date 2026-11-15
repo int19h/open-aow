@@ -47,14 +47,34 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     // aowMapEvents.pas:198 TheMapExecuteEventLog, past the transient windows.
     private static string OldView(EventLog eventValue)
     {
-        if (eventValue is CombatEventLog) return "Combat";
-        if (eventValue is ArmyEventLog) return "ArmyEvent";
-        if (eventValue is CityRebellionEventLog) return "CityRebellion";
-        if (eventValue is DiplomaticActionEventLog) return "DiplomaticAction";
+        if (eventValue is CombatEventLog)
+        {
+            return "Combat";
+        }
+
+        if (eventValue is ArmyEventLog)
+        {
+            return "ArmyEvent";
+        }
+
+        if (eventValue is CityRebellionEventLog)
+        {
+            return "CityRebellion";
+        }
+
+        if (eventValue is DiplomaticActionEventLog)
+        {
+            return "DiplomaticAction";
+        }
+
         if (eventValue is NegotiateRequestEventLog)
         {
             var negotiateRequestEventLog = (NegotiateRequestEventLog)eventValue;
-            if (negotiateRequestEventLog.Object == NegotiateObject.City) return "CityNegotiation";
+            if (negotiateRequestEventLog.Object == NegotiateObject.City)
+            {
+                return "CityNegotiation";
+            }
+
             if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
                 var armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
@@ -66,10 +86,26 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
             return "None";
         }
-        if (eventValue is GameOverEventLog) return StrategicMap.Current.SeatedPlayer == eventValue.Player ? "GameOver" : "ReceivedMessage";
-        if (eventValue is NewTurnEventLog) return "NewTurn";
-        if (eventValue is CombatTypeRequestEventLog) return "CombatType";
-        if (eventValue is ShowBookEventLog) return "InformationBook";
+        if (eventValue is GameOverEventLog)
+        {
+            return StrategicMap.Current.SeatedPlayer == eventValue.Player ? "GameOver" : "ReceivedMessage";
+        }
+
+        if (eventValue is NewTurnEventLog)
+        {
+            return "NewTurn";
+        }
+
+        if (eventValue is CombatTypeRequestEventLog)
+        {
+            return "CombatType";
+        }
+
+        if (eventValue is ShowBookEventLog)
+        {
+            return "InformationBook";
+        }
+
         if (eventValue is PlayerMagicEventLog)
         {
             switch (((PlayerMagicEventLog)eventValue).Mode)
@@ -80,8 +116,16 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
             return "None";
         }
-        if (eventValue is HeroUpgradeEventLog) return "HeroUpgrade";
-        if (eventValue is HeroJoinEventLog) return "HeroJoin";
+        if (eventValue is HeroUpgradeEventLog)
+        {
+            return "HeroUpgrade";
+        }
+
+        if (eventValue is HeroJoinEventLog)
+        {
+            return "HeroJoin";
+        }
+
         if (eventValue is ArmyInfoEventLog)
         {
             var armyInfoEventLog = (ArmyInfoEventLog)eventValue;
@@ -92,28 +136,92 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             var troopObject = StrategicMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
             return troopObject != null && troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
-        if (eventValue is EnterWizardsTowerEventLog) return "WizardsTower";
-        if (eventValue is EnterArenaEventLog) return "Arena";
-        if (eventValue is MessageEventLog) return "Message";
-        if (eventValue is TutorialMessageEventLog) return "Tutorial";
-        if (eventValue is FlagMessageEventLog) return "FlagMessage";
-        if (eventValue is HelpMessageEventLog) return "Help";
-        if (eventValue is SaveGameEventLog) return "SaveGame";
-        if (eventValue is SendEmailGameEventLog) return "SendEmailGame";
-        if (eventValue is SmtpEventLog) return "SMTP";
-        if (eventValue is PasswordEventLog) return "Password";
-        if (eventValue is ItemExplorationSiteEventLog) return "ItemsFound";
-        if (eventValue is CityProductionEventLog) return "CityProduction";
-        if (eventValue is ProductionPlaceEventLog) return "ProductionPlace";
-        if (eventValue is UserEventLog) return "Acknowledge";
+        if (eventValue is EnterWizardsTowerEventLog)
+        {
+            return "WizardsTower";
+        }
+
+        if (eventValue is EnterArenaEventLog)
+        {
+            return "Arena";
+        }
+
+        if (eventValue is MessageEventLog)
+        {
+            return "Message";
+        }
+
+        if (eventValue is TutorialMessageEventLog)
+        {
+            return "Tutorial";
+        }
+
+        if (eventValue is FlagMessageEventLog)
+        {
+            return "FlagMessage";
+        }
+
+        if (eventValue is HelpMessageEventLog)
+        {
+            return "Help";
+        }
+
+        if (eventValue is SaveGameEventLog)
+        {
+            return "SaveGame";
+        }
+
+        if (eventValue is SendEmailGameEventLog)
+        {
+            return "SendEmailGame";
+        }
+
+        if (eventValue is SmtpEventLog)
+        {
+            return "SMTP";
+        }
+
+        if (eventValue is PasswordEventLog)
+        {
+            return "Password";
+        }
+
+        if (eventValue is ItemExplorationSiteEventLog)
+        {
+            return "ItemsFound";
+        }
+
+        if (eventValue is CityProductionEventLog)
+        {
+            return "CityProduction";
+        }
+
+        if (eventValue is ProductionPlaceEventLog)
+        {
+            return "ProductionPlace";
+        }
+
+        if (eventValue is UserEventLog)
+        {
+            return "Acknowledge";
+        }
+
         return "None";
     }
 
     // AI.pas:1626 TProcessEventlogAIPA.Process, the call for one log.
     private static string OldExecuteAI(EventLog log)
     {
-        if (log is HeroEmergeEventLog) return nameof(HeroEmergeEventLog);
-        if (log is DiplomaticActionEventLog) return nameof(DiplomaticActionEventLog);
+        if (log is HeroEmergeEventLog)
+        {
+            return nameof(HeroEmergeEventLog);
+        }
+
+        if (log is DiplomaticActionEventLog)
+        {
+            return nameof(DiplomaticActionEventLog);
+        }
+
         return "None";
     }
 
@@ -227,7 +335,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
             foreach (var mode in new[] { PlayerMagicEventLog.EventMode.SpellResearched, PlayerMagicEventLog.EventMode.OutOfMana, PlayerMagicEventLog.EventMode.StartResearch, (PlayerMagicEventLog.EventMode)3 })
+            {
                 yield return new State(mode.ToString(), (e, _) => ((PlayerMagicEventLog)e).Mode = mode);
+            }
         }
         else if (typeof(ArmyInfoEventLog).IsAssignableFrom(type))
         {
@@ -316,14 +426,21 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal void Prisoner(EventLog log, Troop? troop)
         {
             _units.Remove(PrisonerId);
-            if (troop != null) _units.Add(key: PrisonerId, value: troop);
+            if (troop != null)
+            {
+                _units.Add(key: PrisonerId, value: troop);
+            }
+
             ((PrisonersJoinEventLog)log).FirstUnitId = PrisonerId;
         }
 
         public void Dispose()
         {
             StrategicMap.Current = _previousMap;
-            foreach (var log in _created) _ = Record.Exception(log.Dispose);
+            foreach (var log in _created)
+            {
+                _ = Record.Exception(log.Dispose);
+            }
         }
     }
 
@@ -351,13 +468,24 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 state.Apply(log, scene);
                 string old = OldView(log);
                 var view = log.View();
-                if (view.Name != old) mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {old}");
+                if (view.Name != old)
+                {
+                    mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {old}");
+                }
+
                 if (view != EventView.None)
+                {
                     Assert.True(MapEvents.EventRenderers.TryGet(view, out _), $"{type.Name} {state}: no renderer for {view}");
+                }
+
                 row.Add($"{state}={view.Name}");
             }
             string line = string.Join(" ", row);
-            if (line != s_expected[type.Name]) mismatches.Add($"{type.Name}: {line}, recorded {s_expected[type.Name]}");
+            if (line != s_expected[type.Name])
+            {
+                mismatches.Add($"{type.Name}: {line}, recorded {s_expected[type.Name]}");
+            }
+
             table.AppendLine($"{type.Name}: {line}");
         }
         output.WriteLine(table.ToString());
@@ -371,15 +499,26 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     public void ViewResolvesToTheNearestOldArm()
     {
         for (int i = 0; i < s_oldArms.Length; i++)
+        {
             for (int j = i + 1; j < s_oldArms.Length; j++)
+            {
                 Assert.False(s_oldArms[i].IsAssignableFrom(s_oldArms[j]), $"{s_oldArms[i].Name} precedes its subclass {s_oldArms[j].Name}");
+            }
+        }
+
         var resolved = new StringBuilder();
         foreach (var type in EventLogTypes())
         {
             var declaring = type.GetMethod(nameof(EventLog.View))!.DeclaringType!;
             Type? arm = null;
             for (Type? t = type; t != null && arm == null; t = t.BaseType)
-                if (s_oldArms.Contains(t)) arm = t;
+            {
+                if (s_oldArms.Contains(t))
+                {
+                    arm = t;
+                }
+            }
+
             Assert.Equal(arm ?? typeof(EventLog), declaring);
             resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!.Name}");
         }
@@ -397,7 +536,10 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             var log = scene.Create(type);
             string old = OldExecuteAI(log);
             string actual = declaring == typeof(EventLog) ? "None" : declaring.Name;
-            if (actual != old) mismatches.Add($"{type.Name}: {actual}, old cascade {old}");
+            if (actual != old)
+            {
+                mismatches.Add($"{type.Name}: {actual}, old cascade {old}");
+            }
         }
         Assert.Empty(mismatches);
 
@@ -436,7 +578,11 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         foreach (var type in EventLogTypes())
         {
             var log = scene.Create(type);
-            if (log.View() != EventView.None) continue;
+            if (log.View() != EventView.None)
+            {
+                continue;
+            }
+
             screen.TheMapExecuteEventLog(log, true, done.Add);
         }
         Assert.Equal(new[] { user }, done);
@@ -453,7 +599,10 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         Assert.Equal(36, keys.Length);
         Assert.Equal(keys.Length, keys.Select(k => k.Name).Distinct().Count());
         foreach (var key in keys.Where(k => k != EventView.None))
+        {
             Assert.True(MapEvents.EventRenderers.TryGet(key, out _), $"no renderer for {key}");
+        }
+
         var duplicate = Assert.Throws<InvalidOperationException>(() =>
             MapEvents.EventRenderers.Add(EventView.Message, static (_, _, _, _) => { }));
         Assert.Contains("map event view", duplicate.Message);

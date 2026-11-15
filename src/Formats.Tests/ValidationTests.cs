@@ -14,13 +14,19 @@ public sealed class ValidationTests : FormatsTest
 
         public IEnumerable<FormatDiagnostic> Validate(ValidationContext context)
         {
-            if (context.Root["CurrentPlayer"] is not JsonInteger current) yield break;
+            if (context.Root["CurrentPlayer"] is not JsonInteger current)
+            {
+                yield break;
+            }
+
             var players = (JsonArray)((JsonObject)context.Root["Players"]!)["Children"]!;
             var slots = players.Items.Select(p => ((JsonInteger)((JsonObject)p)["$slot"]!).Value).ToHashSet();
             if (!slots.Contains(current.Value))
+            {
                 yield return context.At(Codes.Reference,
                     $"Player slot {current.Value} is absent from root.Players.Children. Use an existing slot.",
                     current, DocumentNodePath.Root.Member("CurrentPlayer"), current.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), "domain player-slot");
+            }
         }
     }
 
@@ -77,8 +83,13 @@ public sealed class ValidationTests : FormatsTest
         var children = (JsonArray)((JsonObject)document["root"]!)["Children"]!;
         long slot = 0;
         foreach (var item in children.Items)
+        {
             if (item is JsonObject child && child["$slot"] is JsonInteger number && number.Value >= slot)
+            {
                 slot = number.Value + 1;
+            }
+        }
+
         var blade = new JsonObject()
             .Add("$class", new JsonString("Item"))
             .Add("$slot", new JsonInteger(0))

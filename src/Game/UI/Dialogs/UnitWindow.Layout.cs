@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class UnitWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -3998,6 +3995,8 @@ public partial class UnitWindow : ILayoutModule
         PreviousUnitButton.Font = UI.Fonts.Age10;
         PreviousUnitButton.ImageLibraryIcon = UI.Graphics.CampaignTransfer;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

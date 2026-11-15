@@ -57,7 +57,11 @@ public static class NameTable
     {
         ArgumentNullException.ThrowIfNull(stored);
         var table = Current();
-        if (!table.TypeByStored.TryGetValue(stored, out var rows) || rows.Count == 0) return null;
+        if (!table.TypeByStored.TryGetValue(stored, out var rows) || rows.Count == 0)
+        {
+            return null;
+        }
+
         return table.TypeByCurrent.TryGetValue(rows[0].Current, out var first) ? first.Delphi : rows[0].Delphi;
     }
 
@@ -65,15 +69,28 @@ public static class NameTable
     {
         ArgumentNullException.ThrowIfNull(name);
         var table = Current();
-        if (table.TypeByStored.ContainsKey(name)) return name;
-        if (!table.TypeByDelphi.TryGetValue(name, out var rows)) return null;
+        if (table.TypeByStored.ContainsKey(name))
+        {
+            return name;
+        }
+
+        if (!table.TypeByDelphi.TryGetValue(name, out var rows))
+        {
+            return null;
+        }
+
         string? stored = null;
         foreach (var row in rows)
         {
             string current = table.StoredByCurrent[row.Current];
-            if (stored is null) stored = current;
+            if (stored is null)
+            {
+                stored = current;
+            }
             else if (stored != current)
+            {
                 throw new InvalidOperationException("The stored name " + name + " maps to more than one current name.");
+            }
         }
         return stored;
     }
@@ -84,14 +101,26 @@ public static class NameTable
         ArgumentNullException.ThrowIfNull(text);
         member = "";
         var defined = Definition(enumType);
-        if (!defined.IsEnum) return false;
+        if (!defined.IsEnum)
+        {
+            return false;
+        }
+
         foreach (var name in Enum.GetNames(defined))
         {
-            if (name != text) continue;
+            if (name != text)
+            {
+                continue;
+            }
+
             member = name;
             return true;
         }
-        if (!Current().MemberCurrent.TryGetValue((QualifiedName(defined), text), out var current)) return false;
+        if (!Current().MemberCurrent.TryGetValue((QualifiedName(defined), text), out var current))
+        {
+            return false;
+        }
+
         member = current;
         return true;
     }
@@ -110,28 +139,65 @@ public static class NameTable
         string? resolved = ResolveStored(name);
         string stored = resolved ?? name;
         List<NameRow>? rows = null;
-        if (table.TypeByStored.TryGetValue(name, out var byStored)) rows = byStored;
-        else if (resolved is not null && table.TypeByDelphi.TryGetValue(name, out var byDelphi)) rows = byDelphi;
+        if (table.TypeByStored.TryGetValue(name, out var byStored))
+        {
+            rows = byStored;
+        }
+        else if (resolved is not null && table.TypeByDelphi.TryGetValue(name, out var byDelphi))
+        {
+            rows = byDelphi;
+        }
+
         var matches = new List<Type>();
         foreach (var type in Scan())
         {
             var defined = Definition(type);
-            if (Stored(defined) != stored) continue;
+            if (Stored(defined) != stored)
+            {
+                continue;
+            }
+
             if (rows is not null)
             {
                 string qualified = QualifiedName(defined);
                 bool listed = false;
                 foreach (var row in rows)
-                    if (row.Current == qualified) listed = true;
-                if (!listed) continue;
+                {
+                    if (row.Current == qualified)
+                    {
+                        listed = true;
+                    }
+                }
+
+                if (!listed)
+                {
+                    continue;
+                }
             }
             bool known = false;
             foreach (var match in matches)
-                if (match == defined) known = true;
-            if (!known) matches.Add(defined);
+            {
+                if (match == defined)
+                {
+                    known = true;
+                }
+            }
+
+            if (!known)
+            {
+                matches.Add(defined);
+            }
         }
-        if (matches.Count == 1) return matches[0];
-        if (matches.Count == 0) throw new InvalidOperationException("The stored name " + name + " matches no type.");
+        if (matches.Count == 1)
+        {
+            return matches[0];
+        }
+
+        if (matches.Count == 0)
+        {
+            throw new InvalidOperationException("The stored name " + name + " matches no type.");
+        }
+
         throw new InvalidOperationException("The stored name " + name + " matches more than one type.");
     }
 
@@ -141,7 +207,10 @@ public static class NameTable
         type = Definition(type);
         var parts = new List<string>();
         for (var current = type; current is not null; current = current.DeclaringType)
+        {
             parts.Add(current.Name);
+        }
+
         parts.Reverse();
         string nested = string.Join('.', parts);
         return type.Namespace is { Length: > 0 } ns ? ns + "." + nested : nested;
@@ -164,12 +233,19 @@ public static class NameTable
 
     private static Table Current()
     {
-        lock (s_gate) return s_active ?? Product();
+        lock (s_gate)
+        {
+            return s_active ?? Product();
+        }
     }
 
     private static Table Product()
     {
-        if (s_product is not null) return s_product;
+        if (s_product is not null)
+        {
+            return s_product;
+        }
+
         using var stream = typeof(NameTable).Assembly.GetManifestResourceStream("Aow.Rtl.names.csv")
             ?? throw new InvalidOperationException("The name table is missing.");
         using var reader = new StreamReader(stream, Encoding.UTF8);
@@ -181,11 +257,19 @@ public static class NameTable
     {
         lock (s_gate)
         {
-            if (s_scanned is not null && s_scannedGeneration == s_generation) return s_scanned;
+            if (s_scanned is not null && s_scannedGeneration == s_generation)
+            {
+                return s_scanned;
+            }
+
             var list = new List<Type>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (assembly.IsDynamic) continue;
+                if (assembly.IsDynamic)
+                {
+                    continue;
+                }
+
                 Type[] types;
                 try
                 {
@@ -197,7 +281,11 @@ public static class NameTable
                 }
                 foreach (var type in types)
                 {
-                    if (type is null || type.Name.Contains('<')) continue;
+                    if (type is null || type.Name.Contains('<'))
+                    {
+                        continue;
+                    }
+
                     list.Add(type);
                 }
             }
@@ -216,7 +304,10 @@ public static class NameTable
     {
         var parts = new List<string>();
         for (var current = type; current is not null; current = current.DeclaringType)
+        {
             parts.Add(SimpleName(current));
+        }
+
         parts.Reverse();
         return string.Join('.', parts);
     }
@@ -255,25 +346,43 @@ public static class NameTable
             bool header = false;
             foreach (var parts in Records(text))
             {
-                if (parts.Length == 1 && (parts[0].Length == 0 || parts[0][0] == '#')) continue;
+                if (parts.Length == 1 && (parts[0].Length == 0 || parts[0][0] == '#'))
+                {
+                    continue;
+                }
+
                 if (!header)
                 {
                     bool known = parts.Length is 3 or 4
                         && parts[0] == "kind" && parts[1] == "delphi" && parts[2] == "current"
                         && (parts.Length == 3 || parts[3] == "stored");
-                    if (!known) throw new InvalidOperationException("The name table header is missing.");
+                    if (!known)
+                    {
+                        throw new InvalidOperationException("The name table header is missing.");
+                    }
+
                     header = true;
                     continue;
                 }
                 if (parts[0] is not ("type" or "member") || parts[1].Length == 0 || parts[2].Length == 0
                     || parts.Length is not (3 or 4))
+                {
                     throw new InvalidOperationException("A name table row is not kind, delphi, current and an optional stored name.");
+                }
+
                 string storedName = parts.Length == 4 ? parts[3] : "";
                 if (parts[0] == "member" && storedName.Length != 0)
+                {
                     throw new InvalidOperationException("A member row has no stored name.");
+                }
+
                 rows.Add(new NameRow(parts[0], parts[1], parts[2], storedName));
             }
-            if (!header) throw new InvalidOperationException("The name table header is missing.");
+            if (!header)
+            {
+                throw new InvalidOperationException("The name table header is missing.");
+            }
+
             return Index(rows);
         }
 
@@ -298,9 +407,16 @@ public static class NameTable
                             field.Append('"');
                             i++;
                         }
-                        else quoted = false;
+                        else
+                        {
+                            quoted = false;
+                        }
                     }
-                    else field.Append(c);
+                    else
+                    {
+                        field.Append(c);
+                    }
+
                     begin = false;
                     continue;
                 }
@@ -313,7 +429,10 @@ public static class NameTable
                 if (c == '"')
                 {
                     if (field.Length != 0)
+                    {
                         throw new InvalidOperationException("A name table quote sits inside a field.");
+                    }
+
                     quoted = true;
                     begin = false;
                     continue;
@@ -327,7 +446,11 @@ public static class NameTable
                 }
                 if (c == '\n')
                 {
-                    if (begin && field.Length == 0 && fields.Count == 0) continue;
+                    if (begin && field.Length == 0 && fields.Count == 0)
+                    {
+                        continue;
+                    }
+
                     fields.Add(field.ToString());
                     field.Clear();
                     records.Add(fields.ToArray());
@@ -338,7 +461,11 @@ public static class NameTable
                 field.Append(c);
                 begin = false;
             }
-            if (quoted) throw new InvalidOperationException("A quoted name table field is not closed.");
+            if (quoted)
+            {
+                throw new InvalidOperationException("A quoted name table field is not closed.");
+            }
+
             if (field.Length > 0 || fields.Count > 0)
             {
                 fields.Add(field.ToString());
@@ -373,24 +500,39 @@ public static class NameTable
                     continue;
                 }
                 if (row.Kind != "member")
+                {
                     throw new InvalidOperationException("A name table row has an unknown kind.");
+                }
+
                 int currentDot = row.Current.LastIndexOf('.');
                 int delphiDot = row.Delphi.LastIndexOf('.');
                 if (currentDot <= 0 || delphiDot <= 0)
+                {
                     throw new InvalidOperationException("A member row needs an enum name and a member name.");
+                }
+
                 string enumName = row.Current[..currentDot];
                 string currentMember = row.Current[(currentDot + 1)..];
                 string delphiMember = row.Delphi[(delphiDot + 1)..];
                 if (!memberCurrent.TryAdd((enumName, delphiMember), currentMember))
+                {
                     throw new InvalidOperationException("The name table repeats member " + row.Delphi + ".");
+                }
+
                 if (!memberDelphi.TryAdd((enumName, currentMember), delphiMember))
+                {
                     throw new InvalidOperationException("The name table repeats member " + row.Current + ".");
+                }
             }
             var storedByCurrent = AssignStored(rows);
             var typeByStored = new Dictionary<string, List<NameRow>>();
             foreach (var row in rows)
             {
-                if (row.Kind != "type") continue;
+                if (row.Kind != "type")
+                {
+                    continue;
+                }
+
                 Add(typeByStored, storedByCurrent[row.Current], row);
             }
             return new Table
@@ -417,12 +559,24 @@ public static class NameTable
             var delphiOf = new Dictionary<string, string>();
             foreach (var row in rows)
             {
-                if (row.Kind != "type") continue;
-                if (!delphiOf.TryAdd(row.Current, row.Delphi)) continue;
+                if (row.Kind != "type")
+                {
+                    continue;
+                }
+
+                if (!delphiOf.TryAdd(row.Current, row.Delphi))
+                {
+                    continue;
+                }
+
                 names.Add(row.Current);
             }
             var ownerOf = new Dictionary<string, string?>();
-            foreach (var name in names) ownerOf[name] = Owner(name, names);
+            foreach (var name in names)
+            {
+                ownerOf[name] = Owner(name, names);
+            }
+
             var ordered = new List<string>(names);
             ordered.Sort((left, right) =>
             {
@@ -439,26 +593,54 @@ public static class NameTable
             // A written stored name wins over the computed one and stays put while children take it as their prefix.
             foreach (var row in rows)
             {
-                if (row.Kind != "type" || row.Stored.Length == 0) continue;
-                if (!stored.ContainsKey(row.Current)) continue;
+                if (row.Kind != "type" || row.Stored.Length == 0)
+                {
+                    continue;
+                }
+
+                if (!stored.ContainsKey(row.Current))
+                {
+                    continue;
+                }
+
                 stored[row.Current] = row.Stored;
                 pinned.Add(row.Current);
             }
             var groups = new Dictionary<string, List<string>>();
             foreach (var pair in stored)
             {
-                if (!groups.TryGetValue(pair.Value, out var list)) groups[pair.Value] = list = [];
+                if (!groups.TryGetValue(pair.Value, out var list))
+                {
+                    groups[pair.Value] = list = [];
+                }
+
                 list.Add(pair.Key);
             }
             foreach (var group in groups)
             {
-                if (group.Value.Count < 2) continue;
+                if (group.Value.Count < 2)
+                {
+                    continue;
+                }
+
                 var delphis = new HashSet<string>();
-                foreach (var member in group.Value) delphis.Add(delphiOf[member]);
-                if (delphis.Count < 2) continue;
                 foreach (var member in group.Value)
                 {
-                    if (pinned.Contains(member) || delphiOf[member] == group.Key) continue;
+                    delphis.Add(delphiOf[member]);
+                }
+
+                if (delphis.Count < 2)
+                {
+                    continue;
+                }
+
+                foreach (var member in group.Value)
+                {
+                    if (pinned.Contains(member) || delphiOf[member] == group.Key)
+                    {
+                        continue;
+                    }
+
                     stored[member] = Qualify(member, group.Key, stored, names);
                     pinned.Add(member);
                 }
@@ -469,11 +651,23 @@ public static class NameTable
                 changed = false;
                 foreach (var name in ordered)
                 {
-                    if (pinned.Contains(name)) continue;
+                    if (pinned.Contains(name))
+                    {
+                        continue;
+                    }
+
                     string? owner = ownerOf[name];
-                    if (owner is null) continue;
+                    if (owner is null)
+                    {
+                        continue;
+                    }
+
                     string next = stored[owner] + name[owner.Length..];
-                    if (stored[name] == next) continue;
+                    if (stored[name] == next)
+                    {
+                        continue;
+                    }
+
                     stored[name] = next;
                     changed = true;
                 }
@@ -487,7 +681,9 @@ public static class NameTable
                     continue;
                 }
                 if (first != delphiOf[pair.Key])
+                {
                     throw new InvalidOperationException("The stored name " + pair.Value + " is shared by " + first + " and " + delphiOf[pair.Key] + ".");
+                }
             }
             return stored;
         }
@@ -495,7 +691,13 @@ public static class NameTable
         private static string? Owner(string name, HashSet<string> names)
         {
             for (int dot = name.LastIndexOf('.'); dot > 0; dot = name.LastIndexOf('.', dot - 1))
-                if (names.Contains(name[..dot])) return name[..dot];
+            {
+                if (names.Contains(name[..dot]))
+                {
+                    return name[..dot];
+                }
+            }
+
             return null;
         }
 
@@ -508,7 +710,10 @@ public static class NameTable
             for (int i = parts.Length - 1; i >= 0; i--)
             {
                 candidate = parts[i] + "." + candidate;
-                if (!used.Contains(candidate)) return candidate;
+                if (!used.Contains(candidate))
+                {
+                    return candidate;
+                }
             }
             throw new InvalidOperationException("The stored name " + baseStored + " has no free qualification for " + qualified + ".");
         }
@@ -519,7 +724,11 @@ public static class NameTable
             int start = parts.Length - 1;
             for (int i = 1; i <= parts.Length; i++)
             {
-                if (!names.Contains(string.Join('.', parts[..i]))) continue;
+                if (!names.Contains(string.Join('.', parts[..i])))
+                {
+                    continue;
+                }
+
                 start = i - 1;
                 break;
             }

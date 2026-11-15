@@ -95,12 +95,12 @@ public partial class ControlWindow : UIModule
                 {
                     var alignment = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
                     var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
-                    unitBackground.ShowClipped(R.Left + (R.Right - R.Left - unitBackground.Width) / 2, R.Top + (R.Bottom - R.Top - unitBackground.Height) / 2, lockedSurface);
+                    unitBackground.ShowClipped(R.Left + ((R.Right - R.Left - unitBackground.Width) / 2), R.Top + ((R.Bottom - R.Top - unitBackground.Height) / 2), lockedSurface);
                 }
 
                 var previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
                 var previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, lockedSurface, UI.General.UnitShowInfo);
+                UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, UI.General.UnitShowInfo);
             }
         }
     }
@@ -337,28 +337,16 @@ public partial class ControlWindow : UIModule
     }
 
     // AOWControlWin.pas:437
-    public void HelpClick()
-    {
-        UI.HelpWindow.ShowHelp(503);
-    }
+    public void HelpClick() => UI.HelpWindow.ShowHelp(503);
 
     // AOWControlWin.pas:442
-    public void PPrevClick()
-    {
-        StrategicMap.Current.SelectPreviousArmy();
-    }
+    public void PPrevClick() => StrategicMap.Current.SelectPreviousArmy();
 
     // AOWControlWin.pas:447
-    public void PNextClick()
-    {
-        StrategicMap.Current.SelectNextArmy();
-    }
+    public void PNextClick() => StrategicMap.Current.SelectNextArmy();
 
     // AOWControlWin.pas:452
-    public void PMoveClick()
-    {
-        StrategicMap.Current.SelectedArmy.ExecuteMove();
-    }
+    public void PMoveClick() => StrategicMap.Current.SelectedArmy.ExecuteMove();
 
     // AOWControlWin.pas:457
     public void PGuardChange()

@@ -219,10 +219,7 @@ public partial class UnitWindow : UIModule
     }
 
     // AoWUnitWindow.pas:502
-    public void HelpClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void HelpClick() => UI.General.PlayButtonSound(0);
 
     // AoWUnitWindow.pas:507
     public void T1AbilityLBChange(ListBox sender)
@@ -331,10 +328,7 @@ public partial class UnitWindow : UIModule
     }
 
     // AoWUnitWindow.pas:586
-    public void UnitWindowCreate()
-    {
-        _itemType = (ItemType)6;
-    }
+    public void UnitWindowCreate() => _itemType = (ItemType)6;
 
     // AoWUnitWindow.pas:591
     public void UnitWinUpdate()
@@ -479,10 +473,7 @@ public partial class UnitWindow : UIModule
     }
 
     // AoWUnitWindow.pas:688
-    public void UnitTabChange()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void UnitTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWUnitWindow.pas:693
     public void UnitWinMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
@@ -494,16 +485,10 @@ public partial class UnitWindow : UIModule
     }
 
     // AoWUnitWindow.pas:714
-    public void GroundRClick()
-    {
-        UpdateGround(_groundOffset + 1);
-    }
+    public void GroundRClick() => UpdateGround(_groundOffset + 1);
 
     // AoWUnitWindow.pas:719
-    public void GroundLClick()
-    {
-        UpdateGround(_groundOffset - 1);
-    }
+    public void GroundLClick() => UpdateGround(_groundOffset - 1);
 
     // AoWUnitWindow.pas:724
     public void CloseClick()
@@ -801,8 +786,8 @@ public partial class UnitWindow : UIModule
     {
         Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(o1));
         Ability ability2 = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(o2));
-        int number = ((ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0);
-        int number2 = ((ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0);
+        int number = (ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0;
+        int number2 = (ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0;
         int number3 = number2 - number;
         if (number3 == 0)
         {

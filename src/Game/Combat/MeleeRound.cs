@@ -18,10 +18,7 @@ namespace Aow.Game.Combat;
 // attacker/defender damage types
 public partial class MeleeRound : IDisposable
 {
-    public MeleeRound(EngineObject creator)
-    {
-        Creator = creator;
-    }
+    public MeleeRound(EngineObject creator) => Creator = creator;
 
     // The node that created this round. It and the nodes it creates reach the engine through it.
     public EngineObject Creator { get; }
@@ -44,10 +41,7 @@ public partial class MeleeRound : IDisposable
     private Set<DamageType> _defenderDamageTypes;
 
     // AoWAb.PAS:1492
-    public virtual void Dispose()
-    {
-        SetCapacity(0);
-    }
+    public virtual void Dispose() => SetCapacity(0);
 
     // AoWAb.PAS:1498
     public void SetCapacity(int newCapacity)
@@ -78,10 +72,7 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1513
-    public void GetMeleeStrike(int index, out Strike strike)
-    {
-        strike = _strikes[index];
-    }
+    public void GetMeleeStrike(int index, out Strike strike) => strike = _strikes[index];
 
     // AoWAb.PAS:1518
     public void Reset()

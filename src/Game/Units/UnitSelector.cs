@@ -33,16 +33,10 @@ public partial class UnitSelector : IDisposable
     private event NotifyEvent OnCancel;
 
     // Ability.PAS:583
-    public virtual void Dispose()
-    {
-        Units?.Dispose();
-    }
+    public virtual void Dispose() => Units?.Dispose();
 
     // Ability.PAS:605
-    public virtual void SetSelection(byte value)
-    {
-        Selection = (byte)(value & Selectable);
-    }
+    public virtual void SetSelection(byte value) => Selection = (byte)(value & Selectable);
 
     // Ability.PAS:656
     public virtual bool CanSelectUnit(Troop troop) => true;

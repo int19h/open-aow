@@ -168,7 +168,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         else
         {
             budget.RequiredGold = 125;
-            priority = 7 - count * total / 3;
+            priority = 7 - (count * total / 3);
             if (priority < 3)
             {
                 priority = 3;
@@ -209,13 +209,13 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                     unitIndex = city.Production.UnitProductions.GetItem(j).UnitIndex;
                     if (unitIndex != -1)
                     {
-                        valid = valid || GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(j).Researched && city.ResearchCost(j) <= researchBudget.Gold + upgradeBudget.Gold;
+                        valid = valid || (GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(j).Researched && city.ResearchCost(j) <= researchBudget.Gold + upgradeBudget.Gold);
                     }
                 }
 
                 if (valid)
                 {
-                    priority = city.GetSize() * 2 + (city.ProductionPriority + city.WallType * 3);
+                    priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
                     cities.AddAbility(city, priority);
                 }
             }
@@ -324,7 +324,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             if (structure is City && ValidUpgradeCity((City)structure))
             {
                 city = (City)structure;
-                priority = city.GetSize() * 2 + (city.ProductionPriority + city.WallType * 3);
+                priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
                 cities.AddAbility(city, priority);
             }
         }
@@ -384,7 +384,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         else
         {
             budget.RequiredGold = 250;
-            priority = 8 - count / 2;
+            priority = 8 - (count / 2);
             if (priority < 5)
             {
                 priority = 5;
@@ -402,7 +402,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     {
         string reason = "";
         bool result2 = city.CanFortify(false, ref reason);
-        result2 = result2 && city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30;
+        result2 = (result2 && city.WallType == 0) || (city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
         bool result = result2;
         if (result)
         {
@@ -421,7 +421,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     }
 
     // City.pas:3009
-    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30;
+    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || (city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
 
     // City.pas:3015
     public bool FortifyCity(AIBudget budget)
@@ -442,7 +442,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             if (structure is City && ValidFortifyCity((City)structure))
             {
                 city = (City)structure;
-                priority = city.GetSize() * 2 + city.ProductionPriority;
+                priority = (city.GetSize() * 2) + city.ProductionPriority;
                 if (city.WallType == 0)
                 {
                     priority += 3;
@@ -508,7 +508,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         else
         {
             budget.RequiredGold = 80;
-            priority = 8 - count / 2;
+            priority = 8 - (count / 2);
             if (priority < 4)
             {
                 priority = 4;

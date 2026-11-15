@@ -18,10 +18,7 @@ namespace Aow.Game.Events;
 public partial class NegotiateRequestEventLog : JoinEventLog
 {
     // Diplomacy.pas:264
-    public NegotiateRequestEventLog(CustomNode owner) : base(owner)
-    {
-        ArmyId = null;
-    }
+    public NegotiateRequestEventLog(CustomNode owner) : base(owner) => ArmyId = null;
 
     // Diplomacy.pas:279
     public new const int ClassId = 131814;

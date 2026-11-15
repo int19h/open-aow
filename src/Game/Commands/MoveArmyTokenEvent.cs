@@ -61,10 +61,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     }
 
     // MoveT.PAS:2060
-    public MoveArmyTokenEvent(CustomNode owner) : base(owner)
-    {
-        _unitIds = new Int32List();
-    }
+    public MoveArmyTokenEvent(CustomNode owner) : base(owner) => _unitIds = new Int32List();
 
     // MoveT.PAS:2137
     public override bool Validate()
@@ -295,10 +292,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public virtual bool Animating() => ArmyHexSprite.GetMoveStatus() < 100 && ArmyHexSprite.GetMoveStatus() != -1;
 
     // MoveT.PAS:2309
-    public virtual void UpdateAnimation()
-    {
-        ArmyHexSprite.MoveNext();
-    }
+    public virtual void UpdateAnimation() => ArmyHexSprite.MoveNext();
 
     // MoveT.PAS:2342
     public virtual void SetupNextMove()
@@ -512,14 +506,14 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             // The list holds every hex sprite on the field. Only ArmyHexSprite registers 131607.
             if (sprite is ArmyHexSprite army && sprite.Owner == field)
             {
-                if (!army.Army.Mode.Contains(ArmyModeElement.Moving)) return army;
+                if (!army.Army.Mode.Contains(ArmyModeElement.Moving))
+                {
+                    return army;
+                }
             }
         }
         return null;
     }
 
-    private static bool ConstructRoad(sbyte player, MapField field)
-    {
-        return false;
-    }
+    private static bool ConstructRoad(sbyte player, MapField field) => false;
 }

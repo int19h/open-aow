@@ -20,10 +20,7 @@ public partial class UnitIndexListCollection : IDisposable
     internal UnitIndexList Units => _units;
 
     // Unit.PAS:2419
-    public virtual void Dispose()
-    {
-        _units?.Dispose();
-    }
+    public virtual void Dispose() => _units?.Dispose();
 
     // Unit.PAS:2432
     public int GetCollectionCount(int index)
@@ -51,7 +48,7 @@ public partial class UnitIndexListCollection : IDisposable
     public int GetCount() => (_units.Count + (_collectionSize - 1)) / _collectionSize;
 
     // Unit.PAS:2450
-    public int GetU(int collection, int index) => _units[index + collection * _collectionSize];
+    public int GetU(int collection, int index) => _units[index + (collection * _collectionSize)];
 
     // Unit.PAS:2454
     public bool AddUnit(int collection, int unitIndex)
@@ -61,7 +58,7 @@ public partial class UnitIndexListCollection : IDisposable
         n = GetCollectionCount(collection);
         if (n < _collectionSize)
         {
-            _units[n + collection * _collectionSize] = unitIndex;
+            _units[n + (collection * _collectionSize)] = unitIndex;
             result = true;
         }
         else

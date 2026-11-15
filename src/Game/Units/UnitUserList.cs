@@ -56,10 +56,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
     }
 
     // Unit.PAS:2184
-    public override void DestroyAllChildren()
-    {
-        Clear();
-    }
+    public override void DestroyAllChildren() => Clear();
 
     // Unit.PAS:2162
     public override int RemoveChild(EngineObject child)

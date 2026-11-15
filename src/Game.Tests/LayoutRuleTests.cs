@@ -33,15 +33,27 @@ public sealed class LayoutRuleTests
 
     internal static bool HasLayout(Type type)
     {
-        if (!type.IsValueType || type.IsEnum || type.IsPrimitive || type.IsDefined(typeof(InlineArrayAttribute), inherit: false)) return false;
-        if (type.StructLayoutAttribute is { } layout && (layout.Value == LayoutKind.Explicit || layout.Size != 0 || layout.Pack is not (0 or 8))) return true;
+        if (!type.IsValueType || type.IsEnum || type.IsPrimitive || type.IsDefined(typeof(InlineArrayAttribute), inherit: false))
+        {
+            return false;
+        }
+
+        if (type.StructLayoutAttribute is { } layout && (layout.Value == LayoutKind.Explicit || layout.Size != 0 || layout.Pack is not (0 or 8)))
+        {
+            return true;
+        }
+
         const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         return type.GetFields(fields).Any(field => field.IsDefined(typeof(FieldOffsetAttribute), inherit: false));
     }
 
     private static Type ElementType(Type type)
     {
-        while (type.HasElementType) type = type.GetElementType()!;
+        while (type.HasElementType)
+        {
+            type = type.GetElementType()!;
+        }
+
         return type;
     }
 

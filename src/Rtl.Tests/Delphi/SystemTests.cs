@@ -124,7 +124,10 @@ public sealed class SystemTests
         Assert.Equal(-1, Ord(uint.MaxValue));
         Assert.Equal(1, Ord(Generated.Flag.Second));
         for (int i = 0; i <= 255; i++)
+        {
             Assert.Equal(i is >= 97 and <= 122 ? i - 32 : i, UpCase((byte)i));
+        }
+
         var pointer = Ptr<byte>.Unbox("ab\0cd");
         Assert.Equal(2, StrLen(pointer));
         Assert.Equal("ab", StrPas(pointer));

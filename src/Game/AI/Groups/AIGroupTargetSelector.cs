@@ -972,7 +972,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
             var group = GroupControl.Group;
-            if (group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= target.MovePoints)
+            if ((group.TargetMapCoordinate == AITargetLocation.At(target.Location) && group.TargetType == AIGroupTargetStatus.Execute) || group.GetMovesMin() >= target.MovePoints)
             {
                 result = NearSuperiority;
             }
@@ -1288,10 +1288,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         return number;
     }
 
-    private static int CompareTargetSetupPriority(AIGroupControlTarget item1, AIGroupControlTarget item2)
-    {
-        return item2.DataA - item1.DataA;
-    }
+    private static int CompareTargetSetupPriority(AIGroupControlTarget item1, AIGroupControlTarget item2) => item2.DataA - item1.DataA;
 
     // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
     // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties

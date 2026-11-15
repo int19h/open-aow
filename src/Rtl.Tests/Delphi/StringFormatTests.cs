@@ -11,9 +11,15 @@ public sealed class StringFormatTests
     {
         string ansi = format;
         var error = Record.Exception(() => RtlUnit.Format(ansi, arguments));
-        if (error is null) Assert.Equal(RtlUnit.Format(ansi, arguments), RtlUnit.Format(format, arguments));
-        else Assert.Equal(Assert.IsType<FormatException>(error).Message,
+        if (error is null)
+        {
+            Assert.Equal(RtlUnit.Format(ansi, arguments), RtlUnit.Format(format, arguments));
+        }
+        else
+        {
+            Assert.Equal(Assert.IsType<FormatException>(error).Message,
             Assert.Throws<FormatException>(() => RtlUnit.Format(format, arguments)).Message);
+        }
     }
 
     [Fact]
@@ -34,15 +40,27 @@ public sealed class StringFormatTests
     [Fact]
     public void FormatMatchesTaggedKindsAndParserEdges()
     {
-        foreach (string format in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*", "abc%" }) Same(format);
+        foreach (string format in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*", "abc%" })
+        {
+            Same(format);
+        }
+
         Same("%.16d", 7); Same("%.15d", 7); Same("%.0s", (byte)'A');
         Same("%u", -1); Same("%D", int.MinValue); Same("%X", int.MinValue);
         Same("%p", new PointerArg(uint.MaxValue)); Same("%10.2P", new PointerArg(1));
         Same("%s", RtlUnit.StrPas(Ptr<byte>.Unbox("abc\0def"))); Same("%s", "a\0b");
         Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
         Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
-        foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Same(kind, 1.25);
-        foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Same("%s", argument);
+        foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" })
+        {
+            Same(kind, 1.25);
+        }
+
+        foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) })
+        {
+            Same("%s", argument);
+        }
+
         Same("%p", 1); Same("%d", (byte)'a'); Same("%0:1:d", 7, "abcdef");
         Assert.Equal("A", RtlUnit.Format("%.0s", 'A'));
         Assert.Equal("abc", RtlUnit.Format("%s", "abc\0def"[..3]));
@@ -184,7 +202,10 @@ public sealed class StringFormatTests
                 data.Add(row[0], "%" + letters[i], row[i + 1]);
                 data.Add(row[0], "%" + letters[i].ToUpperInvariant(), row[i + 1]);
             }
-            foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" }) data.Add(row[0], other, unsupported);
+            foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" })
+            {
+                data.Add(row[0], other, unsupported);
+            }
         }
         return data;
     }
@@ -221,7 +242,10 @@ public sealed class StringFormatTests
     public void OnlyAnIntegerSetsAStarWidth()
     {
         foreach (string name in new[] { "byte", "char", "char80", "bool", "double", "string", "object", "nil", "default", "pointer" })
+        {
             Assert.Equal("1", RtlUnit.Format("%*d", Argument(name), 1));
+        }
+
         Assert.Equal("    1", RtlUnit.Format("%*d", 5, 1));
         Assert.Equal("1    ", RtlUnit.Format("%-*d", 5, 1));
         Assert.Equal("ab", RtlUnit.Format("%.*s", 2, "abc"));

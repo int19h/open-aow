@@ -147,19 +147,13 @@ public partial class ImageLibraryManager : Component
     }
 
     // ImageLib.pas:8361
-    public void SaveToStream(Stream stream)
-    {
-        _ownedList.SaveToStream(stream);
-    }
+    public void SaveToStream(Stream stream) => _ownedList.SaveToStream(stream);
 
     // ImageLib.pas:8366
-    public void LoadFromStream(Stream stream)
-    {
-        _ownedList.LoadFromStream(stream);
-    }
+    public void LoadFromStream(Stream stream) => _ownedList.LoadFromStream(stream);
 
-    public ImageLibraryManagerList DiskList { get => _diskList; }
-    public ImageLibraryManagerList OwnedList { get => _ownedList; }
+    public ImageLibraryManagerList DiskList => _diskList;
+    public ImageLibraryManagerList OwnedList => _ownedList;
 
     [Published]
     public string SearchPath { get => _searchPath; set => _searchPath = value; }

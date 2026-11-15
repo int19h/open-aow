@@ -112,22 +112,13 @@ public partial class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1165
-    public virtual void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
-    {
-        Targets.Add(target);
-    }
+    public virtual void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone) => Targets.Add(target);
 
     // AIGroup.pas:1155
-    public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup group, ref bool searchDone)
-    {
-        RecruitmentGroups.Add(group);
-    }
+    public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup group, ref bool searchDone) => RecruitmentGroups.Add(group);
 
     // AIGroup.pas:1160
-    public virtual void ProductionLocationFoundEvent(AIGroupProductionLocation location, ref bool searchDone)
-    {
-        ProductionLocations.Add(location);
-    }
+    public virtual void ProductionLocationFoundEvent(AIGroupProductionLocation location, ref bool searchDone) => ProductionLocations.Add(location);
 
     // AIGroup.pas:1266
     public virtual bool Validate()
@@ -165,16 +156,10 @@ public partial class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1246
-    public virtual void ProcessStates()
-    {
-        Done();
-    }
+    public virtual void ProcessStates() => Done();
 
     // AIGroup.pas:1251
-    public virtual void ProcessStatesLooped()
-    {
-        Done();
-    }
+    public virtual void ProcessStatesLooped() => Done();
 
     // AIGroup.pas:1170
     public virtual bool Split()

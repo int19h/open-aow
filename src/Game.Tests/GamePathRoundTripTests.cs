@@ -116,7 +116,11 @@ public sealed class GamePathRoundTripTests : IDisposable
         for (int y = 0; y < 2; y++)
         {
             var row = new JsonArray();
-            for (int x = 0; x < 3; x++) row.Add(new JsonObject().Add("FieldFlags", new JsonInteger(x * 10 + y + 1)));
+            for (int x = 0; x < 3; x++)
+            {
+                row.Add(new JsonObject().Add("FieldFlags", new JsonInteger((x * 10) + y + 1)));
+            }
+
             rows.Add(row);
         }
         var level = new JsonObject()
@@ -135,7 +139,10 @@ public sealed class GamePathRoundTripTests : IDisposable
             .Add("root", root));
         string source = Path.Combine(Folder, "constructed.ohsm");
         string file = Path.Combine(Folder, "saved.ohsm");
-        using (var stream = Runtime.Files.Open(source, mode: Runtime.fmCreate)) stream.Write(constructed);
+        using (var stream = Runtime.Files.Open(source, mode: Runtime.fmCreate))
+        {
+            stream.Write(constructed);
+        }
         // The game registers the combat classes when combat starts (CombatClasses.Register).
         EngineClass[] combat = [.. new[] { EngineClass.Of<CombatMap>(), EngineClass.Of<CombatMapLevel>() }.Where(c => !Engine.ClassTable.ContainsKey(c.ClassId))];
         Engine.RegisterEngineClasses(combat);
@@ -151,7 +158,11 @@ public sealed class GamePathRoundTripTests : IDisposable
         }
         finally
         {
-            if (Engine.HexSpriteMap != previous) Engine.HexSpriteMap?.Dispose();
+            if (Engine.HexSpriteMap != previous)
+            {
+                Engine.HexSpriteMap?.Dispose();
+            }
+
             Engine.SetHexSpriteMapWithoutCurrentMap(previous);
             Engine.UnregisterEngineClasses(combat);
         }

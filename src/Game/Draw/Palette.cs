@@ -28,18 +28,25 @@ public partial class Palette
     // GFXE.pas:11050
     public void LoadFromStream(Stream stream)
     {
-        Span<byte> image = stackalloc byte[4 + 4 * EntryCount];
+        Span<byte> image = stackalloc byte[4 + (4 * EntryCount)];
         stream.ReadExactly(image);
         PixelFormatId = BinaryPrimitives.ReadInt32LittleEndian(image);
-        for (int i = 0; i < EntryCount; i++) _pixels[i] = BinaryPrimitives.ReadUInt32LittleEndian(image.Slice(4 + 4 * i, 4));
+        for (int i = 0; i < EntryCount; i++)
+        {
+            _pixels[i] = BinaryPrimitives.ReadUInt32LittleEndian(image.Slice(4 + (4 * i), 4));
+        }
     }
 
     // GFXE.pas:11056
     public void SaveToStream(Stream stream)
     {
-        Span<byte> image = stackalloc byte[4 + 4 * EntryCount];
+        Span<byte> image = stackalloc byte[4 + (4 * EntryCount)];
         BinaryPrimitives.WriteInt32LittleEndian(image, PixelFormatId);
-        for (int i = 0; i < EntryCount; i++) BinaryPrimitives.WriteUInt32LittleEndian(image.Slice(4 + 4 * i, 4), _pixels[i]);
+        for (int i = 0; i < EntryCount; i++)
+        {
+            BinaryPrimitives.WriteUInt32LittleEndian(image.Slice(4 + (4 * i), 4), _pixels[i]);
+        }
+
         stream.Write(image);
     }
 

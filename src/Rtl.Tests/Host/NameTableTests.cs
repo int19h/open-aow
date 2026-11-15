@@ -9,10 +9,7 @@ namespace Aow.Rtl.Tests;
 /// </summary>
 public sealed class NameTableTests
 {
-    public NameTableTests()
-    {
-        TranslatorProperties.Register<RenamedForm>("Caption", form => form.Caption, (form, value) => form.Caption = value);
-    }
+    public NameTableTests() => TranslatorProperties.Register<RenamedForm>("Caption", form => form.Caption, (form, value) => form.Caption = value);
 
     [Fact]
     public void OriginalFilesKeepTheDelphiName()

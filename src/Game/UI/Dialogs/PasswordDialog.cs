@@ -47,10 +47,7 @@ public partial class PasswordDialog : UIModule
     }
 
     // AoWPasswordDlg.pas:55
-    public void DlgHide()
-    {
-        Finish();
-    }
+    public void DlgHide() => Finish();
 
     // AoWPasswordDlg.pas:58
     public void OKBtnClick()

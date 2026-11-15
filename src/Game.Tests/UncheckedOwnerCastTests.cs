@@ -51,10 +51,7 @@ public sealed class UncheckedOwnerCastTests
 
         public int KilledCount { get; private set; }
 
-        public override void Killed()
-        {
-            KilledCount += 1;
-        }
+        public override void Killed() => KilledCount += 1;
     }
 
     [Fact]

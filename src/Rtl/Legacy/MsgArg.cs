@@ -63,8 +63,16 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
     // integer 0 are all the word 0. A nonzero integer never equals a reference.
     public bool Equals(MsgArg other)
     {
-        if (IsZero) return other.IsZero;
-        if (kind != other.kind) return false;
+        if (IsZero)
+        {
+            return other.IsZero;
+        }
+
+        if (kind != other.kind)
+        {
+            return false;
+        }
+
         return kind == Case.Integer ? bits == other.bits : ReferenceEquals(reference, other.reference);
     }
 

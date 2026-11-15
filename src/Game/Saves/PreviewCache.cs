@@ -20,10 +20,17 @@ public sealed class PreviewCache(long capacityBytes)
 
     public void Add(PreviewKey key, PreviewEntry entry)
     {
-        if (entry.Image.LongLength > capacityBytes || !_entries.TryAdd(key, entry)) return;
+        if (entry.Image.LongLength > capacityBytes || !_entries.TryAdd(key, entry))
+        {
+            return;
+        }
+
         _order.Enqueue(key);
         Bytes += entry.Image.LongLength;
-        while (Bytes > capacityBytes && _entries.Remove(_order.Dequeue(), out var oldest)) Bytes -= oldest.Image.LongLength;
+        while (Bytes > capacityBytes && _entries.Remove(_order.Dequeue(), out var oldest))
+        {
+            Bytes -= oldest.Image.LongLength;
+        }
     }
 
     public void Clear()

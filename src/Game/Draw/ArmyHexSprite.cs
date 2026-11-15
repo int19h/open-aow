@@ -60,10 +60,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:2648
-    public ArmyHexSprite(CustomNode owner) : base(owner)
-    {
-        Army = new Army(null) { Holder = CreationHolder() };
-    }
+    public ArmyHexSprite(CustomNode owner) : base(owner) => Army = new Army(null) { Holder = CreationHolder() };
 
     // Army.PAS:2684
     public override void Clear()
@@ -96,7 +93,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         bool result;
         if (info.HexNumber == 0)
         {
-            result = info.MapField.TerrainType == 0 && info.Sender != null && (((EngineObject)info.Sender).EngineClass.ClassId == 135742 || ((EngineObject)info.Sender).EngineClass.ClassId == 131436) || Army.ValidTerrain(info.MapField.TerrainType, info.MapField.OverlayType);
+            result = (info.MapField.TerrainType == 0 && info.Sender != null && (((EngineObject)info.Sender).EngineClass.ClassId == 135742 || ((EngineObject)info.Sender).EngineClass.ClassId == 131436)) || Army.ValidTerrain(info.MapField.TerrainType, info.MapField.OverlayType);
         }
         else
         {

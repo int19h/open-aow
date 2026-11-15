@@ -7,10 +7,7 @@ public partial class FastLoadFileStream
 {
     private Stream _source;
 
-    public FastLoadFileStream(string name)
-    {
-        _source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
-    }
+    public FastLoadFileStream(string name) => _source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
 
     public override bool CanRead => true;
 

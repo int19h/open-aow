@@ -62,8 +62,16 @@ public static partial class Fixtures
     private static JsonObject Mapped(string classValue, int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue)
     {
         var objectValue = new JsonObject().Add("$class", new JsonString(classValue)).Add("$case", new JsonString(kind)).Add("$slot", new JsonInteger(slot));
-        if (residue is not null) objectValue.Add("$residue", residue);
-        foreach (var (name, value) in fields) objectValue.Add(name, value);
+        if (residue is not null)
+        {
+            objectValue.Add("$residue", residue);
+        }
+
+        foreach (var (name, value) in fields)
+        {
+            objectValue.Add(name, value);
+        }
+
         return objectValue;
     }
 
@@ -74,12 +82,18 @@ public static partial class Fixtures
         if (items.Length > 0)
         {
             var queue = FirstQueue(Root(document)) ?? throw new InvalidOperationException("The save has no production queue.");
-            foreach (var item in items) Arr(queue["Children"]).Add(item);
+            foreach (var item in items)
+            {
+                Arr(queue["Children"]).Add(item);
+            }
         }
         if (actions.Length > 0)
         {
             var player = Object(Arr(Object(Root(document)["Players"])["Children"]).Items[1]);
-            foreach (var action in actions) Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
+            foreach (var action in actions)
+            {
+                Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
+            }
         }
         return document;
     }
@@ -89,13 +103,29 @@ public static partial class Fixtures
         switch (value)
         {
             case JsonObject objectValue:
-                if (objectValue["Queue"] is JsonObject queue && queue["Children"] is JsonArray { Items.Count: 0 }) return queue;
+                if (objectValue["Queue"] is JsonObject queue && queue["Children"] is JsonArray { Items.Count: 0 })
+                {
+                    return queue;
+                }
+
                 foreach (var m in objectValue.Members)
-                    if (FirstQueue(m.Value) is { } found) return found;
+                {
+                    if (FirstQueue(m.Value) is { } found)
+                    {
+                        return found;
+                    }
+                }
+
                 break;
             case JsonArray array:
                 foreach (var item in array.Items)
-                    if (FirstQueue(item) is { } found) return found;
+                {
+                    if (FirstQueue(item) is { } found)
+                    {
+                        return found;
+                    }
+                }
+
                 break;
         }
         return null;
@@ -116,10 +146,18 @@ public static partial class Fixtures
                             .Select(m => m.Name + "=" + (m.Value is JsonInteger i ? i.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "\"" + ((JsonString)m.Value).Value + "\""));
                         found.Add(kind.Value + "{" + (objectValue["$residue"] is null ? string.Join(",", fields) : "$residue") + "}");
                     }
-                    foreach (var m in objectValue.Members) Walk(m.Value);
+                    foreach (var m in objectValue.Members)
+                    {
+                        Walk(m.Value);
+                    }
+
                     break;
                 case JsonArray array:
-                    foreach (var item in array.Items) Walk(item);
+                    foreach (var item in array.Items)
+                    {
+                        Walk(item);
+                    }
+
                     break;
             }
         }

@@ -24,10 +24,7 @@ public static class Program
 
     // The built-in unit mappings register in Aow.Game's module initializer (own-formats.md 3.1).
     // Every conversion runs it first, so a mapped class never converts without its mapping.
-    static Program()
-    {
-        System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Game.Saves.FormatMapping).Module.ModuleHandle);
-    }
+    static Program() => System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Game.Saves.FormatMapping).Module.ModuleHandle);
 
     public static int Run(string[] arguments, TextWriter output, TextWriter errors)
     {
@@ -91,7 +88,11 @@ public sealed class Options
 
     public static Options Parse(string[] arguments)
     {
-        if (arguments.Length == 0) throw new UsageException("No command.");
+        if (arguments.Length == 0)
+        {
+            throw new UsageException("No command.");
+        }
+
         var o = new Options { Command = arguments[0] };
         for (int i = 1; i < arguments.Length; i++)
         {
@@ -109,12 +110,20 @@ public sealed class Options
                 case "--profiles": o.Profiles = Value(); break;
                 case "--expect": o.Expect = Value(); break;
                 default:
-                    if (a.StartsWith("--", StringComparison.Ordinal)) throw new UsageException($"Unknown option {a}.");
+                    if (a.StartsWith("--", StringComparison.Ordinal))
+                    {
+                        throw new UsageException($"Unknown option {a}.");
+                    }
+
                     o.Positional.Add(a);
                     break;
             }
         }
-        if (o.ExactLayout && o.AllowLossy) throw new UsageException("--exact-layout conflicts with --allow-lossy.");
+        if (o.ExactLayout && o.AllowLossy)
+        {
+            throw new UsageException("--exact-layout conflicts with --allow-lossy.");
+        }
+
         return o;
     }
 }

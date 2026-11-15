@@ -21,10 +21,7 @@ namespace Aow.Game.AI;
 public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     // AI.pas:1202
-    public AutoProduceAIPlayerAction(CustomNode owner) : base(owner)
-    {
-        _productions = new QuadItemList<ProductionControl>();
-    }
+    public AutoProduceAIPlayerAction(CustomNode owner) : base(owner) => _productions = new QuadItemList<ProductionControl>();
 
     private int _productionIndex;
     private int _state;
@@ -574,9 +571,6 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1214
     public static new int Priority => 12;
 
-    private static int CompareAutoProductions(in QuadItem<ProductionControl> item1, in QuadItem<ProductionControl> item2)
-    {
-        return item2.Fourth - item1.Fourth;
-    }
+    private static int CompareAutoProductions(in QuadItem<ProductionControl> item1, in QuadItem<ProductionControl> item2) => item2.Fourth - item1.Fourth;
 
 }

@@ -22,7 +22,7 @@ public partial class PlayerCommunicationSettingsList : OwningNode, IChildList<Pl
 
     public sealed class PlayersAccessor(PlayerCommunicationSettingsList target)
     {
-        public PlayerCommunicationSettings this[int index] { get => target.GetPlayers(index); }
+        public PlayerCommunicationSettings this[int index] => target.GetPlayers(index);
     }
 
     public PlayersAccessor Players => new PlayersAccessor(this);

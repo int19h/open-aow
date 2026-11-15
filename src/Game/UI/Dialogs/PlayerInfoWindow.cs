@@ -110,7 +110,7 @@ public partial class PlayerInfoWindow : UIModule
             if (middleIcon == -1)
             {
                 var eventIcon = UI.Graphics.EventIcons[leftIcon];
-                UI.Graphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left + (36 - eventIcon.Width) / 2, drawRectangle.Top + 1, lockedSurface);
+                UI.Graphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left + ((36 - eventIcon.Width) / 2), drawRectangle.Top + 1, lockedSurface);
             }
             else
             {
@@ -165,10 +165,7 @@ public partial class PlayerInfoWindow : UIModule
     }
 
     // AoWPInfoWin.pas:132
-    public void RaceButtonClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void RaceButtonClick() => UI.General.PlayButtonSound(0);
 
     // AoWPInfoWin.pas:137
     public void FaceFrDraw(LockedSurface lockedSurface)
@@ -211,8 +208,5 @@ public partial class PlayerInfoWindow : UIModule
     }
 
     // AoWPInfoWin.pas:167
-    public void HelpClick()
-    {
-        UI.HelpWindow.ShowHelp(502);
-    }
+    public void HelpClick() => UI.HelpWindow.ShowHelp(502);
 }

@@ -30,7 +30,7 @@ public sealed class LeftoverConstructionTests
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EngineObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
+        public override int RemoveChild(EngineObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
     private sealed class Fixture : IDisposable
@@ -67,30 +67,77 @@ public sealed class LeftoverConstructionTests
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
-            if (item is null) return null;
-            if (item is GameEngine) return "$engine";
+            if (item is null)
+            {
+                return null;
+            }
+
+            if (item is GameEngine)
+            {
+                return "$engine";
+            }
+
             Type type = item.GetType();
             // A game pack searches the fixture's temporary game root for its images and sounds
             // (issue 200 folded the game part into the set), so the root reads as $root.
             if (item is string text)
+            {
                 return text.StartsWith(EngineFixture.Root, StringComparison.OrdinalIgnoreCase) ? "$root" + text[EngineFixture.Root.Length..] : text;
-            if (type.IsEnum) return Convert.ToInt64(item);
-            if (type.IsPrimitive || item is string || item is decimal) return item;
-            if (item is Type represented) return represented.FullName;
-            if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            }
+
+            if (type.IsEnum)
+            {
+                return Convert.ToInt64(item);
+            }
+
+            if (type.IsPrimitive || item is string || item is decimal)
+            {
+                return item;
+            }
+
+            if (item is Type represented)
+            {
+                return represented.FullName;
+            }
+
+            if (item is Delegate handler)
+            {
+                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            }
+
             if (!type.IsValueType)
             {
-                if (visited.TryGetValue(item, out string? found)) return "$ref:" + found;
+                if (visited.TryGetValue(item, out string? found))
+                {
+                    return "$ref:" + found;
+                }
+
                 visited.Add(item, path);
             }
-            if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (InlineArrays.Elements(item) is { } elements) return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            if (item is Array array)
+            {
+                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (InlineArrays.Elements(item) is { } elements)
+            {
+                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (item is IList list)
+            {
+                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
+            {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor cache and the link to the engine are not constructor state
+                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    {
+                        continue; // the descriptor cache and the link to the engine are not constructor state
+                    }
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
                     if (item is AIPlayerActionClass actionClass && field.Name == "_priority")
                     {
@@ -102,6 +149,8 @@ public sealed class LeftoverConstructionTests
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
+            }
+
             return fields;
         }
         return JsonSerializer.Serialize(State(value, "$"));
@@ -227,9 +276,17 @@ public sealed class LeftoverConstructionTests
     private static EngineObject Direct(Type type, CustomNode owner)
     {
         var constructor = EngineClassCreation.OwnerConstructor(type);
-        if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
+        if (constructor is not null)
+        {
+            return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
+        }
+
         var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
-        if (factory is not null) return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
+        if (factory is not null)
+        {
+            return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
+        }
+
         return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
     }
 
@@ -240,6 +297,7 @@ public sealed class LeftoverConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
 
         for (int owned = 0; owned < 2; owned++)
+        {
             for (int route = 0; route < 4; route++)
             {
                 using var fixture = new Fixture();
@@ -264,9 +322,14 @@ public sealed class LeftoverConstructionTests
                     catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
-                if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
+                if (owner is not null)
+                {
+                    states.Add(JsonSerializer.Serialize(owner.Observations));
+                }
+
                 ConstructionSnapshot.Check(actual: string.Join("\n", states), key: name + ".owner" + owned + ".route" + route, name: "LeftoverConstruction");
             }
+        }
     }
 
     private static EngineObject Saved(Type type, CustomNode owner)

@@ -30,11 +30,9 @@ public partial class SmtpDialog : UIModule
     private bool _finished;
 
     // AoWSMTPDlg.pas:115
-    public void FinishDialog()
-    {
+    public void FinishDialog() =>
         /* TODO: Implement Classes.Destroy in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AoWSMTPDlg.pas:134
     public void ResetProgress()
@@ -50,23 +48,15 @@ public partial class SmtpDialog : UIModule
     }
 
     // AoWSMTPDlg.pas:145
-    public void StartSending()
-    {
+    public void StartSending() =>
         /* TODO: Implement Classes.Create in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AoWSMTPDlg.pas:161
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWSMTPDlg.pas:166
-    public void ExitBtnClick()
-    {
-        Window.Visible = false;
-    }
+    public void ExitBtnClick() => Window.Visible = false;
 
     // AoWSMTPDlg.pas:171
     public void SmtpSenderProgress(int progress, int total)
@@ -120,16 +110,10 @@ public partial class SmtpDialog : UIModule
     }
 
     // AoWSMTPDlg.pas:207
-    public void RetryBtnClick()
-    {
-        StartSending();
-    }
+    public void RetryBtnClick() => StartSending();
 
     // AoWSMTPDlg.pas:212
-    public void SettingsBtnClick()
-    {
-        EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
-    }
+    public void SettingsBtnClick() => EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
 
     private static readonly string s_gameSuccessfullySentText = "Game successfully sent";
 

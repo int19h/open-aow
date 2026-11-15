@@ -9,7 +9,7 @@ public static class HexGeometry
     internal static void HVtoHex(int h, int v, out int x, out int y)
     {
         x = h + v;
-        y = v - h >> 1;
+        y = (v - h) >> 1;
     }
 
     internal static int RadiusToHexNumber(int radius)
@@ -21,7 +21,7 @@ public static class HexGeometry
         }
         else
         {
-            result = (radius - 1) * radius * 3 + 1;
+            result = ((radius - 1) * radius * 3) + 1;
         }
 
         return result;
@@ -38,9 +38,9 @@ public static class HexGeometry
         }
         else
         {
-            r = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
+            r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
             n = r * 6;
-            result = (hexNumber - (r - 1) * r * 3 - 1 + (int)(((uint)n) >> 1)) % n + ((r - 1) * r * 3 + 1);
+            result = ((hexNumber - ((r - 1) * r * 3) - 1 + (int)(((uint)n) >> 1)) % n) + ((r - 1) * r * 3) + 1;
         }
 
         return result;
@@ -53,8 +53,8 @@ public static class HexGeometry
         int position;
         if (hexNumber != 0)
         {
-            r = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
-            hexNumber = hexNumber - (r - 1) * r * 3 - 1;
+            r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
+            hexNumber = hexNumber - ((r - 1) * r * 3) - 1;
             side = hexNumber / r;
             position = hexNumber % r;
             switch (side)
@@ -64,7 +64,7 @@ public static class HexGeometry
                     break;
                 case 1:
                     newHexX = r;
-                    newHexY = position - (r + 1) / 2;
+                    newHexY = position - ((r + 1) / 2);
                     break;
                 case 2:
                     HVtoHex(-position, r, out newHexX, out newHexY);
@@ -74,7 +74,7 @@ public static class HexGeometry
                     break;
                 case 4:
                     newHexX = -r;
-                    newHexY = -position + r / 2;
+                    newHexY = -position + (r / 2);
                     break;
                 case 5:
                     HVtoHex(position, -r, out newHexX, out newHexY);
@@ -193,10 +193,7 @@ public static class HexGeometry
 
     internal static ReadOnlySpan<int> RadiusToHexNumberTable => [0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271];
 
-    public static void OriginalAssert(string message, string fileName, int lineNumber)
-    {
-        Assert(false, message, fileName, lineNumber);
-    }
+    public static void OriginalAssert(string message, string fileName, int lineNumber) => Assert(false, message, fileName, lineNumber);
 
     internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberWalkTable { get; } = [[new XYTableEntry(1, 0), new XYTableEntry(0, 1), new XYTableEntry(-1, 0), new XYTableEntry(-1, -1), new XYTableEntry(0, -1), new XYTableEntry(1, -1), new XYTableEntry(0, 0), new XYTableEntry(0, 0)], [new XYTableEntry(1, 1), new XYTableEntry(0, 1), new XYTableEntry(-1, 1), new XYTableEntry(-1, 0), new XYTableEntry(0, -1), new XYTableEntry(1, 0), new XYTableEntry(0, 0), new XYTableEntry(0, 0)]];
 
@@ -210,7 +207,7 @@ public static class HexGeometry
         else
         {
             // { the original lacks the "div 6" of InvHN and HNtoHX here }
-            result = (int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3;
+            result = (int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3;
         }
 
         return result;
@@ -228,8 +225,8 @@ public static class HexGeometry
         }
         else
         {
-            r = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
-            hexNumber = hexNumber - (r - 1) * r * 3 - 1;
+            r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
+            hexNumber = hexNumber - ((r - 1) * r * 3) - 1;
             side = hexNumber / r;
             position = hexNumber % r;
             switch (side)
@@ -239,7 +236,7 @@ public static class HexGeometry
                     break;
                 case 1:
                     hexX = r;
-                    hexY = position - (r + 1) / 2;
+                    hexY = position - ((r + 1) / 2);
                     break;
                 case 2:
                     HVtoHex(-position, r, out hexX, out hexY);
@@ -249,7 +246,7 @@ public static class HexGeometry
                     break;
                 case 4:
                     hexX = -r;
-                    hexY = -position + r / 2;
+                    hexY = -position + (r / 2);
                     break;
                 case 5:
                     HVtoHex(position, -r, out hexX, out hexY);
@@ -273,9 +270,9 @@ public static class HexGeometry
 
     internal static void PixelToHex(int horizontal, int vertical, out int x, out int y)
     {
-        int column = horizontal - 8 >> 5;
+        int column = (horizontal - 8) >> 5;
         x = column;
-        y = vertical - (column & 1) * 16 >> 5;
+        y = (vertical - ((column & 1) * 16)) >> 5;
     }
 
     internal static int PixelToHexNumber(int pixelX, int pixelY)
@@ -288,7 +285,7 @@ public static class HexGeometry
 
     internal static int HexToH(int x, int y)
     {
-        int difference = x - 2 * y;
+        int difference = x - (2 * y);
         return difference == int.MinValue ? 1 << 30 : difference >> 1;
     }
 
@@ -419,14 +416,14 @@ public static class HexGeometry
                             if (r == hexX)
                             {
                                 side = 1;
-                                position = (hexX + 1) / 2 + hexY;
+                                position = ((hexX + 1) / 2) + hexY;
                             }
                             else
                             {
                                 if (r == -hexX)
                                 {
                                     side = 4;
-                                    position = -hexY - hexX / 2;
+                                    position = -hexY - (hexX / 2);
                                 }
                                 else
                                 {
@@ -438,7 +435,7 @@ public static class HexGeometry
                 }
             }
 
-            result = position + ((r - 1) * r * 3 + 1 + side * r);
+            result = position + ((r - 1) * r * 3) + 1 + (side * r);
         }
         else
         {
@@ -534,8 +531,8 @@ public static class HexGeometry
 
     internal static void HexToPixel(int hexX, int hexY, out int pixelX, out int pixelY)
     {
-        pixelX = hexX * 32 + 8;
-        pixelY = hexY * 32 + (hexX & 1) * 16;
+        pixelX = (hexX * 32) + 8;
+        pixelY = (hexY * 32) + ((hexX & 1) * 16);
     }
 
     internal static int HexToHexDirection(int hexX, int hexY)

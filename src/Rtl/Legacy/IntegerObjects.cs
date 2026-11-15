@@ -10,20 +10,25 @@ public static partial class RtlUnit
     {
         public int Value { get; }
 
-        public IntegerObject(int value)
-        {
-            Value = value;
-        }
+        public IntegerObject(int value) => Value = value;
     }
 
     private static readonly Dictionary<int, object> integerObjects = [];
 
     public static object? IntToObject(int value)
     {
-        if (value == 0) return null;
+        if (value == 0)
+        {
+            return null;
+        }
+
         lock (integerObjects)
         {
-            if (!integerObjects.TryGetValue(value, out var box)) integerObjects.Add(value, box = new IntegerObject(value));
+            if (!integerObjects.TryGetValue(value, out var box))
+            {
+                integerObjects.Add(value, box = new IntegerObject(value));
+            }
+
             return box;
         }
     }

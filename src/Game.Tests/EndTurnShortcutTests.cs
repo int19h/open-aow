@@ -113,15 +113,9 @@ public sealed class EndTurnShortcutTests
 
         private TaskBar Bar => UI.TaskBar;
 
-        public void Press(ushort key)
-        {
-            Window.MainWindow.CheckKeyDown(ref key, Set<ShiftState>.Of(ShiftState.Ctrl));
-        }
+        public void Press(ushort key) => Window.MainWindow.CheckKeyDown(ref key, Set<ShiftState>.Of(ShiftState.Ctrl));
 
-        public void BeginCombat()
-        {
-            _combat = new CombatMap(null!) { Holder = EngineFixture.Engine };
-        }
+        public void BeginCombat() => _combat = new CombatMap(null!) { Holder = EngineFixture.Engine };
 
         public int QueuedCount() => Control().GetCount();
 

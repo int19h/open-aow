@@ -26,25 +26,25 @@ public partial class Surface : IDisposable
                 switch (lockedSurface.PixelFormatId)
                 {
                     case PixelFormats.pfRGB555:
-                        w = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
+                        w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
                         result = (int)(((uint)(w & 31744)) >> 7) + ((w & 992) << 6) + ((w & 31) << 19);
                         break;
                     case PixelFormats.pfRGB565:
-                        w = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
+                        w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
                         result = (int)(((uint)(w & 63488)) >> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
                         break;
                     case PixelFormats.pfPAL8:
                         Assert(lockedSurface.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
-                        index = lockedSurface.View().Byte(X + Y * lockedSurface.Pitch);
+                        index = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
                         Palette.Entry e = lockedSurface.Palette[index];
                         result = e.Red + (e.Green << 8) + (e.Blue << 16);
                         break;
                     case PixelFormats.pfRGB24:
-                        var p = lockedSurface.View(X + X + X + Y * lockedSurface.Pitch);
+                        var p = lockedSurface.View(X + X + X + (Y * lockedSurface.Pitch));
                         result = p[2] + (p[1] << 8) + (p[0] << 16);
                         break;
                     case PixelFormats.pfRGB32:
-                        v = (int)lockedSurface.View().Dword((X << 2) + Y * lockedSurface.Pitch);
+                        v = (int)lockedSurface.View().Dword((X << 2) + (Y * lockedSurface.Pitch));
                         result = (int)(((uint)(v & 16711680)) >> 16) + (v & 65280) + ((v & 255) << 16);
                         break;
                     default:
@@ -82,25 +82,25 @@ public partial class Surface : IDisposable
                 switch (lockedSurface.BitCount)
                 {
                     case 8:
-                        result = lockedSurface.View().Byte(X + Y * lockedSurface.Pitch);
+                        result = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
                         break;
                     case 16:
-                        result = lockedSurface.View().UInt16(X + X + Y * lockedSurface.Pitch);
+                        result = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
                         break;
                     case 24:
                         if (X + 1 < lockedSurface.Width)
                         {
-                            result = (int)lockedSurface.View().Dword(X + X + X + Y * lockedSurface.Pitch) & 16777215;
+                            result = (int)lockedSurface.View().Dword(X + X + X + (Y * lockedSurface.Pitch)) & 16777215;
                         }
                         else
                         {
-                            p = X + X + X + Y * lockedSurface.Pitch;
+                            p = X + X + X + (Y * lockedSurface.Pitch);
                             result = lockedSurface.View().UInt16(p) + (lockedSurface.View().Byte(p + 2) << 16);
                         }
 
                         break;
                     case 32:
-                        result = (int)lockedSurface.View().Dword((X << 2) + Y * lockedSurface.Pitch);
+                        result = (int)lockedSurface.View().Dword((X << 2) + (Y * lockedSurface.Pitch));
                         break;
                     default:
                         Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11946);
@@ -123,16 +123,10 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:398
-    public virtual int GetWidth()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual int GetWidth() => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:399
-    public virtual int GetHeight()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual int GetHeight() => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:11954
     public virtual int GetPixelFormatId()
@@ -176,8 +170,8 @@ public partial class Surface : IDisposable
                         sourceRectangle = r;
                     }
 
-                    s = sourceSurface.View(sourceRectangle.Value.Left * sourceSurface.BitCount / 8 + sourceRectangle.Value.Top * sourceSurface.Pitch);
-                    d = destinationSurface.View(X * destinationSurface.BitCount / 8 + Y * destinationSurface.Pitch);
+                    s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
+                    d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
                     BlitRects.BlitRectangle(s, d, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
                     Unlock();
                     result = PixelFormats.GFXE_OK;
@@ -310,8 +304,8 @@ public partial class Surface : IDisposable
                         sourceRectangle = r;
                     }
 
-                    s = sourceSurface.View(sourceRectangle.Value.Left * sourceSurface.BitCount / 8 + sourceRectangle.Value.Top * sourceSurface.Pitch);
-                    d = destinationSurface.View(X * destinationSurface.BitCount / 8 + Y * destinationSurface.Pitch);
+                    s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
+                    d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
                     BlitRects.BlitColorKey16(s, d, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
                     result = PixelFormats.GFXE_OK;
                     Unlock();
@@ -489,7 +483,7 @@ public partial class Surface : IDisposable
             result = Lock(ref lockedSurface);
             if (Succeeded(result))
             {
-                lockedSurface.DataIndex = lockedSurface.DataIndex + (int)(((uint)(R.Left * lockedSurface.BitCount)) >> 3) + R.Top * lockedSurface.Pitch;
+                lockedSurface.DataIndex = lockedSurface.DataIndex + (int)(((uint)(R.Left * lockedSurface.BitCount)) >> 3) + (R.Top * lockedSurface.Pitch);
                 lockedSurface.Width = R.Right - R.Left;
                 lockedSurface.Height = R.Bottom - R.Top;
                 var clipRectangle = lockedSurface.ClipRectangle;
@@ -517,9 +511,9 @@ public partial class Surface : IDisposable
     // GFXE.pas:12258
     public virtual int Resize(int width, int height) => PixelFormats.GFXE_NOTSUPPORTED;
 
-    public int Width { get => GetWidth(); }
-    public int Height { get => GetHeight(); }
-    public int PixelFormatId { get => GetPixelFormatId(); }
+    public int Width => GetWidth();
+    public int Height => GetHeight();
+    public int PixelFormatId => GetPixelFormatId();
 
     public virtual void Dispose()
     {

@@ -19,18 +19,29 @@ public partial class GameMap
             if (InRange())
             {
                 var field = mapLevel.GetField(walk.X, walk.Y);
-                saved.SetTandO(walk.HexNumber, (ushort)((byte)field.TerrainType | (byte)field.OverlayType << 8));
+                saved.SetTandO(walk.HexNumber, (ushort)((byte)field.TerrainType | ((byte)field.OverlayType << 8)));
                 sbyte value = terrain.GetTerrain(walk.HexNumber);
-                if (value >= 0) field.TerrainType = value;
+                if (value >= 0)
+                {
+                    field.TerrainType = value;
+                }
+
                 value = terrain.GetOverlay(walk.HexNumber);
-                if (value >= 0) field.OverlayType = value;
+                if (value >= 0)
+                {
+                    field.OverlayType = value;
+                }
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         while (walk.HexNumber < terrain.Count && result)
         {
-            if (InRange()) result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrain(sender);
+            if (InRange())
+            {
+                result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrain(sender);
+            }
+
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);

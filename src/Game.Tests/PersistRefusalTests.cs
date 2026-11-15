@@ -20,8 +20,15 @@ public sealed class PersistRefusalTests
         var found = new List<string>();
         foreach (var engineClass in EngineClass.All)
         {
-            if (engineClass.Type.Assembly != typeof(EngineObject).Assembly) continue;
-            if (EngineObject.TreePersistenceRefusal(engineClass.Type) is string) found.Add(engineClass.Type.Name);
+            if (engineClass.Type.Assembly != typeof(EngineObject).Assembly)
+            {
+                continue;
+            }
+
+            if (EngineObject.TreePersistenceRefusal(engineClass.Type) is string)
+            {
+                found.Add(engineClass.Type.Name);
+            }
         }
         found.Sort(static (a, b) => string.CompareOrdinal(a, b));
         Assert.True(found.Count == 0, "Still refused: " + string.Join(", ", found));

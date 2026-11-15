@@ -56,7 +56,7 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     mapField.RestoreTerrain();
                     ground = (UnholyGround)resource.CreateResourceUser();
-                    ground.Duration = (sbyte)(3 + (StrategicMap.Current.Random(11) - 5) / 5);
+                    ground.Duration = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     ground.Player = source.Player;
                     ground.OriginalOverlay = mapField.OverlayType;
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);

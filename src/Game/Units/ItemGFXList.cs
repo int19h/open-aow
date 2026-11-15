@@ -18,10 +18,7 @@ public partial class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
     int IChildSink<ItemGraphics>.AddChild(ItemGraphics child) => AddChild(child);
 
     // Army.PAS:5176
-    public ItemGFXList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
-    }
+    public ItemGFXList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // Army.PAS:5182
     public ItemGraphics GetItemGraphics(int index)

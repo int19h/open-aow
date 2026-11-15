@@ -103,15 +103,9 @@ public partial class AIMoveExecutorArmyList : OwningNode, IChildList<AIMoveExecu
     }
 
     // AIGroup.pas:4721
-    public void SortOnMovePoints()
-    {
-        SortChildren<AIMoveExecutorArmy>(CompareExecutorArmies);
-    }
+    public void SortOnMovePoints() => SortChildren<AIMoveExecutorArmy>(CompareExecutorArmies);
 
-    private static int CompareExecutorArmies(AIMoveExecutorArmy item1, AIMoveExecutorArmy item2)
-    {
-        return item1.MovePoints(255) - item2.MovePoints(255);
-    }
+    private static int CompareExecutorArmies(AIMoveExecutorArmy item1, AIMoveExecutorArmy item2) => item1.MovePoints(255) - item2.MovePoints(255);
 
     // Engine.pas:631
 

@@ -34,7 +34,11 @@ public sealed class BlitterTests
     private static uint[] PixelValues(byte[] bytes)
     {
         var values = new uint[bytes.Length / 4];
-        for (int i = 0; i < values.Length; i++) values[i] = BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(4 * i, 4));
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(4 * i, 4));
+        }
+
         return values;
     }
 
@@ -111,8 +115,14 @@ public sealed class BlitterTests
 
     private static void RemapRle(bool to565, byte[] data, int height)
     {
-        if (to565) Blit.RemapRle555To565(data, height, 0);
-        else Blit.RemapRle565To555(data, height, 0);
+        if (to565)
+        {
+            Blit.RemapRle555To565(data, height, 0);
+        }
+        else
+        {
+            Blit.RemapRle565To555(data, height, 0);
+        }
     }
 
     private static void DrawLine(int x1, int y1, int x2, int y2, int skip, Area d, Rect clip)
@@ -147,7 +157,13 @@ public sealed class BlitterTests
         var bytes = Bytes(count, seed);
         var random = new Random(seed + 1000);
         for (int i = 0; i + 1 < count; i += 2)
-            if (random.Next(4) == 0) BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(i), 0x1234);
+        {
+            if (random.Next(4) == 0)
+            {
+                BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(i), 0x1234);
+            }
+        }
+
         return bytes;
     }
 
@@ -159,7 +175,11 @@ public sealed class BlitterTests
         public void Add(byte[] buffer, bool fault)
         {
             uint hash = 2166136261;
-            foreach (byte b in buffer) hash = unchecked((hash ^ b) * 16777619);
+            foreach (byte b in buffer)
+            {
+                hash = unchecked((hash ^ b) * 16777619);
+            }
+
             hash = unchecked((hash ^ (fault ? 1u : 0u)) * 16777619);
             _combined = unchecked((_combined ^ hash) * 16777619);
             _cases++;
@@ -183,9 +203,9 @@ public sealed class BlitterTests
     // with 16 spare bytes on both sides. A negative sign makes the rows bottom-up: row 0 is the
     // last row of the block and the pitch is negative.
     private static Area Make(byte[] memory, int align, int pitch, int height, int sign)
-        => sign > 0 ? new Area(memory, 16 + align, pitch) : new Area(memory, 16 + (height - 1) * pitch + align, -pitch);
+        => sign > 0 ? new Area(memory, 16 + align, pitch) : new Area(memory, 16 + ((height - 1) * pitch) + align, -pitch);
 
-    private static int Size(int pitch, int height) => 32 + pitch * height;
+    private static int Size(int pitch, int height) => 32 + (pitch * height);
 
     private static readonly int[] s_copyWidths = [1, 2, 3, 4, 5, 7, 8, 9, 30, 31, 32, 33, 63, 64, 65, 70];
     private static readonly int[] s_pixelWidths = [1, 2, 3, 4, 5, 15, 16, 17, 31, 33];
@@ -268,19 +288,34 @@ public sealed class BlitterTests
             var recorder = new Recorder(name);
             int seed = 1;
             foreach (int height in (int[])[3, 0])
+            {
                 foreach (int w in s_copyWidths)
+                {
                     for (int sa = 0; sa < 4; sa++)
+                    {
                         for (int da = 0; da < 4; da++)
+                        {
                             foreach (int sign in (int[])[1, -1])
+                            {
                                 foreach (bool cut in (bool[])[false, true])
                                 {
-                                    if (cut && height == 0) continue;
+                                    if (cut && height == 0)
+                                    {
+                                        continue;
+                                    }
+
                                     var source = Bytes(Size(80, 3), seed++);
-                                    var destination = Bytes(Size(88, 3) - (cut ? 104 - da - w / 2 : 0), seed++);
+                                    var destination = Bytes(Size(88, 3) - (cut ? 104 - da - (w / 2) : 0), seed++);
                                     var s = Make(source, sa, 80, 3, sign);
                                     var d = Make(destination, da, 88, 3, cut ? 1 : sign);
                                     recorder.Run(destination, () => call(s, d, w, height));
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+
             results.Add(recorder.Result);
         }
         Check(results);
@@ -299,16 +334,23 @@ public sealed class BlitterTests
             var recorder = new Recorder(name + "-overlap");
             int seed = 5000;
             foreach (int w in (int[])[4, 9, 31, 33, 64, 70])
+            {
                 foreach (int shift in shifts)
+                {
                     for (int a = 0; a < 4; a++)
+                    {
                         foreach (int sign in (int[])[1, -1])
                         {
                             var memory = Bytes(1024, seed++);
-                            int start = sign > 0 ? 200 + a : 200 + 3 * 160 + a;
+                            int start = sign > 0 ? 200 + a : 200 + (3 * 160) + a;
                             var s = new Area(memory, start, 160 * sign);
                             var d = new Area(memory, start + shift, 160 * sign);
                             recorder.Run(memory, () => call(s, d, w, 3));
                         }
+                    }
+                }
+            }
+
             results.Add(recorder.Result);
         }
         Check(results);
@@ -323,7 +365,11 @@ public sealed class BlitterTests
         foreach (var (name, call) in s_copies)
         {
             var memory = new byte[48];
-            for (int i = 0; i < memory.Length; i++) memory[i] = (byte)i;
+            for (int i = 0; i < memory.Length; i++)
+            {
+                memory[i] = (byte)i;
+            }
+
             call(new Area(memory, 4, 48), new Area(memory, 5, 48), 40, 1);
             results.Add($"{name}-literal 1 {System.Convert.ToHexString(memory)}");
         }
@@ -339,9 +385,13 @@ public sealed class BlitterTests
             var recorder = new Recorder(name);
             int seed = 10000;
             foreach (int w in s_pixelWidths)
+            {
                 for (int sa = 0; sa < 4; sa++)
+                {
                     for (int da = 0; da < 4; da++)
+                    {
                         foreach (int sign in (int[])[1, -1])
+                        {
                             foreach (bool cut in (bool[])[false, true])
                             {
                                 var source = Pixels16(Size(136, 3), seed++);
@@ -350,15 +400,24 @@ public sealed class BlitterTests
                                 var d = Make(destination, da, 144, 3, cut ? 1 : sign);
                                 recorder.Run(destination, () => call(s, d, w, 3));
                             }
+                        }
+                    }
+                }
+            }
             // In place, as TImage16.RemapToPixelFormat converts its own buffer.
             if (size == 2)
+            {
                 foreach (int w in s_pixelWidths)
+                {
                     for (int a = 0; a < 4; a++)
                     {
                         var memory = Pixels16(Size(144, 3), seed++);
                         var area = Make(memory, a, 144, 3, 1);
                         recorder.Run(memory, () => call(area, area, w, 3));
                     }
+                }
+            }
+
             results.Add(recorder.Result);
         }
         Check(results);
@@ -367,7 +426,7 @@ public sealed class BlitterTests
     // One pixel as GFXE.pas writes it: the destination bytes from the source bytes.
     private static void Convert(string name, ReadOnlySpan<byte> s, Span<byte> d)
     {
-        int word = s.Length >= 2 ? s[0] | s[1] << 8 : 0;
+        int word = s.Length >= 2 ? s[0] | (s[1] << 8) : 0;
         switch (name)
         {
             case "RemapSurface24to565": BinaryPrimitives.WriteUInt16LittleEndian(d, (ushort)(((s[2] & 0xF8) << 8) + ((s[1] & 0xFC) << 3) + (s[0] >> 3))); break;
@@ -385,8 +444,11 @@ public sealed class BlitterTests
         {
             int seed = 15000;
             foreach (int w in s_pixelWidths)
+            {
                 for (int sa = 0; sa < 4; sa++)
+                {
                     for (int da = 0; da < 4; da++)
+                    {
                         foreach (int sign in (int[])[1, -1])
                         {
                             var source = Bytes(Size(136, 3), seed++);
@@ -395,11 +457,19 @@ public sealed class BlitterTests
                             var s = Make(source, sa, 136, 3, sign);
                             var d = Make(destination, da, 144, 3, sign);
                             for (int y = 0; y < 3; y++)
+                            {
                                 for (int x = 0; x < w; x++)
-                                    Convert(name, source.AsSpan(s.Start + y * s.Pitch + x * sourceBytes, sourceBytes), expected.AsSpan(d.Start + y * d.Pitch + x * destinationBytes, destinationBytes));
+                                {
+                                    Convert(name, source.AsSpan(s.Start + (y * s.Pitch) + (x * sourceBytes), sourceBytes), expected.AsSpan(d.Start + (y * d.Pitch) + (x * destinationBytes), destinationBytes));
+                                }
+                            }
+
                             call(s, d, w, 3);
                             Assert.True(expected.AsSpan().SequenceEqual(destination), $"{name} {w} {sa} {da} {sign}");
                         }
+                    }
+                }
+            }
         }
     }
 
@@ -412,7 +482,9 @@ public sealed class BlitterTests
             var recorder = new Recorder(name);
             int seed = 20000;
             foreach (int w in s_pixelWidths)
+            {
                 for (int a = 0; a < 4; a++)
+                {
                     foreach (int sign in (int[])[1, -1])
                     {
                         var source = Pixels16(Size(96, 6), seed++);
@@ -424,6 +496,9 @@ public sealed class BlitterTests
                         var d = Make(destination, (a + 1) & 3, 80, 4, sign);
                         recorder.Run(destination, () => call(s, rows, cols, d, w, 4));
                     }
+                }
+            }
+
             results.Add(recorder.Result);
         }
         Check(results);
@@ -447,9 +522,16 @@ public sealed class BlitterTests
                 }
                 else { words.Add((ushort)(1 + random.Next(0xFFFF))); x++; }
             }
-            data.AddRange(BitConverter.GetBytes(4 + words.Count * 2));
-            foreach (ushort word in words) data.AddRange(BitConverter.GetBytes(word));
-            while ((data.Count & 3) != 0) data.Add(0xCC);
+            data.AddRange(BitConverter.GetBytes(4 + (words.Count * 2)));
+            foreach (ushort word in words)
+            {
+                data.AddRange(BitConverter.GetBytes(word));
+            }
+
+            while ((data.Count & 3) != 0)
+            {
+                data.Add(0xCC);
+            }
         }
         return [.. data];
     }
@@ -479,14 +561,19 @@ public sealed class BlitterTests
     private static byte[] Mask(int width, int height, Random random)
     {
         int words = (width + 31) >> 5;
-        var data = new byte[words * 4 * height + 64];
+        var data = new byte[(words * 4 * height) + 64];
         for (int y = 0; y < height; y++)
+        {
             for (int x = 0; x < width; x++)
+            {
                 if (random.Next(3) != 0)
                 {
-                    int at = y * words * 4 + (x >> 5) * 4;
+                    int at = (y * words * 4) + ((x >> 5) * 4);
                     BinaryPrimitives.WriteUInt32LittleEndian(value: BinaryPrimitives.ReadUInt32LittleEndian(data.AsSpan(at)) | (0x80000000u >> (x & 31)), destination: data.AsSpan(at));
                 }
+            }
+        }
+
         return data;
     }
 
@@ -520,16 +607,23 @@ public sealed class BlitterTests
             var recorder = new Recorder(name);
             int seed = 30000;
             foreach (int w in s_spriteWidths)
+            {
                 for (int clip = 0; clip < 10; clip++)
+                {
                     foreach (int sign in (int[])[1, -1])
+                    {
                         for (int a = 0; a < 2; a++)
                         {
                             var data = encode(w, 4, new Random(seed));
-                            var destination = Pixels16(Size(96 * pixelBytes + 16, 12), seed++);
-                            var d = Make(destination, a * 2, 96 * pixelBytes + 16, 12, sign);
+                            var destination = Pixels16(Size((96 * pixelBytes) + 16, 12), seed++);
+                            var d = Make(destination, a * 2, (96 * pixelBytes) + 16, 12, sign);
                             var (rectangle, x, y) = Placement(clip, w);
                             recorder.Run(destination, () => call(x, y, d, rectangle, data, w, 4));
                         }
+                    }
+                }
+            }
+
             results.Add(recorder.Result);
         }
     }
@@ -561,9 +655,13 @@ public sealed class BlitterTests
         var recorder = new Recorder("DrawLine16");
         int seed = 40000;
         for (int i = 0; i < px.Length; i++)
+        {
             for (int j = 0; j < px.Length; j++)
+            {
                 for (int skip = 0; skip < 3; skip++)
+                {
                     for (int clip = 0; clip < 3; clip++)
+                    {
                         foreach (int sign in (int[])[1, -1])
                         {
                             var destination = Pixels16(Size(40, 16), seed++);
@@ -571,6 +669,11 @@ public sealed class BlitterTests
                             var rectangle = clip == 0 ? new Rect(0, 0, 16, 16) : clip == 1 ? new Rect(3, 3, 12, 12) : new Rect(5, 5, 5, 5);
                             recorder.Run(destination, () => DrawLine(px[i], py[i], px[j], py[j], skip, d, rectangle));
                         }
+                    }
+                }
+            }
+        }
+
         Check([recorder.Result]);
     }
 }

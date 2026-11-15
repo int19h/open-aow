@@ -144,10 +144,7 @@ public partial class DisplayController : Component
 
     private Matrix _inverseMatrix;
 
-    public DisplayController(Component owner) : base(owner)
-    {
-        _inverseMatrix = new Matrix(4, 4);
-    }
+    public DisplayController(Component owner) : base(owner) => _inverseMatrix = new Matrix(4, 4);
 
     // DisplayC.pas:1031
     public override void Dispose()
@@ -209,17 +206,12 @@ public partial class DisplayController : Component
 
     // DisplayC.pas:660
     // { Bug kept from the original: the result of Resize is ignored, so Result stays 0. }
-    public virtual int ResizeBackSurfaces(int width, int height)
-    {
+    public virtual int ResizeBackSurfaces(int width, int height) =>
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // DisplayC.pas:675
-    public virtual void SetPrimarySurfaceRegion(in Rect R)
-    {
-        PrimarySurfaceRegion = R;
-    }
+    public virtual void SetPrimarySurfaceRegion(in Rect R) => PrimarySurfaceRegion = R;
 
     // DisplayC.pas:680
     // The original returns @FPrimarySurfaceRgn, which is never nil.
@@ -306,11 +298,9 @@ public partial class DisplayController : Component
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
     //   captured it. }
-    public virtual void GetMousePosition(ref int X, ref int Y)
-    {
+    public virtual void GetMousePosition(ref int X, ref int Y) =>
         /* TODO: Implement Windows.GetCapture in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // DisplayC.pas:830
     public virtual int Hide()
@@ -375,7 +365,7 @@ public partial class DisplayController : Component
         int l;
         int off;
         bool ok;
-        p = X + matrix.Width * Y;
+        p = X + (matrix.Width * Y);
         if (matrix.Data[p] != 0)
         {
             h1 = 0;
@@ -531,10 +521,7 @@ public partial class DisplayController : Component
     }
 
     // DisplayC.pas:1020
-    public virtual void Invalidate(int X, int Y, int W, int H)
-    {
-        InverseWndwithValue(X, Y, W, H, 1);
-    }
+    public virtual void Invalidate(int X, int Y, int W, int H) => InverseWndwithValue(X, Y, W, H, 1);
 
     // DisplayC.pas:1043
     public int GetCurrentFrameRate() => _display.CurrentFrameRate;

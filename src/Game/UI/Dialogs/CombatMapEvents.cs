@@ -117,10 +117,7 @@ public partial class CombatMapEvents : UIModule
     }
 
     // aowTCMapEvents.pas:169
-    public void CombatMapMapChanged(in MapChangedInfo R)
-    {
-        UI.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
-    }
+    public void CombatMapMapChanged(in MapChangedInfo R) => UI.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
 
     // aowTCMapEvents.pas:174
     public void CombatMapMouseOverTarget(HexSprite hexSprite)

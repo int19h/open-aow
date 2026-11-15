@@ -44,10 +44,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1286
-    public ImageNode(CustomImageLibrary owner) : base(owner)
-    {
-        FileName = "(multi images)";
-    }
+    public ImageNode(CustomImageLibrary owner) : base(owner) => FileName = "(multi images)";
 
     // ImageLib.pas:1292
     public override void Dispose()
@@ -322,11 +319,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1514
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
-    {
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // ImageLib.pas:1550
     public override void Show(int X, int Y, in LockedSurface lockedSurface, in ShowInfo showInfo)
@@ -387,6 +382,6 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
 
     public int Count { get => _count; internal set => _count = value; }
 
-    public LibraryImage this[int index] { get => GetImage(index); }
+    public LibraryImage this[int index] => GetImage(index);
 
 }

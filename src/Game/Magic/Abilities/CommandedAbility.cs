@@ -44,10 +44,7 @@ public partial class CommandedAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:5028
-    public override void CombatDone(CombatObject combatObject)
-    {
-        Remove(combatObject.GetAbilityOwner());
-    }
+    public override void CombatDone(CombatObject combatObject) => Remove(combatObject.GetAbilityOwner());
 
     // AoWAb.PAS:5019
     public override EngineClass AbilityDataClass() => s_commandedDataClass;

@@ -26,8 +26,5 @@ public partial class Rectangle
     }
 
     // GFXE.pas:2440
-    public Rectangle(in Rect R)
-    {
-        Bounds = R;
-    }
+    public Rectangle(in Rect R) => Bounds = R;
 }

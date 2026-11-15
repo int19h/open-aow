@@ -57,10 +57,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public virtual int GetOverlayCount() => 0;
 
     // HXSPRITE.PAS:52
-    public virtual byte GetLevel()
-    {
-        throw new InvalidOperationException("No HexagonSprite Level defined");
-    }
+    public virtual byte GetLevel() => throw new InvalidOperationException("No HexagonSprite Level defined");
 
     // HXSPRITE.PAS:43
     public virtual void SetVisible(bool value)
@@ -125,10 +122,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     // HSEngine.pas:881
-    public virtual void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => throw AbstractErrorException.Create("Abstract Error");
 
     // HXSPRITE.PAS:197
     public virtual bool PlaceOnMap()
@@ -138,10 +132,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     // HXSPRITE.PAS:203
-    public virtual void RemoveFromMap()
-    {
-        Disconnect();
-    }
+    public virtual void RemoveFromMap() => Disconnect();
 
     // HXSPRITE.PAS:573
     public virtual bool MainPlace(MapContainer map, int pixelX, int pixelY, int hexLevel)
@@ -178,10 +169,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     public virtual bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel) => PlaceOnMap();
 
     // HXSPRITE.PAS:208
-    public virtual void Remove()
-    {
-        RemoveFromMap();
-    }
+    public virtual void Remove() => RemoveFromMap();
 
     // HXSPRITE.PAS:213
     public virtual bool Loaded()
@@ -249,10 +237,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     // HXSPRITE.PAS:82
-    public virtual void GetBaseHex(out int mapCoordinate)
-    {
-        mapCoordinate = Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
-    }
+    public virtual void GetBaseHex(out int mapCoordinate) => mapCoordinate = Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
 
     // HXSPRITE.PAS:57
     public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
@@ -263,10 +248,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     // HXSPRITE.PAS:111
-    public virtual void Unselect()
-    {
-        Owner.Owner.Map.Selection.Unselect(this);
-    }
+    public virtual void Unselect() => Owner.Owner.Map.Selection.Unselect(this);
 
     // HXSPRITE.PAS:17
     public virtual string EditName() => "Hexagon Sprite";
@@ -858,14 +840,14 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
     }
 
-    public int TerrainCount { get => GetTerrainCount(); }
-    public int OverlayCount { get => GetOverlayCount(); }
-    public byte Level { get => GetLevel(); }
+    public int TerrainCount => GetTerrainCount();
+    public int OverlayCount => GetOverlayCount();
+    public byte Level => GetLevel();
     public bool Visible { get => GetVisible(); set => SetVisible(value); }
-    public bool Selected { get => GetSelected(); }
-    public sbyte HexX { get => GetHexX(); }
-    public sbyte HexY { get => GetHexY(); }
-    public sbyte HexLevel { get => GetHexLevel(); }
+    public bool Selected => GetSelected();
+    public sbyte HexX => GetHexX();
+    public sbyte HexY => GetHexY();
+    public sbyte HexLevel => GetHexLevel();
 
     // Computed from GetHexX, GetHexY and GetHexLevel. A sprite that stores the position overrides this.
     public virtual MapCoordinate Location
@@ -875,7 +857,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
     }
 
     public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
-    public int ShowPriority { get => GetShowPriority(); }
+    public int ShowPriority => GetShowPriority();
 
     // HXSPRITE.PAS:77
     public virtual Set<ControlModeElement> ControlMode() => Set<ControlModeElement>.Of();

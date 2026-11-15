@@ -16,10 +16,7 @@ namespace Aow.Game.UI.Windows;
 public partial class Window : GenericWindow
 {
     // AoWWindow.pas:54
-    public Window(Component owner) : base(owner)
-    {
-        UseManagerBorders = true;
-    }
+    public Window(Component owner) : base(owner) => UseManagerBorders = true;
 
     // AoWWindow.pas:63
     // { SetSize: at least as large as the frame corners, between the minimum and maximum size, and
@@ -281,12 +278,12 @@ public partial class Window : GenericWindow
         {
             if (Alignment.AlignWidth == AlignWidth.Center)
             {
-                SetWinLeftWithoutInvalidate((OwnerComponent.WinWidth - WindowManager.BorderLeft - WindowManager.BorderRight) / 2 + WindowManager.BorderLeft - WinWidth / 2);
+                SetWinLeftWithoutInvalidate(((OwnerComponent.WinWidth - WindowManager.BorderLeft - WindowManager.BorderRight) / 2) + WindowManager.BorderLeft - (WinWidth / 2));
             }
 
             if (Alignment.AlignHeight == AlignHeight.Center)
             {
-                SetWinTopWithoutInvalidate((OwnerComponent.WinHeight - WindowManager.BorderTop - WindowManager.BorderBottom) / 2 + WindowManager.BorderTop - WinHeight / 2);
+                SetWinTopWithoutInvalidate(((OwnerComponent.WinHeight - WindowManager.BorderTop - WindowManager.BorderBottom) / 2) + WindowManager.BorderTop - (WinHeight / 2));
             }
         }
     }
@@ -386,13 +383,13 @@ public partial class Window : GenericWindow
                         Dragging = 2;
                         ResizingX = 1;
                         DragX = X - WinLeft;
-                        if (Y < BorderHeight * 5 + WinTop - 1)
+                        if (Y < (BorderHeight * 5) + WinTop - 1)
                         {
                             ResizingY = 1;
                             DragY = Y - WinTop;
                         }
 
-                        if (Y > WinTop + WinHeight - BorderHeight * 5)
+                        if (Y > WinTop + WinHeight - (BorderHeight * 5))
                         {
                             ResizingY = 2;
                             DragY = WinTop + WinHeight - Y;
@@ -404,13 +401,13 @@ public partial class Window : GenericWindow
                         Dragging = 2;
                         ResizingX = 2;
                         DragX = WinLeft + WinWidth - X;
-                        if (Y < BorderHeight * 5 + WinTop - 1)
+                        if (Y < (BorderHeight * 5) + WinTop - 1)
                         {
                             ResizingY = 1;
                             DragY = Y - WinTop;
                         }
 
-                        if (Y > WinTop + WinHeight - BorderHeight * 5)
+                        if (Y > WinTop + WinHeight - (BorderHeight * 5))
                         {
                             ResizingY = 2;
                             DragY = WinTop + WinHeight - Y;
@@ -422,13 +419,13 @@ public partial class Window : GenericWindow
                         Dragging = 2;
                         ResizingY = 1;
                         DragY = Y - WinTop;
-                        if (X < BorderWidth * 5 + WinLeft - 1)
+                        if (X < (BorderWidth * 5) + WinLeft - 1)
                         {
                             ResizingX = 1;
                             DragX = X - WinLeft;
                         }
 
-                        if (X > WinLeft + WinWidth - BorderWidth * 5)
+                        if (X > WinLeft + WinWidth - (BorderWidth * 5))
                         {
                             ResizingX = 2;
                             DragX = WinLeft + WinWidth - X;
@@ -440,13 +437,13 @@ public partial class Window : GenericWindow
                         Dragging = 2;
                         ResizingY = 2;
                         DragY = WinTop + WinHeight - Y;
-                        if (X < BorderWidth * 5 + WinLeft - 1)
+                        if (X < (BorderWidth * 5) + WinLeft - 1)
                         {
                             ResizingX = 1;
                             DragX = X - WinLeft;
                         }
 
-                        if (X > WinLeft + WinWidth - BorderWidth * 5)
+                        if (X > WinLeft + WinWidth - (BorderWidth * 5))
                         {
                             ResizingX = 2;
                             DragX = WinLeft + WinWidth - X;
@@ -720,12 +717,12 @@ public partial class Window : GenericWindow
                     if (X < WinLeft + BorderWidth - 1)
                     {
                         Cursor = -9;
-                        if (Y < BorderHeight * 5 + WinTop - 1)
+                        if (Y < (BorderHeight * 5) + WinTop - 1)
                         {
                             Cursor = -8;
                         }
 
-                        if (Y > WinTop + WinHeight - BorderHeight * 5)
+                        if (Y > WinTop + WinHeight - (BorderHeight * 5))
                         {
                             Cursor = -6;
                         }
@@ -735,12 +732,12 @@ public partial class Window : GenericWindow
                         if (X > WinLeft + WinWidth - BorderWidth)
                         {
                             Cursor = -9;
-                            if (Y < BorderHeight * 5 + WinTop - 1)
+                            if (Y < (BorderHeight * 5) + WinTop - 1)
                             {
                                 Cursor = -6;
                             }
 
-                            if (Y > WinTop + WinHeight - BorderHeight * 5)
+                            if (Y > WinTop + WinHeight - (BorderHeight * 5))
                             {
                                 Cursor = -8;
                             }
@@ -750,12 +747,12 @@ public partial class Window : GenericWindow
                             if (Y < WinTop + BorderHeight - 1)
                             {
                                 Cursor = -7;
-                                if (X < BorderWidth * 5 + WinLeft - 1)
+                                if (X < (BorderWidth * 5) + WinLeft - 1)
                                 {
                                     Cursor = -8;
                                 }
 
-                                if (X > WinLeft + WinWidth - BorderWidth * 5)
+                                if (X > WinLeft + WinWidth - (BorderWidth * 5))
                                 {
                                     Cursor = -6;
                                 }
@@ -765,12 +762,12 @@ public partial class Window : GenericWindow
                                 if (Y > WinTop + WinHeight - BorderHeight)
                                 {
                                     Cursor = -7;
-                                    if (X < BorderWidth * 5 + WinLeft - 1)
+                                    if (X < (BorderWidth * 5) + WinLeft - 1)
                                     {
                                         Cursor = -6;
                                     }
 
-                                    if (X > WinLeft + WinWidth - BorderWidth * 5)
+                                    if (X > WinLeft + WinWidth - (BorderWidth * 5))
                                     {
                                         Cursor = -8;
                                     }

@@ -38,10 +38,10 @@ public partial class ArmyEventDialog : UIModule
     {
         int offset;
         var byteList = _units;
-        offset = X - byteList.Count * 16;
+        offset = X - (byteList.Count * 16);
         for (int i = 0, last = byteList.Count - 1; i <= last; i++)
         {
-            DrawUnit(i, i * 32 + offset, Y, lockedSurface);
+            DrawUnit(i, (i * 32) + offset, Y, lockedSurface);
         }
     }
 
@@ -146,16 +146,10 @@ public partial class ArmyEventDialog : UIModule
     }
 
     // AoWArmyEventDlg.pas:171
-    public void ArmyEventDialogCreate()
-    {
-        _units = new ByteList();
-    }
+    public void ArmyEventDialogCreate() => _units = new ByteList();
 
     // AoWArmyEventDlg.pas:176
-    public void ArmyEventDialogDestroy()
-    {
-        _units?.Dispose();
-    }
+    public void ArmyEventDialogDestroy() => _units?.Dispose();
 
     // AoWArmyEventDlg.pas:181
     public void CloseClick()
@@ -183,10 +177,7 @@ public partial class ArmyEventDialog : UIModule
     }
 
     // AoWArmyEventDlg.pas:198
-    public void ArmyEventWinHide()
-    {
-        ClearEvent();
-    }
+    public void ArmyEventWinHide() => ClearEvent();
 
     // AoWArmyEventDlg.pas:203
     public void ArmyEventWinKeyDown(ref ushort key, Set<ShiftState> shift)

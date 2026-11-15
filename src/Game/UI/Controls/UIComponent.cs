@@ -238,10 +238,7 @@ public partial class UIComponent : Rtl.Component
     }
 
     // AoWComp.pas:251
-    public virtual void OnChangeText(object sender)
-    {
-        Sized = false;
-    }
+    public virtual void OnChangeText(object sender) => Sized = false;
 
     // AoWComp.pas:300
     public virtual void Validate()
@@ -275,7 +272,7 @@ public partial class UIComponent : Rtl.Component
             switch (_alignment.AlignWidth)
             {
                 case AlignWidth.Left:
-                    _winLeft = _ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100 + _alignment.LeftOffset;
+                    _winLeft = (_ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100) + _alignment.LeftOffset;
                     if (_alignment.WidthPercent > 0)
                     {
                         _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
@@ -288,21 +285,21 @@ public partial class UIComponent : Rtl.Component
                         _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
                     }
 
-                    _winLeft = _ownerComponent._winWidth - _alignment.RightOffset - _winWidth - _ownerComponent._winWidth * _alignment.RightOffsetPercent / 100;
+                    _winLeft = _ownerComponent._winWidth - _alignment.RightOffset - _winWidth - (_ownerComponent._winWidth * _alignment.RightOffsetPercent / 100);
                     break;
                 case AlignWidth.Both:
-                    _winLeft = _ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100 + _alignment.LeftOffset;
-                    _winWidth = _ownerComponent._winWidth - _winLeft - _alignment.RightOffset - _ownerComponent._winWidth * _alignment.RightOffsetPercent / 100;
+                    _winLeft = (_ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100) + _alignment.LeftOffset;
+                    _winWidth = _ownerComponent._winWidth - _winLeft - _alignment.RightOffset - (_ownerComponent._winWidth * _alignment.RightOffsetPercent / 100);
                     break;
                 case AlignWidth.Center:
-                    _winLeft = _ownerComponent._winWidth / 2 - _winWidth / 2;
+                    _winLeft = (_ownerComponent._winWidth / 2) - (_winWidth / 2);
                     break;
             }
 
             switch (_alignment.AlignHeight)
             {
                 case AlignHeight.Top:
-                    _winTop = _ownerComponent._winHeight * _alignment.TopOffsetPercent / 100 + _alignment.TopOffset;
+                    _winTop = (_ownerComponent._winHeight * _alignment.TopOffsetPercent / 100) + _alignment.TopOffset;
                     if (_alignment.HeightPercent > 0)
                     {
                         _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
@@ -315,14 +312,14 @@ public partial class UIComponent : Rtl.Component
                         _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
                     }
 
-                    _winTop = _ownerComponent._winHeight - _alignment.BottomOffset - _winHeight - _ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100;
+                    _winTop = _ownerComponent._winHeight - _alignment.BottomOffset - _winHeight - (_ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100);
                     break;
                 case AlignHeight.Both:
-                    _winTop = _ownerComponent._winHeight * _alignment.TopOffsetPercent / 100 + _alignment.TopOffset;
-                    _winHeight = _ownerComponent._winHeight - _winTop - _alignment.BottomOffset - _ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100;
+                    _winTop = (_ownerComponent._winHeight * _alignment.TopOffsetPercent / 100) + _alignment.TopOffset;
+                    _winHeight = _ownerComponent._winHeight - _winTop - _alignment.BottomOffset - (_ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100);
                     break;
                 case AlignHeight.Center:
-                    _winTop = _ownerComponent._winHeight / 2 - _winHeight / 2;
+                    _winTop = (_ownerComponent._winHeight / 2) - (_winHeight / 2);
                     break;
             }
         }
@@ -1073,34 +1070,19 @@ public partial class UIComponent : Rtl.Component
     }
 
     // AoWComp.pas:653
-    public virtual void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        Handled = false;
-    }
+    public virtual void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => Handled = false;
 
     // AoWComp.pas:658
-    public virtual void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        Handled = false;
-    }
+    public virtual void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y) => Handled = false;
 
     // AoWComp.pas:663
-    public virtual void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
-    {
-        Handled = false;
-    }
+    public virtual void CheckMouseMove(Set<ShiftState> shift, int X, int Y) => Handled = false;
 
     // AoWComp.pas:668
-    public virtual void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public virtual void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWComp.pas:673
-    public virtual void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
-    {
-        Handled = false;
-    }
+    public virtual void CheckKeyDown(ref ushort key, Set<ShiftState> shift) => Handled = false;
 
     // AoWComp.pas:256
     public void SetAlign(Alignment value)

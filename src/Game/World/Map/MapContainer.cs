@@ -215,7 +215,7 @@ public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<Gam
 
     public sealed class MapLevelsAccessor(MapContainer target)
     {
-        public MapLevel this[int index] { get => target.GetMapLevel(index); }
+        public MapLevel this[int index] => target.GetMapLevel(index);
     }
 
     public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);

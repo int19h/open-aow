@@ -109,8 +109,8 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                     for (int ring = 1; ring <= 3; ring++)
                     {
                         n = Random(5);
-                        deltaX = Random(20) + ring * 30;
-                        deltaY = Random(20) + ring * 30;
+                        deltaX = Random(20) + (ring * 30);
+                        deltaY = Random(20) + (ring * 30);
                         for (int i = 0; i <= 17; i++)
                         {
                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
@@ -133,10 +133,10 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                             }
 
                             var pi = Math.PI;
-                            var sin = Math.Sin((double)((i * 5 + n) * pi) / 180);
+                            var sin = Math.Sin((double)(((i * 5) + n) * pi) / 180);
                             var mathPI = Math.PI;
                             var path = effect.Path;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((i * 5 + n) * mathPI) / 180) * deltaX) + (x + 16), Round((double)sin * deltaY) / 2 + (y + 16), x + 16, y + 16, 100, ref path);
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)(((i * 5) + n) * mathPI) / 180) * deltaX) + x + 16, (Round((double)sin * deltaY) / 2) + y + 16, x + 16, y + 16, 100, ref path);
                             effect.Path = path;
                         }
                     }

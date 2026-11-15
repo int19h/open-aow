@@ -67,10 +67,7 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
     }
 
     // EventLog.pas:478
-    public override void DestroyAllChildren()
-    {
-        Clear();
-    }
+    public override void DestroyAllChildren() => Clear();
 
     // EventLog.pas:464
     public override int RemoveChild(EngineObject child)
@@ -110,10 +107,7 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
     }
 
     // EventLog.pas:499
-    public void BeginUpdate()
-    {
-        _updateCount += 1;
-    }
+    public void BeginUpdate() => _updateCount += 1;
 
     // EventLog.pas:502
     public void EndUpdate()
@@ -129,16 +123,10 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
     public EventLog GetEvents(int index) => Logs.GetEvents(index);
 
     // EventLog.pas:508
-    public void AddEvent(EventLog eventValue)
-    {
-        AddChild(eventValue);
-    }
+    public void AddEvent(EventLog eventValue) => AddChild(eventValue);
 
     // EventLog.pas:511
-    public void RemoveEvent(EventLog eventValue)
-    {
-        RemoveChild(eventValue);
-    }
+    public void RemoveEvent(EventLog eventValue) => RemoveChild(eventValue);
 
     // EventLog.pas:514
     public EventLog FindId(int id) => Logs.FindId(id);

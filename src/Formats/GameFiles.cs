@@ -68,11 +68,18 @@ public static class GameFiles
     public static FileProfile? ProfileFor(string kind, byte[] file)
     {
         var candidates = FileProfile.All.Where(p => p.Kinds.Contains(kind)).ToList();
-        if (candidates.Count == 1) return candidates[0];
+        if (candidates.Count == 1)
+        {
+            return candidates[0];
+        }
+
         if (candidates.All(p => p is HsmProfile) && HsmProfile.HeaderClassId(file) is int id)
         {
             var matching = candidates.Where(p => Schema.Resolve(p.Engine, id) is { } c && c.InheritsFrom(p.RootFamily)).ToList();
-            if (matching.Count == 1) return matching[0];
+            if (matching.Count == 1)
+            {
+                return matching[0];
+            }
         }
         return null;
     }
@@ -80,11 +87,17 @@ public static class GameFiles
     public static ImportResult Import(byte[] file, FileProfile profile, string kind, string? fileName = null, FormatLimits? limits = null)
     {
         if (!profile.Kinds.Contains(kind))
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
+        }
+
         var counts = new LayoutCounts();
         var session = new ImportSession { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
         if (file.LongLength > session.Limits.DecompressedBytes)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The file is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
+        }
+
         var (container, root) = profile.Import(file, session);
         return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
     }
@@ -113,11 +126,17 @@ public static class GameFiles
     public static ImportResult ImportImage(byte[] image, FileProfile profile, string kind, string? fileName = null, FormatLimits? limits = null)
     {
         if (!profile.Kinds.Contains(kind))
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
+        }
+
         var counts = new LayoutCounts();
         var session = new ImportSession { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
         if (image.LongLength > session.Limits.DecompressedBytes)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The image is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
+        }
+
         var (container, root) = profile.ImportImage(image, session);
         return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
     }
@@ -149,24 +168,46 @@ public static class GameFiles
             new(new FormatDiagnostic(code, message) { File = fileName, Span = at.Span, Path = path, Value = value });
         foreach (var m in document.Members)
         {
-            if (m.Name is "$format" or "$version" or "$kind" or "$container" or "root") continue;
+            if (m.Name is "$format" or "$version" or "$kind" or "$container" or "root")
+            {
+                continue;
+            }
+
             throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
                 m.Name is "$mods" or "$ext" ? $"Reserved member \"{m.Name}\" is not accepted in version {OwnFormat.CurrentVersion}." : $"The document has no member \"{m.Name}\".")
             { File = fileName, Span = m.NameSpan, Path = m.Name, Value = m.Name });
         }
         if (document["$format"] is not JsonString { Value: OwnFormat.FormatName })
+        {
             throw Fail(Codes.Format, "$format is not \"OpenAoW\".", document["$format"] ?? document, "$format");
+        }
+
         if (document["$version"] is not JsonInteger { Value: OwnFormat.CurrentVersion } version)
+        {
             throw Fail(Codes.Version, $"The document is not version {OwnFormat.CurrentVersion}.", document["$version"] ?? document, "$version");
+        }
+
         _ = version;
         if (document["$kind"] is not JsonString kind || !FileProfile.AllKinds.Contains(kind.Value))
+        {
             throw Fail(Codes.Kind, "$kind is not a supported kind.", document["$kind"] ?? document, "$kind", (document["$kind"] as JsonString)?.Value);
+        }
+
         if (document["$container"] is not JsonObject container)
+        {
             throw Fail(Codes.MissingMember, "The document needs $container.", document["$container"] ?? document, "$container");
+        }
+
         if (container["profile"] is not JsonString profileName || FileProfile.Find(profileName.Value) is not { } profile)
+        {
             throw Fail(Codes.Profile, "$container.profile is not a supported profile.", container["profile"] ?? container, "$container.profile");
+        }
+
         if (!profile.Kinds.Contains(kind.Value))
+        {
             throw Fail(Codes.Kind, $"Kind {kind.Value} does not belong to profile {profile.Name}.", kind, "$kind", kind.Value);
+        }
+
         var root = document["root"] ?? throw Fail(Codes.MissingMember, "The document needs root.", document, "root");
         return (profile, kind.Value, container, root);
     }
@@ -180,7 +221,11 @@ public static class GameFiles
     public static bool IsJsonCandidate(ReadOnlySpan<byte> bytes)
     {
         int i = bytes.StartsWith("\uFEFF"u8) ? 3 : 0;
-        while (i < bytes.Length && bytes[i] is (byte)' ' or (byte)'\t' or (byte)'\r' or (byte)'\n') i++;
+        while (i < bytes.Length && bytes[i] is (byte)' ' or (byte)'\t' or (byte)'\r' or (byte)'\n')
+        {
+            i++;
+        }
+
         return i < bytes.Length && bytes[i] == (byte)'{';
     }
 
@@ -194,21 +239,37 @@ public static class GameFiles
     {
         limits ??= FormatLimits.Default;
         bool gzip = IsGzip(bytes);
-        if (gzip) bytes = Gunzip(bytes, limits, fileName);
+        if (gzip)
+        {
+            bytes = Gunzip(bytes, limits, fileName);
+        }
+
         var value = JsonReader.Parse(bytes, fileName, gzip, limits);
         if (value is not JsonObject document)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Format, "The document is not a JSON object.") { File = fileName, Span = value.Span, Decompressed = gzip });
+        }
+
         if (document["$format"] is not JsonString { Value: OwnFormat.FormatName })
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Format, "$format is not \"OpenAoW\".")
             { File = fileName, Span = (document["$format"] ?? document).Span, Path = "$format", Decompressed = gzip });
+        }
+
         if (document["$version"] is not JsonInteger { Value: >= 1 } versionValue)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Version, "$version is a positive integer.")
             { File = fileName, Span = (document["$version"] ?? document).Span, Path = "$version", Decompressed = gzip });
+        }
+
         if (versionValue.Value != OwnFormat.CurrentVersion)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Version, versionValue.Value > OwnFormat.CurrentVersion
                 ? $"The document has version {versionValue.Value}, newer than the supported version {OwnFormat.CurrentVersion}."
                 : $"The document has version {versionValue.Value}, older than the supported version {OwnFormat.CurrentVersion}. Convert the original file again.")
             { File = fileName, Span = versionValue.Span, Path = "$version", Value = versionValue.Value.ToString(CultureInfo.InvariantCulture), Decompressed = gzip });
+        }
+
         return new ReadResult { Document = document, DeclaredVersion = (int)versionValue.Value, Gzip = gzip };
     }
 
@@ -224,7 +285,10 @@ public static class GameFiles
             while ((read = gz.Read(buffer, 0, buffer.Length)) > 0)
             {
                 if (output.Length + read > limits.DecompressedBytes)
+                {
                     throw new ConversionException(new FormatDiagnostic(Codes.Limit, $"The decompressed document exceeds {limits.DecompressedBytes} bytes.") { File = fileName, Offset = 0 });
+                }
+
                 output.Write(buffer, 0, read);
             }
             return output.ToArray();
@@ -272,9 +336,17 @@ public static class GameFiles
             }
         }
         kind ??= KindForExtension(extension);
-        if (kind is null) return new Classification(DetectedFormat.Unknown, null, null, null, null);
+        if (kind is null)
+        {
+            return new Classification(DetectedFormat.Unknown, null, null, null, null);
+        }
+
         var p = profileName is not null ? FileProfile.Find(profileName) : ProfileFor(kind, bytes);
-        if (p is null || !p.Kinds.Contains(kind)) return new Classification(DetectedFormat.Unknown, null, kind, null, null);
+        if (p is null || !p.Kinds.Contains(kind))
+        {
+            return new Classification(DetectedFormat.Unknown, null, kind, null, null);
+        }
+
         return new Classification(DetectedFormat.Original, p, kind, null, null);
     }
 }

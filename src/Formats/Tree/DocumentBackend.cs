@@ -24,25 +24,40 @@ public static class DocumentBackend
         if (created)
         {
             if (node.ClassName is not string className)
+            {
                 throw site.Fail(Codes.MissingMember, "A created object needs a class.");
+            }
+
             json.Add("$class", new JsonString(className));
         }
         else if (node.ClassName is not null)
+        {
             throw site.Fail(Codes.ReservedMember, "Reserved member \"$class\" is not allowed here.", value: "$class");
+        }
+
         if (slotted)
         {
             if (node.Slot is not int slot || slot < 0)
+            {
                 throw site.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.");
+            }
+
             json.Add("$slot", new JsonInteger(slot));
         }
         else if (node.Slot is not null)
+        {
             throw site.Fail(Codes.ReservedMember, "Reserved member \"$slot\" is not allowed here.", value: "$slot");
+        }
 
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var prop in classValue.Properties)
         {
             var value = node.Find(prop.Name);
-            if (value is null) continue;
+            if (value is null)
+            {
+                continue;
+            }
+
             var member = site.For(prop, parent: node, ownerClass: classValue);
             if (prop.IsDynamic)
             {
@@ -51,31 +66,63 @@ public static class DocumentBackend
                 continue;
             }
             if (site.Schema.Version >= 2 && value is ListNode && !prop.Codec.AcceptsList(site.Schema.Version))
+            {
                 throw member.Fail(Codes.Type, ListOnly(site.Schema.Version));
+            }
+
             var written = prop.Codec.WriteTree(value, member);
-            if (written is not null) json.Add(prop.Name, written);
+            if (written is not null)
+            {
+                json.Add(prop.Name, written);
+            }
+
             seen.Add(prop.Name);
         }
         foreach (var (name, _) in node.Members)
+        {
             if (!seen.Contains(name))
+            {
                 throw site.ForName(name).Fail(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{name}\".", value: name);
+            }
+        }
         // A mapped class stores its case: the stored discriminator selects it, as on the converter.
-        if (classValue.Mapping is { } mapping) CaseCodec.ToDocument(classValue, mapping, json, site.Path);
+        if (classValue.Mapping is { } mapping)
+        {
+            CaseCodec.ToDocument(classValue, mapping, json, site.Path);
+        }
+
         return json;
     }
 
     internal static ObjectNode ReadObject(JsonObject document, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
         // A mapped class names its case. The flat stored members of the case are read as any others.
-        if (classValue.Mapping is { } mapping) document = CaseCodec.FromDocument(site.Context, classValue, mapping, document, site.Path);
+        if (classValue.Mapping is { } mapping)
+        {
+            document = CaseCodec.FromDocument(site.Context, classValue, mapping, document, site.Path);
+        }
+
         site = site.WithOwner(document);
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var member in document.Members)
+        {
             if (!seen.Add(member.Name))
+            {
                 throw site.ForName(member.Name).Fail(Codes.Duplicate, $"Member \"{member.Name}\" is stored twice.", member.Value, member.Name);
+            }
+        }
+
         var reserved = new List<string>(2);
-        if (created) reserved.Add("$class");
-        if (slotted) reserved.Add("$slot");
+        if (created)
+        {
+            reserved.Add("$class");
+        }
+
+        if (slotted)
+        {
+            reserved.Add("$slot");
+        }
+
         ObjectImage.CheckMembers(site.Context, document, classValue, site.Path, [.. reserved]);
 
         string? className = null;
@@ -83,13 +130,19 @@ public static class DocumentBackend
         if (created)
         {
             if (document["$class"] is not JsonValue classValueLocal)
+            {
                 throw site.Fail(Codes.MissingMember, "A created object needs $class.");
+            }
+
             className = ClassName(classValueLocal, site);
         }
         if (slotted)
         {
             if (document["$slot"] is not JsonInteger { Value: >= 0 and <= int.MaxValue } number)
+            {
                 throw site.ForName("$slot").Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", document["$slot"]);
+            }
+
             slot = (int)number.Value;
         }
 
@@ -97,7 +150,11 @@ public static class DocumentBackend
         foreach (var prop in classValue.Properties)
         {
             var member = document.Find(prop.Name);
-            if (member is null) continue;
+            if (member is null)
+            {
+                continue;
+            }
+
             var at = site.For(prop, parent: null, ownerClass: classValue);
             if (prop.IsDynamic)
             {
@@ -105,9 +162,15 @@ public static class DocumentBackend
                 continue;
             }
             if (site.Schema.Version >= 2 && member.Value is JsonArray && !prop.Codec.AcceptsDocumentArray(site.Schema.Version))
+            {
                 throw at.Fail(Codes.Type, ListOnly(site.Schema.Version), member.Value);
+            }
+
             var value = prop.Codec.ReadTree(member.Value, at);
-            if (value is not null) node.Add(prop.Name, value);
+            if (value is not null)
+            {
+                node.Add(prop.Name, value);
+            }
         }
         return node;
     }
@@ -119,16 +182,30 @@ public static class DocumentBackend
     {
         var classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
         if (site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, id) != classValue))
+        {
             throw site.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, classValue.Name);
+        }
+
         if (family is not null && !classValue.InheritsFrom(family))
+        {
             throw site.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", at, classValue.Name, family);
+        }
+
         return classValue;
     }
 
     private static string ClassName(JsonValue value, DocumentSite site)
     {
-        if (value is JsonNull) throw site.ForName("$class").Fail(Codes.Type, "A stored nil object is null, not $class null.", value);
-        if (value is not JsonString name) throw site.ForName("$class").Fail(Codes.Type, "$class is a class name.", value, value.KindName);
+        if (value is JsonNull)
+        {
+            throw site.ForName("$class").Fail(Codes.Type, "A stored nil object is null, not $class null.", value);
+        }
+
+        if (value is not JsonString name)
+        {
+            throw site.ForName("$class").Fail(Codes.Type, "$class is a class name.", value, value.KindName);
+        }
+
         return name.Value;
     }
 

@@ -31,10 +31,7 @@ public partial class PathFindingStep : EngineObject
     }
 
     // MoveT.PAS:34
-    public void AddMovePointLine(int direction, int count)
-    {
-        MovePointLines.AddAbility(direction, count);
-    }
+    public void AddMovePointLine(int direction, int count) => MovePointLines.AddAbility(direction, count);
 
     // intf_P5_01.inc:9
 

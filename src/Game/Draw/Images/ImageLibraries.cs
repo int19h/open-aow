@@ -34,9 +34,6 @@ public static class ImageLibraries
         RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(), LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(), LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
     }
 
-    public static void Finalize()
-    {
-        LibraryImageClasses?.Clear();
-    }
+    public static void Finalize() => LibraryImageClasses?.Clear();
 
 }

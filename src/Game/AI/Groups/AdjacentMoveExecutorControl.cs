@@ -20,10 +20,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 {
     // AIGroup.pas:5117
-    public AdjacentMoveExecutorControl(CustomNode owner) : base(owner)
-    {
-        _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
-    }
+    public AdjacentMoveExecutorControl(CustomNode owner) : base(owner) => _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
 
     // A path step with its cost: the meeting point is a step of a move path, and the comparison
     // with the destination covers the cost as the Delphi four-byte comparison did.
@@ -68,7 +65,10 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     }
 
                     if (!condition)
+                    {
                         break;
+                    }
+
                     i += 1;
                 }
 
@@ -487,7 +487,10 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         }
 
                         if (!condition)
+                        {
                             break;
+                        }
+
                         position -= 1;
                     }
 

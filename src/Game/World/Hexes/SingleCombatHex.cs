@@ -54,10 +54,7 @@ public partial class SingleCombatHex : AbstractHexagon
         public override int ResourceUserClassId() => 2229534;
 
         // SingleCombatHex.pas:65
-        public override void SetLevel(byte value)
-        {
-            base.SetLevel(0);
-        }
+        public override void SetLevel(byte value) => base.SetLevel(0);
 
         // SingleCombatHex.pas:70
         public override HexControl GetHexControl() => null;

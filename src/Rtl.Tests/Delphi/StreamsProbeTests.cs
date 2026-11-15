@@ -155,7 +155,11 @@ public sealed class StreamsProbeTests
             p.Fact("memory_capacity8193", m.Capacity);
         }
 
-        using (var f = OpenFile("probe-stream.bin", fmCreate)) Exercise("file", f);
+        using (var f = OpenFile("probe-stream.bin", fmCreate))
+        {
+            Exercise("file", f);
+        }
+
         byte[] buffer = new byte[61457];
         using (var f = OpenFile("probe-stream.bin", fmOpenRead | fmShareDenyWrite))
         {
@@ -175,7 +179,11 @@ public sealed class StreamsProbeTests
             State(tag + "_destination", destination);
         }
 
-        for (int i = 0; i < buffer.Length; i++) buffer[i] = (byte)(i % 251);
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            buffer[i] = (byte)(i % 251);
+        }
+
         source.WriteBuffer(buffer.AsSpan(0, 8));
         Both("copy_initial_write");
         source.Position = 3;
@@ -195,13 +203,21 @@ public sealed class StreamsProbeTests
         Array.Clear(buffer, 0, 32);
         int count = destination.Read(buffer.AsSpan(0, 32));
         Both("copy_readback");
-        for (int i = 0; i < count; i++) p.Fact($"copy_byte_{i}", buffer[i]);
+        for (int i = 0; i < count; i++)
+        {
+            p.Fact($"copy_byte_{i}", buffer[i]);
+        }
+
         source.Clear();
         destination.Clear();
         Both("copy_cleared");
         p.Fact("copy_empty_zero", destination.CopyFrom(source, 0));
         Both("copy_empty_after");
-        for (int i = 0; i < buffer.Length; i++) buffer[i] = (byte)(i % 251);
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            buffer[i] = (byte)(i % 251);
+        }
+
         source.WriteBuffer(buffer);
         Both("large_source_write");
         source.Position = 123;

@@ -101,7 +101,10 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     void IPersistable.Persist(IPersister persister)
     {
         if (TreePersistenceRefusal(GetType()) is string reason)
+        {
             throw new InvalidOperationException(reason);
+        }
+
         MainPersist(persister);
     }
 
@@ -126,16 +129,10 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2447
-    public virtual int AddRef()
-    {
-        throw new NotSupportedException("Reference counting not supported");
-    }
+    public virtual int AddRef() => throw new NotSupportedException("Reference counting not supported");
 
     // Engine.pas:2452
-    public virtual int Release()
-    {
-        throw new NotSupportedException("Reference counting not supported");
-    }
+    public virtual int Release() => throw new NotSupportedException("Reference counting not supported");
 
     // Engine.pas:2457
     public virtual void Clear()
@@ -215,10 +212,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     // Engine.pas:2436
-    public virtual void Dispose()
-    {
-        SetOwner(null);
-    }
+    public virtual void Dispose() => SetOwner(null);
 
     // Engine.pas:2543
     // A new object of this class loads the tree of this one, as Assign loads it.
@@ -261,7 +255,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         }
     }
 
-    public string EngineObjectPath { get => GetEngineObjectPath(); }
+    public string EngineObjectPath => GetEngineObjectPath();
     public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }
 
 }

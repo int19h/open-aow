@@ -109,10 +109,7 @@ public partial class SByteList : Persistent
     }
 
     // Engine.pas:3950
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // Engine.pas:3955
     public override void Assign(Persistent source)
@@ -420,13 +417,10 @@ public partial class SByteList : Persistent
 
     public sbyte this[int index] { get => Get(index); set => Put(index, value); }
 
-    public sbyte[] List { get => _list; }
+    public sbyte[] List => _list;
 
     // Engine.pas:3992
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
     private static void QuickSortShortInteger(Span<sbyte> sortList, int L, int R, ShortIntSortCompare sCompare)
     {

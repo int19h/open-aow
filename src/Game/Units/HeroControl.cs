@@ -113,10 +113,7 @@ public partial class HeroControl : EngineObject
     }
 
     // Hero.PAS:2444
-    public void BeginUpdate()
-    {
-        _updateCount += 1;
-    }
+    public void BeginUpdate() => _updateCount += 1;
 
     // Hero.PAS:2447
     public void EndUpdate()

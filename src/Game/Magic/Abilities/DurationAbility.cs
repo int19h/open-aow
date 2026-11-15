@@ -191,7 +191,11 @@ public partial class DurationAbility : AdjustableAbility
     {
         var data = owner.GetAbilityData(AbilityId);
         SetAbility(owner, AbilityId, 0);
-        if (data == null) return false;
+        if (data == null)
+        {
+            return false;
+        }
+
         owner.RemoveAbilityData(data);
         return true;
     }

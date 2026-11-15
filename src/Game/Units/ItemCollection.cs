@@ -83,22 +83,13 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     }
 
     // Army.PAS:4593
-    public void Update()
-    {
-        SortOnType();
-    }
+    public void Update() => SortOnType();
 
     // Army.PAS:4609
-    public void SortOnName()
-    {
-        _holder.SortChildrenStable<Item>(ItemList.CompareItemNames);
-    }
+    public void SortOnName() => _holder.SortChildrenStable<Item>(ItemList.CompareItemNames);
 
     // Army.PAS:4619
-    public void SortOnType()
-    {
-        _holder.SortChildrenStable<Item>(CompareItemTypes);
-    }
+    public void SortOnType() => _holder.SortChildrenStable<Item>(CompareItemTypes);
 
     // Army.PAS:4622
     public void RegisterItems()
@@ -114,8 +105,5 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
         }
     }
 
-    private static int CompareItemTypes(Item item1, Item item2)
-    {
-        return item1.ItemType - item2.ItemType;
-    }
+    private static int CompareItemTypes(Item item1, Item item2) => item1.ItemType - item2.ItemType;
 }

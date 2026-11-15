@@ -17,7 +17,11 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
     public override int Activate(CustomDisplay display)
     {
         int result = base.Activate(display);
-        if (result < 0) return result;
+        if (result < 0)
+        {
+            return result;
+        }
+
         Status = Status.With(Windowed).With(Visible);
         _surfaces[0] = new ScreenSurface(host);
         try
@@ -41,10 +45,18 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
     public override int BlitSurface(int index)
     {
         var surface = GetSurface(index);
-        if (surface is null) return DisplayCodes.DCERR_FAILED;
+        if (surface is null)
+        {
+            return DisplayCodes.DCERR_FAILED;
+        }
+
         LockedSurface descriptor = default;
         int result = surface.Lock(ref descriptor);
-        if (result < 0) return result;
+        if (result < 0)
+        {
+            return result;
+        }
+
         try { host.Present(descriptor); }
         finally { surface.Unlock(); }
         return 0;
@@ -58,7 +70,11 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override int ResizeBackSurfaces(int width, int height)
     {
-        foreach (var surface in _surfaces.Skip(1)) surface?.Resize(width, height);
+        foreach (var surface in _surfaces.Skip(1))
+        {
+            surface?.Resize(width, height);
+        }
+
         host.ResizeImage(width, height);
         InvalidateAll();
         return 0;

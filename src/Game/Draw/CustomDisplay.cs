@@ -408,7 +408,7 @@ public partial class CustomDisplay : Component
     }
 
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public DisplayController ActiveDisplayController { get => _activeDisplayController; }
+    public DisplayController ActiveDisplayController => _activeDisplayController;
     protected internal Set<OptionsElement> Options { get => _options; set => _options = value; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
     protected internal BackSurfaceControlMode BackSurfaceControlMode { get => _backSurfaceControlMode; set => _backSurfaceControlMode = value; }

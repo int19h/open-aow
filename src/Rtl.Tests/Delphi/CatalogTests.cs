@@ -57,10 +57,16 @@ public sealed class CatalogTests
         {
             catalog.Add(key, value);
             Assert.Same(value, catalog[key]);
-            foreach (var item in catalog.All) Assert.Contains(item, values);
+            foreach (var item in catalog.All)
+            {
+                Assert.Contains(item, values);
+            }
         })));
         Assert.Equal(values.Length, catalog.All.Count);
-        for (int key = 0; key < values.Length; key++) Assert.Same(values[key], catalog[key]);
+        for (int key = 0; key < values.Length; key++)
+        {
+            Assert.Same(values[key], catalog[key]);
+        }
 
         var results = await Task.WhenAll(Enumerable.Range(0, 2).Select(_ => Task.Run(() =>
         {

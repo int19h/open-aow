@@ -286,10 +286,7 @@ public partial class Ability : EngineObject
     }
 
     // Ability.PAS:1320
-    public virtual void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
-    {
-        FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref damageValues);
-    }
+    public virtual void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref damageValues);
 
     // Ability.PAS:1324
     public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target)
@@ -424,16 +421,10 @@ public partial class Ability : EngineObject
 
     // Ability.PAS:1252
     // class receiver
-    public void ShowInfo(AbilityOwner owner, ImageLibraryFont font, int X, int Y, in LockedSurface surface)
-    {
-        font.SetText(X, Y, GetName(owner), surface);
-    }
+    public void ShowInfo(AbilityOwner owner, ImageLibraryFont font, int X, int Y, in LockedSurface surface) => font.SetText(X, Y, GetName(owner), surface);
 
     // Ability.PAS:1260
-    public void SetAbility(AbilityOwner owner, int index, byte value)
-    {
-        owner.SetAbilitySet(index, value);
-    }
+    public void SetAbility(AbilityOwner owner, int index, byte value) => owner.SetAbilitySet(index, value);
 
     // Ability.PAS:1445
     public virtual EngineClass AbilityDataClass() => default;
@@ -443,7 +434,11 @@ public partial class Ability : EngineObject
 
     public virtual bool Remove(AbilityOwner owner)
     {
-        if (!owner.GetAbilitySetAt(AbilityId)) return false;
+        if (!owner.GetAbilitySetAt(AbilityId))
+        {
+            return false;
+        }
+
         owner.SetAbilitySet(AbilityId, 0);
         return true;
     }

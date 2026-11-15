@@ -5,18 +5,12 @@ namespace Aow.Game.World;
 
 public partial class FlagEventResource : MapObjectResource
 {
-    public FlagEventResource(CustomNode owner) : base(owner)
-    {
-        Level = 27;
-    }
+    public FlagEventResource(CustomNode owner) : base(owner) => Level = 27;
 
     // FlagEvents.pas:169
 
     // FlagEvents.pas:175
-    public override void SetLevel(byte value)
-    {
-        base.SetLevel(27);
-    }
+    public override void SetLevel(byte value) => base.SetLevel(27);
 
     // FlagEvents.pas:46
 

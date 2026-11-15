@@ -12,7 +12,7 @@ internal static class PortedExceptions
     // stand-ins with a .NET counterpart were replaced. Runtime failures stay outside it.
     internal static bool Is(Exception error) =>
         error is not NullStringException
-        && error is (
+        && error is
             ArgumentException
             or InvalidOperationException
             or FormatException
@@ -31,5 +31,5 @@ internal static class PortedExceptions
             or GameFileErrorException
             or DoublePriorityIdException
             or PluginMissingException
-            or MapObjectResourceMissingException);
+            or MapObjectResourceMissingException;
 }

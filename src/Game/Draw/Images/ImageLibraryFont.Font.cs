@@ -11,7 +11,11 @@ public partial class ImageLibraryFont
     {
         int width = 0;
         // One table lookup per char, no allocation (strings.md 2.4). IsEmpty reads the null switch as Encode did.
-        if (RtlUnit.IsEmpty(text)) return width;
+        if (RtlUnit.IsEmpty(text))
+        {
+            return width;
+        }
+
         foreach (char c in text)
         {
             var image = GetSafe(Cp1252.Byte(c));
@@ -22,11 +26,19 @@ public partial class ImageLibraryFont
 
     internal void ShowText(int x, int y, string text, in LockedSurface lockedSurface)
     {
-        if (RtlUnit.IsEmpty(text)) return;
+        if (RtlUnit.IsEmpty(text))
+        {
+            return;
+        }
+
         foreach (char c in text)
         {
             var image = GetSafe(Cp1252.Byte(c));
-            if (image != null) image.Show(x, y, lockedSurface);
+            if (image != null)
+            {
+                image.Show(x, y, lockedSurface);
+            }
+
             x += (image?.Width ?? 5) + _characterDistance;
         }
     }
@@ -39,8 +51,10 @@ public partial class ImageLibraryFont
             palette.Palette[_fontColorPaletteIndex] =
                 new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null));
             if (palette.RemapPaletteValue != null)
+            {
                 palette.RemapPaletteValue[_fontColorPaletteIndex] =
                     new((uint)PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, null));
+            }
         }
         _color = value;
     }

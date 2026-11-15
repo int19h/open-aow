@@ -12,7 +12,11 @@ public partial class AIPlayerControl
     public bool Process(AIExecutor executor, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
-        if (Player.GetBusy() || !StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex)) return false;
+        if (Player.GetBusy() || !StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
+        {
+            return false;
+        }
+
         bool done;
         switch (Phase)
         {
@@ -24,7 +28,13 @@ public partial class AIPlayerControl
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
                         while (_action is null && Actions.Count != 0)
-                            if (!ActivateAction(0)) Actions.GetActions(0)?.Dispose();
+                        {
+                            if (!ActivateAction(0))
+                            {
+                                Actions.GetActions(0)?.Dispose();
+                            }
+                        }
+
                         if (_action is not null)
                         {
                             done = _action.Process();
@@ -36,10 +46,21 @@ public partial class AIPlayerControl
                             }
                         }
                     }
-                    else done = MoveExecutor.Process();
-                    if (!done && executor.GetProcessTimeLeft() <= 0) done = true;
+                    else
+                    {
+                        done = MoveExecutor.Process();
+                    }
+
+                    if (!done && executor.GetProcessTimeLeft() <= 0)
+                    {
+                        done = true;
+                    }
                 }
-                if (Actions.Count == 0) SetupProcessPhase(AIPlayerProcessPhase.Loop);
+                if (Actions.Count == 0)
+                {
+                    SetupProcessPhase(AIPlayerProcessPhase.Loop);
+                }
+
                 return !Player.GetBusy() && StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
             case AIPlayerProcessPhase.Loop:
                 done = false;
@@ -53,17 +74,34 @@ public partial class AIPlayerControl
                         {
                             index++;
                             _actionIndex++;
-                            if (_actionIndex >= Actions.Count) _actionIndex = 0;
-                            if (_actionIndex < Actions.Count) ActivateAction(_actionIndex);
+                            if (_actionIndex >= Actions.Count)
+                            {
+                                _actionIndex = 0;
+                            }
+
+                            if (_actionIndex < Actions.Count)
+                            {
+                                ActivateAction(_actionIndex);
+                            }
                         }
                         if (_action is not null)
                         {
                             done = _action.Process();
-                            if (!done) DeactivateAction();
+                            if (!done)
+                            {
+                                DeactivateAction();
+                            }
                         }
                     }
-                    else done = MoveExecutor.Process();
-                    if (!done && executor.GetProcessTimeLeft() <= 0) done = true;
+                    else
+                    {
+                        done = MoveExecutor.Process();
+                    }
+
+                    if (!done && executor.GetProcessTimeLeft() <= 0)
+                    {
+                        done = true;
+                    }
                 }
                 return Actions.Count != 0 && !Player.GetBusy() &&
                     StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);

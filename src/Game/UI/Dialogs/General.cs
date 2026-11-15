@@ -665,10 +665,7 @@ public partial class General : UIModule
     }
 
     // AoWWinMan.pas:336
-    public void ManagerDebugMessage(string text)
-    {
-        UI.DebugWindow.AddMessage(text);
-    }
+    public void ManagerDebugMessage(string text) => UI.DebugWindow.AddMessage(text);
 
     // AoWWinMan.pas:351
     public void ManagerKeyDown(ref ushort key, Set<ShiftState> shift)
@@ -720,9 +717,13 @@ public partial class General : UIModule
     public void HideTransientWindows()
     {
         for (int i = 0; i < Manager.Children.Count; i++)
+        {
             if (Manager.Children[i] is WindowControl window &&
                 window != UI.MapWindow.MainWindow && window.Modal && window.Visible)
+            {
                 window.Visible = false;
+            }
+        }
     }
 
     internal static void HideGameWindows(General controller)
@@ -883,9 +884,14 @@ public partial class General : UIModule
     internal static bool HasModalWindow(General controller)
     {
         for (int i = controller.Manager.Children.Count - 1; i >= 0; i--)
+        {
             if (controller.Manager.Children[i] is WindowControl window &&
                 window != controller.UI.MapWindow.MainWindow && window.Modal && window.Visible)
+            {
                 return true;
+            }
+        }
+
         return false;
     }
 
@@ -925,20 +931,35 @@ public partial class General : UIModule
     {
         controller.WindowsHidden = false;
         AudioHost.SongPlayer.Songs.Clear();
-        if (StrategicMap.Current.GameSongs.Songs.Count != 0) AudioHost.SongPlayer.Songs.AddStrings(StrategicMap.Current.GameSongs.Songs);
+        if (StrategicMap.Current.GameSongs.Songs.Count != 0)
+        {
+            AudioHost.SongPlayer.Songs.AddStrings(StrategicMap.Current.GameSongs.Songs);
+        }
         else if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < StrategicMap.Current.StartupSongs.Songs.Count; i++)
+            {
                 if (CompareText(StrategicMap.Current.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
+                {
                     AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
+                }
+            }
         }
-        else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
+        else
+        {
+            AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
+        }
+
         AudioHost.SongPlayer.Play(0);
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
         var menu = controller.UI.PopupWindows.OverviewsMenu.Items;
         menu.Clear();
         menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.BackgroundText));
-        if (controller.UI.Engine.Campaign != null) menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.CampaignText));
+        if (controller.UI.Engine.Campaign != null)
+        {
+            menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.CampaignText));
+        }
+
         controller.UI.TitleScene.Window.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
         controller.UI.TaskBar.TaskWindow.Visible = true;
@@ -957,8 +978,16 @@ public partial class General : UIModule
         var tabs = controller.UI.ScannerWindow.ScannerTabs;
         tabs.Items.Clear();
         tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.SurfaceText));
-        if (StrategicMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.CavernsText));
-        if (StrategicMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.DepthsText));
+        if (StrategicMap.Current.MapContainer.LevelCount > 1)
+        {
+            tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.CavernsText));
+        }
+
+        if (StrategicMap.Current.MapContainer.LevelCount > 2)
+        {
+            tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.DepthsText));
+        }
+
         tabs.Selected = 0;
         tabs.Sized = false;
         scanner.SetTWidth(0);
@@ -984,7 +1013,11 @@ public partial class General : UIModule
             if (StrategicMap.Current.SeatedPlayer != -1)
             {
                 turn.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
-                if (turn.LastPlayer == -1) turn.LastPlayer = 12;
+                if (turn.LastPlayer == -1)
+                {
+                    turn.LastPlayer = 12;
+                }
+
                 turn.CurrentPlayer = turn.LastPlayer;
                 turn.AnimationFrame = turn.CurrentPlayer * 7;
                 controller.UI.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;

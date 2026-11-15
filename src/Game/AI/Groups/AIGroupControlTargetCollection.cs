@@ -42,16 +42,10 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     }
 
     // AIGroup.pas:696
-    public void SortOnPriority()
-    {
-        _list.SortChildren<AIGroupControlTarget>(ComparePriority);
-    }
+    public void SortOnPriority() => _list.SortChildren<AIGroupControlTarget>(ComparePriority);
 
     // AIGroup.pas:706
-    public void SortOnDataB()
-    {
-        _list.SortChildren<AIGroupControlTarget>(CompareDataB);
-    }
+    public void SortOnDataB() => _list.SortChildren<AIGroupControlTarget>(CompareDataB);
 
     // AIGroup.pas:739
     public int IndexOfMapCoordinate(MapCoordinate location)
@@ -69,13 +63,7 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
         return -1;
     }
 
-    private static int ComparePriority(AIGroupControlTarget item1, AIGroupControlTarget item2)
-    {
-        return item2.Data.Priority - item1.Data.Priority;
-    }
+    private static int ComparePriority(AIGroupControlTarget item1, AIGroupControlTarget item2) => item2.Data.Priority - item1.Data.Priority;
 
-    private static int CompareDataB(AIGroupControlTarget item1, AIGroupControlTarget item2)
-    {
-        return item2.DataB - item1.DataB;
-    }
+    private static int CompareDataB(AIGroupControlTarget item1, AIGroupControlTarget item2) => item2.DataB - item1.DataB;
 }

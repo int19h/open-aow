@@ -52,10 +52,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:145
-    public override void SetTerrain(int index, sbyte value)
-    {
-        _resource.TerrainList.SetTerrain(index, value);
-    }
+    public override void SetTerrain(int index, sbyte value) => _resource.TerrainList.SetTerrain(index, value);
 
     // MAPOBJ.PAS:150
     public override int GetTerrainCount() => _resource.TerrainList.Count;
@@ -73,10 +70,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:162
-    public override void SetOverlay(int index, sbyte value)
-    {
-        _resource.TerrainList.SetOverlay(index, value);
-    }
+    public override void SetOverlay(int index, sbyte value) => _resource.TerrainList.SetOverlay(index, value);
 
     // MAPOBJ.PAS:167
     public override int GetOverlayCount() => _resource.TerrainList.Count;
@@ -132,10 +126,7 @@ public partial class MapObject : HexSprite
 
     // MAPOBJ.PAS:35
     // { Value is not used: the edit mode is only ever switched on }
-    public override void SetEditMode(bool value)
-    {
-        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.EditMode);
-    }
+    public override void SetEditMode(bool value) => _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.EditMode);
 
     // MAPOBJ.PAS:214
     public override int GetShowPriority()
@@ -147,10 +138,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:235
-    public override void Connect()
-    {
-        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
-    }
+    public override void Connect() => _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
 
     // MAPOBJ.PAS:240
     public override void Disconnect()
@@ -171,7 +159,7 @@ public partial class MapObject : HexSprite
         }
         else
         {
-            _resource.ShowComplexImage(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, 0, (uint)(Owner.HexX + Owner.HexY * 16));
+            _resource.ShowComplexImage(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, 0, (uint)(Owner.HexX + (Owner.HexY * 16)));
         }
     }
 
@@ -336,10 +324,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:330
-    public override void Activate()
-    {
-        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
-    }
+    public override void Activate() => _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
 
     // MAPOBJ.PAS:335
     public override void Deactivate()
@@ -362,10 +347,7 @@ public partial class MapObject : HexSprite
     public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting) && _resource.TerrainList.Count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
 
     // MAPOBJ.PAS:172
-    public override void Select()
-    {
-        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Selected);
-    }
+    public override void Select() => _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Selected);
 
     // MAPOBJ.PAS:177
     public override void Unselect()
@@ -394,10 +376,7 @@ public partial class MapObject : HexSprite
     public virtual MapObjectResourceList GetResourceList(GameEngine engine) => engine.HexSpriteSet.MapObjectResourceList;
 
     // MAPOBJ.PAS:68
-    public virtual void SetResource(MapObjectResource value)
-    {
-        _resource = value;
-    }
+    public virtual void SetResource(MapObjectResource value) => _resource = value;
 
     // MAPOBJ.PAS:307
     public virtual bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)

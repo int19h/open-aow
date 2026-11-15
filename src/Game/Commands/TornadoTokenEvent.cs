@@ -42,10 +42,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:1547
-    public TornadoTokenEvent(CustomNode owner) : base(owner)
-    {
-        ArmyId = null;
-    }
+    public TornadoTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalTargetSpells.pas:1660
     public override bool Process(Troop source, int value)
@@ -247,7 +244,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            _angle = _angle + 20 + _animation.FrameCounter / 5;
+            _angle = _angle + 20 + (_animation.FrameCounter / 5);
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
@@ -256,7 +253,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 7;
                     height = 200 - i - 16;
-                    xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + i * 0.02) * (200 - i)) * 0.25) + 16;
+                    xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + (i * 0.02)) * (200 - i)) * 0.25) + 16;
                     var pi = Math.PI;
                     angle = (float)((double)((direction + _angle) * pi) / 180);
                     if (GetEngine().AnimationDetail == 0)

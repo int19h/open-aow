@@ -111,7 +111,7 @@ public partial class Mine : PlayerStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, (sbyte)(byte)Player, 0))
                             {
-                                candidatePriority = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                                candidatePriority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                                 if (candidatePriority < 25)
                                 {
                                     candidatePriority = 25;

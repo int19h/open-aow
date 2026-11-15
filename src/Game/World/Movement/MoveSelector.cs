@@ -42,10 +42,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4192
-    public virtual void MouseMoveEvent(object sender)
-    {
-        UpdateMoveCursor();
-    }
+    public virtual void MouseMoveEvent(object sender) => UpdateMoveCursor();
 
     // Structur.PAS:4214
     public virtual void MouseDownEvent(object sender)
@@ -83,10 +80,7 @@ public partial class MoveSelector : IDisposable
     public virtual MoveControlSettings CreateMoveControlSettings() => new MoveControlSettings(null) { Holder = Creator.CreationHolder() };
 
     // Structur.PAS:4138
-    public virtual void SetCurrentMove(int value)
-    {
-        CurrentMove = value;
-    }
+    public virtual void SetCurrentMove(int value) => CurrentMove = value;
 
     // Structur.PAS:4200
     public virtual void SelectPath(sbyte X, sbyte Y, sbyte L)
@@ -306,7 +300,7 @@ public partial class MoveSelector : IDisposable
                             Creator.GetEngine().CombatFont.Color = 0;
                             if (Creator.GetEngine().CombatFont != null)
                             {
-                                Creator.GetEngine().CombatFont.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves + 1), surface);
+                                Creator.GetEngine().CombatFont.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr(((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1), surface);
                             }
                         }
                         else

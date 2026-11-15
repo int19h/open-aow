@@ -11,9 +11,17 @@ public partial class TurnPlayerControl
     {
         var map = StrategicMap.Current;
         int player = map.SeatedPlayer;
-        if (map.RequestCombatType) map.SeatedPlayer = -1;
+        if (map.RequestCombatType)
+        {
+            map.SeatedPlayer = -1;
+        }
+
         base.NewDay();
-        if (map.RequestCombatType) map.SeatedPlayer = (sbyte)player;
+        if (map.RequestCombatType)
+        {
+            map.SeatedPlayer = (sbyte)player;
+        }
+
         HeadlessHooks.AfterNewDay?.Invoke(this);
     }
 }

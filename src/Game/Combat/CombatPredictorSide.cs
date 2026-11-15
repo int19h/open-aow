@@ -10,10 +10,7 @@ public partial class CombatPredictorSide : CombatPredictorUnitList
     public int[] Strength { get; } = new int[10];
 
     // CombatPredictor.pas:278
-    public void Reset()
-    {
-        Array.Clear(Strength);
-    }
+    public void Reset() => Array.Clear(Strength);
 
     // CombatPredictor.pas:281
     public int GetStrength(DamageType damageType) => Strength[(int)damageType];

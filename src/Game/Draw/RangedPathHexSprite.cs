@@ -106,7 +106,7 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                 var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
                                 var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, x, y);
                                 var hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
-                                HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.BreathHexNumber[deltaHexToHexNumber2 * 12 + i - 12], ref hexX, ref hexY);
+                                HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                             }

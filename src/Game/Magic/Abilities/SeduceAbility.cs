@@ -36,7 +36,7 @@ public partial class SeduceAbility : CommandAbility
     }
 
     // AoWAb.PAS:5384
-    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && (target.GetGender() == UnitGender.Male && target.GetUnitType() == UnitType.Humanoid);
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.GetGender() == UnitGender.Male && target.GetUnitType() == UnitType.Humanoid;
 
     private static readonly string s_seduceText = "Seduce";
 }

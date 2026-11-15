@@ -42,16 +42,10 @@ public partial class TutorialWindow : UIModule
     }
 
     // AoWTutorialWin.pas:38
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWTutorialWin.pas:44
-    public void CloseClick()
-    {
-        Window.Visible = false;
-    }
+    public void CloseClick() => Window.Visible = false;
 
     internal static void ShowTutorialMessage(TutorialWindow dialog)
     {

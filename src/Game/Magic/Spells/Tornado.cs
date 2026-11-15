@@ -148,7 +148,7 @@ public partial class Tornado : GlobalTargetSpell
     // and reads 0 here (the original read whatever the stack held).
     internal static sbyte SpellTableCost(in MovePointTable table, int terrainType, int overlayType)
     {
-        int offset = 1 + 16 * terrainType + overlayType;
+        int offset = 1 + (16 * terrainType) + overlayType;
         return offset < MovePointTable.EntryCount ? table.AtOffset(offset) : (sbyte)0;
     }
 }

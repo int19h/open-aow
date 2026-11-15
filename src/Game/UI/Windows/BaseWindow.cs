@@ -522,10 +522,7 @@ public partial class BaseWindow : WindowControl
     }
 
     // AoWBaseWin.pas:359
-    public void SetManager(WindowManager value)
-    {
-        SetOwner(value);
-    }
+    public void SetManager(WindowManager value) => SetOwner(value);
 
     [Published]
     public override InterfaceImageLibrary ImageLibraryFrame { get => base.ImageLibraryFrame; set => SetImageLibraryFrame(value); }

@@ -19,10 +19,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     int IChildSink<FaceResource>.AddChild(FaceResource child) => AddChild(child);
 
     // Ability.PAS:520
-    public FaceResourceList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
-    }
+    public FaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // Ability.PAS:526
     public int IndexOfFaceImage(LibraryImage image)

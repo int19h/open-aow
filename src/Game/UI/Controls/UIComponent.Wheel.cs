@@ -53,7 +53,10 @@ public partial class UIComponent
         for (int i = Children.Count - 1; i >= 0; i--)
         {
             var child = Children[i];
-            if (child.WantsMouseWheel && child.ContainsPoint(X, Y)) return child;
+            if (child.WantsMouseWheel && child.ContainsPoint(X, Y))
+            {
+                return child;
+            }
         }
 
         return null;
@@ -65,7 +68,11 @@ public partial class UIComponent
     {
         if (s_wheelLinks.TryGetValue(this, out var link) && link.Bar != null)
         {
-            if (!link.Bar._visible || !link.Bar._captureInput) return false;
+            if (!link.Bar._visible || !link.Bar._captureInput)
+            {
+                return false;
+            }
+
             link.Bar.ScrollSteps(steps);
             return true;
         }
@@ -75,12 +82,20 @@ public partial class UIComponent
         {
             if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate._captureInput)
             {
-                if (bar != null) return false;
+                if (bar != null)
+                {
+                    return false;
+                }
+
                 bar = candidate;
             }
         }
 
-        if (bar == null) return false;
+        if (bar == null)
+        {
+            return false;
+        }
+
         bar.ScrollSteps(steps);
         return true;
     }

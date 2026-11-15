@@ -256,10 +256,7 @@ public partial class Spell : EngineObject
     public virtual bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => false;
 
     // Spells.PAS:316
-    public virtual void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
-    {
-        values = default;
-    }
+    public virtual void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values) => values = default;
 
     // Spells.PAS:193
     public void CastingDone(Troop source, int mana)

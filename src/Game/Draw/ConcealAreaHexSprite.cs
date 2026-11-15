@@ -28,10 +28,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
     }
 
     // GlobalSpells.pas:199
-    public ConcealAreaHexSprite(CustomNode owner) : base(owner)
-    {
-        _hexes = new Int32List();
-    }
+    public ConcealAreaHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
 
     // GlobalSpells.pas:211
     public override int GetShowPriority() => 2013265920;
@@ -54,7 +51,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
             _frame += 1;
             if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == _layer)
             {
-                intensity = 60 - Math.Abs(_frame * 3 - 60);
+                intensity = 60 - Math.Abs((_frame * 3) - 60);
                 HexGeometry.HexToPixel(_x, _y, out pixelX, out pixelY);
                 pixelX = pixelX - pixelXSurface - 8;
                 pixelY -= pixelYSurface;

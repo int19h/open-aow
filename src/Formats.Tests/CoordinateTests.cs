@@ -133,12 +133,27 @@ public sealed class CoordinateTests : FormatsTest
         {
             bool match = true;
             for (int j = 0; j < pattern.Length; j++)
+            {
                 if (image[i + j] != pattern[j]) { match = false; break; }
-            if (!match) continue;
-            if (found >= 0) throw new InvalidOperationException("The stored 127 is not unique.");
+            }
+
+            if (!match)
+            {
+                continue;
+            }
+
+            if (found >= 0)
+            {
+                throw new InvalidOperationException("The stored 127 is not unique.");
+            }
+
             found = i;
         }
-        if (found < 0) throw new InvalidOperationException("The stored 127 is absent.");
+        if (found < 0)
+        {
+            throw new InvalidOperationException("The stored 127 is absent.");
+        }
+
         return found;
     }
 }

@@ -4,15 +4,27 @@ public static partial class RtlUnit
 {
     public static string SetString(Ptr<byte> source, int length)
     {
-        if (length <= 0) return "";
-        if (source.IsNull) return Resized("", length);
+        if (length <= 0)
+        {
+            return "";
+        }
+
+        if (source.IsNull)
+        {
+            return Resized("", length);
+        }
+
         return Cp1252.Decode(source.Array!.AsSpan(source.Index, length).ToArray());
     }
 
     public static int StrLen(Ptr<byte> value)
     {
         int count = 0;
-        while (value[count] != 0) count++;
+        while (value[count] != 0)
+        {
+            count++;
+        }
+
         return count;
     }
 
@@ -35,7 +47,10 @@ public static partial class RtlUnit
         for (int i = 0; i < maxLength; i++)
         {
             int difference = a[i] - b[i];
-            if (difference != 0 || a[i] == 0) return difference;
+            if (difference != 0 || a[i] == 0)
+            {
+                return difference;
+            }
         }
         return 0;
     }
@@ -44,8 +59,15 @@ public static partial class RtlUnit
     {
         for (int i = 0; ; i++)
         {
-            if (value[i] == character) return value + i;
-            if (value[i] == 0) return default;
+            if (value[i] == character)
+            {
+                return value + i;
+            }
+
+            if (value[i] == 0)
+            {
+                return default;
+            }
         }
     }
 

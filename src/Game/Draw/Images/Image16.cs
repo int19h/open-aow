@@ -47,16 +47,11 @@ public partial class Image16 : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:2123
-    public override void WriteDiscardableImageData(Stream stream)
-    {
-        base.WriteDiscardableImageData(stream);
-    }
+    public override void WriteDiscardableImageData(Stream stream) => base.WriteDiscardableImageData(stream);
 
     // ImageLib.pas:2128
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
-    {
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
 }

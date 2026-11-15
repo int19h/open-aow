@@ -42,8 +42,8 @@ public partial class SpellCastEventLog : EventLog
         bool show;
         string reason = "";
         show = trigger == ExecuteTrigger.User;
-        show = show || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
-        show = show || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
+        show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
         if (show)
         {
             var hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);

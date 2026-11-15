@@ -22,10 +22,7 @@ public partial class UpdateHeaderCombatAction : CombatAction
     }
 
     // Combat2.pas:969
-    public override void Execute(Battle combat)
-    {
-        combat.CombatData.Header = Header;
-    }
+    public override void Execute(Battle combat) => combat.CombatData.Header = Header;
 
     // intf_P3_02.inc:38
     public override bool Play(CombatViewer viewer) { Execute(viewer.Combat); return false; }

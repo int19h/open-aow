@@ -92,7 +92,13 @@ public sealed class ClassFamilyTests
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
             for (var t = type; t != null; t = t.BaseType)
-                if (t.GetProperty(name, flags) is { } property) return property.GetValue(null);
+            {
+                if (t.GetProperty(name, flags) is { } property)
+                {
+                    return property.GetValue(null);
+                }
+            }
+
             throw new InvalidOperationException(name);
         }
         var types = typeof(AIPlayerAction).Assembly.GetTypes();
@@ -123,9 +129,16 @@ public sealed class ClassFamilyTests
         manager.RegisterClasses(classes);
         Assert.Equal(3, manager.GetCount());
         var registered = Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses).ToList();
-        foreach (var c in classes) Assert.Contains(c, registered);
+        foreach (var c in classes)
+        {
+            Assert.Contains(c, registered);
+        }
         // CompareAIPlayerActionClasses orders by descending priority
-        for (int i = 1; i < registered.Count; i++) Assert.True(registered[i - 1].Priority >= registered[i].Priority);
+        for (int i = 1; i < registered.Count; i++)
+        {
+            Assert.True(registered[i - 1].Priority >= registered[i].Priority);
+        }
+
         var error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>()]));
         Assert.Equal("AIPlayerAction already Registered", error.Message);
         manager.UnregisterClasses(classes);
@@ -228,8 +241,13 @@ public sealed class ClassFamilyTests
         using var level = new MapLevel(container);
         level.CreateMapFieldList(3, 3);
         for (int y = 0; y < 3; y++)
+        {
             for (int x = 0; x < 3; x++)
+            {
                 level.GetField(x, y).TerrainType = 3;
+            }
+        }
+
         var field = level.GetField(1, 1);
         using var resource = new WaterHex.Resource(null!) { Holder = EngineFixture.Engine };
         using var water = new WaterHex(field);
@@ -238,7 +256,11 @@ public sealed class ClassFamilyTests
         Assert.NotNull(water.Dynamic);
         Assert.NotEqual(0, water.OpenSides);
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
+        {
             if ((water.OpenSides & (1 << (hexNumber - 1))) != 0)
+            {
                 Assert.Equal(40, water.ShoreTerrain[hexNumber - 1]);
+            }
+        }
     }
 }

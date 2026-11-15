@@ -20,10 +20,7 @@ public partial class HypotheticalUnit : Troop
     private sbyte _hitPoints;
 
     // Unit.PAS:2534
-    public HypotheticalUnit(CustomNode owner) : base(owner)
-    {
-        MakeDefaultLevelUnit(1);
-    }
+    public HypotheticalUnit(CustomNode owner) : base(owner) => MakeDefaultLevelUnit(1);
 
     // Unit.PAS:2591
     public override sbyte GetAttack() => _attack;
@@ -44,10 +41,7 @@ public partial class HypotheticalUnit : Troop
     public override sbyte GetHitPoints() => _hitPoints;
 
     // Unit.PAS:2601
-    public override void SetHitPoints(sbyte value)
-    {
-        _hitPoints = value;
-    }
+    public override void SetHitPoints(sbyte value) => _hitPoints = value;
 
     // Unit.PAS:2605
     public override Set<DamageType> GetImmunityTypes() => _immunityTypes;

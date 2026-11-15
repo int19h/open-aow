@@ -12,13 +12,30 @@ public partial class BitList
     // Engine.pas:4660. The write is relative to the buffer, including negative indices.
     internal void Put(int index, bool item)
     {
-        if ((uint)index >= (uint)_count) SetCount(index + 1);
-        if (List.Equals(default)) throw new NullReferenceException();
+        if ((uint)index >= (uint)_count)
+        {
+            SetCount(index + 1);
+        }
+
+        if (List.Equals(default))
+        {
+            throw new NullReferenceException();
+        }
+
         if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)List, out var storage))
+        {
             throw new InvalidOperationException("Bit list storage has no backing array");
+        }
+
         ref byte value = ref storage.Array![storage.Offset + (index >> 3)];
         byte mask = (byte)(1 << (index & 7));
-        if (item) value |= mask;
-        else value &= (byte)~mask;
+        if (item)
+        {
+            value |= mask;
+        }
+        else
+        {
+            value &= (byte)~mask;
+        }
     }
 }

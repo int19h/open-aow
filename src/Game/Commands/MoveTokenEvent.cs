@@ -37,13 +37,22 @@ public partial class MoveTokenEvent : TokenEvent
         bool present = persister.Has("Path");
         var items = new List<int>(Path.Count);
         for (int index = 0; index < Path.Count; index++)
+        {
             items.Add(PathStepImage.From(Path[index]).ToInt32());
+        }
+
         int stored = persister.Int32List("Path", items: items, defaultValue: PathStepImage.From(Path.Default).ToInt32());
-        if (!persister.Loading || !present) return;
+        if (!persister.Loading || !present)
+        {
+            return;
+        }
+
         Path.Clear();
         Path.Default = Step(stored);
         for (int index = 0; index < items.Count; index++)
+        {
             Path.Add(Step(items[index]));
+        }
     }
 
     private static PathStep Step(int value) =>
@@ -150,10 +159,7 @@ public partial class MoveTokenEvent : TokenEvent
     public virtual bool Validate() => true;
 
     // MoveT.PAS:2010
-    public virtual void FinishMove()
-    {
-        _status = MoveStatus.Finished;
-    }
+    public virtual void FinishMove() => _status = MoveStatus.Finished;
 
     // MoveT.PAS:1997
     public virtual MoveStatus Move()

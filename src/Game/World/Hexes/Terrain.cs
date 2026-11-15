@@ -88,16 +88,28 @@ public partial class Terrain : TerrainMapObject
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
     public void ValidateDenseVegetationBurned(Fire info)
     {
-        if (info.Age < 2 || base.Resource.TerrainList.Overlay[0] != 1) return;
+        if (info.Age < 2 || base.Resource.TerrainList.Overlay[0] != 1)
+        {
+            return;
+        }
+
         var resource = FindCompatibleResource(((TerrainMapObjectResource)base.Resource).TerrainType, 3, 3);
-        if (resource == null) return;
+        if (resource == null)
+        {
+            return;
+        }
+
         UpdateTerrain(Owner.Owner, GetHexX(), GetHexY());
         var owner = Owner;
         RemoveFromMap();
         SetResource(resource);
         Owner = owner;
         PlaceOnMap();
-        if (base.Resource.Level <= 15) base.Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
+        if (base.Resource.Level <= 15)
+        {
+            base.Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
+        }
+
         OverrideTerrain();
     }
 

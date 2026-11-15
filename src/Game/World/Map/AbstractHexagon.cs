@@ -22,8 +22,8 @@ public partial class AbstractHexagon : MapObject
     {
         int pixelX;
         int pixelY;
-        pixelX = Owner.HexX * 32 + 8;
-        pixelY = (Owner.HexX & 1) * 16 + Owner.HexY * 32;
+        pixelX = (Owner.HexX * 32) + 8;
+        pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
         return pixelX + (pixelY << 13);
     }
 
@@ -59,10 +59,7 @@ public partial class AbstractHexagon : MapObject
     }
 
     // MAPOBJ.PAS:728
-    public override void TerrainChanged(in HexSpriteTerrainInfo message)
-    {
-        ChangeTerrain(message);
-    }
+    public override void TerrainChanged(in HexSpriteTerrainInfo message) => ChangeTerrain(message);
 
     // MAPOBJ.PAS:762
     public override void MapFieldMessageProc(ref MapFieldMessage message)

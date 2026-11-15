@@ -180,13 +180,20 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                     var expected = new List<BlendTable> { tables.Lookup[30], tables.Lookup[30] };
                     // ShowEx has no bmLinearAlpha arm in the original.
                     image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = 70 });
-                    if (mode != BlendMode.LinearAlpha) expected.Add(tables.Lookup[70]);
+                    if (mode != BlendMode.LinearAlpha)
+                    {
+                        expected.Add(tables.Lookup[70]);
+                    }
+
                     Assert.Equal(expected, image.Drawn);
                     Assert.DoesNotContain(null, image.Drawn);
 
                     // A table in a percentage arm has no percentage to read.
                     if (mode != BlendMode.LinearAlpha)
+                    {
                         Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = table }));
+                    }
+
                     image.ShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = table };
                     Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface));
                 }
@@ -266,7 +273,10 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
                 LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
-            foreach (string file in files) CheckLibrary(file, tally);
+            foreach (string file in files)
+            {
+                CheckLibrary(file, tally);
+            }
         }
         finally
         {
@@ -276,7 +286,11 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
         output.WriteLine($"{tally.Libraries} libraries, {tally.Images} images, {tally.WithoutShowInfo} without a show info record, " +
                          $"{tally.User} bmUser images, {tally.Blended} blended images");
-        foreach (var (key, count) in tally.Modes) output.WriteLine($"  {key}: {count}");
+        foreach (var (key, count) in tally.Modes)
+        {
+            output.WriteLine($"  {key}: {count}");
+        }
+
         Assert.Equal(files.Length, tally.Libraries);
         Assert.True(tally.Images - tally.WithoutShowInfo > 1000, $"only {tally.Images - tally.WithoutShowInfo} records compared");
         // A bmUser image in a file carries an int in place of a table (spec 3.3), and draws nothing.
@@ -291,14 +305,23 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         tally.Libraries++;
         int from = 0;
         for (int i = 0; i < library.Count; i++)
-            if (library.Images[i].Image is { } image) CheckImage(file, bytes, image, ref from, tally);
+        {
+            if (library.Images[i].Image is { } image)
+            {
+                CheckImage(file, bytes, image, ref from, tally);
+            }
+        }
     }
 
     private static void CheckImage(string file, byte[] bytes, LibraryImage image, ref int from, Tally tally)
     {
         if (image is ImageNode node)
         {
-            for (int i = 0; i < node.Count; i++) CheckImage(file, bytes, node.Images[i], ref from, tally);
+            for (int i = 0; i < node.Count; i++)
+            {
+                CheckImage(file, bytes, node.Images[i], ref from, tally);
+            }
+
             return;
         }
 
@@ -313,13 +336,27 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         Assert.True(info.Blend is int, $"{file}: a show info read from a file holds a percentage");
         tally.Modes.TryGetValue($"{info.ShowMode} {info.BlendMode}", out int seen);
         tally.Modes[$"{info.ShowMode} {info.BlendMode}"] = seen + 1;
-        if (info.BlendMode == BlendMode.User) tally.User++;
-        if (info.ShowMode == ShowMode.Blended) tally.Blended++;
+        if (info.BlendMode == BlendMode.User)
+        {
+            tally.User++;
+        }
+
+        if (info.ShowMode == ShowMode.Blended)
+        {
+            tally.Blended++;
+        }
 
         byte[] header = Header(image);
         int at = bytes.AsSpan(from).IndexOf(header);
-        if (at >= 0) at += from;
-        else at = bytes.AsSpan().IndexOf(header);
+        if (at >= 0)
+        {
+            at += from;
+        }
+        else
+        {
+            at = bytes.AsSpan().IndexOf(header);
+        }
+
         Assert.True(at >= 0, $"{file}: the header of {image.FileName} at data position {image.DataPosition} is not in the file");
         int record = at + header.Length;
         Assert.Equal(bytes.AsSpan(record, 8).ToArray(), Written(info));

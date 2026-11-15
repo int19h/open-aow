@@ -16,10 +16,7 @@ namespace Aow.Game.World.Terrain;
 public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
 {
 
-    public ImageLibraryTerrainMapObject(CustomNode owner) : base(owner)
-    {
-        _terrainType = -1;
-    }
+    public ImageLibraryTerrainMapObject(CustomNode owner) : base(owner) => _terrainType = -1;
 
     // ILTer.pas:79
     public new const int ClassId = 131462;

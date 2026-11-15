@@ -271,11 +271,22 @@ public sealed class ListAndSlotTests : FormatsTest
             Last = persister.Int32("Last", Last);
             if (persister.Loading)
             {
-                foreach (int slot in Asked) Loaded.Add(persister.CreatedSlot<Part>("Parts", slot: slot, objectValue: null));
-                if (SkipParts) persister.Skip("Parts");
+                foreach (int slot in Asked)
+                {
+                    Loaded.Add(persister.CreatedSlot<Part>("Parts", slot: slot, objectValue: null));
+                }
+
+                if (SkipParts)
+                {
+                    persister.Skip("Parts");
+                }
+
                 return;
             }
-            foreach (var (slot, part) in Stored) persister.CreatedSlot("Parts", slot: slot, objectValue: part);
+            foreach (var (slot, part) in Stored)
+            {
+                persister.CreatedSlot("Parts", slot: slot, objectValue: part);
+            }
         }
     }
 

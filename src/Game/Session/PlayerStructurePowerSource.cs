@@ -28,17 +28,11 @@ public partial class PlayerStructurePowerSource : PowerSource
         _structure.HexLevel);
 
     // Structur.PAS:2526
-    public override void Select()
-    {
-        StrategicMap.Current.Select(_structure, true);
-    }
+    public override void Select() => StrategicMap.Current.Select(_structure, true);
 
     // Structur.PAS:2504
     // (Structure)
-    public void Setup(PlayerStructure structure)
-    {
-        _structure = structure;
-    }
+    public void Setup(PlayerStructure structure) => _structure = structure;
 
     // Engine.pas:524
 

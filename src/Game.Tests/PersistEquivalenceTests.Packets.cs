@@ -22,21 +22,26 @@ public sealed partial class PersistEquivalenceTests
         foreach (var engineClass in EngineClass.All)
         {
             var type = engineClass.Type;
-            if (!PacketFamily(type)) continue;
+            if (!PacketFamily(type))
+            {
+                continue;
+            }
+
             if (EngineObject.TreePersistenceRefusal(type) is string reason)
+            {
                 missing.Add(type.Name + " (" + reason + ")");
+            }
             else if (s_schema.Find(engineClass.StorageKey) is null)
+            {
                 missing.Add(type.Name + " (no schema)");
+            }
         }
         Assert.True(missing.Count == 0, string.Join(", ", missing));
     }
 
     [Theory]
     [MemberData(nameof(PacketClasses))]
-    public void ATokenEventOrPacketWritesAndLoadsAlike(string className)
-    {
-        WithDestroyingMap(_ => Alike(className, objectValue: Blank(className)));
-    }
+    public void ATokenEventOrPacketWritesAndLoadsAlike(string className) => WithDestroyingMap(_ => Alike(className, objectValue: Blank(className)));
 
     [Fact]
     public void AMovePathPacketMatchesReadWrite()
@@ -53,7 +58,11 @@ public sealed partial class PersistEquivalenceTests
             0x7F, 0x7F, 0x02, 0x7F,
         ];
         var path = new MovePath();
-        using (var input = new MemoryStream(payload)) path.LoadFromStream(input);
+        using (var input = new MemoryStream(payload))
+        {
+            path.LoadFromStream(input);
+        }
+
         try
         {
             var move = new MoveArmyTokenEvent(null!) { Holder = EngineFixture.Engine };
@@ -104,7 +113,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var descriptor = EngineClass.Of<CombatMoveTokenEvent>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
-        if (added) EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        if (added)
+        {
+            EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        }
+
         CombatMoveTokenEvent move = new(null!) { Holder = EngineFixture.Engine, TokenCounter = 4 };
         try
         {
@@ -124,7 +137,10 @@ public sealed partial class PersistEquivalenceTests
         finally
         {
             move.Release();
-            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            if (added)
+            {
+                EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            }
         }
     }
 
@@ -152,10 +168,18 @@ public sealed partial class PersistEquivalenceTests
             bool registered = EngineFixture.Engine.ClassTable.TryGetValue(objectValue.EngineClass.ClassId, out var registeredClass)
                 && registeredClass is not null
                 && registeredClass.Type == objectValue.GetType();
-            if (!registered) return;
+            if (!registered)
+            {
+                return;
+            }
+
             loaded = EngineFixture.Engine.RetrieveEngineObject(new MemoryStream(packet), progress: null);
             Assert.Equal(objectValue.GetType(), loaded?.GetType());
-            if (loaded is null) return;
+            if (loaded is null)
+            {
+                return;
+            }
+
             EqualBytes(image, actual: Image(loaded), label: className + " packet read");
         }
         finally
@@ -172,13 +196,29 @@ public sealed partial class PersistEquivalenceTests
         foreach (var engineClass in EngineClass.All)
         {
             var type = engineClass.Type;
-            if (!PacketFamily(type) || type.IsAbstract) continue;
-            if (EngineObject.TreePersistenceRefusal(type) is not null) continue;
-            if (s_schema.Find(engineClass.StorageKey) is null) continue;
+            if (!PacketFamily(type) || type.IsAbstract)
+            {
+                continue;
+            }
+
+            if (EngineObject.TreePersistenceRefusal(type) is not null)
+            {
+                continue;
+            }
+
+            if (s_schema.Find(engineClass.StorageKey) is null)
+            {
+                continue;
+            }
+
             names.Add(engineClass.StorageKey);
         }
         var data = new TheoryData<string>();
-        foreach (var name in names) data.Add(name);
+        foreach (var name in names)
+        {
+            data.Add(name);
+        }
+
         return data;
     }
 

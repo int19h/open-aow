@@ -19,7 +19,10 @@ public sealed class GameFactAttribute : FactAttribute
 {
     public GameFactAttribute()
     {
-        if (InstalledGame.SkipReason is string reason) Skip = reason;
+        if (InstalledGame.SkipReason is string reason)
+        {
+            Skip = reason;
+        }
     }
 }
 
@@ -28,6 +31,9 @@ public sealed class GameTheoryAttribute : TheoryAttribute
 {
     public GameTheoryAttribute()
     {
-        if (InstalledGame.SkipReason is string reason) Skip = reason;
+        if (InstalledGame.SkipReason is string reason)
+        {
+            Skip = reason;
+        }
     }
 }

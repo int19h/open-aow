@@ -22,10 +22,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     int IChildSink<Race>.AddChild(Race child) => AddChild(child);
 
     // Ability.PAS:367
-    public RaceList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
-    }
+    public RaceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     public int RelationOffset { get; set; }
 

@@ -313,7 +313,7 @@ public partial class ListBox : Control
                     if (FirstShownItem + i < count)
                     {
                         _drawItem = FirstShownItem + i;
-                        _drawItemRectangle = new Rect(l, _itemHeight * i + t, l + w, (i + 1) * _itemHeight + t);
+                        _drawItemRectangle = new Rect(l, (_itemHeight * i) + t, l + w, ((i + 1) * _itemHeight) + t);
                         if (_drawItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
@@ -329,7 +329,7 @@ public partial class ListBox : Control
                             base.Font.Color = SelectedColor;
                             if (_textOnly == 0)
                             {
-                                var rectangle = new SizedRectangle(l, _itemHeight * i + t, w, _itemHeight);
+                                var rectangle = new SizedRectangle(l, (_itemHeight * i) + t, w, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
                             }
                         }
@@ -342,19 +342,19 @@ public partial class ListBox : Control
                         {
                             case TextAlignment.Left:
                                 var item = _items[FirstShownItem + i];
-                                base.Font.SetText(BorderWidth + l, BorderHeight + t + _itemHeight * i, item, lockedSurface);
+                                base.Font.SetText(BorderWidth + l, BorderHeight + t + (_itemHeight * i), item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 var item2 = _items[FirstShownItem + i];
                                 var textWidth = base.Font.GetTextWidth(item2);
                                 var item3 = _items[FirstShownItem + i];
-                                base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + _itemHeight * i, item3, lockedSurface);
+                                base.Font.SetText(l + w - BorderWidth - textWidth, BorderHeight + t + (_itemHeight * i), item3, lockedSurface);
                                 break;
                             default:
                                 var item4 = _items[FirstShownItem + i];
                                 var fontTextWidth = base.Font.GetTextWidth(item4);
                                 var item5 = _items[FirstShownItem + i];
-                                base.Font.SetText(l + w / 2 - fontTextWidth / 2, BorderHeight + t + _itemHeight * i, item5, lockedSurface);
+                                base.Font.SetText(l + (w / 2) - (fontTextWidth / 2), BorderHeight + t + (_itemHeight * i), item5, lockedSurface);
                                 break;
                         }
 
@@ -390,11 +390,11 @@ public partial class ListBox : Control
             if (_textOnly == 0)
             {
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                i = (Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
+                i = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight) + FirstShownItem;
             }
             else
             {
-                i = (Y - Window.WinTop - WinTop) / _itemHeight + FirstShownItem;
+                i = ((Y - Window.WinTop - WinTop) / _itemHeight) + FirstShownItem;
             }
 
             if (_items.Count > i)
@@ -479,11 +479,11 @@ public partial class ListBox : Control
             if (_textOnly == 0)
             {
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                HoverItem = (Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
+                HoverItem = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / _itemHeight) + FirstShownItem;
             }
             else
             {
-                HoverItem = (Y - Window.WinTop - WinTop) / _itemHeight + FirstShownItem;
+                HoverItem = ((Y - Window.WinTop - WinTop) / _itemHeight) + FirstShownItem;
             }
 
             RaiseMouseMove(this, shift, X, Y);
@@ -491,10 +491,7 @@ public partial class ListBox : Control
     }
 
     // AoWListBox.pas:497
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWListBox.pas:275
     public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)

@@ -28,10 +28,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
     }
 
     // GlobalSpells.pas:406
-    public BirdsViewHexSprite(CustomNode owner) : base(owner)
-    {
-        _hexes = new Int32List();
-    }
+    public BirdsViewHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
 
     // GlobalSpells.pas:418
     public override int GetShowPriority() => 2013265920;
@@ -52,7 +49,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         if (StrategicMap.Current.ViewMapLevel == _layer)
         {
             _frame += 1;
-            intensity = 100 - _frame * 2;
+            intensity = 100 - (_frame * 2);
             HexGeometry.HexToPixel(_x, _y, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;

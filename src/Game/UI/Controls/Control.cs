@@ -233,10 +233,7 @@ public partial class Control : UIComponent
     }
 
     // AoWControl.pas:59
-    public void SetWindow(BaseWindow value)
-    {
-        SetOwner(value);
-    }
+    public void SetWindow(BaseWindow value) => SetOwner(value);
 
     // AoWControl.pas:70
     public void SetToolStrings(StringList value)

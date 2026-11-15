@@ -41,7 +41,7 @@ public partial class LiquidForm : UnitSpell
     {
         bool result = base.ValidTargetUnit(source, target);
         result = result && !target.GetAbilityEnabled(166);
-        return result && (!target.GetAbilityEnabled(13) && !target.GetAbilityEnabled(77) || !target.GetAbilityEnabled(2) && !target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(59));
+        return result && ((!target.GetAbilityEnabled(13) && !target.GetAbilityEnabled(77)) || (!target.GetAbilityEnabled(2) && !target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(59)));
     }
 
     // UnitSpells.pas:755

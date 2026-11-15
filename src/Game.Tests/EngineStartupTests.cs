@@ -111,7 +111,11 @@ public sealed class EngineStartupTests
             Exception? caught = null;
             void Thrown(object? sender, FirstChanceExceptionEventArgs arguments)
             {
-                if (arguments.Exception is XunitException) return;
+                if (arguments.Exception is XunitException)
+                {
+                    return;
+                }
+
                 string[] destroy = new StackTrace(arguments.Exception).GetFrames()
                     .Where(x => x.GetMethod()?.Name == "Dispose")
                     .Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray();
@@ -172,11 +176,18 @@ public sealed class EngineStartupTests
             finally { AppDomain.CurrentDomain.FirstChanceException -= Thrown; }
         }
         string? target = Environment.GetEnvironmentVariable("AOW_ENGINE_STARTUP_RECORD");
-        if (target is not null) throw new InvalidOperationException("Startup baseline recording ended with constructor conversion.");
+        if (target is not null)
+        {
+            throw new InvalidOperationException("Startup baseline recording ended with constructor conversion.");
+        }
+
         using var baseline = typeof(EngineStartupTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.EngineStartupSnapshot.json")!;
         var expected = JsonNode.Parse(baseline)!.AsObject();
         foreach (var pair in actual)
+        {
             Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), pair.Key + " startup recording differs from the base commit.");
+        }
+
         Assert.Equal(expected.Count, actual.Count);
     }
 
@@ -186,27 +197,49 @@ public sealed class EngineStartupTests
         var seen = new HashSet<object>(ReferenceEqualityComparer.Instance);
         void Visit(object value, string path)
         {
-            if (!seen.Add(value)) return;
+            if (!seen.Add(value))
+            {
+                return;
+            }
+
             result[path] = new JsonObject { ["Type"] = value.GetType().FullName };
             if (DelphiItems(value) is { } list)
             {
                 for (int index = 0; index < list.Length; index++)
-                    if (list[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
+                {
+                    if (list[index] is object element && LegacyRoots.Contains(element.GetType()))
+                    {
+                        Visit(element, path + $"[{index}]");
+                    }
+                }
             }
             else if (IsGenericList(value) && value is System.Collections.IList items)
             {
                 for (int index = 0; index < items.Count; index++)
-                    if (items[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
+                {
+                    if (items[index] is object element && LegacyRoots.Contains(element.GetType()))
+                    {
+                        Visit(element, path + $"[{index}]");
+                    }
+                }
             }
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
+            {
                 foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name == "_owner" || field.GetValue(value) is not object child) continue;
+                    if (field.Name == "_owner" || field.GetValue(value) is not object child)
+                    {
+                        continue;
+                    }
+
                     if (LegacyRoots.Contains(child.GetType())
                         || (IsGenericList(child) && ConvertedListField(field))
                         || (IsDictionary(child) && ConvertedDictionaryField(field)))
+                    {
                         Visit(child, path + "." + MemberNames.Of(field));
+                    }
                 }
+            }
         }
         Visit(root, "Engine");
         return result;
@@ -217,7 +250,11 @@ public sealed class EngineStartupTests
     {
         for (Type? type = value.GetType(); type is not null; type = type.BaseType)
         {
-            if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(DelphiList<>)) continue;
+            if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(DelphiList<>))
+            {
+                continue;
+            }
+
             var items = (Array)type.GetProperty("List")!.GetValue(value)!;
             return [.. items.Cast<object?>().Take((int)type.GetProperty("Count")!.GetValue(value)!)];
         }
@@ -235,7 +272,7 @@ public sealed class EngineStartupTests
         ["DictionaryLanguage"] = engine.Dictionary.Reader.Language,
         ["Demo"] = engine.Demo,
         ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
-        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EngineClasses.Count).Select(i => (engine.EngineClasses[i]!).ClassId)),
+        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EngineClasses.Count).Select(i => engine.EngineClasses[i]!.ClassId)),
         ["Children"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.Count).Select(i => engine.Children[i].GetType().FullName)),
         ["Globals"] = fixture.State()
     };
@@ -249,7 +286,11 @@ public sealed class EngineStartupTests
             for (int t = 0; t < 16; t++)
             {
                 var overlay = new JsonObject();
-                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)MovementTables.MovePointTables[mask][t][o + 1];
+                for (int o = -1; o < 15; o++)
+                {
+                    overlay[$"Overlay[{o}]"] = (int)MovementTables.MovePointTables[mask][t][o + 1];
+                }
+
                 terrain[$"Terrain[{t}]"] = overlay;
             }
             result[$"Mask[{mask}]"] = terrain;

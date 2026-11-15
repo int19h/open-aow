@@ -62,7 +62,7 @@ public sealed partial record Loot : ProductionOrder
         control.BeginUpdate();
         Log(control, city, Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
         var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
-        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + city.Income * 3);
+        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         city.SetRazed(true);
         control.EndUpdate();

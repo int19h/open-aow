@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class EmailGameSettingsDialog : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -1251,6 +1248,8 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         closeBtn.ToolTip = UI.General.ToolTip;
         closeBtn.ImageLibraryIcon = UI.Graphics.GenericIcons;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

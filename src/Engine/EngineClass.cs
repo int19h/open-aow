@@ -61,13 +61,21 @@ public sealed class EngineClass
     private static EngineClass Add(Type type, int classId, Delegate create)
     {
         ArgumentNullException.ThrowIfNull(create);
-        if (type != typeof(EngineObject)) Of(type.BaseType);
+        if (type != typeof(EngineObject))
+        {
+            Of(type.BaseType);
+        }
+
         return s_catalog.Add(type, new EngineClass(type, classId, create));
     }
 
     private static EngineObject Held(EngineObject node, EngineObject holder)
     {
-        if (holder is not null) node.Holder ??= holder;
+        if (holder is not null)
+        {
+            node.Holder ??= holder;
+        }
+
         return node;
     }
 
@@ -78,7 +86,11 @@ public sealed class EngineClass
     {
         var type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
-        if (type != typeof(EngineObject)) Of(type.BaseType);
+        if (type != typeof(EngineObject))
+        {
+            Of(type.BaseType);
+        }
+
         var alias = new EngineClass(type, classId, create);
         s_aliases.Add(alias);
         return alias;

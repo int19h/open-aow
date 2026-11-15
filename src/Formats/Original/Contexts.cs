@@ -22,8 +22,15 @@ public sealed class LayoutCounts
     {
         Parts += other.Parts;
         Objects += other.Objects;
-        foreach (var (k, v) in other.Categories) Categories[k] = Categories.GetValueOrDefault(k) + v;
-        foreach (var (k, v) in other.LegacyRules) LegacyRules[k] = LegacyRules.GetValueOrDefault(k) + v;
+        foreach (var (k, v) in other.Categories)
+        {
+            Categories[k] = Categories.GetValueOrDefault(k) + v;
+        }
+
+        foreach (var (k, v) in other.LegacyRules)
+        {
+            LegacyRules[k] = LegacyRules.GetValueOrDefault(k) + v;
+        }
     }
 }
 
@@ -73,15 +80,24 @@ public sealed class DecodeContext
     public void Need(int start, int count, int end, DocumentNodePath path, string what)
     {
         if (count < 0 || start < 0 || (long)start + count > end)
+        {
             throw Fail(Codes.Truncated, $"The {what} runs past the end of its value.", start, path);
+        }
     }
 
     public int Int32(int at) => BinaryPrimitives.ReadInt32LittleEndian(Data.AsSpan(at, 4));
 
     public void Enter(int offset, DocumentNodePath path)
     {
-        if (++_nodes > Limits.Nodes) throw Fail(Codes.Limit, "The image decodes to too many objects.", offset, path, null, $"at most {Limits.Nodes} decoded objects");
-        if (++_depth > Limits.Depth) throw Fail(Codes.Limit, "The image nests objects too deeply.", offset, path, null, $"depth at most {Limits.Depth}");
+        if (++_nodes > Limits.Nodes)
+        {
+            throw Fail(Codes.Limit, "The image decodes to too many objects.", offset, path, null, $"at most {Limits.Nodes} decoded objects");
+        }
+
+        if (++_depth > Limits.Depth)
+        {
+            throw Fail(Codes.Limit, "The image nests objects too deeply.", offset, path, null, $"depth at most {Limits.Depth}");
+        }
     }
 
     public void Leave() => _depth--;
@@ -89,7 +105,9 @@ public sealed class DecodeContext
     public void CheckItems(int count, int offset, DocumentNodePath path)
     {
         if (count > Limits.CollectionItems)
+        {
             throw Fail(Codes.Limit, "A collection has too many items.", offset, path, count.ToString(System.Globalization.CultureInfo.InvariantCulture), $"at most {Limits.CollectionItems} items");
+        }
     }
 }
 
@@ -130,7 +148,10 @@ public sealed class EncodeContext
 
     public void Enter(JsonValue at, DocumentNodePath path)
     {
-        if (++_depth > Limits.Depth) throw Fail(Codes.Limit, "The document nests objects too deeply.", at, path, null, $"depth at most {Limits.Depth}");
+        if (++_depth > Limits.Depth)
+        {
+            throw Fail(Codes.Limit, "The document nests objects too deeply.", at, path, null, $"depth at most {Limits.Depth}");
+        }
     }
 
     public void Leave() => _depth--;
@@ -171,20 +192,38 @@ public sealed class PropertyTable
             longCount = context.Int32(at);
             at += 4;
             marker = true;
-            if (longCount < 0) throw context.Fail(Codes.Corrupt, "A property table has a negative long entry count.", start, path, longCount.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            if (longCount < 0)
+            {
+                throw context.Fail(Codes.Corrupt, "A property table has a negative long entry count.", start, path, longCount.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            }
         }
         context.CheckItems(shortCount + longCount, start, path);
-        long tableEnd = at + 2L * shortCount + 8L * longCount;
-        if (tableEnd > end) throw context.Fail(Codes.Truncated, "A property table runs past the end of its object.", start, path);
+        long tableEnd = at + (2L * shortCount) + (8L * longCount);
+        if (tableEnd > end)
+        {
+            throw context.Fail(Codes.Truncated, "A property table runs past the end of its object.", start, path);
+        }
+
         var entries = new List<TableEntry>(shortCount + longCount);
         for (int i = 0; i < shortCount; i++, at += 2)
+        {
             entries.Add(new TableEntry(data[at], data[at + 1], false, i));
+        }
+
         for (int i = 0; i < longCount; i++, at += 8)
+        {
             entries.Add(new TableEntry(context.Int32(at), context.Int32(at + 4), true, shortCount + i));
+        }
+
         int length = end - at;
         foreach (var e in entries)
+        {
             if (e.Offset < 0 || e.Offset > length)
+            {
                 throw context.Fail(Codes.Corrupt, $"Property {e.Id} has an offset outside its object.", start, path, e.Offset.ToString(System.Globalization.CultureInfo.InvariantCulture), $"0 to {length}");
+            }
+        }
+
         return new PropertyTable { Entries = entries, DataBase = at, EmptyLongMarker = marker && longCount == 0 };
     }
 
@@ -195,27 +234,48 @@ public sealed class PropertyTable
     {
         int shortCount = 0, longCount = 0;
         foreach (var (id, offset) in entries)
-            if (IsShort(id, offset)) shortCount++;
-            else longCount++;
+        {
+            if (IsShort(id, offset))
+            {
+                shortCount++;
+            }
+            else
+            {
+                longCount++;
+            }
+        }
+
         if (shortCount > 127)
+        {
             throw context.Fail(Codes.Unrepresentable, "An object has more short property entries than the original table can count.", null, path, shortCount.ToString(System.Globalization.CultureInfo.InvariantCulture), "at most 127 short entries");
+        }
+
         if (longCount != 0)
         {
             output.Byte((byte)(shortCount | 0x80));
             output.Int32(longCount);
         }
-        else output.Byte((byte)shortCount);
+        else
+        {
+            output.Byte((byte)shortCount);
+        }
+
         foreach (var (id, offset) in entries)
+        {
             if (IsShort(id, offset))
             {
                 output.Byte((byte)id);
                 output.Byte((byte)offset);
             }
+        }
+
         foreach (var (id, offset) in entries)
+        {
             if (!IsShort(id, offset))
             {
                 output.Int32(id);
                 output.Int32(offset);
             }
+        }
     }
 }

@@ -52,10 +52,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
 
     // HSEngine.pas:1923
-    public override void SetOwner(CustomNode owner)
-    {
-        SetOwnerWithoutNotify(owner);
-    }
+    public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
 
     // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
     public new MapLevel Owner { get => (MapLevel)base.Owner; set => SetOwner(value); }
@@ -66,10 +63,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // HSEngine.pas:2075
     // The fields only, with no Clear and no children, as the original main visit.
-    public override void MainPersist(IPersister persister)
-    {
-        PersistFields(persister);
-    }
+    public override void MainPersist(IPersister persister) => PersistFields(persister);
 
     // HSEngine.pas:2029, then AoWHSMap.PAS:63 stores the low word of the flags. The stored sprites
     // are a created sequence at ids 50 and on. A load creates each sprite with this field as owner
@@ -348,8 +342,8 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
-    public byte Capacity { get => _capacity; }
-    public byte StaticCount { get => _staticCount; }
+    public byte Capacity => _capacity;
+    public byte StaticCount => _staticCount;
     public Set<MapFieldStatusElement> Status { get => _status; set => _status = value; }
     public sbyte HexX { get => _location.X; set => _location = _location with { X = value }; }
     public sbyte HexY { get => _location.Y; set => _location = _location with { Y = value }; }
@@ -365,22 +359,42 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             for (int i = StoredCount - 1; i >= 0; i--)
             {
                 var sprite = _hexSpriteList[i];
-                if (sprite.GetLastMessage() == message.Sequence) continue;
-                if ((message.MessageId & 0x20000000) != 0 && sprite.Owner != this) continue;
+                if (sprite.GetLastMessage() == message.Sequence)
+                {
+                    continue;
+                }
+
+                if ((message.MessageId & 0x20000000) != 0 && sprite.Owner != this)
+                {
+                    continue;
+                }
+
                 sprite.SetLastMessage(message.Sequence);
                 sprite.MessageProc(ref message, this);
             }
         }
         else if ((message.MessageId & 0x20000000) == 0)
         {
-            for (int i = Count - 1; i >= 0; i--) _hexSpriteList[i].MessageProc(ref message, this);
+            for (int i = Count - 1; i >= 0; i--)
+            {
+                _hexSpriteList[i].MessageProc(ref message, this);
+            }
         }
         else
         {
             int count = StoredCount;
-            for (int i = 0; i < count; i++) s_sendMessageList[i] = _hexSpriteList[i];
+            for (int i = 0; i < count; i++)
+            {
+                s_sendMessageList[i] = _hexSpriteList[i];
+            }
+
             for (int i = count - 1; i >= 0; i--)
-                if (s_sendMessageList[i].Owner == this) s_sendMessageList[i].MessageProc(ref message, this);
+            {
+                if (s_sendMessageList[i].Owner == this)
+                {
+                    s_sendMessageList[i].MessageProc(ref message, this);
+                }
+            }
         }
     }
 
@@ -619,8 +633,14 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public void SetExploredRaw(int player, int value)
     {
         int mask = ExploredFlag(player);
-        if (value != 0) FieldFlags |= mask;
-        else FieldFlags &= ~mask;
+        if (value != 0)
+        {
+            FieldFlags |= mask;
+        }
+        else
+        {
+            FieldFlags &= ~mask;
+        }
     }
 
     internal static int IgnitionChance(MapField mapField)

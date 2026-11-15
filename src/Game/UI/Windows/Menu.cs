@@ -131,7 +131,7 @@ public partial class Menu : GenericWindow
         int last = SubMenus.Count - 1;
         for (; i <= last; i += 1)
         {
-            (SubMenus[i]).DetachMenu();
+            SubMenus[i].DetachMenu();
         }
 
         SubMenus.Clear();
@@ -182,7 +182,7 @@ public partial class Menu : GenericWindow
             var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame];
             var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 7];
             var count = _items.Count;
-            SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + imageLibraryFrameHeight.Height + count * _itemHeight);
+            SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + imageLibraryFrameHeight.Height + (count * _itemHeight));
         }
 
         var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
@@ -197,12 +197,12 @@ public partial class Menu : GenericWindow
         var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame];
         var fItemsCount = _items.Count;
         var imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
-        if (imageLibraryFrame4.Height + fItemsCount * _itemHeight + imageLibraryFrame5.Height > WinHeight)
+        if (imageLibraryFrame4.Height + (fItemsCount * _itemHeight) + imageLibraryFrame5.Height > WinHeight)
         {
             var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame];
             var count = _items.Count;
             var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
-            SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + count * _itemHeight + imageLibraryFrameHeight.Height);
+            SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + (count * _itemHeight) + imageLibraryFrameHeight.Height);
         }
 
         if (WindowManager != null && _ownerMenuBar != null)
@@ -212,7 +212,7 @@ public partial class Menu : GenericWindow
             if (w != null)
             {
                 var count = mb.Items.Count;
-                SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + mb.WinWidth / count * _ownerMenuBar.Selected);
+                SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
                 SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
                 if (WindowManager.WinWidth < WinLeft + WinWidth)
                 {
@@ -308,7 +308,7 @@ public partial class Menu : GenericWindow
                             var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                             m.SetWinLeft(WinLeft + WinWidth - imageLibraryFrame.Width);
                             var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                            m.SetWinTop(WinTop + imageLibraryFrameHeight.Height + _itemHeight * Highlighted);
+                            m.SetWinTop(WinTop + imageLibraryFrameHeight.Height + (_itemHeight * Highlighted));
                             m.SetVisible(true);
                             _subMenuItem = Highlighted;
                         }
@@ -375,7 +375,7 @@ public partial class Menu : GenericWindow
                         if (w != null)
                         {
                             var count = mb.Items.Count;
-                            SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + mb.WinWidth / count * _ownerMenuBar.Selected);
+                            SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
                             SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
                             if (WindowManager.WinWidth < WinLeft + WinWidth)
                             {
@@ -482,7 +482,7 @@ public partial class Menu : GenericWindow
                                 var imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                                 var imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame];
                                 var imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                                var rectangle3 = new SizedRectangle(WinLeft + imageLibraryFrame9.Width, WinTop + imageLibraryFrame8.Height + _itemHeight * i, WinWidth - imageLibraryFrame6.Width - imageLibraryFrame7.Width, _itemHeight);
+                                var rectangle3 = new SizedRectangle(WinLeft + imageLibraryFrame9.Width, WinTop + imageLibraryFrame8.Height + (_itemHeight * i), WinWidth - imageLibraryFrame6.Width - imageLibraryFrame7.Width, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                             }
                             else
@@ -493,14 +493,14 @@ public partial class Menu : GenericWindow
                             var item = _items[i];
                             var filFrameItem = ImageLibraryFrame[ImageLibraryIndexFrame];
                             var imageLibraryFrameWidth2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrameWidth2.Width, WinTop + BorderHeight + filFrameItem.Height + _itemHeight * i, item, lockedSurface);
+                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrameWidth2.Width, WinTop + BorderHeight + filFrameItem.Height + (_itemHeight * i), item, lockedSurface);
                             DrawItem = i;
                             var imageLibraryFrameHeight2 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             var imageLibraryFrameHeight3 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             var imageLibraryFrameHeight4 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             var imageLibraryFrameHeight5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             var imageLibraryFrameWidth3 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + imageLibraryFrameHeight5.Height * i, WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + imageLibraryFrameHeight3.Height * (i + 1));
+                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrameWidth3.Width, WinTop + imageLibraryFrameHeight4.Height + (imageLibraryFrameHeight5.Height * i), WinLeft + WinWidth, WinTop + imageLibraryFrameHeight2.Height + (imageLibraryFrameHeight3.Height * (i + 1)));
                             if (OnDrawItem != null)
                             {
                                 OnDrawItem(this);
@@ -570,7 +570,7 @@ public partial class Menu : GenericWindow
                                 var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                                 m.SetWinLeft(WinLeft + WinWidth - imageLibraryFrame.Width);
                                 var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                                m.SetWinTop(WinTop + imageLibraryFrameHeight.Height + _itemHeight * Highlighted);
+                                m.SetWinTop(WinTop + imageLibraryFrameHeight.Height + (_itemHeight * Highlighted));
                                 m.SetVisible(true);
                                 show = true;
                                 Redraw = true;
@@ -742,7 +742,7 @@ public partial class Menu : GenericWindow
                 _showDelay = 0;
                 if (oldHighlighted > -1 && SubMenus.Count > oldHighlighted)
                 {
-                    (SubMenus[oldHighlighted]).SetVisible(false);
+                    SubMenus[oldHighlighted].SetVisible(false);
                 }
 
                 Drawn = false;
@@ -788,10 +788,7 @@ public partial class Menu : GenericWindow
     }
 
     // AOWMenu.pas:196
-    public override void DetachMenuBar()
-    {
-        _ownerMenuBar = null;
-    }
+    public override void DetachMenuBar() => _ownerMenuBar = null;
 
     // AOWMenu.pas:271
     // { SetMenu moves the menu from the submenu list of its old owner menu to the list of the new one,
@@ -913,10 +910,7 @@ public partial class Menu : GenericWindow
     }
 
     // AOWMenu.pas:191
-    public void DetachMenu()
-    {
-        _ownerMenu = null;
-    }
+    public void DetachMenu() => _ownerMenu = null;
 
     // AOWMenu.pas:369
     public void SetImageLibraryTsIndex(int value)

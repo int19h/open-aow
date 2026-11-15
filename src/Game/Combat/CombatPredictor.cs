@@ -94,9 +94,9 @@ public partial class CombatPredictor : IDisposable
     {
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            if ((_allUnits.List[i]).Enabled == 0)
+            if (_allUnits.List[i].Enabled == 0)
             {
-                (_allUnits.List[i]).Enabled = 1;
+                _allUnits.List[i].Enabled = 1;
                 Invalid = 1;
             }
         }
@@ -120,7 +120,7 @@ public partial class CombatPredictor : IDisposable
         _round = 0;
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            (_allUnits.List[i]).ResetCombat();
+            _allUnits.List[i].ResetCombat();
         }
     }
 
@@ -133,7 +133,7 @@ public partial class CombatPredictor : IDisposable
         {
             for (int i = Sides[1].Count - 1; i >= 0; i--)
             {
-                (Sides[1].List[i]).InvalidateTargets();
+                Sides[1].List[i].InvalidateTargets();
             }
 
             Sides[0].UnitRemovedFlags[0] = 0;
@@ -143,7 +143,7 @@ public partial class CombatPredictor : IDisposable
         {
             for (int i = Sides[0].Count - 1; i >= 0; i--)
             {
-                (Sides[0].List[i]).InvalidateTargets();
+                Sides[0].List[i].InvalidateTargets();
             }
 
             Sides[1].UnitRemovedFlags[0] = 0;
@@ -151,17 +151,17 @@ public partial class CombatPredictor : IDisposable
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            (_allUnits.List[i]).ResetRoundTargets();
+            _allUnits.List[i].ResetRoundTargets();
         }
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            (_allUnits.List[i]).SetupRoundTargets(wallPhase);
+            _allUnits.List[i].SetupRoundTargets(wallPhase);
         }
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            (_allUnits.List[i]).UpdateRoundTargetPriority();
+            _allUnits.List[i].UpdateRoundTargetPriority();
         }
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
@@ -400,10 +400,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:504
-    public void AddUnit(Troop troop)
-    {
-        AddUnit(troop, 0, 0);
-    }
+    public void AddUnit(Troop troop) => AddUnit(troop, 0, 0);
 
     // CombatPredictor.pas:507
     public void AddUnits(UnitCollection units)
@@ -415,10 +412,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:514
-    public void AddOpponent(Troop troop, byte behindWall)
-    {
-        AddUnit(troop, 1, behindWall);
-    }
+    public void AddOpponent(Troop troop, byte behindWall) => AddUnit(troop, 1, behindWall);
 
     // CombatPredictor.pas:517
     public void AddOpponents(UnitList units, byte behindWall)
@@ -804,7 +798,7 @@ public partial class CombatPredictor : IDisposable
             maximum = list.Count;
             if (superiority != 0 && GetSuperiority() != 0)
             {
-                budget = Round((double)((double)((double)100 / superiority) - (double)100 / GetSuperiority()) * (total * 0.65));
+                budget = Round((double)((double)((double)100 / superiority) - ((double)100 / GetSuperiority())) * (total * 0.65));
                 count = list.Count;
                 while (count > 1 && budget > 0)
                 {
@@ -937,16 +931,10 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:988
-    public void ListRequiredUnits(UnitUserList required, int superiority)
-    {
-        ListRequiredUnits(required, null, null, superiority);
-    }
+    public void ListRequiredUnits(UnitUserList required, int superiority) => ListRequiredUnits(required, null, null, superiority);
 
     // CombatPredictor.pas:991
-    public void ListOptionalUnits(UnitUserList optional, int superiority)
-    {
-        ListRequiredUnits(null, optional, null, superiority);
-    }
+    public void ListOptionalUnits(UnitUserList optional, int superiority) => ListRequiredUnits(null, optional, null, superiority);
 
     // CombatPredictor.pas:994
     public void ListUselessUnits(UnitList useless)
@@ -1032,10 +1020,7 @@ public partial class CombatPredictor : IDisposable
         return result;
     }
 
-    private static int CompareRequiredUnits(in DoubleItem<CombatPredictorUnit> A, in DoubleItem<CombatPredictorUnit> B)
-    {
-        return B.Second - A.Second;
-    }
+    private static int CompareRequiredUnits(in DoubleItem<CombatPredictorUnit> A, in DoubleItem<CombatPredictorUnit> B) => B.Second - A.Second;
 
     // intf_P3_01.inc:92
 

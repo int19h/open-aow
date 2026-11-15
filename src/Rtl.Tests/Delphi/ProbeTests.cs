@@ -129,10 +129,10 @@ public sealed class ProbeTests(ITestOutputHelper output)
             probe.Fact($"int_half_index_{i}_scale_1048576", Trunc(Int(x) * 1048576));
             probe.Fact($"frac_half_index_{i}_scale_1048576", Trunc(Frac(x) * 1048576));
         }
-        probe.Fact("round_below_pos_half", Round(2.5 - 1.0 / 1048576));
-        probe.Fact("round_above_pos_half", Round(2.5 + 1.0 / 1048576));
-        probe.Fact("round_below_neg_half", Round(-2.5 - 1.0 / 1048576));
-        probe.Fact("round_above_neg_half", Round(-2.5 + 1.0 / 1048576));
+        probe.Fact("round_below_pos_half", Round(2.5 - (1.0 / 1048576)));
+        probe.Fact("round_above_pos_half", Round(2.5 + (1.0 / 1048576)));
+        probe.Fact("round_below_neg_half", Round(-2.5 - (1.0 / 1048576)));
+        probe.Fact("round_above_neg_half", Round(-2.5 + (1.0 / 1048576)));
         for (int i = -3; i <= 3; i++)
         {
             double x = i / 4.0;
@@ -157,7 +157,10 @@ public sealed class ProbeTests(ITestOutputHelper output)
         foreach (var (label, index, count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-2,2),
             ("past_end",5,1), ("zero_count",1,0), ("negative_count",1,-1) })
+        {
             Bytes("copy_" + label, Copy(s, index, count));
+        }
+
         Bytes("copy_empty", Copy("", 1, 4));
         foreach (var (label, index, count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-1,2),
@@ -260,7 +263,11 @@ public sealed class ProbeTests(ITestOutputHelper output)
         probe.Fact("cross_low_mask", (ushort)cross.With(7).Image);
         probe.Fact("cross_high_mask", (ushort)cross.With(8).Image);
         var full = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
-        for (int i = 0; i <= 255; i++) probe.Fact($"full_member_{i}", Ord(full.Contains((byte)i)));
+        for (int i = 0; i <= 255; i++)
+        {
+            probe.Fact($"full_member_{i}", Ord(full.Contains((byte)i)));
+        }
+
         probe.End();
     }
 

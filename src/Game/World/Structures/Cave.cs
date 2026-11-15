@@ -22,10 +22,7 @@ namespace Aow.Game.World.Structures;
 // Entrance
 public partial class Cave : Structure
 {
-    public Cave(CustomNode owner) : base(owner)
-    {
-        Entrance = CaveEntrance.Down;
-    }
+    public Cave(CustomNode owner) : base(owner) => Entrance = CaveEntrance.Down;
 
     // Cave.pas:160
     public new const int ClassId = 131966;
@@ -106,7 +103,7 @@ public partial class Cave : Structure
             }
 
             // { Original dereferences the destination even for an idle entrance. }
-            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + 16 * field.TerrainType + field.OverlayType));
+            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + (16 * field.TerrainType) + field.OverlayType));
         }
     }
 
@@ -135,11 +132,9 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:204
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
-    {
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) =>
         // { Original permits an upward cave on level zero; there is no lower-bound test. }
-        return base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (hexLevel + 1 < mapContainer.LevelCount || Entrance == CaveEntrance.Up);
-    }
+        base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (hexLevel + 1 < mapContainer.LevelCount || Entrance == CaveEntrance.Up);
 
     // Cave.pas:211
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)

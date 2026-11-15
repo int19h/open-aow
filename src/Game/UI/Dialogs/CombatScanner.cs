@@ -23,8 +23,8 @@ public partial class CombatScanner : UIModule
         {
             Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
-            Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6);
-            Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6);
+            Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6);
+            Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6);
         }
     }
 

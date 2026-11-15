@@ -22,7 +22,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         var dialog = _host.Dialog;
         dialog.PlayerScrollBar.Position = 0;
         dialog.EmailAddresses.Clear();
-        for (int i = 0; i < 6; i++) dialog.EmailAddresses.Add("");
+        for (int i = 0; i < 6; i++)
+        {
+            dialog.EmailAddresses.Add("");
+        }
 
         dialog.EmailAddressEdit1.Text = "one@a";
         Change(dialog.EmailAddressEdit1);
@@ -150,7 +153,11 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         {
             FileDialogWindow.Directories = previousDirectories;
             dialog?.Dispose();
-            if (muted) system!.SetSfxEnabled(true);
+            if (muted)
+            {
+                system!.SetSfxEnabled(true);
+            }
+
             ImageLibraries.BaseImageLibraryPath = previousImagePath;
         }
     }

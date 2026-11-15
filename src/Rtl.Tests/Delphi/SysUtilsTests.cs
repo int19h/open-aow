@@ -21,7 +21,11 @@ public sealed class SysUtilsTests
         }
         // SYSUTILS.PAS:3719 ignores integer precision outside 0..15.
         Assert.Equal("000000000000001", IntToHex(1, 15));
-        foreach (int width in new[] { int.MinValue, -1, 0, 16, 32, int.MaxValue }) Assert.Equal("1", IntToHex(1, width));
+        foreach (int width in new[] { int.MinValue, -1, 0, 16, 32, int.MaxValue })
+        {
+            Assert.Equal("1", IntToHex(1, width));
+        }
+
         Assert.Equal("80000000", IntToHex(int.MinValue, 1));
         Assert.Equal("000", StringOfChar((byte)'0', 3));
         Assert.Equal("", StringOfChar(255, -1));
@@ -68,7 +72,11 @@ public sealed class SysUtilsTests
     public void FormatCoversAllTaggedKindsAndSourceParserEdges()
     {
         // SYSUTILS.PAS:3498 FormatBuf, checked with DCC32 shim-edges.pas.
-        foreach (string text in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*" }) Assert.Equal("", Format(text));
+        foreach (string text in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*" })
+        {
+            Assert.Equal("", Format(text));
+        }
+
         Assert.Equal("abc", Format("abc%"));
         Assert.Equal("7", Format("%.16d", 7));
         Assert.Equal("000000000000007", Format("%.15d", 7));
@@ -85,8 +93,16 @@ public sealed class SysUtilsTests
         Assert.Equal("1", Format("%*d", "x", 1));
         Assert.Equal("abcdef", Format("%0:1:s", 7, "abcdef"));
         Assert.Equal("abc", Format("%:s", "abc"));
-        foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<FormatException>(() => Format(kind, 1.25));
-        foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Assert.Throws<FormatException>(() => Format("%s", argument));
+        foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" })
+        {
+            Assert.Throws<FormatException>(() => Format(kind, 1.25));
+        }
+
+        foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) })
+        {
+            Assert.Throws<FormatException>(() => Format("%s", argument));
+        }
+
         Assert.Throws<FormatException>(() => Format("%p", 1));
         Assert.Throws<FormatException>(() => Format("%d", (byte)'a'));
         Assert.Throws<FormatException>(() => Format("%0:1:d", 7, "abcdef"));
@@ -138,7 +154,10 @@ public sealed class SysUtilsTests
             Assert.Equal((12, 34, 56, 789), (hourWord, minuteWord, secondWord, millisecondsWord));
             Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
             Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
-            foreach (var (h, m, s, milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) }) Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
+            foreach (var (h, m, s, milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) })
+            {
+                Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
+            }
         }
         finally { Clock = saved; }
         var system = new SystemClock();

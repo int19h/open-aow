@@ -22,10 +22,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
 
     void IOwnedSink<EventLogList>.SetOwner(EventLogList owner) => SetOwner(owner);
 
-    public EventLog(CustomNode owner) : base(owner)
-    {
-        RefCount = 1;
-    }
+    public EventLog(CustomNode owner) : base(owner) => RefCount = 1;
 
     public int Day { get; set; } = StrategicMap.Current is { } map ? map.Day : 0;
     public int Id { get; set; }
@@ -140,10 +137,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // EventLog.pas:444
-    public virtual void PlayLoggedSfx(EventLogbook logbook)
-    {
-        AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
-    }
+    public virtual void PlayLoggedSfx(EventLogbook logbook) => AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
 
     // EventLog.pas:449
     public virtual void NotifyLogged(EventLogbook logbook)

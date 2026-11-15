@@ -44,13 +44,19 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
             {
                 var count = StrategicMap.Current.Players.Count;
                 if (!(_nextPlayer < count && !Control.Player.GetBusy()))
+                {
                     break;
+                }
+
                 _nextPlayer = (sbyte)(_nextPlayer + 1);
                 while (true)
                 {
                     var fPlayersCount = StrategicMap.Current.Players.Count;
                     if (!(_nextPlayer < fPlayersCount && (Control.Player.GetFirstDaySeen((sbyte)(byte)_nextPlayer) == -1 || Control.Player.PlayerIndex == _nextPlayer)))
+                    {
                         break;
+                    }
+
                     _nextPlayer = (sbyte)(_nextPlayer + 1);
                 }
 

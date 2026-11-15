@@ -22,7 +22,11 @@ public static class Cfs
             int read;
             while ((read = z.Read(buffer, 0, buffer.Length)) > 0)
             {
-                if (output.Length + read > limit) throw fail($"The inflated payload exceeds {limit} bytes.");
+                if (output.Length + read > limit)
+                {
+                    throw fail($"The inflated payload exceeds {limit} bytes.");
+                }
+
                 output.Write(buffer, 0, read);
             }
         }
@@ -40,7 +44,11 @@ public static class Cfs
         using var z = new ZLibStream(input, CompressionMode.Decompress);
         var buffer = new byte[count];
         int total = 0, read;
-        while (total < count && (read = z.Read(buffer, total, count - total)) > 0) total += read;
+        while (total < count && (read = z.Read(buffer, total, count - total)) > 0)
+        {
+            total += read;
+        }
+
         return buffer[..total];
     }
 
@@ -53,7 +61,10 @@ public static class Cfs
             3 => CompressionLevel.SmallestSize,
             _ => CompressionLevel.Optimal,
         }, true))
+        {
             z.Write(payload);
+        }
+
         return output.ToArray();
     }
 
@@ -80,7 +91,11 @@ public static class Crc32
         for (uint i = 0; i < 256; i++)
         {
             uint c = i;
-            for (int k = 0; k < 8; k++) c = (c & 1) != 0 ? 0xEDB88320u ^ (c >> 1) : c >> 1;
+            for (int k = 0; k < 8; k++)
+            {
+                c = (c & 1) != 0 ? 0xEDB88320u ^ (c >> 1) : c >> 1;
+            }
+
             table[i] = c;
         }
         return table;
@@ -89,7 +104,11 @@ public static class Crc32
     public static uint Compute(ReadOnlySpan<byte> data)
     {
         uint crc = 0xFFFFFFFFu;
-        foreach (byte b in data) crc = s_table[(b ^ crc) & 0xFF] ^ (crc >> 8);
+        foreach (byte b in data)
+        {
+            crc = s_table[(b ^ crc) & 0xFF] ^ (crc >> 8);
+        }
+
         return crc ^ 0xFFFFFFFFu;
     }
 }

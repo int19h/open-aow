@@ -43,10 +43,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
     }
 
     // GlobalSpells.pas:552
-    public WarpPartyTokenEvent(CustomNode owner) : base(owner)
-    {
-        ArmyId = null;
-    }
+    public WarpPartyTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalSpells.pas:576
     public override bool Validate(Hero source)

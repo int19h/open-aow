@@ -84,10 +84,7 @@ public partial class PowerDialog : UIModule
     }
 
     // AoWPowerDlg.pas:67
-    public void PowerSliderChange()
-    {
-        UpdatePower();
-    }
+    public void PowerSliderChange() => UpdatePower();
 
     // AoWPowerDlg.pas:108
     public void SetBtnClick()
@@ -139,11 +136,11 @@ public partial class PowerDialog : UIModule
         if (turns == 1)
         {
             string s = engine.TranslateResourceString(s_turnFormat);
-            FormatArg value = (FormatArg)((byte)49);
+            FormatArg value = (FormatArg)(byte)49;
             return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
         }
         string s2 = engine.TranslateResourceString(GameText.TurnsFormat);
-        FormatArg value2 = (FormatArg)(IntToStr(turns));
+        FormatArg value2 = (FormatArg)IntToStr(turns);
         return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
     }
 }

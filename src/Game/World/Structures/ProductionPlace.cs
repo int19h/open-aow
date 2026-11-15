@@ -144,10 +144,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:698
-    public override void Select()
-    {
-        base.Select();
-    }
+    public override void Select() => base.Select();
 
     // PrdPlace.pas:391
     public override void SetRazed(bool value)
@@ -264,7 +261,7 @@ public partial class ProductionPlace : PlayerStructure
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                             {
                                 var player = StrategicMap.Current.Players.GetPlayers(info.Player);
-                                data.Priority = 50 + player.Income / 2;
+                                data.Priority = 50 + (player.Income / 2);
                                 if (data.Priority < 25)
                                 {
                                     data.Priority = 25;
@@ -400,7 +397,7 @@ public partial class ProductionPlace : PlayerStructure
             result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
             if (result != 0)
             {
-                result = result * 5 + 10;
+                result = (result * 5) + 10;
             }
             else
             {
@@ -448,7 +445,7 @@ public partial class ProductionPlace : PlayerStructure
                 _defenderLevel = (byte)(StrategicMap.Current.Random(3) + 1);
             }
 
-            budget = (_defenderLevel - 2) * 25 + 25;
+            budget = ((_defenderLevel - 2) * 25) + 25;
             armyHexSprite = Owner.GetArmyHexSprite();
             if (armyHexSprite != null)
             {
@@ -511,7 +508,7 @@ public partial class ProductionPlace : PlayerStructure
             {
                 names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.BaseIncomeText));
                 values.Add(IntToStr(GetBaseIncome()));
-                if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0)
+                if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0))
                 {
                     names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
                     values.Add(IntToStr(Round(GetBaseIncome() * 0.25)));

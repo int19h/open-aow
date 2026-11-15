@@ -19,20 +19,56 @@ public sealed class EnumTypeInfo
     internal static (int Width, bool Signed) Layout(Type type)
     {
         var under = Enum.GetUnderlyingType(type);
-        if (under == typeof(byte)) return (1, false);
-        if (under == typeof(sbyte)) return (1, true);
-        if (under == typeof(ushort)) return (2, false);
-        if (under == typeof(short)) return (2, true);
-        if (under == typeof(uint)) return (4, false);
-        if (under == typeof(int)) return (4, true);
-        if (under == typeof(ulong)) return (8, false);
-        if (under == typeof(long)) return (8, true);
+        if (under == typeof(byte))
+        {
+            return (1, false);
+        }
+
+        if (under == typeof(sbyte))
+        {
+            return (1, true);
+        }
+
+        if (under == typeof(ushort))
+        {
+            return (2, false);
+        }
+
+        if (under == typeof(short))
+        {
+            return (2, true);
+        }
+
+        if (under == typeof(uint))
+        {
+            return (4, false);
+        }
+
+        if (under == typeof(int))
+        {
+            return (4, true);
+        }
+
+        if (under == typeof(ulong))
+        {
+            return (8, false);
+        }
+
+        if (under == typeof(long))
+        {
+            return (8, true);
+        }
+
         throw new InvalidOperationException("Enum " + type.Name + " has an unsupported underlying type.");
     }
 
     internal static EnumTypeInfo Describe(Type type)
     {
-        if (!type.IsEnum) throw new InvalidOperationException(type.Name + " is not an enum.");
+        if (!type.IsEnum)
+        {
+            throw new InvalidOperationException(type.Name + " is not an enum.");
+        }
+
         var (width, signed) = Layout(type);
         var byName = new Dictionary<string, long>();
         var byValue = new Dictionary<long, string>();
@@ -55,8 +91,16 @@ public sealed class EnumTypeInfo
 
     internal bool TryNumber(string text, out long number)
     {
-        if (ByName.TryGetValue(text, out number)) return true;
-        if (!NameTable.TryMember(Color, text, out var member)) return false;
+        if (ByName.TryGetValue(text, out number))
+        {
+            return true;
+        }
+
+        if (!NameTable.TryMember(Color, text, out var member))
+        {
+            return false;
+        }
+
         return ByName.TryGetValue(member, out number);
     }
 

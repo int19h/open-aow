@@ -841,8 +841,8 @@ public partial class CityScreen : UIModule
         {
             var mapObjectHexY = mapObject.GetHexY();
             HexGeometry.HexToPixel(mapObject.GetHexX(), mapObjectHexY, out _viewX, out _viewY);
-            _viewX = _viewX + 16 - MapView.WinWidth / 2;
-            _viewY = _viewY + 16 - MapView.WinHeight / 2;
+            _viewX = _viewX + 16 - (MapView.WinWidth / 2);
+            _viewY = _viewY + 16 - (MapView.WinHeight / 2);
         }
         else
         {
@@ -856,16 +856,10 @@ public partial class CityScreen : UIModule
     }
 
     // AoWCityScreen.pas:292
-    public void CityScreenCreate()
-    {
-        _images = new Int32List();
-    }
+    public void CityScreenCreate() => _images = new Int32List();
 
     // AoWCityScreen.pas:297
-    public void CityScreenDestroy()
-    {
-        _images?.Dispose();
-    }
+    public void CityScreenDestroy() => _images?.Dispose();
 
     // AoWCityScreen.pas:302
     public void ActivityChange(CheckBox sender, int slot)
@@ -1375,10 +1369,7 @@ public partial class CityScreen : UIModule
     }
 
     // AoWCityScreen.pas:626
-    public void LoopQueueBoxChange()
-    {
-        _city.Production.SetLoopQueueTo(LoopQueueCheckBox.Checked);
-    }
+    public void LoopQueueBoxChange() => _city.Production.SetLoopQueueTo(LoopQueueCheckBox.Checked);
 
     // AoWCityScreen.pas:631
     public void RacePortraitDraw(Image sender, LockedSurface lockedSurface)
@@ -1476,10 +1467,7 @@ public partial class CityScreen : UIModule
     }
 
     // AoWCityScreen.pas:688
-    public void DlgHide()
-    {
-        CloseCity();
-    }
+    public void DlgHide() => CloseCity();
 
     // AoWCityScreen.pas:693
     public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)

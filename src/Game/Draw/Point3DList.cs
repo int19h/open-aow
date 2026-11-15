@@ -11,10 +11,7 @@ public partial class Point3DList : IDisposable
     private readonly List<Point3D> _list;
 
     // aowFX.pas:93
-    public Point3DList()
-    {
-        _list = new List<Point3D>();
-    }
+    public Point3DList() => _list = new List<Point3D>();
 
     // aowFX.pas:98
     public virtual void Dispose()
@@ -39,16 +36,10 @@ public partial class Point3DList : IDisposable
     }
 
     // aowFX.pas:117
-    public void Add(Point3D xYZ)
-    {
-        _list.Add(xYZ);
-    }
+    public void Add(Point3D xYZ) => _list.Add(xYZ);
 
     // aowFX.pas:122
-    public void Delete(int index)
-    {
-        _list.RemoveAt(index);
-    }
+    public void Delete(int index) => _list.RemoveAt(index);
 
     // aowFX.pas:128
     public Point3D GetXYZ(int index)
@@ -69,9 +60,9 @@ public partial class Point3DList : IDisposable
     // aowFX.pas:136
     public int GetCount() => _list.Count;
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
-    public Point3D this[int index] { get => GetXYZ(index); }
+    public Point3D this[int index] => GetXYZ(index);
 
     internal static void ScatterPath(ref Point3DList list)
     {

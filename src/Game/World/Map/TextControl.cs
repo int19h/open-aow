@@ -67,10 +67,7 @@ public partial class TextControl : OwningNode, IChildList<TextControlItem>
     }
 
     // Structur.PAS:4458
-    public void Sort()
-    {
-        SortChildrenStable<TextControlItem>(CompareTextControlItems);
-    }
+    public void Sort() => SortChildrenStable<TextControlItem>(CompareTextControlItems);
 
     // Structur.PAS:4463
     public int IndexOf(TextControlItem item) => FindChildIndex(item);

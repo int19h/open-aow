@@ -28,7 +28,13 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
     {
         var objectValue = (EngineObject)child;
         objectValue.SetOwnerWithoutNotify(null);
-        if (KeepIndex) objectValue.SetArrayOwner(node, slot);
-        else objectValue.SetOwner(node);
+        if (KeepIndex)
+        {
+            objectValue.SetArrayOwner(node, slot);
+        }
+        else
+        {
+            objectValue.SetOwner(node);
+        }
     }
 }

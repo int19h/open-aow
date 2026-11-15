@@ -13,7 +13,10 @@ public partial class MapLevel
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < Width && walk.Y < Height)
+            {
                 yield return GetField(walk.X, walk.Y);
+            }
+
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
@@ -24,7 +27,11 @@ public partial class MapLevel
         foreach (var field in Area(x, y, radius))
         {
             byte count = field.FogCount;
-            if (count == 1) result = true;
+            if (count == 1)
+            {
+                result = true;
+            }
+
             field.SetFogCount((byte)(count - 1));
         }
         return result;
@@ -36,7 +43,11 @@ public partial class MapLevel
         foreach (var field in Area(x, y, radius))
         {
             byte count = field.FogCount;
-            if (count == 0) result = true;
+            if (count == 0)
+            {
+                result = true;
+            }
+
             field.SetFogCount((byte)(count + 1));
         }
         return result;
@@ -44,10 +55,18 @@ public partial class MapLevel
 
     private bool Explore(MapField field, sbyte player)
     {
-        if (field.GetExplored(player)) return false;
+        if (field.GetExplored(player))
+        {
+            return false;
+        }
+
         field.SetExplored(player, true);
         var map = Map;
-        if (map.ExplorationEnabled && map.SeatedPlayer == player) Map.InvalidateStaticScene(field.HexX, field.HexY, HexLevel);
+        if (map.ExplorationEnabled && map.SeatedPlayer == player)
+        {
+            Map.InvalidateStaticScene(field.HexX, field.HexY, HexLevel);
+        }
+
         return true;
     }
 
@@ -58,9 +77,16 @@ public partial class MapLevel
         foreach (var field in Area(x, y, radius))
         {
             byte count = field.FogCount;
-            if (count == 0) result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+            if (count == 0)
+            {
+                result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+            }
+
             field.SetFogCount((byte)(count + 1));
-            if (Explore(field, player)) result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Exploration);
+            if (Explore(field, player))
+            {
+                result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Exploration);
+            }
         }
         return result;
     }
@@ -68,13 +94,35 @@ public partial class MapLevel
     public bool ExploreArea(int x, int y, sbyte player, int radius)
     {
         bool result = false;
-        foreach (var field in Area(x, y, radius)) result |= Explore(field, player);
+        foreach (var field in Area(x, y, radius))
+        {
+            result |= Explore(field, player);
+        }
+
         return result;
     }
 
-    public void ResetFog() { for (int i = 0; i < Count; i++) ((MapField)GetChild(i)).SetFogCount(0); }
+    public void ResetFog()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            ((MapField)GetChild(i)).SetFogCount(0);
+        }
+    }
 
-    public void ResetUnFog() { for (int i = 0; i < Count; i++) ((MapField)GetChild(i)).SetFogCount(1); }
+    public void ResetUnFog()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            ((MapField)GetChild(i)).SetFogCount(1);
+        }
+    }
 
-    public void Reset() { for (int i = 0; i < Count; i++) ((MapField)GetChild(i)).FieldFlags = 0; }
+    public void Reset()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            ((MapField)GetChild(i)).FieldFlags = 0;
+        }
+    }
 }

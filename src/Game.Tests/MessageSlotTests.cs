@@ -37,7 +37,11 @@ public sealed class MessageSlotTests
     {
         var field = new MapField(null!) { Holder = EngineFixture.Engine };
         var handlers = procs.Select(p => new Handler(p)).ToArray();
-        foreach (var handler in handlers) field.AddHexSprite(handler, 0);
+        foreach (var handler in handlers)
+        {
+            field.AddHexSprite(handler, 0);
+        }
+
         return (field, handlers);
     }
 
@@ -132,8 +136,14 @@ public sealed class MessageSlotTests
         int distance = -1;
         var (field, _) = Field((ref m) =>
         {
-            if (m.MessageId == 0x1102) placed = m.Param[0].As<ArmyHexSprite>();
-            else if (m.MessageId == 0x110a) distance = m.Param[0].Int;
+            if (m.MessageId == 0x1102)
+            {
+                placed = m.Param[0].As<ArmyHexSprite>();
+            }
+            else if (m.MessageId == 0x110a)
+            {
+                distance = m.Param[0].Int;
+            }
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1102;
@@ -207,7 +217,10 @@ public sealed class MessageSlotTests
                 info.Player = 7;
                 m.Param[2].As<StormDamageQuery>()!.Info = info;
             }
-            else if (m.MessageId == 0x1150) player = (sbyte)m.Param[2].Int;
+            else if (m.MessageId == 0x1150)
+            {
+                player = (sbyte)m.Param[2].Int;
+            }
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1151;
@@ -234,8 +247,14 @@ public sealed class MessageSlotTests
         var control = new ProductionControl(null!) { Holder = EngineFixture.Engine };
         var (field, handlers) = Field((ref m) =>
         {
-            if (m.MessageId == 0x1201) m.Result = control;
-            else if (m.MessageId == 0x1100) m.Result = 2;
+            if (m.MessageId == 0x1201)
+            {
+                m.Result = control;
+            }
+            else if (m.MessageId == 0x1100)
+            {
+                m.Result = 2;
+            }
         }, None);
         MapFieldMessage message = default;
         message.MessageId = 0x1201;
@@ -261,16 +280,26 @@ public sealed class MessageSlotTests
         Type[] message = [typeof(EngineMessage), typeof(MapFieldMessage), typeof(EngineMessageParameters), typeof(MapFieldMessageParameters), typeof(MsgArg)];
         var found = new List<string>();
         foreach (var type in typeof(EngineMessage).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
+        {
             foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             {
                 if (!method.Name.StartsWith("rw", StringComparison.Ordinal) && !method.Name.StartsWith("Read", StringComparison.Ordinal)
-                    && !method.Name.StartsWith("Write", StringComparison.Ordinal)) continue;
+                    && !method.Name.StartsWith("Write", StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
                 foreach (var parameter in method.GetParameters())
                 {
                     var parameterType = parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType()! : parameter.ParameterType;
-                    if (message.Contains(parameterType)) found.Add($"{type.FullName}.{method.Name}({parameter.Name})");
+                    if (message.Contains(parameterType))
+                    {
+                        found.Add($"{type.FullName}.{method.Name}({parameter.Name})");
+                    }
                 }
             }
+        }
+
         Assert.Empty(found);
     }
 }

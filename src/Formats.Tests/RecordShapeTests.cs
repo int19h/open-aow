@@ -451,7 +451,11 @@ public sealed class RecordShapeTests : FormatsTest
     private static JsonObject Bits(int count, params int[] indices)
     {
         var array = new JsonArray();
-        foreach (var index in indices) array.Add(new JsonInteger(index));
+        foreach (var index in indices)
+        {
+            array.Add(new JsonInteger(index));
+        }
+
         return new JsonObject().Add("AbCount", new JsonInteger(count)).Add("Bits", array);
     }
 
@@ -467,9 +471,18 @@ public sealed class RecordShapeTests : FormatsTest
         var items = new List<object>(array.Items.Count);
         foreach (var item in array.Items)
         {
-            if (item is JsonString text) items.Add(text.Value);
-            else if (item is JsonInteger number) items.Add(number.Value);
-            else items.Add(item.KindName);
+            if (item is JsonString text)
+            {
+                items.Add(text.Value);
+            }
+            else if (item is JsonInteger number)
+            {
+                items.Add(number.Value);
+            }
+            else
+            {
+                items.Add(item.KindName);
+            }
         }
         return items;
     }

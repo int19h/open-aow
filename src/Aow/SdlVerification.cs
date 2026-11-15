@@ -17,13 +17,21 @@ internal static unsafe class SdlVerification
             using var display = new SdlDisplayHost("OpenAoW verification", hidden: true);
             display.VSync = true;
             display.VSync = false;
-            if (display.VSync) throw new InvalidOperationException("Vsync stayed on.");
+            if (display.VSync)
+            {
+                throw new InvalidOperationException("Vsync stayed on.");
+            }
+
             var sink = new Sink();
             display.PumpEvents(sink);
             sink.Reset();
             int count;
             var windows = SDL_GetWindows(&count);
-            if (count != 1) throw new InvalidOperationException("Expected one SDL window.");
+            if (count != 1)
+            {
+                throw new InvalidOperationException("Expected one SDL window.");
+            }
+
             var id = SDL_GetWindowID(windows[0]);
             SDL_free(windows);
             var surface = new LockedSurface { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatId = PixelFormats.pfRGB555, Data = new byte[68 * 24] };
@@ -43,20 +51,35 @@ internal static unsafe class SdlVerification
             Push(new SDL_Event { window = new SDL_WindowEvent { type = SDL_EventType.SDL_EVENT_WINDOW_FOCUS_LOST, windowID = id } });
             Push(new SDL_Event { window = new SDL_WindowEvent { type = SDL_EventType.SDL_EVENT_WINDOW_FOCUS_GAINED, windowID = id } });
             display.PumpEvents(sink);
-            if (sink.Keys != 2 || sink.KeyUps != 1 || sink.FocusChanges != 2) throw new InvalidOperationException("SDL event translation failed.");
+            if (sink.Keys != 2 || sink.KeyUps != 1 || sink.FocusChanges != 2)
+            {
+                throw new InvalidOperationException("SDL event translation failed.");
+            }
+
             Verification.QueueClose();
             display.PumpEvents(sink);
-            if (display.IsClosed || sink.CloseQueries != 1) throw new InvalidOperationException("Close refusal failed.");
+            if (display.IsClosed || sink.CloseQueries != 1)
+            {
+                throw new InvalidOperationException("Close refusal failed.");
+            }
+
             sink.AllowClose = true;
             Push(new SDL_Event { window = new SDL_WindowEvent { type = SDL_EventType.SDL_EVENT_WINDOW_CLOSE_REQUESTED, windowID = id } });
             display.PumpEvents(sink);
-            if (!display.IsClosed || sink.CloseQueries != 2) throw new InvalidOperationException("Close acceptance failed.");
+            if (!display.IsClosed || sink.CloseQueries != 2)
+            {
+                throw new InvalidOperationException("Close acceptance failed.");
+            }
+
             bool rejected = Task.Run(() =>
             {
                 try { _ = display.ClientSize; return false; }
                 catch (InvalidOperationException) { return true; }
             }).GetAwaiter().GetResult();
-            if (!rejected) throw new InvalidOperationException("The display accepted a call from another thread.");
+            if (!rejected)
+            {
+                throw new InvalidOperationException("The display accepted a call from another thread.");
+            }
         }
         Console.WriteLine("SDL PASS: two window lifecycles, vsync switch, positive and negative pitch, texture resize, key repeat, focus, close refusal and acceptance, thread ownership");
         return 0;
@@ -64,7 +87,10 @@ internal static unsafe class SdlVerification
 
     private static void Push(SDL_Event ev)
     {
-        if (!SDL_PushEvent(&ev)) throw new InvalidOperationException(SDL_GetError());
+        if (!SDL_PushEvent(&ev))
+        {
+            throw new InvalidOperationException(SDL_GetError());
+        }
     }
 
     private sealed class Sink : IDisplayEvents
@@ -79,7 +105,11 @@ internal static unsafe class SdlVerification
 
         public void KeyDown(ushort key, Set<ShiftState> shift)
         {
-            if (key != 'A') throw new InvalidOperationException("Expected virtual key A.");
+            if (key != 'A')
+            {
+                throw new InvalidOperationException("Expected virtual key A.");
+            }
+
             Keys++;
         }
 

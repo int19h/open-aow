@@ -240,16 +240,10 @@ public partial class HexSpriteMapKeyboard : EngineObject
     }
 
     // AoWHSMap.PAS:928
-    public void Lock()
-    {
-        LockCount += 1;
-    }
+    public void Lock() => LockCount += 1;
 
     // AoWHSMap.PAS:933
-    public void Unlock()
-    {
-        LockCount -= 1;
-    }
+    public void Unlock() => LockCount -= 1;
 
     // AoWHSMap.PAS:938
     public void RunDefaultTest()

@@ -17,10 +17,7 @@ public partial class UnitResourceList : ResourceCollection, IChildList<UnitResou
     int IChildSink<UnitResource>.AddChild(UnitResource child) => AddChild(child);
 
     // UnitRes.PAS:206
-    public UnitResourceList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
-    }
+    public UnitResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // UnitRes.PAS:212
     public UnitResource GetUnitResource(int index)

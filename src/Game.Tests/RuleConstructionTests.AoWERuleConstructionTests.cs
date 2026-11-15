@@ -35,11 +35,15 @@ public sealed partial class RuleConstructionTests
         {
             base.AddChild(child);
             _observations.Add(Snapshot(child));
-            if (_reject) throw new InvalidOperationException("owner rejects after insertion");
+            if (_reject)
+            {
+                throw new InvalidOperationException("owner rejects after insertion");
+            }
+
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EngineObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
+        public override int RemoveChild(EngineObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
     private sealed class Fixture : IDisposable
@@ -78,27 +82,75 @@ public sealed partial class RuleConstructionTests
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
-            if (item is null) return null;
-            if (item is GameEngine) return "$engine";
+            if (item is null)
+            {
+                return null;
+            }
+
+            if (item is GameEngine)
+            {
+                return "$engine";
+            }
+
             Type type = item.GetType();
-            if (item is string text) return text;
-            if (type.IsEnum) return Convert.ToInt64(item);
-            if (type.IsPrimitive || item is string || item is decimal) return item;
-            if (item is Type represented) return represented.FullName;
-            if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            if (item is string text)
+            {
+                return text;
+            }
+
+            if (type.IsEnum)
+            {
+                return Convert.ToInt64(item);
+            }
+
+            if (type.IsPrimitive || item is string || item is decimal)
+            {
+                return item;
+            }
+
+            if (item is Type represented)
+            {
+                return represented.FullName;
+            }
+
+            if (item is Delegate handler)
+            {
+                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            }
+
             if (!type.IsValueType)
             {
-                if (visited.TryGetValue(item, out string? found)) return "$ref:" + found;
+                if (visited.TryGetValue(item, out string? found))
+                {
+                    return "$ref:" + found;
+                }
+
                 visited.Add(item, path);
             }
-            if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (InlineArrays.Elements(item) is { } elements) return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            if (item is Array array)
+            {
+                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (InlineArrays.Elements(item) is { } elements)
+            {
+                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (item is IList list)
+            {
+                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
+            {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor caches and the link to the engine are not constructor state
+                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    {
+                        continue; // the descriptor caches and the link to the engine are not constructor state
+                    }
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
                     if (item is AIPlayerActionClass actionClass && field.Name == "_priority")
                     {
@@ -110,6 +162,8 @@ public sealed partial class RuleConstructionTests
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
+            }
+
             return fields;
         }
         return JsonSerializer.Serialize(State(value, "$"));
@@ -118,15 +172,33 @@ public sealed partial class RuleConstructionTests
     private static void AssertPrivateArrayChildren(object value)
     {
         if (value is AbilityControl control)
-            for (int i = 0; i < 5; i++) Assert.Equal(0, control.AbilitiesByType[i].Count);
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.Equal(0, control.AbilitiesByType[i].Count);
+            }
+        }
+
         if (value is UnitResource resource)
+        {
             for (int i = 0; i < 3; i++)
             {
                 Assert.NotNull(resource.Abilities[i]);
-                if (i > 0) Assert.NotSame(resource.Abilities[0], resource.Abilities[i]);
+                if (i > 0)
+                {
+                    Assert.NotSame(resource.Abilities[0], resource.Abilities[i]);
+                }
             }
+        }
+
         if (value is UnitGraphicsResource graphics)
-            for (int i = 0; i < 5; i++) Assert.NotNull(graphics.SfxLibraries[i]);
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.NotNull(graphics.SfxLibraries[i]);
+            }
+        }
+
         if (value is CombatPredictor predictor)
         {
             Assert.NotNull(predictor.Sides[0]);
@@ -134,13 +206,26 @@ public sealed partial class RuleConstructionTests
             Assert.NotSame(predictor.Sides[0], predictor.Sides[1]);
         }
         if (value is SpellCastingAbility casting)
-            for (int i = 1; i <= 5; i++) Assert.Equal(20, casting.LevelCosts[i]);
-        if (value is LeadershipAbility leadership) Assert.Equal(10, leadership.LevelCosts[1]);
+        {
+            for (int i = 1; i <= 5; i++)
+            {
+                Assert.Equal(20, casting.LevelCosts[i]);
+            }
+        }
+
+        if (value is LeadershipAbility leadership)
+        {
+            Assert.Equal(10, leadership.LevelCosts[1]);
+        }
     }
 
     private static object Create(Type type, CustomNode owner, int route, Fixture fixture)
     {
-        if (route == 1) return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+        if (route == 1)
+        {
+            return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+        }
+
         if (route == 2)
         {
             using GameEngine engine = new GameEngine(null!);
@@ -168,7 +253,16 @@ public sealed partial class RuleConstructionTests
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!) { Holder = EngineFixture.Engine }
             : null).ToArray();
         try { return Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
-        finally { foreach (object? argument in arguments) if (argument is FastBattle or CombatSide) ((argument ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        finally
+        {
+            foreach (object? argument in arguments)
+            {
+                if (argument is FastBattle or CombatSide)
+                {
+                    ((argument ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+                }
+            }
+        }
     }
 
     private static object? Invoke(Func<object?> action)
@@ -189,9 +283,17 @@ public sealed partial class RuleConstructionTests
     private static Type TypeNamed(string name)
     {
         var matches = typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
-        if (matches.Length == 1) return matches[0];
+        if (matches.Length == 1)
+        {
+            return matches[0];
+        }
+
         var top = matches.Where(type => type.DeclaringType is null).ToArray();
-        if (top.Length == 1) return top[0];
+        if (top.Length == 1)
+        {
+            return top[0];
+        }
+
         throw new InvalidOperationException(name + " matches " + matches.Length.ToString(CultureInfo.InvariantCulture) + " types.");
     }
 
@@ -322,7 +424,11 @@ public sealed partial class RuleConstructionTests
             Assert.Same(given, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Equal(0, owner.Removals);
-            if (value is ArmyHexSprite army) Assert.NotNull(army.Army);
+            if (value is ArmyHexSprite army)
+            {
+                Assert.NotNull(army.Army);
+            }
+
             value.SetOwner(null!);
             value.Dispose();
             Assert.Empty(owner.Members);

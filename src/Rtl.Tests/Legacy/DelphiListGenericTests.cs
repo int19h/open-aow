@@ -28,8 +28,16 @@ public sealed class DelphiListGenericTests
             T pivot = items[(left + right) >> 1];
             do
             {
-                while (compare(items[i], pivot) < 0) i++;
-                while (compare(items[j], pivot) > 0) j--;
+                while (compare(items[i], pivot) < 0)
+                {
+                    i++;
+                }
+
+                while (compare(items[j], pivot) > 0)
+                {
+                    j--;
+                }
+
                 if (i <= j)
                 {
                     (items[i], items[j]) = (items[j], items[i]);
@@ -38,7 +46,11 @@ public sealed class DelphiListGenericTests
                 }
             }
             while (i <= j);
-            if (left < j) ReferenceQuickSort(items, left, j, compare);
+            if (left < j)
+            {
+                ReferenceQuickSort(items, left, j, compare);
+            }
+
             left = i;
         }
         while (i < right);
@@ -72,14 +84,22 @@ public sealed class DelphiListGenericTests
             {
                 Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new Keyed(i, pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }))];
                 var sorted = new DelphiList<Keyed>();
-                foreach (var key in keys) sorted.Add(key);
+                foreach (var key in keys)
+                {
+                    sorted.Add(key);
+                }
+
                 sorted.Sort((a, b) => a!.Key - b!.Key);
                 var expected = keys.ToArray();
                 ReferenceQuickSort(expected, left: 0, right: n - 1, (a, b) => a.Key - b.Key);
                 Assert.Equal(expected, sorted.List.Take(n));
 
                 var stable = new DelphiList<Keyed>();
-                foreach (var key in keys) stable.Add(key);
+                foreach (var key in keys)
+                {
+                    stable.Add(key);
+                }
+
                 stable.SortStable((a, b) => a!.Key - b!.Key);
                 Assert.Equal(keys.OrderBy(key => key.Key), stable.List.Take(n));
             }

@@ -20,13 +20,29 @@ public static partial class RtlUnit
         result = 0;
         int i = 0;
         char At(int n) => n < text.Length ? text[n] : '\0';
-        while (At(i) == ' ') i++;
+        while (At(i) == ' ')
+        {
+            i++;
+        }
+
         bool negative = At(i) == '-';
         bool signed = negative || At(i) == '+';
-        if (signed) i++;
+        if (signed)
+        {
+            i++;
+        }
+
         bool hex = At(i) == '$';
-        if (hex && signed) return false;
-        if (hex) i++;
+        if (hex && signed)
+        {
+            return false;
+        }
+
+        if (hex)
+        {
+            i++;
+        }
+
         int start = i;
         ulong number = 0;
         for (; At(i) != 0; i++)
@@ -34,13 +50,28 @@ public static partial class RtlUnit
             char c = UpCase(At(i));
             int digit = c is >= '0' and <= '9' ? c - '0' : c is >= 'A' and <= 'F' ? c - 'A' + 10 : -1;
             int radix = hex ? 16 : 10;
-            if (digit < 0 || digit >= radix) return false;
-            number = number * (uint)radix + (uint)digit;
-            if (number > (hex ? uint.MaxValue : int.MaxValue)) return false;
+            if (digit < 0 || digit >= radix)
+            {
+                return false;
+            }
+
+            number = (number * (uint)radix) + (uint)digit;
+            if (number > (hex ? uint.MaxValue : int.MaxValue))
+            {
+                return false;
+            }
         }
-        if (i == start) return false;
+        if (i == start)
+        {
+            return false;
+        }
+
         result = unchecked((int)(uint)number);
-        if (negative) result = unchecked(-result);
+        if (negative)
+        {
+            result = unchecked(-result);
+        }
+
         return true;
     }
 }

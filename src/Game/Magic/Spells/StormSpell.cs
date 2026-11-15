@@ -22,10 +22,7 @@ public partial class StormSpell : Spell
     private Troop _source;
 
     // Storms.pas:762
-    public StormSpell(CustomNode owner) : base(owner)
-    {
-        SpellType = SpellType.Global;
-    }
+    public StormSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;
 
     // Storms.pas:888
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
@@ -168,10 +165,7 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:156
-    public virtual Storm CreateStorm()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual Storm CreateStorm() => throw AbstractErrorException.Create("Abstract Error");
 
     // Storms.pas:768
     public virtual bool ExecuteStormSpell(Troop source, sbyte X, sbyte Y, sbyte L)
@@ -222,7 +216,7 @@ public partial class StormSpell : Spell
                     damage = info.EnemyDamage - info.FriendlyDamage;
                     if ((double)(BaseManaCost * 0.75) < damage)
                     {
-                        result = damage * 5 + 750;
+                        result = (damage * 5) + 750;
                     }
                 }
 

@@ -8,10 +8,7 @@ public partial class SortedNode : CustomNode
     // Engine.pas:1478
     public new const int ClassId = 260;
 
-    public SortedNode(CustomNode owner) : base(owner)
-    {
-        Items = [];
-    }
+    public SortedNode(CustomNode owner) : base(owner) => Items = [];
 
     private bool _sorted;
 
@@ -53,10 +50,7 @@ public partial class SortedNode : CustomNode
     }
 
     // Engine.pas:1483
-    public override void QuickClear()
-    {
-        Resize(0);
-    }
+    public override void QuickClear() => Resize(0);
 
     // Engine.pas:1488
     public override EngineObject GetChild(int index) => Items[index].Child;
@@ -74,10 +68,7 @@ public partial class SortedNode : CustomNode
     public override int GetCount() => StoredCount;
 
     // Engine.pas:1520
-    public virtual void Grow()
-    {
-        Resize(Capacity + 2);
-    }
+    public virtual void Grow() => Resize(Capacity + 2);
 
     // Engine.pas:1525
     public override int RemoveChild(EngineObject child)
@@ -151,10 +142,7 @@ public partial class SortedNode : CustomNode
     }
 
     // Engine.pas:1565
-    public override void PersistFields(IPersister persister)
-    {
-        throw new NotSupportedException("Read/Write not supported (TESortNode)");
-    }
+    public override void PersistFields(IPersister persister) => throw new NotSupportedException("Read/Write not supported (TESortNode)");
 
     // Engine.pas:1596
     public virtual void Sort()

@@ -10,10 +10,7 @@ namespace Aow.Game.Units;
 // { ot=1 } The prisoners of a dungeon, and the items its combat leaves on the battlefield.
 public partial class PrisonersArmy : Army
 {
-    public PrisonersArmy(CustomNode owner) : base(owner)
-    {
-        Items = new ItemList(null) { Holder = CreationHolder() };
-    }
+    public PrisonersArmy(CustomNode owner) : base(owner) => Items = new ItemList(null) { Holder = CreationHolder() };
 
     // The items left on the battlefield when a dungeon combat ends. The original hands them to
     // the prisoners' own unit list, where an item has no place (the port threw at the troop cast
@@ -43,6 +40,8 @@ public partial class PrisonersArmy : Army
     {
         base.PersistFields(persister);
         if (persister.Loading || Items.Count > 0)
+        {
             persister.Object("Items", objectValue: Items);
+        }
     }
 }

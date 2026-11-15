@@ -43,7 +43,13 @@ public sealed class DocumentKindTests : FormatsTest
     {
         Assert.Equal(DocumentKind.All.Select(k => k.Name), FileProfile.AllKinds);
         foreach (var profile in FileProfile.All)
-            foreach (var kind in profile.Kinds) Assert.NotNull(DocumentKind.Find(kind));
+        {
+            foreach (var kind in profile.Kinds)
+            {
+                Assert.NotNull(DocumentKind.Find(kind));
+            }
+        }
+
         Assert.Null(GameFiles.KindForExtension(".pfs"));
         Assert.Null(DocumentKind.ForExtension(null));
     }

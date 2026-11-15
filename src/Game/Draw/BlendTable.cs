@@ -13,16 +13,10 @@ public partial class BlendTable
     private byte[] _table;
 
     // GFXE.pas:741
-    public virtual BlendTable Copy()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual BlendTable Copy() => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:742
-    public virtual void Assign(BlendTable source)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual void Assign(BlendTable source) => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:9601
     public void Initialize(int bits, byte[] table)
@@ -31,8 +25,8 @@ public partial class BlendTable
         _bits = bits;
     }
 
-    public int Bits { get => _bits; }
-    public byte[] Table { get => _table; }
+    public int Bits => _bits;
+    public byte[] Table => _table;
 
     // The bytes of the table in one span, as the blenders read them.
     public ReadOnlySpan<byte> Bytes => Table;
@@ -45,7 +39,7 @@ public partial class BlendTable
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    fiveBit.RowView[i][j] = (byte)Round((double)((double)i * alpha) + (double)((double)1 - alpha) * j);
+                    fiveBit.RowView[i][j] = (byte)Round((double)((double)i * alpha) + ((double)((double)1 - alpha) * j));
                 }
             }
         }
@@ -123,7 +117,7 @@ public partial class BlendTable
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    v = Round((double)((double)i * brighten) + (double)((double)1 - brighten) * j);
+                    v = Round((double)((double)i * brighten) + ((double)((double)1 - brighten) * j));
                     if (v < j)
                     {
                         v = j;
@@ -158,7 +152,7 @@ public partial class BlendTable
 
                 for (int j = 0; j <= 31; j++)
                 {
-                    fiveBit.RowView[i][j] = (byte)Round((double)((double)i * f) + (double)((double)1 - f) * j);
+                    fiveBit.RowView[i][j] = (byte)Round((double)((double)i * f) + ((double)((double)1 - f) * j));
                 }
             }
         }

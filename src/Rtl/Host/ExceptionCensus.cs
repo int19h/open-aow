@@ -31,7 +31,11 @@ public static class ExceptionCensus
     public static void Start(string hostName, string[] arguments)
     {
         string? file = Environment.GetEnvironmentVariable(Variable);
-        if (string.IsNullOrWhiteSpace(file) || Interlocked.Exchange(ref s_started, 1) != 0) return;
+        if (string.IsNullOrWhiteSpace(file) || Interlocked.Exchange(ref s_started, 1) != 0)
+        {
+            return;
+        }
+
         s_path = Path.GetFullPath(file);
         s_host = hostName;
         s_arguments = [.. arguments];
@@ -44,21 +48,36 @@ public static class ExceptionCensus
     public static int KindOf(Exception exception)
     {
         for (Type? type = exception.GetType(); type is not null; type = type.BaseType)
+        {
             for (int index = 0; index < Kinds.Count; index++)
-                if (type.Name == Kinds[index]) return index;
+            {
+                if (type.Name == Kinds[index])
+                {
+                    return index;
+                }
+            }
+        }
+
         return -1;
     }
 
     private static void Count(object? sender, FirstChanceExceptionEventArgs e)
     {
         int index = KindOf(e.Exception);
-        if (index >= 0) Interlocked.Increment(ref s_counts[index]);
+        if (index >= 0)
+        {
+            Interlocked.Increment(ref s_counts[index]);
+        }
     }
 
     /// <summary>Appends this run's line once. The process exit and an unhandled exception both call it.</summary>
     public static void Finish()
     {
-        if (!Active || Interlocked.Exchange(ref s_written, 1) != 0) return;
+        if (!Active || Interlocked.Exchange(ref s_written, 1) != 0)
+        {
+            return;
+        }
+
         long[] snapshot = Enumerable.Range(0, s_counts.Length).Select(index => Interlocked.Read(ref s_counts[index])).ToArray();
         Append(s_path, Line(s_host, s_arguments, snapshot));
     }
@@ -66,17 +85,29 @@ public static class ExceptionCensus
     /// <summary>One run as a JSON object on one line: the host, its arguments and the count of each kind.</summary>
     public static string Line(string hostName, IReadOnlyList<string> arguments, IReadOnlyList<long> values)
     {
-        if (values.Count != Kinds.Count) throw new ArgumentException("one count per kind", nameof(values));
+        if (values.Count != Kinds.Count)
+        {
+            throw new ArgumentException("one count per kind", nameof(values));
+        }
+
         using var buffer = new MemoryStream();
         using (var writer = new Utf8JsonWriter(buffer))
         {
             writer.WriteStartObject();
             writer.WriteString("host", hostName);
             writer.WriteStartArray("arguments");
-            foreach (string argument in arguments) writer.WriteStringValue(argument);
+            foreach (string argument in arguments)
+            {
+                writer.WriteStringValue(argument);
+            }
+
             writer.WriteEndArray();
             writer.WriteStartObject("counts");
-            for (int index = 0; index < Kinds.Count; index++) writer.WriteNumber(Kinds[index], values[index]);
+            for (int index = 0; index < Kinds.Count; index++)
+            {
+                writer.WriteNumber(Kinds[index], values[index]);
+            }
+
             writer.WriteEndObject();
             writer.WriteEndObject();
         }

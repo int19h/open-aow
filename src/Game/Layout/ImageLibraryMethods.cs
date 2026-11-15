@@ -78,7 +78,7 @@ public static class ImageLibraryMethods
             {
                 var item = library[index];
                 var item2 = library[index];
-                library[index].ShowClipped(area.Left + item2.Width * i, area.Top + item.Height * j, lockedSurface);
+                library[index].ShowClipped(area.Left + (item2.Width * i), area.Top + (item.Height * j), lockedSurface);
             }
         }
 

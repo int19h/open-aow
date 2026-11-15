@@ -240,7 +240,11 @@ public sealed class TreeTests : FormatsTest
     public void AListLongerThanAFixedArrayRoundTrips()
     {
         var source = new Sample();
-        for (int i = 0; i < 300; i++) source.Scores.Add(i - 10);
+        for (int i = 0; i < 300; i++)
+        {
+            source.Scores.Add(i - 10);
+        }
+
         source.Scores[0] = 0;
         source.Scores[1] = int.MinValue;
         source.Scores[2] = int.MaxValue;
@@ -442,7 +446,11 @@ public sealed class TreeTests : FormatsTest
 
         public void Persist(IPersister persister)
         {
-            if (persister.Loading) Kids.Clear();
+            if (persister.Loading)
+            {
+                Kids.Clear();
+            }
+
             Player = persister.Reference("Player", "player-slot", Player);
             persister.List("Flags", Flags, FlagItem);
             persister.List("Scores", Scores, ScoreItem);
@@ -462,8 +470,14 @@ public sealed class TreeTests : FormatsTest
             Small = persister.Byte("Small", Small);
             NumberFallback = persister.Int32("NumberFallback", NumberFallback, 7);
             Number = persister.Int32("Number", Number);
-            if (SkipNote) HadNote = persister.Has("Note");
-            else Note = persister.String("Note", Note);
+            if (SkipNote)
+            {
+                HadNote = persister.Has("Note");
+            }
+            else
+            {
+                Note = persister.String("Note", Note);
+            }
         }
 
         private void WritePair(IPersister record)
@@ -527,8 +541,16 @@ public sealed class TreeTests : FormatsTest
 
         public IPersistable Create(string className)
         {
-            if (NameTable.Names(typeof(Inner), className)) return new Inner();
-            if (NameTable.Names(typeof(Sample), className)) return new Sample();
+            if (NameTable.Names(typeof(Inner), className))
+            {
+                return new Inner();
+            }
+
+            if (NameTable.Names(typeof(Sample), className))
+            {
+                return new Sample();
+            }
+
             throw new InvalidOperationException("The test factory has no class " + className + ".");
         }
     }

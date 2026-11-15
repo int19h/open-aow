@@ -63,7 +63,7 @@ public partial class TokenManager : IDisposable
         bool result;
         if (player < _tokenControls.Count && _tokenControls[player] != null)
         {
-            bool condition = _tokenExecutor.SystemEvents.Count != 0 || (_tokenControls[player]).GetCount() != 0;
+            bool condition = _tokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
             if (!condition)
             {
                 var item = _tokenControls[player];
@@ -165,14 +165,14 @@ public partial class TokenManager : IDisposable
         }
     }
 
-    public TokenExecutor TokenExecutor { get => _tokenExecutor; }
-    public TokenPackageDistributor TokenPackageDistributor { get => _tokenPackageDistributor; }
-    public GameEngine Owner { get => _owner; }
-    public int Count { get => GetCount(); }
+    public TokenExecutor TokenExecutor => _tokenExecutor;
+    public TokenPackageDistributor TokenPackageDistributor => _tokenPackageDistributor;
+    public GameEngine Owner => _owner;
+    public int Count => GetCount();
 
     public sealed class TokenControlsAccessor(TokenManager target)
     {
-        public TokenControl this[int player] { get => target.GetTokenControl(player); }
+        public TokenControl this[int player] => target.GetTokenControl(player);
     }
 
     public TokenControlsAccessor TokenControls => new TokenControlsAccessor(this);

@@ -145,10 +145,7 @@ public partial class CampaignJoinDialog : UIModule
     }
 
     // AoWCampaignJoin.pas:88
-    public void CustomBtnClick()
-    {
-        CustomizeLeader();
-    }
+    public void CustomBtnClick() => CustomizeLeader();
 
     // AoWCampaignJoin.pas:91
     public void DefaultBtnClick()
@@ -163,7 +160,7 @@ public partial class CampaignJoinDialog : UIModule
         if (Stage == 0)
         {
             var count = ScrollText.Count;
-            if (_scrollPosition < count * 20 + ScrollTextView.WinHeight)
+            if (_scrollPosition < (count * 20) + ScrollTextView.WinHeight)
             {
                 _scrollDelay -= 1;
                 if (_scrollDelay <= 0)
@@ -197,7 +194,7 @@ public partial class CampaignJoinDialog : UIModule
         var clipRectangle4 = lockedSurface.ClipRectangle;
         clipRectangle4.Bottom = clipRectangle4.Top + ScrollTextView.WinHeight;
         lockedSurface.ClipRectangle = clipRectangle4;
-        x = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + ScrollTextView.WinWidth / 2;
+        x = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + (ScrollTextView.WinWidth / 2);
         y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
         for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)
         {

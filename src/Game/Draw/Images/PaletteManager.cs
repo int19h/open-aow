@@ -19,15 +19,12 @@ public partial class PaletteManager : IDisposable
     {
         for (int i = 0, last = Palettes.Count - 1; i <= last; i++)
         {
-            (Palettes[i]).IndexValue = i;
+            Palettes[i].IndexValue = i;
         }
     }
 
     // ImageLib.pas:6971
-    public PaletteManager()
-    {
-        Palettes = new List<LibraryImagePalette>();
-    }
+    public PaletteManager() => Palettes = new List<LibraryImagePalette>();
 
     // ImageLib.pas:6977
     public virtual void Dispose()
@@ -58,7 +55,7 @@ public partial class PaletteManager : IDisposable
         stream.Write(ValueBytes(Palettes.Count, 4));
         for (int i = 0, last = Palettes.Count - 1; i <= last; i++)
         {
-            (Palettes[i]).SaveToStream(stream);
+            Palettes[i].SaveToStream(stream);
         }
     }
 
@@ -67,7 +64,7 @@ public partial class PaletteManager : IDisposable
     {
         for (int i = Palettes.Count - 1; i >= 0; i--)
         {
-            (Palettes[i])?.Dispose();
+            Palettes[i]?.Dispose();
         }
 
         Palettes.Clear();
@@ -93,7 +90,7 @@ public partial class PaletteManager : IDisposable
         while (i != 0 && !found)
         {
             i -= 1;
-            found = palette.Compare((Palettes[i]).Palette);
+            found = palette.Compare(Palettes[i].Palette);
         }
 
         if (!found)
@@ -129,6 +126,6 @@ public partial class PaletteManager : IDisposable
         }
     }
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
 }

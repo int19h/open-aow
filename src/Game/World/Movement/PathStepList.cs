@@ -9,10 +9,7 @@ namespace Aow.Game.World.Movement;
 public class PathStepList : DefaultItemList<PathStep>
 {
     // HSEngine.pas:1578
-    public PathStepList()
-    {
-        Default = PathStep.None;
-    }
+    public PathStepList() => Default = PathStep.None;
 
     // HSEngine.pas:1614
     public int AddMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => Add(new PathStep(Location: new MapCoordinate(x, y, mapLevel), MoveCost: 0));

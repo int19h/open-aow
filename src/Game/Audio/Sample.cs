@@ -22,40 +22,22 @@ public partial class Sample : IDisposable
     protected internal virtual bool GetPlaying() => _delay != 0;
 
     // Sound.pas:81
-    protected internal virtual int GetVolume()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    protected internal virtual int GetVolume() => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:82
-    protected internal virtual void SetVolume(int value)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    protected internal virtual void SetVolume(int value) => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:83
-    protected internal virtual bool GetLooped()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    protected internal virtual bool GetLooped() => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:84
-    protected internal virtual void SetLooped(bool value)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    protected internal virtual void SetLooped(bool value) => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:85
-    protected internal virtual SamplePanning GetPanning()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    protected internal virtual SamplePanning GetPanning() => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:86
-    protected internal virtual void SetPanning(SamplePanning value)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    protected internal virtual void SetPanning(SamplePanning value) => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:761
     // { Called every tick (ProcessSound): a delayed sample counts down and plays, a finished one that
@@ -132,10 +114,10 @@ public partial class Sample : IDisposable
         }
     }
 
-    public SampleData SampleData { get => _sampleData; }
+    public SampleData SampleData => _sampleData;
     public int Delay { get => _delay; set => _delay = value; }
-    public Set<StatusElement> Status { get => _status; }
-    public bool Playing { get => GetPlaying(); }
+    public Set<StatusElement> Status => _status;
+    public bool Playing => GetPlaying();
     public int Volume { get => GetVolume(); set => SetVolume(value); }
     public bool Looped { get => GetLooped(); set => SetLooped(value); }
     public SamplePanning Panning { get => GetPanning(); set => SetPanning(value); }

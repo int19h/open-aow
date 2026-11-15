@@ -18,8 +18,14 @@ public static class FormatMapping
     public static void Register(string persistedName, params ContentRule[] rules)
     {
         if (!s_mappings.TryAdd(persistedName, rules))
+        {
             throw new InvalidOperationException("The persisted class " + persistedName + " has two format mappings.");
-        foreach (var rule in rules) rule.Attach(persistedName);
+        }
+
+        foreach (var rule in rules)
+        {
+            rule.Attach(persistedName);
+        }
     }
 
     /// <summary>The registered mappings by persisted class name.</summary>

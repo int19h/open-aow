@@ -132,16 +132,10 @@ public partial class TaskBar : UIModule
     }
 
     // AoWTBWindow.pas:172
-    public void ProdButtonClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void ProdButtonClick() => UI.General.PlayButtonSound(0);
 
     // AoWTBWindow.pas:177
-    public void COButtonClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void COButtonClick() => UI.General.PlayButtonSound(0);
 
     // AoWTBWindow.pas:182
     public void ChatBtnClick()
@@ -183,12 +177,12 @@ public partial class TaskBar : UIModule
                         race = 12;
                     }
 
-                    UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + position * 5, PlayerIndicatorFrame.WinTop + 2, surface);
+                    UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + (position * 5), PlayerIndicatorFrame.WinTop + 2, surface);
                     if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
                         if (i == StrategicMap.Current.CurrentPlayer)
                         {
-                            CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + position * 5;
+                            CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + (position * 5);
                             CurrentPlayerImage.WinTop = PlayerIndicatorFrame.WinTop + 11;
                         }
                     }
@@ -196,7 +190,7 @@ public partial class TaskBar : UIModule
                     {
                         if (StrategicMap.Current.Players.GetPlayers(i).SingleProcessCycle)
                         {
-                            UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + position * 5, PlayerIndicatorFrame.WinTop + 11, surface);
+                            UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + (position * 5), PlayerIndicatorFrame.WinTop + 11, surface);
                         }
                     }
 
@@ -262,10 +256,10 @@ public partial class TaskBar : UIModule
                 race = 12;
             }
 
-            UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + position * 5, CombatPlayerIndicatorFrame.WinTop + 2, surface);
+            UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + (position * 5), CombatPlayerIndicatorFrame.WinTop + 2, surface);
             if (CombatMap.Current.Combat.CombatData.TurnOrder[i] == CombatMap.Current.CurrentCombatPlayer)
             {
-                CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + position * 5;
+                CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + (position * 5);
                 CombatCurrentPlayerImage.WinTop = CombatPlayerIndicatorFrame.WinTop + 11;
             }
 
@@ -422,10 +416,7 @@ public partial class TaskBar : UIModule
     }
 
     // AoWTBWindow.pas:350
-    public void StartMenuBarChange()
-    {
-        UI.General.PlayButtonSound(3);
-    }
+    public void StartMenuBarChange() => UI.General.PlayButtonSound(3);
 
     // AoWTBWindow.pas:355
     public void RelationsBtnClick()

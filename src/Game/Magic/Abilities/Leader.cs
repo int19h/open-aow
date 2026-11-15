@@ -94,7 +94,7 @@ public partial class Leader : Hero
         int result;
         if (GetAbilityEnabled(52))
         {
-            result = GetAbilityLevel(52) * 5 + 5;
+            result = (GetAbilityLevel(52) * 5) + 5;
         }
         else
         {
@@ -185,10 +185,7 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2957
-    public override void Deactivate()
-    {
-        base.Deactivate();
-    }
+    public override void Deactivate() => base.Deactivate();
 
     // Hero.PAS:2972
     public override bool CanDisband(ref string reason) => false;
@@ -444,9 +441,6 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2883
-    public void ClearSpheres()
-    {
-        _spheres.Clear();
-    }
+    public void ClearSpheres() => _spheres.Clear();
 
 }

@@ -50,10 +50,7 @@ public partial class MessageReceiveDialog : UIModule
     }
 
     // AoWMsgReceiveDlg.pas:47
-    public void MsgReceiveWinHide()
-    {
-        FinishDialog();
-    }
+    public void MsgReceiveWinHide() => FinishDialog();
 
     internal static void ShowReceivedMessage(MessageReceiveDialog dialog, EventLog eventValue, ExecuteDoneEvent done)
     {

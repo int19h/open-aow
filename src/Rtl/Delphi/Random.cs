@@ -22,7 +22,7 @@ public static partial class RtlUnit
     public static int Random(int range)
     {
         int before = randomSeed;
-        randomSeed = unchecked(randomSeed * 0x08088405 + 1);
+        randomSeed = unchecked((randomSeed * 0x08088405) + 1);
         int result = (int)(((ulong)(uint)randomSeed * (uint)range) >> 32);
         RandomTrace?.Invoke(new("random", range, result, before, randomSeed));
         return result;
@@ -32,7 +32,7 @@ public static partial class RtlUnit
     public static double Random()
     {
         int before = randomSeed;
-        randomSeed = unchecked(randomSeed * 0x08088405 + 1);
+        randomSeed = unchecked((randomSeed * 0x08088405) + 1);
         double result = (uint)randomSeed * (1.0 / 4294967296.0);
         RandomTrace?.Invoke(new("random", null, result, before, randomSeed));
         return result;
@@ -41,8 +41,14 @@ public static partial class RtlUnit
     // SYSTEM.PAS:1647 uses GetSystemTime, which returns UTC.
     public static void Randomize()
     {
-        if (RandomizeSeed is int seed) RandSeed = seed;
-        else if (!SuppressRandomize) RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
+        if (RandomizeSeed is int seed)
+        {
+            RandSeed = seed;
+        }
+        else if (!SuppressRandomize)
+        {
+            RandSeed = (int)Clock.UtcNow.TimeOfDay.TotalMilliseconds;
+        }
     }
 
     public static int? RandomizeSeed { get; set; }

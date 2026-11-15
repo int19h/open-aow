@@ -54,13 +54,7 @@ public readonly struct MoveTargetCollection : IReadOnlyList<MoveTarget>
     }
 
     // AIGroup.pas:4275
-    public void SortOnMovePoints()
-    {
-        _list.SortChildren<MoveTarget>(CompareMoveTargets);
-    }
+    public void SortOnMovePoints() => _list.SortChildren<MoveTarget>(CompareMoveTargets);
 
-    private static int CompareMoveTargets(MoveTarget item1, MoveTarget item2)
-    {
-        return item1.MovePoints - item2.MovePoints;
-    }
+    private static int CompareMoveTargets(MoveTarget item1, MoveTarget item2) => item1.MovePoints - item2.MovePoints;
 }

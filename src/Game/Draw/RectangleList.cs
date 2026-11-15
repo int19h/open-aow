@@ -22,7 +22,7 @@ public partial class RectangleList : DelphiList<Rectangle>
 
     public sealed class RectanglesAccessor(RectangleList target)
     {
-        public Rectangle this[int index] { get => target.GetRectangle(index); }
+        public Rectangle this[int index] => target.GetRectangle(index);
     }
 
     public RectanglesAccessor Rectangles => new RectanglesAccessor(this);

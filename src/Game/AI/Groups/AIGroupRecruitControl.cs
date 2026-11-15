@@ -23,10 +23,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupRecruitControl : AIGroupTask
 {
     // AIGroup.pas:2070
-    public AIGroupRecruitControl(CustomNode owner) : base(owner)
-    {
-        Units = new UnitUserList(null) { Holder = CreationHolder() };
-    }
+    public AIGroupRecruitControl(CustomNode owner) : base(owner) => Units = new UnitUserList(null) { Holder = CreationHolder() };
 
     public AIGroupRecruitControlMode Mode { get; set; }
 
@@ -117,10 +114,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
     public int GetRecruitStrength(DamageType damageType) => _recruitStrengths[(int)damageType];
 
     // AIGroup.pas:2092
-    public void SetRecruitStrength(DamageType damageType, int value)
-    {
-        _recruitStrengths[(int)damageType] = value;
-    }
+    public void SetRecruitStrength(DamageType damageType, int value) => _recruitStrengths[(int)damageType] = value;
 
     // AIGroup.pas:2102
     public int GetRecruitMoveDays()
@@ -252,10 +246,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
     }
 
     // AIGroup.pas:2191
-    public void ExecuteRecruitment()
-    {
-        _control.Group.AddUnits(Units.Units);
-    }
+    public void ExecuteRecruitment() => _control.Group.AddUnits(Units.Units);
 
     // AIGroup.pas:2196
     public bool ValidRecruitmentGroup(AIRecruitmentGroup group)

@@ -92,10 +92,7 @@ public partial class HexSpriteMapMouse : IDisposable
     public virtual int GetCursor() => _cursor;
 
     // HSEngine.pas:3510
-    public virtual void SetCursor(int value)
-    {
-        _cursor = value;
-    }
+    public virtual void SetCursor(int value) => _cursor = value;
 
     // HSEngine.pas:3583
     public virtual bool MouseDown()
@@ -329,14 +326,14 @@ public partial class HexSpriteMapMouse : IDisposable
     }
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; internal set => _hexSpriteMap = value; }
-    public int X { get => _x; }
-    public int Y { get => _y; }
-    public int PixelX { get => GetPixelX(); }
-    public int PixelY { get => GetPixelY(); }
-    public int HexX { get => GetHexX(); }
-    public int HexY { get => GetHexY(); }
-    public MouseButton Button { get => _button; }
-    public Set<ShiftState> Shift { get => _shift; }
+    public int X => _x;
+    public int Y => _y;
+    public int PixelX => GetPixelX();
+    public int PixelY => GetPixelY();
+    public int HexX => GetHexX();
+    public int HexY => GetHexY();
+    public MouseButton Button => _button;
+    public Set<ShiftState> Shift => _shift;
 
     public event NotifyEvent<HexSpriteMapMouse> OnUp
     {

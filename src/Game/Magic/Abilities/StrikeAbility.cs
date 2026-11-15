@@ -335,11 +335,20 @@ public partial class StrikeAbility : AdjustableAbility
 
     public override bool Remove(AbilityOwner owner)
     {
-        if (!owner.GetAbEnabled(21)) return false;
+        if (!owner.GetAbEnabled(21))
+        {
+            return false;
+        }
+
         base.Remove(owner);
         for (int i = owner.GetAbCount() - 1; i >= 0; --i)
+        {
             if (owner.GetAbEnabled(i) && GamePack.Current.AbilityControl.GetAbility(i) is StrikeEnhancementAbility)
+            {
                 while (GamePack.Current.AbilityControl.GetAbility(i).Remove(owner)) { }
+            }
+        }
+
         return true;
     }
 

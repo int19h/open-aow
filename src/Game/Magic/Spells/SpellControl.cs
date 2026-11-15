@@ -17,10 +17,7 @@ public partial class SpellControl : EngineObject
 {
 
     // Spells.PAS:577
-    public SpellControl(CustomNode owner) : base(owner)
-    {
-        RegisteredSpells = new List<Spell>();
-    }
+    public SpellControl(CustomNode owner) : base(owner) => RegisteredSpells = new List<Spell>();
 
     public List<Spell> RegisteredSpells { get; init; }
 
@@ -116,7 +113,7 @@ public partial class SpellControl : EngineObject
             if (RegisteredSpells[id] != null)
             {
                 spell.CastImages.ReleaseImageLibrary();
-                (RegisteredSpells[id])?.Dispose();
+                RegisteredSpells[id]?.Dispose();
                 RegisteredSpells[id] = null;
             }
         }
@@ -153,9 +150,9 @@ public partial class SpellControl : EngineObject
         spellStrings.Clear();
         for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (RegisteredSpells[i] != null && spheres.Contains((RegisteredSpells[i]).MagicSphere))
+            if (RegisteredSpells[i] != null && spheres.Contains(RegisteredSpells[i].MagicSphere))
             {
-                spellStrings.AddObject((RegisteredSpells[i]).SpellName, IntToObject(i));
+                spellStrings.AddObject(RegisteredSpells[i].SpellName, IntToObject(i));
             }
         }
     }

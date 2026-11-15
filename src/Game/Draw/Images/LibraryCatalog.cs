@@ -17,7 +17,7 @@ internal static class LibraryCatalog
         i = 0;
         while (i < ImageLibraries.LibraryImageClasses.Count && !found)
         {
-            found = classId == (ImageLibraries.LibraryImageClasses[i]).ClassId;
+            found = classId == ImageLibraries.LibraryImageClasses[i].ClassId;
             i += 1;
         }
 

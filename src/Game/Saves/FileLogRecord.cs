@@ -33,8 +33,15 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
             json.WriteString("use", Report.Profile.Name);
             WriteOptional(json, "kind", Report.Kind);
             WriteOptional(json, "format", Report.Format);
-            if (Report.Version is int version) json.WriteNumber("version", version);
-            else json.WriteNull("version");
+            if (Report.Version is int version)
+            {
+                json.WriteNumber("version", version);
+            }
+            else
+            {
+                json.WriteNull("version");
+            }
+
             json.WriteString("g1", Report.OriginalRoundTrip);
             json.WriteString("validation", Report.Validation);
             WriteOptional(json, "error", Report.Error?.Code);
@@ -47,8 +54,14 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
 
     private static void WriteOptional(Utf8JsonWriter json, string name, string? value)
     {
-        if (value is null) json.WriteNull(name);
-        else json.WriteString(name, value);
+        if (value is null)
+        {
+            json.WriteNull(name);
+        }
+        else
+        {
+            json.WriteString(name, value);
+        }
     }
 
     public override string ToString() => Report.Error?.ToString() ?? string.Create(CultureInfo.InvariantCulture, $"{Report.Operation} {Path}");

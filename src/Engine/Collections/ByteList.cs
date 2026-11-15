@@ -164,10 +164,7 @@ public partial class ByteList : Persistent
     }
 
     // Engine.pas:3603
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // Engine.pas:3608
     public override void Assign(Persistent source)
@@ -401,13 +398,10 @@ public partial class ByteList : Persistent
     public byte this[int index] { get => Get(index); set => Put(index, value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
-    public byte[] List { get => _list; }
+    public byte[] List => _list;
 
     // Engine.pas:3645
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
     private static void QuickSortByte(Span<byte> sortList, int L, int R, ByteSortCompare sCompare)
     {

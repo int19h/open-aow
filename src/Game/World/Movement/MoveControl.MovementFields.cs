@@ -14,7 +14,11 @@ public partial class MoveControl
     {
         RtlUnit.Assert(_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
-        if (level >= Map.MapContainer.LevelCount) return;
+        if (level >= Map.MapContainer.LevelCount)
+        {
+            return;
+        }
+
         SetMapL(Map.MapContainer.GetMapLevel(level));
         var field = MapLevel.GetField(x, y);
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
@@ -28,7 +32,11 @@ public partial class MoveControl
             for (int direction = 1; !found && direction <= 6; direction++)
             {
                 neighbor = NeighborField(field, direction);
-                if (Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel) != points - cost) continue;
+                if (Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel) != points - cost)
+                {
+                    continue;
+                }
+
                 bool source = neighbor.HexX == Source.X && neighbor.HexY == Source.Y && neighbor.HexLevel == Source.MapLevel;
                 int over = source || (neighbor.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : neighbor.CanMoveOver(this);
                 found = over != 0 && ((field.FieldFlags & MapField.MoveOnFlag) == 0 || field.CanMoveOn(this, cost, over) != -1);
@@ -50,13 +58,26 @@ public partial class MoveControl
                 }
             }
             if (previous != null && found)
+            {
                 path.List[path.Count - 1] = path.List[path.Count - 1] with { MoveCost = (sbyte)(Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) - points) };
+            }
+
             field = previous;
             failed = !found;
         }
-        if (failed) path.Clear();
-        else if (field != null && points == 0) path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
-        if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing)) StrategicMap.Current.AIExecutor.UseProcessTime(path.Count);
+        if (failed)
+        {
+            path.Clear();
+        }
+        else if (field != null && points == 0)
+        {
+            path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
+        }
+
+        if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing))
+        {
+            StrategicMap.Current.AIExecutor.UseProcessTime(path.Count);
+        }
     }
 
     private MapField NeighborField(MapField field, int direction)
@@ -75,17 +96,43 @@ public partial class MoveControl
         {
             field = NeighborField(field, direction);
             int cost = OnMovePoint(field, moveOverCode);
-            if (cost < 0) break;
+            if (cost < 0)
+            {
+                break;
+            }
+
             points += cost;
             int old = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
-            if (old <= points || points > MovePointsLimit) break;
-            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) _processedMapFields.Add(field);
-            if (field.HexX == Destination.X && field.HexY == Destination.Y && field.HexLevel == Destination.MapLevel) MovePointsLimit = points;
+            if (old <= points || points > MovePointsLimit)
+            {
+                break;
+            }
+
+            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff)
+            {
+                _processedMapFields.Add(field);
+            }
+
+            if (field.HexX == Destination.X && field.HexY == Destination.Y && field.HexLevel == Destination.MapLevel)
+            {
+                MovePointsLimit = points;
+            }
+
             Settings.SetMovePoints(field.HexX, field.HexY, field.HexLevel, points);
-            if ((field.FieldFlags & MapField.MoveOverFlag) == 0) moveOverCode = 1;
-            else moveOverCode = field.CanMoveOver(this);
+            if ((field.FieldFlags & MapField.MoveOverFlag) == 0)
+            {
+                moveOverCode = 1;
+            }
+            else
+            {
+                moveOverCode = field.CanMoveOver(this);
+            }
+
             continueMove = moveOverCode != 0;
-            if (continueMove) count++;
+            if (continueMove)
+            {
+                count++;
+            }
         }
         HeadlessHooks.MoveLine?.Invoke(origin.GetMapCoordinate(), direction, initialOverCode, count);
         return count;
@@ -98,9 +145,21 @@ public partial class MoveControl
         int left = s_sideDirections[direction][0], right = s_sideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);
         int rightCount = CalculateMovePointLine(field, right, over);
-        if ((count & 0xff) != 0) ProcessHex(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
-        if (leftCount != 0) ProcessHex(NeighborField(field, left), left, over == 2 ? leftCount + 0xff : leftCount - 1);
-        if (rightCount != 0) ProcessHex(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
+        if ((count & 0xff) != 0)
+        {
+            ProcessHex(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
+        }
+
+        if (leftCount != 0)
+        {
+            ProcessHex(NeighborField(field, left), left, over == 2 ? leftCount + 0xff : leftCount - 1);
+        }
+
+        if (rightCount != 0)
+        {
+            ProcessHex(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
+        }
+
         if ((count & 0x100) != 0)
         {
             int opposite = OppositeDirections[direction];
@@ -108,9 +167,19 @@ public partial class MoveControl
             right = s_sideDirections[opposite][1];
             leftCount = CalculateMovePointLine(field, left, over);
             rightCount = CalculateMovePointLine(field, right, over);
-            if (leftCount != 0) ProcessHex(NeighborField(field, left), left, leftCount - 1);
-            if (rightCount != 0) ProcessHex(NeighborField(field, right), right, rightCount - 1);
+            if (leftCount != 0)
+            {
+                ProcessHex(NeighborField(field, left), left, leftCount - 1);
+            }
+
+            if (rightCount != 0)
+            {
+                ProcessHex(NeighborField(field, right), right, rightCount - 1);
+            }
         }
-        if ((field.FieldFlags & MapField.MoveExclusiveFlag) != 0) field.MoveExclusive(this);
+        if ((field.FieldFlags & MapField.MoveExclusiveFlag) != 0)
+        {
+            field.MoveExclusive(this);
+        }
     }
 }

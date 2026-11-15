@@ -55,7 +55,7 @@ public partial class ArenaDialog : UIModule
             if ((byte)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface);
             }
 
             info = default;
@@ -65,7 +65,7 @@ public partial class ArenaDialog : UIModule
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
@@ -175,16 +175,10 @@ public partial class ArenaDialog : UIModule
     }
 
     // AoWArenaDlg.pas:196
-    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
-    {
-        DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
-    }
+    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot) => DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
 
     // AoWArenaDlg.pas:201
-    public void DlgHide()
-    {
-        ClearEvent();
-    }
+    public void DlgHide() => ClearEvent();
 
     // AoWArenaDlg.pas:206
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
@@ -222,10 +216,7 @@ public partial class ArenaDialog : UIModule
     }
 
     // AoWArenaDlg.pas:224
-    public void MapViewUpdate()
-    {
-        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
-    }
+    public void MapViewUpdate() => MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
 
     // AoWArenaDlg.pas:229
     public void DlgDrawBack()

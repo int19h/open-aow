@@ -27,16 +27,24 @@ public partial class IsometricHex
                 if (sprite == null)
                 {
                     OpenSides |= (byte)(1 << (walk.HexNumber - 1));
-                    if (water) shore(walk.HexNumber, neighbour.TerrainType switch { 3 => 40, 5 => 80, _ => 0 });
+                    if (water)
+                    {
+                        shore(walk.HexNumber, neighbour.TerrainType switch { 3 => 40, 5 => 80, _ => 0 });
+                    }
                 }
                 else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
+                {
                     Sides |= (byte)(1 << (walk.HexNumber - 1));
+                }
             }
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         if (water || OpenSides != 0)
         {
-            if (Dynamic == null) Dynamic = new DynamicIsometricHex(this);
+            if (Dynamic == null)
+            {
+                Dynamic = new DynamicIsometricHex(this);
+            }
         }
         else if (Dynamic != null)
         {

@@ -24,7 +24,11 @@ public sealed class CombatMapConstructionTests
         {
             base.AddChild(child);
             PublishedAtInsertion.Add(ReferenceEquals(CombatMap.Current, child));
-            if (reject) throw new InvalidDataException("owner rejects after insertion");
+            if (reject)
+            {
+                throw new InvalidDataException("owner rejects after insertion");
+            }
+
             return Members.Count - 1;
         }
 
@@ -42,14 +46,20 @@ public sealed class CombatMapConstructionTests
         try
         {
             for (int failure = 0; failure < 3; failure++)
+            {
                 for (int owned = 0; owned < 2; owned++)
+                {
                     for (int route = 0; route < 4; route++)
                     {
                         using var fixture = new OrderingRecording.Fixture(typeof(CombatMap));
                         var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
                         entry.ImageLibrary = new ImageLibrary(null!);
                         var set = GamePack.Current;
-                        if (failure == 2) GamePack.Current = null!;
+                        if (failure == 2)
+                        {
+                            GamePack.Current = null!;
+                        }
+
                         CombatMap.Current = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         CombatMap? value = null;
@@ -63,7 +73,11 @@ public sealed class CombatMapConstructionTests
                         Assert.Equal(failure == 0, value is not null);
                         var published = CombatMap.Current;
                         Assert.NotNull(published);
-                        if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
+                        if (owner is not null)
+                        {
+                            Assert.Equal([true], owner.PublishedAtInsertion);
+                        }
+
                         int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(CombatMap) && x.GetMethod()?.Name == "Dispose");
                         var record = new JsonObject
                         {
@@ -95,6 +109,9 @@ public sealed class CombatMapConstructionTests
                             owner?.Members.Clear();
                         }
                     }
+                }
+            }
+
             string? target = Environment.GetEnvironmentVariable("AOW_COMBAT_MAP_RECORD");
             if (target is not null)
             {

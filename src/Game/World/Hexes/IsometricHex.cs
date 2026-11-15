@@ -14,10 +14,7 @@ namespace Aow.Game.World.Hexes;
 // 0.5: the neighbour HN has another terrain, bits 6.7: the image variant)
 public partial class IsometricHex : AbstractHexagon
 {
-    public IsometricHex(CustomNode owner) : base(owner)
-    {
-        Sides = (byte)(Random(4) << 6);
-    }
+    public IsometricHex(CustomNode owner) : base(owner) => Sides = (byte)(Random(4) << 6);
 
     // IsoHex.pas:214
     public new const int ClassId = 131437;
@@ -53,10 +50,7 @@ public partial class IsometricHex : AbstractHexagon
     }
 
     // IsoHex.pas:234
-    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
-    {
-        UpdateTransitions();
-    }
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info) => UpdateTransitions();
 
     // IsoHex.pas:239
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

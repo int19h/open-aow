@@ -8,10 +8,7 @@ namespace Aow.Game.World.Map;
 public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
 {
     // HSEngine.pas:1578
-    public MapCoordinateList()
-    {
-        Default = MapCoordinate.None;
-    }
+    public MapCoordinateList() => Default = MapCoordinate.None;
 
     // HSEngine.pas:1614
     public int AddMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => Add(new MapCoordinate(x, y, mapLevel));

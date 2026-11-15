@@ -98,10 +98,7 @@ public partial class StructureShadow : HexSprite
     }
 
     // Structur.PAS:1000
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
-    {
-        Structure.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
-    }
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Structure.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
 
     // Engine.pas:524
 

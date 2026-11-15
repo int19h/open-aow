@@ -103,7 +103,11 @@ public sealed class FileDialogSortTests
     private static string[] Names(ListBox list)
     {
         var names = new string[list.Items.Count];
-        for (int i = 0; i < names.Length; i++) names[i] = list.Items[i];
+        for (int i = 0; i < names.Length; i++)
+        {
+            names[i] = list.Items[i];
+        }
+
         return names;
     }
 
@@ -155,7 +159,10 @@ public sealed class FileDialogSortTests
             FileDialogWindow.Directories = previousDirectories;
             FileDialogWindow.Files = previousFiles;
             FileDialogWindow.Drives = previousDrives;
-            if (Directory.Exists(directory)) Directory.Delete(directory, true);
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, true);
+            }
         }
     }
 

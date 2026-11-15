@@ -13,8 +13,15 @@ public sealed class SysUtilsProbeTests
         var all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
         Bytes("uppercase_all_bytes", UpperCase(all)); Bytes("lowercase_all_bytes", LowerCase(all));
         foreach (var (label, a, b) in new (string, string, string)[] { ("case", "abc", "ABC"), ("prefix", "ab", "ABC"), ("high", "\xe0", "\xc0"), ("empty", "", "a"), ("zero", "a\0b", "A\0c") })
+        {
             probe.Fact("comparetext_" + label, Math.Sign(CompareText(a, b)));
-        foreach (var (label, text) in new (string, string)[] { ("space", "  abc  "), ("controls", "\0\t\n\rabc\x1f "), ("all", "\0\t "), ("empty", ""), ("high", "\xa0" + "abc\xa0"), ("inner", " a b ") }) Bytes("trim_" + label, Trim(text));
+        }
+
+        foreach (var (label, text) in new (string, string)[] { ("space", "  abc  "), ("controls", "\0\t\n\rabc\x1f "), ("all", "\0\t "), ("empty", ""), ("high", "\xa0" + "abc\xa0"), ("inner", " a b ") })
+        {
+            Bytes("trim_" + label, Trim(text));
+        }
+
         foreach (var (label, text) in new (string, string)[] {
             ("zero","0"), ("negative","-123"), ("plus","+123"), ("max","2147483647"), ("min","-2147483648"), ("dollar_hex","$FF"), ("c_hex","0xFF"), ("negative_hex","-$10"), ("hex_all_bits","$FFFFFFFF"), ("leading_space"," 12"), ("trailing_space","12 "), ("leading_tab","\t12"), ("empty",""), ("spaces","  "), ("junk","12x"), ("overflow","2147483648"), ("underflow","-2147483649"), ("bare_sign","+"), ("bare_hex","$"), ("double_sign","--1"), ("decimal_point","1.0"), ("embedded_zero","12\0" + "3") })
         {
@@ -22,31 +29,47 @@ public sealed class SysUtilsProbeTests
             try { result = StrToInt(text); } catch (Exception e) { result = probe.DelphiName(e); }
             probe.Fact("strtoint_" + label, result);
         }
-        foreach (var (label, value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) }) Bytes("inttostr_" + label, IntToStr(value));
-        foreach (var (label, value, digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) }) Bytes("inttohex_" + label, IntToHex(value, digits));
+        foreach (var (label, value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) })
+        {
+            Bytes("inttostr_" + label, IntToStr(value));
+        }
+
+        foreach (var (label, value, digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) })
+        {
+            Bytes("inttohex_" + label, IntToHex(value, digits));
+        }
+
         foreach (var (label, text) in new (string, string)[] { ("empty", ""), ("single", "a"), ("crlf", "a\r\nb\r\n"), ("lf", "a\nb\n"), ("cr", "a\rb\r"), ("blanks", "\r\n\r\n"), ("mixed", "a\r\n\nb"), ("zero", "a\0b") })
         {
             var list = new StringList { Text = text };
             probe.Fact("text_" + label + "_count", list.Count);
-            for (int i = 0; i < list.Count; i++) Bytes($"text_{label}_item_{i}", list[i]);
+            for (int i = 0; i < list.Count; i++)
+            {
+                Bytes($"text_{label}_item_{i}", list[i]);
+            }
+
             var roundtrip = list.Text; Bytes("text_" + label + "_text", roundtrip);
             list.Text = roundtrip; Bytes("text_" + label + "_text_again", list.Text);
         }
         var differences = new StringBuilder();
         var kinds = new Dictionary<string, int>();
-        for (int a = 0; a < 256; a++) for (int b = 0; b < 256; b++)
+        for (int a = 0; a < 256; a++)
         {
-            int expected = int.Parse(probe.Current.Split(' ')[2], System.Globalization.CultureInfo.InvariantCulture);
-            int actual = Math.Sign(AnsiCompareText(Cp1252.Text((byte)a), Cp1252.Text((byte)b)));
-            Assert.Equal(expected == 0, actual == 0);
-            if (actual != expected)
+            for (int b = 0; b < 256; b++)
             {
-                string kind = a >= 128 || b >= 128 ? "extended byte" : a < 32 || b < 32 || a == 127 || b == 127 ? "control" : "punctuation";
-                kinds[kind] = kinds.GetValueOrDefault(kind) + 1;
-                differences.AppendLine($"{a:X2} {b:X2} oracle={expected} shim={actual} {kind}");
+                int expected = int.Parse(probe.Current.Split(' ')[2], System.Globalization.CultureInfo.InvariantCulture);
+                int actual = Math.Sign(AnsiCompareText(Cp1252.Text((byte)a), Cp1252.Text((byte)b)));
+                Assert.Equal(expected == 0, actual == 0);
+                if (actual != expected)
+                {
+                    string kind = a >= 128 || b >= 128 ? "extended byte" : a < 32 || b < 32 || a == 127 || b == 127 ? "control" : "punctuation";
+                    kinds[kind] = kinds.GetValueOrDefault(kind) + 1;
+                    differences.AppendLine($"{a:X2} {b:X2} oracle={expected} shim={actual} {kind}");
+                }
+                probe.Fact($"{a:X2} {b:X2}", expected);
             }
-            probe.Fact($"{a:X2} {b:X2}", expected);
         }
+
         string report = differences.ToString().Replace("\r\n", "\n", StringComparison.Ordinal);
         output.WriteLine($"AnsiCompareText: {kinds.Values.Sum()} sign exceptions. {string.Join(", ", kinds.Select(k => $"{k.Key}={k.Value}"))}.");
         Assert.Equal(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "AnsiCompareText-order-exceptions.txt")).Replace("\r\n", "\n", StringComparison.Ordinal), report);

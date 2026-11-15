@@ -416,7 +416,7 @@ public partial class HexSpriteMapViewer : Component
     }
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
-    public Surface StaticSurface { get => _staticSurface; }
+    public Surface StaticSurface => _staticSurface;
     public bool StaticSurfaceValid { get => _staticSurfaceValid; set => _staticSurfaceValid = value; }
     public int SceneX { get => _sceneX; set => SetSceneX(value); }
     public int SceneY { get => _sceneY; set => SetSceneY(value); }

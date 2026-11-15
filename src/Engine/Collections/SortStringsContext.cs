@@ -32,7 +32,10 @@ public struct SortStringsContext
                     var item = context.Strings.Objects[i];
                     var stringsItem = context.Strings[i];
                     if (!(context.Compare(stringsItem, p, item, po) < 0))
+                    {
                         break;
+                    }
+
                     i += 1;
                 }
 
@@ -41,7 +44,10 @@ public struct SortStringsContext
                     var item = context.Strings.Objects[j];
                     var stringsItem = context.Strings[j];
                     if (!(context.Compare(stringsItem, p, item, po) > 0))
+                    {
                         break;
+                    }
+
                     j -= 1;
                 }
 

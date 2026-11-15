@@ -31,7 +31,10 @@ public partial class BitList : Persistent
         newCapacity = (newCapacity + 31) & ~31;
         if (newCapacity != _capacity)
         {
-            if (newCapacity == 0) List = Memory<byte>.Empty;
+            if (newCapacity == 0)
+            {
+                List = Memory<byte>.Empty;
+            }
             else
             {
                 var resized = new byte[(int)((uint)newCapacity >> 3)];
@@ -157,16 +160,10 @@ public partial class BitList : Persistent
     // Engine.pas:4683
     // {Item}
     // {Item}
-    protected internal virtual void Grow()
-    {
-        SetCapacity(_capacity + 32);
-    }
+    protected internal virtual void Grow() => SetCapacity(_capacity + 32);
 
     // Engine.pas:4571
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // Engine.pas:4576
     public override void Assign(Persistent source)
@@ -374,15 +371,12 @@ public partial class BitList : Persistent
     public bool this[int index] { get => Get(index); set => Put(index, value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
-    public int BitsSet { get => GetBitsSet(); }
-    public int BitsCleared { get => GetBitsCleared(); }
+    public int BitsSet => GetBitsSet();
+    public int BitsCleared => GetBitsCleared();
 
     private static byte DefaultByte(bool item) => item ? (byte)1 : (byte)0;
 
     // Engine.pas:4613
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
 }

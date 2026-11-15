@@ -54,7 +54,7 @@ public partial class UnitControl : EngineObject
     {
         for (int i = Units.Count - 1; i >= 0; i--)
         {
-            (Units[i]).Changed();
+            Units[i].Changed();
         }
     }
 

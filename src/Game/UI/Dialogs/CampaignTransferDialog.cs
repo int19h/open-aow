@@ -783,6 +783,9 @@ public partial class CampaignTransferDialog : UIModule
             UpdateControls();
             Book.Visible = true;
         }
-        else BookStartClick();
+        else
+        {
+            BookStartClick();
+        }
     }
 }

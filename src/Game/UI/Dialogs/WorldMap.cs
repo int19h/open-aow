@@ -285,7 +285,7 @@ public partial class WorldMap : UIModule
                     {
                         Path1Image.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path1Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                        Path1Image.CurrentImage = (campaign2.Faction * 3) + _pathFrame + 2;
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[0];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
@@ -304,7 +304,7 @@ public partial class WorldMap : UIModule
                     {
                         Path2Image.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path2Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                        Path2Image.CurrentImage = (campaign2.Faction * 3) + _pathFrame + 2;
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[1];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
@@ -323,7 +323,7 @@ public partial class WorldMap : UIModule
                     {
                         Path3Image.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path3Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                        Path3Image.CurrentImage = (campaign2.Faction * 3) + _pathFrame + 2;
                         var campaign3 = GetCampaign();
                         var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[2];
                         index = GetCampaign().Scenarios.IndexOfId(path2);
@@ -400,7 +400,7 @@ public partial class WorldMap : UIModule
                             test = GetCampaign().RaceHistory.IndexOf((byte)player.PlayerRace) == -1;
                         }
 
-                        if (test && GetCampaign().TransferSettings.Leader.GetSphereCount() < GetCampaign().RaceHistory.Count * 2 + 3)
+                        if (test && GetCampaign().TransferSettings.Leader.GetSphereCount() < (GetCampaign().RaceHistory.Count * 2) + 3)
                         {
                             ShowSpheres();
                         }
@@ -656,7 +656,10 @@ public partial class WorldMap : UIModule
             }
 
             if (!condition)
+            {
                 break;
+            }
+
             var campaign4 = GetCampaign();
             campaign4.Page += 2;
         }
@@ -684,10 +687,7 @@ public partial class WorldMap : UIModule
     }
 
     // AoWWorldMap.pas:863
-    public void WorldMapCreate()
-    {
-        RegisterWorldMapCampaign(UI.Engine);
-    }
+    public void WorldMapCreate() => RegisterWorldMapCampaign(UI.Engine);
 
     // AoWWorldMap.pas:461
     public void NextStartClick()
@@ -719,11 +719,11 @@ public partial class WorldMap : UIModule
                 frame = 1 - _pathFrame;
                 _pathFrame = frame;
                 var campaign = GetCampaign();
-                Path1Image.CurrentImage = campaign.Faction * 3 + (frame + 2);
+                Path1Image.CurrentImage = (campaign.Faction * 3) + frame + 2;
                 var campaign2 = GetCampaign();
-                Path2Image.CurrentImage = campaign2.Faction * 3 + (_pathFrame + 2);
+                Path2Image.CurrentImage = (campaign2.Faction * 3) + _pathFrame + 2;
                 var campaign3 = GetCampaign();
-                Path3Image.CurrentImage = campaign3.Faction * 3 + (_pathFrame + 2);
+                Path3Image.CurrentImage = (campaign3.Faction * 3) + _pathFrame + 2;
             }
 
             if (GetCampaign().State == 5)
@@ -736,14 +736,14 @@ public partial class WorldMap : UIModule
                     var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                     var campaign3 = GetCampaign();
                     var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId);
-                    PlayerPawnImage.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
+                    PlayerPawnImage.WinLeft = ((campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19) + campaignScenario3.MapX - 25;
                     var campaign4 = GetCampaign();
                     var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.NextScenarioId);
                     var campaign5 = GetCampaign();
                     var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign5.CurrentScenarioId);
                     var campaign6 = GetCampaign();
                     var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
-                    PlayerPawnImage.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
+                    PlayerPawnImage.WinTop = ((campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19) + campaignScenario6.MapY - 65;
                     if (PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                     {
                         PlayerPawnImage.Priority = 10;
@@ -793,11 +793,11 @@ public partial class WorldMap : UIModule
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
                         var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
-                        EnemyPawnImage.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19 + campaignScenario3.MapX - 25;
+                        EnemyPawnImage.WinLeft = ((campaignScenario.MapX - campaignScenario2.MapX) * (20 - _pawnTicks) / 19) + campaignScenario3.MapX - 25;
                         var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
                         var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
                         var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
-                        EnemyPawnImage.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19 + campaignScenario6.MapY - 65;
+                        EnemyPawnImage.WinTop = ((campaignScenario4.MapY - campaignScenario5.MapY) * (20 - _pawnTicks) / 19) + campaignScenario6.MapY - 65;
                         if (PlayerPawnImage.WinTop > EnemyPawnImage.WinTop)
                         {
                             PlayerPawnImage.Priority = 10;
@@ -898,10 +898,7 @@ public partial class WorldMap : UIModule
     }
 
     // AoWWorldMap.pas:611. Bound to the enemy pawn.
-    public void EPawnMouseDown(Image sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        sender.Handled = false;
-    }
+    public void EPawnMouseDown(Image sender, MouseButton button, Set<ShiftState> shift, int X, int Y) => sender.Handled = false;
 
     // AoWWorldMap.pas:624. Bound to the player pawn.
     public void PPawnMouseMove(Image sender, Set<ShiftState> shift, int X, int Y)
@@ -1064,10 +1061,7 @@ public partial class WorldMap : UIModule
     }
 
     // AoWWorldMap.pas:729
-    public void BookWinShow()
-    {
-        BookAction = 0;
-    }
+    public void BookWinShow() => BookAction = 0;
 
     // AoWWorldMap.pas:733
     public void BookWinUpdate()
@@ -1163,10 +1157,7 @@ public partial class WorldMap : UIModule
     }
 
     // AoWWorldMap.pas:800
-    public void StarImgDraw(LockedSurface surface)
-    {
-        UI.Graphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.WinLeft + StarImage.WinLeft, WorldPanel.WinTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
-    }
+    public void StarImgDraw(LockedSurface surface) => UI.Graphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.WinLeft + StarImage.WinLeft, WorldPanel.WinTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
 
     // AoWWorldMap.pas:806
     public void Ally1PnlPreDraw(LockedSurface surface)
@@ -1216,23 +1207,14 @@ public partial class WorldMap : UIModule
     }
 
     // AoWWorldMap.pas:854
-    public void SetBtnClick()
-    {
-        UI.CampaignSettingsDialog.Window.Visible = true;
-    }
+    public void SetBtnClick() => UI.CampaignSettingsDialog.Window.Visible = true;
 
     // AoWWorldMap.pas:859
-    public void BookWinHide()
-    {
-        BookClosed();
-    }
+    public void BookWinHide() => BookClosed();
 
     private static readonly string s_assignNewSpheresFormat = "Assign %s new spheres!";
 
-    private static void RegisterWorldMapCampaign(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<CampaignScenarioPage>(), EngineClass.Of<WorldMapCampaignScenario>(), EngineClass.Of<WorldMapCampaign>()]);
-    }
+    private static void RegisterWorldMapCampaign(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<CampaignScenarioPage>(), EngineClass.Of<WorldMapCampaignScenario>(), EngineClass.Of<WorldMapCampaign>()]);
 
     private static CampaignScenarioPage GetCampaignPage(WMCampaignScenarioPageList pages, int index) => pages[index];
 

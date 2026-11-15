@@ -31,7 +31,11 @@ public sealed class GlyphIndexTests
                 LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
             int glyphs = 0;
-            foreach (string file in files) glyphs += CheckFont(file);
+            foreach (string file in files)
+            {
+                glyphs += CheckFont(file);
+            }
+
             Assert.True(glyphs > 13 * 90, $"only {glyphs} glyphs drawn");
         }
         finally
@@ -59,11 +63,14 @@ public sealed class GlyphIndexTests
             string name = Path.GetFileName(file);
             int width = 16, height = 16;
             for (int code = 0; code < 256; code++)
+            {
                 if (font.GetSafe(code) is { } image)
                 {
                     width = Math.Max(width, image.Width);
                     height = Math.Max(height, image.Height);
                 }
+            }
+
             width += 64;
             height += 64;
             for (int code = 0; code < 256; code++)
@@ -75,7 +82,10 @@ public sealed class GlyphIndexTests
                 byte[] shown = Draw(width, height, lockedSurface => font.ShowText(24, 24, text, lockedSurface));
                 byte[] expected = Draw(width, height, lockedSurface => glyph?.Show(24, 24, lockedSurface));
                 Assert.True(expected.AsSpan().SequenceEqual(shown), $"{name}: ShowText of byte {code} draws another glyph");
-                if (glyph is not null && expected.Any(value => value != 0)) drawn++;
+                if (glyph is not null && expected.Any(value => value != 0))
+                {
+                    drawn++;
+                }
             }
         }
         finally

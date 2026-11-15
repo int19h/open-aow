@@ -14,10 +14,7 @@ public partial class Shipyard : ProductionPlace
     public new const int ClassId = 132286;
 
     // Shipyard.pas:55
-    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
-    {
-        base.UpdateAITarget(info, ref data);
-    }
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data) => base.UpdateAITarget(info, ref data);
 
     // Shipyard.pas:52
     public override int GetBaseIncome() => 0;

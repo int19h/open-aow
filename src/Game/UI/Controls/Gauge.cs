@@ -24,10 +24,7 @@ public partial class Gauge : Control
     private int _imageLibraryIndexTSelected;
 
     // AOWGauge.pas:69
-    public Gauge(Component owner) : base(owner)
-    {
-        _max = 1;
-    }
+    public Gauge(Component owner) : base(owner) => _max = 1;
 
     // AOWGauge.pas:75
     public override void Validate()
@@ -217,10 +214,7 @@ public partial class Gauge : Control
     }
 
     // AOWGauge.pas:274
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AOWGauge.pas:141
     public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)

@@ -9,10 +9,7 @@ namespace Aow.Game.Combat;
 public partial class FastBattleCommand
 {
     // AIGroup.pas:6705
-    public FastBattleCommand(int abilityId)
-    {
-        AbilityId = abilityId;
-    }
+    public FastBattleCommand(int abilityId) => AbilityId = abilityId;
 
     public int AbilityId { get; }
     public int SourceDamageValue { get; set; }

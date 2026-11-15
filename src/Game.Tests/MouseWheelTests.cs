@@ -33,7 +33,10 @@ public sealed class MouseWheelTests
     private static void Fill(ListBox list, int count, int shown)
     {
         list.VisibleRows = shown;
-        for (int i = 0; i < count; i++) list.Items.Add("item" + i);
+        for (int i = 0; i < count; i++)
+        {
+            list.Items.Add("item" + i);
+        }
     }
 
     private static VerticalScrollBar Bar(UIComponent owner, int left, int top, int width, int height, int max, int visible)
@@ -280,13 +283,19 @@ public sealed class MouseWheelTests
         {
             page--;
             forward.SetVisibleWithoutUpdate(true);
-            if (page == 0) back.SetVisibleWithoutUpdate(false);
+            if (page == 0)
+            {
+                back.SetVisibleWithoutUpdate(false);
+            }
         };
         forward.OnClick += _ =>
         {
             page++;
             back.SetVisibleWithoutUpdate(true);
-            if (page == 2) forward.SetVisibleWithoutUpdate(false);
+            if (page == 2)
+            {
+                forward.SetVisibleWithoutUpdate(false);
+            }
         };
         book.PageBack = back;
         book.PageForward = forward;

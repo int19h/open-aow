@@ -8,9 +8,6 @@ public partial class Image
 {
     public LayoutStrings LayoutToolTipText
     {
-        set
-        {
-            value.CopyTo(ToolTipText);
-        }
+        set => value.CopyTo(ToolTipText);
     }
 }

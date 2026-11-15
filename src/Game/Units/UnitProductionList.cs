@@ -60,16 +60,13 @@ public partial class UnitProductionList : OwningNode, IChildList<UnitProduction>
     }
 
     // Structur.PAS:55
-    public void SortOnLevel()
-    {
-        SortChildren<UnitProduction>(CompareUnitProductionLevel);
-    }
+    public void SortOnLevel() => SortChildren<UnitProduction>(CompareUnitProductionLevel);
 
     private static int CompareUnitProductionLevel(UnitProduction item1, UnitProduction item2)
     {
         UnitProduction unitProduction = item1;
-        int number = ((GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null) ? (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2) : 0);
-        int number2 = ((GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex) != null) ? (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex).Level * 2) : 0);
+        int number = (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null) ? (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2) : 0;
+        int number2 = (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex) != null) ? (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex).Level * 2) : 0;
         int number3 = number - number2;
         if (number3 == 0)
         {

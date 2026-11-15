@@ -43,10 +43,7 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
     }
 
     // CombatSpells.pas:557
-    public MultiTargetCombatSpellCombatAction(CustomNode owner) : base(owner)
-    {
-        TargetIds = new ByteList();
-    }
+    public MultiTargetCombatSpellCombatAction(CustomNode owner) : base(owner) => TargetIds = new ByteList();
 
     // CombatSpells.pas:579
     public override void Execute(Battle combat)

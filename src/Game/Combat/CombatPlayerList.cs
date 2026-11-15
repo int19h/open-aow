@@ -56,10 +56,7 @@ public partial class CombatPlayerList : OwningNode, IChildList<CombatPlayer>
     }
 
     // Combat2.pas:159
-    public void Delete(int index)
-    {
-        GetPlayers((sbyte)index)?.Dispose();
-    }
+    public void Delete(int index) => GetPlayers((sbyte)index)?.Dispose();
 
     // intf_P3_02.inc:212
 

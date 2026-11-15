@@ -120,7 +120,11 @@ public sealed class PersistCorpusTests
                 var path = Path.Combine(Root, relative);
                 var bytes = File.ReadAllBytes(path);
                 var found = GameFiles.Classify(bytes, Path.GetExtension(path));
-                if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null) continue;
+                if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null)
+                {
+                    continue;
+                }
+
                 var imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
                 Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
                 var root = (JsonObject)imported.Document["root"]!;
@@ -132,7 +136,11 @@ public sealed class PersistCorpusTests
             foreach (var (relative, rootClass, engine) in s_gameSetFiles)
             {
                 var path = Path.Combine(Root, relative);
-                if (!File.Exists(path)) continue;
+                if (!File.Exists(path))
+                {
+                    continue;
+                }
+
                 var bytes = File.ReadAllBytes(path);
                 var profile = new WrittenObjectProfile("pfs", ["pfs"], rootClass, engine);
                 var imported = GameFiles.Import(bytes[4..^4], profile, "pfs", relative);
@@ -140,8 +148,18 @@ public sealed class PersistCorpusTests
             }
             var printed = new SortedSet<string>(StringComparer.Ordinal);
             foreach (var pair in counts)
-                if (pair.Value > 0) printed.Add(pair.Key);
-            foreach (var name in s_watched) printed.Add(name);
+            {
+                if (pair.Value > 0)
+                {
+                    printed.Add(pair.Key);
+                }
+            }
+
+            foreach (var name in s_watched)
+            {
+                printed.Add(name);
+            }
+
             foreach (var name in printed)
             {
                 s_proved.TryGetValue(name, out int ok);
@@ -193,9 +211,21 @@ public sealed class PersistCorpusTests
         var added = new Dictionary<int, EngineClass>();
         foreach (var engineClass in EngineClass.All)
         {
-            if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space) continue;
-            if (!s_enlistedNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal))) continue;
-            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId)) continue;
+            if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space)
+            {
+                continue;
+            }
+
+            if (!s_enlistedNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal)))
+            {
+                continue;
+            }
+
+            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId))
+            {
+                continue;
+            }
+
             added[engineClass.ClassId] = engineClass;
         }
         var classes = added.Values.ToArray();
@@ -215,7 +245,10 @@ public sealed class PersistCorpusTests
 
     private static void Walk(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
-        if (IsMapLevel(classValue)) ProveLevel(objectValue, classValue, engine, file, schema);
+        if (IsMapLevel(classValue))
+        {
+            ProveLevel(objectValue, classValue, engine, file, schema);
+        }
         else if (classValue.Name != "MapField" && s_engineTypes.TryGetValue(classValue.Name, out var type) && EngineObject.TreePersistenceRefusal(type) == null)
         {
             counts.TryGetValue(classValue.Name, out int seen);
@@ -229,11 +262,21 @@ public sealed class PersistCorpusTests
         foreach (var prop in classValue.Properties)
         {
             var member = objectValue.Find(prop.Name);
-            if (member is null) continue;
+            if (member is null)
+            {
+                continue;
+            }
+
             if (prop.IsDynamic)
             {
                 if (member.Value is JsonArray array)
-                    foreach (var item in array.Items) Visit(classValue, prop, item, engine, file, schema, factory, counts);
+                {
+                    foreach (var item in array.Items)
+                    {
+                        Visit(classValue, prop, item, engine, file, schema, factory, counts);
+                    }
+                }
+
                 continue;
             }
             Visit(classValue, prop, member.Value, engine, file, schema, factory, counts);
@@ -243,23 +286,39 @@ public sealed class PersistCorpusTests
     private static void Visit(SchemaClass classValue, SchemaProperty prop, JsonValue value, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
         if (prop.Codec is FixedObjectCodec fixedObject && value is JsonObject nested)
+        {
             Walk(nested, schema.Get(fixedObject.ClassName), engine, file, schema, factory, counts);
+        }
         else if (prop.Codec is CreatedObjectCodec && value is JsonObject created && created["$class"] is JsonString name)
+        {
             Walk(created, schema.Get(name.Value), engine, file, schema, factory, counts);
+        }
         else if (prop.Codec is ChildrenCodec && value is JsonArray children)
         {
             foreach (var item in children.Items)
+            {
                 if (item is JsonObject child && child["$class"] is JsonString childName)
+                {
                     Walk(child, schema.Get(childName.Value), engine, file, schema, factory, counts);
+                }
+            }
         }
         else if (prop.Codec is MapFieldsCodec && value is JsonArray rows)
         {
             var field = schema.Get(classValue.FieldClass ?? "MapField");
             foreach (var row in rows.Items)
+            {
                 if (row is JsonArray cells)
+                {
                     foreach (var cell in cells.Items)
+                    {
                         if (cell is JsonObject fieldObject)
+                        {
                             Walk(fieldObject, field, engine, file, schema, factory, counts);
+                        }
+                    }
+                }
+            }
         }
         else if (prop.Codec is CampaignMapCodec && value is JsonObject map && map["root"] is JsonObject campaignRoot)
         {
@@ -426,7 +485,13 @@ public sealed class PersistCorpusTests
         var grid = (GridNode)tree.Find("Fields")!;
         long sprites = 0;
         foreach (var field in grid.Fields)
-            if (field.Find("HexSpriteList") is SequenceNode sequence) sprites += sequence.Items.Count;
+        {
+            if (field.Find("HexSpriteList") is SequenceNode sequence)
+            {
+                sprites += sequence.Items.Count;
+            }
+        }
+
         s_levels.TryGetValue(classValue.Name, out var total);
         s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
     }
@@ -434,15 +499,27 @@ public sealed class PersistCorpusTests
     private static JsonObject WithoutLayout(JsonObject objectValue)
     {
         objectValue.Members.RemoveAll(member => member.Name == "$layout");
-        foreach (var member in objectValue.Members) WithoutLayout(member.Value);
+        foreach (var member in objectValue.Members)
+        {
+            WithoutLayout(member.Value);
+        }
+
         return objectValue;
     }
 
     private static void WithoutLayout(JsonValue value)
     {
-        if (value is JsonObject nested) WithoutLayout(nested);
+        if (value is JsonObject nested)
+        {
+            WithoutLayout(nested);
+        }
         else if (value is JsonArray array)
-            foreach (var item in array.Items) WithoutLayout(item);
+        {
+            foreach (var item in array.Items)
+            {
+                WithoutLayout(item);
+            }
+        }
     }
 
     private void PrintLevels()
@@ -460,8 +537,10 @@ public sealed class PersistCorpusTests
         }
         Print("direct levels " + levels);
         foreach (var message in s_levelBlocks.Keys)
+        {
             Assert.False(message.Contains("map fields", StringComparison.Ordinal) || message.Contains("dynamic member", StringComparison.Ordinal),
                 "A map level is refused for its fields or sprites: " + message);
+        }
     }
 
     private void Print(string line)
@@ -478,8 +557,15 @@ public sealed class PersistCorpusTests
 
     private static void Block(string className, string label)
     {
-        if (s_blocked.TryGetValue(className, out var seen)) s_blocked[className] = (seen.Count + 1, seen.Reason);
-        else s_blocked[className] = (1, label);
+        if (s_blocked.TryGetValue(className, out var seen))
+        {
+            s_blocked[className] = (seen.Count + 1, seen.Reason);
+        }
+        else
+        {
+            s_blocked[className] = (1, label);
+        }
+
         s_refusers.TryGetValue(label, out int count);
         s_refusers[label] = count + 1;
     }
@@ -516,7 +602,11 @@ public sealed class PersistCorpusTests
         var types = new Dictionary<string, Type>();
         foreach (var engineClass in EngineClass.All)
         {
-            if (engineClass.Type.Assembly != typeof(EngineObject).Assembly) continue;
+            if (engineClass.Type.Assembly != typeof(EngineObject).Assembly)
+            {
+                continue;
+            }
+
             types.TryAdd(engineClass.Type.Name, engineClass.Type);
             // A pinned class keeps its schema name while Type.Name changes. Nested stored names stay out of this set.
             if (s_pinnedStored.Contains(engineClass.StorageKey))
@@ -542,9 +632,17 @@ public sealed class PersistCorpusTests
     {
         string message = error.Message;
         const string prefix = "Class ";
-        if (!message.StartsWith(prefix, StringComparison.Ordinal)) return false;
+        if (!message.StartsWith(prefix, StringComparison.Ordinal))
+        {
+            return false;
+        }
+
         int nameEnd = message.IndexOf(' ', prefix.Length);
-        if (nameEnd < 0) return false;
+        if (nameEnd < 0)
+        {
+            return false;
+        }
+
         string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
         return s_engineTypes.TryGetValue(name, out var type) && EngineObject.TreePersistenceRefusal(type) == message;
     }
@@ -566,7 +664,13 @@ public sealed class PersistCorpusTests
     private static EngineObject Blank(string className)
     {
         foreach (var engineClass in EngineClass.All)
-            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+        {
+            if (engineClass.StorageKey == className)
+            {
+                return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+            }
+        }
+
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
@@ -574,10 +678,7 @@ public sealed class PersistCorpusTests
     // vanishing from both sides.
     private static void Stop(string message, out bool continueLoad) => continueLoad = false;
 
-    private static void Load(EngineObject objectValue, byte[] image, SchemaClass classValue, string engine, EnginePersistableFactory factory)
-    {
-        TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: FormatSchema.Current, engine: engine), objectValue: objectValue, factory: factory, onError: Stop);
-    }
+    private static void Load(EngineObject objectValue, byte[] image, SchemaClass classValue, string engine, EnginePersistableFactory factory) => TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: FormatSchema.Current, engine: engine), objectValue: objectValue, factory: factory, onError: Stop);
 
     private static byte[] Image(EngineObject objectValue, string engine)
     {
@@ -589,7 +690,11 @@ public sealed class PersistCorpusTests
     {
         var left = JsonWriter.ToUtf8(expected);
         var right = JsonWriter.ToUtf8(actual);
-        if (left.AsSpan().SequenceEqual(right)) return;
+        if (left.AsSpan().SequenceEqual(right))
+        {
+            return;
+        }
+
         Assert.Fail(label + " at " + FirstDifference(expected, actual, ""));
     }
 
@@ -600,14 +705,28 @@ public sealed class PersistCorpusTests
             int count = Math.Max(left.Members.Count, right.Members.Count);
             for (int i = 0; i < count; i++)
             {
-                if (i >= left.Members.Count) return Join(path, right.Members[i].Name) + " extra";
-                if (i >= right.Members.Count) return Join(path, left.Members[i].Name) + " missing";
+                if (i >= left.Members.Count)
+                {
+                    return Join(path, right.Members[i].Name) + " extra";
+                }
+
+                if (i >= right.Members.Count)
+                {
+                    return Join(path, left.Members[i].Name) + " missing";
+                }
+
                 var one = left.Members[i];
                 var other = right.Members[i];
                 if (!string.Equals(one.Name, other.Name, StringComparison.Ordinal))
+                {
                     return path + " member " + i.ToString(CultureInfo.InvariantCulture) + " " + one.Name + " / " + other.Name;
+                }
+
                 string nested = FirstDifference(one.Value, other.Value, Join(path, one.Name));
-                if (nested.Length != 0) return nested;
+                if (nested.Length != 0)
+                {
+                    return nested;
+                }
             }
             return "";
         }
@@ -617,18 +736,37 @@ public sealed class PersistCorpusTests
             for (int i = 0; i < count; i++)
             {
                 string at = path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]";
-                if (i >= leftItems.Items.Count) return at + " extra";
-                if (i >= rightItems.Items.Count) return at + " missing";
+                if (i >= leftItems.Items.Count)
+                {
+                    return at + " extra";
+                }
+
+                if (i >= rightItems.Items.Count)
+                {
+                    return at + " missing";
+                }
+
                 string nested = FirstDifference(leftItems.Items[i], rightItems.Items[i], at);
-                if (nested.Length != 0) return nested;
+                if (nested.Length != 0)
+                {
+                    return nested;
+                }
             }
             return "";
         }
         var expectedBytes = JsonWriter.ToUtf8(expected);
         var actualBytes = JsonWriter.ToUtf8(actual);
-        if (expectedBytes.AsSpan().SequenceEqual(actualBytes)) return "";
+        if (expectedBytes.AsSpan().SequenceEqual(actualBytes))
+        {
+            return "";
+        }
+
         string text = Encoding.UTF8.GetString(actualBytes);
-        if (text.Length > 80) text = text[..80];
+        if (text.Length > 80)
+        {
+            text = text[..80];
+        }
+
         return path + " " + text;
     }
 
@@ -636,7 +774,11 @@ public sealed class PersistCorpusTests
 
     private static void EqualBytes(byte[] expected, byte[] actual, string label)
     {
-        if (expected.AsSpan().SequenceEqual(actual)) return;
+        if (expected.AsSpan().SequenceEqual(actual))
+        {
+            return;
+        }
+
         Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
     }
 
@@ -652,9 +794,15 @@ public sealed class PersistCorpusTests
         foreach (var pattern in s_patterns)
         {
             var directory = Path.Combine(Root, Path.GetDirectoryName(pattern)!);
-            if (!Directory.Exists(directory)) continue;
+            if (!Directory.Exists(directory))
+            {
+                continue;
+            }
+
             foreach (var file in Directory.EnumerateFiles(directory, Path.GetFileName(pattern), new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive }))
+            {
                 yield return Path.GetRelativePath(Root, file);
+            }
         }
     }
 }

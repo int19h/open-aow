@@ -18,10 +18,7 @@ public partial class AIMoveExecutorMoveQueue : OwningNode, IChildList<AIMoveExec
     { }
 
     // AIGroup.pas:4522
-    public override void Clear()
-    {
-        base.Clear();
-    }
+    public override void Clear() => base.Clear();
 
     // AIGroup.pas:4508
     public AIMoveExecutorMove GetMoves(int index) => this[index];

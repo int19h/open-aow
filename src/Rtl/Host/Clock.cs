@@ -12,7 +12,10 @@ public interface IClock
     void WaitUntil(double deadline)
     {
         int remaining = (int)Math.Ceiling(deadline - ElapsedMilliseconds);
-        if (remaining > 0) WaitMilliseconds(remaining);
+        if (remaining > 0)
+        {
+            WaitMilliseconds(remaining);
+        }
     }
 }
 
@@ -26,7 +29,13 @@ public sealed class SystemClock : IClock
     public void WaitMilliseconds(int milliseconds)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
-        if (milliseconds == 0) Thread.Yield();
-        else Thread.Sleep(milliseconds);
+        if (milliseconds == 0)
+        {
+            Thread.Yield();
+        }
+        else
+        {
+            Thread.Sleep(milliseconds);
+        }
     }
 }

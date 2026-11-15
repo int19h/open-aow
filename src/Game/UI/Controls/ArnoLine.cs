@@ -24,10 +24,7 @@ public partial class ArnoLine : Control
     }
 
     // AoWArnoLine.pas:41
-    public ArnoLine(Component owner) : base(owner)
-    {
-        _lineLibrary = new InterfaceImageLibrary(this);
-    }
+    public ArnoLine(Component owner) : base(owner) => _lineLibrary = new InterfaceImageLibrary(this);
 
     // AoWArnoLine.pas:53
     public override void Validate()

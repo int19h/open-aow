@@ -16,10 +16,7 @@ public partial class GlobalEnchantmentSpell : Spell
     public int AIBasePriority { get; protected set; }
 
     // GlobalEnchantmentSpells.pas:413
-    public GlobalEnchantmentSpell(CustomNode owner) : base(owner)
-    {
-        AIBasePriority = -1;
-    }
+    public GlobalEnchantmentSpell(CustomNode owner) : base(owner) => AIBasePriority = -1;
 
     // GlobalEnchantmentSpells.pas:429
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
@@ -147,10 +144,7 @@ public partial class GlobalEnchantmentSpell : Spell
     public virtual GlobalEnchantment CreateEnchantment() => null;
 
     // GlobalEnchantmentSpells.pas:424
-    public virtual void SetupEnchantment(Troop source, GlobalEnchantment enchantment)
-    {
-        enchantment.EnchantmentManaUpkeep = ManaUpkeep;
-    }
+    public virtual void SetupEnchantment(Troop source, GlobalEnchantment enchantment) => enchantment.EnchantmentManaUpkeep = ManaUpkeep;
 
     // GlobalEnchantmentSpells.pas:484
     public int AIUpkeepPriority()

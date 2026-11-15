@@ -15,10 +15,7 @@ namespace Aow.Game.World;
 // Message
 public partial class TutorialMessageEvent : FlagEvent
 {
-    public TutorialMessageEvent(CustomNode owner) : base(owner)
-    {
-        _message = new StringList();
-    }
+    public TutorialMessageEvent(CustomNode owner) : base(owner) => _message = new StringList();
 
     // FlagEvents.pas:245
     public new const int ClassId = 132459;

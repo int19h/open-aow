@@ -61,10 +61,7 @@ public partial class CombatTypeRequestEventLog : EventLog
     }
 
     // Combat2.pas:27
-    public void Select(CombatType combatType)
-    {
-        CombatType = combatType;
-    }
+    public void Select(CombatType combatType) => CombatType = combatType;
 
     // Combat2.pas:30
     public void SetCenterLocation(byte X, byte Y, int L)

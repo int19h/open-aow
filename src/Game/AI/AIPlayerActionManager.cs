@@ -10,10 +10,7 @@ namespace Aow.Game.AI;
 public partial class AIPlayerActionManager : EngineObject
 {
     // AI.pas:36
-    public AIPlayerActionManager(CustomNode owner) : base(owner)
-    {
-        _registeredClasses = new DelphiList<AIPlayerActionClass>();
-    }
+    public AIPlayerActionManager(CustomNode owner) : base(owner) => _registeredClasses = new DelphiList<AIPlayerActionClass>();
 
     private readonly DelphiList<AIPlayerActionClass> _registeredClasses;
 
@@ -55,10 +52,7 @@ public partial class AIPlayerActionManager : EngineObject
         }
     }
 
-    private static int CompareAIPlayerActionClasses(AIPlayerActionClass item1, AIPlayerActionClass item2)
-    {
-        return item2.Priority - item1.Priority;
-    }
+    private static int CompareAIPlayerActionClasses(AIPlayerActionClass item1, AIPlayerActionClass item2) => item2.Priority - item1.Priority;
 
     // intf_P5_06.inc:32
 

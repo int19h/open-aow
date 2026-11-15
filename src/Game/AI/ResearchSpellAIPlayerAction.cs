@@ -33,7 +33,7 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
             Control.Player.MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
             for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
             {
-                value = spells.GetSpell(i).CastDuration * 100 + 100;
+                value = (spells.GetSpell(i).CastDuration * 100) + 100;
                 var spell = spells.GetSpell(i);
                 var netPowerToResearch = Control.Player.MagicControl.GetNetPowerToResearch();
                 value = value - Control.Player.MagicControl.ResearchTurns(netPowerToResearch, spell.ResearchCost);

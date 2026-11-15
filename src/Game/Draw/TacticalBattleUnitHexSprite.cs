@@ -258,8 +258,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                             {
                                                                 if (message.MessageId == 200720 && message.HexNumber == 0)
                                                                 {
-                                                                    OffsetX = Random(message.Param[0].Int * 2 + 1) - message.Param[0].Int;
-                                                                    OffsetY = Random(message.Param[0].Int * 2 + 1) - message.Param[0].Int;
+                                                                    OffsetX = Random((message.Param[0].Int * 2) + 1) - message.Param[0].Int;
+                                                                    OffsetY = Random((message.Param[0].Int * 2) + 1) - message.Param[0].Int;
                                                                 }
                                                                 else
                                                                 {
@@ -343,7 +343,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 return;
             }
 
-            if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility <= -1 && (CombatObject.MeleeDamageTypes(((CombatMoveControl)info.Sender).UnitHexSprite.Unit) == Set<DamageType>.Of() || Unit.GetAbilityEnabled(1) && !((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1)) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move))
+            if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility <= -1 && (CombatObject.MeleeDamageTypes(((CombatMoveControl)info.Sender).UnitHexSprite.Unit) == Set<DamageType>.Of() || (Unit.GetAbilityEnabled(1) && !((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1))) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move))
             {
                 return;
             }
@@ -603,7 +603,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         {
             for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
             {
-                if ((Abilities[i]).Ability == abilityId)
+                if (Abilities[i].Ability == abilityId)
                 {
                     index = i;
                 }
@@ -766,7 +766,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             var ability = Abilities[i];
-            names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject((Abilities[i]).Ability));
+            names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject(Abilities[i].Ability));
             if (types != null)
             {
                 var ability2 = Abilities[i];
@@ -865,10 +865,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
     private static ReadOnlySpan<int> StatusAbilities => [149, 150, 48, 92, 93, 94, 95, 96, 97, 98, 107, 163, 127, 34];
 
-    public static void OriginalUnitAssert(string message, string fileName, int lineNumber)
-    {
-        Assert(false, message, fileName, lineNumber);
-    }
+    public static void OriginalUnitAssert(string message, string fileName, int lineNumber) => Assert(false, message, fileName, lineNumber);
 
     private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {

@@ -101,11 +101,9 @@ public partial class MultiWindow : UIModule
     }
 
     // AOWMultiWin.pas:142
-    public void JoinBtnClick()
-    {
+    public void JoinBtnClick() =>
         /* TODO: Implement aowDPlayComp.JoinSession in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AOWMultiWin.pas:157
     public void GamesLBChange()
@@ -121,11 +119,9 @@ public partial class MultiWindow : UIModule
     }
 
     // AOWMultiWin.pas:163
-    public void BackBtnClick()
-    {
+    public void BackBtnClick() =>
         /* TODO: Implement aowDPlayComp.GetSessions in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AOWMultiWin.pas:175
     public void TCPBtnClick()
@@ -189,30 +185,20 @@ public partial class MultiWindow : UIModule
     }
 
     // AOWMultiWin.pas:232
-    public void IPXNameChange()
-    {
-        TcpNameEdit.Text = IpxNameEdit.Text;
-    }
+    public void IPXNameChange() => TcpNameEdit.Text = IpxNameEdit.Text;
 
     // AOWMultiWin.pas:238
-    public void TCPNameChange()
-    {
-        IpxNameEdit.Text = TcpNameEdit.Text;
-    }
+    public void TCPNameChange() => IpxNameEdit.Text = TcpNameEdit.Text;
 
     // AOWMultiWin.pas:244
-    public void LANFindClick()
-    {
+    public void LANFindClick() =>
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AOWMultiWin.pas:259
-    public void LANHostClick()
-    {
+    public void LANHostClick() =>
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AOWMultiWin.pas:276
     public void SingleBtnClick()
@@ -229,16 +215,10 @@ public partial class MultiWindow : UIModule
     }
 
     // AOWMultiWin.pas:285
-    public void ModemButtonClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void ModemButtonClick() => UI.General.PlayButtonSound(0);
 
     // AOWMultiWin.pas:291
-    public void DirectButtonClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void DirectButtonClick() => UI.General.PlayButtonSound(0);
 
     // AOWMultiWin.pas:297
     public void EmailBtnClick()
@@ -249,10 +229,7 @@ public partial class MultiWindow : UIModule
     }
 
     // AOWMultiWin.pas:305
-    public void CancelOKButClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void CancelOKButClick() => UI.General.PlayButtonSound(0);
 
     // AOWMultiWin.pas:311
     public void CancelPBEMBtnClick()
@@ -296,10 +273,7 @@ public partial class MultiWindow : UIModule
     }
 
     // AOWMultiWin.pas:343
-    public void EmailSettingsBtnClick()
-    {
-        EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
-    }
+    public void EmailSettingsBtnClick() => EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
 
     // AOWMultiWin.pas:349
     public void HeatNetBtnClick()
@@ -318,10 +292,8 @@ public partial class MultiWindow : UIModule
 
     internal const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 
-    internal static void ShowMultiplayer(MultiWindow dialog, string name)
-    {
+    internal static void ShowMultiplayer(MultiWindow dialog, string name) =>
         /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
 }

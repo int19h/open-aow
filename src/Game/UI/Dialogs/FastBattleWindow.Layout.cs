@@ -10,10 +10,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class FastBattleWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -1771,6 +1768,8 @@ public partial class FastBattleWindow : ILayoutModule
         fastLbl.Font = UI.Fonts.Age8Shadow;
         ModeLabel.Font = UI.Fonts.Age10Shadow;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

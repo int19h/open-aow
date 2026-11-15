@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class LeaderSetupWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -5164,6 +5161,8 @@ public partial class LeaderSetupWindow : ILayoutModule
         RaceComboBox.ImageLibraryTextureNormal = UI.Graphics.GenericTextures;
         RaceComboBox.ImageLibraryTextureSelected = UI.Graphics.GenericTextures;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

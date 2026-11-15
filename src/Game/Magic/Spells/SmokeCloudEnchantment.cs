@@ -50,9 +50,17 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
 
     public override bool Deactivate(byte player)
     {
-        if ((EnchantmentStatus.Image & 1) == 0) return false;
+        if ((EnchantmentStatus.Image & 1) == 0)
+        {
+            return false;
+        }
+
         bool result = base.Deactivate(player);
-        if ((Cloud.Status.Image & 0x20) != 0) Cloud?.Dispose();
+        if ((Cloud.Status.Image & 0x20) != 0)
+        {
+            Cloud?.Dispose();
+        }
+
         return result;
     }
 

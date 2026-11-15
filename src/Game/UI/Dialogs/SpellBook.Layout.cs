@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class SpellBook : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -3633,6 +3630,8 @@ public partial class SpellBook : ILayoutModule
         cancelCastingBtn.Font = UI.Fonts.Age10Bold;
         cancelCastingBtn.ImageLibraryButton = UI.Graphics.CampaignTransfer;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

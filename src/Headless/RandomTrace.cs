@@ -33,7 +33,11 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Sort(DelphiList<EngineObject> list, Delegate compare)
     {
-        if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority")) return;
+        if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority"))
+        {
+            return;
+        }
+
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "targets",
@@ -98,8 +102,16 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     private string? Source(StackFrame? frame)
     {
-        if (frame?.GetMethod() is not { } method) return null;
-        if (_sources.TryGetValue(method, out var source)) return source;
+        if (frame?.GetMethod() is not { } method)
+        {
+            return null;
+        }
+
+        if (_sources.TryGetValue(method, out var source))
+        {
+            return source;
+        }
+
         if (frame.GetFileName() is { } file && File.Exists(file))
         {
             var lines = File.ReadAllLines(file);

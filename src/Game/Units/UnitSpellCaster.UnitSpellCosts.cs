@@ -16,9 +16,17 @@ public partial class UnitSpellCaster
     public int GetRequiredDays()
     {
         var hero = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        if (hero is null || hero.GetCastingPointsMax() == 0) return 0;
+        if (hero is null || hero.GetCastingPointsMax() == 0)
+        {
+            return 0;
+        }
+
         int deficit = GetRequiredMana() - hero.GetCastingPoints();
-        if (deficit <= 0) return 0;
-        return deficit / hero.GetCastingPointsMax() + (deficit % hero.GetCastingPoints() != 0 ? 1 : 0);
+        if (deficit <= 0)
+        {
+            return 0;
+        }
+
+        return (deficit / hero.GetCastingPointsMax()) + (deficit % hero.GetCastingPoints() != 0 ? 1 : 0);
     }
 }

@@ -10,7 +10,7 @@ public sealed class SurfaceRectangleTests
 {
     private const int SourceWidth = 4, SourceHeight = 3, DestinationWidth = 6, DestinationHeight = 5;
 
-    private static int Source(int x, int y) => 0x100 * y + x + 1;
+    private static int Source(int x, int y) => (0x100 * y) + x + 1;
 
     private static DataSurface MakeSource()
     {
@@ -18,7 +18,13 @@ public sealed class SurfaceRectangleTests
         LockedSurface lockedSurface = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
         for (int y = 0; y < SourceHeight; y++)
-            for (int x = 0; x < SourceWidth; x++) lockedSurface.View().UInt16(y * lockedSurface.Pitch + x * 2, Source(x, y));
+        {
+            for (int x = 0; x < SourceWidth; x++)
+            {
+                lockedSurface.View().UInt16((y * lockedSurface.Pitch) + (x * 2), Source(x, y));
+            }
+        }
+
         surface.Unlock();
         return surface;
     }
@@ -29,16 +35,28 @@ public sealed class SurfaceRectangleTests
     {
         var result = new int[DestinationWidth, DestinationHeight];
         for (int sy = top; sy < bottom; sy++)
+        {
             for (int sx = left; sx < right; sx++)
-                if (Source(sx, sy) != key) result[x + sx - left, y + sy - top] = Source(sx, sy);
+            {
+                if (Source(sx, sy) != key)
+                {
+                    result[x + sx - left, y + sy - top] = Source(sx, sy);
+                }
+            }
+        }
+
         return result;
     }
 
     private static void Check(int[,] expected, Surface destination)
     {
         for (int y = 0; y < DestinationHeight; y++)
+        {
             for (int x = 0; x < DestinationWidth; x++)
+            {
                 Assert.True(expected[x, y] == destination.GetPixelInfo(x, y), $"pixel {x}, {y}: expected {expected[x, y]:X}, actual {destination.GetPixelInfo(x, y):X}");
+            }
+        }
     }
 
     private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = PixelFormats.GFXE_OK)
@@ -132,10 +150,21 @@ public sealed class SurfaceRectangleTests
         {
             Assert.Equal((SourceWidth, SourceHeight), (whole.Width, whole.Height));
             for (int y = 0; y < SourceHeight; y++)
-                for (int x = 0; x < SourceWidth; x++) Assert.Equal(Source(x, y), whole.GetPixelInfo(x, y));
+            {
+                for (int x = 0; x < SourceWidth; x++)
+                {
+                    Assert.Equal(Source(x, y), whole.GetPixelInfo(x, y));
+                }
+            }
+
             Assert.Equal((2, 2, 1, 1), (part.Width, part.Height, part.X, part.Y));
             for (int y = 0; y < 2; y++)
-                for (int x = 0; x < 2; x++) Assert.Equal(Source(x + 1, y + 1), part.GetPixelInfo(x, y));
+            {
+                for (int x = 0; x < 2; x++)
+                {
+                    Assert.Equal(Source(x + 1, y + 1), part.GetPixelInfo(x, y));
+                }
+            }
         }
         finally
         {

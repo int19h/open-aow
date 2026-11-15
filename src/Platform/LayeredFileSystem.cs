@@ -17,10 +17,17 @@ public sealed class LayeredFileSystem : IFileSystem
         _userOnly = userOnlyDirectories?.Select(p => p.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar)).ToArray() ?? [];
         _root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(gameRoot));
         _user = Path.TrimEndingDirectorySeparator(Path.GetFullPath(userDirectory));
-        if (!Directory.Exists(_root)) throw new DirectoryNotFoundException(_root);
+        if (!Directory.Exists(_root))
+        {
+            throw new DirectoryNotFoundException(_root);
+        }
+
         RejectLink(_root);
         if (!Same(_root, _user) && (Within(_root, _user) || Within(_user, _root)))
+        {
             throw new ArgumentException("The two layers must be separate directories or the same directory.");
+        }
+
         Snapshot(_root, "");
         EnsureDirectory(_user);
     }
@@ -37,13 +44,19 @@ public sealed class LayeredFileSystem : IFileSystem
     private static void RejectLink(string path)
     {
         if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+        {
             throw new UnauthorizedAccessException("Links are outside the virtual drive: " + path);
+        }
     }
 
     private static void EnsureDirectory(string path)
     {
         string? parent = Path.GetDirectoryName(path);
-        if (parent is not null) EnsureDirectory(parent);
+        if (parent is not null)
+        {
+            EnsureDirectory(parent);
+        }
+
         if (Directory.Exists(path)) { RejectLink(path); return; }
         Directory.CreateDirectory(path);
     }
@@ -53,37 +66,81 @@ public sealed class LayeredFileSystem : IFileSystem
         _rootTree[relative] = directory;
         foreach (string entry in Directory.EnumerateFileSystemEntries(directory).Order(StringComparer.Ordinal))
         {
-            if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0) continue;
+            if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0)
+            {
+                continue;
+            }
+
             string key = Path.Combine(relative, Path.GetFileName(entry));
-            if (_userOnly.Any(p => Same(p, key))) continue;
-            if (!_rootTree.TryAdd(key, entry)) throw new IOException("Ambiguous install name: " + key);
-            if (Directory.Exists(entry)) Snapshot(entry, key);
+            if (_userOnly.Any(p => Same(p, key)))
+            {
+                continue;
+            }
+
+            if (!_rootTree.TryAdd(key, entry))
+            {
+                throw new IOException("Ambiguous install name: " + key);
+            }
+
+            if (Directory.Exists(entry))
+            {
+                Snapshot(entry, key);
+            }
         }
     }
 
     private string Relative(string path)
     {
         path = path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
-        if (Same(path, _root)) return "";
-        if (Within(_root, path)) path = path[(_root.Length + 1)..];
-        else if (Same(path, _user)) return "";
-        else if (Within(_user, path)) path = path[(_user.Length + 1)..];
+        if (Same(path, _root))
+        {
+            return "";
+        }
+
+        if (Within(_root, path))
+        {
+            path = path[(_root.Length + 1)..];
+        }
+        else if (Same(path, _user))
+        {
+            return "";
+        }
+        else if (Within(_user, path))
+        {
+            path = path[(_user.Length + 1)..];
+        }
         else if (path.Length >= 2 && path[1] == ':')
         {
-            if (!Same(path[..2], VirtualDrive)) throw new UnauthorizedAccessException("Unknown virtual drive.");
+            if (!Same(path[..2], VirtualDrive))
+            {
+                throw new UnauthorizedAccessException("Unknown virtual drive.");
+            }
+
             path = path[2..].TrimStart(Path.DirectorySeparatorChar);
         }
         else if (Path.IsPathRooted(path))
         {
             path = path.TrimStart(Path.DirectorySeparatorChar);
         }
-        else path = Path.Combine(_current, path);
+        else
+        {
+            path = Path.Combine(_current, path);
+        }
+
         var parts = new List<string>();
         foreach (string part in path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
-            if (part == ".") continue;
-            if (part == "..") { if (parts.Count > 0) parts.RemoveAt(parts.Count - 1); continue; }
-            if (part.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || part.Contains(':')) throw new ArgumentException("Invalid path component.");
+            if (part == ".")
+            {
+                continue;
+            }
+
+            if (part == "..") { if (parts.Count > 0) { parts.RemoveAt(parts.Count - 1); } continue; }
+            if (part.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || part.Contains(':'))
+            {
+                throw new ArgumentException("Invalid path component.");
+            }
+
             parts.Add(part);
         }
         return Path.Combine([.. parts]);
@@ -94,16 +151,28 @@ public sealed class LayeredFileSystem : IFileSystem
     public string ExtractRelativePath(string baseFile, string destination)
     {
         // SysUtils: an empty base has no drive and no path, so the destination comes back unchanged.
-        if (baseFile.Length == 0) return destination;
+        if (baseFile.Length == 0)
+        {
+            return destination;
+        }
+
         static bool DirectoryPath(string path) => path.EndsWith('\\') || path.EndsWith('/');
         string[] first = Relative(baseFile).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
         string[] second = Relative(destination).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
         int baseCount = DirectoryPath(baseFile) ? first.Length : Math.Max(0, first.Length - 1);
         int destinationCount = DirectoryPath(destination) ? second.Length : Math.Max(0, second.Length - 1);
         int common = 0;
-        while (common < baseCount && common < destinationCount && Same(first[common], second[common])) common++;
+        while (common < baseCount && common < destinationCount && Same(first[common], second[common]))
+        {
+            common++;
+        }
+
         var parts = Enumerable.Repeat("..", baseCount - common).Concat(second.Skip(common).Take(destinationCount - common));
-        if (!DirectoryPath(destination) && second.Length > 0) parts = parts.Append(second[^1]);
+        if (!DirectoryPath(destination) && second.Length > 0)
+        {
+            parts = parts.Append(second[^1]);
+        }
+
         string result = string.Join("\\", parts);
         return DirectoryPath(destination) && result.Length > 0 ? result + "\\" : result;
     }
@@ -112,7 +181,11 @@ public sealed class LayeredFileSystem : IFileSystem
     {
         string relative = Relative(path);
         string? found = ReadLocation(relative);
-        if (found is null || !Directory.Exists(found)) return false;
+        if (found is null || !Directory.Exists(found))
+        {
+            return false;
+        }
+
         _current = relative;
         return true;
     }
@@ -122,11 +195,22 @@ public sealed class LayeredFileSystem : IFileSystem
         string location = _user;
         foreach (string part in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
-            if (!Directory.Exists(location)) return null;
+            if (!Directory.Exists(location))
+            {
+                return null;
+            }
+
             if (!_userListings.TryGetValue(location, out var entries))
+            {
                 _userListings[location] = entries = Directory.GetFileSystemEntries(location).Order(StringComparer.Ordinal).ToArray();
+            }
+
             string? match = entries.FirstOrDefault(e => Same(Path.GetFileName(e), part));
-            if (match is null) return null;
+            if (match is null)
+            {
+                return null;
+            }
+
             RejectLink(match);
             location = match;
         }
@@ -140,7 +224,10 @@ public sealed class LayeredFileSystem : IFileSystem
         {
             ancestor = Path.GetDirectoryName(ancestor) ?? "";
             string? overlay = UserLocation(ancestor);
-            if (overlay is not null && !Directory.Exists(overlay)) return null;
+            if (overlay is not null && !Directory.Exists(overlay))
+            {
+                return null;
+            }
         }
         return UserLocation(relative) ?? (Same(_root, _user) ? null : _rootTree.GetValueOrDefault(relative));
     }
@@ -152,7 +239,10 @@ public sealed class LayeredFileSystem : IFileSystem
         {
             string? match = Directory.Exists(location) ? Directory.EnumerateFileSystemEntries(location).Order(StringComparer.Ordinal).FirstOrDefault(e => Same(Path.GetFileName(e), part)) : null;
             location = match ?? Path.Combine(location, part);
-            if (match is not null) RejectLink(match);
+            if (match is not null)
+            {
+                RejectLink(match);
+            }
         }
         return location;
     }
@@ -163,7 +253,10 @@ public sealed class LayeredFileSystem : IFileSystem
         bool create = mode == RtlUnit.fmCreate;
         FileAccess access = create ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, 2 => FileAccess.ReadWrite, _ => throw new ArgumentException("Invalid open mode.") };
         string target;
-        if (access == FileAccess.Read) target = ReadLocation(relative) ?? throw new FileNotFoundException(path);
+        if (access == FileAccess.Read)
+        {
+            target = ReadLocation(relative) ?? throw new FileNotFoundException(path);
+        }
         else
         {
             target = WriteLocation(relative);
@@ -192,7 +285,11 @@ public sealed class LayeredFileSystem : IFileSystem
     public bool DeleteFile(string path) => Mutate(() =>
     {
         string target = WriteLocation(Relative(path));
-        if (!File.Exists(target)) throw new FileNotFoundException(path);
+        if (!File.Exists(target))
+        {
+            throw new FileNotFoundException(path);
+        }
+
         File.Delete(target);
     });
 
@@ -208,7 +305,11 @@ public sealed class LayeredFileSystem : IFileSystem
     public bool ReplaceFile(string source, string target) => Mutate(() =>
     {
         string from = WriteLocation(Relative(source));
-        if (!File.Exists(from)) throw new FileNotFoundException(source);
+        if (!File.Exists(from))
+        {
+            throw new FileNotFoundException(source);
+        }
+
         string destination = WriteLocation(Relative(target));
         EnsureDirectory(Path.GetDirectoryName(destination)!);
         File.Move(from, destination, true);
@@ -217,7 +318,11 @@ public sealed class LayeredFileSystem : IFileSystem
     public string Layer(string path)
     {
         string? found = ReadLocation(Relative(path));
-        if (found is null) return "none";
+        if (found is null)
+        {
+            return "none";
+        }
+
         return Same(_root, _user) ? "single" : Within(_user, found) || Same(_user, found) ? "user" : "root";
     }
 
@@ -226,7 +331,11 @@ public sealed class LayeredFileSystem : IFileSystem
     public bool RemoveDirectory(string path) => Mutate(() =>
     {
         string relative = Relative(path);
-        if (relative.Length == 0) throw new UnauthorizedAccessException("The virtual drive cannot be removed.");
+        if (relative.Length == 0)
+        {
+            throw new UnauthorizedAccessException("The virtual drive cannot be removed.");
+        }
+
         Directory.Delete(WriteLocation(relative));
     });
 
@@ -237,16 +346,33 @@ public sealed class LayeredFileSystem : IFileSystem
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
         string relative = Relative(directory);
-        if (!DirectoryExists(directory)) return [];
+        if (!DirectoryExists(directory))
+        {
+            return [];
+        }
+
         var merged = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var pair in Same(_root, _user) ? [] : _rootTree)
-            if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative)) merged[Path.GetFileName(pair.Key)] = pair.Value;
+        {
+            if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative))
+            {
+                merged[Path.GetFileName(pair.Key)] = pair.Value;
+            }
+        }
+
         if (UserLocation(relative) is { } overlay && Directory.Exists(overlay))
+        {
             foreach (string entry in Directory.EnumerateFileSystemEntries(overlay).Order(StringComparer.Ordinal))
             {
-                if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0) continue;
+                if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0)
+                {
+                    continue;
+                }
+
                 merged[Path.GetFileName(entry)] = entry;
             }
+        }
+
         return merged.Values.Select(p => new RtlFileEntry(Path.GetFileName(p), Directory.Exists(p) ? 0 : unchecked((int)new FileInfo(p).Length), (int)File.GetAttributes(p), RtlFileTime.LastWriteTime(p)))
             .OrderBy(e => e.Name.ToUpperInvariant(), StringComparer.Ordinal).ThenBy(e => e.Name, StringComparer.Ordinal).ToArray();
     }

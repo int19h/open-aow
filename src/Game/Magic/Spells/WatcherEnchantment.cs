@@ -30,9 +30,17 @@ public partial class WatcherEnchantment : GlobalEnchantment
 
     public override bool Deactivate(byte player)
     {
-        if ((EnchantmentStatus.Image & 1) == 0) return false;
+        if ((EnchantmentStatus.Image & 1) == 0)
+        {
+            return false;
+        }
+
         bool result = base.Deactivate(player);
-        if ((Watcher.WatcherState & 1) != 0) Watcher?.Dispose();
+        if ((Watcher.WatcherState & 1) != 0)
+        {
+            Watcher?.Dispose();
+        }
+
         return result;
     }
 }

@@ -51,10 +51,7 @@ public partial class MessageDialog : UIModule
     }
 
     // AoWMessageDlg.pas:83
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWMessageDlg.pas:88
     public void YesBtnClick()

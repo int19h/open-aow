@@ -10,10 +10,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class RelationWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -4918,6 +4915,8 @@ public partial class RelationWindow : ILayoutModule
         OfTheLabel.Font = UI.Fonts.Age15WhiteOnGrey;
         PlayerRaceLabel.Font = UI.Fonts.Age15WhiteOnGrey;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

@@ -11,12 +11,17 @@ public partial class MapContainer
     public void RemoveHexSprite(int x, int y, int level, HexSprite sprite)
     {
         if (GetMapLevel(level).GetField(x, y).RemoveHexSprite(sprite) != -1 && sprite.GetLevel() <= 15)
+        {
             _map.InvalidateStaticScene(x, y, level);
+        }
     }
 
     public void InsertHexSprite(int x, int y, int level, HexSprite sprite, int hexNumber)
     {
         GetMapLevel(level).GetField(x, y).AddHexSprite(sprite, hexNumber);
-        if (sprite.GetLevel() <= 15) _map.InvalidateStaticScene(x, y, level);
+        if (sprite.GetLevel() <= 15)
+        {
+            _map.InvalidateStaticScene(x, y, level);
+        }
     }
 }

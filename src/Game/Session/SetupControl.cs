@@ -990,10 +990,7 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:889
-    public void BeginUpdate()
-    {
-        _updateCount += 1;
-    }
+    public void BeginUpdate() => _updateCount += 1;
 
     // AoWSetup.pas:893
     public void EndUpdate()
@@ -1024,10 +1021,7 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:916
-    public void Disconnect()
-    {
-        SendHostMessage(2, null, RemotePlayer.RemoteId, 0);
-    }
+    public void Disconnect() => SendHostMessage(2, null, RemotePlayer.RemoteId, 0);
 
     // AoWSetup.pas:920
     public string GetPlayerName() => RemotePlayer.Name;

@@ -436,7 +436,11 @@ public partial class GameEngine : OwningNode
     // the map and keeps the port-only members.
     public void SaveHsmToStream(Stream stream, ProgressEvent progress)
     {
-        if (_hexSpriteMap == null) return;
+        if (_hexSpriteMap == null)
+        {
+            return;
+        }
+
         _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
         try
         {
@@ -451,7 +455,10 @@ public partial class GameEngine : OwningNode
             {
                 var prepared = GameBoundary.PrepareSave(tree, className: className, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
                 if (!prepared.Succeeded || prepared.Bytes is null)
+                {
                     throw new ConversionException(prepared.Report.Error ?? error.Diagnostic);
+                }
+
                 stream.Write(prepared.Bytes);
                 return;
             }
@@ -481,7 +488,10 @@ public partial class GameEngine : OwningNode
     {
         var prepared = GameBoundary.PrepareLoad(payload, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
         if (!prepared.Succeeded)
+        {
             throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, "The campaign map document was refused."));
+        }
+
         return GameBoundary.ReadTree(prepared, use: GameProfile.WorldMap);
     }
 
@@ -519,14 +529,14 @@ public partial class GameEngine : OwningNode
         return _hexSpriteMap;
     }
 
-    public Set<HexSpriteEngineStatusElement> Status { get => _status; }
-    public GamePack HexSpriteSet { get => _hexSpriteSet; }
+    public Set<HexSpriteEngineStatusElement> Status => _status;
+    public GamePack HexSpriteSet => _hexSpriteSet;
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
 
     internal void SetHexSpriteMapWithoutCurrentMap(GameMap value) => _hexSpriteMap = value;
 
     public string HexSpriteSetSearchPath { get => _hexSpriteSetSearchPath; set => _hexSpriteSetSearchPath = value; }
-    public string HssFileName { get => _hssFileName; }
+    public string HssFileName => _hssFileName;
 
     public event NotifyEvent<GameMap> OnHsmLoaded
     {

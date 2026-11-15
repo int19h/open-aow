@@ -451,7 +451,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 break;
         }
 
-        sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + (terrainOffset + _damageImage));
+        sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
         if (sequence != null)
         {
             do
@@ -466,7 +466,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                             {
                                 var hexX2 = GetHexX();
                                 var hexY2 = GetHexY();
-                                GamePack.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + hexY2 * 100, (byte)_flagId, lockedSurface, false);
+                                GamePack.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), (byte)_flagId, lockedSurface, false);
                             }
                         }
 

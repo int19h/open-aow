@@ -37,10 +37,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public new const int ClassId = 131666;
 
     // Diplomacy.pas:482
-    public DiplomaticAction(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-    }
+    public DiplomaticAction(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 
@@ -375,7 +372,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         }
         Player players4 = StrategicMap.Current.Players.GetPlayers(source);
         Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players4.PlayerRace).GetAlignment();
-        proposal.DefaultMessage(new DiplomaticMessageText(alignment: ((!Set<Alignment>.Of(new Alignment[2]
+        proposal.DefaultMessage(new DiplomaticMessageText(alignment: (!Set<Alignment>.Of(new Alignment[2]
         {
             Alignment.PureGood,
             Alignment.Good
@@ -383,7 +380,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         {
             Alignment.Evil,
             Alignment.PureEvil
-        }).Contains(alignment)) ? 1 : 2) : 0), textControl: fTextControl, sourceRace: sourceRace, targetRace: targetRace, otherRace: otherRace, text: text), reaction, diplomaticRelation);
+        }).Contains(alignment)) ? 1 : 2) : 0, textControl: fTextControl, sourceRace: sourceRace, targetRace: targetRace, otherRace: otherRace, text: text), reaction, diplomaticRelation);
     }
 
     // intf_P5_08.inc:143

@@ -60,8 +60,8 @@ public sealed class MapViewerCenteringTests
             LockedSurface lockedSurface = default;
             _target.Lock(ref lockedSurface);
             var data = lockedSurface.Data;
-            int at = lockedSurface.DataIndex + y * lockedSurface.Pitch + x * 2;
-            int value = data[at] | data[at + 1] << 8;
+            int at = lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (x * 2);
+            int value = data[at] | (data[at + 1] << 8);
             _target.Unlock();
             return value;
         }
@@ -77,13 +77,22 @@ public sealed class MapViewerCenteringTests
                     int sy = y - SceneTop;
                     int expected;
                     if (sx < 0 || sy < 0 || sx >= Viewer.SceneWidth || sy >= Viewer.SceneHeight)
+                    {
                         expected = Stale;
+                    }
                     else if (sx < shown.Left || sx >= shown.Right || sy < shown.Top || sy >= shown.Bottom)
+                    {
                         expected = 0;
+                    }
                     else
+                    {
                         expected = sx == edgeX || sy == edgeY ? Red : White;
+                    }
+
                     if (Pixel(x, y) != expected)
+                    {
                         Assert.Fail($"pixel {x},{y} is {Pixel(x, y):X4}, expected {expected:X4}");
+                    }
                 }
             }
         }

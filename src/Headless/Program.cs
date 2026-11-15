@@ -73,7 +73,11 @@ internal static class Program
                         long seedValue = seedText.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
                             ? long.Parse(seedText.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)
                             : long.Parse(seedText, CultureInfo.InvariantCulture);
-                        if (seedValue < int.MinValue || seedValue > uint.MaxValue) throw new ArgumentOutOfRangeException("seed");
+                        if (seedValue < int.MinValue || seedValue > uint.MaxValue)
+                        {
+                            throw new ArgumentOutOfRangeException("seed");
+                        }
+
                         seed = unchecked((int)seedValue);
                         break;
                     case "--turns": turns = int.Parse(Value()); break;
@@ -96,16 +100,32 @@ internal static class Program
                     default: throw new ArgumentException("unknown option: " + arguments[i]);
                 }
             }
-            if (input is null || output is null || turns < 0) throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--file-log <path>]");
+            if (input is null || output is null || turns < 0)
+            {
+                throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--file-log <path>]");
+            }
+
             Directory.CreateDirectory(output);
-            if (Directory.EnumerateFiles(output, "day-*.asg").Any()) throw new IOException("output already contains day saves");
+            if (Directory.EnumerateFiles(output, "day-*.asg").Any())
+            {
+                throw new IOException("output already contains day saves");
+            }
+
             writeManifest = true;
             trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n" };
             AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
             {
                 string detail = (e.Exception.ToString() + (gameplay ? "\n" + new StackTrace(1, true) : "")).Replace("\r\n", "\n");
-                if (e.Exception is NotImplementedException) todos.Add(detail);
-                if (gameplay) runtimeErrors.Add(detail);
+                if (e.Exception is NotImplementedException)
+                {
+                    todos.Add(detail);
+                }
+
+                if (gameplay)
+                {
+                    runtimeErrors.Add(detail);
+                }
+
                 if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
             };
             var host = new HeadlessHost(root, output, settings, movementSpeed, input);
@@ -124,7 +144,10 @@ internal static class Program
                 HeadlessHooks.BeforeMove = randomTrace.Path;
                 DelphiList<EngineObject>.TraceSort = randomTrace.Sort;
                 HeadlessHooks.ProcessCost = randomTrace.Cost;
-                if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
+                if (traceMovement)
+                {
+                    HeadlessHooks.MoveLine = randomTrace.Line;
+                }
             }
             Startup.InitializeAll();
             var engine = Startup.CreateEngine();
@@ -133,14 +156,21 @@ internal static class Program
             gameplay = true;
             engine.LoadHsm(input, false, null!, GameProfile.WorldMap);
             if (engine.HexSpriteMap is not StrategicMap map)
+            {
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
+            }
+
             map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
             Shim.RandSeed = seed;
             Shim.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
             HeadlessHooks.TacticalBattles = tacticalBattles;
             directed = new(map, exerciseItems, globalSpell);
-            if (globalSpell != 0) HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
+            if (globalSpell != 0)
+            {
+                HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
+            }
+
             map.GameEnded += _ => ended = true;
             map.ExecutingEventLog += notification =>
             {
@@ -149,14 +179,28 @@ internal static class Program
                 {
                     bool yes = message.Buttons is MessageEventLogButtons.YesNo or MessageEventLogButtons.YesNoCancel;
                     host.Show(new(message.Message.Text, message.Title, (int)message.Buttons, yes ? 6 : 1));
-                    if (yes) message.Yes(); else message.Ok();
+                    if (yes)
+                    {
+                        message.Yes();
+                    }
+                    else
+                    {
+                        message.Ok();
+                    }
                 }
                 info.Done?.Invoke(info.Log);
             };
             void CheckTodos()
             {
-                if (todos.Count != 0) throw new InvalidOperationException("reached TODO: " + string.Join("\n", todos));
-                if (runtimeErrors.Count != 0) throw new InvalidOperationException("gameplay exception: " + string.Join("\n", runtimeErrors));
+                if (todos.Count != 0)
+                {
+                    throw new InvalidOperationException("reached TODO: " + string.Join("\n", todos));
+                }
+
+                if (runtimeErrors.Count != 0)
+                {
+                    throw new InvalidOperationException("gameplay exception: " + string.Join("\n", runtimeErrors));
+                }
             }
             void Save(PlayerControl control)
             {
@@ -171,7 +215,11 @@ internal static class Program
                 host.FilesForRun.AutoSaveTarget = null;
                 CheckTodos();
                 string file = Path.Combine(output, name);
-                if (!File.Exists(file)) throw new IOException("AutoSave did not write " + name);
+                if (!File.Exists(file))
+                {
+                    throw new IOException("AutoSave did not write " + name);
+                }
+
                 saves.Add(new { day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });
                 Console.WriteLine($"day {day}: {name}, frame {frames}, viewport {map.ViewWidth}x{map.ViewHeight}");
                 Console.Out.Flush();
@@ -181,7 +229,11 @@ internal static class Program
             map.Activate();
             Console.WriteLine("map activated");
             CheckTodos();
-            if (saves.Count == 0) Save(map.PlayerControl);
+            if (saves.Count == 0)
+            {
+                Save(map.PlayerControl);
+            }
+
             map.UpdateFPS(animationFps);
             var viewer = new HexSpriteMapViewer(null!);
             viewer.HexSpriteMap = map;
@@ -200,11 +252,17 @@ internal static class Program
                     Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {map.AIExecutor.Status.Image:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
                 }
                 if (randomTrace is not null && frames % 100000 == 0 && map.CombatMap is CombatMap tacticalMap)
+                {
                     Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
+                }
+
                 map.NewFrame();
                 CheckTodos();
                 if (day != previous) { previous = day; watchdog.Restart(); }
-                if (watchdog.Elapsed > TimeSpan.FromMinutes(5)) throw new TimeoutException($"no day transition for five minutes at day {map.Day}, frame {frames}");
+                if (watchdog.Elapsed > TimeSpan.FromMinutes(5))
+                {
+                    throw new TimeoutException($"no day transition for five minutes at day {map.Day}, frame {frames}");
+                }
             }
             complete = ended || saves.Count >= turns + 1;
             Console.WriteLine($"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
@@ -217,6 +275,7 @@ internal static class Program
         finally
         {
             if (writeManifest && output is not null && Directory.Exists(output))
+            {
                 File.WriteAllText(Path.Combine(output, "run.json"), JsonSerializer.Serialize(new
                 {
                     input,
@@ -245,6 +304,8 @@ internal static class Program
                     gameplay_exceptions = runtimeErrors,
                     error
                 }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+            }
+
             trace?.Flush();
             FileBoundary.Log = null;
             fileLog?.Dispose();

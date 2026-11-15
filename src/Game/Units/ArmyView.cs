@@ -39,9 +39,15 @@ public partial class ArmyView : Army
     {
         base.MainPersist(persister);
         // The translate stream's mode holds read, so the original sets the morale there too.
-        if (!persister.Loading && !PersistSupport.Translating(persister)) return;
+        if (!persister.Loading && !PersistSupport.Translating(persister))
+        {
+            return;
+        }
+
         for (int i = 0; i < Units.Count; i++)
+        {
             Units.GetUnit(i).MoraleValue = (sbyte)MoraleValues[i];
+        }
     }
 
     // Army.PAS:138

@@ -41,14 +41,20 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public void Present(in LockedSurface surface)
     {
         if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatId != PixelFormats.pfRGB555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
+        {
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(surface));
+        }
+
         ClientSize = (surface.Width, surface.Height);
         Frame++;
         if (CaptureWhen is not null ? !CaptureWhen() : captureFrame != 0 && Frame != captureFrame) { AfterPresent?.Invoke(); return; }
         int pitch = checked(surface.Width * 2);
         byte[] bytes = new byte[checked(pitch * surface.Height)];
         for (int y = 0; y < surface.Height; y++)
-            surface.Data.AsSpan(checked(surface.DataIndex + y * surface.Pitch), pitch).CopyTo(bytes.AsSpan(y * pitch, pitch));
+        {
+            surface.Data.AsSpan(checked(surface.DataIndex + (y * surface.Pitch)), pitch).CopyTo(bytes.AsSpan(y * pitch, pitch));
+        }
+
         Directory.CreateDirectory(directory);
         string name = Path.Combine(directory, CaptureName ?? $"frame-{FixtureFrame ?? Frame}");
         File.WriteAllBytes(name + ".raw", bytes);
@@ -74,7 +80,11 @@ public sealed class FixtureClock(DateTime now) : IClock
 
     public void WaitMilliseconds(int milliseconds)
     {
-        if (milliseconds < 0) throw new ArgumentOutOfRangeException(nameof(milliseconds));
+        if (milliseconds < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(milliseconds));
+        }
+
         ElapsedMilliseconds += milliseconds;
     }
 }

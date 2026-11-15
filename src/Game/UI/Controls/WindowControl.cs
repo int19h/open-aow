@@ -258,7 +258,7 @@ public partial class WindowControl : UIComponent
                 }
             }
 
-            if ((Handled || Modal))
+            if (Handled || Modal)
             {
                 RaiseKeyPress(this, ref key);
             }

@@ -26,10 +26,7 @@ public partial class SongList : EngineObject
     private readonly StringList _songNames;
 
     // Sound.pas:813
-    internal void SetSongs(StringList value)
-    {
-        _songs.Assign(value);
-    }
+    internal void SetSongs(StringList value) => _songs.Assign(value);
 
     // Sound.pas:819
     // { Reads the song titles; a file that cannot be read is dropped from the list. }
@@ -91,6 +88,6 @@ public partial class SongList : EngineObject
     }
 
     public StringList Songs { get => _songs; set => SetSongs(value); }
-    public StringList SongNames { get => _songNames; }
+    public StringList SongNames => _songNames;
 
 }

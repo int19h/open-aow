@@ -638,9 +638,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                 {
                                                                                     if (i != effectIndex)
                                                                                     {
-                                                                                        if ((CombatMap.Current.Effects[i]).Target == effect.Target)
+                                                                                        if (CombatMap.Current.Effects[i].Target == effect.Target)
                                                                                         {
-                                                                                            (CombatMap.Current.Effects[i]).Target = null;
+                                                                                            CombatMap.Current.Effects[i].Target = null;
                                                                                         }
                                                                                     }
                                                                                 }
@@ -965,7 +965,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var hexY = _unit.UnitHexSprite.HexY;
                 var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY, TargetX, TargetY);
                 var fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
-                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref j, ref k);
+                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12) - 3], ref j, ref k);
                 var hexY2 = _unit.UnitHexSprite.HexY;
                 HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY2, out x1, out y1);
                 HexGeometry.HexToPixel(j, k, out x2, out y2);
@@ -995,14 +995,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 {
                     var pi = Math.PI;
                     var mathPI = Math.PI;
-                    angle = (float)((double)((double)((double)pi / 2) - a) + (double)((double)((double)((double)sweep * 6) - 30) * mathPI) / 180);
+                    angle = (float)((double)((double)((double)pi / 2) - a) + ((double)((double)((double)((double)sweep * 6) - 30) * mathPI) / 180));
                 }
                 else
                 {
-                    angle = (float)((double)a + (double)((double)((double)((double)sweep * 6) - 30) * Math.PI) / 180);
+                    angle = (float)((double)a + ((double)((double)((double)((double)sweep * 6) - 30) * Math.PI) / 180));
                 }
 
-                radius = (float)Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+                radius = (float)Math.Sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
                 if (x2 >= x1)
                 {
                     deltaX = Round((double)Math.Sin(angle) * radius) - x2 + x1;
@@ -1033,7 +1033,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     var hexY5 = _unit.UnitHexSprite.HexY;
                     var targetX = effect.TargetX;
                     var targetY = effect.TargetY;
-                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + BreathHit[_strikeIndex] - 12], ref targetX, ref targetY);
+                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12) + BreathHit[_strikeIndex] - 12], ref targetX, ref targetY);
                     effect.TargetX = targetX;
                     effect.TargetY = targetY;
                 }
@@ -1182,7 +1182,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var path4 = effect.Path[count6 - 1];
                 var count7 = effect.Path.Count;
                 var path22 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50 + 2), 100, ref path22);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), 100, ref path22);
                 effect.Path = path22;
                 effect.TargetX = effect.Path.Count;
                 j = Random(200);
@@ -1199,7 +1199,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var path9 = effect.Path[count12 - 1];
                 var count13 = effect.Path.Count;
                 var path23 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50 + 3), 100, ref path23);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), 100, ref path23);
                 effect.Path = path23;
                 effect.TargetY = effect.Path.Count;
                 var count14 = effect.Path.Count;
@@ -1214,7 +1214,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var path12 = effect.Path[count18 - 1];
                 var count19 = effect.Path.Count;
                 var path24 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50 + 4), 100, ref path24);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), 100, ref path24);
                 effect.Path = path24;
                 break;
             case BattleEffectType.ScreenNESW:
@@ -1457,7 +1457,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     for (; i <= 49; i += 1)
                     {
                         var path33 = effect.Path;
-                        path33[i + 1].Z = 100 - i * 2;
+                        path33[i + 1].Z = 100 - (i * 2);
                         effect.Path = path33;
                     }
                 }

@@ -57,10 +57,7 @@ public partial class ItemExplorationSite : ExplorationSite
     }
 
     // ItemExpS.pas:120
-    public override void Deactivate()
-    {
-        base.Deactivate();
-    }
+    public override void Deactivate() => base.Deactivate();
 
     // ItemExpS.pas:181
     public override void NewDay()

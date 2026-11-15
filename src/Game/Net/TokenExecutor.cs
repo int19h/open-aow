@@ -145,28 +145,16 @@ public partial class TokenExecutor : IDisposable
     public TokenControl GetTacticalBattle(int index) => TacticalBattleList[index];
 
     // NetworkE.pas:1385
-    public void AddTacticalBattle(TokenControl tacticalBattle)
-    {
-        TacticalBattleList.Add(tacticalBattle);
-    }
+    public void AddTacticalBattle(TokenControl tacticalBattle) => TacticalBattleList.Add(tacticalBattle);
 
     // NetworkE.pas:1390
-    public void DeleteTacticalBattle(int index)
-    {
-        TacticalBattleList.RemoveAt(index);
-    }
+    public void DeleteTacticalBattle(int index) => TacticalBattleList.RemoveAt(index);
 
     // NetworkE.pas:1395
-    public void RemoveTacticalBattle(TokenControl tacticalBattle)
-    {
-        TacticalBattleList.Remove(tacticalBattle);
-    }
+    public void RemoveTacticalBattle(TokenControl tacticalBattle) => TacticalBattleList.Remove(tacticalBattle);
 
     // NetworkE.pas:1400
-    public void InsertTacticalBattle(int index, TokenControl tacticalBattle)
-    {
-        TacticalBattleList.Insert(index, tacticalBattle);
-    }
+    public void InsertTacticalBattle(int index, TokenControl tacticalBattle) => TacticalBattleList.Insert(index, tacticalBattle);
 
     // NetworkE.pas:1405
     public void Reset()
@@ -269,27 +257,23 @@ public partial class TokenExecutor : IDisposable
                 _round += 1;
             }
 
-            if ((TacticalBattleList[_activeTacticalBattleIndex]).Active || n > TacticalBattleList.Count)
+            if (TacticalBattleList[_activeTacticalBattleIndex].Active || n > TacticalBattleList.Count)
+            {
                 break;
+            }
         }
 
-        if ((TacticalBattleList[_activeTacticalBattleIndex]).Active)
+        if (TacticalBattleList[_activeTacticalBattleIndex].Active)
         {
             ActivateTacticalBattle(_activeTacticalBattleIndex);
         }
     }
 
     // NetworkE.pas:1503
-    public void Lock()
-    {
-        _lockCount += 1;
-    }
+    public void Lock() => _lockCount += 1;
 
     // NetworkE.pas:1508
-    public void Unlock()
-    {
-        _lockCount -= 1;
-    }
+    public void Unlock() => _lockCount -= 1;
 
     // NetworkE.pas:1513
     public bool GetLocked() => _lockCount != 0;
@@ -327,10 +311,7 @@ public partial class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1543
-    public void AddSystemEvent(TokenEvent tokenEvent)
-    {
-        SystemEvents.Add(tokenEvent);
-    }
+    public void AddSystemEvent(TokenEvent tokenEvent) => SystemEvents.Add(tokenEvent);
 
     // NetworkE.pas:1550
     // { Lets the active token control prefetch its events, executes them and activates the next token
@@ -392,16 +373,16 @@ public partial class TokenExecutor : IDisposable
         }
     }
 
-    public TokenControl ActiveTacticalBattle { get => _activeTacticalBattle; }
-    public TokenControl PrefetchTacticalBattle { get => _prefetchTacticalBattle; }
-    public int ActiveTacticalBattleIndex { get => _activeTacticalBattleIndex; }
-    public int TokenCounter { get => _tokenCounter; }
-    public int Round { get => _round; }
+    public TokenControl ActiveTacticalBattle => _activeTacticalBattle;
+    public TokenControl PrefetchTacticalBattle => _prefetchTacticalBattle;
+    public int ActiveTacticalBattleIndex => _activeTacticalBattleIndex;
+    public int TokenCounter => _tokenCounter;
+    public int Round => _round;
     public int ExecuteCount { get => _executeCount; internal set => _executeCount = value; }
-    public Set<TokenExecutorState> State { get => _state; }
-    public bool Locked { get => GetLocked(); }
+    public Set<TokenExecutorState> State => _state;
+    public bool Locked => GetLocked();
     public bool HoldTacticalBattle { get => _holdTacticalBattle; set => _holdTacticalBattle = value; }
-    public bool Executing { get => _executing; }
+    public bool Executing => _executing;
 
     public event NotifyEvent<TokenExecutor> OnEventsExecuted
     {

@@ -110,7 +110,7 @@ public partial class TabPanel : Control
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
@@ -119,14 +119,14 @@ public partial class TabPanel : Control
                             var textWidth = base.Font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[i];
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + BorderHeight, item2, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.WinTop + WinTop + BorderHeight, item2, lockedSurface);
                         }
                     }
                     else
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
@@ -135,7 +135,7 @@ public partial class TabPanel : Control
                             var textWidth = base.Font.GetTextWidth(item);
                             var count2 = _items.Count;
                             var item2 = _items[i];
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * (2 * i + 1) / (2 * count2) - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.WinTop + WinTop + _borderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
@@ -192,10 +192,7 @@ public partial class TabPanel : Control
     }
 
     // AoWTabPanel.pas:252
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWTabPanel.pas:85
     public virtual void SetImageLibraryButton(InterfaceImageLibrary value)

@@ -67,10 +67,7 @@ public partial class CenterViewLocation : MapObject
 
     public new partial class Resource : MapObjectResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            SetLevel(27);
-        }
+        public Resource(CustomNode owner) : base(owner) => SetLevel(27);
 
         // CenterViewLoc.pas:91
         public new const int ClassId = 2233641;
@@ -81,10 +78,7 @@ public partial class CenterViewLocation : MapObject
         public override int ResourceUserClassId() => 2233640;
 
         // CenterViewLoc.pas:94
-        public override void SetLevel(byte value)
-        {
-            base.SetLevel(27);
-        }
+        public override void SetLevel(byte value) => base.SetLevel(27);
 
         // CenterViewLoc.pas:34
 

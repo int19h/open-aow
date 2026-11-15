@@ -14,10 +14,7 @@ namespace Aow.Game.World.Structures;
 // Size
 public partial class Resource : PlayerCropStructureResource
 {
-    public Resource(CustomNode owner) : base(owner)
-    {
-        Razeable = true;
-    }
+    public Resource(CustomNode owner) : base(owner) => Razeable = true;
 
     // City.pas:2628
     public new const int ClassId = 131337;

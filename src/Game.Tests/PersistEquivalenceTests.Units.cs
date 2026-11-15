@@ -279,7 +279,9 @@ public sealed partial class PersistEquivalenceTests
         {
             Visited.Add("lines " + lines.Count);
             for (int index = 0; index < lines.Count; index++)
+            {
                 lines[index] = dictionary.GetValueOrDefault(lines[index], lines[index]);
+            }
         }
     }
 

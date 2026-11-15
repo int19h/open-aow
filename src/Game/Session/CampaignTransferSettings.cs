@@ -670,10 +670,7 @@ public partial class CampaignTransferSettings : EngineObject
         }
     }
 
-    private static int CompareCampaignTransfer(in QuadItemList.QuadInteger item1, in QuadItemList.QuadInteger item2)
-    {
-        return item2.Third - item1.Third;
-    }
+    private static int CompareCampaignTransfer(in QuadItemList.QuadInteger item1, in QuadItemList.QuadInteger item2) => item2.Third - item1.Third;
 
     // intf_P5_08.inc:43
 

@@ -37,10 +37,7 @@ public partial class SubMoveList : OwningNode, IChildList<PathFindingStep>
     }
 
     // MoveT.PAS:57
-    public void Delete(int index)
-    {
-        this[index]?.Dispose();
-    }
+    public void Delete(int index) => this[index]?.Dispose();
 
     // MoveT.PAS:62
     public int IndexOfMapCoordinate(MapCoordinate location)

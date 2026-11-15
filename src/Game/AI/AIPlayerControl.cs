@@ -201,10 +201,7 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:198
-    public void Deactivate()
-    {
-        Reset();
-    }
+    public void Deactivate() => Reset();
 
     // AI.pas:203
     public GroupBehavior GetRandomGroupBehavior()
@@ -444,7 +441,7 @@ public partial class AIPlayerControl : EngineObject
         }
 
         doubleItemList.SortDescendingItemB();
-        for (int i = 0, last = doubleItemList.Count / 2 - 1; i <= last; i++)
+        for (int i = 0, last = (doubleItemList.Count / 2) - 1; i <= last; i++)
         {
             item = doubleItemList[i];
             peace.Add((byte)item.First);

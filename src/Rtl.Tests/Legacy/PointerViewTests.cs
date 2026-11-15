@@ -72,9 +72,17 @@ public sealed class PointerViewTests
     public void BoxUnboxAndOffsetChainsReadTheRightByteWithoutViews()
     {
         var bytes = Ptr<byte>.Alloc(2048);
-        for (int i = 0; i < 2048; i++) bytes[i] = (byte)(i * 7);
+        for (int i = 0; i < 2048; i++)
+        {
+            bytes[i] = (byte)(i * 7);
+        }
+
         object boxed = new PtrBox<byte>(bytes);
-        for (int i = 0; i < 1000; i++) boxed = new PtrBox<byte>(Ptr<byte>.Unbox(boxed) + 1);
+        for (int i = 0; i < 1000; i++)
+        {
+            boxed = new PtrBox<byte>(Ptr<byte>.Unbox(boxed) + 1);
+        }
+
         var end = Ptr<byte>.Unbox(boxed);
         Assert.Equal(1000, end.ByteIndex);
         Assert.Equal(unchecked((byte)(1000 * 7)), end.Value);
@@ -86,7 +94,11 @@ public sealed class PointerViewTests
     public void ViewsOfViewsAddressTheOriginalStorage()
     {
         var bytes = Ptr<byte>.Alloc(2048);
-        for (int i = 0; i < 2048; i++) bytes[i] = (byte)(i * 7);
+        for (int i = 0; i < 2048; i++)
+        {
+            bytes[i] = (byte)(i * 7);
+        }
+
         var words = bytes.Reinterpret<ushort>();
         for (int i = 0; i < 1000; i++)
         {
@@ -96,7 +108,7 @@ public sealed class PointerViewTests
             AssertFlat(words.ViewState);
         }
         Assert.Equal(1000, words.ByteIndex);
-        Assert.Equal((ushort)(bytes[1000] | bytes[1001] << 8), words.Value);
+        Assert.Equal((ushort)(bytes[1000] | (bytes[1001] << 8)), words.Value);
         Assert.Same(bytes.StorageIdentity, words.StorageIdentity);
     }
 

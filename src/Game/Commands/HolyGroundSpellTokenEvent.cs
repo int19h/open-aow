@@ -56,7 +56,7 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         field.RestoreTerrain();
                         ground = (HolyGround)resource.CreateResourceUser();
-                        ground.Duration = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
+                        ground.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         ground.Player = caster.Player;
                         ground.OriginalOverlay = field.OverlayType;
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);

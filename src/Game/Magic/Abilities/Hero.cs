@@ -230,10 +230,7 @@ public partial class Hero : Troop
     public override bool GetAbilitySetAt(int index) => base.GetAbilitySetAt(index);
 
     // Hero.PAS:1344
-    public override void SetAbilitySet(int index, byte value)
-    {
-        base.SetAbilitySet(index, value);
-    }
+    public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
 
     // Hero.PAS:697
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
@@ -249,7 +246,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:930
-    public override byte GetUpkeep() => (byte)(GetLevel() * 2 + 5);
+    public override byte GetUpkeep() => (byte)((GetLevel() * 2) + 5);
 
     // Hero.PAS:680
     public override sbyte GetUnitLevel() => (sbyte)Level;
@@ -797,7 +794,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:726
-    public override int GetObtainValue() => GetLevel() * 50 + 75;
+    public override int GetObtainValue() => (GetLevel() * 50) + 75;
 
     // Hero.PAS:914
     public override bool CanActivate()
@@ -958,7 +955,7 @@ public partial class Hero : Troop
                 {
                     chance = playerLocal.GetHeroJoinChance(GetLevel());
                     seed = RandSeed;
-                    RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + UnitId * 16) & 4088;
+                    RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + (UnitId * 16)) & 4088;
                     result = Random(100) < chance;
                     RandSeed = seed;
                 }
@@ -1041,10 +1038,7 @@ public partial class Hero : Troop
     public virtual string GetNickname() => Nickname;
 
     // Hero.PAS:694
-    public virtual void SetNickname(string value)
-    {
-        Nickname = value;
-    }
+    public virtual void SetNickname(string value) => Nickname = value;
 
     // Hero.PAS:1615
     public virtual void SetHeroResourceIndex(int value)
@@ -1114,16 +1108,10 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:656
-    public void UpdateFromLibraryBegin()
-    {
-        Mode = Mode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
-    }
+    public void UpdateFromLibraryBegin() => Mode = Mode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
 
     // Hero.PAS:659
-    public void UpdateFromLibraryEnd()
-    {
-        Mode = Mode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
-    }
+    public void UpdateFromLibraryEnd() => Mode = Mode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
 
     // Hero.PAS:662
     public void UpdateFromLibrary()
@@ -1151,7 +1139,7 @@ public partial class Hero : Troop
     // Hero.PAS:751
     public int UsedSkillPoints()
     {
-        int result = UnitAttack * 5 + UnitDefense * 5 + UnitDamage * 10 + UnitResistance * 5 + UnitHits * 5 + UnitMoves * 2;
+        int result = (UnitAttack * 5) + (UnitDefense * 5) + (UnitDamage * 10) + (UnitResistance * 5) + (UnitHits * 5) + (UnitMoves * 2);
         for (int i = GetAbCount() - 1; i >= 0; i--)
         {
             if (GetAbilitySetAt(i))
@@ -1229,19 +1217,19 @@ public partial class Hero : Troop
         if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             var usedSkillPoints = UsedSkillPoints();
-            result = Level * 10 + 15 - usedSkillPoints - _usedSkillPoints;
+            result = (Level * 10) + 15 - usedSkillPoints - _usedSkillPoints;
         }
         else
         {
             var usedSkillPoints = UsedSkillPoints();
-            result = Level * 10 + 15 - usedSkillPoints;
+            result = (Level * 10) + 15 - usedSkillPoints;
         }
 
         return result;
     }
 
     // Hero.PAS:1013
-    public int GetSkillPointsMax() => Level * 10 + 15 - _usedSkillPoints;
+    public int GetSkillPointsMax() => (Level * 10) + 15 - _usedSkillPoints;
 
     // Hero.PAS:1016
     public int GetLevelMax()
@@ -1516,10 +1504,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1202
-    public void LinkToResource()
-    {
-        HeroResource = GamePack.Current.HeroResources.GetHeroResource(HeroResourceIndex);
-    }
+    public void LinkToResource() => HeroResource = GamePack.Current.HeroResources.GetHeroResource(HeroResourceIndex);
 
     // Hero.PAS:1207
     public void Loaded()
@@ -1537,10 +1522,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1221
-    public void ListSpells(ref SpellList list)
-    {
-        StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(ref list, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
-    }
+    public void ListSpells(ref SpellList list) => StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(ref list, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
 
     // Hero.PAS:1226
     public void ExecuteUpgradeHeroAI()
@@ -1644,7 +1626,9 @@ public partial class Hero : Troop
             }
 
             if (choices.Count == 0 || GetSkillPoints() == 0 || points == 0)
+            {
                 break;
+            }
         }
 
         choices?.Dispose();
@@ -1671,25 +1655,25 @@ public partial class Hero : Troop
             {
                 if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu2)
                 {
-                    SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 1));
+                    SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 1);
                 }
                 else
                 {
                     if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu3)
                     {
-                        SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 2));
+                        SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 2);
                     }
                     else
                     {
                         if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu4)
                         {
-                            SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 3));
+                            SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 3);
                         }
                         else
                         {
                             if (Player > 0 && StrategicMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu5)
                             {
-                                SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 4));
+                                SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience + 4);
                             }
                             else
                             {
@@ -1863,10 +1847,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1612
-    public void SetFaceIndex(int value)
-    {
-        FaceIndex = value;
-    }
+    public void SetFaceIndex(int value) => FaceIndex = value;
 
     // Hero.PAS:1708
     public HeroUpdateTokenEvent CreateHeroUpdateTokenEvent()
@@ -2348,7 +2329,7 @@ public partial class Hero : Troop
         bool result;
         if (!StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
         {
-            if (mana <= CastingPoints || spellId == CastingSpellId && Casting() && CastingReady())
+            if (mana <= CastingPoints || (spellId == CastingSpellId && Casting() && CastingReady()))
             {
                 result = CanCastSpell(spellId, ref reason);
             }

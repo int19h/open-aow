@@ -83,16 +83,10 @@ public partial class HelpWindow : UIModule
     }
 
     // aowHelpWin.pas:100
-    public void CloseBtnClick()
-    {
-        MainWindow.Visible = false;
-    }
+    public void CloseBtnClick() => MainWindow.Visible = false;
 
     // aowHelpWin.pas:105
-    public void HelpWinHide()
-    {
-        FinishDialog();
-    }
+    public void HelpWinHide() => FinishDialog();
 
     // aowHelpWin.pas:110
     public void HelpWinResize()

@@ -93,10 +93,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
     public override bool Validate() => base.Validate();
 
     // MoveT.PAS:2522
-    public override void InitializeMove()
-    {
-        base.InitializeMove();
-    }
+    public override void InitializeMove() => base.InitializeMove();
 
     // MoveT.PAS:3030
     public override bool Animating()
@@ -384,7 +381,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
             }
             else
             {
-                if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && (!StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human))
+                if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && ((!StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.LocalPlayers.Count == 1) || (StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human)))
                 {
                     if (GetEngine().Registry.GetCombatResolveMode() == GameSettings.CombatResolveMode.AlwaysFastBattle)
                     {
@@ -846,7 +843,7 @@ public partial class ArmyCombatMoveTokenEvent : MoveArmyTokenEvent
         army.Army.CreateMovePointTable(selection, out movePointTable);
         moveControlSettings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
-        MoveArmyTokenEvent result = ((moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, moveControlSettings.Path, action, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>())));
+        MoveArmyTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, moveControlSettings.Path, action, Set<ArmyMoveModeElement>.Of(Array.Empty<ArmyMoveModeElement>()));
         moveControlSettings.Release();
         return result;
     }

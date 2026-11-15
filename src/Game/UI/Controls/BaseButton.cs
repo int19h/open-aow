@@ -146,7 +146,7 @@ public partial class BaseButton : Control
                     {
                         base.Font.Color = SelectedColor;
                         var textWidth = base.Font.GetTextWidth(base.Text);
-                        base.Font.SetText(Window.WinLeft + WinLeft + WinWidth / 2 - textWidth / 2, Window.WinTop + WinTop + _borderHeightSelected, base.Text, lockedSurface);
+                        base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + _borderHeightSelected, base.Text, lockedSurface);
                     }
                 }
                 else
@@ -182,7 +182,7 @@ public partial class BaseButton : Control
                     {
                         base.Font.Color = Color;
                         var textWidth = base.Font.GetTextWidth(base.Text);
-                        base.Font.SetText(Window.WinLeft + WinLeft + WinWidth / 2 - textWidth / 2, Window.WinTop + WinTop + BorderHeight, base.Text, lockedSurface);
+                        base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + BorderHeight, base.Text, lockedSurface);
                     }
                 }
 

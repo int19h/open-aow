@@ -14,6 +14,8 @@ public sealed class InstalledFontsFactAttribute : FactAttribute
     public InstalledFontsFactAttribute()
     {
         if (!Directory.Exists(Fonts) || !Directory.EnumerateFiles(Fonts, "*.ILB").Any())
+        {
             Skip = $"Installed fonts are absent: {Fonts}. Set AOW_GAME_ROOT to the game installation.";
+        }
     }
 }

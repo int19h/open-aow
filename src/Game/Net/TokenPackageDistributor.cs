@@ -45,10 +45,7 @@ public partial class TokenPackageDistributor
     }
 
     // NetworkE.pas:1113
-    public TokenPackageDistributor(TokenManager manager)
-    {
-        TokenManager = manager;
-    }
+    public TokenPackageDistributor(TokenManager manager) => TokenManager = manager;
 
     // NetworkE.pas:1157
     public virtual void SendTokenEvents(int player, int receiver, TokenEventList events)

@@ -42,19 +42,13 @@ public partial class SampleData : IDisposable
     }
 
     // Sound.pas:703
-    public virtual void AddRef()
-    {
-        _refCount += 1;
-    }
+    public virtual void AddRef() => _refCount += 1;
 
     // Sound.pas:690
-    public virtual void Dispose()
-    {
-        AudioHost.SampleDataList.Remove(this);
-    }
+    public virtual void Dispose() => AudioHost.SampleDataList.Remove(this);
 
-    public string Name { get => _name; }
-    public int RefCount { get => _refCount; }
+    public string Name => _name;
+    public int RefCount => _refCount;
 
     // Sound.pas:60
     public static SampleData Create(string name) =>

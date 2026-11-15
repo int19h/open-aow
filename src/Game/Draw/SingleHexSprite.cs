@@ -56,7 +56,7 @@ public partial class SingleHexSprite : HexSprite
         int pixelX = default;
         int pixelY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
-        return (GetLevel() << 26) + ((pixelY + 32) << 13) + (pixelX + 16);
+        return (GetLevel() << 26) + ((pixelY + 32) << 13) + pixelX + 16;
     }
 
     // HXSPRITE.PAS:704
@@ -65,10 +65,7 @@ public partial class SingleHexSprite : HexSprite
     }
 
     // HXSPRITE.PAS:708
-    public override void Disconnect()
-    {
-        SetOwner(null);
-    }
+    public override void Disconnect() => SetOwner(null);
 
     // HXSPRITE.PAS:749
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
@@ -105,10 +102,7 @@ public partial class SingleHexSprite : HexSprite
     }
 
     // HXSPRITE.PAS:688
-    public override void Activate()
-    {
-        _status = (byte)(_status | 8);
-    }
+    public override void Activate() => _status = (byte)(_status | 8);
 
     // HXSPRITE.PAS:693
     public override void Deactivate()

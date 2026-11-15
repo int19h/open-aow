@@ -8,9 +8,6 @@ public partial class Gauge
 {
     public LayoutStrings LayoutToolTipText
     {
-        set
-        {
-            value.CopyTo(ToolTipText);
-        }
+        set => value.CopyTo(ToolTipText);
     }
 }

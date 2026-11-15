@@ -167,10 +167,7 @@ public partial class Int32List : Persistent
     }
 
     // Engine.pas:3268
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // Engine.pas:3273
     public override void Assign(Persistent source)
@@ -485,13 +482,10 @@ public partial class Int32List : Persistent
     public int this[int index] { get => Get(index); set => Put(index, value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
-    public int[] List { get => _list; }
+    public int[] List => _list;
 
     // Engine.pas:3310
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
     private static void QuickSortInteger(Span<int> sortList, int L, int R, IntegerSortCompare sCompare)
     {

@@ -22,15 +22,9 @@ public partial class AICastSpellActionList : OwningNode, IChildList<AICastSpellA
     public AICastSpellAction GetCastSpellActions(int index) => this[index];
 
     // Spells.PAS:1539
-    public void SortOnPriority()
-    {
-        SortChildren<AICastSpellAction>(CompareCastSpellPriority);
-    }
+    public void SortOnPriority() => SortChildren<AICastSpellAction>(CompareCastSpellPriority);
 
-    private static int CompareCastSpellPriority(AICastSpellAction item1, AICastSpellAction item2)
-    {
-        return item2.Priority - item1.Priority;
-    }
+    private static int CompareCastSpellPriority(AICastSpellAction item1, AICastSpellAction item2) => item2.Priority - item1.Priority;
 
     // Engine.pas:631
 

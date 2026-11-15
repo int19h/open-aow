@@ -21,10 +21,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     int IChildSink<HeroResource>.AddChild(HeroResource child) => AddChild(child);
 
     // Hero.PAS:2360
-    public HeroResourceList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
-    }
+    public HeroResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // Hero.PAS:2363
     public HeroResource GetHeroResource(int index)

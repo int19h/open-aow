@@ -157,8 +157,8 @@ public partial class PlayerCommunicator : EngineObject
         remove => OnReceiveStore.Remove(value);
     }
 
-    public DataPackage ReceivedPackage { get => _receivedPackage; }
-    public PlayerCommunicationControl PlayerCommunicationControl { get => _playerCommunicationControl; }
+    public DataPackage ReceivedPackage => _receivedPackage;
+    public PlayerCommunicationControl PlayerCommunicationControl => _playerCommunicationControl;
 
     public event NotifyEvent<PlayerCommunicator> OnProcess
     {

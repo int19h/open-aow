@@ -110,8 +110,14 @@ public sealed class UIContext(GameEngine engine) : IDisposable
     {
         session.Load(module, publish: published =>
         {
-            if (published is null) _modules.Remove(typeof(T));
-            else _modules[typeof(T)] = published;
+            if (published is null)
+            {
+                _modules.Remove(typeof(T));
+            }
+            else
+            {
+                _modules[typeof(T)] = published;
+            }
         });
         return module;
     }
@@ -129,7 +135,11 @@ public sealed class UIContext(GameEngine engine) : IDisposable
     // destroy handlers have never run at shutdown in the port, and running them is a change of its own.
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+        {
+            return;
+        }
+
         _disposed = true;
         try { Fonts?.Dispose(); }
         finally { Graphics?.Dispose(); }

@@ -271,10 +271,7 @@ public partial class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6142
-    public void FinishMoves()
-    {
-        Status = AIMoveExecutorStatus.Done;
-    }
+    public void FinishMoves() => Status = AIMoveExecutorStatus.Done;
 
     // AIGroup.pas:6147
     public void ExecuteMoves()
@@ -332,7 +329,10 @@ public partial class AIMoveExecutor : EngineObject
                 }
 
                 if (!condition)
+                {
                     break;
+                }
+
                 i += 1;
             }
 

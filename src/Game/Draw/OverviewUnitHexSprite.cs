@@ -22,16 +22,10 @@ public partial class OverviewUnitHexSprite : UnitHexSprite
     }
 
     // OverviewUnit.pas:52
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
-    {
-        base.Show(pixelXSurface, pixelYSurface, lockedSurface);
-    }
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => base.Show(pixelXSurface, pixelYSurface, lockedSurface);
 
     // OverviewUnit.pas:47
-    public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
-    {
-        base.ShowShadow(X, Y, lockedSurface);
-    }
+    public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface) => base.ShowShadow(X, Y, lockedSurface);
 
     // OverviewUnit.pas:37
     public void SetU(Troop U)

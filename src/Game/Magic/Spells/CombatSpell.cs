@@ -51,10 +51,7 @@ public partial class CombatSpell : Spell
     }
 
     // CombatSpells.pas:643
-    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
-    {
-        info = CombatInfo;
-    }
+    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info) => info = CombatInfo;
 
     // CombatSpells.pas:648
     public override int GetCombatDamageValue(CombatObject source, CombatObject target)

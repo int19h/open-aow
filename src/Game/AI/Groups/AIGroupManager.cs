@@ -76,12 +76,12 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
         while (!found && i != 0)
         {
             i -= 1;
-            found = behavior == (RegisteredClasses[i]).Behavior;
+            found = behavior == RegisteredClasses[i].Behavior;
         }
 
         if (found)
         {
-            result = (RegisteredClasses[i]).CreateInstance(this, holder: CreationHolder());
+            result = RegisteredClasses[i].CreateInstance(this, holder: CreationHolder());
             result.GroupId = CreateUniqueId();
             result.Player = player;
             result.IndependentRelation = relation;

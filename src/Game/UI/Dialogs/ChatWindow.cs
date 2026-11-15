@@ -33,11 +33,9 @@ public partial class ChatWindow : UIModule
     }
 
     // AOWChatWin.pas:53
-    public void ChatEditReturn()
-    {
+    public void ChatEditReturn() =>
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AOWChatWin.pas:67
     public void ChatWinResize()
@@ -58,10 +56,7 @@ public partial class ChatWindow : UIModule
     }
 
     // AOWChatWin.pas:85
-    public void ChatWinHide()
-    {
-        UI.General.UnregisterDialog(MainWindow);
-    }
+    public void ChatWinHide() => UI.General.UnregisterDialog(MainWindow);
 
     // AOWChatWin.pas:88
     public void ChatMemoUpdate()

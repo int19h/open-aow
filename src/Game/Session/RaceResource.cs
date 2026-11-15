@@ -227,7 +227,7 @@ public partial class RaceResource : EngineResource
         }
         else
         {
-            index = terrain * 10 + 70 + (size - 1);
+            index = (terrain * 10) + 70 + (size - 1);
         }
 
         if (ImageLibrary.ImageExist(index))

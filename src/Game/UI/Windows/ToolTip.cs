@@ -130,11 +130,14 @@ public partial class ToolTip : GenericWindow
                         var textWidth = base.Font.GetTextWidth(line);
                         var imageLibraryFrame2 = ImageLibraryFrame[3];
                         var imageLibraryFrame3 = ImageLibraryFrame[4];
-                        notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - BorderWidth * 2;
+                        notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - (BorderWidth * 2);
                     }
 
                     if (!(notDone && _lines[i].Length > 1))
+                    {
                         break;
+                    }
+
                     done = false;
                     if (i < _lines.Count - 1)
                     {
@@ -176,16 +179,16 @@ public partial class ToolTip : GenericWindow
             var imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
             var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             var count = _lines.Count;
-            SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + BorderHeight * 2 + count * _itemHeight);
+            SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + (BorderHeight * 2) + (count * _itemHeight));
             var line6 = _lines[0];
             w = base.Font.GetTextWidth(line6);
             var imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
             var imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
-            if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - BorderWidth * 2)
+            if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - (BorderWidth * 2))
             {
                 var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
                 var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
-                SetWinWidthWithoutInvalidate(w + imageLibraryFrame2.Width + imageLibraryFrame3.Width + BorderWidth * 2);
+                SetWinWidthWithoutInvalidate(w + imageLibraryFrame2.Width + imageLibraryFrame3.Width + (BorderWidth * 2));
             }
         }
 
@@ -323,7 +326,7 @@ public partial class ToolTip : GenericWindow
                             var line = _lines[i];
                             var imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame];
                             var imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + _itemHeight * i, line, lockedSurface);
+                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + (_itemHeight * i), line, lockedSurface);
                             var imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             var imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             var libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
@@ -347,10 +350,7 @@ public partial class ToolTip : GenericWindow
     }
 
     // AOWToolTip.pas:266
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        SetVisible(false);
-    }
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => SetVisible(false);
 
     // AOWToolTip.pas:172
     public void SetFStrings(StringList value)

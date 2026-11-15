@@ -23,8 +23,16 @@ public sealed class SdlHost : IRtlHost, IDisposable
 
     public static string DefaultUserDirectory()
     {
-        if (OperatingSystem.IsWindows()) return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OpenAoW");
-        if (OperatingSystem.IsMacOS()) return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support", "OpenAoW");
+        if (OperatingSystem.IsWindows())
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OpenAoW");
+        }
+
+        if (OperatingSystem.IsMacOS())
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support", "OpenAoW");
+        }
+
         string? xdg = Environment.GetEnvironmentVariable("XDG_DATA_HOME");
         return Path.Combine(string.IsNullOrEmpty(xdg) || !Path.IsPathRooted(xdg) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share") : xdg, "openaow");
     }
@@ -46,7 +54,10 @@ public sealed class SdlHost : IRtlHost, IDisposable
     {
         public void OpenUrl(string url)
         {
-            if (!SDL.SDL3.SDL_OpenURL(url)) Console.Error.WriteLine("Open URL failed: " + url + ": " + SDL.SDL3.SDL_GetError());
+            if (!SDL.SDL3.SDL_OpenURL(url))
+            {
+                Console.Error.WriteLine("Open URL failed: " + url + ": " + SDL.SDL3.SDL_GetError());
+            }
         }
     }
 
@@ -68,7 +79,11 @@ public sealed class SdlHost : IRtlHost, IDisposable
         public int Show(DialogRequest request)
         {
             Console.Error.WriteLine("Message: " + request.Text);
-            if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && t_last is { } error) Console.Error.WriteLine(error);
+            if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && t_last is { } error)
+            {
+                Console.Error.WriteLine(error);
+            }
+
             return _display.ShowMessageBox(request);
         }
     }

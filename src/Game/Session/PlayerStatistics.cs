@@ -9,10 +9,7 @@ namespace Aow.Game.Session;
 public partial class PlayerStatistics : EngineObject
 {
     // Player.PAS:182
-    public PlayerStatistics(CustomNode owner) : base(owner)
-    {
-        TurnInfo = new TurnInfo(null) { Holder = CreationHolder() };
-    }
+    public PlayerStatistics(CustomNode owner) : base(owner) => TurnInfo = new TurnInfo(null) { Holder = CreationHolder() };
 
     public TurnInfo TurnInfo { get; }
 

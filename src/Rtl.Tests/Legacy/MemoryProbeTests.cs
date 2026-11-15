@@ -17,13 +17,21 @@ public sealed class MemoryProbeTests
         var list = new DelphiList<object>();
         var stored = new object();
         list.Count = 3;
-        for (int i = 0; i < 3; i++) list[i] = null;
+        for (int i = 0; i < 3; i++)
+        {
+            list[i] = null;
+        }
+
         probe.Fact("nil", ObjectToInt(list[0]));
         list[0] = IntToObject(17);
         list[1] = IntToObject(-9);
         list[2] = IntToObject(17);
         int total = 0;
-        for (int i = 0; i < list.Count; i++) total += ObjectToInt(list[i]);
+        for (int i = 0; i < list.Count; i++)
+        {
+            total += ObjectToInt(list[i]);
+        }
+
         probe.Fact("sum", total);
         probe.Fact("same_box", Ord(ReferenceEquals(list[0], list[2])));
         probe.Fact("find_box", list.IndexOf(IntToObject(17)));
@@ -31,7 +39,11 @@ public sealed class MemoryProbeTests
         list.Add(IntToObject(int.MaxValue));
         probe.Fact("minimum", ObjectToInt(list[1]));
         probe.Fact("maximum", ObjectToInt(list[4]));
-        if (ObjectToInt(list[0]) < 30) list[0] = IntToObject(30);
+        if (ObjectToInt(list[0]) < 30)
+        {
+            list[0] = IntToObject(30);
+        }
+
         probe.Fact("maximum_score", ObjectToInt(list[0]));
         list[0] = IntToObject(0);
         probe.Fact("zero_is_nil", Ord(list[0] == null));
@@ -53,9 +65,17 @@ public sealed class MemoryProbeTests
         }
         int count = 3;
         Ptr<Item>.Copy(items + 1, items, count);
-        for (int i = 0; i < 5; i++) probe.Fact("left", i + " " + items[i].First + " " + items[i].Second);
+        for (int i = 0; i < 5; i++)
+        {
+            probe.Fact("left", i + " " + items[i].First + " " + items[i].Second);
+        }
+
         Ptr<Item>.Copy(items, items + 1, count);
-        for (int i = 0; i < 5; i++) probe.Fact("right", i + " " + items[i].First + " " + items[i].Second);
+        for (int i = 0; i < 5; i++)
+        {
+            probe.Fact("right", i + " " + items[i].First + " " + items[i].Second);
+        }
+
         count = 0;
         Ptr<Item>.Copy(items + 4, items, count);
         probe.Fact("zero", items.Value.First + " " + items.Value.Second);

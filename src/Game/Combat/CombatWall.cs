@@ -127,10 +127,7 @@ public partial class CombatWall : CombatObject
     public override sbyte GetHitPoints() => (sbyte)_hitPoints;
 
     // Combat.pas:1755
-    public override void SetHitPoints(byte value)
-    {
-        _hitPoints = value;
-    }
+    public override void SetHitPoints(byte value) => _hitPoints = value;
 
     // Combat.pas:1712
     public override void Activate(Battle combat)

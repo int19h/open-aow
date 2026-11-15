@@ -83,7 +83,7 @@ public partial class HeroResource : TroopResource
     // Hero.PAS:2332
     public int UsedSkillPoints()
     {
-        int result = Attack * 5 + Defense * 5 + Damage * 10 + Resistance * 5 + Hits * 5 + Moves * 2;
+        int result = (Attack * 5) + (Defense * 5) + (Damage * 10) + (Resistance * 5) + (Hits * 5) + (Moves * 2);
         for (int i = Abilities.GetAbCount() - 1; i >= 0; i--)
         {
             if (Abilities.GetAbilitySetAt(i))

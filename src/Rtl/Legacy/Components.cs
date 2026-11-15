@@ -3,7 +3,17 @@ namespace Aow.Rtl;
 public class Persistent : IDisposable
 {
     // CLASSES.PAS TPersistent.Assign, AssignTo and AssignError.
-    public virtual void Assign(Persistent? source) { if (source is null) AssignError(null); else source.AssignTo(this); }
+    public virtual void Assign(Persistent? source)
+    {
+        if (source is null)
+        {
+            AssignError(null);
+        }
+        else
+        {
+            source.AssignTo(this);
+        }
+    }
 
     protected internal virtual void AssignTo(Persistent target) => target.AssignError(this);
     protected void AssignError(Persistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : source.GetType().Name)} to a {GetType().Name}");
@@ -46,7 +56,11 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.GetComponent uses TList's range error.
     public IndexedProperty<int, Component> Components => new(i =>
     {
-        if (i < 0 || i >= children.Count) DelphiListCore.Error("List index out of bounds (%d)", i);
+        if (i < 0 || i >= children.Count)
+        {
+            DelphiListCore.Error("List index out of bounds (%d)", i);
+        }
+
         return children[i];
     });
 
@@ -56,10 +70,17 @@ public class Component : Persistent
         get => name;
         set
         {
-            if (name == value) return;
-            static bool Letter(byte c) => c is >= 65 and <= 90 or >= 97 and <= 122 or 95;
+            if (name == value)
+            {
+                return;
+            }
+
+            static bool Letter(byte c) => c is (>= 65 and <= 90) or (>= 97 and <= 122) or 95;
             if (value.Length > 0 && (!Letter(Cp1252.Byte(value[0])) || Cp1252.Encode(value).Skip(1).Any(c => !Letter(c) && c is not (>= 48 and <= 57))))
+            {
                 throw new ArgumentException($"''{value}'' is not a valid component name");
+            }
+
             Owner?.ValidateRename(this, name, value);
             name = value;
         }
@@ -67,7 +88,10 @@ public class Component : Persistent
 
     protected virtual void ValidateRename(Component component, string oldName, string newName)
     {
-        if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null) throw new ArgumentException($"A component named {newName} already exists");
+        if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null)
+        {
+            throw new ArgumentException($"A component named {newName} already exists");
+        }
     }
 
     // CLASSES.PAS TComponent.GetComponentIndex and SetComponentIndex.
@@ -76,7 +100,11 @@ public class Component : Persistent
         get => Owner?.children.IndexOf(this) ?? -1;
         set
         {
-            if (Owner is null) return;
+            if (Owner is null)
+            {
+                return;
+            }
+
             int i = ComponentIndex, target = Math.Clamp(value, 0, Owner.children.Count - 1);
             if (i >= 0 && i != target) { Owner.children.RemoveAt(i); Owner.children.Insert(target, this); }
         }
@@ -102,7 +130,11 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.FreeNotification establishes reciprocal notifications.
     public void FreeNotification(Component component)
     {
-        if (Owner is not null && component.Owner == Owner) return;
+        if (Owner is not null && component.Owner == Owner)
+        {
+            return;
+        }
+
         freeNotifies ??= [];
         if (!freeNotifies.Contains(component)) { freeNotifies.Add(component); component.FreeNotification(this); }
     }
@@ -110,16 +142,32 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.Notification.
     public virtual void Notification(Component component, Operation operation)
     {
-        if (operation == Operation.Remove && freeNotifies is not null) { freeNotifies.Remove(component); if (freeNotifies.Count == 0) freeNotifies = null; }
-        for (int i = 0; i < children.Count; i++) children[i].Notification(component, operation);
+        if (operation == Operation.Remove && freeNotifies is not null)
+        {
+            freeNotifies.Remove(component); if (freeNotifies.Count == 0)
+            {
+                freeNotifies = null;
+            }
+        }
+        for (int i = 0; i < children.Count; i++)
+        {
+            children[i].Notification(component, operation);
+        }
     }
 
     // CLASSES.PAS TComponent.Destroying marks the complete ownership tree first.
     public void Destroying()
     {
-        if (ComponentState.Contains(Rtl.ComponentState.Destroying)) return;
+        if (ComponentState.Contains(Rtl.ComponentState.Destroying))
+        {
+            return;
+        }
+
         ComponentState = ComponentState.With(Rtl.ComponentState.Destroying);
-        foreach (var child in children) child.Destroying();
+        foreach (var child in children)
+        {
+            child.Destroying();
+        }
     }
 
     // CLASSES.PAS TComponent.DestroyComponents detaches before calling the destructor.
@@ -136,7 +184,11 @@ public class Component : Persistent
     {
         if (freeNotifies is not null)
         {
-            for (int i = 0; freeNotifies is not null && i < freeNotifies.Count; i++) freeNotifies[i].Notification(this, Operation.Remove);
+            for (int i = 0; freeNotifies is not null && i < freeNotifies.Count; i++)
+            {
+                freeNotifies[i].Notification(this, Operation.Remove);
+            }
+
             freeNotifies = null;
         }
         Destroying(); DestroyComponents(); Owner?.RemoveComponent(this); base.Dispose();

@@ -69,10 +69,7 @@ public sealed class CombatDataTests
         }
     }
 
-    private static byte[] Save(CombatData data)
-    {
-        return EngineFixture.Engine.WriteObjectImage(data, progress: null, classTable: "game");
-    }
+    private static byte[] Save(CombatData data) => EngineFixture.Engine.WriteObjectImage(data, progress: null, classTable: "game");
 
     [Fact]
     public void BinaryStateMatchesBeforeTypedFieldsAndRoundTrips()

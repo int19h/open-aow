@@ -16,8 +16,16 @@ public static partial class RtlUnit
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
-            if (mode == fmCreate) throw new IOException($"Cannot create file {name}");
-            if (e is FileNotFoundException or DirectoryNotFoundException) throw new FileNotFoundException($"Cannot open file {name}");
+            if (mode == fmCreate)
+            {
+                throw new IOException($"Cannot create file {name}");
+            }
+
+            if (e is FileNotFoundException or DirectoryNotFoundException)
+            {
+                throw new FileNotFoundException($"Cannot open file {name}");
+            }
+
             throw new IOException($"Cannot open file {name}");
         }
     }
@@ -57,15 +65,30 @@ public static class StreamExtensions
 
     public static void ReadBuffer(this Stream stream, Ptr<byte> buffer, int count)
     {
-        if (count == 0) return;
-        if (count < 0) throw new EndOfStreamException("Stream read error");
+        if (count == 0)
+        {
+            return;
+        }
+
+        if (count < 0)
+        {
+            throw new EndOfStreamException("Stream read error");
+        }
+
         ReadBufferExact(stream, buffer.Array!.AsSpan(buffer.Index, count));
     }
 
     public static void WriteBuffer(this Stream stream, Ptr<byte> buffer, int count)
     {
-        if (count == 0) return;
-        if (count < 0 || WritePointer(stream, buffer, count) != count) throw new IOException("Stream write error");
+        if (count == 0)
+        {
+            return;
+        }
+
+        if (count < 0 || WritePointer(stream, buffer, count) != count)
+        {
+            throw new IOException("Stream write error");
+        }
     }
 
     // A zero count rewinds the source and copies its length, 61440 bytes at a time.
@@ -77,7 +100,11 @@ public static class StreamExtensions
             count = (int)source.Length;
         }
 
-        if (count < 0) throw new IOException("Invalid copy count");
+        if (count < 0)
+        {
+            throw new IOException("Invalid copy count");
+        }
+
         int result = count;
         byte[] buffer = new byte[Math.Min(count, 61440)];
         while (count != 0)
@@ -103,7 +130,10 @@ public static class StreamExtensions
         source.Position = 0;
         int count = (int)source.Length;
         stream.SetLength(count);
-        if (count != 0) ReadBufferExact(source, stream.GetBuffer().AsSpan(0, count));
+        if (count != 0)
+        {
+            ReadBufferExact(source, stream.GetBuffer().AsSpan(0, count));
+        }
     }
 
     public static void LoadFromFile(this MemoryStream stream, string name)
@@ -120,7 +150,11 @@ public static class StreamExtensions
 
     private static int WriteCounted(Stream stream, ReadOnlySpan<byte> buffer, int count)
     {
-        if (count < 0) return 0;
+        if (count < 0)
+        {
+            return 0;
+        }
+
         return WriteSpan(stream, buffer[..count]);
     }
 
@@ -132,14 +166,22 @@ public static class StreamExtensions
 
     private static int WritePointer(Stream stream, Ptr<byte> buffer, int count)
     {
-        if (count < 0) return 0;
+        if (count < 0)
+        {
+            return 0;
+        }
+
         ReadOnlySpan<byte> slice = count == 0 || buffer.IsNull ? default : buffer.Array!.AsSpan(buffer.Index, count);
         return WriteSpan(stream, slice);
     }
 
     private static void ReadBufferExact(Stream stream, Span<byte> buffer)
     {
-        if (buffer.Length == 0) return;
+        if (buffer.Length == 0)
+        {
+            return;
+        }
+
         try
         {
             stream.ReadExactly(buffer);
@@ -152,7 +194,11 @@ public static class StreamExtensions
 
     private static void WriteBufferExact(Stream stream, ReadOnlySpan<byte> buffer)
     {
-        if (buffer.Length == 0) return;
+        if (buffer.Length == 0)
+        {
+            return;
+        }
+
         try
         {
             stream.Write(buffer);

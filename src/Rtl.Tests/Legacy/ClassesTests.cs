@@ -89,7 +89,11 @@ public sealed class ClassesTests
         Assert.Equal(42, owner.Tag); Assert.Equal("A_1", first.GetNamePath());
         Assert.Same(first, owner.FindComponent("a_1")); Assert.Null(owner.FindComponent("")); Assert.Null(owner.FindComponent("missing"));
         Assert.Throws<ArgumentException>(() => second.Name = "a_1");
-        foreach (string name in new string[] { "1abc", "bad-name", "a b", "\xe0", "x\0y" }) Assert.Throws<ArgumentException>(() => second.Name = name);
+        foreach (string name in new string[] { "1abc", "bad-name", "a b", "\xe0", "x\0y" })
+        {
+            Assert.Throws<ArgumentException>(() => second.Name = name);
+        }
+
         first.Name = "a_1"; first.Name = "a_1";
         first.ComponentIndex = 99; Assert.Same(first, owner.Components[1]);
         first.ComponentIndex = -1; Assert.Same(first, owner.Components[0]); first.ComponentIndex = 0;

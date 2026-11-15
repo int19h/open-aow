@@ -296,7 +296,7 @@ public partial class HorizontalScrollBar : ScrollBar
                             if (condition)
                             {
                                 var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                TrackClickTarget = (X - Window.WinLeft - WinLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((X - Window.WinLeft - WinLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength) + Min;
                                 HeldPart = 2;
                                 SetPositionUnclamped(Position - LargeChange);
                                 if (Min > Position)
@@ -316,7 +316,7 @@ public partial class HorizontalScrollBar : ScrollBar
                             if (test)
                             {
                                 var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                TrackClickTarget = (X - Window.WinLeft - WinLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((X - Window.WinLeft - WinLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength) + Min;
                                 HeldPart = 3;
                                 SetPositionUnclamped(Position + LargeChange);
                                 if (Max + 1 - NumberVisible < Position)
@@ -334,7 +334,7 @@ public partial class HorizontalScrollBar : ScrollBar
                         case Style.Slider:
                             if (X > Window.WinLeft + WinLeft && X < Window.WinLeft + WinLeft + thumbPosition)
                             {
-                                TrackClickTarget = (X - Window.WinLeft - WinLeft) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((X - Window.WinLeft - WinLeft) * PositionCount / TrackLength) + Min;
                                 HeldPart = 2;
                                 SetPositionUnclamped(Position - LargeChange);
                                 if (Min > Position)
@@ -345,7 +345,7 @@ public partial class HorizontalScrollBar : ScrollBar
 
                             if (X > Window.WinLeft + WinLeft + thumbPosition + ThumbLength && X < Window.WinLeft + WinLeft + WinWidth)
                             {
-                                TrackClickTarget = (X - Window.WinLeft - WinLeft) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((X - Window.WinLeft - WinLeft) * PositionCount / TrackLength) + Min;
                                 HeldPart = 3;
                                 SetPositionUnclamped(Position + LargeChange);
                                 if (Max + 1 - NumberVisible < Position)
@@ -399,7 +399,7 @@ public partial class HorizontalScrollBar : ScrollBar
         Handled = false;
         if (HeldPart == 5 && HeldUpdateCount > 0)
         {
-            SetPositionUnclamped((X - TrackClickTarget) * PositionCount / TrackLength + Min);
+            SetPositionUnclamped(((X - TrackClickTarget) * PositionCount / TrackLength) + Min);
             if (Position < Min)
             {
                 SetPositionUnclamped(Min);

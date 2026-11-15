@@ -18,8 +18,8 @@ public sealed class LayoutValueTests
         // them through double, which rounds both to the same value. The Delphi Comp compare is exact.
         var low = new DoubleItemList.DoubleItem(First: 0, Second: 0x00400000);
         var high = new DoubleItemList.DoubleItem(First: 1, Second: 0x00400000);
-        long lowImage = (long)low.Second << 32 | (uint)low.First;
-        long highImage = (long)high.Second << 32 | (uint)high.First;
+        long lowImage = ((long)low.Second << 32) | (uint)low.First;
+        long highImage = ((long)high.Second << 32) | (uint)high.First;
         Assert.True(lowImage > 1L << 53);
         Assert.Equal<double>(lowImage, highImage);
         Assert.NotEqual(low, high);
@@ -40,7 +40,11 @@ public sealed class LayoutValueTests
     public void ValueListsMoveCompareAndFillTypedItems()
     {
         using var list = new DoubleItemList();
-        for (int i = 0; i < 5; i++) list.Add(new DoubleItemList.DoubleItem(First: i, Second: -i));
+        for (int i = 0; i < 5; i++)
+        {
+            list.Add(new DoubleItemList.DoubleItem(First: i, Second: -i));
+        }
+
         list.Insert(1, new DoubleItemList.DoubleItem(First: 9, Second: 9));
         list.Delete(3);
         Assert.Equal([0, 9, 1, 3, 4], Enumerable.Range(0, list.Count).Select(i => list[i].First));
@@ -51,7 +55,11 @@ public sealed class LayoutValueTests
         Assert.False(list.Compare(copy));
 
         using var quads = new QuadItemList();
-        for (int i = 0; i < 4; i++) quads.AddABCD(i, i + 1, i + 2, i + 3);
+        for (int i = 0; i < 4; i++)
+        {
+            quads.AddABCD(i, i + 1, i + 2, i + 3);
+        }
+
         quads.Insert(0, new QuadItemList.QuadInteger(First: 7, Second: 7, Third: 7, Fourth: 7));
         quads.Delete(2);
         Assert.Equal([7, 0, 2, 3], Enumerable.Range(0, quads.Count).Select(i => quads[i].First));
@@ -99,7 +107,7 @@ public sealed class LayoutValueTests
         var image = new byte[257];
         for (int offset = 0; offset < MovePointTable.EntryCount; offset++)
         {
-            sbyte value = (sbyte)(offset * 7 - 100);
+            sbyte value = (sbyte)((offset * 7) - 100);
             army[offset / 16][offset % 16] = value;
             image[offset] = (byte)value;
         }
@@ -108,8 +116,12 @@ public sealed class LayoutValueTests
         {
             for (int overlay = -1; overlay < 16; overlay++)
             {
-                int costOffset = 16 * terrain + overlay;
-                if (costOffset < 0) continue;
+                int costOffset = (16 * terrain) + overlay;
+                if (costOffset < 0)
+                {
+                    continue;
+                }
+
                 Assert.Equal((sbyte)image[1 + costOffset], Tornado.SpellTableCost(army, terrainType: terrain, overlayType: overlay));
             }
         }

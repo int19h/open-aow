@@ -115,10 +115,7 @@ public partial class AbilityOwner : CustomAbilityList
     }
 
     // Ability.PAS:1754
-    public override void SetAbilitySet(int index, byte value)
-    {
-        base.SetAbilitySet(index, value);
-    }
+    public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
 
     // Ability.PAS:2004
     public override void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)

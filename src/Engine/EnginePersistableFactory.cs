@@ -40,13 +40,18 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
         {
             var resolved = NameTable.ResolveStored(className);
             if (resolved is null || !byName.TryGetValue(resolved, out engineClass))
+            {
                 throw new InvalidOperationException("The engine has no class " + className + ".");
+            }
         }
         // The stream stores the class id, and rwCreateEObject creates the class the engine table
         // holds at that id (TEngine.GetEClass). A class that keeps its parent's id, such as a
         // tactical battle unit, comes back as the class the table holds there.
         if (!Engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null)
+        {
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + engineClass.ClassId.ToString(CultureInfo.InvariantCulture) + ")");
+        }
+
         return registered.CreateInstance(null!, holder: Engine);
     }
 
@@ -54,8 +59,13 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
     {
         var byName = new Dictionary<string, EngineClass>();
         foreach (var engineClass in EngineClass.All)
+        {
             if (!byName.TryAdd(engineClass.StorageKey, engineClass))
+            {
                 throw new InvalidOperationException("Two engine classes are named " + engineClass.StorageKey + ".");
+            }
+        }
+
         return byName;
     }
 }

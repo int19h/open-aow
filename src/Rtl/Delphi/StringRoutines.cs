@@ -19,7 +19,11 @@ public static partial class RtlUnit
     public static string WithChar(string? value, int index, char character)
     {
         value = RequireString(value);
-        if (index < 1 || index > value.Length) throw new IndexOutOfRangeException("String index out of bounds");
+        if (index < 1 || index > value.Length)
+        {
+            throw new IndexOutOfRangeException("String index out of bounds");
+        }
+
         return string.Create(value.Length, (value, index, character), (chars, state) =>
         {
             state.value.AsSpan().CopyTo(chars);
@@ -29,7 +33,11 @@ public static partial class RtlUnit
 
     public static string Resized(string? value, int length)
     {
-        if (length < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
+        if (length < 0)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
+        }
+
         value = RequireString(value);
         return length <= value.Length ? value[..length] : value.PadRight(length, '\0');
     }
@@ -73,7 +81,11 @@ public static partial class RtlUnit
     {
         value = RequireString(value);
         int i = 0;
-        while (i < value.Length && value[i] <= 32) i++;
+        while (i < value.Length && value[i] <= 32)
+        {
+            i++;
+        }
+
         return value[i..];
     }
 
@@ -81,7 +93,11 @@ public static partial class RtlUnit
     {
         value = RequireString(value);
         int n = value.Length;
-        while (n > 0 && value[n - 1] <= 32) n--;
+        while (n > 0 && value[n - 1] <= 32)
+        {
+            n--;
+        }
+
         return value[..n];
     }
 

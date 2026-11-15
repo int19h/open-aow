@@ -64,7 +64,10 @@ public static class PersistSupport
                 sbyte x = UnsignedByte(body, "X", value.X);
                 sbyte y = UnsignedByte(body, "Y", value.Y);
                 sbyte level = UnsignedByte(body, "MapLevel", value.MapLevel);
-                if (body.Loading) loaded = new MapCoordinate(x, y, level);
+                if (body.Loading)
+                {
+                    loaded = new MapCoordinate(x, y, level);
+                }
             }
             else
             {
@@ -72,7 +75,9 @@ public static class PersistSupport
                 int y = body.Int32("Y", value.Y);
                 int level = body.Int32("MapLevel", value.MapLevel);
                 if (body.Loading)
+                {
                     loaded = new MapCoordinate(InRange(name, "X", x), InRange(name, "Y", y), InRange(name, "MapLevel", level));
+                }
             }
         });
         return persister.Loading ? loaded : value;
@@ -81,30 +86,61 @@ public static class PersistSupport
     private static sbyte InRange(string name, string component, int stored)
     {
         if (stored is < -128 or > 127)
+        {
             throw new InvalidOperationException(name + "." + component + " is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside -128 to 127.");
+        }
+
         return (sbyte)stored;
     }
 
     public static void Int32Array(IPersister persister, string name, Span<int> values)
     {
         var list = new List<int>(values.Length);
-        for (int i = 0; i < values.Length; i++) list.Add(values[i]);
+        for (int i = 0; i < values.Length; i++)
+        {
+            list.Add(values[i]);
+        }
+
         persister.List(name, list, static (IItemSlot slot, int item) => slot.Int32(item));
-        if (!persister.Loading) return;
+        if (!persister.Loading)
+        {
+            return;
+        }
+
         if (list.Count > values.Length)
+        {
             throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
-        for (int i = 0; i < values.Length; i++) values[i] = i < list.Count ? list[i] : 0;
+        }
+
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = i < list.Count ? list[i] : 0;
+        }
     }
 
     public static void UInt16Array(IPersister persister, string name, Span<ushort> values)
     {
         var list = new List<ushort>(values.Length);
-        for (int i = 0; i < values.Length; i++) list.Add(values[i]);
+        for (int i = 0; i < values.Length; i++)
+        {
+            list.Add(values[i]);
+        }
+
         persister.List(name, list, static (IItemSlot slot, ushort item) => slot.UInt16(item));
-        if (!persister.Loading) return;
+        if (!persister.Loading)
+        {
+            return;
+        }
+
         if (list.Count > values.Length)
+        {
             throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
-        for (int i = 0; i < values.Length; i++) values[i] = i < list.Count ? list[i] : (ushort)0;
+        }
+
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = i < list.Count ? list[i] : (ushort)0;
+        }
     }
 
     /// <summary>
@@ -117,15 +153,26 @@ public static class PersistSupport
     {
         bool present = persister.Has(name);
         var items = new List<int>(list.Count);
-        for (int i = 0; i < list.Count; i++) items.Add(list[i]);
+        for (int i = 0; i < list.Count; i++)
+        {
+            items.Add(list[i]);
+        }
+
         int stored = persister.Int32List(name, items, list.Default);
-        if (!persister.Loading || !present) return;
+        if (!persister.Loading || !present)
+        {
+            return;
+        }
+
         LoadPayload(() =>
         {
             list.Clear();
             list.Default = stored;
             list.SetCapacity(items.Count);
-            foreach (int item in items) list.Add(item);
+            foreach (int item in items)
+            {
+                list.Add(item);
+            }
         });
     }
 
@@ -134,15 +181,26 @@ public static class PersistSupport
     {
         bool present = persister.Has(name);
         var items = new List<byte>(list.Count);
-        for (int i = 0; i < list.Count; i++) items.Add(list[i]);
+        for (int i = 0; i < list.Count; i++)
+        {
+            items.Add(list[i]);
+        }
+
         byte stored = persister.ByteList(name, items, list.Default);
-        if (!persister.Loading || !present) return;
+        if (!persister.Loading || !present)
+        {
+            return;
+        }
+
         LoadPayload(() =>
         {
             list.Clear();
             list.Default = stored;
             list.SetCapacity(items.Count);
-            foreach (byte item in items) list.Add(item);
+            foreach (byte item in items)
+            {
+                list.Add(item);
+            }
         });
     }
 
@@ -167,7 +225,11 @@ public static class PersistSupport
     /// </summary>
     public static BitListImage BitList(IPersister persister, string name, BitList list)
     {
-        if (persister.BitList(name, value: list.SaveImage()) is not { } stored || !persister.Loading) return null;
+        if (persister.BitList(name, value: list.SaveImage()) is not { } stored || !persister.Loading)
+        {
+            return null;
+        }
+
         LoadPayload(() => list.LoadImage(stored));
         return stored;
     }
@@ -185,12 +247,19 @@ public static class PersistSupport
     public static void BitListOverRead(IPersister persister, BitList list, BitListImage stored, EngineObject owner, Action<IPersister> following)
     {
         int extra = ((list.Count + 7) >> 3) - stored.Bits.Length;
-        if (extra <= 0) return;
+        if (extra <= 0)
+        {
+            return;
+        }
+
         var node = TreeWriter.Write(new MemberGroup(following), factory: persister.Factory);
         var schema = FormatSchema.Current;
         var data = OriginalBackend.WriteData(node, classValue: schema.Get(NameTable.Stored(owner.GetType())), schema: schema, engine: "game");
         var bits = list.List.Span;
-        for (int i = 0; i < extra && i < data.Length; i++) bits[stored.Bits.Length + i] = data[i];
+        for (int i = 0; i < extra && i < data.Length; i++)
+        {
+            bits[stored.Bits.Length + i] = data[i];
+        }
     }
 
     // Some members of an owner, persisted as an object of their own.
@@ -210,13 +279,21 @@ public static class PersistSupport
     /// </summary>
     public static void ImageSequences(IPersister persister, string name, ImageSequenceList list)
     {
-        if (Translating(persister)) return;
+        if (Translating(persister))
+        {
+            return;
+        }
+
         if (!persister.Loading)
         {
             persister.ImageSequences(name, entries: list.SaveLayers());
             return;
         }
-        if (!persister.Has(name)) return;
+        if (!persister.Has(name))
+        {
+            return;
+        }
+
         var entries = new List<IReadOnlyList<SequenceLayer>>();
         persister.ImageSequences(name, entries: entries);
         LoadPayload(() => list.LoadLayers(entries));
@@ -229,16 +306,28 @@ public static class PersistSupport
     /// </summary>
     public static void TerrainList(IPersister persister, string name, TerrainList list)
     {
-        if (Translating(persister)) return;
+        if (Translating(persister))
+        {
+            return;
+        }
+
         var pairs = new List<(sbyte First, sbyte Second)>();
         if (!persister.Loading)
         {
             list.Pack();
-            for (int i = 0; i < list.Count; i++) pairs.Add((list.GetTerrain(i), list.GetOverlay(i)));
+            for (int i = 0; i < list.Count; i++)
+            {
+                pairs.Add((list.GetTerrain(i), list.GetOverlay(i)));
+            }
+
             persister.SBytePairs(name, pairs: pairs);
             return;
         }
-        if (!persister.Has(name)) return;
+        if (!persister.Has(name))
+        {
+            return;
+        }
+
         persister.SBytePairs(name, pairs: pairs);
         LoadPayload(() =>
         {
@@ -258,7 +347,11 @@ public static class PersistSupport
     /// </summary>
     public static void ImageLibrary(IPersister persister, string name, CustomImageLibrary library)
     {
-        if (Translating(persister)) return;
+        if (Translating(persister))
+        {
+            return;
+        }
+
         if (!persister.Loading)
         {
             using var output = new MemoryStream();
@@ -266,7 +359,11 @@ public static class PersistSupport
             persister.Blob(name, data: output.ToArray());
             return;
         }
-        if (persister.Blob(name, data: []) is not { } stored) return;
+        if (persister.Blob(name, data: []) is not { } stored)
+        {
+            return;
+        }
+
         using var input = new MemoryStream(stored, writable: false);
         LoadPayload(() => library.LoadFromStream(input));
     }
@@ -302,7 +399,10 @@ public static class PersistSupport
     /// </summary>
     public static void SetTranslateErrorHandler(IPersister persister, TranslateVisit.TranslateErrorHandler handler)
     {
-        if (persister is TranslatePersister translate) translate.Stream.SetErrorHandler(handler);
+        if (persister is TranslatePersister translate)
+        {
+            translate.Stream.SetErrorHandler(handler);
+        }
     }
 
     public static void Lines(IPersister persister, string name, StringCollection lines)
@@ -314,14 +414,25 @@ public static class PersistSupport
         }
 
         var copy = new List<string>(lines.Count);
-        for (int i = 0; i < lines.Count; i++) copy.Add(lines[i]);
+        for (int i = 0; i < lines.Count; i++)
+        {
+            copy.Add(lines[i]);
+        }
+
         persister.Lines(name, copy);
-        if (!persister.Loading) return;
+        if (!persister.Loading)
+        {
+            return;
+        }
+
         lines.BeginUpdate();
         try
         {
             lines.Clear();
-            foreach (var line in copy) lines.Add(line);
+            foreach (var line in copy)
+            {
+                lines.Add(line);
+            }
         }
         finally
         {
@@ -345,12 +456,19 @@ public static class PersistSupport
             objects.Add(ObjectToInt(lines.Objects[i]));
         }
         persister.LinesWithObjects(name, copy, objects);
-        if (!persister.Loading) return;
+        if (!persister.Loading)
+        {
+            return;
+        }
+
         lines.BeginUpdate();
         try
         {
             lines.Clear();
-            for (int i = 0; i < copy.Count; i++) lines.AddObject(copy[i], IntToObject(objects[i]));
+            for (int i = 0; i < copy.Count; i++)
+            {
+                lines.AddObject(copy[i], IntToObject(objects[i]));
+            }
         }
         finally
         {

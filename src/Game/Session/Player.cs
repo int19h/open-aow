@@ -606,9 +606,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     {
         bool result = _busyCount != 0 || !StrategicMap.Current.TokenManager.PlayerReady(PlayerIndex);
         result = result || (StrategicMap.Current.Combat == null && StrategicMap.Current.PlayMode == PlayMode.Turn && StrategicMap.Current.CurrentPlayer != PlayerIndex);
-        result = result || StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex;
+        result = result || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex);
         result = result || GameOverStatus != GameOverStatus.None || !GetLocal();
-        return result || PlayerType == PlayerType.Human && StrategicMap.Current.GetTurnTimerEnabled() && StrategicMap.Current.GetTurnTimeLeft() <= 0;
+        return result || (PlayerType == PlayerType.Human && StrategicMap.Current.GetTurnTimerEnabled() && StrategicMap.Current.GetTurnTimeLeft() <= 0);
     }
 
     // Player.PAS:406
@@ -820,10 +820,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:547
-    public void LockBusy()
-    {
-        _busyCount += 1;
-    }
+    public void LockBusy() => _busyCount += 1;
 
     // Player.PAS:552
     public void UnlockBusy()
@@ -1100,7 +1097,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                         }
                         else
                         {
-                            result = (strength - 200) / 100 + 5;
+                            result = ((strength - 200) / 100) + 5;
                         }
                     }
                 }
@@ -1178,10 +1175,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:733
-    public void ResetBaseHeroJoinDay()
-    {
-        _lastHeroJoinDay = StrategicMap.Current.Day;
-    }
+    public void ResetBaseHeroJoinDay() => _lastHeroJoinDay = StrategicMap.Current.Day;
 
     // Player.PAS:738
     public void MakeHeroEmerge(HeroEmergeMode mode)
@@ -1225,7 +1219,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                         if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
                         {
                             var level = hero.GetLevel();
-                            heroes.AddAbility(hero, (level - 2) * 1000 + 1);
+                            heroes.AddAbility(hero, ((level - 2) * 1000) + 1);
                         }
                     }
                 }
@@ -1369,7 +1363,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (days < 0)
         {
-            result += Round((double)(result * days + 2.5) / 5);
+            result += Round((double)((result * days) + 2.5) / 5);
             if (result < 0)
             {
                 result = 0;
@@ -1430,16 +1424,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:902
-    public void SetLeader(Leader value)
-    {
-        Leader = value;
-    }
+    public void SetLeader(Leader value) => Leader = value;
 
     // Player.PAS:907
-    public void SetRace(sbyte value)
-    {
-        PlayerRace = value;
-    }
+    public void SetRace(sbyte value) => PlayerRace = value;
 
     // Player.PAS:912
     public void SetEndTurn(bool value)
@@ -1464,7 +1452,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
 
             if (!condition)
+            {
                 break;
+            }
+
             var fEventLogbookLogs = EventLogbook.GetLogs(0);
             EventLogbook.RemoveEvent(fEventLogbookLogs);
         }
@@ -1624,16 +1615,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:1159
-    public void RegisterVictoryLocation(PlayerStructure structure)
-    {
-        _victoryLocations.AddChild(structure);
-    }
+    public void RegisterVictoryLocation(PlayerStructure structure) => _victoryLocations.AddChild(structure);
 
     // Player.PAS:1164
-    public void UnregisterVictoryLocation(PlayerStructure structure)
-    {
-        _victoryLocations.RemoveChild(structure);
-    }
+    public void UnregisterVictoryLocation(PlayerStructure structure) => _victoryLocations.RemoveChild(structure);
 
     // Player.PAS:1169
     public void CheckCaptureLocations()

@@ -132,7 +132,7 @@ public partial class WebAbility : TouchAbility
     public override sbyte GetTouchAttack(int level) => 4;
 
     // AoWAb.PAS:2825
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && (source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(97));
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(97);
 
     // AoWAb.PAS:2819
     public WebCombatAction CreateWebCombatAction(CombatObject source, CombatObject target)

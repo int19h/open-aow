@@ -15,10 +15,7 @@ namespace Aow.Game.Draw.Animations;
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
 public partial class Animation : HexSprite
 {
-    public Animation(CustomNode owner) : base(owner)
-    {
-        AnimationLevel = 26;
-    }
+    public Animation(CustomNode owner) : base(owner) => AnimationLevel = 26;
 
     // Animation.pas:143
     public new const int ClassId = 131815;
@@ -344,10 +341,7 @@ public partial class Animation : HexSprite
     }
 
     // Animation.pas:148
-    public void NewFrameEvent(object sender)
-    {
-        NewFrame();
-    }
+    public void NewFrameEvent(object sender) => NewFrame();
 
     // Animation.pas:255
     public void SetDimensions(Rect R)

@@ -15,10 +15,7 @@ namespace Aow.Game.World;
 // HelpFileName, Message
 public partial class FlagMessageEvent : FlagEvent
 {
-    public FlagMessageEvent(CustomNode owner) : base(owner)
-    {
-        _message = new StringList();
-    }
+    public FlagMessageEvent(CustomNode owner) : base(owner) => _message = new StringList();
 
     // FlagEvents.pas:192
     public new const int ClassId = 132461;

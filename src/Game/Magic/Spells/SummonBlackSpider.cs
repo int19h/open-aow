@@ -24,10 +24,7 @@ public partial class SummonBlackSpider : SummonSpell
     }
 
     // SummonSpells.pas:470
-    public override void SetupSummonSpellTokenEvent(SummonSpellTokenEvent eventValue)
-    {
-        base.SetupSummonSpellTokenEvent(eventValue);
-    }
+    public override void SetupSummonSpellTokenEvent(SummonSpellTokenEvent eventValue) => base.SetupSummonSpellTokenEvent(eventValue);
 
     private static readonly string s_summonBlackSpiderText = "Summon Black Spider";
 }

@@ -61,7 +61,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5767-5786. A bare constructor leaves the flag clear and skips this body.
     private protected sealed override void InitializeBeforeInherited()
     {
-        if (!s_fullConstruction) return;
+        if (!s_fullConstruction)
+        {
+            return;
+        }
+
         SetVersion(1, 36, 53);
         Registry = new GameSettings();
         User = Set<EngineUserElement>.Of(EngineUserElement.Programmer, EngineUserElement.Designer, EngineUserElement.User);
@@ -411,7 +415,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
                 for (int i = 1; i <= 4; i++)
                 {
-                    hex = IntToHex(Cp1252.Byte(text[i - 1]) * value + i, 6);
+                    hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, 6);
                     result = result + hex[hex.Length - 1].ToString();
                     value += Cp1252.Byte(hex[hex.Length - 1]) + Cp1252.Byte(hex[0]);
                 }
@@ -445,10 +449,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     // Army.PAS:6068
     // The preflight raises before the current campaign closes (own-formats.md 2.7).
-    public void LoadCampaign(string fileName)
-    {
-        LoadCampaign(fileName, tree: FileBoundary.OpenOrRaise(fileName, profile: GameProfile.Campaign));
-    }
+    public void LoadCampaign(string fileName) => LoadCampaign(fileName, tree: FileBoundary.OpenOrRaise(fileName, profile: GameProfile.Campaign));
 
     // Loads a campaign file whose preflight has passed, from its tree.
     public void LoadCampaign(string fileName, GameFileTree tree)
@@ -834,10 +835,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     {
     }
 
-    private static void RegisterMoveEvents(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<EndTurnTokenEvent>(), EngineClass.Of<GameOverTokenEvent>(), EngineClass.Of<MultiMoveTokenEvent>(), EngineClass.Of<CheatTokenEvent>(), EngineClass.Of<DisbandUnitTokenEvent>(), EngineClass.Of<ChangePlayerSettingsTokenEvent>(), EngineClass.Of<CombatFlowControlTokenEvent>(), EngineClass.Of<TerminatePlayerTokenEvent>()]);
-    }
+    private static void RegisterMoveEvents(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<EndTurnTokenEvent>(), EngineClass.Of<GameOverTokenEvent>(), EngineClass.Of<MultiMoveTokenEvent>(), EngineClass.Of<CheatTokenEvent>(), EngineClass.Of<DisbandUnitTokenEvent>(), EngineClass.Of<ChangePlayerSettingsTokenEvent>(), EngineClass.Of<CombatFlowControlTokenEvent>(), EngineClass.Of<TerminatePlayerTokenEvent>()]);
 
     private void RegisterAbilities(AbilityControl control)
     {
@@ -882,7 +880,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     {
         int length = default;
         stream.ReadExactly(Bytes.Of(ref length, 4));
-        if (length < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
+        if (length < 0)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
+        }
+
         byte[] buffer = new byte[length];
         Cp1252.Encode(S)[..Math.Min(S.Length, length)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
@@ -897,20 +899,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         S = Cp1252.Decode(buffer);
     }
 
-    private static void RegisterEventLog(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<TextEventLog>(), EngineClass.Of<EndTurnEventLog>(), EngineClass.Of<GameOverEventLog>(), EngineClass.Of<LocationTextEventLog>()]);
-    }
+    private static void RegisterEventLog(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<TextEventLog>(), EngineClass.Of<EndTurnEventLog>(), EngineClass.Of<GameOverEventLog>(), EngineClass.Of<LocationTextEventLog>()]);
 
-    private static void RegisterNetworkEngine(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<TokenPackage>(), EngineClass.Of<PassTokenTokenEvent>(), EngineClass.Of<SyncTokenEvent>()]);
-    }
+    private static void RegisterNetworkEngine(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<TokenPackage>(), EngineClass.Of<PassTokenTokenEvent>(), EngineClass.Of<SyncTokenEvent>()]);
 
-    private static void RegisterSoundEngineClasses(GameEngine engine)
-    {
-        engine.RegisterEngineClasses([EngineClass.Of<SfxSequence>(), EngineClass.Of<SfxLibrary>(), EngineClass.Of<Sfx>()]);
-    }
+    private static void RegisterSoundEngineClasses(GameEngine engine) => engine.RegisterEngineClasses([EngineClass.Of<SfxSequence>(), EngineClass.Of<SfxLibrary>(), EngineClass.Of<Sfx>()]);
 
     internal static void UnregisterCitySpells(GameEngine engine)
     {

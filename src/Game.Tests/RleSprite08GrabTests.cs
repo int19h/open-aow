@@ -21,7 +21,13 @@ public sealed class RleSprite08GrabTests
             LockedSurface lockedSurface = default;
             Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
             for (int y = 0; y < h; y++)
-                for (int x = 0; x < w; x++) lockedSurface.View()[y * lockedSurface.Pitch + x] = pixels[y, x];
+            {
+                for (int x = 0; x < w; x++)
+                {
+                    lockedSurface.View()[(y * lockedSurface.Pitch) + x] = pixels[y, x];
+                }
+            }
+
             grab.TransparentPixel = 0;
             grab.FileName = "grab.bmp";
             bool grabbed = image.GrabImage(lockedSurface, rectangle, grab);
@@ -75,7 +81,12 @@ public sealed class RleSprite08GrabTests
             Assert.Equal(new byte[] { 10, 0, 0, 0, 3, 0, 254, 0, 44, 4, 11, 0, 0, 0, 0, 10, 5, 0, 254, 0, 35 }, Encoded(image));
             var drawn = Draw(image, 300, 2);
             for (int y = 0; y < 2; y++)
-                for (int x = 0; x < 300; x++) Assert.Equal(pixels[y, x] == 0 ? (byte)0x55 : pixels[y, x], drawn[y, x]);
+            {
+                for (int x = 0; x < 300; x++)
+                {
+                    Assert.Equal(pixels[y, x] == 0 ? (byte)0x55 : pixels[y, x], drawn[y, x]);
+                }
+            }
         }
         finally { image.Dispose(); }
     }
@@ -127,11 +138,21 @@ public sealed class RleSprite08GrabTests
         using var surface = new DataSurface(palette: new Palette { PixelFormatId = PixelFormats.pfBGR24 }, width: w, height: h, pixelFormatId: PixelFormats.pfPAL8);
         LockedSurface lockedSurface = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
-        for (int y = 0; y < h; y++) lockedSurface.View().Bytes(y * lockedSurface.Pitch, w).Fill(0x55);
+        for (int y = 0; y < h; y++)
+        {
+            lockedSurface.View().Bytes(y * lockedSurface.Pitch, w).Fill(0x55);
+        }
+
         image.ShowOpaque(0, 0, lockedSurface);
         var result = new byte[h, w];
         for (int y = 0; y < h; y++)
-            for (int x = 0; x < w; x++) result[y, x] = lockedSurface.View()[y * lockedSurface.Pitch + x];
+        {
+            for (int x = 0; x < w; x++)
+            {
+                result[y, x] = lockedSurface.View()[(y * lockedSurface.Pitch) + x];
+            }
+        }
+
         surface.Unlock();
         return result;
     }

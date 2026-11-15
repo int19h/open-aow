@@ -42,9 +42,12 @@ public partial class Memo
                     _blinkCount = 0;
                     Handled = true;
                     Drawn = false;
-                    if (NoFrame && Window != null) Window.Drawn = false;
+                    if (NoFrame && Window != null)
+                    {
+                        Window.Drawn = false;
+                    }
                 }
-                if ((Lines.Count - _topItem) * _itemHeight + top < y)
+                if (((Lines.Count - _topItem) * _itemHeight) + top < y)
                 {
                     _currentLine = Lines.Count - 1;
                     _currentColumn = Lines[Lines.Count - 1].Length;
@@ -66,7 +69,7 @@ public partial class Memo
                         }
                         _currentLine++;
                     }
-                    while (Lines.Count > _currentLine && (_currentLine - _topItem + 1) * _itemHeight + top < y)
+                    while (Lines.Count > _currentLine && ((_currentLine - _topItem + 1) * _itemHeight) + top < y)
                     {
                         _realColumn += Lines[_currentLine].Length;
                         if (_realColumn >= length)
@@ -77,7 +80,11 @@ public partial class Memo
                         }
                         _currentLine++;
                     }
-                    if (Lines.Count == _currentLine) _currentLine--;
+                    if (Lines.Count == _currentLine)
+                    {
+                        _currentLine--;
+                    }
+
                     while (Lines[_currentLine].Length > _currentColumn && base.Font.GetTextWidth(RtlUnit.Copy(Lines[_currentLine], 1, _currentColumn + 1)) + left < x)
                     {
                         _currentColumn++;
@@ -87,6 +94,9 @@ public partial class Memo
             }
             RaiseMouseUp(this, button, shift, x, y);
         }
-        if (Redraw != old) Drawn = false;
+        if (Redraw != old)
+        {
+            Drawn = false;
+        }
     }
 }

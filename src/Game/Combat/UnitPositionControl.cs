@@ -22,10 +22,7 @@ public partial class UnitPositionControl : EngineObject
     }
 
     // AoWTC.pas:4936
-    public UnitPositionControl(CustomNode owner) : base(owner)
-    {
-        Positions = new DefaultItemList<UnitPosition> { Default = UnitPosition.None };
-    }
+    public UnitPositionControl(CustomNode owner) : base(owner) => Positions = new DefaultItemList<UnitPosition> { Default = UnitPosition.None };
 
     // AoWTC.pas:4990
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -62,7 +59,7 @@ public partial class UnitPositionControl : EngineObject
     // AoWTC.pas:4950
     public UnitPosition GetUnitPosition(int position, int index)
     {
-        int i = position * 8 + index;
+        int i = (position * 8) + index;
         return i < Positions.Count ? Positions[i] : UnitPosition.None;
     }
 
@@ -71,18 +68,18 @@ public partial class UnitPositionControl : EngineObject
     {
         if (position < 7 && index < 8)
         {
-            Positions[position * 8 + index] = value;
+            Positions[(position * 8) + index] = value;
         }
     }
 
     // AoWTC.pas:4969
     public bool ValidatePosition(ref sbyte position, ref sbyte index)
     {
-        bool result = Positions[position * 8 + index].Location.X == -1;
+        bool result = Positions[(position * 8) + index].Location.X == -1;
         if (!result)
         {
             index = 0;
-            while (Positions[position * 8 + index].Location.X != -1 && index != 8)
+            while (Positions[(position * 8) + index].Location.X != -1 && index != 8)
             {
                 index = (sbyte)(index + 1);
             }
@@ -95,7 +92,7 @@ public partial class UnitPositionControl : EngineObject
             position = 0;
             while (!result && position < 7)
             {
-                while (Positions[position * 8 + index].Location.X != -1 && index != 8)
+                while (Positions[(position * 8) + index].Location.X != -1 && index != 8)
                 {
                     index = (sbyte)(index + 1);
                 }

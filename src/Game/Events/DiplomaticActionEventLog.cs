@@ -247,8 +247,8 @@ public partial class DiplomaticActionEventLog : EventLog
         show = trigger == ExecuteTrigger.User;
         if (StrategicMap.Current.SeatedPlayer == Action.Target || StrategicMap.Current.SeatedPlayer == Action.Source)
         {
-            show = show || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
-            show = show || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+            show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
+            show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy));
         }
 
         show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
@@ -297,11 +297,15 @@ public partial class DiplomaticActionEventLog : EventLog
         bool result = trigger == ExecuteTrigger.User;
         if (log.Action.Target == StrategicMap.Current.SeatedPlayer || log.Action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            result = result || StrategicMap.Current.PlayMode == PlayMode.Turn && log.GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
-            result = result || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && log.GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+            result = result || (StrategicMap.Current.PlayMode == PlayMode.Turn && log.GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
+            result = result || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && log.GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy));
         }
         result = result && (trigger == ExecuteTrigger.User || log.Action.Reaction != DiplomaticActionReaction.Ignore);
-        if (!result) return false;
+        if (!result)
+        {
+            return false;
+        }
+
         StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done);
         return true;
     }

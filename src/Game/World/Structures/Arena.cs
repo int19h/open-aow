@@ -259,10 +259,7 @@ public partial class Arena : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            CastsShadow = true;
-        }
+        public Resource(CustomNode owner) : base(owner) => CastsShadow = true;
 
         // Arena.pas:253
         public new const int ClassId = 133277;

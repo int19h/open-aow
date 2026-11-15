@@ -26,10 +26,7 @@ public partial class EmailSettingsDialog : UIModule
     }
 
     // AoWEmailSettingsDlg.pas:57
-    public void CancelBtnClick()
-    {
-        Window.Visible = false;
-    }
+    public void CancelBtnClick() => Window.Visible = false;
 
     // AoWEmailSettingsDlg.pas:60
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

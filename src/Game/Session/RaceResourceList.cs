@@ -17,10 +17,7 @@ public partial class RaceResourceList : ResourceCollection, IChildList<RaceResou
     int IChildSink<RaceResource>.AddChild(RaceResource child) => AddChild(child);
 
     // PlayerC.PAS:1890
-    public RaceResourceList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
-    }
+    public RaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // PlayerC.PAS:1896
     public RaceResource GetRaceResource(int index)

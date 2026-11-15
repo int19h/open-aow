@@ -7,7 +7,11 @@ public static partial class RtlUnit
     // Until IRtlHost is introduced, the host supplies argument zero and the arguments here.
     public static void SetCommandLine(params string[] values)
     {
-        if (values.Length == 0) throw new ArgumentException("Argument zero is the executable name.", nameof(values));
+        if (values.Length == 0)
+        {
+            throw new ArgumentException("Argument zero is the executable name.", nameof(values));
+        }
+
         arguments = (string[])values.Clone();
     }
 

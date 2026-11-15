@@ -35,7 +35,7 @@ public static class FrameFixtureInputs
 
     public static int PhaseModulo(object instance, int divisor) => Address(instance) % divisor;
 
-    public static int ShimmerOffset(object instance, int frame) => (frame % 10 * 2 + Address(instance)) % 20;
+    public static int ShimmerOffset(object instance, int frame) => ((frame % 10 * 2) + Address(instance)) % 20;
 
     public static int ArmyStagger(object? unit) => (int)((uint)Address(unit) >> 3) & 7;
 

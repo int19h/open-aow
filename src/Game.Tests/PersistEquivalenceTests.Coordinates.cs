@@ -130,7 +130,11 @@ public sealed partial class PersistEquivalenceTests
             0x7F, 0x7F, 0x02, 0x7F,
         ];
         var path = new MovePath();
-        using (var input = new MemoryStream(payload)) path.LoadFromStream(input);
+        using (var input = new MemoryStream(payload))
+        {
+            path.LoadFromStream(input);
+        }
+
         var stored = new PathStep(Location: MapCoordinate.None, MoveCost: 9);
         Assert.Equal(stored, path.Default);
         Assert.Equal(5, path.Count);

@@ -36,14 +36,24 @@ public partial class CustomAbilityList : EngineObject
         base.PersistFields(persister);
         int count = AbilityCount;
         count = persister.Int32("AbilityCount", count);
-        if (persister.Loading) SetAbilityCount(count);
+        if (persister.Loading)
+        {
+            SetAbilityCount(count);
+        }
+
         int length = (int)(((uint)(AbilityCount + 7)) >> 3);
         persister.BitArray("AbilityBits", AbilityCount, AbilityBits.AsSpan(0, length));
-        if (persister.Preview) return;
+        if (persister.Preview)
+        {
+            return;
+        }
+
         for (int index = 0; index < AbilityCount; index++)
         {
             if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) == null)
+            {
                 SetAbilitySet(index, 0);
+            }
         }
     }
 
@@ -200,11 +210,21 @@ public partial class CustomAbilityList : EngineObject
 
     public virtual void SetAbilitySet(int index, byte value)
     {
-        if ((uint)index >= (uint)AbilityCount) SetAbilityCount(index + 1);
+        if ((uint)index >= (uint)AbilityCount)
+        {
+            SetAbilityCount(index + 1);
+        }
+
         var bits = AbilityBits;
         byte mask = (byte)(1 << (index & 7));
-        if (value != 0) bits[index >> 3] |= mask;
-        else bits[index >> 3] &= (byte)~mask;
+        if (value != 0)
+        {
+            bits[index >> 3] |= mask;
+        }
+        else
+        {
+            bits[index >> 3] &= (byte)~mask;
+        }
     }
 
     public virtual bool GetAbilitySetAt(int index) => (uint)index < (uint)AbilityCount && (AbilityBits[index >> 3] & (1 << (index & 7))) != 0;

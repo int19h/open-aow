@@ -29,10 +29,7 @@ namespace Aow.Game.Units;
 public partial class SelectedArmy : MoveSelector
 {
     // Army.PAS:3567
-    public SelectedArmy(EngineObject creator) : base(creator)
-    {
-        _selectedUnitGraphics = new Int32List();
-    }
+    public SelectedArmy(EngineObject creator) : base(creator) => _selectedUnitGraphics = new Int32List();
 
     private SelectedArmyMode _mode;
     private int _roadBuilderId;
@@ -663,16 +660,10 @@ public partial class SelectedArmy : MoveSelector
     }
 
     // Army.PAS:4002
-    public void ActivateMoveSelection()
-    {
-        Activate(StrategicMap.Current);
-    }
+    public void ActivateMoveSelection() => Activate(StrategicMap.Current);
 
     // Army.PAS:4013
-    public void DeactivateMoveSelection()
-    {
-        Deactivate();
-    }
+    public void DeactivateMoveSelection() => Deactivate();
 
     // Army.PAS:4018
     public void Update()
@@ -895,24 +886,51 @@ public partial class SelectedArmy : MoveSelector
     {
         var map = StrategicMap.Current;
         var mouse = map.Mouse;
-        if (mouse.HexX == -1 || mouse.HexY == -1 || mouse.Capture != this) return;
+        if (mouse.HexX == -1 || mouse.HexY == -1 || mouse.Capture != this)
+        {
+            return;
+        }
+
         var field = map.MapContainer.GetField(mouse.HexX, mouse.HexY, map.ViewMapLevel);
         bool visible = !map.FogEnabled || field.FogCount != 0;
         if (CurrentMove != -1 && (!map.ExplorationEnabled || field.GetExplored(map.SeatedPlayer)) && visible)
+        {
             mouse.CursorMode = field.GetMoveAction(GetArmyHexSprite().Army.Player) switch
             {
                 MoveAction.Attack => 258,
                 MoveAction.Negotiate => 259,
                 _ => 256
             };
-        else mouse.CursorMode = MoveSettingsList.Count <= 1 ? 256 : 0;
-        if (mouse.CursorMode != 256) return;
+        }
+        else
+        {
+            mouse.CursorMode = MoveSettingsList.Count <= 1 ? 256 : 0;
+        }
+
+        if (mouse.CursorMode != 256)
+        {
+            return;
+        }
+
         var types = GetMoveTypes();
-        if (types.Contains(MoveType.Walking)) mouse.Cursor = 64;
-        else if (types.Contains(MoveType.Swimming)) mouse.Cursor = 66;
-        else if (types.Contains(MoveType.Flying)) mouse.Cursor = 68;
+        if (types.Contains(MoveType.Walking))
+        {
+            mouse.Cursor = 64;
+        }
+        else if (types.Contains(MoveType.Swimming))
+        {
+            mouse.Cursor = 66;
+        }
+        else if (types.Contains(MoveType.Flying))
+        {
+            mouse.Cursor = 68;
+        }
+
         int cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay];
-        if (cost == 0 || map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)) mouse.Cursor |= 1;
+        if (cost == 0 || (map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)))
+        {
+            mouse.Cursor |= 1;
+        }
     }
 
     private static readonly ImmutableArray<string> s_groupBehaviorTexts = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];

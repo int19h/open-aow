@@ -102,8 +102,8 @@ public partial class ArmyEventLog : EventLog
                 showEvent = false;
                 if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                 {
-                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
-                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage));
+                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage));
                 }
 
                 showEvent = showEvent || _gameOver;
@@ -131,10 +131,7 @@ public partial class ArmyEventLog : EventLog
     }
 
     // Army.PAS:181
-    public void SetArmyView(ArmyView value)
-    {
-        ArmyView.Assign(value, GetEngine());
-    }
+    public void SetArmyView(ArmyView value) => ArmyView.Assign(value, GetEngine());
 
     // Army.PAS:187
     public bool LeaderKilled()
@@ -167,9 +164,6 @@ public partial class ArmyEventLog : EventLog
     }
 
     // Army.PAS:212
-    public void ValidateGameOver()
-    {
-        _gameOver = LeaderKilled() || PartyDestroyed() && StrategicMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1;
-    }
+    public void ValidateGameOver() => _gameOver = LeaderKilled() || (PartyDestroyed() && StrategicMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1);
 
 }

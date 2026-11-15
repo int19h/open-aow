@@ -118,11 +118,11 @@ public partial class CombatRoad : AbstractRoad
                 {
                     case 1:
                         var random = Random(2);
-                        _images[hexNumber] = (byte)(random * 3 + 1);
+                        _images[hexNumber] = (byte)((random * 3) + 1);
                         break;
                     case 2:
                         var random2 = Random(2);
-                        _images[hexNumber] = (byte)(random2 * 3 + 2);
+                        _images[hexNumber] = (byte)((random2 * 3) + 2);
                         break;
                     case 3:
                         _images[hexNumber] = 6;

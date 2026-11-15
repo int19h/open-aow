@@ -52,10 +52,7 @@ public partial class ImageSequence : IDisposable
     }
 
     // ImageLib.pas:8553
-    public ImageSequence(ImageSequenceList owner)
-    {
-        _owner = owner;
-    }
+    public ImageSequence(ImageSequenceList owner) => _owner = owner;
 
     // ImageLib.pas:8559
     public virtual void Dispose()
@@ -535,28 +532,24 @@ public partial class ImageSequence : IDisposable
     }
 
     // ImageLib.pas:8865
-    public void SaveToIniFile(string section, IniFile iniFile)
-    {
+    public void SaveToIniFile(string section, IniFile iniFile) =>
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // ImageLib.pas:8880
-    public void LoadFromIniFile(string section, IniFile iniFile)
-    {
+    public void LoadFromIniFile(string section, IniFile iniFile) =>
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
-    public ImageSequenceList Owner { get => _owner; }
+    public ImageSequenceList Owner => _owner;
     public byte Layer { get => _layer; set => _layer = value; }
     public ImageSequence Next { get => _next; set => _next = value; }
-    public CustomImageLibrary ImageLibrary { get => _imageLibrary; }
+    public CustomImageLibrary ImageLibrary => _imageLibrary;
     public string ImageLibraryName { get => _imageLibraryName; set => SetImageLibraryName(value); }
     public byte SequenceSpeed { get => _sequenceSpeed; set => _sequenceSpeed = value; }
-    public byte SpeedCount { get => _speedCount; }
+    public byte SpeedCount => _speedCount;
     public SequenceMode SequenceMode { get => _sequenceMode; set => SetSequenceMode(value); }
-    public FrameTableList FrameTable { get => _frameTable; }
+    public FrameTableList FrameTable => _frameTable;
     public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
     public int OffsetX { get => _offsetX; set => _offsetX = value; }
     public int OffsetY { get => _offsetY; set => _offsetY = value; }

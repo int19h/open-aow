@@ -77,7 +77,10 @@ internal static class ObjectImage
             var prop = classValue.PropertyById(e.Id)
                 ?? throw context.Fail(Codes.UnknownProperty, $"Class {classValue.Name} has no property {e.Id}.", db + e.Offset, path, e.Id.ToString(CultureInfo.InvariantCulture));
             if (!seen.TryAdd(e.Id, e))
+            {
                 throw context.Fail(Codes.Duplicate, $"{(prop.IsDynamic ? "Dynamic id" : "Property")} {e.Id} of class {classValue.Name} is stored twice.", start, path);
+            }
+
             slots.Add(new Slot(e, prop));
         }
 
@@ -87,14 +90,19 @@ internal static class ObjectImage
         foreach (var s in slots)
         {
             s.Start = db + s.Entry.Offset;
-            if (s.Property.Codec.ZeroSize) s.End = s.Start;
+            if (s.Property.Codec.ZeroSize)
+            {
+                s.End = s.Start;
+            }
             else
             {
                 int next = Array.BinarySearch(boundaries, s.Entry.Offset);
                 s.End = db + (next + 1 < boundaries.Length ? boundaries[next + 1] : length);
                 nonZeroAt[s.Entry.Offset] = nonZeroAt.GetValueOrDefault(s.Entry.Offset) + 1;
                 if (nonZeroAt[s.Entry.Offset] > 1)
+                {
                     throw context.Fail(Codes.Layout, $"Two valued properties of class {classValue.Name} share offset {s.Entry.Offset}.", s.Start, path);
+                }
             }
         }
 
@@ -105,22 +113,37 @@ internal static class ObjectImage
         foreach (var s in slots.Where(s => s.End > s.Start).OrderBy(s => s.Start))
         {
             int offset = s.Start - db;
-            if (offset > cursor) gaps.Add((cursor, offset - cursor));
+            if (offset > cursor)
+            {
+                gaps.Add((cursor, offset - cursor));
+            }
+
             cursor = Math.Max(cursor, s.End - db);
         }
-        if (cursor < length) gaps.Add((cursor, length - cursor));
+        if (cursor < length)
+        {
+            gaps.Add((cursor, length - cursor));
+        }
 
         var order = slots.OrderBy(s => s.Entry.Offset).ThenBy(s => s.End > s.Start ? 1 : 0).ThenBy(s => s.Entry.Index).ToList();
         var byProperty = new Dictionary<SchemaProperty, List<Slot>>();
         foreach (var s in order)
         {
-            if (!byProperty.TryGetValue(s.Property, out var list)) byProperty[s.Property] = list = [];
+            if (!byProperty.TryGetValue(s.Property, out var list))
+            {
+                byProperty[s.Property] = list = [];
+            }
+
             list.Add(s);
         }
 
         foreach (var prop in classValue.Properties)
         {
-            if (!byProperty.TryGetValue(prop, out var list)) continue;
+            if (!byProperty.TryGetValue(prop, out var list))
+            {
+                continue;
+            }
+
             var memberPath = path.Member(prop.Name);
             JsonValue value;
             if (prop.IsDynamic)
@@ -139,7 +162,10 @@ internal static class ObjectImage
             {
                 var images = new SlotImage[list.Count];
                 for (int k = 0; k < list.Count; k++)
+                {
                     images[k] = new SlotImage(list[k].Entry.Id, list[k].Start, list[k].End);
+                }
+
                 var site = new ValueSite { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target, Builder = builder };
                 value = prop.Codec.DecodeGroup(context, images, site);
             }
@@ -162,32 +188,61 @@ internal static class ObjectImage
         if (!IsCanonical(classValue, table, order, gaps.Count))
         {
             builder.Table(table.Entries, table.EmptyLongMarker, null);
-            foreach (var (offset, count) in gaps) builder.Gap(offset, context.Data.AsSpan(db + offset, count), null);
+            foreach (var (offset, count) in gaps)
+            {
+                builder.Gap(offset, context.Data.AsSpan(db + offset, count), null);
+            }
         }
         builder.Attach(target, context.Profile, context.Counts);
         // A mapped class shows its case. The layout fingerprint covers the stored members, which
         // the export rebuilds from the case before it reads the layout.
-        if (classValue.Mapping is { } mapping) CaseCodec.ToDocument(context, classValue, mapping, target, path, start);
+        if (classValue.Mapping is { } mapping)
+        {
+            CaseCodec.ToDocument(context, classValue, mapping, target, path, start);
+        }
+
         context.Leave();
     }
 
     private static bool IsCanonical(SchemaClass classValue, PropertyTable table, List<Slot> order, int gapCount)
     {
-        if (gapCount != 0 || table.EmptyLongMarker) return false;
+        if (gapCount != 0 || table.EmptyLongMarker)
+        {
+            return false;
+        }
+
         int lastOrdinal = -1;
         int lastId = int.MinValue;
         int element = 0;
         foreach (var s in order)
         {
             int ordinal = classValue.Ordinal(s.Property);
-            if (ordinal < lastOrdinal) return false;
+            if (ordinal < lastOrdinal)
+            {
+                return false;
+            }
+
             if (ordinal == lastOrdinal)
             {
-                if (s.Property.IsDynamic) element++;
-                else if ((!s.Property.Codec.GroupsEntries && s.Property.DataId is null) || s.Entry.Id <= lastId) return false;
+                if (s.Property.IsDynamic)
+                {
+                    element++;
+                }
+                else if ((!s.Property.Codec.GroupsEntries && s.Property.DataId is null) || s.Entry.Id <= lastId)
+                {
+                    return false;
+                }
             }
-            else element = 0;
-            if (s.Property.IsDynamic && s.Property.SlotBase is null && s.Entry.Id != s.Property.DynamicMinimum + element) return false;
+            else
+            {
+                element = 0;
+            }
+
+            if (s.Property.IsDynamic && s.Property.SlotBase is null && s.Entry.Id != s.Property.DynamicMinimum + element)
+            {
+                return false;
+            }
+
             lastOrdinal = ordinal;
             lastId = s.Entry.Id;
         }
@@ -201,12 +256,18 @@ internal static class ObjectImage
         foreach (var e in dataOrder.Where(e => PropertyTable.IsShort(e.Id, e.Offset)))
         {
             var s = stored[k++];
-            if (s.Id != e.Id || s.Offset != e.Offset || s.Long) return false;
+            if (s.Id != e.Id || s.Offset != e.Offset || s.Long)
+            {
+                return false;
+            }
         }
         foreach (var e in dataOrder.Where(e => !PropertyTable.IsShort(e.Id, e.Offset)))
         {
             var s = stored[k++];
-            if (s.Id != e.Id || s.Offset != e.Offset || !s.Long) return false;
+            if (s.Id != e.Id || s.Offset != e.Offset || !s.Long)
+            {
+                return false;
+            }
         }
         return k == stored.Count;
     }
@@ -218,7 +279,11 @@ internal static class ObjectImage
         {
             if (m.Name.StartsWith('$'))
             {
-                if (m.Name == "$layout" || Array.IndexOf(reserved, m.Name) >= 0) continue;
+                if (m.Name == "$layout" || Array.IndexOf(reserved, m.Name) >= 0)
+                {
+                    continue;
+                }
+
                 throw new ConversionException(new FormatDiagnostic(Codes.ReservedMember,
                     Reserved.IsKnown(m.Name) ? $"Reserved member \"{m.Name}\" is not allowed here." : $"Unknown reserved member \"{m.Name}\".")
                 {
@@ -229,6 +294,7 @@ internal static class ObjectImage
                 });
             }
             if (classValue.PropertyByName(m.Name) is null)
+            {
                 throw new ConversionException(new FormatDiagnostic(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{m.Name}\".")
                 {
                     File = context.File,
@@ -236,12 +302,17 @@ internal static class ObjectImage
                     Path = path.Member(m.Name).ToString(),
                     Value = m.Name,
                 });
+            }
         }
     }
 
     public static void Encode(EncodeContext context, JsonObject objectValue, SchemaClass classValue, ByteBuffer output, DocumentNodePath path, params string[] reserved)
     {
-        if (classValue.Mapping is { } mapping) objectValue = CaseCodec.FromDocument(context, classValue, mapping, objectValue, path);
+        if (classValue.Mapping is { } mapping)
+        {
+            objectValue = CaseCodec.FromDocument(context, classValue, mapping, objectValue, path);
+        }
+
         context.Enter(objectValue, path);
         CheckMembers(context, objectValue, classValue, path, reserved);
         var layout = LayoutReader.Read(context, objectValue, path);
@@ -249,22 +320,39 @@ internal static class ObjectImage
         foreach (var prop in classValue.Properties)
         {
             var member = objectValue.Find(prop.Name);
-            if (member is null) continue;
+            if (member is null)
+            {
+                continue;
+            }
+
             var memberPath = path.Member(prop.Name);
             if (!TransportProfile.Carries(context.Profile, prop))
+            {
                 throw TransportProfile.Unrepresentable(context, classValue, prop, memberPath);
+            }
+
             if (prop.IsDynamic)
             {
-                if (member.Value is not JsonArray array) throw context.Fail(Codes.Type, $"{prop.Name} is an array.", member.Value, memberPath);
+                if (member.Value is not JsonArray array)
+                {
+                    throw context.Fail(Codes.Type, $"{prop.Name} is an array.", member.Value, memberPath);
+                }
+
                 if (array.Items.Count > context.Limits.CollectionItems)
+                {
                     throw context.Fail(Codes.Limit, "A collection has too many items.", array, memberPath, null, $"at most {context.Limits.CollectionItems} items");
+                }
+
                 var slots = new HashSet<int>();
                 for (int k = 0; k < array.Items.Count; k++)
                 {
                     var itemPath = memberPath.Item(k);
                     int id = prop.Codec.ElementId(context, array.Items[k], prop, k, itemPath);
                     if (!slots.Add(id))
+                    {
                         throw context.Fail(Codes.Slot, $"Slot {id - (prop.SlotBase ?? 0)} of {prop.Name} is declared twice.", array.Items[k], itemPath);
+                    }
+
                     var site = new ValueSite { Property = prop, Id = id, Path = itemPath, Owner = objectValue, Reader = layout };
                     writer.Begin(id, prop, k);
                     prop.Codec.EncodeElement(context, array.Items[k], writer.Data, site);
@@ -293,9 +381,16 @@ internal static class ObjectImage
         if (table is null)
         {
             if (layout is not null && layout.GapsOf(property).Any())
+            {
                 throw context.Fail(Codes.Layout, "A gap part needs the table part of its object.", at, path);
+            }
+
             var entries = new List<(int, int)>(writer.Items.Count);
-            foreach (var item in writer.Items) entries.Add((item.Id, item.Start));
+            foreach (var item in writer.Items)
+            {
+                entries.Add((item.Id, item.Start));
+            }
+
             PropertyTable.WriteCanonical(output, entries, path, context);
             output.Bytes(writer.Data.Span);
             return;
@@ -306,7 +401,13 @@ internal static class ObjectImage
         // Match entries to items: static by id, dynamic members by position in data order.
         var itemsById = new Dictionary<int, EncodedItem>();
         foreach (var item in writer.Items)
-            if (!item.IsSequential) itemsById[item.Id] = item;
+        {
+            if (!item.IsSequential)
+            {
+                itemsById[item.Id] = item;
+            }
+        }
+
         var dynamicQueues = writer.Items.Where(i => i.IsSequential)
             .GroupBy(i => i.Property!).ToDictionary(g => g.Key, g => new Queue<EncodedItem>(g));
         var dataOrder = stored.OrderBy(e => e.Offset).ThenBy(e => e.Index).ToList();
@@ -320,35 +421,76 @@ internal static class ObjectImage
             }
             var prop = resolve?.Invoke(e.Id);
             if (prop is null || !dynamicQueues.TryGetValue(prop, out var queue) || queue.Count == 0)
+            {
                 throw Bad($"no value has id {e.Id}");
+            }
+
             placed.Add((e, queue.Dequeue() with { Id = e.Id }));
         }
         if (placed.Count != writer.Items.Count || itemsById.Count > 0 || dynamicQueues.Values.Any(q => q.Count > 0))
+        {
             throw Bad("some values have no entry");
+        }
+
         long size = 0;
-        foreach (var (e, item) in placed) size = Math.Max(size, (long)e.Offset + item.Length);
-        foreach (var (offset, bytes, _) in layout!.GapsOf(property)) size = Math.Max(size, (long)offset + bytes.Length);
-        if (size > context.Limits.DecompressedBytes) throw Bad("it is too large");
+        foreach (var (e, item) in placed)
+        {
+            size = Math.Max(size, (long)e.Offset + item.Length);
+        }
+
+        foreach (var (offset, bytes, _) in layout!.GapsOf(property))
+        {
+            size = Math.Max(size, (long)offset + bytes.Length);
+        }
+
+        if (size > context.Limits.DecompressedBytes)
+        {
+            throw Bad("it is too large");
+        }
+
         var data = new byte[size];
         var covered = new bool[size];
         void Cover(int offset, ReadOnlySpan<byte> bytes)
         {
             for (int i = 0; i < bytes.Length; i++)
             {
-                if (covered[offset + i]) throw Bad($"byte {offset + i} is covered twice");
+                if (covered[offset + i])
+                {
+                    throw Bad($"byte {offset + i} is covered twice");
+                }
+
                 covered[offset + i] = true;
             }
             bytes.CopyTo(data.AsSpan(offset));
         }
-        foreach (var (e, item) in placed) Cover(e.Offset, writer.Data.Span.Slice(item.Start, item.Length));
-        foreach (var (offset, bytes, _) in layout.GapsOf(property)) Cover(offset, bytes);
-        if (covered.Any(c => !c)) throw Bad("some bytes are not covered");
+        foreach (var (e, item) in placed)
+        {
+            Cover(e.Offset, writer.Data.Span.Slice(item.Start, item.Length));
+        }
+
+        foreach (var (offset, bytes, _) in layout.GapsOf(property))
+        {
+            Cover(offset, bytes);
+        }
+
+        if (covered.Any(c => !c))
+        {
+            throw Bad("some bytes are not covered");
+        }
+
         var boundaries = placed.Select(p => p.Entry.Offset).Append((int)size).Distinct().Order().ToArray();
         foreach (var (e, item) in placed)
         {
-            if (item.Length == 0) continue;
+            if (item.Length == 0)
+            {
+                continue;
+            }
+
             int next = Array.BinarySearch(boundaries, e.Offset);
-            if (boundaries[next + 1] != e.Offset + item.Length) throw Bad($"the value of id {e.Id} decodes with a different length");
+            if (boundaries[next + 1] != e.Offset + item.Length)
+            {
+                throw Bad($"the value of id {e.Id} decodes with a different length");
+            }
         }
         // The table keeps its stored order: short entries first, then long ones.
         int shortCount = 0, longCount = 0;
@@ -364,18 +506,34 @@ internal static class ObjectImage
             }
             else
             {
-                if (seenLong) throw Bad("a short entry follows a long one");
-                if (!PropertyTable.IsShort(actual.Id, actual.Offset)) throw Bad($"id {actual.Id} at {actual.Offset} cannot be short");
+                if (seenLong)
+                {
+                    throw Bad("a short entry follows a long one");
+                }
+
+                if (!PropertyTable.IsShort(actual.Id, actual.Offset))
+                {
+                    throw Bad($"id {actual.Id} at {actual.Offset} cannot be short");
+                }
+
                 shortCount++;
             }
         }
-        if (shortCount > 127) throw Bad("more than 127 short entries");
+        if (shortCount > 127)
+        {
+            throw Bad("more than 127 short entries");
+        }
+
         if (longCount != 0 || longMarker)
         {
             output.Byte((byte)(shortCount | 0x80));
             output.Int32(longCount);
         }
-        else output.Byte((byte)shortCount);
+        else
+        {
+            output.Byte((byte)shortCount);
+        }
+
         foreach (var e in stored)
         {
             var actual = entryOf[e.Index];

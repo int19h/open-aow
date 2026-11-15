@@ -22,7 +22,9 @@ public static class SafeOutput
             current = Path.Combine(current, part);
             FileSystemInfo info = Directory.Exists(current) ? new DirectoryInfo(current) : new FileInfo(current);
             if (info.Exists && info.LinkTarget is not null && info.ResolveLinkTarget(true) is { } target)
+            {
                 current = target.FullName;
+            }
         }
         return current.TrimEnd(Path.DirectorySeparatorChar);
     }
@@ -38,9 +40,21 @@ public static class SafeOutput
 
     public static string? CheckFile(string input, string output, bool overwrite)
     {
-        if (SamePath(input, output)) return $"The output {output} is the input file.";
-        if (Directory.Exists(output)) return $"The output {output} is a directory.";
-        if (File.Exists(output) && !overwrite) return $"The output {output} exists. Use --overwrite to replace it.";
+        if (SamePath(input, output))
+        {
+            return $"The output {output} is the input file.";
+        }
+
+        if (Directory.Exists(output))
+        {
+            return $"The output {output} is a directory.";
+        }
+
+        if (File.Exists(output) && !overwrite)
+        {
+            return $"The output {output} exists. Use --overwrite to replace it.";
+        }
+
         return null;
     }
 
@@ -62,7 +76,10 @@ public static class SafeOutput
         }
         finally
         {
-            if (File.Exists(temporary)) File.Delete(temporary);
+            if (File.Exists(temporary))
+            {
+                File.Delete(temporary);
+            }
         }
     }
 }

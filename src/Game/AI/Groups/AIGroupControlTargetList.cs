@@ -35,16 +35,10 @@ public partial class AIGroupControlTargetList : ReferenceNode, IChildList<AIGrou
     public void SortOnDataB() => Targets.SortOnDataB();
 
     // AIGroup.pas:711
-    public void Add(AIGroupControlTarget target)
-    {
-        AddChild(target);
-    }
+    public void Add(AIGroupControlTarget target) => AddChild(target);
 
     // AIGroup.pas:716
-    public void Delete(int index)
-    {
-        RemoveChild(GetTargets(index));
-    }
+    public void Delete(int index) => RemoveChild(GetTargets(index));
 
     // AIGroup.pas:721
     public bool Validate()

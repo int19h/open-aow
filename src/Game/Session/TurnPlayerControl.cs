@@ -211,10 +211,7 @@ public partial class TurnPlayerControl : PlayerControl
     }
 
     // PlayerC.PAS:832
-    public override void PasswordValidated()
-    {
-        ContinueLoadedMap();
-    }
+    public override void PasswordValidated() => ContinueLoadedMap();
 
     // PlayerC.PAS:854
     public override void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)

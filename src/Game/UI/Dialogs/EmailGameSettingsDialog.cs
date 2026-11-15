@@ -42,22 +42,13 @@ public partial class EmailGameSettingsDialog : UIModule
     private SetupControl _setupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
-    public void EmailGameSettingsDialogCreate()
-    {
-        EmailAddresses = new StringList();
-    }
+    public void EmailGameSettingsDialogCreate() => EmailAddresses = new StringList();
 
     // AoWEmailGameSettingsDlg.pas:90
-    public void EmailGameSettingsDialogDestroy()
-    {
-        EmailAddresses?.Dispose();
-    }
+    public void EmailGameSettingsDialogDestroy() => EmailAddresses?.Dispose();
 
     // AoWEmailGameSettingsDlg.pas:95
-    public void PlayerSBChange()
-    {
-        UpdatePlayers();
-    }
+    public void PlayerSBChange() => UpdatePlayers();
 
     // AoWEmailGameSettingsDlg.pas:100
     public void EmailAddressEdit1Change(Edit sender, int slot)
@@ -103,16 +94,10 @@ public partial class EmailGameSettingsDialog : UIModule
     }
 
     // AoWEmailGameSettingsDlg.pas:136
-    public void CancelButClick()
-    {
-        Window.Visible = false;
-    }
+    public void CancelButClick() => Window.Visible = false;
 
     // AoWEmailGameSettingsDlg.pas:141
-    public void SettingsBtnClick()
-    {
-        EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
-    }
+    public void SettingsBtnClick() => EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
 
     // AoWEmailGameSettingsDlg.pas:146
     public void LocalEmailAddressEditUpdate()

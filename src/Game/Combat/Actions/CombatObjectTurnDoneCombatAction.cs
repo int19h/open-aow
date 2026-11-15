@@ -32,5 +32,5 @@ public partial class CombatObjectTurnDoneCombatAction : CombatAction
     }
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { if (viewer.Time == 0) Execute(viewer.Combat); return viewer.Delay > viewer.Time; }
+    public override bool Play(CombatViewer viewer) { if (viewer.Time == 0) { Execute(viewer.Combat); } return viewer.Delay > viewer.Time; }
 }

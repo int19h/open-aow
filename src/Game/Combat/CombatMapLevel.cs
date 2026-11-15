@@ -17,10 +17,8 @@ public partial class CombatMapLevel : MapLevel
     public new const int ClassId = 2228482;
 
     // AoWTC.pas:2178
-    public override EngineClass MapFieldClass()
-    {
+    public override EngineClass MapFieldClass() =>
         // { Original uses the world-map field class. }
-        return EngineClass.Of<MapField>();
-    }
+        EngineClass.Of<MapField>();
 
 }

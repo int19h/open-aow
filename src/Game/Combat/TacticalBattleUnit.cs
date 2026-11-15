@@ -31,10 +31,7 @@ public partial class TacticalBattleUnit : CombatUnit
     public TacticalBattleUnitDeathMethod DeathMethod { get; set; }
 
     // AoWTC.pas:2626
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
-    {
-        base.MessageProc(ref message, sender);
-    }
+    public override void MessageProc(ref EngineMessage message, EngineObject sender) => base.MessageProc(ref message, sender);
 
     // AoWTC.pas:2612
     public override void NewTurn(byte combatPlayer)
@@ -229,7 +226,7 @@ public partial class TacticalBattleUnit : CombatUnit
     // AoWTC.pas:2605
     public int GetPositionValue()
     {
-        int result = GetAttack() + GetDamage() + GetDefense() + GetMoves() / 3;
+        int result = GetAttack() + GetDamage() + GetDefense() + (GetMoves() / 3);
         if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange)))
         {
             result = result - 100;
@@ -296,7 +293,7 @@ public partial class TacticalBattleUnit : CombatUnit
         point.Y = y;
         point.X = Random(10) + point.X + 11;
         var unitSize = unitObject.Troop.GetUnitSize();
-        point.Y = Random(10) + point.Y + 9 - (int)unitSize * 10;
+        point.Y = Random(10) + point.Y + 9 - ((int)unitSize * 10);
     }
 
     internal static CombatMoveTokenEvent CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)

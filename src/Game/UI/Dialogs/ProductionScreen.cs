@@ -603,8 +603,8 @@ public partial class ProductionScreen : UIModule
         {
             var fCenterViewLocationHexY = _preview.CenterViewLocation.GetHexY();
             HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, out _viewX, out _viewY);
-            _viewX = _viewX + 16 - MapView.WinWidth / 2;
-            _viewY = _viewY + 16 - MapView.WinHeight / 2;
+            _viewX = _viewX + 16 - (MapView.WinWidth / 2);
+            _viewY = _viewY + 16 - (MapView.WinHeight / 2);
         }
         else
         {
@@ -617,16 +617,10 @@ public partial class ProductionScreen : UIModule
     }
 
     // AoWProdScreen.pas:221
-    public void ProductionScreenCreate()
-    {
-        _images = new Int32List();
-    }
+    public void ProductionScreenCreate() => _images = new Int32List();
 
     // AoWProdScreen.pas:226
-    public void ProductionScreenDestroy()
-    {
-        _images?.Dispose();
-    }
+    public void ProductionScreenDestroy() => _images?.Dispose();
 
     // AoWProdScreen.pas:231
     public void ActivityChange(CheckBox sender, int slot)
@@ -951,10 +945,7 @@ public partial class ProductionScreen : UIModule
     }
 
     // AoWProdScreen.pas:445
-    public void LoopQueueBoxChange()
-    {
-        _place.ProductionControl.SetLoopQueueTo(LoopQueueCheckBox.Checked);
-    }
+    public void LoopQueueBoxChange() => _place.ProductionControl.SetLoopQueueTo(LoopQueueCheckBox.Checked);
 
     // AoWProdScreen.pas:450
     public void CurrentActionImageDraw(Image sender, LockedSurface lockedSurface)
@@ -1074,10 +1065,7 @@ public partial class ProductionScreen : UIModule
     }
 
     // AoWProdScreen.pas:530
-    public void DlgHide()
-    {
-        ClosePlace();
-    }
+    public void DlgHide() => ClosePlace();
 
     // AoWProdScreen.pas:535
     public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)

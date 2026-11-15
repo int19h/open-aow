@@ -9,10 +9,7 @@ public partial class PackageDataList : IDisposable
     private readonly List<MemoryStream> _list;
 
     // NetworkE.pas:870
-    public PackageDataList()
-    {
-        _list = new List<MemoryStream>();
-    }
+    public PackageDataList() => _list = new List<MemoryStream>();
 
     // NetworkE.pas:876
     public virtual void Dispose()
@@ -78,11 +75,11 @@ public partial class PackageDataList : IDisposable
         _list.RemoveAt(index);
     }
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
     public sealed class PackageDataAccessor(PackageDataList target)
     {
-        public MemoryStream this[int index] { get => target.GetPackageData(index); }
+        public MemoryStream this[int index] => target.GetPackageData(index);
     }
 
     public PackageDataAccessor PackageData => new PackageDataAccessor(this);

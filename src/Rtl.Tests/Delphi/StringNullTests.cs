@@ -59,8 +59,14 @@ public sealed class StringNullTests
         ];
         foreach (Action read in reads)
         {
-            if (strict) Assert.Throws<NullStringException>(read);
-            else read();
+            if (strict)
+            {
+                Assert.Throws<NullStringException>(read);
+            }
+            else
+            {
+                read();
+            }
         }
         if (strict)
         {

@@ -50,10 +50,7 @@ public partial class FireStorm : Storm
     }
 
     // Storms.pas:603
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
-    {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType.Fire, X, Y, L, 0, 2, out info);
-    }
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType.Fire, X, Y, L, 0, 2, out info);
 
     // Storms.pas:594
     public override void UpdateTargetSelection(TargetSelectionControl selection)
@@ -135,10 +132,7 @@ public partial class FireStorm : Storm
     }
 
     // Storms.pas:559
-    public override void FinalizeStorm()
-    {
-        base.FinalizeStorm();
-    }
+    public override void FinalizeStorm() => base.FinalizeStorm();
 
     // Storms.pas:564
     public void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)

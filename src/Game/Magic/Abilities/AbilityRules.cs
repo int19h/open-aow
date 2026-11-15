@@ -52,7 +52,7 @@ public static class AbilityRules
         int correction;
         if (damage > 0)
         {
-            threshold = 10 - attackDefense * 2;
+            threshold = 10 - (attackDefense * 2);
             if (threshold > 18)
             {
                 result = damage;
@@ -61,7 +61,7 @@ public static class AbilityRules
             {
                 if (threshold >= 0)
                 {
-                    result = (int)(((uint)((damage - 1) * (18 - threshold) + 1)) >> 1) + (damage + (18 - threshold));
+                    result = (int)(((uint)(((damage - 1) * (18 - threshold)) + 1)) >> 1) + damage + (18 - threshold);
                     if (threshold != 0)
                     {
                         result += 1;
@@ -69,9 +69,9 @@ public static class AbilityRules
                 }
                 else
                 {
-                    result = damage + 1 + (18 - threshold) + (int)(((uint)((damage - 1) * (18 - threshold) + 1)) >> 1);
+                    result = damage + 1 + (18 - threshold) + (int)(((uint)(((damage - 1) * (18 - threshold)) + 1)) >> 1);
                     threshold = -threshold;
-                    correction = (int)(((uint)(((damage - 1) * threshold * threshold + (threshold + 19)) / (threshold + 19))) >> 1);
+                    correction = (int)(((uint)((((damage - 1) * threshold * threshold) + threshold + 19) / (threshold + 19))) >> 1);
                     threshold = correction + threshold + 1;
                     result = result - threshold;
                 }
@@ -106,10 +106,10 @@ public static class AbilityRules
                 }
                 else
                 {
-                    attackDefense = 10 - attackDefense * 2;
+                    attackDefense = 10 - (attackDefense * 2);
                     if (roll >= attackDefense && attackDefense < 18)
                     {
-                        result = ((damage - 1) * (roll - attackDefense) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense) + 1;
+                        result = ((((damage - 1) * (roll - attackDefense)) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense)) + 1;
                     }
                     else
                     {
@@ -143,7 +143,7 @@ public static class AbilityRules
         }
         else
         {
-            result = sourceDamageValue + -99999 - source.GetTargetPriority() * targetDamageValue;
+            result = sourceDamageValue + -99999 - (source.GetTargetPriority() * targetDamageValue);
         }
 
         return result;
@@ -575,7 +575,7 @@ public static class AbilityRules
         string result = "";
         for (int i = 1; i <= text.Length; i++)
         {
-            result = result + Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + (i + 5)) & 255)));
+            result = result + Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + i + 5) & 255)));
         }
 
         return result;
@@ -676,7 +676,10 @@ public static class AbilityRules
                     }
 
                     if (!(condition && j > i - distance))
+                    {
                         break;
+                    }
+
                     j -= 1;
                 }
 

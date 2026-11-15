@@ -17,10 +17,16 @@ public sealed class CorpusTests : FormatsTest
         foreach (var pattern in s_patterns)
         {
             var directory = Path.Combine(Checker.GameRoot, Path.GetDirectoryName(pattern)!);
-            if (!Directory.Exists(directory)) continue;
+            if (!Directory.Exists(directory))
+            {
+                continue;
+            }
+
             foreach (var file in Directory.EnumerateFiles(directory, Path.GetFileName(pattern), new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive })
                 .Order(StringComparer.Ordinal))
+            {
                 data.Add(Path.GetRelativePath(Checker.GameRoot, file).Replace('\\', '/'));
+            }
         }
         return data;
     }

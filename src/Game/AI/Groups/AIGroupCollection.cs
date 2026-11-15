@@ -90,10 +90,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     }
 
     // AIGroup.pas:559
-    public void SortOnProcessPriority()
-    {
-        _holder.SortChildren<AIGroup>(CompareProcessPriority);
-    }
+    public void SortOnProcessPriority() => _holder.SortChildren<AIGroup>(CompareProcessPriority);
 
     private static int CompareProcessPriority(AIGroup item1, AIGroup item2)
     {

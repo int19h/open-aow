@@ -24,6 +24,9 @@ public static class GateSwitches
     public static void Enter(string host, string[] arguments)
     {
         ExceptionCensus.Start(host, arguments);
-        if (Environment.GetEnvironmentVariable(StrictStringsVariable) == "1") RtlUnit.StrictStrings = true;
+        if (Environment.GetEnvironmentVariable(StrictStringsVariable) == "1")
+        {
+            RtlUnit.StrictStrings = true;
+        }
     }
 }

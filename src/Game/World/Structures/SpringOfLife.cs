@@ -88,10 +88,7 @@ public partial class SpringOfLife : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            TerrainBound = false;
-        }
+        public Resource(CustomNode owner) : base(owner) => TerrainBound = false;
 
         // Spring.pas:123
         public new const int ClassId = 131329;

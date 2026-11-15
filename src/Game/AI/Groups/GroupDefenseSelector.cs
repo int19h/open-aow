@@ -35,10 +35,7 @@ public partial class GroupDefenseSelector : IDisposable
     public MapCoordinate DefenseLocation { get; private set; }
 
     // AIGroup.pas:1646
-    public virtual void Dispose()
-    {
-        Defenders?.Dispose();
-    }
+    public virtual void Dispose() => Defenders?.Dispose();
 
     // AIGroup.pas:1652
     public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitUserList units)
@@ -180,7 +177,10 @@ public partial class GroupDefenseSelector : IDisposable
                     {
                         var required = strengths.DamageStrengths;
                         if (EnoughStrength(required) || candidates.Count <= i || candidates.GetUnit(i).GroupId != group.GroupId)
+                        {
                             break;
+                        }
+
                         troop = candidates.GetUnit(i);
                         if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, required))
                         {

@@ -235,11 +235,9 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
 
     // ImageLib.pas:4827
     // { ShowDC clears the surface to gray, not to BkColor. }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
-    {
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // ImageLib.pas:4861
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -267,16 +265,16 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         {
             case 8:
                 value = lockedSurface.View();
-                return value.Byte(X + lockedSurface.Pitch * Y);
+                return value.Byte(X + (lockedSurface.Pitch * Y));
             case 16:
                 value = lockedSurface.View();
-                return value.UInt16(X + X + lockedSurface.Pitch * Y);
+                return value.UInt16(X + X + (lockedSurface.Pitch * Y));
             case 24:
                 value = lockedSurface.View();
-                return (int)(value.Dword(X * 3 + lockedSurface.Pitch * Y) & 0xFFFFFF);
+                return (int)(value.Dword((X * 3) + (lockedSurface.Pitch * Y)) & 0xFFFFFF);
             case 32:
                 value = lockedSurface.View();
-                return (int)value.Dword(X * 4 + lockedSurface.Pitch * Y);
+                return (int)value.Dword((X * 4) + (lockedSurface.Pitch * Y));
             default:
                 throw new NotSupportedException("PixelFormat is not supported");
         }
@@ -350,26 +348,23 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
             {
                 case 8:
                     value2 = lockedSurfaceValue.View();
-                    return value2.Byte(X + lockedSurfaceValue.Pitch * Y);
+                    return value2.Byte(X + (lockedSurfaceValue.Pitch * Y));
                 case 16:
                     value2 = lockedSurfaceValue.View();
-                    return value2.UInt16(X + X + lockedSurfaceValue.Pitch * Y);
+                    return value2.UInt16(X + X + (lockedSurfaceValue.Pitch * Y));
                 case 24:
                     value2 = lockedSurfaceValue.View();
-                    return (int)(value2.Dword(X * 3 + lockedSurfaceValue.Pitch * Y) & 0xFFFFFF);
+                    return (int)(value2.Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 0xFFFFFF);
                 case 32:
                     value2 = lockedSurfaceValue.View();
-                    return (int)value2.Dword(X * 4 + lockedSurfaceValue.Pitch * Y);
+                    return (int)value2.Dword((X * 4) + (lockedSurfaceValue.Pitch * Y));
                 default:
                     throw new NotSupportedException("PixelFormat is not supported");
             }
         }
     }
 
-    private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height)
-    {
-        Blit.ShowBitMask16(X, Y, lockedSurface.View(), data, width, height);
-    }
+    private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowBitMask16(X, Y, lockedSurface.View(), data, width, height);
 
     // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
     public partial class GrabInfo : Images.GrabInfo

@@ -118,7 +118,10 @@ public partial class AIGroupProductionControl : AIGroupTask
                                 }
 
                                 if (!condition)
+                                {
                                     break;
+                                }
+
                                 index += 1;
                             }
 
@@ -195,10 +198,7 @@ public partial class AIGroupProductionControl : AIGroupTask
     public int GetProduceStrength(DamageType damageType) => _produceStrengths[(int)damageType];
 
     // AIGroup.pas:2466
-    public void SetProduceStrength(DamageType damageType, int value)
-    {
-        _produceStrengths[(int)damageType] = value;
-    }
+    public void SetProduceStrength(DamageType damageType, int value) => _produceStrengths[(int)damageType] = value;
 
     // AIGroup.pas:2476
     public int UnitProductionPriority(Unit unit)
@@ -466,7 +466,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                                 production.GoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(i);
                                 production.ManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(i);
                                 production.SetProductionLocation(location);
-                                production.Priority = _movePointPriority * location.MovePoints + priority;
+                                production.Priority = (_movePointPriority * location.MovePoints) + priority;
                                 production.Research = false;
                                 production.ProductionTime = location.ProductionControl.UnitProductionTime(i);
                                 _producibleUnits.AddChild(production);
@@ -499,7 +499,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                                     production.GoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(i);
                                     production.ManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(i);
                                     production.SetProductionLocation(location);
-                                    production.Priority = _movePointPriority * location.MovePoints + priority + _researchPriority;
+                                    production.Priority = (_movePointPriority * location.MovePoints) + priority + _researchPriority;
                                     production.Research = true;
                                     _producibleUnits.AddChild(production);
                                     production.Release();
@@ -549,10 +549,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         _producibleUnits.SortChildren<AIGroupUnitProduction>(CompareProducibleUnits);
     }
 
-    private static int CompareProducibleUnits(AIGroupUnitProduction item1, AIGroupUnitProduction item2)
-    {
-        return item2.Priority - item1.Priority;
-    }
+    private static int CompareProducibleUnits(AIGroupUnitProduction item1, AIGroupUnitProduction item2) => item2.Priority - item1.Priority;
 
     // intf_P5_07.inc:537
 

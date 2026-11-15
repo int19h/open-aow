@@ -61,7 +61,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
             {
                 var efficiency = CombatPredictor.GetEfficiency();
                 var data = target.Data;
-                data.Priority = efficiency + (data.Priority * 100 - target.MovePoints * 5);
+                data.Priority = efficiency + ((data.Priority * 100) - (target.MovePoints * 5));
                 target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
             }
@@ -168,8 +168,5 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
     }
 
     // IndependentAG.pas:280
-    public override void ProcessStatesLooped()
-    {
-        ProcessStates();
-    }
+    public override void ProcessStatesLooped() => ProcessStates();
 }

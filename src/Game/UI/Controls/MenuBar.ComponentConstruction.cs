@@ -8,17 +8,11 @@ public partial class MenuBar
 {
     public LayoutStrings LayoutItems
     {
-        set
-        {
-            value.CopyTo(Items);
-        }
+        set => value.CopyTo(Items);
     }
 
     public LayoutStrings LayoutToolTipText
     {
-        set
-        {
-            value.CopyTo(ToolTipText);
-        }
+        set => value.CopyTo(ToolTipText);
     }
 }

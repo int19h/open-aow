@@ -41,10 +41,7 @@ public partial class ResourceEditSettings : ControlStyleObject
     }
 
     // Engine.pas:8650
-    public ResourceEditSettings(CustomNode owner) : base(owner)
-    {
-        _editors = new StringList();
-    }
+    public ResourceEditSettings(CustomNode owner) : base(owner) => _editors = new StringList();
 
     // Engine.pas:8656
     public override void Dispose()
@@ -108,6 +105,6 @@ public partial class ResourceEditSettings : ControlStyleObject
         }
     }
 
-    public StringList Editors { get => _editors; }
+    public StringList Editors => _editors;
 
 }

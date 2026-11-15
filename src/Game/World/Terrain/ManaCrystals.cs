@@ -126,7 +126,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             case 0:
                 if (info.Player != 0)
                 {
-                    p = _amount / 5 + 15;
+                    p = (_amount / 5) + 15;
                     if (priority < p)
                     {
                         priority = p;

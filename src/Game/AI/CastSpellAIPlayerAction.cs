@@ -118,7 +118,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     {
         Player player;
         player = Control.Player;
-        return player.MagicControl.Mana / 250 + 1;
+        return (player.MagicControl.Mana / 250) + 1;
     }
 
     // Spells.PAS:1600
@@ -222,7 +222,10 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             }
 
                             if (!condition)
+                            {
                                 break;
+                            }
+
                             i += 1;
                         }
 

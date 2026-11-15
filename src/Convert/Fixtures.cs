@@ -61,7 +61,11 @@ public static partial class Fixtures
             if (!outcome.Matched)
             {
                 failed++;
-                if (outcome.OwnDocuments > 0) ownFailed += outcome.OwnDocuments;
+                if (outcome.OwnDocuments > 0)
+                {
+                    ownFailed += outcome.OwnDocuments;
+                }
+
                 errors.WriteLine($"fixture {c.Group}/{c.Name}: {outcome.Detail}");
             }
         }
@@ -73,7 +77,11 @@ public static partial class Fixtures
     private static byte[] Game(string relative)
     {
         string path = Path.Combine(Checker.GameRoot, relative.Replace('/', Path.DirectorySeparatorChar));
-        if (!File.Exists(path)) throw new IOException($"Game file {relative} is unavailable under {Checker.GameRoot}.");
+        if (!File.Exists(path))
+        {
+            throw new IOException($"Game file {relative} is unavailable under {Checker.GameRoot}.");
+        }
+
         return File.ReadAllBytes(path);
     }
 
@@ -109,8 +117,14 @@ public static partial class Fixtures
     private static void Set(JsonObject objectValue, string name, JsonValue value)
     {
         var member = objectValue.Find(name);
-        if (member is null) objectValue.Add(name, value);
-        else member.Value = value;
+        if (member is null)
+        {
+            objectValue.Add(name, value);
+        }
+        else
+        {
+            member.Value = value;
+        }
     }
 
     private static JsonObject Envelope(string kind, string profile, JsonObject root, string compression = "none") =>
@@ -131,12 +145,27 @@ public static partial class Fixtures
         var text = GameFiles.Write(imported.Document);
         var exported = GameFiles.Export(GameFiles.Read(text).Document);
         if (!p.Comparable(file, FormatLimits.Default).AsSpan().SequenceEqual(p.Comparable(exported.Bytes, FormatLimits.Default)))
+        {
             return Fail("G1 differs");
+        }
+
         var again = GameFiles.Write(GameFiles.Import(exported.Bytes, p, kind).Document);
-        if (!again.AsSpan().SequenceEqual(text)) return Fail("G2 differs");
+        if (!again.AsSpan().SequenceEqual(text))
+        {
+            return Fail("G2 differs");
+        }
+
         var n1 = GameFiles.Normalize(text).Bytes;
-        if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1)) return Fail("G-own differs");
-        if (inspect?.Invoke(imported.Document) is string problem) return Fail(problem);
+        if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1))
+        {
+            return Fail("G-own differs");
+        }
+
+        if (inspect?.Invoke(imported.Document) is string problem)
+        {
+            return Fail(problem);
+        }
+
         return Pass($"G1, G2 and G-own hold, {imported.Counts.Parts} layout parts", 1);
     }
 
@@ -149,13 +178,31 @@ public static partial class Fixtures
         var text = GameFiles.Write(normal);
         var exportedAgain = GameFiles.Export(Parse(text));
         if (!profile.Comparable(exportedAgain.Bytes, FormatLimits.Default).AsSpan().SequenceEqual(profile.Comparable(exported.Bytes, FormatLimits.Default)))
+        {
             return Fail("G1 differs for the exported original");
+        }
+
         if (!GameFiles.Write(GameFiles.Import(exportedAgain.Bytes, profile, kind).Document).AsSpan().SequenceEqual(text))
+        {
             return Fail("G2 differs");
+        }
+
         var n1 = GameFiles.Normalize(GameFiles.Write(document)).Bytes;
-        if (!n1.AsSpan().SequenceEqual(text)) return Fail("N(D) differs from the import of the export");
-        if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1)) return Fail("G-own differs");
-        if (inspect?.Invoke(normal, exported.Bytes) is string problem) return Fail(problem);
+        if (!n1.AsSpan().SequenceEqual(text))
+        {
+            return Fail("N(D) differs from the import of the export");
+        }
+
+        if (!GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1))
+        {
+            return Fail("G-own differs");
+        }
+
+        if (inspect?.Invoke(normal, exported.Bytes) is string problem)
+        {
+            return Fail(problem);
+        }
+
         return Pass("G2 and G-own hold", 1);
     }
 
@@ -167,8 +214,16 @@ public static partial class Fixtures
         }
         catch (ConversionException error)
         {
-            if (error.Diagnostic.Code != code) return Fail($"expected {code}, got {error.Diagnostic}");
-            if (inspect?.Invoke(error.Diagnostic) is string problem) return Fail(problem + ": " + error.Diagnostic);
+            if (error.Diagnostic.Code != code)
+            {
+                return Fail($"expected {code}, got {error.Diagnostic}");
+            }
+
+            if (inspect?.Invoke(error.Diagnostic) is string problem)
+            {
+                return Fail(problem + ": " + error.Diagnostic);
+            }
+
             return Pass(error.Diagnostic.ToString());
         }
         return Fail($"expected {code}, the conversion succeeded");
@@ -184,7 +239,11 @@ public static partial class Fixtures
     private static byte[] Concat(params byte[][] parts)
     {
         var b = new ByteBuffer();
-        foreach (var p in parts) b.Bytes(p);
+        foreach (var p in parts)
+        {
+            b.Bytes(p);
+        }
+
         return b.ToArray();
     }
 

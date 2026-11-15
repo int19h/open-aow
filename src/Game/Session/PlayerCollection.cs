@@ -469,7 +469,11 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // intf_P1_03.inc:319
     public void Update()
     {
-        if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null) return;
+        if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
+        {
+            return;
+        }
+
         _localControlledPlayers.Clear();
         LocalHumanPlayers.Clear();
         LocalPlayers.Clear();
@@ -477,14 +481,28 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         for (int i = 0; i < Count; i++)
         {
             var player = this[i];
-            if (player.Status != PlayerStatus.Playing) continue;
-            if (player.GameOverStatus != GameOverStatus.Lost && i != 0) ActivePlayers.Add((byte)i);
+            if (player.Status != PlayerStatus.Playing)
+            {
+                continue;
+            }
+
+            if (player.GameOverStatus != GameOverStatus.Lost && i != 0)
+            {
+                ActivePlayers.Add((byte)i);
+            }
+
             if (player.GetLocal())
             {
                 _localControlledPlayers.Add((byte)i);
-                if (player.PlayerType == PlayerType.Human) LocalHumanPlayers.Add((byte)i);
+                if (player.PlayerType == PlayerType.Human)
+                {
+                    LocalHumanPlayers.Add((byte)i);
+                }
             }
-            if (player.PlayerType == PlayerType.Human) LocalPlayers.Add((byte)i);
+            if (player.PlayerType == PlayerType.Human)
+            {
+                LocalPlayers.Add((byte)i);
+            }
         }
     }
 }

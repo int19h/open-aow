@@ -108,7 +108,7 @@ public partial class AbilityControl : EngineObject
             {
                 var abilityType = ability.GetAbilityType();
                 AbilitiesByType[(int)abilityType].Remove(ability);
-                (Abilities[id]).ImageSequences.ReleaseImageLibrary();
+                Abilities[id].ImageSequences.ReleaseImageLibrary();
                 (Abilities[id] as IDisposable)?.Dispose();
                 Abilities[id] = null;
             }
@@ -139,9 +139,9 @@ public partial class AbilityControl : EngineObject
         {
             if (Abilities[i] != null)
             {
-                if (((Abilities[i]).SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (Abilities[i]).SelectionTypes == Set<AbilitySelectionType>.Of()))
+                if ((Abilities[i].SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && Abilities[i].SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    text.AddObject((Abilities[i]).GetName(null), IntToObject(i));
+                    text.AddObject(Abilities[i].GetName(null), IntToObject(i));
                 }
             }
         }
@@ -179,7 +179,10 @@ public partial class AbilityControl : EngineObject
     // intf_P1_06.inc:178
     public void UnregisterAbilityId(int id)
     {
-        if (Abilities[id] is Ability ability) UnregisterAbility(ability);
+        if (Abilities[id] is Ability ability)
+        {
+            UnregisterAbility(ability);
+        }
     }
 
     public Ability GetAbility(int index)
@@ -188,10 +191,7 @@ public partial class AbilityControl : EngineObject
         return index < Abilities.Count ? Abilities[index] : null;
     }
 
-    public static int CompareAbilityNames(Ability item1, Ability item2)
-    {
-        return CompareStr(b: item2.GetName(null), a: item1.GetName(null));
-    }
+    public static int CompareAbilityNames(Ability item1, Ability item2) => CompareStr(b: item2.GetName(null), a: item1.GetName(null));
 
     internal static void UnregisterPassiveAbilities(AbilityControl control)
     {

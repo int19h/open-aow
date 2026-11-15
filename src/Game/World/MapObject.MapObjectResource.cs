@@ -12,7 +12,11 @@ public partial class MapObject
 
     protected internal void SetResourceId(int value)
     {
-        if (GetResourceLinked()) throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
+        if (GetResourceLinked())
+        {
+            throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
+        }
+
         _unlinkedResourceId = value;
         _resource = null;
     }
@@ -34,14 +38,21 @@ public partial class MapObject
     public override void PersistFields(IPersister persister)
     {
         // The original stores nothing in a text stream, the translate stream's included.
-        if (PersistSupport.Translating(persister)) return;
+        if (PersistSupport.Translating(persister))
+        {
+            return;
+        }
+
         if (persister.Loading)
         {
             SetResourceLinked(false);
             _unlinkedResourceId = persister.Int32("ResourceId", value: _unlinkedResourceId);
             _resource = null;
             LinkToResource(PersistSupport.Engine(persister));
-            if (!GetResourceLinked()) throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
+            if (!GetResourceLinked())
+            {
+                throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
+            }
         }
         else
         {

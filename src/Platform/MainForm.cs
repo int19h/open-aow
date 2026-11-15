@@ -58,7 +58,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         try
         {
             GameLayouts.Initialize(layouts, ui: ui);
-            if (layouts.Modules.Count != 77) throw new InvalidDataException("The startup requires 77 data modules.");
+            if (layouts.Modules.Count != 77)
+            {
+                throw new InvalidDataException("The startup requires 77 data modules.");
+            }
         }
         catch
         {
@@ -132,7 +135,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         var name = UI.Engine.Registry.GetString(0);
         if (!RtlUnit.IsEmpty(name)) { UI.MultiWindow.TcpNameEdit.Text = name; UI.MultiWindow.IpxNameEdit.Text = name; }
         var address = UI.Engine.Registry.GetString(1);
-        if (!RtlUnit.IsEmpty(address)) UI.MultiWindow.IPAddressEdit.Text = address;
+        if (!RtlUnit.IsEmpty(address))
+        {
+            UI.MultiWindow.IPAddressEdit.Text = address;
+        }
+
         WindowActions.RestoreWindowLayout(UI.General);
         RtlUnit.SetCurrentDir(UI.Engine.StartupDirectory);
         UI.Engine.CombatFont = UI.Fonts.Age8;
@@ -153,8 +160,14 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             UI.FileDialogWindow.LastFileName = argument;
             return;
         }
-        if (!UI.Engine.Registry.GetDebugMode() && !UI.Engine.Registry.GetSkipIntro()) UI.IntroScene.Execute();
-        else WindowActions.ShowTitleScene(UI.TitleScene, true);
+        if (!UI.Engine.Registry.GetDebugMode() && !UI.Engine.Registry.GetSkipIntro())
+        {
+            UI.IntroScene.Execute();
+        }
+        else
+        {
+            WindowActions.ShowTitleScene(UI.TitleScene, true);
+        }
     }
 
     public void DisplayResizeBackSurface(int width, int height)
@@ -166,8 +179,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void Run(int frames = 0)
     {
-        if (frames > 0 && Display.PresentedFrames >= frames) return;
-        Display.FramePresented = frame => { if (frames > 0 && frame >= frames) Display.StopUpdateFrameLoop(); };
+        if (frames > 0 && Display.PresentedFrames >= frames)
+        {
+            return;
+        }
+
+        Display.FramePresented = frame => { if (frames > 0 && frame >= frames) { Display.StopUpdateFrameLoop(); } };
         Display.StartUpdateFrameLoop();
     }
 
@@ -180,7 +197,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(UI.FileDialogWindow); break;
         }
         if (UI.SetupEvents.DirectPlay.DPlay is not null)
+        {
             UI.SetupEvents.DirectPlay.CheckMessages();
+        }
+
         AudioPlayback.ProcessSound();
         try { StrategicMap.Current?.NewFrame(); }
         catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
@@ -193,7 +213,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
-            if (StrategicMap.Current is not null) ScrollMap(x, y);
+            if (StrategicMap.Current is not null)
+            {
+                ScrollMap(x, y);
+            }
+
             try { UI.General.Manager.DrawSurface(back); }
             catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
             LockedSurface descriptor = default;
@@ -205,7 +229,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             FLastCursorRectangle = rectangle;
             UI.DebugWindow.ShowFrameRate(Display.CurrentFrameRate);
         }
-        if (StrategicMap.Current is not null && StrategicMap.Current.ExitPending) UI.General.ReturnToTitle();
+        if (StrategicMap.Current is not null && StrategicMap.Current.ExitPending)
+        {
+            UI.General.ReturnToTitle();
+        }
+
         VideoDialog.ApplyVideoSettings(UI.VideoDialog);
     }
 
@@ -214,10 +242,18 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     public void GetCursorRectangle(int x, int y, out Rect rectangle)
     {
         rectangle = default;
-        if (x == -1) return;
+        if (x == -1)
+        {
+            return;
+        }
+
         void Include(LibraryImage image, int dx, int dy)
         {
-            if (image is null) return;
+            if (image is null)
+            {
+                return;
+            }
+
             Rect bounds = default;
             image.GetVisualDimensions(out bounds);
             bounds.Left += x + dx; bounds.Right += x + dx;
@@ -228,9 +264,16 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (StrategicMap.Current is not null)
         {
             Include(FCursorImage, -15, -20);
-            if (CursorIndex != 1) Include(GamePack.Current.CursorImages[CursorIndex], -25, -25);
+            if (CursorIndex != 1)
+            {
+                Include(GamePack.Current.CursorImages[CursorIndex], -25, -25);
+            }
         }
-        else if (FCursor != 1 && UI.Graphics.Cursors.ImageExist(FCursor)) Include(UI.Graphics.Cursors[FCursor], -25, -25);
+        else if (FCursor != 1 && UI.Graphics.Cursors.ImageExist(FCursor))
+        {
+            Include(UI.Graphics.Cursors[FCursor], -25, -25);
+        }
+
         rectangle = _cursorBounds;
     }
 
@@ -238,34 +281,49 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void DrawCursor(int x, int y, in LockedSurface surface)
     {
-        if (x == -1) return;
+        if (x == -1)
+        {
+            return;
+        }
+
         if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
             var image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
-            if (image is null) return;
+            if (image is null)
+            {
+                return;
+            }
+
             if (StrategicMap.Current.SeatedPlayer != -1 && StrategicMap.Current.CombatMap is null)
             {
                 var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs((StrategicMap.Current.Frame << 2) % 100 - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((StrategicMap.Current.Frame << 2) % 100) - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
             }
             image.Show(x - 25, y - 25, surface);
         }
-        else if (FCursor != 1 && UI.Graphics.Cursors.ImageExist(FCursor)) UI.Graphics.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
+        else if (FCursor != 1 && UI.Graphics.Cursors.ImageExist(FCursor))
+        {
+            UI.Graphics.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
+        }
     }
 
     public void ScrollMap(int x, int y)
     {
-        if (General.HasModalWindow(UI.General) || x == -1 || !_host.HasFocus) return;
-        if (x <= 1) { UI.MapWindow.MapViewer.SceneX -= 16; UI.ScannerWindow.Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6); }
-        if (x >= Display.ActiveDisplayController.GetSurface(0).Width - 1) { UI.MapWindow.MapViewer.SceneX += 16; UI.ScannerWindow.Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6); }
-        if (y <= 1) { UI.MapWindow.MapViewer.SceneY -= 16; UI.ScannerWindow.Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6); }
-        if (y >= Display.ActiveDisplayController.GetSurface(0).Height - 1) { UI.MapWindow.MapViewer.SceneY += 16; UI.ScannerWindow.Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6); }
+        if (General.HasModalWindow(UI.General) || x == -1 || !_host.HasFocus)
+        {
+            return;
+        }
+
+        if (x <= 1) { UI.MapWindow.MapViewer.SceneX -= 16; UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6); }
+        if (x >= Display.ActiveDisplayController.GetSurface(0).Width - 1) { UI.MapWindow.MapViewer.SceneX += 16; UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6); }
+        if (y <= 1) { UI.MapWindow.MapViewer.SceneY -= 16; UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6); }
+        if (y >= Display.ActiveDisplayController.GetSurface(0).Height - 1) { UI.MapWindow.MapViewer.SceneY += 16; UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6); }
     }
 
     public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; UI.General.Manager.CheckMouseDown(button, shift, x, y); }
@@ -274,7 +332,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.MouseButtons = shift;
         UI.General.Manager.CheckMouseUp(button, shift, x, y);
-        if (StrategicMap.Current?.Mouse is GameMapMouse mouse) mouse.ResetRectangleSelection();
+        if (StrategicMap.Current?.Mouse is GameMapMouse mouse)
+        {
+            mouse.ResetRectangleSelection();
+        }
     }
 
     public void MouseMove(Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; UI.General.Manager.CheckMouseMove(shift, x, y); }
@@ -285,20 +346,39 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         if (key == 13 && shift.Contains(ShiftState.Alt)) { Display.SwapDisplayController(); return; }
         UI.General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(UI.TutorialWindow);
+        if (key == 112 && StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Tutorial)
+        {
+            TutorialWindow.ShowTutorialMessage(UI.TutorialWindow);
+        }
     }
 
     public void KeyPress(byte key) => UI.General.Manager.CheckKeyPress(ref key);
 
-    public void DoubleClick() { if (StrategicMap.Current is not null && !General.HasModalWindow(UI.General)) StrategicMap.Current.Mouse.DoubleClick(); }
+    public void DoubleClick()
+    {
+        if (StrategicMap.Current is not null && !General.HasModalWindow(UI.General))
+        {
+            StrategicMap.Current.Mouse.DoubleClick();
+        }
+    }
 
     public void Resize(int width, int height) => Display.Resize();
 
-    public void FocusChanged(bool active) { if (!active) Display.MouseButtons = default; }
+    public void FocusChanged(bool active)
+    {
+        if (!active)
+        {
+            Display.MouseButtons = default;
+        }
+    }
 
     public bool CloseRequested()
     {
-        if (StrategicMap.Current is null) return IsClosed = true;
+        if (StrategicMap.Current is null)
+        {
+            return IsClosed = true;
+        }
+
         if (StrategicMap.Current.CombatMap is null)
         {
             StrategicMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
@@ -311,7 +391,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+        {
+            return;
+        }
+
         _disposed = true;
         Display?.Dispose();
         WinDisplayController?.Dispose();
@@ -334,6 +418,9 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             registry.SetMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position);
         }
         UI.Dispose();
-        if (GameHost.MainForm == this) GameHost.MainForm = null;
+        if (GameHost.MainForm == this)
+        {
+            GameHost.MainForm = null;
+        }
     }
 }

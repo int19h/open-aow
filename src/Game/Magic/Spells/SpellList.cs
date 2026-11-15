@@ -8,18 +8,12 @@ namespace Aow.Game.Magic.Spells;
 public partial class SpellList : IDisposable
 {
     // Spells.PAS:695
-    public SpellList()
-    {
-        _spells = new DelphiList<Spell>();
-    }
+    public SpellList() => _spells = new DelphiList<Spell>();
 
     private readonly DelphiList<Spell> _spells;
 
     // Spells.PAS:700
-    public virtual void Dispose()
-    {
-        _spells?.Dispose();
-    }
+    public virtual void Dispose() => _spells?.Dispose();
 
     // Spells.PAS:705
     public Spell GetSpell(int index)
@@ -41,34 +35,19 @@ public partial class SpellList : IDisposable
     public int GetCount() => _spells.Count;
 
     // Spells.PAS:716
-    public void Add(Spell spell)
-    {
-        _spells.Add(spell);
-    }
+    public void Add(Spell spell) => _spells.Add(spell);
 
     // Spells.PAS:720
-    public void Delete(int index)
-    {
-        _spells.Delete(index);
-    }
+    public void Delete(int index) => _spells.Delete(index);
 
     // Spells.PAS:724
-    public void Clear()
-    {
-        _spells.Clear();
-    }
+    public void Clear() => _spells.Clear();
 
     // Spells.PAS:734
-    public void SortOnName()
-    {
-        _spells.Sort(CompareSpellNames);
-    }
+    public void SortOnName() => _spells.Sort(CompareSpellNames);
 
     // Spells.PAS:744
-    public void SortOnLevel()
-    {
-        _spells.Sort(CompareSpellLevels);
-    }
+    public void SortOnLevel() => _spells.Sort(CompareSpellLevels);
 
     public static int CompareSpellNames(Spell item1, Spell item2)
     {

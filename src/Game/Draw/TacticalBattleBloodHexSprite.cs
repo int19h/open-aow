@@ -42,16 +42,10 @@ public partial class TacticalBattleBloodHexSprite : SingleHexSprite
     }
 
     // AoWTC.pas:6414
-    public override void Activate()
-    {
-        base.Activate();
-    }
+    public override void Activate() => base.Activate();
 
     // AoWTC.pas:6383
-    public override void Deactivate()
-    {
-        base.Deactivate();
-    }
+    public override void Deactivate() => base.Deactivate();
 
     // Engine.pas:524
 

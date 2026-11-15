@@ -137,7 +137,10 @@ public sealed class ProductionOrderTests
             Assert.True(ProductionOrder.IsRegistered(id), "production id " + id);
             Assert.Throws<InvalidOperationException>(() => ProductionOrder.Register(id, static (id, parameter, groupId) => new UnknownOrder(id, parameter, groupId)));
         }
-        foreach (int id in new[] { 0, 3, 9, 15 }) Assert.False(ProductionOrder.IsRegistered(id), "production id " + id);
+        foreach (int id in new[] { 0, 3, 9, 15 })
+        {
+            Assert.False(ProductionOrder.IsRegistered(id), "production id " + id);
+        }
     }
 
     [Fact]
@@ -145,7 +148,10 @@ public sealed class ProductionOrderTests
     {
         using var queue = new ProductionQueue(null!) { Holder = EngineFixture.Engine };
         foreach (var order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
+        {
             _ = new ProductionItem(queue) { Order = order };
+        }
+
         Assert.Equal(0, queue.IndexOf(new ProduceUnit(5, 12)));
         Assert.Equal(-1, queue.IndexOf(new ProduceUnit(5, 0)));
         Assert.Equal(1, queue.IndexOf(new ResearchSpell(5)));
@@ -174,7 +180,11 @@ public sealed class ProductionOrderTests
     private static bool OldLoopable(int id, bool city)
     {
         bool result = id != 2;
-        if (city && OldCityAction(id) is CityAction.Migrate or CityAction.Loot or CityAction.Fortify or CityAction.Upgrade) result = false;
+        if (city && OldCityAction(id) is CityAction.Migrate or CityAction.Loot or CityAction.Fortify or CityAction.Upgrade)
+        {
+            result = false;
+        }
+
         return result;
     }
 
@@ -206,7 +216,11 @@ public sealed class ProductionOrderTests
     // City.pas:2503, 2539, 2575: the sequence of row Row, null where the race image shows.
     private static int? OldSequence(CityAction action, byte wallType, int row)
     {
-        if (action is CityAction.None or CityAction.Trade or CityAction.Produce) return null;
+        if (action is CityAction.None or CityAction.Trade or CityAction.Produce)
+        {
+            return null;
+        }
+
         return action switch
         {
             CityAction.Fortify => wallType switch { 0 => 30 + row, 1 => 48 + row, _ => -1 },
@@ -283,7 +297,11 @@ public sealed class ProductionOrderTests
                     string where = order + " in " + control.GetType().Name;
                     Assert.True(OldLoopable(id, inCity) == order.Loopable(control), where);
                     Assert.True(OldLocksQueue(id, inCity) == order.LocksQueue(control), where);
-                    if (id is not (1 or 2)) Assert.True(OldName(id, parameter, inCity, sphere) == order.Name(control), where);
+                    if (id is not (1 or 2))
+                    {
+                        Assert.True(OldName(id, parameter, inCity, sphere) == order.Name(control), where);
+                    }
+
                     checks += 3;
                 }
                 Assert.Equal(OldPlaceImage(id, MagicSphere.None), order.ActivityImage(guild));
@@ -293,7 +311,11 @@ public sealed class ProductionOrderTests
                     city.WallType = wall;
                     Assert.Equal(OldCityImage(action, wall), order.ActivityImage(city));
                     Assert.Equal(OldRealm(action, wall), order.RealmActivity(city));
-                    for (int row = 0; row < 3; row++) Assert.Equal(OldSequence(action, wall, row), order.CitySequence(city, row));
+                    for (int row = 0; row < 3; row++)
+                    {
+                        Assert.Equal(OldSequence(action, wall, row), order.CitySequence(city, row));
+                    }
+
                     checks += 5;
                 }
             }
@@ -301,7 +323,11 @@ public sealed class ProductionOrderTests
         }
         finally
         {
-            foreach (Structure structure in new Structure[] { city, guild, node }) _ = Record.Exception(structure.Dispose);
+            foreach (Structure structure in new Structure[] { city, guild, node })
+            {
+                _ = Record.Exception(structure.Dispose);
+            }
+
             StrategicMap.Current = previousMap;
             map.Dispose();
         }

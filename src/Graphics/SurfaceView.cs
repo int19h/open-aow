@@ -30,7 +30,7 @@ public readonly ref struct SurfaceView
     public SurfaceView WithPitch(int pitch) => new(Memory, Start, pitch, Clip);
 
     // The byte index of the first pixel of row y in the block.
-    public int RowIndex(int y) => Start + y * Pitch;
+    public int RowIndex(int y) => Start + (y * Pitch);
 
     // The `count` bytes of row y from its first pixel. A row that runs past the end of the block
     // ends with the block, so a routine that walks the row writes what lies inside and raises at
@@ -38,9 +38,17 @@ public readonly ref struct SurfaceView
     // raises here.
     public Span<byte> Row(int y, int count)
     {
-        if (count <= 0) return Span<byte>.Empty;
-        int index = Start + y * Pitch;
-        if (index < 0) throw new IndexOutOfRangeException();
+        if (count <= 0)
+        {
+            return Span<byte>.Empty;
+        }
+
+        int index = Start + (y * Pitch);
+        if (index < 0)
+        {
+            throw new IndexOutOfRangeException();
+        }
+
         return index >= Memory.Length ? Span<byte>.Empty : Memory.Slice(index, Math.Min(count, Memory.Length - index));
     }
 

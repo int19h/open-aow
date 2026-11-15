@@ -6,10 +6,18 @@ public static partial class RtlUnit
     {
         byte[] bytes = Cp1252.Encode(value).ToArray();
         var buffer = bytes.AsSpan(start, count);
-        if (exact && count == 0) return 0;
+        if (exact && count == 0)
+        {
+            return 0;
+        }
+
         int read = stream.Read(buffer);
         value = Cp1252.Decode(bytes);
-        if (exact && read != count) throw new EndOfStreamException("Stream read error");
+        if (exact && read != count)
+        {
+            throw new EndOfStreamException("Stream read error");
+        }
+
         return read;
     }
 }

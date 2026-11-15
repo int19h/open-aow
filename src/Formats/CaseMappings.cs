@@ -21,19 +21,35 @@ public static class CaseMappings
     public static void Register(string persistedClass, ICaseUnit unit)
     {
         lock (s_units)
+        {
             if (!s_units.TryAdd(persistedClass, unit))
+            {
                 throw new InvalidOperationException("The persisted class " + persistedClass + " has two case mappings.");
+            }
+        }
     }
 
     public static ICaseUnit? Find(string persistedClass)
     {
         lock (s_units)
         {
-            if (s_units.TryGetValue(persistedClass, out var found)) return found;
+            if (s_units.TryGetValue(persistedClass, out var found))
+            {
+                return found;
+            }
+
             string? resolved = Stored(persistedClass);
-            if (resolved is not null && resolved != persistedClass && s_units.TryGetValue(resolved, out found)) return found;
+            if (resolved is not null && resolved != persistedClass && s_units.TryGetValue(resolved, out found))
+            {
+                return found;
+            }
+
             string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
-            if (delphi is not null && delphi != persistedClass && s_units.TryGetValue(delphi, out found)) return found;
+            if (delphi is not null && delphi != persistedClass && s_units.TryGetValue(delphi, out found))
+            {
+                return found;
+            }
+
             return null;
         }
     }
