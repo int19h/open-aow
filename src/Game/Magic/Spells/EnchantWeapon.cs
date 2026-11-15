@@ -40,7 +40,7 @@ public partial class EnchantWeapon : UnitSpell
         {
             if (target.ExpandAbility(154))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(154)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(154).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

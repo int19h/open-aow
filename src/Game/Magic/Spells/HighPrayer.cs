@@ -116,7 +116,7 @@ public partial class HighPrayer : CombatSpell
         action.Generate(source);
         if (source is CombatUnit sourceUnit)
         {
-            action.ManaCost = ((Hero)sourceUnit.Troop).CastingMana(this);
+            action.ManaCost = sourceUnit.Troop.CastingMana(this);
         }
 
         source.Combat.ExecuteCombatAction(action);

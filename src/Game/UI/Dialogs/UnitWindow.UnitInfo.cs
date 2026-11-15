@@ -26,9 +26,9 @@ public partial class UnitWindow
                 StrategicMap.Current.TutorialControl.ShowMessage(64, true, true);
             }
 
-            if (u is Hero)
+            if (u is Hero heroUnit)
             {
-                h = (Hero)u;
+                h = heroUnit;
             }
             else
             {

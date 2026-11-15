@@ -254,7 +254,7 @@ public partial class CombatMapEvents : UIModule
         if (window.UI.General.CombatUnit != null)
         {
             Troop fTroop = window.UI.General.CombatUnit.Unit.Troop;
-            Hero hero = ((!(fTroop is Hero)) ? null : ((Hero)fTroop));
+            Hero hero = fTroop is Hero faceTroop ? faceTroop : null;
             if (!window.MainWindow.Visible)
             {
                 window.UnitManaGauge.Visible = false;
