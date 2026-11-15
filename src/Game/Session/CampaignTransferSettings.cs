@@ -236,7 +236,7 @@ public partial class CampaignTransferSettings : EngineObject
                 {
                     if (troop is Hero)
                     {
-                        hero = (Hero)troop.Copy(GetEngine());
+                        hero = troop.Copy<Hero>(GetEngine());
                         hero.SetOwner(Heroes);
                         hero.RemoveEnchantments();
                         hero.RemoveHandicaps();
@@ -629,7 +629,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int i = SelectedHeroes.Count - 1; i >= 0; i--)
             {
                 var item = SelectedHeroes[i];
-                hero = (Hero)Heroes.GetHero(item).Copy(GetEngine());
+                hero = Heroes.GetHero(item).Copy<Hero>(GetEngine());
                 for (int j = SelectedItems.Count - 1; j >= 0; j--)
                 {
                     var fSelectedItemsItem = SelectedItems[j];

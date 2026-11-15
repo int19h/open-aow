@@ -42,7 +42,7 @@ public partial class WaterWalking : UnitSpell
         {
             if (target.ExpandAbility(164))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(164)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(164).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

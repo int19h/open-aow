@@ -44,7 +44,7 @@ public partial class DarkGift : UnitSpell
         {
             if (target.ExpandAbility(169))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(169)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(169).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

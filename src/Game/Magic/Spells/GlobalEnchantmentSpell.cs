@@ -59,16 +59,15 @@ public partial class GlobalEnchantmentSpell : Spell
         if (AICanCastSpell(source))
         {
             AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
-            var hero = (Hero)source;
-            if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 result = this.Activate(source);
             }
             else
             {
-                if (hero.CastingSpellId != SpellId)
+                if (source.GetCastingSpellId() != SpellId)
                 {
-                    hero.ExecuteStartCasting(SpellId);
+                    source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else
@@ -140,7 +139,7 @@ public partial class GlobalEnchantmentSpell : Spell
     public virtual bool AICanCastSpell(Troop source)
     {
         string reason = "";
-        bool result = AIBasePriority != -1 && ((Hero)source).CanCastSpell(SpellId, ref reason);
+        bool result = AIBasePriority != -1 && source.CanCastSpell(SpellId, ref reason);
         return result && CanActivate(source, ref reason);
     }
 

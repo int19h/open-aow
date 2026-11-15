@@ -44,7 +44,7 @@ public partial class CombatSpell : Spell
         action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
         if (chargeMana && source is CombatUnit sourceUnit)
         {
-            action.ManaCost = ((Hero)sourceUnit.Troop).CastingMana(this);
+            action.ManaCost = sourceUnit.Troop.CastingMana(this);
         }
 
         return action;
@@ -114,7 +114,7 @@ public partial class CombatSpell : Spell
         FastBattleSpellCommand command;
         AbilityDamageValues values = default;
         hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
-        if (hero is Hero && ((Hero)hero).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+        if (hero != null && hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
         {
             distance = commands.Combat.GetRoundDistance();
             if (CombatInfo.Range == -1)

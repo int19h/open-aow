@@ -495,10 +495,10 @@ public partial class FastBattleUnit : CombatUnit
     {
         Troop troop;
         troop = Troop;
-        if (troop is Hero && Combat.Status.Contains(CombatStatusElement.Executing))
+        if (troop is Hero hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
             var combatData = Combat.CombatData;
-            ((Hero)troop).DropItemsOnMap(StrategicMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
+            hero.DropItemsOnMap(StrategicMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
         }
 
         base.KillUnit();

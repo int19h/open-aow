@@ -48,7 +48,7 @@ public partial class UnitSpell : Spell
         {
             valid = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, 0);
             valid = valid && source.Owner is Army;
-            valid = valid && ((Hero)source).CanCastSpell(SpellId, ref reason);
+            valid = valid && source.CanCastSpell(SpellId, ref reason);
             if (valid && AIRetrieveOptimalTargetUnit(source, source.OwnerUnits, ref target, ref priority))
             {
                 action = CreateCastSpellAction();
@@ -67,10 +67,10 @@ public partial class UnitSpell : Spell
         int priority = default;
         Troop target = default;
         UnitSpellTokenEvent eventValue;
-        if (((Hero)source).CanCastSpell(SpellId, ref reason))
+        if (source.CanCastSpell(SpellId, ref reason))
         {
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
-            if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 if (source.Owner is IHeroHolder)
                 {
@@ -93,9 +93,9 @@ public partial class UnitSpell : Spell
             }
             else
             {
-                if (((Hero)source).CastingSpellId != SpellId)
+                if (source.GetCastingSpellId() != SpellId)
                 {
-                    ((Hero)source).ExecuteStartCasting(SpellId);
+                    source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else
@@ -261,7 +261,7 @@ public partial class UnitSpell : Spell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
-            eventValue.Initialize(mana: ((Hero)source).CastingMana(this), spellId: SpellId, source: source, targets: targets);
+            eventValue.Initialize(mana: source.CastingMana(this), spellId: SpellId, source: source, targets: targets);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;

@@ -56,7 +56,7 @@ public partial class StrikeCombatAction : DamageCombatAction
         if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit entangledTarget)
         {
             GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
-            data = (UnitEnchantmentAbilityData)entangledTarget.Troop.GetAbilityData(94);
+            data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             if (data != null)
             {
                 data.EnchantmentPlayerIndex = source.CombatPlayer;

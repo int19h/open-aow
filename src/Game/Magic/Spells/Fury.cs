@@ -62,7 +62,7 @@ public partial class Fury : UnitSpell
         {
             if (target.ExpandAbility(156))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(156)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(156).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

@@ -70,7 +70,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
             valid = condition;
             // { Original uses mana upkeep for mana and city priority for upkeep. }
             valid = valid && ValidTargetCity(source, targetCity);
-            valid = valid && ((Hero)source).CanCastSpell(SpellId, ref reason);
+            valid = valid && source.CanCastSpell(SpellId, ref reason);
             if (valid)
             {
                 if (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader || AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4 || AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3)
@@ -95,19 +95,18 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         City targetCity;
         source.GetLocation(out x, out y, out l);
         targetCity = (City)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(City));
-        if (targetCity != null && ValidTargetCity(source, targetCity) && ((Hero)source).CanCastSpell(SpellId, ref reason))
+        if (targetCity != null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
-            var hero = (Hero)source;
-            if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 result = TargetSelected(source, x, y, l);
             }
             else
             {
-                if (hero.CastingSpellId != SpellId)
+                if (source.GetCastingSpellId() != SpellId)
                 {
-                    hero.ExecuteStartCasting(SpellId);
+                    source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else

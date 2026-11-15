@@ -77,7 +77,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         Troop source;
         if (StrategicMap.Current != null)
         {
-            data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+            data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             if (data.Enchantment.Source <= 0)
@@ -110,7 +110,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         UnitEnchantmentAbilityData data;
         if (GetDurationMode() == DurationMode.Day)
         {
-            data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+            data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             if (data != null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
@@ -142,7 +142,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         }
 
         bool result = false;
-        data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data == null)
         {
             if (troop.UnitId <= 0)
@@ -175,7 +175,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     {
         UnitEnchantmentAbilityData data;
         bool result = true;
-        data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data != null)
         {
             if (StrategicMap.Current != null && data.Enchantment.Source > -1)
@@ -201,7 +201,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         UnitEnchantmentAbilityData data;
         if (GetDurationMode() == DurationMode.CombatTurn)
         {
-            data = (UnitEnchantmentAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+            data = combatObject.GetAbilityOwner().GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             if (data != null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
@@ -240,7 +240,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     {
         byte result;
         UnitEnchantmentAbilityData data;
-        data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data != null)
         {
             result = (byte)data.EnchantmentDuration;

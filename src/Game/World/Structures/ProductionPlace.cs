@@ -585,7 +585,7 @@ public partial class ProductionPlace : PlayerStructure
                 {
                     if (unit.ExpandAbility(155))
                     {
-                        enchantment = ((UnitEnchantmentAbilityData)unit.GetAbilityData(155)).Enchantment;
+                        enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(SummonedAbility.GetDefaultManaUpkeep(unit));
                         enchantment.SetSource(Player);
                         enchantment.DispelResistance = (sbyte)SummonedAbility.GetDefaultDispelResistance(unit);

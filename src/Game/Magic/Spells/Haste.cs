@@ -43,7 +43,7 @@ public partial class Haste : UnitSpell
         {
             if (target.ExpandAbility(152))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(152)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(152).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

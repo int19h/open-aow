@@ -44,7 +44,7 @@ public partial class ProductionPlaceControl : ProductionControl
         bool result = Settings.Unit.Place(hexX, hexY, productionPlace.HexLevel, productionPlace.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
-            enchantment = ((UnitEnchantmentAbilityData)Settings.Unit.GetAbilityData(155)).Enchantment;
+            enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
             enchantment.SetUpkeep((Settings.Unit.GetUnitLevel() + 1) * 2);
             enchantment.SetSource(ProductionPlace.Player);
             enchantment.DispelResistance = (sbyte)(Settings.Unit.GetUnitLevel() + 3);

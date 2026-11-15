@@ -44,7 +44,7 @@ public partial class StoneSkin : UnitSpell
         {
             if (target.ExpandAbility(153))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(153)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

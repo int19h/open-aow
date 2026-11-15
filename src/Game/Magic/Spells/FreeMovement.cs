@@ -42,7 +42,7 @@ public partial class FreeMovement : UnitSpell
         {
             if (target.ExpandAbility(157))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(157)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(157).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

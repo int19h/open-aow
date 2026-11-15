@@ -42,7 +42,7 @@ public partial class Concealment : UnitSpell
         {
             if (target.ExpandAbility(162))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(162)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(162).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

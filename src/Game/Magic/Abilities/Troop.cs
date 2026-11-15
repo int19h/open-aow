@@ -390,6 +390,29 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
     }
 
+    // Only heroes cast spells. The casting members below let spell code work on
+    // any troop: a troop that casts nothing answers that it cannot cast.
+    public virtual int GetCastingSpellId() => 0;
+
+    public virtual bool CanCastSpell(int spellId, ref string reason) => false;
+
+    public virtual bool CanCastSpellInstantly(int spellId, int mana, ref string reason) => false;
+
+    public virtual bool ExecuteStartCasting(int spellId) => false;
+
+    // The sphere doubling is a property of the spell and the global
+    // enchantments, not of the caster, so every troop shares it.
+    public virtual int CastingMana(Spell spell)
+    {
+        int result = spell.BaseManaCost;
+        if (StrategicMap.Current.GlobalMagicControl.GetSphereManaDoubled(spell.MagicSphere))
+        {
+            result = result * 2;
+        }
+
+        return result;
+    }
+
     // Unit.PAS:906
     public virtual int GetPowerGeneration() => 0;
 
@@ -1180,7 +1203,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             ability = list.GetAbility(i);
             if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
-                data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
+                data = this.GetAbilityData<UnitEnchantmentAbilityData>(ability.AbilityId);
                 if (data.Enchantment.Source > -1)
                 {
                     StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.RegisterEnchantment(data.Enchantment);
@@ -1201,7 +1224,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             ability = list.GetAbility(i);
             if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
-                data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
+                data = this.GetAbilityData<UnitEnchantmentAbilityData>(ability.AbilityId);
                 if (data.Enchantment.Source > -1)
                 {
                     StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
@@ -1219,7 +1242,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         ability = GamePack.Current.AbilityControl.GetAbility(abilityId);
         if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
         {
-            data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
+            data = this.GetAbilityData<UnitEnchantmentAbilityData>(ability.AbilityId);
             if (data != null)
             {
                 result = data.Enchantment;
@@ -1394,7 +1417,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         Enchantment enchantment;
         if (GetAbilityEnabled(155))
         {
-            enchantment = ((UnitEnchantmentAbilityData)this.GetAbilityData(155)).Enchantment;
+            enchantment = this.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
             if (enchantment != null)
             {
                 result = enchantment.Upkeep;
@@ -1835,7 +1858,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         if (GetAbilityEnabled(153))
         {
-            if (((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.Source == -2)
+            if (this.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.Source == -2)
             {
                 RemoveAbility(153);
             }
@@ -1849,10 +1872,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (this.ExpandAbility(153))
             {
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.SetUpkeep(0);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.SetSource(-2);
+                this.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.SetUpkeep(0);
+                this.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.SetSource(-2);
                 var spell = GamePack.Current.SpellControl.GetSpell(17);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.DispelResistance = (sbyte)((UnitSpell)(object)spell).UnitDispelResistance;
+                this.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment.DispelResistance = (sbyte)((UnitSpell)(object)spell).UnitDispelResistance;
             }
         }
     }
@@ -1862,7 +1885,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         if (GetAbilityEnabled(167))
         {
-            if (((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.Source == -2)
+            if (this.GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.Source == -2)
             {
                 RemoveAbility(167);
             }
@@ -1876,9 +1899,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (this.ExpandAbility(167))
             {
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.SetUpkeep(0);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.SetSource(-2);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.DispelResistance = 7;
+                this.GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.SetUpkeep(0);
+                this.GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.SetSource(-2);
+                this.GetAbilityData<UnitEnchantmentAbilityData>(167).Enchantment.DispelResistance = 7;
             }
         }
     }
@@ -1888,7 +1911,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         if (GetAbilityEnabled(158))
         {
-            if (((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.Source == -2)
+            if (this.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.Source == -2)
             {
                 RemoveAbility(158);
             }
@@ -1902,10 +1925,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             if (this.ExpandAbility(158))
             {
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.SetUpkeep(0);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.SetSource(-2);
+                this.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.SetUpkeep(0);
+                this.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.SetSource(-2);
                 var spell = GamePack.Current.SpellControl.GetSpell(56);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.DispelResistance = (sbyte)((UnitSpell)(object)spell).UnitDispelResistance;
+                this.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment.DispelResistance = (sbyte)((UnitSpell)(object)spell).UnitDispelResistance;
             }
         }
     }
@@ -2459,7 +2482,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
         if (active.Contains(DamageType.Cold) && ExpandAbility(95))
         {
-            var data = (UnitEnchantmentAbilityData)GetAbilityData(95);
+            var data = GetAbilityData<UnitEnchantmentAbilityData>(95);
             if (data != null) data.EnchantmentPlayerIndex = (sbyte)combat.CombatData.CurrentPlayer;
             RemoveAbility(127);
             result += Set<DamageType>.Of(DamageType.Cold);

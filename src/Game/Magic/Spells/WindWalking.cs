@@ -42,7 +42,7 @@ public partial class WindWalking : UnitSpell
         {
             if (target.ExpandAbility(165))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(165)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(165).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;
