@@ -90,7 +90,7 @@ public partial class House : CombatStructure
             {
                 do
                 {
-                    imageIndex = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3) + terrainOffset * 3);
+                    imageIndex = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3) + (terrainOffset * 3));
                     if (imageIndex != -1)
                     {
                         sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX + 16, pixelYSurface + sequence.OffsetY + 16, lockedSurface);
@@ -135,7 +135,7 @@ public partial class House : CombatStructure
                                 {
                                     var hexX2 = GetHexX();
                                     var hexY2 = GetHexY();
-                                    GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + hexY2 * 100, (byte)_flagId, lockedSurface, false);
+                                    GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), (byte)_flagId, lockedSurface, false);
                                 }
                             }
 

@@ -56,10 +56,7 @@ public partial class FastBattleCommandList : IDisposable
     public int GetCount() => _commands.Count;
 
     // AIGroup.pas:6752
-    public void Add(FastBattleCommand command)
-    {
-        _commands.Add(command);
-    }
+    public void Add(FastBattleCommand command) => _commands.Add(command);
 
     // AIGroup.pas:6757
     public void Delete(int index)
@@ -69,15 +66,9 @@ public partial class FastBattleCommandList : IDisposable
     }
 
     // AIGroup.pas:6768
-    public void Sort()
-    {
-        _commands.Sort(CompareFastBattleCommands);
-    }
+    public void Sort() => _commands.Sort(CompareFastBattleCommands);
 
-    private static int CompareFastBattleCommands(FastBattleCommand item1, FastBattleCommand item2)
-    {
-        return item2.ExpectedDamageValue - item1.ExpectedDamageValue;
-    }
+    private static int CompareFastBattleCommands(FastBattleCommand item1, FastBattleCommand item2) => item2.ExpectedDamageValue - item1.ExpectedDamageValue;
 
     // intf_P5_05.inc:23
 

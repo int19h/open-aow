@@ -222,8 +222,8 @@ internal static class TacticalTables
         {
             point = new Point3D();
             path.Add(point);
-            point.X = (lastX - x) * i / steps + x;
-            point.Y = (lastY - y) * i / steps + y;
+            point.X = ((lastX - x) * i / steps) + x;
+            point.Y = ((lastY - y) * i / steps) + y;
             b = steps / 2;
             if (i > b)
             {
@@ -248,7 +248,7 @@ internal static class TacticalTables
             else
             {
                 height = a * steps * arc / 10;
-                point.Z = Round(Math.Sqrt(height)) - steps * 10 / arc;
+                point.Z = Round(Math.Sqrt(height)) - (steps * 10 / arc);
             }
 
             i += 1;
@@ -383,7 +383,7 @@ internal static class TacticalTables
                             a = (a + b - point.Z) * 2;
                             break;
                         case 2:
-                            a = 200 - point.Z * 3;
+                            a = 200 - (point.Z * 3);
                             break;
                         case 3:
                             a = 100;

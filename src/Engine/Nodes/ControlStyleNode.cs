@@ -10,10 +10,7 @@ public partial class ControlStyleNode : OwningNode
     // Engine.pas:8199
     public new const int ClassId = 257;
 
-    public ControlStyleNode(CustomNode owner) : base(owner)
-    {
-        _controlStyle = base.GetControlStyle();
-    }
+    public ControlStyleNode(CustomNode owner) : base(owner) => _controlStyle = base.GetControlStyle();
 
     private Set<ControlStyleElement> _controlStyle;
 
@@ -21,10 +18,7 @@ public partial class ControlStyleNode : OwningNode
     public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:8209
-    public void SetControlStyle(Set<ControlStyleElement> value)
-    {
-        _controlStyle = value;
-    }
+    public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
 
     // Engine.pas:8214
     public override void PersistFields(IPersister persister)

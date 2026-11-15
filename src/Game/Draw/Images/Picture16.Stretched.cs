@@ -73,7 +73,7 @@ public partial class Picture16
             h = b - t;
             if (w > 0 && h > 0)
             {
-                destination = lockedSurface.View(l * 2 + lockedSurface.Pitch * t);
+                destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
                 // One table of H row offsets followed by W columns, as the original's GetMem.
                 int[] tables = new int[w + h];
                 rowTable = tables.AsSpan(0, h);
@@ -243,7 +243,7 @@ public partial class Picture16
             h = b - t;
             if (w > 0 && h > 0)
             {
-                destination = lockedSurface.View(l * 2 + lockedSurface.Pitch * t);
+                destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
                 // One table of H row offsets followed by W columns, as the original's GetMem.
                 int[] tables = new int[w + h];
                 rowTable = tables.AsSpan(0, h);

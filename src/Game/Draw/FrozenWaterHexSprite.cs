@@ -63,7 +63,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
         var hexX = HexX;
         var hexY2 = HexY;
         var hexY3 = HexY;
-        GamePack.Current.ImageSequences.ShowLooped(70, x, y, StrategicMap.Current.Frame, hexX + hexY2 + hexY3 * 2, lockedSurface);
+        GamePack.Current.ImageSequences.ShowLooped(70, x, y, StrategicMap.Current.Frame, hexX + hexY2 + (hexY3 * 2), lockedSurface);
     }
 
     // Structur.PAS:4494

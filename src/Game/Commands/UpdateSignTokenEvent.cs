@@ -12,10 +12,7 @@ namespace Aow.Game.Commands;
 // Text, HexX, HexY, HexLevel
 public partial class UpdateSignTokenEvent : TokenEvent
 {
-    public UpdateSignTokenEvent(CustomNode owner) : base(owner)
-    {
-        Text = new StringList();
-    }
+    public UpdateSignTokenEvent(CustomNode owner) : base(owner) => Text = new StringList();
 
     // Sign.pas:202
     public new const int ClassId = 131343;

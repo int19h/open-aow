@@ -106,12 +106,12 @@ public partial class MapWindow : UIModule
         {
             UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
-            UI.ScannerWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
-            UI.ScannerWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
+            UI.ScannerWindow.Scanner.SetTLeft((MapViewer.SceneX / 32) - 6);
+            UI.ScannerWindow.Scanner.SetTTop((MapViewer.SceneY / 32) - 6);
             UI.CombatScanner.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             UI.CombatScanner.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
-            UI.CombatScanner.Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6);
-            UI.CombatScanner.Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6);
+            UI.CombatScanner.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6);
+            UI.CombatScanner.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6);
         }
 
         if (StrategicMap.Current.CombatMap == null)
@@ -384,7 +384,11 @@ public partial class MapWindow : UIModule
     // AOWMWindow.pas:141. Frame invalidation and measured FPS use the active host.
     public void MapWindowUpdate()
     {
-        if (StrategicMap.Current is null) return;
+        if (StrategicMap.Current is null)
+        {
+            return;
+        }
+
         StrategicMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
         MainWindow.Drawn &= MainWindow.DoubleBuffered;
     }

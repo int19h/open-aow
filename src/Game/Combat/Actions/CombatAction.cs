@@ -17,10 +17,7 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
     void IOwnedSink<CombatActionList>.SetOwner(CombatActionList owner) => SetOwner(owner);
 
     // Combat2.pas:698
-    public CombatAction(CustomNode owner) : base(owner)
-    {
-        RefCount = 1;
-    }
+    public CombatAction(CustomNode owner) : base(owner) => RefCount = 1;
 
     public int RefCount { get; private set; }
 
@@ -50,28 +47,16 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
     public virtual string GetName() => GetType().Name;
 
     // intf_P3_02.inc:42
-    public virtual void Execute(Battle combat)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual void Execute(Battle combat) => throw AbstractErrorException.Create("Abstract Error");
 
     // intf_P3_02.inc:43
-    public virtual bool Play(CombatViewer viewer)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual bool Play(CombatViewer viewer) => throw AbstractErrorException.Create("Abstract Error");
 
     // Combat2.pas:716
-    public virtual void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
-    {
-        objectValue.Show(frame, direction, X, Y, surface);
-    }
+    public virtual void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface) => objectValue.Show(frame, direction, X, Y, surface);
 
     // Combat2.pas:721
-    public virtual void ShowFieldObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
-    {
-        objectValue.Show(frame, direction, X, Y, surface);
-    }
+    public virtual void ShowFieldObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface) => objectValue.Show(frame, direction, X, Y, surface);
 
     // Combat2.pas:726
     public virtual void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)

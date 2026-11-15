@@ -19,10 +19,7 @@ public partial class AIGroupUnitProduction : EngineObject, IOwned<AIGroupUnitPro
     void IOwnedSink<AIGroupUnitProductionList>.SetOwner(AIGroupUnitProductionList owner) => SetOwner(owner);
 
     // AIGroup.pas:2389
-    public AIGroupUnitProduction(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-    }
+    public AIGroupUnitProduction(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

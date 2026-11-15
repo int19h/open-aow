@@ -17,8 +17,13 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         File.WriteAllText(_dialogFile, "");
         File.WriteAllText(Path.Combine(output, "urls.jsonl"), "");
         if (settings is not null)
+        {
             foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
+            {
                 Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
+            }
+        }
+
         byte speed = movementSpeed switch
         {
             "normal" => 0,
@@ -36,7 +41,10 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
             string kind = value.GetProperty("kind").GetString() ?? "";
             var data = value.GetProperty("value");
             if (kind == "rectangle" && data.ValueKind == JsonValueKind.Array)
+            {
                 return string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()));
+            }
+
             return kind == "bytes" && data.ValueKind == JsonValueKind.String
                 ? Convert.FromBase64String(data.GetString()!) : ReadSetting(key, data);
         }
@@ -108,7 +116,11 @@ internal sealed class RunFiles : IFileSystem
     // The autosave and its replacement temporary go to the day file of the run.
     private string Target(string path)
     {
-        if (AutoSaveTarget is null) return path;
+        if (AutoSaveTarget is null)
+        {
+            return path;
+        }
+
         string name = RtlUnit.ExtractFileName(path).ToString();
         // The autosave goes to the day file under either extension, the one this host writes and
         // the original one (own-formats.md 4.2).
@@ -116,8 +128,15 @@ internal sealed class RunFiles : IFileSystem
         foreach (var extension in new[] { save.OwnExtension, save.OriginalExtension })
         {
             string autosave = "autosave" + extension;
-            if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase)) return AutoSaveTarget;
-            if (name.Equals(Game.Saves.FileBoundary.TemporaryFor(autosave), StringComparison.OrdinalIgnoreCase)) return Game.Saves.FileBoundary.TemporaryFor(AutoSaveTarget);
+            if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase))
+            {
+                return AutoSaveTarget;
+            }
+
+            if (name.Equals(Game.Saves.FileBoundary.TemporaryFor(autosave), StringComparison.OrdinalIgnoreCase))
+            {
+                return Game.Saves.FileBoundary.TemporaryFor(AutoSaveTarget);
+            }
         }
         return path;
     }
@@ -126,7 +145,11 @@ internal sealed class RunFiles : IFileSystem
     {
         bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
-        if (!writing && IsInput(path)) return File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (!writing && IsInput(path))
+        {
+            return File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read);
+        }
+
         return _files.Open(writing ? Target(path) : path, mode);
     }
 

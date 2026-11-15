@@ -28,14 +28,22 @@ public abstract partial class PropertyCodec
     /// <summary>Writes a tree value as original image bytes. A leaf overrides this. The base refuses.</summary>
     internal virtual void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
-        if (ImageRefusal is string reason) throw new InvalidOperationException(reason);
+        if (ImageRefusal is string reason)
+        {
+            throw new InvalidOperationException(reason);
+        }
+
         throw new InvalidOperationException(GetType().Name + " has no image writer.");
     }
 
     /// <summary>Reads original image bytes into a tree value. A leaf overrides this. The base refuses.</summary>
     internal virtual Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        if (ImageRefusal is string reason) throw new InvalidOperationException(reason);
+        if (ImageRefusal is string reason)
+        {
+            throw new InvalidOperationException(reason);
+        }
+
         throw new InvalidOperationException(GetType().Name + " has no image reader.");
     }
 
@@ -145,7 +153,11 @@ public abstract partial class PropertyCodec
     private static int CheckedWidth(JsonObject source, string path, string kind)
     {
         int width = Width(source);
-        if (width is 1 or 2 or 4) return width;
+        if (width is 1 or 2 or 4)
+        {
+            return width;
+        }
+
         throw new InvalidOperationException(path + " has width " + width + ". An " + kind + " width is 1, 2 or 4.");
     }
 
@@ -170,9 +182,21 @@ public abstract partial class PropertyCodec
     // A list names an enum or a record for its values from version 4. A record value fills the 4 bytes of an integer list.
     private static ListElement? Element(JsonObject source, int width, string path)
     {
-        if (source["enum"] is JsonString enumName) return new EnumListElement(enumName.Value, width);
-        if (source["record"] is not JsonString recordName) return null;
-        if (width != 4) throw new InvalidOperationException(path + " names a record for a list of " + width + "-byte values.");
+        if (source["enum"] is JsonString enumName)
+        {
+            return new EnumListElement(enumName.Value, width);
+        }
+
+        if (source["record"] is not JsonString recordName)
+        {
+            return null;
+        }
+
+        if (width != 4)
+        {
+            throw new InvalidOperationException(path + " names a record for a list of " + width + "-byte values.");
+        }
+
         return new RecordListElement(recordName.Value);
     }
 
@@ -223,13 +247,16 @@ internal sealed partial class IntegerCodec(int width, bool signed, string? domai
     /// <summary>True when rwData stores the integer, so a zero is present.</summary>
     internal bool Raw { get; } = raw;
 
-    private long Min => signed ? -(1L << (width * 8 - 1)) : 0;
-    private long Max => signed ? (1L << (width * 8 - 1)) - 1 : (1L << (width * 8)) - 1;
+    private long Min => signed ? -(1L << ((width * 8) - 1)) : 0;
+    private long Max => signed ? (1L << ((width * 8) - 1)) - 1 : (1L << (width * 8)) - 1;
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         if (end - start != width)
+        {
             throw Mismatch(context, start, site, $"An integer of {width} bytes is stored in {end - start} bytes.");
+        }
+
         var bytes = context.Data.AsSpan(start, width);
         long value = width switch
         {
@@ -243,9 +270,16 @@ internal sealed partial class IntegerCodec(int width, bool signed, string? domai
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
         string name = site.Property?.Name ?? "The value";
-        if (value is not JsonInteger n) throw context.Fail(Codes.Type, $"{name} is an integer.", value, site.Path, value.KindName);
+        if (value is not JsonInteger n)
+        {
+            throw context.Fail(Codes.Type, $"{name} is an integer.", value, site.Path, value.KindName);
+        }
+
         if (n.Value < Min || n.Value > Max)
+        {
             throw context.Fail(Codes.Range, $"{name} is outside its storage range.", value, site.Path, Text(n.Value), $"{Min} to {Max}");
+        }
+
         switch (width)
         {
             case 1: data.Byte((byte)n.Value); break;
@@ -266,8 +300,16 @@ internal sealed partial class BooleanCodec : PropertyCodec
 
     internal override void EncodeMember(EncodeContext context, JsonValue value, ObjectWriter writer, ValueSite site)
     {
-        if (value is not JsonBoolean b) throw context.Fail(Codes.Type, $"{site.Property.Name} is a boolean.", value, site.Path, value.KindName);
-        if (!b.Value) return;
+        if (value is not JsonBoolean b)
+        {
+            throw context.Fail(Codes.Type, $"{site.Property.Name} is a boolean.", value, site.Path, value.KindName);
+        }
+
+        if (!b.Value)
+        {
+            return;
+        }
+
         writer.Begin(site.Id, site.Property);
         writer.End();
     }
@@ -281,7 +323,10 @@ internal static class TextCodec
     public static byte[] Encode(EncodeContext context, string text, JsonValue at, DocumentNodePath path)
     {
         if (Problem(text, context.Limits.StringBytes) is { } problem)
+        {
             throw context.Fail(problem.Code, problem.Message, at, path, problem.Value, problem.Constraint);
+        }
+
         return Cp1252.Encode(text);
     }
 
@@ -289,7 +334,10 @@ internal static class TextCodec
     internal static byte[] Bytes(EncodeContext context, string text, DocumentNodePath path)
     {
         if (Problem(text, context.Limits.StringBytes) is { } problem)
+        {
             throw context.Fail(problem.Code, problem.Message, null, path, problem.Value, problem.Constraint);
+        }
+
         return Cp1252.Encode(text);
     }
 
@@ -299,11 +347,19 @@ internal static class TextCodec
     internal static TextProblem? Problem(string text, int limit)
     {
         for (int i = 0; i < text.Length; i++)
+        {
             if (!Cp1252.IsMapped(text[i]))
+            {
                 return new TextProblem(Codes.Text, $"Character U+{(int)text[i]:X4} at index {i} has no code page 1252 byte.",
                     ((int)text[i]).ToString("X4", CultureInfo.InvariantCulture), "code page 1252 characters");
+            }
+        }
+
         if (text.Length > limit)
+        {
             return new TextProblem(Codes.Limit, "A string is too long.", null, $"at most {limit} bytes");
+        }
+
         return null;
     }
 }
@@ -324,23 +380,41 @@ internal sealed partial class StringCodec : PropertyCodec
             at += 4;
         }
         if (length < 0 || at + (long)length != end)
+        {
             throw Mismatch(context, start, site, $"A string of {length} bytes does not fill its {end - start} stored bytes.");
+        }
+
         if (length > context.Limits.StringBytes)
+        {
             throw context.Fail(Codes.Limit, "A string is too long.", start, site.Path, Text(length), $"at most {context.Limits.StringBytes} bytes");
-        if (longPrefix && length < 255) site.Builder?.ValuePrefix(site.Id);
+        }
+
+        if (longPrefix && length < 255)
+        {
+            site.Builder?.ValuePrefix(site.Id);
+        }
+
         return new JsonString(TextCodec.Decode(context.Data.AsSpan(at, length)));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        if (value is not JsonString s) throw context.Fail(Codes.Type, $"{site.Property.Name} is a string.", value, site.Path, value.KindName);
+        if (value is not JsonString s)
+        {
+            throw context.Fail(Codes.Type, $"{site.Property.Name} is a string.", value, site.Path, value.KindName);
+        }
+
         var bytes = TextCodec.Encode(context, s.Value, value, site.Path);
         if (bytes.Length >= 255 || site.Reader?.Prefixes.Contains(site.Id) == true)
         {
             data.Byte(255);
             data.Int32(bytes.Length);
         }
-        else data.Byte((byte)bytes.Length);
+        else
+        {
+            data.Byte((byte)bytes.Length);
+        }
+
         data.Bytes(bytes);
     }
 }
@@ -355,19 +429,40 @@ internal partial class StringsCodec : PropertyCodec
     {
         context.Need(start, 4, end, site.Path, "text length");
         int length = context.Int32(start);
-        if (length < 0 || start + 4L + length > end) throw Mismatch(context, start, site, $"A text block of {length} bytes does not fit its value.");
+        if (length < 0 || start + 4L + length > end)
+        {
+            throw Mismatch(context, start, site, $"A text block of {length} bytes does not fit its value.");
+        }
+
         if (length > context.Limits.StringBytes)
+        {
             throw context.Fail(Codes.Limit, "A text block is too long.", start, site.Path, Text(length), $"at most {context.Limits.StringBytes} bytes");
+        }
+
         return (TextCodec.Decode(context.Data.AsSpan(start + 4, length)), start + 4 + length);
     }
 
     internal static List<string>? Lines(string text)
     {
-        if (text.Length == 0) return [];
-        if (!text.EndsWith("\r\n", StringComparison.Ordinal)) return null;
+        if (text.Length == 0)
+        {
+            return [];
+        }
+
+        if (!text.EndsWith("\r\n", StringComparison.Ordinal))
+        {
+            return null;
+        }
+
         var lines = text[..^2].Split("\r\n");
         foreach (var line in lines)
-            if (line.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0) return null;
+        {
+            if (line.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0)
+            {
+                return null;
+            }
+        }
+
         return [.. lines];
     }
 
@@ -377,10 +472,21 @@ internal partial class StringsCodec : PropertyCodec
         int count = 0, i = 0;
         while (i < text.Length && text[i] != '\0')
         {
-            while (i < text.Length && text[i] is not ('\0' or '\r' or '\n')) i++;
+            while (i < text.Length && text[i] is not ('\0' or '\r' or '\n'))
+            {
+                i++;
+            }
+
             count++;
-            if (i < text.Length && text[i] == '\r') i++;
-            if (i < text.Length && text[i] == '\n') i++;
+            if (i < text.Length && text[i] == '\r')
+            {
+                i++;
+            }
+
+            if (i < text.Length && text[i] == '\n')
+            {
+                i++;
+            }
         }
         return count;
     }
@@ -388,9 +494,17 @@ internal partial class StringsCodec : PropertyCodec
     internal static JsonValue TextValue(string text)
     {
         var lines = Lines(text);
-        if (lines is null) return new JsonObject().Add("$text", new JsonString(text));
+        if (lines is null)
+        {
+            return new JsonObject().Add("$text", new JsonString(text));
+        }
+
         var array = new JsonArray();
-        foreach (var line in lines) array.Add(new JsonString(line));
+        foreach (var line in lines)
+        {
+            array.Add(new JsonString(line));
+        }
+
         return array;
     }
 
@@ -401,9 +515,16 @@ internal partial class StringsCodec : PropertyCodec
             var parts = new string[array.Items.Count];
             for (int i = 0; i < array.Items.Count; i++)
             {
-                if (array.Items[i] is not JsonString line) throw context.Fail(Codes.Type, "A line is a string.", array.Items[i], path.Item(i));
+                if (array.Items[i] is not JsonString line)
+                {
+                    throw context.Fail(Codes.Type, "A line is a string.", array.Items[i], path.Item(i));
+                }
+
                 if (line.Value.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0)
+                {
                     throw context.Fail(Codes.Text, "A line holds CR, LF or NUL. Use { \"$text\": ... } for such text.", line, path.Item(i));
+                }
+
                 parts[i] = line.Value;
             }
             lines = array.Items.Count;
@@ -420,13 +541,21 @@ internal partial class StringsCodec : PropertyCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         var (text, after) = Block(context, start, end, site);
-        if (after != end) throw Mismatch(context, start, site, "Bytes follow the text block.");
+        if (after != end)
+        {
+            throw Mismatch(context, start, site, "Bytes follow the text block.");
+        }
+
         return TextValue(text);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        if (value is JsonObject objectValue) CheckOnly(context, objectValue, site.Path, "$text");
+        if (value is JsonObject objectValue)
+        {
+            CheckOnly(context, objectValue, site.Path, "$text");
+        }
+
         var bytes = TextCodec.Encode(context, TextOf(context, value, site.Path, out _), value, site.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
@@ -435,10 +564,14 @@ internal partial class StringsCodec : PropertyCodec
     protected static void CheckOnly(EncodeContext context, JsonObject objectValue, DocumentNodePath path, params string[] names)
     {
         foreach (var m in objectValue.Members)
+        {
             if (Array.IndexOf(names, m.Name) < 0)
+            {
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
                     $"Member \"{m.Name}\" is not allowed here.")
                 { File = context.File, Span = m.NameSpan, Path = path.Member(m.Name).ToString() });
+            }
+        }
     }
 }
 
@@ -448,26 +581,53 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         var (text, after) = Block(context, start, end, site);
-        if ((end - after) % 4 != 0) throw Mismatch(context, start, site, "The object values are not whole 32-bit integers.");
+        if ((end - after) % 4 != 0)
+        {
+            throw Mismatch(context, start, site, "The object values are not whole 32-bit integers.");
+        }
+
         int count = (end - after) / 4;
-        if (count != LineCount(text)) throw Mismatch(context, start, site, $"The text has {LineCount(text)} lines and {count} object values.");
+        if (count != LineCount(text))
+        {
+            throw Mismatch(context, start, site, $"The text has {LineCount(text)} lines and {count} object values.");
+        }
+
         var objects = new JsonArray();
-        for (int i = 0; i < count; i++) objects.Add(new JsonInteger(context.Int32(after + 4 * i)));
+        for (int i = 0; i < count; i++)
+        {
+            objects.Add(new JsonInteger(context.Int32(after + (4 * i))));
+        }
+
         var lines = Lines(text);
-        if (lines is null) return new JsonObject().Add("$text", new JsonString(text)).Add("objects", objects);
+        if (lines is null)
+        {
+            return new JsonObject().Add("$text", new JsonString(text)).Add("objects", objects);
+        }
+
         var array = new JsonArray();
-        foreach (var line in lines) array.Add(new JsonString(line));
+        foreach (var line in lines)
+        {
+            array.Add(new JsonString(line));
+        }
+
         return new JsonObject().Add("lines", array).Add("objects", objects);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        if (value is not JsonObject objectValue) throw context.Fail(Codes.Type, $"{site.Property.Name} is an object with lines or $text, and objects.", value, site.Path, value.KindName);
+        if (value is not JsonObject objectValue)
+        {
+            throw context.Fail(Codes.Type, $"{site.Property.Name} is an object with lines or $text, and objects.", value, site.Path, value.KindName);
+        }
+
         var (text, ids) = ReadMembers(context, objectValue, site.Path);
         var bytes = TextCodec.Encode(context, text, value, site.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
-        foreach (var id in ids) data.Int32(id);
+        foreach (var id in ids)
+        {
+            data.Int32(id);
+        }
     }
 
     internal static (string Text, List<int> Ids) ReadMembers(EncodeContext context, JsonObject objectValue, DocumentNodePath path)
@@ -478,12 +638,18 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
         string text = TextOf(context, textValue, path.Member(hasText ? "$text" : "lines"), out int lines);
         var objects = objectValue["objects"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "objects is an array of integers.", objectValue, path);
         if (objects.Items.Count != lines)
+        {
             throw context.Fail(Codes.Corrupt, $"The text has {lines} lines and {objects.Items.Count} object values.", objects, path.Member("objects"));
+        }
+
         var ids = new List<int>(objects.Items.Count);
         for (int i = 0; i < objects.Items.Count; i++)
         {
             if (objects.Items[i] is not JsonInteger n || n.Value < int.MinValue || n.Value > int.MaxValue)
+            {
                 throw context.Fail(Codes.Range, "An object value is a signed 32-bit integer.", objects.Items[i], path.Member("objects").Item(i));
+            }
+
             ids.Add((int)n.Value);
         }
         return (text, ids);
@@ -498,7 +664,11 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        if (size is int n && end - start != n) throw Mismatch(context, start, site, $"A record of {n} bytes is stored in {end - start} bytes.");
+        if (size is int n && end - start != n)
+        {
+            throw Mismatch(context, start, site, $"A record of {n} bytes is stored in {end - start} bytes.");
+        }
+
         return new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, end - start)));
     }
 
@@ -506,15 +676,25 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
     {
         var bytes = HexValue(context, value, site);
         if (size is int n && bytes.Length != n)
+        {
             throw context.Fail(Codes.Range, $"{site.Property.Name} holds exactly {n} bytes.", value, site.Path, Text(bytes.Length), $"{n} bytes");
+        }
+
         data.Bytes(bytes);
     }
 
     internal static byte[] HexValue(EncodeContext context, JsonValue value, ValueSite site)
     {
         if (value is not JsonString s || !HexText.IsLowerHex(s.Value))
+        {
             throw context.Fail(Codes.Type, $"{site.Property.Name} is lowercase hexadecimal bytes.", value, site.Path, value.KindName);
-        if (s.Value.Length / 2 > context.Limits.DecompressedBytes) throw context.Fail(Codes.Limit, "A payload is too large.", value, site.Path);
+        }
+
+        if (s.Value.Length / 2 > context.Limits.DecompressedBytes)
+        {
+            throw context.Fail(Codes.Limit, "A payload is too large.", value, site.Path);
+        }
+
         return HexText.Decode(s.Value);
     }
 }
@@ -530,16 +710,27 @@ internal sealed class FloatCodec(int width) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        if (end - start != width) throw Mismatch(context, start, site, $"A {width * 8}-bit float is stored in {end - start} bytes.");
+        if (end - start != width)
+        {
+            throw Mismatch(context, start, site, $"A {width * 8}-bit float is stored in {end - start} bytes.");
+        }
+
         return new JsonObject().Add("$bits", new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, width))));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
         if (value is not JsonObject objectValue || objectValue.Members.Count != 1 || objectValue["$bits"] is not JsonString)
+        {
             throw context.Fail(Codes.Type, $"{site.Property.Name} is {{ \"$bits\": ... }}.", value, site.Path, value.KindName);
+        }
+
         var bytes = DataCodec.HexValue(context, objectValue["$bits"]!, site);
-        if (bytes.Length != width) throw context.Fail(Codes.Range, $"$bits holds {width} bytes.", objectValue["$bits"], site.Path.Member("$bits"));
+        if (bytes.Length != width)
+        {
+            throw context.Fail(Codes.Range, $"$bits holds {width} bytes.", objectValue["$bits"], site.Path.Member("$bits"));
+        }
+
         data.Bytes(bytes);
     }
 }

@@ -17,12 +17,19 @@ public sealed class JsonSettingsStore : ISettingsStore
     public JsonSettingsStore(string userDirectory)
     {
         _path = Path.Combine(Path.GetFullPath(userDirectory), "settings.json");
-        if (!File.Exists(_path)) return;
+        if (!File.Exists(_path))
+        {
+            return;
+        }
+
         using var json = JsonDocument.Parse(File.ReadAllText(_path));
         foreach (var property in json.RootElement.EnumerateObject())
         {
             string key = Normalize(property.Name);
-            if (Allowed(key)) _values[key] = Decode(key, property.Value);
+            if (Allowed(key))
+            {
+                _values[key] = Decode(key, property.Value);
+            }
         }
     }
 
@@ -42,7 +49,11 @@ public sealed class JsonSettingsStore : ISettingsStore
     public void Write(string key, object value)
     {
         key = Normalize(key);
-        if (!Allowed(key)) return;
+        if (!Allowed(key))
+        {
+            return;
+        }
+
         object stored = Clone(value);
         _ = Encode(key, stored);
         var next = new Dictionary<string, object>(_values, StringComparer.OrdinalIgnoreCase) { [key] = stored };
@@ -54,7 +65,13 @@ public sealed class JsonSettingsStore : ISettingsStore
             File.Move(temporary, _path, true);
             _values[key] = stored;
         }
-        finally { if (File.Exists(temporary)) File.Delete(temporary); }
+        finally
+        {
+            if (File.Exists(temporary))
+            {
+                File.Delete(temporary);
+            }
+        }
     }
 
     private static object Clone(object value) => value switch { byte[] bytes => bytes.ToArray(), string text => text, _ => value };
@@ -64,7 +81,11 @@ public sealed class JsonSettingsStore : ISettingsStore
         if (value is string rectangleText && (key.StartsWith("General/rectangles/", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Main Window Position", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Map Window Position", StringComparison.OrdinalIgnoreCase)))
         {
             int[] coordinates = rectangleText.Split(',').Select(int.Parse).ToArray();
-            if (coordinates.Length != 4) throw new ArgumentException("A rectangle has four coordinates.");
+            if (coordinates.Length != 4)
+            {
+                throw new ArgumentException("A rectangle has four coordinates.");
+            }
+
             return new { kind = "rectangle", value = coordinates };
         }
         return value switch
@@ -80,15 +101,19 @@ public sealed class JsonSettingsStore : ISettingsStore
 
     private static object Decode(string key, JsonElement item)
     {
-        if (item.ValueKind != JsonValueKind.Object) return item.ValueKind switch
+        if (item.ValueKind != JsonValueKind.Object)
         {
-            JsonValueKind.Number => item.GetInt32(),
-            JsonValueKind.True => true,
-            JsonValueKind.False => false,
-            JsonValueKind.String => ReadText(key, item.GetString()!),
-            JsonValueKind.Array => item.EnumerateArray().Select(e => e.GetByte()).ToArray(),
-            _ => throw new InvalidDataException("Unsupported setting.")
-        };
+            return item.ValueKind switch
+            {
+                JsonValueKind.Number => item.GetInt32(),
+                JsonValueKind.True => true,
+                JsonValueKind.False => false,
+                JsonValueKind.String => ReadText(key, item.GetString()!),
+                JsonValueKind.Array => item.EnumerateArray().Select(e => e.GetByte()).ToArray(),
+                _ => throw new InvalidDataException("Unsupported setting.")
+            };
+        }
+
         var value = item.GetProperty("value");
         return item.GetProperty("kind").GetString() switch
         {

@@ -27,13 +27,20 @@ public struct SampleRecord
         get
         {
             string result = "";
-            for (int i = 1; i <= _name[0]; i++) result += Cp1252.Text(_name[i]);
+            for (int i = 1; i <= _name[0]; i++)
+            {
+                result += Cp1252.Text(_name[i]);
+            }
+
             return result;
         }
         set
         {
             _name[0] = (byte)Math.Min(5, value.Length);
-            for (int i = 1; i <= _name[0]; i++) _name[i] = Cp1252.Byte(value[i - 1]);
+            for (int i = 1; i <= _name[0]; i++)
+            {
+                _name[i] = Cp1252.Byte(value[i - 1]);
+            }
         }
     }
 }

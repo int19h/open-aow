@@ -12,7 +12,11 @@ internal static class ConstructionSnapshot
 
     private static JsonObject Load(string name)
     {
-        if (s_recordings.TryGetValue(name, out var value)) return value;
+        if (s_recordings.TryGetValue(name, out var value))
+        {
+            return value;
+        }
+
         using var stream = typeof(ConstructionSnapshot).Assembly.GetManifestResourceStream(
             "Aow.Game.Tests.Snapshots." + name + "Snapshot.json")!;
         value = JsonNode.Parse(stream)!.AsObject();
@@ -43,7 +47,10 @@ internal static class ConstructionSnapshot
         string? target = Environment.GetEnvironmentVariable("AOW_CONSTRUCTION_RECORD");
         if (!string.IsNullOrEmpty(target))
         {
-            if (member is null) recording[key] = value?.DeepClone();
+            if (member is null)
+            {
+                recording[key] = value?.DeepClone();
+            }
             else
             {
                 recording[key] = Entry(recording, key)?.DeepClone();
@@ -74,16 +81,24 @@ internal static class ConstructionSnapshot
             Assert.True(left.Select(pair => pair.Key).Order(StringComparer.Ordinal)
                 .SequenceEqual(right.Select(pair => pair.Key).Order(StringComparer.Ordinal)), path + " field names differ: expected "
                     + string.Join(", ", left.Select(pair => pair.Key)) + ", actual " + string.Join(", ", right.Select(pair => pair.Key)));
-            foreach (var pair in left) Compare(pair.Value, right[pair.Key], path + "." + pair.Key);
+            foreach (var pair in left)
+            {
+                Compare(pair.Value, right[pair.Key], path + "." + pair.Key);
+            }
         }
         else if (expected is JsonArray before && actual is JsonArray after)
         {
             Assert.True(before.Count == after.Count, path + $" length: expected {before.Count}, actual {after.Count}");
-            for (int i = 0; i < before.Count; i++) Compare(before[i], after[i], path + $"[{i}]");
+            for (int i = 0; i < before.Count; i++)
+            {
+                Compare(before[i], after[i], path + $"[{i}]");
+            }
         }
         else
+        {
             Assert.True(JsonNode.DeepEquals(expected, actual), path + ": expected "
                 + (expected?.ToJsonString() ?? "null") + ", actual " + (actual?.ToJsonString() ?? "null"));
+        }
     }
 
     private static JsonNode? Readable(string text)
@@ -94,9 +109,15 @@ internal static class ConstructionSnapshot
             catch (JsonException) { }
         }
         if (text.Contains('\n'))
+        {
             return new JsonObject { ["$lines"] = new JsonArray(text.Split('\n').Select(Readable).ToArray()) };
+        }
+
         if (text.StartsWith("success:", StringComparison.Ordinal))
+        {
             return new JsonObject { ["$prefix"] = "success:", ["$value"] = Readable(text[8..]) };
+        }
+
         return JsonValue.Create(text);
     }
 

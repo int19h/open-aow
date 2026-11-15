@@ -20,10 +20,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorControl : EngineObject
 {
     // AIGroup.pas:4726
-    public AIMoveExecutorControl(CustomNode owner) : base(owner)
-    {
-        MoveControl = new AIMoveControl(null) { Holder = CreationHolder() };
-    }
+    public AIMoveExecutorControl(CustomNode owner) : base(owner) => MoveControl = new AIMoveControl(null) { Holder = CreationHolder() };
 
     public AIMoveControl MoveControl { get; }
 
@@ -140,7 +137,10 @@ public partial class AIMoveExecutorControl : EngineObject
                     }
 
                     if (!condition)
+                    {
                         break;
+                    }
+
                     position += 1;
                     if (moveResult == 2)
                     {
@@ -324,10 +324,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4952
-    public virtual void CalculateMoves()
-    {
-        Done();
-    }
+    public virtual void CalculateMoves() => Done();
 
     // AIGroup.pas:4942
     public virtual void Activate(AIMoveExecutor executor)
@@ -342,10 +339,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4957
-    public virtual void Done()
-    {
-        State = -1;
-    }
+    public virtual void Done() => State = -1;
 
     // AIGroup.pas:4962
     public virtual bool Process()

@@ -55,7 +55,7 @@ public partial class UnitSelectionDialog : UIModule
             {
                 // { D3 masks the enum index after the original full-byte guard. }
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface);
             }
 
             info = default;
@@ -65,7 +65,7 @@ public partial class UnitSelectionDialog : UIModule
             if ((((int)(((uint)Event.Selectable) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
@@ -220,10 +220,7 @@ public partial class UnitSelectionDialog : UIModule
     }
 
     // AoWUnitSelDlg.pas:146
-    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
-    {
-        DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
-    }
+    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot) => DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
 
     // AoWUnitSelDlg.pas:151
     public void SourceFacePreDraw(LockedSurface lockedSurface)
@@ -249,8 +246,5 @@ public partial class UnitSelectionDialog : UIModule
     }
 
     // AoWUnitSelDlg.pas:171
-    public void DlgHide()
-    {
-        ClearEvent();
-    }
+    public void DlgHide() => ClearEvent();
 }

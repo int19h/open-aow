@@ -17,20 +17,32 @@ public static class RecordValues
     public static T Transfer<T>(IPersister persister, string name, T value) where T : unmanaged
     {
         if (!typeof(T).IsDefined(typeof(StoredLayoutAttribute), inherit: false))
+        {
             throw new InvalidOperationException(typeof(T).Name + " is not a stored image. A record moves through its [StoredLayout] image.");
+        }
+
         var info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), null, name);
         var image = new byte[Unsafe.SizeOf<T>()];
         MemoryMarshal.Write(image, in value);
         if (image.Length < info.Size)
+        {
             throw new InvalidOperationException("Record " + info.Name + " is larger than its C# value.");
+        }
+
         if (info.BareSet)
+        {
             ((SetRecordField)info.Fields[0]).TransferNamed(persister, name, image.AsSpan(info.Fields[0].Offset, info.Fields[0].Size));
+        }
         else if (persister.Loading)
         {
             Array.Clear(image);
             persister.Record(name, body => Apply(body, info, image));
         }
-        else persister.Record(name, body => Apply(body, info, image));
+        else
+        {
+            persister.Record(name, body => Apply(body, info, image));
+        }
+
         return MemoryMarshal.Read<T>(image);
     }
 
@@ -47,12 +59,19 @@ public static class RecordValues
             }
             field.Transfer(persister, image.Slice(field.Offset, field.Size));
         }
-        if (!residue) ApplyResidue(persister, info, image);
+        if (!residue)
+        {
+            ApplyResidue(persister, info, image);
+        }
     }
 
     private static void ApplyResidue(IPersister persister, RecordTypeInfo info, Span<byte> image)
     {
-        if (info.ResidueLength == 0) return;
+        if (info.ResidueLength == 0)
+        {
+            return;
+        }
+
         var residue = new byte[info.ResidueLength];
         int at = 0;
         foreach (var (offset, length) in info.Residue)
@@ -62,9 +81,23 @@ public static class RecordValues
         }
         bool any = false;
         foreach (var b in residue)
-            if (b != 0) any = true;
-        if (persister.Loading || any) persister.Bytes("$reserved", residue);
-        if (!persister.Loading) return;
+        {
+            if (b != 0)
+            {
+                any = true;
+            }
+        }
+
+        if (persister.Loading || any)
+        {
+            persister.Bytes("$reserved", residue);
+        }
+
+        if (!persister.Loading)
+        {
+            return;
+        }
+
         at = 0;
         foreach (var (offset, length) in info.Residue)
         {

@@ -8,12 +8,24 @@ public partial class ComboBox
     // in the same call, which is what Update copies from the bar on the next frame.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || !_open || _verticalScrollBar == null || !ContainsPoint(X, Y)) return false;
+        if (steps == 0 || !_open || _verticalScrollBar == null || !ContainsPoint(X, Y))
+        {
+            return false;
+        }
+
         _verticalScrollBar.ScrollSteps(steps);
         _firstShownItem = _verticalScrollBar.Position;
         int count = _items.Count;
-        if (_firstShownItem + _openListRows > count) _firstShownItem = count - _openListRows;
-        if (_firstShownItem < 0) _firstShownItem = 0;
+        if (_firstShownItem + _openListRows > count)
+        {
+            _firstShownItem = count - _openListRows;
+        }
+
+        if (_firstShownItem < 0)
+        {
+            _firstShownItem = 0;
+        }
+
         Drawn = false;
         return true;
     }

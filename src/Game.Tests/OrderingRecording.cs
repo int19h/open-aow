@@ -20,16 +20,26 @@ internal static class OrderingRecording
     internal static void Check(string name, SortedDictionary<string, string> actual)
     {
         Assert.Equal(ConstructionSnapshot.Keys(name), actual.Keys);
-        foreach (var pair in actual) ConstructionSnapshot.Check(name, pair.Key, pair.Value);
+        foreach (var pair in actual)
+        {
+            ConstructionSnapshot.Check(name, pair.Key, pair.Value);
+        }
     }
 
     internal static EngineObject Direct(Type type, CustomNode? owner)
     {
         try
         {
-            if (EngineClassCreation.OwnerConstructor(type) is { } ctor) return (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner));
+            if (EngineClassCreation.OwnerConstructor(type) is { } ctor)
+            {
+                return (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner));
+            }
+
             if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]) is { } factory)
+            {
                 return (EngineObject)factory.Invoke(null, [owner])!;
+            }
+
             throw new InvalidOperationException(type.FullName + " has no public construction entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -64,10 +74,18 @@ internal static class OrderingRecording
         {
             Runtime.RandSeed = 123456789;
             var value = EngineFixture.CreateGameSet(Manager);
-            if (type == typeof(ArmyHexSprite)) value.UnitGraphicsResources = new UnitGFXResourceList(null!) { Holder = EngineFixture.Engine };
+            if (type == typeof(ArmyHexSprite))
+            {
+                value.UnitGraphicsResources = new UnitGFXResourceList(null!) { Holder = EngineFixture.Engine };
+            }
+
             GamePack.Current = value;
             StrategicMap.Current = null!;
-            if (type != typeof(ArmyHexSprite)) GamePack.Current.UnitGraphicsResources = null!;
+            if (type != typeof(ArmyHexSprite))
+            {
+                GamePack.Current.UnitGraphicsResources = null!;
+            }
+
             Runtime.RandSeed = 123456789;
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
             Engine = new GameEngine(null!) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
@@ -97,31 +115,78 @@ internal static class OrderingRecording
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
-            if (item is null) return null;
+            if (item is null)
+            {
+                return null;
+            }
+
             Type type = item.GetType();
-            if (item is string text) return text;
-            if (type.IsEnum) return Convert.ToInt64(item);
-            if (type.IsPrimitive || item is string || item is decimal) return item;
-            if (item is Type represented) return represented.FullName;
-            if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            if (item is string text)
+            {
+                return text;
+            }
+
+            if (type.IsEnum)
+            {
+                return Convert.ToInt64(item);
+            }
+
+            if (type.IsPrimitive || item is string || item is decimal)
+            {
+                return item;
+            }
+
+            if (item is Type represented)
+            {
+                return represented.FullName;
+            }
+
+            if (item is Delegate handler)
+            {
+                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            }
+
             if (!type.IsValueType)
             {
-                if (visited.TryGetValue(item, out string? found)) return "$ref:" + found;
+                if (visited.TryGetValue(item, out string? found))
+                {
+                    return "$ref:" + found;
+                }
+
                 visited.Add(item, path);
             }
-            if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (InlineArrays.Elements(item) is { } elements) return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            if (item is Array array)
+            {
+                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (InlineArrays.Elements(item) is { } elements)
+            {
+                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (item is IList list)
+            {
+                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
+            {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor cache and the link to the engine are not constructor state
+                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    {
+                        continue; // the descriptor cache and the link to the engine are not constructor state
+                    }
+
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
+            }
+
             return fields;
         }
         return JsonSerializer.Serialize(State(value, "$"));

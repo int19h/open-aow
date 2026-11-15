@@ -52,7 +52,11 @@ public partial class MultiLevelAbility : AdjustableAbility
     {
         int level = GetInherentLevel(owner), sum = 0;
         // The original reads the current level cost on every iteration.
-        for (int i = level; i >= 1; --i) sum = sum + LevelCosts.Get(level);
+        for (int i = level; i >= 1; --i)
+        {
+            sum = sum + LevelCosts.Get(level);
+        }
+
         return sum;
     }
 
@@ -68,7 +72,11 @@ public partial class MultiLevelAbility : AdjustableAbility
             owner.AddAbilityData(data);
             return true;
         }
-        if (data.Level == MaxLevel) return false;
+        if (data.Level == MaxLevel)
+        {
+            return false;
+        }
+
         data.Level = (byte)(data.Level + 1);
         return true;
     }
@@ -78,7 +86,11 @@ public partial class MultiLevelAbility : AdjustableAbility
         var data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null) { SetAbility(owner, AbilityId, 0); return false; }
         if (data.Level == 1) { SetAbility(owner, AbilityId, 0); owner.RemoveAbilityData(data); }
-        else data.Level = (byte)(data.Level - 1);
+        else
+        {
+            data.Level = (byte)(data.Level - 1);
+        }
+
         return true;
     }
 }

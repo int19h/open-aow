@@ -17,7 +17,11 @@ public sealed class EngineLeafConstructionTests
         public override int AddChild(EngineObject child)
         {
             Assert.Same(this, child.Owner);
-            if (child is PluginControl plugin) Assert.Null(plugin.UsedPlugins);
+            if (child is PluginControl plugin)
+            {
+                Assert.Null(plugin.UsedPlugins);
+            }
+
             ObservedBeforeLeafBody.Add(child);
             base.AddChild(child);
             return Members.Count - 1;
@@ -60,14 +64,21 @@ public sealed class EngineLeafConstructionTests
             // Sort style is constructor state and has no ReadWrite override.
             AssertLeafState(copy);
             if (copy is PluginControl copiedPlugin)
+            {
                 Assert.NotSame(((PluginControl)direct).UsedPlugins, copiedPlugin.UsedPlugins);
+            }
+
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
             Assert.Equal(owned ? 3 : 0, owner.ObservedBeforeLeafBody.Count);
         }
         finally
         {
             copy?.Dispose();
-            foreach (var value in objects) value.Dispose();
+            foreach (var value in objects)
+            {
+                value.Dispose();
+            }
+
             engine.Dispose();
         }
         Assert.Empty(owner.Members);

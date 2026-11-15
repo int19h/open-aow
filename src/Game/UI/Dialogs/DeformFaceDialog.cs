@@ -119,10 +119,7 @@ public partial class DeformFaceDialog : UIModule
     }
 
     // AoWDeformFaceDlg.pas:118
-    public void DlgHide()
-    {
-        Finish();
-    }
+    public void DlgHide() => Finish();
 
     // AoWDeformFaceDlg.pas:142
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

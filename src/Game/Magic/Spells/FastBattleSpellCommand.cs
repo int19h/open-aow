@@ -10,10 +10,7 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class FastBattleSpellCommand : FastBattleCommand
 {
-    public FastBattleSpellCommand(int abilityId, EngineObject creator) : base(abilityId)
-    {
-        Creator = creator;
-    }
+    public FastBattleSpellCommand(int abilityId, EngineObject creator) : base(abilityId) => Creator = creator;
 
     // The spell that created this command. The command reaches the engine through it.
     public EngineObject Creator { get; }

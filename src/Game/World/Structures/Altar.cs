@@ -193,7 +193,7 @@ public partial class Altar : PlayerStructure
     }
 
     // Altar.pas:65
-    public override int GetDefaultAITargetPriority() => RechargeDays * 10 + 10;
+    public override int GetDefaultAITargetPriority() => (RechargeDays * 10) + 10;
 
     // Altar.pas:62
     public virtual Storm CreateStorm() => null;

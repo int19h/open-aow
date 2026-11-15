@@ -52,11 +52,9 @@ public partial class TitleWindow : UIModule
     }
 
     // AOWTitleWindow.pas:105
-    public void NextSplash()
-    {
+    public void NextSplash() =>
         /* TODO: Implement Forms.Close in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AOWTitleWindow.pas:87
     public void ShowSplash()
@@ -90,10 +88,7 @@ public partial class TitleWindow : UIModule
     }
 
     // AOWTitleWindow.pas:61
-    public void TitlePnlDrawBack(LockedSurface lockedSurface)
-    {
-        UI.Graphics.FactionWindow[0].Show(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface);
-    }
+    public void TitlePnlDrawBack(LockedSurface lockedSurface) => UI.Graphics.FactionWindow[0].Show(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface);
 
     // AOWTitleWindow.pas:115
     public void SplashPnlUpdate()
@@ -123,10 +118,7 @@ public partial class TitleWindow : UIModule
     }
 
     // AOWTitleWindow.pas:131
-    public void SplashPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        NextSplash();
-    }
+    public void SplashPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => NextSplash();
 
     internal static void ShowExitSplash(TitleWindow dialog)
     {

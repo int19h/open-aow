@@ -60,7 +60,11 @@ internal static class PersistenceInventory
     {
         foreach (var field in typeof(OpCodes).GetFields(BindingFlags.Public | BindingFlags.Static))
         {
-            if (field.GetValue(null) is not OpCode op) continue;
+            if (field.GetValue(null) is not OpCode op)
+            {
+                continue;
+            }
+
             if (op.Size == 1)
             {
                 OneByte[op.Value & 0xFF] = op.OperandType;
@@ -89,7 +93,11 @@ internal static class PersistenceInventory
             {
                 foreach (var type in Types(assembly))
                 {
-                    if (type.Namespace != TreeNamespace || !type.IsVisible) continue;
+                    if (type.Namespace != TreeNamespace || !type.IsVisible)
+                    {
+                        continue;
+                    }
+
                     found.AddRange(Declared(type));
                 }
             }
@@ -119,7 +127,11 @@ internal static class PersistenceInventory
             {
                 foreach (var method in Methods(type))
                 {
-                    if (!InScope(method.DeclaringType, only)) continue;
+                    if (!InScope(method.DeclaringType, only))
+                    {
+                        continue;
+                    }
+
                     var (callerType, callerMethod) = Logical(method);
                     string caller = callerType + "." + callerMethod;
                     Walk(method, (target, token) =>
@@ -130,22 +142,40 @@ internal static class PersistenceInventory
                             return;
                         }
                         var declaring = Definition(target.DeclaringType);
-                        if (declaring is null) return;
+                        if (declaring is null)
+                        {
+                            return;
+                        }
+
                         string declaringName = declaring.FullName ?? declaring.Name;
                         if (declaringName == OriginalBackendName)
                         {
                             if (callerType != OriginalBackendName && !Allowed(callerType, callerMethod))
+                            {
                                 reaches.Add(new BackendReach(caller, declaringName + "." + target.Name));
+                            }
+
                             return;
                         }
                         if (declaringName == ImageTreeName)
                         {
                             if (!IsImageImplementation(callerType) && !Allowed(callerType, callerMethod))
+                            {
                                 reaches.Add(new BackendReach(caller, declaringName + "." + target.Name));
+                            }
+
                             return;
                         }
-                        if (!usesCount || declaring.Namespace != TreeNamespace) return;
-                        if (Exposure(target, declaring) is not { } hit) return;
+                        if (!usesCount || declaring.Namespace != TreeNamespace)
+                        {
+                            return;
+                        }
+
+                        if (Exposure(target, declaring) is not { } hit)
+                        {
+                            return;
+                        }
+
                         uses.Add(hit with { UsedBy = caller });
                     });
                 }
@@ -168,19 +198,33 @@ internal static class PersistenceInventory
         foreach (var property in type.GetProperties(flags))
         {
             if (Kind(property.Name, property.PropertyType, type) is { } kind)
+            {
                 found.Add(new ExposedMember(owner, property.Name, kind, UsedBy: null));
+            }
         }
         foreach (var field in type.GetFields(flags))
         {
-            if (field.IsSpecialName) continue;
+            if (field.IsSpecialName)
+            {
+                continue;
+            }
+
             if (Kind(field.Name, field.FieldType, type) is { } kind)
+            {
                 found.Add(new ExposedMember(owner, field.Name, kind, UsedBy: null));
+            }
         }
         foreach (var method in type.GetMethods(flags))
         {
-            if (method.IsSpecialName) continue;
+            if (method.IsSpecialName)
+            {
+                continue;
+            }
+
             if (IsStoredId(method.Name) && IsIntegral(method.ReturnType))
+            {
                 found.Add(new ExposedMember(owner, method.Name, "stored id", UsedBy: null));
+            }
         }
         return found;
     }
@@ -189,27 +233,67 @@ internal static class PersistenceInventory
     {
         if (member is MethodInfo method && TryProperty(method, out string name, out var type))
         {
-            if (Kind(name, type, declaring) is not { } kind) return null;
+            if (Kind(name, type, declaring) is not { } kind)
+            {
+                return null;
+            }
+
             return new ExposedMember(declaring.FullName ?? declaring.Name, name, kind, UsedBy: null);
         }
         if (member is FieldInfo field)
         {
-            if (Kind(field.Name, field.FieldType, declaring) is not { } kind) return null;
+            if (Kind(field.Name, field.FieldType, declaring) is not { } kind)
+            {
+                return null;
+            }
+
             return new ExposedMember(declaring.FullName ?? declaring.Name, field.Name, kind, UsedBy: null);
         }
-        if (member is not MethodBase plain || plain.IsSpecialName) return null;
-        if (!IsStoredId(plain.Name)) return null;
-        if (plain is not MethodInfo info || !IsIntegral(info.ReturnType)) return null;
+        if (member is not MethodBase plain || plain.IsSpecialName)
+        {
+            return null;
+        }
+
+        if (!IsStoredId(plain.Name))
+        {
+            return null;
+        }
+
+        if (plain is not MethodInfo info || !IsIntegral(info.ReturnType))
+        {
+            return null;
+        }
+
         return new ExposedMember(declaring.FullName ?? declaring.Name, plain.Name, "stored id", UsedBy: null);
     }
 
     private static string? Kind(string name, Type memberType, Type declaring)
     {
-        if (IsStoredId(name) && IsIntegral(memberType)) return "stored id";
-        if (name == "Width" && IsIntegral(memberType) && !HasPublicHeight(declaring)) return "storage width";
-        if (name is "Image" or "Data" && IsRawBytes(memberType)) return "raw image";
-        if (name == "Mask" && IsIntegral(memberType)) return "raw image";
-        if (name is "Residue" or "Reserved") return "residue";
+        if (IsStoredId(name) && IsIntegral(memberType))
+        {
+            return "stored id";
+        }
+
+        if (name == "Width" && IsIntegral(memberType) && !HasPublicHeight(declaring))
+        {
+            return "storage width";
+        }
+
+        if (name is "Image" or "Data" && IsRawBytes(memberType))
+        {
+            return "raw image";
+        }
+
+        if (name == "Mask" && IsIntegral(memberType))
+        {
+            return "raw image";
+        }
+
+        if (name is "Residue" or "Reserved")
+        {
+            return "residue";
+        }
+
         return null;
     }
 
@@ -217,27 +301,45 @@ internal static class PersistenceInventory
 
     private static bool IsIntegral(Type type)
     {
-        if (Nullable.GetUnderlyingType(type) is { } under) type = under;
+        if (Nullable.GetUnderlyingType(type) is { } under)
+        {
+            type = under;
+        }
+
         return type == typeof(byte) || type == typeof(sbyte) || type == typeof(short) || type == typeof(ushort)
             || type == typeof(int) || type == typeof(uint) || type == typeof(long) || type == typeof(ulong);
     }
 
     private static bool IsRawBytes(Type type)
     {
-        if (type == typeof(byte[])) return true;
-        if (!type.IsGenericType) return false;
+        if (type == typeof(byte[]))
+        {
+            return true;
+        }
+
+        if (!type.IsGenericType)
+        {
+            return false;
+        }
+
         var definition = type.GetGenericTypeDefinition();
         return (definition == typeof(ReadOnlyMemory<>) || definition == typeof(Memory<>)) && type.GetGenericArguments()[0] == typeof(byte);
     }
 
     private static bool HasPublicHeight(Type type) =>
         type.GetProperty("Height", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly) is not null
-        || type.BaseType is { } parent && parent != typeof(object) && parent != typeof(ValueType) && HasPublicHeight(parent);
+        || (type.BaseType is { } parent && parent != typeof(object) && parent != typeof(ValueType) && HasPublicHeight(parent));
 
     private static bool Allowed(string typeName, string methodName)
     {
         foreach (var site in AllowedSites)
-            if (site.TypeName == typeName && site.MethodName == methodName) return true;
+        {
+            if (site.TypeName == typeName && site.MethodName == methodName)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -247,9 +349,19 @@ internal static class PersistenceInventory
 
     private static bool InScope(Type? declaring, Type? only)
     {
-        if (only is null) return true;
+        if (only is null)
+        {
+            return true;
+        }
+
         for (var type = declaring; type is not null; type = type.DeclaringType)
-            if (type == only) return true;
+        {
+            if (type == only)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -260,27 +372,54 @@ internal static class PersistenceInventory
         while (type.IsNested && type.Name.IndexOf('<') >= 0)
         {
             var match = System.Text.RegularExpressions.Regex.Match(type.Name, "<([^>]+)>");
-            if (match.Success && match.Groups[1].Value.Length > 0) name = match.Groups[1].Value;
-            if (type.DeclaringType is not { } outer) break;
+            if (match.Success && match.Groups[1].Value.Length > 0)
+            {
+                name = match.Groups[1].Value;
+            }
+
+            if (type.DeclaringType is not { } outer)
+            {
+                break;
+            }
+
             type = outer;
         }
         var methodMatch = System.Text.RegularExpressions.Regex.Match(name, "^<([^>]+)>");
-        if (methodMatch.Success && methodMatch.Groups[1].Value.Length > 0) name = methodMatch.Groups[1].Value;
+        if (methodMatch.Success && methodMatch.Groups[1].Value.Length > 0)
+        {
+            name = methodMatch.Groups[1].Value;
+        }
+
         return (type.FullName ?? type.Name, name);
     }
 
     private static Type? Definition(Type? type)
     {
-        if (type is null) return null;
+        if (type is null)
+        {
+            return null;
+        }
+
         return type.IsGenericType ? type.GetGenericTypeDefinition() : type;
     }
 
     private static IEnumerable<MethodBase> Methods(Type type)
     {
         const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        foreach (var method in type.GetMethods(flags)) yield return method;
-        foreach (var ctor in type.GetConstructors(flags)) yield return ctor;
-        if (type.TypeInitializer is { } initializer) yield return initializer;
+        foreach (var method in type.GetMethods(flags))
+        {
+            yield return method;
+        }
+
+        foreach (var ctor in type.GetConstructors(flags))
+        {
+            yield return ctor;
+        }
+
+        if (type.TypeInitializer is { } initializer)
+        {
+            yield return initializer;
+        }
     }
 
     private static Type[] Types(Assembly assembly)
@@ -307,7 +446,11 @@ internal static class PersistenceInventory
         {
             return;
         }
-        if (body?.GetILAsByteArray() is not { Length: > 0 } il) return;
+        if (body?.GetILAsByteArray() is not { Length: > 0 } il)
+        {
+            return;
+        }
+
         var module = method.Module;
         int index = 0;
         while (index < il.Length)
@@ -318,15 +461,27 @@ internal static class PersistenceInventory
             int operandAt;
             if (wide)
             {
-                if (index + 1 >= il.Length) Fail(method, index);
+                if (index + 1 >= il.Length)
+                {
+                    Fail(method, index);
+                }
+
                 code = il[index + 1];
-                if (!TwoByteKnown[code]) Fail(method, index);
+                if (!TwoByteKnown[code])
+                {
+                    Fail(method, index);
+                }
+
                 operand = TwoByte[code];
                 operandAt = index + 2;
             }
             else
             {
-                if (!OneByteKnown[code]) Fail(method, index);
+                if (!OneByteKnown[code])
+                {
+                    Fail(method, index);
+                }
+
                 operand = OneByte[code];
                 operandAt = index + 1;
             }
@@ -366,13 +521,21 @@ internal static class PersistenceInventory
     private static int SwitchBytes(byte[] il, int at, MethodBase method)
     {
         int count = ReadInt(il, at, method);
-        if (count < 0) Fail(method, at);
-        return checked(4 + count * 4);
+        if (count < 0)
+        {
+            Fail(method, at);
+        }
+
+        return checked(4 + (count * 4));
     }
 
     private static int ReadInt(byte[] il, int at, MethodBase method)
     {
-        if (at < 0 || at + 4 > il.Length) Fail(method, at);
+        if (at < 0 || at + 4 > il.Length)
+        {
+            Fail(method, at);
+        }
+
         return BitConverter.ToInt32(il, at);
     }
 
@@ -422,7 +585,11 @@ internal static class PersistenceInventory
     {
         name = "";
         type = typeof(void);
-        if (!method.IsSpecialName) return false;
+        if (!method.IsSpecialName)
+        {
+            return false;
+        }
+
         if (method.Name.StartsWith("get_", StringComparison.Ordinal) && method.Name.Length > 4)
         {
             name = method.Name[4..];
@@ -441,9 +608,17 @@ internal static class PersistenceInventory
     private static int CompareExposed(ExposedMember left, ExposedMember right)
     {
         int owner = string.CompareOrdinal(left.Owner, right.Owner);
-        if (owner != 0) return owner;
+        if (owner != 0)
+        {
+            return owner;
+        }
+
         int member = string.CompareOrdinal(left.Member, right.Member);
-        if (member != 0) return member;
+        if (member != 0)
+        {
+            return member;
+        }
+
         int kind = string.CompareOrdinal(left.Kind, right.Kind);
         return kind != 0 ? kind : string.CompareOrdinal(left.UsedBy, right.UsedBy);
     }

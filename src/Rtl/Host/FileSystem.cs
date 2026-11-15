@@ -15,9 +15,17 @@ public interface IFileSystem
     string ExtractRelativePath(string baseFile, string destination)
     {
         // SysUtils: an empty base has no drive and no path, so the destination comes back unchanged.
-        if (baseFile.Length == 0) return destination;
+        if (baseFile.Length == 0)
+        {
+            return destination;
+        }
+
         string first = ExpandPath(baseFile), second = ExpandPath(destination);
-        if (!string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase)) return destination;
+        if (!string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase))
+        {
+            return destination;
+        }
+
         return Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, second).Replace(Path.DirectorySeparatorChar, '\\');
     }
 
@@ -51,7 +59,11 @@ public sealed class PhysicalFileSystem : IFileSystem
     public bool SetCurrentDirectory(string path)
     {
         string resolved = Resolve(path);
-        if (!Directory.Exists(resolved)) return false;
+        if (!Directory.Exists(resolved))
+        {
+            return false;
+        }
+
         _currentDirectory = resolved;
         return true;
     }
@@ -61,7 +73,11 @@ public sealed class PhysicalFileSystem : IFileSystem
     private string Resolve(string path)
     {
         string full = ExpandPath(path);
-        if (OperatingSystem.IsWindows()) return full;
+        if (OperatingSystem.IsWindows())
+        {
+            return full;
+        }
+
         string current = Path.GetPathRoot(full)!;
         foreach (string part in full[current.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
@@ -97,7 +113,11 @@ public sealed class PhysicalFileSystem : IFileSystem
 
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
-        if (!DirectoryExists(directory)) yield break;
+        if (!DirectoryExists(directory))
+        {
+            yield break;
+        }
+
         foreach (string path in Directory.EnumerateFileSystemEntries(Resolve(directory)))
         {
             FileAttributes attribute = File.GetAttributes(path);

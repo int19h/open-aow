@@ -231,22 +231,13 @@ public partial class MagicWindow : UIModule
     }
 
     // AoWMagic.pas:227
-    public void EnchantmentListChange()
-    {
-        SelectEnchantment(EnchantmentList.Selected);
-    }
+    public void EnchantmentListChange() => SelectEnchantment(EnchantmentList.Selected);
 
     // AoWMagic.pas:233
-    public void BindingListChange()
-    {
-        SelectEnchantment(BindingList.Selected);
-    }
+    public void BindingListChange() => SelectEnchantment(BindingList.Selected);
 
     // AoWMagic.pas:239
-    public void UpkeepListChange()
-    {
-        SelectEnchantment(UpkeepList.Selected);
-    }
+    public void UpkeepListChange() => SelectEnchantment(UpkeepList.Selected);
 
     // AoWMagic.pas:245
     public void GlobalDispelBtnClick()
@@ -267,34 +258,19 @@ public partial class MagicWindow : UIModule
     }
 
     // AoWMagic.pas:254
-    public void GlobalEnchantmentListChange()
-    {
-        SelectGlobalEnchantment(GlobalEnchantmentList.Selected);
-    }
+    public void GlobalEnchantmentListChange() => SelectGlobalEnchantment(GlobalEnchantmentList.Selected);
 
     // AoWMagic.pas:260
-    public void GlobalNameListChange()
-    {
-        SelectGlobalEnchantment(GlobalNameList.Selected);
-    }
+    public void GlobalNameListChange() => SelectGlobalEnchantment(GlobalNameList.Selected);
 
     // AoWMagic.pas:266
-    public void GlobalUpkeepListChange()
-    {
-        SelectGlobalEnchantment(GlobalUpkeepList.Selected);
-    }
+    public void GlobalUpkeepListChange() => SelectGlobalEnchantment(GlobalUpkeepList.Selected);
 
     // AoWMagic.pas:272
-    public void PowerSourceListChange()
-    {
-        SelectPowerSource(PowerSourceList.Selected);
-    }
+    public void PowerSourceListChange() => SelectPowerSource(PowerSourceList.Selected);
 
     // AoWMagic.pas:278
-    public void PowerValueListChange()
-    {
-        SelectPowerSource(PowerValueList.Selected);
-    }
+    public void PowerValueListChange() => SelectPowerSource(PowerValueList.Selected);
 
     // AoWMagic.pas:284
     public void ResearchBtnClick()
@@ -519,10 +495,7 @@ public partial class MagicWindow : UIModule
     }
 
     // AoWMagic.pas:428
-    public void HeaderTabChange()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void HeaderTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWMagic.pas:434
     public void DlgResize()
@@ -534,22 +507,13 @@ public partial class MagicWindow : UIModule
     }
 
     // AoWMagic.pas:447
-    public void DlgShow()
-    {
-        UI.General.RegisterDialog(Window);
-    }
+    public void DlgShow() => UI.General.RegisterDialog(Window);
 
     // AoWMagic.pas:453
-    public void DlgHide()
-    {
-        UI.General.UnregisterDialog(Window);
-    }
+    public void DlgHide() => UI.General.UnregisterDialog(Window);
 
     // AoWMagic.pas:459
-    public void HelpClick()
-    {
-        UI.HelpWindow.ShowHelp(506);
-    }
+    public void HelpClick() => UI.HelpWindow.ShowHelp(506);
 
     // AoWMagic.pas:470
     public void MinimizeClick()

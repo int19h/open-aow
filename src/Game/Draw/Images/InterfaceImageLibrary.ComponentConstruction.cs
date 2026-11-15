@@ -8,9 +8,6 @@ public partial class InterfaceImageLibrary
 {
     public byte[] LayoutData
     {
-        set
-        {
-            LayoutSession.ReadImageData(this, value);
-        }
+        set => LayoutSession.ReadImageData(this, value);
     }
 }

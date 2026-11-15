@@ -10,10 +10,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class CityScreen : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -5099,6 +5096,8 @@ public partial class CityScreen : ILayoutModule
         PreviousCityButton.Font = UI.Fonts.Age10;
         PreviousCityButton.ImageLibraryButton = UI.Graphics.GenericButtons;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

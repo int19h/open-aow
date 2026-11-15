@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class PlayerInfoWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {

@@ -171,10 +171,7 @@ public partial class NewTurnDialog : UIModule
     }
 
     // AoWNewTurnDialog.pas:136
-    public void NewTDlgHide()
-    {
-        FinishDialog();
-    }
+    public void NewTDlgHide() => FinishDialog();
 
     private static readonly string s_clickToBeginText = "Click to begin";
     private static readonly string s_hiddenMovementPleaseWaitText = "Hidden movement, please wait";

@@ -67,7 +67,11 @@ internal sealed class DocumentSite
     public ConversionException Fail(string code, string message, JsonValue? at = null, string? value = null, string? constraint = null)
     {
         var error = TreeErrors.Fail(code, message, Path, at, value, constraint);
-        if (Context.File is null || error.Diagnostic.File is not null) return error;
+        if (Context.File is null || error.Diagnostic.File is not null)
+        {
+            return error;
+        }
+
         return new ConversionException(error.Diagnostic with { File = Context.File });
     }
 
@@ -77,6 +81,8 @@ internal sealed class DocumentSite
     public void RequireText(string text, JsonValue? at = null)
     {
         if (TextCodec.Problem(text, Context.Limits.StringBytes) is { } problem)
+        {
             throw Fail(problem.Code, problem.Message, at, problem.Value, problem.Constraint);
+        }
     }
 }

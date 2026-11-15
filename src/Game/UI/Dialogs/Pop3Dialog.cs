@@ -45,11 +45,9 @@ public partial class Pop3Dialog : UIModule
     }
 
     // AoWPOP3Dlg.pas:87
-    public int CheckAttachments()
-    {
+    public int CheckAttachments() =>
         /* TODO: Implement Windows.CreateFile in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AoWPOP3Dlg.pas:121
     public void ShowDialog()
@@ -64,10 +62,7 @@ public partial class Pop3Dialog : UIModule
     }
 
     // AoWPOP3Dlg.pas:130
-    public void CancelButtonClick()
-    {
-        Window.Visible = false;
-    }
+    public void CancelButtonClick() => Window.Visible = false;
 
     // AoWPOP3Dlg.pas:135
     public void DlgUpdate()
@@ -94,16 +89,10 @@ public partial class Pop3Dialog : UIModule
     }
 
     // AoWPOP3Dlg.pas:147
-    public void ExitBtnClick()
-    {
-        Window.Visible = false;
-    }
+    public void ExitBtnClick() => Window.Visible = false;
 
     // AoWPOP3Dlg.pas:152
-    public void FoundEmailGamesChange()
-    {
-        UpdateSelection();
-    }
+    public void FoundEmailGamesChange() => UpdateSelection();
 
     // AoWPOP3Dlg.pas:157
     public void StartBtnClick()

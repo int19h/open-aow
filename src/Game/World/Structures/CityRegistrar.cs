@@ -16,8 +16,5 @@ public partial class CityRegistrar
         }
     }
 
-    internal static void SubscribeMapLoaded(GameEngine engine)
-    {
-        engine.OnHsmLoaded += MapLoaded;
-    }
+    internal static void SubscribeMapLoaded(GameEngine engine) => engine.OnHsmLoaded += MapLoaded;
 }

@@ -6,8 +6,16 @@ public static partial class RtlUnit
 
     public static void Move(ReadOnlySpan<byte> source, Span<byte> destination, int count)
     {
-        if (count <= 0) return;
-        if (count > source.Length || count > destination.Length) throw new ArgumentOutOfRangeException(paramName: null, "Move exceeds the buffer");
+        if (count <= 0)
+        {
+            return;
+        }
+
+        if (count > source.Length || count > destination.Length)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "Move exceeds the buffer");
+        }
+
         source[..count].CopyTo(destination);
     }
 
@@ -17,9 +25,17 @@ public static partial class RtlUnit
     // count gives a new array that keeps the elements the two sizes share, the rest zero.
     public static T[]? ReallocArray<T>(T[]? array, int count)
     {
-        if (count == 0) return null;
+        if (count == 0)
+        {
+            return null;
+        }
+
         var result = new T[count];
-        if (array is not null) array.AsSpan(0, Math.Min(array.Length, count)).CopyTo(result);
+        if (array is not null)
+        {
+            array.AsSpan(0, Math.Min(array.Length, count)).CopyTo(result);
+        }
+
         return result;
     }
 
@@ -27,7 +43,11 @@ public static partial class RtlUnit
     // ranges copy as Move copies them. A count of 0 or less moves nothing.
     public static void MoveElements<T>(T[]? source, int sourceIndex, T[]? destination, int destinationIndex, int count)
     {
-        if (count <= 0) return;
+        if (count <= 0)
+        {
+            return;
+        }
+
         source.AsSpan(sourceIndex, count).CopyTo(destination.AsSpan(destinationIndex, count));
     }
 
@@ -35,19 +55,34 @@ public static partial class RtlUnit
     // clears nothing.
     public static void ClearElements<T>(T[]? array, int index, int count)
     {
-        if (count <= 0) return;
+        if (count <= 0)
+        {
+            return;
+        }
+
         array.AsSpan(index, count).Clear();
     }
 
     public static void FillChar(Span<byte> destination, int count, byte value)
     {
-        if (count > destination.Length) throw new ArgumentOutOfRangeException(paramName: null, "FillChar exceeds the buffer");
-        if (count > 0) destination[..count].Fill(value);
+        if (count > destination.Length)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "FillChar exceeds the buffer");
+        }
+
+        if (count > 0)
+        {
+            destination[..count].Fill(value);
+        }
     }
 
     public static bool CompareMem(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b, int count)
     {
-        if (count > a.Length || count > b.Length) throw new ArgumentOutOfRangeException(paramName: null, "CompareMem exceeds the buffer");
+        if (count > a.Length || count > b.Length)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "CompareMem exceeds the buffer");
+        }
+
         return count <= 0 || a[..count].SequenceEqual(b[..count]);
     }
 }

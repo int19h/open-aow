@@ -114,9 +114,6 @@ public partial class ArmyInfoEventLog : EventLog
     }
 
     // Army.PAS:284
-    public void SetArmyView(ArmyView value)
-    {
-        ArmyView.Assign(value, GetEngine());
-    }
+    public void SetArmyView(ArmyView value) => ArmyView.Assign(value, GetEngine());
 
 }

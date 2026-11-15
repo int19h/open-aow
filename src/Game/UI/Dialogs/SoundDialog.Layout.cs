@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class SoundDialog : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -1756,6 +1753,8 @@ public partial class SoundDialog : ILayoutModule
         folderPnl.ImageLibraryFrame = UI.Graphics.GenericFrames;
         playPnl.ImageLibraryFrame = UI.Graphics.GenericFrames;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

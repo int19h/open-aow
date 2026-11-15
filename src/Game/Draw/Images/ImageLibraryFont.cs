@@ -195,7 +195,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
         }
     }
 
-    public int Height { get => _height; }
+    public int Height => _height;
 
     [Published]
     public int CharacterDistance { get => _characterDistance; set => _characterDistance = value; }

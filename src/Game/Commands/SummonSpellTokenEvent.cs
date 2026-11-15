@@ -37,10 +37,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     }
 
     // SummonSpells.pas:159
-    public SummonSpellTokenEvent(CustomNode owner) : base(owner)
-    {
-        UnitIndices = new UnitIndexList();
-    }
+    public SummonSpellTokenEvent(CustomNode owner) : base(owner) => UnitIndices = new UnitIndexList();
 
     // SummonSpells.pas:182
     public override bool Process(Troop source, int value)

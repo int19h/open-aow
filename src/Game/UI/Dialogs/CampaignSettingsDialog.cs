@@ -52,10 +52,7 @@ public partial class CampaignSettingsDialog : UIModule
     }
 
     // AoWCampaignSettings.pas:66
-    public void CancelBtnClick()
-    {
-        Window.Visible = false;
-    }
+    public void CancelBtnClick() => Window.Visible = false;
 
     private static readonly ImmutableArray<string> s_campaignDifficultyLevelTexts = ["Easy", "Normal", "Hard"];
 }

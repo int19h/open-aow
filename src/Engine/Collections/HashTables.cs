@@ -8,6 +8,8 @@ internal static class HashTables
         where TValue : class
     {
         if (!table.TryAdd(key, value: value))
+        {
             throw new InvalidOperationException("ID already in HashTable");
+        }
     }
 }

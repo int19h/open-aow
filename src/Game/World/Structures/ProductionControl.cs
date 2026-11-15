@@ -321,10 +321,7 @@ public partial class ProductionControl : EngineObject
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // intf_P1_02.inc:133
-    public virtual sbyte GetPlayer()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual sbyte GetPlayer() => throw AbstractErrorException.Create("Abstract Error");
 
     // Structur.PAS:279
     public virtual int GetQueueSizeMax() => 5;
@@ -354,10 +351,7 @@ public partial class ProductionControl : EngineObject
     public virtual bool UnitProduced() => false;
 
     // Structur.PAS:636
-    public virtual void UnitResearched()
-    {
-        UnitProductions.GetItem(Settings.UnitProductionIndex).Researched = true;
-    }
+    public virtual void UnitResearched() => UnitProductions.GetItem(Settings.UnitProductionIndex).Researched = true;
 
     // Structur.PAS:219
     public virtual void Update()
@@ -392,16 +386,10 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:225
-    public virtual void Activate()
-    {
-        RegisterGroupProduction();
-    }
+    public virtual void Activate() => RegisterGroupProduction();
 
     // Structur.PAS:228
-    public virtual void Deactivate()
-    {
-        UnregisterGroupProduction();
-    }
+    public virtual void Deactivate() => UnregisterGroupProduction();
 
     // Structur.PAS:804
     public virtual void NewTurn(sbyte player)
@@ -668,10 +656,7 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:210
-    public void BeginUpdate()
-    {
-        UpdateCount += 1;
-    }
+    public void BeginUpdate() => UpdateCount += 1;
 
     // Structur.PAS:213
     public void EndUpdate()

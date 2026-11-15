@@ -9,10 +9,7 @@ namespace Aow.Game.Draw;
 public partial class ImageFileClassList : DelphiList<ImageFileClass>
 {
     // GFXE.pas:941
-    internal ImageFileClass GetClasses(int index)
-    {
-        return this[index];
-    }
+    internal ImageFileClass GetClasses(int index) => this[index];
 
     // GFXE.pas:949
     public ImageFileClass FindClass(string ext)

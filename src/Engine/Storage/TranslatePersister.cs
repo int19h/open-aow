@@ -96,7 +96,11 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     public IPersistable? Created(string name, IPersistable? objectValue)
     {
-        if (objectValue is not null) stream.Object((EngineObject)objectValue, 0);
+        if (objectValue is not null)
+        {
+            stream.Object((EngineObject)objectValue, 0);
+        }
+
         return objectValue;
     }
 
@@ -132,7 +136,12 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
     public void CreatedSequence(string name, IChildCollection items)
     {
         for (int index = 0; index < items.Count; index++)
-            if (items.IsStored(index)) Created(name, items.Get(index));
+        {
+            if (items.IsStored(index))
+            {
+                Created(name, items.Get(index));
+            }
+        }
     }
 
     public byte[] NestedDocument(string name, string profile, byte[] image) => image;

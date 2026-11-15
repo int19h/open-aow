@@ -321,7 +321,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                     for (int y = top; y <= bottom - 1; y++)
                     {
                         // Line is the byte index of row Y in the surface's memory.
-                        line = lockedSurface.DataIndex + lockedSurface.Pitch * y;
+                        line = lockedSurface.DataIndex + (lockedSurface.Pitch * y);
                         StartLine();
                         for (int x = minRectangle.Left, last = minRectangle.Right - 1; x <= last; x++)
                         {
@@ -366,14 +366,8 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         return result;
     }
 
-    private static void ShowRle08(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey)
-    {
-        Blit.ShowRle08(X, Y, lockedSurface.View(), data, width, height, colorKey);
-    }
+    private static void ShowRle08(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey) => Blit.ShowRle08(X, Y, lockedSurface.View(), data, width, height, colorKey);
 
-    private static void ShowRle08To16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey, ReadOnlySpan<uint> palette)
-    {
-        Blit.ShowRle08To16(X, Y, lockedSurface.View(), data, width, height, colorKey, palette);
-    }
+    private static void ShowRle08To16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey, ReadOnlySpan<uint> palette) => Blit.ShowRle08To16(X, Y, lockedSurface.View(), data, width, height, colorKey, palette);
 
 }

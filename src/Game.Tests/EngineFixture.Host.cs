@@ -45,13 +45,27 @@ public sealed partial class EngineFixture
                 typeof(HexGeometry), typeof(HexText),
                 typeof(ImageLibraries), typeof(AudioHost),
             })
+            {
                 foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                 {
-                    if (!field.IsLiteral && !field.IsInitOnly) _globals.Add(field, field.GetValue(null));
+                    if (!field.IsLiteral && !field.IsInitOnly)
+                    {
+                        _globals.Add(field, field.GetValue(null));
+                    }
                 }
+            }
+
             Directory.CreateDirectory(_root);
-            foreach (string directory in new[] { "IMAGES", "SFX", "Dict" }) Directory.CreateDirectory(Path.Combine(_root, directory));
-            if (fault == "dictionary") File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
+            foreach (string directory in new[] { "IMAGES", "SFX", "Dict" })
+            {
+                Directory.CreateDirectory(Path.Combine(_root, directory));
+            }
+
+            if (fault == "dictionary")
+            {
+                File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
+            }
+
             _files.SetCurrentDirectory(_root);
             GamePack.Current = null!;
             StrategicMap.Current = null!;
@@ -116,14 +130,21 @@ public sealed partial class EngineFixture
         {
             Record("Enumerate", directory);
             if (_fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(_root, "IMAGES"), StringComparison.OrdinalIgnoreCase))
+            {
                 throw new InvalidDataException("injected IMAGES search failure");
+            }
+
             return _files.Enumerate(Checked(directory)).ToArray();
         }
 
         public object? Read(string key)
         {
             Record("Settings.Read", key);
-            if (_fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal)) throw new InvalidDataException("injected debug-mode settings failure");
+            if (_fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal))
+            {
+                throw new InvalidDataException("injected debug-mode settings failure");
+            }
+
             return null;
         }
 
@@ -140,7 +161,11 @@ public sealed partial class EngineFixture
 
         public void Dispose()
         {
-            foreach (var pair in _globals) pair.Key.SetValue(null, pair.Value);
+            foreach (var pair in _globals)
+            {
+                pair.Key.SetValue(null, pair.Value);
+            }
+
             LocalizationRuntime.StartupDirectory = _previousLocalization;
             RestoreServices();
             Directory.Delete(_root, true);

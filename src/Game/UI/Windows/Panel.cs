@@ -20,10 +20,7 @@ public partial class Panel : BaseWindow
     private BaseWindow _window;
 
     // AoWPanel.pas:63
-    public Panel(Component owner) : base(owner)
-    {
-        CaptureInput = true;
-    }
+    public Panel(Component owner) : base(owner) => CaptureInput = true;
 
     // AoWPanel.pas:69
     public override void Dispose()
@@ -188,8 +185,8 @@ public partial class Panel : BaseWindow
                 int savedTop = WinTop;
                 if (_window is Panel)
                 {
-                    SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                    SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                    SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                    SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 }
 
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
@@ -221,8 +218,8 @@ public partial class Panel : BaseWindow
             int savedTop = WinTop;
             if (_window is Panel)
             {
-                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
             }
 
             RaiseUpdate(this);
@@ -307,8 +304,8 @@ public partial class Panel : BaseWindow
 
         oldLeft = WinLeft;
         oldTop = WinTop;
-        SetWinLeftWithoutInvalidate(WinLeft + (OwnerComponent.WinLeft));
-        SetWinTopWithoutInvalidate(WinTop + (OwnerComponent.WinTop));
+        SetWinLeftWithoutInvalidate(WinLeft + OwnerComponent.WinLeft);
+        SetWinTopWithoutInvalidate(WinTop + OwnerComponent.WinTop);
         for (int i = index, last = Children.Count - 1; i <= last; i++)
         {
             c = Children[i];
@@ -347,10 +344,7 @@ public partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:82
-    public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender)
-    {
-        OwnerComponent.AddBlitRectangle(ref rectangle, this);
-    }
+    public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender) => OwnerComponent.AddBlitRectangle(ref rectangle, this);
 
     // AoWPanel.pas:87
     public override void AddDrawRectangle(ref Rect rectangle, UIComponent sender)
@@ -473,8 +467,8 @@ public partial class Panel : BaseWindow
             {
                 int savedLeft = WinLeft;
                 int savedTop = WinTop;
-                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 if (WinLeft < lockedSurface.ClipRectangle.Right && WinLeft > lockedSurface.ClipRectangle.Left)
                 {
                     var clipRectangle = lockedSurface.ClipRectangle;
@@ -518,8 +512,8 @@ public partial class Panel : BaseWindow
                         var rectangle5 = d.Rectangle;
                         InvalidateRectangle(0, ref rectangle5, d.Owner);
                         d.Rectangle = rectangle5;
-                        SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                        SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                        SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                        SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                     }
                 }
                 else
@@ -561,8 +555,8 @@ public partial class Panel : BaseWindow
                             SetWinTopWithoutInvalidate(savedTop);
                             blitRectangle = new Rect(_window.WinLeft + WinLeft + c.WinLeft, _window.WinTop + WinTop + c.WinTop, _window.WinLeft + WinLeft + c.WinLeft + c.WinWidth - 1, _window.WinTop + WinTop + c.WinTop + c.WinHeight - 1);
                             InvalidateRectangle(i + 1, ref blitRectangle, c);
-                            SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                            SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                            SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                            SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                         }
                     }
                 }
@@ -659,8 +653,8 @@ public partial class Panel : BaseWindow
             int savedTop = WinTop;
             if (_window != null)
             {
-                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 Handled = _window.Handled;
             }
 
@@ -705,8 +699,8 @@ public partial class Panel : BaseWindow
             int savedTop = WinTop;
             if (_window != null)
             {
-                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
+                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 Handled = _window.Handled;
             }
 
@@ -741,10 +735,7 @@ public partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:138
-    public override void DetachMenuBar()
-    {
-        _tabPanel = null;
-    }
+    public override void DetachMenuBar() => _tabPanel = null;
 
     // AoWPanel.pas:145
     // { SetTabPanel moves the panel from the panel list of its old tab panel to the list of the new
@@ -802,10 +793,7 @@ public partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:228
-    public void SetWindow(BaseWindow value)
-    {
-        SetOwner(value);
-    }
+    public void SetWindow(BaseWindow value) => SetOwner(value);
 
     [Published]
     public BaseWindow Window { get => _window; set => SetWindow(value); }

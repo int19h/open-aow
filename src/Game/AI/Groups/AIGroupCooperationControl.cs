@@ -21,10 +21,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupCooperationControl : AIGroupTask
 {
     // AIGroup.pas:2839
-    public AIGroupCooperationControl(CustomNode owner) : base(owner)
-    {
-        Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
-    }
+    public AIGroupCooperationControl(CustomNode owner) : base(owner) => Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
 
     public bool Complete { get; private set; }
 
@@ -134,10 +131,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
     public int GetCooperateStrength(DamageType damageType) => _cooperateStrengths[(int)damageType];
 
     // AIGroup.pas:2878
-    public void SetCooperateStrength(DamageType damageType, int value)
-    {
-        _cooperateStrengths[(int)damageType] = value;
-    }
+    public void SetCooperateStrength(DamageType damageType, int value) => _cooperateStrengths[(int)damageType] = value;
 
     // AIGroup.pas:2883
     public void UpdateCompletion()

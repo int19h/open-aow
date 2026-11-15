@@ -27,10 +27,7 @@ public partial class GlobalTargetSpell : Spell
     public bool AboveGroundOnly { get; protected set; }
 
     // GlobalTargetSpells.pas:439
-    public GlobalTargetSpell(CustomNode owner) : base(owner)
-    {
-        SpellType = SpellType.Global;
-    }
+    public GlobalTargetSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;
 
     // GlobalTargetSpells.pas:569
     public override bool CanActivate(Troop source, ref string messageText)
@@ -95,7 +92,7 @@ public partial class GlobalTargetSpell : Spell
             if (ValidTargetSelectionMapField(mapField))
             {
                 radius = HexGeometry.HexNumberToRadius(hexNumber);
-                intensity = Math.Abs((StrategicMap.Current.Frame + radius) % 9 - 4) * 20 + 20;
+                intensity = (Math.Abs(((StrategicMap.Current.Frame + radius) % 9) - 4) * 20) + 20;
                 target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
             }
             else

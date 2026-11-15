@@ -210,7 +210,11 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         realm.CityPanel.SetVisibleWithoutUpdate(true);
         Assert.Same(realm.CityScrollBar, realm.CityNameList.WheelScrollBar);
         realm.CityNameList.Items.Clear();
-        for (int i = 0; i < 12; i++) realm.CityNameList.Items.Add("city" + i);
+        for (int i = 0; i < 12; i++)
+        {
+            realm.CityNameList.Items.Add("city" + i);
+        }
+
         realm.CityScrollBar.SetPositionUnclamped(0);
         int x = realm.Window.WinLeft + realm.CityPanel.WinLeft + realm.CityListPanel.WinLeft + realm.CityNameList.WinLeft + 4;
         int y = realm.Window.WinTop + realm.CityPanel.WinTop + realm.CityListPanel.WinTop + realm.CityNameList.WinTop + 8;
@@ -254,14 +258,21 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         }
         finally
         {
-            if (Directory.Exists(directory)) Directory.Delete(directory, true);
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, true);
+            }
         }
     }
 
     private static string[] Names(ListBox list)
     {
         var names = new string[list.Items.Count];
-        for (int i = 0; i < names.Length; i++) names[i] = list.Items[i];
+        for (int i = 0; i < names.Length; i++)
+        {
+            names[i] = list.Items[i];
+        }
+
         return names;
     }
 }

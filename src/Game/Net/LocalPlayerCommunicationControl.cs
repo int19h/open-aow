@@ -44,10 +44,7 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     }
 
     // NetworkE.pas:697
-    public LocalPlayerCommunicationControl(EngineObject creator) : base(creator)
-    {
-        PackageDataList = new PackageDataList();
-    }
+    public LocalPlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
 
     // NetworkE.pas:703
     public override void Dispose()
@@ -57,10 +54,7 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     }
 
     // NetworkE.pas:719
-    public void Clear()
-    {
-        PackageDataList.Clear();
-    }
+    public void Clear() => PackageDataList.Clear();
 
     // NetworkE.pas:743
     public new void Setup(int count)
@@ -74,9 +68,6 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     }
 
     // NetworkE.pas:752
-    public void SetConnectionMode(int index, ConnectionMode mode)
-    {
-        PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
-    }
+    public void SetConnectionMode(int index, ConnectionMode mode) => PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
 
 }

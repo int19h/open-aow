@@ -117,10 +117,7 @@ public partial class CombatMapEvents : UIModule
     }
 
     // aowTCMapEvents.pas:169
-    public void CombatMapMapChanged(in MapChangedInfo R)
-    {
-        UI.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
-    }
+    public void CombatMapMapChanged(in MapChangedInfo R) => UI.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
 
     // aowTCMapEvents.pas:174
     public void CombatMapMouseOverTarget(HexSprite hexSprite)
@@ -254,7 +251,7 @@ public partial class CombatMapEvents : UIModule
         if (window.UI.General.CombatUnit != null)
         {
             Troop fTroop = window.UI.General.CombatUnit.Unit.Troop;
-            Hero hero = ((!(fTroop is Hero)) ? null : ((Hero)fTroop));
+            Hero hero = (!(fTroop is Hero)) ? null : ((Hero)fTroop);
             if (!window.MainWindow.Visible)
             {
                 window.UnitManaGauge.Visible = false;

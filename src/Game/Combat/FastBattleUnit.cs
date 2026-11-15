@@ -485,10 +485,7 @@ public partial class FastBattleUnit : CombatUnit
     }
 
     // AIGroup.pas:6792
-    public override void SetUnit(Troop troop)
-    {
-        base.SetUnit(troop);
-    }
+    public override void SetUnit(Troop troop) => base.SetUnit(troop);
 
     // AIGroup.pas:6783
     public override void KillUnit()

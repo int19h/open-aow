@@ -16,7 +16,11 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
 
     public void Initial()
     {
-        if (items) EquipItems();
+        if (items)
+        {
+            EquipItems();
+        }
+
         if (spell != 0)
         {
             _caster = Enumerable.Range(1, map.Players.GetCount() - 1)
@@ -75,7 +79,11 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
         for (int index = 1; index < map.Players.GetCount(); index++)
         {
             var hero = map.Players.GetPlayers(index).Leader;
-            if (hero is null) continue;
+            if (hero is null)
+            {
+                continue;
+            }
+
             int? firstRing = null;
             foreach (int kind in new[] { 0, 1, 2, 3, 4, 4, 5, 6 })
             {
@@ -95,8 +103,14 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
                 }
                 if (placed && kind == 4)
                 {
-                    if (firstRing is null) firstRing = id;
-                    else swapped = hero.ExecuteSwapItem(firstRing.Value, id);
+                    if (firstRing is null)
+                    {
+                        firstRing = id;
+                    }
+                    else
+                    {
+                        swapped = hero.ExecuteSwapItem(firstRing.Value, id);
+                    }
                 }
                 if (placed && kind == 5)
                 {

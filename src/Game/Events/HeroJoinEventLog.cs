@@ -33,8 +33,8 @@ public partial class HeroJoinEventLog : JoinEventLog
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             executeNow = trigger == ExecuteTrigger.User;
-            executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
-            executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
+            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
             if (executeNow)
             {
                 result = base.Execute(mode, trigger, done);
@@ -72,7 +72,7 @@ public partial class HeroJoinEventLog : JoinEventLog
             tokenEvent.Object = NegotiateObject.Army;
             tokenEvent.Gold = Gold;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
-            tokenEvent.Location = new MapCoordinate(unchecked((sbyte)((byte)location.X)), unchecked((sbyte)((byte)location.Y)), unchecked((sbyte)((byte)location.MapLevel)));
+            tokenEvent.Location = new MapCoordinate(unchecked((sbyte)(byte)location.X), unchecked((sbyte)(byte)location.Y), unchecked((sbyte)(byte)location.MapLevel));
             tokenEvent.Mode = Set<NegotiateModeElement>.Of();
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             tokenEvent.EventLogId = JoinIndex;

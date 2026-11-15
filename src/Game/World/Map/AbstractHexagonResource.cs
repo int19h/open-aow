@@ -6,10 +6,7 @@ namespace Aow.Game.World.Map;
 public partial class AbstractHexagonResource : MapObjectResource
 {
 
-    public AbstractHexagonResource(CustomNode owner) : base(owner)
-    {
-        SetLevel(0);
-    }
+    public AbstractHexagonResource(CustomNode owner) : base(owner) => SetLevel(0);
 
     // MAPOBJ.PAS:770
 

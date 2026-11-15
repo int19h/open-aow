@@ -24,8 +24,16 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public SdlDisplayHost(string title, int width = 640, int height = 480, int scale = 1, bool hidden = false)
     {
-        if (width <= 0 || height <= 0 || scale < 1) throw new ArgumentOutOfRangeException(nameof(width));
-        if (Interlocked.CompareExchange(ref s_owned, 1, 0) != 0) throw new InvalidOperationException("One SDL window is supported.");
+        if (width <= 0 || height <= 0 || scale < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(width));
+        }
+
+        if (Interlocked.CompareExchange(ref s_owned, 1, 0) != 0)
+        {
+            throw new InvalidOperationException("One SDL window is supported.");
+        }
+
         try
         {
             // Real pixels on a scaled Windows desktop, instead of a bitmap the system stretches.
@@ -35,25 +43,45 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             _height = height;
             _windowedScale = scale;
             _window = SDL_CreateWindow(title, checked(width * scale), checked(height * scale), SDL_WindowFlags.SDL_WINDOW_RESIZABLE | SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY | (hidden ? SDL_WindowFlags.SDL_WINDOW_HIDDEN : 0));
-            if (_window is null) throw Error();
+            if (_window is null)
+            {
+                throw Error();
+            }
+
             _renderer = SDL_CreateRenderer(_window, (byte*)null);
-            if (_renderer is null) throw Error();
+            if (_renderer is null)
+            {
+                throw Error();
+            }
+
             Check(SDL_SetWindowMinimumSize(_window, width, height));
             Check(SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255));
             CreateTexture();
-            if (HasFocus) Check(SDL_StartTextInput(_window));
+            if (HasFocus)
+            {
+                Check(SDL_StartTextInput(_window));
+            }
         }
         catch { Dispose(); throw; }
     }
 
     private static InvalidOperationException Error() => new("SDL: " + SDL_GetError());
 
-    private static void Check(SDLBool result) { if (!result) throw Error(); }
+    private static void Check(SDLBool result)
+    {
+        if (!result)
+        {
+            throw Error();
+        }
+    }
 
     private void OnThread()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        if (_thread != Environment.CurrentManagedThreadId) throw new InvalidOperationException("SDL calls belong to the window thread.");
+        if (_thread != Environment.CurrentManagedThreadId)
+        {
+            throw new InvalidOperationException("SDL calls belong to the window thread.");
+        }
     }
 
     private (int Width, int Height) WindowSize()
@@ -97,7 +125,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         {
             OnThread();
             var mode = SDL_GetDesktopDisplayMode(SDL_GetDisplayForWindow(_window));
-            if (mode is null) throw Error();
+            if (mode is null)
+            {
+                throw Error();
+            }
+
             return ((int)(mode->w * mode->pixel_density), (int)(mode->h * mode->pixel_density));
         }
     }
@@ -110,13 +142,24 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     public void ResizeImage(int newWidth, int newHeight)
     {
         OnThread();
-        if (newWidth <= 0 || newHeight <= 0) throw new ArgumentOutOfRangeException(nameof(newWidth));
-        if (_width == newWidth && _height == newHeight) return;
+        if (newWidth <= 0 || newHeight <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(newWidth));
+        }
+
+        if (_width == newWidth && _height == newHeight)
+        {
+            return;
+        }
+
         _width = newWidth;
         _height = newHeight;
         CreateTexture();
         Check(SDL_SetWindowMinimumSize(_window, _width, _height));
-        if (!Fullscreen) Check(SDL_SetWindowSize(_window, _width * _windowedScale, _height * _windowedScale));
+        if (!Fullscreen)
+        {
+            Check(SDL_SetWindowSize(_window, _width * _windowedScale, _height * _windowedScale));
+        }
     }
 
     public bool HasFocus
@@ -130,19 +173,34 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         set
         {
             OnThread();
-            if (value == Fullscreen) return;
+            if (value == Fullscreen)
+            {
+                return;
+            }
+
             Check(SDL_SetWindowFullscreen(_window, value));
             // Wayland applies the state at the next configure. Wait for it so the first frame is not
             // presented in the old state. X11 reports a failed sync here, so only Wayland waits.
-            if (SDL_GetCurrentVideoDriver() == "wayland") Check(SDL_SyncWindow(_window));
-            if (!value) Check(SDL_SetWindowSize(_window, _width * _windowedScale, _height * _windowedScale));
+            if (SDL_GetCurrentVideoDriver() == "wayland")
+            {
+                Check(SDL_SyncWindow(_window));
+            }
+
+            if (!value)
+            {
+                Check(SDL_SetWindowSize(_window, _width * _windowedScale, _height * _windowedScale));
+            }
         }
     }
 
     public (int X, int Y, bool Inside) PointerPosition()
     {
         OnThread();
-        if (!HasFocus || SDL_GetMouseFocus() != _window) return (-1, -1, false);
+        if (!HasFocus || SDL_GetMouseFocus() != _window)
+        {
+            return (-1, -1, false);
+        }
+
         float x, y;
         SDL_GetMouseState(&x, &y);
         return Map(x, y);
@@ -162,7 +220,10 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         set
         {
             OnThread();
-            if (!SDL_SetRenderVSync(_renderer, value ? 1 : 0)) Console.Error.WriteLine("SDL: vsync unavailable: " + SDL_GetError());
+            if (!SDL_SetRenderVSync(_renderer, value ? 1 : 0))
+            {
+                Console.Error.WriteLine("SDL: vsync unavailable: " + SDL_GetError());
+            }
         }
     }
 
@@ -188,7 +249,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             _ => SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION
         };
         bool fullscreen = Fullscreen;
-        if (fullscreen) Fullscreen = false;
+        if (fullscreen)
+        {
+            Fullscreen = false;
+        }
+
         var labels = buttons.Select(b => Marshal.StringToCoTaskMemUTF8(b.Label)).ToArray();
         nint title = Marshal.StringToCoTaskMemUTF8(request.Caption.Length > 0 ? request.Caption : "Age of Wonders");
         nint text = Marshal.StringToCoTaskMemUTF8(request.Text);
@@ -196,6 +261,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         {
             var data = stackalloc SDL_MessageBoxButtonData[buttons.Length];
             for (int i = 0; i < buttons.Length; i++)
+            {
                 data[i] = new SDL_MessageBoxButtonData
                 {
                     flags = (buttons[i].Id == request.DefaultResult ? SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT : 0)
@@ -203,6 +269,8 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                     buttonID = buttons[i].Id,
                     text = (byte*)labels[i]
                 };
+            }
+
             var box = new SDL_MessageBoxData
             {
                 flags = kind | SDL_MessageBoxFlags.SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT,
@@ -217,10 +285,17 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         }
         finally
         {
-            foreach (var label in labels) Marshal.FreeCoTaskMem(label);
+            foreach (var label in labels)
+            {
+                Marshal.FreeCoTaskMem(label);
+            }
+
             Marshal.FreeCoTaskMem(title);
             Marshal.FreeCoTaskMem(text);
-            if (fullscreen) Fullscreen = true;
+            if (fullscreen)
+            {
+                Fullscreen = true;
+            }
         }
     }
 
@@ -232,9 +307,17 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     private void CreateTexture()
     {
-        if (_texture is not null) SDL_DestroyTexture(_texture);
+        if (_texture is not null)
+        {
+            SDL_DestroyTexture(_texture);
+        }
+
         _texture = SDL_CreateTexture(_renderer, SDL_PixelFormat.SDL_PIXELFORMAT_XRGB1555, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, _width, _height);
-        if (_texture is null) throw Error();
+        if (_texture is null)
+        {
+            throw Error();
+        }
+
         Check(SDL_SetTextureScaleMode(_texture, SDL_ScaleMode.SDL_SCALEMODE_NEAREST));
         _upload = new byte[checked(_width * _height * 2)];
     }
@@ -243,14 +326,25 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     {
         OnThread();
         if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatId != PixelFormats.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
+        {
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
+        }
+
         if (backSurface.Width != _width || backSurface.Height != _height)
         {
             ResizeImage(backSurface.Width, backSurface.Height);
         }
         int rowBytes = checked(_width * 2);
-        for (int y = 0; y < _height; y++) backSurface.Data.AsSpan(checked(backSurface.DataIndex + y * backSurface.Pitch), rowBytes).CopyTo(_upload.AsSpan(y * rowBytes));
-        fixed (byte* pixels = _upload) Check(SDL_UpdateTexture(_texture, null, (nint)pixels, rowBytes));
+        for (int y = 0; y < _height; y++)
+        {
+            backSurface.Data.AsSpan(checked(backSurface.DataIndex + (y * backSurface.Pitch)), rowBytes).CopyTo(_upload.AsSpan(y * rowBytes));
+        }
+
+        fixed (byte* pixels = _upload)
+        {
+            Check(SDL_UpdateTexture(_texture, null, (nint)pixels, rowBytes));
+        }
+
         Check(SDL_RenderClear(_renderer));
         var viewport = Viewport;
         var destination = new SDL_FRect { x = viewport.Left, y = viewport.Top, w = _width * viewport.Scale, h = _height * viewport.Scale };
@@ -265,17 +359,45 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         while (SDL_PollEvent(&ev))
         {
             var type = (SDL_EventType)ev.type;
-            if (type == SDL_EVENT_QUIT) { if (sink.CloseRequested()) IsClosed = true; continue; }
-            if (type is >= SDL_EVENT_WINDOW_FIRST and <= SDL_EVENT_WINDOW_LAST && ev.window.windowID != SDL_GetWindowID(_window)) continue;
-            if (type is SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP && ev.key.windowID != SDL_GetWindowID(_window)) continue;
-            if (type == SDL_EVENT_TEXT_INPUT && ev.text.windowID != SDL_GetWindowID(_window)) continue;
-            if (type == SDL_EVENT_MOUSE_MOTION && ev.motion.windowID != SDL_GetWindowID(_window)) continue;
-            if (type is SDL_EVENT_MOUSE_BUTTON_DOWN or SDL_EVENT_MOUSE_BUTTON_UP && ev.button.windowID != SDL_GetWindowID(_window)) continue;
-            if (type == SDL_EVENT_MOUSE_WHEEL && ev.wheel.windowID != SDL_GetWindowID(_window)) continue;
+            if (type == SDL_EVENT_QUIT) { if (sink.CloseRequested()) { IsClosed = true; } continue; }
+            if (type is >= SDL_EVENT_WINDOW_FIRST and <= SDL_EVENT_WINDOW_LAST && ev.window.windowID != SDL_GetWindowID(_window))
+            {
+                continue;
+            }
+
+            if (type is SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP && ev.key.windowID != SDL_GetWindowID(_window))
+            {
+                continue;
+            }
+
+            if (type == SDL_EVENT_TEXT_INPUT && ev.text.windowID != SDL_GetWindowID(_window))
+            {
+                continue;
+            }
+
+            if (type == SDL_EVENT_MOUSE_MOTION && ev.motion.windowID != SDL_GetWindowID(_window))
+            {
+                continue;
+            }
+
+            if (type is SDL_EVENT_MOUSE_BUTTON_DOWN or SDL_EVENT_MOUSE_BUTTON_UP && ev.button.windowID != SDL_GetWindowID(_window))
+            {
+                continue;
+            }
+
+            if (type == SDL_EVENT_MOUSE_WHEEL && ev.wheel.windowID != SDL_GetWindowID(_window))
+            {
+                continue;
+            }
+
             switch (type)
             {
                 case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
-                    if (sink.CloseRequested()) IsClosed = true;
+                    if (sink.CloseRequested())
+                    {
+                        IsClosed = true;
+                    }
+
                     break;
                 case SDL_EVENT_WINDOW_FOCUS_GAINED:
                     Check(SDL_StartTextInput(_window));
@@ -298,7 +420,9 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                         int scale = Math.Max(1, (int)Math.Round(Math.Min((double)ev.window.data1 / _width, (double)ev.window.data2 / _height), MidpointRounding.AwayFromZero));
                         _windowedScale = scale;
                         if (ev.window.data1 != _width * scale || ev.window.data2 != _height * scale)
+                        {
                             Check(SDL_SetWindowSize(_window, _width * scale, _height * scale));
+                        }
                     }
                     var size = ClientSize;
                     sink.Resize(size.Width, size.Height);
@@ -337,11 +461,31 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
-        if (_thread != Environment.CurrentManagedThreadId) throw new InvalidOperationException("Dispose belongs to the window thread.");
-        if (_texture is not null) SDL_DestroyTexture(_texture);
-        if (_renderer is not null) SDL_DestroyRenderer(_renderer);
-        if (_window is not null) SDL_DestroyWindow(_window);
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (_thread != Environment.CurrentManagedThreadId)
+        {
+            throw new InvalidOperationException("Dispose belongs to the window thread.");
+        }
+
+        if (_texture is not null)
+        {
+            SDL_DestroyTexture(_texture);
+        }
+
+        if (_renderer is not null)
+        {
+            SDL_DestroyRenderer(_renderer);
+        }
+
+        if (_window is not null)
+        {
+            SDL_DestroyWindow(_window);
+        }
+
         SDL_Quit();
         _window = null;
         _renderer = null;

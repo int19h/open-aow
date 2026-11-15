@@ -14,7 +14,11 @@ public static class RtlFileTime
             return DateTime.SpecifyKind(stamp + TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow), DateTimeKind.Unspecified);
         }
         long utc = File.GetLastWriteTimeUtc(path).ToFileTimeUtc();
-        if (!FileTimeToLocalFileTime(in utc, out long local)) throw new IOException("File time conversion failed.");
+        if (!FileTimeToLocalFileTime(in utc, out long local))
+        {
+            throw new IOException("File time conversion failed.");
+        }
+
         return DateTime.SpecifyKind(DateTime.FromFileTimeUtc(local), DateTimeKind.Unspecified);
     }
 

@@ -11,10 +11,7 @@ public abstract class TreeValue
     {
     }
 
-    internal virtual IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
-    {
-        return [];
-    }
+    internal virtual IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path) => [];
 
     /// <summary>
     /// Whether <paramref name="other"/> is a node of the same kind that holds the same value, with
@@ -26,9 +23,19 @@ public abstract class TreeValue
     /// <summary>Whether two lists hold equal values in the same order.</summary>
     protected static bool ItemsEqual<T>(IReadOnlyList<T> left, IReadOnlyList<T> right, Func<T, T, bool> equal)
     {
-        if (left.Count != right.Count) return false;
+        if (left.Count != right.Count)
+        {
+            return false;
+        }
+
         for (int i = 0; i < left.Count; i++)
-            if (!equal(left[i], right[i])) return false;
+        {
+            if (!equal(left[i], right[i]))
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -96,7 +103,10 @@ public sealed class ReferenceNode(string domain, int key) : TreeValue
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
-        if (domain == Domain) yield return (path, Key);
+        if (domain == Domain)
+        {
+            yield return (path, Key);
+        }
     }
 }
 
@@ -294,7 +304,13 @@ public sealed class ObjectNode : TreeValue
     public TreeValue? Find(string name)
     {
         foreach (var (member, value) in _members)
-            if (member == name) return value;
+        {
+            if (member == name)
+            {
+                return value;
+            }
+        }
+
         return null;
     }
 
@@ -302,21 +318,31 @@ public sealed class ObjectNode : TreeValue
     public IEnumerable<(string Path, int Key)> References(string domain)
     {
         foreach (var (name, value) in _members)
+        {
             foreach (var hit in value.ReferencesIn(domain, name))
+            {
                 yield return hit;
+            }
+        }
     }
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         foreach (var (name, value) in _members)
+        {
             value.RejectVersion(version, path.Member(name));
+        }
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         foreach (var (name, value) in _members)
+        {
             foreach (var hit in value.ReferencesIn(domain, path + "." + name))
+            {
                 yield return hit;
+            }
+        }
     }
 }
 
@@ -335,23 +361,38 @@ public sealed class RecordNode : TreeValue
     public TreeValue? Find(string name)
     {
         foreach (var (member, value) in _members)
-            if (member == name) return value;
+        {
+            if (member == name)
+            {
+                return value;
+            }
+        }
+
         return null;
     }
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
+        {
             throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a record.", path);
+        }
+
         foreach (var (name, value) in _members)
+        {
             value.RejectVersion(version, path.Member(name));
+        }
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         foreach (var (name, value) in _members)
+        {
             foreach (var hit in value.ReferencesIn(domain, path + "." + name))
+            {
                 yield return hit;
+            }
+        }
     }
 }
 
@@ -371,7 +412,9 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
+        {
             throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a bit array.", path);
+        }
     }
 }
 
@@ -438,21 +481,33 @@ public sealed class SlotListNode : TreeValue
     public TreeValue? Find(int slot)
     {
         foreach (var entry in _entries)
-            if (entry.Slot == slot) return entry.Value;
+        {
+            if (entry.Slot == slot)
+            {
+                return entry.Value;
+            }
+        }
+
         return null;
     }
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         for (int i = 0; i < _entries.Count; i++)
+        {
             _entries[i].Value.RejectVersion(version, path.Item(i));
+        }
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < _entries.Count; i++)
+        {
             foreach (var hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            {
                 yield return hit;
+            }
+        }
     }
 }
 
@@ -487,7 +542,9 @@ public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fi
         {
             int y = Math.DivRem(i, Width, out int x);
             foreach (var hit in Fields[i].ReferencesIn(domain, path + "[" + y.ToString(CultureInfo.InvariantCulture) + "][" + x.ToString(CultureInfo.InvariantCulture) + "]"))
+            {
                 yield return hit;
+            }
         }
     }
 }
@@ -507,14 +564,20 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         for (int i = 0; i < Items.Count; i++)
+        {
             Items[i].RejectVersion(version, path.Item(i));
+        }
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < Items.Count; i++)
+        {
             foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            {
                 yield return hit;
+            }
+        }
     }
 }
 
@@ -543,16 +606,25 @@ public sealed class ListNode : TreeValue
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version == 1)
+        {
             throw TreeErrors.Fail(Codes.Type, "Version 1 does not store a list.", path);
+        }
+
         for (int i = 0; i < Items.Count; i++)
+        {
             Items[i].RejectVersion(version, path.Item(i));
+        }
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < Items.Count; i++)
+        {
             foreach (var hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            {
                 yield return hit;
+            }
+        }
     }
 }
 
@@ -567,13 +639,19 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
         for (int i = 0; i < Children.Count; i++)
+        {
             Children[i].RejectVersion(version, path.Item(i));
+        }
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
         for (int i = 0; i < Children.Count; i++)
+        {
             foreach (var hit in Children[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            {
                 yield return hit;
+            }
+        }
     }
 }

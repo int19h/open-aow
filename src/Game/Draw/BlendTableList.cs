@@ -13,10 +13,7 @@ public partial class BlendTableList : IDisposable
     internal BlendTable GetTables(int index) => _list[index];
 
     // GFXE.pas:9629
-    public BlendTableList()
-    {
-        _list = new List<BlendTable>();
-    }
+    public BlendTableList() => _list = new List<BlendTable>();
 
     // GFXE.pas:9635
     public virtual void Dispose()
@@ -35,22 +32,16 @@ public partial class BlendTableList : IDisposable
     }
 
     // GFXE.pas:9661
-    public void Add(BlendTable table)
-    {
-        _list.Add(table);
-    }
+    public void Add(BlendTable table) => _list.Add(table);
 
     // GFXE.pas:9666
-    public void Delete(int index)
-    {
-        _list.RemoveAt(index);
-    }
+    public void Delete(int index) => _list.RemoveAt(index);
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
     public sealed class TablesAccessor(BlendTableList target)
     {
-        public BlendTable this[int index] { get => target.GetTables(index); }
+        public BlendTable this[int index] => target.GetTables(index);
     }
 
     public TablesAccessor Tables => new TablesAccessor(this);

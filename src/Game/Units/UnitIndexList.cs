@@ -9,10 +9,7 @@ namespace Aow.Game.Units;
 public partial class UnitIndexList : Int32List
 {
     // UnitRes.PAS:219
-    public UnitIndexList()
-    {
-        Default = -1;
-    }
+    public UnitIndexList() => Default = -1;
 
     // UnitRes.PAS:225
     public int GetUnitIndex(int index)

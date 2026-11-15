@@ -205,10 +205,7 @@ public partial class InfoWindow : UIModule
     }
 
     // AoWInfoWin.pas:233
-    public void HelpClick()
-    {
-        UI.HelpWindow.ShowHelp(504);
-    }
+    public void HelpClick() => UI.HelpWindow.ShowHelp(504);
 
     // AoWInfoWin.pas:236
     public void ESSBChange()

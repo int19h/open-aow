@@ -44,7 +44,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         }
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
-        size = _pitch * height + 7;
+        size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
@@ -256,8 +256,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
@@ -279,8 +279,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 }
                 else
                 {
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
@@ -359,8 +359,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         switch (PixelFormatId)
@@ -398,8 +398,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 }
                 else
                 {
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         switch (PixelFormatId)
@@ -436,10 +436,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
     // ImageLib.pas:4543
     // { ShowTransparent shows the sprite blended 50% }
-    public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
-    {
-        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
-    }
+    public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface) => ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
 
     // ImageLib.pas:4548
     public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
@@ -509,7 +506,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
                 for (int y = top; y <= bottom - 1; y++)
                 {
-                    lSD.View().Bytes(lSD.Pitch * y + mr.Left * 2, _spriteWidth * 2).CopyTo(_buffer.AsSpan((y - mr.Top) * _pitch, _spriteWidth * 2));
+                    lSD.View().Bytes((lSD.Pitch * y) + (mr.Left * 2), _spriteWidth * 2).CopyTo(_buffer.AsSpan((y - mr.Top) * _pitch, _spriteWidth * 2));
                 }
             }
             finally
@@ -529,14 +526,8 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         return result;
     }
 
-    private static void BlendColorKey555(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table)
-    {
-        Blit.BlendColorKey555(source, destination, width, height, colorKey, table);
-    }
+    private static void BlendColorKey555(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table) => Blit.BlendColorKey555(source, destination, width, height, colorKey, table);
 
-    private static void BlendColorKey565(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table)
-    {
-        Blit.BlendColorKey565(source, destination, width, height, colorKey, table);
-    }
+    private static void BlendColorKey565(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table) => Blit.BlendColorKey565(source, destination, width, height, colorKey, table);
 
 }

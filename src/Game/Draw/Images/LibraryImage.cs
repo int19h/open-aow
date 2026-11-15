@@ -101,34 +101,19 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1620
-    public virtual void SetXshift(int value)
-    {
-        _xshift = value;
-    }
+    public virtual void SetXshift(int value) => _xshift = value;
 
     // ImageLib.pas:1625
-    public virtual void SetYshift(int value)
-    {
-        _yshift = value;
-    }
+    public virtual void SetYshift(int value) => _yshift = value;
 
     // ImageLib.pas:1630
-    public virtual void SetWidth(int value)
-    {
-        _width = value;
-    }
+    public virtual void SetWidth(int value) => _width = value;
 
     // ImageLib.pas:1635
-    public virtual void SetHeight(int value)
-    {
-        _height = value;
-    }
+    public virtual void SetHeight(int value) => _height = value;
 
     // ImageLib.pas:1640
-    public virtual void GetVisualDimensions(out Rect R)
-    {
-        R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
-    }
+    public virtual void GetVisualDimensions(out Rect R) => R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
 
     // ImageLib.pas:1702
     public virtual void ReadImageData(Stream stream)
@@ -189,10 +174,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1747
-    public virtual void ReadDiscardableImageData(Stream stream)
-    {
-        _dataLoaded = true;
-    }
+    public virtual void ReadDiscardableImageData(Stream stream) => _dataLoaded = true;
 
     // ImageLib.pas:1752
     public virtual void WriteDiscardableImageData(Stream stream)
@@ -200,10 +182,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1756
-    public virtual void ReleaseDiscardableImageData()
-    {
-        _dataLoaded = false;
-    }
+    public virtual void ReleaseDiscardableImageData() => _dataLoaded = false;
 
     // ImageLib.pas:1761
     public virtual void LoadDiscardableImageData()
@@ -230,7 +209,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     {
         int p;
         p = _dataPosition;
-        _dataPosition = (int)(dataStream.Position);
+        _dataPosition = (int)dataStream.Position;
         WriteImageData(stream);
         _dataPosition = p;
         if (!_dataLoaded)
@@ -280,10 +259,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1985
-    public virtual int RemapToPixelFormat(int pixelFormatId)
-    {
-        throw new NotSupportedException("Surface format not supported");
-    }
+    public virtual int RemapToPixelFormat(int pixelFormatId) => throw new NotSupportedException("Surface format not supported");
 
     // ImageLib.pas:1685
     public virtual void Clear()
@@ -382,7 +358,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         ReadImageData(stream);
         if (_version < 2)
         {
-            _dataPosition = (int)(stream.Position);
+            _dataPosition = (int)stream.Position;
             if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 ReadDiscardableImageData(stream);
@@ -400,7 +376,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             {
                 if (_dataPosition != -1)
                 {
-                    p = (int)(stream.Position);
+                    p = (int)stream.Position;
                     stream.Position = _owner.DataOffset + _dataPosition;
                     ReadDiscardableImageData(stream);
                     stream.Position = p;
@@ -591,26 +567,20 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1648
-    public void GetDimensions(out Rect R)
-    {
-        R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
-    }
+    public void GetDimensions(out Rect R) => R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
 
     // ImageLib.pas:2061
-    public void ShowClipped(int X, int Y, in LockedSurface lockedSurface)
-    {
-        Show(X, Y, lockedSurface);
-    }
+    public void ShowClipped(int X, int Y, in LockedSurface lockedSurface) => Show(X, Y, lockedSurface);
 
     public CustomImageLibrary Owner { get => _owner; set => SetOwner(value); }
 
     protected void SetOwnerWithoutReloadCheck(CustomImageLibrary value) => _owner = value;
 
     public bool DataLoaded { get => _dataLoaded; protected set => _dataLoaded = value; }
-    public int DataPosition { get => _dataPosition; }
+    public int DataPosition => _dataPosition;
     public int DataSize { get => _dataSize; protected set => _dataSize = value; }
     public bool ReloadingEnabled { get => _reloadingEnabled; set => SetReloadingEnabled(value); }
-    public byte Version { get => _version; }
+    public byte Version => _version;
     public LoadMode LoadMode { get => _loadMode; set => SetLoadMode(value); }
 
     protected void SetLoadModeWithoutOverrides(LoadMode value) => _loadMode = value;
@@ -630,9 +600,9 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public string FileName { get => _fileName; set => _fileName = value; }
     public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
     public ShowInfo ShowInfo { get => ShowInfoValue; set => SetDefaultShowInfo(value); }
-    public Palette Palette { get => GetPalette(); }
-    public Palette RemapPalette { get => GetRemapPalette(); }
-    public bool Transparent { get => GetTransparent(); }
+    public Palette Palette => GetPalette();
+    public Palette RemapPalette => GetRemapPalette();
+    public bool Transparent => GetTransparent();
 
     public static void WriteImageToStream(LibraryImage image, Stream stream)
     {

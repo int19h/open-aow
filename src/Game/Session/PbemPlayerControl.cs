@@ -88,7 +88,10 @@ public partial class PbemPlayerControl : TurnPlayerControl
             }
 
             if (!condition)
+            {
                 break;
+            }
+
             i += 1;
         }
 
@@ -128,10 +131,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1184
-    public override void PasswordValidated()
-    {
-        ValidateLoadedMap();
-    }
+    public override void PasswordValidated() => ValidateLoadedMap();
 
     // PlayerC.PAS:1230
     public override void ExitGame(ExitGameMode mode, ExitGameCallBack done)
@@ -225,16 +225,10 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:887
-    public void TerminateEmailGame()
-    {
-        StrategicMap.Current.ExitGame(ExitGameMode.Exit, null);
-    }
+    public void TerminateEmailGame() => StrategicMap.Current.ExitGame(ExitGameMode.Exit, null);
 
     // PlayerC.PAS:890
-    public void TerminateEmailGameCallback(EventLog log)
-    {
-        TerminateEmailGame();
-    }
+    public void TerminateEmailGameCallback(EventLog log) => TerminateEmailGame();
 
     // PlayerC.PAS:893
     public void SendEmailGameAutomatedCallback(EventLog log)
@@ -298,11 +292,9 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:938
-    public void SendEmailGameCallback(EventLog log)
-    {
+    public void SendEmailGameCallback(EventLog log) =>
         /* TODO: Implement Windows.GetTempPath in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // PlayerC.PAS:1018
     public void TriggerGameRestartedEvents(sbyte player)

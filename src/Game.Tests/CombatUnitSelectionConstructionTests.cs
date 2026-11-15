@@ -37,7 +37,11 @@ public sealed class CombatUnitSelectionConstructionTests
             var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
             entry.ImageLibrary = new ImageLibrary(null!);
             var set = GamePack.Current;
-            if (fail == 1) GamePack.Current = null!;
+            if (fail == 1)
+            {
+                GamePack.Current = null!;
+            }
+
             int before = entry.RefCount;
             CombatUnitSelectionControl? value = null;
             string state;

@@ -33,10 +33,7 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:412
-    public void SetLocation(MapCoordinate location)
-    {
-        Location = location;
-    }
+    public void SetLocation(MapCoordinate location) => Location = location;
 
     public void SetLocation(sbyte x, sbyte y, sbyte layer) =>
         SetLocation(new MapCoordinate(x, y, layer));

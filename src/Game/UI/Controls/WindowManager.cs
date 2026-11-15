@@ -108,7 +108,7 @@ public partial class WindowManager : UIComponent
         Rect r = default;
         if (Valid && Visible)
         {
-            if (sender == null || sender != null && sender is WindowControl && Children[index].Priority >= _overlayPriority)
+            if (sender == null || (sender != null && sender is WindowControl && Children[index].Priority >= _overlayPriority))
             {
                 for (int i = index, last = Children.Count - 1; i <= last; i++)
                 {

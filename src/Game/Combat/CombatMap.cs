@@ -294,7 +294,7 @@ public partial class CombatMap : GameMap
         if (!Status.Contains(HexSpriteMapStatusElement.Editting) && Combat != null)
         {
             UpdateCursor();
-            if (EndTurnPending && (StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote || Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote))
+            if (EndTurnPending && ((StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote)))
             {
                 switch (AI.Status)
                 {
@@ -505,10 +505,7 @@ public partial class CombatMap : GameMap
     }
 
     // AoWTC.pas:2348
-    public void DrawMoveRoute(in LockedSurface lockedSurface)
-    {
-        UnitSelection.ShowMovePaths(lockedSurface);
-    }
+    public void DrawMoveRoute(in LockedSurface lockedSurface) => UnitSelection.ShowMovePaths(lockedSurface);
 
     // AoWTC.pas:2351
     public bool EndTurn(bool automatic)
@@ -654,7 +651,7 @@ public partial class CombatMap : GameMap
     {
         if (!((SeatedPlayer == -1 || StrategicMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
         {
-            Mouse.Cursor = (int)(((uint)Frame) >> 2) % 4 + 6;
+            Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 4) + 6;
         }
         else
         {
@@ -669,7 +666,7 @@ public partial class CombatMap : GameMap
                     Mouse.Cursor = 0;
                     break;
                 case 257:
-                    Mouse.Cursor = (int)(((uint)Frame) >> 2) % 4 + 52;
+                    Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 4) + 52;
                     break;
                 case 258:
                     Mouse.Cursor = (((int)(((uint)Frame) >> 2)) & 1) + 49;

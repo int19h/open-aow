@@ -190,10 +190,7 @@ public partial class LeaderSetupWindow : UIModule
     }
 
     // AoWLeaderSetup.pas:750
-    public void LoadLeader()
-    {
-        Leader.Assign(Setup.OriginalLeader, UI.Engine);
-    }
+    public void LoadLeader() => Leader.Assign(Setup.OriginalLeader, UI.Engine);
 
     // AoWLeaderSetup.pas:755
     public void SaveLeader()
@@ -613,16 +610,10 @@ public partial class LeaderSetupWindow : UIModule
     }
 
     // AoWLeaderSetup.pas:269
-    public void LeaderSetupWinCreate()
-    {
-        Leader = new Leader(null) { Holder = UI.Engine };
-    }
+    public void LeaderSetupWinCreate() => Leader = new Leader(null) { Holder = UI.Engine };
 
     // AoWLeaderSetup.pas:274
-    public void LeaderSetupWinDestroy()
-    {
-        Leader?.Dispose();
-    }
+    public void LeaderSetupWinDestroy() => Leader?.Dispose();
 
     // AoWLeaderSetup.pas:279
     public void AddAbilityClick()
@@ -827,34 +818,19 @@ public partial class LeaderSetupWindow : UIModule
     }
 
     // AoWLeaderSetup.pas:422
-    public void NameEditChange()
-    {
-        Leader.HeroName = NameEdit.Text;
-    }
+    public void NameEditChange() => Leader.HeroName = NameEdit.Text;
 
     // AoWLeaderSetup.pas:427
-    public void SelectedAbilitiesCostChange()
-    {
-        SelectSelectedAbility(SelectedAbilitiesCostList.Selected);
-    }
+    public void SelectedAbilitiesCostChange() => SelectSelectedAbility(SelectedAbilitiesCostList.Selected);
 
     // AoWLeaderSetup.pas:432
-    public void SelectedAbilitiesChange()
-    {
-        SelectSelectedAbility(SelectedAbilitiesList.Selected);
-    }
+    public void SelectedAbilitiesChange() => SelectSelectedAbility(SelectedAbilitiesList.Selected);
 
     // AoWLeaderSetup.pas:437
-    public void AvailableAbilitiesCostChange()
-    {
-        SelectAvailableAbility(AvailableAbilitiesCostList.Selected);
-    }
+    public void AvailableAbilitiesCostChange() => SelectAvailableAbility(AvailableAbilitiesCostList.Selected);
 
     // AoWLeaderSetup.pas:442
-    public void AvailableAbilitiesChange()
-    {
-        SelectAvailableAbility(AvailableAbilitiesList.Selected);
-    }
+    public void AvailableAbilitiesChange() => SelectAvailableAbility(AvailableAbilitiesList.Selected);
 
     // AoWLeaderSetup.pas:447
     public void SelectedAbilitiesLBChange()
@@ -1202,22 +1178,13 @@ public partial class LeaderSetupWindow : UIModule
     }
 
     // AoWLeaderSetup.pas:710
-    public void SBaseClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SBaseClick() => UI.General.PlayButtonSound(0);
 
     // AoWLeaderSetup.pas:715
-    public void SExtraClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SExtraClick() => UI.General.PlayButtonSound(0);
 
     // AoWLeaderSetup.pas:720
-    public void SFinalClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SFinalClick() => UI.General.PlayButtonSound(0);
 
     // AoWLeaderSetup.pas:725
     public void SelectedAbilitiesCostMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)

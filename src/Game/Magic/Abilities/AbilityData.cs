@@ -17,10 +17,7 @@ public partial class AbilityData : EngineObject
     public AbilityData Next { get; set; }
 
     // Ability.PAS:1234
-    public override void PersistFields(IPersister persister)
-    {
-        base.PersistFields(persister);
-    }
+    public override void PersistFields(IPersister persister) => base.PersistFields(persister);
 
     // Ability.PAS:1230
     public virtual int GetAbilityId() => -1;

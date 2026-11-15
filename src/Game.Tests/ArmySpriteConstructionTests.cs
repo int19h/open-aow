@@ -38,6 +38,7 @@ public sealed class ArmySpriteConstructionTests
     {
         var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
         for (int owned = 0; owned < 2; owned++)
+        {
             for (int route = 0; route < 4; route++)
             {
                 using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
@@ -61,6 +62,8 @@ public sealed class ArmySpriteConstructionTests
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
+        }
+
         OrderingRecording.Check("ArmySpriteConstruction", actual);
     }
 

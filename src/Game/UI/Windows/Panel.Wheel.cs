@@ -16,7 +16,11 @@ public partial class Panel
     // A wheel that nobody handles is not consumed, so a book page can still turn.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || !Visible) return false;
+        if (steps == 0 || !Visible)
+        {
+            return false;
+        }
+
         int ownLeft = WinLeft;
         int ownTop = WinTop;
         var absolute = AbsoluteArea();
@@ -29,8 +33,16 @@ public partial class Panel
             }
 
             var child = TopWheelChild(X, Y);
-            if (child != null && child.CheckMouseWheel(steps, shift, X, Y)) return true;
-            if (!PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight)) return false;
+            if (child != null && child.CheckMouseWheel(steps, shift, X, Y))
+            {
+                return true;
+            }
+
+            if (!PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight))
+            {
+                return false;
+            }
+
             return ScrollOwnedBar(steps);
         }
         finally

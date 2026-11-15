@@ -18,10 +18,7 @@ namespace Aow.Game.UI.Controls;
 public partial class TutorialControl : EngineObject
 {
     // AoWHSMap.PAS:1
-    public TutorialControl(CustomNode owner) : base(owner)
-    {
-        _shownMessages = new Int32List();
-    }
+    public TutorialControl(CustomNode owner) : base(owner) => _shownMessages = new Int32List();
 
     private readonly Int32List _shownMessages;
 

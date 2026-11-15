@@ -278,10 +278,7 @@ public partial class MapEvents : UIModule
     }
 
     // aowMapEvents.pas:320
-    public void TheMapGlobalMagicChanged()
-    {
-        GlobalMagicChanged(UI.MagicWindow);
-    }
+    public void TheMapGlobalMagicChanged() => GlobalMagicChanged(UI.MagicWindow);
 
     // aowMapEvents.pas:323
     public void TheMapIncomeChanged(sbyte player)
@@ -456,12 +453,16 @@ public partial class MapEvents : UIModule
     {
         UI.TaskBar.UpdatePlayerIndicator();
         if (StrategicMap.Current != null)
+        {
             if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
+            {
                 if (player == StrategicMap.Current.SeatedPlayer)
                 {
                     /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
                     throw new NotImplementedException();
                 }
+            }
+        }
     }
 
     // aowMapEvents.pas:409
@@ -584,22 +585,13 @@ public partial class MapEvents : UIModule
     }
 
     // aowMapEvents.pas:481
-    public void TheMapItemsDeselected()
-    {
-        HideItemSelection(UI.InfoWindow);
-    }
+    public void TheMapItemsDeselected() => HideItemSelection(UI.InfoWindow);
 
     // aowMapEvents.pas:484
-    public void TheMapItemsSelected(ItemHexSprite items)
-    {
-        ShowItemSelection(UI.InfoWindow, items);
-    }
+    public void TheMapItemsSelected(ItemHexSprite items) => ShowItemSelection(UI.InfoWindow, items);
 
     // aowMapEvents.pas:487
-    public void TheMapTargetSelectionChange(TargetSelectionControl control, TargetSelectionChange change)
-    {
-        ShowTargetSelection(UI.TargetSelectionDialog, control, change);
-    }
+    public void TheMapTargetSelectionChange(TargetSelectionControl control, TargetSelectionChange change) => ShowTargetSelection(UI.TargetSelectionDialog, control, change);
 
     // aowMapEvents.pas:490
     public void TheMapUnitChanged(Troop U)
@@ -653,16 +645,10 @@ public partial class MapEvents : UIModule
     }
 
     // aowMapEvents.pas:512
-    public void TheMapRelationsChanged()
-    {
-        RefreshRelations(UI.RelationWindow);
-    }
+    public void TheMapRelationsChanged() => RefreshRelations(UI.RelationWindow);
 
     // aowMapEvents.pas:515
-    public void TheMapDiplomaticChange()
-    {
-        RefreshRelations(UI.RelationWindow);
-    }
+    public void TheMapDiplomaticChange() => RefreshRelations(UI.RelationWindow);
 
     // aowMapEvents.pas:518
     public void TheMapStructureDoubleClick(Structure structure)
@@ -685,7 +671,9 @@ public partial class MapEvents : UIModule
             UI.General.HideWindows();
             UI.MapWindow.MapViewer.HexSpriteMap = null;
             if (UI.SetupEvents.LobbyGame)
+            {
                 GameHost.MainForm.CloseRequested();
+            }
         }
         catch
         {

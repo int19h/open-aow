@@ -18,19 +18,13 @@ public partial class PluginControl : EngineObject
     private readonly StringList _usedPlugins;
 
     // Engine.pas:9279
-    internal void SetUsedPlugins(StringCollection value)
-    {
-        _usedPlugins.Assign(value);
-    }
+    internal void SetUsedPlugins(StringCollection value) => _usedPlugins.Assign(value);
 
     // Engine.pas:9284
     internal StringCollection GetUsedPlugins() => _usedPlugins;
 
     // Engine.pas:9289
-    internal void OnChange(object sender)
-    {
-        InitializePlugins();
-    }
+    internal void OnChange(object sender) => InitializePlugins();
 
     // Engine.pas:9299. The original looked each name up in the registry of loaded plug-ins and
     // initialized the plug-in for the engine. The game loads one plug-in, the abilities package,

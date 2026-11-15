@@ -67,10 +67,7 @@ public partial class AIGroupTask : EngineObject
     }
 
     // AIGroup.pas:1397
-    public virtual void Deactivate()
-    {
-        Status = Status - Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
-    }
+    public virtual void Deactivate() => Status = Status - Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
 
     // AIGroup.pas:1402
     public virtual bool Process()
@@ -80,10 +77,7 @@ public partial class AIGroupTask : EngineObject
     }
 
     // AIGroup.pas:1378
-    public void Done()
-    {
-        State = -1;
-    }
+    public void Done() => State = -1;
 
     // AIGroup.pas:1408
     public bool MainProcess()

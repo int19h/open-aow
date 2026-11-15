@@ -68,7 +68,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
                         ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
                         if (ice != null)
                         {
-                            ice.DaysRemaining = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
+                            ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                             ice.CasterPlayer = (sbyte)EventPlayerIndex;
                         }
                     }
@@ -90,7 +90,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
                 StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
-            ice.DaysRemaining = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
+            ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
             ice.CasterPlayer = (sbyte)EventPlayerIndex;
         }
     }

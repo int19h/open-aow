@@ -226,7 +226,7 @@ public partial class CombatHex : AbstractHexagon
 
             if (imageIndex != -1)
             {
-                imageIndex = Random(2) * 3 + imageIndex * 6 + (side - 1);
+                imageIndex = (Random(2) * 3) + (imageIndex * 6) + (side - 1);
                 if (((Resource)base.Resource).TransitionLibrary.GetSafe(imageIndex) != null)
                 {
                     _transitions[side - 1] = (byte)imageIndex;

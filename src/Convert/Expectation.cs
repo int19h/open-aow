@@ -21,7 +21,11 @@ public sealed class CensusFacts
         var rows = new List<CensusRow>();
         foreach (var row in census.RootElement.GetProperty("corpus").EnumerateArray())
         {
-            if (row.GetProperty("scope").GetString() != "convert") continue;
+            if (row.GetProperty("scope").GetString() != "convert")
+            {
+                continue;
+            }
+
             rows.Add(new CensusRow(row.GetProperty("identity").GetString()!, row.GetProperty("sourceRoot").GetString()!,
                 row.GetProperty("relativePath").GetString()!, row.GetProperty("profile").GetString()!,
                 row.GetProperty("kind").GetString()!, row.GetProperty("sha256").GetString()!));
@@ -59,25 +63,49 @@ public sealed class Expectation
         var bytes = File.ReadAllBytes(path);
         using var doc = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
         var root = doc.RootElement;
-        if (root.TryGetProperty("corpus", out _)) return (CensusFacts.Read(bytes), null);
+        if (root.TryGetProperty("corpus", out _))
+        {
+            return (CensusFacts.Read(bytes), null);
+        }
+
         if (!root.TryGetProperty("format", out var format) || format.GetString() != "aowconv-check-expectation")
+        {
             throw new ExpectationException("The file is neither a census manifest nor an aowconv check expectation.");
+        }
+
         var reference = root.GetProperty("census");
         string censusPath = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, reference.GetProperty("path").GetString()!);
-        if (!File.Exists(censusPath)) throw new ExpectationException($"The census {censusPath} is missing.");
+        if (!File.Exists(censusPath))
+        {
+            throw new ExpectationException($"The census {censusPath} is missing.");
+        }
+
         var census = CensusFacts.Read(File.ReadAllBytes(censusPath));
         if (census.Sha256 != reference.GetProperty("sha256").GetString())
+        {
             throw new ExpectationException($"The census {censusPath} differs from its pinned SHA-256.");
+        }
+
         var layout = root.GetProperty("layout");
         var categories = new SortedDictionary<string, int>(StringComparer.Ordinal);
-        foreach (var c in layout.GetProperty("categories").EnumerateObject()) categories[c.Name] = c.Value.GetInt32();
+        foreach (var c in layout.GetProperty("categories").EnumerateObject())
+        {
+            categories[c.Name] = c.Value.GetInt32();
+        }
+
         var profiles = new SortedDictionary<string, (int, int)>(StringComparer.Ordinal);
         foreach (var p in layout.GetProperty("profiles").EnumerateObject())
+        {
             profiles[p.Name] = (p.Value.GetProperty("parts").GetInt32(), p.Value.GetProperty("files").GetInt32());
+        }
+
         var rules = new SortedDictionary<string, (int, List<string>)>(StringComparer.Ordinal);
         foreach (var r in root.GetProperty("legacyRules").EnumerateObject())
+        {
             rules[r.Name] = (r.Value.GetProperty("occurrences").GetInt32(),
                 r.Value.GetProperty("files").EnumerateArray().Select(f => f.GetString()!).ToList());
+        }
+
         return (census, new Expectation
         {
             Sha256 = System.Convert.ToHexStringLower(SHA256.HashData(bytes)),
@@ -98,15 +126,24 @@ public sealed class Expectation
         var problems = new List<string>();
         void Check(string what, object pinned, object measured)
         {
-            if (!Equals(pinned, measured)) problems.Add($"{what}: pinned {pinned}, measured {measured}");
+            if (!Equals(pinned, measured))
+            {
+                problems.Add($"{what}: pinned {pinned}, measured {measured}");
+            }
         }
         Check("layout parts", Parts, parts);
         Check("files with residue", Files, files);
         Check("case residues", CaseResidues, caseResidues);
         foreach (var key in Categories.Keys.Union(categories.Keys).Order(StringComparer.Ordinal))
+        {
             Check("category " + key, Categories.GetValueOrDefault(key), categories.GetValueOrDefault(key));
+        }
+
         foreach (var key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
+        {
             Check("profile " + key, Profiles.GetValueOrDefault(key), profiles.GetValueOrDefault(key));
+        }
+
         foreach (var key in LegacyRules.Keys.Union(rules.Keys).Order(StringComparer.Ordinal))
         {
             var pinned = LegacyRules.GetValueOrDefault(key, (0, []));

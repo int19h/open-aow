@@ -167,10 +167,7 @@ public partial class WizardsTower : Structure
     }
 
     // WizardsTower.pas:163
-    public void GenerateSettings()
-    {
-        SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
-    }
+    public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
 
     // WizardsTower.pas:174
     public bool CanEnter(sbyte player)

@@ -27,7 +27,11 @@ internal static class FrameFixtureChecks
         int checks = 0;
         void Check(bool condition, string label)
         {
-            if (!condition) throw new InvalidOperationException(label);
+            if (!condition)
+            {
+                throw new InvalidOperationException(label);
+            }
+
             checks++;
         }
         // The fixture host replays native scripts, so the game writes original names under it.

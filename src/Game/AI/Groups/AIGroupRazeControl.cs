@@ -93,10 +93,7 @@ public partial class AIGroupRazeControl : AIGroupTask
     }
 
     // AGCPlugins.pas:108
-    public void ExecuteRaze(Structure structure)
-    {
-        structure.Raze(_control.Group.Player);
-    }
+    public void ExecuteRaze(Structure structure) => structure.Raze(_control.Group.Player);
 
     // AGCPlugins.pas:111
     public bool ValidateRazeCity(City city, in BattleFieldInfo info)

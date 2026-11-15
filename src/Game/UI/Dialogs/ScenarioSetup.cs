@@ -267,11 +267,9 @@ public partial class ScenarioSetup : UIModule
     }
 
     // AoWScenSetup.pas:281
-    public void ChatEditReturn()
-    {
+    public void ChatEditReturn() =>
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // AoWScenSetup.pas:295
     public void PlayerListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
@@ -362,10 +360,7 @@ public partial class ScenarioSetup : UIModule
     }
 
     // AoWScenSetup.pas:399
-    public void PlayerListChange(ListBox sender)
-    {
-        SelectPlayer(sender.Selected);
-    }
+    public void PlayerListChange(ListBox sender) => SelectPlayer(sender.Selected);
 
     // AoWScenSetup.pas:404
     public void TurnTimeSlChange()
@@ -494,16 +489,10 @@ public partial class ScenarioSetup : UIModule
     }
 
     // AoWScenSetup.pas:468
-    public void AlwaysViewTCCBChange()
-    {
-        SetupControl.SetAlwaysViewTacticalBattle(AlwaysViewTacticalCombatCheckBox.Checked);
-    }
+    public void AlwaysViewTCCBChange() => SetupControl.SetAlwaysViewTacticalBattle(AlwaysViewTacticalCombatCheckBox.Checked);
 
     // AoWScenSetup.pas:473
-    public void SettingsClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SettingsClick() => UI.General.PlayButtonSound(0);
 
     // AoWScenSetup.pas:483
     public void ChatSBUpdate()

@@ -34,7 +34,11 @@ public sealed class OwnershipTests
             Assert.Equal(new IOwned[] { first }, owner.Children.OfType<IOwned>().Where(child => child.Owner == owner));
             Assert.Equal("OwningNodeOwningNodeOwningNode", second.EngineObjectPath);
             var owners = new List<IOwner>();
-            for (var current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner) owners.Add(current);
+            for (var current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner)
+            {
+                owners.Add(current);
+            }
+
             Assert.Equal(new IOwner[] { first, root }, owners);
         }
         finally
@@ -125,7 +129,11 @@ public sealed class OwnershipTests
     {
         var list = new EngineObjectList();
         var items = new[] { new Disposable(), null, new Disposable(), new Disposable() };
-        foreach (var item in items) list.Add(item);
+        foreach (var item in items)
+        {
+            list.Add(item);
+        }
+
         Assert.Equal(list.Capacity, list.Count);
         list.ClearList();
         Assert.Equal(0, list.Count);

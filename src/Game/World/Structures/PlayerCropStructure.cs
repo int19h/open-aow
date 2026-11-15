@@ -195,7 +195,7 @@ public partial class PlayerCropStructure : PlayerStructure
 
             if (result)
             {
-                result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || field.TerrainType == 5 && GetRace() == 11;
+                result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || (field.TerrainType == 5 && GetRace() == 11);
             }
         }
         else
@@ -266,10 +266,7 @@ public partial class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:339
-    public virtual void CropsChanged()
-    {
-        UpdateIncome();
-    }
+    public virtual void CropsChanged() => UpdateIncome();
 
     // Crops.pas:290
     public virtual void CropTrampled(sbyte player)

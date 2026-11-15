@@ -410,29 +410,14 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         return result;
     }
 
-    private static void RemapRle565To555(Span<byte> data, int height, int colorKey)
-    {
-        Blit.RemapRle565To555(data, height, colorKey);
-    }
+    private static void RemapRle565To555(Span<byte> data, int height, int colorKey) => Blit.RemapRle565To555(data, height, colorKey);
 
-    private static void RemapRle555To565(Span<byte> data, int height, int colorKey)
-    {
-        Blit.RemapRle555To565(data, height, colorKey);
-    }
+    private static void RemapRle555To565(Span<byte> data, int height, int colorKey) => Blit.RemapRle555To565(data, height, colorKey);
 
-    private static void BlitRle16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey)
-    {
-        Blit.BlitRle16(X, Y, lockedSurface.View(), data, width, height, colorKey);
-    }
+    private static void BlitRle16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlitRle16(X, Y, lockedSurface.View(), data, width, height, colorKey);
 
-    private static void BlendRle565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey)
-    {
-        Blit.BlendRle565(X, Y, lockedSurface.View(), data, width, height, colorKey);
-    }
+    private static void BlendRle565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlendRle565(X, Y, lockedSurface.View(), data, width, height, colorKey);
 
-    private static void BlendRle555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey)
-    {
-        Blit.BlendRle555(X, Y, lockedSurface.View(), data, width, height, colorKey);
-    }
+    private static void BlendRle555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlendRle555(X, Y, lockedSurface.View(), data, width, height, colorKey);
 
 }

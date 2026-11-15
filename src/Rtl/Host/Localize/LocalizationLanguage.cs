@@ -17,6 +17,7 @@ public static class LocalizationLanguage
     public static int Automatic()
     {
         if (OperatingSystem.IsWindows())
+        {
             return (GetUserDefaultUILanguage() & 0x3ff) switch
             {
                 7 => 2,
@@ -25,9 +26,19 @@ public static class LocalizationLanguage
                 10 => 5,
                 _ => 1
             };
+        }
+
         string? tag = Environment.GetEnvironmentVariable("LC_ALL");
-        if (string.IsNullOrEmpty(tag)) tag = Environment.GetEnvironmentVariable("LC_MESSAGES");
-        if (string.IsNullOrEmpty(tag)) tag = Environment.GetEnvironmentVariable("LANG");
+        if (string.IsNullOrEmpty(tag))
+        {
+            tag = Environment.GetEnvironmentVariable("LC_MESSAGES");
+        }
+
+        if (string.IsNullOrEmpty(tag))
+        {
+            tag = Environment.GetEnvironmentVariable("LANG");
+        }
+
         return FromTag(tag ?? CultureInfo.CurrentUICulture.Name);
     }
 

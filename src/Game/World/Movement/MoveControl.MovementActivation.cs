@@ -10,18 +10,30 @@ public partial class MoveControl
 {
     public void SetMapL(MapLevel level)
     {
-        if (level == MapLevel) return;
+        if (level == MapLevel)
+        {
+            return;
+        }
+
         MapLevel = level;
         for (int parity = 0; parity < 2; parity++)
+        {
             for (int direction = 0; direction < 8; direction++)
+            {
                 _fieldOffsets[parity][direction] = MapLevel.HexNumberOffsets[parity][direction];
+            }
+        }
     }
 
     public bool Activate(MoveControlSettings settings)
     {
         RtlUnit.Assert(!_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
         RtlUnit.Assert(settings.Source.X != -1 && settings.Source.Y != -1 && settings.Source.MapLevel != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
-        if (settings.Status == MoveControlSettingsStatus.Failed) return false;
+        if (settings.Status == MoveControlSettingsStatus.Failed)
+        {
+            return false;
+        }
+
         _status += Set<StatusElement>.Of(StatusElement.Activated);
         Settings = settings;
         Settings.AddRef();
@@ -32,7 +44,10 @@ public partial class MoveControl
             MovePointsLimit = Settings.MovePointsMax;
         }
         else if (Settings.Status is MoveControlSettingsStatus.Processing or MoveControlSettingsStatus.Processed)
+        {
             MovePointsLimit = Settings.MovePointsLimit;
+        }
+
         Settings.EvenOffsets.CopyTo(_pointOffsets[0]);
         Settings.OddOffsets.CopyTo(_pointOffsets[1]);
         Player = Settings.Player;
@@ -53,7 +68,11 @@ public partial class MoveControl
             OnMovePoint = ExploredOnlyMoveOnMovePointProc;
             _exploredMask = MapField.ExploredFlag(Player);
         }
-        else OnMovePoint = DefaultMoveOnMovePointProc;
+        else
+        {
+            OnMovePoint = DefaultMoveOnMovePointProc;
+        }
+
         return true;
     }
 }

@@ -170,11 +170,11 @@ public partial class FileDialogWindow : UIModule
         bool isCampaignSave = DocumentKind.CampaignSave.HasExtension(extension);
         bool isSave = DocumentKind.Save.HasExtension(extension);
         bool includeFile = false;
-        includeFile = includeFile || mode == 1 && campaign && isCampaignSave;
-        includeFile = includeFile || mode == 1 && !campaign && isSave;
-        includeFile = includeFile || mode == 0 && (isSave || isCampaignSave);
+        includeFile = includeFile || (mode == 1 && campaign && isCampaignSave);
+        includeFile = includeFile || (mode == 1 && !campaign && isSave);
+        includeFile = includeFile || (mode == 0 && (isSave || isCampaignSave));
         // { Original accepts .asg in every mode, including map selection. }
-        includeFile = includeFile || mode == 2 && DocumentKind.Map.HasExtension(extension) || isSave;
+        includeFile = includeFile || (mode == 2 && DocumentKind.Map.HasExtension(extension)) || isSave;
         return includeFile;
     }
 
@@ -611,10 +611,7 @@ public partial class FileDialogWindow : UIModule
     }
 
     // AoWFileDialog.pas:511
-    public void SFileNameReturn()
-    {
-        OpenbutClick();
-    }
+    public void SFileNameReturn() => OpenbutClick();
 
     // AoWFileDialog.pas:516
     public void SFileNameChange()
@@ -724,16 +721,10 @@ public partial class FileDialogWindow : UIModule
     }
 
     // AoWFileDialog.pas:570
-    public void SSBarChange()
-    {
-        SaveList.ListOffset = SaveScrollBar.Position;
-    }
+    public void SSBarChange() => SaveList.ListOffset = SaveScrollBar.Position;
 
     // AoWFileDialog.pas:575
-    public void FileDialogHide()
-    {
-        FinishDialog();
-    }
+    public void FileDialogHide() => FinishDialog();
 
     // AoWFileDialog.pas:580
     public void FileDialogKeyDown(ref ushort key, Set<ShiftState> shift)
@@ -862,16 +853,11 @@ public partial class FileDialogWindow : UIModule
         }
     }
 
-    private static void SaveGame(General controller, string name)
-    {
-        StrategicMap.Current.SaveGame(name);
-    }
+    private static void SaveGame(General controller, string name) => StrategicMap.Current.SaveGame(name);
 
-    private static void SaveCampaign(General controller, string name)
-    {
+    private static void SaveCampaign(General controller, string name) =>
         // { Original campaign-save command uses the map save routine. }
         StrategicMap.Current.SaveGame(name);
-    }
 
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
@@ -881,10 +867,7 @@ public partial class FileDialogWindow : UIModule
         dialog.SetupControl.PickMap(name);
     }
 
-    internal static void OpenSelectedGame(FileDialogWindow dialog)
-    {
-        dialog.LoadSelectedGame(dialog.LastFileName);
-    }
+    internal static void OpenSelectedGame(FileDialogWindow dialog) => dialog.LoadSelectedGame(dialog.LastFileName);
 
     internal static void ShowSaveGameEvent(FileDialogWindow dialog, SaveGameEventLog eventValue, ExecuteDoneEvent done)
     {

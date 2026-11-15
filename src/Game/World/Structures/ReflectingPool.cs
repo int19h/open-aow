@@ -13,10 +13,7 @@ namespace Aow.Game.World.Structures;
 // CenterFrame (-1 when inactive)
 public partial class ReflectingPool : PlayerStructure
 {
-    public ReflectingPool(CustomNode owner) : base(owner)
-    {
-        _centerFrame = -1;
-    }
+    public ReflectingPool(CustomNode owner) : base(owner) => _centerFrame = -1;
 
     // ReflectingPool.pas:58
     public new const int ClassId = 132670;
@@ -24,10 +21,7 @@ public partial class ReflectingPool : PlayerStructure
     private int _centerFrame;
 
     // ReflectingPool.pas:80
-    public override void PersistFields(IPersister persister)
-    {
-        base.PersistFields(persister);
-    }
+    public override void PersistFields(IPersister persister) => base.PersistFields(persister);
 
     // ReflectingPool.pas:52
 
@@ -106,7 +100,7 @@ public partial class ReflectingPool : PlayerStructure
     public override int VisibilityRange()
     {
         int result = 8;
-        if (GetHexLevel() != 0 || Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
         {
             result = (int)(((uint)(result + 1)) >> 1);
         }
@@ -314,10 +308,7 @@ public partial class ReflectingPool : PlayerStructure
         }
     }
 
-    internal static int ComparePools(object item1, object item2)
-    {
-        return 0;
-    }
+    internal static int ComparePools(object item1, object item2) => 0;
 
     public new partial class Resource : PlayerStructureResource
     {

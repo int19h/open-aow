@@ -17,10 +17,7 @@ public partial class CombatObstacleOverlay : HexSprite
     public override int GetShowPriority() => (Obstacle.GetShowPriority() & 67108863) + 393216;
 
     // CombatObstacle.pas:89
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
-    {
-        Obstacle.ShowOverlay(pixelXSurface, pixelYSurface, lockedSurface);
-    }
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Obstacle.ShowOverlay(pixelXSurface, pixelYSurface, lockedSurface);
 
     // Engine.pas:524
 

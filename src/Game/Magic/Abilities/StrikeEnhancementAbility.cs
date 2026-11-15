@@ -7,10 +7,7 @@ public partial class StrikeEnhancementAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1475
-    public StrikeEnhancementAbility(CustomNode owner) : base(owner)
-    {
-        AbilityType = AbilityType.Enhancement;
-    }
+    public StrikeEnhancementAbility(CustomNode owner) : base(owner) => AbilityType = AbilityType.Enhancement;
 
     // AoWAb.PAS:1481
     public override bool CanExpand(AbilityOwner owner)

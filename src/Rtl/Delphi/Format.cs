@@ -14,7 +14,11 @@ public static partial class RtlUnit
         for (int i = 0; i < text.Length; i++)
         {
             if (text[i] != '%') { result.Append(text[i]); continue; }
-            if (++i >= text.Length) break;
+            if (++i >= text.Length)
+            {
+                break;
+            }
+
             if (text[i] == '%') { result.Append('%'); continue; }
             int start = i;
             int width;
@@ -22,19 +26,43 @@ public static partial class RtlUnit
             // FormatBuf's A0 loop permits another index after each colon.
             while (true)
             {
-                if (i >= text.Length) return result.ToString();
+                if (i >= text.Length)
+                {
+                    return result.ToString();
+                }
+
                 left = text[i] == '-';
-                if (left) i++;
+                if (left)
+                {
+                    i++;
+                }
+
                 width = ReadNumber(text, ref i, args, ref next);
-                if (i >= text.Length) return result.ToString();
-                if (text[i] != ':') break;
+                if (i >= text.Length)
+                {
+                    return result.ToString();
+                }
+
+                if (text[i] != ':')
+                {
+                    break;
+                }
+
                 next = width;
                 i++;
             }
             int precision = -1;
             if (i < text.Length && text[i] == '.') { i++; precision = ReadNumber(text, ref i, args, ref next); }
-            if (i >= text.Length) break;
-            if (next < 0 || next >= args.Length) throw new FormatException("Missing format argument");
+            if (i >= text.Length)
+            {
+                break;
+            }
+
+            if (next < 0 || next >= args.Length)
+            {
+                throw new FormatException("Missing format argument");
+            }
+
             char conversion = UpCase(text[i]);
             string output = args[next++] switch
             {
@@ -54,12 +82,19 @@ public static partial class RtlUnit
         if (position < text.Length && text[position] == '*')
         {
             position++;
-            if (next < 0 || next >= args.Length) return 0;
+            if (next < 0 || next >= args.Length)
+            {
+                return 0;
+            }
+
             return args[next++] is int value ? value : 0;
         }
         int number = 0;
         while (position < text.Length && char.IsAsciiDigit(text[position]))
-            number = unchecked(number * 10 + text[position++] - '0');
+        {
+            number = unchecked((number * 10) + text[position++] - '0');
+        }
+
         return number;
     }
 
@@ -68,7 +103,10 @@ public static partial class RtlUnit
         string output = conversion == 'D' ? value.ToString(CultureInfo.InvariantCulture)
             : unchecked((uint)value).ToString(conversion == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
         if (precision > 0 && precision < 16)
+        {
             output = output.StartsWith('-') ? "-" + output[1..].PadLeft(precision, '0') : output.PadLeft(precision, '0');
+        }
+
         return output;
     }
 

@@ -43,10 +43,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     }
 
     // AIGroup.pas:919
-    public void SortOnMovePoints()
-    {
-        _list.SortChildren<AIGroupProductionLocation>(CompareMovePoints);
-    }
+    public void SortOnMovePoints() => _list.SortChildren<AIGroupProductionLocation>(CompareMovePoints);
 
     // AIGroup.pas:934
     public int IndexOfPC(ProductionControl control)
@@ -82,8 +79,5 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
         return result;
     }
 
-    private static int CompareMovePoints(AIGroupProductionLocation item1, AIGroupProductionLocation item2)
-    {
-        return item2.MovePoints - item1.MovePoints;
-    }
+    private static int CompareMovePoints(AIGroupProductionLocation item1, AIGroupProductionLocation item2) => item2.MovePoints - item1.MovePoints;
 }

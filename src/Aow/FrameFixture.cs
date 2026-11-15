@@ -45,18 +45,28 @@ internal sealed class FrameFixture
         bool tactical = fixture._values.GetValueOrDefault("action") == "tactical";
         var clicks = fixture.Clicks();
         int frame = frameLimit ?? int.Parse(fixture.Get("frame"), CultureInfo.InvariantCulture);
-        if (frame < 1) throw new ArgumentOutOfRangeException(nameof(frameLimit));
+        if (frame < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(frameLimit));
+        }
+
         int[] checkpoints = fixture._values.TryGetValue("checkpoints", out string? checkpointText) ? JsonSerializer.Deserialize<int[]>(checkpointText)! : [];
         if (checkpoints.Length > 30 || checkpoints.Any(f => f < 1 || f >= frame) ||
-            !checkpoints.SequenceEqual(checkpoints.Distinct().Order()) || checkpoints.Length > 0 && !afterCombatCapture)
+            !checkpoints.SequenceEqual(checkpoints.Distinct().Order()) || (checkpoints.Length > 0 && !afterCombatCapture))
+        {
             throw new InvalidDataException("Checkpoints require sorted earlier frames on the after-combat clock");
+        }
+
         var capturedCheckpoints = new HashSet<int>();
         Snapshot[] snapshots = fixture._values.TryGetValue("snapshots", out string? snapshotText)
             ? JsonSerializer.Deserialize<Snapshot[]>(Regex.Replace(snapshotText, @"(\w+)\s*=", "\"$1\":"), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })! : [];
         if (snapshots.Length > 8 || snapshots.Any(s => !Regex.IsMatch(s.Name, "^[a-z0-9-]+$") || s.Day < 1 || s.Frame < 1 ||
             !clicks.Any(c => c.Clock == "day" && c.Day == s.Day && c.At == s.Frame)) ||
-            snapshots.Select(s => s.Name).Distinct().Count() != snapshots.Length || snapshots.Length > 0 && checkpoints.Length > 0)
+            snapshots.Select(s => s.Name).Distinct().Count() != snapshots.Length || (snapshots.Length > 0 && checkpoints.Length > 0))
+        {
             throw new InvalidDataException("Snapshots require distinct safe names and matching day-clock inputs");
+        }
+
         var capturedSnapshots = new HashSet<string>();
         Snapshot? pendingSnapshot = null;
         var size = fixture.Pair("size");
@@ -75,11 +85,17 @@ internal sealed class FrameFixture
         {
             string directory = Path.Combine(output, "user", saveDirectory);
             if (Directory.Exists(directory))
+            {
                 foreach (string saved in Directory.EnumerateFiles(directory))
                 {
-                    if (Path.GetFileName(saved) != "roundtrip.asg") throw new InvalidDataException("Unexpected fixture save product " + saved);
+                    if (Path.GetFileName(saved) != "roundtrip.asg")
+                    {
+                        throw new InvalidDataException("Unexpected fixture save product " + saved);
+                    }
+
                     File.Delete(saved);
                 }
+            }
         }
         var host = new FixtureHost(gameRoot, Path.Combine(output, "user"), fixture._settings, new FixtureClock(now), saveDirectory);
         RtlUnit.InstallHost(host);
@@ -98,7 +114,11 @@ internal sealed class FrameFixture
         if (scene != "title")
         {
             input = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "..", "..", "tools", "oracle", "obj", "frames", "inputs", scene + ".asg");
-            if (!File.Exists(input)) throw new FileNotFoundException("Prepared fixture input missing", input);
+            if (!File.Exists(input))
+            {
+                throw new FileNotFoundException("Prepared fixture input missing", input);
+            }
+
             File.Copy(input, Path.Combine(output, "user", scene + ".asg"), true);
             argument = Path.Combine(gameRoot, scene + ".asg");
         }
@@ -111,7 +131,11 @@ internal sealed class FrameFixture
         int lastCombatWorldFrame = 0;
         void ObserveDay()
         {
-            if (StrategicMap.Current is not null) titleOrigin = display.Frame;
+            if (StrategicMap.Current is not null)
+            {
+                titleOrigin = display.Frame;
+            }
+
             if (StrategicMap.Current?.CombatMap is not null)
             {
                 sawCombat = true;
@@ -144,10 +168,17 @@ internal sealed class FrameFixture
         {
             using MainForm form = MainForm.Create(display, argument);
             if (saveDirectory is not null)
+            {
                 form.UI.FileDialogWindow.Directory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
+            }
+
             FrameFixtureInputs.TacticalInitialized = () =>
             {
-                if (StrategicMap.Current?.CombatMap is not CombatMap combat) return;
+                if (StrategicMap.Current?.CombatMap is not CombatMap combat)
+                {
+                    return;
+                }
+
                 combat.PlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
                 form.UI.ChatWindow.MinClick();
@@ -156,7 +187,11 @@ internal sealed class FrameFixture
             bool AtTarget()
             {
                 ObserveDay();
-                if (applied != clicks.Count) return false;
+                if (applied != clicks.Count)
+                {
+                    return false;
+                }
+
                 return afterCombatCapture ? AfterCombatFrame() == frame :
                 combatCapture ? StrategicMap.Current?.CombatMap?.Frame == frame :
                 titleCapture ? StrategicMap.Current is null && display.Frame - titleOrigin == frame :
@@ -200,6 +235,7 @@ internal sealed class FrameFixture
                     pendingSnapshot = null;
                 }
                 if (display.Frame % 100 == 0)
+                {
                     File.WriteAllText(Path.Combine(output, "progress.json"), JsonSerializer.Serialize(new
                     {
                         presentation = display.Frame,
@@ -209,18 +245,35 @@ internal sealed class FrameFixture
                         seat = StrategicMap.Current?.SeatedPlayer,
                         combat_frame = StrategicMap.Current?.CombatMap?.Frame
                     }) + "\n");
+                }
+
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
                 if (applied < clicks.Count)
                 {
                     var click = clicks[applied];
                     long scriptFrame = ScriptFrame(click);
-                    if (scriptFrame > click.At) throw new InvalidOperationException("Missed scripted frame " + click.At);
+                    if (scriptFrame > click.At)
+                    {
+                        throw new InvalidOperationException("Missed scripted frame " + click.At);
+                    }
+
                     if (scriptFrame == click.At)
                     {
                         if (saveDirectory is not null)
+                        {
                             foreach (string saved in Directory.EnumerateFiles(Path.Combine(output, "user", saveDirectory)))
-                                if (fileStampUtc is DateTime stamp) File.SetLastWriteTimeUtc(saved, stamp);
-                                else File.SetLastWriteTime(saved, now);
+                            {
+                                if (fileStampUtc is DateTime stamp)
+                                {
+                                    File.SetLastWriteTimeUtc(saved, stamp);
+                                }
+                                else
+                                {
+                                    File.SetLastWriteTime(saved, now);
+                                }
+                            }
+                        }
+
                         var manager = form.UI.General.Manager;
                         int inputX = click.X, inputY = click.Y;
                         if (click.Hex is int hex && click.Hy is int hy)
@@ -229,10 +282,18 @@ internal sealed class FrameFixture
                             HexGeometry.HexToPixel(hex, hy, out inputX, out inputY);
                             inputX += 28 + mapWindow.MainWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MainWindow.WinTop - mapWindow.MapViewer.SceneY;
-                            if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hex},{hy} is outside the map view at {inputX},{inputY}");
+                            if (!mapWindow.InsideMap(inputX, inputY))
+                            {
+                                throw new InvalidOperationException($"Script hex {hex},{hy} is outside the map view at {inputX},{inputY}");
+                            }
                         }
                         if (click.KeyDown is int keyDown)
-                            for (int i = 0; i < click.Repeat; i++) form.KeyDown((ushort)keyDown, default);
+                        {
+                            for (int i = 0; i < click.Repeat; i++)
+                            {
+                                form.KeyDown((ushort)keyDown, default);
+                            }
+                        }
                         else if (click.Key is int key) { byte character = (byte)key; manager.CheckKeyPress(ref character); }
                         else
                         {
@@ -243,7 +304,11 @@ internal sealed class FrameFixture
                                 manager.CheckMouseUp((MouseButton)click.Button, default, inputX, inputY);
                             }
                         }
-                        if (click.Double || click.DoubleUI) form.DoubleClick();
+                        if (click.Double || click.DoubleUI)
+                        {
+                            form.DoubleClick();
+                        }
+
                         script.WriteLine(JsonSerializer.Serialize(new
                         {
                             script_frame = scriptFrame,
@@ -264,14 +329,37 @@ internal sealed class FrameFixture
                         applied++;
                     }
                 }
-                if (display.Frame >= 10000) throw new TimeoutException("Fixture target not reached");
+                if (display.Frame >= 10000)
+                {
+                    throw new TimeoutException("Fixture target not reached");
+                }
             };
             form.Run(scene == "title" && !worldCapture && !dayCapture ? frame : 0);
-            if (scene == "title" && !worldCapture && !dayCapture) complete = display.Frame == frame;
-            if (!complete || applied != clicks.Count) throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
-            if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
-            if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name))) throw new InvalidOperationException("Fixture missed a state snapshot");
-            if (fixture._values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts, ui: form.UI);
+            if (scene == "title" && !worldCapture && !dayCapture)
+            {
+                complete = display.Frame == frame;
+            }
+
+            if (!complete || applied != clicks.Count)
+            {
+                throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
+            }
+
+            if (!capturedCheckpoints.SetEquals(checkpoints))
+            {
+                throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
+            }
+
+            if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name)))
+            {
+                throw new InvalidOperationException("Fixture missed a state snapshot");
+            }
+
+            if (fixture._values.GetValueOrDefault("language_checks") == "true")
+            {
+                LocalizationFrameChecks.Run(gameRoot, output, form.Layouts, ui: form.UI);
+            }
+
             TaskBar taskbar = form.UI.TaskBar;
             var controls = form.UI.ControlWindow;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text }) + "\n");
@@ -316,8 +404,12 @@ internal sealed class FrameFixture
                         var player = world.Players.GetPlayers(playerIndex);
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.Gems });
                         for (int index = 0; index < player.Structures.GetCount(); index++)
+                        {
                             if (player.Structures.GetStructure(index) is City city)
+                            {
                                 cities.Add(new { name = city.Name, player = playerIndex, wall = city.WallType, upgrade = city.UpgradeLevel });
+                            }
+                        }
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
                     {
@@ -335,6 +427,7 @@ internal sealed class FrameFixture
                 var units = new List<object>();
                 var data = combatMap.Combat.CombatData;
                 for (int i = 0; i < data.GetCount(); i++)
+                {
                     if (data.GetObjects(i) is TacticalBattleUnit unit && unit.UnitHexSprite is { } sprite)
                     {
                         int x = 0, y = 0;
@@ -353,6 +446,8 @@ internal sealed class FrameFixture
                             screen_y = y - viewer.SceneY + 12
                         });
                     }
+                }
+
                 File.WriteAllText(Path.Combine(output, "combat.json"), JsonSerializer.Serialize(new
                 {
                     FRound = combatMap.Round,
@@ -378,12 +473,21 @@ internal sealed class FrameFixture
                     saveName = "paths-world.asg";
                     form.UI.Engine.SaveHsm(form.UI.Engine.StartupDirectory + "Save\\" + saveName, null!, GameProfile.WorldMap);
                 }
-                else map.PlayerControl.AutoSave();
+                else
+                {
+                    map.PlayerControl.AutoSave();
+                }
+
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);
             }
             if (fixture._values.TryGetValue("saved_files", out string? savedFiles))
+            {
                 foreach (string saved in JsonSerializer.Deserialize<string[]>(savedFiles)!)
+                {
                     File.Copy(Path.Combine(output, "user", saved), Path.Combine(output, "saved-" + Path.GetFileName(saved)), true);
+                }
+            }
+
             File.WriteAllText(Path.Combine(output, "taskbar.json"), JsonSerializer.Serialize(
                 new[] { taskbar.WorldGoldTotalLabel, taskbar.WorldGoldIncomeLabel, taskbar.WorldManaTotalLabel, taskbar.WorldManaIncomeLabel, taskbar.CombatGoldTotalLabel, taskbar.CombatGoldIncomeLabel, taskbar.CombatManaTotalLabel, taskbar.CombatManaIncomeLabel }
                     .Select(c => new
@@ -456,17 +560,32 @@ internal sealed class FrameFixture
         foreach (string raw in File.ReadLines(path))
         {
             string line = raw.Trim();
-            if (line.Length == 0 || line.StartsWith('#')) continue;
+            if (line.Length == 0 || line.StartsWith('#'))
+            {
+                continue;
+            }
+
             if (line == "[[fixture]]") { section = "fixture"; current = new(StringComparer.Ordinal); fixtures.Add(current); continue; }
             if (line.StartsWith('[')) { section = line.Trim('[', ']'); continue; }
             int equals = line.IndexOf('=');
-            if (equals < 0) throw new InvalidDataException("Invalid fixture line: " + line);
+            if (equals < 0)
+            {
+                throw new InvalidDataException("Invalid fixture line: " + line);
+            }
+
             string key = line[..equals].Trim().Trim('"');
             string value = line[(equals + 1)..].Trim();
-            if (section == "defaults") result._defaults.Add(key, value.StartsWith('"') ? JsonSerializer.Deserialize<string>(value)! : value);
+            if (section == "defaults")
+            {
+                result._defaults.Add(key, value.StartsWith('"') ? JsonSerializer.Deserialize<string>(value)! : value);
+            }
             else if (section == "file_clock")
             {
-                if (key != "local_time") throw new InvalidDataException("Unknown file clock field " + key);
+                if (key != "local_time")
+                {
+                    throw new InvalidDataException("Unknown file clock field " + key);
+                }
+
                 result._fileLocalTime = JsonSerializer.Deserialize<string>(value)!;
             }
             else if (section.StartsWith("registry.", StringComparison.Ordinal))
@@ -474,11 +593,20 @@ internal sealed class FrameFixture
                 int integer = int.Parse(value, CultureInfo.InvariantCulture);
                 result._settings.Add(@"\Software\Triumph Studios\Age of Wonders\" + section[9..] + "\\" + key, s_booleans.Contains(key) ? integer != 0 : integer);
             }
-            else if (section == "fixture") current!.Add(key, value.StartsWith('"') ? JsonSerializer.Deserialize<string>(value)! : value);
-            else throw new InvalidDataException("Unknown fixture section " + section);
+            else if (section == "fixture")
+            {
+                current!.Add(key, value.StartsWith('"') ? JsonSerializer.Deserialize<string>(value)! : value);
+            }
+            else
+            {
+                throw new InvalidDataException("Unknown fixture section " + section);
+            }
         }
         var match = fixtures.SingleOrDefault(f => f.GetValueOrDefault("name") == name) ?? throw new InvalidDataException("Unknown fixture " + name);
-        foreach (var item in match) result._values.Add(item.Key, item.Value);
+        foreach (var item in match)
+        {
+            result._values.Add(item.Key, item.Value);
+        }
 
         return result;
     }
@@ -487,7 +615,11 @@ internal sealed class FrameFixture
 
     private List<Click> Clicks()
     {
-        if (!_values.TryGetValue("clicks", out string? text)) return [];
+        if (!_values.TryGetValue("clicks", out string? text))
+        {
+            return [];
+        }
+
         using var document = JsonDocument.Parse(Regex.Replace(text, @"(\w+)\s*=", "\"$1\":"));
         return document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
             c.TryGetProperty("x", out var x) ? x.GetInt32() : 0, c.TryGetProperty("y", out var y) ? y.GetInt32() : 0,
@@ -509,10 +641,17 @@ internal sealed class FrameFixture
         public FixtureHost(string root, string user, Dictionary<string, object> settings, IClock clock, string? saveDirectory)
         {
             GameRoot = Path.GetFullPath(root);
-            if (saveDirectory is not null) Directory.CreateDirectory(Path.Combine(user, saveDirectory));
+            if (saveDirectory is not null)
+            {
+                Directory.CreateDirectory(Path.Combine(user, saveDirectory));
+            }
+
             Files = new LayeredFileSystem(GameRoot, user, saveDirectory is null ? [] : [saveDirectory]);
             Clock = clock;
-            foreach (var item in settings) Settings.Write(item.Key, item.Value);
+            foreach (var item in settings)
+            {
+                Settings.Write(item.Key, item.Value);
+            }
         }
 
         public IFileSystem Files { get; }

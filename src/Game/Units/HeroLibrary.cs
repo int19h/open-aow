@@ -124,16 +124,10 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
     }
 
     // Hero.PAS:2633
-    public void LoadFromFile(string fileName)
-    {
-        GetEngine().ReadFromFile(fileName, this, null, GameProfile.HeroList);
-    }
+    public void LoadFromFile(string fileName) => GetEngine().ReadFromFile(fileName, this, null, GameProfile.HeroList);
 
     // Hero.PAS:2636
-    public void SaveToFile(string fileName)
-    {
-        GetEngine().WriteToFile(fileName, this, null, GameProfile.HeroList);
-    }
+    public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.HeroList);
 
     // Engine.pas:631
 

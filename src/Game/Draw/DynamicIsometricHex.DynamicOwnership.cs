@@ -27,8 +27,8 @@ public partial class DynamicIsometricHex
 
     public override int GetShowPriority()
     {
-        int x = Field.HexX * 32 + 8;
-        int y = (Field.HexX & 1) * 16 + Field.HexY * 32;
+        int x = (Field.HexX * 32) + 8;
+        int y = ((Field.HexX & 1) * 16) + (Field.HexY * 32);
         return (GetLevel() << 26) + ((y + 32) << 13) + x + 8;
     }
 
@@ -38,7 +38,11 @@ public partial class DynamicIsometricHex
     {
         if (_hex != null)
         {
-            if (_hex.GetVisible()) Field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
+            if (_hex.GetVisible())
+            {
+                Field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
+            }
+
             Field.RemoveHexSprite(this);
             _hex.Dynamic = null;
             _hex = null;

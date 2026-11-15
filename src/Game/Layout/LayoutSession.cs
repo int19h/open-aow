@@ -22,7 +22,10 @@ public sealed class LayoutSession
 
     public void Begin(Component root)
     {
-        if (_modules.Values.Contains(root)) throw new InvalidOperationException("Layout already initialized");
+        if (_modules.Values.Contains(root))
+        {
+            throw new InvalidOperationException("Layout already initialized");
+        }
         // FileName setters read image headers during loading. The registry must exist before
         // the first resource component is built, including callers that load one module.
         Startup.InitializeSelected(["ImageLib"]);
@@ -62,27 +65,51 @@ public sealed class LayoutSession
 
     public void Defer<T>(string module, Action<T> apply) where T : Component
     {
-        if (_modules.TryGetValue(module, out var ready)) apply((T)ready);
-        else _pending.Add(new(module, component => apply((T)component)));
+        if (_modules.TryGetValue(module, out var ready))
+        {
+            apply((T)ready);
+        }
+        else
+        {
+            _pending.Add(new(module, component => apply((T)component)));
+        }
     }
 
     public void Resolve(Component root)
     {
-        if (!_modules.TryAdd(root.Name, root)) throw new InvalidOperationException("Duplicate module " + root.Name);
+        if (!_modules.TryAdd(root.Name, root))
+        {
+            throw new InvalidOperationException("Duplicate module " + root.Name);
+        }
+
         for (int i = 0; i < _pending.Count;)
         {
             var fixup = _pending[i];
             if (_modules.TryGetValue(fixup.Module, out var module)) { fixup.Apply(module); _pending.RemoveAt(i); }
-            else i++;
+            else
+            {
+                i++;
+            }
         }
     }
 
     public void Complete()
     {
-        if (_pending.Count != 0) throw new InvalidOperationException($"{_pending.Count} unresolved references, first module {_pending[0].Module}");
+        if (_pending.Count != 0)
+        {
+            throw new InvalidOperationException($"{_pending.Count} unresolved references, first module {_pending[0].Module}");
+        }
+
         foreach (var module in _modules.Values)
+        {
             for (int index = 0; index < module.ComponentCount; index++)
-                if (module.Components[index] is IvCustomTranslator translator) translator.Translate();
+            {
+                if (module.Components[index] is IvCustomTranslator translator)
+                {
+                    translator.Translate();
+                }
+            }
+        }
     }
 
     public static void ReadImageData(CustomImageLibrary library, byte[] data)

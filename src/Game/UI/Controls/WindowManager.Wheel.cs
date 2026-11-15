@@ -10,12 +10,24 @@ public partial class WindowManager
     // A window under it does not, including when the upper window handles nothing.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int x, int y)
     {
-        if (steps == 0) return false;
+        if (steps == 0)
+        {
+            return false;
+        }
+
         for (int i = Children.Count - 1; i >= 0; i--)
         {
             var c = Children[i];
-            if (c.Priority < _overlayPriority || !c.Visible) continue;
-            if (!c.ContainsPoint(x, y)) continue;
+            if (c.Priority < _overlayPriority || !c.Visible)
+            {
+                continue;
+            }
+
+            if (!c.ContainsPoint(x, y))
+            {
+                continue;
+            }
+
             c.CheckMouseWheel(steps, shift, x, y);
             return true;
         }

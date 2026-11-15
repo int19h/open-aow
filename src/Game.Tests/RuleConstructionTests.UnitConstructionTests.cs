@@ -26,7 +26,11 @@ public sealed partial class RuleConstructionTests
         {
             var troop = (Troop)child;
             Events.Add($"insert:{troop.RefCount}:{troop.UnitId}:{troop.GroupId}");
-            if (reject) return -1;
+            if (reject)
+            {
+                return -1;
+            }
+
             Members.Add(child);
             return Members.Count - 1;
         }
@@ -37,7 +41,11 @@ public sealed partial class RuleConstructionTests
     private static Troop CreateUnit(Type type, CustomNode owner, int route)
     {
         var meta = EngineClass.Of(type);
-        if (route == 1) return (Troop)meta.CreateInstance(owner, holder: EngineFixture.Engine);
+        if (route == 1)
+        {
+            return (Troop)meta.CreateInstance(owner, holder: EngineFixture.Engine);
+        }
+
         if (route == 2)
         {
             using GameEngine engine = new GameEngine(null!);
@@ -48,7 +56,10 @@ public sealed partial class RuleConstructionTests
             return (Troop)engine.CreateEngineObject(meta.ClassId, owner);
         }
         if (route == 3)
+        {
             return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+        }
+
         var constructor = EngineClassCreation.OwnerConstructor(type)!;
         return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
     }
@@ -78,7 +89,11 @@ public sealed partial class RuleConstructionTests
                     string state = Snapshot(value) + "\n" + string.Join("\n", owner.Events);
                     expected ??= state;
                     Assert.Equal(expected, state);
-                    if (route == 0) states.Add(state);
+                    if (route == 0)
+                    {
+                        states.Add(state);
+                    }
+
                     value.Dispose();
                     Assert.Empty(owner.Members);
                 }
@@ -109,9 +124,21 @@ public sealed partial class RuleConstructionTests
             try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
-            if (source is Unit unit) unit.UnitResource = new UnitResource(set.UnitResources);
-            if (source is Hero hero) hero.Experience = 1;
-            if (source is HypotheticalUnit adjustable) adjustable.SetAbilityCount(0);
+            if (source is Unit unit)
+            {
+                unit.UnitResource = new UnitResource(set.UnitResources);
+            }
+
+            if (source is Hero hero)
+            {
+                hero.Experience = 1;
+            }
+
+            if (source is HypotheticalUnit adjustable)
+            {
+                adjustable.SetAbilityCount(0);
+            }
+
             ((Troop)source).UnitId = 317;
             ((Troop)source).GroupId = 29;
             engine.StoreEngineObject(memory, objectValue: source, progress: null);

@@ -15,10 +15,7 @@ public partial class CombatParty : EngineObject
     public new const int ClassId = 131746;
 
     // Combat2.pas:37
-    public CombatParty(CustomNode owner) : base(owner)
-    {
-        Army = new Army(null) { Holder = CreationHolder() };
-    }
+    public CombatParty(CustomNode owner) : base(owner) => Army = new Army(null) { Holder = CreationHolder() };
 
     public Army Army { get; }
 

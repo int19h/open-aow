@@ -8,8 +8,14 @@ public sealed class StringBufferTests
 {
     private static void Read(int shape, ref string text, Stream stream)
     {
-        if (shape == 0) GameEngine.StringFromStream(ref text, stream);
-        else LibraryDrawing.ReadStringFromStream(ref text, stream);
+        if (shape == 0)
+        {
+            GameEngine.StringFromStream(ref text, stream);
+        }
+        else
+        {
+            LibraryDrawing.ReadStringFromStream(ref text, stream);
+        }
     }
 
     private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
@@ -71,8 +77,16 @@ public sealed class StringBufferTests
 
         public override int Read(Span<byte> buffer)
         {
-            if (Position < BodyPosition) return base.Read(buffer);
-            if (!buffer.IsEmpty) buffer[0] = 0x80;
+            if (Position < BodyPosition)
+            {
+                return base.Read(buffer);
+            }
+
+            if (!buffer.IsEmpty)
+            {
+                buffer[0] = 0x80;
+            }
+
             throw new IOException("body failure");
         }
     }

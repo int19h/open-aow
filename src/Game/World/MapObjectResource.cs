@@ -145,10 +145,7 @@ public partial class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:465
-    public override void SetCellImage(LibraryImage value)
-    {
-        _imageLibrary.SetImage(0, value);
-    }
+    public override void SetCellImage(LibraryImage value) => _imageLibrary.SetImage(0, value);
 
     // MAPOBJ.PAS:525
     public override EngineObject CreateResourceUser()
@@ -235,10 +232,7 @@ public partial class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:545
-    public virtual void CalculateShowPriorityOffset(int dX, int dY, int level)
-    {
-        _showPriorityOffset = dX + ((level << 26) + (dY << 13));
-    }
+    public virtual void CalculateShowPriorityOffset(int dX, int dY, int level) => _showPriorityOffset = dX + (level << 26) + (dY << 13);
 
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
@@ -326,20 +320,17 @@ public partial class MapObjectResource : EngineResource
         }
     }
 
-    public GameEngine Engine { get => _engine; }
+    public GameEngine Engine => _engine;
     public int ShowPriorityOffset { get => _showPriorityOffset; set => _showPriorityOffset = value; }
-    public ImageLibrary ImageLibrary { get => _imageLibrary; }
+    public ImageLibrary ImageLibrary => _imageLibrary;
     public ImageSequenceList ImageSequenceList { get => _imageSequenceList; set => _imageSequenceList = value; }
-    public TerrainList TerrainList { get => _terrainList; }
+    public TerrainList TerrainList => _terrainList;
     public byte Level { get => _level; set => SetLevel(value); }
     public string Name { get => _name; set => _name = value; }
 
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle)
-    {
-        throw new NotImplementedException();
-    }
+    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle) => throw new NotImplementedException();
 
 }

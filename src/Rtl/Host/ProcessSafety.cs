@@ -9,7 +9,10 @@ public static class ProcessSafety
     [ModuleInitializer]
     public static void Initialize()
     {
-        if (OperatingSystem.IsWindows()) SetErrorMode(0x8003);
+        if (OperatingSystem.IsWindows())
+        {
+            SetErrorMode(0x8003);
+        }
     }
 
 #pragma warning restore CA2255

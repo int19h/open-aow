@@ -126,7 +126,7 @@ public partial class CityProductionControl : ProductionControl
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
         var unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         var size = City.GetSize();
-        int result = unitResource.Level - size / 2 + 1;
+        int result = unitResource.Level - (size / 2) + 1;
         if (result < 1)
         {
             result = 1;

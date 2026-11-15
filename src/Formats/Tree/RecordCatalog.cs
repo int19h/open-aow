@@ -26,7 +26,11 @@ internal sealed partial class RecordTypeInfo
         get
         {
             int n = 0;
-            foreach (var (_, length) in Residue) n += length;
+            foreach (var (_, length) in Residue)
+            {
+                n += length;
+            }
+
             return n;
         }
     }
@@ -49,7 +53,9 @@ internal sealed class DictionaryRecordCatalog : IRecordCatalog
         {
             var info = RecordTypeInfo.Describe(type);
             if (!_types.TryAdd(info.Name, info))
+            {
                 throw new InvalidOperationException("The record " + info.Name + " is registered twice.");
+            }
         }
     }
 
@@ -72,7 +78,10 @@ public static class RecordCatalog
     internal static void Register(IRecordCatalog catalog)
     {
         ArgumentNullException.ThrowIfNull(catalog);
-        lock (s_gate) s_catalogs.Add(catalog);
+        lock (s_gate)
+        {
+            s_catalogs.Add(catalog);
+        }
     }
 
     public static void RegisterReflection(Assembly assembly)
@@ -80,7 +89,11 @@ public static class RecordCatalog
         ArgumentNullException.ThrowIfNull(assembly);
         lock (s_gate)
         {
-            if (!s_assemblies.Add(assembly)) return;
+            if (!s_assemblies.Add(assembly))
+            {
+                return;
+            }
+
             s_catalogs.Add(new ReflectionRecordCatalog(assembly));
         }
     }
@@ -90,9 +103,17 @@ public static class RecordCatalog
         lock (s_gate)
         {
             var found = Lookup(typeName);
-            if (found is not null) return found;
+            if (found is not null)
+            {
+                return found;
+            }
+
             var resolved = NameTable.ResolveStored(typeName);
-            if (resolved is null || resolved == typeName) return null;
+            if (resolved is null || resolved == typeName)
+            {
+                return null;
+            }
+
             return Lookup(resolved);
         }
     }
@@ -102,9 +123,16 @@ public static class RecordCatalog
         RecordTypeInfo? found = null;
         foreach (var catalog in s_catalogs)
         {
-            if (!catalog.TryGet(typeName, out var type)) continue;
+            if (!catalog.TryGet(typeName, out var type))
+            {
+                continue;
+            }
+
             if (found is not null)
+            {
                 throw new InvalidOperationException("The record " + typeName + " is registered twice.");
+            }
+
             found = type;
         }
         return found;
@@ -133,8 +161,16 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
         }
         foreach (var type in found)
         {
-            if (type is null || !type.IsValueType || type.IsEnum || type.IsGenericType) continue;
-            if (type.GetCustomAttribute<StoredRecordAttribute>() is not { } binding) continue;
+            if (type is null || !type.IsValueType || type.IsEnum || type.IsGenericType)
+            {
+                continue;
+            }
+
+            if (type.GetCustomAttribute<StoredRecordAttribute>() is not { } binding)
+            {
+                continue;
+            }
+
             string stored = binding.Name;
             if (!_types.TryGetValue(stored, out var list))
             {
@@ -147,14 +183,21 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
 
     public bool TryGet(string typeName, out RecordTypeInfo type)
     {
-        if (_described.TryGetValue(typeName, out type!)) return true;
+        if (_described.TryGetValue(typeName, out type!))
+        {
+            return true;
+        }
+
         if (!_types.TryGetValue(typeName, out var list))
         {
             type = null!;
             return false;
         }
         if (list.Count != 1)
+        {
             throw new InvalidOperationException("The record " + typeName + " is declared " + list.Count + " times.");
+        }
+
         type = RecordTypeInfo.Describe(list[0]);
         _described.Add(typeName, type);
         return true;
@@ -170,7 +213,10 @@ internal sealed partial class RecordTypeInfo
     {
         var layout = type.StructLayoutAttribute;
         if (type is not { IsValueType: true, IsEnum: false } || layout is null || layout.Value != LayoutKind.Explicit || layout.Size <= 0)
+        {
             throw new InvalidOperationException(type.Name + " is not an explicit record.");
+        }
+
         int size = layout.Size;
         var raw = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
             .Select(field => (Field: field, Offset: field.GetCustomAttribute<FieldOffsetAttribute>()))
@@ -181,7 +227,11 @@ internal sealed partial class RecordTypeInfo
         var residue = new List<(int Offset, int Length)>();
         foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
-            if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>)) continue;
+            if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>))
+            {
+                continue;
+            }
+
             var image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "Image").Field
                 ?? throw new InvalidOperationException(type.Name + "." + property.Name + " has no image field.");
             consumed.Add(image);
@@ -189,7 +239,10 @@ internal sealed partial class RecordTypeInfo
             int fieldSize = FieldSize(image);
             int storage = SetStorage(property.PropertyType);
             if (storage != fieldSize)
+            {
                 throw new InvalidOperationException(type.Name + "." + property.Name + " stores " + storage + " bytes in a " + fieldSize + " byte field.");
+            }
+
             var element = property.PropertyType.GetGenericArguments()[0];
             named.Add(new SetRecordField
             {
@@ -203,7 +256,11 @@ internal sealed partial class RecordTypeInfo
         }
         foreach (var (field, offset) in raw)
         {
-            if (consumed.Contains(field)) continue;
+            if (consumed.Contains(field))
+            {
+                continue;
+            }
+
             int at = offset!.Value;
             int fieldSize = FieldSize(field);
             if (field.Name == "Reserved")
@@ -217,23 +274,41 @@ internal sealed partial class RecordTypeInfo
         void Cover(int offset, int length, string name)
         {
             if (offset < 0 || length < 0 || offset + length > size)
+            {
                 throw new InvalidOperationException(type.Name + "." + name + " does not fit the record.");
+            }
+
             for (int i = 0; i < length; i++)
             {
                 if (cover[offset + i])
+                {
                     throw new InvalidOperationException(type.Name + " covers byte " + (offset + i) + " twice.");
+                }
+
                 cover[offset + i] = true;
             }
         }
         // A record stores each byte once (own-formats.md 2.3): a field that overlaps another is refused.
         named.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
-        foreach (var field in named) Cover(field.Offset, field.Size, field.Name);
-        foreach (var (offset, length) in residue) Cover(offset, length, "Reserved");
+        foreach (var field in named)
+        {
+            Cover(field.Offset, field.Size, field.Name);
+        }
+
+        foreach (var (offset, length) in residue)
+        {
+            Cover(offset, length, "Reserved");
+        }
+
         int gap = -1;
         for (int i = 0; i <= size; i++)
         {
             bool open = i < size && !cover[i];
-            if (open && gap < 0) gap = i;
+            if (open && gap < 0)
+            {
+                gap = i;
+            }
+
             if (!open && gap >= 0)
             {
                 residue.Add((gap, i - gap));
@@ -279,9 +354,13 @@ internal sealed partial class RecordTypeInfo
             };
         }
         if (field.FieldType == typeof(bool))
+        {
             return new BooleanRecordField { Name = field.Name, Offset = offset, Size = size };
+        }
+
         var nested = field.FieldType.StructLayoutAttribute;
         if (nested is { Value: LayoutKind.Explicit, Size: > 0 })
+        {
             return new NestedRecordField
             {
                 Name = field.Name,
@@ -290,6 +369,8 @@ internal sealed partial class RecordTypeInfo
                 ElementType = StoredName(field.FieldType),
                 ElementColor = field.FieldType,
             };
+        }
+
         var (integerWidth, integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);
         return new IntegerRecordField
         {
@@ -303,12 +384,36 @@ internal sealed partial class RecordTypeInfo
 
     private static (int Width, bool Signed) IntegerLayout(Type type, string name)
     {
-        if (type == typeof(byte)) return (1, false);
-        if (type == typeof(sbyte)) return (1, true);
-        if (type == typeof(ushort)) return (2, false);
-        if (type == typeof(short)) return (2, true);
-        if (type == typeof(uint)) return (4, false);
-        if (type == typeof(int)) return (4, true);
+        if (type == typeof(byte))
+        {
+            return (1, false);
+        }
+
+        if (type == typeof(sbyte))
+        {
+            return (1, true);
+        }
+
+        if (type == typeof(ushort))
+        {
+            return (2, false);
+        }
+
+        if (type == typeof(short))
+        {
+            return (2, true);
+        }
+
+        if (type == typeof(uint))
+        {
+            return (4, false);
+        }
+
+        if (type == typeof(int))
+        {
+            return (4, true);
+        }
+
         throw new InvalidOperationException(name + " is not an integer field.");
     }
 
@@ -325,8 +430,16 @@ internal sealed partial class RecordTypeInfo
                 : throw new InvalidOperationException(field.Name + " is not an integer array.");
             return inline.Length * width;
         }
-        if (field.FieldType.IsEnum) return EnumTypeInfo.Layout(field.FieldType).Width;
-        if (field.FieldType == typeof(bool)) return 1;
+        if (field.FieldType.IsEnum)
+        {
+            return EnumTypeInfo.Layout(field.FieldType).Width;
+        }
+
+        if (field.FieldType == typeof(bool))
+        {
+            return 1;
+        }
+
         return Marshal.SizeOf(field.FieldType);
     }
 

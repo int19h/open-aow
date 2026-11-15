@@ -57,10 +57,7 @@ public sealed class RelationBandTests
 
         public UIContext UI { get; } = new(EngineFixture.Engine);
 
-        public void Dispose()
-        {
-            AudioHost.SoundSystem = previousSound;
-        }
+        public void Dispose() => AudioHost.SoundSystem = previousSound;
     }
 
     private static RecordingRelWindow CreateWindow(UIContext ui)

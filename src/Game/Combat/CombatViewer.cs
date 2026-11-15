@@ -140,16 +140,10 @@ public partial class CombatViewer : IDisposable
     }
 
     // Combat2.pas:629
-    public void Play()
-    {
-        Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Playing) - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
-    }
+    public void Play() => Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Playing) - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
 
     // Combat2.pas:632
-    public void Pause()
-    {
-        Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
-    }
+    public void Pause() => Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
 
     // Combat2.pas:635
     public void Update()
@@ -178,7 +172,10 @@ public partial class CombatViewer : IDisposable
                 }
 
                 if (!(condition && !playing))
+                {
                     break;
+                }
+
                 Time += 1;
                 playing = Logbook.Actions.GetCombatActions(Position - 1).Play(this);
                 if (!playing)

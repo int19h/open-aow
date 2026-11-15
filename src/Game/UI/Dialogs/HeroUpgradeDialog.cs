@@ -137,10 +137,7 @@ public partial class HeroUpgradeDialog : UIModule
     }
 
     // AoWHeroUpgradeDlg.pas:252
-    public void RefreshStatistics()
-    {
-        UpdateStatistics();
-    }
+    public void RefreshStatistics() => UpdateStatistics();
 
     // AoWHeroUpgradeDlg.pas:242
     public void SortSelected()
@@ -404,16 +401,10 @@ public partial class HeroUpgradeDialog : UIModule
     }
 
     // AoWHeroUpgradeDlg.pas:413
-    public void SelectedAbilitiesChange()
-    {
-        SetSelectedIndex(SelectedAbilitiesList.Selected);
-    }
+    public void SelectedAbilitiesChange() => SetSelectedIndex(SelectedAbilitiesList.Selected);
 
     // AoWHeroUpgradeDlg.pas:418
-    public void SelectedAbilitiesCostChange()
-    {
-        SetSelectedIndex(SelectedAbilitiesCostList.Selected);
-    }
+    public void SelectedAbilitiesCostChange() => SetSelectedIndex(SelectedAbilitiesCostList.Selected);
 
     // AoWHeroUpgradeDlg.pas:423
     public void SelectedAbilitiesSBChange()
@@ -423,16 +414,10 @@ public partial class HeroUpgradeDialog : UIModule
     }
 
     // AoWHeroUpgradeDlg.pas:429
-    public void AvailableAbilitiesChange()
-    {
-        SetAvailableIndex(AvailableAbilitiesList.Selected);
-    }
+    public void AvailableAbilitiesChange() => SetAvailableIndex(AvailableAbilitiesList.Selected);
 
     // AoWHeroUpgradeDlg.pas:434
-    public void AvailableAbilitiesCostChange()
-    {
-        SetAvailableIndex(AvailableAbilitiesCostList.Selected);
-    }
+    public void AvailableAbilitiesCostChange() => SetAvailableIndex(AvailableAbilitiesCostList.Selected);
 
     // AoWHeroUpgradeDlg.pas:439
     public void AvailableAbilitiesSBChange()
@@ -577,10 +562,7 @@ public partial class HeroUpgradeDialog : UIModule
     }
 
     // AoWHeroUpgradeDlg.pas:539
-    public void DlgHide()
-    {
-        ClearHero();
-    }
+    public void DlgHide() => ClearHero();
 
     // AoWHeroUpgradeDlg.pas:544
     public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)

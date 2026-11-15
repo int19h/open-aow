@@ -102,10 +102,7 @@ public partial class PyreScreen : UIModule
     }
 
     // AOWPyreScrn.pas:51
-    public void DeadPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        FinishScreen();
-    }
+    public void DeadPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => FinishScreen();
 
     // AOWPyreScrn.pas:54
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
@@ -146,7 +143,7 @@ public partial class PyreScreen : UIModule
         int frame;
         string text;
         x = PyreAnimationView.WinWidth / 2;
-        y = PyreAnimationView.WinHeight + 20 - _animationFrame / 2;
+        y = PyreAnimationView.WinHeight + 20 - (_animationFrame / 2);
         if (y < 400)
         {
             y = 400;
@@ -219,9 +216,9 @@ public partial class PyreScreen : UIModule
 
         for (int i = 0; i <= 11; i++)
         {
-            (window.Controls[i]).Visible = i < window.Players.Count;
+            window.Controls[i].Visible = i < window.Players.Count;
             bool condition = i < window.Players.Count && window.Players[i] == StrategicMap.Current.SeatedPlayer;
-            (window.Controls[i]).Checked = condition;
+            window.Controls[i].Checked = condition;
         }
 
         if (window.UI.Engine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)

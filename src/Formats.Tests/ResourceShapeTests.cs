@@ -152,7 +152,10 @@ public sealed class ResourceShapeTests : FormatsTest
         Assert.Equal(SequencesText, Compact(value));
         Assert.Equal(bytes, Encode("MapObjectResource", "ImageSequenceList", value));
         foreach (var (className, property) in new[] { ("Ability", "ImageSequences"), ("GamePack", "ImageSequences"), ("Spell", "CastImages"), ("UnitGraphicsResource", "Sequences") })
+        {
             Assert.Equal(bytes, Encode(className, property, Decode(className, property, bytes)));
+        }
+
         Assert.Equal("[]", Compact(Decode("MapObjectResource", "ImageSequenceList", [0, 0, 0, 0])));
     }
 
@@ -420,7 +423,10 @@ public sealed class ResourceShapeTests : FormatsTest
     {
         public AbilitySlots(int[]? slots = null)
         {
-            foreach (int slot in slots ?? [0, 3]) Abilities[slot] = new Ability();
+            foreach (int slot in slots ?? [0, 3])
+            {
+                Abilities[slot] = new Ability();
+            }
         }
 
         public Dictionary<int, Ability> Abilities { get; } = [];
@@ -428,7 +434,10 @@ public sealed class ResourceShapeTests : FormatsTest
         public void Persist(IPersister persister)
         {
             foreach (var (slot, ability) in Abilities.OrderBy(pair => pair.Key))
+            {
                 persister.ObjectSlot("Abilities", slot: slot, objectValue: ability);
+            }
+
             persister.Skip("Abilities");
         }
 

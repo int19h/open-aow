@@ -36,6 +36,7 @@ public sealed class GraphicsConstructionTests
         var descriptor = LibraryImageClass.Of(type);
         Assert.Equal(type, descriptor.Type);
         foreach (var construct in new[] { direct, create })
+        {
             foreach (var suppliedOwner in new CustomImageLibrary[] { null!, owner })
             {
                 var image = construct(suppliedOwner);
@@ -51,11 +52,16 @@ public sealed class GraphicsConstructionTests
                 Assert.Equal(type.Name.StartsWith("Transparent", StringComparison.Ordinal) ? ShowMode.Transparent : ShowMode.Opaque, image.ShowInfo.ShowMode);
                 Assert.Equal(0, image.Width);
                 Assert.Equal(0, image.Height);
-                if (image is ImageNode) Assert.Equal("(multi images)", image.FileName);
+                if (image is ImageNode)
+                {
+                    Assert.Equal("(multi images)", image.FileName);
+                }
+
                 Assert.Equal(0, owner.Count);
                 Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "_paletteManager")!, "Palettes")!);
                 image.Dispose();
             }
+        }
     }
 
     public static IEnumerable<object[]> Components()
@@ -155,7 +161,10 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(blends, "_list"));
         var lookup = new LookupBlendTableCollection100();
         Assert.NotNull(Field(lookup, "_tables"));
-        foreach (var value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup }) ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        foreach (var value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup })
+        {
+            ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        }
     }
 
     public static IEnumerable<object[]> Surfaces()
@@ -252,7 +261,11 @@ public sealed class GraphicsConstructionTests
     public void FastLoadStreamUsesOneReadOnlyManagedFile()
     {
         string directory = AppContext.BaseDirectory;
-        while (!File.Exists(Path.Combine(directory, "OpenAow.slnx"))) directory = Path.GetDirectoryName(directory)!;
+        while (!File.Exists(Path.Combine(directory, "OpenAow.slnx")))
+        {
+            directory = Path.GetDirectoryName(directory)!;
+        }
+
         string path = Path.Combine(directory, "AGENTS.md");
         var stream = new FastLoadFileStream(path);
         Span<byte> bytes = stackalloc byte[6];
@@ -296,7 +309,7 @@ public sealed class GraphicsConstructionTests
         public int SeenDerivedValue { get; private set; }
         public int SeenPosition { get; private set; }
 
-        internal ObservedImage(CustomImageLibrary owner) : base(owner) { DerivedValue = 77; }
+        internal ObservedImage(CustomImageLibrary owner) : base(owner) => DerivedValue = 77;
 
         public override void SetOwner(CustomImageLibrary owner)
         {

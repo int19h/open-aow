@@ -11,9 +11,17 @@ public sealed class ReferenceList(string member, ReferenceDomain domain) : Conte
 
     public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path)
     {
-        if (value[member] is not JsonObject list || list["items"] is not JsonArray items) yield break;
+        if (value[member] is not JsonObject list || list["items"] is not JsonArray items)
+        {
+            yield break;
+        }
+
         for (int i = 0; i < items.Items.Count; i++)
+        {
             if (items.Items[i] is JsonInteger target && !scope.Identities(domain).Contains(target.Value))
+            {
                 yield return Reference.Dangling(scope, target, path.Member(member).Member("items").Item(i), domain);
+            }
+        }
     }
 }

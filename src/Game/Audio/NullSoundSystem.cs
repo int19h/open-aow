@@ -29,7 +29,10 @@ public sealed class NullSoundSystem : SoundSystem
 
     protected internal override void Process()
     {
-        for (int i = AudioHost.SampleList.Count - 1; i >= 0; i--) (AudioHost.SampleList[i]).Update();
+        for (int i = AudioHost.SampleList.Count - 1; i >= 0; i--)
+        {
+            AudioHost.SampleList[i].Update();
+        }
     }
 
     protected internal override int GetMusicVolume() => _musicVolume;

@@ -21,7 +21,7 @@ public partial class StructureConstructionControl : ConstructionControl
     { }
 
     // Structur.PAS:3195
-    public override bool CanConstruct(Troop troop, ref string reason) => ValidateLocation(troop, ref reason) && (base.CanConstruct(troop, ref reason) && StructureResource(troop) != null);
+    public override bool CanConstruct(Troop troop, ref string reason) => ValidateLocation(troop, ref reason) && base.CanConstruct(troop, ref reason) && StructureResource(troop) != null;
 
     // Structur.PAS:3201
     public override bool Construct(Troop troop)

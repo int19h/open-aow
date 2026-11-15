@@ -94,10 +94,7 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
     }
 
     // HSEngine.pas:1587
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // HSEngine.pas:1592
     public override void Assign(Persistent source)
@@ -263,11 +260,8 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
 
     public TItem this[int index] { get => Get(index); set => Put(index, value); }
 
-    public TItem[] List { get => _list; }
+    public TItem[] List => _list;
 
     // HSEngine.pas:1640
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
 }

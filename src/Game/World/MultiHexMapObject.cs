@@ -270,8 +270,11 @@ public partial class MultiHexMapObject : MapObject
         {
             var terrainCount = GetTerrainCount();
             if (!(walk.HexNumber < terrainCount))
+            {
                 break;
-            if (GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            }
+
+            if (GetTerrain(walk.HexNumber) >= 0 || (GetOverlay(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height))
             {
                 // { Original skips bounds for terrain. }
                 mapLevel.GetField(walk.X, walk.Y).Sort();
@@ -400,7 +403,7 @@ public partial class MultiHexMapObject : MapObject
         HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count)
         {
-            if (GetTerrain(walk.HexNumber) >= 0 || GetOverlay(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
+            if (GetTerrain(walk.HexNumber) >= 0 || (GetOverlay(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height))
             {
                 // { Original skips bounds for terrain. }
                 mapLevel.GetField(walk.X, walk.Y).TerrainChanged();

@@ -323,10 +323,7 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:560
-    public override void Select()
-    {
-        Status = (byte)(Status | 4);
-    }
+    public override void Select() => Status = (byte)(Status | 4);
 
     // UnitHS.PAS:562
     public override void Unselect()
@@ -355,7 +352,7 @@ public partial class UnitHexSprite : HexSprite
         }
 
         hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-        _showPriority = 1744830464 + ((y + 34 + 6) << 13) + (x + 16);
+        _showPriority = 1744830464 + ((y + 34 + 6) << 13) + x + 16;
         if (hexSprite != this && hexSprite != null && hexSprite.GetShowPriority() >= _showPriority)
         {
             _showPriority = hexSprite.GetShowPriority() + 2;
@@ -398,10 +395,7 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:659
-    public virtual void UpdateFlagId()
-    {
-        FlagId = 32;
-    }
+    public virtual void UpdateFlagId() => FlagId = 32;
 
     // UnitHS.PAS:910
     public virtual sbyte MoveFirst(int direction, bool instant)
@@ -554,7 +548,7 @@ public partial class UnitHexSprite : HexSprite
     {
         if (value >= 0)
         {
-            MoveStep = (sbyte)((GetMoveSteps() * value + 50) / 100);
+            MoveStep = (sbyte)(((GetMoveSteps() * value) + 50) / 100);
             var moveSteps = GetMoveSteps();
             if (MoveStep > moveSteps)
             {
@@ -599,10 +593,7 @@ public partial class UnitHexSprite : HexSprite
     public bool Moving() => MoveStep != -1;
 
     // UnitHS.PAS:960
-    public void PauseMove()
-    {
-        Status = (byte)(Status | 8);
-    }
+    public void PauseMove() => Status = (byte)(Status | 8);
 
     // UnitHS.PAS:964
     public void CancelMove()

@@ -55,8 +55,18 @@ public static class TransportProfile
     internal static int? ReservedId(SchemaProperty property)
     {
         foreach (int imageId in property.ImageIds)
-            if (Reserved(imageId) is int id) return id;
-        if (Reserved(property.DynamicMinimum) is int dynamic) return dynamic;
+        {
+            if (Reserved(imageId) is int id)
+            {
+                return id;
+            }
+        }
+
+        if (Reserved(property.DynamicMinimum) is int dynamic)
+        {
+            return dynamic;
+        }
+
         return null;
     }
 

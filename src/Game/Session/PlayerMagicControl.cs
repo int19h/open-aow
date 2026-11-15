@@ -595,10 +595,7 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2231
-    public void BeginUpdate()
-    {
-        _updateCount += 1;
-    }
+    public void BeginUpdate() => _updateCount += 1;
 
     // Spells.PAS:2233
     public void EndUpdate()
@@ -905,15 +902,25 @@ public partial class PlayerMagicControl : EngineObject
         {
             var enchantment = Enchantments.GetEnchantments(i);
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
+            if (order <= priority)
+            {
+                list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
+            }
         }
         var global = StrategicMap.Current.GlobalMagicControl;
         for (int i = global.Enchantments.GetCount() - 1; i >= 0; i--)
         {
             var enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
-            if (enchantment.PlayerIndex != Player.PlayerIndex) continue;
+            if (enchantment.PlayerIndex != Player.PlayerIndex)
+            {
+                continue;
+            }
+
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
+            if (order <= priority)
+            {
+                list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
+            }
         }
         if (list.Count != 0)
         {
@@ -924,7 +931,9 @@ public partial class PlayerMagicControl : EngineObject
                 var item = list[0];
                 total += item.Upkeep;
                 if (item.Enchantment != null)
+                {
                     ExecuteDispelEnchantment(Enchantments.IndexOfChild(item.Enchantment));
+                }
                 else
                 {
                     var enchantment = item.GlobalEnchantment;

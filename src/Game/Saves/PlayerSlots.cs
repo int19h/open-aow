@@ -14,8 +14,16 @@ public sealed class PlayerSlots : ReferenceDomain
     {
         var slots = new HashSet<long>();
         if (root["Players"] is JsonObject players && players["Children"] is JsonArray children)
+        {
             foreach (var child in children.Items)
-                if (child is JsonObject { } player && player["$slot"] is JsonInteger slot) slots.Add(slot.Value);
+            {
+                if (child is JsonObject { } player && player["$slot"] is JsonInteger slot)
+                {
+                    slots.Add(slot.Value);
+                }
+            }
+        }
+
         return slots;
     }
 }

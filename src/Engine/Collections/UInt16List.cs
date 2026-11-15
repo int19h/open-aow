@@ -109,10 +109,7 @@ public partial class UInt16List : Persistent
     }
 
     // Engine.pas:4261
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // Engine.pas:4266
     public override void Assign(Persistent source)
@@ -421,13 +418,10 @@ public partial class UInt16List : Persistent
 
     public ushort this[int index] { get => Get(index); set => Put(index, value); }
 
-    public ushort[] List { get => _list; }
+    public ushort[] List => _list;
 
     // Engine.pas:4303
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
     private static void QuickSortWord(Span<ushort> sortList, int L, int R, WordSortCompare sCompare)
     {
@@ -471,10 +465,7 @@ public partial class UInt16List : Persistent
         while (number2 < R);
     }
 
-    internal static void FillWord(Span<ushort> buffer, int count, ushort value)
-    {
-        EngineServices.Fill(buffer, count, value);
-    }
+    internal static void FillWord(Span<ushort> buffer, int count, ushort value) => EngineServices.Fill(buffer, count, value);
 
     public delegate int WordSortCompare(ushort Item1, ushort Item2);
 

@@ -25,9 +25,12 @@ public static partial class Fixtures
 
         // CFS levels and raw HSM.
         foreach (int level in new[] { 0, 1, 2, 3 })
+        {
             yield return new("containers", $"CFS level {level}", () =>
                 RoundTrip(Cfs.Wrap(Payload(Game(Map)), level), "world-hsm", "map",
                     d => Object(d["$container"])["level"] is JsonInteger l && l.Value == level ? null : "level lost"));
+        }
+
         yield return new("containers", "raw HSM without the CFS prefix", () =>
             RoundTrip(Payload(Game(Map)), "world-hsm", "map",
                 d => Object(d["$container"])["compression"] is JsonString { Value: "none" } ? null : "raw HSM became CFS"));
@@ -66,11 +69,14 @@ public static partial class Fixtures
             ("inside the HSM header", n => 10), ("after the header", n => 16), ("inside the outer table", n => 17),
             ("inside the root table", n => 20), ("a third into the payload", n => n / 3), ("one byte short", n => n - 1),
         })
+        {
             yield return new("truncation", name, () =>
             {
                 var payload = Payload(Game(Map));
                 return ExpectAny(() => Import(payload[..cut(payload.Length)], "world-hsm", "map"));
             });
+        }
+
         yield return new("truncation", "a hero list cut inside a string", () =>
         {
             var file = Game(HeroList);
@@ -160,12 +166,15 @@ public static partial class Fixtures
             ("CR line ends", () => new JsonObject().Add("$text", new JsonString("a\rb\r"))),
             ("no final line end", () => new JsonObject().Add("$text", new JsonString("a\r\nb"))),
         })
+        {
             yield return new("strings", "rwStrings " + name, () =>
             {
                 var d = MapDocument();
                 Set(Root(d), "Objectives", value());
                 return OwnRoundTrip(d);
             });
+        }
+
         yield return new("strings", "rwStringsEx signed object values", () =>
         {
             var d = Import(Game(ScenarioSet), "scenario-set", "scenario-set");
@@ -186,6 +195,7 @@ public static partial class Fixtures
         // Floating point bits. From version 5 a single that a number carries exactly is that number,
         // and only negative zero, the infinities and NaN keep $bits.
         foreach (var (bits, number) in new[] { ("00000080", null), ("0000807f", null), ("000080ff", null), ("0100c07f", null), ("ffffffff", null), ("0000803f", "1"), ("cdcccc3d", "0.1"), ("acc52737", "1e-5") })
+        {
             yield return new("floats", "$bits " + bits, () =>
             {
                 var d = MapDocument();
@@ -201,10 +211,14 @@ public static partial class Fixtures
                         _ => null,
                     };
                     if (number is null)
+                    {
                         return stored is JsonObject objectValue && objectValue["$bits"] is JsonString { } s && s.Value == bits ? null : "the bits changed";
+                    }
+
                     return text == number ? null : "the number is " + (text ?? stored?.KindName) + ", not " + number;
                 });
             });
+        }
 
         // Slots, families and dimensions.
         yield return new("identity", "deleting a child slot keeps the other slots", () =>
@@ -361,15 +375,23 @@ public static partial class Fixtures
                 d => GameFiles.Write(d).AsSpan().IndexOf("UnknownProperty12"u8) >= 0 ? null : "the legacy shape is missing"));
 
         // Case mappings of the production and diplomatic kinds.
-        foreach (var kindCase in KindCases()) yield return kindCase;
+        foreach (var kindCase in KindCases())
+        {
+            yield return kindCase;
+        }
     }
 
     private static JsonArray FirstFields(JsonObject document)
     {
         var root = Root(document);
         foreach (var child in Arr(root["Children"]).Items)
+        {
             if (Object(child)["$class"] is JsonString { Value: "MapContainer" })
+            {
                 return Arr(Object(Arr(Object(child)["Children"]).Items[0])["Fields"]);
+            }
+        }
+
         throw new InvalidOperationException("No map container.");
     }
 
@@ -384,7 +406,10 @@ public static partial class Fixtures
             }
             catch (ConversionException error)
             {
-                if (Located(error.Diagnostic) is string problem) return Fail(problem);
+                if (Located(error.Diagnostic) is string problem)
+                {
+                    return Fail(problem);
+                }
             }
         }
         return Pass("every input failed with a located diagnostic");
@@ -393,14 +418,22 @@ public static partial class Fixtures
     private static byte[] Gzip(byte[] data)
     {
         using var output = new MemoryStream();
-        using (var gz = new GZipStream(output, CompressionLevel.Fastest, true)) gz.Write(data);
+        using (var gz = new GZipStream(output, CompressionLevel.Fastest, true))
+        {
+            gz.Write(data);
+        }
+
         return output.ToArray();
     }
 
     private static Outcome NonemptyItemList()
     {
         var items = Arr(Object(Root(MapDocument())["ItemControl"])["Items"]);
-        if (items.Items.Count == 0) return Fail("the map has no items");
+        if (items.Items.Count == 0)
+        {
+            return Fail("the map has no items");
+        }
+
         var children = new JsonArray();
         for (int k = 0; k < items.Items.Count; k++)
         {
@@ -434,7 +467,11 @@ public static partial class Fixtures
     {
         var campaign = CampaignWithMap(out var mapFile);
         var exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
-        if (exported.Bytes.AsSpan().IndexOf(mapFile) < 0) return Fail("the exact compressed map bytes are not in the export");
+        if (exported.Bytes.AsSpan().IndexOf(mapFile) < 0)
+        {
+            return Fail("the exact compressed map bytes are not in the export");
+        }
+
         var result = RoundTrip(exported.Bytes, "campaign", "campaign-save",
             d => GameFiles.Write(d).AsSpan().IndexOf("nested-compression"u8) >= 0 ? null : "no nested compression part");
         return result.Matched ? Pass("exact nested CFS bytes, " + result.Detail, result.OwnDocuments) : result;
@@ -446,10 +483,22 @@ public static partial class Fixtures
         var map = Object(Root(campaign)["Map"]);
         Set(Object(map["root"]), "Day", new JsonInteger(42));
         var exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
-        if (exported.Invalidated.Count == 0) return Fail("the stale nested bytes were not reported");
-        if (exported.Bytes.AsSpan().IndexOf(mapFile) >= 0) return Fail("the stale nested bytes were reused");
+        if (exported.Invalidated.Count == 0)
+        {
+            return Fail("the stale nested bytes were not reported");
+        }
+
+        if (exported.Bytes.AsSpan().IndexOf(mapFile) >= 0)
+        {
+            return Fail("the stale nested bytes were reused");
+        }
+
         var day = Object(Object(Root(Import(exported.Bytes, "campaign", "campaign-save"))["Map"])["root"])["Day"];
-        if (day is not JsonInteger { Value: 42 }) return Fail("the edit was lost");
+        if (day is not JsonInteger { Value: 42 })
+        {
+            return Fail("the edit was lost");
+        }
+
         return RoundTrip(exported.Bytes, "campaign", "campaign-save");
     }
 
@@ -468,12 +517,28 @@ public static partial class Fixtures
         var top = Walk(payload, BinaryPrimitives.ReadInt32LittleEndian(payload));
         var props = Walk(payload, top[0].Start);
         int Int32(int id) => BinaryPrimitives.ReadInt32LittleEndian(payload.AsSpan(props[id].Start, 4));
-        if (Int32(28) != 0x1234567) return Fail("DefendersSeed did not reach id 28");
-        if (Int32(19) != 13) return Fail("Day did not reach id 19");
-        if (props[7].End - props[7].Start != 7 || payload[props[7].Start] != 6) return Fail("Author did not reach id 7");
+        if (Int32(28) != 0x1234567)
+        {
+            return Fail("DefendersSeed did not reach id 28");
+        }
+
+        if (Int32(19) != 13)
+        {
+            return Fail("Day did not reach id 19");
+        }
+
+        if (props[7].End - props[7].Start != 7 || payload[props[7].Start] != 6)
+        {
+            return Fail("Author did not reach id 7");
+        }
+
         var players = Walk(payload, props[21].Start);
         var children = Walk(payload, players[1].Start);
-        if (!children.ContainsKey(0) || !children.ContainsKey(1)) return Fail("player slots 0 and 1 are not child ids 0 and 1");
+        if (!children.ContainsKey(0) || !children.ContainsKey(1))
+        {
+            return Fail("player slots 0 and 1 are not child ids 0 and 1");
+        }
+
         return Pass("ids 28, 19, 7 and the child slots hold the edited values");
     }
 
@@ -488,9 +553,16 @@ public static partial class Fixtures
             at += 4;
         }
         var entries = new List<(int Id, int Offset)>();
-        for (int i = 0; i < shorts; i++, at += 2) entries.Add((data[at], data[at + 1]));
+        for (int i = 0; i < shorts; i++, at += 2)
+        {
+            entries.Add((data[at], data[at + 1]));
+        }
+
         for (int i = 0; i < longs; i++, at += 8)
+        {
             entries.Add((BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at)), BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at + 4))));
+        }
+
         var offsets = entries.Select(e => e.Offset).Distinct().Order().ToList();
         var result = new Dictionary<int, (int, int)>();
         foreach (var (id, offset) in entries)

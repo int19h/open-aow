@@ -25,7 +25,11 @@ public sealed class OwnExtensionNameTests : IDisposable
     public OwnExtensionNameTests()
     {
         Runtime.WritesOwnExtensions = true;
-        foreach (var name in new[] { "Save", "User", "EmailIn" }) Directory.CreateDirectory(Path.Combine(_directory, "root", name));
+        foreach (var name in new[] { "Save", "User", "EmailIn" })
+        {
+            Directory.CreateDirectory(Path.Combine(_directory, "root", name));
+        }
+
         Directory.CreateDirectory(Path.Combine(_directory, "user"));
         Install();
         FileBoundary.Log = _log.Add;

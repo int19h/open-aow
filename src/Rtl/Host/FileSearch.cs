@@ -14,11 +14,19 @@ public static class FileSearch
     {
         path = path.Replace('/', '\\');
         string directory = RtlUnit.ExtractFilePath(path);
-        if (directory.Length == 0) directory = files.CurrentDirectory;
+        if (directory.Length == 0)
+        {
+            directory = files.CurrentDirectory;
+        }
+
         string pattern = RtlUnit.ExtractFileName(path);
         try
         {
-            if (!files.DirectoryExists(directory)) return [];
+            if (!files.DirectoryExists(directory))
+            {
+                return [];
+            }
+
             var all = files.Enumerate(directory).ToList();
             all.Add(new(Name: ".", Size: 0, Attribute: RtlUnit.faDirectory, Modified: RtlUnit.Clock.Now));
             all.Add(new(Name: "..", Size: 0, Attribute: RtlUnit.faDirectory, Modified: RtlUnit.Clock.Now));

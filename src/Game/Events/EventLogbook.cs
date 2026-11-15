@@ -37,10 +37,7 @@ public partial class EventLogbook : EngineObject
     }
 
     // EventLog.pas:526
-    public EventLogbook(CustomNode owner) : base(owner)
-    {
-        _events = new EventLogList(null) { Holder = CreationHolder() };
-    }
+    public EventLogbook(CustomNode owner) : base(owner) => _events = new EventLogList(null) { Holder = CreationHolder() };
 
     // EventLog.pas:535
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -138,9 +135,6 @@ public partial class EventLogbook : EngineObject
     }
 
     // EventLog.pas:710
-    public void RemoveEvent(EventLog eventValue)
-    {
-        _events.RemoveChild(eventValue);
-    }
+    public void RemoveEvent(EventLog eventValue) => _events.RemoveChild(eventValue);
 
 }

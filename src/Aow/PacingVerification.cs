@@ -34,21 +34,39 @@ internal static class PacingVerification
             display.ActivateDisplayController(controller);
             display.SetUpdate((_, _, _) =>
             {
-                if (times.Count == 300) clock.WaitMilliseconds(70);
+                if (times.Count == 300)
+                {
+                    clock.WaitMilliseconds(70);
+                }
             });
             display.FramePresented = frame =>
             {
                 long now = Stopwatch.GetTimestamp();
-                if (frame < warmupFrames) return;
-                if (previous != 0) times.Add(Stopwatch.GetElapsedTime(previous, now).TotalMilliseconds);
+                if (frame < warmupFrames)
+                {
+                    return;
+                }
+
+                if (previous != 0)
+                {
+                    times.Add(Stopwatch.GetElapsedTime(previous, now).TotalMilliseconds);
+                }
+
                 previous = now;
-                if (times.Count == 306) display.StopUpdateFrameLoop();
+                if (times.Count == 306)
+                {
+                    display.StopUpdateFrameLoop();
+                }
             };
             display.StartUpdateFrameLoop();
         }
         finally
         {
-            if (noGroupControl) GC.EndNoGCRegion();
+            if (noGroupControl)
+            {
+                GC.EndNoGCRegion();
+            }
+
             Thread.CurrentThread.Priority = priority;
             process.PriorityClass = processPriority;
             display?.Dispose();

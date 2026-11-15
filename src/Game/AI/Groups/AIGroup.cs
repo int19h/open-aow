@@ -141,10 +141,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // Unit.PAS:2184
-    public override void DestroyAllChildren()
-    {
-        Clear();
-    }
+    public override void DestroyAllChildren() => Clear();
 
     // Unit.PAS:2162
     public override int RemoveChild(EngineObject child)

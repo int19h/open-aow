@@ -41,7 +41,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
         }
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
-        size = _pitch * height + 7;
+        size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
@@ -151,7 +151,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            var s = lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, Width);
+                            var s = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, Width);
                             var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
@@ -168,7 +168,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     {
                         for (int i = 0, last = Height - 1; i <= last; i++)
                         {
-                            lockedSurface.View().Bytes((R.Top + i) * lockedSurface.Pitch + R.Left * 2, Width * 2).CopyTo(_buffer.AsSpan(_pitch * i, Width * 2));
+                            lockedSurface.View().Bytes(((R.Top + i) * lockedSurface.Pitch) + (R.Left * 2), Width * 2).CopyTo(_buffer.AsSpan(_pitch * i, Width * 2));
                         }
                     }
 
@@ -179,10 +179,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
                             var d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
-                            var s24 = lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left * 3, Width * 3);
+                            var s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), Width * 3);
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
-                                d[x] = (ushort)(((s24[x * 3 + 2] & 248) << 8) + ((s24[x * 3 + 1] & 252) << 3) + (int)(((uint)s24[x * 3]) >> 3));
+                                d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (int)(((uint)s24[x * 3]) >> 3));
                             }
                         }
                     }
@@ -288,8 +288,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitRectangle(source, destination, w * 2, h);
@@ -311,8 +311,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 }
                 else
                 {
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitRectangle(source, destination, w * 2, h);
@@ -389,8 +389,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         if (table.Bits == 5)
@@ -442,8 +442,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 }
                 else
                 {
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         if (table.Bits == 5)
@@ -550,8 +550,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         if (PixelFormatId == PixelFormats.pfRGB565)
@@ -587,8 +587,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 }
                 else
                 {
-                    source = View.At(sx * 2 + sy * _pitch);
-                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    source = View.At((sx * 2) + (sy * _pitch));
+                    destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         if (PixelFormatId == PixelFormats.pfRGB565)
@@ -621,39 +621,18 @@ public partial class Picture16 : Image16, ILibraryImageClass
         }
     }
 
-    private static void BlitTransparent565(SurfaceView source, SurfaceView destination, int width, int height)
-    {
-        Blit.BlitTransparent565(source, destination, width, height);
-    }
+    private static void BlitTransparent565(SurfaceView source, SurfaceView destination, int width, int height) => Blit.BlitTransparent565(source, destination, width, height);
 
-    private static void BlitTransparent555(SurfaceView source, SurfaceView destination, int width, int height)
-    {
-        Blit.BlitTransparent555(source, destination, width, height);
-    }
+    private static void BlitTransparent555(SurfaceView source, SurfaceView destination, int width, int height) => Blit.BlitTransparent555(source, destination, width, height);
 
-    internal static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height)
-    {
-        Blit.BlitStretched16(source, rowTable, columnTable, destination, width, height);
-    }
+    internal static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height) => Blit.BlitStretched16(source, rowTable, columnTable, destination, width, height);
 
-    private static void BlendSurface555(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table)
-    {
-        Blit.BlendSurface555(source, destination, width, height, table);
-    }
+    private static void BlendSurface555(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendSurface555(source, destination, width, height, table);
 
-    private static void BlendSurface565(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table)
-    {
-        Blit.BlendSurface565(source, destination, width, height, table);
-    }
+    private static void BlendSurface565(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendSurface565(source, destination, width, height, table);
 
-    internal static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table)
-    {
-        Blit.BlendStretched555(source, rowTable, columnTable, destination, width, height, table);
-    }
+    internal static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendStretched555(source, rowTable, columnTable, destination, width, height, table);
 
-    private static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table)
-    {
-        Blit.BlendStretched565(source, rowTable, columnTable, destination, width, height, table);
-    }
+    private static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendStretched565(source, rowTable, columnTable, destination, width, height, table);
 
 }

@@ -74,21 +74,44 @@ public sealed class FormatSchema
             _classes.Add(c.Name, c);
         }
         if (root["legacyShapes"] is JsonArray shapes)
+        {
             foreach (var item in shapes.Items)
             {
                 var shape = (JsonObject)item;
                 var c = new SchemaClass(shape, this, ((JsonString)shape["class"]!).Value);
                 _legacyShapes.Add((((JsonString)shape["context"]!).Value, c.Name), (((JsonString)shape["name"]!).Value, c));
             }
-        foreach (var c in _classes.Values) c.Link(this);
-        foreach (var (_, c) in _legacyShapes.Values) c.Complete();
-        foreach (var c in _classes.Values) c.Complete();
+        }
+
+        foreach (var c in _classes.Values)
+        {
+            c.Link(this);
+        }
+
+        foreach (var (_, c) in _legacyShapes.Values)
+        {
+            c.Complete();
+        }
+
+        foreach (var c in _classes.Values)
+        {
+            c.Complete();
+        }
+
         foreach (var c in _classes.Values)
         {
             foreach (var engine in c.Engines)
             {
-                if (c.Id is not int id) throw new InvalidOperationException($"Class {c.Name} is enlisted without an id.");
-                if (!_engines.TryGetValue(engine, out var table)) _engines[engine] = table = [];
+                if (c.Id is not int id)
+                {
+                    throw new InvalidOperationException($"Class {c.Name} is enlisted without an id.");
+                }
+
+                if (!_engines.TryGetValue(engine, out var table))
+                {
+                    _engines[engine] = table = [];
+                }
+
                 if (!table.TryAdd(id, c))
                 {
                     _ambiguities.Add($"engine {engine} class id {id}: {table[id].Name} and {c.Name}");
@@ -97,7 +120,10 @@ public sealed class FormatSchema
             }
         }
         // An _ambiguous id resolves to nothing, so a stored instance of it is refused, not guessed.
-        foreach (var (engine, id) in _ambiguous) _engines[engine].Remove(id);
+        foreach (var (engine, id) in _ambiguous)
+        {
+            _engines[engine].Remove(id);
+        }
     }
 
     private readonly Dictionary<(string Context, string Class), (string Rule, SchemaClass Shape)> _legacyShapes = [];
@@ -108,16 +134,27 @@ public sealed class FormatSchema
         foreach (var candidate in Contexts(context))
         {
             var found = Lookup(candidate, className);
-            if (found is not null) return found;
+            if (found is not null)
+            {
+                return found;
+            }
         }
         return null;
     }
 
     private (string Rule, SchemaClass Shape)? Lookup(string context, string className)
     {
-        if (_legacyShapes.TryGetValue((context, className), out var shape)) return shape;
+        if (_legacyShapes.TryGetValue((context, className), out var shape))
+        {
+            return shape;
+        }
+
         string? resolved = NameTable.ResolveStored(className);
-        if (resolved is null || resolved == className || !_legacyShapes.TryGetValue((context, resolved), out shape)) return null;
+        if (resolved is null || resolved == className || !_legacyShapes.TryGetValue((context, resolved), out shape))
+        {
+            return null;
+        }
+
         return shape;
     }
 
@@ -126,23 +163,45 @@ public sealed class FormatSchema
     {
         yield return context;
         int dot = context.LastIndexOf('.');
-        if (dot <= 0) yield break;
+        if (dot <= 0)
+        {
+            yield break;
+        }
+
         string head = context[..dot];
         string tail = context[(dot + 1)..];
         string? delphi = NameTable.DelphiName(head);
-        if (delphi is not null && delphi != head) yield return delphi + "." + tail;
+        if (delphi is not null && delphi != head)
+        {
+            yield return delphi + "." + tail;
+        }
+
         string? stored = NameTable.ResolveStored(head);
-        if (stored is not null && stored != head) yield return stored + "." + tail;
+        if (stored is not null && stored != head)
+        {
+            yield return stored + "." + tail;
+        }
     }
 
     public SchemaClass? Find(string name)
     {
-        if (_classes.TryGetValue(name, out var found)) return found;
+        if (_classes.TryGetValue(name, out var found))
+        {
+            return found;
+        }
+
         string? resolved = NameTable.ResolveStored(name);
-        if (resolved is not null && resolved != name && _classes.TryGetValue(resolved, out found)) return found;
+        if (resolved is not null && resolved != name && _classes.TryGetValue(resolved, out found))
+        {
+            return found;
+        }
         // A current schema answers a Delphi name. A version 1 or 2 schema answers the current name.
         string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
-        if (delphi is not null && delphi != name && _classes.TryGetValue(delphi, out found)) return found;
+        if (delphi is not null && delphi != name && _classes.TryGetValue(delphi, out found))
+        {
+            return found;
+        }
+
         return null;
     }
 
@@ -171,7 +230,10 @@ public static class FormatVersions
         stream.CopyTo(memory);
         var current = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
         if (current["version"] is not JsonInteger { Value: OwnFormat.CurrentVersion })
+        {
             throw new InvalidOperationException("versions.json does not pin the current version.");
+        }
+
         return current;
     });
 
@@ -203,7 +265,11 @@ public sealed class SchemaClass
             Inherits = false;
             KeepsChildren = false;
             Engines = [];
-            foreach (var p in ((JsonArray)source["properties"]!).Items) _own.Add(new SchemaProperty((JsonObject)p, this, schema));
+            foreach (var p in ((JsonArray)source["properties"]!).Items)
+            {
+                _own.Add(new SchemaProperty((JsonObject)p, this, schema));
+            }
+
             return;
         }
         _parentName = (source["parent"] as JsonString)?.Value;
@@ -214,7 +280,12 @@ public sealed class SchemaClass
         FieldClassName = (source["fieldClass"] as JsonString)?.Value;
         Mapping = source["mapping"] is JsonObject mapping ? new SchemaMapping(mapping) : null;
         if (source["properties"] is JsonArray props)
-            foreach (var p in props.Items) _own.Add(new SchemaProperty((JsonObject)p, this, schema));
+        {
+            foreach (var p in props.Items)
+            {
+                _own.Add(new SchemaProperty((JsonObject)p, this, schema));
+            }
+        }
     }
 
     public string Name { get; }
@@ -238,14 +309,23 @@ public sealed class SchemaClass
 
     internal void Link(FormatSchema schema)
     {
-        if (_parentName is not null) Parent = schema.Find(_parentName)
+        if (_parentName is not null)
+        {
+            Parent = schema.Find(_parentName)
             ?? throw new InvalidOperationException($"Class {Name} names an unknown parent {_parentName}.");
+        }
     }
 
     public bool InheritsFrom(SchemaClass ancestor)
     {
         for (var c = this; c is not null; c = c.Parent)
-            if (c == ancestor) return true;
+        {
+            if (c == ancestor)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -255,9 +335,16 @@ public sealed class SchemaClass
         string? resolved = StoredName(ancestor);
         for (var c = this; c is not null; c = c.Parent)
         {
-            if (c.Name == ancestor || resolved is not null && c.Name == resolved) return true;
+            if (c.Name == ancestor || (resolved is not null && c.Name == resolved))
+            {
+                return true;
+            }
+
             string? stored = StoredName(c.Name);
-            if (stored is not null && (stored == ancestor || resolved is not null && stored == resolved)) return true;
+            if (stored is not null && (stored == ancestor || (resolved is not null && stored == resolved)))
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -271,23 +358,36 @@ public sealed class SchemaClass
 
     internal void Complete()
     {
-        if (_completed) return;
+        if (_completed)
+        {
+            return;
+        }
+
         _completed = true;
         Parent?.Complete();
         var readWrite = new List<SchemaProperty>();
         var children = new List<SchemaProperty>();
         bool keepChildren = true;
         for (var c = this; c is not null; c = c.Parent)
-            if (!c.KeepsChildren) keepChildren = false;
+        {
+            if (!c.KeepsChildren)
+            {
+                keepChildren = false;
+            }
+        }
         // Walk the chain base first, stopping at the first class whose ReadWrite skips its base.
         var chain = new List<SchemaClass>();
         for (var c = this; c is not null; c = c.Parent)
         {
             chain.Add(c);
-            if (!c.Inherits) break;
+            if (!c.Inherits)
+            {
+                break;
+            }
         }
         chain.Reverse();
         foreach (var c in chain)
+        {
             foreach (var p in c._own)
             {
                 // A subclass property with an inherited id shadows the inherited one: the base
@@ -297,14 +397,27 @@ public sealed class SchemaClass
                 readWrite.RemoveAll(q => SharesImageId(q, p));
                 (p.IsChildrenPhase ? children : readWrite).Add(p);
             }
+        }
+
         if (keepChildren && children.Count == 0)
         {
             // Children come from the custom node's main visit even when the field visit skips the base.
             for (var c = Parent; c is not null; c = c.Parent)
+            {
                 foreach (var p in c._own)
-                    if (p.IsChildrenPhase && !children.Contains(p)) children.Add(p);
+                {
+                    if (p.IsChildrenPhase && !children.Contains(p))
+                    {
+                        children.Add(p);
+                    }
+                }
+            }
         }
-        if (!keepChildren) children.Clear();
+        if (!keepChildren)
+        {
+            children.Clear();
+        }
+
         var all = readWrite.Concat(children).ToList();
         if (_source["order"] is JsonArray order)
         {
@@ -313,19 +426,40 @@ public sealed class SchemaClass
             foreach (var item in order.Items)
             {
                 string n = ((JsonString)item).Value;
-                if (!named.Remove(n, out var p)) throw new InvalidOperationException($"Class {Name} orders an unknown member {n}.");
+                if (!named.Remove(n, out var p))
+                {
+                    throw new InvalidOperationException($"Class {Name} orders an unknown member {n}.");
+                }
+
                 ordered.Add(p);
             }
-            if (named.Count != 0) throw new InvalidOperationException($"Class {Name} leaves {string.Join(", ", named.Keys)} out of its order.");
+            if (named.Count != 0)
+            {
+                throw new InvalidOperationException($"Class {Name} leaves {string.Join(", ", named.Keys)} out of its order.");
+            }
+
             all = ordered;
         }
         _effective = all;
         foreach (var p in _effective)
         {
-            if (!_byName.TryAdd(p.Name, p)) throw new InvalidOperationException($"Class {Name} has two members named {p.Name}.");
+            if (!_byName.TryAdd(p.Name, p))
+            {
+                throw new InvalidOperationException($"Class {Name} has two members named {p.Name}.");
+            }
+
             foreach (int imageId in p.ImageIds)
-                if (!_byId.TryAdd(imageId, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {imageId}.");
-            if (p.DynamicMinimum is not null) _dynamic.Add(p);
+            {
+                if (!_byId.TryAdd(imageId, p))
+                {
+                    throw new InvalidOperationException($"Class {Name} has two properties with id {imageId}.");
+                }
+            }
+
+            if (p.DynamicMinimum is not null)
+            {
+                _dynamic.Add(p);
+            }
         }
         _dynamic.Sort((a, b) => b.DynamicMinimum!.Value.CompareTo(a.DynamicMinimum!.Value));
     }
@@ -334,15 +468,31 @@ public sealed class SchemaClass
     private static bool SharesImageId(SchemaProperty existing, SchemaProperty incoming)
     {
         foreach (int id in incoming.ImageIds)
-            if (existing.ImageIds.Contains(id)) return true;
+        {
+            if (existing.ImageIds.Contains(id))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
     public SchemaProperty? PropertyById(int id)
     {
-        if (_byId.TryGetValue(id, out var p)) return p;
+        if (_byId.TryGetValue(id, out var p))
+        {
+            return p;
+        }
+
         foreach (var d in _dynamic)
-            if (id >= d.DynamicMinimum) return d;
+        {
+            if (id >= d.DynamicMinimum)
+            {
+                return d;
+            }
+        }
+
         return null;
     }
 
@@ -372,11 +522,27 @@ public sealed class SchemaProperty
     private static int[] ImageIdList(int? id, int? dataId, PropertyCodec codec)
     {
         var ids = new List<int>();
-        if (id is int own) ids.Add(own);
-        if (dataId is int data && !ids.Contains(data)) ids.Add(data);
+        if (id is int own)
+        {
+            ids.Add(own);
+        }
+
+        if (dataId is int data && !ids.Contains(data))
+        {
+            ids.Add(data);
+        }
+
         if (codec is CoordinateCodec coordinate)
+        {
             foreach (int extra in coordinate.ImageIds)
-                if (!ids.Contains(extra)) ids.Add(extra);
+            {
+                if (!ids.Contains(extra))
+                {
+                    ids.Add(extra);
+                }
+            }
+        }
+
         return [.. ids];
     }
 

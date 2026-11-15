@@ -199,16 +199,10 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     }
 
     // Army.PAS:4957
-    public void LoadFromFile(string fileName)
-    {
-        GetEngine().ReadFromFile(fileName, this, null, GameProfile.ItemList);
-    }
+    public void LoadFromFile(string fileName) => GetEngine().ReadFromFile(fileName, this, null, GameProfile.ItemList);
 
     // Army.PAS:4962
-    public void SaveToFile(string fileName)
-    {
-        GetEngine().WriteToFile(fileName, this, null, GameProfile.ItemList);
-    }
+    public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.ItemList);
 
     private static readonly string s_systemItemLibraryText = "System";
 

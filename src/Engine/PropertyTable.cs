@@ -258,9 +258,9 @@ public partial class PropertyTable : IDisposable
         }
     }
 
-    public Item[] Items { get => _items; }
-    public int Count { get => _count; }
-    public int First { get => _first; }
+    public Item[] Items => _items;
+    public int Count => _count;
+    public int First => _first;
 
     [StoredLayout]
     [StructLayout(LayoutKind.Explicit, Size = 8)]

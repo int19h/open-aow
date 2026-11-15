@@ -133,16 +133,10 @@ public partial class Campaign : EngineObject
     public virtual string GetAutoSaveFileName(CampaignAutoSaveType auto) => StrategicMap.Current.MapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
 
     // Diplomacy.pas:2330
-    public virtual void SelectNextScenario(int id)
-    {
-        NextScenarioId = id;
-    }
+    public virtual void SelectNextScenario(int id) => NextScenarioId = id;
 
     // Diplomacy.pas:2333
-    public virtual void ResetNextScenario()
-    {
-        NextScenarioId = -1;
-    }
+    public virtual void ResetNextScenario() => NextScenarioId = -1;
 
     // Diplomacy.pas:2336
     public virtual void StartScenario(int id, Draw.ProgressEvent progress)
@@ -166,7 +160,7 @@ public partial class Campaign : EngineObject
             player = (sbyte)(player - 1);
         }
 
-        level = 1 + CompletedScenarios.Count / 4;
+        level = 1 + (CompletedScenarios.Count / 4);
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             if (i != player)
@@ -246,7 +240,7 @@ public partial class Campaign : EngineObject
                 {
                     for (int i = 0; i <= 11; i++)
                     {
-                        if ((RaceHistory.IndexOf((byte)i) != -1 || i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r || (RaceHistory.IndexOf((byte)r) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) && i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace)
+                        if (((RaceHistory.IndexOf((byte)i) != -1 || i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) || ((RaceHistory.IndexOf((byte)r) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) && i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace))
                         {
                             relation = race.DefaultRelations[i];
                             switch (relation)

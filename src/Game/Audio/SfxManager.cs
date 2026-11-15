@@ -13,10 +13,7 @@ public partial class SfxManager : Component
     private readonly SfxList _sfx;
 
     // Sound.pas:407
-    public SfxManager(Component owner) : base(owner)
-    {
-        _sfx = new SfxList();
-    }
+    public SfxManager(Component owner) : base(owner) => _sfx = new SfxList();
 
     // Sound.pas:413
     public override void Dispose()
@@ -27,10 +24,7 @@ public partial class SfxManager : Component
     }
 
     // Sound.pas:420
-    public void Clear()
-    {
-        _sfx.Clear();
-    }
+    public void Clear() => _sfx.Clear();
 
     // Sound.pas:425
     public void ExecutePathSearch(string path)
@@ -79,7 +73,7 @@ public partial class SfxManager : Component
     public string SearchPath { get => _searchPath; set => _searchPath = value; }
 
     [Published]
-    public SfxList Sfx { get => _sfx; }
+    public SfxList Sfx => _sfx;
 
     private static readonly string s_sfxExtension = "WAV";
 

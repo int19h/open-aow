@@ -20,10 +20,7 @@ public sealed class WallCrushingFastBattleTests
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
 
-        internal Fixture()
-        {
-            GamePack.Current = EngineFixture.CreateGameSet(_manager);
-        }
+        internal Fixture() => GamePack.Current = EngineFixture.CreateGameSet(_manager);
 
         public void Dispose()
         {

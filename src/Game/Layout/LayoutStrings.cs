@@ -18,7 +18,13 @@ public sealed class LayoutStrings : IEnumerable<string>
     public void CopyTo(StringCollection target)
     {
         target.BeginUpdate();
-        try { target.Clear(); foreach (var value in _values) target.Add(value); }
+        try
+        {
+            target.Clear(); foreach (var value in _values)
+            {
+                target.Add(value);
+            }
+        }
         finally { target.EndUpdate(); }
     }
 }

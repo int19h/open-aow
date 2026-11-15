@@ -84,10 +84,7 @@ public sealed class ObjectCastCrashTests
 
     private sealed class ListedTerrain : TerrainMapObject
     {
-        public ListedTerrain(MapObjectResourceList list) : base(null!)
-        {
-            Resources = list;
-        }
+        public ListedTerrain(MapObjectResourceList list) : base(null!) => Resources = list;
 
         public MapObjectResourceList Resources { get; }
 

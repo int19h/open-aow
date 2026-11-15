@@ -207,10 +207,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Unit.PAS:2184
-    public override void DestroyAllChildren()
-    {
-        Clear();
-    }
+    public override void DestroyAllChildren() => Clear();
 
     // Army.PAS:1844
     public override int RemoveChild(EngineObject child)
@@ -282,10 +279,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Army.PAS:716
-    protected override void OnChange()
-    {
-        Update();
-    }
+    protected override void OnChange() => Update();
 
     // Army.PAS:1241
     public sbyte GetPlayer() => Player;
@@ -512,7 +506,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             includeUnit = info.Units.Holder is null || info.Units.IndexOf(troop) == -1;
             if (includeUnit && info.Requests.Contains(BattleFieldInfoRequestsElement.IgnorePassiveIndependents))
             {
-                includeUnit = troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive && troop.Group.GroupClass.Behavior != GroupBehavior.Guard;
+                includeUnit = troop.Player != 0 || (troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive && troop.Group.GroupClass.Behavior != GroupBehavior.Guard);
             }
 
             if (includeUnit && info.Requests.Contains(BattleFieldInfoRequestsElement.IgnoreIndependents) && troop.Player == 0)
@@ -1013,16 +1007,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     public byte GetUpkeep() => _upkeep;
 
     // Army.PAS:669
-    public void ResetDestinationPosition()
-    {
-        Destination = new MapCoordinate(-1, -1, -1);
-    }
+    public void ResetDestinationPosition() => Destination = new MapCoordinate(-1, -1, -1);
 
     // Army.PAS:672
-    public void SetDestinationPosition(sbyte X, sbyte Y, sbyte L)
-    {
-        Destination = new MapCoordinate(X, Y, L);
-    }
+    public void SetDestinationPosition(sbyte X, sbyte Y, sbyte L) => Destination = new MapCoordinate(X, Y, L);
 
     // Army.PAS:675
     public int ConcealedUnitsCount()
@@ -1176,10 +1164,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Army.PAS:785
-    public void ValidateTerrain(sbyte terrainType, sbyte overlayType)
-    {
-        ValidateTerrain(terrainType, overlayType, Player);
-    }
+    public void ValidateTerrain(sbyte terrainType, sbyte overlayType) => ValidateTerrain(terrainType, overlayType, Player);
 
     // Army.PAS:790
     public void Validate()
@@ -1392,16 +1377,10 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     }
 
     // Army.PAS:1235
-    public void Select()
-    {
-        Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
-    }
+    public void Select() => Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
 
     // Army.PAS:1238
-    public void Unselect()
-    {
-        Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
-    }
+    public void Unselect() => Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
 
     // Army.PAS:1244
     public bool GetUnitConcealed(int index)
@@ -2473,7 +2452,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                 }
                 else
                 {
-                    if (AlignmentTables.GoodAlignments.Contains(alignment) && (!AlignmentTables.EvilAlignments.Contains(alignment) || (goodArmy != null && evilArmy == null) || (goodArmy == null && evilArmy == null) || goodArmy != null && evilArmy != null && goodArmy.Units.Count >= evilArmy.Units.Count))
+                    if (AlignmentTables.GoodAlignments.Contains(alignment) && (!AlignmentTables.EvilAlignments.Contains(alignment) || (goodArmy != null && evilArmy == null) || (goodArmy == null && evilArmy == null) || (goodArmy != null && evilArmy != null && goodArmy.Units.Count >= evilArmy.Units.Count)))
                     {
                         if (goodArmy == null)
                         {
@@ -3390,7 +3369,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             for (int i = Units.Count - 1; i >= 0; i--)
             {
                 troop = Units.GetUnit(i);
-                if (troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive)
+                if (troop.Player != 0 || (troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive))
                 {
                     troop.RetrieveDamageInfo((sbyte)attack, (sbyte)damage, Set<DamageType>.Of(StormDamageType[(int)storm]), out value, out amount);
                     if (info.FriendlyRelations.Contains(relation))
@@ -3619,7 +3598,11 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     // intf_P2_07.inc:445
     public virtual bool GetUnitConcealedForPlayer(int index, sbyte player)
     {
-        if (player == Player || player == -1 || Location.X == -1) return false;
+        if (player == Player || player == -1 || Location.X == -1)
+        {
+            return false;
+        }
+
         var field = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         return Units.GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }

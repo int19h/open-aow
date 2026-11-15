@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class TitleScene : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -231,6 +228,8 @@ public partial class TitleScene : ILayoutModule
         copyright.Font = UI.Fonts.Age10Shadow;
         VersionLabel.Font = UI.Fonts.Age8Shadow;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

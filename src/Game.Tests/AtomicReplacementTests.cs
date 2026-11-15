@@ -197,7 +197,11 @@ public sealed class AtomicReplacementTests : IDisposable
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) inner.Dispose();
+            if (disposing)
+            {
+                inner.Dispose();
+            }
+
             base.Dispose(disposing);
         }
     }

@@ -124,8 +124,5 @@ public partial class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4930
-    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
-    {
-        base.FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref damageValues);
-    }
+    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => base.FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref damageValues);
 }

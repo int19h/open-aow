@@ -416,7 +416,11 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnExecuteEventLog is null) return;
+            if (OnExecuteEventLog is null)
+            {
+                return;
+            }
+
             var info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
             OnExecuteEventLog(info.Log, info.Done);
@@ -429,7 +433,10 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnMapChanged is not null) OnMapChanged(((MapChangedNotification)sender).Info);
+            if (OnMapChanged is not null)
+            {
+                OnMapChanged(((MapChangedNotification)sender).Info);
+            }
         }
         catch
         {

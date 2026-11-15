@@ -8,9 +8,6 @@ public partial class HorizontalScrollBar
 {
     public LayoutStrings LayoutToolTipText
     {
-        set
-        {
-            value.CopyTo(ToolTipText);
-        }
+        set => value.CopyTo(ToolTipText);
     }
 }

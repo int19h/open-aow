@@ -15,10 +15,7 @@ namespace Aow.Game.Draw.Animations;
 // sequence, particle count, radius, lifetime, random start delay, mode
 public partial class TwinkleAnimation : Animation
 {
-    public TwinkleAnimation(CustomNode owner) : base(owner)
-    {
-        AnimationLevel = 28;
-    }
+    public TwinkleAnimation(CustomNode owner) : base(owner) => AnimationLevel = 28;
 
     private ImageSequence _imageSequence;
     private int _count;
@@ -48,7 +45,7 @@ public partial class TwinkleAnimation : Animation
         pixelYSurface = y - pixelYSurface + 16;
         var hexX = GetHexX();
         var hexY = GetHexY();
-        RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY * 3;
+        RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + (hexY * 3);
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
             radius = Random(_radius);
@@ -58,7 +55,7 @@ public partial class TwinkleAnimation : Animation
             {
                 if (_mode.Contains(TwinkleModeElement.Expand))
                 {
-                    radius = Round((double)(radius * FrameCounter) / _duration) + radius / 2;
+                    radius = Round((double)(radius * FrameCounter) / _duration) + (radius / 2);
                 }
 
                 if (_mode.Contains(TwinkleModeElement.Explode))

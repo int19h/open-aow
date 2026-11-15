@@ -235,7 +235,11 @@ public sealed class ResourcePayloadTests
     // The seed after the given number of Random calls.
     private static int Advance(int seed, int draws)
     {
-        for (int i = 0; i < draws; i++) seed = unchecked(seed * 0x08088405 + 1);
+        for (int i = 0; i < draws; i++)
+        {
+            seed = unchecked((seed * 0x08088405) + 1);
+        }
+
         return seed;
     }
 
@@ -244,8 +248,13 @@ public sealed class ResourcePayloadTests
     {
         var indices = new List<int>();
         for (int i = 0; i < list.Count; i++)
+        {
             for (var sequence = list.GetImageSequence(i); sequence != null; sequence = sequence.Next)
+            {
                 indices.Add(sequence.ImageIndex);
+            }
+        }
+
         return indices;
     }
 
@@ -318,7 +327,10 @@ public sealed class ResourcePayloadTests
         {
             writer.Write(0);
             writer.Write(frames.Length);
-            foreach (int frame in frames) writer.Write(frame);
+            foreach (int frame in frames)
+            {
+                writer.Write(frame);
+            }
         }
         writer.Write(next ? (byte)1 : (byte)0);
     }

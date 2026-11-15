@@ -13,18 +13,36 @@ public sealed class SdlClock : IClock
     public void WaitUntil(double deadline)
     {
         double remaining = deadline - ElapsedMilliseconds;
-        if (remaining > 2) SDL_DelayPrecise((ulong)((remaining - 2) * 1_000_000));
-        while (ElapsedMilliseconds < deadline) Thread.SpinWait(16);
+        if (remaining > 2)
+        {
+            SDL_DelayPrecise((ulong)((remaining - 2) * 1_000_000));
+        }
+
+        while (ElapsedMilliseconds < deadline)
+        {
+            Thread.SpinWait(16);
+        }
     }
 
     public void WaitMilliseconds(int milliseconds)
     {
-        if (milliseconds < 0) throw new ArgumentOutOfRangeException(nameof(milliseconds));
+        if (milliseconds < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(milliseconds));
+        }
+
         if (milliseconds == 0) { Thread.Yield(); return; }
-        ulong end = SDL_GetTicksNS() + (ulong)milliseconds * 1_000_000;
+        ulong end = SDL_GetTicksNS() + ((ulong)milliseconds * 1_000_000);
         if (milliseconds == 1) { SDL_DelayPrecise(1_000_000); return; }
-        if (milliseconds > 2) SDL_DelayPrecise((ulong)(milliseconds - 2) * 1_000_000);
-        while (SDL_GetTicksNS() < end) Thread.SpinWait(16);
+        if (milliseconds > 2)
+        {
+            SDL_DelayPrecise((ulong)(milliseconds - 2) * 1_000_000);
+        }
+
+        while (SDL_GetTicksNS() < end)
+        {
+            Thread.SpinWait(16);
+        }
     }
 }
 

@@ -24,21 +24,39 @@ internal static class Commands
     internal static ImportResult ImportOriginal(byte[] bytes, string path, string? kind, string? profile)
     {
         if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Format, "The input is an own document, not an original file. Use normalize.") { File = path });
+        }
+
         var c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
         if (c.Format != DetectedFormat.Original || c.Profile is null || c.Kind is null)
+        {
             throw new ConversionException(new FormatDiagnostic(Codes.Unknown,
                 "The input is not a recognized original file. Give --kind and --profile for headerless or ambiguous input.")
             { File = path });
+        }
+
         return GameFiles.Import(bytes, c.Profile, c.Kind, path);
     }
 
     internal static int ToOwn(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Directory is not null) return ToOwnDirectory(o, output, errors);
-        if (o.Positional.Count != 2) throw new UsageException("to-own needs <in> and <out>.");
+        if (o.Directory is not null)
+        {
+            return ToOwnDirectory(o, output, errors);
+        }
+
+        if (o.Positional.Count != 2)
+        {
+            throw new UsageException("to-own needs <in> and <out>.");
+        }
+
         string input = o.Positional[0], target = o.Positional[1];
-        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal) return Fail(errors, refusal);
+        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+        {
+            return Fail(errors, refusal);
+        }
+
         try
         {
             var result = ImportOriginal(File.ReadAllBytes(input), input, o.Kind, o.Profile);
@@ -54,15 +72,31 @@ internal static class Commands
 
     internal static int ToOriginal(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Directory is not null) return ToOriginalDirectory(o, output, errors);
-        if (o.Positional.Count != 2) throw new UsageException("to-original needs <in> and <out>.");
+        if (o.Directory is not null)
+        {
+            return ToOriginalDirectory(o, output, errors);
+        }
+
+        if (o.Positional.Count != 2)
+        {
+            throw new UsageException("to-original needs <in> and <out>.");
+        }
+
         string input = o.Positional[0], target = o.Positional[1];
-        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal) return Fail(errors, refusal);
+        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+        {
+            return Fail(errors, refusal);
+        }
+
         try
         {
             var read = GameFiles.Read(File.ReadAllBytes(input), input);
             var exported = GameFiles.Export(read.Document, new ExportOptions { ExactLayout = o.ExactLayout }, input);
-            foreach (var d in exported.Invalidated) errors.WriteLine(d.ToString());
+            foreach (var d in exported.Invalidated)
+            {
+                errors.WriteLine(d.ToString());
+            }
+
             SafeOutput.Replace(target, exported.Bytes);
             output.WriteLine($"{input}: {Describe(read.Document)} -> {target}, 0 losses, {exported.Invalidated.Count} invalidated layouts");
             return Program.Success;
@@ -75,13 +109,25 @@ internal static class Commands
 
     internal static int Normalize(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Positional.Count != 2) throw new UsageException("normalize needs <in> and <out>.");
+        if (o.Positional.Count != 2)
+        {
+            throw new UsageException("normalize needs <in> and <out>.");
+        }
+
         string input = o.Positional[0], target = o.Positional[1];
-        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal) return Fail(errors, refusal);
+        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+        {
+            return Fail(errors, refusal);
+        }
+
         try
         {
             var (bytes, invalidated) = GameFiles.Normalize(File.ReadAllBytes(input), input);
-            foreach (var d in invalidated) errors.WriteLine(d.ToString());
+            foreach (var d in invalidated)
+            {
+                errors.WriteLine(d.ToString());
+            }
+
             SafeOutput.Replace(target, bytes);
             output.WriteLine($"{input}: normalized -> {target}, {invalidated.Count} invalidated layouts");
             return Program.Success;
@@ -110,19 +156,34 @@ internal static class Commands
     private static Dictionary<string, (string? Kind, string? Profile)> Manifest(string? path)
     {
         var result = new Dictionary<string, (string?, string?)>(StringComparer.OrdinalIgnoreCase);
-        if (path is null) return result;
+        if (path is null)
+        {
+            return result;
+        }
+
         using var doc = JsonDocument.Parse(File.ReadAllBytes(path));
         foreach (var p in doc.RootElement.EnumerateObject())
+        {
             result[p.Name.Replace('/', Path.DirectorySeparatorChar)] = (
                 p.Value.TryGetProperty("kind", out var k) ? k.GetString() : null,
                 p.Value.TryGetProperty("profile", out var f) ? f.GetString() : null);
+        }
+
         return result;
     }
 
     private static int ToOwnDirectory(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Out is null || o.Positional.Count != 0) throw new UsageException("to-own --dir needs --out and no other paths.");
-        if (SafeOutput.Overlaps(o.Directory!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
+        if (o.Out is null || o.Positional.Count != 0)
+        {
+            throw new UsageException("to-own --dir needs --out and no other paths.");
+        }
+
+        if (SafeOutput.Overlaps(o.Directory!, o.Out))
+        {
+            return Fail(errors, "The input and output directory trees overlap.");
+        }
+
         var manifest = Manifest(o.Profiles);
         int done = 0, failed = 0, skipped = 0;
         foreach (var relative in Enumerate(o.Directory!))
@@ -163,8 +224,16 @@ internal static class Commands
 
     private static int ToOriginalDirectory(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Out is null || o.Positional.Count != 0) throw new UsageException("to-original --dir needs --out and no other paths.");
-        if (SafeOutput.Overlaps(o.Directory!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
+        if (o.Out is null || o.Positional.Count != 0)
+        {
+            throw new UsageException("to-original --dir needs --out and no other paths.");
+        }
+
+        if (SafeOutput.Overlaps(o.Directory!, o.Out))
+        {
+            return Fail(errors, "The input and output directory trees overlap.");
+        }
+
         int done = 0, failed = 0, skipped = 0;
         var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var relative in Enumerate(o.Directory!))
@@ -197,7 +266,11 @@ internal static class Commands
                     failed++;
                     continue;
                 }
-                foreach (var d in exported.Invalidated) errors.WriteLine(d.ToString());
+                foreach (var d in exported.Invalidated)
+                {
+                    errors.WriteLine(d.ToString());
+                }
+
                 SafeOutput.Replace(target, exported.Bytes);
                 output.WriteLine($"{relative}: {Describe(read.Document)}, 0 losses");
                 done++;
@@ -226,7 +299,11 @@ internal static class Commands
     /// <summary>Profile, kind, version, representability, residue, coverage and the cost of one file.</summary>
     internal static int Info(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Positional.Count != 1) throw new UsageException("info needs one <file>.");
+        if (o.Positional.Count != 1)
+        {
+            throw new UsageException("info needs one <file>.");
+        }
+
         string input = o.Positional[0];
         try
         {

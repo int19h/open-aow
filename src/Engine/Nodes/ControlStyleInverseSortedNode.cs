@@ -9,10 +9,7 @@ public partial class ControlStyleInverseSortedNode : InverseSortedNode
     // Engine.pas:1695
     public new const int ClassId = 263;
 
-    public ControlStyleInverseSortedNode(CustomNode owner) : base(owner)
-    {
-        _controlStyle = base.GetControlStyle();
-    }
+    public ControlStyleInverseSortedNode(CustomNode owner) : base(owner) => _controlStyle = base.GetControlStyle();
 
     private Set<ControlStyleElement> _controlStyle;
 
@@ -20,10 +17,7 @@ public partial class ControlStyleInverseSortedNode : InverseSortedNode
     public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:1705
-    public void SetControlStyle(Set<ControlStyleElement> value)
-    {
-        _controlStyle = value;
-    }
+    public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
 
     // Engine.pas:963
 

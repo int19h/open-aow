@@ -9,16 +9,10 @@ public partial class ExecuteEventLogCallbackList : IDisposable
     private readonly List<ExecuteEventLogInfo> _list = [];
 
     // EventLog.pas:283
-    public virtual void Dispose()
-    {
-        Clear();
-    }
+    public virtual void Dispose() => Clear();
 
     // EventLog.pas:277
-    public ExecuteEventLogCallbackList()
-    {
-        _list = new List<ExecuteEventLogInfo>();
-    }
+    public ExecuteEventLogCallbackList() => _list = new List<ExecuteEventLogInfo>();
 
     // EventLog.pas:290
     public void Clear()
@@ -36,10 +30,7 @@ public partial class ExecuteEventLogCallbackList : IDisposable
     public ref ExecuteEventLogInfo GetItem(int index) => ref CollectionsMarshal.AsSpan(_list)[index];
 
     // EventLog.pas:305
-    public void Add(in ExecuteEventLogInfo info)
-    {
-        _list.Add(info);
-    }
+    public void Add(in ExecuteEventLogInfo info) => _list.Add(info);
 
     // EventLog.pas:314
     public void Delete(int index)

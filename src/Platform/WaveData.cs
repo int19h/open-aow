@@ -13,9 +13,16 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
         stream.CopyTo(copy);
         ReadOnlySpan<byte> bytes = copy.ToArray();
         if (bytes.Length < 12 || !bytes[..4].SequenceEqual("RIFF"u8) || !bytes.Slice(8, 4).SequenceEqual("WAVE"u8))
+        {
             throw new InvalidDataException("Expected RIFF WAVE data.");
+        }
+
         long end = 8L + BinaryPrimitives.ReadUInt32LittleEndian(bytes[4..]);
-        if (end > bytes.Length || end < 12) throw new InvalidDataException("Truncated RIFF data.");
+        if (end > bytes.Length || end < 12)
+        {
+            throw new InvalidDataException("Truncated RIFF data.");
+        }
+
         WaveFormat format = default;
         bool haveFormat = false, haveData = false;
         ReadOnlySpan<byte> data = default;
@@ -24,11 +31,19 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             int at = checked((int)offset);
             uint length = BinaryPrimitives.ReadUInt32LittleEndian(bytes[(at + 4)..]);
             long next = offset + 8 + length;
-            if (next > end) throw new InvalidDataException("Truncated WAVE chunk.");
+            if (next > end)
+            {
+                throw new InvalidDataException("Truncated WAVE chunk.");
+            }
+
             var chunk = bytes.Slice(at + 8, checked((int)length));
             if (bytes.Slice(at, 4).SequenceEqual("fmt "u8))
             {
-                if (chunk.Length < 16) throw new InvalidDataException("Truncated WAVE format.");
+                if (chunk.Length < 16)
+                {
+                    throw new InvalidDataException("Truncated WAVE format.");
+                }
+
                 format = new WaveFormat(
                     FormatTag: BinaryPrimitives.ReadUInt16LittleEndian(chunk),
                     Channels: BinaryPrimitives.ReadUInt16LittleEndian(chunk[2..]),
@@ -40,7 +55,11 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             else if (bytes.Slice(at, 4).SequenceEqual("data"u8)) { data = chunk; haveData = true; }
             offset = next + (length & 1);
         }
-        if (!haveFormat || !haveData) throw new InvalidDataException("WAVE needs fmt and data chunks.");
+        if (!haveFormat || !haveData)
+        {
+            throw new InvalidDataException("WAVE needs fmt and data chunks.");
+        }
+
         return Decode(format, data);
     }
 
@@ -50,11 +69,17 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
         if (channels is not (1 or 2) || format.SamplesPerSecond <= 0 ||
             !((format.FormatTag == 1 && bits is 8 or 16) || (format.FormatTag == 7 && bits == 8)) ||
             format.BlockAlign != channels * (bits / 8) || data.Length % format.BlockAlign != 0)
+        {
             throw new InvalidDataException("Unsupported or invalid WAVE format.");
+        }
+
         var samples = new float[data.Length / (bits / 8)];
         for (int i = 0; i < samples.Length; i++)
+        {
             samples[i] = format.FormatTag == 7 ? MuLaw(data[i]) / 32768f :
                 bits == 8 ? (data[i] - 128) / 128f : BinaryPrimitives.ReadInt16LittleEndian(data[(i * 2)..]) / 32768f;
+        }
+
         return new(format.SamplesPerSecond, channels, samples);
     }
 

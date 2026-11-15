@@ -118,7 +118,7 @@ public partial class PlayerStructure : Structure
                     {
                         var players = StrategicMap.Current.Players.GetPlayers(Player);
                         var param = message.Param;
-                        param[0] = param[0].Int + (players.PlayerRace + 1) * 256;
+                        param[0] = param[0].Int + ((players.PlayerRace + 1) * 256);
                         message.Param = param;
                     }
                     else
@@ -367,16 +367,10 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2168
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
-    {
-        UpdatePlayer();
-    }
+    public override void ArmyPlaced(ArmyHexSprite placedArmy) => UpdatePlayer();
 
     // Structur.PAS:2171
-    public override void ArmyChanged(ArmyHexSprite army)
-    {
-        UpdatePlayer();
-    }
+    public override void ArmyChanged(ArmyHexSprite army) => UpdatePlayer();
 
     // Structur.PAS:2022
     public override void BuildingDone()
@@ -485,7 +479,7 @@ public partial class PlayerStructure : Structure
                 {
                     if (_victoryLocations[i])
                     {
-                        if (i == Player || StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)i) == DiplomaticRelation.Alliance)
+                        if (i == Player || (StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)i) == DiplomaticRelation.Alliance))
                         {
                             StrategicMap.Current.Players.GetPlayers(i).CheckCaptureLocations();
                         }
@@ -537,7 +531,7 @@ public partial class PlayerStructure : Structure
         if (!GetBuilding())
         {
             result = 6;
-            if (GetHexLevel() != 0 || Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+            if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
             {
                 result = (int)(((uint)(result + 1)) >> 1);
             }

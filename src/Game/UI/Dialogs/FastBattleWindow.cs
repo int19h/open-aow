@@ -270,7 +270,7 @@ public partial class FastBattleWindow : UIModule
                         if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(_viewer.Logbook.FinalData.CombatResult))
                         {
                             glow = _phaseFrame / 2;
-                            glow = Math.Abs((glow + 7) % 15 - 7);
+                            glow = Math.Abs(((glow + 7) % 15) - 7);
                             GetPartyPosition(i, ref pixelX, ref pixelY);
                             GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
                         }
@@ -382,16 +382,10 @@ public partial class FastBattleWindow : UIModule
     }
 
     // FastCombatWin.pas:389
-    public void FastBattleWindowCreate()
-    {
-        _viewer = new CombatViewer(UI.Engine);
-    }
+    public void FastBattleWindowCreate() => _viewer = new CombatViewer(UI.Engine);
 
     // FastCombatWin.pas:394
-    public void FastBattleWindowDestroy()
-    {
-        _viewer?.Dispose();
-    }
+    public void FastBattleWindowDestroy() => _viewer?.Dispose();
 
     // FastCombatWin.pas:399
     public void CloseButClick()
@@ -490,7 +484,7 @@ public partial class FastBattleWindow : UIModule
 
                     break;
                 case 2:
-                    image = 9 - _phaseFrame / 2;
+                    image = 9 - (_phaseFrame / 2);
                     if (image < 0)
                     {
                         image = 0;
@@ -628,10 +622,7 @@ public partial class FastBattleWindow : UIModule
     }
 
     // FastCombatWin.pas:539
-    public void FCWinHide()
-    {
-        FinishDialog();
-    }
+    public void FCWinHide() => FinishDialog();
 
     // FastCombatWin.pas:544
     public void FCWinKeyDown(ref ushort key, Set<ShiftState> shift)

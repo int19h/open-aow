@@ -90,7 +90,7 @@ public partial class MenuBar : Control
         SetWinHeightWithoutInvalidate(_imageLibraryButton[_imageLibraryIndexUp].Height);
         for (int i = 0, last = Menus.Count - 1; i <= last; i++)
         {
-            (Menus[i]).Aligned = false;
+            Menus[i].Aligned = false;
         }
 
         base.SetSize();
@@ -101,7 +101,7 @@ public partial class MenuBar : Control
     {
         for (int i = 0, last = Menus.Count - 1; i <= last; i++)
         {
-            (Menus[i]).Aligned = false;
+            Menus[i].Aligned = false;
         }
 
         base.ReAlign();
@@ -126,28 +126,28 @@ public partial class MenuBar : Control
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
                             base.Font.Color = SelectedColor;
                             var item = _items[i];
                             var count2 = _items.Count;
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + BorderWidth, Window.WinTop + WinTop + BorderHeight, item, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.WinTop + WinTop + BorderHeight, item, lockedSurface);
                         }
                     }
                     else
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * i / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
                             base.Font.Color = Color;
                             var item = _items[i];
                             var count2 = _items.Count;
-                            base.Font.SetText(Window.WinLeft + WinLeft + WinWidth * i / count2 + BorderWidth, Window.WinTop + WinTop + BorderHeight + 1, item, lockedSurface);
+                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.WinTop + WinTop + BorderHeight + 1, item, lockedSurface);
                         }
                     }
                 }
@@ -246,10 +246,7 @@ public partial class MenuBar : Control
     }
 
     // AOWMenuBar.pas:277
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AOWMenuBar.pas:89
     public virtual void SetImageLibraryButton(InterfaceImageLibrary value)

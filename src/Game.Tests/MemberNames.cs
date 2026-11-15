@@ -18,8 +18,13 @@ internal static class MemberNames
     internal static FieldInfo? Field(Type? type, string name, BindingFlags flags = Instance)
     {
         for (; type is not null; type = type.BaseType)
+        {
             if ((type.GetField(name, flags | BindingFlags.DeclaredOnly) ?? type.GetField("<" + name + ">k__BackingField", flags | BindingFlags.DeclaredOnly)) is { } field)
+            {
                 return field;
+            }
+        }
+
         return null;
     }
 }

@@ -11,8 +11,5 @@ namespace Aow.Convert;
 public static class UnitCatalog
 {
     [ModuleInitializer]
-    public static void Register()
-    {
-        EnumCatalog.RegisterReflection(typeof(EngineObject).Assembly);
-    }
+    public static void Register() => EnumCatalog.RegisterReflection(typeof(EngineObject).Assembly);
 }

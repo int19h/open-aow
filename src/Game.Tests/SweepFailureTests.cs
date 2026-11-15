@@ -10,6 +10,9 @@ public sealed class SweepFailureTests
     [MemberData(nameof(Cases))]
     public void PlainConstructorsKeepCompletedOwnerState(string name)
     {
-        for (int route = 0; route < 4; route++) SweepFailureFixture.CheckPlainState(name, route);
+        for (int route = 0; route < 4; route++)
+        {
+            SweepFailureFixture.CheckPlainState(name, route);
+        }
     }
 }

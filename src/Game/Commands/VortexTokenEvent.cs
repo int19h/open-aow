@@ -41,10 +41,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:1893
-    public VortexTokenEvent(CustomNode owner) : base(owner)
-    {
-        ArmyId = null;
-    }
+    public VortexTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalTargetSpells.pas:1991
     public override bool Process(Troop source, int value)
@@ -174,7 +171,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            _angle = _angle + 20 + _animation.FrameCounter / 5;
+            _angle = _angle + 20 + (_animation.FrameCounter / 5);
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {

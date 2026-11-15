@@ -59,14 +59,8 @@ public partial class Shadow : BitMask, ILibraryImageClass
         }
     }
 
-    private static void ShowShadow565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height)
-    {
-        Blit.ShowShadow565(X, Y, lockedSurface.View(), data, width, height);
-    }
+    private static void ShowShadow565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowShadow565(X, Y, lockedSurface.View(), data, width, height);
 
-    private static void ShowShadow555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height)
-    {
-        Blit.ShowShadow555(X, Y, lockedSurface.View(), data, width, height);
-    }
+    private static void ShowShadow555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowShadow555(X, Y, lockedSurface.View(), data, width, height);
 
 }

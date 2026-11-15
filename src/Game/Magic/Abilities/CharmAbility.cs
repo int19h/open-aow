@@ -35,7 +35,7 @@ public partial class CharmAbility : CommandAbility
     }
 
     // AoWAb.PAS:5350
-    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && (target.GetUnitType() == UnitType.Humanoid && (ushort)target.GetRace() != 11 && !target.GetAbilityEnabled(129));
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.GetUnitType() == UnitType.Humanoid && (ushort)target.GetRace() != 11 && !target.GetAbilityEnabled(129);
 
     private static readonly string s_charmText = "Charm";
 }

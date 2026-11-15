@@ -46,7 +46,7 @@ public partial class RaidAIGroupControl : AIGroupControl
             {
                 var efficiency = CombatPredictor.GetEfficiency();
                 var data = target.Data;
-                data.Priority = efficiency / 10 + (data.Priority * 100 - target.MovePoints * 5);
+                data.Priority = (efficiency / 10) + ((data.Priority * 100) - (target.MovePoints * 5));
                 target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
             }
@@ -79,7 +79,11 @@ public partial class RaidAIGroupControl : AIGroupControl
                     Targets.Delete(0);
                     State++;
                 }
-                else Done();
+                else
+                {
+                    Done();
+                }
+
                 break;
             case 2:
                 var raze = new AIGroupRazeControl(null!) { Holder = CreationHolder() };

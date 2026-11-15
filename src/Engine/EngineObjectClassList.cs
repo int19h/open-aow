@@ -102,7 +102,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
 
     public sealed class ClassesAccessor(EngineObjectClassList target)
     {
-        public EngineClass this[int index] { get => target.GetEngineClass(index); }
+        public EngineClass this[int index] => target.GetEngineClass(index);
     }
 
     public ClassesAccessor EngineClasses => new ClassesAccessor(this);

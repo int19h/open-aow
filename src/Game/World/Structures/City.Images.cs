@@ -13,8 +13,16 @@ public partial class City
         UpdateVisibleForSeatedPlayer();
         Production.Activate();
         var map = StrategicMap.Current;
-        if (Player != -1) map.Players.GetPlayers(Player).ProductionControls.Add(Production);
-        if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.Day == 0) SetUpgradeLevel(UpgradeLevel);
+        if (Player != -1)
+        {
+            map.Players.GetPlayers(Player).ProductionControls.Add(Production);
+        }
+
+        if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.Day == 0)
+        {
+            SetUpgradeLevel(UpgradeLevel);
+        }
+
         UpdateImages();
     }
 
@@ -23,7 +31,7 @@ public partial class City
     {
         var field = Owner;
         int terrain = field.TerrainType;
-        int offset = terrain switch { 3 => 20, 5 or >= 7 and <= 9 or 12 or 13 => 40, _ => 0 };
+        int offset = terrain switch { 3 => 20, 5 or (>= 7 and <= 9) or 12 or 13 => 40, _ => 0 };
         var images = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         if (!GetRazed())
         {
@@ -31,8 +39,15 @@ public partial class City
             {
                 var race = GamePack.Current.RaceResources.GetRaceResource(Race);
                 int size = ((Resource)Resource).Size;
-                if (race != null) CityImage = race.GetCityImage(size, terrain, field.HexLevel);
-                if (CityImage == null) CityImage = images[images.ImageExist(offset) ? offset : 0];
+                if (race != null)
+                {
+                    CityImage = race.GetCityImage(size, terrain, field.HexLevel);
+                }
+
+                if (CityImage == null)
+                {
+                    CityImage = images[images.ImageExist(offset) ? offset : 0];
+                }
             }
             else
             {
@@ -42,7 +57,11 @@ public partial class City
             if (WallType != 0 && WallType != 3)
             {
                 int index = (WallType << 1) + offset;
-                if (!images.ImageExist(index)) index = WallType << 1;
+                if (!images.ImageExist(index))
+                {
+                    index = WallType << 1;
+                }
+
                 WallFrontImage = images[index];
                 WallBackImage = images[index + 1];
             }

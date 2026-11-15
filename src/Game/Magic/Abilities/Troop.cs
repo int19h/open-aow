@@ -312,10 +312,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual sbyte GetHitPoints() => 0;
 
     // Unit.PAS:827
-    public virtual void SetHitPoints(sbyte value)
-    {
-        UpdateDefensiveStrength();
-    }
+    public virtual void SetHitPoints(sbyte value) => UpdateDefensiveStrength();
 
     // Unit.PAS:973
     public virtual Set<MoveType> GetMoveTypes() => GetAbilityMoveTypesAll();
@@ -2011,7 +2008,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         level = GetAbilityLevel(64);
         if (level != 0)
         {
-            result = level * 2 + 4;
+            result = (level * 2) + 4;
         }
         else
         {
@@ -2022,7 +2019,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         hexX = coordinate49.X;
         hexY = coordinate49.Y;
         hexLevel = coordinate49.MapLevel;
-        if (hexLevel != 0 && !GetAbilityEnabled(39) || hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        if ((hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
         {
             result = (int)(((uint)(result + 1)) >> 1);
         }
@@ -2426,7 +2423,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public void ResetLifeMasteryFear()
     {
         if (GetAbilityEnabled(53) && ((DurationAbilityData)GetAbilityData(53)).Source == 1)
+        {
             RemoveAbility(53);
+        }
     }
 
     public virtual bool GetAbilitySet(int index) => (uint)index < (uint)AbilityCount && (AbilityBits[index >> 3] & (1 << (index & 7))) != 0;
@@ -2446,11 +2445,19 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sources?.Clear();
         for (int i = 0; i < GetAbilityCount(); i++)
         {
-            if (!GetAbilitySet(i)) continue;
+            if (!GetAbilitySet(i))
+            {
+                continue;
+            }
+
             var owner = GetAbilityOwner(i);
             var ability = GamePack.Current.AbilityControl.GetAbility(i);
             var name = ability.GetName(owner);
-            if (!IsEmpty(name)) names.AddObject(name, IntToObject(i));
+            if (!IsEmpty(name))
+            {
+                names.AddObject(name, IntToObject(i));
+            }
+
             types?.AddObject(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)ability.GetAbilityType()]), IntToObject(i));
             var source = ability.GetSourceName(owner);
             sources?.AddObject(source, IntToObject(i));
@@ -2462,7 +2469,11 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         Set<DamageType> result = default;
         var active = damageTypes - GetImmunityTypes();
-        if (active == default) return result;
+        if (active == default)
+        {
+            return result;
+        }
+
         if (active.Contains(DamageType.Fire) && ExpandAbility(127))
         {
             RemoveAbility(95);
@@ -2471,22 +2482,39 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (active.Contains(DamageType.Cold) && ExpandAbility(95))
         {
             var data = (UnitEnchantmentAbilityData)GetAbilityData(95);
-            if (data != null) data.EnchantmentPlayerIndex = (sbyte)combat.CombatData.CurrentPlayer;
+            if (data != null)
+            {
+                data.EnchantmentPlayerIndex = (sbyte)combat.CombatData.CurrentPlayer;
+            }
+
             RemoveAbility(127);
             result += Set<DamageType>.Of(DamageType.Cold);
         }
         if (active.Contains(DamageType.Lightning) && ExpandAbility(92))
         {
             var data = (DurationAbilityData)GetAbilityData(92);
-            if (data != null) data.PlayerIndex = combat.CombatData.CurrentPlayer;
+            if (data != null)
+            {
+                data.PlayerIndex = combat.CombatData.CurrentPlayer;
+            }
+
             result += Set<DamageType>.Of(DamageType.Lightning);
         }
         if (active.Contains(DamageType.Poison) && ExpandAbility(96))
+        {
             result += Set<DamageType>.Of(DamageType.Poison);
+        }
+
         if (active.Contains(DamageType.Death) && ExpandAbility(93))
+        {
             result += Set<DamageType>.Of(DamageType.Death);
+        }
+
         if (active.Contains(DamageType.Holy) && ExpandAbility(98))
+        {
             result += Set<DamageType>.Of(DamageType.Holy);
+        }
+
         return result;
     }
 
@@ -2498,18 +2526,41 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
             var ability = abilities.GetAbility(i);
-            if (!GetAbilityEnabled(ability.AbilityId)) continue;
+            if (!GetAbilityEnabled(ability.AbilityId))
+            {
+                continue;
+            }
+
             int strength = 0;
             Set<DamageType> types = default;
             ability.GetOffensiveStrength(this, ref strength, ref types);
-            if (strength > 255) strength = 255;
+            if (strength > 255)
+            {
+                strength = 255;
+            }
+
             if (types == default)
+            {
                 Assert(false, $"Ability: {ability.GetName(null)}", @"D:\AoWDev\AoWE\inc\Unit.PAS", 0xE2B4);
-            if (types == default) continue;
-            if (MaxOffensiveStrength < strength) MaxOffensiveStrength = (byte)strength;
+            }
+
+            if (types == default)
+            {
+                continue;
+            }
+
+            if (MaxOffensiveStrength < strength)
+            {
+                MaxOffensiveStrength = (byte)strength;
+            }
+
             for (int kind = (int)DamageType.Fire; kind <= (int)DamageType.None; kind++)
+            {
                 if (types.Contains((DamageType)kind) && _offensiveStrength[kind] < strength)
+                {
                     _offensiveStrength[kind] = (byte)strength;
+                }
+            }
         }
     }
 

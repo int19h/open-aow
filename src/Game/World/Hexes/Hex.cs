@@ -138,7 +138,7 @@ public partial class Hex : AbstractHexagon
                     if (neighbourTerrain == 10 || neighbourTerrain == 13)
                     {
                         var random = Random(3);
-                        Transitions[side] = (byte)(random * 3 + (side + 182));
+                        Transitions[side] = (byte)((random * 3) + side + 182);
                     }
                     else
                     {
@@ -156,7 +156,7 @@ public partial class Hex : AbstractHexagon
                         if (ownTerrain == 10 || ownTerrain == 13)
                         {
                             var random = Random(3);
-                            Transitions[side] = (byte)(random * 3 + (side + 182));
+                            Transitions[side] = (byte)((random * 3) + side + 182);
                         }
                         else
                         {
@@ -234,7 +234,7 @@ public partial class Hex : AbstractHexagon
                                                 else
                                                 {
                                                     var random = Random(3);
-                                                    Transitions[side] = (byte)(random * 3 + ((byte)(ownTerrain << 4) + side + 6));
+                                                    Transitions[side] = (byte)((random * 3) + (byte)(ownTerrain << 4) + side + 6);
                                                 }
                                             }
                                         }

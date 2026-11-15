@@ -32,10 +32,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     }
 
     // MainAG.pas:256
-    public FortifyAIGroupControl(CustomNode owner) : base(owner)
-    {
-        _targetSelector = new AIGroupTargetSelector(null) { Holder = CreationHolder() };
-    }
+    public FortifyAIGroupControl(CustomNode owner) : base(owner) => _targetSelector = new AIGroupTargetSelector(null) { Holder = CreationHolder() };
 
     // MainAG.pas:278
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
@@ -123,7 +120,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     {
                         var targetData = Targets.GetTargets(i);
                         var targetMovePoints = Targets.GetTargets(i);
-                        Targets.GetTargets(i).DataB = targetData.Data.Priority * 10 + targetMovePoints.MovePoints * -2;
+                        Targets.GetTargets(i).DataB = (targetData.Data.Priority * 10) + (targetMovePoints.MovePoints * -2);
                         excess = Targets.GetTargets(i).DataA - StrengthMax;
                         if (excess > 0)
                         {

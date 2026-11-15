@@ -38,13 +38,21 @@ public sealed class StaticStringTableTests
         var nulls = new List<string>();
         int tables = 0;
         foreach (var type in typeof(Startup).Assembly.GetTypes())
+        {
             foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (field.IsLiteral || field.FieldType.ContainsGenericParameters || type.ContainsGenericParameters) continue;
+                if (field.IsLiteral || field.FieldType.ContainsGenericParameters || type.ContainsGenericParameters)
+                {
+                    continue;
+                }
+
                 string name = type.FullName + "." + field.Name;
                 if (field.FieldType == typeof(string))
                 {
-                    if (field.GetValue(null) is null) nulls.Add(name);
+                    if (field.GetValue(null) is null)
+                    {
+                        nulls.Add(name);
+                    }
                 }
                 else if (field.FieldType == typeof(string[]) || field.FieldType == typeof(ImmutableArray<string>))
                 {
@@ -55,10 +63,24 @@ public sealed class StaticStringTableTests
                         ImmutableArray<string> { IsDefault: false } immutable => immutable,
                         _ => null,
                     };
-                    if (items is null) nulls.Add(name);
-                    else for (int i = 0; i < items.Count; i++) if (items[i] is null) nulls.Add($"{name}[{i}]");
+                    if (items is null)
+                    {
+                        nulls.Add(name);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            if (items[i] is null)
+                            {
+                                nulls.Add($"{name}[{i}]");
+                            }
+                        }
+                    }
                 }
             }
+        }
+
         Assert.True(tables >= 24, $"{tables} static string tables");
         Assert.Empty(nulls);
     }

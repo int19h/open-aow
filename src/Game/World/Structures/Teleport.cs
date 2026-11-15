@@ -22,10 +22,7 @@ namespace Aow.Game.World.Structures;
 // DestinationX, DestinationY, DestinationMapLevel, State (bit 0 razed)
 public partial class Teleport : Structure
 {
-    public Teleport(CustomNode owner) : base(owner)
-    {
-        Destination = new MapCoordinate(0, 0, 0);
-    }
+    public Teleport(CustomNode owner) : base(owner) => Destination = new MapCoordinate(0, 0, 0);
 
     // Teleport.pas:105
     public new const int ClassId = 131332;

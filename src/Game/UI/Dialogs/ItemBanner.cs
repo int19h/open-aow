@@ -133,7 +133,7 @@ public partial class ItemBanner : UIModule
             }
 
             var count = AbilityList.Items.Count;
-            BannerMenu.WinHeight = count * AbilityList.ItemHeight + (y + 50);
+            BannerMenu.WinHeight = (count * AbilityList.ItemHeight) + y + 50;
             if (BannerMenu.WinHeight > 200)
             {
                 BannerMenu.WinHeight = 200;

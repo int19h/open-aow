@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ArmyEventDialog : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -428,6 +425,8 @@ public partial class ArmyEventDialog : ILayoutModule
         decoL.ImageLibrary = UI.Graphics.CelticDecorations;
         decoR.ImageLibrary = UI.Graphics.CelticDecorations;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

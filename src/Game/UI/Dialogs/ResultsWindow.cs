@@ -391,28 +391,16 @@ public partial class ResultsWindow : UIModule
     }
 
     // AoWResultsWin.pas:319
-    public void ResultsPnlUpdate()
-    {
-        UI.PyreScreen.DeadPnlUpdate();
-    }
+    public void ResultsPnlUpdate() => UI.PyreScreen.DeadPnlUpdate();
 
     // AoWResultsWin.pas:324
-    public void AxisDraw(LockedSurface surface)
-    {
-        DrawGraphs(surface);
-    }
+    public void AxisDraw(LockedSurface surface) => DrawGraphs(surface);
 
     // AoWResultsWin.pas:329
-    public void AgendaChange()
-    {
-        ResultsPanel.Drawn = false;
-    }
+    public void AgendaChange() => ResultsPanel.Drawn = false;
 
     // AoWResultsWin.pas:334
-    public void ResultsPnlShow()
-    {
-        UpdateSelection();
-    }
+    public void ResultsPnlShow() => UpdateSelection();
 
     // AoWResultsWin.pas:339
     public void P1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)

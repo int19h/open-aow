@@ -17,28 +17,16 @@ public partial class LibraryImagePalette : Persistent
     private int _refCount;
 
     // ImageLib.pas:7084
-    public LibraryImagePalette()
-    {
-        _palette = new Palette();
-    }
+    public LibraryImagePalette() => _palette = new Palette();
 
     // ImageLib.pas:7090
-    public override void Dispose()
-    {
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // ImageLib.pas:7097
-    public void SaveToStream(Stream stream)
-    {
-        _palette.SaveToStream(stream);
-    }
+    public void SaveToStream(Stream stream) => _palette.SaveToStream(stream);
 
     // ImageLib.pas:7102
-    public void LoadFromStream(Stream stream)
-    {
-        _palette.LoadFromStream(stream);
-    }
+    public void LoadFromStream(Stream stream) => _palette.LoadFromStream(stream);
 
     // ImageLib.pas:7107
     public Palette RemapPalette(int pixelFormatId)
@@ -93,8 +81,8 @@ public partial class LibraryImagePalette : Persistent
         }
     }
 
-    public int Index { get => IndexValue; }
-    public Palette Palette { get => _palette; }
+    public int Index => IndexValue;
+    public Palette Palette => _palette;
     public int RefCount { get => _refCount; internal set => _refCount = value; }
 
 }

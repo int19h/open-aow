@@ -108,20 +108,14 @@ public partial class ScannerWindow : UIModule
         {
             UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
             UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
-            UI.ScannerWindow.Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6);
-            UI.ScannerWindow.Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6);
+            UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6);
+            UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6);
         }
     }
 
     // AoWSWindow.pas:107
-    public void ScannerTabMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void ScannerTabMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => UI.General.PlayButtonSound(0);
 
     // AoWSWindow.pas:110
-    public void HelpClick()
-    {
-        UI.HelpWindow.ShowHelp(501);
-    }
+    public void HelpClick() => UI.HelpWindow.ShowHelp(501);
 }

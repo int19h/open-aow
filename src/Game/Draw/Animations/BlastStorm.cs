@@ -41,10 +41,7 @@ public partial class BlastStorm : Storm
     }
 
     // Storms.pas:358
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
-    {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType(), X, Y, L, 0, 4, out info);
-    }
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType(), X, Y, L, 0, 4, out info);
 
     // Storms.pas:349
     public override void UpdateTargetSelection(TargetSelectionControl selection)

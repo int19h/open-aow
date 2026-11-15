@@ -58,7 +58,7 @@ public abstract partial record DiplomaticProposal
     }
 
     public virtual bool Equals(DiplomaticProposal other) =>
-        ReferenceEquals(this, other) || other is not null && EqualityContract == other.EqualityContract && Message.SequenceEqual(other.Message);
+        ReferenceEquals(this, other) || (other is not null && EqualityContract == other.EqualityContract && Message.SequenceEqual(other.Message));
 
     public override int GetHashCode() => HashCode.Combine(EqualityContract, Message.Count);
 

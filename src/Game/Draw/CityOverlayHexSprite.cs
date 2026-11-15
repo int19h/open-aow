@@ -41,7 +41,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
         {
             if (City.Enchantments.Contains(CityEnchantmentId.Warmonger))
             {
-                intensity = Math.Abs((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20 - 10) + 50;
+                intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 50;
                 sequence = City.Resource.ImageSequenceList.ImageSequences[17];
                 while (sequence != null)
                 {
@@ -61,7 +61,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
             if (City.Enchantments.Contains(CityEnchantmentId.GoldRush))
             {
-                intensity = Math.Abs((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20 - 10) + 70;
+                intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 70;
                 sequence = City.Resource.ImageSequenceList.ImageSequences[18];
                 while (sequence != null)
                 {
@@ -113,7 +113,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
                                 frame = _shellEndFrame - StrategicMap.Current.Frame;
                                 if (frame <= 20)
                                 {
-                                    intensity = intensity + (10 - Math.Abs(frame - 10)) * 3;
+                                    intensity = intensity + ((10 - Math.Abs(frame - 10)) * 3);
                                 }
                                 else
                                 {
@@ -130,7 +130,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
             if (Mode == OverlayMode.Looting)
             {
-                City.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(City.Owner.HexX + City.Owner.HexY * 16));
+                City.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(City.Owner.HexX + (City.Owner.HexY * 16)));
             }
         }
     }

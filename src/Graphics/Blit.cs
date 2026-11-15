@@ -26,7 +26,11 @@ public static partial class Blit
     // blocks: whether they overlap and where the destination block starts in the source block.
     private static bool Plain(SurfaceView s, int si, SurfaceView d, int di, int count, bool shared, int shift)
     {
-        if (si < 0 || di < 0 || si > s.Memory.Length - count || di > d.Memory.Length - count) return false;
+        if (si < 0 || di < 0 || si > s.Memory.Length - count || di > d.Memory.Length - count)
+        {
+            return false;
+        }
+
         int at = di + shift;
         return !shared || at <= si || at >= si + count;
     }
@@ -37,7 +41,11 @@ public static partial class Blit
     // that leaves its block and for a destination that starts inside the source row ahead of it.
     public static void RegisterBlitRectangle(SurfaceView s, SurfaceView d, int w, int h)
     {
-        if (w == 0 || h == 0) return;
+        if (w == 0 || h == 0)
+        {
+            return;
+        }
+
         int head = (-s.Start) & 3, tail = (s.Start + w) & 3;
         bool whole = w - tail - head >= 0;
         uint words = unchecked((uint)(w - tail - head)) >> 2;
@@ -45,8 +53,14 @@ public static partial class Blit
         for (int y = 0; y < h; y++)
         {
             int si = s.RowIndex(y), di = d.RowIndex(y);
-            if (whole && Plain(s, si, d, di, w, shared, shift)) s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
-            else RegisterRow(s.Memory, si, d.Memory, di, head, words, tail);
+            if (whole && Plain(s, si, d, di, w, shared, shift))
+            {
+                s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
+            }
+            else
+            {
+                RegisterRow(s.Memory, si, d.Memory, di, head, words, tail);
+            }
         }
     }
 
@@ -72,7 +86,11 @@ public static partial class Blit
     // negative width copies nothing.
     public static void RepMovsdBlitRectangle(SurfaceView s, SurfaceView d, int w, int h)
     {
-        if (w <= 0 || h <= 0) return;
+        if (w <= 0 || h <= 0)
+        {
+            return;
+        }
+
         int tail = w < 4 ? w : (s.Start + w) & 3;
         int head = w < 4 ? 0 : (w - tail) & 3;
         int words = w < 4 ? 0 : (w - tail) >> 2;
@@ -80,7 +98,10 @@ public static partial class Blit
         for (int y = 0; y < h; y++)
         {
             int si = s.RowIndex(y), di = d.RowIndex(y);
-            if (Plain(s, si, d, di, w, shared, shift)) s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
+            if (Plain(s, si, d, di, w, shared, shift))
+            {
+                s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
+            }
             else
             {
                 int offset = 0;
@@ -100,7 +121,10 @@ public static partial class Blit
             for (int x = 0; x < w; x++)
             {
                 int pixel = source[x];
-                if (pixel != key) destination[x] = (ushort)pixel;
+                if (pixel != key)
+                {
+                    destination[x] = (ushort)pixel;
+                }
             }
         }
     }
@@ -108,7 +132,11 @@ public static partial class Blit
     internal static int Half(int s, int d, bool rgb565, bool high = false)
     {
         int mask = rgb565 ? 0xF7DF : 0x7BDF;
-        if (high) mask &= ~1;
+        if (high)
+        {
+            mask &= ~1;
+        }
+
         return ((s & mask) + (d & mask)) >> 1;
     }
 
@@ -119,7 +147,10 @@ public static partial class Blit
         {
             var source = Words(s.Row(y, w * 2));
             var destination = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) destination[x] = (ushort)Half(source[x], destination[x], rgb565, x < paired && (x & 1) != 0);
+            for (int x = 0; x < w; x++)
+            {
+                destination[x] = (ushort)Half(source[x], destination[x], rgb565, x < paired && (x & 1) != 0);
+            }
         }
     }
 
@@ -131,7 +162,11 @@ public static partial class Blit
     {
         for (uint i = 0; i < unchecked((uint)count); i++)
         {
-            if (i >= (uint)(d.Length / 4)) throw new AccessViolationException("FillInt crossed the buffer");
+            if (i >= (uint)(d.Length / 4))
+            {
+                throw new AccessViolationException("FillInt crossed the buffer");
+            }
+
             BinaryPrimitives.WriteInt32LittleEndian(d.Slice((int)i * 4, 4), value);
         }
     }
@@ -141,13 +176,21 @@ public static partial class Blit
         uint pair = unchecked(((uint)value << 16) + (uint)value), pairs = (uint)count >> 1;
         for (uint i = 0; i < pairs; i++)
         {
-            if (i >= (uint)(d.Length / 4)) throw new AccessViolationException("FillWord crossed the buffer");
+            if (i >= (uint)(d.Length / 4))
+            {
+                throw new AccessViolationException("FillWord crossed the buffer");
+            }
+
             BinaryPrimitives.WriteUInt32LittleEndian(d.Slice((int)i * 4, 4), pair);
         }
         if ((count & 1) != 0)
         {
             int offset = checked((int)pairs * 4);
-            if (offset > d.Length - 2) throw new AccessViolationException("FillWord crossed the buffer");
+            if (offset > d.Length - 2)
+            {
+                throw new AccessViolationException("FillWord crossed the buffer");
+            }
+
             BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), (ushort)pair);
         }
     }
@@ -157,9 +200,17 @@ public static partial class Blit
         int offset = 0;
         do
         {
-            if (offset > d.Length - 2) throw new AccessViolationException("FillTrippleByte crossed the buffer");
+            if (offset > d.Length - 2)
+            {
+                throw new AccessViolationException("FillTrippleByte crossed the buffer");
+            }
+
             BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), (ushort)value);
-            if (offset + 2 >= d.Length) throw new AccessViolationException("FillTrippleByte crossed the buffer");
+            if (offset + 2 >= d.Length)
+            {
+                throw new AccessViolationException("FillTrippleByte crossed the buffer");
+            }
+
             d[offset + 2] = (byte)(value >> 16); offset += 3;
         } while (--count != 0);
     }
@@ -169,7 +220,9 @@ public static partial class Blit
     private static void CheckShortRows(SurfaceView s, SurfaceView d, int w, int h)
     {
         if (w > 0 && w < 4 && h > 0 && ((s.Start | d.Start) & 3) == 0)
+        {
             throw new AccessViolationException("Original aligned remapper overruns short rows");
+        }
     }
 
     public static void RemapSurface16To16(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
@@ -180,7 +233,10 @@ public static partial class Blit
         {
             var source = Words(s.Row(y, w * 2));
             var destination = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) destination[x] = map[source[x]];
+            for (int x = 0; x < w; x++)
+            {
+                destination[x] = map[source[x]];
+            }
         }
     }
 
@@ -191,7 +247,10 @@ public static partial class Blit
         {
             var source = Words(s.Row(y, w * 2));
             var destination = d.Row(y, w);
-            for (int x = 0; x < w; x++) destination[x] = table[source[x]];
+            for (int x = 0; x < w; x++)
+            {
+                destination[x] = table[source[x]];
+            }
         }
     }
 
@@ -203,7 +262,10 @@ public static partial class Blit
         {
             var source = Words(s.Row(y, w * 2));
             var destination = Dwords(d.Row(y, w * 4));
-            for (int x = 0; x < w; x++) destination[x] = map[source[x]];
+            for (int x = 0; x < w; x++)
+            {
+                destination[x] = map[source[x]];
+            }
         }
     }
 
@@ -219,7 +281,10 @@ public static partial class Blit
         {
             var source = Words(s.Row(y, w * 2));
             var destination = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) destination[x] = (ushort)To565(source[x]);
+            for (int x = 0; x < w; x++)
+            {
+                destination[x] = (ushort)To565(source[x]);
+            }
         }
     }
 
@@ -229,7 +294,10 @@ public static partial class Blit
         {
             var source = Words(s.Row(y, w * 2));
             var destination = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) destination[x] = (ushort)To555(source[x]);
+            for (int x = 0; x < w; x++)
+            {
+                destination[x] = (ushort)To555(source[x]);
+            }
         }
     }
 
@@ -280,7 +348,10 @@ public static partial class Blit
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
-                if (p != key) destination[x] = (ushort)BlendPixel(p, destination[x], table, rgb565);
+                if (p != key)
+                {
+                    destination[x] = (ushort)BlendPixel(p, destination[x], table, rgb565);
+                }
             }
         }
     }
@@ -292,7 +363,7 @@ public static partial class Blit
     {
         int head = (d.Start & 3) == 0 ? 0 : 1;
         int draw = (w - head) / 2 == 0 ? head : w;
-        Blend(s.WithPitch(s.Pitch - (w - draw) * 2), d.WithPitch(d.Pitch - (w - draw) * 2), draw, h, t, false);
+        Blend(s.WithPitch(s.Pitch - ((w - draw) * 2)), d.WithPitch(d.Pitch - ((w - draw) * 2)), draw, h, t, false);
     }
 
     public static void BlendSurface565(SurfaceView s, SurfaceView d, int w, int h, ReadOnlySpan<byte> t) => Blend(s, d, w, h, t, true);
@@ -310,7 +381,7 @@ public static partial class Blit
             var row = Words(destination.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
-                int p = source.UInt16(rows[y] + cols[x] * 2);
+                int p = source.UInt16(rows[y] + (cols[x] * 2));
                 row[x] = (ushort)(!blend ? p : BlendPixel(p, row[x], table, rgb565));
             }
         }

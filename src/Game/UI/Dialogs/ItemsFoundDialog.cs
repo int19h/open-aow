@@ -80,16 +80,10 @@ public partial class ItemsFoundDialog : UIModule
     }
 
     // AoWItemsFoundDlg.pas:63
-    public void DlgHide()
-    {
-        Finish();
-    }
+    public void DlgHide() => Finish();
 
     // AoWItemsFoundDlg.pas:92
-    public void CloseBtn2Click()
-    {
-        Window.Visible = false;
-    }
+    public void CloseBtn2Click() => Window.Visible = false;
 
     // AoWItemsFoundDlg.pas:95
     public void Gnd3Draw(CheckBox sender, LockedSurface lockedSurface, int slot)

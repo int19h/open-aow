@@ -15,10 +15,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
     public BlendTable GetLookupTables(int index) => Lookup[index];
 
     // GFXE.pas:9674
-    public LookupBlendTableCollection100()
-    {
-        _tables = new BlendTableList();
-    }
+    public LookupBlendTableCollection100() => _tables = new BlendTableList();
 
     // GFXE.pas:9680
     public virtual void Dispose()
@@ -91,11 +88,11 @@ public partial class LookupBlendTableCollection100 : IDisposable
         return result;
     }
 
-    public BlendTableList Tables { get => _tables; }
+    public BlendTableList Tables => _tables;
 
     public sealed class LookupTablesAccessor(LookupBlendTableCollection100 target)
     {
-        public BlendTable this[int index] { get => target.GetLookupTables(index); }
+        public BlendTable this[int index] => target.GetLookupTables(index);
     }
 
     public LookupTablesAccessor LookupTables => new LookupTablesAccessor(this);

@@ -19,7 +19,11 @@ public partial class MultiWindow
         UI.VideoDialog.SetSceneSize(640, 480);
         _pendingMap = mapName;
         var directPlay = UI.SetupEvents.DirectPlay;
-        if (directPlay.Connected) directPlay.DisConnect();
+        if (directPlay.Connected)
+        {
+            directPlay.DisConnect();
+        }
+
         UI.TitleWindow.MainWindow.Visible = true;
         UI.TitleWindow.TitlePanel.Visible = false;
         MultiPanel.Visible = GamePanel.Visible = true;
@@ -28,12 +32,16 @@ public partial class MultiWindow
         // lists the TCP/IP provider alone, as DirectPlay does on any current Windows, so TCP
         // shows and IPX stays hidden.
         if (directPlay.GetConnections() == 0)
+        {
             for (int i = 0; i < directPlay.ConnectionItems.Count; i++)
+            {
                 switch (directPlay.ConnectionItems[i]!.FType)
                 {
                     case ConnectionType.TCP: TcpButton.Visible = true; break;
                     case ConnectionType.IPX: IpxButton.Visible = true; break;
                 }
+            }
+        }
     }
 
     public void MultiWinUpdate()

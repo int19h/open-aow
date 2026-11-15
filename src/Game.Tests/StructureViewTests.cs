@@ -36,7 +36,11 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public override EngineObject FindOwnedChild(int classId)
         {
-            if (classId == ArmyHexSprite.ClassId) ArmyQueries++;
+            if (classId == ArmyHexSprite.ClassId)
+            {
+                ArmyQueries++;
+            }
+
             return null!;
         }
     }
@@ -52,19 +56,37 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private static IEnumerable<State> States(Type type)
     {
         foreach (bool owned in new[] { true, false })
+        {
             foreach (bool debug in new[] { false, true })
+            {
                 foreach (bool building in new[] { false, true })
+                {
                     foreach (bool razed in Razeable(type) ? new[] { false, true } : [false])
+                    {
                         foreach (bool war in type == typeof(City) ? new[] { false, true } : [false])
+                        {
                             yield return new State(owned, debug, building, razed, war);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static void Apply(Structure structure, State state)
     {
-        if (structure is PlayerStructure player) player.Player = state.Owned ? Viewer : OtherPlayer;
+        if (structure is PlayerStructure player)
+        {
+            player.Player = state.Owned ? Viewer : OtherPlayer;
+        }
+
         EngineFixture.Engine.Debug = state.Debug;
         structure.BuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
-        if (state.Razed) Raze(structure);
+        if (state.Razed)
+        {
+            Raze(structure);
+        }
+
         if (structure is City city)
         {
             var war = Set<City.ModeElement>.Of(City.ModeElement.WarMode);
@@ -94,30 +116,94 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // AoWInfoWin.pas:616 ShowStructureInfo.
     private static string OldInfoPanel(Structure structure, sbyte seated)
     {
-        if (structure.GetBuilding()) return "Building";
-        if (structure.GetRazed()) return "Razed";
+        if (structure.GetBuilding())
+        {
+            return "Building";
+        }
+
+        if (structure.GetRazed())
+        {
+            return "Razed";
+        }
+
         if (structure is PlayerStructure)
         {
             if (((PlayerStructure)structure).Player == seated || EngineFixture.Engine.Debug)
             {
-                if (structure is City) return ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City";
-                if (structure is ProductionPlace) return ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
-                if (structure is Mine) return "Mine";
-                if (structure is PowerNode) return "PowerNode";
-                if (structure is Farm) return "Farm";
-                if (structure is Tower) return "WatchTower";
-                if (structure is Altar) return "Altar";
+                if (structure is City)
+                {
+                    return ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City";
+                }
+
+                if (structure is ProductionPlace)
+                {
+                    return ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
+                }
+
+                if (structure is Mine)
+                {
+                    return "Mine";
+                }
+
+                if (structure is PowerNode)
+                {
+                    return "PowerNode";
+                }
+
+                if (structure is Farm)
+                {
+                    return "Farm";
+                }
+
+                if (structure is Tower)
+                {
+                    return "WatchTower";
+                }
+
+                if (structure is Altar)
+                {
+                    return "Altar";
+                }
+
                 return "Generic";
             }
-            if (structure is City && ((City)structure).Mode.Contains(City.ModeElement.WarMode)) return "WarCity";
+            if (structure is City && ((City)structure).Mode.Contains(City.ModeElement.WarMode))
+            {
+                return "WarCity";
+            }
+
             return "OtherPlayer";
         }
-        if (structure is Sign) return "Sign";
-        if (structure is Cave) return "Cave";
-        if (structure is Teleport) return "Teleport";
-        if (structure is ExplorationSite) return "ExplorationSite";
-        if (structure is WizardsTower) return "WizardsTower";
-        if (structure is Arena) return "Arena";
+        if (structure is Sign)
+        {
+            return "Sign";
+        }
+
+        if (structure is Cave)
+        {
+            return "Cave";
+        }
+
+        if (structure is Teleport)
+        {
+            return "Teleport";
+        }
+
+        if (structure is ExplorationSite)
+        {
+            return "ExplorationSite";
+        }
+
+        if (structure is WizardsTower)
+        {
+            return "WizardsTower";
+        }
+
+        if (structure is Arena)
+        {
+            return "Arena";
+        }
+
         return "Generic";
     }
 
@@ -125,24 +211,72 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // under way, so it cancels the targeting.
     private static string OldInfoButton(Structure structure)
     {
-        if (structure is City) return "CityScreen";
-        if (structure is ProductionPlace) return "ProductionScreen";
-        if (structure is Cave) return "Action(Cave)";
-        if (structure is Teleport) return "Action(Teleport)";
-        if (structure is ExplorationSite) return "Action(ExplorationSite)";
-        if (structure is WizardsTower) return "Action(WizardsTower)";
-        if (structure is Arena) return "Action(Arena)";
-        if (structure is Altar) return "Action(Altar)";
+        if (structure is City)
+        {
+            return "CityScreen";
+        }
+
+        if (structure is ProductionPlace)
+        {
+            return "ProductionScreen";
+        }
+
+        if (structure is Cave)
+        {
+            return "Action(Cave)";
+        }
+
+        if (structure is Teleport)
+        {
+            return "Action(Teleport)";
+        }
+
+        if (structure is ExplorationSite)
+        {
+            return "Action(ExplorationSite)";
+        }
+
+        if (structure is WizardsTower)
+        {
+            return "Action(WizardsTower)";
+        }
+
+        if (structure is Arena)
+        {
+            return "Action(Arena)";
+        }
+
+        if (structure is Altar)
+        {
+            return "Action(Altar)";
+        }
+
         return "None";
     }
 
     // aowMapEvents.pas:518 TheMapStructureDblClick, past the selected structure test.
     private static string OldDoubleClick(Structure structure, sbyte seated)
     {
-        if (structure is City && ((City)structure).Player == seated) return "CityScreen";
-        if (structure is ProductionPlace && ((ProductionPlace)structure).CanDoubleClick() && ((PlayerStructure)structure).Player == seated) return "ProductionScreen";
-        if (structure is WizardsTower) return "Action(WizardsTower)";
-        if (structure is Arena) return "Action(Arena)";
+        if (structure is City && ((City)structure).Player == seated)
+        {
+            return "CityScreen";
+        }
+
+        if (structure is ProductionPlace && ((ProductionPlace)structure).CanDoubleClick() && ((PlayerStructure)structure).Player == seated)
+        {
+            return "ProductionScreen";
+        }
+
+        if (structure is WizardsTower)
+        {
+            return "Action(WizardsTower)";
+        }
+
+        if (structure is Arena)
+        {
+            return "Action(Arena)";
+        }
+
         return "None";
     }
 
@@ -157,10 +291,18 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         string Site(string prefix, int variants, bool items, out bool takesItems, ref int fixedTags)
         {
             takesItems = false;
-            if (!siteCombat) return "Blank000";
+            if (!siteCombat)
+            {
+                return "Blank000";
+            }
+
             takesItems = items;
             string name = prefix + Runtime.IntToStr(Runtime.Random(variants));
-            for (int i = 1; i <= 6; i++) fixedTags |= 1 << i;
+            for (int i = 1; i <= 6; i++)
+            {
+                fixedTags |= 1 << i;
+            }
+
             return name;
         }
         switch (classId)
@@ -175,7 +317,11 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                         fixedTags |= 1 << i;
                     }
                 }
-                while (fileName.Length < 11) fileName = fileName + "x";
+                while (fileName.Length < 11)
+                {
+                    fileName = fileName + "x";
+                }
+
                 fileName = fileName + "C000";
                 break;
             case 131950: fileName = fileName + "Farmx000"; break;
@@ -236,7 +382,10 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             StrategicMap.Current = _previousMap;
             EngineFixture.Engine.Debug = _previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
-            foreach (var structure in _created) _ = Record.Exception(structure.Dispose);
+            foreach (var structure in _created)
+            {
+                _ = Record.Exception(structure.Dispose);
+            }
         }
     }
 
@@ -272,10 +421,17 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 string expected = OldInfoPanel(structure, Viewer);
                 var view = structure.InfoPanel(Viewer);
                 Assert.True(InfoWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
-                if (view.Name != expected) mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {expected}");
+                if (view.Name != expected)
+                {
+                    mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {expected}");
+                }
+
                 row.Add($"{state}={view.Name}");
                 // A razed state has no plain reset in every kind, so the next state starts from a new instance.
-                if (state.Razed) structure = scene.Create(type).Structure;
+                if (state.Razed)
+                {
+                    structure = scene.Create(type).Structure;
+                }
             }
             table.AppendLine($"{type.Name}: {string.Join(" ", row.Distinct())}");
         }
@@ -293,7 +449,10 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool owned in new[] { true, false })
             {
                 var (structure, owner) = scene.Create(type);
-                if (structure is PlayerStructure player) player.Player = owned ? Viewer : OtherPlayer;
+                if (structure is PlayerStructure player)
+                {
+                    player.Player = owned ? Viewer : OtherPlayer;
+                }
                 // Targeting under way from this structure, the state the altar arm tests first.
                 var selection = scene.Map.TargetSelection;
                 selection.Status = Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
@@ -305,9 +464,16 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 selection.Status = Set<TargetSelectionStatusElement>.Of();
                 selection.Source = null;
                 if (view != StructureView.None)
+                {
                     Assert.True(InfoWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
+                }
+
                 string actual = Observed(view, type, nameof(Structure.InfoButton), owner, queries, cancelled);
-                if (actual != expected) mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
+                if (actual != expected)
+                {
+                    mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
+                }
+
                 output.WriteLine($"{type.Name} {(owned ? "owned" : "other")}: {actual}");
             }
         }
@@ -324,16 +490,27 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool owned in new[] { true, false })
             {
                 var (structure, owner) = scene.Create(type);
-                if (structure is PlayerStructure player) player.Player = owned ? Viewer : OtherPlayer;
+                if (structure is PlayerStructure player)
+                {
+                    player.Player = owned ? Viewer : OtherPlayer;
+                }
+
                 int queries = owner.ArmyQueries;
                 string expected = OldDoubleClick(structure, Viewer);
                 // The old cascade only names the arm, so the army count is unchanged here.
                 Assert.Equal(queries, owner.ArmyQueries);
                 var view = structure.DoubleClick(Viewer);
                 if (view != StructureView.None)
+                {
                     Assert.True(MapEvents.StructureScreens.TryGet(view, out _), $"{type.Name}: no screen renderer for {view}");
+                }
+
                 string actual = Observed(view, type, nameof(Structure.DoubleClick), owner, queries, false);
-                if (actual != expected) mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
+                if (actual != expected)
+                {
+                    mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
+                }
+
                 output.WriteLine($"{type.Name} {(owned ? "owned" : "other")}: {actual}");
             }
         }
@@ -354,7 +531,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 var (structure, _) = scene.Create(type);
                 var names = new SortedSet<string>(StringComparer.Ordinal);
                 foreach (bool siteCombat in new[] { false, true })
+                {
                     foreach (bool randomTerrain in new[] { false, true })
+                    {
                         foreach (var pattern in neighbors)
                         {
                             Runtime.RandSeed = 0x5EED + pattern.Length;
@@ -370,14 +549,37 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             string expected = OldCombatMapName(EngineClass.Of(type).ClassId, siteCombat, ref expectedTerrain, randomTerrain,
                                 pattern.Contains, out bool expectedItems, out int expectedTags);
                             string state = $"{type.Name} site={siteCombat} random={randomTerrain} neighbors=[{string.Join(",", pattern)}]";
-                            if (actual != expected) mismatches.Add($"{state}: {actual}, old switch {expected}");
-                            if (site.RandomTerrain != expectedTerrain) mismatches.Add($"{state}: random terrain {site.RandomTerrain}, old switch {expectedTerrain}");
-                            if (site.TakesCombatItems != expectedItems) mismatches.Add($"{state}: items {site.TakesCombatItems}, old switch {expectedItems}");
-                            if (site.FixedTags != expectedTags) mismatches.Add($"{state}: tags {site.FixedTags}, old switch {expectedTags}");
-                            if (actualSeed != Runtime.RandSeed) mismatches.Add($"{state}: random draws differ");
+                            if (actual != expected)
+                            {
+                                mismatches.Add($"{state}: {actual}, old switch {expected}");
+                            }
+
+                            if (site.RandomTerrain != expectedTerrain)
+                            {
+                                mismatches.Add($"{state}: random terrain {site.RandomTerrain}, old switch {expectedTerrain}");
+                            }
+
+                            if (site.TakesCombatItems != expectedItems)
+                            {
+                                mismatches.Add($"{state}: items {site.TakesCombatItems}, old switch {expectedItems}");
+                            }
+
+                            if (site.FixedTags != expectedTags)
+                            {
+                                mismatches.Add($"{state}: tags {site.FixedTags}, old switch {expectedTags}");
+                            }
+
+                            if (actualSeed != Runtime.RandSeed)
+                            {
+                                mismatches.Add($"{state}: random draws differ");
+                            }
+
                             names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
                         }
-                output.WriteLine($"{type.Name} ({(EngineClass.Of(type).ClassId)}): {string.Join(" ", names)}");
+                    }
+                }
+
+                output.WriteLine($"{type.Name} ({EngineClass.Of(type).ClassId}): {string.Join(" ", names)}");
             }
         }
         finally { Runtime.RandSeed = previousSeed; }

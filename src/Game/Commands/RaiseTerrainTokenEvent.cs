@@ -71,7 +71,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         field.RestoreTerrain();
                         mountain = (RaisedMountain)resource.CreateResourceUser();
-                        mountain.Duration = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
+                        mountain.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);

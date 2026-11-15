@@ -17,8 +17,15 @@ public partial class MoveControl
         int index = gapIndex;
         while (!done)
         {
-            if (rightActive) Step(true, ref rightField, ref rightDirection, ref rightPoints, ref rightOver, ref rightActive, ref rightFound);
-            if (leftActive) Step(false, ref leftField, ref leftDirection, ref leftPoints, ref leftOver, ref leftActive, ref leftFound);
+            if (rightActive)
+            {
+                Step(true, ref rightField, ref rightDirection, ref rightPoints, ref rightOver, ref rightActive, ref rightFound);
+            }
+
+            if (leftActive)
+            {
+                Step(false, ref leftField, ref leftDirection, ref leftPoints, ref leftOver, ref leftActive, ref leftFound);
+            }
         }
         gapIndex = index;
         return leftFound ? leftPoints : rightFound ? rightPoints : -1;
@@ -37,16 +44,35 @@ public partial class MoveControl
                     (next.HexX != Destination.X || next.HexY != Destination.Y))
                 {
                     nextOver = next.CanMoveOver(this);
-                    if (nextOver == 0) points = -1;
+                    if (nextOver == 0)
+                    {
+                        points = -1;
+                    }
                 }
                 direction += right ? 1 : -1;
-                if (direction > 6) direction = 1;
-                if (direction == 0) direction = 6;
+                if (direction > 6)
+                {
+                    direction = 1;
+                }
+
+                if (direction == 0)
+                {
+                    direction = 6;
+                }
+
                 attempts++;
             } while (points < 0 && attempts <= 6);
             direction += (right ? -1 : 1) * (over == 2 ? 3 : 2);
-            if (direction <= 0) direction += 6;
-            if (direction > 6) direction -= 6;
+            if (direction <= 0)
+            {
+                direction += 6;
+            }
+
+            if (direction > 6)
+            {
+                direction -= 6;
+            }
+
             over = nextOver == 2 ? 2 : 1;
             total += points;
             field = next;
@@ -63,13 +89,19 @@ public partial class MoveControl
                 if (field.HexX == start.X && field.HexY == start.Y)
                 {
                     active = false;
-                    if (right ? !leftActive : !rightActive) done = true;
+                    if (right ? !leftActive : !rightActive)
+                    {
+                        done = true;
+                    }
                 }
             }
             else
             {
                 active = false;
-                if (right ? !leftActive : !rightActive) done = true;
+                if (right ? !leftActive : !rightActive)
+                {
+                    done = true;
+                }
             }
         }
     }

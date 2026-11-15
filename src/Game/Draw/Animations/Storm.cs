@@ -20,10 +20,7 @@ public partial class Storm : Animation
     public sbyte Player { get; private set; }
 
     // Storms.pas:34
-    public virtual void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
 
     // Storms.pas:236
     public virtual void UpdateTargetSelection(TargetSelectionControl selection)
@@ -44,17 +41,14 @@ public partial class Storm : Animation
     public virtual bool UpdateStorm() => false;
 
     // Storms.pas:221
-    public virtual void FinalizeStorm()
-    {
-        StrategicMap.Current.UnlockExecuteEventLog();
-    }
+    public virtual void FinalizeStorm() => StrategicMap.Current.UnlockExecuteEventLog();
 
     // Storms.pas:226
     public void ShowTargetSelection(TargetSelectionControl selection, int hexNumber, int xs, int ys, in LockedSurface lockedSurface)
     {
         int intensity;
         hexNumber = HexGeometry.HexNumberToRadius(hexNumber);
-        intensity = Math.Abs((StrategicMap.Current.Frame + hexNumber) % 9 - 4) * 20 + 20;
+        intensity = (Math.Abs(((StrategicMap.Current.Frame + hexNumber) % 9) - 4) * 20) + 20;
         var lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
         selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, lookupTable);
     }
@@ -96,9 +90,6 @@ public partial class Storm : Animation
     }
 
     // Storms.pas:39
-    public virtual string Name()
-    {
-        throw AbstractErrorException.Create("Abstract Error");
-    }
+    public virtual string Name() => throw AbstractErrorException.Create("Abstract Error");
 
 }

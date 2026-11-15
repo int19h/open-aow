@@ -121,15 +121,12 @@ public partial class Enchantment : EngineObject
     public virtual bool Dispel() => false;
 
     // Spells.PAS:1724
-    public virtual void Select()
-    {
-        CenterToLocation();
-    }
+    public virtual void Select() => CenterToLocation();
 
     // Spells.PAS:1753
     public int DispelChance(int mana)
     {
-        int result = mana - DispelResistance * 10 + 50;
+        int result = mana - (DispelResistance * 10) + 50;
         if (result < 10)
         {
             result = 10;

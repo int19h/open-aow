@@ -240,10 +240,7 @@ public partial class Bridge : AbstractRoad
 
     public new partial class Resource : AbstractRoadResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            SetLevel(10);
-        }
+        public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
         // Bridge.pas:205
         public new const int ClassId = 131445;

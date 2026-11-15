@@ -160,8 +160,15 @@ public sealed class MapNetSoundFailureTests
         AudioHost.SampleDataList = new SampleDataList();
         AudioHost.SoundSystems = new SoundSystemList();
         string path = Path.Combine(AppContext.BaseDirectory, "9.3b-8-corrupt.wav");
-        if (corrupt) File.WriteAllBytes(path, [1, 2, 3]);
-        else path += ".missing";
+        if (corrupt)
+        {
+            File.WriteAllBytes(path, [1, 2, 3]);
+        }
+        else
+        {
+            path += ".missing";
+        }
+
         AudioHost.BaseSoundEnginePath = "";
         var files = new ObservingFiles(oldFiles, path);
         Runtime.Files = files;
@@ -178,7 +185,11 @@ public sealed class MapNetSoundFailureTests
                     Assert.IsType<InvalidDataException>(error);
                     Assert.Equal("Expected RIFF WAVE data.", error.Message);
                 }
-                else Assert.IsType<FileNotFoundException>(error);
+                else
+                {
+                    Assert.IsType<FileNotFoundException>(error);
+                }
+
                 Assert.Null(AudioHost.SampleDataList.Find(path));
                 Assert.Equal(0, AudioHost.SampleDataList.Count);
                 Assert.Equal(0, AudioHost.SampleList.Count);
@@ -190,7 +201,11 @@ public sealed class MapNetSoundFailureTests
         }
         finally
         {
-            if (corrupt) File.Delete(path);
+            if (corrupt)
+            {
+                File.Delete(path);
+            }
+
             AudioHost.SampleList = oldSamples;
             AudioHost.SampleDataList = oldData;
             AudioHost.SoundSystems = oldSystems;

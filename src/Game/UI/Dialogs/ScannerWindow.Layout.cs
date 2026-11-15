@@ -10,10 +10,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ScannerWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {

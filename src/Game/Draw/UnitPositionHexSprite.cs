@@ -104,10 +104,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(2228483) == null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
 
     // AoWTC.pas:5026
-    public void UpdateImageIndex()
-    {
-        _imageIndex = _position * 8 + _index;
-    }
+    public void UpdateImageIndex() => _imageIndex = (_position * 8) + _index;
 
     // AoWTC.pas:223
 

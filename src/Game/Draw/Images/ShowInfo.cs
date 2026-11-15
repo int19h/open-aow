@@ -36,7 +36,10 @@ public struct ShowInfo
         _unknownBytes = BinaryPrimitives.ReadUInt16LittleEndian(image.AsSpan(2));
         Blend = BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(4));
         if (exact && count != 8)
+        {
             throw new EndOfStreamException("Stream read error");
+        }
+
         return count;
     }
 
@@ -46,7 +49,10 @@ public struct ShowInfo
         stream.Write(image);
         int count = image.Length;
         if (exact && count != 8)
+        {
             throw new IOException("Stream write error");
+        }
+
         return count;
     }
 }

@@ -17,10 +17,7 @@ public partial class CombatImageLibraryTerrainShadow : HexSprite
     public override int GetShowPriority() => (Terrain.GetShowPriority() & 67108863) - 1677721600;
 
     // CombatILTer.pas:96
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
-    {
-        Terrain.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
-    }
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Terrain.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
 
     // Engine.pas:524
 

@@ -167,7 +167,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     private readonly RoadControl _roadControl;
     private GameEngine _activatedEngine;
 
-    public GameEngine ActivatedEngine { get => _activatedEngine; }
+    public GameEngine ActivatedEngine => _activatedEngine;
 
     private readonly MapObjectResourceList _mapObjectResourceList;
     private readonly ResourceEditSettings _resourceEditSettings;
@@ -301,10 +301,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     }
 
     // HSEngine.pas:3405
-    public override void Clear()
-    {
-        base.Clear();
-    }
+    public override void Clear() => base.Clear();
 
     // HSEngine.pas:3399, then Ability.PAS:206.
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -361,35 +358,26 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     }
 
     // HSEngine.pas:3459
-    public void ResetModified()
-    {
-        _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
-    }
+    public void ResetModified() => _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
 
     // HSEngine.pas:3464
-    public void SetEditting()
-    {
-        _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
-    }
+    public void SetEditting() => _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
 
     // HSEngine.pas:3468
-    public void ResetEditting()
-    {
-        _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
-    }
+    public void ResetEditting() => _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
 
-    public Set<HexSpriteSetStatusElement> Status { get => _status; }
-    public HexControl HexControl { get => _hexControl; }
-    public RoadControl RoadControl { get => _roadControl; }
-    public MapObjectResourceList MapObjectResourceList { get => _mapObjectResourceList; }
-    public ResourceEditSettings ResourceEditSettings { get => _resourceEditSettings; }
-    public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; }
-    public SfxManager SfxManager { get => _sfxManager; }
-    public PluginControl PluginControl { get => _pluginControl; }
+    public Set<HexSpriteSetStatusElement> Status => _status;
+    public HexControl HexControl => _hexControl;
+    public RoadControl RoadControl => _roadControl;
+    public MapObjectResourceList MapObjectResourceList => _mapObjectResourceList;
+    public ResourceEditSettings ResourceEditSettings => _resourceEditSettings;
+    public ImageLibraryManager ImageLibraryManager => _imageLibraryManager;
+    public SfxManager SfxManager => _sfxManager;
+    public PluginControl PluginControl => _pluginControl;
     public string Name { get => _name; set => _name = value; }
-    public StringList TerrainTypes { get => _terrainTypes; }
-    public StringList OverlayTypes { get => _overlayTypes; }
-    public StringList DecorationTypes { get => _decorationTypes; }
+    public StringList TerrainTypes => _terrainTypes;
+    public StringList OverlayTypes => _overlayTypes;
+    public StringList DecorationTypes => _decorationTypes;
 
     public CustomImageLibrary GeneralImages { get; }
     public CustomImageLibrary CursorImages { get; }

@@ -23,10 +23,7 @@ public partial class Matrix : IDisposable
     }
 
     // DisplayC.pas:3155
-    public virtual void Dispose()
-    {
-        Data = null;
-    }
+    public virtual void Dispose() => Data = null;
 
     // DisplayC.pas:3166
     // { The value at X, Y, clipped to 2. }
@@ -35,7 +32,7 @@ public partial class Matrix : IDisposable
         int result;
         if (X < _width && Y < _height)
         {
-            result = Data[X + Y * _width];
+            result = Data[X + (Y * _width)];
             if (result > 2)
             {
                 result = 2;
@@ -54,11 +51,11 @@ public partial class Matrix : IDisposable
     {
         if (X < _width && Y < _height)
         {
-            Data[X + Y * _width] = value;
+            Data[X + (Y * _width)] = value;
         }
     }
 
-    public byte Width { get => _width; }
-    public byte Height { get => _height; }
+    public byte Width => _width;
+    public byte Height => _height;
 
 }

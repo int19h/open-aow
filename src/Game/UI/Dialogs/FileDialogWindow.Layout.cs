@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class FileDialogWindow : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -2021,6 +2018,8 @@ public partial class FileDialogWindow : ILayoutModule
         savedInfo4.ImageLibraryFrame = UI.Graphics.GenericFrames;
         savedInfo4.ImageLibraryTexture = UI.Graphics.GenericTextures;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

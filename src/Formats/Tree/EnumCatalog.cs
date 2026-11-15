@@ -21,7 +21,9 @@ internal sealed class DictionaryEnumCatalog : IEnumCatalog
         {
             var info = EnumTypeInfo.Describe(type);
             if (!_types.TryAdd(info.Name, info))
+            {
                 throw new InvalidOperationException("The enum " + info.Name + " is registered twice.");
+            }
         }
     }
 
@@ -42,7 +44,10 @@ public static class EnumCatalog
     public static void Register(IEnumCatalog catalog)
     {
         ArgumentNullException.ThrowIfNull(catalog);
-        lock (s_gate) s_catalogs.Add(catalog);
+        lock (s_gate)
+        {
+            s_catalogs.Add(catalog);
+        }
     }
 
     public static void RegisterReflection(Assembly assembly)
@@ -50,7 +55,11 @@ public static class EnumCatalog
         ArgumentNullException.ThrowIfNull(assembly);
         lock (s_gate)
         {
-            if (!s_assemblies.Add(assembly)) return;
+            if (!s_assemblies.Add(assembly))
+            {
+                return;
+            }
+
             s_catalogs.Add(new ReflectionEnumCatalog(assembly));
         }
     }
@@ -60,9 +69,17 @@ public static class EnumCatalog
         lock (s_gate)
         {
             var found = Lookup(typeName);
-            if (found is not null) return found;
+            if (found is not null)
+            {
+                return found;
+            }
+
             var resolved = NameTable.ResolveStored(typeName);
-            if (resolved is null || resolved == typeName) return null;
+            if (resolved is null || resolved == typeName)
+            {
+                return null;
+            }
+
             return Lookup(resolved);
         }
     }
@@ -72,9 +89,16 @@ public static class EnumCatalog
         EnumTypeInfo? found = null;
         foreach (var catalog in s_catalogs)
         {
-            if (!catalog.TryGet(typeName, out var type)) continue;
+            if (!catalog.TryGet(typeName, out var type))
+            {
+                continue;
+            }
+
             if (found is not null)
+            {
                 throw new InvalidOperationException("The enum " + typeName + " is registered twice.");
+            }
+
             found = type;
         }
         return found;
@@ -102,7 +126,11 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
         }
         foreach (var type in found)
         {
-            if (type is null || !type.IsEnum || type.IsGenericType) continue;
+            if (type is null || !type.IsEnum || type.IsGenericType)
+            {
+                continue;
+            }
+
             string stored = NameTable.Stored(type);
             if (!_types.TryGetValue(stored, out var list))
             {
@@ -121,7 +149,10 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
             return false;
         }
         if (list.Count != 1)
+        {
             throw new InvalidOperationException("The enum " + typeName + " is declared " + list.Count + " times.");
+        }
+
         type = list[0];
         return true;
     }

@@ -58,10 +58,7 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     }
 
     // CitySpells.pas:182
-    public void SetLocation(MapCoordinate location)
-    {
-        _targetLocation = location;
-    }
+    public void SetLocation(MapCoordinate location) => _targetLocation = location;
 
     public void SetLocation(sbyte x, sbyte y, sbyte level) =>
         SetLocation(new MapCoordinate(x, y, level));

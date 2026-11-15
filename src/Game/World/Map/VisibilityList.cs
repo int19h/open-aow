@@ -28,10 +28,7 @@ public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
     // HSEngine.pas:3871
-    public override void QuickClear()
-    {
-        StoredCount = 0;
-    }
+    public override void QuickClear() => StoredCount = 0;
 
     // HSEngine.pas:3876
     public override int RemoveChild(EngineObject child)
@@ -46,9 +43,6 @@ public partial class VisibilityList : ControlStyleInverseSortedNode, IChildList<
     }
 
     // HSEngine.pas:3866
-    public override void Grow()
-    {
-        Resize(Capacity + 500);
-    }
+    public override void Grow() => Resize(Capacity + 500);
 
 }

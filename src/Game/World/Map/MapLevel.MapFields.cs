@@ -9,7 +9,7 @@ public partial class MapLevel
     private MapField[] _fields = [];
 
     public override EngineObject GetChild(int index) => _fields[index];
-    public MapField GetField(int x, int y) => _fields[y * _width + x];
+    public MapField GetField(int x, int y) => _fields[(y * _width) + x];
 
     // HSEngine.pas:2960 stores adjacent instances in a raw allocation.
     // Managed instances retain the same row order and virtual construction.
@@ -22,30 +22,41 @@ public partial class MapLevel
         _count = width * height;
         _fields = new MapField[_count];
         for (int y = 0; y < height; y++)
+        {
             for (int x = 0; x < width; x++)
             {
                 var field = (MapField)type.CreateInstance(this, holder: CreationHolder());
                 field.HexX = (sbyte)x;
                 field.HexY = (sbyte)y;
                 field.HexLevel = (sbyte)_hexLevel;
-                _fields[y * width + x] = field;
+                _fields[(y * width) + x] = field;
             }
-        foreach (var offsets in HexNumberOffsets) Array.Clear(offsets);
+        }
+
+        foreach (var offsets in HexNumberOffsets)
+        {
+            Array.Clear(offsets);
+        }
+
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
+        {
             for (int parity = 0; parity <= 1; parity++)
-                HexNumberOffsets[parity][hexNumber] = (HexGeometry.HexNumberToXYTable[parity][hexNumber].X
-                    + HexGeometry.HexNumberToXYTable[parity][hexNumber].Y * width);
-
+            {
+                HexNumberOffsets[parity][hexNumber] = HexGeometry.HexNumberToXYTable[parity][hexNumber].X
+                    + (HexGeometry.HexNumberToXYTable[parity][hexNumber].Y * width);
+            }
+        }
     }
 
-    public void DestroyMapFieldList()
-    {
-        _fields = [];
-    }
+    public void DestroyMapFieldList() => _fields = [];
 
     public override void Dispose()
     {
-        foreach (var field in _fields) field?.Dispose();
+        foreach (var field in _fields)
+        {
+            field?.Dispose();
+        }
+
         _count = 0;
         DestroyMapFieldList();
         base.Dispose();
@@ -74,9 +85,16 @@ public partial class MapLevel
         };
         // The translate stream notifies no progress, as the original's test of Translate says.
         bool notify = !PersistSupport.Translating(persister);
-        if (notify) _map.NotifyProgress(progress);
+        if (notify)
+        {
+            _map.NotifyProgress(progress);
+        }
+
         if (loading && _width != 0)
+        {
             CreateMapFieldList(_width, _height);
+        }
+
         if (loading && !persister.Has("Fields"))
         {
             return;
@@ -88,7 +106,11 @@ public partial class MapLevel
             if (--step == 0)
             {
                 progress.Percent += 10;
-                if (notify) _map.NotifyProgress(progress);
+                if (notify)
+                {
+                    _map.NotifyProgress(progress);
+                }
+
                 step = _count / 10;
             }
         });

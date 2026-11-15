@@ -18,10 +18,7 @@ public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSi
     void IOwnedSink<MoveTargetList>.SetOwner(MoveTargetList owner) => SetOwner(owner);
 
     // AIGroup.pas:4215
-    public MoveTarget(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-    }
+    public MoveTarget(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

@@ -45,7 +45,10 @@ public static class EngineServices
     {
         int crc = -1;
         foreach (byte value in buffer[..size])
+        {
             crc = s_crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+        }
+
         return crc ^ -1;
     }
 
@@ -92,7 +95,11 @@ public static class EngineServices
 
     internal static void Fill<T>(Span<T> buffer, int count, T value)
     {
-        if (count < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative fill count");
+        if (count < 0)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "Negative fill count");
+        }
+
         buffer[..count].Fill(value);
     }
 

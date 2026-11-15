@@ -65,25 +65,13 @@ internal static class StringSorting
         }
     }
 
-    internal static void SortStringsAscending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
-    {
-        SortStrings(strings, CompareAscending, linkedStrings);
-    }
+    internal static void SortStringsAscending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings) => SortStrings(strings, CompareAscending, linkedStrings);
 
-    internal static void SortStringsDescending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
-    {
-        SortStrings(strings, CompareDescending, linkedStrings);
-    }
+    internal static void SortStringsDescending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings) => SortStrings(strings, CompareDescending, linkedStrings);
 
-    internal static void SortStringsNumericalAscending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
-    {
-        SortStrings(strings, CompareNumericalAscending, linkedStrings);
-    }
+    internal static void SortStringsNumericalAscending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings) => SortStrings(strings, CompareNumericalAscending, linkedStrings);
 
-    internal static void SortStringsNumericalDescending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
-    {
-        SortStrings(strings, CompareNumericalDescending, linkedStrings);
-    }
+    internal static void SortStringsNumericalDescending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings) => SortStrings(strings, CompareNumericalDescending, linkedStrings);
 
     internal static int CompareAscending(string s1, string s2, object o1, object o2)
     {

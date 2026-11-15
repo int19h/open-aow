@@ -50,7 +50,7 @@ internal static class RosterTables
                 defaultUnit.MakeDefaultLevelUnit(1);
                 if (unit.GetCombatValue(defaultUnit, 0) > 0)
                 {
-                    result = unit.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) / 100 + (resource.Level * 100 + resource.Moves * 10 + value / 2);
+                    result = (unit.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) / 100) + (resource.Level * 100) + (resource.Moves * 10) + (value / 2);
                     if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(57) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(58))
                     {
                         result += 100;
@@ -66,7 +66,7 @@ internal static class RosterTables
                         result += 100;
                     }
 
-                    if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(1) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(36) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(66) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(24) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(44) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(117) && resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(21))
+                    if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(1) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(36) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(66) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(24) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(44) || (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(117) && resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(21)))
                     {
                         result += 100;
                     }

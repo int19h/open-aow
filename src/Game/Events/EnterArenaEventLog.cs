@@ -13,10 +13,7 @@ namespace Aow.Game.Events;
 public partial class EnterArenaEventLog : EventLog
 {
     // Arena.pas:259
-    public EnterArenaEventLog(CustomNode owner) : base(owner)
-    {
-        UnitIds = new Int32List();
-    }
+    public EnterArenaEventLog(CustomNode owner) : base(owner) => UnitIds = new Int32List();
 
     public Arena Arena { get; set; }
     public byte Selection { get; private set; }
@@ -51,10 +48,7 @@ public partial class EnterArenaEventLog : EventLog
     }
 
     // Arena.pas:281
-    public void SetSelection(byte value)
-    {
-        Selection = (byte)(value & Trainable);
-    }
+    public void SetSelection(byte value) => Selection = (byte)(value & Trainable);
 
     // Arena.pas:284
     public bool Train(out string errorText)

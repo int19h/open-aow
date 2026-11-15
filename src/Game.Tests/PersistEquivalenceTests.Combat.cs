@@ -201,14 +201,34 @@ public sealed partial class PersistEquivalenceTests
         foreach (var engineClass in EngineClass.All)
         {
             var type = engineClass.Type;
-            if (type.Assembly != typeof(CombatUnit).Assembly || type.IsAbstract) continue;
-            if (type.Namespace is not ("Aow.Game.Combat" or "Aow.Game.Combat.Actions")) continue;
-            if (EngineObject.TreePersistenceRefusal(type) is not null) continue;
-            if (FormatSchema.Current.Find(engineClass.StorageKey) is null) continue;
+            if (type.Assembly != typeof(CombatUnit).Assembly || type.IsAbstract)
+            {
+                continue;
+            }
+
+            if (type.Namespace is not ("Aow.Game.Combat" or "Aow.Game.Combat.Actions"))
+            {
+                continue;
+            }
+
+            if (EngineObject.TreePersistenceRefusal(type) is not null)
+            {
+                continue;
+            }
+
+            if (FormatSchema.Current.Find(engineClass.StorageKey) is null)
+            {
+                continue;
+            }
+
             names.Add(engineClass.StorageKey);
         }
         var data = new TheoryData<string>();
-        foreach (var name in names) data.Add(name);
+        foreach (var name in names)
+        {
+            data.Add(name);
+        }
+
         return data;
     }
 
@@ -220,9 +240,21 @@ public sealed partial class PersistEquivalenceTests
         var added = new Dictionary<int, EngineClass>();
         foreach (var engineClass in EngineClass.All)
         {
-            if (engineClass.Type.Assembly != typeof(CombatUnit).Assembly) continue;
-            if (engineClass.Type.Namespace is not ("Aow.Game.Combat" or "Aow.Game.Combat.Actions")) continue;
-            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId)) continue;
+            if (engineClass.Type.Assembly != typeof(CombatUnit).Assembly)
+            {
+                continue;
+            }
+
+            if (engineClass.Type.Namespace is not ("Aow.Game.Combat" or "Aow.Game.Combat.Actions"))
+            {
+                continue;
+            }
+
+            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId))
+            {
+                continue;
+            }
+
             added[engineClass.ClassId] = engineClass;
         }
         var classes = added.Values.ToArray();

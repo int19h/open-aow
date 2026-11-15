@@ -472,7 +472,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
             {
                 if (GamePack.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility).GetCombatMode(unitHexSprite.Unit.Troop) == CombatMode.Touch)
                 {
-                    if ((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide() || targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide()) && ((TouchAbility)GamePack.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility)).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
+                    if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide()) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide())) && ((TouchAbility)GamePack.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility)).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
                     {
                         if (_cursorImage < 105 || _cursorImage > 107)
                         {
@@ -486,7 +486,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 }
                 else
                 {
-                    if (targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide() || targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide())
+                    if ((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide()) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide()))
                     {
                         if (_cursorImage < 80 || _cursorImage > 83)
                         {
@@ -586,7 +586,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 }
             }
 
-            if (cost <= 0 || CombatMap.Current.ExplorationEnabled && !field.GetExplored(CombatMap.Current.SeatedPlayer))
+            if (cost <= 0 || (CombatMap.Current.ExplorationEnabled && !field.GetExplored(CombatMap.Current.SeatedPlayer)))
             {
                 CombatMap.Current.Mouse.Cursor = CombatMap.Current.Mouse.Cursor + 1;
             }
@@ -874,13 +874,13 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     case 30:
                     case >= 86 and <= 90:
                         var unitHexSpriteHexY = unitHexSprite.GetHexY();
-                        HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), unitHexSpriteHexY, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[direction - 1] * 12 - 12], ref hexX, ref hexY);
+                        HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), unitHexSpriteHexY, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[direction - 1] * 12) - 12], ref hexX, ref hexY);
                         break;
                     case 52:
                         if (TacticalTables.SpellTypes[unitHexSprite.SelectedSpell] == BattleEffectType.Breath)
                         {
                             var hexY2 = unitHexSprite.GetHexY();
-                            HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), hexY2, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[direction - 1] * 12 - 12], ref hexX, ref hexY);
+                            HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), hexY2, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[direction - 1] * 12) - 12], ref hexX, ref hexY);
                         }
 
                         break;

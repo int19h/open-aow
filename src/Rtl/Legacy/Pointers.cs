@@ -18,7 +18,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     private readonly object? Storage => storage ?? Array;
     private readonly int StorageBytes => Array is null ? storageBytes : checked(Array.Length * Unsafe.SizeOf<T>());
     public readonly object? StorageIdentity => Storage;
-    public readonly int ByteIndex => byteOffset + Index * Unsafe.SizeOf<T>();
+    public readonly int ByteIndex => byteOffset + (Index * Unsafe.SizeOf<T>());
     public readonly ref T Value => ref this[0];
 
     private readonly ref T RawReference(int index) => ref view is null
@@ -28,10 +28,22 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     {
         get
         {
-            if (Array is not null) return ref Array[Index + index];
-            if (IsNull) throw new NullReferenceException();
-            long offset = ByteIndex + (long)index * Unsafe.SizeOf<T>();
-            if (offset < 0 || offset + Unsafe.SizeOf<T>() > StorageBytes) throw new IndexOutOfRangeException();
+            if (Array is not null)
+            {
+                return ref Array[Index + index];
+            }
+
+            if (IsNull)
+            {
+                throw new NullReferenceException();
+            }
+
+            long offset = ByteIndex + ((long)index * Unsafe.SizeOf<T>());
+            if (offset < 0 || offset + Unsafe.SizeOf<T>() > StorageBytes)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             return ref RawReference(index);
         }
     }
@@ -40,10 +52,21 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public readonly Span<T> AsSpan(int count)
     {
-        if (count == 0) return Span<T>.Empty;
-        if (Array is not null) return Array.AsSpan(Index, count);
-        if (count < 0 || ByteIndex < 0 || ByteIndex + (long)count * Unsafe.SizeOf<T>() > StorageBytes)
+        if (count == 0)
+        {
+            return Span<T>.Empty;
+        }
+
+        if (Array is not null)
+        {
+            return Array.AsSpan(Index, count);
+        }
+
+        if (count < 0 || ByteIndex < 0 || ByteIndex + ((long)count * Unsafe.SizeOf<T>()) > StorageBytes)
+        {
             throw new ArgumentOutOfRangeException(nameof(count));
+        }
+
         return MemoryMarshal.CreateSpan(ref Value, count);
     }
 
@@ -51,12 +74,21 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public readonly Ptr<U> Reinterpret<U>(int offset = 0)
     {
-        if (IsNull) return default;
+        if (IsNull)
+        {
+            return default;
+        }
+
         if (RuntimeHelpers.IsReferenceOrContainsReferences<T>() || RuntimeHelpers.IsReferenceOrContainsReferences<U>())
+        {
             throw new InvalidCastException("Pointer view requires unmanaged elements");
+        }
         // The same type at the same address is the pointer itself, so a box, unbox and offset
         // round trip builds no view.
-        if (typeof(U) == typeof(T) && offset == 0) return Unsafe.As<Ptr<T>, Ptr<U>>(ref Unsafe.AsRef(in this));
+        if (typeof(U) == typeof(T) && offset == 0)
+        {
+            return Unsafe.As<Ptr<T>, Ptr<U>>(ref Unsafe.AsRef(in this));
+        }
         // A view addresses the original array at a byte offset. It never captures another view,
         // so reading through a chain of reinterpretations costs one step.
         var root = (Array)Storage!;
@@ -65,7 +97,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     }
 
     private static PointerElement<U> View<U>(Array root, int start)
-        => (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + i * Unsafe.SizeOf<U>()));
+        => (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + (i * Unsafe.SizeOf<U>())));
 
     // The state a view captures, for the tests that pin that views never nest.
     internal readonly object? ViewState => view?.Target;
@@ -77,7 +109,11 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public readonly Ptr<T> Realloc(int count)
     {
-        if (count == 0) return default;
+        if (count == 0)
+        {
+            return default;
+        }
+
         var result = Alloc(count);
         if (!IsNull)
         {
@@ -93,7 +129,11 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public static int operator -(Ptr<T> a, Ptr<T> b)
     {
-        if (!ReferenceEquals(a.Storage, b.Storage)) throw new InvalidOperationException("Pointers have different backing arrays");
+        if (!ReferenceEquals(a.Storage, b.Storage))
+        {
+            throw new InvalidOperationException("Pointers have different backing arrays");
+        }
+
         return (a.ByteIndex - b.ByteIndex) / Unsafe.SizeOf<T>();
     }
 
@@ -105,13 +145,21 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public static void Copy(Ptr<T> source, Ptr<T> destination, int count)
     {
-        if (count <= 0) return;
+        if (count <= 0)
+        {
+            return;
+        }
+
         source.AsSpan(count).CopyTo(destination.AsSpan(count));
     }
 
     public static void Fill(Ptr<T> destination, int count, T value)
     {
-        if (count <= 0) return;
+        if (count <= 0)
+        {
+            return;
+        }
+
         destination.AsSpan(count).Fill(value);
     }
 
@@ -136,10 +184,7 @@ public sealed class PtrBox<T> : IPointerBox
 {
     public Ptr<T> Pointer { get; }
 
-    public PtrBox(Ptr<T> pointer)
-    {
-        Pointer = pointer;
-    }
+    public PtrBox(Ptr<T> pointer) => Pointer = pointer;
 
     public Ptr<U> As<U>() => Pointer.Reinterpret<U>();
 
@@ -154,7 +199,11 @@ public static class Bytes
     public static Span<byte> Of<T>(ref T value, int count) where T : unmanaged
     {
         var bytes = Of(ref value);
-        if (count < 0 || count > bytes.Length) throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record");
+        if (count < 0 || count > bytes.Length)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record");
+        }
+
         return bytes[..count];
     }
 }

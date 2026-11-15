@@ -28,8 +28,15 @@ public sealed class EngineClassTests
             var engineClass = table[name];
             Assert.Equal(entry.GetProperty("id").GetInt32(), engineClass.ClassId);
             var parent = entry.GetProperty("parent");
-            if (parent.ValueKind == JsonValueKind.Null) Assert.Equal(typeof(EngineObject), engineClass.Type);
-            else Assert.Equal(parent.GetString(), engineClass.Type.BaseType!.FullName);
+            if (parent.ValueKind == JsonValueKind.Null)
+            {
+                Assert.Equal(typeof(EngineObject), engineClass.Type);
+            }
+            else
+            {
+                Assert.Equal(parent.GetString(), engineClass.Type.BaseType!.FullName);
+            }
+
             Assert.Same(engineClass, EngineClass.Of(engineClass.Type));
             Assert.Equal(NameTable.Stored(engineClass.Type), engineClass.StorageKey);
             Assert.Equal(engineClass.StorageKey, NameTable.ResolveStored(NameTable.Delphi(engineClass.Type)));
@@ -60,7 +67,11 @@ public sealed class EngineClassTests
         using GameEngine engine = new GameEngine(null!);
         var engines = new List<GameEngine> { engine };
         // The full engine of the fixture, when a test of the engine collection built it.
-        if (EngineFixture.Engine is { } full) engines.Add(full);
+        if (EngineFixture.Engine is { } full)
+        {
+            engines.Add(full);
+        }
+
         Assert.Contains(EngineClass.Of<ControlStyleObject>(), ProductRegistered(engine));
         foreach (GameEngine registered in engines)
         {
@@ -82,7 +93,10 @@ public sealed class EngineClassTests
         for (int i = 0; i < engine.EngineClasses.Count; i++)
         {
             var engineClass = engine.EngineClasses[i];
-            if (engineClass.Type.Assembly == typeof(EngineObject).Assembly) result.Add(engineClass);
+            if (engineClass.Type.Assembly == typeof(EngineObject).Assembly)
+            {
+                result.Add(engineClass);
+            }
         }
         return result;
     }

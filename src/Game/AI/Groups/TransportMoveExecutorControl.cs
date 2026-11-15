@@ -400,7 +400,10 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     }
 
                     if (!condition)
+                    {
                         break;
+                    }
+
                     position += 1;
                 }
 
@@ -695,7 +698,10 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     }
 
                     if (!condition)
+                    {
                         break;
+                    }
+
                     index += 1;
                 }
 
@@ -712,7 +718,10 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     }
 
                     if (!condition)
+                    {
                         break;
+                    }
+
                     index -= 1;
                 }
 

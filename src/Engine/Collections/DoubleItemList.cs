@@ -107,10 +107,7 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5056
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // Engine.pas:5061
     public override void Assign(Persistent source)
@@ -339,28 +336,16 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5307
-    public void SortAscendingItemA()
-    {
-        Sort(CompareDoubleItemAAscending);
-    }
+    public void SortAscendingItemA() => Sort(CompareDoubleItemAAscending);
 
     // Engine.pas:5312
-    public void SortAscendingItemB()
-    {
-        Sort(CompareDoubleItemBAscending);
-    }
+    public void SortAscendingItemB() => Sort(CompareDoubleItemBAscending);
 
     // Engine.pas:5317
-    public void SortDescendingItemA()
-    {
-        Sort(CompareDoubleItemADescending);
-    }
+    public void SortDescendingItemA() => Sort(CompareDoubleItemADescending);
 
     // Engine.pas:5322
-    public void SortDescendingItemB()
-    {
-        Sort(CompareDoubleItemBDescending);
-    }
+    public void SortDescendingItemB() => Sort(CompareDoubleItemBDescending);
 
     // Engine.pas:5327
     public bool Compare(DoubleItemList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
@@ -461,13 +446,10 @@ public partial class DoubleItemList : Persistent
 
     public DoubleItem this[int index] { get => Get(index); set => Put(index, value); }
 
-    public DoubleItem[] List { get => _list; }
+    public DoubleItem[] List => _list;
 
     // Engine.pas:5107
-    protected internal static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
     private static void QuickSortDoubleItem(Span<DoubleItem> sortList, int L, int R, DoubleItemSortCompare sCompare)
     {
@@ -511,30 +493,15 @@ public partial class DoubleItemList : Persistent
         while (number < R);
     }
 
-    private static int CompareDoubleItemAAscending(in DoubleItem item1, in DoubleItem item2)
-    {
-        return item1.First - item2.First;
-    }
+    private static int CompareDoubleItemAAscending(in DoubleItem item1, in DoubleItem item2) => item1.First - item2.First;
 
-    private static int CompareDoubleItemBAscending(in DoubleItem item1, in DoubleItem item2)
-    {
-        return item1.Second - item2.Second;
-    }
+    private static int CompareDoubleItemBAscending(in DoubleItem item1, in DoubleItem item2) => item1.Second - item2.Second;
 
-    private static int CompareDoubleItemADescending(in DoubleItem item1, in DoubleItem item2)
-    {
-        return item2.First - item1.First;
-    }
+    private static int CompareDoubleItemADescending(in DoubleItem item1, in DoubleItem item2) => item2.First - item1.First;
 
-    private static int CompareDoubleItemBDescending(in DoubleItem item1, in DoubleItem item2)
-    {
-        return item2.Second - item1.Second;
-    }
+    private static int CompareDoubleItemBDescending(in DoubleItem item1, in DoubleItem item2) => item2.Second - item1.Second;
 
-    private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value)
-    {
-        EngineServices.Fill(buffer, count, value);
-    }
+    private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value) => EngineServices.Fill(buffer, count, value);
 
     // Delphi TDoubleItem, two integers. Equality compares both, as the Delphi Comp compare of the
     // eight bytes does.

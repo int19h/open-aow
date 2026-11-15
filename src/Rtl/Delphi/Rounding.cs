@@ -13,7 +13,9 @@ public static partial class RtlUnit
         {
             double roundedSingle = Math.Round((double)(float)value, MidpointRounding.ToEven);
             if (roundedSingle >= int.MinValue && roundedSingle <= int.MaxValue && result != (int)roundedSingle)
+            {
                 record(value, result, (int)roundedSingle);
+            }
         }
         return result;
     }
@@ -43,7 +45,11 @@ public static partial class RtlUnit
 
     private static double Trig(double value, Func<double, double> function)
     {
-        if (double.IsInfinity(value)) throw new ArithmeticException("Invalid floating point operation");
+        if (double.IsInfinity(value))
+        {
+            throw new ArithmeticException("Invalid floating point operation");
+        }
+
         return Math.Abs(value) >= 9223372036854775808.0 ? 0 : function(value);
     }
 
@@ -54,18 +60,34 @@ public static partial class RtlUnit
 
     public static double Exp(double value)
     {
-        if (double.IsInfinity(value)) throw new ArithmeticException("Invalid floating point operation");
+        if (double.IsInfinity(value))
+        {
+            throw new ArithmeticException("Invalid floating point operation");
+        }
+
         return FloatingResult(Math.Exp(value), double.IsFinite(value));
     }
 
     public static double Power(double value, double exponent)
     {
         // MATH.PAS:639 takes the integer path only within the signed 32-bit range.
-        if (exponent == 0) return 1;
-        if (value == 0 && exponent > 0) return 0;
+        if (exponent == 0)
+        {
+            return 1;
+        }
+
+        if (value == 0 && exponent > 0)
+        {
+            return 0;
+        }
+
         if (Frac(exponent) == 0 && Math.Abs(exponent) <= int.MaxValue)
         {
-            if (value == 0) throw new DivideByZeroException("Floating point division by zero");
+            if (value == 0)
+            {
+                throw new DivideByZeroException("Floating point division by zero");
+            }
+
             return FloatingResult(Math.Pow(value, exponent), double.IsFinite(value));
         }
         return Exp(exponent * Ln(value));

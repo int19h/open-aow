@@ -289,7 +289,10 @@ public sealed class DiplomaticProposalTests
             Assert.True(DiplomaticProposal.IsRegistered((byte)kind), "kind " + kind);
             Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register((byte)kind, static (gold, mana) => new UnknownProposal(0, gold, mana)));
         }
-        foreach (byte kind in new byte[] { 10, 11, 200, 255 }) Assert.False(DiplomaticProposal.IsRegistered(kind), "kind " + kind);
+        foreach (byte kind in new byte[] { 10, 11, 200, 255 })
+        {
+            Assert.False(DiplomaticProposal.IsRegistered(kind), "kind " + kind);
+        }
     }
 
     // The editor of the relations window: the message enters on each edit of the memo, the offer
@@ -340,7 +343,7 @@ public sealed class DiplomaticProposalTests
     };
 
     // Diplomacy.pas:1353 GetMiddleIcon.
-    private static int OldMiddleIcon(byte kind, byte reaction) => kind == 0 || kind == 9 && reaction == 1 ? 0x15 : 0x16;
+    private static int OldMiddleIcon(byte kind, byte reaction) => kind == 0 || (kind == 9 && reaction == 1) ? 0x15 : 0x16;
 
     // Diplomacy.pas:1265 GetText.
     private static string OldText(byte kind, DiplomaticActionReaction reaction, bool sourceSeated)
@@ -399,31 +402,81 @@ public sealed class DiplomaticProposalTests
         {
             case 0: Get(relation == DiplomaticRelation.Unknown ? 151 : 100, sourceRace, targetRace); break;
             case 1:
-                if (reaction == DiplomaticActionReaction.None) Get(relation == DiplomaticRelation.Unknown ? 103 : 154, sourceRace, targetRace);
-                else if (reaction == DiplomaticActionReaction.Accept) Get(127, targetRace, sourceRace);
-                else if (reaction == DiplomaticActionReaction.Reject) Get(130, targetRace, sourceRace);
+                if (reaction == DiplomaticActionReaction.None)
+                {
+                    Get(relation == DiplomaticRelation.Unknown ? 103 : 154, sourceRace, targetRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Accept)
+                {
+                    Get(127, targetRace, sourceRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Reject)
+                {
+                    Get(130, targetRace, sourceRace);
+                }
+
                 break;
             case 2:
-                if (reaction == DiplomaticActionReaction.None) Get(106, sourceRace, targetRace);
-                else if (reaction == DiplomaticActionReaction.Accept) Get(121, targetRace, sourceRace);
-                else if (reaction == DiplomaticActionReaction.Reject) Get(124, targetRace, sourceRace);
+                if (reaction == DiplomaticActionReaction.None)
+                {
+                    Get(106, sourceRace, targetRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Accept)
+                {
+                    Get(121, targetRace, sourceRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Reject)
+                {
+                    Get(124, targetRace, sourceRace);
+                }
+
                 break;
             case 6: Get(109, sourceRace, targetRace); break;
             case 4: Get(112, sourceRace, targetRace); break;
             case 5:
-                if (reaction == DiplomaticActionReaction.None) Get(118, sourceRace, targetRace);
-                else if (reaction == DiplomaticActionReaction.Accept) Get(133, targetRace, sourceRace);
-                else if (reaction == DiplomaticActionReaction.Reject) Get(136, targetRace, sourceRace);
+                if (reaction == DiplomaticActionReaction.None)
+                {
+                    Get(118, sourceRace, targetRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Accept)
+                {
+                    Get(133, targetRace, sourceRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Reject)
+                {
+                    Get(136, targetRace, sourceRace);
+                }
+
                 break;
             case 8:
-                if (reaction == DiplomaticActionReaction.None) Get(160, sourceRace, targetRace, otherRace);
-                else if (reaction == DiplomaticActionReaction.Accept) Get(139, targetRace, sourceRace, otherRace);
-                else if (reaction == DiplomaticActionReaction.Reject) Get(142, targetRace, sourceRace, otherRace);
+                if (reaction == DiplomaticActionReaction.None)
+                {
+                    Get(160, sourceRace, targetRace, otherRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Accept)
+                {
+                    Get(139, targetRace, sourceRace, otherRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Reject)
+                {
+                    Get(142, targetRace, sourceRace, otherRace);
+                }
+
                 break;
             case 9:
-                if (reaction == DiplomaticActionReaction.None) Get(157, sourceRace, targetRace, otherRace);
-                else if (reaction == DiplomaticActionReaction.Accept) Get(145, targetRace, sourceRace, otherRace);
-                else if (reaction == DiplomaticActionReaction.Reject) Get(148, targetRace, sourceRace, otherRace);
+                if (reaction == DiplomaticActionReaction.None)
+                {
+                    Get(157, sourceRace, targetRace, otherRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Accept)
+                {
+                    Get(145, targetRace, sourceRace, otherRace);
+                }
+                else if (reaction == DiplomaticActionReaction.Reject)
+                {
+                    Get(148, targetRace, sourceRace, otherRace);
+                }
+
                 break;
         }
     }
@@ -462,7 +515,11 @@ public sealed class DiplomaticProposalTests
                 Assert.Equal(OldIcon(kind), proposal.Icon);
                 Assert.Equal(kind == 7, proposal.SignedAsOtherPlayer);
                 Assert.Equal(OldSample(kind), proposal.LoggedSample);
-                if (kind <= 6 || kind == 10) Assert.Equal(OldName(kind), proposal.Name(new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal }));
+                if (kind <= 6 || kind == 10)
+                {
+                    Assert.Equal(OldName(kind), proposal.Name(new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal }));
+                }
+
                 checks += 5;
                 string error = "";
                 Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal }, ref error));
@@ -493,7 +550,7 @@ public sealed class DiplomaticProposalTests
                     }
                 }
             }
-            Assert.Equal(s_kinds.Length * (7 + 5 * (4 + 12)), checks);
+            Assert.Equal(s_kinds.Length * (7 + (5 * (4 + 12))), checks);
         }
         finally
         {

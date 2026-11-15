@@ -445,10 +445,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4415
-    public void SetItemGraphicsIndex(int value)
-    {
-        _itemGraphicsIndex = value;
-    }
+    public void SetItemGraphicsIndex(int value) => _itemGraphicsIndex = value;
 
     // Army.PAS:4430
     public void SetItemType(ItemType value)

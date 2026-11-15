@@ -191,9 +191,16 @@ public sealed partial class PersistEquivalenceTests
             var viaStream = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
             viaTree.Assign(source, engine: EngineFixture.Engine);
             viaStream.SetNumberOfPlayers(source.GetNumberOfPlayers());
-            for (int index = 0; index < viaStream.Count; index++) StreamAssign(viaStream.GetPlayers(index), source.GetPlayers(index));
             for (int index = 0; index < viaStream.Count; index++)
+            {
+                StreamAssign(viaStream.GetPlayers(index), source.GetPlayers(index));
+            }
+
+            for (int index = 0; index < viaStream.Count; index++)
+            {
                 EqualBytes(Image(viaStream.GetPlayers(index)), actual: Image(viaTree.GetPlayers(index)), label: "Player " + index);
+            }
+
             SameCopies(source.GetPlayers(1), source.GetPlayers(2));
             Discard(viaStream);
             Discard(viaTree);
@@ -297,7 +304,10 @@ public sealed partial class PersistEquivalenceTests
             EqualBytes(Image(resources), actual: Image(loaded), label: "HERORES.PFS load");
             bytes[10] ^= 1;
             using (var stream = Runtime.Files.Open(file, mode: Runtime.fmCreate))
+            {
                 stream.Write(bytes);
+            }
+
             Assert.False(EngineFixture.Engine.ReadFromFileCrc(file, objectValue: refused, progress: null));
             Assert.Equal(0, refused.Count);
         }
@@ -382,7 +392,9 @@ public sealed partial class PersistEquivalenceTests
                         // The ability and spell controls load only the slots of registered
                         // abilities and spells, and a blank control has none.
                         if (rootClass is not ("AbilityControl" or "SpellControl"))
+                        {
                             Assert.True(written.Length > 64, relative + " loads " + written.Length + " bytes");
+                        }
                     }
                     finally
                     {
@@ -413,7 +425,9 @@ public sealed partial class PersistEquivalenceTests
             StoredNameBindingTests.Fill(target, classValue: classValue, first: 130, skip: s_sizes);
             // An item sprite with no item removes itself when its item list changes.
             foreach (var sprite in new[] { source, target, blank }.OfType<ItemHexSprite>())
+            {
                 PlainItem(itemId: 3, name: "Ring").SetOwner(sprite.Items);
+            }
             // A class that refuses its field visit (a sort node) is not a copy case. The object
             // image raises. Copy finishes, because the object write leaves an empty tree when the
             // root fails.
@@ -454,13 +468,21 @@ public sealed partial class PersistEquivalenceTests
                 () => { Runtime.RandSeed = seed; viaStream = StreamCopy(source); streamSeed = Runtime.RandSeed; },
                 viaPersist: () => { Runtime.RandSeed = seed; viaTree = source.Copy(EngineFixture.Engine); treeSeed = Runtime.RandSeed; },
                 label: label + " copy");
-            if (!copied) return;
+            if (!copied)
+            {
+                return;
+            }
+
             Assert.Equal(streamSeed, treeSeed);
             SameImages(viaStream!, viaTree!, label: label + " copy");
             Assert.Equal(StreamCompare(source, viaTree!), source.Compare(viaTree!, engine: EngineFixture.Engine));
             Assert.Equal(StreamCompare(source, other), source.Compare(other, engine: EngineFixture.Engine));
             Assert.Equal(StreamCompare(other, source), other.Compare(source, engine: EngineFixture.Engine));
-            if (AssignOverridden(source.GetType())) return;
+            if (AssignOverridden(source.GetType()))
+            {
+                return;
+            }
+
             Discard(viaTree);
             Discard(viaStream);
             viaTree = null;
@@ -471,7 +493,11 @@ public sealed partial class PersistEquivalenceTests
                 () => { Runtime.RandSeed = seed; StreamAssign(stream, source); streamSeed = Runtime.RandSeed; },
                 viaPersist: () => { Runtime.RandSeed = seed; tree.Assign(source, engine: EngineFixture.Engine); treeSeed = Runtime.RandSeed; },
                 label: label + " assign");
-            if (!assigned) return;
+            if (!assigned)
+            {
+                return;
+            }
+
             Assert.Equal(streamSeed, treeSeed);
             SameImages(stream, tree, label: label + " assign");
         }
@@ -490,7 +516,9 @@ public sealed partial class PersistEquivalenceTests
         byte[]? left = null;
         byte[]? right = null;
         if (AlikeOutcome(() => left = Image(expected), viaPersist: () => right = Image(actual), label: label))
+        {
             EqualBytes(left!, actual: right!, label: label);
+        }
     }
 
     // The object image of the game set files: WriteObjectImage writes the stream's image, and
@@ -500,7 +528,10 @@ public sealed partial class PersistEquivalenceTests
         byte[]? expected = null;
         byte[]? actual = null;
         if (!AlikeOutcome(() => expected = WrittenImage(source), viaPersist: () => actual = EngineFixture.Engine.WriteObjectImage(source, progress: null, classTable: classTable), label: className + " object image"))
+        {
             return;
+        }
+
         EqualBytes(expected!, actual: actual!, label: className + " object image");
         int seed = Runtime.RandSeed;
         var viaStream = Blank(className);
@@ -585,13 +616,29 @@ public sealed partial class PersistEquivalenceTests
         foreach (var engineClass in EngineClass.All)
         {
             var type = engineClass.Type;
-            if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract) continue;
-            if (EngineObject.TreePersistenceRefusal(type) is not null) continue;
-            if (FormatSchema.Current.Find(engineClass.StorageKey) is null || s_copyExceptions.Contains(engineClass.StorageKey)) continue;
+            if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract)
+            {
+                continue;
+            }
+
+            if (EngineObject.TreePersistenceRefusal(type) is not null)
+            {
+                continue;
+            }
+
+            if (FormatSchema.Current.Find(engineClass.StorageKey) is null || s_copyExceptions.Contains(engineClass.StorageKey))
+            {
+                continue;
+            }
+
             names.Add(engineClass.StorageKey);
         }
         var data = new TheoryData<string>();
-        foreach (var name in names) data.Add(name);
+        foreach (var name in names)
+        {
+            data.Add(name);
+        }
+
         return data;
     }
 
@@ -603,8 +650,16 @@ public sealed partial class PersistEquivalenceTests
         var added = new Dictionary<int, EngineClass>();
         foreach (var engineClass in EngineClass.All)
         {
-            if (engineClass.Type.Assembly != typeof(GamePack).Assembly) continue;
-            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId)) continue;
+            if (engineClass.Type.Assembly != typeof(GamePack).Assembly)
+            {
+                continue;
+            }
+
+            if (table.ContainsKey(engineClass.ClassId) || added.ContainsKey(engineClass.ClassId))
+            {
+                continue;
+            }
+
             added[engineClass.ClassId] = engineClass;
         }
         var classes = added.Values.ToArray();

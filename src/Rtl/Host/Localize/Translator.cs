@@ -24,12 +24,19 @@ public static class TranslatorProperties
         }, (component, values) =>
         {
             var strings = read((T)component);
-            if (strings is null) return;
+            if (strings is null)
+            {
+                return;
+            }
+
             strings.BeginUpdate();
             try
             {
                 strings.Clear();
-                foreach (var value in values) strings.Add(value);
+                foreach (var value in values)
+                {
+                    strings.Add(value);
+                }
             }
             finally { strings.EndUpdate(); }
         }, true);
@@ -38,7 +45,13 @@ public static class TranslatorProperties
     internal static Binding? Find(Type type, string name)
     {
         for (Type? current = type; current is not null; current = current.BaseType)
-            if (s_bindings.TryGetValue((current, name), out var binding)) return binding;
+        {
+            if (s_bindings.TryGetValue((current, name), out var binding))
+            {
+                return binding;
+            }
+        }
+
         return null;
     }
 }
@@ -56,7 +69,10 @@ public class IvCustomTranslator : Component
 
     public virtual void Translate()
     {
-        if (Owner is not null) Translate(Owner);
+        if (Owner is not null)
+        {
+            Translate(Owner);
+        }
     }
 
     public void ClearNativeValues() => _nativeValues = new();
@@ -64,7 +80,11 @@ public class IvCustomTranslator : Component
     public void Translate(Component module)
     {
         var dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
-        if (Language is int language && dictionary.Language != language) dictionary.SetLanguage(language);
+        if (Language is int language && dictionary.Language != language)
+        {
+            dictionary.SetLanguage(language);
+        }
+
         string form = NameTable.Delphi(module.GetType());
         Visit(module);
 
@@ -72,10 +92,18 @@ public class IvCustomTranslator : Component
         {
             foreach (var target in TargetsData)
             {
-                if (!Matches(component.GetType(), target.ClassName)) continue;
+                if (!Matches(component.GetType(), target.ClassName))
+                {
+                    continue;
+                }
+
                 string name = target.PropertyName;
                 var binding = TranslatorProperties.Find(component.GetType(), name);
-                if (binding is null) continue;
+                if (binding is null)
+                {
+                    continue;
+                }
+
                 var values = _nativeValues.GetOrCreateValue(component);
                 if (!values.TryGetValue(name, out var native))
                 {
@@ -85,22 +113,42 @@ public class IvCustomTranslator : Component
                 string componentName = ReferenceEquals(component, module) ? "" : component.Name;
                 if (binding.IsList)
                 {
-                    if (native.Length == 0) continue;
+                    if (native.Length == 0)
+                    {
+                        continue;
+                    }
+
                     var joined = Join(native);
                     var translated = dictionary.TranslateContext(joined, form, componentName);
                     binding.Write(component, translated == joined ? native : Split(translated));
                 }
-                else binding.Write(component, [dictionary.TranslateContext(native[0], form, componentName)]);
+                else
+                {
+                    binding.Write(component, [dictionary.TranslateContext(native[0], form, componentName)]);
+                }
             }
-            for (int index = 0; index < component.ComponentCount; index++) Visit(component.Components[index]);
+            for (int index = 0; index < component.ComponentCount; index++)
+            {
+                Visit(component.Components[index]);
+            }
         }
     }
 
     private static bool Matches(Type type, string name)
     {
-        if (name.Length == 0) return true;
+        if (name.Length == 0)
+        {
+            return true;
+        }
+
         for (Type? current = type; current is not null; current = current.BaseType)
-            if (NameTable.Delphi(current) == name) return true;
+        {
+            if (NameTable.Delphi(current) == name)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -109,7 +157,11 @@ public class IvCustomTranslator : Component
         string result = "";
         for (int index = 0; index < values.Length; index++)
         {
-            if (index > 0) result += "<eol>";
+            if (index > 0)
+            {
+                result += "<eol>";
+            }
+
             result += values[index];
         }
         return result;

@@ -78,10 +78,7 @@ public partial class WizardsTowerDialog : UIModule
     }
 
     // AoWWizardsTowerDlg.pas:82
-    public void DlgHide()
-    {
-        ClearEvent();
-    }
+    public void DlgHide() => ClearEvent();
 
     // AoWWizardsTowerDlg.pas:87
     public void SpellIcnDraw(Image sender, LockedSurface lockedSurface)

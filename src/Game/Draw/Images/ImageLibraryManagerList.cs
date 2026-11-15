@@ -25,10 +25,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     // ImageLib.pas:8102
     // { Original bug: the inherited destructor does not call Clear, so the TILManagerObjects and
     //   their libraries are never freed. }
-    public override void Dispose()
-    {
-        base.Dispose();
-    }
+    public override void Dispose() => base.Dispose();
 
     // ImageLib.pas:8108
     public CustomImageLibrary GetImageLibrary(int index) => Objects[index].ImageLibrary;

@@ -22,9 +22,17 @@ public partial class HtmlMemo
 
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || !ContainsPoint(X, Y)) return false;
+        if (steps == 0 || !ContainsPoint(X, Y))
+        {
+            return false;
+        }
+
         VerticalScrollBar bar = WheelScrollBar ?? _verticalScrollBar;
-        if (bar == null || !bar.HasWheelRange()) return false;
+        if (bar == null || !bar.HasWheelRange())
+        {
+            return false;
+        }
+
         bar.ScrollSteps(steps);
         _topItem = bar.Position;
         return true;

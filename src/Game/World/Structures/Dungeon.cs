@@ -253,10 +253,7 @@ public partial class Dungeon : ExplorationSite
     // PrisonerCollections
     public new partial class Resource : ExplorationSiteResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            PrisonerCollections = new UnitIndexListCollection();
-        }
+        public Resource(CustomNode owner) : base(owner) => PrisonerCollections = new UnitIndexListCollection();
 
         // Dungeon.pas:280
         public new const int ClassId = 131883;

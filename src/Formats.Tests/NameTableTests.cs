@@ -22,8 +22,14 @@ public sealed class NameTableTests : FormatsTest
         {
             Assert.False(string.IsNullOrEmpty(row.Delphi), row.Current);
             Assert.False(string.IsNullOrEmpty(row.Current), row.Delphi);
-            if (row.Kind == "type") types++;
-            else members++;
+            if (row.Kind == "type")
+            {
+                types++;
+            }
+            else
+            {
+                members++;
+            }
         }
         Assert.True(types > 0);
         Assert.True(members > 0);
@@ -35,16 +41,33 @@ public sealed class NameTableTests : FormatsTest
         {
             Assert.Equal(NameTable.Stored(engineClass.Type), engineClass.StorageKey);
             Assert.Equal(engineClass.StorageKey, NameTable.ResolveStored(NameTable.Delphi(engineClass.Type)));
-            if (counts[engineClass.StorageKey] == 1) Assert.Equal(engineClass.Type, NameTable.Find(engineClass.StorageKey));
-            else Assert.Throws<InvalidOperationException>(() => NameTable.Find(engineClass.StorageKey));
+            if (counts[engineClass.StorageKey] == 1)
+            {
+                Assert.Equal(engineClass.Type, NameTable.Find(engineClass.StorageKey));
+            }
+            else
+            {
+                Assert.Throws<InvalidOperationException>(() => NameTable.Find(engineClass.StorageKey));
+            }
         }
 
         foreach (var classValue in FormatSchema.Current.Classes)
         {
             Assert.Equal(classValue.Name, NameTable.ResolveStored(classValue.Name));
-            if (classValue.Parent is not null) Assert.Equal(classValue.Parent.Name, NameTable.ResolveStored(classValue.Parent.Name));
-            if (classValue.FieldClassName is not null) Assert.Equal(classValue.FieldClassName, NameTable.ResolveStored(classValue.FieldClassName));
-            foreach (var property in classValue.Own) Check(property.Codec, property.Name);
+            if (classValue.Parent is not null)
+            {
+                Assert.Equal(classValue.Parent.Name, NameTable.ResolveStored(classValue.Parent.Name));
+            }
+
+            if (classValue.FieldClassName is not null)
+            {
+                Assert.Equal(classValue.FieldClassName, NameTable.ResolveStored(classValue.FieldClassName));
+            }
+
+            foreach (var property in classValue.Own)
+            {
+                Check(property.Codec, property.Name);
+            }
         }
 
         Assert.Equal(nameof(Unlisted), NameTable.Delphi(typeof(Unlisted)));
@@ -105,9 +128,16 @@ public sealed class NameTableTests : FormatsTest
                 Assert.NotNull(info);
                 foreach (var field in info.Fields)
                 {
-                    if (field.TypeName is not string element) continue;
+                    if (field.TypeName is not string element)
+                    {
+                        continue;
+                    }
+
                     Assert.Equal(element, NameTable.ResolveStored(element));
-                    if (field.ColorType is { IsEnum: true } color) RoundTripEnum(element, field.Name, color);
+                    if (field.ColorType is { IsEnum: true } color)
+                    {
+                        RoundTripEnum(element, field.Name, color);
+                    }
                 }
                 break;
             case FixedObjectCodec objectValue:

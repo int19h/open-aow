@@ -114,7 +114,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
             case >= AITargetMode.Attack and <= AITargetMode.Attack:
                 if (info.Player != 0)
                 {
-                    value = _amount / 5 + 15;
+                    value = (_amount / 5) + 15;
                     if (value > priority)
                     {
                         priority = value;

@@ -102,7 +102,7 @@ public static class PixelFormats
         while (!!swapped);
         for (int i = 0; i <= 3; i++)
         {
-            result = result + (i << (order[i] * 2 + 8));
+            result = result + (i << ((order[i] * 2) + 8));
         }
 
         for (int i = 0; i <= 3; i++)
@@ -118,7 +118,7 @@ public static class PixelFormats
                 masks[i] = (int)(((uint)masks[i]) >> 1);
             }
 
-            result = result + (bits << (i * 4 + 16));
+            result = result + (bits << ((i * 4) + 16));
         }
 
         return result;
@@ -168,11 +168,9 @@ public static class PixelFormats
         }
     }
 
-    internal static int GetOptimalPixelFormatId(int bitCount)
-    {
+    internal static int GetOptimalPixelFormatId(int bitCount) =>
         /* TODO: Implement Forms.Width in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     internal static IReadOnlyList<(int Width, int Height)> IntegerScaleSizes(int desktopWidth, int desktopHeight)
     {
@@ -180,7 +178,10 @@ public static class PixelFormats
         for (int scale = 8; scale >= 1; scale--)
         {
             var size = (desktopWidth / scale, desktopHeight / scale);
-            if (size.Item1 >= 640 && size.Item2 >= 480 && !sizes.Contains(size)) sizes.Add(size);
+            if (size.Item1 >= 640 && size.Item2 >= 480 && !sizes.Contains(size))
+            {
+                sizes.Add(size);
+            }
         }
         return sizes;
     }
@@ -211,12 +212,24 @@ public static class PixelFormats
 
     public static int ColorFillSurfaceDescription(Rect R, int color, in LockedSurface lockedSurface)
     {
-        if (lockedSurface.PixelFormatId != pfRGB555 && lockedSurface.PixelFormatId != pfARGB1555 && lockedSurface.PixelFormatId != pfRGB565) return GFXE_NOTSUPPORTED;
+        if (lockedSurface.PixelFormatId != pfRGB555 && lockedSurface.PixelFormatId != pfARGB1555 && lockedSurface.PixelFormatId != pfRGB565)
+        {
+            return GFXE_NOTSUPPORTED;
+        }
+
         int left = Math.Max(R.Left, lockedSurface.ClipRectangle.Left), right = Math.Min(R.Right, lockedSurface.ClipRectangle.Right);
         int top = Math.Max(R.Top, lockedSurface.ClipRectangle.Top), bottom = Math.Min(R.Bottom, lockedSurface.ClipRectangle.Bottom);
-        if (left >= right || top >= bottom) return GFXE_OK;
+        if (left >= right || top >= bottom)
+        {
+            return GFXE_OK;
+        }
+
         int pixel = Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
-        for (int y = top; y < bottom; y++) Blit.FillWord(lockedSurface.Data.AsSpan(lockedSurface.DataIndex + y * lockedSurface.Pitch + left * 2), right - left, pixel);
+        for (int y = top; y < bottom; y++)
+        {
+            Blit.FillWord(lockedSurface.Data.AsSpan(lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (left * 2)), right - left, pixel);
+        }
+
         return GFXE_OK;
     }
 

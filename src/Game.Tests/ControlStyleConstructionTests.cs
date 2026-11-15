@@ -51,7 +51,10 @@ public sealed class ControlStyleConstructionTests
                 Assert.Same(meta, value.EngineClass);
             }
             if (direct is ResourceEditSettings settings)
+            {
                 settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
+            }
+
             direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
@@ -73,7 +76,11 @@ public sealed class ControlStyleConstructionTests
         finally
         {
             copy?.Dispose();
-            foreach (var value in objects) value.Dispose();
+            foreach (var value in objects)
+            {
+                value.Dispose();
+            }
+
             engine.Dispose();
         }
         Assert.Empty(owner.Members);
@@ -154,14 +161,20 @@ public sealed class ControlStyleConstructionTests
                 Field(typeof(GamePack), "_imageLibraryManager").SetValue(Owner, _manager);
                 Field(typeof(ImageLibraryManager), "_searchPath").SetValue(_manager, "9.3b-2-missing/");
                 var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(_manager)!;
-                if (directory is null) Entry = disk.AddImageLibraryFile("Flags.ILB");
+                if (directory is null)
+                {
+                    Entry = disk.AddImageLibraryFile("Flags.ILB");
+                }
                 else
                 {
                     _manager.ExecutePathSearch(directory);
                     Entry = Assert.IsType<ImageLibraryManagerObject>(disk.Objects[0]);
                 }
                 if (loaded)
+                {
                     Field(typeof(ImageLibraryManagerObject), "_imageLibrary").SetValue(Entry, new ImageLibrary(null!));
+                }
+
                 GamePack.Current = Owner;
                 Owner.Members.Clear();
             }
@@ -174,7 +187,13 @@ public sealed class ControlStyleConstructionTests
 
         public void Dispose()
         {
-            try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
+            try
+            {
+                foreach (var child in Owner.Members.ToArray())
+                {
+                    child.Dispose();
+                }
+            }
             finally
             {
                 GamePack.Current = _previous;
@@ -190,7 +209,10 @@ public sealed class ControlStyleConstructionTests
             ImageLibraries.BaseImageLibraryPath = _previousImagePath;
             Runtime.Application.ExeName = _previousExecutable;
             Runtime.Files = _previousFiles;
-            if (_ownsRoot) Directory.Delete(_root, recursive: true);
+            if (_ownsRoot)
+            {
+                Directory.Delete(_root, recursive: true);
+            }
         }
     }
 

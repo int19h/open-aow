@@ -74,7 +74,7 @@ public partial class CompressStream : MemoryStream
             try
             {
                 c.CopyFrom(this, 0);
-                result = Round((double)(1 - (double)(stream.Length - startSize) / Length) * 100);
+                result = Round((double)(1 - ((double)(stream.Length - startSize) / Length)) * 100);
             }
             finally
             {
@@ -90,10 +90,7 @@ public partial class CompressStream : MemoryStream
     }
 
     // Engine.pas:1776
-    public void SaveToStream(Stream stream)
-    {
-        SaveToStream(stream, Level.Default);
-    }
+    public void SaveToStream(Stream stream) => SaveToStream(stream, Level.Default);
 
     // Engine.pas:1781
     public int SaveToFile(string fileName, Level level)

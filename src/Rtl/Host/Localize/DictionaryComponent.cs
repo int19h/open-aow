@@ -11,7 +11,10 @@ public partial class IvDictionary
     internal void SelectLanguage(int language)
     {
         if (language == 1 && DictionaryName == "ResourceStringDictionary")
+        {
             language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
+        }
+
         _dictionary.SetLanguage(language);
         Language = _dictionary.Language;
     }

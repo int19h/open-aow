@@ -9,8 +9,8 @@ public partial class EngineObjectEditorList
 {
     private readonly List<EditorClass> _list = new();
 
-    public int Count { get => _list.Count; }
-    public EditorClass this[int index] { get => _list[index]; }
+    public int Count => _list.Count;
+    public EditorClass this[int index] => _list[index];
 
     // Engine.pas:8356
     public void RegisterClass(EditorClass classValue)

@@ -191,10 +191,7 @@ public partial class UnitResource : TroopResource
     public sbyte GetUpkeep() => (sbyte)(Level + 1);
 
     // UnitRes.PAS:126
-    public void SetDescription(StringCollection value)
-    {
-        Description.Assign(value);
-    }
+    public void SetDescription(StringCollection value) => Description.Assign(value);
 
     // UnitRes.PAS:141
     public int UnitResourceIndex() => Owner.FindChildIndex(this);

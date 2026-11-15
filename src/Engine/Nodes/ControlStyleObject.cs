@@ -18,24 +18,15 @@ public partial class ControlStyleObject : EngineObject
     public ControlStyleObject(CustomNode owner) : this(null, owner) { }
 
     // Engine.pas:8222
-    private protected ControlStyleObject(ConstructionContext context, CustomNode owner) : base(context, owner)
-    {
-        ControlStyle = base.GetControlStyle();
-    }
+    private protected ControlStyleObject(ConstructionContext context, CustomNode owner) : base(context, owner) => ControlStyle = base.GetControlStyle();
 
     // Engine.pas:8233
     public override Set<ControlStyleElement> GetControlStyle() => ControlStyle;
 
     // Engine.pas:8238
-    public void SetControlStyle(Set<ControlStyleElement> value)
-    {
-        ControlStyle = value;
-    }
+    public void SetControlStyle(Set<ControlStyleElement> value) => ControlStyle = value;
 
     // Engine.pas:8243
-    public override void PersistFields(IPersister persister)
-    {
-        ControlStyle = persister.Set("ControlStyle", ControlStyle);
-    }
+    public override void PersistFields(IPersister persister) => ControlStyle = persister.Set("ControlStyle", ControlStyle);
 
 }

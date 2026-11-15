@@ -230,7 +230,7 @@ public partial class SpellBook : UIModule
         {
             case 1:
                 var count = _spells.GetCount();
-                NextButton.Visible = count - (Page + 1) * 8 > 0;
+                NextButton.Visible = count - ((Page + 1) * 8) > 0;
                 PreviousButton.Visible = Page != 0;
                 break;
             case 0:
@@ -306,19 +306,19 @@ public partial class SpellBook : UIModule
 
             spellSpell = _spells.GetSpell(Page * 8);
             ShowSpellEntry(spellSpell, Spell1Panel, Spell1Button, Spell1SpellLabel, Spell1ClassLabel, Spell1CostLabel, Spell1Memo, Spell1Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 1);
+            spellSpell = _spells.GetSpell((Page * 8) + 1);
             ShowSpellEntry(spellSpell, Spell2Panel, Spell2Button, Spell2SpellLabel, Spell2ClassLabel, Spell2CostLabel, Spell2Memo, Spell2Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 2);
+            spellSpell = _spells.GetSpell((Page * 8) + 2);
             ShowSpellEntry(spellSpell, Spell3Panel, Spell3Button, Spell3SpellLabel, Spell3ClassLabel, Spell3CostLabel, Spell3Memo, Spell3Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 3);
+            spellSpell = _spells.GetSpell((Page * 8) + 3);
             ShowSpellEntry(spellSpell, Spell4Panel, Spell4Button, Spell4SpellLabel, Spell4ClassLabel, Spell4CostLabel, Spell4Memo, Spell4Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 4);
+            spellSpell = _spells.GetSpell((Page * 8) + 4);
             ShowSpellEntry(spellSpell, Spell5Panel, Spell5Button, Spell5SpellLabel, Spell5ClassLabel, Spell5CostLabel, Spell5Memo, Spell5Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 5);
+            spellSpell = _spells.GetSpell((Page * 8) + 5);
             ShowSpellEntry(spellSpell, Spell6Panel, Spell6Button, Spell6SpellLabel, Spell6ClassLabel, Spell6CostLabel, Spell6Memo, Spell6Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 6);
+            spellSpell = _spells.GetSpell((Page * 8) + 6);
             ShowSpellEntry(spellSpell, Spell7Panel, Spell7Button, Spell7SpellLabel, Spell7ClassLabel, Spell7CostLabel, Spell7Memo, Spell7Icon);
-            spellSpell = _spells.GetSpell(Page * 8 + 7);
+            spellSpell = _spells.GetSpell((Page * 8) + 7);
             ShowSpellEntry(spellSpell, Spell8Panel, Spell8Button, Spell8SpellLabel, Spell8ClassLabel, Spell8CostLabel, Spell8Memo, Spell8Icon);
             if (Mode == 0)
             {
@@ -329,7 +329,7 @@ public partial class SpellBook : UIModule
             if (PageKind == 1)
             {
                 var count = _spells.GetCount();
-                NextButton.Visible = count - (Page + 1) * 8 > 0;
+                NextButton.Visible = count - ((Page + 1) * 8) > 0;
                 PreviousButton.Visible = Page != 0;
             }
         }
@@ -619,7 +619,7 @@ public partial class SpellBook : UIModule
                 cost.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_costFormat), [castingMana]);
             }
 
-            if (Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Global) || _hero.Casting()) || Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref reason)) || Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0)
+            if ((Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Global) || _hero.Casting())) || (Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref reason))) || (Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0))
             {
                 memo.TextColor = 5000268;
                 name.TextColor = 5000268;
@@ -999,7 +999,7 @@ public partial class SpellBook : UIModule
         int index;
         int x;
         int y;
-        index = Page * 8 + slot;
+        index = (Page * 8) + slot;
         if (index >= 0 && index < _spells.GetCount())
         {
             if (_spells.GetSpell(index).CastImages.GetImageSequence(10) != null)
@@ -1013,10 +1013,7 @@ public partial class SpellBook : UIModule
     }
 
     // AoWSpellBook.pas:249
-    public void SpellButtonClick(int slot)
-    {
-        SelectSpell(_spells.GetSpell(Page * 8 + slot));
-    }
+    public void SpellButtonClick(int slot) => SelectSpell(_spells.GetSpell((Page * 8) + slot));
 
     // AoWSpellBook.pas:254
     public void GlobalBtnClick()
@@ -1191,16 +1188,10 @@ public partial class SpellBook : UIModule
     }
 
     // AoWSpellBook.pas:363
-    public void Sel1Click()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void Sel1Click() => UI.General.PlayButtonSound(0);
 
     // AoWSpellBook.pas:366
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWSpellBook.pas:369
     public void DlgUpdate()

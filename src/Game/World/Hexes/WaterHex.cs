@@ -39,12 +39,23 @@ public partial class WaterHex : LowerIsometricHex
         y -= ySurface;
         var library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         int phase = FrameFixtureInputs.WaterBasePhase(Owner);
-        library[((phase + field.HexX + field.HexY * 2 + (Sides >> 6)) & 15) + 140].Show(x, y, surface);
+        library[((phase + field.HexX + (field.HexY * 2) + (Sides >> 6)) & 15) + 140].Show(x, y, surface);
         x -= 6;
         y -= 9;
-        if ((Sides & 1) != 0) library[36].Show(x, y, surface);
-        if ((Sides & 2) != 0) library[37].Show(x, y, surface);
-        if ((Sides & 32) != 0) library[35].Show(x, y, surface);
+        if ((Sides & 1) != 0)
+        {
+            library[36].Show(x, y, surface);
+        }
+
+        if ((Sides & 2) != 0)
+        {
+            library[37].Show(x, y, surface);
+        }
+
+        if ((Sides & 32) != 0)
+        {
+            library[35].Show(x, y, surface);
+        }
     }
 
     public override void UpdateTransitions() => UpdateTransitionCore(typeof(LowerIsometricHex), true,
@@ -52,10 +63,7 @@ public partial class WaterHex : LowerIsometricHex
 
     public new partial class Resource : LowerIsometricHex.Resource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            DynamicLevel = 23;
-        }
+        public Resource(CustomNode owner) : base(owner) => DynamicLevel = 23;
 
         // AoWHex.pas:452
         public new const int ClassId = 132926;

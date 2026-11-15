@@ -66,10 +66,7 @@ public partial class TranslateTextStream : TranslateVisit
     }
 
     // Army.PAS:5609
-    public override void TranslateString(ref string value)
-    {
-        value = FDictionary.Translate(value);
-    }
+    public override void TranslateString(ref string value) => value = FDictionary.Translate(value);
 
     // Engine.pas:1343
     public TranslateTextStream(GameEngine engine) : base(engine)

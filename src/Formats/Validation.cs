@@ -67,8 +67,11 @@ public static class DocumentValidation
             JsonValue rootValue;
             (profile, kind, _, rootValue) = GameFiles.Envelope(document, file);
             if (rootValue is not JsonObject root)
+            {
                 throw new ConversionException(new FormatDiagnostic(Codes.Type, "The root is an object.")
                 { File = file, Span = rootValue.Span, Path = "root" });
+            }
+
             var schema = GameFiles.Schema;
             SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default, ExportOptions.Default), root: root);
             JsonObject body = root;
@@ -78,19 +81,32 @@ public static class DocumentValidation
                 // stay, so a refusal of a root member still names the line and column.
                 body = new JsonObject { Span = root.Span };
                 foreach (var member in root.Members)
-                    if (member.Name != "$class") body.Members.Add(member);
+                {
+                    if (member.Name != "$class")
+                    {
+                        body.Members.Add(member);
+                    }
+                }
             }
             DocumentBackend.Read(body, classValue: classValue, schema: schema, engine: profile.Engine, file: file);
         }
         catch (ConversionException error)
         {
             var diagnostic = error.Diagnostic;
-            if (diagnostic.File is null && file is not null) diagnostic = diagnostic with { File = file };
+            if (diagnostic.File is null && file is not null)
+            {
+                diagnostic = diagnostic with { File = file };
+            }
+
             return new DocumentCheck(Findings: [diagnostic]);
         }
         var findings = new List<FormatDiagnostic>();
         var context = new ValidationContext(document, profile, kind, file);
-        foreach (var validator in validators) findings.AddRange(validator.Validate(context));
+        foreach (var validator in validators)
+        {
+            findings.AddRange(validator.Validate(context));
+        }
+
         return new DocumentCheck(Findings: findings);
     }
 }

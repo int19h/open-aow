@@ -394,7 +394,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4083
-    public int GetDispelMana(AbilityOwner owner) => GetLevel(owner) * 10 + 20;
+    public int GetDispelMana(AbilityOwner owner) => (GetLevel(owner) * 10) + 20;
 
     // AoWAb.PAS:4116
     public string GetLevelName(int level)

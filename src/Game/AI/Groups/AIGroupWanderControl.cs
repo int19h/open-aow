@@ -27,10 +27,7 @@ public partial class AIGroupWanderControl : AIGroupTask
     }
 
     // AGCPlugins.pas:297
-    public AIGroupWanderControl(CustomNode owner) : base(owner)
-    {
-        _moveSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
-    }
+    public AIGroupWanderControl(CustomNode owner) : base(owner) => _moveSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
 
     // AGCPlugins.pas:319
     public override bool Activate(AIGroupControl control)
@@ -193,10 +190,7 @@ public partial class AIGroupWanderControl : AIGroupTask
         return true;
     }
 
-    private static int CompareWanderFields(in DoubleItem<MapField> item1, in DoubleItem<MapField> item2)
-    {
-        return item2.Second - item1.Second;
-    }
+    private static int CompareWanderFields(in DoubleItem<MapField> item1, in DoubleItem<MapField> item2) => item2.Second - item1.Second;
 
     public enum ModeElement : byte
     {

@@ -178,10 +178,7 @@ public partial class DisjunctionDialog : UIModule
     }
 
     // AoWDisjunctionDlg.pas:76
-    public void CancelBtnClick()
-    {
-        Window.Visible = false;
-    }
+    public void CancelBtnClick() => Window.Visible = false;
 
     // AoWDisjunctionDlg.pas:82
     public void CastBtnClick()
@@ -201,16 +198,10 @@ public partial class DisjunctionDialog : UIModule
     }
 
     // AoWDisjunctionDlg.pas:94
-    public void EnchantmentListChange()
-    {
-        SelectEnchantment(EnchantmentList.Selected);
-    }
+    public void EnchantmentListChange() => SelectEnchantment(EnchantmentList.Selected);
 
     // AoWDisjunctionDlg.pas:100
-    public void OwnerListChange()
-    {
-        SelectEnchantment(OwnerList.Selected);
-    }
+    public void OwnerListChange() => SelectEnchantment(OwnerList.Selected);
 
     // AoWDisjunctionDlg.pas:106
     public void ChanceSliderChange()
@@ -259,10 +250,7 @@ public partial class DisjunctionDialog : UIModule
     }
 
     // AoWDisjunctionDlg.pas:136
-    public void DlgHide()
-    {
-        ClearCaster();
-    }
+    public void DlgHide() => ClearCaster();
 
     // AoWDisjunctionDlg.pas:142
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

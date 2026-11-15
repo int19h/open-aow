@@ -33,10 +33,7 @@ public sealed partial record Trade(int TurnsTotal) : ProductionOrder
         control.Status = ProductionControlStatus.Producing;
     }
 
-    public override void Completed(ProductionControl control)
-    {
-        control.ProductionDone();
-    }
+    public override void Completed(ProductionControl control) => control.ProductionDone();
 
     public override int ActivityImage(ProductionPlace place) => place.GetMagicSphere() != MagicSphere.None ? 48 : 47;
 

@@ -21,10 +21,7 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
     // AoWHSMap.PAS (TAoWMapLevel). HSEngine.pas:2837 gives the engine level 65794.
     public new const int ClassId = 131091;
 
-    public MapLevel(CustomNode owner) : base(owner)
-    {
-        _mapFieldClassId = 65793;
-    }
+    public MapLevel(CustomNode owner) : base(owner) => _mapFieldClassId = 65793;
 
     private int _hexLevel;
     private int _width;
@@ -67,25 +64,16 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
     }
 
     // HSEngine.pas:2935
-    public override void SetChild(int index, EngineObject child)
-    {
-        throw new InvalidOperationException("Cannot set child in TMapLevel");
-    }
+    public override void SetChild(int index, EngineObject child) => throw new InvalidOperationException("Cannot set child in TMapLevel");
 
     // HSEngine.pas:2950
     public override int GetCount() => _count;
 
     // HSEngine.pas:2945
-    public override int RemoveChild(EngineObject child)
-    {
-        throw new InvalidOperationException("Cannot remove from TMapLevel");
-    }
+    public override int RemoveChild(EngineObject child) => throw new InvalidOperationException("Cannot remove from TMapLevel");
 
     // HSEngine.pas:2940
-    public override int AddChild(EngineObject child)
-    {
-        throw new InvalidOperationException("Cannot add child to TMapLevel");
-    }
+    public override int AddChild(EngineObject child) => throw new InvalidOperationException("Cannot add child to TMapLevel");
 
     // HSEngine.pas:3140
     public virtual void New(NewHexSpriteMapSettings settings)
@@ -106,16 +94,16 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
     public virtual EngineClass MapFieldClass() => EngineClass.Of<MapField>();
 
     public int HexLevel { get => _hexLevel; set => _hexLevel = value; }
-    public int Width { get => _width; }
-    public int Height { get => _height; }
-    public MapContainer MapContainer { get => _mapContainer; }
-    public GameMap Map { get => _map; }
+    public int Width => _width;
+    public int Height => _height;
+    public MapContainer MapContainer => _mapContainer;
+    public GameMap Map => _map;
     public int MapFieldClassId { get => _mapFieldClassId; set => _mapFieldClassId = value; }
     public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)
     {
-        public MapField this[int X, int Y] { get => target.GetField(X, Y); }
+        public MapField this[int X, int Y] => target.GetField(X, Y);
     }
 
     public FieldAccessor Field => new FieldAccessor(this);

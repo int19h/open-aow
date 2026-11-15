@@ -9,10 +9,7 @@ namespace Aow.Game.Units;
 public partial class UnitSelectionActivation : AbilityActivation
 {
     // Ability.PAS:690
-    public UnitSelectionActivation(CustomNode owner) : base(owner)
-    {
-        UnitSelector = null;
-    }
+    public UnitSelectionActivation(CustomNode owner) : base(owner) => UnitSelector = null;
 
     public UnitSelector UnitSelector { get; private set; }
 

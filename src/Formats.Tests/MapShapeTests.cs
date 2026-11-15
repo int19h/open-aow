@@ -185,7 +185,11 @@ public sealed class MapShapeTests : FormatsTest
         // A level 2 map compressed by another deflater: the bytes differ from a fresh compression.
         var payload = Payload(NestedMap("none", 0));
         using var buffer = new MemoryStream();
-        using (var zlib = new ZLibStream(buffer, CompressionLevel.NoCompression, leaveOpen: true)) zlib.Write(payload);
+        using (var zlib = new ZLibStream(buffer, CompressionLevel.NoCompression, leaveOpen: true))
+        {
+            zlib.Write(payload);
+        }
+
         byte[] nested = [.. Cfs.Magic, 2, .. buffer.ToArray()];
         Assert.NotEqual(nested, Cfs.Wrap(payload, 2));
         var file = CampaignSave(nested);
@@ -282,7 +286,11 @@ public sealed class MapShapeTests : FormatsTest
     private static byte[] NestedMap(string compression, int level)
     {
         var container = new JsonObject().Add("profile", new JsonString("world-hsm")).Add("compression", new JsonString(compression));
-        if (compression == "cfs") container.Add("level", new JsonInteger(level));
+        if (compression == "cfs")
+        {
+            container.Add("level", new JsonInteger(level));
+        }
+
         return GameFiles.Export(Envelope(root: new JsonObject()
             .Add("$class", new JsonString("StrategicMap"))
             .Add("Author", new JsonString("Fixture author"))
@@ -325,8 +333,13 @@ public sealed class MapShapeTests : FormatsTest
     {
         int count = image[0];
         for (int k = 0; k < count; k++)
-            if (image[1 + 2 * k] == 6)
-                return image[(1 + 2 * count + image[2 + 2 * k] + 4)..];
+        {
+            if (image[1 + (2 * k)] == 6)
+            {
+                return image[(1 + (2 * count) + image[2 + (2 * k)] + 4)..];
+            }
+        }
+
         throw new InvalidOperationException("The level stores no fields.");
     }
 
@@ -335,9 +348,12 @@ public sealed class MapShapeTests : FormatsTest
         var level = new LevelProbe { Width = (byte)width, Height = (byte)height, HexLevel = 1, Fields = new FieldProbe[width * height] };
         for (int i = 0; i < level.Fields.Length; i++)
         {
-            var field = new FieldProbe { Flags = (ushort)(i * 1000 + 7) };
+            var field = new FieldProbe { Flags = (ushort)((i * 1000) + 7) };
             for (int k = 0; k < spritesPerField[i]; k++)
+            {
                 field.Sprites.Add(new SpriteProbe { DaysRemaining = (sbyte)(k + i), CasterPlayer = (sbyte)(k - 1) });
+            }
+
             level.Fields[i] = field;
         }
         return level;
@@ -364,9 +380,16 @@ public sealed class MapShapeTests : FormatsTest
             HexLevel = persister.Byte("HexLevel", HexLevel);
             if (persister.Loading)
             {
-                if (!persister.Has("Fields")) return;
+                if (!persister.Has("Fields"))
+                {
+                    return;
+                }
+
                 Fields = new FieldProbe[Width * Height];
-                for (int i = 0; i < Fields.Length; i++) Fields[i] = new FieldProbe();
+                for (int i = 0; i < Fields.Length; i++)
+                {
+                    Fields[i] = new FieldProbe();
+                }
             }
             persister.Grid("Fields", width: Width, height: Height, fields: Fields, visited: _ => Visited++);
         }

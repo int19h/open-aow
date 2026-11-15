@@ -90,7 +90,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
         // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the
         // 7 bytes stay after the last row (graphics.md 6.8).
-        size = _pitch * height + 7;
+        size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
@@ -149,7 +149,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
             {
                 for (int y = 0, last = Height - 1; y <= last; y++)
                 {
-                    lockedSurface.View().Bytes((R.Top + y) * lockedSurface.Pitch + R.Left, DataWidth).CopyTo(_buffer.AsSpan(_pitch * y, DataWidth));
+                    lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, DataWidth).CopyTo(_buffer.AsSpan(_pitch * y, DataWidth));
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);
@@ -184,33 +184,64 @@ public partial class Picture08 : Image08, ILibraryImageClass
             destinationX = lockedSurface.ClipRectangle.Left;
             width -= sourceX;
         }
-        if (right > lockedSurface.ClipRectangle.Right) width -= right - lockedSurface.ClipRectangle.Right;
-        if (width <= 0) return;
+        if (right > lockedSurface.ClipRectangle.Right)
+        {
+            width -= right - lockedSurface.ClipRectangle.Right;
+        }
+
+        if (width <= 0)
+        {
+            return;
+        }
+
         if (destinationY < lockedSurface.ClipRectangle.Top)
         {
             sourceY = lockedSurface.ClipRectangle.Top - y;
             destinationY = lockedSurface.ClipRectangle.Top;
             height -= sourceY;
         }
-        if (bottom > lockedSurface.ClipRectangle.Bottom) height -= bottom - lockedSurface.ClipRectangle.Bottom;
-        if (height <= 0) return;
+        if (bottom > lockedSurface.ClipRectangle.Bottom)
+        {
+            height -= bottom - lockedSurface.ClipRectangle.Bottom;
+        }
+
+        if (height <= 0)
+        {
+            return;
+        }
 
         bool loadedHere = !DataLoaded;
-        if (loadedHere) LoadDiscardableImageData();
-        var source = View.At(sourceX + sourceY * _pitch);
-        var destination = lockedSurface.View(destinationX + destinationY * lockedSurface.Pitch);
+        if (loadedHere)
+        {
+            LoadDiscardableImageData();
+        }
+
+        var source = View.At(sourceX + (sourceY * _pitch));
+        var destination = lockedSurface.View(destinationX + (destinationY * lockedSurface.Pitch));
         if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
+        {
             BlitRects.BlitRectangle(source, destination, width, height);
+        }
         else
         {
             if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId &&
                 RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
+            {
                 throw new NotSupportedException("Surface pixel format not supported!");
+            }
+
             if (lockedSurface.PixelFormatId == PixelFormats.pfRGB555)
+            {
                 PixelRemap.RemapSurface08To555(source, destination, width, height, RemapPaletteValue);
+            }
             else if (lockedSurface.PixelFormatId == PixelFormats.pfRGB565)
+            {
                 PixelRemap.RemapSurface08To565(source, destination, width, height, RemapPaletteValue);
+            }
         }
-        if (loadedHere && LoadMode == LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
+        if (loadedHere && LoadMode == LoadMode.LoadFreeOnDemand)
+        {
+            ReleaseDiscardableImageData();
+        }
     }
 }

@@ -5,6 +5,9 @@ public sealed class CorpusFactAttribute : FactAttribute
 {
     public CorpusFactAttribute()
     {
-        if (PersistCorpusTests.SkipReason is string reason) Skip = reason;
+        if (PersistCorpusTests.SkipReason is string reason)
+        {
+            Skip = reason;
+        }
     }
 }

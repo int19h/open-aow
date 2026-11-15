@@ -57,10 +57,7 @@ public partial class CityRebelDialog : UIModule
     }
 
     // AoWCityRebelDlg.pas:72
-    public void RebelWinHide()
-    {
-        ClearEvent();
-    }
+    public void RebelWinHide() => ClearEvent();
 
     // AoWCityRebelDlg.pas:77
     public void RebelWinKeyDown(ref ushort key, Set<ShiftState> shift)

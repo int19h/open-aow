@@ -7,10 +7,7 @@ namespace Aow.Engine.Nodes;
 public partial class ObservableEventList : ObservableNode
 {
 
-    public ObservableEventList(CustomNode owner) : base(owner)
-    {
-        _eventsStore = new();
-    }
+    public ObservableEventList(CustomNode owner) : base(owner) => _eventsStore = new();
 
     private readonly EventStore<ObservableEventList> _eventsStore;
 
@@ -22,10 +19,7 @@ public partial class ObservableEventList : ObservableNode
     }
 
     // Engine.pas:8137
-    protected override void OnChange()
-    {
-        _eventsStore.Raise(this);
-    }
+    protected override void OnChange() => _eventsStore.Raise(this);
 
     public event NotifyEvent<ObservableEventList> Events
     {

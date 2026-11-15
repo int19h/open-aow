@@ -65,7 +65,11 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         int checkedNames = 0;
         foreach (var classValue in schema.Classes)
         {
-            if (classValue.Own.Count == 0) continue;
+            if (classValue.Own.Count == 0)
+            {
+                continue;
+            }
+
             var type = TypeOf(classValue.Name);
             if (type is null)
             {
@@ -77,13 +81,30 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 checkedNames++;
                 bool bound = Member(type, property.Name) is not null;
                 bool listed = s_unboundNames.ContainsKey((classValue.Name, property.Name));
-                if (listed) used.Add((classValue.Name, property.Name));
-                if (bound && listed) failures.Add(classValue.Name + "." + property.Name + " is listed as unbound and binds " + type.Name + "." + property.Name);
-                if (!bound && !listed) failures.Add(classValue.Name + "." + property.Name + " names no member of " + type.FullName);
+                if (listed)
+                {
+                    used.Add((classValue.Name, property.Name));
+                }
+
+                if (bound && listed)
+                {
+                    failures.Add(classValue.Name + "." + property.Name + " is listed as unbound and binds " + type.Name + "." + property.Name);
+                }
+
+                if (!bound && !listed)
+                {
+                    failures.Add(classValue.Name + "." + property.Name + " names no member of " + type.FullName);
+                }
             }
         }
         foreach (var key in s_unboundNames.Keys)
-            if (!used.Contains(key)) failures.Add(key.Class + "." + key.Name + " is listed as unbound and is no schema member");
+        {
+            if (!used.Contains(key))
+            {
+                failures.Add(key.Class + "." + key.Name + " is listed as unbound and is no schema member");
+            }
+        }
+
         output.WriteLine(checkedNames + " schema members checked, " + s_unboundNames.Count + " bind no member of their name");
         Assert.True(failures.Count == 0, string.Join("\n", failures));
     }
@@ -102,21 +123,35 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         foreach (var engineClass in EngineClass.All)
         {
             var classValue = schema.Find(engineClass.StorageKey);
-            if (classValue is null || classValue.Properties.Count == 0) continue;
+            if (classValue is null || classValue.Properties.Count == 0)
+            {
+                continue;
+            }
+
             EngineObject? objectValue = null;
             try
             {
                 objectValue = engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
                 var filled = Fill(objectValue, classValue);
-                if (filled.Count == 0) continue;
+                if (filled.Count == 0)
+                {
+                    continue;
+                }
+
                 var document = PilotImage.Decode(Image(objectValue), className: classValue.Name);
                 objects++;
                 foreach (var (name, expected) in filled)
                 {
-                    if (document.Find(name)?.Value is not JsonInteger stored) continue;
+                    if (document.Find(name)?.Value is not JsonInteger stored)
+                    {
+                        continue;
+                    }
+
                     values++;
                     if (stored.Value != expected)
+                    {
                         failures.Add(classValue.Name + "." + name + " stores " + stored.Value + ", the member holds " + expected);
+                    }
                 }
             }
             catch (Exception error) when (error is not Xunit.Sdk.XunitException)
@@ -130,7 +165,11 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             }
         }
         output.WriteLine(objects + " objects, " + values + " stored integers checked, " + skipped.Count + " classes skipped");
-        foreach (var line in skipped) output.WriteLine("skipped " + line);
+        foreach (var line in skipped)
+        {
+            output.WriteLine("skipped " + line);
+        }
+
         Assert.True(failures.Count == 0, string.Join("\n", failures));
         Assert.True(objects >= 300, "only " + objects + " objects were checked");
     }
@@ -149,9 +188,18 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             // A record is the image its [StoredRecord] binding names.
             var info = RecordCatalog.Find(name) ?? throw new InvalidOperationException("The record " + name + " is not in the catalog.");
             var type = info.Image;
-            if (RecordTypeInfo.StoredName(type) != name) failures.Add("record " + name + " is bound to " + type.FullName + ", which stores " + RecordTypeInfo.StoredName(type));
+            if (RecordTypeInfo.StoredName(type) != name)
+            {
+                failures.Add("record " + name + " is bound to " + type.FullName + ", which stores " + RecordTypeInfo.StoredName(type));
+            }
+
             foreach (var field in info.Fields)
-                if (Member(type, field.Name) is null) failures.Add("record " + name + " stores " + field.Name + ", which is no member of " + type.FullName);
+            {
+                if (Member(type, field.Name) is null)
+                {
+                    failures.Add("record " + name + " stores " + field.Name + ", which is no member of " + type.FullName);
+                }
+            }
         }
         foreach (string name in enums)
         {
@@ -210,10 +258,24 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
     // The field or property of that name, or the private field _name, in the type or its bases.
     private static MemberInfo? Member(Type type, string name)
     {
-        if (MemberNames.Field(type, name) is { } field) return field;
-        if (MemberNames.Field(type, "_" + char.ToLowerInvariant(name[0]) + name[1..]) is { } privateField) return privateField;
+        if (MemberNames.Field(type, name) is { } field)
+        {
+            return field;
+        }
+
+        if (MemberNames.Field(type, "_" + char.ToLowerInvariant(name[0]) + name[1..]) is { } privateField)
+        {
+            return privateField;
+        }
+
         for (var current = type; current is not null; current = current.BaseType)
-            if (current.GetProperty(name, Instance | BindingFlags.DeclaredOnly) is { } property) return property;
+        {
+            if (current.GetProperty(name, Instance | BindingFlags.DeclaredOnly) is { } property)
+            {
+                return property;
+            }
+        }
+
         return null;
     }
 
@@ -225,8 +287,16 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         int next = first;
         foreach (var property in classValue.Properties)
         {
-            if (skip?.Contains(property.Name) == true) continue;
-            if (Member(objectValue.GetType(), property.Name) is not FieldInfo field || field.IsInitOnly) continue;
+            if (skip?.Contains(property.Name) == true)
+            {
+                continue;
+            }
+
+            if (Member(objectValue.GetType(), property.Name) is not FieldInfo field || field.IsInitOnly)
+            {
+                continue;
+            }
+
             object? value = Type.GetTypeCode(field.FieldType) switch
             {
                 TypeCode.Int32 => next,
@@ -236,11 +306,18 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 TypeCode.SByte => (sbyte)next,
                 _ => null,
             };
-            if (value is null || field.FieldType.IsEnum) continue;
+            if (value is null || field.FieldType.IsEnum)
+            {
+                continue;
+            }
+
             field.SetValue(objectValue, value);
             filled.Add((property.Name, next));
             next++;
-            if (next > first + 109) break;
+            if (next > first + 109)
+            {
+                break;
+            }
         }
         return filled;
     }
@@ -283,14 +360,24 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 {
                     if (member.Value is JsonString { Value: var name })
                     {
-                        if (member.Name == "record") records.Add(name);
-                        else if (member.Name is "enum" or "set") enums.Add(name);
+                        if (member.Name == "record")
+                        {
+                            records.Add(name);
+                        }
+                        else if (member.Name is "enum" or "set")
+                        {
+                            enums.Add(name);
+                        }
                     }
                     Collect(member.Value, records, enums);
                 }
                 break;
             case JsonArray array:
-                foreach (var item in array.Items) Collect(item, records, enums);
+                foreach (var item in array.Items)
+                {
+                    Collect(item, records, enums);
+                }
+
                 break;
         }
     }

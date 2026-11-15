@@ -107,10 +107,7 @@ public partial class MoveControlSettings : EngineObject
     }
 
     // MoveT.PAS:120
-    public void ResetState()
-    {
-        Status = MoveControlSettingsStatus.Idle;
-    }
+    public void ResetState() => Status = MoveControlSettingsStatus.Idle;
 
     // MoveT.PAS:125
     public void Reset()
@@ -139,19 +136,13 @@ public partial class MoveControlSettings : EngineObject
     }
 
     // MoveT.PAS:148
-    public void SetSourcePosition(MapCoordinate source)
-    {
-        Source = source;
-    }
+    public void SetSourcePosition(MapCoordinate source) => Source = source;
 
     public void SetSourcePosition(int x, int y, int level) =>
         SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:155
-    public void SetDestinationPosition(MapCoordinate destination)
-    {
-        Destination = destination;
-    }
+    public void SetDestinationPosition(MapCoordinate destination) => Destination = destination;
 
     public void SetDestinationPosition(int x, int y, int level) =>
         SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
@@ -208,8 +199,8 @@ public partial class MoveControlSettings : EngineObject
             Array.Clear(_levelData);
             for (int i = 1; i <= 6; i++)
             {
-                EvenOffsets[i] = HexGeometry.HexNumberToXYTable[0][i].X * 4 + HexGeometry.HexNumberToXYTable[0][i].Y * (width * 4);
-                OddOffsets[i] = HexGeometry.HexNumberToXYTable[1][i].X * 4 + HexGeometry.HexNumberToXYTable[1][i].Y * (width * 4);
+                EvenOffsets[i] = (HexGeometry.HexNumberToXYTable[0][i].X * 4) + (HexGeometry.HexNumberToXYTable[0][i].Y * width * 4);
+                OddOffsets[i] = (HexGeometry.HexNumberToXYTable[1][i].X * 4) + (HexGeometry.HexNumberToXYTable[1][i].Y * width * 4);
             }
         }
         else

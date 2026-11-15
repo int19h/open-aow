@@ -22,16 +22,10 @@ public partial class DataPackage : EngineObject
     }
 
     // NetworkE.pas:598
-    public override void MainPersist(IPersister persister)
-    {
-        PersistFields(persister);
-    }
+    public override void MainPersist(IPersister persister) => PersistFields(persister);
 
     // NetworkE.pas:566
-    public DataPackage(CustomNode owner) : base(owner)
-    {
-        RefCount = 1;
-    }
+    public DataPackage(CustomNode owner) : base(owner) => RefCount = 1;
 
     // NetworkE.pas:572
     public override int AddRef()

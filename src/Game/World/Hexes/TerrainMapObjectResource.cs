@@ -8,10 +8,7 @@ namespace Aow.Game.World.Hexes;
 // _decorationType (-1 none), _terrainType. persisted as ids $12 and $11
 public partial class TerrainMapObjectResource : MultiHexMapObjectResource
 {
-    public TerrainMapObjectResource(CustomNode owner) : base(owner)
-    {
-        _decorationType = -1;
-    }
+    public TerrainMapObjectResource(CustomNode owner) : base(owner) => _decorationType = -1;
 
     // Terrain.pas:327
     public new const int ClassId = 131431;

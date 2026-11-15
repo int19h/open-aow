@@ -24,8 +24,8 @@ internal static class EffectPaths
         {
             xYZ = new Point3D();
             list.Add(xYZ);
-            xYZ.X = x1 + (x2 - x1) * i / (steps - 1);
-            xYZ.Y = y1 + (y2 - y1) * i / (steps - 1);
+            xYZ.X = x1 + ((x2 - x1) * i / (steps - 1));
+            xYZ.Y = y1 + ((y2 - y1) * i / (steps - 1));
         }
     }
 
@@ -96,7 +96,7 @@ internal static class EffectPaths
         cy = y1;
         angle = GetAngle(x1, y1, x2, y2);
         a2 = angle;
-        length = Round(Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+        length = Round(Math.Sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))));
         dist = 0;
         seg = Random(15) + 5;
         while (dist + seg < length)
@@ -177,8 +177,8 @@ internal static class EffectPaths
         {
             xYZ = new Point3D();
             list.Add(xYZ);
-            xYZ.X = x1 + (x2 - x1) * i / steps;
-            xYZ.Y = y1 + (y2 - y1) * i / steps;
+            xYZ.X = x1 + ((x2 - x1) * i / steps);
+            xYZ.Y = y1 + ((y2 - y1) * i / steps);
             var pi = Math.PI;
             xYZ.Z = Round((double)Math.Sin((double)(i * pi) / steps) * height);
             i += 1;

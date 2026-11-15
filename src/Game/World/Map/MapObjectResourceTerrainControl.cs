@@ -145,7 +145,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         MapField mapField;
         MapObject mapObject;
         MapObject result = null;
-        if ((_resources[terrainType]).Count != 0)
+        if (_resources[terrainType].Count != 0)
         {
             r = null;
             mapField = container.GetField(X, Y, L);
@@ -227,18 +227,18 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         terrainType = resource.TerrainList.GetTerrain(0);
         if (terrainType >= 0 && terrainType < _resources.Count)
         {
-            if ((_resources[terrainType]).IndexOf(resource) != -1 || resource == null)
+            if (_resources[terrainType].IndexOf(resource) != -1 || resource == null)
             {
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }
 
-            (_resources[terrainType]).Add(resource);
+            _resources[terrainType].Add(resource);
         }
     }
 
-    public GameEngine HexSpriteEngine { get => _hexSpriteEngine; }
+    public GameEngine HexSpriteEngine => _hexSpriteEngine;
     public int Tries { get => _tries; set => _tries = value; }
-    public List<DelphiList<MapObjectResource>> Resources { get => _resources; }
+    public List<DelphiList<MapObjectResource>> Resources => _resources;
     public Type MapObjectClass { get => _mapObjectClass; set => _mapObjectClass = value; }
 
 }

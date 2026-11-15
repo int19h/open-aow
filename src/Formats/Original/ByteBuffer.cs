@@ -20,7 +20,11 @@ public sealed class ByteBuffer
         if (Length + count > _buffer.Length)
         {
             long size = Math.Max((long)_buffer.Length * 2, (long)Length + count);
-            if (size > Array.MaxLength) throw new ConversionException(new FormatDiagnostic(Codes.Limit, "An encoded image exceeds the largest buffer."));
+            if (size > Array.MaxLength)
+            {
+                throw new ConversionException(new FormatDiagnostic(Codes.Limit, "An encoded image exceeds the largest buffer."));
+            }
+
             Array.Resize(ref _buffer, (int)size);
         }
         var span = _buffer.AsSpan(Length, count);

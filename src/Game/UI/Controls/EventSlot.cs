@@ -110,7 +110,11 @@ internal static class EventSlot
     private static TView Find<TView>(object owner, string slot, Delegate value)
         where TView : SlotView
     {
-        if (value is null || !s_views.TryGetValue(owner, out var views)) return null;
+        if (value is null || !s_views.TryGetValue(owner, out var views))
+        {
+            return null;
+        }
+
         for (int i = views.Count - 1; i >= 0; i--)
         {
             if (views[i] is TView view && view.Slot == slot && view.Handler.Equals(value))

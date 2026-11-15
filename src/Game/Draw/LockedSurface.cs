@@ -44,8 +44,8 @@ public struct LockedSurface
         if (source.BitCount == 16 && destination.PixelFormatId == source.PixelFormatId)
         {
             key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
-            s = source.View(source.Pitch * sourceRectangle.Top + sourceRectangle.Left * 2);
-            d = destination.View(destination.Pitch * Y + X * 2);
+            s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
+            d = destination.View((destination.Pitch * Y) + (X * 2));
             BlitRects.BlitColorKey16(s, d, sourceRectangle.Right - sourceRectangle.Left, sourceRectangle.Bottom - sourceRectangle.Top, key);
             result = PixelFormats.GFXE_OK;
         }
@@ -115,8 +115,8 @@ public struct LockedSurface
             if (w > 0 && h > 0)
             {
                 w = (int)(((uint)(source.BitCount * w)) >> 3);
-                s = source.View(source.Pitch * sourceRectangle.Top + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
-                d = destination.View(destination.Pitch * Y + (int)(((uint)(destination.BitCount * X)) >> 3));
+                s = source.View((source.Pitch * sourceRectangle.Top) + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
+                d = destination.View((destination.Pitch * Y) + (int)(((uint)(destination.BitCount * X)) >> 3));
                 BlitRects.BlitRectangle(s, d, w, h);
             }
 
@@ -189,7 +189,7 @@ public struct LockedSurface
             if (w > 0 && h > 0)
             {
                 key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
-                s = source.View(source.Pitch * sourceRectangle.Top + sourceRectangle.Left * 2);
+                s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
                 d = destination.View(destination.Pitch * Y);
                 X += X;
                 d = d.At(X);
@@ -212,7 +212,7 @@ public struct LockedSurface
         var clipRectangle = destination.ClipRectangle;
         IntersectRect(out clipRectangle, source.ClipRectangle, R);
         destination.ClipRectangle = clipRectangle;
-        destination.DataIndex = source.DataIndex + R.Top * source.Pitch + (int)(((uint)source.BitCount) >> 3) * R.Left;
+        destination.DataIndex = source.DataIndex + (R.Top * source.Pitch) + ((int)(((uint)source.BitCount) >> 3) * R.Left);
         var clipRectangle2 = destination.ClipRectangle;
         clipRectangle2.Left -= R.Left;
         destination.ClipRectangle = clipRectangle2;
@@ -240,17 +240,17 @@ public struct LockedSurface
             switch (lockedSurfaceValue.BitCount)
             {
                 case 8:
-                    result = lockedSurfaceValue.View().Byte(X + lockedSurfaceValue.Pitch * Y);
+                    result = lockedSurfaceValue.View().Byte(X + (lockedSurfaceValue.Pitch * Y));
                     break;
                 case 16:
-                    result = lockedSurfaceValue.View().UInt16(X + X + lockedSurfaceValue.Pitch * Y);
+                    result = lockedSurfaceValue.View().UInt16(X + X + (lockedSurfaceValue.Pitch * Y));
                     break;
                 case 24:
                     // Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
-                    result = (int)lockedSurfaceValue.View().Dword(X * 3 + lockedSurfaceValue.Pitch * Y) & 16777215;
+                    result = (int)lockedSurfaceValue.View().Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 16777215;
                     break;
                 case 32:
-                    result = (int)lockedSurfaceValue.View().Dword(X * 4 + lockedSurfaceValue.Pitch * Y);
+                    result = (int)lockedSurfaceValue.View().Dword((X * 4) + (lockedSurfaceValue.Pitch * Y));
                     break;
                 default:
                     throw new NotSupportedException("PixelFormat is not supported");
@@ -382,8 +382,8 @@ public struct LockedSurface
 
         if (width > 0 && height > 0)
         {
-            s = source.View(source.Pitch * sourceY + (int)(((uint)(source.BitCount + 7)) >> 3) * sourceX);
-            d = destination.View(destination.Pitch * destinationY + (int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX);
+            s = source.View((source.Pitch * sourceY) + ((int)(((uint)(source.BitCount + 7)) >> 3) * sourceX));
+            d = destination.View((destination.Pitch * destinationY) + ((int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX));
             switch (source.PixelFormatId)
             {
                 case PixelFormats.pfPAL8:

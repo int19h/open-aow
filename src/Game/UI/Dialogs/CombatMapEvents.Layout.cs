@@ -7,10 +7,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class CombatMapEvents : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {

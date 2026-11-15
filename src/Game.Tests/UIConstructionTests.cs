@@ -23,7 +23,11 @@ public sealed class UIConstructionTests
 
         public override void Notification(Component child, Operation operation)
         {
-            if (operation == Operation.Insert) Observations.Add(Snapshot(child));
+            if (operation == Operation.Insert)
+            {
+                Observations.Add(Snapshot(child));
+            }
+
             base.Notification(child, operation);
         }
     }
@@ -59,32 +63,79 @@ public sealed class UIConstructionTests
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
-            if (item is null) return null;
+            if (item is null)
+            {
+                return null;
+            }
+
             Type type = item.GetType();
-            if (item is string text) return text;
-            if (type.IsEnum) return Convert.ToInt64(item);
-            if (type.IsPrimitive || item is string || item is decimal) return item;
-            if (item is Type represented) return represented.FullName;
-            if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            if (item is string text)
+            {
+                return text;
+            }
+
+            if (type.IsEnum)
+            {
+                return Convert.ToInt64(item);
+            }
+
+            if (type.IsPrimitive || item is string || item is decimal)
+            {
+                return item;
+            }
+
+            if (item is Type represented)
+            {
+                return represented.FullName;
+            }
+
+            if (item is Delegate handler)
+            {
+                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            }
+
             if (!type.IsValueType)
             {
-                if (visited.TryGetValue(item, out string? found)) return "$ref:" + found;
+                if (visited.TryGetValue(item, out string? found))
+                {
+                    return "$ref:" + found;
+                }
+
                 visited.Add(item, path);
             }
-            if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (InlineArrays.Elements(item) is { } elements) return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            if (item is Array array)
+            {
+                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (InlineArrays.Elements(item) is { } elements)
+            {
+                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (item is IList list)
+            {
+                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
+            {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor cache and the link to the engine are not constructor state
+                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    {
+                        continue; // the descriptor cache and the link to the engine are not constructor state
+                    }
+
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name is "_owner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
                     if (child is UIContext) { fields[key] = child.GetType().FullName; continue; }
                     fields[key] = field.Name is "_engine" or "_hexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
                 }
+            }
+
             return fields;
         }
         return JsonSerializer.Serialize(State(value, "$"));
@@ -222,14 +273,33 @@ public sealed class UIConstructionTests
         {
             if (typeof(DataModule).IsAssignableFrom(type))
             {
-                if (owner is not null) throw new InvalidOperationException(type.FullName + " takes no owner.");
-                if (type.GetConstructor([typeof(UIContext)]) is { } module) return (Component)module.Invoke([new UIContext(EngineFixture.Engine)]);
-                if (type.GetConstructor(Type.EmptyTypes) is { } resource) return (Component)resource.Invoke([]);
+                if (owner is not null)
+                {
+                    throw new InvalidOperationException(type.FullName + " takes no owner.");
+                }
+
+                if (type.GetConstructor([typeof(UIContext)]) is { } module)
+                {
+                    return (Component)module.Invoke([new UIContext(EngineFixture.Engine)]);
+                }
+
+                if (type.GetConstructor(Type.EmptyTypes) is { } resource)
+                {
+                    return (Component)resource.Invoke([]);
+                }
             }
             var constructor = type.GetConstructor([typeof(Component)]);
-            if (constructor is not null) return (Component)constructor.Invoke([owner]);
+            if (constructor is not null)
+            {
+                return (Component)constructor.Invoke([owner]);
+            }
+
             var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
-            if (factory is not null) return (Component)factory.Invoke(null, [owner])!;
+            if (factory is not null)
+            {
+                return (Component)factory.Invoke(null, [owner])!;
+            }
+
             throw new InvalidOperationException(type.FullName + " has no completed owner entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -264,7 +334,11 @@ public sealed class UIConstructionTests
                 catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
-            if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
+            if (owner is not null)
+            {
+                states.Add(JsonSerializer.Serialize(owner.Observations));
+            }
+
             states.Add("subscriptions:" + EngineFixture.Engine.OnHsmLoadedStore.Count + ":" + EngineFixture.Engine.OnHsmCloseStore.Count);
             ConstructionSnapshot.Check(actual: string.Join("\n", states), key: name + ".owner" + owned, name: "UiConstruction");
         }

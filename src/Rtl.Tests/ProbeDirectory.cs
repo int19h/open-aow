@@ -15,7 +15,14 @@ internal sealed class ProbeDirectory : IDisposable
         {
             bool directory = Directory.Exists(entry);
             File.SetAttributes(entry, directory ? FileAttributes.Directory : FileAttributes.Normal);
-            if (directory) Directory.Delete(entry); else File.Delete(entry);
+            if (directory)
+            {
+                Directory.Delete(entry);
+            }
+            else
+            {
+                File.Delete(entry);
+            }
         }
         Directory.Delete(Root);
     }

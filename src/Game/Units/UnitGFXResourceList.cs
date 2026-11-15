@@ -19,10 +19,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
     int IChildSink<UnitGraphicsResource>.AddChild(UnitGraphicsResource child) => AddChild(child);
 
     // UnitHS.PAS:133
-    public UnitGFXResourceList(CustomNode owner) : base(owner)
-    {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, EngineServices.KeepIndex));
-    }
+    public UnitGFXResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, EngineServices.KeepIndex));
 
     // UnitHS.PAS:138
     public UnitGraphicsResource GetUnitGraphicsResource(int index)

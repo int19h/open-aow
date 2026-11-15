@@ -36,7 +36,11 @@ public partial class TitleScene
     {
         Window.WindowManager.ImageLibraryIndexTBack = 0;
         GameHost.MainForm?.Display.SetFrameRate(30);
-        if (GameHost.MainForm is { } form) form.DisplayController.UseVerticalBlank = false;
+        if (GameHost.MainForm is { } form)
+        {
+            form.DisplayController.UseVerticalBlank = false;
+        }
+
         Window.Visible = false;
         TitleSceneImages.ReleaseDiscardableImageData();
     }
@@ -62,7 +66,11 @@ public partial class TitleScene
                         UI.General.PlayButtonSound(0);
                         ShowFactionSelection(UI.FactionSelectionWindow);
                     }
-                    else UI.MessageDialog.ShowDemoMessage();
+                    else
+                    {
+                        UI.MessageDialog.ShowDemoMessage();
+                    }
+
                     break;
                 case 2:
                     LoadGame(UI.General, FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
@@ -81,8 +89,15 @@ public partial class TitleScene
                 case 4:
                     Window.Visible = false;
                     UI.General.PlayButtonSound(0);
-                    if (UI.Engine.Demo) UI.TitleWindow.ShowExitSplash();
-                    else GameHost.MainForm.CloseRequested();
+                    if (UI.Engine.Demo)
+                    {
+                        UI.TitleWindow.ShowExitSplash();
+                    }
+                    else
+                    {
+                        GameHost.MainForm.CloseRequested();
+                    }
+
                     break;
             }
         }

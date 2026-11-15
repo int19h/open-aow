@@ -53,7 +53,7 @@ public struct HexNumberWalkData
         }
         else
         {
-            walk.HexNumber = (radius - 1) * radius * 3 + 1;
+            walk.HexNumber = ((radius - 1) * radius * 3) + 1;
             walk.Side = 0;
         }
 

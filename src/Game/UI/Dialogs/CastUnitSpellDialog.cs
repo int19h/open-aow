@@ -65,7 +65,7 @@ public partial class CastUnitSpellDialog : UIModule
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);
             }
 
             info = default;
@@ -75,7 +75,7 @@ public partial class CastUnitSpellDialog : UIModule
             if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -154,10 +154,7 @@ public partial class CastUnitSpellDialog : UIModule
     }
 
     // AoWCastUnitSpellDlg.pas:214
-    public void DlgHide()
-    {
-        ClearCaster();
-    }
+    public void DlgHide() => ClearCaster();
 
     // AoWCastUnitSpellDlg.pas:219
     public void DlgUpdate()
@@ -179,9 +176,16 @@ public partial class CastUnitSpellDialog : UIModule
             ? Caster.AllowMultipleTargets ? Caster.SelectionMask | bit : bit
             : Caster.SelectionMask & ~bit));
         var checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
-        for (int i = 0; i < checks.Length; i++) checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;
+        for (int i = 0; i < checks.Length; i++)
+        {
+            checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;
+        }
+
         if (Caster.SelectionMask != oldSelection)
+        {
             UI.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
+        }
+
         if (Caster.SelectionMask == 0)
         {
             SelectionInfoLabel.Text = "";

@@ -27,11 +27,17 @@ public sealed class AudioMixer : IDisposable
         {
             _target = value;
             _remaining = Math.Clamp(speed, 0, 100);
-            if (_remaining == 0) Value = value;
-            else _step = (_target - Value) / _remaining;
+            if (_remaining == 0)
+            {
+                Value = value;
+            }
+            else
+            {
+                _step = (_target - Value) / _remaining;
+            }
         }
 
-        public void Tick() { if (_remaining > 0) { Value += _step; if (--_remaining == 0) Value = _target; } }
+        public void Tick() { if (_remaining > 0) { Value += _step; if (--_remaining == 0) { Value = _target; } } }
     }
 
     private readonly List<Voice> _voices = [];
@@ -51,20 +57,28 @@ public sealed class AudioMixer : IDisposable
     public Voice? Play(WaveData data)
     {
         _voices.RemoveAll(v => !v.Playing);
-        if (_voices.Count >= VoiceLimit || data.Frames == 0) return null;
+        if (_voices.Count >= VoiceLimit || data.Frames == 0)
+        {
+            return null;
+        }
+
         var voice = new Voice(data);
         _voices.Add(voice);
         return voice;
     }
 
-    public void StopVoices() { foreach (var voice in _voices) voice.Playing = false; _voices.Clear(); }
+    public void StopVoices() { foreach (var voice in _voices) { voice.Playing = false; } _voices.Clear(); }
 
     // One ramp _step per 50 ms mixer block, independent of SDL callback size.
     private int _blockRemaining;
 
     public void Render(Span<float> output)
     {
-        if (output.Length % 2 != 0) throw new ArgumentException("Expected stereo output.");
+        if (output.Length % 2 != 0)
+        {
+            throw new ArgumentException("Expected stereo output.");
+        }
+
         lock (Sync)
         {
             RenderedFrames += output.Length / 2;
@@ -80,10 +94,18 @@ public sealed class AudioMixer : IDisposable
                     if (read < frames) { block[(read * 2)..].Clear(); SongEnded = true; }
                 }
                 float music = MusicEnabled ? MusicGain.Value / 127 : 0;
-                for (int i = 0; i < block.Length; i++) block[i] *= music;
+                for (int i = 0; i < block.Length; i++)
+                {
+                    block[i] *= music;
+                }
+
                 foreach (var voice in _voices)
                 {
-                    if (!voice.Playing) continue;
+                    if (!voice.Playing)
+                    {
+                        continue;
+                    }
+
                     var wave = voice.Wave;
                     double step = (double)wave.SampleRate / Rate;
                     float gain = SfxEnabled ? voice.Volume * SfxGain.Value / 127 : 0;
@@ -93,20 +115,30 @@ public sealed class AudioMixer : IDisposable
                     {
                         if (voice.Position >= wave.Frames)
                         {
-                            if (voice.Loop) voice.Position %= wave.Frames;
+                            if (voice.Loop)
+                            {
+                                voice.Position %= wave.Frames;
+                            }
                             else { voice.Playing = false; break; }
                         }
                         int a = (int)voice.Position;
                         int b = a + 1 < wave.Frames ? a + 1 : voice.Loop ? 0 : a;
                         float fraction = (float)(voice.Position - a);
-                        float At(int channel) => wave.Samples[a * wave.Channels + channel] * (1 - fraction) + wave.Samples[b * wave.Channels + channel] * fraction;
+                        float At(int channel) => (wave.Samples[(a * wave.Channels) + channel] * (1 - fraction)) + (wave.Samples[(b * wave.Channels) + channel] * fraction);
                         block[frame * 2] += At(0) * left;
-                        block[frame * 2 + 1] += At(wave.Channels - 1) * right;
+                        block[(frame * 2) + 1] += At(wave.Channels - 1) * right;
                         voice.Position += step;
                     }
-                    if (!voice.Loop && voice.Position >= wave.Frames) voice.Playing = false;
+                    if (!voice.Loop && voice.Position >= wave.Frames)
+                    {
+                        voice.Playing = false;
+                    }
                 }
-                for (int i = 0; i < block.Length; i++) block[i] = Math.Clamp(block[i], -1, 1);
+                for (int i = 0; i < block.Length; i++)
+                {
+                    block[i] = Math.Clamp(block[i], -1, 1);
+                }
+
                 _blockRemaining -= frames;
                 output = output[(frames * 2)..];
             }

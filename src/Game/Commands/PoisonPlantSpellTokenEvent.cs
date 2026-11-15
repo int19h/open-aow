@@ -56,7 +56,7 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     mapField.RestoreTerrain();
                     plant = (PoisonPlant)resource.CreateResourceUser();
-                    plant.DaysRemaining = (sbyte)(3 + (StrategicMap.Current.Random(11) - 5) / 5);
+                    plant.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     plant.CasterPlayer = source.Player;
                     plant.OriginalOverlay = mapField.OverlayType;
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);

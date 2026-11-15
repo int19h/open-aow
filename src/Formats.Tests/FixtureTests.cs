@@ -11,7 +11,11 @@ public sealed class FixtureTests : FormatsTest
     private static TheoryData<string> Names(bool usesGame)
     {
         var data = new TheoryData<string>();
-        foreach (var c in Fixtures.All().Where(c => c.UsesGame == usesGame)) data.Add(c.Group + "/" + c.Name);
+        foreach (var c in Fixtures.All().Where(c => c.UsesGame == usesGame))
+        {
+            data.Add(c.Group + "/" + c.Name);
+        }
+
         return data;
     }
 

@@ -169,18 +169,18 @@ public sealed class LibraryImageClass
             {
                 case 8:
                     value = lockedSurface.View();
-                    return value.Byte(X + lockedSurface.Pitch * Y);
+                    return value.Byte(X + (lockedSurface.Pitch * Y));
                 case 16:
                     value = lockedSurface.View();
-                    return value.UInt16(X + X + lockedSurface.Pitch * Y);
+                    return value.UInt16(X + X + (lockedSurface.Pitch * Y));
                 case 24:
                     {
                         if (X + 1 < lockedSurface.Width)
                         {
                             value = lockedSurface.View();
-                            return (int)(value.Dword(X + X + X + lockedSurface.Pitch * Y) & 0xFFFFFF);
+                            return (int)(value.Dword(X + X + X + (lockedSurface.Pitch * Y)) & 0xFFFFFF);
                         }
-                        int number4 = X + X + X + lockedSurface.Pitch * Y;
+                        int number4 = X + X + X + (lockedSurface.Pitch * Y);
                         value = lockedSurface.View();
                         ushort number5 = value.UInt16(number4);
                         value = lockedSurface.View();
@@ -188,7 +188,7 @@ public sealed class LibraryImageClass
                     }
                 case 32:
                     value = lockedSurface.View();
-                    return (int)value.Dword((X << 2) + lockedSurface.Pitch * Y);
+                    return (int)value.Dword((X << 2) + (lockedSurface.Pitch * Y));
                 default:
                     throw new NotSupportedException("PixelFormat is not supported");
             }

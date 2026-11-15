@@ -247,17 +247,28 @@ public sealed partial class PersistEquivalenceTests
             EngineObject? viaPersist = null;
             try
             {
-                if (source is ItemHexSprite sprite) PlainItem(itemId: 3, name: "Ring").SetOwner(sprite.Items);
+                if (source is ItemHexSprite sprite)
+                {
+                    PlainItem(itemId: 3, name: "Ring").SetOwner(sprite.Items);
+                }
+
                 byte[]? image = null;
                 ObjectNode? tree = null;
                 AlikeOutcome(() => image = Image(source), () => tree = TreeWriter.Write(source, Factory), className + " write");
-                if (image is null || tree is null) return;
+                if (image is null || tree is null)
+                {
+                    return;
+                }
+
                 EqualJson(PilotImage.Decode(image, className), DocumentBackend.Write(tree, classValue, s_schema, "game"), className + " write");
                 EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), className + " original");
                 var stream = viaReadWrite = Blank(className);
                 var persisted = viaPersist = Blank(className);
                 bool loaded = AlikeOutcome(() => Load(stream, image), () => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), persisted, Factory), className + " load");
-                if (loaded) EqualBytes(Image(stream), Image(persisted), className + " read");
+                if (loaded)
+                {
+                    EqualBytes(Image(stream), Image(persisted), className + " read");
+                }
             }
             finally
             {
@@ -294,14 +305,34 @@ public sealed partial class PersistEquivalenceTests
         foreach (var engineClass in EngineClass.All)
         {
             var type = engineClass.Type;
-            if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract) continue;
-            if (type.Namespace is not { } space || !(space.StartsWith("Aow.Game.World", StringComparison.Ordinal) || space.StartsWith("Aow.Game.Draw", StringComparison.Ordinal))) continue;
-            if (EngineObject.TreePersistenceRefusal(type) is not null || s_worldExceptions.Contains(engineClass.StorageKey)) continue;
-            if (FormatSchema.Current.Find(engineClass.StorageKey) is null) continue;
+            if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract)
+            {
+                continue;
+            }
+
+            if (type.Namespace is not { } space || !(space.StartsWith("Aow.Game.World", StringComparison.Ordinal) || space.StartsWith("Aow.Game.Draw", StringComparison.Ordinal)))
+            {
+                continue;
+            }
+
+            if (EngineObject.TreePersistenceRefusal(type) is not null || s_worldExceptions.Contains(engineClass.StorageKey))
+            {
+                continue;
+            }
+
+            if (FormatSchema.Current.Find(engineClass.StorageKey) is null)
+            {
+                continue;
+            }
+
             names.Add(engineClass.StorageKey);
         }
         var data = new TheoryData<string>();
-        foreach (var name in names) data.Add(name);
+        foreach (var name in names)
+        {
+            data.Add(name);
+        }
+
         return data;
     }
 

@@ -241,10 +241,7 @@ public partial class Frame : Control
     }
 
     // AoWFrame.pas:255
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWFrame.pas:139
     public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)

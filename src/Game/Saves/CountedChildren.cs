@@ -14,7 +14,9 @@ public sealed class CountedChildren(string family, string countMember) : Content
         long expected = value[countMember] is JsonInteger count ? count.Value : 0;
         int actual = ContentChildren.Count(scope, value, family);
         if (actual != expected)
+        {
             yield return scope.Context.At(Codes.Required, $"{countMember} counts {expected} {family} children, the document holds {actual}.",
                 value[countMember] ?? value, path.Member(countMember), actual.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{expected} {family} children");
+        }
     }
 }

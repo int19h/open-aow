@@ -65,10 +65,10 @@ public partial class HexBridge : AbstractRoad
         int pixelX;
         int pixelY;
         var mapField = Owner;
-        pixelX = mapField.HexX * 32 + 8;
-        pixelY = (mapField.HexX & 1) * 16 + mapField.HexY * 32;
+        pixelX = (mapField.HexX * 32) + 8;
+        pixelY = ((mapField.HexX & 1) * 16) + (mapField.HexY * 32);
 
-        return 1744830464 + (pixelY << 13) + (pixelX + 8);
+        return 1744830464 + (pixelY << 13) + pixelX + 8;
     }
 
     // HxBridge.pas:117
@@ -112,10 +112,7 @@ public partial class HexBridge : AbstractRoad
     }
 
     // HxBridge.pas:327
-    public override void ChangeTerrain(in HexSpriteTerrainInfo message)
-    {
-        base.ChangeTerrain(message);
-    }
+    public override void ChangeTerrain(in HexSpriteTerrainInfo message) => base.ChangeTerrain(message);
 
     // HxBridge.pas:321
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo message)
@@ -401,10 +398,7 @@ public partial class HexBridge : AbstractRoad
 
     public new partial class Resource : AbstractRoadResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            Level = 10;
-        }
+        public Resource(CustomNode owner) : base(owner) => Level = 10;
 
         // HxBridge.pas:348
         public new const int ClassId = 133243;

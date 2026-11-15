@@ -74,7 +74,7 @@ public sealed class StructureBorderTests
             for (int y = 0; y < height; y++)
             {
                 int row = lockedSurface.View().UInt16(y * lockedSurface.Pitch);
-                Assert.Equal(row, lockedSurface.View().UInt16(y * lockedSurface.Pitch + 2));
+                Assert.Equal(row, lockedSurface.View().UInt16((y * lockedSurface.Pitch) + 2));
                 rows[y] = row;
             }
             Assert.Equal(1, rows.Count(row => row == Pixel(TopColor)));

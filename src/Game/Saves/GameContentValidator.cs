@@ -36,17 +36,40 @@ internal sealed class GameContentValidator : IDocumentValidator
                     Visit(new ContentScope(scope.Context, nested, path.Member("root")), nested, null, path.Member("root"), findings);
                     break;
                 }
-                if (objectValue["$class"] is JsonString name) classValue = GameFiles.Schema.Find(name.Value);
+                if (objectValue["$class"] is JsonString name)
+                {
+                    classValue = GameFiles.Schema.Find(name.Value);
+                }
+
                 for (var c = classValue; c is not null; c = c.Parent)
+                {
                     if (FormatMapping.All.TryGetValue(c.Name, out var rules))
-                        foreach (var rule in rules) findings.AddRange(rule.Check(scope, objectValue, path));
+                    {
+                        foreach (var rule in rules)
+                        {
+                            findings.AddRange(rule.Check(scope, objectValue, path));
+                        }
+                    }
+                }
+
                 foreach (var member in objectValue.Members)
+                {
                     if (member.Value is JsonObject or JsonArray && member.Name != "Fields")
+                    {
                         Visit(scope, member.Value, null, path.Member(member.Name), findings);
+                    }
+                }
+
                 break;
             case JsonArray array:
                 for (int i = 0; i < array.Items.Count; i++)
-                    if (array.Items[i] is JsonObject or JsonArray) Visit(scope, array.Items[i], null, path.Item(i), findings);
+                {
+                    if (array.Items[i] is JsonObject or JsonArray)
+                    {
+                        Visit(scope, array.Items[i], null, path.Item(i), findings);
+                    }
+                }
+
                 break;
         }
     }

@@ -45,7 +45,10 @@ public sealed class PrisonersSaveListingTests
         // The fixture engine does not run GameClasses.Register. The running game registers a dungeon there.
         var dungeonClass = EngineClass.Of<Dungeon>();
         bool registerDungeon = !engine.ClassTable.ContainsKey(dungeonClass.ClassId);
-        if (registerDungeon) engine.RegisterEngineClasses([dungeonClass]);
+        if (registerDungeon)
+        {
+            engine.RegisterEngineClasses([dungeonClass]);
+        }
         // The fixture host records calls and does not replace a finished save. The physical
         // service does, and it reads the same paths this case writes.
         IFileSystem recordedFiles = Runtime.Files;
@@ -58,7 +61,11 @@ public sealed class PrisonersSaveListingTests
             File.WriteAllBytes(source, GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null!, profile: GameProfile.WorldMap);
             var live = engine.HexSpriteMap as StrategicMap;
-            if (live is null) Surface(engine, source);
+            if (live is null)
+            {
+                Surface(engine, source);
+            }
+
             Assert.NotNull(live);
             var planted = PrisonerItem(live);
             planted.Attack = -2;
@@ -83,7 +90,11 @@ public sealed class PrisonersSaveListingTests
 
             engine.LoadHsm(saved, edit: false, progress: null!, profile: GameProfile.WorldMap);
             var opened = engine.HexSpriteMap as StrategicMap;
-            if (opened is null) Surface(engine, saved);
+            if (opened is null)
+            {
+                Surface(engine, saved);
+            }
+
             var item = PrisonerItem(opened!);
             Assert.Equal("Blade", item.Name);
             Assert.Equal(7, item.ItemId);
@@ -112,15 +123,33 @@ public sealed class PrisonersSaveListingTests
             // Close the loaded map while it is still the current one. An activated army
             // leaves its player there, and a disposed current map has no player list.
             if (engine.HexSpriteMap is StrategicMap loaded && loaded != previous)
+            {
                 StrategicMap.Current = loaded;
-            if (engine.HexSpriteMap != previous) engine.HexSpriteMap?.Dispose();
+            }
+
+            if (engine.HexSpriteMap != previous)
+            {
+                engine.HexSpriteMap?.Dispose();
+            }
+
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
             StrategicMap.Current = previous as StrategicMap ?? null!;
-            if (registerDungeon) engine.UnregisterEngineClasses([dungeonClass]);
+            if (registerDungeon)
+            {
+                engine.UnregisterEngineClasses([dungeonClass]);
+            }
+
             resources.RemoveChild(resource);
             resource.Dispose();
-            if (File.Exists(source)) File.Delete(source);
-            if (File.Exists(saved)) File.Delete(saved);
+            if (File.Exists(source))
+            {
+                File.Delete(source);
+            }
+
+            if (File.Exists(saved))
+            {
+                File.Delete(saved);
+            }
         }
     }
 
@@ -140,7 +169,11 @@ public sealed class PrisonersSaveListingTests
         engine.ActivateEngineObject(resource);
         var dungeonClass = EngineClass.Of<Dungeon>();
         bool registerDungeon = !engine.ClassTable.ContainsKey(dungeonClass.ClassId);
-        if (registerDungeon) engine.RegisterEngineClasses([dungeonClass]);
+        if (registerDungeon)
+        {
+            engine.RegisterEngineClasses([dungeonClass]);
+        }
+
         IFileSystem recordedFiles = Runtime.Files;
         var physical = new PhysicalFileSystem();
         physical.SetCurrentDirectory(EngineFixture.Root);
@@ -151,7 +184,11 @@ public sealed class PrisonersSaveListingTests
             File.WriteAllBytes(source, GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null!, profile: GameProfile.WorldMap);
             var live = engine.HexSpriteMap as StrategicMap;
-            if (live is null) Surface(engine, source);
+            if (live is null)
+            {
+                Surface(engine, source);
+            }
+
             var planted = PrisonerItem(live!);
             planted.Attack = -2;
             planted.LibraryId = 3;
@@ -186,16 +223,34 @@ public sealed class PrisonersSaveListingTests
         {
             Runtime.Files = recordedFiles;
             if (engine.HexSpriteMap is StrategicMap loaded && loaded != previous)
+            {
                 StrategicMap.Current = loaded;
-            if (engine.HexSpriteMap != previous) engine.HexSpriteMap?.Dispose();
+            }
+
+            if (engine.HexSpriteMap != previous)
+            {
+                engine.HexSpriteMap?.Dispose();
+            }
+
             engine.SetHexSpriteMapWithoutCurrentMap(previous);
             StrategicMap.Current = previous as StrategicMap ?? null!;
             engine.CloseCampaign();
-            if (registerDungeon) engine.UnregisterEngineClasses([dungeonClass]);
+            if (registerDungeon)
+            {
+                engine.UnregisterEngineClasses([dungeonClass]);
+            }
+
             resources.RemoveChild(resource);
             resource.Dispose();
-            if (File.Exists(source)) File.Delete(source);
-            if (File.Exists(saved)) File.Delete(saved);
+            if (File.Exists(source))
+            {
+                File.Delete(source);
+            }
+
+            if (File.Exists(saved))
+            {
+                File.Delete(saved);
+            }
         }
     }
 
@@ -204,7 +259,11 @@ public sealed class PrisonersSaveListingTests
     private static (int Players, int Width, int Towns, int Day) ListLikeTheLoadDialog(GameEngine engine, string file)
     {
         var map = engine.CreatePreviewHsm(file, GameProfile.WorldMap) as StrategicMap;
-        if (map is null) Surface(engine, file);
+        if (map is null)
+        {
+            Surface(engine, file);
+        }
+
         try
         {
             return (map!.Players.GetCount() - 1, map.MapContainer.Width, map.StructureControl.CityCount, map.Day);
@@ -254,11 +313,13 @@ public sealed class PrisonersSaveListingTests
         {
             var field = (MapField)level.GetChild(fieldIndex);
             for (int spriteIndex = 0; spriteIndex < field.GetCount(); spriteIndex++)
+            {
                 if (field.GetChild(spriteIndex) is Dungeon dungeon)
                 {
                     Assert.Equal(1, dungeon.Prisoners.Items.Count);
                     return dungeon.Prisoners.Items[0];
                 }
+            }
         }
         Assert.Fail("The map has no dungeon.");
         return null!;

@@ -148,7 +148,7 @@ public partial class ArmyHexSprite
                         if (FlagId != 32)
                         {
                             var count = Army.Units.Count;
-                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((StrategicMap.Current.Frame << 2) % 60 - 30) + 40]);
+                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
                             if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
                                 GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
@@ -157,7 +157,7 @@ public partial class ArmyHexSprite
                         else
                         {
                             var count = Army.Units.Count;
-                            GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((StrategicMap.Current.Frame << 2) % 60 - 30) + 40]);
+                            GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
                         }
                     }
                 }

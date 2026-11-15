@@ -225,7 +225,7 @@ public static class AudioPlayback
         {
             for (int i = AudioHost.SampleList.Count - 1; i >= 0; i--)
             {
-                (AudioHost.SampleList.List[i]).Update();
+                AudioHost.SampleList.List[i].Update();
             }
         }
 

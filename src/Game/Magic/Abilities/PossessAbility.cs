@@ -147,7 +147,7 @@ public partial class PossessAbility : TouchAbility
     public override sbyte GetTouchAttack(int level) => 5;
 
     // AoWAb.PAS:2646
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && (source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(106) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !(((CombatUnit)target).Troop is Leader));
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(106) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !(((CombatUnit)target).Troop is Leader);
 
     // AoWAb.PAS:2656
     public override bool CanTouchUnit(Troop source, Troop target)

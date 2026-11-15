@@ -30,7 +30,7 @@ public sealed class RemainingConstructionTests
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EngineObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
+        public override int RemoveChild(EngineObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
     private sealed class Fixture : IDisposable
@@ -63,32 +63,83 @@ public sealed class RemainingConstructionTests
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
         {
-            if (item is null) return null;
-            if (item is GameEngine) return "$engine";
+            if (item is null)
+            {
+                return null;
+            }
+
+            if (item is GameEngine)
+            {
+                return "$engine";
+            }
+
             Type type = item.GetType();
-            if (item is string text) return text;
-            if (type.IsEnum) return Convert.ToInt64(item);
-            if (type.IsPrimitive || item is string || item is decimal) return item;
-            if (item is Type represented) return represented.FullName;
-            if (item is Delegate handler) return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            if (item is string text)
+            {
+                return text;
+            }
+
+            if (type.IsEnum)
+            {
+                return Convert.ToInt64(item);
+            }
+
+            if (type.IsPrimitive || item is string || item is decimal)
+            {
+                return item;
+            }
+
+            if (item is Type represented)
+            {
+                return represented.FullName;
+            }
+
+            if (item is Delegate handler)
+            {
+                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+            }
+
             if (!type.IsValueType)
             {
-                if (visited.TryGetValue(item, out string? found)) return "$ref:" + found;
+                if (visited.TryGetValue(item, out string? found))
+                {
+                    return "$ref:" + found;
+                }
+
                 visited.Add(item, path);
             }
-            if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (InlineArrays.Elements(item) is { } elements) return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            if (item is Array array)
+            {
+                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (InlineArrays.Elements(item) is { } elements)
+            {
+                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
+            if (item is IList list)
+            {
+                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+            }
+
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
+            {
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor caches and the link to the engine are not constructor state
+                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                    {
+                        continue; // the descriptor caches and the link to the engine are not constructor state
+                    }
+
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
+            }
+
             return fields;
         }
         return JsonSerializer.Serialize(State(value, "$"));
@@ -204,7 +255,11 @@ public sealed class RemainingConstructionTests
 
     private static object Create(Type type, CustomNode owner, int route)
     {
-        if (route == 1) return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+        if (route == 1)
+        {
+            return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+        }
+
         if (route == 2)
         {
             using GameEngine engine = new GameEngine(null!);
@@ -224,15 +279,20 @@ public sealed class RemainingConstructionTests
         bool node = typeof(EngineObject).IsAssignableFrom(type);
         // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
         var constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
-        if (factory is not null) return Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
-        if (constructor is not null) return Invoke(() => constructor.Invoke(node ? EngineClassCreation.OwnerArguments(constructor, owner) : new object?[constructor.GetParameters().Length]))!;
+        if (factory is not null)
+        {
+            return Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
+        }
+
+        if (constructor is not null)
+        {
+            return Invoke(() => constructor.Invoke(node ? EngineClassCreation.OwnerArguments(constructor, owner) : new object?[constructor.GetParameters().Length]))!;
+        }
+
         throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
     }
 
-    private static void Check(string name, string key, string actual)
-    {
-        ConstructionSnapshot.Check("RemainingConstruction", name + "." + key, actual);
-    }
+    private static void Check(string name, string key, string actual) => ConstructionSnapshot.Check("RemainingConstruction", name + "." + key, actual);
 
     [Theory]
     [MemberData(nameof(Classes))]
@@ -241,6 +301,7 @@ public sealed class RemainingConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
         bool engineObject = typeof(EngineObject).IsAssignableFrom(type);
         for (int ownerMode = 0; ownerMode < (engineObject ? 2 : 1); ownerMode++)
+        {
             for (int route = 0; route < (engineObject ? 4 : 1); route++)
             {
                 using var fixture = new Fixture();
@@ -252,7 +313,11 @@ public sealed class RemainingConstructionTests
                 {
                     value = Create(type, owner!, route);
                     Assert.IsType(type, value);
-                    if (engineObject) Assert.Same(owner, ((EngineObject)value).Owner);
+                    if (engineObject)
+                    {
+                        Assert.Same(owner, ((EngineObject)value).Owner);
+                    }
+
                     state = "success:" + Snapshot(value);
                 }
                 catch (Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
@@ -263,10 +328,15 @@ public sealed class RemainingConstructionTests
                 }
                 states.Add(state);
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
-                if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
+                if (owner is not null)
+                {
+                    states.Add(JsonSerializer.Serialize(owner.Observations));
+                }
+
                 Check(name, "owner" + ownerMode + "route" + route, string.Join("\n", states));
                 Assert.StartsWith("success:", state);
             }
+        }
     }
 
     [Theory]

@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class CampaignJoinDialog : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -299,6 +296,8 @@ public partial class CampaignJoinDialog : ILayoutModule
         customFacePnl.ImageLibraryFrame = UI.Graphics.GenericFrames;
         customFacePnl.ImageLibraryTexture = UI.Graphics.FactionWindow;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

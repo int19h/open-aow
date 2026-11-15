@@ -28,10 +28,7 @@ public partial class TurnButton : Control
     public int AnimationFrame { get; set; }
 
     // TurnButton.pas:54
-    public TurnButton(Component owner) : base(owner)
-    {
-        _frameOffset = 11;
-    }
+    public TurnButton(Component owner) : base(owner) => _frameOffset = 11;
 
     // TurnButton.pas:60
     public override void Validate()
@@ -74,7 +71,7 @@ public partial class TurnButton : Control
                 case 1:
                     AnimationFrame += 1;
                     Drawn = false;
-                    if (_lastPlayer * 7 + 5 < AnimationFrame)
+                    if ((_lastPlayer * 7) + 5 < AnimationFrame)
                     {
                         AnimationFrame = 0;
                         _animationPhase = 2;
@@ -88,7 +85,7 @@ public partial class TurnButton : Control
                     if (AnimationFrame > 10)
                     {
                         _animationPhase = 3;
-                        AnimationFrame = _currentPlayer * 7 + 5;
+                        AnimationFrame = (_currentPlayer * 7) + 5;
                         _frameOffset = 11;
                     }
 
@@ -125,7 +122,7 @@ public partial class TurnButton : Control
 
                 if (!_animating && ButtonChecked)
                 {
-                    _imageLibrary[_frameOffset + _currentPlayer * 7 + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
+                    _imageLibrary[_frameOffset + (_currentPlayer * 7) + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
                 }
                 else
                 {

@@ -39,10 +39,7 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
     // PadSize
     public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
-        public Resource(CustomNode owner) : base(owner)
-        {
-            SetLevel(10);
-        }
+        public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
         // Pad.pas:76
         public new const int ClassId = 131335;

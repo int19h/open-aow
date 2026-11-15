@@ -32,9 +32,15 @@ public partial class BookWindow
             Surface initial = _pageTurnMode == PageTurnMode.Left ? BackSurface : _pageSurface;
             if (_pageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
             {
-                if (!Masked) initial.BlitAreaClipped(surface, area, WinLeft, WinTop);
-                else initial.BlitAreaColorKeyClipped(surface, area, WinLeft, WinTop,
+                if (!Masked)
+                {
+                    initial.BlitAreaClipped(surface, area, WinLeft, WinTop);
+                }
+                else
+                {
+                    initial.BlitAreaColorKeyClipped(surface, area, WinLeft, WinTop,
                     PixelFormats.Color2PixelInfo(MaskColor, BackSurface.PixelFormatId, null));
+                }
             }
             _firstAnimationFrame = false;
         }

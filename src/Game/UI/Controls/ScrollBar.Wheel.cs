@@ -12,12 +12,18 @@ public partial class ScrollBar
         if (up)
         {
             _position = _position - _smallChange;
-            if (_min > _position) _position = _min;
+            if (_min > _position)
+            {
+                _position = _min;
+            }
         }
         else
         {
             _position = _position + _smallChange;
-            if (_max + 1 - _numberVisible < _position) _position = _max + 1 - _numberVisible;
+            if (_max + 1 - _numberVisible < _position)
+            {
+                _position = _max + 1 - _numberVisible;
+            }
         }
 
         Drawn = false;
@@ -28,6 +34,9 @@ public partial class ScrollBar
     internal void ScrollSteps(int steps)
     {
         int count = steps < 0 ? -steps : steps;
-        for (int i = 0; i < count; i++) ApplySmallStep(steps > 0);
+        for (int i = 0; i < count; i++)
+        {
+            ApplySmallStep(steps > 0);
+        }
     }
 }

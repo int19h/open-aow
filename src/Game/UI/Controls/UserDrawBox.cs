@@ -75,10 +75,7 @@ public partial class UserDrawBox : Control
     }
 
     // aowUserDrawBox.pas:94
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     public new event NotifyEvent<UserDrawBox> OnChange
     {

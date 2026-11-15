@@ -30,7 +30,11 @@ public sealed class FilesAndStreamsTests
             Assert.Equal(directory.Root, GetCurrentDir());
             Assert.False(FileExists("a")); Assert.False(DirectoryExists("a")); Assert.False(DeleteFile("a")); Assert.False(RenameFile("a", "b")); Assert.Equal(-1, FileAge("a"));
             Assert.False(CreateDir("absent/child")); Assert.True(CreateDir("a")); Assert.False(CreateDir("a")); Assert.True(DirectoryExists("a")); Assert.False(FileExists("a"));
-            using (var f = OpenFile("a/test.bin", fmCreate)) f.WriteBuffer(new byte[] { 1, 2, 3 });
+            using (var f = OpenFile("a/test.bin", fmCreate))
+            {
+                f.WriteBuffer(new byte[] { 1, 2, 3 });
+            }
+
             Assert.True(FileExists("a\\test.bin")); Assert.True(FileExists("A/TEST.BIN")); Assert.False(DirectoryExists("a/test.bin"));
             var modified = new DateTime(2024, 2, 29, 12, 34, 56); File.SetLastWriteTime("a/test.bin", modified);
             // The native file API uses the current Windows time-zone bias.
@@ -44,7 +48,11 @@ public sealed class FilesAndStreamsTests
                 Assert.Equal(2L, readwrite.Position);
             }
 
-            using (var write = OpenFile("a/new.bin", fmOpenWrite)) Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
+            using (var write = OpenFile("a/new.bin", fmOpenWrite))
+            {
+                Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
+            }
+
             Assert.True(DeleteFile("a/new.bin")); Assert.False(DeleteFile("a/new.bin"));
             Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", fmOpenRead)).Message);
             Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", fmCreate)).Message);
@@ -144,7 +152,11 @@ public sealed class FilesAndStreamsTests
 
         public override int Read(Span<byte> buffer)
         {
-            if (buffer.IsEmpty) return 0;
+            if (buffer.IsEmpty)
+            {
+                return 0;
+            }
+
             Calls++;
             return 0;
         }
@@ -153,7 +165,11 @@ public sealed class FilesAndStreamsTests
 
         public override void Write(ReadOnlySpan<byte> buffer)
         {
-            if (buffer.IsEmpty) return;
+            if (buffer.IsEmpty)
+            {
+                return;
+            }
+
             Calls++;
             throw new IOException("Stream write error");
         }
@@ -201,7 +217,11 @@ public sealed class FilesAndStreamsTests
         source.Clear(); destination.LoadFromStream(source); Assert.Equal(0L, destination.Length); Assert.Equal(0L, destination.Position);
         using var file = OpenFile("memory.bin", fmOpenRead | fmShareDenyWrite);
         // .NET enforces share modes between opens only on Windows.
-        if (OperatingSystem.IsWindows()) Assert.Throws<IOException>(() => OpenFile("memory.bin", fmOpenWrite));
+        if (OperatingSystem.IsWindows())
+        {
+            Assert.Throws<IOException>(() => OpenFile("memory.bin", fmOpenWrite));
+        }
+
         Assert.Throws<NotSupportedException>(() => file.SetLength(2)); Assert.Equal(0L, file.Position); Assert.Equal(4L, file.Length);
     }
 }

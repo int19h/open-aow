@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ProductionScreen : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -3281,6 +3278,8 @@ public partial class ProductionScreen : ILayoutModule
         PreviousButton.Font = UI.Fonts.Age10;
         PreviousButton.ImageLibraryButton = UI.Graphics.GenericButtons;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

@@ -47,11 +47,23 @@ public static class FileBoundary
     /// </summary>
     public static GameFileTree? Open(string fileName, GameProfile profile, string operation = "open")
     {
-        if (Prepare(fileName, profile: profile, operation: operation) is not { } prepared) return null;
+        if (Prepare(fileName, profile: profile, operation: operation) is not { } prepared)
+        {
+            return null;
+        }
+
         try
         {
-            if (prepared.Result is { } result) return GameBoundary.ReadTree(result, use: profile);
-            if (prepared.Image is { } image) return GameBoundary.ReadImageTree(image, use: profile);
+            if (prepared.Result is { } result)
+            {
+                return GameBoundary.ReadTree(result, use: profile);
+            }
+
+            if (prepared.Image is { } image)
+            {
+                return GameBoundary.ReadImageTree(image, use: profile);
+            }
+
             return null;
         }
         catch (ConversionException error)
@@ -101,11 +113,18 @@ public static class FileBoundary
         }
         var result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
         Record(new FileLogRecord(fileName, layer, result.Report));
-        if (!result.Succeeded) return null;
+        if (!result.Succeeded)
+        {
+            return null;
+        }
         // HasImage is the only way Bytes is an engine image. A save's document bytes and a
         // port-only load never land in Image.
         byte[]? image = result.HasImage ? result.Bytes : null;
-        if (preview && image is not null) Previews.Add(key, new PreviewEntry(image, result.Report));
+        if (preview && image is not null)
+        {
+            Previews.Add(key, new PreviewEntry(image, result.Report));
+        }
+
         return new Prepared(image, Report: result.Report, Result: result);
     }
 
@@ -120,8 +139,15 @@ public static class FileBoundary
     public static byte[] LoadOrRaise(string fileName, GameProfile profile)
     {
         if (Prepare(fileName, profile: profile, operation: "open") is not { } prepared)
+        {
             throw new GameFileErrorException(LastFailure!);
-        if (prepared.Image is { } image) return image;
+        }
+
+        if (prepared.Image is { } image)
+        {
+            return image;
+        }
+
         RefuseThroughPacket(prepared, profile);
         throw new InvalidOperationException("A document without an engine image produced a packet.");
     }
@@ -181,7 +207,11 @@ public static class FileBoundary
             using var stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
             head = new byte[count];
             int total = 0, read;
-            while (total < count && (read = stream.Read(head, total, count - total)) > 0) total += read;
+            while (total < count && (read = stream.Read(head, total, count - total)) > 0)
+            {
+                total += read;
+            }
+
             head = head[..total];
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
@@ -202,10 +232,21 @@ public static class FileBoundary
             });
             return head.Length == count ? head : [];
         }
-        if (Prepare(fileName, profile: profile, operation: "list") is not { } prepared) return [];
+        if (Prepare(fileName, profile: profile, operation: "list") is not { } prepared)
+        {
+            return [];
+        }
+
         if (prepared.Image is { } image)
+        {
             return image.Length >= count ? image[..count] : [];
-        if (prepared.Result?.Document is not JsonObject document) return [];
+        }
+
+        if (prepared.Result?.Document is not JsonObject document)
+        {
+            return [];
+        }
+
         var header = ListingHeaderFromDocument(document, profile);
         return header.Length >= count ? header[..count] : [];
     }
@@ -220,9 +261,21 @@ public static class FileBoundary
     /// </summary>
     public static int ImageCrc32(string fileName, GameProfile profile)
     {
-        if (Prepare(fileName, profile: profile, operation: "crc") is not { } prepared) return 0;
-        if (prepared.Image is { } image) return EngineServices.GetCrc32(image, image.Length);
-        if (prepared.Result?.Document is not JsonObject document) return 0;
+        if (Prepare(fileName, profile: profile, operation: "crc") is not { } prepared)
+        {
+            return 0;
+        }
+
+        if (prepared.Image is { } image)
+        {
+            return EngineServices.GetCrc32(image, image.Length);
+        }
+
+        if (prepared.Result?.Document is not JsonObject document)
+        {
+            return 0;
+        }
+
         byte[] text = GameFiles.Write(document);
         return EngineServices.GetCrc32(text, text.Length);
     }
@@ -236,7 +289,10 @@ public static class FileBoundary
     public static int ImageTailInt32(string fileName, GameProfile profile)
     {
         if (Prepare(fileName, profile: profile, operation: "crc") is not { } prepared)
+        {
             throw new GameFileErrorException(LastFailure!);
+        }
+
         if (prepared.Image is not { } image)
         {
             RefuseThroughPacket(prepared, profile);
@@ -259,18 +315,42 @@ public static class FileBoundary
     // Neither form is a parse of the file bytes.
     private static byte[] ListingHeaderFromDocument(JsonObject document, GameProfile profile)
     {
-        if (profile.Profile is ScenarioSetProfile) return ScenarioSetHeader(document);
-        if (profile.Profile is HsmProfile) return HsmHeader(document);
+        if (profile.Profile is ScenarioSetProfile)
+        {
+            return ScenarioSetHeader(document);
+        }
+
+        if (profile.Profile is HsmProfile)
+        {
+            return HsmHeader(document);
+        }
+
         return [];
     }
 
     private static byte[] ScenarioSetHeader(JsonObject document)
     {
-        if (document["$container"] is not JsonObject container) return [];
-        if (container["header"] is not JsonObject header) return [];
-        if (header["Name"] is not JsonString name) return [];
+        if (document["$container"] is not JsonObject container)
+        {
+            return [];
+        }
+
+        if (container["header"] is not JsonObject header)
+        {
+            return [];
+        }
+
+        if (header["Name"] is not JsonString name)
+        {
+            return [];
+        }
+
         byte[] encoded = Cp1252.Encode(name.Value);
-        if (encoded.Length > 40) return [];
+        if (encoded.Length > 40)
+        {
+            return [];
+        }
+
         var head = new byte[52];
         BinaryPrimitives.WriteInt32LittleEndian(head, 52);
         head[4] = 4;
@@ -282,12 +362,27 @@ public static class FileBoundary
 
     private static byte[] HsmHeader(JsonObject document)
     {
-        if (document["root"] is not JsonObject root) return [];
-        if (root["$class"] is not JsonString className) return [];
-        if (FormatSchema.Current.Find(className.Value)?.Id is not int classId) return [];
+        if (document["root"] is not JsonObject root)
+        {
+            return [];
+        }
+
+        if (root["$class"] is not JsonString className)
+        {
+            return [];
+        }
+
+        if (FormatSchema.Current.Find(className.Value)?.Id is not int classId)
+        {
+            return [];
+        }
+
         int reserved = 0;
         if (document["$container"] is JsonObject container && container["header"] is JsonObject header && header["Reserved"] is JsonInteger word)
+        {
             reserved = (int)word.Value;
+        }
+
         var head = new byte[16];
         BinaryPrimitives.WriteInt32LittleEndian(head, 16);
         HsmProfile.Magic.CopyTo(head.AsSpan(4));
@@ -303,18 +398,23 @@ public static class FileBoundary
     /// game files with the original extension. A host that writes original extensions
     /// (IRtlHost.WritesOwnExtensions) keeps every name.
     /// </summary>
-    public static string WriteName(string fileName)
-    {
-        return WriteName(fileName, "");
-    }
+    public static string WriteName(string fileName) => WriteName(fileName, "");
 
     /// <summary>WriteName for a name relative to a directory the caller knows, so the EmailIn
     /// decision does not rest on the current directory. The result stays relative.</summary>
     public static string WriteName(string fileName, string directory)
     {
-        if (!RtlUnit.WritesOwnExtensions) return fileName;
+        if (!RtlUnit.WritesOwnExtensions)
+        {
+            return fileName;
+        }
+
         var kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
-        if (kind is null || IsEmailExchange(directory + fileName)) return fileName;
+        if (kind is null || IsEmailExchange(directory + fileName))
+        {
+            return fileName;
+        }
+
         return RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
     }
 
@@ -334,10 +434,18 @@ public static class FileBoundary
     {
         string extension = RtlUnit.ExtractFileExt(fileName);
         var kind = DocumentKind.ForExtension(extension);
-        if (kind is null) return fileName;
+        if (kind is null)
+        {
+            return fileName;
+        }
+
         if (kind.IsOwnExtension(extension))
         {
-            if (RtlUnit.FileExists(fileName)) return fileName;
+            if (RtlUnit.FileExists(fileName))
+            {
+                return fileName;
+            }
+
             string original = RtlUnit.ChangeFileExt(fileName, kind.OriginalExtension);
             return RtlUnit.FileExists(original) ? original : fileName;
         }
@@ -346,10 +454,7 @@ public static class FileBoundary
     }
 
     /// <summary>Whether a file lies directly in an EmailIn directory.</summary>
-    public static bool IsEmailExchange(string fileName)
-    {
-        return RtlUnit.CompareText(RtlUnit.ExtractFileName(RtlUnit.ExtractFileDir(RtlUnit.ExpandFileName(fileName))), "EmailIn") == 0;
-    }
+    public static bool IsEmailExchange(string fileName) => RtlUnit.CompareText(RtlUnit.ExtractFileName(RtlUnit.ExtractFileDir(RtlUnit.ExpandFileName(fileName))), "EmailIn") == 0;
 
     /// <summary>
     /// The names of the documents of a kind in a directory, for a listing that loads each one
@@ -381,7 +486,11 @@ public static class FileBoundary
     private static List<string> FindNames(string mask)
     {
         var names = new List<string>();
-        foreach (var entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16)) names.Add(entry.Name);
+        foreach (var entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16))
+        {
+            names.Add(entry.Name);
+        }
+
         return names;
     }
 
@@ -402,16 +511,28 @@ public static class FileBoundary
             {
                 stream.Write(bytes);
                 // The temporary reaches the disk before it replaces the old file.
-                if (stream is FileStream file) file.Flush(true);
-                else stream.Flush();
+                if (stream is FileStream file)
+                {
+                    file.Flush(true);
+                }
+                else
+                {
+                    stream.Flush();
+                }
             }
             if (!files.ReplaceFile(temporary, fileName))
+            {
                 throw new IOException("The file service did not replace " + fileName + ".");
+            }
+
             replaced = true;
         }
         finally
         {
-            if (!replaced && files.FileExists(temporary)) files.DeleteFile(temporary);
+            if (!replaced && files.FileExists(temporary))
+            {
+                files.DeleteFile(temporary);
+            }
         }
     }
 
@@ -440,7 +561,11 @@ public static class FileBoundary
 
     private static void Record(FileLogRecord record)
     {
-        if (!record.Succeeded) LastFailure = record;
+        if (!record.Succeeded)
+        {
+            LastFailure = record;
+        }
+
         Log?.Invoke(record);
     }
 }

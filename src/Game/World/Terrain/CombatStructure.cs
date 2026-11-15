@@ -19,10 +19,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class CombatStructure : CombatFixedImageLibraryTerrain
 {
-    public CombatStructure(CustomNode owner) : base(owner)
-    {
-        SetHitPoints(5);
-    }
+    public CombatStructure(CustomNode owner) : base(owner) => SetHitPoints(5);
 
     // CombatStructure.pas:57
     public new const int ClassId = 2229510;

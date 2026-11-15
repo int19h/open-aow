@@ -13,10 +13,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
 {
     // Structur.PAS:3318
     // (phase, structure IDs)
-    public StructureAIPlayerAction(CustomNode owner) : base(owner)
-    {
-        _structureIds = new Int32List();
-    }
+    public StructureAIPlayerAction(CustomNode owner) : base(owner) => _structureIds = new Int32List();
 
     public int Phase { get; protected set; }
 

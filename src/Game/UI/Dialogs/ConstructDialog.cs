@@ -113,22 +113,13 @@ public partial class ConstructDialog : UIModule
     }
 
     // AoWConstructDlg.pas:68
-    public void ConstructionListChange()
-    {
-        SelectConstruction(ConstructionList.Selected);
-    }
+    public void ConstructionListChange() => SelectConstruction(ConstructionList.Selected);
 
     // AoWConstructDlg.pas:71
-    public void ConstructionCostListChange()
-    {
-        SelectConstruction(ConstructionCostList.Selected);
-    }
+    public void ConstructionCostListChange() => SelectConstruction(ConstructionCostList.Selected);
 
     // AoWConstructDlg.pas:74
-    public void ConstructionTurnsListChange()
-    {
-        SelectConstruction(ConstructionTurnsList.Selected);
-    }
+    public void ConstructionTurnsListChange() => SelectConstruction(ConstructionTurnsList.Selected);
 
     // AoWConstructDlg.pas:77
     public void ConstructBtnClick()
@@ -163,28 +154,16 @@ public partial class ConstructDialog : UIModule
     }
 
     // AoWConstructDlg.pas:96
-    public void SortConstructionsBtnClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SortConstructionsBtnClick() => UI.General.PlayButtonSound(0);
 
     // AoWConstructDlg.pas:99
-    public void SortConstructionCostBtnClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SortConstructionCostBtnClick() => UI.General.PlayButtonSound(0);
 
     // AoWConstructDlg.pas:102
-    public void SortConstructionTurnsBtnClick()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SortConstructionTurnsBtnClick() => UI.General.PlayButtonSound(0);
 
     // AoWConstructDlg.pas:105
-    public void DlgHide()
-    {
-        Finish();
-    }
+    public void DlgHide() => Finish();
 
     // AoWConstructDlg.pas:169
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

@@ -101,10 +101,7 @@ public partial class Image : Control
     }
 
     // AoWImage.pas:203
-    public override void CheckKeyPress(ref byte key)
-    {
-        Handled = false;
-    }
+    public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWImage.pas:88
     public void SetAnimation(bool value)

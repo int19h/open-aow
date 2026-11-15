@@ -59,6 +59,7 @@ public sealed class MapNetSoundDispatchTests
         level.CreateMapFieldList(3, 2);
         Assert.Equal(6, level.Fields.Length);
         for (int y = 0; y < 2; y++)
+        {
             for (int x = 0; x < 3; x++)
             {
                 var field = Assert.IsType<SpecializedField>(level.GetField(x, y));
@@ -67,6 +68,8 @@ public sealed class MapNetSoundDispatchTests
                 Assert.Equal(y, field.HexY);
                 Assert.Equal(2, field.HexLevel);
             }
+        }
+
         level.Dispose();
     }
 
@@ -129,7 +132,10 @@ public sealed class MapNetSoundDispatchTests
             Assert.IsType<SampleData>(value);
             Assert.Equal(1, value.RefCount);
             Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name);
-            if (!memory) Assert.Same(value, AudioHost.SampleDataList.Find(value.Name));
+            if (!memory)
+            {
+                Assert.Same(value, AudioHost.SampleDataList.Find(value.Name));
+            }
         }
         Assert.Equal(memory ? 0 : 2, AudioHost.SampleDataList.Count);
         var sample = Sample.Create(direct);

@@ -121,18 +121,18 @@ public partial class PageTurnControl
                 if (sourceX < _width * 2)
                 {
                     source = _source1.Data;
-                    sourceP = _source1.DataIndex + (_sourceX1 + sourceX) * 2 + (_sourceY1 + sourceY) * _source1.Pitch;
+                    sourceP = _source1.DataIndex + ((_sourceX1 + sourceX) * 2) + ((_sourceY1 + sourceY) * _source1.Pitch);
                     sourcePitch = _source1.Pitch;
                 }
                 else
                 {
                     source = _source2.Data;
-                    sourceP = _source2.DataIndex + (sourceX - _width * 2 + _sourceX2) * 2 + (_sourceY2 + sourceY) * _source2.Pitch;
+                    sourceP = _source2.DataIndex + ((sourceX - (_width * 2) + _sourceX2) * 2) + ((_sourceY2 + sourceY) * _source2.Pitch);
                     sourcePitch = _source2.Pitch;
                 }
 
                 var destinationLocal = destination.Data;
-                int destinationP = destination.DataIndex + destinationX * 2 + destination.Pitch * y;
+                int destinationP = destination.DataIndex + (destinationX * 2) + (destination.Pitch * y);
                 BlitColumn(source, sourceP, sourcePitch, destinationLocal, destinationP, destination.Pitch, height);
             }
         }
@@ -184,7 +184,7 @@ public partial class PageTurnControl
                     if ((double)_radius > 0)
                     {
                         var pi = Math.PI;
-                        _radius = (float)(_radius - (double)((double)(Speed * 1.25) * 2) / pi);
+                        _radius = (float)(_radius - ((double)((double)(Speed * 1.25) * 2) / pi));
                         if ((double)_radius < 1)
                         {
                             _radius = 0;
@@ -201,7 +201,7 @@ public partial class PageTurnControl
                 if ((double)_radius < _halfWidth)
                 {
                     var pi = Math.PI;
-                    _radius = (float)(_radius + (double)((double)(Speed * 1.5) * 2) / pi);
+                    _radius = (float)(_radius + ((double)((double)(Speed * 1.5) * 2) / pi));
                     if ((double)_radius > _halfWidth)
                     {
                         _radius = _halfWidth;
@@ -276,7 +276,7 @@ public partial class PageTurnControl
             LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source1, r, destination, X, Y);
             r.Left = _sourceX2 + _width + _position;
             r.Top = _sourceY2;
-            r.Right = _width * 2 + _sourceX2;
+            r.Right = (_width * 2) + _sourceX2;
             r.Bottom = _sourceY2 + _height;
             LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width + _position, Y);
             var pi = Math.PI;
@@ -296,7 +296,7 @@ public partial class PageTurnControl
             {
                 angle = GetInverseCos(cosValue);
                 sourceOffset = arcLength - Round((double)radiusFactor * angle);
-                offset = Round((double)height - (double)Math.Sin(angle) * height);
+                offset = Round((double)height - ((double)Math.Sin(angle) * height));
                 if (sourceOffset < limit)
                 {
                     if (arcLength - sourceOffset + arcLength < limit)
@@ -315,13 +315,13 @@ public partial class PageTurnControl
 
             var pi2 = Math.PI;
             arcLength = Round((double)((double)pi2 * _radius) * 0.25);
-            sourceBase = _width * 3 - _position - arcLength;
+            sourceBase = (_width * 3) - _position - arcLength;
             radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
             baseX = X + _width + _position;
             span = Round(_shadow);
             i = span;
             cosValue = 1;
-            limit = _width * 2 - sourceBase;
+            limit = (_width * 2) - sourceBase;
             while (sourceOffset >= limit && i >= 0)
             {
                 angle = GetInverseCos(cosValue);
@@ -338,12 +338,12 @@ public partial class PageTurnControl
 
             var pi3 = Math.PI;
             arcLength = Round((double)((double)((double)pi3 * _radius) * 0.25) * _shade);
-            sourceBase = _width * 3 - _position - originalLength * 2 - arcLength;
+            sourceBase = (_width * 3) - _position - (originalLength * 2) - arcLength;
             span = Round((double)_shadow * _shade);
             baseX = X + _width + _position - span;
             height = (float)((double)((double)_shadow * _scale) * 3.4142);
             width = (float)((double)((double)_radius * _scale) * 0.707);
-            limit = _width * 2 - sourceBase;
+            limit = (_width * 2) - sourceBase;
             sourceOffset = Round(arcLength);
             i = span;
             cosValue = 0;
@@ -358,7 +358,7 @@ public partial class PageTurnControl
                 angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
                 var pi5 = Math.PI;
-                sourceOffset = Round((double)(arcLength * ((double)angle - (double)pi4 / 4)) * (4 / pi5));
+                sourceOffset = Round((double)(arcLength * ((double)angle - ((double)pi4 / 4))) * (4 / pi5));
                 offset = Round((double)((double)Math.Sin(angle) * height) - width);
                 if (sourceOffset >= limit)
                 {
@@ -369,7 +369,7 @@ public partial class PageTurnControl
                 i -= 1;
             }
 
-            baseX = X + _width + _position - span * 2;
+            baseX = X + _width + _position - (span * 2);
             sourceOffset = 0;
             i = span;
             while (sourceOffset >= limit && i >= 0 && (double)cosValue > 0)
@@ -378,7 +378,7 @@ public partial class PageTurnControl
                 angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
                 var pi5 = Math.PI;
-                sourceOffset = -Round((double)(arcLength * (4 / pi4)) * ((double)angle - (double)pi5 / 4));
+                sourceOffset = -Round((double)(arcLength * (4 / pi4)) * ((double)angle - ((double)pi5 / 4)));
                 offset = Round((double)(1 - Math.Sin(angle)) * height);
                 if (sourceOffset >= limit)
                 {
@@ -412,7 +412,7 @@ public partial class PageTurnControl
         int pageWidth;
         r.Left = _sourceX2 + _width;
         r.Top = _sourceY2;
-        r.Right = _sourceX2 + _width * 2;
+        r.Right = _sourceX2 + (_width * 2);
         r.Bottom = _sourceY2 + _height;
         LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
         var pi = Math.PI;
@@ -464,7 +464,7 @@ public partial class PageTurnControl
                 _sourceY2 = y2;
                 RenderLeftRightScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + _width * 2;
+                R.Right = X + (_width * 2);
                 R.Top = Y - (Round((double)_scale * _radius) + 1);
                 R.Bottom = Y + _height;
                 break;
@@ -477,7 +477,7 @@ public partial class PageTurnControl
                 _sourceY2 = y1;
                 RenderLeftRightScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + _width * 2;
+                R.Right = X + (_width * 2);
                 R.Top = Y - (Round((double)_scale * _radius) + 1);
                 R.Bottom = Y + _height;
                 break;
@@ -490,7 +490,7 @@ public partial class PageTurnControl
                 _sourceY2 = y2;
                 RenderOpenCloseScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + _width * 2;
+                R.Right = X + (_width * 2);
                 var pi = Math.PI;
                 var sin = Math.Sin((double)(_position * pi) / 180);
                 R.Top = Y - Round((double)((double)((double)sin * _scale) * _width) + 1);
@@ -505,7 +505,7 @@ public partial class PageTurnControl
                 _sourceY2 = y1;
                 RenderOpenCloseScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + _width * 2;
+                R.Right = X + (_width * 2);
                 var mathPI = Math.PI;
                 var mathSin = Math.Sin((double)(_position * mathPI) / 180);
                 R.Top = Y - Round((double)((double)((double)mathSin * _scale) * _width) + 1);

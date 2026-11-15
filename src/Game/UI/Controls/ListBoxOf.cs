@@ -11,10 +11,7 @@ public class ListBox<T> : ListBox
     {
     }
 
-    private ListBox(Component owner, StringList<T> items) : base(owner, items)
-    {
-        Items = items;
-    }
+    private ListBox(Component owner, StringList<T> items) : base(owner, items) => Items = items;
 
     public new StringList<T> Items { get; }
 }

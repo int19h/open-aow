@@ -16,10 +16,7 @@ namespace Aow.Game.AI;
 public partial class AIProductionLocationFinder : AIGroupTask
 {
     // AIGroup.pas:2303
-    public AIProductionLocationFinder(CustomNode owner) : base(owner)
-    {
-        Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
-    }
+    public AIProductionLocationFinder(CustomNode owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
 
     private AIGroupControl _control;
 

@@ -91,10 +91,7 @@ public partial class PlayerStructureResource : StructureResource
     }
 
     // Structur.PAS:2462
-    public void ActivateMessage()
-    {
-        FlagControl = Engine.HexSpriteSet.FlagControl;
-    }
+    public void ActivateMessage() => FlagControl = Engine.HexSpriteSet.FlagControl;
 
     // intf_P1_09.inc:300
 

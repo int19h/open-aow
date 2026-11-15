@@ -20,10 +20,7 @@ namespace Aow.Game.Net;
 public partial class EmailGameControl : EngineObject
 {
     // Diplomacy.pas:2489
-    public EmailGameControl(CustomNode owner) : base(owner)
-    {
-        _games = new EmailGameList(null) { Holder = CreationHolder() };
-    }
+    public EmailGameControl(CustomNode owner) : base(owner) => _games = new EmailGameList(null) { Holder = CreationHolder() };
 
     private readonly EmailGameList _games;
 
@@ -255,7 +252,7 @@ public partial class EmailGameControl : EngineObject
             try
             {
                 StreamExtensions.LoadFromStream(value, value2);
-                result = EngineServices.GetCrc32(size: (int)value.Length, buffer: (ReadOnlySpan<byte>)(value.GetBuffer()));
+                result = EngineServices.GetCrc32(size: (int)value.Length, buffer: (ReadOnlySpan<byte>)value.GetBuffer());
             }
             finally
             {

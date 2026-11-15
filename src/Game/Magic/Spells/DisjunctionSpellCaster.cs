@@ -19,10 +19,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
     public int DispelChance { get; private set; }
 
     // GlobalSpells.pas:806
-    public DisjunctionSpellCaster(CustomNode owner) : base(owner)
-    {
-        DispelChance = 50;
-    }
+    public DisjunctionSpellCaster(CustomNode owner) : base(owner) => DispelChance = 50;
 
     // GlobalSpells.pas:868
     public override bool CanCast(ref string reason)
@@ -107,10 +104,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
     }
 
     // GlobalSpells.pas:812
-    public void SetEnchantmentId(int value)
-    {
-        EnchantmentId = value;
-    }
+    public void SetEnchantmentId(int value) => EnchantmentId = value;
 
     // GlobalSpells.pas:817
     public GlobalEnchantment SelectedEnchantment()

@@ -235,7 +235,7 @@ public partial class UnitWindow
                     UI.UnitWindow.SphereLabel.Text = leaderSpheres;
                 }
 
-                if (StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player)
+                if ((StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
                 {
                     var items = UI.Engine.TranslateResourceString(s_itemsText);
                     UI.UnitWindow.UnitTabs.Items.Add(items);
@@ -272,7 +272,7 @@ public partial class UnitWindow
             }
 
             UI.UnitWindow.MainWindow.Visible = true;
-            if (h != null && (StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
+            if (h != null && ((StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player)))
             {
                 if (h.Inventory.Items.GetItem(0) != null)
                 {

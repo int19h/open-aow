@@ -30,7 +30,7 @@ public partial class TurnInfoItem : EngineObject
     }
 
     // Player.PAS:171
-    public int GetSuperiority() => ArmyStrength / 100 + Structures * 10 + (int)(((uint)Gold) >> 3) + (int)(((uint)Mana) >> 3) + Heroes * 100;
+    public int GetSuperiority() => (ArmyStrength / 100) + (Structures * 10) + (int)(((uint)Gold) >> 3) + (int)(((uint)Mana) >> 3) + (Heroes * 100);
 
     // Engine.pas:524
 

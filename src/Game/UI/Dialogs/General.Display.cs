@@ -7,7 +7,10 @@ public partial class General
 {
     public void ManagerChangeCursor()
     {
-        if (GameHost.MainForm is { } form) form.FCursor = (short)Math.Abs(Manager.Cursor);
+        if (GameHost.MainForm is { } form)
+        {
+            form.FCursor = (short)Math.Abs(Manager.Cursor);
+        }
     }
 
     public void ManagerUpdate()

@@ -33,7 +33,10 @@ internal static class PersistenceMeasurement
         CombatClasses.Register(engine);
         // The world map screen registers the campaign classes when it starts (WorldMap.RegisterWorldMapCampaign).
         if (kind == "campaign")
+        {
             engine.RegisterEngineClasses([EngineClass.Of<CampaignScenarioPage>(), EngineClass.Of<WorldMapCampaignScenario>(), EngineClass.Of<WorldMapCampaign>()]);
+        }
+
         string extension = kind switch
         {
             "map" => DocumentKind.Save.OwnExtension,
@@ -124,6 +127,9 @@ internal static class PersistenceMeasurement
 
     private static void Require(bool condition, string step)
     {
-        if (!condition) throw new InvalidDataException(step + " failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
+        if (!condition)
+        {
+            throw new InvalidDataException(step + " failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
+        }
     }
 }

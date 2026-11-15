@@ -238,7 +238,10 @@ public sealed partial class PersistEquivalenceTests
             fromDocument.Dispose();
             fromImage.Dispose();
             viaReadWrite.Dispose();
-            if (added) EngineFixture.Engine.UnregisterEngineClasses([EngineClass.Of<FrozenWaterHexSprite>()]);
+            if (added)
+            {
+                EngineFixture.Engine.UnregisterEngineClasses([EngineClass.Of<FrozenWaterHexSprite>()]);
+            }
         }
     }
 
@@ -311,7 +314,10 @@ public sealed partial class PersistEquivalenceTests
         finally
         {
             EngineClassCreation.Substitute(descriptor, next: previous);
-            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            if (added)
+            {
+                EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            }
         }
     }
 
@@ -319,7 +325,11 @@ public sealed partial class PersistEquivalenceTests
     private static bool Register<T>() where T : EngineObject
     {
         var descriptor = EngineClass.Of<T>();
-        if (EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId)) return false;
+        if (EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId))
+        {
+            return false;
+        }
+
         EngineFixture.Engine.RegisterEngineClasses([descriptor]);
         return true;
     }
@@ -338,12 +348,19 @@ public sealed partial class PersistEquivalenceTests
                 {
                     var sprites = new JsonArray();
                     for (int k = 0; k < (x + y) % 4; k++)
+                    {
                         sprites.Add(new JsonObject()
                             .Add("$class", new JsonString("FrozenWaterHexSprite"))
                             .Add("DaysRemaining", new JsonInteger(k + 1))
                             .Add("CasterPlayer", new JsonInteger(x - y)));
-                    if (sprites.Items.Count != 0) field.Add("HexSpriteList", sprites);
-                    field.Add("FieldFlags", new JsonInteger(x * 100 + y + 1));
+                    }
+
+                    if (sprites.Items.Count != 0)
+                    {
+                        field.Add("HexSpriteList", sprites);
+                    }
+
+                    field.Add("FieldFlags", new JsonInteger((x * 100) + y + 1));
                 }
                 row.Add(field);
             }
@@ -380,7 +397,11 @@ public sealed partial class PersistEquivalenceTests
 
         public override void PersistFields(IPersister persister)
         {
-            if (persister.Loading) throw new InvalidOperationException("frozen water failed");
+            if (persister.Loading)
+            {
+                throw new InvalidOperationException("frozen water failed");
+            }
+
             base.PersistFields(persister);
         }
     }
@@ -431,7 +452,9 @@ public sealed partial class PersistEquivalenceTests
     public void TheSingleOfTheAIMatchesTheConverter()
     {
         foreach (int bits in new[] { 0, 0x3DCCCCCD, 0x3F800000, 0x3F000000, 0x3727C5AC, 0x7F7FFFFF, int.MinValue, 0x7F800000, unchecked((int)0xFF800000), 0x7FC00001 })
+        {
             Check("AIPlayerControl", new AIPlayerControl(null!) { Holder = EngineFixture.Engine, DefenseStrengthMultiplier = BitConverter.Int32BitsToSingle(bits) });
+        }
     }
 
     // The fixed objects of the controls persist in place at their slots. The empty controls store no member.
@@ -525,7 +548,11 @@ public sealed partial class PersistEquivalenceTests
         var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
         Check("GlobalMagicControl", control);
         var spheres = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine, NextEnchantmentId = int.MaxValue };
-        for (int i = 0; i < 9; i++) spheres.DoubleSphereManaCount[i] = i == 8 ? int.MinValue : i;
+        for (int i = 0; i < 9; i++)
+        {
+            spheres.DoubleSphereManaCount[i] = i == 8 ? int.MinValue : i;
+        }
+
         var hatred = new HatredEnchantment(null!, holder: EngineFixture.Engine) { DaysActive = 12 };
         hatred.SetOwner(spheres.Enchantments);
         var harmony = new HarmonyEnchantment(null!, holder: EngineFixture.Engine) { DaysActive = int.MinValue };
@@ -682,7 +709,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var log = new ItemExplorationSiteEventLog(null!) { Holder = EngineFixture.Engine };
         log.ItemIds.Default = defaultValue;
-        foreach (int item in items) log.ItemIds.Add(item);
+        foreach (int item in items)
+        {
+            log.ItemIds.Add(item);
+        }
+
         return log;
     }
 
@@ -690,7 +721,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var data = new CommandAbilityData(null!) { Holder = EngineFixture.Engine, AbilityId = 40 };
         data.CommandedUnits.Default = defaultValue;
-        foreach (byte item in items) data.CommandedUnits.Add(item);
+        foreach (byte item in items)
+        {
+            data.CommandedUnits.Add(item);
+        }
+
         return data;
     }
 
@@ -701,7 +736,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var item = new Item(null!) { Holder = EngineFixture.Engine, ItemId = 12, Name = "Staff" };
         item.SetAbilityCount(170);
-        if (!withData) return item;
+        if (!withData)
+        {
+            return item;
+        }
+
         item.AddAbilityData(new MultiLevelAbilityData(null!) { Holder = EngineFixture.Engine, Level = 3, LevelAbilityId = 12 });
         item.AddAbilityData(Commanding(defaultValue: 0, 1, 0, 0, 2));
         item.AddAbilityData(new DurationAbilityData(null!) { Holder = EngineFixture.Engine, AbilityId = 7, Duration = 2, PlayerIndex = 1, Source = -1 });
@@ -1032,7 +1071,10 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            foreach (var ability in placed) ReleaseAbility(ability);
+            foreach (var ability in placed)
+            {
+                ReleaseAbility(ability);
+            }
         }
     }
 
@@ -1087,7 +1129,10 @@ public sealed partial class PersistEquivalenceTests
         finally
         {
             list.Dispose();
-            if (placed is not null) ReleaseAbility(placed);
+            if (placed is not null)
+            {
+                ReleaseAbility(placed);
+            }
         }
     }
 
@@ -1096,7 +1141,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var descriptor = EngineClass.Of<HatredEnchantment>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
-        if (added) EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        if (added)
+        {
+            EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        }
+
         var control = new GlobalMagicControl(null!) { Holder = EngineFixture.Engine };
         Delegate? previous = null;
         try
@@ -1141,9 +1190,16 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            if (previous is not null) EngineClassCreation.Substitute(descriptor, next: previous);
+            if (previous is not null)
+            {
+                EngineClassCreation.Substitute(descriptor, next: previous);
+            }
+
             control.Dispose();
-            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            if (added)
+            {
+                EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+            }
         }
     }
 
@@ -1439,7 +1495,10 @@ public sealed partial class PersistEquivalenceTests
 
     private static void Each<TEnum>(Action<TEnum> check) where TEnum : struct, Enum
     {
-        foreach (var value in Enum.GetValues<TEnum>()) check(value);
+        foreach (var value in Enum.GetValues<TEnum>())
+        {
+            check(value);
+        }
     }
 
     // Three constructed states own a child the live table does not enlist. Both loads drop that
@@ -1464,7 +1523,10 @@ public sealed partial class PersistEquivalenceTests
             loaded = Blank(className);
             TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, "game"), loaded, Factory);
             if (converterRead)
+            {
                 EqualBytes(PilotImage.Encode(expected, className), Image(loaded), className + " converter read");
+            }
+
             EqualBytes(read, Image(loaded), className + " read");
             fromImage = Blank(className);
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
@@ -1482,7 +1544,13 @@ public sealed partial class PersistEquivalenceTests
     private static EngineObject Blank(string className)
     {
         foreach (var engineClass in EngineClass.All)
-            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+        {
+            if (engineClass.StorageKey == className)
+            {
+                return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+            }
+        }
+
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
@@ -1497,7 +1565,11 @@ public sealed partial class PersistEquivalenceTests
         var ability = new Ability(null!) { Holder = EngineFixture.Engine };
         ability.AbilityId = id;
         var list = GamePack.Current.AbilityControl.Abilities;
-        while (id >= list.Count) list.Add(null);
+        while (id >= list.Count)
+        {
+            list.Add(null);
+        }
+
         list[id] = ability;
         return ability;
     }
@@ -1506,7 +1578,11 @@ public sealed partial class PersistEquivalenceTests
     {
         var list = GamePack.Current.AbilityControl.Abilities;
         int id = ability.AbilityId;
-        if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
+        if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability))
+        {
+            list[id] = null;
+        }
+
         ability.Dispose();
     }
 
@@ -1554,13 +1630,21 @@ public sealed partial class PersistEquivalenceTests
     {
         var left = JsonWriter.ToUtf8(expected);
         var right = JsonWriter.ToUtf8(actual);
-        if (left.AsSpan().SequenceEqual(right)) return;
+        if (left.AsSpan().SequenceEqual(right))
+        {
+            return;
+        }
+
         Assert.Fail(label + "\n" + Encoding.UTF8.GetString(right));
     }
 
     private static void EqualBytes(byte[] expected, byte[] actual, string label)
     {
-        if (expected.AsSpan().SequenceEqual(actual)) return;
+        if (expected.AsSpan().SequenceEqual(actual))
+        {
+            return;
+        }
+
         Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
     }
 }

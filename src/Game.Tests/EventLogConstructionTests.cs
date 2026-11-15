@@ -28,14 +28,24 @@ public sealed class EventLogConstructionTests
             OnChanged += _ =>
             {
                 Changes++;
-                if (_removing != 0) return;
+                if (_removing != 0)
+                {
+                    return;
+                }
+
                 var child = GetEvents(GetCount() - 1);
                 bool nil = true;
                 for (Type? type = child.GetType(); type != typeof(EventLog); type = type!.BaseType)
+                {
                     foreach (var field in type!.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
                     {
-                        if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null) nil = false;
+                        if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null)
+                        {
+                            nil = false;
+                        }
                     }
+                }
+
                 Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.Day, child.Player, child.Id, child.RefCount, AddRefReturn = child.RefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
             };
         }
@@ -107,13 +117,20 @@ public sealed class EventLogConstructionTests
     {
         var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
         foreach (string name in s_names)
+        {
             for (int mapped = 0; mapped < 2; mapped++)
+            {
                 for (int owned = 0; owned < 2; owned++)
+                {
                     for (int route = 0; route < 4; route++)
                     {
                         Type type = typeof(EventLog).Assembly.GetType(name)!;
                         using var fixture = new OrderingRecording.Fixture(type);
-                        if (mapped == 1) StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
+                        if (mapped == 1)
+                        {
+                            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
+                        }
+
                         var owner = owned == 1 ? new EventListOwner() : null;
                         EventLog? value = null;
                         string state;
@@ -128,10 +145,18 @@ public sealed class EventLogConstructionTests
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, (value ?? owner?.Last)?.RefCount }));
                         EngineFixture.Engine.Dictionary = fixture.Dictionary;
                         StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
-                        if (owner is not null) value?.AddRef();
+                        if (owner is not null)
+                        {
+                            value?.AddRef();
+                        }
+
                         value?.Dispose();
                         owner?.Dispose();
                     }
+                }
+            }
+        }
+
         OrderingRecording.Check("EventLogConstruction", actual);
     }
 }

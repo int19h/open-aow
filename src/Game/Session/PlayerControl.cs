@@ -26,10 +26,7 @@ namespace Aow.Game.Session;
 public partial class PlayerControl : EngineObject
 {
     // PlayerC.PAS:1
-    public PlayerControl(CustomNode owner) : base(owner)
-    {
-        _disconnectedPlayers = new DoubleItemList();
-    }
+    public PlayerControl(CustomNode owner) : base(owner) => _disconnectedPlayers = new DoubleItemList();
 
     private ExitGameCallBack _exitCallback;
     private ExitGameMode _exitMode;
@@ -295,10 +292,7 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:463
-    public virtual void PasswordFailed()
-    {
-        StrategicMap.Current.ExecuteExitGame();
-    }
+    public virtual void PasswordFailed() => StrategicMap.Current.ExecuteExitGame();
 
     // PlayerC.PAS:468
     public virtual void PasswordValidated()
@@ -306,10 +300,7 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:236
-    public virtual void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
-    {
-        StrategicMap.Current.Players.GetPlayers(player).SetGameOverStatus(status);
-    }
+    public virtual void SetPlayerGameOverStatus(sbyte player, GameOverStatus status) => StrategicMap.Current.Players.GetPlayers(player).SetGameOverStatus(status);
 
     // PlayerC.PAS:241
     public virtual void GameOver(sbyte player, GameOverStatus status)
@@ -367,10 +358,7 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:274
-    public virtual void GameOverEventHandled(sbyte player)
-    {
-        StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
-    }
+    public virtual void GameOverEventHandled(sbyte player) => StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
 
     // PlayerC.PAS:388
     public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack done)
@@ -490,7 +478,7 @@ public partial class PlayerControl : EngineObject
             if (p != null)
             {
                 StrategicMap.Current.GetViewCenter(out x, out y, out l);
-                p.View = new MapCoordinate(unchecked((sbyte)((byte)x)), unchecked((sbyte)((byte)y)), unchecked((sbyte)((byte)l)));
+                p.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
             }
         }
 
@@ -563,10 +551,7 @@ public partial class PlayerControl : EngineObject
     public virtual bool LockAI() => StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && !StrategicMap.Current.RequestCombatType && StrategicMap.Current.AILockCount != 0;
 
     // PlayerC.PAS:49
-    public void GetSyncValue(out int value)
-    {
-        value = StrategicMap.Current.DefendersSeed;
-    }
+    public void GetSyncValue(out int value) => value = StrategicMap.Current.DefendersSeed;
 
     // PlayerC.PAS:54
     public void OutOfSync(object sender)
@@ -653,7 +638,7 @@ public partial class PlayerControl : EngineObject
         SaveGameEventLog saveLog = default;
         if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            if (GetEngine().Campaign == null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName))) || GetEngine().Campaign != null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName))))
+            if ((GetEngine().Campaign == null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign != null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
             {
                 saveLog = new SaveGameEventLog(null, holder: CreationHolder());
                 if (!IsEmpty(StrategicMap.Current.FileName))

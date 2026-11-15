@@ -147,7 +147,7 @@ public partial class BattleEffectSprite
                                 var path2 = Path[Frame - 9 + half + 6];
                                 var pathX = Path[Frame - 9 + half + 5];
                                 var path3 = Path[Frame - 9 + half + 6];
-                                sequence.ImageLibrary[index].ShowClipped((pathX.X + path3.X) / 2 - pixelXSurface + sequence.OffsetX, (pathY.Y - pathZ.Z + path.Y - path2.Z) / 2 - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
+                                sequence.ImageLibrary[index].ShowClipped(((pathX.X + path3.X) / 2) - pixelXSurface + sequence.OffsetX, ((pathY.Y - pathZ.Z + path.Y - path2.Z) / 2) - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                             }
                         }
                     }
@@ -204,7 +204,7 @@ public partial class BattleEffectSprite
                             if (n <= Frame - 2000)
                             {
                                 var count = Path.Count;
-                                alpha = (Frame - 2000) * 75 / (count - 1) + 25;
+                                alpha = ((Frame - 2000) * 75 / (count - 1)) + 25;
                                 index = sequence.GetUnloopedFrameIndex(0);
                             }
                             else
@@ -284,7 +284,7 @@ public partial class BattleEffectSprite
                     var imageLibraryWidth = sequence.ImageLibrary[index];
                     var pathX = Path[0];
                     var imageLibrary2 = sequence.ImageLibrary[index];
-                    sequence.ImageLibrary[index].ShowClipped((imageLibraryWidth.Width + lockedSurfaceValue.Width) * pathX.X / 100 - imageLibrary2.Width, (imageLibraryHeight.Height + lockedSurfaceValue.Height) * pathY.Y / 100 - imageLibrary.Height, lockedSurfaceValue);
+                    sequence.ImageLibrary[index].ShowClipped(((imageLibraryWidth.Width + lockedSurfaceValue.Width) * pathX.X / 100) - imageLibrary2.Width, ((imageLibraryHeight.Height + lockedSurfaceValue.Height) * pathY.Y / 100) - imageLibrary.Height, lockedSurfaceValue);
                 }
 
                 sequence = sequence.Next;
@@ -294,7 +294,7 @@ public partial class BattleEffectSprite
         void ShowScreenSwarm()
         {
             int alpha = default;
-            alpha = (100 - Path[Frame].Z) / 2 - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            alpha = ((100 - Path[Frame].Z) / 2) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (alpha < 0)
             {
                 alpha = 0;
@@ -312,7 +312,7 @@ public partial class BattleEffectSprite
                     var pathY = Path[0];
                     var path3 = Path[Frame];
                     var path4 = Path[Frame];
-                    sequence.ImageLibrary[index].ShowBlended((pixelXSurface + lockedSurfaceValue.Width - pathX.X + 100) * pathZ.Z / 100 + (path.X - pixelXSurface) + path2.X, (pathY.Y - pixelYSurface + 100) * (100 - path3.Z) / 100 + path4.Y - 100, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[alpha]);
+                    sequence.ImageLibrary[index].ShowBlended(((pixelXSurface + lockedSurfaceValue.Width - pathX.X + 100) * pathZ.Z / 100) + (path.X - pixelXSurface) + path2.X, ((pathY.Y - pixelYSurface + 100) * (100 - path3.Z) / 100) + path4.Y - 100, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                 }
 
                 sequence = sequence.Next;
@@ -323,7 +323,7 @@ public partial class BattleEffectSprite
         {
             int alpha = default;
             var count = Path.Count;
-            alpha = 100 - Frame * 100 / count - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            alpha = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (alpha < 0)
             {
                 alpha = 0;
@@ -553,7 +553,7 @@ public partial class BattleEffectSprite
                         var hexY = ((TacticalBattleUnit)Target).UnitHexSprite.GetHexY();
                         HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out i, out j);
                         var path5 = Path;
-                        EffectPaths.MakeArcPathXY((short)(lockedSurfaceValue.Width / 2 + pixelXSurface), (short)(lockedSurfaceValue.Height / 2 + pixelYSurface), (short)i, (short)j, 25, 50, ref path5);
+                        EffectPaths.MakeArcPathXY((short)((lockedSurfaceValue.Width / 2) + pixelXSurface), (short)((lockedSurfaceValue.Height / 2) + pixelYSurface), (short)i, (short)j, 25, 50, ref path5);
                         Path = path5;
                         EffectType = BattleEffectType.Comet;
                         SelectSequence(0);

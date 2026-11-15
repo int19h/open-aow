@@ -71,16 +71,10 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2679
-    public void IncrementDoubleSphereManaCount(MagicSphere sphere)
-    {
-        DoubleSphereManaCount[(int)sphere] += 1;
-    }
+    public void IncrementDoubleSphereManaCount(MagicSphere sphere) => DoubleSphereManaCount[(int)sphere] += 1;
 
     // Spells.PAS:2681
-    public void DecrementDoubleSphereManaCount(MagicSphere sphere)
-    {
-        DoubleSphereManaCount[(int)sphere] -= 1;
-    }
+    public void DecrementDoubleSphereManaCount(MagicSphere sphere) => DoubleSphereManaCount[(int)sphere] -= 1;
 
     // Spells.PAS:2683
     public bool GetSphereManaDoubled(MagicSphere sphere) => DoubleSphereManaCount[(int)sphere] != 0;
@@ -137,10 +131,7 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2692
-    public void BeginUpdate()
-    {
-        _updateCount += 1;
-    }
+    public void BeginUpdate() => _updateCount += 1;
 
     // Spells.PAS:2694
     public void EndUpdate()

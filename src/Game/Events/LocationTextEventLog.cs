@@ -10,10 +10,7 @@ namespace Aow.Game.Events;
 public partial class LocationTextEventLog : TextEventLog
 {
     // EventLog.pas:725
-    public LocationTextEventLog(CustomNode owner) : base(owner)
-    {
-        Location = new MapCoordinate(-1, -1, -1);
-    }
+    public LocationTextEventLog(CustomNode owner) : base(owner) => Location = new MapCoordinate(-1, -1, -1);
 
     // EventLog.pas:728
     public new const int ClassId = 131816;
@@ -43,10 +40,7 @@ public partial class LocationTextEventLog : TextEventLog
     }
 
     // EventLog.pas:737
-    public void SetLocation(MapCoordinate location)
-    {
-        Location = location;
-    }
+    public void SetLocation(MapCoordinate location) => Location = location;
 
     public void SetLocation(sbyte x, sbyte y, sbyte level) =>
         SetLocation(new MapCoordinate(x, y, level));

@@ -68,7 +68,9 @@ public partial class StructureControl : EngineObject
             }
 
             if (IndexOfId(_nextId) == -1)
+            {
                 break;
+            }
         }
 
         return _nextId;
@@ -139,10 +141,7 @@ public partial class StructureControl : EngineObject
     }
 
     // Structur.PAS:3312
-    public void Activate()
-    {
-        CityCount = 0;
-    }
+    public void Activate() => CityCount = 0;
 
     // intf_P1_09.inc:166
 

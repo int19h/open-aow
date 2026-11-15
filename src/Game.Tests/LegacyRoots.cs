@@ -129,7 +129,10 @@ internal static class LegacyRoots
         for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)
         {
             Type defined = current.IsGenericType ? current.GetGenericTypeDefinition() : current;
-            if (s_roots.Contains(defined)) return true;
+            if (s_roots.Contains(defined))
+            {
+                return true;
+            }
         }
         return false;
     }

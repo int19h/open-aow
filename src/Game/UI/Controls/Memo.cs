@@ -182,7 +182,7 @@ public partial class Memo : Control
             start = 0;
             if (!NoFrame)
             {
-                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + BorderWidth * 2;
+                w = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2);
             }
             else
             {
@@ -221,11 +221,11 @@ public partial class Memo : Control
                         ColorList.Add(colorChange2);
                         if (!NoFrame)
                         {
-                            w = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + BorderWidth * 2);
+                            w = tw + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2);
                         }
                         else
                         {
-                            w = tw + BorderWidth * 2;
+                            w = tw + (BorderWidth * 2);
                         }
                     }
                     else
@@ -451,22 +451,22 @@ public partial class Memo : Control
                         {
                             case TextAlignment.Left:
                                 var line = Lines[_topItem + i];
-                                base.Font.SetText(BorderWidth + x, BorderHeight + y + _itemHeight * i, line, lockedSurface);
+                                base.Font.SetText(BorderWidth + x, BorderHeight + y + (_itemHeight * i), line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 var line2 = Lines[_topItem + i];
                                 var textWidth = base.Font.GetTextWidth(line2);
                                 var line3 = Lines[_topItem + i];
-                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + _itemHeight * i, line3, lockedSurface);
+                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (_itemHeight * i), line3, lockedSurface);
                                 break;
                             default:
                                 var line4 = Lines[_topItem + i];
                                 var fontTextWidth = base.Font.GetTextWidth(line4);
                                 var line5 = Lines[_topItem + i];
-                                base.Font.SetText(x + w / 2 - fontTextWidth / 2, BorderHeight + y + _itemHeight * i, line5, lockedSurface);
+                                base.Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (_itemHeight * i), line5, lockedSurface);
                                 break;
                         }
-                        _itemRectangle = new Rect(x, y + _itemHeight * i, x + w, y + (i + 1) * _itemHeight);
+                        _itemRectangle = new Rect(x, y + (_itemHeight * i), x + w, y + ((i + 1) * _itemHeight));
                         if (_itemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
@@ -491,7 +491,7 @@ public partial class Memo : Control
                 {
                     var line = Lines[_currentLine];
                     var textWidth = base.Font.GetTextWidth(Copy(line, 1, _currentColumn));
-                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
+                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * _itemHeight), Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);

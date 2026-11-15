@@ -25,7 +25,11 @@ public sealed class ContentScope(ValidationContext context, JsonObject root, Doc
 
     public IReadOnlySet<long> Identities(ReferenceDomain domain)
     {
-        if (!_domains.TryGetValue(domain, out var identities)) _domains[domain] = identities = domain.Collect(Root);
+        if (!_domains.TryGetValue(domain, out var identities))
+        {
+            _domains[domain] = identities = domain.Collect(Root);
+        }
+
         return identities;
     }
 }

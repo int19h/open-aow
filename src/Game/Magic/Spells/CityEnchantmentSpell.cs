@@ -23,10 +23,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected set; }
 
     // CitySpells.pas:554
-    public CityEnchantmentSpell(CustomNode owner) : base(owner)
-    {
-        AIPriority = -1;
-    }
+    public CityEnchantmentSpell(CustomNode owner) : base(owner) => AIPriority = -1;
 
     // CitySpells.pas:576
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
@@ -76,7 +73,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
             valid = valid && ((Hero)source).CanCastSpell(SpellId, ref reason);
             if (valid)
             {
-                if (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader || AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4 || AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3)
+                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3))
                 {
                     action = CreateCastSpellAction();
                     SetupCastSpellAction(source, action);

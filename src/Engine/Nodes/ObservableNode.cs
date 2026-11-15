@@ -111,16 +111,10 @@ public partial class ObservableNode : CustomNode
     }
 
     // Engine.pas:7270
-    public void LockChanged()
-    {
-        _updateCount += 1;
-    }
+    public void LockChanged() => _updateCount += 1;
 
     // Engine.pas:7275
-    public void UnlockChanged()
-    {
-        _updateCount -= 1;
-    }
+    public void UnlockChanged() => _updateCount -= 1;
 
     // Engine.pas:7280
     // Subclasses react in OnChange. Emit runs that reaction and then raises CollectionChanged,
@@ -1071,7 +1065,7 @@ public partial class ObservableNode : CustomNode
         return result;
     }
 
-    public int UpdateCount { get => _updateCount; }
+    public int UpdateCount => _updateCount;
 
     // The child in slot index, with the range check of TList.Get. GetChild reads the slot without it.
     public EngineObject GetChildInRange(int index) => _children[index];

@@ -103,10 +103,22 @@ public sealed class PreviewCacheTests : IDisposable
     public void ListingOfFortyFilesComesFromTheCacheTheSecondTime()
     {
         var names = Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl").ToArray();
-        foreach (var name in names) File.WriteAllBytes(Shipped(name), HeroList("N" + name[1..3] + "xx"));
+        foreach (var name in names)
+        {
+            File.WriteAllBytes(Shipped(name), HeroList("N" + name[1..3] + "xx"));
+        }
+
         Install();
-        foreach (var name in names) Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
-        foreach (var name in names) Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
+        foreach (var name in names)
+        {
+            Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
+        }
+
+        foreach (var name in names)
+        {
+            Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
+        }
+
         Assert.Equal(40, _log.Take(40).Count(r => !r.Cached));
         Assert.Equal(40, _log.Skip(40).Count(r => r.Cached));
         Assert.Equal(40, FileBoundary.Previews.Count);

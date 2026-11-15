@@ -32,10 +32,7 @@ public partial class CombatSide : OwningNode, IChildList<CombatObject>
     public int ConquerCount { get; private set; }
 
     // Combat.pas:6002
-    public override void PersistFields(IPersister persister)
-    {
-        base.PersistFields(persister);
-    }
+    public override void PersistFields(IPersister persister) => base.PersistFields(persister);
 
     // Combat.pas:6008
     public CombatObject GetObjects(int index) => this[index];

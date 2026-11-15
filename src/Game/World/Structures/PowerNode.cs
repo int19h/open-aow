@@ -112,7 +112,7 @@ public partial class PowerNode : PlayerStructure
                     {
                         if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                         {
-                            p = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                            p = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                             if (p < 25)
                             {
                                 p = 25;

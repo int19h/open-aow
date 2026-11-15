@@ -129,7 +129,7 @@ public sealed class CoreTests
         pointer[2] = 3;
         Assert.Equal(3, pointer.Array[2]);
         Assert.Equal(2, (pointer + 1).Value);
-        Assert.Equal(pointer, (pointer + 2) - 2);
+        Assert.Equal(pointer, pointer + 2 - 2);
         Assert.Equal(2, pointer + 2 - pointer);
         Assert.True(pointer != pointer + 1);
         Assert.True(pointer.Equals((object)Ptr<int>.To(pointer.Array, 0)));

@@ -219,7 +219,7 @@ public partial class City : PlayerCropStructure
                     {
                         var player = StrategicMap.Current.Players.GetPlayers(Player);
                         var param2 = message.Param;
-                        param2[0] = param2[0].Int + (player.PlayerRace + 1) * 65536;
+                        param2[0] = param2[0].Int + ((player.PlayerRace + 1) * 65536);
                         message.Param = param2;
                     }
                 }
@@ -231,7 +231,7 @@ public partial class City : PlayerCropStructure
                 }
 
                 var param4 = message.Param;
-                param4[0] = param4[0].Int + (((Resource)Resource).Size - 1) * 4194304;
+                param4[0] = param4[0].Int + ((((Resource)Resource).Size - 1) * 4194304);
                 message.Param = param4;
             }
             else
@@ -360,10 +360,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2617
-    public override void Select()
-    {
-        base.Select();
-    }
+    public override void Select() => base.Select();
 
     // City.pas:1787
     public override sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, -1);
@@ -826,7 +823,7 @@ public partial class City : PlayerCropStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, Race))
                             {
-                                priority = 100 + (GetSize() - 1) * 10;
+                                priority = 100 + ((GetSize() - 1) * 10);
                             }
                         }
                         else
@@ -840,24 +837,24 @@ public partial class City : PlayerCropStructure
                                     if (amount != -1)
                                     {
                                         data.Cost = amount;
-                                        priority = 100 + (GetSize() - 1) * 10;
+                                        priority = 100 + ((GetSize() - 1) * 10);
                                         data.TargetType = AITargetType.Negotiate;
                                     }
                                     else
                                     {
-                                        priority = 100 + (GetSize() - 1) * 10;
+                                        priority = 100 + ((GetSize() - 1) * 10);
                                     }
                                 }
                                 else
                                 {
-                                    priority = 100 + (GetSize() - 1) * 10;
+                                    priority = 100 + ((GetSize() - 1) * 10);
                                 }
                             }
                             else
                             {
                                 if (Mode.Contains(ModeElement.WarMode) && priority != 0)
                                 {
-                                    priority = 100 + (GetSize() - 1) * 10;
+                                    priority = 100 + ((GetSize() - 1) * 10);
                                 }
                             }
                         }
@@ -887,7 +884,7 @@ public partial class City : PlayerCropStructure
                     if (condition && GetActiveAction() != CityAction.Migrate)
                     {
                         var size = GetSize();
-                        data.Priority = 500 + size * 100 + WallType * 45;
+                        data.Priority = 500 + (size * 100) + (WallType * 45);
                         if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
                         {
                             data.Priority += 150;
@@ -904,7 +901,7 @@ public partial class City : PlayerCropStructure
                     if (info.Player == Player)
                     {
                         var size = GetSize();
-                        data.Priority = 50 + size * 20;
+                        data.Priority = 50 + (size * 20);
                     }
 
                     break;
@@ -967,11 +964,11 @@ public partial class City : PlayerCropStructure
         {
             if (Player > 0)
             {
-                _flagId = (byte)(StrategicMap.Current.Players.GetPlayers(Player).PlayerRace + (UpgradeLevel - 1) * 64);
+                _flagId = (byte)(StrategicMap.Current.Players.GetPlayers(Player).PlayerRace + ((UpgradeLevel - 1) * 64));
             }
             else
             {
-                _flagId = (byte)(32 + (UpgradeLevel - 1) * 64);
+                _flagId = (byte)(32 + ((UpgradeLevel - 1) * 64));
             }
         }
         else
@@ -984,7 +981,7 @@ public partial class City : PlayerCropStructure
     public override int VisibilityRange()
     {
         int result = 6;
-        if (GetHexLevel() != 0 || Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
         {
             result = (int)(((uint)(result + 1)) >> 1);
         }
@@ -1166,7 +1163,7 @@ public partial class City : PlayerCropStructure
     {
         if (!GetRazed() && GetActiveAction() != CityAction.Migrate && !GetBuilding())
         {
-            SetIncome((byte)(GetCropCount() * 2 + GetSize() * 5));
+            SetIncome((byte)((GetCropCount() * 2) + (GetSize() * 5)));
             if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(GetActiveAction()))
             {
                 SetIncome((byte)(Income + Round(Income * 0.25)));
@@ -1308,16 +1305,16 @@ public partial class City : PlayerCropStructure
         switch (id)
         {
             case CityEnchantmentId.FountainOfLife:
-                result = GetSize() * 25 + 600;
+                result = (GetSize() * 25) + 600;
                 break;
             case CityEnchantmentId.GoldRush:
-                result = GetSize() * 25 + 600;
+                result = (GetSize() * 25) + 600;
                 break;
             case CityEnchantmentId.AntiMagicShell:
-                result = GetSize() * 25 + 700;
+                result = (GetSize() * 25) + 700;
                 break;
             case CityEnchantmentId.Warmonger:
-                result = GetSize() * 25 + 600;
+                result = (GetSize() * 25) + 600;
                 break;
             default:
                 result = 0;
@@ -1400,16 +1397,10 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:970
-    public void StartTownQuake()
-    {
-        Mode = Mode + Set<ModeElement>.Of(ModeElement.TownQuake);
-    }
+    public void StartTownQuake() => Mode = Mode + Set<ModeElement>.Of(ModeElement.TownQuake);
 
     // City.pas:973
-    public void StopTownQuake()
-    {
-        Mode = Mode - Set<ModeElement>.Of(ModeElement.TownQuake);
-    }
+    public void StopTownQuake() => Mode = Mode - Set<ModeElement>.Of(ModeElement.TownQuake);
 
     // City.pas:976
     public void ExecuteAnarchy()
@@ -1530,7 +1521,7 @@ public partial class City : PlayerCropStructure
                         }
 
                         value += selection.GetItems(i).Time;
-                        if (value > bestValue || value == bestValue && StrategicMap.Current.Random(2) == 1)
+                        if (value > bestValue || (value == bestValue && StrategicMap.Current.Random(2) == 1))
                         {
                             bestValue = value;
                             bestIndex = i;
@@ -1922,7 +1913,7 @@ public partial class City : PlayerCropStructure
 
                 if (radius != -1)
                 {
-                    result = radius / 10 + 3;
+                    result = (radius / 10) + 3;
                 }
                 else
                 {
@@ -2095,7 +2086,7 @@ public partial class City : PlayerCropStructure
                 _defendersMode = (DefendersGenerateMode)(Random(3) + 2);
             }
 
-            value = ((int)_defendersMode - 2) * 25 + 25;
+            value = (((int)_defendersMode - 2) * 25) + 25;
             value += (GetSize() - 1) * value / 2;
             for (int i = 0, last = armies.Count - 1; i <= last; i++)
             {
@@ -2272,7 +2263,7 @@ public partial class City : PlayerCropStructure
                     break;
             }
 
-            value = value + WallType * 5 + UpgradeLevel * 5;
+            value = value + (WallType * 5) + (UpgradeLevel * 5);
             if (Race >= 0)
             {
                 if (RaceTerrain[Race].Penalty.Contains((byte)TerrainType))
@@ -2805,7 +2796,7 @@ public partial class City : PlayerCropStructure
     public void GenerateRebelUnits(UnitList units)
     {
         int saved = RandSeed;
-        RandSeed = GetHexX() * 10 + StrategicMap.Current.InitialRandomSeed + GetHexY();
+        RandSeed = (GetHexX() * 10) + StrategicMap.Current.InitialRandomSeed + GetHexY();
         Int32List.FillWithRandomUnits(GamePack.Current.RaceResources.GetRaceResource(Race).UnitIndexes, units.Units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
         // The source restores only after a successful fill.
         RandSeed = saved;
@@ -2926,10 +2917,7 @@ public partial class City : PlayerCropStructure
         return flag;
     }
 
-    private static int UnitLevelToCityLevel(int level, int size)
-    {
-        return level;
-    }
+    private static int UnitLevelToCityLevel(int level, int size) => level;
 
     private static int CompareCityProductions(UnitProduction item1, UnitProduction item2)
     {

@@ -8,10 +8,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class General : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -89,6 +86,8 @@ public partial class General : ILayoutModule
         ToolTip.ImageLibraryTexture = UI.Graphics.GenericTextures;
         ToolTip.Font = UI.Fonts.Age8;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

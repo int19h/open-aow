@@ -30,19 +30,13 @@ public partial class EngineNode : OwningNode
     public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // Engine.pas:8267
-    public void SetEngine(GameEngine engine)
-    {
-        _engine = engine;
-    }
+    public void SetEngine(GameEngine engine) => _engine = engine;
 
     // Engine.pas:8272
     public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:8277
-    public void SetControlStyle(Set<ControlStyleElement> value)
-    {
-        _controlStyle = value;
-    }
+    public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
 
     // Engine.pas:8282
     public override void PersistFields(IPersister persister)

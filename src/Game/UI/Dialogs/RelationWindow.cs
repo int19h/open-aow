@@ -182,7 +182,7 @@ public partial class RelationWindow : UIModule
         }
 
         var indexOf = Players.IndexOf(StrategicMap.Current.SeatedPlayer);
-        PlayerGlow.Alignment.LeftOffset = indexOf * 51 - 37 + 51;
+        PlayerGlow.Alignment.LeftOffset = (indexOf * 51) - 37 + 51;
         PlayerGlow.Aligned = false;
     }
 
@@ -799,7 +799,7 @@ public partial class RelationWindow : UIModule
                 if (modifier != 0)
                 {
                     UI.Fonts.Age10.Color = 16777215;
-                    UI.Fonts.Age10.SetTextCentered(r.Left + (r.Right - r.Left) / 2, r.Top + 50, IntToStr(modifier), surface);
+                    UI.Fonts.Age10.SetTextCentered(r.Left + ((r.Right - r.Left) / 2), r.Top + 50, IntToStr(modifier), surface);
                 }
             }
         }
@@ -936,10 +936,7 @@ public partial class RelationWindow : UIModule
     }
 
     // AoWRelations.pas:763
-    public void PlyrGlowDraw(LockedSurface surface)
-    {
-        UI.Graphics.RelationWindow[44].ShowBlended(PlayerGlow.WinLeft, PlayerGlow.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_glowIntensity]);
-    }
+    public void PlyrGlowDraw(LockedSurface surface) => UI.Graphics.RelationWindow[44].ShowBlended(PlayerGlow.WinLeft, PlayerGlow.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_glowIntensity]);
 
     // AoWRelations.pas:768
     public void FaceFrPreDraw(LockedSurface surface)
@@ -988,22 +985,13 @@ public partial class RelationWindow : UIModule
     }
 
     // AoWRelations.pas:794. The offer enters the proposal when the player sends it (MsgSendActionBtn).
-    public void SBGoldSlidChange()
-    {
-        BribeGoldValueLabel.Text = IntToStr(BribeGoldSlider.Position);
-    }
+    public void SBGoldSlidChange() => BribeGoldValueLabel.Text = IntToStr(BribeGoldSlider.Position);
 
     // AoWRelations.pas:800
-    public void SBManaSlidChange()
-    {
-        BribeManaValueLabel.Text = IntToStr(BribeManaSlider.Position);
-    }
+    public void SBManaSlidChange() => BribeManaValueLabel.Text = IntToStr(BribeManaSlider.Position);
 
     // AoWRelations.pas:806
-    public void RelWinHide()
-    {
-        FinishDialog();
-    }
+    public void RelWinHide() => FinishDialog();
 
     // AoWRelations.pas:811
     public void ASelectClick()

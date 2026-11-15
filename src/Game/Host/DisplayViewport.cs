@@ -10,14 +10,22 @@ public readonly record struct DisplayViewport(int Width, int Height, int Scale, 
 {
     public static DisplayViewport Fit(int imageWidth, int imageHeight, int windowWidth, int windowHeight)
     {
-        if (imageWidth <= 0 || imageHeight <= 0) throw new ArgumentOutOfRangeException(nameof(imageWidth));
+        if (imageWidth <= 0 || imageHeight <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(imageWidth));
+        }
+
         int scale = Math.Max(1, Math.Min(windowWidth / imageWidth, windowHeight / imageHeight));
-        return new(imageWidth, imageHeight, scale, (windowWidth - imageWidth * scale) / 2, (windowHeight - imageHeight * scale) / 2, windowWidth, windowHeight);
+        return new(imageWidth, imageHeight, scale, (windowWidth - (imageWidth * scale)) / 2, (windowHeight - (imageHeight * scale)) / 2, windowWidth, windowHeight);
     }
 
     public (int X, int Y, bool Inside) Map(float x, float y)
     {
-        if (!(x >= 0 && y >= 0 && x < OutputWidth && y < OutputHeight)) return (-1, -1, false);
+        if (!(x >= 0 && y >= 0 && x < OutputWidth && y < OutputHeight))
+        {
+            return (-1, -1, false);
+        }
+
         int column = (int)Math.Floor((x - Left) / Scale), row = (int)Math.Floor((y - Top) / Scale);
         return (Math.Clamp(column, 0, Width - 1), Math.Clamp(row, 0, Height - 1), true);
     }

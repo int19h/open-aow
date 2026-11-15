@@ -104,10 +104,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     }
 
     // NetworkE.pas:759
-    public RemotePlayerCommunicationControl(EngineObject creator) : base(creator)
-    {
-        PackageDataList = new PackageDataList();
-    }
+    public RemotePlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
 
     // NetworkE.pas:765
     public override void Dispose()
@@ -117,22 +114,13 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     }
 
     // NetworkE.pas:771
-    public void Clear()
-    {
-        PackageDataList.Clear();
-    }
+    public void Clear() => PackageDataList.Clear();
 
     // NetworkE.pas:803
-    public void SetConnectionMode(int index, ConnectionMode mode)
-    {
-        PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
-    }
+    public void SetConnectionMode(int index, ConnectionMode mode) => PlayerCommunicationSettingsList.Players[index].ConnectionMode = mode;
 
     // NetworkE.pas:808
-    public void SetSystemId(int index, int systemId)
-    {
-        PlayerCommunicationSettingsList.Players[index].SystemId = systemId;
-    }
+    public void SetSystemId(int index, int systemId) => PlayerCommunicationSettingsList.Players[index].SystemId = systemId;
 
     // NetworkE.pas:813
     public void Setup(int count, int localSystemId)
@@ -142,10 +130,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     }
 
     // NetworkE.pas:837
-    public void DataReceived(object data, int size, int systemId)
-    {
-        PackageDataList.AddData(data, size);
-    }
+    public void DataReceived(object data, int size, int systemId) => PackageDataList.AddData(data, size);
 
     // NetworkE.pas:842
     public bool SendData(object data, int size, int systemId)

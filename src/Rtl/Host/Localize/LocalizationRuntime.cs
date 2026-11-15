@@ -23,13 +23,20 @@ public static class LocalizationRuntime
             s_dictionaries.Add(key, dictionary);
         }
         else if (dictionary.Language != (language ?? ReadLanguage(RtlUnit.Settings)))
+        {
             dictionary.SetLanguage(language ?? ReadLanguage(RtlUnit.Settings));
+        }
+
         return dictionary;
     }
 
     public static void ClearDictionaries()
     {
-        foreach (var dictionary in s_dictionaries.Values) dictionary.Close();
+        foreach (var dictionary in s_dictionaries.Values)
+        {
+            dictionary.Close();
+        }
+
         s_dictionaries.Clear();
     }
 }

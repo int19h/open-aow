@@ -20,19 +20,10 @@ public partial class BmpImageFile : ImageFile, IImageFileClass
     // GFXE.pas:9063
     public static new int LoadToSurfaceDescription(string fileName, ref LockedSurface lockedSurface, int X, int Y) => LoadBmp(fileName, ref lockedSurface, X, Y);
 
-    private static int LoadBmp(string fileName, ref LockedSurface lockedSurface, int X, int Y)
-    {
-        throw new NotImplementedException();
-    }
+    private static int LoadBmp(string fileName, ref LockedSurface lockedSurface, int X, int Y) => throw new NotImplementedException();
 
-    private static Surface CreateSurfaceFromBmp(string fileName)
-    {
-        throw new NotImplementedException();
-    }
+    private static Surface CreateSurfaceFromBmp(string fileName) => throw new NotImplementedException();
 
-    private static int GetBmpPixelFormat(string fileName)
-    {
-        throw new NotImplementedException();
-    }
+    private static int GetBmpPixelFormat(string fileName) => throw new NotImplementedException();
 
 }

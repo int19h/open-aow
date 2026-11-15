@@ -19,7 +19,10 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
         {
             var previous = _snapshot;
             if (previous.Entries.ContainsKey(key))
+            {
                 throw new InvalidOperationException($"Duplicate {kind} key: {key}.");
+            }
+
             var entries = new Dictionary<TKey, TValue>(previous.Entries) { [key] = value };
             var values = new TValue[previous.All.Count + 1];
             previous.All.CopyTo(values, 0);

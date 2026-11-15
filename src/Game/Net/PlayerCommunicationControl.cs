@@ -50,16 +50,10 @@ public partial class PlayerCommunicationControl : IDisposable
     public EngineObject Creator { get; }
 
     // NetworkE.pas:475
-    public virtual void Dispose()
-    {
-        _playerCommunicationSettingsList?.Dispose();
-    }
+    public virtual void Dispose() => _playerCommunicationSettingsList?.Dispose();
 
     // NetworkE.pas:481
-    public void AddRef()
-    {
-        RefCount += 1;
-    }
+    public void AddRef() => RefCount += 1;
 
     // NetworkE.pas:486
     public void Release()
@@ -118,15 +112,15 @@ public partial class PlayerCommunicationControl : IDisposable
         return -1;
     }
 
-    public int Count { get => GetCount(); }
+    public int Count => GetCount();
 
     public sealed class PlayersAccessor(PlayerCommunicationControl target)
     {
-        public PlayerCommunicationSettings this[int index] { get => target.GetPlayers(index); }
+        public PlayerCommunicationSettings this[int index] => target.GetPlayers(index);
     }
 
     public PlayersAccessor Players => new PlayersAccessor(this);
-    public PlayerCommunicator PlayerCommunicator { get => _playerCommunicator; }
-    public PlayerCommunicationSettingsList PlayerCommunicationSettingsList { get => _playerCommunicationSettingsList; }
+    public PlayerCommunicator PlayerCommunicator => _playerCommunicator;
+    public PlayerCommunicationSettingsList PlayerCommunicationSettingsList => _playerCommunicationSettingsList;
 
 }

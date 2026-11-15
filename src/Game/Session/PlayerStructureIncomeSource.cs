@@ -27,10 +27,7 @@ public partial class PlayerStructureIncomeSource : IncomeSource
 
     // Structur.PAS:2481
     // (Structure)
-    public void Setup(PlayerStructure structure)
-    {
-        _structure = structure;
-    }
+    public void Setup(PlayerStructure structure) => _structure = structure;
 
     // Engine.pas:524
 

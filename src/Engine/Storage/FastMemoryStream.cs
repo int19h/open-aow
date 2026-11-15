@@ -77,20 +77,32 @@ public partial class FastMemoryStream : Stream
     // FMemStr.pas:90
     protected override void Dispose(bool disposing)
     {
-        if (disposing) Clear();
+        if (disposing)
+        {
+            Clear();
+        }
+
         base.Dispose(disposing);
     }
 
     public override int Read(byte[] buffer, int offset, int count)
     {
-        if (count < 0) return 0;
+        if (count < 0)
+        {
+            return 0;
+        }
+
         return Read(buffer.AsSpan(offset, count));
     }
 
     // FMemStr.pas:43
     public override int Read(Span<byte> buffer)
     {
-        if (buffer.IsEmpty) return 0;
+        if (buffer.IsEmpty)
+        {
+            return 0;
+        }
+
         int count = buffer.Length;
         int result = _size - _position;
         if (result > 0)
@@ -135,7 +147,11 @@ public partial class FastMemoryStream : Stream
 
     public override void Write(byte[] buffer, int offset, int count)
     {
-        if (count < 0) return;
+        if (count < 0)
+        {
+            return;
+        }
+
         Write(buffer.AsSpan(offset, count));
     }
 
@@ -181,7 +197,9 @@ public partial class FastMemoryStream : Stream
                         else
                         {
                             if (count != 0)
+                            {
                                 Move(buffer.Slice(0, count), _memory.AsSpan(_position, count), count);
+                            }
                         }
                     }
                 }
@@ -191,7 +209,10 @@ public partial class FastMemoryStream : Stream
             }
         }
 
-        if (count != 0) throw new IOException("Stream write error");
+        if (count != 0)
+        {
+            throw new IOException("Stream write error");
+        }
     }
 
     // FMemStr.pas:63
@@ -274,6 +295,6 @@ public partial class FastMemoryStream : Stream
         }
     }
 
-    public byte[] Memory { get => _memory; }
+    public byte[] Memory => _memory;
     public int Capacity { get => _capacity; set => SetCapacity(value); }
 }

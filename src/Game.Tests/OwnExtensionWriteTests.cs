@@ -37,7 +37,10 @@ public sealed class OwnExtensionWriteTests
             FileBoundary.Log = previousLog;
             engine.SetHexSpriteMapWithoutCurrentMap(previousMap);
             StrategicMap.Current = null!;
-            foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save"))) File.Delete(file);
+            foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save")))
+            {
+                File.Delete(file);
+            }
         }
     }
 

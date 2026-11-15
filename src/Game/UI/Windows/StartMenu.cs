@@ -131,7 +131,7 @@ public partial class StartMenu : Menu
                             var item = Items[i];
                             var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
                             var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            Font.SetText(WinLeft + BorderWidth + imageLibraryFrame2.Width, WinTop + BorderHeight + imageLibraryFrameHeight.Height + ItemHeight * i, item, lockedSurface);
+                            Font.SetText(WinLeft + BorderWidth + imageLibraryFrame2.Width, WinTop + BorderHeight + imageLibraryFrameHeight.Height + (ItemHeight * i), item, lockedSurface);
                             if (i == Highlighted)
                             {
                                 Font.Color = Color;
@@ -141,7 +141,7 @@ public partial class StartMenu : Menu
                             var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             var imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + ItemHeight * i, WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + (i + 1) * ItemHeight);
+                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + (ItemHeight * i), WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + ((i + 1) * ItemHeight));
                             RaiseDrawItem(this);
 
                             lockedSurface.ClipRectangle = oldClip;
@@ -164,10 +164,10 @@ public partial class StartMenu : Menu
         if (Valid)
         {
             var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-            SetWinHeightWithoutInvalidate(WinHeight - (imageLibraryFrameHeight.Height));
+            SetWinHeightWithoutInvalidate(WinHeight - imageLibraryFrameHeight.Height);
             base.CheckMouseDown(button, shift, X, Y);
             var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-            SetWinHeightWithoutInvalidate(WinHeight + (imageLibraryFrame.Height));
+            SetWinHeightWithoutInvalidate(WinHeight + imageLibraryFrame.Height);
         }
     }
 

@@ -19,7 +19,10 @@ internal static class Verification
     private static void Check(bool condition, string label)
     {
         s_assertions++;
-        if (!condition) throw new InvalidOperationException("FAIL: " + label);
+        if (!condition)
+        {
+            throw new InvalidOperationException("FAIL: " + label);
+        }
     }
 
     private static void Equal<T>(T expected, T actual, string label) => Check(EqualityComparer<T>.Default.Equals(expected, actual), $"{label}: expected {expected}, got {actual}");
@@ -48,28 +51,63 @@ internal static class Verification
     public static unsafe void QueueClose()
     {
         var ev = new SDL_Event { type = (uint)SDL_EventType.SDL_EVENT_QUIT };
-        if (!SDL3.SDL_PushEvent(&ev)) throw new InvalidOperationException(SDL3.SDL_GetError());
+        if (!SDL3.SDL_PushEvent(&ev))
+        {
+            throw new InvalidOperationException(SDL3.SDL_GetError());
+        }
     }
 
     private static void InputTests()
     {
-        for (int c = 'a'; c <= 'z'; c++) Equal((ushort)(c - 32), InputMapper.VirtualKey(c, 4 + c - 'a'), "letter virtual key");
-        for (int c = 'A'; c <= 'Z'; c++) Equal((ushort)c, InputMapper.VirtualKey(c, 0), "uppercase virtual key");
-        for (int c = '0'; c <= '9'; c++) Equal((ushort)c, InputMapper.VirtualKey(c, 0), "digit virtual key");
+        for (int c = 'a'; c <= 'z'; c++)
+        {
+            Equal((ushort)(c - 32), InputMapper.VirtualKey(c, 4 + c - 'a'), "letter virtual key");
+        }
+
+        for (int c = 'A'; c <= 'Z'; c++)
+        {
+            Equal((ushort)c, InputMapper.VirtualKey(c, 0), "uppercase virtual key");
+        }
+
+        for (int c = '0'; c <= '9'; c++)
+        {
+            Equal((ushort)c, InputMapper.VirtualKey(c, 0), "digit virtual key");
+        }
+
         (int Scan, ushort Key)[] keys = [(40,13),(41,27),(42,8),(43,9),(44,32),(73,45),(74,36),(75,33),(76,46),(77,35),(78,34),(79,39),(80,37),(81,40),(82,38),
             (45,189),(46,187),(47,219),(48,221),(49,220),(51,186),(52,222),(53,192),(54,188),(55,190),(56,191),
             (57,20),(70,44),(71,145),(72,19),(83,144),(84,111),(85,106),(86,109),(87,107),(88,13),(98,96),(99,110),(100,226),(101,93),
             (224,17),(225,16),(226,18),(227,91),(228,17),(229,16),(230,18),(231,92),
             (155,3),(156,12),(158,13),(163,247),(164,248),(258,95),(267,176),(268,177),(269,178),(271,179),(272,181),
             (280,170),(281,172),(282,166),(283,167),(284,169),(285,168),(286,171)];
-        foreach (var (scan, key) in keys) Equal(key, InputMapper.VirtualKey(0, scan), "scancode " + scan);
-        for (int n = 0; n < 12; n++) Equal((ushort)(112 + n), InputMapper.VirtualKey(0, 58 + n), "F1-F12");
-        for (int n = 0; n < 12; n++) Equal((ushort)(124 + n), InputMapper.VirtualKey(0, 104 + n), "F13-F24");
-        for (int n = 0; n < 9; n++) Equal((ushort)(97 + n), InputMapper.VirtualKey(0, 89 + n), "numpad");
+        foreach (var (scan, key) in keys)
+        {
+            Equal(key, InputMapper.VirtualKey(0, scan), "scancode " + scan);
+        }
+
+        for (int n = 0; n < 12; n++)
+        {
+            Equal((ushort)(112 + n), InputMapper.VirtualKey(0, 58 + n), "F1-F12");
+        }
+
+        for (int n = 0; n < 12; n++)
+        {
+            Equal((ushort)(124 + n), InputMapper.VirtualKey(0, 104 + n), "F13-F24");
+        }
+
+        for (int n = 0; n < 9; n++)
+        {
+            Equal((ushort)(97 + n), InputMapper.VirtualKey(0, 89 + n), "numpad");
+        }
+
         Equal((ushort)0, InputMapper.VirtualKey(0, 0), "unknown key");
         var sink = new Events();
         var mapper = new InputMapper();
-        foreach (int scan in new[] { 40, 42, 41, 43 }) mapper.Key(0, scan, 3 | 192 | 768, true, sink);
+        foreach (int scan in new[] { 40, 42, 41, 43 })
+        {
+            mapper.Key(0, scan, 3 | 192 | 768, true, sink);
+        }
+
         Check(sink.Characters.SequenceEqual(new byte[] { 13, 8, 27, 9 }), "synthesized WM_CHAR controls");
         Check(sink.Shift.Contains(ShiftState.Shift) && sink.Shift.Contains(ShiftState.Ctrl) && sink.Shift.Contains(ShiftState.Alt), "key modifiers");
         mapper.Key('a', 4, 0, true, sink);
@@ -174,6 +212,7 @@ internal static class Verification
             };
             int count = 0;
             foreach (var (section, kind, names) in schemas)
+            {
                 foreach (string name in names)
                 {
                     switch (kind)
@@ -185,7 +224,10 @@ internal static class Verification
                         case "bytes": byte[] bytes = [0x5A]; registry.Bytes(section, name, bytes, 1, GameSettings.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
                     }
                 }
+            }
+
             foreach (var (section, kind, names) in schemas)
+            {
                 foreach (string name in names)
                 {
                     registry.OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + section.Replace('/', '\\'), true);
@@ -200,9 +242,12 @@ internal static class Verification
                     registry.CloseKey();
                     count++;
                 }
+            }
+
             RtlUnit.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
             foreach (var (section, kind, names) in schemas)
+            {
                 foreach (string name in names)
                 {
                     registry.OpenKey("\\software\\triumph studios\\age of wonders\\" + section.Replace('/', '\\').ToLowerInvariant(), false);
@@ -217,6 +262,8 @@ internal static class Verification
                     }
                     registry.CloseKey();
                 }
+            }
+
             Equal(-10, registry.GetMainWindowPosition().Left, "transpiled rectangle getter");
             Equal(-123, registry.GetDisplayWidth(), "transpiled integer getter");
             Equal(true, registry.GetMusicEnabled(), "transpiled boolean getter");
@@ -281,7 +328,10 @@ internal static class Verification
         Check(files.FileExists(@"SAVE/nested/B.ASG"), "rename lookup invalidation");
         string processDirectory = Directory.GetCurrentDirectory();
         foreach (string directory in new[] { @"Scenario\Custom", "..", "Campaign", "..", "..", @"Int\Scenes", "..", "..", "Songs", ".." })
+        {
             Check(files.SetCurrentDirectory(directory), "browse " + directory);
+        }
+
         Equal(processDirectory, Directory.GetCurrentDirectory(), "process directory unchanged");
         Equal(root, files.CurrentDirectory, "browse returns to virtual root");
         Check(files.SetCurrentDirectory(files.VirtualDrive + @"\"), "virtual drive");
@@ -317,7 +367,10 @@ internal static class Verification
             int missingDirectoryExceptions = 0;
             void MissingDirectoryException(object? sender, FirstChanceExceptionEventArgs error)
             {
-                if (error.Exception is DirectoryNotFoundException) missingDirectoryExceptions++;
+                if (error.Exception is DirectoryNotFoundException)
+                {
+                    missingDirectoryExceptions++;
+                }
             }
             AppDomain.CurrentDomain.FirstChanceException += MissingDirectoryException;
             try
@@ -381,12 +434,21 @@ internal static class Verification
                 .Where(path => Path.GetExtension(path).ToLowerInvariant() is ".pas" or ".inc")
                 .Append(Path.Combine(sourceRoot, "Engine.pas"));
             foreach (string path in sourceFiles)
+            {
                 foreach (Match match in Regex.Matches(Cp1252.Decode(File.ReadAllBytes(path)), "'([^'\\r\\n]*\\\\[^'\\r\\n]*)'"))
+                {
                     candidates.Add(match.Groups[1].Value);
+                }
+            }
+
             foreach (string literal in candidates.Order(StringComparer.Ordinal))
             {
                 string part = literal.Trim('\\', '/').Replace('\\', Path.DirectorySeparatorChar);
-                if (part.Length == 0 || part.Contains(':') || part.IndexOfAny(['*', '?']) >= 0) continue;
+                if (part.Length == 0 || part.Contains(':') || part.IndexOfAny(['*', '?']) >= 0)
+                {
+                    continue;
+                }
+
                 var matches = all.Where(p => Path.GetRelativePath(gameRoot, p).Equals(part, StringComparison.OrdinalIgnoreCase) || p.EndsWith(Path.DirectorySeparatorChar + part, StringComparison.OrdinalIgnoreCase)).ToArray();
                 if (matches.Length == 0)
                 {

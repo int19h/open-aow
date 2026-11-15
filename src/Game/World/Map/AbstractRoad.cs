@@ -21,9 +21,9 @@ public partial class AbstractRoad : MapObject
     {
         int pixelX;
         int pixelY;
-        pixelX = Owner.HexX * 32 + 8;
-        pixelY = (Owner.HexX & 1) * 16 + Owner.HexY * 32;
-        return pixelX + ((pixelY << 13) + 671088640);
+        pixelX = (Owner.HexX * 32) + 8;
+        pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
+        return pixelX + (pixelY << 13) + 671088640;
     }
 
     // MAPOBJ.PAS:848
@@ -57,16 +57,10 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:843
-    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo message)
-    {
-        UpdateTransitions();
-    }
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo message) => UpdateTransitions();
 
     // MAPOBJ.PAS:823
-    public override void Activate()
-    {
-        UpdateTransitions();
-    }
+    public override void Activate() => UpdateTransitions();
 
     // MAPOBJ.PAS:828
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)

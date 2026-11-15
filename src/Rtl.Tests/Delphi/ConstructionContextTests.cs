@@ -38,14 +38,17 @@ public sealed class ConstructionContextTests
         {
             _baseValue = 10;
             trace.Number("base_body", _baseValue);
-            try { if (failAt == 1) throw new Construct("base"); }
+            try
+            {
+                if (failAt == 1)
+                {
+                    throw new Construct("base");
+                }
+            }
             finally { trace.Fact("base_unwind", "done"); }
         }
 
-        public virtual void Dispose()
-        {
-            ConstructionTrace.Number("base_destroy", _baseValue);
-        }
+        public virtual void Dispose() => ConstructionTrace.Number("base_destroy", _baseValue);
     }
 
     private class Middle : Base
@@ -56,7 +59,13 @@ public sealed class ConstructionContextTests
         {
             _middleValue = 20;
             trace.Number("middle_body", _middleValue);
-            try { if (failAt == 2) throw new Construct("middle"); }
+            try
+            {
+                if (failAt == 2)
+                {
+                    throw new Construct("middle");
+                }
+            }
             finally { trace.Fact("middle_unwind", "done"); }
         }
 
@@ -75,7 +84,13 @@ public sealed class ConstructionContextTests
         {
             _leafValue = 30;
             trace.Number("leaf_body", _leafValue);
-            try { if (failAt == 3) throw new Construct("leaf"); }
+            try
+            {
+                if (failAt == 3)
+                {
+                    throw new Construct("leaf");
+                }
+            }
             finally { trace.Fact("leaf_unwind", "done"); }
         }
 
@@ -177,13 +192,13 @@ public sealed class ConstructionContextTests
         {
             Value++;
             ConstructionTrace.Number("plain_body", Value);
-            if (fail) throw new Construct("plain");
+            if (fail)
+            {
+                throw new Construct("plain");
+            }
         }
 
-        public virtual void Dispose()
-        {
-            ConstructionTrace.Number("plain_destroy", Value);
-        }
+        public virtual void Dispose() => ConstructionTrace.Number("plain_destroy", Value);
     }
 
     private sealed class PlainLeaf : PlainBase
@@ -278,13 +293,23 @@ public sealed class ConstructionContextTests
             {
                 destroys++;
                 context.Fail();
-                if (throwInDestroy) throw new Cleanup("replacement");
+                if (throwInDestroy)
+                {
+                    throw new Cleanup("replacement");
+                }
             });
             context.Capture(value);
             throw new Construct("original");
         }));
-        if (throwInDestroy) Assert.IsType<Cleanup>(error);
-        else Assert.IsType<Construct>(error);
+        if (throwInDestroy)
+        {
+            Assert.IsType<Cleanup>(error);
+        }
+        else
+        {
+            Assert.IsType<Construct>(error);
+        }
+
         saved!.Fail();
         Assert.Equal(1, destroys);
     }
@@ -328,8 +353,15 @@ public sealed class ConstructionContextTests
         var value = new object();
         var weak = new WeakReference<object>(value);
         context.Capture(value);
-        if (fail) context.Fail();
-        else context.Complete();
+        if (fail)
+        {
+            context.Fail();
+        }
+        else
+        {
+            context.Complete();
+        }
+
         return (context, weak);
     }
 

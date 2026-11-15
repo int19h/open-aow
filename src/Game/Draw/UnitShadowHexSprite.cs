@@ -16,8 +16,5 @@ public partial class UnitShadowHexSprite : HexSprite
     public override int GetShowPriority() => (UnitHexSprite.GetShowPriority() & 67108863) + 1677721600;
 
     // UnitHS.PAS:157
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
-    {
-        UnitHexSprite.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
-    }
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => UnitHexSprite.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
 }

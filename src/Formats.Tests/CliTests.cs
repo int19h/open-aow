@@ -50,7 +50,10 @@ public sealed class CliTests : FormatsTest, IDisposable
         File.Copy(HeroList, In("x.ahl"));
         Assert.Equal(Program.Error, Run("to-own", In("x.ahl"), In("x.ahl"), "--overwrite").Code);
         if (OperatingSystem.IsWindows())
+        {
             Assert.Equal(Program.Error, Run("to-own", In("x.ahl"), In("X.AHL"), "--overwrite").Code);
+        }
+
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(In("x.ahl")));
     }
 

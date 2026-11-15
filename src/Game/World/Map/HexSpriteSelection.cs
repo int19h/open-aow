@@ -176,7 +176,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
         }
     }
 
-    public List<HexSprite> LocationHexSprite { get => _locationHexSprite; }
+    public List<HexSprite> LocationHexSprite => _locationHexSprite;
 
     public event NotifyEvent<CustomNode> OnSelect
     {
@@ -190,6 +190,6 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
         remove => OnDeselectStore.Remove(value);
     }
 
-    public HexSprite EventHexSprite { get => _eventHexSprite; }
+    public HexSprite EventHexSprite => _eventHexSprite;
 
 }

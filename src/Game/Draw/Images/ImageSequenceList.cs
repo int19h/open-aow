@@ -146,18 +146,14 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     }
 
     // ImageLib.pas:9001
-    public void SaveToIniFile(string section, IniFile iniFile)
-    {
+    public void SaveToIniFile(string section, IniFile iniFile) =>
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // ImageLib.pas:9016
-    public void LoadFromIniFile(string section, IniFile iniFile)
-    {
+    public void LoadFromIniFile(string section, IniFile iniFile) =>
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         throw new NotImplementedException();
-    }
 
     // ImageLib.pas:9044
     public ImageSequence GetImageSequence(int index)
@@ -565,8 +561,8 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     }
 
     public ImageSequencesAccessor ImageSequences => new ImageSequencesAccessor(this);
-    public bool Linked { get => _linked; }
+    public bool Linked => _linked;
     public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; internal set => _imageLibraryManager = value; }
-    public CustomImageLibrary ImageLibrary { get => _imageLibrary; }
+    public CustomImageLibrary ImageLibrary => _imageLibrary;
 
 }

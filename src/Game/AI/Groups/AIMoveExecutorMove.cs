@@ -15,10 +15,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
 {
     // AIGroup.pas:4440
-    public AIMoveExecutorMove(CustomNode owner) : base(owner)
-    {
-        Path = new MovePath();
-    }
+    public AIMoveExecutorMove(CustomNode owner) : base(owner) => Path = new MovePath();
 
     public MovePath Path { get; private set; }
     public int MovePoints { get; set; }
@@ -62,10 +59,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     }
 
     // AIGroup.pas:4471
-    public void AddUnit(AIMoveExecutorUnit unitEntry)
-    {
-        AddChild(unitEntry);
-    }
+    public void AddUnit(AIMoveExecutorUnit unitEntry) => AddChild(unitEntry);
 
     // AIGroup.pas:4476
     public void SetUnitStatus(AIMoveExecutorUnitStatus status)

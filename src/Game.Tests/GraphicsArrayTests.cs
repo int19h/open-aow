@@ -70,7 +70,10 @@ public sealed class GraphicsArrayTests
         {
             node.Count = 0;
             node.Dispose();
-            foreach (var image in images) image.Dispose();
+            foreach (var image in images)
+            {
+                image.Dispose();
+            }
         }
     }
 
@@ -95,7 +98,11 @@ public sealed class GraphicsArrayTests
             list.Delete(1);
             list.Delete(1);
             Assert.Equal([1, 0x07070707, 0x07070707, 0x07070707, 0x07070707, 9], list.List.Take(list.Count));
-            for (int i = 0; i < 6; i++) list.Add(i);
+            for (int i = 0; i < 6; i++)
+            {
+                list.Add(i);
+            }
+
             Assert.Equal((12, 27), (list.Count, list.Capacity));
             copy.Assign(list);
             Assert.Equal((12, 12), (copy.Count, copy.Capacity));
@@ -127,7 +134,7 @@ public sealed class GraphicsArrayTests
         matrix.SetValue(1, 2, 5);
         matrix.SetValue(3, 0, 1);
         matrix.SetValue(4, 0, 1);
-        Assert.Equal(5, matrix.Data[1 + 2 * 4]);
+        Assert.Equal(5, matrix.Data[1 + (2 * 4)]);
         Assert.Equal(1, matrix.Data[3]);
         Assert.Equal(2, matrix.GetValue(1, 2));
         Assert.Equal(1, matrix.GetValue(3, 0));
@@ -153,7 +160,11 @@ public sealed class GraphicsArrayTests
         using var owner = new Component(null!);
         var displayController = new DisplayController(owner);
         var matrix = new Matrix(4, 4);
-        foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) }) matrix.SetValue((byte)x, (byte)y, 1);
+        foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) })
+        {
+            matrix.SetValue((byte)x, (byte)y, 1);
+        }
+
         int bw = -1, bh = -1;
         Assert.Equal(4, displayController.GetInverseBlockSize(0, 0, matrix, ref bw, ref bh));
         Assert.Equal((2, 2), (bw, bh));
@@ -163,7 +174,11 @@ public sealed class GraphicsArrayTests
         Assert.Equal(0, displayController.GetInverseBlockSize(0, 2, matrix, ref bw, ref bh));
         Assert.Equal((-1, -1), (bw, bh));
         var column = new Matrix(4, 4);
-        foreach (int y in new[] { 0, 1, 2 }) column.SetValue(0, (byte)y, 1);
+        foreach (int y in new[] { 0, 1, 2 })
+        {
+            column.SetValue(0, (byte)y, 1);
+        }
+
         Assert.Equal(3, displayController.GetInverseBlockSize(0, 0, column, ref bw, ref bh));
         Assert.Equal((1, 3), (bw, bh));
     }

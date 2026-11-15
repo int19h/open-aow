@@ -301,7 +301,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         HexSprite hexSprite;
         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out x, out y);
         hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-        _showPriority = 1744830464 + ((y + 36) << 13) + (x + 16);
+        _showPriority = 1744830464 + ((y + 36) << 13) + x + 16;
         if (hexSprite != this && hexSprite != null)
         {
             if (hexSprite.GetShowPriority() >= _showPriority)

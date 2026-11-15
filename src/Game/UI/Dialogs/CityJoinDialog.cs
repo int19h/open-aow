@@ -97,10 +97,7 @@ public partial class CityJoinDialog : UIModule
     }
 
     // AoWCityJoinDlg.pas:102
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWCityJoinDlg.pas:107
     public void CloseBtnClick()

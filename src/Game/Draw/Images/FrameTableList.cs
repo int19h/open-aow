@@ -103,10 +103,7 @@ public partial class FrameTableList : Persistent
     }
 
     // ImageLib.pas:9360
-    public override void Dispose()
-    {
-        Clear();
-    }
+    public override void Dispose() => Clear();
 
     // ImageLib.pas:9365
     public override void Assign(Persistent source)
@@ -392,15 +389,12 @@ public partial class FrameTableList : Persistent
 
     public int this[int index] { get => Get(index); set => Put(index, value); }
 
-    public int[] List { get => _list; }
+    public int[] List => _list;
     public int DefaultValue { get => _defaultValue; set => _defaultValue = value; }
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
 
     // ImageLib.pas:9401
-    public static void Error(string message, int data)
-    {
-        throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
-    }
+    public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
 
     private static void FrameTableQuickSort(int[] sortList, int L, int R, FrameTableSortCompare sCompare)
     {

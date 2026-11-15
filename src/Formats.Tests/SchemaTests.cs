@@ -30,7 +30,10 @@ public sealed class SchemaTests : FormatsTest
         {
             var table = Schema.EngineTable(engine);
             Assert.NotEmpty(table);
-            foreach (var (id, classValue) in table) Assert.Equal(id, classValue.Id);
+            foreach (var (id, classValue) in table)
+            {
+                Assert.Equal(id, classValue.Id);
+            }
         }
         Assert.Equal(NameTable.ResolveStored("TAoWHSMap"), Schema.Resolve("game", 131089)!.Name);
         Assert.Equal(NameTable.ResolveStored("TCity"), Schema.Resolve("game", 131336)!.Name);
@@ -66,7 +69,10 @@ public sealed class SchemaTests : FormatsTest
             foreach (var p in classValue.Properties)
             {
                 Assert.False(p.Name.StartsWith('$'), classValue.Name + "." + p.Name);
-                if (p.Id is int id) Assert.Same(p, classValue.PropertyById(id));
+                if (p.Id is int id)
+                {
+                    Assert.Same(p, classValue.PropertyById(id));
+                }
             }
         }
     }
@@ -114,7 +120,14 @@ public sealed class SchemaTests : FormatsTest
     public void ProfilesCoverEveryInScopeKind()
     {
         Assert.Equal(["world-hsm", "tactical-hsm", "campaign", "scenario-set", "hero-list", "item-list"], FileProfile.All.Select(p => p.Name));
-        foreach (var kind in FileProfile.AllKinds) Assert.Contains(FileProfile.All, p => p.Kinds.Contains(kind));
-        foreach (var p in FileProfile.All) Assert.NotNull(Schema.Find(p.RootFamily));
+        foreach (var kind in FileProfile.AllKinds)
+        {
+            Assert.Contains(FileProfile.All, p => p.Kinds.Contains(kind));
+        }
+
+        foreach (var p in FileProfile.All)
+        {
+            Assert.NotNull(Schema.Find(p.RootFamily));
+        }
     }
 }

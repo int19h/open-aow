@@ -42,9 +42,17 @@ internal static class MemorySurfaces
     // two sizes share.
     public static byte[] Reallocate(byte[] memory, int size)
     {
-        if (size == 0) return null;
+        if (size == 0)
+        {
+            return null;
+        }
+
         var result = new byte[size];
-        if (memory != null) memory.AsSpan(0, Math.Min(memory.Length, size)).CopyTo(result);
+        if (memory != null)
+        {
+            memory.AsSpan(0, Math.Min(memory.Length, size)).CopyTo(result);
+        }
+
         return result;
     }
 
@@ -60,12 +68,12 @@ internal static class MemorySurfaces
         order[(int)((uint)pixelFormatId >> 14) & 3] = 3;
         for (int i = 0; i <= 3; i++)
         {
-            int bits = (int)((uint)pixelFormatId >> (order[i] * 4 + 16)) & 15;
+            int bits = (int)((uint)pixelFormatId >> ((order[i] * 4) + 16)) & 15;
             int j = bits;
             int m = 0;
             while (j != 0)
             {
-                m = m * 2 + 1;
+                m = (m * 2) + 1;
                 j--;
             }
 

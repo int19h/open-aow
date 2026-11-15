@@ -22,10 +22,7 @@ public partial class IntroScene : UIModule
     }
 
     // AoWIntroScene.pas:192
-    public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        Finish();
-    }
+    public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => Finish();
 
     // AoWIntroScene.pas:197
     public void WindowKeyDown(ref ushort key, Set<ShiftState> shift)

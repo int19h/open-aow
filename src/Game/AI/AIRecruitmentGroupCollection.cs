@@ -42,10 +42,7 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     }
 
     // AIGroup.pas:811
-    public void SortOnMovePoints()
-    {
-        _list.SortChildren<AIRecruitmentGroup>(CompareMovePoints);
-    }
+    public void SortOnMovePoints() => _list.SortChildren<AIRecruitmentGroup>(CompareMovePoints);
 
     // AIGroup.pas:861
     public bool UnitExists(Troop troop)
@@ -80,8 +77,5 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
         return result;
     }
 
-    private static int CompareMovePoints(AIRecruitmentGroup item1, AIRecruitmentGroup item2)
-    {
-        return item2.MovePoints - item1.MovePoints;
-    }
+    private static int CompareMovePoints(AIRecruitmentGroup item1, AIRecruitmentGroup item2) => item2.MovePoints - item1.MovePoints;
 }

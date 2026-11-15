@@ -5,6 +5,9 @@ public sealed class InstalledFactAttribute : FactAttribute
 {
     public InstalledFactAttribute()
     {
-        if (InstalledSave.SkipReason is string reason) Skip = reason;
+        if (InstalledSave.SkipReason is string reason)
+        {
+            Skip = reason;
+        }
     }
 }

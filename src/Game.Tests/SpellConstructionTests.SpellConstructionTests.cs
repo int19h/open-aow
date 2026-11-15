@@ -62,25 +62,64 @@ public sealed partial class SpellConstructionTests
 
     private static object? State(object? value, int depth = 0)
     {
-        if (value is null) return null;
+        if (value is null)
+        {
+            return null;
+        }
+
         Type type = value.GetType();
-        if (value is string text) return text;
-        if (type.IsEnum) return Convert.ToInt64(value);
-        if (type.IsPrimitive || value is string || value is decimal) return value;
-        if (value is ImageLibraryManager) return "$image-manager";
-        if (value is Array array) return array.Cast<object?>().Select(x => State(x, depth + 1)).ToArray();
-        if (InlineArrays.Elements(value) is { } elements) return elements.Select(x => State(x, depth + 1)).ToArray();
-        if (depth > 8) throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
+        if (value is string text)
+        {
+            return text;
+        }
+
+        if (type.IsEnum)
+        {
+            return Convert.ToInt64(value);
+        }
+
+        if (type.IsPrimitive || value is string || value is decimal)
+        {
+            return value;
+        }
+
+        if (value is ImageLibraryManager)
+        {
+            return "$image-manager";
+        }
+
+        if (value is Array array)
+        {
+            return array.Cast<object?>().Select(x => State(x, depth + 1)).ToArray();
+        }
+
+        if (InlineArrays.Elements(value) is { } elements)
+        {
+            return elements.Select(x => State(x, depth + 1)).ToArray();
+        }
+
+        if (depth > 8)
+        {
+            throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
+        }
+
         var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
         for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)
+        {
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor caches and the link to the engine are not constructor state
+                if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField")
+                {
+                    continue; // the descriptor caches and the link to the engine are not constructor state
+                }
+
                 object? fieldValue = field.GetValue(value);
                 fields[current.Name + "." + MemberNames.Of(field)] = field.Name == "_owner"
                     ? fieldValue is null ? null : "$owner"
                     : State(fieldValue, depth + 1);
             }
+        }
+
         return fields;
     }
 
@@ -105,14 +144,21 @@ public sealed partial class SpellConstructionTests
     {
         // A combat action takes a combat action list as its owner (issue 158). The recording owner
         // then stands behind a list that forwards to it.
-        if (owner is EngineFixture.Owner recorder) owner = EngineFixture.OwnerFor(type, recorder);
+        if (owner is EngineFixture.Owner recorder)
+        {
+            owner = EngineFixture.OwnerFor(type, recorder);
+        }
+
         var meta = EngineClass.Of(type);
         if (route == 0)
         {
             try
             {
                 if (EngineClassCreation.OwnerConstructor(type) is { } constructor)
+                {
                     return (EngineObject)constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner));
+                }
+
                 return (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
                     [typeof(CustomNode)])!.Invoke(null, [owner])!;
             }
@@ -122,7 +168,11 @@ public sealed partial class SpellConstructionTests
                 throw;
             }
         }
-        if (route == 1) return meta.CreateInstance(owner, holder: EngineFixture.Engine);
+        if (route == 1)
+        {
+            return meta.CreateInstance(owner, holder: EngineFixture.Engine);
+        }
+
         if (route == 3)
         {
             try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!; }
@@ -132,7 +182,11 @@ public sealed partial class SpellConstructionTests
                 throw;
             }
         }
-        if (registered is not null) return registered.CreateEngineObject(meta.ClassId, owner);
+        if (registered is not null)
+        {
+            return registered.CreateEngineObject(meta.ClassId, owner);
+        }
+
         GameEngine engine = RegisteredEngine(type);
         try
         {
@@ -156,6 +210,7 @@ public sealed partial class SpellConstructionTests
         try
         {
             foreach (bool owned in new[] { false, true })
+            {
                 for (int route = 0; route < 4; route++)
                 {
                     CustomNode argument = owned ? owner : null!;
@@ -165,7 +220,11 @@ public sealed partial class SpellConstructionTests
                     Assert.True(owned ? EngineFixture.Forwards(value.Owner, owner) : value.Owner is null);
                     Assert.Same(EngineClass.Of(type), value.EngineClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
-                    if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
+                    if (owned)
+                    {
+                        ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
+                    }
+
                     if (value is Spell spell)
                     {
                         Assert.Same(fixture.Manager, spell.CastImages.ImageLibraryManager);
@@ -179,9 +238,17 @@ public sealed partial class SpellConstructionTests
                         Assert.Equal(0, ability.SfxLibrary.Count);
                     }
                 }
+            }
+
             Assert.Equal(4, owner.Members.Count);
         }
-        finally { foreach (var value in allocated) value.Dispose(); }
+        finally
+        {
+            foreach (var value in allocated)
+            {
+                value.Dispose();
+            }
+        }
         Assert.Empty(owner.Members);
         Assert.Equal(4, owner.Removed.Count);
     }
@@ -200,8 +267,16 @@ public sealed partial class SpellConstructionTests
             Assert.True(EngineFixture.Forwards(value.Owner, owner));
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Empty(owner.Removed);
-            if (value is Spell spell) Assert.Same(fixture.Manager, spell.CastImages.ImageLibraryManager);
-            if (value is Ability ability) Assert.Same(fixture.Manager, ability.ImageSequences.ImageLibraryManager);
+            if (value is Spell spell)
+            {
+                Assert.Same(fixture.Manager, spell.CastImages.ImageLibraryManager);
+            }
+
+            if (value is Ability ability)
+            {
+                Assert.Same(fixture.Manager, ability.ImageSequences.ImageLibraryManager);
+            }
+
             value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Same(value, Assert.Single(owner.Removed));

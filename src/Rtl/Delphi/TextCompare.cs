@@ -7,7 +7,10 @@ public static partial class RtlUnit
         value = RequireString(value);
         return string.Create(value.Length, (value, map), (chars, state) =>
         {
-            for (int i = 0; i < chars.Length; i++) chars[i] = state.map(state.value[i]);
+            for (int i = 0; i < chars.Length; i++)
+            {
+                chars[i] = state.map(state.value[i]);
+            }
         });
     }
 
@@ -17,7 +20,7 @@ public static partial class RtlUnit
 
     public static string AnsiUpperCase(string? value) => Map(value, c => Cp1252.IsMapped(c) ? Cp1252.Char(Cp1252.Byte(c) switch
     {
-        >= 97 and <= 122 or >= 224 and <= 246 or >= 248 and <= 254 => (byte)(Cp1252.Byte(c) - 32),
+        (>= 97 and <= 122) or (>= 224 and <= 246) or (>= 248 and <= 254) => (byte)(Cp1252.Byte(c) - 32),
         154 => 138,
         156 => 140,
         158 => 142,
@@ -33,7 +36,10 @@ public static partial class RtlUnit
         {
             int Key(char c) => Cp1252.IsMapped(c) ? map(Cp1252.Byte(c)) : Cp1252.Key(c);
             int difference = Key(a[i]) - Key(b[i]);
-            if (difference != 0) return difference;
+            if (difference != 0)
+            {
+                return difference;
+            }
         }
         return a.Length - b.Length;
     }
@@ -45,7 +51,7 @@ public static partial class RtlUnit
 
     internal static byte Fold1252(byte c) => c switch
     {
-        >= 65 and <= 90 or >= 192 and <= 214 or >= 216 and <= 222 => (byte)(c + 32),
+        (>= 65 and <= 90) or (>= 192 and <= 214) or (>= 216 and <= 222) => (byte)(c + 32),
         138 => 154,
         140 => 156,
         142 => 158,

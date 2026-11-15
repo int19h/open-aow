@@ -21,10 +21,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CommandAbility : TouchAbility
 {
     // AoWAb.PAS:5088
-    public CommandAbility(CustomNode owner) : base(owner)
-    {
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
-    }
+    public CommandAbility(CustomNode owner) : base(owner) => SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
 
     public int CommandedAbilityId { get; protected set; }
 
@@ -181,19 +178,13 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5106
-    public override void CombatObjectDestroyed(CombatObject combatObject)
-    {
-        ResetCommandedUnits((CombatUnit)combatObject);
-    }
+    public override void CombatObjectDestroyed(CombatObject combatObject) => ResetCommandedUnits((CombatUnit)combatObject);
 
     // AoWAb.PAS:5102
-    public override void CombatDone(CombatObject combatObject)
-    {
-        combatObject.GetAbilityOwner().RemoveAbilityDataId(AbilityId);
-    }
+    public override void CombatDone(CombatObject combatObject) => combatObject.GetAbilityOwner().RemoveAbilityDataId(AbilityId);
 
     // AoWAb.PAS:5176
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && (source is CombatUnit && target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107));
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107);
 
     // AoWAb.PAS:5184
     public override bool CanTouchUnit(Troop source, Troop target)

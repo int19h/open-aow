@@ -28,11 +28,31 @@ public sealed class InputMapper
     private Set<ShiftState> Shift(bool twice = false)
     {
         Set<ShiftState> state = default;
-        if ((_modifiers & 3) != 0) state = state.With(ShiftState.Shift);
-        if ((_modifiers & 192) != 0) state = state.With(ShiftState.Ctrl);
-        if ((_modifiers & 768) != 0) state = state.With(ShiftState.Alt);
-        if ((_buttons & 1) != 0) state = state.With(ShiftState.Left);
-        if ((_buttons & 4) != 0) state = state.With(ShiftState.Right);
+        if ((_modifiers & 3) != 0)
+        {
+            state = state.With(ShiftState.Shift);
+        }
+
+        if ((_modifiers & 192) != 0)
+        {
+            state = state.With(ShiftState.Ctrl);
+        }
+
+        if ((_modifiers & 768) != 0)
+        {
+            state = state.With(ShiftState.Alt);
+        }
+
+        if ((_buttons & 1) != 0)
+        {
+            state = state.With(ShiftState.Left);
+        }
+
+        if ((_buttons & 4) != 0)
+        {
+            state = state.With(ShiftState.Right);
+        }
+
         return twice ? state.With(ShiftState.Double) : state;
     }
 
@@ -40,14 +60,25 @@ public sealed class InputMapper
     {
         _buttons = state & 5;
         var point = viewport.Map(x, y);
-        if (point.Inside) sink.MouseMove(Shift(), point.X, point.Y);
-        else if (_inside) sink.MouseMove(default, -1, -1);
+        if (point.Inside)
+        {
+            sink.MouseMove(Shift(), point.X, point.Y);
+        }
+        else if (_inside)
+        {
+            sink.MouseMove(default, -1, -1);
+        }
+
         _inside = point.Inside;
     }
 
     public void Leave(IDisplayEvents sink)
     {
-        if (_inside) sink.MouseMove(default, -1, -1);
+        if (_inside)
+        {
+            sink.MouseMove(default, -1, -1);
+        }
+
         _inside = false;
     }
 
@@ -57,19 +88,38 @@ public sealed class InputMapper
     // to the remainder.
     public void Wheel(float y, int direction, float x, float yPosition, DisplayViewport viewport, IDisplayEvents sink)
     {
-        if (direction == 1) y = -y;
+        if (direction == 1)
+        {
+            y = -y;
+        }
+
         var point = viewport.Map(x, yPosition);
-        if (!point.Inside) return;
-        if (y != 0 && _wheelY != 0 && Math.Sign(y) != Math.Sign(_wheelY)) _wheelY = 0;
+        if (!point.Inside)
+        {
+            return;
+        }
+
+        if (y != 0 && _wheelY != 0 && Math.Sign(y) != Math.Sign(_wheelY))
+        {
+            _wheelY = 0;
+        }
+
         _wheelY += y;
         int steps = (int)Math.Truncate(_wheelY);
         _wheelY -= steps;
-        if (steps != 0) sink.MouseWheel(steps, Shift(), point.X, point.Y);
+        if (steps != 0)
+        {
+            sink.MouseWheel(steps, Shift(), point.X, point.Y);
+        }
     }
 
     public void Button(byte button, bool down, ulong milliseconds, float x, float y, DisplayViewport viewport, IDisplayEvents sink)
     {
-        if (button is not (1 or 3)) return;
+        if (button is not (1 or 3))
+        {
+            return;
+        }
+
         uint mask = 1u << (button - 1);
         _buttons = down ? _buttons | mask : _buttons & ~mask;
         var point = viewport.Map(x, y);
@@ -77,14 +127,22 @@ public sealed class InputMapper
         if (!down)
         {
             sink.MouseUp(mapped, Shift(_doubleButton == button), point.X, point.Y);
-            if (_doubleButton == button) _doubleButton = 0;
+            if (_doubleButton == button)
+            {
+                _doubleButton = 0;
+            }
+
             return;
         }
         bool twice = point.Inside && _firstPress is { } first && first.Button == button && milliseconds >= first.Time && milliseconds - first.Time <= 500
             && Math.Abs(x - first.X) <= 4 && Math.Abs(y - first.Y) <= 4;
         _firstPress = point.Inside && !twice ? (button, milliseconds, x, y) : null;
         _doubleButton = twice ? button : (byte)0;
-        if (twice) sink.DoubleClick();
+        if (twice)
+        {
+            sink.DoubleClick();
+        }
+
         sink.MouseDown(mapped, Shift(twice), point.X, point.Y);
     }
 
@@ -92,28 +150,59 @@ public sealed class InputMapper
     {
         _modifiers = keyModifiers;
         ushort key = VirtualKey(keycode, scancode);
-        if (key == 0) return;
+        if (key == 0)
+        {
+            return;
+        }
+
         if (!down) { sink.KeyUp(key, Shift()); return; }
         sink.KeyDown(key, Shift());
         byte character = key switch { 13 => 13, 8 => 8, 27 => 27, 9 => 9, _ => 0 };
-        if (character != 0) sink.KeyPress(character);
+        if (character != 0)
+        {
+            sink.KeyPress(character);
+        }
     }
 
     public static void Text(string text, IDisplayEvents sink)
     {
         // Only a char with a code page 1252 byte reaches the game, as that byte (strings.md 2.3).
         foreach (char c in text)
-            if (Cp1252.IsMapped(c) && Cp1252.Byte(c) >= 32) sink.KeyPress(Cp1252.Byte(c));
+        {
+            if (Cp1252.IsMapped(c) && Cp1252.Byte(c) >= 32)
+            {
+                sink.KeyPress(Cp1252.Byte(c));
+            }
+        }
     }
 
     public static ushort VirtualKey(int keycode, int scancode)
     {
-        if (keycode is >= 'a' and <= 'z') return (ushort)(keycode - 32);
-        if (keycode is >= 'A' and <= 'Z' or >= '0' and <= '9') return (ushort)keycode;
+        if (keycode is >= 'a' and <= 'z')
+        {
+            return (ushort)(keycode - 32);
+        }
+
+        if (keycode is (>= 'A' and <= 'Z') or (>= '0' and <= '9'))
+        {
+            return (ushort)keycode;
+        }
         // SDL scancodes use the USB HID keyboard usage page, independent of layout.
-        if (scancode is >= 58 and <= 69) return (ushort)(0x70 + scancode - 58);
-        if (scancode is >= 104 and <= 115) return (ushort)(0x7C + scancode - 104);
-        if (scancode is >= 89 and <= 97) return (ushort)(0x61 + scancode - 89);
+        if (scancode is >= 58 and <= 69)
+        {
+            return (ushort)(0x70 + scancode - 58);
+        }
+
+        if (scancode is >= 104 and <= 115)
+        {
+            return (ushort)(0x7C + scancode - 104);
+        }
+
+        if (scancode is >= 89 and <= 97)
+        {
+            return (ushort)(0x61 + scancode - 89);
+        }
+
         return scancode switch
         {
             40 or 88 => 0x0D,

@@ -14,10 +14,7 @@ namespace Aow.Game.Events;
 public partial class GameOverEventLog : EventLog
 {
     // EventLog.pas:771
-    public GameOverEventLog(CustomNode owner) : base(owner)
-    {
-        Message = new StringList();
-    }
+    public GameOverEventLog(CustomNode owner) : base(owner) => Message = new StringList();
 
     // EventLog.pas:777
     public new const int ClassId = 131812;
@@ -93,10 +90,7 @@ public partial class GameOverEventLog : EventLog
     }
 
     // EventLog.pas:791
-    public void Handled()
-    {
-        StrategicMap.Current.GameOverEventHandled(Player);
-    }
+    public void Handled() => StrategicMap.Current.GameOverEventHandled(Player);
 
     private static readonly string s_gameOverDefeatEventLogFormat = "%s is defeated!";
     private static readonly string s_gameOverVictoryEventLogFormat = "%s is victorious!";

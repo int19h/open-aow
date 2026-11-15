@@ -44,7 +44,10 @@ public sealed class ConstructionContext
     {
         ArgumentNullException.ThrowIfNull(value);
         if (_finished || _instance is not null)
+        {
             throw new InvalidOperationException("A construction context captures one object once.");
+        }
+
         _instance = value;
     }
 
@@ -56,7 +59,11 @@ public sealed class ConstructionContext
 
     public void Fail()
     {
-        if (_finished) return;
+        if (_finished)
+        {
+            return;
+        }
+
         object? failed = _instance;
         // Release and close before virtual dispatch, including a reentrant or throwing destructor.
         _instance = null;

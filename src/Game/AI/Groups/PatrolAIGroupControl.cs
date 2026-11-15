@@ -58,7 +58,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     {
                         var efficiency = CombatPredictor.GetEfficiency();
                         var data = target.Data;
-                        data.Priority = efficiency + data.Priority * 100;
+                        data.Priority = efficiency + (data.Priority * 100);
                         target.Data = data;
                         base.TargetFoundEvent(sender, target, ref searchDone);
                     }
@@ -90,7 +90,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 State = 1;
                 break;
             case 1:
-                if (((PatrolAIGroup)Group).PatrolTo.X == -1 || ((PatrolAIGroup)Group).PatrolTo.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(((PatrolAIGroup)Group).PatrolTo.X, ((PatrolAIGroup)Group).PatrolTo.Y, Location.X, Location.Y) <= 2)
+                if (((PatrolAIGroup)Group).PatrolTo.X == -1 || (((PatrolAIGroup)Group).PatrolTo.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(((PatrolAIGroup)Group).PatrolTo.X, ((PatrolAIGroup)Group).PatrolTo.Y, Location.X, Location.Y) <= 2))
                 {
                     ResetPatrolToLocation();
                 }
@@ -341,10 +341,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         return result;
     }
 
-    private static int ComparePatrolFields(in DoubleItem<MapField> A, in DoubleItem<MapField> B)
-    {
-        return B.Second - A.Second;
-    }
+    private static int ComparePatrolFields(in DoubleItem<MapField> A, in DoubleItem<MapField> B) => B.Second - A.Second;
 
     private static int PatrolHeadingDistance(int A, int B)
     {

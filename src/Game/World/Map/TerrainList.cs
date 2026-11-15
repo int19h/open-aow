@@ -14,10 +14,7 @@ public partial class TerrainList : IDisposable
     private (sbyte Terrain, sbyte Overlay)[] _list = [];
 
     // HSEngine.pas:1411
-    public virtual void Dispose()
-    {
-        Array.Resize(ref _list, 0);
-    }
+    public virtual void Dispose() => Array.Resize(ref _list, 0);
 
     // HSEngine.pas:1417
     public virtual void Assign(TerrainList source)
@@ -98,7 +95,7 @@ public partial class TerrainList : IDisposable
         ushort result;
         if (index < _count)
         {
-            result = (ushort)((byte)_list[index].Terrain | (byte)_list[index].Overlay << 8);
+            result = (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8));
         }
         else
         {
@@ -128,7 +125,13 @@ public partial class TerrainList : IDisposable
     {
         int count = 0;
         for (int i = 0; i < _count; i++)
-            if (_list[i].Terrain > -1) count++;
+        {
+            if (_list[i].Terrain > -1)
+            {
+                count++;
+            }
+        }
+
         return count;
     }
 
@@ -137,7 +140,13 @@ public partial class TerrainList : IDisposable
     {
         int count = 0;
         for (int i = 0; i < _count; i++)
-            if (_list[i].Overlay > -1) count++;
+        {
+            if (_list[i].Overlay > -1)
+            {
+                count++;
+            }
+        }
+
         return count;
     }
 
@@ -174,7 +183,7 @@ public partial class TerrainList : IDisposable
                 while (walk.HexNumber != 7)
                 {
                     hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);
-                    if (hexNumber >= _count || hexNumber < _count && GetTerrain(hexNumber) < 0)
+                    if (hexNumber >= _count || (hexNumber < _count && GetTerrain(hexNumber) < 0))
                     {
                         if (result.IndexOf((ushort)hexNumber) == -1)
                         {
@@ -253,7 +262,7 @@ public partial class TerrainList : IDisposable
 
     public sealed class UsedAccessor(TerrainList target)
     {
-        public bool this[int index] { get => target.GetUsed(index); }
+        public bool this[int index] => target.GetUsed(index);
     }
 
     public UsedAccessor Used => new UsedAccessor(this);

@@ -9,10 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class PartyJoinDialog : ILayoutModule
 {
-    public void InitializeComponent()
-    {
-        InitializeComponent(LayoutSession.Default);
-    }
+    public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 
     public void InitializeComponent(LayoutSession session)
     {
@@ -789,6 +786,8 @@ public partial class PartyJoinDialog : ILayoutModule
         close.ToolTip = UI.General.ToolTip;
         close.ImageLibraryIcon = UI.Graphics.GenericIcons;
         if (session.FireCreateEvents)
+        {
             LayoutOnCreate?.Invoke(this);
+        }
     }
 }

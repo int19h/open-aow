@@ -45,10 +45,7 @@ public partial class CombatFire : SingleHexSprite
     public override byte GetLevel() => 27;
 
     // CombatFire.pas:70
-    public override void SetVisible(bool value)
-    {
-        base.SetVisible(value);
-    }
+    public override void SetVisible(bool value) => base.SetVisible(value);
 
     // CombatFire.pas:86
     public override int GetShowPriority() => 1811939328;
@@ -97,16 +94,10 @@ public partial class CombatFire : SingleHexSprite
     }
 
     // CombatFire.pas:55
-    public override void Deactivate()
-    {
-        base.Deactivate();
-    }
+    public override void Deactivate() => base.Deactivate();
 
     // CombatFire.pas:75
-    public override void MakeVisible(VisibilityList visibilityList)
-    {
-        base.MakeVisible(visibilityList);
-    }
+    public override void MakeVisible(VisibilityList visibilityList) => base.MakeVisible(visibilityList);
 
     // CombatFire.pas:98
     public void NewTurn()

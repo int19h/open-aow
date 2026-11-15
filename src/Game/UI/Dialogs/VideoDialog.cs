@@ -83,10 +83,7 @@ public partial class VideoDialog : UIModule
     }
 
     // AoWVideoDlg.pas:201
-    public void VideoDialogDestroy()
-    {
-        _displayModes?.Dispose();
-    }
+    public void VideoDialogDestroy() => _displayModes?.Dispose();
 
     // AoWVideoDlg.pas:206
     public void CloseButClick()
@@ -167,9 +164,13 @@ public partial class VideoDialog : UIModule
         var desktop = DesktopSize();
         var sizes = FullscreenSizes() ?? [.. s_fixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
         foreach (var size in sizes)
+        {
             if ((width == 0 || width == size.Width) && (height == 0 || height == size.Height) &&
                 (pixelFormatId == 0 || pixelFormatId == 16 || pixelFormatId == PixelFormats.pfRGB555))
+            {
                 list.Add(size.Width, size.Height, PixelFormats.pfRGB555);
+            }
+        }
     }
 
     internal static void SetSceneSize(VideoDialog dialog, int width, int height)

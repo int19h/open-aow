@@ -71,14 +71,14 @@ public partial class TitleScene : UIModule
         lines = _credits[_creditPage];
         x = surface.Width / 2;
         var count = lines.Count;
-        y = surface.Height / 2 - ((count * 25 + _creditsFont.Height) / 2 + 35);
-        duration = lines.Count * 30 + 20 + 50;
+        y = (surface.Height / 2) - ((((count * 25) + _creditsFont.Height) / 2) + 35);
+        duration = (lines.Count * 30) + 20 + 50;
         if (lines.Count > 0)
         {
             alpha = _creditFrame;
             if (alpha > duration)
             {
-                alpha = 100 - (alpha - duration) * 5;
+                alpha = 100 - ((alpha - duration) * 5);
             }
             else
             {
@@ -104,11 +104,11 @@ public partial class TitleScene : UIModule
             {
                 if (_creditFrame > duration)
                 {
-                    alpha = 100 - (_creditFrame - duration) * 5;
+                    alpha = 100 - ((_creditFrame - duration) * 5);
                 }
                 else
                 {
-                    alpha = (_creditFrame - (i * 30 + 20)) * 10;
+                    alpha = (_creditFrame - ((i * 30) + 20)) * 10;
                 }
 
                 if (alpha > 0)
@@ -117,12 +117,12 @@ public partial class TitleScene : UIModule
                     if (alpha < 100)
                     {
                         var line = lines[i];
-                        _creditsFont.SetText(x, y + i * 25 + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                        _creditsFont.SetText(x, y + (i * 25) + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
                         var line = lines[i];
-                        _creditsFont.SetTextCentered(x, y + i * 25 + 5, line, surface);
+                        _creditsFont.SetTextCentered(x, y + (i * 25) + 5, line, surface);
                     }
                 }
             }
@@ -167,7 +167,7 @@ public partial class TitleScene : UIModule
                 opacity = 100;
                 break;
             case >= 31 and <= 40:
-                opacity = 100 - (frame - 30) * 10;
+                opacity = 100 - ((frame - 30) * 10);
                 break;
             default:
                 opacity = 0;
@@ -194,11 +194,11 @@ public partial class TitleScene : UIModule
                 info.ShowMode = ShowMode.Blended;
                 info.BlendMode = BlendMode.Alpha;
                 info.Blend = opacity;
-                _creditsFont.SetText(x, y - _creditsFont.Height / 2, text, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
             }
             else
             {
-                _creditsFont.SetTextCentered(x, y - _creditsFont.Height / 2, text, surface);
+                _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), text, surface);
             }
         }
 
@@ -211,36 +211,36 @@ public partial class TitleScene : UIModule
                     {
                         var titleSceneImageLibraryHeight = TitleSceneImages[4];
                         var titleSceneImageLibraryWidth = TitleSceneImages[4];
-                        TitleSceneImages[4].Show(x - 75 - titleSceneImageLibraryWidth.Width / 2, y - titleSceneImageLibraryHeight.Height / 2, surface);
+                        TitleSceneImages[4].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
                     }
 
                     if (TitleSceneImages[5] != null)
                     {
                         var titleSceneImageLibraryHeight = TitleSceneImages[5];
                         var titleSceneImageLibraryWidth = TitleSceneImages[5];
-                        TitleSceneImages[5].Show(x + 75 - titleSceneImageLibraryWidth.Width / 2, y - titleSceneImageLibraryHeight.Height / 2, surface);
+                        TitleSceneImages[5].Show(x + 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
                     }
 
                     break;
                 case 1:
                     var northAmerica = UI.Engine.TranslateResourceString(s_northAmericaText);
                     var titleSceneImageLibrary = TitleSceneImages[6];
-                    _creditsFont.SetTextCentered(x - 75, y - titleSceneImageLibrary.Height / 2 - 20, northAmerica, surface);
+                    _creditsFont.SetTextCentered(x - 75, y - (titleSceneImageLibrary.Height / 2) - 20, northAmerica, surface);
                     var europe = UI.Engine.TranslateResourceString(s_europeText);
                     var titleSceneImageLibrary2 = TitleSceneImages[6];
-                    _creditsFont.SetTextCentered(x + 75 + 15, y - titleSceneImageLibrary2.Height / 2 - 20, europe, surface);
+                    _creditsFont.SetTextCentered(x + 75 + 15, y - (titleSceneImageLibrary2.Height / 2) - 20, europe, surface);
                     if (TitleSceneImages[6] != null)
                     {
                         var titleSceneImageLibraryHeight = TitleSceneImages[6];
                         var titleSceneImageLibraryWidth = TitleSceneImages[6];
-                        TitleSceneImages[6].Show(x - 75 - titleSceneImageLibraryWidth.Width / 2, y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
+                        TitleSceneImages[6].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
                     }
 
                     if (TitleSceneImages[2] != null)
                     {
                         var titleSceneImageLibraryHeight = TitleSceneImages[2];
                         var titleSceneImageLibraryWidth = TitleSceneImages[2];
-                        TitleSceneImages[2].Show(x + 75 + 15 - titleSceneImageLibraryWidth.Width / 2, y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
+                        TitleSceneImages[2].Show(x + 75 + 15 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
                     }
 
                     break;
@@ -251,7 +251,7 @@ public partial class TitleScene : UIModule
                             opacity = (frame - 45) * 10;
                             break;
                         case >= 121 and <= 130:
-                            opacity = 100 - (frame - 120) * 10;
+                            opacity = 100 - ((frame - 120) * 10);
                             break;
                         default:
                             opacity = 101;
@@ -263,11 +263,11 @@ public partial class TitleScene : UIModule
                         info.ShowMode = ShowMode.Blended;
                         info.BlendMode = BlendMode.Alpha;
                         info.Blend = opacity;
-                        _creditsFont.SetText(x, y - _creditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                        _creditsFont.SetText(x, y - (_creditsFont.Height / 2), "Copyright (C) 1999,2000 Triumph Studios", surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
-                        _creditsFont.SetTextCentered(x, y - _creditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface);
+                        _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), "Copyright (C) 1999,2000 Triumph Studios", surface);
                     }
 
                     break;
@@ -291,7 +291,7 @@ public partial class TitleScene : UIModule
         Rect r;
         _sceneRectangle.Left = 0;
         _sceneRectangle.Right = surface.Width;
-        _sceneRectangle.Top = surface.Height / 2 - 240;
+        _sceneRectangle.Top = (surface.Height / 2) - 240;
         _sceneRectangle.Bottom = _sceneRectangle.Top + 480;
         if (_redrawBackground)
         {
@@ -344,7 +344,7 @@ public partial class TitleScene : UIModule
         }
 
         spacing = 120;
-        x = (TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2 - 320;
+        x = ((TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2) - 320;
         for (int i = 0; i <= 4; i++)
         {
             if (i == _pressedButton && i == HitTest())
@@ -363,18 +363,18 @@ public partial class TitleScene : UIModule
                 }
             }
 
-            TitleSceneImages[i * 3 + 10 + image].Show(x + spacing * i, y + 355, surface);
+            TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, surface);
             if (i == HitTest())
             {
                 _font.Color = 16777215;
                 var translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
                 var titleSceneImageLibrary = TitleSceneImages[10];
-                _font.SetTextCentered(x + spacing * i + titleSceneImageLibrary.Width / 2, y + 445, translatedText, surface);
+                _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, translatedText, surface);
             }
 
             if (UI.Engine.AnimationDetail == 2)
             {
-                TitleSceneImages[25].Show(x + spacing * i, y + 355, surface);
+                TitleSceneImages[25].Show(x + (spacing * i), y + 355, surface);
             }
         }
 
@@ -390,10 +390,7 @@ public partial class TitleScene : UIModule
     }
 
     // AoWTitleScene.pas:261
-    public void HideScene()
-    {
-        Window.Visible = false;
-    }
+    public void HideScene() => Window.Visible = false;
 
     // AoWTitleScene.pas:266
     public void ResetScene()
@@ -436,13 +433,13 @@ public partial class TitleScene : UIModule
         if (_sceneRectangle.Bottom - 125 < _mouseY && _mouseY < _sceneRectangle.Bottom)
         {
             spacing = 120;
-            x = (TitleSceneImages[10].Width + (_sceneRectangle.Left + _sceneRectangle.Right)) / 2 - 320;
+            x = ((TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2) - 320;
             result = 5;
             found = false;
             while (result != 0 && !found)
             {
                 result -= 1;
-                found = spacing * result + x < _mouseX && TitleSceneImages[10].Width + x + spacing * result > _mouseX;
+                found = (spacing * result) + x < _mouseX && TitleSceneImages[10].Width + x + (spacing * result) > _mouseX;
             }
 
             if (!found)

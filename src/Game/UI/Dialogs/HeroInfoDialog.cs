@@ -73,7 +73,7 @@ public partial class HeroInfoDialog : UIModule
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
             info = default;
@@ -83,7 +83,7 @@ public partial class HeroInfoDialog : UIModule
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -158,10 +158,7 @@ public partial class HeroInfoDialog : UIModule
     }
 
     // AoWHeroInfoDlg.pas:203
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWHeroInfoDlg.pas:208
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

@@ -17,10 +17,7 @@ public partial class BlendTable5Bit : BlendTable
     public ReadOnlySpan<byte> Bytes => Table;
 
     // GFXE.pas:9609
-    public BlendTable5Bit()
-    {
-        Initialize(5, new byte[32 * 32]);
-    }
+    public BlendTable5Bit() => Initialize(5, new byte[32 * 32]);
 
     // GFXE.pas:9621
     public override BlendTable Copy()

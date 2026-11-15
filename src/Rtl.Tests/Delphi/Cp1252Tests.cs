@@ -61,7 +61,9 @@ public sealed class Cp1252Tests
     {
         var inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
         for (int c = 0; c <= char.MaxValue; c++)
+        {
             Assert.Equal(inverse.GetValueOrDefault((char)c, (byte)63), Cp1252.Byte((char)c));
+        }
     }
 
     [Fact]
@@ -69,8 +71,13 @@ public sealed class Cp1252Tests
     {
         using var mode = new StringMode(false);
         for (int a = 0; a < 256; a++)
+        {
             for (int b = 0; b < 256; b++)
+            {
                 Assert.Equal(a - b, Cp1252.Compare(Cp1252.Text((byte)a), Cp1252.Text((byte)b)));
+            }
+        }
+
         Assert.Equal(-2, Cp1252.Compare("a", "abc"));
         Assert.Equal(1, Cp1252.Compare("a\0c", "a\0b"));
         Assert.Equal(-127, Cp1252.Compare("\u20ac", "\u00ff"));
@@ -91,7 +98,11 @@ public sealed class Cp1252Tests
             {
                 var bytes = new byte[length];
                 random.NextBytes(bytes);
-                if (length > 0) bytes[length / 2] = 0;
+                if (length > 0)
+                {
+                    bytes[length / 2] = 0;
+                }
+
                 string text = Cp1252.Decode(bytes);
                 Assert.Equal(length, text.Length);
                 Assert.Equal(bytes, Cp1252.Encode(text));
@@ -195,10 +206,16 @@ public sealed class Cp1252Tests
             ((Func<string?, string?, int>)RtlUnit.CompareStr, (Func<string, string, int>)RtlUnit.CompareStr),
             (RtlUnit.CompareText, RtlUnit.CompareText), (RtlUnit.AnsiCompareStr, RtlUnit.AnsiCompareStr),
             (RtlUnit.AnsiCompareText, RtlUnit.AnsiCompareText) })
+        {
             for (int a = 0; a < 256; a++)
+            {
                 for (int b = 0; b < 256; b++)
+                {
                     Assert.Equal(byteCompare(Cp1252.Text((byte)a), Cp1252.Text((byte)b)),
                         textCompare(ExpectedChar((byte)a).ToString(), ExpectedChar((byte)b).ToString()));
+                }
+            }
+        }
     }
 
     [Fact]
@@ -208,7 +225,11 @@ public sealed class Cp1252Tests
         for (int i = 0; i <= char.MaxValue; i++)
         {
             char c = (char)i;
-            if (mapped.Contains(c)) continue;
+            if (mapped.Contains(c))
+            {
+                continue;
+            }
+
             string text = c.ToString();
             Assert.Equal(text, RtlUnit.UpperCase(text));
             Assert.Equal(text, RtlUnit.LowerCase(text));
@@ -221,11 +242,15 @@ public sealed class Cp1252Tests
                 Assert.Equal(255 - 256 - c, compare("\u00ff", text));
                 Assert.Equal(0, compare(text, text));
                 if (i < char.MaxValue && !mapped.Contains((char)(i + 1)))
+                {
                     Assert.Equal(-1, compare(text, ((char)(i + 1)).ToString()));
+                }
             }
         }
         foreach (char c in mapped)
+        {
             Assert.True(Cp1252.Compare(c.ToString(), "\u0080") < 0);
+        }
     }
 
     [Fact]
@@ -240,7 +265,10 @@ public sealed class Cp1252Tests
             for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
             {
                 int difference = Key(a[i]) - Key(b[i]);
-                if (difference != 0) return difference;
+                if (difference != 0)
+                {
+                    return difference;
+                }
             }
             return a.Length - b.Length;
         }
@@ -255,7 +283,10 @@ public sealed class Cp1252Tests
             Assert.Equal(order, RtlUnit.CompareStr(a, b));
             Assert.Equal(order, Cp1252.Comparer.Compare(a, b));
             Assert.Equal(-order, Cp1252.Compare(b, a));
-            if (order <= 0 && Cp1252.Compare(b, c) <= 0) Assert.True(Cp1252.Compare(a, c) <= 0);
+            if (order <= 0 && Cp1252.Compare(b, c) <= 0)
+            {
+                Assert.True(Cp1252.Compare(a, c) <= 0);
+            }
         }
         string[] values = ["\u0080", "?", "\u20ac", "\u00ff", "\u2603", "\u0081", "\ud800", "\0"];
         Assert.Equal(actual: values.Order(Cp1252.Comparer).ToArray(), expected: new[] { "\0", "?", "\u20ac", "\u0081", "\u00ff", "\u0080", "\u2603", "\ud800" });

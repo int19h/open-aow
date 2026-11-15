@@ -49,16 +49,10 @@ public partial class SoundDialog : UIModule
     }
 
     // AoWSoundDlg.pas:114
-    public void MusicVolumeChange()
-    {
-        AudioPlayback.SetMusicVolume(MusicVolumeSlider.Position);
-    }
+    public void MusicVolumeChange() => AudioPlayback.SetMusicVolume(MusicVolumeSlider.Position);
 
     // AoWSoundDlg.pas:119
-    public void SFXVolumeChange()
-    {
-        AudioPlayback.SetSfxVolume(EffectsVolumeSlider.Position);
-    }
+    public void SFXVolumeChange() => AudioPlayback.SetSfxVolume(EffectsVolumeSlider.Position);
 
     // AoWSoundDlg.pas:124
     public void RemoveBtnClick()
@@ -190,16 +184,10 @@ public partial class SoundDialog : UIModule
     }
 
     // AoWSoundDlg.pas:218
-    public void SoundDialogCreate()
-    {
-        s_songFiles = new StringList();
-    }
+    public void SoundDialogCreate() => s_songFiles = new StringList();
 
     // AoWSoundDlg.pas:223
-    public void SoundDialogDestroy()
-    {
-        s_songFiles?.Dispose();
-    }
+    public void SoundDialogDestroy() => s_songFiles?.Dispose();
 
     // AoWSoundDlg.pas:228
     public void PlayLBChange()
@@ -417,10 +405,7 @@ public partial class SoundDialog : UIModule
     }
 
     // AoWSoundDlg.pas:347
-    public void SoundTabChange()
-    {
-        UI.General.PlayButtonSound(0);
-    }
+    public void SoundTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWSoundDlg.pas:352
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

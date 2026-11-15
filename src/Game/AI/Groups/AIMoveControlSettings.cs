@@ -98,19 +98,13 @@ public partial class AIMoveControlSettings : EngineObject
     }
 
     // AIGroup.pas:3887
-    public void SetSourcePosition(MapCoordinate source)
-    {
-        Source = source;
-    }
+    public void SetSourcePosition(MapCoordinate source) => Source = source;
 
     public void SetSourcePosition(int x, int y, int level) =>
         SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // AIGroup.pas:3894
-    public void SetDestinationPosition(MapCoordinate destination)
-    {
-        Destination = destination;
-    }
+    public void SetDestinationPosition(MapCoordinate destination) => Destination = destination;
 
     public void SetDestinationPosition(int x, int y, int level) =>
         SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));

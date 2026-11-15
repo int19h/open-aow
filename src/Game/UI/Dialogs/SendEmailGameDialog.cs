@@ -77,10 +77,7 @@ public partial class SendEmailGameDialog : UIModule
     }
 
     // AoWSendEmailGameDlg.pas:102
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWSendEmailGameDlg.pas:107
     public void OKBtnClick()
@@ -106,10 +103,7 @@ public partial class SendEmailGameDialog : UIModule
     }
 
     // AoWSendEmailGameDlg.pas:120
-    public void EmailAddressEditChange()
-    {
-        StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
-    }
+    public void EmailAddressEditChange() => StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
 
     // AoWSendEmailGameDlg.pas:125
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

@@ -37,7 +37,11 @@ public class DelphiList<T> : IDisposable where T : class
     // CLASSES.PAS TList.Add.
     public int Add(T? item)
     {
-        if (count == Capacity) Grow();
+        if (count == Capacity)
+        {
+            Grow();
+        }
+
         items[count] = item;
         return count++;
     }
@@ -46,7 +50,11 @@ public class DelphiList<T> : IDisposable where T : class
     public void Insert(int index, T? item)
     {
         DelphiListCore.CheckInsert(index, count);
-        if (count == Capacity) Grow();
+        if (count == Capacity)
+        {
+            Grow();
+        }
+
         DelphiListCore.InsertAt(items, ref count, index, item);
     }
 
@@ -65,7 +73,11 @@ public class DelphiList<T> : IDisposable where T : class
     // CLASSES.PAS TList.Move.
     public void Move(int current, int target)
     {
-        if (current == target) return;
+        if (current == target)
+        {
+            return;
+        }
+
         DelphiListCore.Check(target, count);
         T? item = this[current];
         Delete(current);
@@ -85,7 +97,11 @@ public class DelphiList<T> : IDisposable where T : class
     // CLASSES.PAS TList.Expand.
     public DelphiList<T> Expand()
     {
-        if (count == Capacity) Grow();
+        if (count == Capacity)
+        {
+            Grow();
+        }
+
         return this;
     }
 
@@ -123,5 +139,5 @@ public class DelphiList<T> : IDisposable where T : class
     }
 
     // CLASSES.PAS TList.Destroy.
-    public virtual void Dispose() { Clear(); }
+    public virtual void Dispose() => Clear();
 }

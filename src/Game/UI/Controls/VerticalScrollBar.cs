@@ -290,7 +290,7 @@ public partial class VerticalScrollBar : ScrollBar
                             if (condition)
                             {
                                 var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                TrackClickTarget = (Y - Window.WinTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((Y - Window.WinTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength) + Min;
                                 HeldPart = 2;
                                 SetPositionUnclamped(Position - LargeChange);
                                 if (Min > Position)
@@ -313,7 +313,7 @@ public partial class VerticalScrollBar : ScrollBar
                             if (test)
                             {
                                 var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                TrackClickTarget = (Y - Window.WinTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((Y - Window.WinTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength) + Min;
                                 HeldPart = 3;
                                 SetPositionUnclamped(Position + LargeChange);
                                 if (Max + 1 - NumberVisible < Position)
@@ -334,7 +334,7 @@ public partial class VerticalScrollBar : ScrollBar
                         case Style.Slider:
                             if (Y > Window.WinTop + WinTop && Y < Window.WinTop + WinTop + thumbPosition)
                             {
-                                TrackClickTarget = (Y - Window.WinTop - WinTop) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((Y - Window.WinTop - WinTop) * PositionCount / TrackLength) + Min;
                                 HeldPart = 2;
                                 SetPositionUnclamped(Position - LargeChange);
                                 if (Min > Position)
@@ -348,7 +348,7 @@ public partial class VerticalScrollBar : ScrollBar
 
                             if (Y > Window.WinTop + WinTop + thumbPosition + ThumbLength && Y < Window.WinTop + WinTop + WinHeight)
                             {
-                                TrackClickTarget = (Y - Window.WinTop - WinTop) * PositionCount / TrackLength + Min;
+                                TrackClickTarget = ((Y - Window.WinTop - WinTop) * PositionCount / TrackLength) + Min;
                                 HeldPart = 3;
                                 SetPositionUnclamped(Position + LargeChange);
                                 if (Max + 1 - NumberVisible < Position)
@@ -400,7 +400,7 @@ public partial class VerticalScrollBar : ScrollBar
         Handled = false;
         if (HeldPart == 5 && HeldUpdateCount > 0)
         {
-            SetPositionUnclamped((Y - TrackClickTarget) * PositionCount / TrackLength + Min);
+            SetPositionUnclamped(((Y - TrackClickTarget) * PositionCount / TrackLength) + Min);
             if (Position < Min)
             {
                 SetPositionUnclamped(Min);

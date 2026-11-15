@@ -97,7 +97,7 @@ public partial class HeroJoinDialog : UIModule
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 var image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
             info = default;
@@ -107,7 +107,7 @@ public partial class HeroJoinDialog : UIModule
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
                 var image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - image.Width / 2, y - image.Height / 2, surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -115,16 +115,10 @@ public partial class HeroJoinDialog : UIModule
     }
 
     // AoWHeroJoinDlg.pas:122
-    public void HeroJoinDialogCreate()
-    {
-        _units = new UnitUserList(null) { Holder = UI.Engine };
-    }
+    public void HeroJoinDialogCreate() => _units = new UnitUserList(null) { Holder = UI.Engine };
 
     // AoWHeroJoinDlg.pas:127
-    public void HeroJoinDialogDestroy()
-    {
-        _units?.Dispose();
-    }
+    public void HeroJoinDialogDestroy() => _units?.Dispose();
 
     // AoWHeroJoinDlg.pas:132
     public void LeftBtnClick()
@@ -225,10 +219,7 @@ public partial class HeroJoinDialog : UIModule
     }
 
     // AoWHeroJoinDlg.pas:211
-    public void DlgHide()
-    {
-        FinishDialog();
-    }
+    public void DlgHide() => FinishDialog();
 
     // AoWHeroJoinDlg.pas:216
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)

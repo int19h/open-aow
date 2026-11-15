@@ -48,10 +48,7 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     }
 
     // Hero.PAS:1
-    public HeroUpgradeTokenEvent(CustomNode owner) : base(owner)
-    {
-        Abilities = new AbilityOwner(null) { Holder = CreationHolder() };
-    }
+    public HeroUpgradeTokenEvent(CustomNode owner) : base(owner) => Abilities = new AbilityOwner(null) { Holder = CreationHolder() };
 
     // Hero.PAS:30
     public override ExecuteResult Execute(TokenExecutor tokenEvent)

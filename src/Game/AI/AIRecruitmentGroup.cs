@@ -18,10 +18,7 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
     void IOwnedSink<AIRecruitmentGroupList>.SetOwner(AIRecruitmentGroupList owner) => SetOwner(owner);
 
     // AIGroup.pas:750
-    public AIRecruitmentGroup(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-    }
+    public AIRecruitmentGroup(CustomNode owner) : base(owner) => _refCount = 1;
 
     private int _refCount;
 

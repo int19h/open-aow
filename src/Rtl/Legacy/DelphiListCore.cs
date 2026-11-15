@@ -30,25 +30,47 @@ internal static class DelphiListCore
 
     internal static void Check(int index, int count)
     {
-        if (index < 0 || index >= count) Error("List index out of bounds (%d)", index);
+        if (index < 0 || index >= count)
+        {
+            Error("List index out of bounds (%d)", index);
+        }
     }
 
     internal static void CheckInsert(int index, int count)
     {
-        if (index < 0 || index > count) Error("List index out of bounds (%d)", index);
+        if (index < 0 || index > count)
+        {
+            Error("List index out of bounds (%d)", index);
+        }
     }
 
     internal static void SetCount<T>(ref T[] items, ref int count, int value)
     {
-        if (value < 0 || value > 134217727) Error("List count out of bounds (%d)", value);
-        if (value > items.Length) SetCapacity(ref items, count, value);
-        if (value > count) Array.Clear(items, count, value - count);
+        if (value < 0 || value > 134217727)
+        {
+            Error("List count out of bounds (%d)", value);
+        }
+
+        if (value > items.Length)
+        {
+            SetCapacity(ref items, count, value);
+        }
+
+        if (value > count)
+        {
+            Array.Clear(items, count, value - count);
+        }
+
         count = value;
     }
 
     internal static void SetCapacity<T>(ref T[] items, int count, int value)
     {
-        if (value < count || value > 134217727) Error("List capacity out of bounds (%d)", value);
+        if (value < count || value > 134217727)
+        {
+            Error("List capacity out of bounds (%d)", value);
+        }
+
         Array.Resize(ref items, value);
     }
 
@@ -68,20 +90,30 @@ internal static class DelphiListCore
     }
 
     internal static bool Same(object? left, object? right) =>
-        ReferenceEquals(left, right) || left is IPointerBox leftBox && right is IPointerBox rightBox &&
-        ReferenceEquals(leftBox.StorageIdentity, rightBox.StorageIdentity) && leftBox.ByteIndex == rightBox.ByteIndex;
+        ReferenceEquals(left, right) || (left is IPointerBox leftBox && right is IPointerBox rightBox &&
+        ReferenceEquals(leftBox.StorageIdentity, rightBox.StorageIdentity) && leftBox.ByteIndex == rightBox.ByteIndex);
 
     internal static int IndexOf<T>(T[] items, int count, T item)
     {
         for (int i = 0; i < count; i++)
-            if (Same(items[i], item)) return i;
+        {
+            if (Same(items[i], item))
+            {
+                return i;
+            }
+        }
+
         return -1;
     }
 
     internal static int Remove<T>(T[] items, ref int count, T item)
     {
         int index = IndexOf(items, count, item);
-        if (index >= 0) Delete(items, ref count, index);
+        if (index >= 0)
+        {
+            Delete(items, ref count, index);
+        }
+
         return index;
     }
 
@@ -95,13 +127,21 @@ internal static class DelphiListCore
     internal static void Pack<T>(T[] items, ref int count)
     {
         for (int i = count - 1; i >= 0; i--)
-            if (items[i] is null) Delete(items, ref count, i);
+        {
+            if (items[i] is null)
+            {
+                Delete(items, ref count, i);
+            }
+        }
     }
 
     internal static void Sort<T>(T?[] items, int count, ListSortCompare<T> compare)
         where T : class
     {
-        if (count > 0) QuickSort(items, 0, count - 1, new TypedCompare<T>(compare));
+        if (count > 0)
+        {
+            QuickSort(items, 0, count - 1, new TypedCompare<T>(compare));
+        }
     }
 
     internal static void SortStable<T>(T?[] items, int count, ListSortCompare<T> compare)
@@ -112,7 +152,10 @@ internal static class DelphiListCore
         where T : class
         where TItem : class, T
     {
-        if (count > 0) QuickSort(items, 0, count - 1, new NarrowCompare<T, TItem>(compare));
+        if (count > 0)
+        {
+            QuickSort(items, 0, count - 1, new NarrowCompare<T, TItem>(compare));
+        }
     }
 
     internal static void SortStableAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
@@ -149,8 +192,16 @@ internal static class DelphiListCore
             T pivot = items[(left + right) >> 1];
             do
             {
-                while (compare.Compare(items[i], pivot) < 0) i++;
-                while (compare.Compare(items[j], pivot) > 0) j--;
+                while (compare.Compare(items[i], pivot) < 0)
+                {
+                    i++;
+                }
+
+                while (compare.Compare(items[j], pivot) > 0)
+                {
+                    j--;
+                }
+
                 if (i <= j)
                 {
                     (items[i], items[j]) = (items[j], items[i]);
@@ -159,7 +210,11 @@ internal static class DelphiListCore
                 }
             }
             while (i <= j);
-            if (left < j) QuickSort(items, left, j, compare);
+            if (left < j)
+            {
+                QuickSort(items, left, j, compare);
+            }
+
             left = i;
         }
         while (i < right);

@@ -61,10 +61,7 @@ public partial class PestilenceStorm : Storm
     }
 
     // Storms.pas:725
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
-    {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType.Pestilence, X, Y, L, 0, 2, out info);
-    }
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType.Pestilence, X, Y, L, 0, 2, out info);
 
     // Storms.pas:716
     public override void UpdateTargetSelection(TargetSelectionControl selection)
@@ -141,10 +138,7 @@ public partial class PestilenceStorm : Storm
     }
 
     // Storms.pas:685
-    public override void FinalizeStorm()
-    {
-        base.FinalizeStorm();
-    }
+    public override void FinalizeStorm() => base.FinalizeStorm();
 
     // Animation.pas:43
 

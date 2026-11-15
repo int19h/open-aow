@@ -12,10 +12,7 @@ public partial class SpellCaster : EngineObject
 {
 
     // Spells.PAS:748
-    public SpellCaster(CustomNode owner) : base(owner)
-    {
-        _casterRefCount = 1;
-    }
+    public SpellCaster(CustomNode owner) : base(owner) => _casterRefCount = 1;
 
     public int CasterSpellId { get; set; }
     public int CasterSourceId { get; set; }

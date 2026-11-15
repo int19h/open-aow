@@ -21,10 +21,7 @@ public partial class SongPlayer : IDisposable
     private int _pauseCount;
 
     // Sound.pas:870
-    internal void SetSongs(StringList value)
-    {
-        _songs.Assign(value);
-    }
+    internal void SetSongs(StringList value) => _songs.Assign(value);
 
     // Sound.pas:875
     internal void SongsChanged(object sender)
@@ -255,11 +252,11 @@ public partial class SongPlayer : IDisposable
         return true;
     }
 
-    public string CurrentSong { get => _currentSong; }
-    public Set<StatusElement> Status { get => _status; }
+    public string CurrentSong => _currentSong;
+    public Set<StatusElement> Status => _status;
     public StringList Songs { get => _songs; set => SetSongs(value); }
-    public StringList SongNames { get => _songNames; }
-    public int CurrentIndex { get => _currentIndex; }
+    public StringList SongNames => _songNames;
+    public int CurrentIndex => _currentIndex;
 
     public enum StatusElement : byte
     {
