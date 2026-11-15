@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class CosmeticSurgery : UnitSpell
 {
     // UnitSpells.pas:901
-    public CosmeticSurgery(ECustomNode owner, EngineObject holder) : base(owner)
+    public CosmeticSurgery(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_deformFaceText);

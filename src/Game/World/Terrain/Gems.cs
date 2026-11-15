@@ -19,7 +19,7 @@ namespace Aow.Game.World.Terrain;
 // Amount, GenerateMode
 public partial class Gems : ImageLibraryTerrainMapObject
 {
-    public Gems(ECustomNode owner) : base(owner)
+    public Gems(CustomNode owner) : base(owner)
     {
         _generateMode = GemsGenerateMode.Normal;
         _amount = 0;
@@ -159,7 +159,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Gems.pas:137

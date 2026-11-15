@@ -11,7 +11,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class IsometricCombatHex : UpperIsometricHex
 {
-    public IsometricCombatHex(ECustomNode owner) : base(owner)
+    public IsometricCombatHex(CustomNode owner) : base(owner)
     { }
 
     // IsoCombatHex.pas:40
@@ -149,7 +149,7 @@ public partial class IsometricCombatHex : UpperIsometricHex
 
     public new partial class Resource : UpperIsometricHex.Resource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // IsoCombatHex.pas:108

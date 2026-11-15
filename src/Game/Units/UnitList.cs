@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited FChildren, UpdateCount
-public partial class UnitList : EChangeNotifyNode, IChildList<Troop>, IUnitHolder
+public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
 {
     // The troop in slot index, without a range check.
     public Troop this[int index] => Units[index];
@@ -27,7 +27,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>, IUnitHolde
 
     int IChildSink<Troop>.AddChild(Troop child) => AddChild(child);
 
-    public UnitList(ECustomNode owner) : base(owner)
+    public UnitList(CustomNode owner) : base(owner)
     { }
 
     /// <summary>The troops of this list.</summary>

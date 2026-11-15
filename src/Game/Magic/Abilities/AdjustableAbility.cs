@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class AdjustableAbility : Ability
 {
 
-    public AdjustableAbility(ECustomNode owner) : base(owner)
+    public AdjustableAbility(CustomNode owner) : base(owner)
     {
     }
 

@@ -5,7 +5,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class GroupControl : EngineObject
 {
-    public GroupControl(ECustomNode owner) : base(owner)
+    public GroupControl(CustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:1565

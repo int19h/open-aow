@@ -11,7 +11,7 @@ namespace Aow.Game.World;
 // TriggerMode, TriggerPlayers (player 1 is bit 0)
 public partial class FlagEvent : MapObject
 {
-    public FlagEvent(ECustomNode owner) : base(owner)
+    public FlagEvent(CustomNode owner) : base(owner)
     { }
 
     public FlagEventTriggerMode TriggerMode { get; private set; }

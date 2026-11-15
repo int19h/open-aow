@@ -11,7 +11,7 @@ namespace Aow.Game.Commands;
 
 public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public LevelTerrainTokenEvent(ECustomNode owner) : base(owner)
+    public LevelTerrainTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalTargetSpells.pas:940

@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class AltarOfDeath : Altar
 {
-    public AltarOfDeath(ECustomNode owner) : base(owner)
+    public AltarOfDeath(CustomNode owner) : base(owner)
     { }
 
     // AltDeath.pas:36
@@ -18,7 +18,7 @@ public partial class AltarOfDeath : Altar
 
     public new partial class Resource : AltarResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
         }
 

@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 
 public partial class ConstructStructureTokenEvent : TokenEvent
 {
-    public ConstructStructureTokenEvent(ECustomNode owner) : base(owner)
+    public ConstructStructureTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135962;
@@ -47,7 +47,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
         string text = "";
         int gold = default;
         int days = default;
-        EChangeNotifyNode owner;
+        ObservableNode owner;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
@@ -77,11 +77,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
 
                 bool locked = troop.Owner is not IHeroHolder;
                 owner = locked ? troop.OwnerUnits.Holder : null;
-                if (locked)
-                {
-                    owner.BeginUpdate();
-                }
-
+                using var batch = locked ? owner.BeginUpdate() : default;
                 structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L);
                 if (structure != null)
                 {
@@ -91,11 +87,6 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
                     result = ExecuteResult.Done;
-                }
-
-                if (locked)
-                {
-                    owner.EndUpdate();
                 }
             }
         }

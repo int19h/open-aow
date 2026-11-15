@@ -11,7 +11,7 @@ public partial class GuardAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136275;
 
     // IndependentAG.pas:137
-    public GuardAIGroup(ECustomNode owner) : base(owner)
+    public GuardAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 1;
         RecruitmentPriority = 2;

@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 // mode, player, enchantment ID, value
 public partial class ChangeGlobalMagicTokenEvent : TokenEvent
 {
-    public ChangeGlobalMagicTokenEvent(ECustomNode owner) : base(owner)
+    public ChangeGlobalMagicTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135446;

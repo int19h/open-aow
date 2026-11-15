@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 public partial class GameOverEventLog : EventLog
 {
     // EventLog.pas:771
-    public GameOverEventLog(ECustomNode owner) : base(owner)
+    public GameOverEventLog(CustomNode owner) : base(owner)
     {
         Message = new StringList();
     }

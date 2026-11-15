@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 
 public partial class CombatObstacleShadow : HexSprite
 {
-    public CombatObstacleShadow(ECustomNode owner) : base(owner)
+    public CombatObstacleShadow(CustomNode owner) : base(owner)
     { }
 
     public CombatObstacle Obstacle { get; set; }

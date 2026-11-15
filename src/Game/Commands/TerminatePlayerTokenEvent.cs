@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 
 public partial class TerminatePlayerTokenEvent : TokenEvent
 {
-    public TerminatePlayerTokenEvent(ECustomNode owner) : base(owner)
+    public TerminatePlayerTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131836;

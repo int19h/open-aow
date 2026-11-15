@@ -16,7 +16,7 @@ namespace Aow.Game.AI;
 
 public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
-    public ResearchSpellAIPlayerAction(ECustomNode owner) : base(owner)
+    public ResearchSpellAIPlayerAction(CustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:1504

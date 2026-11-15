@@ -18,7 +18,7 @@ namespace Aow.Game.World;
 // Enchantment
 public partial class SmokeCloud : MultiHexMapObject
 {
-    public SmokeCloud(ECustomNode owner) : base(owner)
+    public SmokeCloud(CustomNode owner) : base(owner)
     {
         Enchantment = new SmokeCloudEnchantment(null) { Holder = CreationHolder() };
         Enchantment.Cloud = this;
@@ -340,7 +340,7 @@ public partial class SmokeCloud : MultiHexMapObject
 
     public new partial class Resource : MultiHexMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // SmokeCloud.pas:385

@@ -16,7 +16,7 @@ public partial class BehaviorAIGroupControl : AIGroupControl
     }
 
     // BehaviorAG.pas:144
-    public BehaviorAIGroupControl(ECustomNode owner) : base(owner)
+    public BehaviorAIGroupControl(CustomNode owner) : base(owner)
     {
         TargetSelector = new AIGroupTargetSelector(null) { Holder = CreationHolder() };
     }

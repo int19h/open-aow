@@ -27,7 +27,7 @@ public partial class Spell : EngineObject
 {
 
     // Spells.PAS:10
-    public Spell(ECustomNode owner) : base(owner)
+    public Spell(CustomNode owner) : base(owner)
     {
         SpellText = new StringList();
         CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };

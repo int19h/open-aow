@@ -11,7 +11,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class ShipyardConstructionControl : StructureConstructionControl
 {
-    public ShipyardConstructionControl(ECustomNode owner) : base(owner)
+    public ShipyardConstructionControl(CustomNode owner) : base(owner)
     { }
 
     // Shipyard.pas:93

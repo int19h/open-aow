@@ -8,7 +8,7 @@ namespace Aow.Game;
 /// A child of the engine: its control node, its sprite set or one of its maps. The engine takes
 /// no other child, so a read of a child slot is one of these or empty.
 /// </summary>
-public union GameEngineChild(EControlStyleNode, GamePack, GameMap)
+public union GameEngineChild(ControlStyleNode, GamePack, GameMap)
 {
     /// <summary>
     /// The child an engine slot holds, read from the untyped storage. The engine admits only
@@ -17,7 +17,7 @@ public union GameEngineChild(EControlStyleNode, GamePack, GameMap)
     internal static GameEngineChild Of(object child) => child switch
     {
         null => default,
-        EControlStyleNode node => node,
+        ControlStyleNode node => node,
         GamePack set => set,
         GameMap map => map,
         _ => throw new InvalidCastException("An engine does not hold a child of type " + child.GetType().Name + "."),

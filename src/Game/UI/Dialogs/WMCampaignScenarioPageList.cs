@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class WMCampaignScenarioPageList : ENode, IChildList<CampaignScenarioPage>
+public partial class WMCampaignScenarioPageList : OwningNode, IChildList<CampaignScenarioPage>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenarioPage, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class WMCampaignScenarioPageList : ENode, IChildList<CampaignScen
 
     int IChildSink<CampaignScenarioPage>.AddChild(CampaignScenarioPage child) => AddChild(child);
 
-    public WMCampaignScenarioPageList(ECustomNode owner) : base(owner)
+    public WMCampaignScenarioPageList(CustomNode owner) : base(owner)
     { }
 
 }

@@ -10,7 +10,7 @@ public partial class DiplomaticRelationHistoryItem : EngineObject
 {
     public new const int ClassId = 131354;
 
-    public DiplomaticRelationHistoryItem(ECustomNode owner) : base(owner)
+    public DiplomaticRelationHistoryItem(CustomNode owner) : base(owner)
     { }
 
     public int Day { get; set; }

@@ -5,7 +5,7 @@ namespace Aow.Game.Events;
 
 public partial class EndTurnEventLog : EventLog
 {
-    public EndTurnEventLog(ECustomNode owner) : base(owner)
+    public EndTurnEventLog(CustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:753

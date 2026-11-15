@@ -9,7 +9,7 @@ public partial class UnitProduction : EngineObject
 {
     public new const int ClassId = 131737;
 
-    public UnitProduction(ECustomNode owner) : base(owner)
+    public UnitProduction(CustomNode owner) : base(owner)
     { }
 
     public int UnitIndex { get; set; }

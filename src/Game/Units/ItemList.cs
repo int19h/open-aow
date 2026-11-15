@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, update lock. change event
-public partial class ItemList : EChangeNotifyNode, IChildList<Item>, IItemHolder
+public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this list.</summary>
     public ItemCollection Items => new(this);
@@ -26,7 +26,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>, IItemHolder
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
     // Army.PAS:4516
-    public ItemList(ECustomNode owner) : base(owner)
+    public ItemList(CustomNode owner) : base(owner)
     {
 
     }

@@ -12,7 +12,7 @@ namespace Aow.Game.World;
 public partial class BuildRoadsControl : ConstructionControl
 {
     // AoWAb.PAS:5446
-    public BuildRoadsControl(ECustomNode owner) : base(owner)
+    public BuildRoadsControl(CustomNode owner) : base(owner)
     {
     }
 

@@ -10,7 +10,7 @@ public partial class PassTokenTokenEvent : TokenEvent
 {
     public new const int ClassId = NetworkSession.ClassIdPassTokenTokenEvent;
 
-    public PassTokenTokenEvent(ECustomNode owner) : base(owner)
+    public PassTokenTokenEvent(CustomNode owner) : base(owner)
     { }
 
 }

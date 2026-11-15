@@ -28,7 +28,7 @@ public partial class ProductionControl : EngineObject
 {
 
     // Structur.PAS:191
-    public ProductionControl(ECustomNode owner) : base(owner)
+    public ProductionControl(CustomNode owner) : base(owner)
     {
         Settings = new ProductionSettings(null) { Holder = CreationHolder() };
         UnitProductions = new UnitProductionList(null) { Holder = CreationHolder() };

@@ -19,7 +19,7 @@ namespace Aow.Game.Combat;
 // MovePoints. UnitHexSprite. PositionIndex. PositionGroup. CanFlee. DeathMethod
 public partial class TacticalBattleUnit : CombatUnit
 {
-    public TacticalBattleUnit(ECustomNode owner) : base(owner)
+    public TacticalBattleUnit(CustomNode owner) : base(owner)
     { }
 
     public int MovePoints { get; set; }

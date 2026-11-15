@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Swarm : CombatSpell
 {
     // CombatSpells.pas:1455
-    public Swarm(ECustomNode owner, EngineObject holder) : base(owner)
+    public Swarm(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_swarmText);

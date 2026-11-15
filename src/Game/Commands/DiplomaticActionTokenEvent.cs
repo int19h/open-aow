@@ -11,7 +11,7 @@ namespace Aow.Game.Commands;
 // Operation, Action
 public partial class DiplomaticActionTokenEvent : TokenEvent
 {
-    public DiplomaticActionTokenEvent(ECustomNode owner) : base(owner)
+    public DiplomaticActionTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // Diplomacy.pas:1125

@@ -13,7 +13,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class SpringOfLife : Structure
 {
-    public SpringOfLife(ECustomNode owner) : base(owner)
+    public SpringOfLife(CustomNode owner) : base(owner)
     {
     }
 
@@ -87,7 +87,7 @@ public partial class SpringOfLife : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = false;
         }

@@ -11,7 +11,7 @@ public partial class MoveWallCombatAction : CombatAction
     // Combat2.pas:1072
     public new const int ClassId = 131767;
 
-    public MoveWallCombatAction(ECustomNode owner) : base(owner)
+    public MoveWallCombatAction(CustomNode owner) : base(owner)
     { }
 
     public byte CombatObjectId { get; set; }

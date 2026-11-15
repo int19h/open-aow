@@ -33,7 +33,7 @@ public partial class PlayerMagicControl : EngineObject
     // next enchantment ID, cheat, player, update count, external mana, external power, external
     // source, mana, spheres, research percentage, spells, research spell, points, enchantments,
     // power sources, active/enemy enchantments, change events
-    public PlayerMagicControl(ECustomNode owner) : base(owner)
+    public PlayerMagicControl(CustomNode owner) : base(owner)
     {
         ExternalPowerSource source;
 

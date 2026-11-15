@@ -9,7 +9,7 @@ namespace Aow.Game.Events;
 public partial class LocationTextEventLog : TextEventLog
 {
     // EventLog.pas:725
-    public LocationTextEventLog(ECustomNode owner) : base(owner)
+    public LocationTextEventLog(CustomNode owner) : base(owner)
     {
         HexX = -1;
         HexY = -1;

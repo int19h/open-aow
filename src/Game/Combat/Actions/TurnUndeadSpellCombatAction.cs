@@ -12,7 +12,7 @@ public partial class TurnUndeadSpellCombatAction : CombatSpellCombatAction
     // CombatSpells.pas:861
     public new const int ClassId = 131788;
 
-    public TurnUndeadSpellCombatAction(ECustomNode owner) : base(owner)
+    public TurnUndeadSpellCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:867

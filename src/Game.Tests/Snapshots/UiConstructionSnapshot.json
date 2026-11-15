@@ -398,10 +398,10 @@
             },
             "SetupControl.Settings": {
               "$type": "Aow.Game.Session.SetupSettings",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.ENode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.OwningNode._children.DelphiList\u00601.items"
               },
               "EngineObject._owner": null,
               "SetupSettings.AlliedVictory": false,
@@ -422,7 +422,7 @@
               "SetupSettings.RandomSeed": 0,
               "SetupSettings.RemotePlayers": {
                 "$type": "Aow.Game.Session.RemotePlayerList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -517,10 +517,10 @@
             },
             "SetupControl.Settings": {
               "$type": "Aow.Game.Session.SetupSettings",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.ENode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.OwningNode._children.DelphiList\u00601.items"
               },
               "EngineObject._owner": null,
               "SetupSettings.AlliedVictory": false,
@@ -541,7 +541,7 @@
               "SetupSettings.RandomSeed": 0,
               "SetupSettings.RemotePlayers": {
                 "$type": "Aow.Game.Session.RemotePlayerList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []

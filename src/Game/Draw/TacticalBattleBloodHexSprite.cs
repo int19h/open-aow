@@ -10,7 +10,7 @@ namespace Aow.Game.Draw;
 // Frame. OffsetX. OffsetY
 public partial class TacticalBattleBloodHexSprite : SingleHexSprite
 {
-    public TacticalBattleBloodHexSprite(ECustomNode owner) : base(owner)
+    public TacticalBattleBloodHexSprite(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 2228487;

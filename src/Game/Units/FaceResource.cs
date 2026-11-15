@@ -18,7 +18,7 @@ public partial class FaceResource : EngineResource
 {
     public new const int ClassId = 131696;
 
-    public FaceResource(ECustomNode owner) : base(owner)
+    public FaceResource(CustomNode owner) : base(owner)
     { }
 
     private string _imageLibraryName = "";

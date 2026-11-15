@@ -22,7 +22,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupRecruitControl : AIGroupTask
 {
     // AIGroup.pas:2070
-    public AIGroupRecruitControl(ECustomNode owner) : base(owner)
+    public AIGroupRecruitControl(CustomNode owner) : base(owner)
     {
         Units = new UnitUserList(null) { Holder = CreationHolder() };
     }

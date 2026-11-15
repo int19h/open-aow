@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
+public partial class FaceResourceList : ResourceCollection, IChildList<FaceResource>
 {
     // The face in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a FaceResource, so the cast never fails.
@@ -18,7 +18,7 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
     int IChildSink<FaceResource>.AddChild(FaceResource child) => AddChild(child);
 
     // Ability.PAS:520
-    public FaceResourceList(ECustomNode owner) : base(owner)
+    public FaceResourceList(CustomNode owner) : base(owner)
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }

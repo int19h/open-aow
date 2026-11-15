@@ -14,7 +14,7 @@ public partial class CombatSpellCombatAction : DamageCombatAction
     // CombatSpells.pas:447
     public new const int ClassId = 131778;
 
-    public CombatSpellCombatAction(ECustomNode owner) : base(owner)
+    public CombatSpellCombatAction(CustomNode owner) : base(owner)
     { }
 
     public int SpellId { get; set; }

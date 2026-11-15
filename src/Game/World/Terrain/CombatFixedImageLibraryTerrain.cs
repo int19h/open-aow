@@ -7,7 +7,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
 {
-    public CombatFixedImageLibraryTerrain(ECustomNode owner) : base(owner)
+    public CombatFixedImageLibraryTerrain(CustomNode owner) : base(owner)
     { }
 
     // CombatILTer.pas:191
@@ -70,7 +70,7 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
 
     public new partial class Resource : CombatImageLibraryTerrainResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // CombatILTer.pas:227

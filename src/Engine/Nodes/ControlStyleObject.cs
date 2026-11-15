@@ -14,10 +14,10 @@ public partial class ControlStyleObject : EngineObject
     internal Set<ControlStyleElement> ControlStyle { get; set; }
 
     // Engine.pas:8222
-    public ControlStyleObject(ECustomNode owner) : this(null, owner) { }
+    public ControlStyleObject(CustomNode owner) : this(null, owner) { }
 
     // Engine.pas:8222
-    private protected ControlStyleObject(ConstructionContext context, ECustomNode owner) : base(context, owner)
+    private protected ControlStyleObject(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         ControlStyle = base.GetControlStyle();
     }

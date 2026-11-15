@@ -9,7 +9,7 @@ public partial class StructurePhase1AIPlayerAction : StructureAIPlayerAction, IA
 {
     // Structur.PAS:3361
     // (inherited phase)
-    public StructurePhase1AIPlayerAction(ECustomNode owner) : base(owner)
+    public StructurePhase1AIPlayerAction(CustomNode owner) : base(owner)
     {
         Phase = 1;
     }

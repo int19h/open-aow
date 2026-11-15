@@ -5,7 +5,7 @@ namespace Aow.Game.World.Map;
 
 public partial class AbstractRoadResource : MapObjectResource
 {
-    public AbstractRoadResource(ECustomNode owner) : base(owner)
+    public AbstractRoadResource(CustomNode owner) : base(owner)
     { }
 
     // MAPOBJ.PAS:874

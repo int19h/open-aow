@@ -15,7 +15,7 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
     // CombatSpells.pas:1707
     public new const int ClassId = 131785;
 
-    public TacticalBattleTerrorCombatAction(ECustomNode owner) : base(owner)
+    public TacticalBattleTerrorCombatAction(CustomNode owner) : base(owner)
     { }
 
     private byte _sourceId;

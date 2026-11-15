@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 // UnitIds
 public partial class ArenaTokenEvent : StructureTokenEvent
 {
-    public ArenaTokenEvent(ECustomNode owner) : base(owner)
+    public ArenaTokenEvent(CustomNode owner) : base(owner)
     {
         UnitIds = new Int32List();
     }

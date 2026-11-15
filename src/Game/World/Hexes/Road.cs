@@ -12,7 +12,7 @@ namespace Aow.Game.World.Hexes;
 // 6)
 public partial class Road : AbstractRoad
 {
-    public Road(ECustomNode owner) : base(owner)
+    public Road(CustomNode owner) : base(owner)
     {
     }
 
@@ -78,7 +78,7 @@ public partial class Road : AbstractRoad
 
     public new partial class Resource : AbstractRoadResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Road.pas:136

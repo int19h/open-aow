@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 public partial class TerminateCombatTokenEvent : TokenEvent
 {
 
-    public TerminateCombatTokenEvent(ECustomNode owner) : base(owner)
+    public TerminateCombatTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CombatTE.pas:149

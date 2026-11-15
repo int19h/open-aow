@@ -13,7 +13,7 @@ public partial class WebCombatAction : SingleTargetCombatAction
 {
     public new const int ClassId = 131768;
 
-    public WebCombatAction(ECustomNode owner) : base(owner)
+    public WebCombatAction(CustomNode owner) : base(owner)
     { }
 
     public bool Successful { get; private set; }

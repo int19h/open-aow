@@ -5,7 +5,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class RefugeAIGroupControl : AIGroupControl
 {
-    public RefugeAIGroupControl(ECustomNode owner) : base(owner)
+    public RefugeAIGroupControl(CustomNode owner) : base(owner)
     { }
 
 }

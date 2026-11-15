@@ -7,7 +7,7 @@ namespace Aow.Game.Session;
 
 public partial class PlayerStructureIncomeSource : IncomeSource
 {
-    public PlayerStructureIncomeSource(ECustomNode owner) : base(owner)
+    public PlayerStructureIncomeSource(CustomNode owner) : base(owner)
     { }
 
     private PlayerStructure _structure;

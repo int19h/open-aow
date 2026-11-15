@@ -8,7 +8,7 @@ namespace Aow.Game.World.Terrain;
 public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapObject
 {
 
-    public FixedImageLibraryTerrainMapObject(ECustomNode owner) : base(owner)
+    public FixedImageLibraryTerrainMapObject(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131464;

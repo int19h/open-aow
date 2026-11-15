@@ -10,7 +10,7 @@ public partial class Sfx : EngineObject
 {
     public new const int ClassId = 2162689;
 
-    public Sfx(ECustomNode owner) : base(owner)
+    public Sfx(CustomNode owner) : base(owner)
     { }
 
     private string _fileName = "";

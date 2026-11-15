@@ -21,14 +21,14 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
     public new RaceList Owner { get => (RaceList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is RaceList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is RaceList;
 
     void IOwnedSink<RaceList>.SetOwner(RaceList owner) => SetOwner(owner);
 
     public new const int ClassId = 131586;
 
     // Ability.PAS:212
-    public Race(ECustomNode owner) : base(owner)
+    public Race(CustomNode owner) : base(owner)
     {
         _playerRelations = new Int32List();
         DefaultRelations = new ByteList();

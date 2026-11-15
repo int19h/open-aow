@@ -11,7 +11,7 @@ namespace Aow.Game.AI.Groups;
 // location, destination, transport status, transport points, player, grouped
 public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
 {
-    public AIMoveExecutorArmy(ECustomNode owner) : base(owner)
+    public AIMoveExecutorArmy(CustomNode owner) : base(owner)
     { }
 
     public MapCoordinate Location;

@@ -7,7 +7,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.World.Map;
 
 // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
+public partial class MapContainer : OwningNode, IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
     // The level in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a level, so the cast never fails.
@@ -20,7 +20,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     // The map the container belongs to. AcceptsOwner admits only a map, so the cast never fails.
     public new GameMap Owner { get => (GameMap)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is GameMap;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
@@ -34,7 +34,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     private GameEngine _engine;
 
     // HSEngine.pas:3167
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         base.SetOwner(owner);
         _map = Owner;
@@ -85,7 +85,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>
     }
 
     // HSEngine.pas:3162
-    public MapContainer(ECustomNode owner) : base(owner)
+    public MapContainer(CustomNode owner) : base(owner)
     {
     }
 

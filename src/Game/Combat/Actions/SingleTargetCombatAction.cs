@@ -15,7 +15,7 @@ namespace Aow.Game.Combat.Actions;
 public partial class SingleTargetCombatAction : CombatAction
 {
 
-    public SingleTargetCombatAction(ECustomNode owner) : base(owner)
+    public SingleTargetCombatAction(CustomNode owner) : base(owner)
     {
     }
 

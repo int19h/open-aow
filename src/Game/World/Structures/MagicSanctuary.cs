@@ -11,7 +11,7 @@ namespace Aow.Game.World.Structures;
 // OverlayHexSprite
 public partial class MagicSanctuary : Structure
 {
-    public MagicSanctuary(ECustomNode owner) : base(owner)
+    public MagicSanctuary(CustomNode owner) : base(owner)
     {
         _overlayHexSprite = new MagicSanctuaryOverlayHexSprite(null) { Holder = CreationHolder() };
         _overlayHexSprite.Structure = this;
@@ -64,7 +64,7 @@ public partial class MagicSanctuary : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = false;
             Razeable = false;

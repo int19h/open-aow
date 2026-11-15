@@ -10,7 +10,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // SideIndex. Opponent. Strength. ConquerCount
-public partial class CombatSide : ENode, IChildList<CombatObject>
+public partial class CombatSide : OwningNode, IChildList<CombatObject>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatObject, so the cast never fails.
@@ -21,7 +21,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
     int IChildSink<CombatObject>.AddChild(CombatObject child) => AddChild(child);
 
     // Combat.pas:5999
-    public CombatSide(ECustomNode owner) : base(owner)
+    public CombatSide(CustomNode owner) : base(owner)
     {
     }
 

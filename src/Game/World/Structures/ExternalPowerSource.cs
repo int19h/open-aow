@@ -10,7 +10,7 @@ namespace Aow.Game.World.Structures;
 // (external power control)
 public partial class ExternalPowerSource : PowerSource
 {
-    public ExternalPowerSource(ECustomNode owner) : base(owner)
+    public ExternalPowerSource(CustomNode owner) : base(owner)
     { }
 
     public PlayerMagicControl ExternalPowerControl { get; set; }

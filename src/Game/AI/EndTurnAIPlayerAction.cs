@@ -11,7 +11,7 @@ namespace Aow.Game.AI;
 
 public partial class EndTurnAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
-    public EndTurnAIPlayerAction(ECustomNode owner) : base(owner)
+    public EndTurnAIPlayerAction(CustomNode owner) : base(owner)
     { }
 
     // AI.pas:1032

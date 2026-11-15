@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Animations;
 // player
 public partial class Storm : Animation
 {
-    public Storm(ECustomNode owner) : base(owner)
+    public Storm(CustomNode owner) : base(owner)
     { }
 
     public sbyte Player { get; private set; }

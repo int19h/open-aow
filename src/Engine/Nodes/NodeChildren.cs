@@ -3,7 +3,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Engine.Nodes;
 
-public sealed class NodeChildren(ECustomNode node) : IChildCollection
+public sealed class NodeChildren(CustomNode node) : IChildCollection
 {
     public int Count => node.GetCount();
 

@@ -19,7 +19,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:601
-    public UnitEnchantmentAbility(ECustomNode owner) : base(owner)
+    public UnitEnchantmentAbility(CustomNode owner) : base(owner)
     {
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();

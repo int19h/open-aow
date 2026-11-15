@@ -12,7 +12,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class CombatHex : AbstractHexagon
 {
-    public CombatHex(ECustomNode owner) : base(owner)
+    public CombatHex(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 2229504;
@@ -246,7 +246,7 @@ public partial class CombatHex : AbstractHexagon
 
     public new partial class Resource : AbstractHexagonResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         public new const int ClassId = 2229505;

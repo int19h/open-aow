@@ -87,7 +87,7 @@ public partial class NegotiateTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:115
-    public NegotiateTokenEvent(ECustomNode owner) : base(owner)
+    public NegotiateTokenEvent(CustomNode owner) : base(owner)
     {
         ArmyId = null;
         Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);

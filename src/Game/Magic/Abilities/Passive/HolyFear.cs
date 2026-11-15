@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class HolyFear : DurationAbility
 {
     // PassiveAb.pas:816
-    public HolyFear(ECustomNode owner, EngineObject holder) : base(owner)
+    public HolyFear(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_holyFearText);

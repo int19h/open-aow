@@ -21,7 +21,7 @@ namespace Aow.Game.World.Structures;
 // DestinationX, DestinationY, DestinationMapLevel, State (bit 0 razed)
 public partial class Teleport : Structure
 {
-    public Teleport(ECustomNode owner) : base(owner)
+    public Teleport(CustomNode owner) : base(owner)
     {
         _destinationX = 0;
         _destinationY = 0;
@@ -288,7 +288,7 @@ public partial class Teleport : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             RazeDefenderBudget = 200;
             Razeable = true;

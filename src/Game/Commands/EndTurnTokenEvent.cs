@@ -19,7 +19,7 @@ namespace Aow.Game.Commands;
 // player, day, end-turn mode
 public partial class EndTurnTokenEvent : TokenEvent
 {
-    public EndTurnTokenEvent(ECustomNode owner) : base(owner)
+    public EndTurnTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135425;

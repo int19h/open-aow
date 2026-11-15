@@ -28,7 +28,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
     }
 
     // GlobalSpells.pas:406
-    public BirdsViewHexSprite(ECustomNode owner) : base(owner)
+    public BirdsViewHexSprite(CustomNode owner) : base(owner)
     {
         _hexes = new Int32List();
     }

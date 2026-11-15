@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class DivineStormSpell : StormSpell
 {
     // Storms.pas:954
-    public DivineStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
+    public DivineStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.DivineStormText);

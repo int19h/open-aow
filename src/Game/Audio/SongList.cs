@@ -15,7 +15,7 @@ public partial class SongList : EngineObject
     // Sound.pas:801
     public new const int ClassId = 2162692;
 
-    public SongList(ECustomNode owner) : base(owner)
+    public SongList(CustomNode owner) : base(owner)
     {
         _songs = new StringList();
         _songs.OnChange = SongsChanged;

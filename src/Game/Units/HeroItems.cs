@@ -14,7 +14,7 @@ namespace Aow.Game.Units;
 
 // The original's THeroItems derives from TItemList. The items a hero wears own the equipped
 // items as node children and read them through Items. FOwner is the hero.
-public partial class HeroItems : EChangeNotifyNode, IChildList<Item>, IItemHolder
+public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
 {
     /// <summary>The items this hero wears, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -29,7 +29,7 @@ public partial class HeroItems : EChangeNotifyNode, IChildList<Item>, IItemHolde
     public event NotifyEvent<object> OnChanged;
 
     // Hero.PAS:388
-    public HeroItems(ECustomNode owner) : base(null)
+    public HeroItems(CustomNode owner) : base(null)
     {
         SetOwnerWithoutNotify(owner);
     }

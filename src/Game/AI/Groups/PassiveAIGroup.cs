@@ -15,7 +15,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136280;
 
     // MainAG.pas:122
-    public PassiveAIGroup(ECustomNode owner) : base(owner)
+    public PassiveAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 0;
         RecruitmentPriority = 1;

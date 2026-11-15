@@ -16,7 +16,7 @@ namespace Aow.Game.Events;
 // { Interface declaration run owned by P2. }
 public partial class HeroJoinEventLog : JoinEventLog
 {
-    public HeroJoinEventLog(ECustomNode owner) : base(owner)
+    public HeroJoinEventLog(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131828;

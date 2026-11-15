@@ -8,7 +8,7 @@ namespace Aow.Game.World.Terrain;
 // PadActive
 public partial class Pad : FixedImageLibraryTerrainMapObject
 {
-    public Pad(ECustomNode owner) : base(owner)
+    public Pad(CustomNode owner) : base(owner)
     {
     }
 
@@ -39,7 +39,7 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
     // PadSize
     public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             SetLevel(10);
         }

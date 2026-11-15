@@ -12,7 +12,7 @@ namespace Aow.Game.Draw;
 // Inherited single-hexagon sprite layout
 public partial class TacticalBattleOozeHexSprite : SingleHexSprite
 {
-    public TacticalBattleOozeHexSprite(ECustomNode owner) : base(owner)
+    public TacticalBattleOozeHexSprite(CustomNode owner) : base(owner)
     { }
 
     // AoWTC.pas:4092

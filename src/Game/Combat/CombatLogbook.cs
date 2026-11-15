@@ -11,7 +11,7 @@ public partial class CombatLogbook : EngineObject
     public new const int ClassId = 131749;
 
     // Combat2.pas:349
-    public CombatLogbook(ECustomNode owner) : base(owner)
+    public CombatLogbook(CustomNode owner) : base(owner)
     {
         _refCount = 1;
         Actions = new CombatActionList(null) { Holder = CreationHolder() };

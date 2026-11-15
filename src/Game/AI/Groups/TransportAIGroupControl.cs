@@ -13,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class TransportAIGroupControl : AIGroupControl
 {
-    public TransportAIGroupControl(ECustomNode owner) : base(owner)
+    public TransportAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // MainAG.pas:822

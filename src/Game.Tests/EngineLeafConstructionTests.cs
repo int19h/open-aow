@@ -37,7 +37,7 @@ public sealed class EngineLeafConstructionTests
     {
         GameEngine engine = CreateEngine();
         var owner = new LeafOwner();
-        ECustomNode argument = owned ? owner : null!;
+        CustomNode argument = owned ? owner : null!;
         Type type = typeof(PluginControl);
         var meta = EngineClass.Of(type);
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
@@ -87,24 +87,32 @@ public sealed class EngineLeafConstructionTests
         }
     }
 
-    private sealed class ConvertedNode : ECustomNode
+    private sealed class ConvertedNode : CustomNode
     {
         private int _ownerCalls;
 
-        internal ConvertedNode(ECustomNode owner) : base(owner) { }
+        internal ConvertedNode(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
 
         public override int GetCount() => 0;
+
+        public override EngineObject GetChild(int index) => throw AbstractErrorException.Create("Abstract Error");
+
+        public override void SetChild(int index, EngineObject child) => throw AbstractErrorException.Create("Abstract Error");
+
+        public override int AddChild(EngineObject child) => throw AbstractErrorException.Create("Abstract Error");
+
+        public override int RemoveChild(EngineObject child) => throw AbstractErrorException.Create("Abstract Error");
     }
 
-    private sealed class ConvertedSort : ESortNode
+    private sealed class ConvertedSort : SortedNode
     {
         private int _ownerCalls;
 
-        internal ConvertedSort(ECustomNode owner) : base(owner) { }
+        internal ConvertedSort(CustomNode owner) : base(owner) { }
 
-        public override void SetOwner(ECustomNode owner)
+        public override void SetOwner(CustomNode owner)
         {
             _ownerCalls++;
             base.SetOwner(owner);

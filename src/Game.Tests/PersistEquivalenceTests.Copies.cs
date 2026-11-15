@@ -178,19 +178,19 @@ public sealed partial class PersistEquivalenceTests
         });
     }
 
-    // A player with a leader and an item, which PlayerList.Assign assigns player by player.
+    // A player with a leader and an item, which PlayerCollection.Assign assigns player by player.
     [Fact]
     public void APlayerListAssignsItsPlayersAsTheStreamDid()
     {
         WithDestroyingMap(_ =>
         {
-            var source = new PlayerList(null!) { Holder = EngineFixture.Engine };
+            var source = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
             source.SetNumberOfPlayers(2);
             source.GetPlayers(1).Leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Chosen", Player = 1 };
             source.GetPlayers(2).Day = 120;
             source.GetPlayers(2).Name = "Second";
-            var viaTree = new PlayerList(null!) { Holder = EngineFixture.Engine };
-            var viaStream = new PlayerList(null!) { Holder = EngineFixture.Engine };
+            var viaTree = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
+            var viaStream = new PlayerCollection(null!) { Holder = EngineFixture.Engine };
             viaTree.Assign(source, engine: EngineFixture.Engine);
             viaStream.SetNumberOfPlayers(source.GetNumberOfPlayers());
             for (int index = 0; index < viaStream.Count; index++) StreamAssign(viaStream.GetPlayers(index), source.GetPlayers(index));
@@ -527,12 +527,12 @@ public sealed partial class PersistEquivalenceTests
     }
 
     // Whether a class assigns through an override of its own, which the original also had
-    // (PlayerList assigns player by player). The base brackets of ECustomNode and
-    // EChangeNotifyNode are part of the stream assignment below.
+    // (PlayerCollection assigns player by player). The base brackets of CustomNode and
+    // ObservableNode are part of the stream assignment below.
     private static bool AssignOverridden(Type type)
     {
         var declaring = type.GetMethod(nameof(EngineObject.Assign), [typeof(EngineObject), typeof(GameEngine)])!.DeclaringType;
-        return declaring != typeof(EngineObject) && declaring != typeof(ECustomNode) && declaring != typeof(EChangeNotifyNode);
+        return declaring != typeof(EngineObject) && declaring != typeof(CustomNode) && declaring != typeof(ObservableNode);
     }
 
     // The stream copy PE-3-h replaced (Engine.pas 2543): WriteEObject, a new object of the class,
@@ -546,14 +546,13 @@ public sealed partial class PersistEquivalenceTests
     }
 
     // The stream assignment PE-3-h replaced (Engine.pas 2529), with the brackets of the node
-    // overrides: EChangeNotifyNode calls BeginUpdate and EndUpdate around ECustomNode's, which
+    // overrides: ObservableNode calls BeginUpdate and EndUpdate around CustomNode's, which
     // clears the node first.
     private static void StreamAssign(EngineObject target, EngineObject source)
     {
-        (target as EChangeNotifyNode)?.BeginUpdate();
-        (target as ECustomNode)?.Clear();
+        using var batch = target is ObservableNode node ? node.BeginUpdate() : default;
+        (target as CustomNode)?.Clear();
         ReadWritten(target, WrittenImage(source));
-        (target as EChangeNotifyNode)?.EndUpdate();
     }
 
     // The stream comparison PE-3-h replaced (Engine.pas 2511): the same class and equal images.

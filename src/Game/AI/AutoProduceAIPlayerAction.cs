@@ -20,7 +20,7 @@ namespace Aow.Game.AI;
 public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     // AI.pas:1202
-    public AutoProduceAIPlayerAction(ECustomNode owner) : base(owner)
+    public AutoProduceAIPlayerAction(CustomNode owner) : base(owner)
     {
         _productions = new QuadItemList<ProductionControl>();
     }

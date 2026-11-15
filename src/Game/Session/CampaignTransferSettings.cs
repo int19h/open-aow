@@ -25,7 +25,7 @@ namespace Aow.Game.Session;
 public partial class CampaignTransferSettings : EngineObject
 {
     // Diplomacy.pas:1736
-    public CampaignTransferSettings(ECustomNode owner) : base(owner)
+    public CampaignTransferSettings(CustomNode owner) : base(owner)
     {
         Heroes = new HeroList(null) { Holder = CreationHolder() };
         Items = new ItemList(null) { Holder = CreationHolder() };

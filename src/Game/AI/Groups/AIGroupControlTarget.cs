@@ -16,12 +16,12 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new AIGroupControlTargetList Owner { get => (AIGroupControlTargetList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is AIGroupControlTargetList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupControlTargetList;
 
     void IOwnedSink<AIGroupControlTargetList>.SetOwner(AIGroupControlTargetList owner) => SetOwner(owner);
 
     // AIGroup.pas:635
-    public AIGroupControlTarget(ECustomNode owner) : base(owner)
+    public AIGroupControlTarget(CustomNode owner) : base(owner)
     {
         _refCount = 1;
         TransporterId = -1;

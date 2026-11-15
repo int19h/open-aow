@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Net;
 
-public partial class EmailGameList : ENode, IChildList<EmailGame>
+public partial class EmailGameList : OwningNode, IChildList<EmailGame>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EmailGame, so the cast never fails.
@@ -13,7 +13,7 @@ public partial class EmailGameList : ENode, IChildList<EmailGame>
 
     int IChildSink<EmailGame>.AddChild(EmailGame child) => AddChild(child);
 
-    public EmailGameList(ECustomNode owner) : base(owner)
+    public EmailGameList(CustomNode owner) : base(owner)
     { }
 
     // Diplomacy.pas:2475

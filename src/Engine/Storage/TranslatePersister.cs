@@ -118,7 +118,7 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     // The visit walks the children the node owns. A reference list's children without an owner
     // are not visited.
-    public void Children(string name, IChildCollection children) => stream.Children((ECustomNode)node, 1);
+    public void Children(string name, IChildCollection children) => stream.Children((CustomNode)node, 1);
 
     public void Grid(string name, int width, int height, IReadOnlyList<IPersistable> fields, Action<int>? visited = null)
     {

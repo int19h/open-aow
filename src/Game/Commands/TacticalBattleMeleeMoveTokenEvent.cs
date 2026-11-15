@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 
 public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
 {
-    public TacticalBattleMeleeMoveTokenEvent(ECustomNode owner) : base(owner)
+    public TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 2236417;

@@ -10,7 +10,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class TowerConstructionControl : StructureConstructionControl
 {
-    public TowerConstructionControl(ECustomNode owner) : base(owner)
+    public TowerConstructionControl(CustomNode owner) : base(owner)
     { }
 
     // Tower.pas:139

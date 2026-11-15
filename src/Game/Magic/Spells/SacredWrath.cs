@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class SacredWrath : CombatSpell
 {
     // CombatSpells.pas:1649
-    public SacredWrath(ECustomNode owner, EngineObject holder) : base(owner)
+    public SacredWrath(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_sacredWrathText);

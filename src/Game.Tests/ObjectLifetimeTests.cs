@@ -58,7 +58,7 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) Target()
     {
-        using var owner = new ENode(null!) { Holder = EngineFixture.Engine };
+        using var owner = new OwningNode(null!) { Holder = EngineFixture.Engine };
         var attacker = new CombatObject(owner);
         var target = new CombatObject(owner);
         attacker.AddTarget(target, 5, 0, 2);

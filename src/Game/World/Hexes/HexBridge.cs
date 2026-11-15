@@ -13,7 +13,7 @@ namespace Aow.Game.World.Hexes;
 // _terrain, Direction (-1 invalid), SideA, SideB
 public partial class HexBridge : AbstractRoad
 {
-    public HexBridge(ECustomNode owner) : base(owner)
+    public HexBridge(CustomNode owner) : base(owner)
     {
         Direction = -1;
         _sideA = new ByteList();
@@ -214,7 +214,7 @@ public partial class HexBridge : AbstractRoad
             road.Dispose();
         }
 
-        ECustomNode previous = Owner;
+        CustomNode previous = Owner;
         Owner = mapField;
         Status = Status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         _terrain = mapField.TerrainType;
@@ -401,7 +401,7 @@ public partial class HexBridge : AbstractRoad
 
     public new partial class Resource : AbstractRoadResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             Level = 10;
         }

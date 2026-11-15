@@ -10,7 +10,7 @@ public partial class AITransporterBudget : AIBudget
     public new const int ClassId = 131742;
 
     // AI.pas:2192
-    public AITransporterBudget(ECustomNode owner) : base(owner)
+    public AITransporterBudget(CustomNode owner) : base(owner)
     {
         DayGoldMax = 15;
     }

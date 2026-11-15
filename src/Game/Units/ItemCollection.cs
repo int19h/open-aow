@@ -16,7 +16,7 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct ItemCollection : IReadOnlyList<Item>
 {
-    private readonly EChangeNotifyNode _holder;
+    private readonly ObservableNode _holder;
 
     // Each holder admits only items (AcceptsChild), so every slot holds an item or is empty.
     internal ItemCollection(ItemList holder) => _holder = holder;
@@ -28,7 +28,7 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     internal ItemCollection(ItemLibrary holder) => _holder = holder;
 
     /// <summary>The list, inventory, worn items or library that holds the items.</summary>
-    public EChangeNotifyNode Holder => _holder;
+    public ObservableNode Holder => _holder;
 
     public int Count => _holder.GetCount();
 

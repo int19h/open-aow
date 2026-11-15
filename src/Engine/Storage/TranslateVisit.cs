@@ -57,7 +57,7 @@ public partial class TranslateVisit : IDisposable
     }
 
     // Engine.pas:10887
-    public virtual void Children(ECustomNode node, int id)
+    public virtual void Children(CustomNode node, int id)
     {
         for (int i = 0, last = node.Count - 1; i <= last; i++)
         {

@@ -19,7 +19,7 @@ namespace Aow.Game.Commands;
 
 public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
 {
-    public CombatAbilityTouchMoveTokenEvent(ECustomNode owner) : base(owner)
+    public CombatAbilityTouchMoveTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CombatTE.pas:624

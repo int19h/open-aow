@@ -22,7 +22,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Anarchy : CityTargetSpell
 {
     // CitySpells.pas:849
-    public Anarchy(ECustomNode owner, EngineObject holder) : base(owner)
+    public Anarchy(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_anarchyText);

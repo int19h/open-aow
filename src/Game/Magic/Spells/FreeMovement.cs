@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class FreeMovement : UnitSpell
 {
     // UnitSpells.pas:386
-    public FreeMovement(ECustomNode owner, EngineObject holder) : base(owner)
+    public FreeMovement(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FreeMovementText);

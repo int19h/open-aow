@@ -27,7 +27,7 @@ public partial class CombatObject : EngineObject
 {
 
     // Combat.pas:1922
-    public CombatObject(ECustomNode owner) : base(owner)
+    public CombatObject(CustomNode owner) : base(owner)
     {
         Targets = new QuadItemList<CombatObject>();
         TargetedBy = new QuadItemList<CombatObject>();

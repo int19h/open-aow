@@ -9,7 +9,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class AIGroupProduction : EngineObject
 {
-    public AIGroupProduction(ECustomNode owner) : base(owner)
+    public AIGroupProduction(CustomNode owner) : base(owner)
     { }
 
     public Troop Troop { get; set; }

@@ -7,7 +7,7 @@ public partial class StrikeEnhancementAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1475
-    public StrikeEnhancementAbility(ECustomNode owner) : base(owner)
+    public StrikeEnhancementAbility(CustomNode owner) : base(owner)
     {
         AbilityType = AbilityType.Enhancement;
     }

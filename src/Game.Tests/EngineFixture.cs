@@ -52,7 +52,7 @@ public sealed partial class EngineFixture : IDisposable
     }
 
     // Observers override insertion around this one membership and removal implementation.
-    internal class Owner : ECustomNode
+    internal class Owner : CustomNode
     {
         // A recording owner stands outside the engine's tree. Its members reach the fixture's
         // engine through it, as the nodes of a real owner reach theirs.
@@ -60,6 +60,12 @@ public sealed partial class EngineFixture : IDisposable
 
         internal List<EngineObject> Members { get; } = [];
         internal int Removals { get; private set; }
+
+        public override EngineObject GetChild(int index) => throw AbstractErrorException.Create("Abstract Error");
+
+        public override void SetChild(int index, EngineObject child) => throw AbstractErrorException.Create("Abstract Error");
+
+        public override int GetCount() => throw AbstractErrorException.Create("Abstract Error");
 
         public override int AddChild(EngineObject child)
         {
@@ -249,7 +255,7 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
-    internal sealed class PlayersOwner(Owner recorder) : Session.PlayerList(null!), IForwarder
+    internal sealed class PlayersOwner(Owner recorder) : Session.PlayerCollection(null!), IForwarder
     {
         public Owner Recorder => recorder;
 
@@ -278,7 +284,7 @@ public sealed partial class EngineFixture : IDisposable
 
     // The owner a construction test passes for the type: the recorder itself, or an owner of the
     // type's owner type that forwards to it.
-    internal static ECustomNode OwnerFor(Type type, Owner recorder) =>
+    internal static CustomNode OwnerFor(Type type, Owner recorder) =>
         recorder is null ? null!
         : typeof(Draw.HexSprite).IsAssignableFrom(type) ? new FieldOwner(recorder)
         : typeof(MapField).IsAssignableFrom(type) ? new LevelOwner(recorder)
@@ -301,7 +307,7 @@ public sealed partial class EngineFixture : IDisposable
         : recorder;
 
     // Whether the owner is the recorder or an owner that forwards to it.
-    internal static bool Forwards(ECustomNode owner, Owner recorder) =>
+    internal static bool Forwards(CustomNode owner, Owner recorder) =>
         ReferenceEquals(owner, recorder) || owner is IForwarder { Recorder: var forwarded } && forwarded == recorder;
 
     internal static T Configure<T>(T value, Action<T> configure)

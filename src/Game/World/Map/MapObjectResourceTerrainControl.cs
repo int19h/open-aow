@@ -42,7 +42,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Shared);
 
     // HSEngine.pas:4489
-    public MapObjectResourceTerrainControl(ECustomNode owner) : base(owner)
+    public MapObjectResourceTerrainControl(CustomNode owner) : base(owner)
     {
         _resources = new List<DelphiList<MapObjectResource>>();
         _mapObjectClass = typeof(MapObject);

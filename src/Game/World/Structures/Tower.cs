@@ -12,7 +12,7 @@ namespace Aow.Game.World.Structures;
 // State, bit 0 razed
 public partial class Tower : PlayerStructure
 {
-    public Tower(ECustomNode owner) : base(owner)
+    public Tower(CustomNode owner) : base(owner)
     { }
 
     // Tower.pas:55
@@ -105,7 +105,7 @@ public partial class Tower : PlayerStructure
 
     public new partial class Resource : PlayerStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = true;
             Claimed = false;

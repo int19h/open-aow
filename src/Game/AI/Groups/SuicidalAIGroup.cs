@@ -10,7 +10,7 @@ public partial class SuicidalAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136276;
 
     // MainAG.pas:722
-    public SuicidalAIGroup(ECustomNode owner) : base(owner)
+    public SuicidalAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 1;
         RecruitmentPriority = 2;

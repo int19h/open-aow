@@ -7,7 +7,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Audio;
 
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
-public partial class SfxSequence : ENode, IChildList<Sfx>
+public partial class SfxSequence : OwningNode, IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Sfx, so the cast never fails.
@@ -19,7 +19,7 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
 
     public new const int ClassId = 2162690;
 
-    public SfxSequence(ECustomNode owner) : base(owner)
+    public SfxSequence(CustomNode owner) : base(owner)
     { }
 
     private int _id;

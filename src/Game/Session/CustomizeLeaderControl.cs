@@ -7,7 +7,7 @@ namespace Aow.Game.Session;
 
 public partial class CustomizeLeaderControl : LeaderSetupControl
 {
-    public CustomizeLeaderControl(ECustomNode owner) : base(owner)
+    public CustomizeLeaderControl(CustomNode owner) : base(owner)
     { }
 
     public SetupControl SetupControl { get; set; }

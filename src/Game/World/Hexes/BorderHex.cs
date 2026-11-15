@@ -11,14 +11,14 @@ namespace Aow.Game.World.Hexes;
 //   TBorderHexagonResource has ClassID $20558. }
 public partial class BorderHex : AbstractBorderHexagon
 {
-    public BorderHex(ECustomNode owner) : base(owner)
+    public BorderHex(CustomNode owner) : base(owner)
     { }
 
     // BorderHx.pas:59
     public new const int ClassId = 132439;
 
     // BorderHx.pas:39
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         if (owner != Owner)
         {
@@ -71,7 +71,7 @@ public partial class BorderHex : AbstractBorderHexagon
 
     public new partial class Resource : AbstractBorderHexagon.Resource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         public new const int ClassId = 132440;

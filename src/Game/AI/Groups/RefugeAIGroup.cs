@@ -11,7 +11,7 @@ public partial class RefugeAIGroup : AIGroup, IAIGroupClass
     public new const int ClassId = 136289;
 
     // IndependentAG.pas:544
-    public RefugeAIGroup(ECustomNode owner) : base(owner)
+    public RefugeAIGroup(CustomNode owner) : base(owner)
     {
         ProcessPriority = 1;
         RecruitmentPriority = 2;

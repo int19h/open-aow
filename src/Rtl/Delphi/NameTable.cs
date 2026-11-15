@@ -6,7 +6,8 @@ namespace Aow.Rtl;
 // Names the port stores and the names original game files store.
 // One row names one type or one enum member.
 // Delphi is the name in an original file. Stored is the name in our own documents.
-// A nested type stores Owner.Nested, the declaring-type chain, with no namespace.
+// A row with a stored name keeps that name when the C# name changes. An empty stored name
+// is the declaring-type chain. A nested type stores Owner.Nested, with no namespace.
 // A type lookup takes the current stored name first and then a Delphi or earlier name from the table.
 // A type with no row stores that declaring-type chain and reports its simple name as the Delphi name.
 public static class NameTable
@@ -257,14 +258,20 @@ public static class NameTable
                 if (parts.Length == 1 && (parts[0].Length == 0 || parts[0][0] == '#')) continue;
                 if (!header)
                 {
-                    if (parts.Length != 3 || parts[0] != "kind" || parts[1] != "delphi" || parts[2] != "current")
-                        throw new InvalidOperationException("The name table header is missing.");
+                    bool known = parts.Length is 3 or 4
+                        && parts[0] == "kind" && parts[1] == "delphi" && parts[2] == "current"
+                        && (parts.Length == 3 || parts[3] == "stored");
+                    if (!known) throw new InvalidOperationException("The name table header is missing.");
                     header = true;
                     continue;
                 }
-                if (parts.Length != 3 || parts[0] is not ("type" or "member") || parts[1].Length == 0 || parts[2].Length == 0)
-                    throw new InvalidOperationException("A name table row is not kind, delphi and current.");
-                rows.Add(new NameRow(parts[0], parts[1], parts[2]));
+                if (parts[0] is not ("type" or "member") || parts[1].Length == 0 || parts[2].Length == 0
+                    || parts.Length is not (3 or 4))
+                    throw new InvalidOperationException("A name table row is not kind, delphi, current and an optional stored name.");
+                string storedName = parts.Length == 4 ? parts[3] : "";
+                if (parts[0] == "member" && storedName.Length != 0)
+                    throw new InvalidOperationException("A member row has no stored name.");
+                rows.Add(new NameRow(parts[0], parts[1], parts[2], storedName));
             }
             if (!header) throw new InvalidOperationException("The name table header is missing.");
             return Index(rows);
@@ -428,13 +435,21 @@ public static class NameTable
                 string? owner = ownerOf[name];
                 stored[name] = owner is null ? Simple(name) : stored[owner] + name[owner.Length..];
             }
+            var pinned = new HashSet<string>();
+            // A written stored name wins over the computed one and stays put while children take it as their prefix.
+            foreach (var row in rows)
+            {
+                if (row.Kind != "type" || row.Stored.Length == 0) continue;
+                if (!stored.ContainsKey(row.Current)) continue;
+                stored[row.Current] = row.Stored;
+                pinned.Add(row.Current);
+            }
             var groups = new Dictionary<string, List<string>>();
             foreach (var pair in stored)
             {
                 if (!groups.TryGetValue(pair.Value, out var list)) groups[pair.Value] = list = [];
                 list.Add(pair.Key);
             }
-            var pinned = new HashSet<string>();
             foreach (var group in groups)
             {
                 if (group.Value.Count < 2) continue;
@@ -443,7 +458,7 @@ public static class NameTable
                 if (delphis.Count < 2) continue;
                 foreach (var member in group.Value)
                 {
-                    if (delphiOf[member] == group.Key) continue;
+                    if (pinned.Contains(member) || delphiOf[member] == group.Key) continue;
                     stored[member] = Qualify(member, group.Key, stored, names);
                     pinned.Add(member);
                 }
@@ -523,4 +538,4 @@ public static class NameTable
     }
 }
 
-internal readonly record struct NameRow(string Kind, string Delphi, string Current);
+internal readonly record struct NameRow(string Kind, string Delphi, string Current, string Stored = "");

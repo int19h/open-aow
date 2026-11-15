@@ -26,7 +26,7 @@ public partial class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3614
-    public PadControl(ECustomNode owner) : base(owner)
+    public PadControl(CustomNode owner) : base(owner)
     {
         TerrainTypes = new BitList();
         PadResources = new List<MapObjectResource>();

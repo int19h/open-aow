@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 public partial class GameOverTokenEvent : TokenEvent
 {
-    public GameOverTokenEvent(ECustomNode owner) : base(owner)
+    public GameOverTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135441;

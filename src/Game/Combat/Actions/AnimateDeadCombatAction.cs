@@ -13,7 +13,7 @@ public partial class AnimateDeadCombatAction : ExclusiveCombatSpellCombatAction
     // CombatSpells.pas:2021
     public new const int ClassId = 131782;
 
-    public AnimateDeadCombatAction(ECustomNode owner) : base(owner)
+    public AnimateDeadCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:2024

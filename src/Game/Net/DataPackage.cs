@@ -29,7 +29,7 @@ public partial class DataPackage : EngineObject
     }
 
     // NetworkE.pas:566
-    public DataPackage(ECustomNode owner) : base(owner)
+    public DataPackage(CustomNode owner) : base(owner)
     {
         RefCount = 1;
     }

@@ -22,7 +22,7 @@ namespace Aow.Game.Units;
 /// </summary>
 public readonly struct UnitCollection : IReadOnlyList<Troop>
 {
-    private readonly EChangeNotifyNode _holder;
+    private readonly ObservableNode _holder;
     private readonly IUnitHolder _hooks;
 
     // An army, a unit list, a unit user list and an AI group admit only troops (AcceptsChild), so
@@ -52,7 +52,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     /// <summary>The army, unit list, unit user list or AI group that holds the troops.</summary>
-    public EChangeNotifyNode Holder => _holder;
+    public ObservableNode Holder => _holder;
 
     // The holder's CanAddUnit, which an army and its kinds override.
     public bool CanAddUnit(Troop troop) => _hooks.CanAddUnit(troop);
@@ -105,19 +105,21 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     // Unit.PAS:2338
     public void Sort()
     {
-        _holder.BeginUpdate();
-        _holder.PackChildren();
-        _holder.SortChildren<Troop>(CompareUnits);
-        _holder.EndUpdate();
+        using (_holder.BeginUpdate())
+        {
+            _holder.PackChildren();
+            _holder.SortChildren<Troop>(CompareUnits);
+        }
     }
 
     // Unit.PAS:2349
     public void SortOnMoves()
     {
-        _holder.BeginUpdate();
-        _holder.PackChildren();
-        _holder.SortChildren<Troop>(CompareUnitMoves);
-        _holder.EndUpdate();
+        using (_holder.BeginUpdate())
+        {
+            _holder.PackChildren();
+            _holder.SortChildren<Troop>(CompareUnitMoves);
+        }
     }
 
     // Unit.PAS:2217

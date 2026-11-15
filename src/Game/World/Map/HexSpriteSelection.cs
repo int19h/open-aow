@@ -13,7 +13,7 @@ namespace Aow.Game.World.Map;
 // FLocationHS the sprites selected by location (clicking on a hexagon), Selected, Deselected
 // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
 // the map
-public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
+public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
     // The sprite in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a sprite, so the cast never fails.
@@ -26,23 +26,23 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     // The map the selection belongs to. AcceptsOwner admits only a map, so the cast never fails.
     public new GameMap Owner { get => (GameMap)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is GameMap;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
     private readonly List<HexSprite> _locationHexSprite;
 
-    internal EventStore<ECustomNode> OnSelectStore { get; }
+    internal EventStore<CustomNode> OnSelectStore { get; }
 
-    internal event NotifyEvent<ECustomNode> Selected
+    internal event NotifyEvent<CustomNode> Selected
     {
         add => OnSelectStore.Add(value);
         remove => OnSelectStore.Remove(value);
     }
 
-    internal EventStore<ECustomNode> OnDeselectStore { get; }
+    internal EventStore<CustomNode> OnDeselectStore { get; }
 
-    internal event NotifyEvent<ECustomNode> Deselected
+    internal event NotifyEvent<CustomNode> Deselected
     {
         add => OnDeselectStore.Add(value);
         remove => OnDeselectStore.Remove(value);
@@ -51,7 +51,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     private HexSprite _eventHexSprite;
 
     // HSEngine.pas:3681
-    public HexSpriteSelection(ECustomNode owner) : base(owner)
+    public HexSpriteSelection(CustomNode owner) : base(owner)
     {
         _locationHexSprite = new List<HexSprite>();
         OnSelectStore = new();
@@ -177,13 +177,13 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
 
     public List<HexSprite> LocationHexSprite { get => _locationHexSprite; }
 
-    public event NotifyEvent<ECustomNode> OnSelect
+    public event NotifyEvent<CustomNode> OnSelect
     {
         add => OnSelectStore.Add(value);
         remove => OnSelectStore.Remove(value);
     }
 
-    public event NotifyEvent<ECustomNode> OnDeselect
+    public event NotifyEvent<CustomNode> OnDeselect
     {
         add => OnDeselectStore.Add(value);
         remove => OnDeselectStore.Remove(value);

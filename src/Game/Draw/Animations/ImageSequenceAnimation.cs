@@ -12,7 +12,7 @@ namespace Aow.Game.Draw.Animations;
 // sequence, pixel offsets, last frame, loop flag
 public partial class ImageSequenceAnimation : Animation
 {
-    public ImageSequenceAnimation(ECustomNode owner) : base(owner)
+    public ImageSequenceAnimation(CustomNode owner) : base(owner)
     {
         FrameCount = -1;
         PixelXOffset = 0;

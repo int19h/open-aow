@@ -10,14 +10,14 @@ namespace Aow.Game.Tests;
 
 public sealed class MapNetSoundDispatchTests
 {
-    private sealed class ConvertedField(ECustomNode owner) : MapField(owner)
+    private sealed class ConvertedField(CustomNode owner) : MapField(owner)
     {
         private int _ownerCalls;
 
-        public override void SetOwner(ECustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(CustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ConvertedMap(ECustomNode owner) : GameMap(owner)
+    private sealed class ConvertedMap(CustomNode owner) : GameMap(owner)
     {
         internal int MouseCalls { get; private set; }
 
@@ -29,9 +29,9 @@ public sealed class MapNetSoundDispatchTests
         }
     }
 
-    private sealed class SpecializedField(ECustomNode owner) : MapField(owner);
+    private sealed class SpecializedField(CustomNode owner) : MapField(owner);
 
-    private sealed class SpecializedLevel(ECustomNode owner) : MapLevel(owner)
+    private sealed class SpecializedLevel(CustomNode owner) : MapLevel(owner)
     {
         public override EngineClass MapFieldClass() => EngineClass.Of<SpecializedField>();
     }

@@ -14,7 +14,7 @@ public sealed class EngineClass
 {
     private static readonly Catalog<Type, EngineClass> s_catalog = new("engine class");
     private static readonly List<EngineClass> s_aliases = [];
-    // A Func<ECustomNode, EngineObject>, or a Func<ECustomNode, EngineObject, EngineObject> for a class
+    // A Func<CustomNode, EngineObject>, or a Func<CustomNode, EngineObject, EngineObject> for a class
     // that takes its holder in the constructor. The registered delegate itself, so a recording
     // names the registry's own creation code.
     private readonly Delegate _create;
@@ -30,10 +30,10 @@ public sealed class EngineClass
     public int ClassId { get; }
     public string StorageKey => NameTable.Stored(Type);
 
-    public EngineObject CreateInstance(ECustomNode owner, EngineObject holder) => _create switch
+    public EngineObject CreateInstance(CustomNode owner, EngineObject holder) => _create switch
     {
-        Func<ECustomNode, EngineObject, EngineObject> held => held(owner, holder),
-        Func<ECustomNode, EngineObject> plain => Held(plain(owner), holder),
+        Func<CustomNode, EngineObject, EngineObject> held => held(owner, holder),
+        Func<CustomNode, EngineObject> plain => Held(plain(owner), holder),
         _ => throw new InvalidOperationException("Unknown creation delegate of " + Type.Name),
     };
 
@@ -50,11 +50,11 @@ public sealed class EngineClass
     public static EngineClass Of(Type type) => s_catalog[type];
 
     // The base class registers first, so a walk up Type.BaseType finds a descriptor at every step.
-    public static EngineClass Register<T>(int classId, Func<ECustomNode, T> create)
+    public static EngineClass Register<T>(int classId, Func<CustomNode, T> create)
         where T : EngineObject => Add(typeof(T), classId, create);
 
     // The form for a class whose constructor reads the engine and takes the holder itself.
-    public static EngineClass Register<T>(int classId, Func<ECustomNode, EngineObject, T> create)
+    public static EngineClass Register<T>(int classId, Func<CustomNode, EngineObject, T> create)
         where T : EngineObject => Add(typeof(T), classId, create);
 
     private static EngineClass Add(Type type, int classId, Delegate create)
@@ -72,7 +72,7 @@ public sealed class EngineClass
 
     // A second class id for a type that the catalog already names. The folded engine keeps
     // 131073 on the type and records 17 and 65537 here. Each alias still constructs that type.
-    internal static EngineClass Alias<T>(int classId, Func<ECustomNode, T> create)
+    internal static EngineClass Alias<T>(int classId, Func<CustomNode, T> create)
         where T : EngineObject
     {
         var type = typeof(T);

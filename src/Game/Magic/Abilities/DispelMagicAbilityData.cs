@@ -10,7 +10,7 @@ public partial class DispelMagicAbilityData : AbilityData
 {
     public new const int ClassId = 131789;
 
-    public DispelMagicAbilityData(ECustomNode owner) : base(owner)
+    public DispelMagicAbilityData(CustomNode owner) : base(owner)
     { }
 
     public bool Enabled { get; set; }

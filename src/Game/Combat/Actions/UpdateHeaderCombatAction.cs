@@ -9,7 +9,7 @@ public partial class UpdateHeaderCombatAction : CombatAction
     // Combat2.pas:960
     public new const int ClassId = 131766;
 
-    public UpdateHeaderCombatAction(ECustomNode owner) : base(owner)
+    public UpdateHeaderCombatAction(CustomNode owner) : base(owner)
     { }
 
     public string Header { get; set; } = "";

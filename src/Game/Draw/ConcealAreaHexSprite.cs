@@ -28,7 +28,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
     }
 
     // GlobalSpells.pas:199
-    public ConcealAreaHexSprite(ECustomNode owner) : base(owner)
+    public ConcealAreaHexSprite(CustomNode owner) : base(owner)
     {
         _hexes = new Int32List();
     }

@@ -7,7 +7,7 @@ namespace Aow.Game.Session;
 
 // CRCs, day, play mode, victory, independent AI, seed, limits, players, connection, tactical
 // combat, email game name
-public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
+public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerSetupSettings, so the cast never fails.
@@ -79,7 +79,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:327
-    public SetupSettings(ECustomNode owner) : base(owner)
+    public SetupSettings(CustomNode owner) : base(owner)
     {
         RemotePlayers = new RemotePlayerList(null) { Holder = CreationHolder() };
         Reset();

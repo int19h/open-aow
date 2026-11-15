@@ -26,7 +26,7 @@ public partial class CombatUnit : CombatObject
     public new const int ClassId = 131745;
 
     // Combat.pas:1071
-    public CombatUnit(ECustomNode owner) : base(owner)
+    public CombatUnit(CustomNode owner) : base(owner)
     {
         ControlMode = Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
         _unitGraphicsResourceIndex = -1;

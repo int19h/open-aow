@@ -5,7 +5,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class FixedImageLibraryTerrainMapObjectResource : ImageLibraryTerrainMapObjectResource
 {
-    public FixedImageLibraryTerrainMapObjectResource(ECustomNode owner) : base(owner)
+    public FixedImageLibraryTerrainMapObjectResource(CustomNode owner) : base(owner)
     { }
 
     // ILTer.pas:339

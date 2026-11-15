@@ -22,13 +22,13 @@ public sealed class PreInheritedTests
     private class First : EngineObject
     {
 
-        private protected First(ConstructionContext? context, ECustomNode? owner) : base(context!, owner!) => s_events.Add("first body");
+        private protected First(ConstructionContext? context, CustomNode? owner) : base(context!, owner!) => s_events.Add("first body");
     }
 
     private class Middle : First
     {
 
-        private protected Middle(ConstructionContext? context, ECustomNode? owner) : base(context, owner) => s_events.Add("middle body");
+        private protected Middle(ConstructionContext? context, CustomNode? owner) : base(context, owner) => s_events.Add("middle body");
     }
 
     private sealed class Leaf : Middle
@@ -37,7 +37,7 @@ public sealed class PreInheritedTests
 
         internal int State { get; private set; }
 
-        internal Leaf(ConstructionContext? context, ECustomNode? owner) : base(context, owner) => s_events.Add("leaf body");
+        internal Leaf(ConstructionContext? context, CustomNode? owner) : base(context, owner) => s_events.Add("leaf body");
 
         private static int InitializeField() { s_events.Add("leaf field"); return 1; }
 

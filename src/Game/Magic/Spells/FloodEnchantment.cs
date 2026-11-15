@@ -47,7 +47,7 @@ public partial class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1224
-    public FloodEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public FloodEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.FloodText);

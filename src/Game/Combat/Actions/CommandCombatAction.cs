@@ -15,7 +15,7 @@ public partial class CommandCombatAction : SingleTargetCombatAction
 {
     public new const int ClassId = 131763;
 
-    public CommandCombatAction(ECustomNode owner) : base(owner)
+    public CommandCombatAction(CustomNode owner) : base(owner)
     { }
 
     public int AbilityId { get; set; }

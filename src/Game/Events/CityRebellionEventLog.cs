@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 // HexX, HexY, HexLevel, CityName
 public partial class CityRebellionEventLog : EventLog
 {
-    public CityRebellionEventLog(ECustomNode owner) : base(owner)
+    public CityRebellionEventLog(CustomNode owner) : base(owner)
     { }
 
     // City.pas:2675

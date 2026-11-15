@@ -9,7 +9,7 @@ namespace Aow.Game.AI;
 public partial class BudgetManagerAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     // AI.pas:2201
-    public BudgetManagerAIPlayerAction(ECustomNode owner) : base(owner)
+    public BudgetManagerAIPlayerAction(CustomNode owner) : base(owner)
     {
     }
 

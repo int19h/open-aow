@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 // storm, X, Y, layer
 public partial class StormSpellTokenEvent : SpellTokenEvent
 {
-    public StormSpellTokenEvent(ECustomNode owner) : base(owner)
+    public StormSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // Storms.pas:730

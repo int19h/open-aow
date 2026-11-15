@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 // source ID, target ID, casting mana, success, spell ID
 public partial class ExclusiveCombatSpellCombatAction : CombatAction
 {
-    public ExclusiveCombatSpellCombatAction(ECustomNode owner) : base(owner)
+    public ExclusiveCombatSpellCombatAction(CustomNode owner) : base(owner)
     { }
 
     public byte SourceId { get; set; }

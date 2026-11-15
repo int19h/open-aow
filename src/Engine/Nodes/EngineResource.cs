@@ -13,16 +13,16 @@ public partial class EngineResource : EngineObject
 {
     public new const int ClassId = 1024;
 
-    public EngineResource(ECustomNode owner) : base(owner)
+    public EngineResource(CustomNode owner) : base(owner)
     { }
 
-    private ECustomNode _resourceList;
+    private CustomNode _resourceList;
     private int _resourceId;
     private int _editId;
     private int _editIndex;
 
     // Engine.pas:8513
-    public override void SetOwner(ECustomNode owner)
+    public override void SetOwner(CustomNode owner)
     {
         base.SetOwner(owner);
         _resourceList = owner;
@@ -38,7 +38,7 @@ public partial class EngineResource : EngineObject
     }
 
     // Engine.pas:8519
-    public override void SetArrayOwner(ECustomNode owner, int index)
+    public override void SetArrayOwner(CustomNode owner, int index)
     {
         base.SetArrayOwner(owner, index);
         _resourceList = owner;
@@ -80,7 +80,7 @@ public partial class EngineResource : EngineObject
         LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref R);
     }
 
-    public ECustomNode ResourceList { get => _resourceList; set => _resourceList = value; }
+    public CustomNode ResourceList { get => _resourceList; set => _resourceList = value; }
     public int EditId { get => _editId; set => _editId = value; }
     public int EditIndex { get => _editIndex; set => _editIndex = value; }
     public int ResourceId { get => _resourceId; set => _resourceId = value; }

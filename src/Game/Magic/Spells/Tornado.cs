@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class Tornado : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1798
-    public Tornado(ECustomNode owner, EngineObject holder) : base(owner)
+    public Tornado(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);

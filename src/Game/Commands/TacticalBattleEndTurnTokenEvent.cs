@@ -14,7 +14,7 @@ namespace Aow.Game.Commands;
 // { ot=1 }
 public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
 {
-    public TacticalBattleEndTurnTokenEvent(ECustomNode owner) : base(owner)
+    public TacticalBattleEndTurnTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // CombatTE.pas:175

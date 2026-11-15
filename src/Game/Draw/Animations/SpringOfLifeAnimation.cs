@@ -7,7 +7,7 @@ namespace Aow.Game.Draw.Animations;
 
 public partial class SpringOfLifeAnimation : Animation
 {
-    public SpringOfLifeAnimation(ECustomNode owner) : base(owner)
+    public SpringOfLifeAnimation(CustomNode owner) : base(owner)
     { }
 
     // Spring.pas:64

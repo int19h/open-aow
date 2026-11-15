@@ -13,7 +13,7 @@ namespace Aow.Game.Events;
 public partial class MessageEventLog : EventLog
 {
     // EventLog.pas:824
-    public MessageEventLog(ECustomNode owner, EngineObject holder) : base(owner)
+    public MessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Message = new StringList();

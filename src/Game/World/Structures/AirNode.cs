@@ -8,7 +8,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class AirNode : ProductionPlace
 {
-    public AirNode(ECustomNode owner) : base(owner)
+    public AirNode(CustomNode owner) : base(owner)
     { }
 
     // AirNode.pas:37
@@ -19,7 +19,7 @@ public partial class AirNode : ProductionPlace
 
     public new partial class Resource : ProductionPlaceResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             RazeDefenderBudget = 200;
             RebuildGold = 50;

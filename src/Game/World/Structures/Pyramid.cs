@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class Pyramid : ItemExplorationSite
 {
-    public Pyramid(ECustomNode owner) : base(owner)
+    public Pyramid(CustomNode owner) : base(owner)
     { }
 
     // Pyramid.pas:34
@@ -15,7 +15,7 @@ public partial class Pyramid : ItemExplorationSite
 
     public new partial class Resource : ItemExplorationSiteResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // Pyramid.pas:40

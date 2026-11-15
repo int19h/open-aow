@@ -13,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 // meeting point
 public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 {
-    public TransportMoveExecutorControl(ECustomNode owner) : base(owner)
+    public TransportMoveExecutorControl(CustomNode owner) : base(owner)
     { }
 
     // A path step with its cost, copied to the units' arrival points (see AIMoveExecutorUnit).

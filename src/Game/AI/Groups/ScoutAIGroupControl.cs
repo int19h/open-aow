@@ -11,7 +11,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class ScoutAIGroupControl : AIGroupControl
 {
-    public ScoutAIGroupControl(ECustomNode owner) : base(owner)
+    public ScoutAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // IndependentAG.pas:671

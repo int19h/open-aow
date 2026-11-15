@@ -50,12 +50,12 @@
             "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
               "DelphiList`1.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyHexSprite.MoveSteps": 0,
@@ -136,12 +136,12 @@
             "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
-            "EChangeNotifyNode._children": {
+            "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
               "DelphiList`1.items": []
             },
-            "EChangeNotifyNode._updateCount": 0,
+            "ObservableNode._updateCount": 0,
             "EngineObject._owner": null
           },
           "ArmyHexSprite.MoveSteps": 0,

@@ -208,7 +208,7 @@ public sealed partial class RuleConstructionTests
         "Player",
         "PlayerControl",
         "PlayerDiplomaticRelations",
-        "PlayerList",
+        "PlayerCollection",
         "PlayerMagicControl",
         "PlayerStatistics",
         "PlayerStructureIncomeSource",

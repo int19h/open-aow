@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class AbilityData : EngineObject
 {
 
-    public AbilityData(ECustomNode owner) : base(owner)
+    public AbilityData(CustomNode owner) : base(owner)
     { }
 
     public AbilityData Next { get; set; }

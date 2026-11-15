@@ -14,7 +14,7 @@ public partial class AIGroupTask : EngineObject
 {
 
     // AIGroup.pas:1354
-    public AIGroupTask(ECustomNode owner) : base(owner)
+    public AIGroupTask(CustomNode owner) : base(owner)
     {
         _refCount = 1;
         State = -1;

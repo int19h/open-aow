@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public HolyGroundSpellTokenEvent(ECustomNode owner) : base(owner)
+    public HolyGroundSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // HolyG.pas:282

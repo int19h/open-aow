@@ -10,7 +10,7 @@ namespace Aow.Game.World.Structures;
 // available unit indexes
 public partial class ProductionPlaceResource : PlayerStructureResource
 {
-    public ProductionPlaceResource(ECustomNode owner) : base(owner)
+    public ProductionPlaceResource(CustomNode owner) : base(owner)
     {
         Claimed = false;
         Units = new UnitIndexList();

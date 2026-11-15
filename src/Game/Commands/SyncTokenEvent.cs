@@ -12,7 +12,7 @@ public partial class SyncTokenEvent : TokenEvent
 {
     public new const int ClassId = ClassIdSyncTokenEvent;
 
-    public SyncTokenEvent(ECustomNode owner) : base(owner)
+    public SyncTokenEvent(CustomNode owner) : base(owner)
     { }
 
     private int _syncValue;

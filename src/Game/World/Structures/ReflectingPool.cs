@@ -12,7 +12,7 @@ namespace Aow.Game.World.Structures;
 // CenterFrame (-1 when inactive)
 public partial class ReflectingPool : PlayerStructure
 {
-    public ReflectingPool(ECustomNode owner) : base(owner)
+    public ReflectingPool(CustomNode owner) : base(owner)
     {
         _centerFrame = -1;
     }
@@ -320,7 +320,7 @@ public partial class ReflectingPool : PlayerStructure
 
     public new partial class Resource : PlayerStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = true;
             ConnectRoads = false;

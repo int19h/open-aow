@@ -14,7 +14,7 @@ public union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
     /// The owner an item stores, read from the untyped owner. An item admits only these kinds, so
     /// another kind is an error in the item and throws.
     /// </summary>
-    internal static ItemOwner Of(ECustomNode owner) => owner switch
+    internal static ItemOwner Of(CustomNode owner) => owner switch
     {
         null => default,
         HeroInventory inventory => inventory,
@@ -25,5 +25,5 @@ public union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
     };
 
     /// <summary>The owner as the node the untyped owner stores.</summary>
-    public ECustomNode Node => (ECustomNode)Value;
+    public CustomNode Node => (CustomNode)Value;
 }

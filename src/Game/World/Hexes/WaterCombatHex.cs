@@ -7,7 +7,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class WaterCombatHex : WaterHex
 {
-    public WaterCombatHex(ECustomNode owner) : base(owner)
+    public WaterCombatHex(CustomNode owner) : base(owner)
     { }
 
     // CombatHex.pas:219
@@ -18,7 +18,7 @@ public partial class WaterCombatHex : WaterHex
 
     public new partial class Resource : WaterHex.Resource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // CombatHex.pas:222

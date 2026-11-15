@@ -22,7 +22,7 @@ namespace Aow.Game.World.Structures;
 // generate, spheres, level, spell ID
 public partial class WizardsTower : Structure
 {
-    public WizardsTower(ECustomNode owner) : base(owner)
+    public WizardsTower(CustomNode owner) : base(owner)
     {
         _generateSpell = true;
         _magicSpheres = s_allMagicSpheres;
@@ -290,7 +290,7 @@ public partial class WizardsTower : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // WizardsTower.pas:263

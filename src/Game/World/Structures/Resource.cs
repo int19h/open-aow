@@ -14,7 +14,7 @@ namespace Aow.Game.World.Structures;
 // Size
 public partial class Resource : PlayerCropStructureResource
 {
-    public Resource(ECustomNode owner) : base(owner)
+    public Resource(CustomNode owner) : base(owner)
     {
         Razeable = true;
     }

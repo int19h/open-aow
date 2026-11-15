@@ -15,7 +15,7 @@ namespace Aow.Game.AI.Groups;
 
 public partial class HuntAIGroupControl : AIGroupControl
 {
-    public HuntAIGroupControl(ECustomNode owner) : base(owner)
+    public HuntAIGroupControl(CustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:1479

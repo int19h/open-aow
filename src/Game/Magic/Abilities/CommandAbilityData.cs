@@ -15,7 +15,7 @@ public partial class CommandAbilityData : AbilityData
     public new const int ClassId = 131755;
 
     // AoWAb.PAS:4949
-    public CommandAbilityData(ECustomNode owner) : base(owner)
+    public CommandAbilityData(CustomNode owner) : base(owner)
     {
         CommandedUnits = new ByteList();
     }

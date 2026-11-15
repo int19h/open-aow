@@ -28,7 +28,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new DiplomaticActionList Owner { get => (DiplomaticActionList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is DiplomaticActionList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is DiplomaticActionList;
 
     void IOwnedSink<DiplomaticActionList>.SetOwner(DiplomaticActionList owner) => SetOwner(owner);
 
@@ -36,7 +36,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public new const int ClassId = 131666;
 
     // Diplomacy.pas:482
-    public DiplomaticAction(ECustomNode owner) : base(owner)
+    public DiplomaticAction(CustomNode owner) : base(owner)
     {
         _refCount = 1;
     }

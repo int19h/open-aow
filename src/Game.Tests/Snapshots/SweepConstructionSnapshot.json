@@ -3858,12 +3858,12 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
               "ItemList.OnChanged": [
@@ -3889,12 +3889,12 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
               "ItemList.OnChanged": [
@@ -4282,12 +4282,12 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
               "ItemList.OnChanged": [
@@ -4312,12 +4312,12 @@
             "ItemHexSprite._generateMode": 0,
             "ItemHexSprite.Items": {
               "$type": "Aow.Game.Units.ItemHSList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
               "ItemList.OnChanged": [
@@ -4992,7 +4992,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -5123,7 +5123,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -5289,7 +5289,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -5420,7 +5420,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -5586,7 +5586,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -5717,7 +5717,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -5883,7 +5883,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -6014,7 +6014,7 @@
             },
             "Spell.CastSounds": {
               "$type": "Aow.Game.Audio.SfxLibrary",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
@@ -15273,7 +15273,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -15298,10 +15298,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -15375,7 +15375,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -15400,10 +15400,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -19851,7 +19851,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -19876,10 +19876,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -19953,7 +19953,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -19978,10 +19978,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -20454,10 +20454,10 @@
             "City._defendersMode": 3,
             "City._enchantmentList": {
               "$type": "Aow.Game.Magic.GlobalEnchantmentList",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
               },
               "EngineObject._owner": null
             },
@@ -20501,7 +20501,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -20526,10 +20526,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -20603,10 +20603,10 @@
             "City._defendersMode": 3,
             "City._enchantmentList": {
               "$type": "Aow.Game.Magic.GlobalEnchantmentList",
-              "ENode._children": {
+              "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
               },
               "EngineObject._owner": null
             },
@@ -20650,7 +20650,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -20675,10 +20675,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.City.Production.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -21185,12 +21185,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -21199,12 +21199,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -21289,12 +21289,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -21303,12 +21303,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -21754,7 +21754,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -21779,10 +21779,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -21856,7 +21856,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -21881,10 +21881,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -22340,21 +22340,21 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "PrisonersArmy.Items": {
                 "$type": "Aow.Game.Units.ItemList",
-                "EChangeNotifyNode._children": {
+                "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
                 },
-                "EChangeNotifyNode._updateCount": 0,
+                "ObservableNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "ItemList.OnChanged": null
               }
@@ -22407,12 +22407,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -22498,21 +22498,21 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "PrisonersArmy.Items": {
                 "$type": "Aow.Game.Units.ItemList",
-                "EChangeNotifyNode._children": {
+                "ObservableNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
                 },
-                "EChangeNotifyNode._updateCount": 0,
+                "ObservableNode._updateCount": 0,
                 "EngineObject._owner": null,
                 "ItemList.OnChanged": null
               }
@@ -22565,12 +22565,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.Dungeon.Prisoners.PrisonersArmy.Items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -23018,7 +23018,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -23043,10 +23043,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -23120,7 +23120,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -23145,10 +23145,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -23264,12 +23264,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -23356,12 +23356,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -24625,7 +24625,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -24650,10 +24650,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -24727,7 +24727,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -24752,10 +24752,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -24871,12 +24871,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -24885,12 +24885,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -24975,12 +24975,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -24989,12 +24989,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -25757,7 +25757,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -25782,10 +25782,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -25859,7 +25859,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -25884,10 +25884,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -27198,12 +27198,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -27212,12 +27212,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -27302,12 +27302,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -27316,12 +27316,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -28854,7 +28854,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -28879,10 +28879,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -28956,7 +28956,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -28981,10 +28981,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -29742,12 +29742,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -29756,12 +29756,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -29846,12 +29846,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -29860,12 +29860,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -31073,12 +31073,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -31087,12 +31087,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -31177,12 +31177,12 @@
               "Army._visibilityRanges": 0,
               "Army.X": -1,
               "Army.Y": -1,
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
-                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.EChangeNotifyNode._children.DelphiList\u00601.items"
+                "DelphiList\u00601.items": "$ref:$.ItemExplorationSite._items.ObservableNode._children.DelphiList\u00601.items"
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null
             },
             "ExplorationSite._defendersMode": 2,
@@ -31191,12 +31191,12 @@
             "ItemExplorationSite._itemCount": 2,
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
-              "EChangeNotifyNode._children": {
+              "ObservableNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
-              "EChangeNotifyNode._updateCount": 0,
+              "ObservableNode._updateCount": 0,
               "EngineObject._owner": null,
               "ItemList.OnChanged": null
             },
@@ -31642,7 +31642,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -31667,10 +31667,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -31744,7 +31744,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -31769,10 +31769,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -34366,7 +34366,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -34391,10 +34391,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },
@@ -34468,7 +34468,7 @@
               "ProductionControl.OnChange": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
@@ -34493,10 +34493,10 @@
               "ProductionControl.Status": 0,
               "ProductionControl.UnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
-                "ENode._children": {
+                "OwningNode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
                   "DelphiList\u00601.count": 0,
-                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.ENode._children.DelphiList\u00601.items"
+                  "DelphiList\u00601.items": "$ref:$.ProductionPlace.ProductionControl.ProductionControl.Queue.OwningNode._children.DelphiList\u00601.items"
                 },
                 "EngineObject._owner": null
               },

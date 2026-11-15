@@ -17,7 +17,7 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
     public new const int ClassId = 135956;
 
     // GlobalEnchantmentSpells.pas:752
-    public WaterMasteryEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public WaterMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterMasteryText);

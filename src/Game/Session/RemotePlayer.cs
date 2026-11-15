@@ -10,7 +10,7 @@ public partial class RemotePlayer : EngineObject
     // AoWSetup.pas:266
     public new const int ClassId = 131682;
 
-    public RemotePlayer(ECustomNode owner) : base(owner)
+    public RemotePlayer(CustomNode owner) : base(owner)
     { }
 
     public string Name { get; set; } = "";

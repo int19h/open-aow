@@ -5,7 +5,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class CombatStructureResource : CombatFixedImageLibraryTerrain.Resource
 {
-    public CombatStructureResource(ECustomNode owner) : base(owner)
+    public CombatStructureResource(CustomNode owner) : base(owner)
     { }
 
     // CombatStructure.pas:256

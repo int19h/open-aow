@@ -13,12 +13,12 @@ public partial class AIGroupUnitProduction : EngineObject, IOwned<AIGroupUnitPro
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new AIGroupUnitProductionList Owner { get => (AIGroupUnitProductionList)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is AIGroupUnitProductionList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupUnitProductionList;
 
     void IOwnedSink<AIGroupUnitProductionList>.SetOwner(AIGroupUnitProductionList owner) => SetOwner(owner);
 
     // AIGroup.pas:2389
-    public AIGroupUnitProduction(ECustomNode owner) : base(owner)
+    public AIGroupUnitProduction(CustomNode owner) : base(owner)
     {
         _refCount = 1;
     }

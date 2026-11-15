@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 // State, PowerSource
 public partial class PowerNode : PlayerStructure
 {
-    public PowerNode(ECustomNode owner) : base(owner)
+    public PowerNode(CustomNode owner) : base(owner)
     {
         _powerSource = new PlayerStructurePowerSource(null) { Holder = CreationHolder() };
         _powerSource.Setup(this);
@@ -201,7 +201,7 @@ public partial class PowerNode : PlayerStructure
 
     public new partial class Resource : PlayerStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             TerrainBound = false;
             Claimed = false;

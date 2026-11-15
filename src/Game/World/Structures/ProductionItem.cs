@@ -13,13 +13,13 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
     // The queue the item waits in. AcceptsOwner admits only a ProductionQueue, so the cast never fails.
     public new ProductionQueue Owner { get => (ProductionQueue)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is ProductionQueue;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is ProductionQueue;
 
     void IOwnedSink<ProductionQueue>.SetOwner(ProductionQueue owner) => SetOwner(owner);
 
     public new const int ClassId = 131735;
 
-    public ProductionItem(ECustomNode owner) : base(owner)
+    public ProductionItem(CustomNode owner) : base(owner)
     { }
 
     public ProductionOrder Order { get; set; } = new UnknownOrder(0, 0, 0);

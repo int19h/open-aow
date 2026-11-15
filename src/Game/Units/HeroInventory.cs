@@ -10,7 +10,7 @@ namespace Aow.Game.Units;
 
 // The original's THeroInventory derives from TItemList. The port's inventory owns its items as
 // its node children and reads them through Items. FOwner is the hero.
-public partial class HeroInventory : EChangeNotifyNode, IChildList<Item>, IItemHolder
+public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHolder
 {
     /// <summary>The items in this inventory, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -25,7 +25,7 @@ public partial class HeroInventory : EChangeNotifyNode, IChildList<Item>, IItemH
     public event NotifyEvent<object> OnChanged;
 
     // Hero.PAS:274
-    public HeroInventory(ECustomNode owner) : base(null)
+    public HeroInventory(CustomNode owner) : base(null)
     {
         SetOwnerWithoutNotify(owner);
     }

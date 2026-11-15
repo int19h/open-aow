@@ -21,7 +21,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveTargetSelector : EngineObject
 {
     // AIGroup.pas:6375
-    public AIMoveTargetSelector(ECustomNode owner) : base(owner)
+    public AIMoveTargetSelector(CustomNode owner) : base(owner)
     {
         _settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         _targets = new MoveTargetList(null) { Holder = CreationHolder() };

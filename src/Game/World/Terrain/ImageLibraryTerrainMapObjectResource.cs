@@ -7,7 +7,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class ImageLibraryTerrainMapObjectResource : MultiHexMapObjectResource
 {
-    public ImageLibraryTerrainMapObjectResource(ECustomNode owner) : base(owner)
+    public ImageLibraryTerrainMapObjectResource(CustomNode owner) : base(owner)
     { }
 
     // ILTer.pas:269

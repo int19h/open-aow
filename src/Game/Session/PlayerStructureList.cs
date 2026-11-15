@@ -6,7 +6,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
-public partial class PlayerStructureList : EChangeNotifyEventList, IChildList<PlayerStructure>
+public partial class PlayerStructureList : ObservableEventList, IChildList<PlayerStructure>
 {
     // The structure in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a structure, so the cast never fails.
@@ -16,7 +16,7 @@ public partial class PlayerStructureList : EChangeNotifyEventList, IChildList<Pl
 
     int IChildSink<PlayerStructure>.AddChild(PlayerStructure child) => AddChild(child);
 
-    public PlayerStructureList(ECustomNode owner) : base(owner)
+    public PlayerStructureList(CustomNode owner) : base(owner)
     { }
 
     public Player Player { get; set; }

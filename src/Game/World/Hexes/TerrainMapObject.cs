@@ -10,7 +10,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class TerrainMapObject : MultiHexMapObject
 {
-    public TerrainMapObject(ECustomNode owner) : base(owner)
+    public TerrainMapObject(CustomNode owner) : base(owner)
     {
     }
 

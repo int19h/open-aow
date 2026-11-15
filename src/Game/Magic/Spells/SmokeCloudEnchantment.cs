@@ -17,7 +17,7 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     public SmokeCloud Cloud { get; set; }
 
     // SmokeCloud.pas:91
-    public SmokeCloudEnchantment(ECustomNode owner) : base(owner)
+    public SmokeCloudEnchantment(CustomNode owner) : base(owner)
     {
         EnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<OptionsElement>.FromMask(EnchantmentMode.Mask) - Set<OptionsElement>.Of(OptionsElement.Bit0, OptionsElement.Bit1)).Mask);
         DispelMana = 25;

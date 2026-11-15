@@ -39,7 +39,7 @@ namespace Aow.Game.World.Structures;
 public partial class Structure : FixedImageLibraryTerrainMapObject
 {
 
-    public Structure(ECustomNode owner) : base(owner)
+    public Structure(CustomNode owner) : base(owner)
     {
         BuildingPlayer = -1;
         Fogged = true;
@@ -1068,27 +1068,29 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         int count;
         MapLevel level;
         EngineObject army;
-        list.BeginUpdate();
-        int result = 0;
-        count = GetTerrainCount();
-        level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
-        while (walk.HexNumber < count)
+        int result;
+        using (list.BeginUpdate())
         {
-            if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
+            result = 0;
+            count = GetTerrainCount();
+            level = Owner.Owner;
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
+            while (walk.HexNumber < count)
             {
-                army = level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
-                if (army != null)
+                if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    list.AddChild(army);
-                    result += 1;
+                    army = level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    if (army != null)
+                    {
+                        list.AddChild(army);
+                        result += 1;
+                    }
                 }
+
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-
-        list.EndUpdate();
         return result;
     }
 

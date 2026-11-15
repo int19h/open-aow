@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 public partial class ItemExplorationSiteEventLog : EventLog
 {
     // ItemExpS.pas:187
-    public ItemExplorationSiteEventLog(ECustomNode owner) : base(owner)
+    public ItemExplorationSiteEventLog(CustomNode owner) : base(owner)
     {
         ItemIds = new Int32List();
         Messages = new StringList();

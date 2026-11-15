@@ -9,7 +9,7 @@ namespace Aow.Game.AI;
 public partial class AIPlayerActionManager : EngineObject
 {
     // AI.pas:36
-    public AIPlayerActionManager(ECustomNode owner) : base(owner)
+    public AIPlayerActionManager(CustomNode owner) : base(owner)
     {
         _registeredClasses = new DelphiList<AIPlayerActionClass>();
     }

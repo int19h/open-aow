@@ -11,7 +11,7 @@ namespace Aow.Game.Commands;
 // Location: packed X/Y/layer coordinates
 public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
 {
-    public GlobalTargetSpellTokenEvent(ECustomNode owner) : base(owner)
+    public GlobalTargetSpellTokenEvent(CustomNode owner) : base(owner)
     { }
 
     // GlobalTargetSpells.pas:401

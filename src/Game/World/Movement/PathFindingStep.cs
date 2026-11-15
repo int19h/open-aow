@@ -11,7 +11,7 @@ namespace Aow.Game.World.Movement;
 public partial class PathFindingStep : EngineObject
 {
     // MoveT.PAS:20
-    public PathFindingStep(ECustomNode owner) : base(owner)
+    public PathFindingStep(CustomNode owner) : base(owner)
     {
         MovePointLines = new DoubleItemList();
         Origin = MapCoordinate.None;

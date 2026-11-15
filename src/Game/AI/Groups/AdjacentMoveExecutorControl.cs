@@ -19,7 +19,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 {
     // AIGroup.pas:5117
-    public AdjacentMoveExecutorControl(ECustomNode owner) : base(owner)
+    public AdjacentMoveExecutorControl(CustomNode owner) : base(owner)
     {
         _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
     }

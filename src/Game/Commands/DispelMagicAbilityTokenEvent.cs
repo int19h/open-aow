@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 // (source unit ID/player, target unit ID/player)
 public partial class DispelMagicAbilityTokenEvent : TokenEvent
 {
-    public DispelMagicAbilityTokenEvent(ECustomNode owner) : base(owner)
+    public DispelMagicAbilityTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131827;

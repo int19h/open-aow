@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class Hero
 {
     // Hero.PAS:615
-    public Hero(ECustomNode owner) : base(owner)
+    public Hero(CustomNode owner) : base(owner)
     {
         HeroItems = new HeroItems(null) { Holder = CreationHolder() };
         HeroItems.Hero = this;

@@ -17,7 +17,7 @@ namespace Aow.Game.AI;
 public partial class AIBudgetManager : EngineObject
 {
     // AI.pas:1712
-    public AIBudgetManager(ECustomNode owner) : base(owner)
+    public AIBudgetManager(CustomNode owner) : base(owner)
     {
         Budgets = new AIBudgetList(null) { Holder = CreationHolder() };
         _goldIncomeFactor = (float)0.75;

@@ -72,6 +72,23 @@ public sealed class NameTableTests
         }
     }
 
+    [Fact]
+    public void AStoredNameStaysWhenTheCSharpNameChanges()
+    {
+        string qualified = NameTable.QualifiedName(typeof(RenamedForm));
+        string table = "kind,delphi,current,stored\n"
+            + "type,TOld," + qualified + ",EOld\n";
+        using (NameTable.Install(table))
+        {
+            Assert.Equal("EOld", NameTable.Stored(typeof(RenamedForm)));
+            Assert.Equal("TOld", NameTable.Delphi(typeof(RenamedForm)));
+            Assert.Equal("EOld", NameTable.ResolveStored("TOld"));
+            Assert.Equal("EOld", NameTable.ResolveStored("EOld"));
+            Assert.Equal(typeof(RenamedForm), NameTable.Find("EOld"));
+            Assert.NotEqual(nameof(RenamedForm), NameTable.Stored(typeof(RenamedForm)));
+        }
+    }
+
     private static void WriteHeader(BinaryWriter writer, ushort count)
     {
         var header = new byte[42];

@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class PowerSource : EngineObject
 {
-    public PowerSource(ECustomNode owner) : base(owner)
+    public PowerSource(CustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:1782

@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CustomAbilityList : EngineObject
 {
 
-    public CustomAbilityList(ECustomNode owner) : base(owner)
+    public CustomAbilityList(CustomNode owner) : base(owner)
     { }
 
     public byte[] AbilityBits = [];

@@ -11,7 +11,7 @@ namespace Aow.Game.World;
 
 public partial class FleeLocation : MapObject
 {
-    public FleeLocation(ECustomNode owner) : base(owner)
+    public FleeLocation(CustomNode owner) : base(owner)
     {
     }
 
@@ -150,7 +150,7 @@ public partial class FleeLocation : MapObject
 
     public new partial class Resource : MapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // FleeLoc.pas:163

@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class MarksmanshipAbility : MultiLevelAbility
 {
     // PassiveAb.pas:1384
-    public MarksmanshipAbility(ECustomNode owner, EngineObject holder) : base(owner)
+    public MarksmanshipAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText);

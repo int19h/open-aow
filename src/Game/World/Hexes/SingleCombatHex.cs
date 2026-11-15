@@ -9,7 +9,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class SingleCombatHex : AbstractHexagon
 {
-    public SingleCombatHex(ECustomNode owner) : base(owner)
+    public SingleCombatHex(CustomNode owner) : base(owner)
     { }
 
     // SingleCombatHex.pas:41
@@ -33,7 +33,7 @@ public partial class SingleCombatHex : AbstractHexagon
 
     public new partial class Resource : AbstractHexagonResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // SingleCombatHex.pas:59

@@ -14,7 +14,7 @@ namespace Aow.Game.Draw;
 
 public partial class CombatFire : SingleHexSprite
 {
-    public CombatFire(ECustomNode owner) : base(owner)
+    public CombatFire(CustomNode owner) : base(owner)
     {
     }
 

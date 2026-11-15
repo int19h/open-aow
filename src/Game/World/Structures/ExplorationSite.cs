@@ -21,7 +21,7 @@ namespace Aow.Game.World.Structures;
 // DefendersMode, Defenders
 public partial class ExplorationSite : Structure
 {
-    public ExplorationSite(ECustomNode owner) : base(owner)
+    public ExplorationSite(CustomNode owner) : base(owner)
     {
         _defendersMode = ExplorationSiteDefendersMode.Normal;
         _defenders = new DefendersArmy(null) { Holder = CreationHolder() };

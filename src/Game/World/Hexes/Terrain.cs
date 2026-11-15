@@ -9,7 +9,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class Terrain : TerrainMapObject
 {
-    public Terrain(ECustomNode owner) : base(owner)
+    public Terrain(CustomNode owner) : base(owner)
     { }
 
     // AoWTer.pas:89
@@ -103,7 +103,7 @@ public partial class Terrain : TerrainMapObject
     // MapFieldResponse (stream id 20)
     public new partial class Resource : TerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         public int MapFieldResponse { get; private set; }

@@ -47,7 +47,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:1893
-    public VortexTokenEvent(ECustomNode owner) : base(owner)
+    public VortexTokenEvent(CustomNode owner) : base(owner)
     {
         ArmyId = null;
     }
@@ -94,62 +94,63 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;
                 log.ArmyView.Setup(army.Army, 255);
-                army.Army.BeginUpdate();
-                damaged = false;
-                for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
+                using (army.Army.BeginUpdate())
                 {
-                    troopObject = army.Army.Units.GetUnit(I);
-                    if (!troopObject.GetMoveTypes().Contains(MoveType.Flying))
+                    damaged = false;
+                    for (int I = 0, last = army.Army.Units.Count - 1; I <= last; I++)
                     {
-                        if (troopObject.GetAbilityEnabled(2))
+                        troopObject = army.Army.Units.GetUnit(I);
+                        if (!troopObject.GetMoveTypes().Contains(MoveType.Flying))
                         {
-                            damage = 7;
-                        }
-                        else
-                        {
-                            if (troopObject.GetAbilityEnabled(23))
+                            if (troopObject.GetAbilityEnabled(2))
                             {
-                                damage = 10;
+                                damage = 7;
                             }
                             else
                             {
-                                damage = 0;
+                                if (troopObject.GetAbilityEnabled(23))
+                                {
+                                    damage = 10;
+                                }
+                                else
+                                {
+                                    damage = 0;
+                                }
+                            }
+
+                            damage = troopObject.ExecuteDamageRole(8, damage, Set<DamageType>.Of(DamageType.Physical));
+                            if (damage > troopObject.GetHitPoints())
+                            {
+                                damage = troopObject.GetHitPoints();
+                            }
+
+                            if (damage > 0)
+                            {
+                                troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() - damage));
+                                damaged = true;
                             }
                         }
-
-                        damage = troopObject.ExecuteDamageRole(8, damage, Set<DamageType>.Of(DamageType.Physical));
-                        if (damage > troopObject.GetHitPoints())
+                        else
                         {
-                            damage = troopObject.GetHitPoints();
+                            damage = 0;
                         }
 
-                        if (damage > 0)
-                        {
-                            troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() - damage));
-                            damaged = true;
-                        }
+                        log.DamageValues.Add((byte)damage);
+                        log.DamageTypes.Add(7);
                     }
-                    else
+
+                    if (damaged)
                     {
-                        damage = 0;
+                        log.ValidateGameOver();
+                        var hexY = army.HexY;
+                        var hexX = army.HexX;
+                        EventLog.DistributeLocationEventLog(log, army.Army.Player, hexX, hexY, army.HexLevel, true);
                     }
 
-                    log.DamageValues.Add((byte)damage);
-                    log.DamageTypes.Add(7);
+                    log.Release();
+                    army.Army.Validate();
+                    army.Army.ValidateTerrain(army.Owner.TerrainType, army.Owner.OverlayType, source.Player);
                 }
-
-                if (damaged)
-                {
-                    log.ValidateGameOver();
-                    var hexY = army.HexY;
-                    var hexX = army.HexX;
-                    EventLog.DistributeLocationEventLog(log, army.Army.Player, hexX, hexY, army.HexLevel, true);
-                }
-
-                log.Release();
-                army.Army.Validate();
-                army.Army.ValidateTerrain(army.Owner.TerrainType, army.Owner.OverlayType, source.Player);
-                army.Army.EndUpdate();
             }
 
             _animation?.Dispose();

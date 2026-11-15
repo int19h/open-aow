@@ -10,7 +10,7 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
     // CombatSpells.pas:937
     public new const int ClassId = 131783;
 
-    public FastBattleHighPrayerCombatAction(ECustomNode owner) : base(owner)
+    public FastBattleHighPrayerCombatAction(CustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:943

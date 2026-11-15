@@ -18,7 +18,7 @@ namespace Aow.Game.World.Terrain;
 // Amount, Size
 public partial class ManaCrystals : ImageLibraryTerrainMapObject
 {
-    public ManaCrystals(ECustomNode owner) : base(owner)
+    public ManaCrystals(CustomNode owner) : base(owner)
     {
         _size = 2;
         _amount = 0;
@@ -178,7 +178,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // ManaCrystals.pas:168

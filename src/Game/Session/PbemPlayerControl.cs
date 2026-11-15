@@ -22,7 +22,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
 {
     public new const int ClassId = 131667;
 
-    public PbemPlayerControl(ECustomNode owner) : base(owner)
+    public PbemPlayerControl(CustomNode owner) : base(owner)
     { }
 
     private sbyte _localPlayer;

@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class DarkGift : UnitSpell
 {
     // UnitSpells.pas:830
-    public DarkGift(ECustomNode owner, EngineObject holder) : base(owner)
+    public DarkGift(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DarkGiftText);

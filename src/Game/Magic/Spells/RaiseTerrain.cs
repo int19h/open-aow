@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class RaiseTerrain : GlobalTargetSpell
 {
-    public RaiseTerrain(ECustomNode owner, EngineObject holder) : base(owner)
+    public RaiseTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_raiseTerrainText);

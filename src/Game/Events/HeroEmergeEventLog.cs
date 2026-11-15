@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 // UnitId. _emergeDay. Text. Mode. LocationName
 public partial class HeroEmergeEventLog : EventLog
 {
-    public HeroEmergeEventLog(ECustomNode owner) : base(owner)
+    public HeroEmergeEventLog(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 131832;

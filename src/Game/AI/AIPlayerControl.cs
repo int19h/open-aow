@@ -23,7 +23,7 @@ namespace Aow.Game.AI;
 public partial class AIPlayerControl : EngineObject
 {
     // AI.pas:84
-    public AIPlayerControl(ECustomNode owner) : base(owner)
+    public AIPlayerControl(CustomNode owner) : base(owner)
     {
         Actions = new AIPlayerActionList(null) { Holder = CreationHolder() };
         MoveExecutor = new AIMoveExecutor(null) { Holder = CreationHolder() };

@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPartyList : ENode, IChildList<CombatParty>
+public partial class CombatPartyList : OwningNode, IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
@@ -17,7 +17,7 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
 
     int IChildSink<CombatParty>.AddChild(CombatParty child) => AddChild(child);
 
-    public CombatPartyList(ECustomNode owner) : base(owner)
+    public CombatPartyList(CustomNode owner) : base(owner)
     { }
 
     // Combat2.pas:70

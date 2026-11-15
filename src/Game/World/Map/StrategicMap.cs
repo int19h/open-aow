@@ -88,7 +88,7 @@ public partial class StrategicMap : GameMap
     public PlayerConnectionType ConnectionType { get; set; }
 
     public TextControl TextControl { get; }
-    public PlayerList Players { get; set; }
+    public PlayerCollection Players { get; set; }
     public RaceList Races { get; set; }
 
     public bool FixedLeaders { get; set; }
@@ -642,7 +642,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1238
-    public StrategicMap(ECustomNode owner, EngineObject holder) : base(owner)
+    public StrategicMap(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         ItemControl = new ItemControl(null) { Holder = CreationHolder() };
@@ -678,7 +678,7 @@ public partial class StrategicMap : GameMap
         Description = new StringList();
         _objectives = new StringList();
         _independentAIMode = StrategicMapIndependentAIMode.Normal;
-        Players = new PlayerList(null) { Holder = CreationHolder() };
+        Players = new PlayerCollection(null) { Holder = CreationHolder() };
         Races = new RaceList(null) { Holder = CreationHolder() };
         _playerChangedEventsStore = new();
         FixedLeaders = true;
@@ -2879,7 +2879,7 @@ public partial class StrategicMap : GameMap
     public partial class MapCampaignSettings : EngineObject
     {
         // Diplomacy.pas:1716
-        public MapCampaignSettings(ECustomNode owner) : base(owner)
+        public MapCampaignSettings(CustomNode owner) : base(owner)
         {
             TransferPointsMax = 1000;
             TransferGoldMax = 100;

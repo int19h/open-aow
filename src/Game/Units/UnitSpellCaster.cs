@@ -13,7 +13,7 @@ namespace Aow.Game.Units;
 public partial class UnitSpellCaster : SpellCaster
 {
     // Spells.PAS:859
-    public UnitSpellCaster(ECustomNode owner) : base(owner)
+    public UnitSpellCaster(CustomNode owner) : base(owner)
     {
         TargetUnits = new UnitUserList(null) { Holder = CreationHolder() };
     }

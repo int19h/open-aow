@@ -13,7 +13,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
 {
     // Structur.PAS:3318
     // (phase, structure IDs)
-    public StructureAIPlayerAction(ECustomNode owner) : base(owner)
+    public StructureAIPlayerAction(CustomNode owner) : base(owner)
     {
         _structureIds = new Int32List();
     }

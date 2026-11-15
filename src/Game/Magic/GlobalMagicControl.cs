@@ -20,7 +20,7 @@ public partial class GlobalMagicControl : EngineObject
 {
 
     // Spells.PAS:2673
-    public GlobalMagicControl(ECustomNode owner) : base(owner)
+    public GlobalMagicControl(CustomNode owner) : base(owner)
     {
         Enchantments = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
         _changedEventsStore = new();

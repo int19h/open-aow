@@ -69,7 +69,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     }
 
     // MoveT.PAS:2060
-    public MoveArmyTokenEvent(ECustomNode owner) : base(owner)
+    public MoveArmyTokenEvent(CustomNode owner) : base(owner)
     {
         _unitIds = new Int32List();
     }

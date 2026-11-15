@@ -117,6 +117,12 @@ public sealed class ClassRegistryTests
     [MemberData(nameof(Classes))]
     public void RegisteredCreationReturnsTheExactType(Type type, Type? cleanupError)
     {
+        // CustomNode is the abstract ownership base. Its factory raises the original abstract error.
+        if (type == typeof(CustomNode))
+        {
+            Assert.Throws<AbstractErrorException>(() => EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine));
+            return;
+        }
         // These two entries require a linked owner even though the descriptor accepts null.
         if (type == typeof(DynamicIsometricHex) || type == typeof(FlagControl))
         {
@@ -160,7 +166,6 @@ public sealed class ClassRegistryTests
         [typeof(Crypt)] = typeof(NullReferenceException),
         [typeof(Dungeon)] = typeof(NullReferenceException),
         [typeof(PrisonersArmy)] = typeof(NullReferenceException),
-        [typeof(ECustomNode)] = typeof(AbstractErrorException),
         [typeof(DefendersArmy)] = typeof(NullReferenceException),
         [typeof(ExplorationSite)] = typeof(NullReferenceException),
         [typeof(WatcherHexSprite)] = typeof(NullReferenceException),

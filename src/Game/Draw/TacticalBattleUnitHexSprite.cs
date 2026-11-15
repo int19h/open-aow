@@ -21,7 +21,7 @@ namespace Aow.Game.Draw;
 // OffsetY. SelectedAbility. SelectedSpell. CombatAbilityCount. Abilities. Busy
 public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 {
-    public TacticalBattleUnitHexSprite(ECustomNode owner) : base(owner)
+    public TacticalBattleUnitHexSprite(CustomNode owner) : base(owner)
     { }
 
     // AoWTC.pas:3348

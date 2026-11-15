@@ -36,19 +36,19 @@ namespace Aow.Game.Session;
 // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
 // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
 // emerge day, highest hero level, settings/description
-public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<PlayerList>
+public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
 {
     // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
-    public new PlayerList Owner { get => (PlayerList)base.Owner; set => SetOwner(value); }
+    public new PlayerCollection Owner { get => (PlayerCollection)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is PlayerList;
+    protected sealed override bool AcceptsOwner(CustomNode owner) => owner is PlayerCollection;
 
-    void IOwnedSink<PlayerList>.SetOwner(PlayerList owner) => SetOwner(owner);
+    void IOwnedSink<PlayerCollection>.SetOwner(PlayerCollection owner) => SetOwner(owner);
 
     public new const int ClassId = 131104;
 
     // Player.PAS:261
-    public Player(ECustomNode owner) : base(owner)
+    public Player(CustomNode owner) : base(owner)
     {
         _incomeChangedEventsStore = new();
         _gemsChangedEventsStore = new();

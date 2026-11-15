@@ -16,7 +16,7 @@ namespace Aow.Game.Units;
 public partial class ItemControl : EngineObject
 {
     // Army.PAS:4639
-    public ItemControl(ECustomNode owner) : base(owner)
+    public ItemControl(CustomNode owner) : base(owner)
     {
         _items = new List<Item>();
         _onChangedStore = new();
@@ -277,7 +277,7 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4826
-    public int GenerateItems(Set<ItemType> types, ECustomNode owner, int value)
+    public int GenerateItems(Set<ItemType> types, CustomNode owner, int value)
     {
         DoubleItemList<Item> list;
         int difference;

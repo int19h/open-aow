@@ -19,7 +19,7 @@ namespace Aow.Game.World.Structures;
 
 public partial class Arena : Structure
 {
-    public Arena(ECustomNode owner) : base(owner)
+    public Arena(CustomNode owner) : base(owner)
     { }
 
     // Arena.pas:95
@@ -263,7 +263,7 @@ public partial class Arena : Structure
 
     public new partial class Resource : StructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             CastsShadow = true;
         }

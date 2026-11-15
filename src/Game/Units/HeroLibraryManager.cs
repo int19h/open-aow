@@ -18,15 +18,15 @@ namespace Aow.Game.Units;
 public partial class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
-    public HeroLibraryManager(ECustomNode owner) : base(owner)
+    public HeroLibraryManager(CustomNode owner) : base(owner)
     {
         SystemLibrary = new HeroLibrary(null) { Holder = CreationHolder() };
-        _libraries = new ENode(null) { Holder = CreationHolder() };
+        _libraries = new OwningNode(null) { Holder = CreationHolder() };
     }
 
     public HeroLibrary SystemLibrary { get; }
 
-    private readonly ENode _libraries;
+    private readonly OwningNode _libraries;
 
     // Hero.PAS:2653
     public override void Dispose()

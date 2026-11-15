@@ -10,7 +10,7 @@ public partial class AbstractRoad : MapObject
 {
     public new const int ClassId = 65906;
 
-    public AbstractRoad(ECustomNode owner) : base(owner)
+    public AbstractRoad(CustomNode owner) : base(owner)
     { }
 
     // MAPOBJ.PAS:803

@@ -18,7 +18,7 @@ namespace Aow.Game.Draw.Animations;
 // storm image library
 public partial class BlastStorm : Storm
 {
-    public BlastStorm(ECustomNode owner) : base(owner)
+    public BlastStorm(CustomNode owner) : base(owner)
     { }
 
     private CustomImageLibrary _stormImages;

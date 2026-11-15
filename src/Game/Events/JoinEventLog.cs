@@ -21,7 +21,7 @@ namespace Aow.Game.Events;
 public partial class JoinEventLog : EventLog
 {
     // Diplomacy.pas:1
-    public JoinEventLog(ECustomNode owner) : base(owner)
+    public JoinEventLog(CustomNode owner) : base(owner)
     {
         UnitIds = new Int32List();
         JoinMessage = new StringList();

@@ -10,7 +10,7 @@ public partial class MultiLevelAbilityData : AbilityData
 {
     public new const int ClassId = 139265;
 
-    public MultiLevelAbilityData(ECustomNode owner) : base(owner)
+    public MultiLevelAbilityData(CustomNode owner) : base(owner)
     { }
 
     public byte Level { get; set; }

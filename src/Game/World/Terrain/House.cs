@@ -12,7 +12,7 @@ namespace Aow.Game.World.Terrain;
 
 public partial class House : CombatStructure
 {
-    public House(ECustomNode owner) : base(owner)
+    public House(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 2229522;
@@ -190,7 +190,7 @@ public partial class House : CombatStructure
 
     public new partial class Resource : CombatStructureResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         { }
 
         // House.pas:145

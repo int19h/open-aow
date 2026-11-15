@@ -12,7 +12,7 @@ namespace Aow.Game.AI.Groups;
 /// </summary>
 public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
 {
-    private readonly ENode _holder;
+    private readonly OwningNode _holder;
 
     // Each holder admits only groups (AcceptsChild), so every slot holds a group or is empty.
     internal AIGroupCollection(AIGroupList holder) => _holder = holder;
@@ -20,7 +20,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     internal AIGroupCollection(AIGroupManager holder) => _holder = holder;
 
     /// <summary>The list or manager that holds the groups.</summary>
-    public ENode Holder => _holder;
+    public OwningNode Holder => _holder;
 
     public int Count => _holder.GetCount();
 

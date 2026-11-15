@@ -14,7 +14,7 @@ namespace Aow.Game.Commands;
 
 public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
 {
-    public FreezeWaterTokenEvent(ECustomNode owner) : base(owner)
+    public FreezeWaterTokenEvent(CustomNode owner) : base(owner)
     { }
 
     public new const int ClassId = 135939;

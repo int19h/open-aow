@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class DispelMagic : UnitSpell
 {
     // UnitSpells.pas:1000
-    public DispelMagic(ECustomNode owner, EngineObject holder) : base(owner)
+    public DispelMagic(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);

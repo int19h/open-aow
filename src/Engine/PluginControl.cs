@@ -46,7 +46,7 @@ public partial class PluginControl : EngineObject
     }
 
     // Engine.pas:9252
-    public PluginControl(ECustomNode owner) : base(owner)
+    public PluginControl(CustomNode owner) : base(owner)
     {
         _usedPlugins = new StringList();
         _usedPlugins.Sorted = true;

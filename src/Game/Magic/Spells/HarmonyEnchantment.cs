@@ -24,7 +24,7 @@ public partial class HarmonyEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:913
-    public HarmonyEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
+    public HarmonyEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.HarmonyText);

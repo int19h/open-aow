@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 
 // The token events of a TokenEventList (its FList). The original stores a plain TEReferenceNode
 // there, and this class registers under the same class id, so the stored bytes are the same.
-public class TokenEventReferenceList(ECustomNode owner) : EReferenceNode(owner), IChildList<TokenEvent>
+public class TokenEventReferenceList(CustomNode owner) : ReferenceNode(owner), IChildList<TokenEvent>
 {
     /// <summary>The events of this list, in their stored order.</summary>
     public TokenEventCollection Events => new(this);

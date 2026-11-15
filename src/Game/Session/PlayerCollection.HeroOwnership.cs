@@ -1,7 +1,7 @@
 
 namespace Aow.Game.Session;
 
-public partial class PlayerList
+public partial class PlayerCollection
 {
     public override void Dispose()
     {

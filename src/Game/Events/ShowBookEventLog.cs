@@ -5,7 +5,7 @@ namespace Aow.Game.Events;
 
 public partial class ShowBookEventLog : EventLog
 {
-    public ShowBookEventLog(ECustomNode owner) : base(owner)
+    public ShowBookEventLog(CustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:818

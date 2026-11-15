@@ -13,7 +13,7 @@ namespace Aow.Game.World;
 // FTransitions (two bits per side HN 1.6: 0 none, 1 a road, 2 the shore the bridge reaches)
 public partial class Bridge : AbstractRoad
 {
-    public Bridge(ECustomNode owner) : base(owner)
+    public Bridge(CustomNode owner) : base(owner)
     {
     }
 
@@ -240,7 +240,7 @@ public partial class Bridge : AbstractRoad
 
     public new partial class Resource : AbstractRoadResource
     {
-        public Resource(ECustomNode owner) : base(owner)
+        public Resource(CustomNode owner) : base(owner)
         {
             SetLevel(10);
         }

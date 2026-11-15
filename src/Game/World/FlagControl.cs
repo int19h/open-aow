@@ -31,7 +31,7 @@ public partial class FlagControl : ControlStyleObject
     }
 
     // PlayerC.PAS:1909
-    private protected FlagControl(ConstructionContext context, ECustomNode owner) : base(context, owner)
+    private protected FlagControl(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         var gameSet = (GamePack)owner;
         Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
@@ -109,6 +109,6 @@ public partial class FlagControl : ControlStyleObject
     }
 
     // PlayerC.PAS:1909
-    public static FlagControl Create(ECustomNode owner) =>
+    public static FlagControl Create(CustomNode owner) =>
         ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner ?? throw new NullReferenceException()));
 }
