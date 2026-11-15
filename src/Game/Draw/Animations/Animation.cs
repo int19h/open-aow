@@ -24,11 +24,7 @@ public partial class Animation : HexSprite
     public new const int ClassId = 131815;
 
     // The stored hex. GetHexX, GetHexY and GetHexLevel read it, and HexSprite.Location returns that.
-    public override MapCoordinate Location
-    {
-        get => field;
-        set => field = value;
-    }
+    public override MapCoordinate Location { get; set; }
 
     public byte AnimationLevel { get; set; }
 
