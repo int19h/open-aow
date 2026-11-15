@@ -597,8 +597,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
     {
         try
         {
-            var probe = new DecodeContext(retained, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts());
-            return Canonical(Parse(probe, 0, retained.Length, DocumentNodePath.Root)).AsSpan().SequenceEqual(canonical);
+            return Canonical(Parse(new DecodeContext(retained, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts()), start: 0, end: retained.Length, path: DocumentNodePath.Root)).AsSpan().SequenceEqual(canonical);
         }
         catch (ConversionException)
         {

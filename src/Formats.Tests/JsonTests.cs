@@ -107,10 +107,7 @@ public sealed class JsonTests : FormatsTest
         var rows = new JsonArray { Layout = ArrayLayout.RowsOnLines };
         rows.Add(new JsonArray().Add(new JsonObject().Add("Terrain", new JsonInteger(1))).Add(new JsonObject().Add("Terrain", new JsonInteger(2))));
         rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject()))).Add(new JsonObject()));
-        var text = JsonWriter.ToText(new JsonObject().Add("Fields", rows));
-        Assert.Equal(
-            "{\n  \"Fields\": [\n    [{\"Terrain\": 1}, {\"Terrain\": 2}],\n    [{\"Sprites\": [{}]}, {}]\n  ]\n}\n",
-            text);
+        Assert.Equal(actual: JsonWriter.ToText(new JsonObject().Add("Fields", rows)), expected: "{\n  \"Fields\": [\n    [{\"Terrain\": 1}, {\"Terrain\": 2}],\n    [{\"Sprites\": [{}]}, {}]\n  ]\n}\n");
     }
 
     [Fact]

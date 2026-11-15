@@ -119,9 +119,7 @@ public sealed class TransportProfileTests : FormatsTest
         var classValue = schema.Get("TokenEvent");
         var node = Event(counter: 4);
         node.Add("PortState", new IntegerNode(4, signed: true, value: 9));
-
-        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
-        var read = DocumentBackend.Read(document, classValue: classValue, schema: schema, engine: "game");
+        var read = DocumentBackend.Read(DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(9L, ((IntegerNode)read.Find("PortState")!).Value);
 
         var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game"));
@@ -142,9 +140,7 @@ public sealed class TransportProfileTests : FormatsTest
         scores.Items.Add(new IntegerNode(4, signed: true, value: 3));
         var node = Event(counter: 1);
         node.Add("Scores", scores);
-
-        var document = DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
-        var read = DocumentBackend.Read(document, classValue: classValue, schema: schema, engine: "game");
+        var read = DocumentBackend.Read(DocumentBackend.Write(node, classValue: classValue, schema: schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
         var stored = (ListNode)read.Find("Scores")!;
         Assert.Equal(3, stored.Items.Count);
         Assert.Equal(1L, ((IntegerNode)stored.Items[0]).Value);
@@ -165,8 +161,7 @@ public sealed class TransportProfileTests : FormatsTest
         var classValue = schema.Get("TokenEvent");
         var node = Event(counter: 4);
         byte[] disk = OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
-        byte[] transport = OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game", profile: TransportProfile.Name);
-        Assert.Equal(disk, transport);
+        Assert.Equal(actual: OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game", profile: TransportProfile.Name), expected: disk);
 
         byte[] packet = Packet(node, schema);
         Assert.Equal(1361, GameBoundary.ReadPacketClassId(packet));

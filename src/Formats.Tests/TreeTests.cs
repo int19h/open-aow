@@ -76,7 +76,7 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void NonZeroFallbacksAndBoundariesRoundTrip()
     {
-        var source = new Sample
+        var loaded = RoundTrip(new Sample
         {
             Number = int.MinValue,
             NumberFallback = 0,
@@ -86,8 +86,7 @@ public sealed class TreeTests : FormatsTest
             Word = 65535,
             WordFallback = 0,
             Flag = true,
-        };
-        var loaded = RoundTrip(source);
+        });
         Assert.Equal(int.MinValue, loaded.Number);
         Assert.Equal(0, loaded.NumberFallback);
         Assert.Equal(255, loaded.Small);

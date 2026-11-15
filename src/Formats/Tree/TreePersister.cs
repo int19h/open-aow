@@ -390,8 +390,7 @@ sealed class MemberPersister : IPersister
         var indices = new List<int>();
         for (int i = 0; i < value.Count; i++)
             if ((value.Bits[i >> 3] & (1 << (i & 7))) != 0) indices.Add(i);
-        byte residue = (value.Count & 7) != 0 ? (byte)(value.Bits[^1] & (byte)(0xFF << (value.Count & 7))) : (byte)0;
-        Store(name, new BitListNode(value.Default, value.Count, [.. indices], residue));
+        Store(name, new BitListNode(residue: (value.Count & 7) != 0 ? (byte)(value.Bits[^1] & (byte)(0xFF << (value.Count & 7))) : (byte)0, defaultValue: value.Default, count: value.Count, indices: [.. indices]));
         return value;
     }
 

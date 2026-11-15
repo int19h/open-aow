@@ -310,8 +310,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         if (!classValue.InheritsFrom(RootFamily)) throw context.Fail(Codes.ClassFamily, $"Root class {classValue.Name} is not a {RootFamily}.", 12, DocumentNodePath.Root, classValue.Name, RootFamily);
         var layout = new LayoutBuilder();
         if (size > 16) layout.Header(16, payload.AsSpan(16, size - 16));
-        int rootStart = ReadTop(context, size, payload.Length, layout);
-        var root = DecodeRoot(context, rootStart, payload.Length, classValue);
+        var root = DecodeRoot(start: ReadTop(context, size, payload.Length, layout), context: context, end: payload.Length, classValue: classValue);
         layout.Attach(container, Name, session.Counts);
         return (container, root);
     }
@@ -393,8 +392,7 @@ public sealed class ScenarioSetProfile : FileProfile
         int tail = 10 + nameLength;
         if (file.AsSpan(tail, HeaderSize - tail).ContainsAnyExcept((byte)0)) layout.Header(tail, file.AsSpan(tail, HeaderSize - tail));
         if (size > HeaderSize) layout.Header(HeaderSize, file.AsSpan(HeaderSize, size - HeaderSize));
-        int rootStart = ReadTop(context, size, file.Length - 4, layout);
-        var root = DecodeRoot(context, rootStart, file.Length - 4, session.Schema.Get(RootFamily));
+        var root = DecodeRoot(start: ReadTop(context, size, file.Length - 4, layout), context: context, end: file.Length - 4, classValue: session.Schema.Get(RootFamily));
         layout.Attach(container, Name, session.Counts);
         return (container, root);
     }
@@ -516,8 +514,7 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
         var context = Context(file, session, false);
         var container = NewContainer("none", null);
         var layout = new LayoutBuilder();
-        int start = ReadTop(context, 0, file.Length, layout);
-        var root = DecodeRoot(context, start, file.Length, session.Schema.Get(RootFamily));
+        var root = DecodeRoot(start: ReadTop(context, 0, file.Length, layout), context: context, end: file.Length, classValue: session.Schema.Get(RootFamily));
         layout.Attach(container, Name, session.Counts);
         return (container, root);
     }

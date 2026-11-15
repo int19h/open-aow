@@ -185,8 +185,7 @@ internal sealed partial class ChildrenCodec : PropertyCodec
             if (!slots.Add(e.Id)) throw context.Fail(Codes.Duplicate, $"Child slot {e.Id} is stored twice.", db + e.Offset, site.Path);
             if (e.Offset > cursor) gaps.Add((cursor, e.Offset - cursor));
             int next = boundaries[Array.BinarySearch(boundaries, e.Offset) + 1];
-            var child = new ValueSite { Property = site.Property, Id = e.Id, Path = site.Path.Item(k++), Owner = site.Owner, Builder = site.Builder };
-            array.Add(CreatedObjectCodec.DecodeCreated(context, db + e.Offset, db + next, child, null, e.Id, out _));
+            array.Add(CreatedObjectCodec.DecodeCreated(site: new ValueSite { Property = site.Property, Id = e.Id, Path = site.Path.Item(k++), Owner = site.Owner, Builder = site.Builder }, context: context, start: db + e.Offset, end: db + next, family: null, slot: e.Id, isNull: out _));
             cursor = next;
         }
         if (cursor < length) gaps.Add((cursor, length - cursor));
