@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWWizardsTowerDlg.pas.
 using Aow.Game.Draw;
 

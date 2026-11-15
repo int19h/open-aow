@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Engine.pas.
 using static Aow.Rtl.RtlUnit;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from ItemExpS.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;

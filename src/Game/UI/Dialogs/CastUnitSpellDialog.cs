@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWCastUnitSpellDlg.pas.
 using Aow.Game.Draw;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWCityScreen.pas.
 using System.Collections.Immutable;
 

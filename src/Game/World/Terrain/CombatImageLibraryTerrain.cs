@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CombatILTer.pas.
 using Aow.Engine.Nodes;
 

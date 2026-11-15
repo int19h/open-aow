@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Arena.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;

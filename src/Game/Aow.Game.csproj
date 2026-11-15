@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Nullable>disable</Nullable>
+    <RootNamespace>Aow.Game</RootNamespace>
+    <Nullable>enable</Nullable>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <!-- The translation behind a TODO stub stays unreachable until the stub is implemented (CS0162).

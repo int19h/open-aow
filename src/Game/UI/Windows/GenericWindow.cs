@@ -1,3 +1,4 @@
+#nullable disable
 
 using Aow.Game.UI.Controls;
 using Aow.Rtl;

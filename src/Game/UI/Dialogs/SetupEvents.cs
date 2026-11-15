@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from aowSetupEvents.pas.
 using Aow.Formats;
 using Aow.Game.Audio;

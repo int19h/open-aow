@@ -1,3 +1,4 @@
+#nullable disable
 
 using Aow.Graphics;
 using Aow.Rtl;

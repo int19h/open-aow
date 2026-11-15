@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;

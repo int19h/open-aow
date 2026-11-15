@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWInfoWin.pas.
 using Aow.Game.Draw;
 

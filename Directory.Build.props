@@ -1,6 +1,6 @@
 <Project>
-  <!-- Defaults for every project under src/. A project overrides what it must: the units
-       project turns Nullable off, because transpiled Delphi code has no nullability. -->
+  <!-- Defaults for every project under src/. Nullable is on by default (issue 256).
+       A file that is not nullable-clean carries a file-level nullable disable directive. -->
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -11,5 +11,10 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <RootNamespace>Aow</RootNamespace>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="RootNamespace" />
+    <CompilerVisibleProperty Include="ProjectDir" />
+  </ItemGroup>
 </Project>

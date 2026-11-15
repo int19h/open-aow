@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWWinMan.pas.
 using Aow.Formats;
 using Aow.Game.Audio;

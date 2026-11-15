@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWE.pas and AoWTC.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;

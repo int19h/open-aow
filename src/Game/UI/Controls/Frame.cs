@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWFrame.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;

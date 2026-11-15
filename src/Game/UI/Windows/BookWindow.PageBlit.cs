@@ -1,3 +1,4 @@
+#nullable disable
 using Aow.Game.Draw;
 using Aow.Rtl;
 using PageTurnMode = Aow.Game.UI.Grids.PageTurnMode;

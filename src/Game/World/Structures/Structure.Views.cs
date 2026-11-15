@@ -1,3 +1,4 @@
+#nullable disable
 using Aow.Game.Combat;
 
 namespace Aow.Game.World.Structures;

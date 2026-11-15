@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWSpellBook.pas.
 using Aow.Engine.Collections;
 using Aow.Game.Audio;

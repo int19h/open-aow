@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AOWControlWin.pas.
 using System.Collections.Immutable;
 

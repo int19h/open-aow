@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from FastCombatWin.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;

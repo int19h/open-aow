@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AOWMultiWin.pas.
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;

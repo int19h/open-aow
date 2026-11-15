@@ -2,6 +2,7 @@
   <!-- aowconv, the strict converter between the original files and the own documents
        (own-formats.md 3.2). It opens no window and plays no sound. -->
   <PropertyGroup>
+    <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
     <RootNamespace>Aow.Convert</RootNamespace>
     <AssemblyName>aowconv</AssemblyName>

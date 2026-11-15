@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWSMTPDlg.pas.
 using Aow.Game.Events;
 

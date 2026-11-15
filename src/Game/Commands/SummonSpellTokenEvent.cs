@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from SummonSpells.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;

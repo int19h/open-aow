@@ -1,3 +1,4 @@
+#nullable disable warnings
 
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Dialogs;
