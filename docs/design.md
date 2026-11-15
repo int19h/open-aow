@@ -377,14 +377,13 @@ Milestone 9.7 (`specs/own-formats.md`) adopted them. The decisions:
 - Out of scope until milestone 10: the game set files (`Release\*.pfs`) and the e-mail game
   index, which keep the original format and paths.
 
-The transition has a cost (`specs/own-formats.md` 6.1). Inside the engine every load and save
-still passes through the Delphi image: property numbers, widths, call order, record layouts and
-the stream code stay the engine's protocol, and JSON alone lifts none of these constraints.
-Conversion costs time and memory: the game loads the largest shipped map in 0.3 to 0.5 s and
-holds the file, its payload, a JSON tree and the engine image on the way (`specs/own-formats.md`
-6.1 and 9.3). The exit from the image (`specs/own-formats.md` 6.3), a typed persistence tree
-with a direct document backend and the legacy codecs as adapters over it, is a prerequisite of
-milestone 10: no persistence interface becomes stable mod API before it is done.
+The transition has a cost (`specs/own-formats.md` 6.1). Own loads and saves of the in-scope
+profiles go through the tree and the document backend. Import, export, the packet adapter and
+the original files still use the original image. Conversion of an original costs the time and
+memory of `specs/own-formats.md` 9.3. The exit from the image (`specs/own-formats.md` 6.3) is a
+prerequisite of milestone 10. Steps 1 to 4 are done. Step 5 is done for port-only state and the
+inventory of the public persistence interface. The migration chain is dropped. Own formats are not stable yet, so there is no chain to keep. No persistence interface becomes stable
+mod API before that exit, and 10.4 itself is not done.
 
 Comparison goes through the port's own comparator (`specs/testing.md` 3.2), never through raw
 bytes. It inflates both sides, so the compression stream is free. It takes a list of masked fields

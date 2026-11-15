@@ -269,28 +269,13 @@ shipped maps and campaigns load through them, and nothing requires that the orig
 the port wrote. The explicit-layout records of `transpiler.md` 4.3 exist for `rwData` in the first
 stage and become plain `record struct` types with explicit serialization when the format moves.
 
-Milestone 9.7 (`own-formats.md`) moved the disk format and kept the engine image (1.7). Every own
-load and save still passes through the property tables, the widths and the record layouts above,
-so a persisted `rwData` record keeps its explicit layout in the engine image. Version 3 of the
-own document names that record's fields. The struct stays explicit-layout, because `ReadWrite`
-still copies the bytes. Until the exit finishes, `ReadWrite`, the numeric `rw*` calls and raw
-`rwData` are transitional and no stable mod API.
-
-Step 1 of that exit is implemented for the pilot classes named in `persistence-tree.md`. It adds
-`PersistFields` beside `ReadWrite` on those classes, a typed tree in `Aow.Formats.Tree`, and a
-direct document backend. Step 2 is implemented. Version 2 stores
-enum bytes, sets and fixed integer arrays as C# member names, name lists and integer lists.
-Version 3 stores a padded record as named fields, the ability bit array as ascending indices,
-and a primitive `rwData` value as a plain integer or boolean. The original backend writes the
-tree to the property-table image and back. `DiplomaticAction.ActionType` (Delphi `TDiplomaticAction`)
-stays exact hex on its case mapping. The integer and byte lists and the
-keyed dynamic members are on the tree and the direct path since PE-2c-2, and the map fields, the
-sprites and the campaign map since PE-2c-4. Version 5 (PE-2c-5) stores the resource stream
-callbacks, the flood terrain (Delphi `TFloodControl`), the single and the fixed dynamic items in
-readable shapes, and puts them, the grouped lists and a bit list member on the tree and the direct
-path. The C# record structs keep their explicit layout while `ReadWrite` still copies
-their bytes. The catalog names the fields. It does not replace the struct with a plain record.
-The game still loads and saves through `ReadWrite` and the converter. Step 3 is the switch.
+Milestone 9.7 (`own-formats.md`) moved the disk format. Version 6 stores every member under the
+name of its C# member. Own loads and saves of the in-scope profiles go through the tree and the
+document backend (`own-formats.md` 6.3, `persistence-tree.md`). Import, export, the packet
+adapter and the original files still use the original image. A record struct at the I/O boundary
+keeps its explicit layout. The catalog names the fields. It does not replace the struct with a
+plain record. Steps 1 to 4 of the exit are done. Step 5 is done for port-only state and the
+inventory of the public persistence interface. The migration chain is dropped. Own formats are not stable yet, so there is no chain to keep. Milestone 10.4 is not done.
 
 Milestone 9.6 (`unions-and-kinds.md` section 4) changed the model of two persisted classes and no
 byte of a file:

@@ -52,7 +52,7 @@ public static class TransportProfile
     /// The stored id that puts <paramref name="property"/> in the port range or the mod range,
     /// or null when every stored id sits below <see cref="PortMinimum"/>.
     /// </summary>
-    public static int? ReservedId(SchemaProperty property)
+    internal static int? ReservedId(SchemaProperty property)
     {
         if (Reserved(property.Id) is int id) return id;
         if (Reserved(property.DataId) is int dataId) return dataId;

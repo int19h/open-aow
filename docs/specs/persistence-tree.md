@@ -1,59 +1,12 @@
-# Persistence tree (PE-1, PE-2a, PE-2b, PE-2c-2 to PE-2c-5, PE-3-a, issue 230, PE-3-b to PE-3-i, PE-4-a, PE-4-b, PE-5-a)
+# Persistence
 
-State: PE-1 is implemented for the pilot classes. PE-2a adds version 2 of the own document,
-symbolic enums and sets, and fixed integer arrays as lists, 2026-11-07. PE-2b adds version 3,
-padded records, the ability bit array, raw primitive values, the record catalog, and a direct
-original backend, 2026-11-08. PE-2c-2 adds the lists with a stored default (`int-list` and
-`byte-list`) and the keyed dynamic members (`AbilityOwner.AbilityData` and `ItemControl.Items`)
-on the tree and the direct path, with no document change, 2026-11-12. PE-2c-3 adds version 4:
-the list-typed stream callbacks as lists, the bit lists as set indices and the enum lists as
-names, 2026-11-12. PE-2c-4 adds the fields of a map level as a grid, the sprites of a field as a
-created sequence and the campaign map as a nested document on the tree and the direct path, with
-no document change, 2026-11-12. PE-2c-5 adds version 5: the image sequence lists as layers, the
-terrain list as pairs, the ILB library as base64, the flood terrain as changed hexagons, the
-single as a number and the fixed dynamic items with their slot, with members for them, for the
-grouped lists and for a bit list on the tree and the direct path, 2026-11-12. PE-3-a adds the
-`PersistFields` generator, the preview flag and the engine node classes on the tree, reference
-lists included, 2026-11-12. Issue 230 adds version 6: every member stores the name of the C#
-member it binds, and the migrations of versions 1 to 5 are gone, 2026-11-12. PE-3-b puts the
-units, abilities, items and their resources (`Game/Units`, `Game/Magic/Abilities`) on the tree
-with generated tree methods, with no document change, 2026-11-12. PE-3-c puts the world map,
-terrain, structures, production and drawing (`Game/World` and its folders, `Game/Draw`) on the
-tree, and both backends store a mapped class on its case mapping, with no document change,
-2026-11-13. PE-3-d puts the players, campaigns, diplomacy, event logs, AI, magic, interface
-controls and sounds (`Game/Session`, `Game/Events`, `Game/AI`, `Game/Magic`, `Game/UI`,
-`Game/Audio`) on the tree, with no document change, 2026-11-13. PE-3-e puts the battles, combat
-data, logbooks and combat actions (`Game/Combat`, `Game/Combat/Actions`) on the tree, with no
-document change, 2026-11-13. PE-3-f adds the save shadow of the gate, with no document change,
-2026-11-13. PE-3-g switches the game: the six in-scope profiles load and save through the tree
-(section 12), and the save shadow is gone, 2026-11-13. This is step 1, step 2 and the own disk
-path of step 3 of the exit from the Delphi image (`own-formats.md` 6.3). The direct path refuses
-no shape the schema declares. PE-3-h moves the copies, assignments and comparisons of engine
-objects onto an in-memory tree and the game set files, the system hero and item libraries and the
-e-mail game index onto the original backend (section 13), with no document change, 2026-11-13.
-The first pull request of PE-3-i retires `ReadWrite`, `MainReadWrite` and `ReadWriteChildren` of
-the units, abilities and items (`Game/Units`, `Game/Magic/Abilities`), and the storage streams
-store those classes through the tree (section 14), with no document change, 2026-11-13. The second
-pull request retires them for the world map, terrain, structures, production and drawing
-(`Game/World` and its folders, `Game/Draw`) and deletes the map's timer node, with no document
-change, 2026-11-13. The third pull request retires them for the players, campaigns, diplomacy,
-event logs, spells, AI, interface and sound (`Game/Session`, `Game/Events`, `Game/AI`, `Game/Magic`,
-`Game/UI`, `Game/Audio` and the e-mail game), with no document change, 2026-11-13. The fourth
-pull request retires them for the battles, combat data, logbooks and combat actions
-(`Game/Combat`, `Game/Combat/Actions`) and for the engine base classes no token event or packet
-reaches, with no document change, 2026-11-14. PE-4-a retires `ReadWrite`, `MainReadWrite` and
-`ReadWriteChildren` for the token events and the packets and for the five base methods they
-reached, and deletes the storage streams (section 15). `StoreEngineObject` and
-`RetrieveEngineObject` write and read through the tree and the original backend with the packet's
-class table, which is the legacy packet adapter of step 4. No own-document shape changes,
-2026-11-14. PE-4-b names that packet write as the transport profile of the same schema classes
-(section 16). A value the legacy packet cannot carry is refused with its path, and the own
-document keeps it. The adapter stays that legacy image until `docs/specs/networking.md` replaces
-it. PE-5-a stores the first port-only member and proves one extended array (section 17). The rest of step 5 is not implemented.
+The persistence layer is the tree in `src/Formats/Tree`, namespace `Aow.Formats.Tree`. One `Persist` method per class stores and loads through `IPersister`. `DocumentBackend` reads and writes an own document. `OriginalBackend` reads and writes an original image. Formats does not reference Units. An engine object takes part through `IPersistable`. Units supplies the factory and the child collection.
 
-The API lives in `src/Formats/Tree/`, namespace `Aow.Formats.Tree`. Formats does not reference
-Units. An engine object takes part through `IPersistable`. Units supplies the factory and the
-child collection.
+Own loads and saves of the in-scope profiles use the document backend (section 12). Import, export and the packet adapter use the original backend (sections 12, 15 and 16). The game set files, the system hero and item libraries and the e-mail game index stay original files (section 13). Port-only state lives in the own document (section 17). The public surface of the tree is the interface in section 18.
+
+The own document is version 6. A document of any other version is refused. There is no migration from an older own document.
+
+Steps 1 to 4 of the exit (`own-formats.md` 6.3) are done. Step 5 is done for port-only state, one extended array, validation through the document backend, and the inventory of section 18. The migration chain is dropped. Own formats are not stable yet, so there is no chain to keep. There is no pinned schema and no `versions.json` history for a migration.
 
 ## 1. The serializer
 
@@ -400,6 +353,8 @@ The parser accepts `list`, `record`, `bit-array`, `raw-bool`, `raw` on an intege
 
 ## 6. Direct document backend
 
+The backend reads and writes version 6 only. An older or a newer `$version` is refused with `Codes.Version`. The notes below name the version that introduced each shape. Version 6 keeps those shapes. The hashes named with each version are the schema hashes of that step. `versions.json` now holds version 6 and the hash of the current schema. It holds no migration history.
+
 ```csharp
 public static class DocumentBackend
 {
@@ -431,7 +386,7 @@ Version 4 keeps the version 3 classes and properties and reannotates the lists. 
 
 Version 5 keeps the version 4 classes and properties and reannotates the resource payloads. The five image sequence lists change from `stream` to `image-sequences`, the terrain list to `terrain-list` and the ILB library to `ilb`. `FloodControl.OriginalTerrain` changes from `data` to `terrain-grid`, which names its `width` and `height` members, and `AIPlayerControl.DefenseStrengthMultiplier` from `float32` to `single`. The fixed dynamic members keep their declaration and their items gain `$slot` (`FixedObjectCodec.SlotVersion`). `versions.json` current is 5. Its schema hash is `4b7d69b9b5c313a92f8256dab2ca3682edc65ce6749f13e4a3962bd35ab932a9`. The added contracts are `single-1`, `terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1` and `fixed-slot-1`. The codecs are in `src/Formats/Original/ResourceCodecs.cs`: `SingleCodec`, `TerrainListCodec`, `TerrainGridCodec`, `ImageLibraryCodec` and `ImageSequencesCodec`, each with its converter rules and its tree rules over `SingleNode`, `PairListNode`, `BytesNode` and `ImageSequenceListNode`. The JSON reader keeps a number with a fraction or an exponent as a `JsonNumber` with its text, and every codec but the single refuses it as the wrong type. `$ilb` joins the reserved members, after `$bits`.
 
-Formats does not reference Units, so it does not hold a name table. `EnumCatalog.Register` and `EnumCatalog.RegisterReflection` take catalogs. `ClassRegistry`'s module initializer registers the units assembly by reflection, one registration for every enum in that assembly, and the converter's `UnitCatalog.Register` calls the same method. That call does not run the units module initializer. `Program` runs it with `RuntimeHelpers.RunModuleConstructor` before a conversion. A second registration of the same assembly is ignored. Two catalogs that both name one type fail at the lookup. Formats tests register `SampleRank` and `OtherRank` beside that. The tree itself does not use the catalog. `Enum` and `Set` carry `typeof` at the call. The catalog is for the converter, the migration and the backends, where no object exists. `EnumCodec` and `SetCodec` keep the catalog entry after the first successful lookup.
+Formats does not reference Units, so it does not hold a name table. `EnumCatalog.Register` and `EnumCatalog.RegisterReflection` take catalogs. `ClassRegistry`'s module initializer registers the units assembly by reflection, one registration for every enum in that assembly, and the converter's `UnitCatalog.Register` calls the same method. That call does not run the units module initializer. `Program` runs it with `RuntimeHelpers.RunModuleConstructor` before a conversion. A second registration of the same assembly is ignored. Two catalogs that both name one type fail at the lookup. Formats tests register `SampleRank` and `OtherRank` beside that. The tree itself does not use the catalog. `Enum` and `Set` carry `typeof` at the call. The catalog is for the converter and the backends, where no object exists. `EnumCodec` and `SetCodec` keep the catalog entry after the first successful lookup.
 
 `RecordCatalog` is the same seam for explicit-layout structs. `Register` takes a catalog and `RegisterReflection` scans one assembly. `ClassRegistry` registers the units assembly and the runtime assembly that holds `RectImage`. A second registration of the same assembly is ignored. Two catalogs that both name one record fail at the lookup. Formats tests register `SampleBehavior`, `SamplePacked` and `EveryWidth`, each under its stored type name. The scan keeps a struct that carries `[StoredRecord(name)]` and catalogs it under that name, so the stored record name stays fixed while the game type the image maps changes. The move path's record `MapCoordinate` is bound to `PathStepImage`. The struct's layout is explicit and its size positive. Field names are the C# field names, in `FieldOffset` order, and the field type is the C# type. A set stored as an image field plus a property of type `Set<E>` takes the property name. A field named `Reserved` is residue. `Find` and `Require` resolve a schema record name where no game object exists.
 
@@ -457,15 +412,11 @@ The factory is constructed with the engine of the load. It implements `IEnginePe
 
 `PersistSupport` also moves the engine shapes the serializer cannot name directly. `ImageSequences`, `TerrainList`, `ImageLibrary`, `BitList` and `UnitIndexListCollection` mirror the `LoadFromStream` and `SaveToStream` of their engine classes. The save of an image sequence list reduces its count and the save of a terrain list packs its trailing pairs of none first, as the stream saves do. A present member loads as the stream load does and an absent member leaves the engine object. The image sequence load builds the chains in entry and layer order and draws `Random(frameTable.Count)` for each frame-table layer right after its frame table, before the next layer, so a load through the tree consumes the shared random sequence at the same point as `TImageSequence.LoadFromStream`. The ILB library saves through `SaveToStream` into memory and loads through `LoadFromStream`. `Int32List`, `ByteList` and `UnitIndexList` copy an engine list (Delphi `TIntegerList`, `TByteList`, `TUnitIndexList`) into a list and its default, call the persister, and on a load of a present member clear the list, set the stored default and add the items, as `LoadFromStream` does. An absent member leaves the engine list untouched. `UnitIndexList` is the integer list whose constructor default is -1, and a stored default that differs from it is kept. `UnsignedByte` stores an `sbyte` through `Byte` (the source byte of `rwByte`, including 255 for -1). `Int32Array` and `UInt16Array` copy a fixed array into a list, call `List`, and on load write the list back, filling a short list with zero and refusing a list longer than the array. `Lines` and `LinesEx` copy a `StringCollection` into lists, call the persister, and copy back only on load. `ObjectToInt(null)` is 0 and `IntToObject(0)` is null.
 
-## 8. What PE-2 to PE-5 add
+## 8. Scope
 
-PE-2a, version 2, stores enum bytes, sets and fixed integer arrays as names and lists. PE-2b, version 3, stores padded records, the ability bit array and the raw primitive values, and the original backend is the direct path in section 6. PE-2c-2 stores the integer and byte lists with their default and the keyed dynamic members on the tree and the direct path, and gives `PersistFields` to `AbilityOwner` (Delphi `TAbilityOwner`), `AbilityData` and its subclasses that declare `ReadWrite` (`CommandAbilityData`, `CommandedAbilityData`, `DispelMagicAbilityData`, `DurationAbilityData`, `HealingAbilityData`, `MultiLevelAbilityData`, `LeadershipAbilityData`, `PossessedAbilityData`), `Item` (Delphi `TItem`), `ItemControl`, `TutorialControl`, `PlayerDiplomaticRelations` and `ItemExplorationSiteEventLog`. `Item.PersistFields` leaves out the text-only branches of `ReadWrite`, which only the text and translate streams take. PE-2c-3 gives `PersistFields` to `RaceResource` (Delphi `TRaceResource`), the first caller of the `UnitIndexList` adapter, and stores its image library name on every path, as `Item` does. PE-2c-4 stores the map fields, the sprites of a field and the campaign map on the tree and the direct path, and gives `PersistFields` to `MapLevel` (Delphi `TMapLevel`) and `MapField` (Delphi `TMapField`), with a `MainPersist` on `MapField` that persists its members only, as its `MainReadWrite` runs `ReadWrite` with no `Clear` and no children. `CombatMapLevel` (Delphi `TCombatMapLevel`) declares no `ReadWrite` and leaves the refused set with them. The sprite classes keep their `ReadWrite` and stay refused until PE-3, except `FrozenWaterHexSprite`. `Campaign` (Delphi `TAoWCampaign`) has no `PersistFields` yet: its transfer settings hold hero, item and unit lists that PE-3 converts, so a test object proves the campaign map member. PE-2c-5, version 5, stores the resource payloads, the flood terrain, the single and the fixed dynamic items in readable shapes, puts them, the grouped lists and a bit list member on the tree and the direct path, and gives `PersistFields` to `AIPlayerControl` (Delphi `TAIPlayerControl`), `AbilityControl` (Delphi `TAbilityControl`) and `SpellControl` (Delphi `TSpellControl`). `Ability`, `Spell`, the map object, unit graphics and game pack resources keep their `ReadWrite` until PE-3, and the adapters of `PersistSupport` give their payloads a member. PE-3 still owns mapped classes and the switch off `ReadWrite`. PE-3-a adds the preview flag, with the preview skip of the ability-bit cleanup and of `ItemControl`'s items, and gives the generated tree methods to `ControlStyleNode`, `EngineNode` (and so `ResourceCollection`), `SortedNode` (which refuses both writes, as its `ReadWrite` does), `PluginControl`, and `PersistChildren` to `CustomNode` and `ReferenceNode`. 27 classes leave the refused set, among them every reference list and resource list that declares no storage method of its own. PE-3-b runs the generator over `Game/Units` and `Game/Magic/Abilities`: 41 storage methods, 35 generated, 6 refused. The refused ones already had hand-written tree methods (`AbilityControl`, `AbilityOwner`, `CustomAbilityList`, `ItemControl`, `ArmyView.ReadWrite`) except `Unit`, whose resource index passes through `Unsafe.As<short, ushort>`. `Unit.PersistFields` is hand-written: it stores the index of the unit's resource, -1 for none, and the load looks the resource up in the game set and throws `unit resource missing (<index>)` for a missing one, as `ReadWrite` does. Generated and new: `Ability` (and so every ability subclass and the enchantments derived from it), `Troop` (Delphi `TAbstractUnit`), `Hero` (Delphi `THero`), `Leader` (Delphi `TLeader`), `ArmyId`, `FaceResource`, `HeroControl`, `HeroLibrary`, `HeroLibraryManager`, `HeroResource`, `ItemLibrary`, `ItemLibraryManager`, `ItemList.MainPersist`, `TroopResource`, `TurnInfoItem`, `UnitControl`, `UnitGraphicsResource`, `UnitProduction` and `UnitResource`. The hand-written methods the generator reproduces were replaced by its text. One hand fix: while a hero updates from its library, `Hero.ReadWrite` leaves the stored inventory and worn items unread, so `Hero.PersistFields` skips both members on that branch, because the tree load fails on a member it leaves unread. The library managers store no member of their own. Both paths read and write the system library as `Heroes.PFS` and `ITEMS.PFS` beside the scenario set and the user libraries under `User`. 107 classes leave the refused set, and none of `Game/Units` or `Game/Magic/Abilities` stays in it. `UnitView` (Delphi `TUnitView`), `UnitResourceAbilityOwner` (Delphi `TUnitResourceAbilityOwner`) and `HeroResourceAbilityOwner` (Delphi `THeroResourceAbilityOwner`) do not declare `ReadWrite`. `CustomAbilityList.ReadWrite` (Delphi `TCustomAbilityList`) skips that cleanup when `smPreview` is set, and `PersistFields` skips it when `Preview` is set. PE-3-c runs the generator over `Game/World` and its folders and `Game/Draw`: 70 storage methods, 65 generated, 5 refused. `MapLevel` and `MapField` keep their hand-written tree methods. `GameMap` (Delphi `THSMap`), `GamePack` (Delphi `TAoWHSSet`) and `StrategicMap` (Delphi `TAoWHSMap`) report progress through the stream or set the editor's error handler, and their tree methods are hand-written without either: a tree load has no progress handler, and the editor's error handler is the one its caller passes to `TreeReader.Read` (section 7). `GameMap` marks a preview load and initializes the hexagon sprite set of a full load, `GamePack` reads and writes the nine game set files beside the scenario set as `ReadWrite` does, and `StrategicMap` keeps the network branches of the view position, the elapsed turn time, the turn beep and the game songs. Where `ReadWrite` leaves a stored member unread on a load, the tree method skips it: `StrategicMap` the hero control and the startup songs of a preview, the game songs of a network map and `UnknownProperty57`, and `Sign` (Delphi `TSign`) its `TextSeen` with no map or on a network map. `ProductionItem.PersistFields` stores the kind, parameter and group id of its order and builds the order from them on a load, as `ReadWrite` does, and both backends store the class on its case mapping (section 6). `PersistSupport.UnsignedByte` takes a fallback, so `Structure.BuildingPlayer` (Delphi `rwByteEx` on a shortint, fallback 255) generates. The hand-written methods the generator reproduces (`Animation`, `CityEnchantment`, `FrozenWaterHexSprite`, `MapField.MainPersist`) carry its text. 132 class names leave the refused set, and none declared in these folders stays in it. PE-3-d runs the generator over `Game/Session`, `Game/Events`, `Game/AI` and `Game/AI/Groups`, `Game/Magic`, `Game/Magic/Spells`, `Game/UI` and its folders and `Game/Audio`: 62 storage methods, 56 generated, 6 refused. `GlobalMagicControl`, `FloodControl` and `SpellControl` keep their hand-written tree methods. `Campaign` (Delphi `TAoWCampaign`) stores its map through `NestedDocument` as the nested `world-hsm` document of section 6, and an absent map loads as an empty stream, as a stored size of 0 does. `DiplomaticAction` stores the proposal's kind as its one stored byte, the discriminator of its case mapping, and builds the proposal from the kind, the gold and the mana on a load, as `ReadWrite` does. `RaceList` (Delphi `TRaceList`) stores only its relation offset, because its `ReadWrite` bypasses the one of `ControlStyleNode`. `Player` (Delphi `TPlayer`) keeps every game-state branch of `ReadWrite`: the stored leader (property 19) is read only while the engine loads or saves a map and is never written, the view center is written only for the seated player of a local map, the leader setup member stores the chosen leader while the map is edited and is stored only for a player other than 0, a preview leaves out the event logbook, and a network save leaves out the hero join day. Where `ReadWrite` leaves a stored member unread on a load, the tree method skips it: the leader outside a map load, the event logbook of a preview and the leader setup of player 0. `EmailGame` (Delphi `TEmailGame`, `Game/Net`) is generated with this family, because the PBEM settings of every player hold one. The hand-written methods the generator reproduces (`AIBudget`, `AIBudgetManager`, `AIPlayerControl`, `AIGroup`, `EventLog`, `ItemExplorationSiteEventLog`, `MessageEventLog`, the enchantments, `DiplomaticRelationHistoryItem`, `RaceResource`, `RemotePlayer`, `SetupSettings` and `TutorialControl`) carry its text. 164 class names leave the refused set, and it holds only the combat classes of PE-3-e, the token events and the packets. PE-3-e runs the generator over `Game/Combat` and `Game/Combat/Actions`: 31 storage methods, 30 generated, 1 refused. `UnitSpellCombatAction` keeps its hand-written tree method, because its spell data is a span that is not `Bytes.Of(ref value)`. `DamageCombatAction` and `SingleTargetCombatAction` already carried the generator's text. Generated and new: `Battle` (Delphi `TCombat`), `CombatData`, `CombatLogbook`, `CombatObject`, `CombatParty`, `CombatPlayer`, `CombatSide`, `CombatUnit`, `CombatWall`, `FastBattleUnit` (Delphi `TFastCombatUnit`) and the combat actions that declare `ReadWrite`. Their subclasses that declare no storage method come with them (`FastBattle`, `TacticalBattle`, `TacticalBattlePlayer`, `TacticalBattleUnit` and the spell actions). `CombatObject` clears its activated flag on a load, and `CombatUnit` hands a loaded troop to `SetUnit`, which takes its own reference, and releases the one the load made, both as `ReadWrite` does. 42 class names leave the refused set, and it holds only the token events and the packets (`DataPackage`, `TokenPackage`, `TokenEventList`, `PlayerCommunicationSettings`) of PE-4-a. PE-3-f adds the save shadow of section 12, which proves the save side of the switch on every save the gate writes.
+The tree stores every shape the schema declares. Own loads and saves of the in-scope profiles go through `DocumentBackend` (section 12). Import of an original file, export of a tree the original image can carry, and the packet adapter go through `OriginalBackend` (sections 12, 15 and 16). The game set files, the system hero and item libraries and the e-mail game index stay original files and go through the same backend (section 13). A bit-list load reads up to three bytes past the stored bits through `OriginalBackend.WriteData` and writes no file (section 18).
 
-PE-3 rewrites each `ReadWrite` into `Persist` and moves own load and save onto `DocumentBackend`. Original import and export stay. Own formats are not stable yet, so no historical document decoder stays (issue 230). PE-3-g moves the game's loads and saves of the in-scope profiles onto the tree (section 12).
-
-PE-4 separates token-event transport from disk persistence. PE-4-a writes packets through the legacy image. PE-4-b keeps that image on the transport profile of the same schema classes (section 16). A port-range member, a list longer than a fixed array and any other value the original image does not hold are refused with their paths and are not truncated. The own document keeps the value. `docs/specs/networking.md` replaces the adapter. Packet widths stay on the legacy image until then.
-
-PE-5-a stores port-only state and proves one extended array (section 17). The own reload of those cases is lossless and strict export refuses each with its path. The rest of PE-5 proves the richer cases and the G1, G2 and G-own gate, and checks that no Delphi image remains on the own disk path or in the stable mod interface.
+Steps 1 to 4 of `own-formats.md` 6.3 are in place. Step 5 is in place for port-only state (section 17), one extended array, validation through `DocumentBackend`, and the inventory of section 18. The migration chain from version 1 is dropped (user decision), and G1, G2 and G-own stay covered by the converter and persistence layers of the gate. Own formats are not stable yet. There is no pinned schema and no `versions.json` history for a migration.
 
 ## 9. Pilot census
 
@@ -561,12 +512,12 @@ The census is every `Bytes` and `TransferSet` site of the storage streams (Delph
 | mapped discriminator | 1 | `DiplomaticAction.Kind`, the one-byte kind. The class stays on its case mapping |
 | variable blob | 7 | Two `Campaign.Stream` (Delphi `TAoWCampaign`) sites are the campaign map member, a nested document on the tree and the direct path since PE-2c-4. The other five are the storage-stream callbacks (`StorageStream` (Delphi `TEStorageStream`), `StorageReader` (Delphi `TEReadStorageStream`), `StorageWriter` (Delphi `TEWriteStorageStream`), and Delphi `TCompareStorageStream` twice, which the port does not have). Since PE-2c-5 the tree and the direct path store the resource payloads in their version 5 shapes |
 
-Declared schema codecs after version 3: `data` 2, `record` 5, `bit-array` 1, `raw-bool` 1, plus `raw` true on 28 `u8`, 1 `i8` and 3 `i32`. `enum` 60, `set` 27, `int-array` 5, `stream` 17, `int-list` 17, `byte-list` 12 and `bit-list` 3 are unchanged. After version 4: `stream` 7 (the resource payloads), `int-list` 25 (3 with `groups`, 1 with `record`), `byte-list` 14 (5 with `enum`) and `bit-list` 3 (all with `indices`). The list and stream figures are declarations, not the inherited uses of the PE-1 census. `AIPlayerControl.DefenseStrengthMultiplier` (Delphi `TAIPlayerControl`) is `float32`, not `data`. After version 5: `stream` 0, `data` 1 (`DiplomaticAction.ActionType`), `float32` 0, `image-sequences` 5, `terrain-list` 1, `ilb` 1, `terrain-grid` 1 and `single` 1. The full site table of the earlier shapes is in the PE-2a status file. PE-2c takes the stream callbacks, the map blobs (`OriginalTerrain`, map fields, the campaign map) and the run-length lists. PE-3 takes mapped classes, dynamic members and the switch off `ReadWrite`. The C# record structs stay explicit-layout. `ReadWrite` still copies their bytes, and the catalog names the fields without changing the struct.
+Declared schema codecs after version 3: `data` 2, `record` 5, `bit-array` 1, `raw-bool` 1, plus `raw` true on 28 `u8`, 1 `i8` and 3 `i32`. `enum` 60, `set` 27, `int-array` 5, `stream` 17, `int-list` 17, `byte-list` 12 and `bit-list` 3 are unchanged. After version 4: `stream` 7 (the resource payloads), `int-list` 25 (3 with `groups`, 1 with `record`), `byte-list` 14 (5 with `enum`) and `bit-list` 3 (all with `indices`). The list and stream figures are declarations, not the inherited uses of the PE-1 census. `AIPlayerControl.DefenseStrengthMultiplier` (Delphi `TAIPlayerControl`) is `float32`, not `data`. After version 5: `stream` 0, `data` 1 (`DiplomaticAction.ActionType`), `float32` 0, `image-sequences` 5, `terrain-list` 1, `ilb` 1, `terrain-grid` 1 and `single` 1. The full site table of the earlier shapes is in the PE-2a status file. The stream callbacks, the map blobs (`OriginalTerrain`, map fields, the campaign map) and the run-length lists are on the tree. Mapped classes and dynamic members are on the tree. `Persist` is the storage method. The C# record structs stay explicit-layout at the I/O boundary. The catalog names the fields. It does not replace the struct with a plain record.
 
 ## 12. The game's loads and saves
 
-PE-3-g moves the six in-scope profiles of `own-formats.md` 1.1 (world maps and saves, tactical maps,
-campaigns and campaign saves, the scenario set, hero lists and item lists) onto the tree. No
+The six in-scope profiles of `own-formats.md` 1.1 (world maps and saves, tactical maps,
+campaigns and campaign saves, the scenario set, hero lists and item lists) load and save through the tree. No
 `ReadWrite` runs on these paths.
 
 - An own load reads the document, checks its profile and kind, and runs
@@ -828,19 +779,7 @@ turn order lists and the target list of a multi-target spell) and are deleted. T
 same bytes through `PersistSupport.ByteList`. `Int32List` keeps its payload methods, which the
 token events still call.
 
-Five base methods stay, each reached by a class that keeps its `ReadWrite` until PE-4-a:
-
-- `EngineObject.ReadWrite`, through `base.ReadWrite` of `TokenEvent` (and so of every token
-  event), `PlayerCommunicationSettings` and `TokenEventList`, and through
-  `CustomNode.MainReadWrite` of the token event list. `DataPackage` does not call it.
-- `EngineObject.MainReadWrite`, through `StorageStream.PersistObject` for every token event,
-  `PlayerCommunicationSettings` and `TokenEventList`. `DataPackage` has its own.
-- `CustomNode.MainReadWrite`, `CustomNode.ReadWriteChildren` and
-  `ReferenceNode.ReadWriteChildren`, through the token event list of `TokenEventList`
-  (`TokenEventReferenceList`), whose children are token events that the tree refuses.
-
-A class whose chain holds only these five methods and no tree method of its own (a plain node or
-list) stores through them, and the stream writes the same image as the tree for it.
+Section 15 retires the base storage methods that token events and packets still reached after this family. No class stores through `ReadWrite` after that.
 
 No token event or packet stores an object of the combat family. A battle's logbook reaches the
 players as a combat event log in their event logbooks, which the saves store through the tree.
@@ -981,7 +920,7 @@ profile changes no codec and no class table.
 This is the legacy packet adapter of own-formats.md 6.3 step 4. `docs/specs/networking.md`
 replaces it. This specification does not define that file.
 
-## 17. Port-only state (PE-5-a)
+## 17. Port-only state
 
 Property ids from `0x40000000` through `0x4FFFFFFF` are port features. The own document stores
 a present member in that range. `DocumentValidation.Run` reads the document through
@@ -1011,7 +950,20 @@ bytes unmodded play writes. The extended-array proof builds a fixed array of cou
 the disk image refuse the list with `E_RANGE` at `root.Scores`. The message says that export
 does not truncate.
 
-Own formats are not stable yet. This step adds no migration and no earlier schema. The schema
-hash pin in `versions.json` is the hash of the schema that holds `PrisonersArmy.Items`. A save
-written after this step with an empty prisoners list has no new member. A save that stores the
-list is an unknown member on the schema from before this step.
+Own formats are not stable yet. The migration chain from an older own document is dropped (user decision): when a format changes, the playtest saves are upgraded instead. There is no pinned schema and no `versions.json` history for a migration. The hash in `versions.json` is the hash of the current schema, which holds `PrisonersArmy.Items`. A save written before that member existed has no port-only member and still loads when the list is absent. A save that stores the list is an unknown member on a schema from before the member.
+
+## 18. The stable interface
+
+`PersistenceInventoryTests` reads the built assemblies that hold `OriginalBackend`, `PersistSupport` and `GameEngine`. The engine persistence types live in `Aow.Game`. It fails when a method outside the allowed sites calls `OriginalBackend`, or calls `ImageTree` from outside the original codecs in `Aow.Formats.Original`. The allowed sites are named in that test, each with its reason:
+
+- `GameBoundary.ReadImageTree` imports an original image the game already holds.
+- `GameBoundary.WriteImage` exports the original image of a map the image can carry.
+- `GameBoundary.WritePacket` and `GameBoundary.ReadPacket` are the packet adapter.
+- `GameBoundary.WriteWrittenObject` and `GameBoundary.ReadWrittenObject` read and write the original files of section 13.
+- `PersistSupport.BitListOverRead` rebuilds the bytes a bit-list load reads past the stored bits. It writes no file.
+
+The same test fails when a public member of `Aow.Formats.Tree` exposes a stored id (`Id`, `PropertyId`, `ClassId` or `ReservedId`), a storage width (a `Width` on a type with no `Height`), a raw image (`Image` or `Data` as bytes, or an integral `Mask`) or residue (`Residue` or `Reserved`). A grid's `Width` stays, because `Height` is beside it. `BitListImage.Bits` stays, because the engine reads the bit bytes by that name. The document stores residue as the member `$reserved`. The same rule fails when `Game` or `Engine` uses such a member. A planted call and a planted public id, both in the test project, are found by the same scan.
+
+## Appendix. Step record
+
+The private plan records each implementation step. This file states the layer as it is. Steps 1 to 4 of the exit are done. Of step 5, port-only state, the extended array, document validation and the inventory are done. The migration chain is dropped, because own formats are not stable yet.

@@ -11,7 +11,7 @@ public sealed class EnumTypeInfo
 {
     public required string Name { get; init; }
     internal Type Color { get; init; } = null!;
-    public required int Width { get; init; }
+    internal int Width { get; init; }
     public required bool Signed { get; init; }
     public required IReadOnlyDictionary<string, long> ByName { get; init; }
     public required IReadOnlyDictionary<long, string> ByValue { get; init; }
