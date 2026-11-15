@@ -41,10 +41,10 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public override void Assign(EngineObject source, GameEngine engine)
     {
         SetNumberOfPlayers(((PlayerCollection)source).GetNumberOfPlayers());
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            var players = ((PlayerCollection)source).GetPlayers(I);
-            this[I].Assign(players, engine);
+            var players = ((PlayerCollection)source).GetPlayers(i);
+            this[i].Assign(players, engine);
         }
     }
 
@@ -52,13 +52,13 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public int GetDiplomaticRelationCount(sbyte player, Set<DiplomaticRelation> relations)
     {
         int result = 0;
-        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (I != player)
+            if (i != player)
             {
-                if (GetPlayers(I).Status == PlayerStatus.Playing)
+                if (GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    if (relations.Contains(GetDiplomaticRelation(player, (sbyte)I)))
+                    if (relations.Contains(GetDiplomaticRelation(player, (sbyte)i)))
                     {
                         result += 1;
                     }
@@ -79,16 +79,16 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         {
             if (relation == DiplomaticRelation.Alliance)
             {
-                for (int I = 1, last = Count - 1; I <= last; I++)
+                for (int i = 1, last = Count - 1; i <= last; i++)
                 {
-                    if (GetPlayers(player).GetFirstDaySeen((sbyte)I) == -1 && GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)I) != -1)
+                    if (GetPlayers(player).GetFirstDaySeen((sbyte)i) == -1 && GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)i) != -1)
                     {
-                        GetPlayers(player).PlayerSeen((sbyte)I);
+                        GetPlayers(player).PlayerSeen((sbyte)i);
                     }
 
-                    if (GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)I) == -1 && GetPlayers(player).GetFirstDaySeen((sbyte)I) != -1)
+                    if (GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)i) == -1 && GetPlayers(player).GetFirstDaySeen((sbyte)i) != -1)
                     {
-                        GetPlayers(otherPlayer).PlayerSeen((sbyte)I);
+                        GetPlayers(otherPlayer).PlayerSeen((sbyte)i);
                     }
                 }
             }
@@ -108,9 +108,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
 
             StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
-            for (int J = Count - 1; J >= 1; J--)
+            for (int j = Count - 1; j >= 1; j--)
             {
-                this[J].MagicControl.UpdateEnemyEnchantments();
+                this[j].MagicControl.UpdateEnemyEnchantments();
             }
 
             StrategicMap.Current.UpdateVisibility();
@@ -120,18 +120,18 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1484
     public int GetActivePlayers()
     {
-        int I;
-        I = 1;
+        int i;
+        i = 1;
         int result = 0;
         // { Original tests the active count, not the index, and can run past the list. }
         while (result != Count)
         {
-            if (this[I].GameOverStatus != GameOverStatus.Lost)
+            if (this[i].GameOverStatus != GameOverStatus.Lost)
             {
                 result += 1;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -140,18 +140,18 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1526
     public void BeginUpdate()
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            this[I].BeginUpdate();
+            this[i].BeginUpdate();
         }
     }
 
     // Player.PAS:1534
     public void EndUpdate()
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            this[I].EndUpdate();
+            this[i].EndUpdate();
         }
 
         Update();
@@ -176,21 +176,21 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1559
     public bool GetActivePlayersAllied()
     {
-        int I;
-        int J;
+        int i;
+        int j;
         bool result = true;
-        I = ActivePlayers.Count;
-        while (result && I != 0)
+        i = ActivePlayers.Count;
+        while (result && i != 0)
         {
-            I -= 1;
-            J = ActivePlayers.Count;
-            while (result && J != 0)
+            i -= 1;
+            j = ActivePlayers.Count;
+            while (result && j != 0)
             {
-                J -= 1;
-                if (J != I)
+                j -= 1;
+                if (j != i)
                 {
-                    var item = ActivePlayers[I];
-                    result = GetDiplomaticRelation((sbyte)ActivePlayers[J], (sbyte)item) == DiplomaticRelation.Alliance;
+                    var item = ActivePlayers[i];
+                    result = GetDiplomaticRelation((sbyte)ActivePlayers[j], (sbyte)item) == DiplomaticRelation.Alliance;
                 }
             }
         }
@@ -205,12 +205,12 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         Player player;
         count = 0;
         int result = 0;
-        for (int I = 1, last = Count - 1; I <= last; I++)
+        for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            player = (Player)GetChildInRange(I);
-            for (int J = player.Heroes.Count - 1; J >= 0; J--)
+            player = (Player)GetChildInRange(i);
+            for (int j = player.Heroes.Count - 1; j >= 0; j--)
             {
-                result += player.Heroes.GetHero(J).GetLevel();
+                result += player.Heroes.GetHero(j).GetLevel();
                 count += 1;
             }
         }
@@ -231,9 +231,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public int GetAverageHeroCount()
     {
         int result = 0;
-        for (int I = 1, last = Count - 1; I <= last; I++)
+        for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            result += ((Player)GetChildInRange(I)).Heroes.Count;
+            result += ((Player)GetChildInRange(i)).Heroes.Count;
         }
 
         return result / (Count - 1);
@@ -243,11 +243,11 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public int GetMaxHeroCount()
     {
         int result = 0;
-        for (int I = 1, last = Count - 1; I <= last; I++)
+        for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            if (((Player)GetChildInRange(I)).Heroes.Count > result)
+            if (((Player)GetChildInRange(i)).Heroes.Count > result)
             {
-                result = ((Player)GetChildInRange(I)).Heroes.Count;
+                result = ((Player)GetChildInRange(i)).Heroes.Count;
             }
         }
 
@@ -260,18 +260,18 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1622
     public int RaceToPlayer(sbyte race)
     {
-        int I;
+        int i;
         int result = -1;
-        I = 1;
+        i = 1;
         // { Original uses <> Count and assumes at least the independent player exists. }
-        while (result == -1 && I != Count)
+        while (result == -1 && i != Count)
         {
-            if (this[I].PlayerRace == race)
+            if (this[i].PlayerRace == race)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;
@@ -317,29 +317,29 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     {
         Int32List available;
         Int32List invalid;
-        int I;
+        int i;
         int index;
         int defaultRace;
         available = new Int32List();
         invalid = new Int32List();
-        I = 0;
+        i = 0;
         int last = races.Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            if (races.GetRace(I).Enabled)
+            if (races.GetRace(i).Enabled)
             {
-                available.Add(I);
+                available.Add(i);
             }
         }
 
-        I = 1;
+        i = 1;
         int limit = Count - 1;
-        for (; I <= limit; I += 1)
+        for (; i <= limit; i += 1)
         {
-            index = available.IndexOf(this[I].PlayerRace);
+            index = available.IndexOf(this[i].PlayerRace);
             if (index == -1)
             {
-                invalid.Add(I);
+                invalid.Add(i);
             }
             else
             {
@@ -347,35 +347,33 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
         }
 
-        I = 0;
+        i = 0;
         defaultRace = -1;
-        while (I != GamePack.Current.RaceResources.Count && defaultRace == -1)
+        while (i != GamePack.Current.RaceResources.Count && defaultRace == -1)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(I) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(i) != null)
             {
-                if (races == null || races.GetRace(I).Enabled)
+                if (races == null || races.GetRace(i).Enabled)
                 {
-                    defaultRace = I;
+                    defaultRace = i;
                 }
             }
 
-            I += 1;
+            i += 1;
         }
 
-        I = 0;
+        i = 0;
         int last2 = invalid.Count - 1;
-        for (; I <= last2; I += 1)
+        for (; i <= last2; i += 1)
         {
             if (available.Count == 0)
             {
-                var item = invalid[I];
-                this[item].SetRace((sbyte)defaultRace);
+                this[invalid[i]].SetRace((sbyte)defaultRace);
             }
             else
             {
                 var item = available[0];
-                var invalidItem = invalid[I];
-                this[invalidItem].SetRace((sbyte)item);
+                this[invalid[i]].SetRace((sbyte)item);
                 available.Delete(0);
             }
         }
@@ -389,28 +387,28 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     {
         int result;
         bool valid;
-        int I;
-        int J;
+        int i;
+        int j;
         Player player;
         valid = true;
-        I = 1;
-        while (valid && I < Count)
+        i = 1;
+        while (valid && i < Count)
         {
-            player = this[I];
+            player = this[i];
             valid = player.PlayerRace != -1 && races.GetRace(player.PlayerRace).Enabled;
             if (valid)
             {
-                J = 1;
-                while (valid && J != Count)
+                j = 1;
+                while (valid && j != Count)
                 {
-                    valid = J == I || GetPlayers(J).PlayerRace != player.PlayerRace;
-                    J += 1;
+                    valid = j == i || GetPlayers(j).PlayerRace != player.PlayerRace;
+                    j += 1;
                 }
             }
 
             if (valid)
             {
-                I += 1;
+                i += 1;
             }
         }
 
@@ -420,7 +418,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         }
         else
         {
-            result = I;
+            result = i;
         }
 
         return result;
@@ -434,15 +432,15 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         int value;
         maximum = 0;
         bestPlayer = -1;
-        for (int I = 1, last = Count - 1; I <= last; I++)
+        for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            if (GetPlayers(I).Status == PlayerStatus.Playing)
+            if (GetPlayers(i).Status == PlayerStatus.Playing)
             {
-                value = GetPlayers(I).GetSuperiority();
+                value = GetPlayers(i).GetSuperiority();
                 if (value > maximum)
                 {
                     maximum = value;
-                    bestPlayer = I;
+                    bestPlayer = i;
                 }
             }
         }

@@ -183,14 +183,14 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:432
     public virtual void ViewLocation()
     {
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
-        GetLocation(out X, out Y, out L);
-        if (X != -1)
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
+        GetLocation(out x, out y, out l);
+        if (x != -1)
         {
-            StrategicMap.Current.CenterViewTo(X, Y, L);
-            StrategicMap.Current.PlayCenterAnimation(X, Y, L);
+            StrategicMap.Current.CenterViewTo(x, y, l);
+            StrategicMap.Current.PlayCenterAnimation(x, y, l);
         }
     }
 
@@ -205,14 +205,14 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         Player player;
         EventLog copyLog;
-        for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
-            player = StrategicMap.Current.Players.GetPlayers(I);
+            player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing)
             {
                 copyLog = (EventLog)log.Copy(log.GetEngine());
                 player.EventLogbook.AddEvent(copyLog);
-                if (I == StrategicMap.Current.SeatedPlayer && execute)
+                if (i == StrategicMap.Current.SeatedPlayer && execute)
                 {
                     copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
@@ -226,14 +226,14 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         Player targetPlayer;
         EventLog copyLog;
-        for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
-            targetPlayer = StrategicMap.Current.Players.GetPlayers(I);
-            if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !StrategicMap.Current.FoggedForPlayer(x, y, level, (sbyte)I)))
+            targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
+            if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, level, (sbyte)i)))
             {
                 copyLog = (EventLog)log.Copy(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
-                if (I == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && execute)
+                if (i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {
                     copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }

@@ -14,7 +14,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
     }
 
     // HSEngine.pas:1614
-    public int AddMapCoordinate(sbyte X, sbyte Y, sbyte L) => Add(new MapCoordinate(X, Y, L));
+    public int AddMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => Add(new MapCoordinate(x, y, mapLevel));
 
     // HSEngine.pas:1698
     public int IndexOfXY(sbyte X, sbyte Y)

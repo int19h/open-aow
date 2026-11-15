@@ -82,9 +82,9 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     public int GetStrength(DamageType damageType)
     {
         int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            result += this[I].GetStrength(damageType);
+            result += this[i].GetStrength(damageType);
         }
 
         return result;
@@ -94,9 +94,9 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     public int GetStrengthMax(Set<DamageType> damageTypes)
     {
         int result = 0;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            result += this[I].GetStrengthMax(damageTypes);
+            result += this[i].GetStrengthMax(damageTypes);
         }
 
         return result;
@@ -197,12 +197,12 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     public Troop FindId(int id)
     {
         Troop result;
-        int I;
-        I = Count;
-        while (I != 0)
+        int i;
+        i = Count;
+        while (i != 0)
         {
-            I -= 1;
-            result = this[I];
+            i -= 1;
+            result = this[i];
             if (result.UnitId == id)
             {
                 return result;

@@ -29,9 +29,9 @@ public partial class SimultaneousPlayerControl : PlayerControl
     {
         StrategicMap.Current.Selection.UnselectLocation();
         base.NewDay();
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            NewTurn((sbyte)I);
+            NewTurn((sbyte)i);
         }
 
         AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
@@ -120,11 +120,11 @@ public partial class SimultaneousPlayerControl : PlayerControl
         NewTurnEventLog log = default;
         base.StartNewMap();
         StrategicMap.Current.ShowIndependentMoves = false;
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (I == 0 || StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
+            if (i == 0 || StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                StrategicMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
+                StrategicMap.Current.Players.GetPlayers(i).Status = PlayerStatus.Playing;
             }
         }
 
@@ -205,17 +205,17 @@ public partial class SimultaneousPlayerControl : PlayerControl
     // PlayerC.PAS:1305
     public override void EndTurn(sbyte player)
     {
-        int I;
+        int i;
         bool allDone;
         EndTurnEventLog log;
         EngineMessage message = default;
         StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(true);
         allDone = true;
-        I = 1;
-        while (allDone && I != StrategicMap.Current.Players.Count)
+        i = 1;
+        while (allDone && i != StrategicMap.Current.Players.Count)
         {
-            allDone = StrategicMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Playing || StrategicMap.Current.Players.GetPlayers(I).SingleProcessCycle;
-            I += 1;
+            allDone = StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Playing || StrategicMap.Current.Players.GetPlayers(i).SingleProcessCycle;
+            i += 1;
         }
 
         if (allDone)
@@ -226,24 +226,24 @@ public partial class SimultaneousPlayerControl : PlayerControl
             }
 
             StrategicMap.Current.LockRelationsChanged();
-            I = 0;
+            i = 0;
             int last = StrategicMap.Current.Players.Count - 1;
-            for (; I <= last; I += 1)
+            for (; i <= last; i += 1)
             {
-                if (StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
+                if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    if (StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Human)
+                    if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human)
                     {
-                        StrategicMap.Current.AIExecutor.DeactivatePlayer((sbyte)I);
+                        StrategicMap.Current.AIExecutor.DeactivatePlayer((sbyte)i);
                     }
 
                     log = new EndTurnEventLog(null) { Holder = CreationHolder() };
-                    StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     log.Release();
                 }
 
                 EngineMessage.InitializeMessage(out message, 537001991, this);
-                message.Payload = I;
+                message.Payload = i;
                 StrategicMap.Current.SendMessage(ref message, this);
             }
 
@@ -273,20 +273,20 @@ public partial class SimultaneousPlayerControl : PlayerControl
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
         StrategicMap.Current.NotifySeatedPlayerChanged();
         StrategicMap.Current.ResetSeatedPlayerView();
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            player = StrategicMap.Current.Players.GetPlayers(I);
+            player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing && player.PlayerType != PlayerType.Human)
             {
-                StrategicMap.Current.AIExecutor.ActivatePlayer((sbyte)I);
+                StrategicMap.Current.AIExecutor.ActivatePlayer((sbyte)i);
             }
         }
 
-        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Playing)
+            if (StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Playing)
             {
-                StrategicMap.Current.TokenManager.TokenControls[I].Active = false;
+                StrategicMap.Current.TokenManager.TokenControls[i].Active = false;
             }
         }
 

@@ -36,15 +36,15 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
     public void CreatePoisonPlant(Troop source)
     {
         MapLevel level = default;
-        HexNumberWalkData Walk = default;
+        HexNumberWalkData hexNumberWalkData = default;
         PoisonPlant.Resource resource = default;
         MapField mapField = default;
         PoisonPlant plant = default;
         ImageSequenceAnimation animation = default;
         TwinkleAnimation twinkle = default;
-        ref var walk = ref Walk;
+        ref var walk = ref hexNumberWalkData;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out Walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
         resource = (PoisonPlant.Resource)GamePack.Current.MapObjectResourceList.FindChild(131999);
         while (walk.Radius <= 1)
         {
@@ -80,7 +80,7 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
                 }
             }
 
-            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
 

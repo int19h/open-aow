@@ -44,15 +44,15 @@ public partial class GroupDefenseSelector : IDisposable
     {
         DefensePriority priority;
         MapCoordinate location;
-        Player P;
+        Player p;
         AIGroup group;
         bool result = false;
         location = HexGeometry.PackMapCoordinate(X, Y, L);
         priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
-        P = StrategicMap.Current.Players.GetPlayers(player);
-        for (int I = P.AIGroups.Count - 1; I >= 0; I--)
+        p = StrategicMap.Current.Players.GetPlayers(player);
+        for (int i = p.AIGroups.Count - 1; i >= 0; i--)
         {
-            group = P.AIGroups.GetGroups(I);
+            group = p.AIGroups.GetGroups(i);
             if (group.DefendLocation(location, priority))
             {
                 units.AddUnits(group.Units);
@@ -115,7 +115,7 @@ public partial class GroupDefenseSelector : IDisposable
         bool result = default;
         UnitUserList candidates = default;
         int start = default;
-        int I = default;
+        int i = default;
         MapLevel level = default;
         Troop troop = default;
         MapField mapField = default;
@@ -141,10 +141,10 @@ public partial class GroupDefenseSelector : IDisposable
                     s_defenseSortGroupId = group.GroupId;
                     s_defenseSortUnits = units;
                     candidates.SortChildren(CompareDefenseUnits);
-                    I = 0;
-                    while (candidates.Count != I && candidates.GetUnit(I).GroupId != group.GroupId)
+                    i = 0;
+                    while (candidates.Count != i && candidates.GetUnit(i).GroupId != group.GroupId)
                     {
-                        troop = candidates.GetUnit(I);
+                        troop = candidates.GetUnit(i);
                         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                         {
                             damageType = (DamageType)damageTypeOrdinal;
@@ -152,15 +152,15 @@ public partial class GroupDefenseSelector : IDisposable
                             strengths.DamageStrengths[(int)damageType] -= strength;
                         }
 
-                        I += 1;
+                        i += 1;
                     }
 
-                    start = I;
-                    I = 0;
+                    start = i;
+                    i = 0;
                     int last = Defenders.Count - 1;
-                    for (; I <= last; I += 1)
+                    for (; i <= last; i += 1)
                     {
-                        troop = Defenders.GetUnit(I);
+                        troop = Defenders.GetUnit(i);
                         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                         {
                             damageType = (DamageType)damageTypeOrdinal;
@@ -169,10 +169,10 @@ public partial class GroupDefenseSelector : IDisposable
                         }
                     }
 
-                    I = start;
-                    while (!EnoughStrength(strengths.DamageStrengths) && candidates.Count > I && candidates.GetUnit(I).GroupId == group.GroupId)
+                    i = start;
+                    while (!EnoughStrength(strengths.DamageStrengths) && candidates.Count > i && candidates.GetUnit(i).GroupId == group.GroupId)
                     {
-                        troop = candidates.GetUnit(I);
+                        troop = candidates.GetUnit(i);
                         if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, strengths.DamageStrengths))
                         {
                             Defenders.AddUnit(troop);
@@ -184,7 +184,7 @@ public partial class GroupDefenseSelector : IDisposable
                             }
                         }
 
-                        I += 1;
+                        i += 1;
                     }
                 }
             }
@@ -196,11 +196,11 @@ public partial class GroupDefenseSelector : IDisposable
         if (units != null)
         {
             result = true;
-            I = units.Count;
-            while (result && I != 0)
+            i = units.Count;
+            while (result && i != 0)
             {
-                I -= 1;
-                var unit = units.GetUnit(I);
+                i -= 1;
+                var unit = units.GetUnit(i);
                 if (Defenders.IndexOf(unit) != -1)
                 {
                     result = false;

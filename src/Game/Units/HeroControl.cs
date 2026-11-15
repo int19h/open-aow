@@ -49,9 +49,9 @@ public partial class HeroControl : EngineObject
     public override void Dispose()
     {
         BeginUpdate();
-        for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+        for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            UnregisterHero(_heroes[I]);
+            UnregisterHero(_heroes[i]);
         }
 
         _heroes?.Dispose();
@@ -67,9 +67,9 @@ public partial class HeroControl : EngineObject
         persister.Object("Heroes", objectValue: _heroes);
         if (persister.Loading)
         {
-            for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+            for (int i = _heroes.GetCount() - 1; i >= 0; i--)
             {
-                _heroes.GetHero(I).Registered = true;
+                _heroes.GetHero(i).Registered = true;
             }
         }
     }
@@ -91,11 +91,11 @@ public partial class HeroControl : EngineObject
             }
             else
             {
-                for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+                for (int i = _heroes.GetCount() - 1; i >= 0; i--)
                 {
-                    if (_heroes[I].Owner == null)
+                    if (_heroes[i].Owner == null)
                     {
-                        _heroes[I].MessageProc(ref message, sender);
+                        _heroes[i].MessageProc(ref message, sender);
                     }
                 }
             }
@@ -131,9 +131,9 @@ public partial class HeroControl : EngineObject
     public void UpdateLibraryHeroes()
     {
         BeginUpdate();
-        for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+        for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            _heroes[I].UpdateFromLibrary();
+            _heroes[i].UpdateFromLibrary();
         }
 
         EndUpdate();
@@ -173,9 +173,9 @@ public partial class HeroControl : EngineObject
     public void ValidateLibraryHeroes()
     {
         Hero hero;
-        for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+        for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            hero = _heroes[I];
+            hero = _heroes[i];
             if (hero != null && hero.LibraryId != -1 && GamePack.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) == null)
             {
                 if (hero.Owner == null)
@@ -194,9 +194,9 @@ public partial class HeroControl : EngineObject
     public void Activate()
     {
         Hero hero;
-        for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+        for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            hero = _heroes[I];
+            hero = _heroes[i];
             if (!hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner == null)
             {
                 hero.Activate();
@@ -208,9 +208,9 @@ public partial class HeroControl : EngineObject
     public void Deactivate()
     {
         Hero hero;
-        for (int I = _heroes.GetCount() - 1; I >= 0; I--)
+        for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            hero = _heroes[I];
+            hero = _heroes[i];
             if (hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner == null)
             {
                 hero.Deactivate();
@@ -264,9 +264,9 @@ public partial class HeroControl : EngineObject
         Hero hero;
         int result = 0;
         count = 0;
-        for (int I = _heroes.Count - 1; I >= 0; I--)
+        for (int i = _heroes.Count - 1; i >= 0; i--)
         {
-            hero = _heroes[I];
+            hero = _heroes[i];
             if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0)
             {
                 result += hero.GetLevel();
@@ -291,9 +291,9 @@ public partial class HeroControl : EngineObject
     {
         Hero hero;
         int result = 30;
-        for (int I = _heroes.Count - 1; I >= 0; I--)
+        for (int i = _heroes.Count - 1; i >= 0; i--)
         {
-            hero = _heroes[I];
+            hero = _heroes[i];
             if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && result > hero.GetLevel())
             {
                 result = hero.GetLevel();
@@ -307,9 +307,9 @@ public partial class HeroControl : EngineObject
     public void ListDeadHeroes(HeroList list)
     {
         Hero hero;
-        for (int I = _heroes.Count - 1; I >= 0; I--)
+        for (int i = _heroes.Count - 1; i >= 0; i--)
         {
-            hero = _heroes[I];
+            hero = _heroes[i];
             if (hero.HeroStatus.Contains(HeroStatusElement.Died))
             {
                 list.AddChild(hero);

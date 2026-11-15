@@ -76,15 +76,15 @@ public partial class JoinEventLog : EventLog
     // Diplomacy.pas:58
     public virtual bool Validate()
     {
-        int I;
+        int i;
         Troop troop;
         MapCoordinate location = default;
         bool result = true;
-        I = UnitIds.Count;
-        while (result && I != 0)
+        i = UnitIds.Count;
+        while (result && i != 0)
         {
-            I -= 1;
-            var item = UnitIds[I];
+            i -= 1;
+            var item = UnitIds[i];
             troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop != null && troop.Player == 0)
@@ -102,9 +102,9 @@ public partial class JoinEventLog : EventLog
     public virtual void ListJoinUnits(UnitUserList units, out byte selection)
     {
         Troop troop;
-        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
+        for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
-            var item = UnitIds[I];
+            var item = UnitIds[i];
             troop = StrategicMap.Current.UnitControl.FindUnit(item);
             units.AddUnit(troop);
         }
@@ -144,16 +144,16 @@ public partial class JoinEventLog : EventLog
         Gold = army.JoinAmount(player, Selection);
         JoinMode = joinMode;
         UnitIds.Clear();
-        for (int I = 0, last = army.Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
-            if (FirstUnitId == 0 && ((1 << I) & Selection) != 0)
+            if (FirstUnitId == 0 && ((1 << i) & Selection) != 0)
             {
-                FirstUnitId = army.Units.GetUnit(I).UnitId;
+                FirstUnitId = army.Units.GetUnit(i).UnitId;
                 var selectionCount = army.SelectionCount(Selection);
-                army.Units.GetUnit(I).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
+                army.Units.GetUnit(i).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
             }
 
-            var troop = army.Units.GetUnit(I);
+            var troop = army.Units.GetUnit(i);
             UnitIds.Add(troop.UnitId);
         }
 

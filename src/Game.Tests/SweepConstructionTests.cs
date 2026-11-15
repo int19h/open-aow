@@ -393,9 +393,7 @@ public sealed class SweepConstructionTests
                 }
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
                 if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-                string actual = string.Join("\n", states);
-                string key = name + ".owner" + owned;
-                ConstructionSnapshot.Check("SweepConstruction", key, actual);
+                ConstructionSnapshot.Check(actual: string.Join("\n", states), key: name + ".owner" + owned, name: "SweepConstruction");
             }
     }
 

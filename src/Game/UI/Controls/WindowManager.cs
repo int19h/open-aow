@@ -428,7 +428,7 @@ public partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:449
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
         UIComponent c = default;
         bool redraw = default;
@@ -442,7 +442,7 @@ public partial class WindowManager : UIComponent
                 c.Handled = false;
                 if (!Handled || redraw == true)
                 {
-                    c.CheckMouseDown(button, shift, X, Y);
+                    c.CheckMouseDown(button, shift, x, y);
                 }
 
                 if (c.Handled)
@@ -452,7 +452,7 @@ public partial class WindowManager : UIComponent
             }
         }
 
-        RaiseMouseDown(this, button, shift, X, Y);
+        RaiseMouseDown(this, button, shift, x, y);
     }
 
     // AOWWinManager.pas:473

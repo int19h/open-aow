@@ -47,8 +47,7 @@ public sealed partial record DeclareWar : DiplomaticProposal
     {
         if (player == action.Source && Relation(action.Source, action.Target) != DiplomaticRelation.War)
         {
-            int modifier = Relation(action.Source, action.Target) == DiplomaticRelation.Alliance ? -60 : -20;
-            return RaceModifier(action.Target, race, modifier);
+            return RaceModifier(modifier: Relation(action.Source, action.Target) == DiplomaticRelation.Alliance ? -60 : -20, other: action.Target, race: race);
         }
 
         if (player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race)

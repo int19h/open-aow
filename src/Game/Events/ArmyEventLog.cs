@@ -138,13 +138,13 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:187
     public bool LeaderKilled()
     {
-        int I;
+        int i;
         bool result = false;
-        I = ArmyView.Units.Count;
-        while (!result && I != 0)
+        i = ArmyView.Units.Count;
+        while (!result && i != 0)
         {
-            I -= 1;
-            result = ArmyView.Units.GetUnit(I) is Leader && ArmyView.Units.GetUnit(I).GetHitPoints() <= DamageValues[I];
+            i -= 1;
+            result = ArmyView.Units.GetUnit(i) is Leader && ArmyView.Units.GetUnit(i).GetHitPoints() <= DamageValues[i];
         }
 
         return result;
@@ -153,13 +153,13 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:200
     public bool PartyDestroyed()
     {
-        int I;
+        int i;
         bool result = true;
-        I = ArmyView.Units.Count;
-        while (result && I != 0)
+        i = ArmyView.Units.Count;
+        while (result && i != 0)
         {
-            I -= 1;
-            result = result && ArmyView.Units.GetUnit(I).GetHitPoints() <= DamageValues[I];
+            i -= 1;
+            result = result && ArmyView.Units.GetUnit(i).GetHitPoints() <= DamageValues[i];
         }
 
         return result;

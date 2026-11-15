@@ -159,19 +159,19 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             if (!siteCombat) return "Blank000";
             takesItems = items;
             string name = prefix + Runtime.IntToStr(Runtime.Random(variants));
-            for (int I = 1; I <= 6; I++) fixedTags |= 1 << I;
+            for (int i = 1; i <= 6; i++) fixedTags |= 1 << i;
             return name;
         }
         switch (classId)
         {
             case 131336:
                 fileName = fileName + "0";
-                for (int I = 1; I <= 6; I++)
+                for (int i = 1; i <= 6; i++)
                 {
-                    if (neighborHoldsCity(I))
+                    if (neighborHoldsCity(i))
                     {
-                        fileName = fileName + Runtime.IntToStr(I);
-                        fixedTags |= 1 << I;
+                        fileName = fileName + Runtime.IntToStr(i);
+                        fixedTags |= 1 << i;
                     }
                 }
                 while (fileName.Length < 11) fileName = fileName + "x";

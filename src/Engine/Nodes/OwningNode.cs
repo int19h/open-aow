@@ -24,45 +24,45 @@ public partial class OwningNode : CustomNode
     // Engine.pas:2833
     public override void Clear()
     {
-        int I;
-        EngineObject C;
-        I = Count - 1;
-        for (; I >= 0; I -= 1)
+        int i;
+        EngineObject c;
+        i = Count - 1;
+        for (; i >= 0; i -= 1)
         {
-            C = _children.List[I];
-            if (C != null && C.Owner == this)
+            c = _children.List[i];
+            if (c != null && c.Owner == this)
             {
-                if (!C.GetControlStyle().Contains(EngineServices.Shared))
+                if (!c.GetControlStyle().Contains(EngineServices.Shared))
                 {
-                    C.Dispose();
+                    c.Dispose();
                 }
                 else
                 {
-                    C.Clear();
+                    c.Clear();
                 }
             }
         }
 
         if (Count != 0)
         {
-            I = Count - 1;
-            for (; I >= 0; I -= 1)
+            i = Count - 1;
+            for (; i >= 0; i -= 1)
             {
-                C = _children.List[I];
-                if (C != null)
+                c = _children.List[i];
+                if (c != null)
                 {
-                    if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.Shared)))
+                    if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
-                        RemoveChild(C);
+                        RemoveChild(c);
                     }
                 }
             }
 
-            I = _children.Count - 1;
-            while (I >= 0 && _children.List[I] == null)
+            i = _children.Count - 1;
+            while (i >= 0 && _children.List[i] == null)
             {
-                _children.Delete(I);
-                I -= 1;
+                _children.Delete(i);
+                i -= 1;
             }
         }
     }
@@ -93,16 +93,16 @@ public partial class OwningNode : CustomNode
     // Engine.pas:2819
     public override void DestroyAllChildren()
     {
-        EngineObject C;
+        EngineObject c;
         Clear();
         if (_children.Count != 0)
         {
-            for (int I = _children.Count - 1; I >= 0; I--)
+            for (int i = _children.Count - 1; i >= 0; i--)
             {
-                C = _children.List[I];
-                if (C != null && C.Owner == this)
+                c = _children.List[i];
+                if (c != null && c.Owner == this)
                 {
-                    C.Dispose();
+                    c.Dispose();
                 }
             }
         }
@@ -118,11 +118,11 @@ public partial class OwningNode : CustomNode
             {
                 if ((message.MessageId & 536870912) == 0)
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[I] != null)
+                        if (children.List[i] != null)
                         {
-                            var node = children.List[I];
+                            var node = children.List[i];
                             if (node.GetLastMessage() != message.Sequence)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -133,11 +133,11 @@ public partial class OwningNode : CustomNode
                 }
                 else
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[I] != null)
+                        if (children.List[i] != null)
                         {
-                            var node = children[I];
+                            var node = children[i];
                             if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -151,22 +151,22 @@ public partial class OwningNode : CustomNode
             {
                 if ((message.MessageId & 536870912) == 0)
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[I] != null)
+                        if (children.List[i] != null)
                         {
-                            var node = children.List[I];
+                            var node = children.List[i];
                             node.MessageProc(ref message, this);
                         }
                     }
                 }
                 else
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[I] != null)
+                        if (children.List[i] != null)
                         {
-                            var node = children[I];
+                            var node = children[i];
                             if (node.Owner == this)
                             {
                                 node.MessageProc(ref message, this);
@@ -182,9 +182,9 @@ public partial class OwningNode : CustomNode
             {
                 if ((message.MessageId & 536870912) == 0)
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children.List[I];
+                        var node = children.List[i];
                         if (node.GetLastMessage() != message.Sequence)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -194,9 +194,9 @@ public partial class OwningNode : CustomNode
                 }
                 else
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children[I];
+                        var node = children[i];
                         if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -209,17 +209,17 @@ public partial class OwningNode : CustomNode
             {
                 if ((message.MessageId & 536870912) == 0)
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children.List[I];
+                        var node = children.List[i];
                         node.MessageProc(ref message, this);
                     }
                 }
                 else
                 {
-                    for (int I = children.Count - 1; I >= 0; I--)
+                    for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        var node = children[I];
+                        var node = children[i];
                         if (node.Owner == this)
                         {
                             node.MessageProc(ref message, this);
@@ -270,22 +270,22 @@ public partial class OwningNode : CustomNode
     public override EngineObject FindChild(int classId)
     {
         EngineObject result;
-        int I;
+        int i;
         bool found;
-        EngineObject C;
-        I = 0;
+        EngineObject c;
+        i = 0;
         found = false;
-        C = null;
-        while (!found && I < _children.Count)
+        c = null;
+        while (!found && i < _children.Count)
         {
-            C = _children.List[I];
-            found = C != null && classId == C.EngineClass.ClassId;
-            I += 1;
+            c = _children.List[i];
+            found = c != null && classId == c.EngineClass.ClassId;
+            i += 1;
         }
 
         if (found)
         {
-            result = C;
+            result = c;
         }
         else
         {
@@ -317,13 +317,13 @@ public partial class OwningNode : CustomNode
     // Engine.pas:3022
     public void DestroyEObjects(int classId)
     {
-        EngineObject C;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        EngineObject c;
+        for (int i = _children.Count - 1; i >= 0; i--)
         {
-            C = _children.List[I];
-            if (C != null && classId == C.EngineClass.ClassId && C.Owner == this)
+            c = _children.List[i];
+            if (c != null && classId == c.EngineClass.ClassId && c.Owner == this)
             {
-                C.Dispose();
+                c.Dispose();
             }
         }
     }

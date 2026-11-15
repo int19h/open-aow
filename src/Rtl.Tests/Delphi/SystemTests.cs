@@ -101,9 +101,7 @@ public sealed class SystemTests
         double before = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
         Randomize();
         double after = DateTime.UtcNow.TimeOfDay.TotalMilliseconds;
-        double elapsed = (after - before + 86400000) % 86400000;
-        double offset = (RandSeed - Math.Floor(before) + 86400000) % 86400000;
-        Assert.InRange(offset, 0, Math.Ceiling(elapsed) + 1);
+        Assert.InRange((RandSeed - Math.Floor(before) + 86400000) % 86400000, low: 0, high: Math.Ceiling((after - before + 86400000) % 86400000) + 1);
     }
 
     [Fact]

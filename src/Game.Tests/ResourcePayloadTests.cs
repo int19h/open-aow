@@ -42,8 +42,7 @@ public sealed class ResourcePayloadTests
             int streamSeed = RtlUnit.RandSeed;
             // Three frame-table layers draw three times.
             Assert.Equal(Advance(Seed, draws: 3), streamSeed);
-            var stored = Stored("MapObjectResource", "ImageSequenceList", payload);
-            foreach (var tree in Backends("MapObjectResource", stored))
+            foreach (var tree in Backends(tree: Stored("MapObjectResource", "ImageSequenceList", payload), className: "MapObjectResource"))
             {
                 var viaTree = new Holder((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
                 RtlUnit.RandSeed = Seed;

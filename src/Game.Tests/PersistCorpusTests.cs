@@ -311,8 +311,7 @@ public sealed class PersistCorpusTests
                 var rewritten = Image(loaded, engine: engine);
                 var expected = PilotImage.Decode(rewritten, classValue.Name, engine);
                 var tree = TreeWriter.Write(loaded, factory);
-                var actual = DocumentBackend.Write(tree, classValue, schema, engine);
-                EqualJson(expected, actual, file + " " + classValue.Name + " write");
+                EqualJson(actual: DocumentBackend.Write(tree, classValue, schema, engine), expected: expected, label: file + " " + classValue.Name + " write");
                 byte[] direct;
                 try
                 {
@@ -488,9 +487,9 @@ public sealed class PersistCorpusTests
 
     private static string RefusalName(InvalidOperationException error)
     {
-        const string Prefix = "Class ";
-        int nameEnd = error.Message.IndexOf(' ', Prefix.Length);
-        return error.Message.Substring(Prefix.Length, nameEnd - Prefix.Length);
+        const string prefix = "Class ";
+        int nameEnd = error.Message.IndexOf(' ', prefix.Length);
+        return error.Message.Substring(prefix.Length, nameEnd - prefix.Length);
     }
 
     private static bool IsDirectRefusal(ConversionException error)
@@ -543,11 +542,11 @@ public sealed class PersistCorpusTests
     private static bool IsTreeRefusal(InvalidOperationException error)
     {
         string message = error.Message;
-        const string Prefix = "Class ";
-        if (!message.StartsWith(Prefix, StringComparison.Ordinal)) return false;
-        int nameEnd = message.IndexOf(' ', Prefix.Length);
+        const string prefix = "Class ";
+        if (!message.StartsWith(prefix, StringComparison.Ordinal)) return false;
+        int nameEnd = message.IndexOf(' ', prefix.Length);
         if (nameEnd < 0) return false;
-        string name = message.Substring(Prefix.Length, nameEnd - Prefix.Length);
+        string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
         return s_engineTypes.TryGetValue(name, out var type) && EngineObject.TreePersistenceRefusal(type) == message;
     }
 
@@ -578,16 +577,13 @@ public sealed class PersistCorpusTests
 
     private static void Load(EngineObject objectValue, byte[] image, SchemaClass classValue, string engine, EnginePersistableFactory factory)
     {
-        var root = OriginalBackend.Read(image, classValue: classValue, schema: FormatSchema.Current, engine: engine);
-        TreeReader.Read(root, objectValue: objectValue, factory: factory, onError: Stop);
+        TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: FormatSchema.Current, engine: engine), objectValue: objectValue, factory: factory, onError: Stop);
     }
 
     private static byte[] Image(EngineObject objectValue, string engine)
     {
         var factory = new EnginePersistableFactory(EngineFixture.Engine);
-        var root = TreeWriter.Write(objectValue, factory: factory);
-        var classValue = FormatSchema.Current.Get(factory.ClassName(objectValue));
-        return OriginalBackend.Write(root, classValue: classValue, schema: FormatSchema.Current, engine: engine);
+        return OriginalBackend.Write(TreeWriter.Write(objectValue, factory: factory), classValue: FormatSchema.Current.Get(factory.ClassName(objectValue)), schema: FormatSchema.Current, engine: engine);
     }
 
     private static void EqualJson(JsonObject expected, JsonObject actual, string label)

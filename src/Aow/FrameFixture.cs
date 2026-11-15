@@ -240,8 +240,7 @@ internal sealed class FrameFixture
                             manager.CheckMouseMove(default, inputX, inputY);
                             if (!click.MoveOnly)
                             {
-                                var shift = click.DoubleUI ? Set<ShiftState>.Of(ShiftState.Double) : default;
-                                manager.CheckMouseDown((MouseButton)click.Button, shift, inputX, inputY);
+                                manager.CheckMouseDown(shift: click.DoubleUI ? Set<ShiftState>.Of(ShiftState.Double) : default, button: (MouseButton)click.Button, x: inputX, y: inputY);
                                 manager.CheckMouseUp((MouseButton)click.Button, default, inputX, inputY);
                             }
                         }
@@ -487,8 +486,7 @@ internal sealed class FrameFixture
     private List<Click> Clicks()
     {
         if (!_values.TryGetValue("clicks", out string? text)) return [];
-        string json = Regex.Replace(text, @"(\w+)\s*=", "\"$1\":");
-        using var document = JsonDocument.Parse(json);
+        using var document = JsonDocument.Parse(Regex.Replace(text, @"(\w+)\s*=", "\"$1\":"));
         return document.RootElement.EnumerateArray().Select(c => new Click(c.GetProperty("at").GetInt32(),
             c.TryGetProperty("x", out var x) ? x.GetInt32() : 0, c.TryGetProperty("y", out var y) ? y.GetInt32() : 0,
             c.TryGetProperty("button", out var button) ? button.GetInt32() : 0,

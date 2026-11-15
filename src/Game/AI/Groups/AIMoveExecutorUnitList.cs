@@ -73,14 +73,14 @@ public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecu
     // AIGroup.pas:4366
     public byte ValidateSelection(byte selection)
     {
-        int N;
-        N = Count;
-        if (N > 8)
+        int n;
+        n = Count;
+        if (n > 8)
         {
-            N = 8;
+            n = 8;
         }
 
-        return (byte)(selection & AbilityRules.ArmySelectionMasks[N]);
+        return (byte)(selection & AbilityRules.ArmySelectionMasks[n]);
     }
 
     // AIGroup.pas:4375
@@ -105,13 +105,13 @@ public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecu
     public AIMoveExecutorUnit Transporter(byte selection)
     {
         AIMoveExecutorUnit result = null;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                if (this[I].Troop.GetTransporter())
+                if (this[i].Troop.GetTransporter())
                 {
-                    result = this[I];
+                    result = this[i];
                     break;
                 }
             }
@@ -125,11 +125,11 @@ public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecu
     // AIGroup.pas:4403
     public void SetMoveResult(byte selection, byte moveResult)
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                this[I].MoveResult = moveResult;
+                this[i].MoveResult = moveResult;
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -139,11 +139,11 @@ public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecu
     // AIGroup.pas:4415
     public void SetTransportStatus(byte selection, AIMoveExecutorTransportStatus status)
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                this[I].TransportStatus = status;
+                this[i].TransportStatus = status;
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -153,11 +153,11 @@ public partial class AIMoveExecutorUnitList : OwningNode, IChildList<AIMoveExecu
     // AIGroup.pas:4428
     public void SetStatus(byte selection, AIMoveExecutorUnitStatus status)
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                this[I].Status = status;
+                this[i].Status = status;
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);

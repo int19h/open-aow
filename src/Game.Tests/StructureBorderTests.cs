@@ -57,24 +57,21 @@ public sealed class StructureBorderTests
         // Top 1 row, middle tiles of 4 rows, bottom 5 rows, window 20 rows high. The bound is
         // (20 - 5) div 4 = 3, so the loop draws four middle tiles at rows 11, 7, 3 and -1. Only the
         // fourth tile paints rows 1 and 2, so three iterations leave them blank.
-        const int Height = 20;
+        const int height = 20;
         var library = new ImageLibrary(null!);
-        var target = new Dib16Surface(Width, Height, PixelFormats.pfRGB565);
+        var target = new Dib16Surface(Width, height, PixelFormats.pfRGB565);
         var previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
-            var top = Grab(library, 1, TopColor);
-            var middle = Grab(library, 4, MiddleColor);
-            var bottom = Grab(library, 5, BottomColor);
-            var structure = new BorderStructure(top, middle, bottom);
+            var structure = new BorderStructure(Grab(library, 1, TopColor), middle: Grab(library, 4, MiddleColor), bottom: Grab(library, 5, BottomColor));
             LockedSurface lockedSurface = default;
             Assert.Equal(PixelFormats.GFXE_OK, target.Clear(0));
             Assert.Equal(PixelFormats.GFXE_OK, target.Lock(ref lockedSurface));
-            Assert.True(structure.ShowBorderImage(lockedSurface, new Rect(0, 0, Width, Height)));
-            var rows = new int[Height];
-            for (int y = 0; y < Height; y++)
+            Assert.True(structure.ShowBorderImage(lockedSurface, new Rect(0, 0, Width, height)));
+            var rows = new int[height];
+            for (int y = 0; y < height; y++)
             {
                 int row = lockedSurface.View().UInt16(y * lockedSurface.Pitch);
                 Assert.Equal(row, lockedSurface.View().UInt16(y * lockedSurface.Pitch + 2));

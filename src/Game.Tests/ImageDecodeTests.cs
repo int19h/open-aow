@@ -136,8 +136,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 {
                     int c = words[y * d555.Pitch / 2 + x];
                     int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
-                    int c565 = (r << 11) | (g << 6) | ((g >> 4) << 5) | b;
-                    d565.View().UInt16(y * d565.Pitch + x * 2, c565);
+                    d565.View().UInt16(value: (r << 11) | (g << 6) | ((g >> 4) << 5) | b, offset: y * d565.Pitch + x * 2);
                     d8.View()[y * d8.Pitch + x] = c == Magenta555 ? (byte)0 : (byte)(1 + (r ^ (g << 3) ^ (b << 5)) % 255);
                     var p24 = d24.View().Bytes(y * d24.Pitch + x * 3, 3);
                     p24[0] = (byte)(b << 3);
@@ -409,9 +408,9 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static void AddBuffer(LibraryImage image, Fnv hash)
     {
         var type = image.GetType();
-        const BindingFlags Fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        var field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, Fields)).FirstOrDefault(f => f is not null);
-        var pitch = MemberNames.Field(type, "_pitch", Fields);
+        const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, fields)).FirstOrDefault(f => f is not null);
+        var pitch = MemberNames.Field(type, "_pitch", fields);
         hash.Add(pitch is null ? -1 : (int)pitch.GetValue(image)!);
         byte[]? bytes = field?.GetValue(image) switch
         {
@@ -429,8 +428,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static ulong Draw(LibraryImage image, int format, int x, int y, Action<LockedSurface> draw)
     {
         int w = Math.Max(1, image.Width + 6), h = Math.Max(1, image.Height + 4);
-        var palette = new Palette();
-        var surface = new DataSurface(w, h, format, palette);
+        var surface = new DataSurface(palette: new Palette(), width: w, height: h, pixelFormatId: format);
         var hash = new Fnv();
         try
         {

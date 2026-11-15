@@ -5,7 +5,7 @@ namespace Aow.Engine.Collections;
 
 public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
 {
-    public int AddAbility(TA A, int B) => Add(new DoubleItem<TA> { First = A, Second = B });
+    public int AddAbility(TA a, int b) => Add(new DoubleItem<TA> { First = a, Second = b });
 
     public int IndexOfItemA(TA A)
     {
@@ -39,20 +39,20 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (Count != 0)
         {
             total = 0;
-            for (int I = Count - 1; I >= 0; I--)
+            for (int i = Count - 1; i >= 0; i--)
             {
-                chance = _list[I].Second + bonus;
+                chance = _list[i].Second + bonus;
                 if (chance > 0)
                 {
                     total += chance;
                 }
             }
 
-            R = Random(total);
+            r = Random(total);
             result = 0;
             total = 0;
             chance = _list[0].Second + bonus;
@@ -61,7 +61,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
                 total += chance;
             }
 
-            while (total <= R)
+            while (total <= r)
             {
                 result += 1;
                 chance = _list[result].Second + bonus;

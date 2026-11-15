@@ -19,14 +19,14 @@ public partial class DiplomaticAction
     public void ApplyRelationModifiers()
     {
         StrategicMap.Current.LockRelationsChanged();
-        for (int I = 0, last = StrategicMap.Current.Races.Count - 1; I <= last; I++)
+        for (int i = 0, last = StrategicMap.Current.Races.Count - 1; i <= last; i++)
         {
-            var playerRelationValue = StrategicMap.Current.Races.GetRace(I).GetPlayerRelationValue(Source);
-            var relationModifier = GetRelationModifier(Source, (sbyte)I);
-            StrategicMap.Current.Races.GetRace(I).SetPlayerRelationValue(Source, relationModifier + playerRelationValue);
-            var playerRelationValue2 = StrategicMap.Current.Races.GetRace(I).GetPlayerRelationValue(Target);
-            var relationModifier2 = GetRelationModifier(Target, (sbyte)I);
-            StrategicMap.Current.Races.GetRace(I).SetPlayerRelationValue(Target, relationModifier2 + playerRelationValue2);
+            var playerRelationValue = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Source);
+            var relationModifier = GetRelationModifier(Source, (sbyte)i);
+            StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Source, relationModifier + playerRelationValue);
+            var playerRelationValue2 = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Target);
+            var relationModifier2 = GetRelationModifier(Target, (sbyte)i);
+            StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Target, relationModifier2 + playerRelationValue2);
         }
 
         StrategicMap.Current.UnlockRelationsChanged();

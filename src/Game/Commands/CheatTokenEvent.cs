@@ -42,20 +42,20 @@ public partial class CheatTokenEvent : TokenEvent
         {
             case 0:
                 {
-                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(I);
-                        StrategicMap.Current.Players.GetPlayers(I).SetGems(players.Gems + 1000);
+                        var players = StrategicMap.Current.Players.GetPlayers(i);
+                        StrategicMap.Current.Players.GetPlayers(i).SetGems(players.Gems + 1000);
                     }
                 }
 
                 break;
             case 1:
                 {
-                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
-                        var players = StrategicMap.Current.Players.GetPlayers(I);
-                        StrategicMap.Current.Players.GetPlayers(I).MagicControl.SetMana(players.MagicControl.Mana + 1000);
+                        var players = StrategicMap.Current.Players.GetPlayers(i);
+                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.SetMana(players.MagicControl.Mana + 1000);
                     }
                 }
 
@@ -103,10 +103,10 @@ public partial class CheatTokenEvent : TokenEvent
                 }
 
                 {
-                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
                         var fMagicControlCheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
-                        StrategicMap.Current.Players.GetPlayers(I).MagicControl.CheatEnabled = fMagicControlCheatEnabled;
+                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.CheatEnabled = fMagicControlCheatEnabled;
                     }
                 }
 
@@ -130,11 +130,11 @@ public partial class CheatTokenEvent : TokenEvent
                 break;
             case 7:
                 {
-                    for (int I = StrategicMap.Current.Players.GetPlayers(0).Structures.Count - 1; I >= 0; I--)
+                    for (int i = StrategicMap.Current.Players.GetPlayers(0).Structures.Count - 1; i >= 0; i--)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).EngineClass.ClassId == 131336)
+                        if (StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).EngineClass.ClassId == 131336)
                         {
-                            StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).SetPlayer(Player);
+                            StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).SetPlayer(Player);
                         }
                     }
                 }
@@ -145,14 +145,14 @@ public partial class CheatTokenEvent : TokenEvent
                 break;
             case 9:
                 {
-                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
-                        StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.Clear();
-                        for (int J = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
+                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Clear();
+                        for (int j = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(J) != null)
+                            if (GamePack.Current.SpellControl.GetSpell(j) != null)
                             {
-                                StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
+                                StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                             }
                         }
                     }

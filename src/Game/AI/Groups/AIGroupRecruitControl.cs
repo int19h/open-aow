@@ -68,21 +68,21 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2276
     public override bool Process()
     {
-        int I;
+        int i;
         switch (State)
         {
             case 0:
                 StrategicMap.Current.AIExecutor.UseProcessTime(500);
-                I = 0;
+                i = 0;
                 _control.RecruitmentGroups.Validate(_control);
-                while (!Complete && I != _control.RecruitmentGroups.Count)
+                while (!Complete && i != _control.RecruitmentGroups.Count)
                 {
-                    if (ValidRecruitmentGroup(_control.RecruitmentGroups.GetRecruitmentGroups(I)))
+                    if (ValidRecruitmentGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i)))
                     {
-                        RecruitFromGroup(_control.RecruitmentGroups.GetRecruitmentGroups(I));
+                        RecruitFromGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i));
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
                 if (Set<AIGroupRecruitControlMode>.Of(AIGroupRecruitControlMode.AutoRecruit, AIGroupRecruitControlMode.ForceRecruit).Contains(Mode) || (Mode == AIGroupRecruitControlMode.CompleteRecruitOnly && Complete))
@@ -125,13 +125,13 @@ public partial class AIGroupRecruitControl : AIGroupTask
         AIRecruitmentGroup group;
         int days;
         int result = -1;
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
+        for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
-            var troop = Units.GetUnit(I);
+            var troop = Units.GetUnit(i);
             group = _control.RecruitmentGroups.FindUnit(troop);
-            if (group != null && Units.GetUnit(I).GetMoves() != 0)
+            if (group != null && Units.GetUnit(i).GetMoves() != 0)
             {
-                var moves = Units.GetUnit(I).GetMoves();
+                var moves = Units.GetUnit(i).GetMoves();
                 days = (group.MovePoints - 1) / moves;
                 if (days > result)
                 {
@@ -146,7 +146,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2119
     public bool UsefulRecruitUnit(Troop troop)
     {
-        DamageType D;
+        DamageType d;
         bool result = troop.GetMoves() > _movesMin && (troop.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
         if (result)
         {
@@ -155,8 +155,8 @@ public partial class AIGroupRecruitControl : AIGroupTask
             {
                 for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
                 {
-                    D = (DamageType)dOrdinal;
-                    result = _remainingStrengths[(int)D] > 0 && troop.GetStrength(D) > 0;
+                    d = (DamageType)dOrdinal;
+                    result = _remainingStrengths[(int)d] > 0 && troop.GetStrength(d) > 0;
                     if (result)
                     {
                         return result;
@@ -176,14 +176,14 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2140
     public void UpdateCompletion()
     {
-        DamageType D;
+        DamageType d;
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                D = (DamageType)dOrdinal;
-                if (_remainingStrengths[(int)D] > 0)
+                d = (DamageType)dOrdinal;
+                if (_remainingStrengths[(int)d] > 0)
                 {
                     Complete = false;
                     return;
@@ -204,13 +204,13 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2162
     public void AddRecruitUnit(Troop troop)
     {
-        DamageType D;
+        DamageType d;
         Units.AddUnit(troop);
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
-            D = (DamageType)dOrdinal;
-            var strength = troop.GetStrength(D);
-            _remainingStrengths[(int)D] -= strength;
+            d = (DamageType)dOrdinal;
+            var strength = troop.GetStrength(d);
+            _remainingStrengths[(int)d] -= strength;
         }
 
         var strengthMax = troop.GetStrengthMax(_damageTypes);
@@ -226,14 +226,14 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2175
     public void DeleteRecruitUnit(Troop troop)
     {
-        DamageType D;
+        DamageType d;
         if (Units.IndexOf(troop) != -1)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                D = (DamageType)dOrdinal;
-                var strength = troop.GetStrength(D);
-                _remainingStrengths[(int)D] += strength;
+                d = (DamageType)dOrdinal;
+                var strength = troop.GetStrength(d);
+                _remainingStrengths[(int)d] += strength;
             }
 
             var strengthMax = troop.GetStrengthMax(_damageTypes);
@@ -286,16 +286,16 @@ public partial class AIGroupRecruitControl : AIGroupTask
     {
         UnitUserList units;
         UnitUserList recruitable;
-        int I;
+        int i;
         Troop troop;
         bool result = false;
         units = new UnitUserList(null) { Holder = CreationHolder() };
-        I = group.Group.Units.Count - 1;
-        for (; I >= 0; I -= 1)
+        i = group.Group.Units.Count - 1;
+        for (; i >= 0; i -= 1)
         {
-            if (UsefulRecruitUnit(group.Group.Units.GetUnit(I)))
+            if (UsefulRecruitUnit(group.Group.Units.GetUnit(i)))
             {
-                units.AddUnit(group.Group.Units.GetUnit(I));
+                units.AddUnit(group.Group.Units.GetUnit(i));
             }
         }
 
@@ -311,17 +311,17 @@ public partial class AIGroupRecruitControl : AIGroupTask
                 recruitable.AddUnits(units.Units);
             }
 
-            I = 0;
-            while (I < recruitable.Count && !Complete)
+            i = 0;
+            while (i < recruitable.Count && !Complete)
             {
-                troop = recruitable.GetUnit(I);
+                troop = recruitable.GetUnit(i);
                 if (UsefulRecruitUnit(troop))
                 {
                     AddRecruitUnit(troop);
                     result = true;
                 }
 
-                I += 1;
+                i += 1;
             }
 
             recruitable?.Dispose();

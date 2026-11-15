@@ -66,11 +66,11 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
     {
         bool result;
         AITargetData data = default;
-        sbyte X;
-        X = Location.X;
-        if (X != -1)
+        sbyte x;
+        x = Location.X;
+        if (x != -1)
         {
-            result = StrategicMap.Current.MapContainer.GetField(X, Location.Y, Location.MapLevel).GetAITarget(control, Info, out data);
+            result = StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, out data);
         }
         else
         {

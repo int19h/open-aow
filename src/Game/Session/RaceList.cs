@@ -48,9 +48,9 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     public int GetEnabledRaces()
     {
         int result = 0;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null && this[I].Enabled)
+            if (GetChild(i) != null && this[i].Enabled)
             {
                 result += 1;
             }
@@ -65,11 +65,11 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
         sbyte result;
         DelphiList<Race> races;
         races = new DelphiList<Race>();
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null && this[I].Enabled)
+            if (GetChild(i) != null && this[i].Enabled)
             {
-                races.Add(this[I]);
+                races.Add(this[i]);
             }
         }
 
@@ -90,11 +90,11 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:407
     public void ResetPlayerRelations()
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                this[I].ResetPlayerRelations();
+                this[i].ResetPlayerRelations();
             }
         }
     }
@@ -102,11 +102,11 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:415
     public void ResetDefaultRelations()
     {
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                this[I].ResetDefaultRaceRelations();
+                this[i].ResetDefaultRaceRelations();
             }
         }
     }
@@ -115,21 +115,21 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     public void Update()
     {
         Race race;
-        for (int I = 0, last = GamePack.Current.RaceResources.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = GamePack.Current.RaceResources.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(I) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(i) != null)
             {
-                if (GetRace(I) == null)
+                if (GetRace(i) == null)
                 {
                     race = new Race(null) { Holder = CreationHolder() };
-                    race.RaceIndex = (sbyte)I;
-                    race.SetArrayOwner(this, I);
+                    race.RaceIndex = (sbyte)i;
+                    race.SetArrayOwner(this, i);
                     race.SetEnabled(true);
                 }
             }
             else
             {
-                GetRace(I)?.Dispose();
+                GetRace(i)?.Dispose();
             }
         }
     }

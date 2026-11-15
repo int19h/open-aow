@@ -49,9 +49,9 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
         selector.Execute(this, location.X, location.Y, location.MapLevel, units);
         if (selector.Defenders.Count != 0)
         {
-            for (int I = units.Count - 1; I >= 0; I--)
+            for (int i = units.Count - 1; i >= 0; i--)
             {
-                troop = units.GetUnit(I);
+                troop = units.GetUnit(i);
                 if (selector.Defenders.IndexOf(troop) == -1)
                 {
                     recruitable.AddUnit(troop);

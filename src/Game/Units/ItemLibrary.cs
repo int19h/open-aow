@@ -75,11 +75,11 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(I) != null)
+                if (GetChild(i) != null)
                 {
-                    Items[I].Release();
+                    Items[i].Release();
                 }
             }
         }
@@ -89,17 +89,17 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     public override void Clear()
     {
         EngineObject child;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                child = Items[I];
+                child = Items[i];
                 if (child != null)
                 {
                     if (child.Owner != this)
                     {
                         child.Release();
-                        DeleteChildAt(I);
+                        DeleteChildAt(i);
                     }
                     else
                     {
@@ -156,36 +156,36 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
     // Army.PAS:4897
     public int CreateUniqueLibraryId()
     {
-        int I;
+        int i;
         do
         {
-            I = 0;
+            i = 0;
             _lastId += 1;
             if (_lastId > 268435455)
             {
                 _lastId = 0;
             }
 
-            while (I != Items.Count && Items[I].LibraryId != _lastId)
+            while (i != Items.Count && Items[i].LibraryId != _lastId)
             {
-                I += 1;
+                i += 1;
             }
         }
-        while (!(I == Items.Count));
+        while (!(i == Items.Count));
         return _lastId;
     }
 
     // Army.PAS:4917
     public Item FindLibraryId(int libraryId)
     {
-        int I;
-        I = Items.Count;
-        while (I != 0)
+        int i;
+        i = Items.Count;
+        while (i != 0)
         {
-            I -= 1;
-            if (Items[I].LibraryId == libraryId)
+            i -= 1;
+            if (Items[i].LibraryId == libraryId)
             {
-                return Items[I];
+                return Items[i];
             }
         }
 

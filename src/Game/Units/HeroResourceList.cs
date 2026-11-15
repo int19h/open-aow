@@ -47,12 +47,12 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
         HeroResource resource;
         StringList list;
         list = new StringList();
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            resource = this[I];
+            resource = this[i];
             if (resource != null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
-                list.AddObject(resource.Name, IntToObject(I));
+                list.AddObject(resource.Name, IntToObject(i));
             }
         }
 
@@ -62,19 +62,19 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     // Hero.PAS:2382
     public int Find(int race, HeroType heroType)
     {
-        int I;
+        int i;
         HeroResource resource;
-        I = 0;
+        i = 0;
         int result = -1;
-        while (I < Count && result == -1)
+        while (i < Count && result == -1)
         {
-            resource = this[I];
+            resource = this[i];
             if (resource != null && race == resource.Race && heroType == resource.HeroType)
             {
-                result = I;
+                result = i;
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

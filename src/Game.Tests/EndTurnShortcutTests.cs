@@ -92,10 +92,9 @@ public sealed class EndTurnShortcutTests
             playerCommunicationControl.Setup(Map.Players.Count);
             for (int i = 0; i < Map.Players.Count; i++)
             {
-                var mode = Map.Players.GetPlayers(i).PlayerType == PlayerType.Human
+                playerCommunicationControl.SetConnectionMode(mode: Map.Players.GetPlayers(i).PlayerType == PlayerType.Human
                     ? ConnectionMode.Local
-                    : ConnectionMode.Global;
-                playerCommunicationControl.SetConnectionMode(i, mode);
+                    : ConnectionMode.Global, index: i);
             }
 
             Map.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);

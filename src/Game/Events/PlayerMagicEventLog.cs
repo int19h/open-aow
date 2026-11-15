@@ -126,11 +126,11 @@ public partial class PlayerMagicEventLog : EventLog
     // Spells.PAS:1863
     public override void ViewLocation()
     {
-        sbyte X;
-        X = Location.X;
-        if (X != -1)
+        sbyte x;
+        x = Location.X;
+        if (x != -1)
         {
-            StrategicMap.Current.CenterViewTo(X, Location.Y, Location.MapLevel);
+            StrategicMap.Current.CenterViewTo(x, Location.Y, Location.MapLevel);
             StrategicMap.Current.PlayCenterAnimation(Location.X, Location.Y, Location.MapLevel);
         }
     }

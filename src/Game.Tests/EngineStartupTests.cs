@@ -220,8 +220,7 @@ public sealed class EngineStartupTests
         {
             if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(DelphiList<>)) continue;
             var items = (Array)type.GetProperty("List")!.GetValue(value)!;
-            int count = (int)type.GetProperty("Count")!.GetValue(value)!;
-            return [.. items.Cast<object?>().Take(count)];
+            return [.. items.Cast<object?>().Take((int)type.GetProperty("Count")!.GetValue(value)!)];
         }
         return null;
     }

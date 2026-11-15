@@ -42,8 +42,8 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         int index;
         int ready;
         int failed;
-        int I;
-        AIMoveExecutorArmyList Armies;
+        int i;
+        AIMoveExecutorArmyList aiMoveExecutorArmyList;
         byte moveResult = default;
         MoveControlSettings settings;
         byte armySelection = default;
@@ -55,28 +55,28 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         switch (State)
         {
             case 0:
-                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
-                I = 0;
+                aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+                i = 0;
                 while (true)
                 {
-                    bool condition = Armies.Count != I;
+                    bool condition = aiMoveExecutorArmyList.Count != i;
                     if (condition)
                     {
-                        var armies = Armies.GetArmies(I);
+                        var armies = aiMoveExecutorArmyList.GetArmies(i);
                         condition = _adjacentArmies.IndexOfLocation(armies.Location) != -1;
                     }
 
                     if (!condition)
                         break;
-                    I += 1;
+                    i += 1;
                 }
 
-                if (I < Armies.Count)
+                if (i < aiMoveExecutorArmyList.Count)
                 {
                     settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                     try
                     {
-                        Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out armySelection);
+                        aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, out armyHexSprite, out armySelection);
                     }
                     catch
                     {
@@ -84,9 +84,9 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                     // { Original suppresses a RetrieveArmy exception. }
                     // { Original uses transporter IDs as visited markers during adjacent moves. }
-                    for (int J = Armies.GetArmies(I).Count - 1; J >= 0; J--)
+                    for (int j = aiMoveExecutorArmyList.GetArmies(i).Count - 1; j >= 0; j--)
                     {
-                        Armies.GetArmies(I).GetUnits(J).TransporterId = 0;
+                        aiMoveExecutorArmyList.GetArmies(i).GetUnits(j).TransporterId = 0;
                     }
 
                     settings.Reset();
@@ -98,18 +98,18 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     adjacent.Path.Assign(settings.Path);
                     adjacent.Moves = armyHexSprite.Army.Moves(armySelection);
                     adjacent.MovePoints = armyHexSprite.Army.MovePoints(armySelection);
-                    adjacent.Location = Armies.GetArmies(I).Location;
+                    adjacent.Location = aiMoveExecutorArmyList.GetArmies(i).Location;
                     settings.Release();
                 }
                 else
                 {
-                    I = _adjacentArmies.Count - 1;
-                    while (I >= 0 && _adjacentArmies.GetAdjacentArmies(I).Path.Count > 0)
+                    i = _adjacentArmies.Count - 1;
+                    while (i >= 0 && _adjacentArmies.GetAdjacentArmies(i).Path.Count > 0)
                     {
-                        I -= 1;
+                        i -= 1;
                     }
 
-                    if (I == -1)
+                    if (i == -1)
                     {
                         State += 1;
                     }
@@ -119,7 +119,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     }
                 }
 
-                Armies?.Dispose();
+                aiMoveExecutorArmyList?.Dispose();
                 break;
             case 1:
                 if (_adjacentArmies.GetAdjacent())
@@ -166,23 +166,23 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                 break;
             case 2:
-                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
-                Armies.SortOnMovePoints();
-                if (Armies.Count != 0)
+                aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+                aiMoveExecutorArmyList.SortOnMovePoints();
+                if (aiMoveExecutorArmyList.Count != 0)
                 {
                     if (Executor.Moves.Count == 0)
                     {
                         index = 0;
-                        while (index < Armies.Count && Armies.GetArmies(index).GetUnits(0).TransporterId == 1)
+                        while (index < aiMoveExecutorArmyList.Count && aiMoveExecutorArmyList.GetArmies(index).GetUnits(0).TransporterId == 1)
                         {
                             index += 1;
                         }
 
-                        if (index < Armies.Count)
+                        if (index < aiMoveExecutorArmyList.Count)
                         {
-                            for (int J = Armies.GetArmies(index).Count - 1; J >= 0; J--)
+                            for (int j = aiMoveExecutorArmyList.GetArmies(index).Count - 1; j >= 0; j--)
                             {
-                                Armies.GetArmies(index).GetUnits(J).TransporterId = 1;
+                                aiMoveExecutorArmyList.GetArmies(index).GetUnits(j).TransporterId = 1;
                             }
 
                             if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
@@ -194,7 +194,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                                 mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
                             }
 
-                            move = CreateMove(Armies.GetArmies(index), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
+                            move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
                             if (move == null)
                             {
                                 if (moveResult == 1)
@@ -248,7 +248,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                             mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
                         }
 
-                        move = CreateMove(Armies.GetArmies(0), 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
+                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(0), 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
                         if (move != null)
                         {
                             if (moveResult == 0)
@@ -270,7 +270,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         {
                             if (moveResult == 1 || moveResult == 2)
                             {
-                                Armies.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                                aiMoveExecutorArmyList.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             }
                             else
                             {
@@ -295,7 +295,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     State = 3;
                 }
 
-                Armies?.Dispose();
+                aiMoveExecutorArmyList?.Dispose();
                 break;
             case 3:
                 Done();
@@ -303,13 +303,13 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
             case 4:
                 if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                 {
-                    I = _adjacentArmies.Count - 1;
-                    while (I >= 0 && _adjacentArmies.GetAdjacentArmies(I).Path.Count != 2)
+                    i = _adjacentArmies.Count - 1;
+                    while (i >= 0 && _adjacentArmies.GetAdjacentArmies(i).Path.Count != 2)
                     {
-                        I -= 1;
+                        i -= 1;
                     }
 
-                    if (I != -1)
+                    if (i != -1)
                     {
                         State = 5;
                     }
@@ -327,19 +327,19 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                 break;
             case 5:
-                I = 0;
+                i = 0;
                 ready = 0;
                 failed = 0;
-                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                while (Armies.Count != I)
+                aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                while (aiMoveExecutorArmyList.Count != i)
                 {
-                    move = CreateMove(Armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
+                    move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
                     bool condition = moveResult != 0;
                     if (!condition)
                     {
-                        var armies = Armies.GetArmies(I);
-                        var armiesArmies = Armies.GetArmies(I);
-                        condition = HexGeometry.DeltaHexToRadius(Executor.Destination.X, Executor.Destination.Y, armiesArmies.Location.X, armies.Location.Y) == 1 && Armies.GetArmies(I).Location.MapLevel == Executor.Destination.MapLevel;
+                        var armies = aiMoveExecutorArmyList.GetArmies(i);
+                        var armiesArmies = aiMoveExecutorArmyList.GetArmies(i);
+                        condition = HexGeometry.DeltaHexToRadius(Executor.Destination.X, Executor.Destination.Y, armiesArmies.Location.X, armies.Location.Y) == 1 && aiMoveExecutorArmyList.GetArmies(i).Location.MapLevel == Executor.Destination.MapLevel;
                     }
 
                     canMove = condition;
@@ -357,27 +357,27 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         move?.Dispose();
                     }
 
-                    I += 1;
+                    i += 1;
                 }
 
-                Armies?.Dispose();
+                aiMoveExecutorArmyList?.Dispose();
                 if (ready > 4 || failed == 0)
                 {
-                    I = 0;
+                    i = 0;
                     move = null;
-                    Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                    while (move == null && Armies.Count != I)
+                    aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                    while (move == null && aiMoveExecutorArmyList.Count != i)
                     {
-                        move = CreateMove(Armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
+                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
                         if (move != null)
                         {
                             Executor.ExecuteMoves();
                         }
 
-                        I += 1;
+                        i += 1;
                     }
 
-                    Armies?.Dispose();
+                    aiMoveExecutorArmyList?.Dispose();
                 }
 
                 Done();
@@ -388,7 +388,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
     // AIGroup.pas:5129
     public bool ExecuteSurroundMove()
     {
-        int I;
+        int i;
         int index;
         AIMoveExecutorArmyList armies;
         DoubleItemList<AdjacentArmy> sorted;
@@ -397,20 +397,20 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         bool result = true;
         armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
         sorted = new DoubleItemList<AdjacentArmy>();
-        I = 0;
+        i = 0;
         int last = _adjacentArmies.Count - 1;
-        for (; I <= last; I += 1)
+        for (; i <= last; i += 1)
         {
-            var movementDays = _adjacentArmies.GetAdjacentArmies(I).GetMovementDays();
-            sorted.AddAbility(_adjacentArmies.GetAdjacentArmies(I), Round((double)movementDays * 100));
+            var movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();
+            sorted.AddAbility(_adjacentArmies.GetAdjacentArmies(i), Round((double)movementDays * 100));
         }
 
         sorted.SortDescendingItemB();
         _ = sorted[0].First.Path[1];
-        I = 0;
-        while (result && I < sorted.Count)
+        i = 0;
+        while (result && i < sorted.Count)
         {
-            index = armies.IndexOfLocation(sorted[I].First.Location);
+            index = armies.IndexOfLocation(sorted[i].First.Location);
             if (index != -1)
             {
                 army = armies.GetArmies(index);
@@ -421,7 +421,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 }
             }
 
-            I += 1;
+            i += 1;
         }
 
         if (Executor.Moves.Count != 0)
@@ -444,7 +444,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
     // AIGroup.pas:5170
     public MapCoordinate CalculateMeetingPoint()
     {
-        int I;
+        int i;
         int points;
         int reserve;
         int index;
@@ -454,23 +454,23 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         AIMoveExecutorArmy army;
         armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
         MapCoordinate result = MapCoordinate.None;
-        I = _adjacentArmies.GetSlowestArmy();
-        if (I != -1)
+        i = _adjacentArmies.GetSlowestArmy();
+        if (i != -1)
         {
-            if ((double)_adjacentArmies.GetAdjacentArmies(I).GetMovementDays() > 1 || !Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
+            if ((double)_adjacentArmies.GetAdjacentArmies(i).GetMovementDays() > 1 || !Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
             {
-                points = _adjacentArmies.GetAdjacentArmies(I).MovePoints;
+                points = _adjacentArmies.GetAdjacentArmies(i).MovePoints;
                 if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                 {
                     reserve = Round((double)points * 0.75);
-                    if (reserve > _adjacentArmies.GetAdjacentArmies(I).Path.GetMovePoints() - points)
+                    if (reserve > _adjacentArmies.GetAdjacentArmies(i).Path.GetMovePoints() - points)
                     {
-                        points = _adjacentArmies.GetAdjacentArmies(I).Path.GetMovePoints() - reserve;
+                        points = _adjacentArmies.GetAdjacentArmies(i).Path.GetMovePoints() - reserve;
                     }
                 }
 
-                adjacent = _adjacentArmies.GetAdjacentArmies(I);
-                index = armies.IndexOfLocation(_adjacentArmies.GetAdjacentArmies(I).Location);
+                adjacent = _adjacentArmies.GetAdjacentArmies(i);
+                index = armies.IndexOfLocation(_adjacentArmies.GetAdjacentArmies(i).Location);
                 if (index != -1)
                 {
                     army = armies.GetArmies(index);
@@ -490,7 +490,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         position -= 1;
                     }
 
-                    result = _adjacentArmies.GetAdjacentArmies(I).Path[position].Location;
+                    result = _adjacentArmies.GetAdjacentArmies(i).Path[position].Location;
                 }
             }
         }
@@ -506,30 +506,30 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         AIMoveExecutorArmyList armies;
         DoubleItemList<AdjacentArmy> sorted;
         byte moveResult = default;
-        MapCoordinate Location = default;
+        MapCoordinate mapCoordinate = default;
         bool result = true;
-        Location = CalculateMeetingPoint();
-        if (Location == MapCoordinate.None)
+        mapCoordinate = CalculateMeetingPoint();
+        if (mapCoordinate == MapCoordinate.None)
         {
             ref var location = ref Executor.Destination;
-            Location = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);
+            mapCoordinate = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);
         }
 
         armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
         sorted = new DoubleItemList<AdjacentArmy>();
-        for (int I = 0, last = _adjacentArmies.Count - 1; I <= last; I++)
+        for (int i = 0, last = _adjacentArmies.Count - 1; i <= last; i++)
         {
-            var movementDays = _adjacentArmies.GetAdjacentArmies(I).GetMovementDays();
-            sorted.AddAbility(_adjacentArmies.GetAdjacentArmies(I), Round((double)movementDays * 100));
+            var movementDays = _adjacentArmies.GetAdjacentArmies(i).GetMovementDays();
+            sorted.AddAbility(_adjacentArmies.GetAdjacentArmies(i), Round((double)movementDays * 100));
         }
 
         sorted.SortDescendingItemB();
-        for (int I = 0, last = sorted.Count - 1; I <= last; I++)
+        for (int i = 0, last = sorted.Count - 1; i <= last; i++)
         {
-            index = armies.IndexOfLocation(sorted[I].First.Location);
+            index = armies.IndexOfLocation(sorted[i].First.Location);
             if (index != -1)
             {
-                CreateMove(armies.GetArmies(index), 255, Location.X, Location.Y, Location.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
+                CreateMove(armies.GetArmies(index), 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
                 if (moveResult == 0)
                 {
                     result = false;

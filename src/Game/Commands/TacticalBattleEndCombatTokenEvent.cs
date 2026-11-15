@@ -19,11 +19,11 @@ public partial class TacticalBattleEndCombatTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         base.Execute(tokenEvent);
-        for (int I = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; I <= last; I++)
+        for (int i = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i <= last; i++)
         {
-            if (CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
+            if (CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
             {
-                CombatMap.Current.Combat.CombatData.GetObjects(I).Surrender();
+                CombatMap.Current.Combat.CombatData.GetObjects(i).Surrender();
             }
         }
 

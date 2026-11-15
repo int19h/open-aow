@@ -19,11 +19,11 @@ public static class ImageLibraryMethods
         }
         else
         {
-            for (int I = index; I <= index + count - 1; I++)
+            for (int i = index; i <= index + count - 1; i++)
             {
-                if (!library.ImageExist(I))
+                if (!library.ImageExist(i))
                 {
-                    MessageBox(0, library.Name + " Image # " + IntToStr(I) + " is invalid", "Error - " + sender.Name, 0);
+                    MessageBox(0, library.Name + " Image # " + IntToStr(i) + " is invalid", "Error - " + sender.Name, 0);
                     result = null;
                 }
             }
@@ -68,13 +68,13 @@ public static class ImageLibraryMethods
             lockedSurface.ClipRectangle.Bottom = area.Top + area.Height;
         }
 
-        for (int J = 0, last = area.Height / library[index].Height; J <= last; J++)
+        for (int j = 0, last = area.Height / library[index].Height; j <= last; j++)
         {
-            for (int I = 0, lastI = area.Width / library[index].Width; I <= lastI; I++)
+            for (int i = 0, lastI = area.Width / library[index].Width; i <= lastI; i++)
             {
                 var item = library[index];
                 var item2 = library[index];
-                library[index].ShowClipped(area.Left + item2.Width * I, area.Top + item.Height * J, lockedSurface);
+                library[index].ShowClipped(area.Left + item2.Width * i, area.Top + item.Height * j, lockedSurface);
             }
         }
 

@@ -40,13 +40,13 @@ public partial class DiplomaticRelationHistoryList : OwningNode, IChildList<Dipl
     // Player.PAS:56
     public DiplomaticRelation GetRelationOnDay(int day)
     {
-        int I;
+        int i;
         DiplomaticRelation result = DiplomaticRelation.Unknown;
-        I = 0;
-        while (I < Count && GetItems(I).Day <= day)
+        i = 0;
+        while (i < Count && GetItems(i).Day <= day)
         {
-            result = GetItems(I).Relation;
-            I += 1;
+            result = GetItems(i).Relation;
+            i += 1;
         }
 
         return result;

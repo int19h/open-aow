@@ -48,8 +48,7 @@ public sealed class EngineSupportTests
     {
         Assert.Equal(new byte[] { 0x78, 0x56 }, R.ValueBytes(0x12345678, 2));
         Assert.Throws<ArgumentOutOfRangeException>(() => R.ValueBytes(1, 5));
-        string value = "\0\u00E9\u00FF";
-        Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode(value).ToArray());
+        Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode("\0\u00E9\u00FF").ToArray());
         byte[] bytes = new byte[3];
         R.FillBytes(bytes, -1);
         Assert.Equal(new byte[] { 255, 255, 255 }, bytes);

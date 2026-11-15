@@ -716,18 +716,18 @@ public partial class CombatMap : GameMap
     // TTacticalCombatUnit and reads FUnit. On a wall that offset is FWallType, FHitPoints and FLocked,
     // a small integer, so the unit comparison fails and the search continues. The port skips objects
     // that are not tactical units, which has the same result.
-    public void GetUnitLocation(Troop U, out sbyte X, ref sbyte Y, ref sbyte L)
+    public void GetUnitLocation(Troop unit, out sbyte x, ref sbyte y, ref sbyte level)
     {
         int i;
-        X = -1;
+        x = -1;
         i = 0;
         while (i < Combat.CombatData.GetCount())
         {
-            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(i)).Troop == U && Combat.CombatData.GetObjects(i).GetEnabled())
+            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(i)).Troop == unit && Combat.CombatData.GetObjects(i).GetEnabled())
             {
-                X = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX();
-                Y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
-                L = 0;
+                x = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX();
+                y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
+                level = 0;
                 i = Combat.CombatData.GetCount();
             }
             else

@@ -48,9 +48,9 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         EnchantmentList enchantments;
         Troop source;
         Troop target;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         bool success;
         int chance;
         ImageSequenceAnimation animation;
@@ -71,13 +71,13 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         {
             count = 0;
             mana = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60)).GetDispelMana(source);
-            for (int I = enchantments.GetCount() - 1; I >= 0; I--)
+            for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
-                chance = enchantments.GetEnchantments(I).DispelChance(mana);
+                chance = enchantments.GetEnchantments(i).DispelChance(mana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;
-                    enchantments.GetEnchantments(I).Dispel();
+                    enchantments.GetEnchantments(i).Dispel();
                 }
             }
 
@@ -96,16 +96,16 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
             }
 
             ability.SetEnabled(source, false);
-            target.GetLocation(out X, out Y, out L);
-            StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
-            if (StrategicMap.Current.Visible(X, Y, L, 0))
+            target.GetLocation(out x, out y, out l);
+            StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
+            if (StrategicMap.Current.Visible(x, y, l, 0))
             {
                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
-                StrategicMap.Current.PlaceHex(animation, X, Y, L);
+                StrategicMap.Current.PlaceHex(animation, x, y, l);
             }
 
-            if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(X, Y, L, 0))
+            if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, 0))
             {
                 ability.SfxLibrary.Play(0);
             }

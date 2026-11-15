@@ -51,9 +51,9 @@ public partial class AIGroupProductionLocationList : ReferenceNode, IChildList<A
     {
         AIGroupProductionLocation location;
         bool result = true;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            location = this[I];
+            location = this[i];
             if (!location.Validate(control))
             {
                 RemoveChild(location);

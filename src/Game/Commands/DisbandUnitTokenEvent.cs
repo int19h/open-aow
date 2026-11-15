@@ -47,11 +47,11 @@ public partial class DisbandUnitTokenEvent : TokenEvent
         PlayerStructure structure;
         ArmyHexSprite armyHexSprite;
         GroupBehavior behavior;
-        int I;
-        int N;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        int i;
+        int n;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null && troop.Player == Player)
         {
@@ -63,13 +63,13 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
             if (!troop.GetAbilityEnabled(155))
             {
-                troop.GetLocation(out X, out Y, out L);
-                structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                troop.GetLocation(out x, out y, out l);
+                structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                 if (!(troop.Owner is Army) || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
-                    troop.GetLocation(out X, out Y, out L);
+                    troop.GetLocation(out x, out y, out l);
                     troop.SetOwner(null);
-                    armyHexSprite = troop.Place(X, Y, L, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    armyHexSprite = troop.Place(x, y, l, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 }
                 else
                 {
@@ -79,14 +79,14 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
                 if (armyHexSprite != null)
                 {
-                    N = StrategicMap.Current.Random(10);
-                    if (N == 0)
+                    n = StrategicMap.Current.Random(10);
+                    if (n == 0)
                     {
                         behavior = GroupBehavior.GuardArea;
                     }
                     else
                     {
-                        if (N < 7)
+                        if (n < 7)
                         {
                             behavior = GroupBehavior.Scout;
                         }
@@ -96,15 +96,15 @@ public partial class DisbandUnitTokenEvent : TokenEvent
                         }
                     }
 
-                    I = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
-                    if (I == -1)
+                    i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
+                    if (i == -1)
                     {
                         var indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetBehavior((byte)(1 << indexOf), behavior);
                     }
                     else
                     {
-                        var unit = armyHexSprite.Army.Units.GetUnit(I);
+                        var unit = armyHexSprite.Army.Units.GetUnit(i);
                         var indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetGroup((byte)(1 << indexOf), unit.Group);
                     }

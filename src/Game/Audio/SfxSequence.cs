@@ -40,8 +40,7 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
         Sample result;
         if (this.Count != 0)
         {
-            var random = Random(this.Count);
-            result = this[random].Play();
+            result = this[Random(this.Count)].Play();
         }
         else
         {
@@ -57,8 +56,7 @@ public partial class SfxSequence : OwningNode, IChildList<Sfx>
         Sample result = default;
         if (this.Count != 0)
         {
-            var random = Random(this.Count);
-            result = this[random].Play(volume, looped, delay, panning, callback);
+            result = this[Random(this.Count)].Play(volume, looped, delay, panning, callback);
         }
         else
         {

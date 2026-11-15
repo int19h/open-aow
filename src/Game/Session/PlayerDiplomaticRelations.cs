@@ -61,21 +61,21 @@ public partial class PlayerDiplomaticRelations : EngineObject
 
             if (StrategicMap.Current.Day == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
                     // { The loop index supplies the player. }
-                    var diplomaticRelation = GetDiplomaticRelation((sbyte)I);
-                    GetHistory((sbyte)I).Add(diplomaticRelation, 0);
+                    var diplomaticRelation = GetDiplomaticRelation((sbyte)i);
+                    GetHistory((sbyte)i).Add(diplomaticRelation, 0);
                 }
             }
             else
             {
                 if (Player.LegacyRelations.Count != 0)
                 {
-                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
-                        var diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(I);
-                        GetHistory((sbyte)I).Add(diplomaticRelation, 0);
+                        var diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(i);
+                        GetHistory((sbyte)i).Add(diplomaticRelation, 0);
                     }
 
                     Player.LegacyRelations.Clear();

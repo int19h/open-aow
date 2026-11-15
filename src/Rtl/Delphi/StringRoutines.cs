@@ -54,8 +54,7 @@ public static partial class RtlUnit
     public static string Insert(string? source, string? value, int index)
     {
         value = RequireString(value);
-        int offset = index <= 1 ? 0 : Math.Min(index - 1, value.Length);
-        return value.Insert(offset, RequireString(source));
+        return value.Insert(index <= 1 ? 0 : Math.Min(index - 1, value.Length), value: RequireString(source));
     }
 
     public static void Insert(string? source, ref string value, int index) => value = Insert(source, value, index);

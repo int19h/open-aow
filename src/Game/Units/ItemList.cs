@@ -42,11 +42,11 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            for (int I = 0, last = Count - 1; I <= last; I++)
+            for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(I) != null)
+                if (GetChild(i) != null)
                 {
-                    this[I].Release();
+                    this[i].Release();
                 }
             }
         }
@@ -56,17 +56,17 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
     public override void Clear()
     {
         EngineObject child;
-        for (int I = Count - 1; I >= 0; I--)
+        for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(I) != null)
+            if (GetChild(i) != null)
             {
-                child = this[I];
+                child = this[i];
                 if (child != null)
                 {
                     if (child.Owner != this)
                     {
                         child.Release();
-                        DeleteChildAt(I);
+                        DeleteChildAt(i);
                     }
                     else
                     {

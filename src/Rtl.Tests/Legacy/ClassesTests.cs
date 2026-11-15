@@ -120,7 +120,7 @@ public sealed class ClassesTests
         var loading = new Watched(log); loading.Loading(); Assert.True(loading.ComponentState.Contains(ComponentState.Loading)); loading.Loaded(); Assert.False(loading.ComponentState.Contains(ComponentState.Loading));
         var owner = new Component(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
         a.Dispose(); Assert.Equal(1, owner.ComponentCount); Assert.Contains(log, line => line.StartsWith("notify b a Remove", StringComparison.Ordinal)); owner.Dispose();
-        using var tree = new Component(null!); var sub = new Component(tree); var leaf = new Component(sub); tree.Destroying(); tree.Destroying();
+        using var tree = new Component(null!); var leaf = new Component(new Component(tree)); tree.Destroying(); tree.Destroying();
         Assert.True(leaf.ComponentState.Contains(ComponentState.Destroying));
     }
 

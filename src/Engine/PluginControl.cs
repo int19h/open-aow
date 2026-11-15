@@ -36,11 +36,11 @@ public partial class PluginControl : EngineObject
     // whose initialization only counted the engines using it, so a name is checked against it.
     internal void InitializePlugins()
     {
-        for (int I = 0, last = _usedPlugins.Count - 1; I <= last; I++)
+        for (int i = 0, last = _usedPlugins.Count - 1; i <= last; i++)
         {
-            if (_usedPlugins[I] != AbilitiesPlugin)
+            if (_usedPlugins[i] != AbilitiesPlugin)
             {
-                throw new PluginMissingException("PlugIn Missing (" + _usedPlugins[I] + ")");
+                throw new PluginMissingException("PlugIn Missing (" + _usedPlugins[i] + ")");
             }
         }
     }

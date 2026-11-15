@@ -157,8 +157,7 @@ public sealed class PrisonersSaveListingTests
 
             engine.NewCampaign(EngineClass.Of<Campaign>().ClassId);
             engine.SaveCampaign(saved);
-            byte[] fileBytes = File.ReadAllBytes(saved);
-            var prepared = GameBoundary.PrepareLoad(fileBytes, fileName: saved, use: GameProfile.Campaign, validators: FormatMapping.Validators);
+            var prepared = GameBoundary.PrepareLoad(File.ReadAllBytes(saved), fileName: saved, use: GameProfile.Campaign, validators: FormatMapping.Validators);
             Assert.True(prepared.Succeeded, prepared.Report.Error?.ToString());
             Assert.False(prepared.HasImage);
             Assert.Null(prepared.Bytes);

@@ -27,8 +27,8 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
     public override MoveStatus LastMove()
     {
         TacticalBattleUnitHexSprite hexSprite;
-        int X = default;
-        int Y = default;
+        int x = default;
+        int y = default;
         MeleeRound.Strike strike = default;
         MoveStatus result = MoveStatus.Moving;
         try
@@ -133,15 +133,15 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                                 Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                 TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 var hexY = Unit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out X, out Y);
+                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out x, out y);
                                 if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
                                 }
 
                                 if (Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(X + Unit.UnitHexSprite.OffsetX, Y + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
                                 }
                             }
 
@@ -157,15 +157,15 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                                     PreviousUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                     TacticalBattleUnit.MakeHitBlood(PreviousUnit, Strike.Damage);
                                     var hexY = PreviousUnit.UnitHexSprite.HexY;
-                                    HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out X, out Y);
+                                    HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out x, out y);
                                     if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes - Strike.Effects, false);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.DamageTypes - Strike.Effects, false);
                                     }
 
                                     if (Strike.Effects != Set<DamageType>.Of())
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects, true);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.Effects, true);
                                     }
                                 }
 

@@ -43,9 +43,9 @@ public partial class HealingTokenEvent : TokenEvent
         Troop target;
         HealingAbility ability;
         ImageSequenceAnimation animation;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         base.Execute(tokenEvent);
         source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
@@ -56,16 +56,16 @@ public partial class HealingTokenEvent : TokenEvent
             {
                 ability.SetEnabled(source, false);
                 ability.HealUnit(target);
-                target.GetLocation(out X, out Y, out L);
-                StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
-                if (StrategicMap.Current.Visible(X, Y, L, 0))
+                target.GetLocation(out x, out y, out l);
+                StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
+                if (StrategicMap.Current.Visible(x, y, l, 0))
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
-                    StrategicMap.Current.PlaceHex(animation, X, Y, L);
+                    StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
-                if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(X, Y, L, 0))
+                if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, 0))
                 {
                     ability.SfxLibrary.Play(0);
                 }

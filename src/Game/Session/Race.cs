@@ -181,27 +181,27 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         {
             if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
             {
-                for (int I = 0, last = _playerRelations.Count - 1; I <= last; I++)
+                for (int i = 0, last = _playerRelations.Count - 1; i <= last; i++)
                 {
-                    var players = StrategicMap.Current.Players.GetPlayers(I + 1);
+                    var players = StrategicMap.Current.Players.GetPlayers(i + 1);
                     defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
-                    if (_playerRelations[I] > defaultValue)
+                    if (_playerRelations[i] > defaultValue)
                     {
-                        var item = _playerRelations[I];
-                        _playerRelations[I] = item - 1;
-                        if (_playerRelations[I] < defaultValue)
+                        var item = _playerRelations[i];
+                        _playerRelations[i] = item - 1;
+                        if (_playerRelations[i] < defaultValue)
                         {
-                            _playerRelations[I] = defaultValue;
+                            _playerRelations[i] = defaultValue;
                         }
                     }
 
-                    if (_playerRelations[I] < defaultValue)
+                    if (_playerRelations[i] < defaultValue)
                     {
-                        var item = _playerRelations[I];
-                        _playerRelations[I] = item + 1;
-                        if (_playerRelations[I] > defaultValue)
+                        var item = _playerRelations[i];
+                        _playerRelations[i] = item + 1;
+                        if (_playerRelations[i] > defaultValue)
                         {
-                            _playerRelations[I] = defaultValue;
+                            _playerRelations[i] = defaultValue;
                         }
                     }
                 }
@@ -235,9 +235,9 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         DefaultRelations.Clear();
         if (RaceIndex >= 0 && RaceIndex <= 11)
         {
-            for (int I = 0; I <= 11; I++)
+            for (int i = 0; i <= 11; i++)
             {
-                DefaultRelations.Add((byte)(int)s_defaultRaceRelations[RaceIndex][I]);
+                DefaultRelations.Add((byte)(int)s_defaultRaceRelations[RaceIndex][i]);
             }
         }
     }
@@ -246,9 +246,9 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     public void ResetPlayerRelations()
     {
         _playerRelations.Clear();
-        for (int I = 1, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
-            var players = StrategicMap.Current.Players.GetPlayers(I);
+            var players = StrategicMap.Current.Players.GetPlayers(i);
             var statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
             _playerRelations.Add(statusToStatusValue);
         }

@@ -96,12 +96,12 @@ public partial class Campaign : EngineObject
         DifficultyLevel = persister.Enum("DifficultyLevel", value: DifficultyLevel);
         if (persister.Loading)
         {
-            for (int I = 0, last = Scenarios.Count - 1; I <= last; I++)
+            for (int i = 0, last = Scenarios.Count - 1; i <= last; i++)
             {
-                if (Scenarios.GetScenario(I).Id == 0)
+                if (Scenarios.GetScenario(i).Id == 0)
                 {
                     var uniqueId = Scenarios.CreateUniqueId();
-                    Scenarios.GetScenario(I).Id = uniqueId;
+                    Scenarios.GetScenario(i).Id = uniqueId;
                 }
             }
         }
@@ -166,69 +166,69 @@ public partial class Campaign : EngineObject
         }
 
         level = 1 + CompletedScenarios.Count / 4;
-        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (I != player)
+            if (i != player)
             {
-                for (int J = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
+                for (int j = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                 {
-                    spell = GamePack.Current.SpellControl.GetSpell(J);
+                    spell = GamePack.Current.SpellControl.GetSpell(j);
                     bool condition = spell != null && spell.SpellLevel <= level;
                     if (condition)
                     {
-                        var spherePicks = StrategicMap.Current.Players.GetPlayers(I).Leader.GetSpherePicks(spell.MagicSphere);
+                        var spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
                         condition = spell.SpellLevel <= spherePicks;
                     }
 
                     if (condition)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.IndexOf(J) == -1)
+                        if (StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.IndexOf(j) == -1)
                         {
-                            StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
+                            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                         }
                     }
                 }
             }
         }
 
-        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
+        for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)I, player) != DiplomaticRelation.Alliance)
+            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)i, player) != DiplomaticRelation.Alliance)
             {
                 if (DifficultyLevel == CampaignDifficultyLevel.Easy)
                 {
-                    switch (StrategicMap.Current.Players.GetPlayers(I).PlayerType)
+                    switch (StrategicMap.Current.Players.GetPlayers(i).PlayerType)
                     {
                         case PlayerType.Cpu2:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu1;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu1;
                             break;
                         case PlayerType.Cpu3:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu2;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu2;
                             break;
                         case PlayerType.Cpu4:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Cpu5:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
                     }
                 }
 
                 if (DifficultyLevel == CampaignDifficultyLevel.Hard)
                 {
-                    switch (StrategicMap.Current.Players.GetPlayers(I).PlayerType)
+                    switch (StrategicMap.Current.Players.GetPlayers(i).PlayerType)
                     {
                         case PlayerType.Cpu1:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Cpu2:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu4;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu4;
                             break;
                         case PlayerType.Cpu3:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
                             break;
                         case PlayerType.Cpu4:
-                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
+                            StrategicMap.Current.Players.GetPlayers(i).PlayerType = PlayerType.Cpu5;
                             break;
                     }
                 }
@@ -236,18 +236,18 @@ public partial class Campaign : EngineObject
         }
 
         StrategicMap.Current.SetupPlayerControl(PlayMode, PlayerConnectionType.Local);
-        for (int R = 0, last = StrategicMap.Current.Races.Count - 1; R <= last; R++)
+        for (int r = 0, last = StrategicMap.Current.Races.Count - 1; r <= last; r++)
         {
-            if (StrategicMap.Current.Races.GetRace(R) != null)
+            if (StrategicMap.Current.Races.GetRace(r) != null)
             {
-                race = StrategicMap.Current.Races.GetRace(R);
+                race = StrategicMap.Current.Races.GetRace(r);
                 if (race != null)
                 {
-                    for (int I = 0; I <= 11; I++)
+                    for (int i = 0; i <= 11; i++)
                     {
-                        if ((RaceHistory.IndexOf((byte)I) != -1 || I == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == R || (RaceHistory.IndexOf((byte)R) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == R) && I == StrategicMap.Current.Players.GetPlayers(player).PlayerRace)
+                        if ((RaceHistory.IndexOf((byte)i) != -1 || i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r || (RaceHistory.IndexOf((byte)r) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == r) && i == StrategicMap.Current.Players.GetPlayers(player).PlayerRace)
                         {
-                            relation = race.DefaultRelations[I];
+                            relation = race.DefaultRelations[i];
                             switch (relation)
                             {
                                 case 0:
@@ -264,7 +264,7 @@ public partial class Campaign : EngineObject
                                     break;
                             }
 
-                            race.DefaultRelations[I] = relation;
+                            race.DefaultRelations[i] = relation;
                         }
                     }
                 }

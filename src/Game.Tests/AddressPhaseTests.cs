@@ -9,14 +9,14 @@ public sealed class AddressPhaseTests
     [Fact]
     public void PinnedPhaseReachesEveryAddressRead()
     {
-        const int Address = 677;
+        const int address = 677;
         var instance = new object();
         try
         {
-            FrameFixtureInputs.PinnedAddress = Address;
+            FrameFixtureInputs.PinnedAddress = address;
             FrameFixtureInputs.AddressAnimationPhase = 0;
             FrameFixtureInputs.WaterVariantPhase = 0;
-            Assert.Equal(Address, FrameFixtureInputs.Address(instance));
+            Assert.Equal(address, FrameFixtureInputs.Address(instance));
             Assert.Equal(0, FrameFixtureInputs.Address(null));
             // Looped frames take the capture phase and ignore the address.
             Assert.Equal(0, FrameFixtureInputs.AnimationOffset(instance));

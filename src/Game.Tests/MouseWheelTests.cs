@@ -135,9 +135,8 @@ public sealed class MouseWheelTests
         var bar = Bar(panel, 200, 0, 16, 80, 9, 3);
         var label = new Label(null);
         Place(label, panel, 80, 80, 40, 20);
-        Set<ShiftState> shift = default;
 
-        Assert.True(manager.CheckMouseWheel(-2, shift, 90, 90));
+        Assert.True(manager.CheckMouseWheel(shift: default, steps: -2, x: 90, y: 90));
         Assert.Equal(0, list.FirstShownItem);
         Assert.Equal(2, bar.Position);
     }

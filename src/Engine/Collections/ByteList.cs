@@ -86,9 +86,9 @@ public partial class ByteList : Persistent
     internal string GetItemString()
     {
         string result = "";
-        for (int I = 0, last = _count - 1; I <= last; I++)
+        for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = result + IntToStr(_list[I]) + ",";
+            result = result + IntToStr(_list[i]) + ",";
         }
 
         if (!IsEmpty(result))
@@ -103,16 +103,16 @@ public partial class ByteList : Persistent
     internal void SetItemString(string S)
     {
         string item;
-        int P;
-        int V;
+        int p;
+        int v;
         Clear();
-        P = Pos(",", S);
+        p = Pos(",", S);
         while (!IsEmpty(S))
         {
-            if (P != 0)
+            if (p != 0)
             {
-                item = Copy(S, 1, P - 1);
-                S = RtlUnit.Delete(S, 1, P);
+                item = Copy(S, 1, p - 1);
+                S = RtlUnit.Delete(S, 1, p);
             }
             else
             {
@@ -122,20 +122,20 @@ public partial class ByteList : Persistent
 
             if (!IsEmpty(item))
             {
-                V = StrToInt(item);
+                v = StrToInt(item);
             }
             else
             {
-                V = 0;
+                v = 0;
             }
 
-            if (V > 255)
+            if (v > 255)
             {
-                V = 0;
+                v = 0;
             }
 
-            Add((byte)V);
-            P = Pos(",", S);
+            Add((byte)v);
+            p = Pos(",", S);
         }
     }
 
@@ -328,11 +328,11 @@ public partial class ByteList : Persistent
     // Engine.pas:3745
     public void Pack()
     {
-        for (int I = _count - 1; I >= 0; I--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (this[I] == _default)
+            if (this[i] == _default)
             {
-                Delete(I);
+                Delete(i);
             }
         }
     }
@@ -355,13 +355,13 @@ public partial class ByteList : Persistent
         int result;
         int total;
         int chance;
-        int R;
+        int r;
         if (_count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                chance = _list[I] + bonus;
+                chance = _list[i] + bonus;
                 if (chance < 0)
                 {
                     chance = 0;
@@ -370,10 +370,10 @@ public partial class ByteList : Persistent
                 total += chance;
             }
 
-            R = Random(total);
+            r = Random(total);
             total = 0;
             result = 0;
-            while (total < R)
+            while (total < r)
             {
                 chance = _list[result] + bonus;
                 if (chance < 0)

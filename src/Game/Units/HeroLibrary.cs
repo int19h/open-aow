@@ -61,22 +61,22 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
     // Hero.PAS:2580
     public int CreateUniqueLibraryId()
     {
-        int I;
+        int i;
         do
         {
-            I = 0;
+            i = 0;
             _nextLibraryId += 1;
             if (_nextLibraryId > 268435455)
             {
                 _nextLibraryId = 0;
             }
 
-            while (I != Heroes.Count && Heroes[I].LibraryId != _nextLibraryId)
+            while (i != Heroes.Count && Heroes[i].LibraryId != _nextLibraryId)
             {
-                I += 1;
+                i += 1;
             }
         }
-        while (!(I == Heroes.Count));
+        while (!(i == Heroes.Count));
         return _nextLibraryId;
     }
 
@@ -108,14 +108,14 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
     // Hero.PAS:2620
     public Hero FindLibraryId(int id)
     {
-        int I;
-        I = Heroes.Count;
-        while (I != 0)
+        int i;
+        i = Heroes.Count;
+        while (i != 0)
         {
-            I -= 1;
-            if (id == Heroes[I].LibraryId)
+            i -= 1;
+            if (id == Heroes[i].LibraryId)
             {
-                return Heroes[I];
+                return Heroes[i];
             }
         }
 

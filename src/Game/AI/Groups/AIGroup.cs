@@ -282,7 +282,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public virtual bool DeleteUnit(Troop troop)
     {
         bool result;
-        int I;
+        int i;
         sbyte x1 = default;
         sbyte y1 = default;
         sbyte l1 = default;
@@ -301,14 +301,14 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 leader.GetLocation(out x1, out y1, out l1);
                 Leader = null;
                 LeaderId = -1;
-                I = Units.Count;
-                while (I != 0 && Leader == null)
+                i = Units.Count;
+                while (i != 0 && Leader == null)
                 {
-                    I -= 1;
-                    Units[I].GetLocation(out x2, out y2, out l2);
+                    i -= 1;
+                    Units[i].GetLocation(out x2, out y2, out l2);
                     if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
-                        SetLeader(Units[I]);
+                        SetLeader(Units[i]);
                     }
                 }
 
@@ -348,9 +348,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public virtual bool AddUnits(UnitCollection units)
     {
         AddRef();
-        for (int I = units.Count - 1; I >= 0; I--)
+        for (int i = units.Count - 1; i >= 0; i--)
         {
-            AddUnit(units.GetUnit(I));
+            AddUnit(units.GetUnit(i));
         }
 
         Release();
@@ -430,14 +430,14 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public bool GetAdjacent()
     {
         MapCoordinateList locations;
-        sbyte X = default;
-        sbyte Y = default;
-        sbyte L = default;
+        sbyte x = default;
+        sbyte y = default;
+        sbyte l = default;
         locations = new MapCoordinateList();
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int i = Units.Count - 1; i >= 0; i--)
         {
-            Units.GetUnit(I).GetLocation(out X, out Y, out L);
-            locations.Add(HexGeometry.PackMapCoordinate(X, Y, L));
+            Units.GetUnit(i).GetLocation(out x, out y, out l);
+            locations.Add(HexGeometry.PackMapCoordinate(x, y, l));
         }
 
         bool result = MapCoordinateList.LocationsConnected(locations);
@@ -459,11 +459,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public int GetMovePointsMin()
     {
         int result = 50;
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int i = Units.Count - 1; i >= 0; i--)
         {
-            if (result > Units.GetUnit(I).GetMovePoints())
+            if (result > Units.GetUnit(i).GetMovePoints())
             {
-                result = Units.GetUnit(I).GetMovePoints();
+                result = Units.GetUnit(i).GetMovePoints();
             }
         }
 
@@ -474,11 +474,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public int GetMovesMin()
     {
         int result = 50;
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int i = Units.Count - 1; i >= 0; i--)
         {
-            if (result > Units.GetUnit(I).GetMoves())
+            if (result > Units.GetUnit(i).GetMoves())
             {
-                result = Units.GetUnit(I).GetMoves();
+                result = Units.GetUnit(i).GetMoves();
             }
         }
 
@@ -506,12 +506,12 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:234
     public bool RequestTargetExpense(int gold, int mana)
     {
-        int G;
-        int M;
-        G = gold - GoldBudget;
-        M = mana - ManaBudget;
+        int g;
+        int m;
+        g = gold - GoldBudget;
+        m = mana - ManaBudget;
         var players = StrategicMap.Current.Players.GetPlayers(Player);
-        return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(G, M, players.AIBudget.DefaultBudget, true);
+        return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, m, players.AIBudget.DefaultBudget, true);
     }
 
     // AIGroup.pas:243
@@ -598,9 +598,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 var movePointsMin = GetMovePointsMin();
                 TargetMovePoints -= movePointsMin;
             }
-
-            var targetMana = target.GetTargetMana();
-            result = MakeTargetExpense(target.GetTargetGold(), targetMana);
+            result = MakeTargetExpense(mana: target.GetTargetMana(), gold: target.GetTargetGold());
         }
         else
         {

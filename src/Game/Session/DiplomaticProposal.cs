@@ -38,9 +38,9 @@ public abstract partial record DiplomaticProposal
     public static IReadOnlyList<string> Lines(StringCollection text)
     {
         var lines = new string[text.Count];
-        for (int I = 0; I < lines.Length; I++)
+        for (int i = 0; i < lines.Length; i++)
         {
-            lines[I] = text[I];
+            lines[i] = text[i];
         }
 
         return lines;

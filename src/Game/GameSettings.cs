@@ -369,9 +369,9 @@ public partial class GameSettings : Registry
     // AoWReg.pas:428
     public void SetLanguage(Language value)
     {
-        int I;
-        I = (int)value;
-        Int32("General", "Language", ref I, ReadWriteMode.Write);
+        int i;
+        i = (int)value;
+        Int32("General", "Language", ref i, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:436
@@ -446,9 +446,9 @@ public partial class GameSettings : Registry
     // AoWReg.pas:489
     public void SetMainWindowState(WindowState value)
     {
-        int I;
-        I = (int)value;
-        Int32("Workspace", "Main Window State", ref I, ReadWriteMode.Write);
+        int i;
+        i = (int)value;
+        Int32("Workspace", "Main Window State", ref i, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:497
@@ -538,9 +538,9 @@ public partial class GameSettings : Registry
     // AoWReg.pas:561
     public void SetDetailLevel(DetailLevel value)
     {
-        int I;
-        I = (int)value;
-        Int32("Workspace", "Detail Level", ref I, ReadWriteMode.Write);
+        int i;
+        i = (int)value;
+        Int32("Workspace", "Detail Level", ref i, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:569
@@ -763,24 +763,24 @@ public partial class GameSettings : Registry
     // AoWReg.pas:758
     public int GetEmailGamesCrc()
     {
-        string S = "";
-        int P;
+        string s = "";
+        int p;
         int result = 0;
-        String("General", "Serial number", ref S, ReadWriteMode.Read);
+        String("General", "Serial number", ref s, ReadWriteMode.Read);
         try
         {
-            P = Pos("-", S);
+            p = Pos("-", s);
             // { Original tests against -1 although Pos returns 0 when absent. }
-            if (P != -1)
+            if (p != -1)
             {
-                S = Copy(S, P + 1, S.Length - P);
-                P = Pos("-", S);
-                if (P != -1)
+                s = Copy(s, p + 1, s.Length - p);
+                p = Pos("-", s);
+                if (p != -1)
                 {
-                    S = Copy(S, 1, P - 1);
-                    if (!IsEmpty(S))
+                    s = Copy(s, 1, p - 1);
+                    if (!IsEmpty(s))
                     {
-                        result = HexToInt(S);
+                        result = HexToInt(s);
                     }
                 }
             }
@@ -796,9 +796,9 @@ public partial class GameSettings : Registry
     // AoWReg.pas:783
     public void SetEmailGamesCrc(int value)
     {
-        string S;
-        S = "4G5F6JHH-" + IntToHex(value, 8) + "-6AG66554-98LK0FG3";
-        String("General", "Serial number", ref S, ReadWriteMode.Write);
+        string s;
+        s = "4G5F6JHH-" + IntToHex(value, 8) + "-6AG66554-98LK0FG3";
+        String("General", "Serial number", ref s, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:791

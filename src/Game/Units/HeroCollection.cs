@@ -59,17 +59,17 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     // Hero.PAS:2395
     public Hero FindHero(int id)
     {
-        int I;
-        I = 0;
+        int i;
+        i = 0;
         Hero result = null;
-        while (I != Count && result == null)
+        while (i != Count && result == null)
         {
-            if (id == this[I].UnitId)
+            if (id == this[i].UnitId)
             {
-                result = this[I];
+                result = this[i];
             }
 
-            I += 1;
+            i += 1;
         }
 
         return result;

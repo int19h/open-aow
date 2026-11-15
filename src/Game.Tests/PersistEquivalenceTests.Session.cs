@@ -471,9 +471,7 @@ public sealed partial class PersistEquivalenceTests
     // A preview load, as a preview reads a map.
     private static void LoadPreview(EngineObject objectValue, byte[] image)
     {
-        var classValue = s_schema.Get(Factory.ClassName(objectValue));
-        var root = OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game");
-        TreeReader.Read(root, objectValue: objectValue, factory: Factory, preview: true);
+        TreeReader.Read(node: OriginalBackend.Read(classValue: s_schema.Get(Factory.ClassName(objectValue)), image: image, schema: s_schema, engine: "game"), objectValue: objectValue, factory: Factory, preview: true);
     }
 
     // The engine status is private state of the engine's map loads. The test sets it around the

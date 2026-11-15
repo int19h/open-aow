@@ -319,8 +319,7 @@ public sealed class GameSwitchTests
     [InstalledFact]
     public void OwnDocumentOfAnotherProfileIsRefused()
     {
-        byte[] own = GameFiles.Write(ShippedSave());
-        var result = GameBoundary.PrepareLoad(own, "map.hsm", GameProfile.TacticalMap, FormatMapping.Validators);
+        var result = GameBoundary.PrepareLoad(GameFiles.Write(ShippedSave()), fileName: "map.hsm", use: GameProfile.TacticalMap, validators: FormatMapping.Validators);
         Assert.Equal(Codes.Profile, result.Report.Error!.Code);
     }
 
@@ -361,8 +360,6 @@ public sealed class GameSwitchTests
     [Fact]
     public void FileLogRecordNamesEveryField()
     {
-        var report = new GameFileReport { Operation = "open", Profile = GameProfile.WorldMap, Kind = "save", Format = "OwnJson", Version = 1, OriginalRoundTrip = "not applicable: own document", Validation = "refused", Error = new FormatDiagnostic(Codes.Reference, "x") { File = "a.asg" } };
-        string line = new FileLogRecord(@"C:\Save\a.asg", "user", report).ToJson();
-        Assert.Equal("{\"operation\":\"open\",\"path\":\"C:\\\\Save\\\\a.asg\",\"layer\":\"user\",\"profile\":\"world-hsm\",\"use\":\"world-map\",\"kind\":\"save\",\"format\":\"OwnJson\",\"version\":1,\"g1\":\"not applicable: own document\",\"validation\":\"refused\",\"error\":\"E_REFERENCE\",\"diagnostic\":\"a.asg E_REFERENCE\\nx\",\"cached\":false}", line);
+        Assert.Equal(actual: new FileLogRecord(report: new GameFileReport { Operation = "open", Profile = GameProfile.WorldMap, Kind = "save", Format = "OwnJson", Version = 1, OriginalRoundTrip = "not applicable: own document", Validation = "refused", Error = new FormatDiagnostic(Codes.Reference, "x") { File = "a.asg" } }, path: @"C:\Save\a.asg", layer: "user").ToJson(), expected: "{\"operation\":\"open\",\"path\":\"C:\\\\Save\\\\a.asg\",\"layer\":\"user\",\"profile\":\"world-hsm\",\"use\":\"world-map\",\"kind\":\"save\",\"format\":\"OwnJson\",\"version\":1,\"g1\":\"not applicable: own document\",\"validation\":\"refused\",\"error\":\"E_REFERENCE\",\"diagnostic\":\"a.asg E_REFERENCE\\nx\",\"cached\":false}");
     }
 }

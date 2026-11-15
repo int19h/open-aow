@@ -64,7 +64,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         AIGroupDefenseControl defense;
         AIGroupControlTarget currentTarget;
         AIGroupControlTarget newTarget;
-        int I;
+        int i;
         int excess;
         ArmyHexSprite army;
         City city;
@@ -81,18 +81,18 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 1:
-                I = 0;
-                while (I < Targets.Count && Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Done))
+                i = 0;
+                while (i < Targets.Count && Targets.GetTargets(i).Status.Contains(AIGroupTargetFlags.Done))
                 {
-                    I += 1;
+                    i += 1;
                 }
 
-                if (I < Targets.Count)
+                if (i < Targets.Count)
                 {
-                    var surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(I).Location, 70);
-                    Targets.GetTargets(I).DataA = surroundingEnemyStrength;
-                    var target = Targets.GetTargets(I);
-                    Targets.GetTargets(I).Status = target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
+                    var surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(i).Location, 70);
+                    Targets.GetTargets(i).DataA = surroundingEnemyStrength;
+                    var target = Targets.GetTargets(i);
+                    Targets.GetTargets(i).Status = target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
                 }
                 else
                 {
@@ -103,46 +103,46 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 2:
                 Targets.Validate();
                 newTarget = null;
-                I = Targets.IndexOfMapCoordinate(Location);
-                if (I == -1)
+                i = Targets.IndexOfMapCoordinate(Location);
+                if (i == -1)
                 {
                     currentTarget = null;
                 }
                 else
                 {
-                    currentTarget = Targets.GetTargets(I);
+                    currentTarget = Targets.GetTargets(i);
                 }
 
                 {
-                    I = 0;
+                    i = 0;
                     int last = Targets.Count - 1;
-                    for (; I <= last; I += 1)
+                    for (; i <= last; i += 1)
                     {
-                        var targetData = Targets.GetTargets(I);
-                        var targetMovePoints = Targets.GetTargets(I);
-                        Targets.GetTargets(I).DataB = targetData.Data.Priority * 10 + targetMovePoints.MovePoints * -2;
-                        excess = Targets.GetTargets(I).DataA - StrengthMax;
+                        var targetData = Targets.GetTargets(i);
+                        var targetMovePoints = Targets.GetTargets(i);
+                        Targets.GetTargets(i).DataB = targetData.Data.Priority * 10 + targetMovePoints.MovePoints * -2;
+                        excess = Targets.GetTargets(i).DataA - StrengthMax;
                         if (excess > 0)
                         {
-                            var target = Targets.GetTargets(I);
+                            var target = Targets.GetTargets(i);
                             target.DataB -= (int)(((uint)excess) >> 4);
                         }
 
-                        excess = Targets.GetTargets(I).PathStrength;
+                        excess = Targets.GetTargets(i).PathStrength;
                         if (excess > 0)
                         {
-                            var target = Targets.GetTargets(I);
+                            var target = Targets.GetTargets(i);
                             target.DataB -= (int)(((uint)excess) >> 3);
                         }
 
-                        if (Targets.GetTargets(I).Location != Location)
+                        if (Targets.GetTargets(i).Location != Location)
                         {
-                            var targetLocation = Targets.GetTargets(I);
+                            var targetLocation = Targets.GetTargets(i);
                             army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
                             if (army != null)
                             {
                                 var count = army.Army.Units.Count;
-                                var target = Targets.GetTargets(I);
+                                var target = Targets.GetTargets(i);
                                 target.DataB -= count << 2;
                             }
                         }
@@ -566,9 +566,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         message.MessageId = 4360;
         message.Param[0] = query;
-        for (int I = settings.ProcessedMapFields.Count - 1; I >= 0; I--)
+        for (int i = settings.ProcessedMapFields.Count - 1; i >= 0; i--)
         {
-            var mapField = settings.ProcessedMapFields[I];
+            var mapField = settings.ProcessedMapFields[i];
             if ((mapField.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
             {
                 mapField.SendMapFieldMessage(ref message);
@@ -638,7 +638,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     public void MakeUselessUnitsPassive()
     {
         int excess = default;
-        int I = default;
+        int i = default;
         UnitUserList units = default;
         UnitUserList passive = default;
         AIGroup group = default;
@@ -649,17 +649,17 @@ public partial class FortifyAIGroupControl : AIGroupControl
             passive = new UnitUserList(null) { Holder = CreationHolder() };
             units.AddUnits(Group.Units);
             units.SortChildren<Troop>(CompareFortifyUnits);
-            I = units.Count;
-            while (I != 0 && excess > 0)
+            i = units.Count;
+            while (i != 0 && excess > 0)
             {
-                I -= 1;
-                if (!(units.GetUnit(I) is Leader))
+                i -= 1;
+                if (!(units.GetUnit(i) is Leader))
                 {
-                    excess -= units.GetUnit(I).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    excess -= units.GetUnit(i).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     if (excess >= 0)
                     {
-                        passive.AddUnit(units.GetUnit(I));
-                        units.DeleteUnit(units.GetUnit(I));
+                        passive.AddUnit(units.GetUnit(i));
+                        units.DeleteUnit(units.GetUnit(i));
                     }
                 }
             }
@@ -679,14 +679,14 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:391
     public bool CanBreachWall()
     {
-        int I;
+        int i;
         Troop troop;
-        I = Group.Units.Count;
+        i = Group.Units.Count;
         bool result = Group.Units.GetStrength(DamageType.Wall) != 0;
-        while (!result && I != 0)
+        while (!result && i != 0)
         {
-            I -= 1;
-            troop = Group.Units.GetUnit(I);
+            i -= 1;
+            troop = Group.Units.GetUnit(i);
             result = troop.GetAbilityEnabled(52) && ((SpellCastingAbility)GamePack.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(troop);
         }
 
