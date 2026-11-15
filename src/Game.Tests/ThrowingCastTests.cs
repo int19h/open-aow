@@ -1,4 +1,5 @@
 #nullable disable
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -6,6 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
@@ -36,6 +38,18 @@ public sealed class ThrowingCastTests
         public StrategicMap Map { get; }
 
         public void Dispose() => StrategicMap.Current = _previous;
+    }
+
+    // A hero that always wishes to join the seated player.
+    private sealed class JoiningHero : Hero
+    {
+        public JoiningHero() : base(null!)
+        {
+        }
+
+        public override bool CanJoin(sbyte player) => true;
+
+        public override bool OfferToJoin(sbyte player) => true;
     }
 
     private sealed class ItemSite : Structure
@@ -272,5 +286,116 @@ public sealed class ThrowingCastTests
         {
             CombatMap.Current = previous;
         }
+    }
+
+    [Fact]
+    public void ArmyOwnerIsNullForEveryNonArmyOwner()
+    {
+        var army = new Army(null!) { Holder = EngineFixture.Engine };
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        var users = new UnitUserList(null!) { Holder = EngineFixture.Engine };
+        var heroes = new HeroList(null!) { Holder = EngineFixture.Engine };
+        var library = new HeroLibrary(null!) { Holder = EngineFixture.Engine };
+        var troop = new Troop(null!) { Holder = EngineFixture.Engine };
+        troop.SetOwnerWithoutNotify(army);
+        Assert.Same(army, troop.ArmyOwner);
+        troop.SetOwnerWithoutNotify(units);
+        Assert.Null(troop.ArmyOwner);
+        troop.SetOwnerWithoutNotify(users);
+        Assert.Null(troop.ArmyOwner);
+        troop.SetOwnerWithoutNotify(null);
+        Assert.Null(troop.ArmyOwner);
+
+        // A hero admits the same owners. A unit list and a unit user list hold generated
+        // troops and campaign transfers, a hero list and a library the heroes outside armies.
+        var hero = new Hero(null!) { Holder = EngineFixture.Engine };
+        hero.SetOwnerWithoutNotify(army);
+        Assert.Same(army, hero.ArmyOwner);
+        hero.SetOwnerWithoutNotify(units);
+        Assert.Null(hero.ArmyOwner);
+        hero.SetOwnerWithoutNotify(users);
+        Assert.Null(hero.ArmyOwner);
+        hero.SetOwnerWithoutNotify(heroes);
+        Assert.Null(hero.ArmyOwner);
+        hero.SetOwnerWithoutNotify(library);
+        Assert.Null(hero.ArmyOwner);
+    }
+
+    [Fact]
+    public void JoiningHeroOutsideAnArmyMakesNoJoinLog()
+    {
+        using var scope = new MapScope();
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        var hero = new JoiningHero() { Holder = EngineFixture.Engine, UnitId = 42, Player = 0 };
+        hero.SetOwnerWithoutNotify(units);
+        scope.Map.UnitControl.RegisterUnit(hero);
+        var emerge = new HeroEmergeEventLog(null!) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
+        HeroJoinEventLog log = null!;
+        var error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
+        Assert.Null(error);
+        Assert.Null(log);
+
+        var heroes = new HeroList(null!) { Holder = EngineFixture.Engine };
+        hero.SetOwnerWithoutNotify(heroes);
+        error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
+        Assert.Null(error);
+        Assert.Null(log);
+    }
+
+    [Fact]
+    public void WarpPartyWithoutArmyReturnsFalse()
+    {
+        using var scope = new MapScope();
+        scope.Map.TokenManager.CreatePlayer(1);
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        var hero = new Hero(null!) { Holder = EngineFixture.Engine, UnitId = 7, Player = 1 };
+        hero.SetOwnerWithoutNotify(units);
+        var spell = new WarpParty(null!, EngineFixture.Engine);
+        bool result = true;
+        var error = Record.Exception(() => result = spell.Activate(hero));
+        Assert.Null(error);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void TransporterWithoutArmyLeavesNoTransporterArmy()
+    {
+        using var scope = new MapScope();
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        var transporter = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 5 };
+        transporter.SetOwnerWithoutNotify(units);
+        var settings = new AIMoveControlSettings(null!) { Holder = EngineFixture.Engine };
+        settings.Transporter = transporter;
+        var control = new AIMoveControl(null!) { Holder = EngineFixture.Engine };
+        bool result = false;
+        var error = Record.Exception(() => result = control.CanMove(settings));
+        Assert.Null(error);
+        Assert.True(result);
+        control.Dispose();
+    }
+
+    [Fact]
+    public void UnitSelectionWithoutAnArmySkipsConcealment()
+    {
+        using var scope = new MapScope();
+        var units = new UnitList(null!) { Holder = EngineFixture.Engine };
+        var source = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 6, Player = 1 };
+        var target = new Troop(null!) { Holder = EngineFixture.Engine, UnitId = 9, Player = 1 };
+        units.Units.AddUnit(source);
+        units.Units.AddUnit(target);
+        var spell = new UnitSpell(null!) { Holder = EngineFixture.Engine };
+        var caster = new UnitSpellCaster(null!) { Holder = EngineFixture.Engine };
+        var error = Record.Exception(() => spell.SetupUnitSelectionControl(caster, source, source.OwnerUnits));
+        Assert.Null(error);
+        Assert.Equal(2, caster.TargetUnits.GetCount());
+
+        var army = new Army(null!) { Holder = EngineFixture.Engine };
+        army.Player = 1;
+        army.Units.AddUnit(source);
+        army.Units.AddUnit(target);
+        var listed = new UnitSpellCaster(null!) { Holder = EngineFixture.Engine };
+        error = Record.Exception(() => spell.SetupUnitSelectionControl(listed, source, source.OwnerUnits));
+        Assert.Null(error);
+        Assert.Equal(2, listed.TargetUnits.GetCount());
     }
 }

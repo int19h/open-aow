@@ -142,12 +142,13 @@ public partial class TownGate : CityTargetSpell
         bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
         if (result)
         {
-            if (source.Owner is IHeroHolder)
+            // Without an army the source has no party to teleport.
+            if (source.ArmyOwner is not Army armyOwner)
             {
                 return false;
             }
 
-            army = source.ArmyOwner.GetArmyHexSprite();
+            army = armyOwner.GetArmyHexSprite();
             if (army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
             {
                 selection = StrategicMap.Current.SelectedArmy.GetSelection();

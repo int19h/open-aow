@@ -123,20 +123,20 @@ public partial class HeroEmergeEventLog : EventLog
         HeroJoinEventLog result;
         Hero hero;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.Owner is not IHeroHolder)
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
             result = new HeroJoinEventLog(null) { Holder = CreationHolder() };
             result.JoinIndex = Id;
             switch (_mode)
             {
                 case HeroJoinMode.Emerged:
-                    result.SetupJoinArmy(hero.ArmyOwner, Player, result.JoinMode);
+                    result.SetupJoinArmy(army, Player, result.JoinMode);
                     result.FirstUnitId = hero.UnitId;
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroEmergedOfferFormat), [hero.HeroName, LocationName, result.Gold]);
                     result.JoinMessage.Text = format;
                     break;
                 case HeroJoinMode.Resurrected:
-                    result.SetupJoinArmy(hero.ArmyOwner, Player, result.JoinMode);
+                    result.SetupJoinArmy(army, Player, result.JoinMode);
                     result.FirstUnitId = hero.UnitId;
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroResurrectedOfferFormat), [hero.HeroName, result.Gold]);
                     result.JoinMessage.Text = formattedText;

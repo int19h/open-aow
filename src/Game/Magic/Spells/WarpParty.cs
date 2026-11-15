@@ -40,15 +40,16 @@ public partial class WarpParty : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            if (source.Owner is IHeroHolder)
+            // Without an army the source has no party to move.
+            if (source.ArmyOwner is not Army armyOwner)
             {
                 return false;
             }
 
             eventValue = new WarpPartyTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            eventValue.ArmyId = source.ArmyOwner.CreateId(255);
-            var warpLocation = CalculateWarpLocation(source.ArmyOwner.GetArmyHexSprite());
+            eventValue.ArmyId = armyOwner.CreateId(255);
+            var warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
             eventValue.WarpLocation = warpLocation;
             StrategicMap.Current.SelectedArmy.Unselect();
             if (eventValue.WarpLocation != MapCoordinate.None)
