@@ -1095,9 +1095,9 @@ legacy image cannot carry, including port-range state and a list longer than its
 is refused with its document path and is not truncated. The own document keeps it. The same
 refusal applies to the disk image (`persistence-tree.md` 17). The adapter stays that legacy
 image until `docs/specs/networking.md` replaces it. This specification does not define that
-file. PE-5-a is the first part of step 5. The rest of step 5 is not implemented. The private roadmap allocates the five steps as briefs
-PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
-section 10 names them as that step's prerequisite.
+file. Steps 1, 2, 3 and 4 are done. Step 5 is done for port-only state, one extended array, validation through the document backend, and the inventory of the own disk path and the public persistence interface (`persistence-tree.md` 18). The migration chain (PE-5-b) is dropped. Own formats are not stable yet, so there is no chain to keep. There is no pinned schema and no `versions.json` history for a migration. The private roadmap allocates the five steps as briefs
+PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline. `milestones.md`
+section 10 names the done part of the exit as that step's prerequisite. 10.4 itself is not done.
 
 ### 6.4 Cross-document reconciliation
 
@@ -1347,9 +1347,9 @@ pins the rule to exactly one occurrence in that file.
   their original paths through `ReadFromFileCrc` and `WriteToFileCrc`. They are inventoried by
   the census and excluded from conversion and from every count above. Their conversion, CRC
   semantics included, is milestone 10 work (step 10.1, 6.2).
-- The transition cost (6.1). Every own load and save passes through the Delphi image:
-  property numbers, widths, call order, record layouts and the stream code stay the engine's
-  protocol, and conversion adds the time and memory of
+- The transition cost (6.1). Own loads and saves of the in-scope profiles go through the tree
+  and the document backend. Import, export, the packet adapter and the original files still use
+  the original image. Conversion of an original adds the time and memory of
   section 9.3. Version 3 stores a padded record's fields, the ability bits and a raw primitive
   as names, lists and plain values. Version 4 stores the list payloads of `rwStreamProc` and the
   bit lists as lists and indices. Version 5 stores the resource payloads, the flood terrain and
@@ -1369,10 +1369,11 @@ pins the rule to exactly one occurrence in that file.
   items, and puts them, the grouped lists and a bit list member on the tree. Version 6 (issue 230)
   renames the stored members to their C# names. PE-3-b to PE-3-g implement the own disk path of
   step 3: the game loads and saves the in-scope profiles through the tree, with no engine image
-  on that path. Steps 4 and 5 and the rest of step 3 are not implemented. The exit is a
+  on that path. Steps 4 and the rest of step 3 are done, and so are port-only state and the
+  inventory of step 5. The migration chain of step 5 is dropped. Own formats are not stable yet, so there is no chain to keep. The exit is a
   prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and
   the private roadmap allocates it as briefs PE-1 to PE-5 before step 10.4 publishes the API
-  baseline.
+  baseline. 10.4 itself is not done.
 
 ### 9.6 Open items
 
