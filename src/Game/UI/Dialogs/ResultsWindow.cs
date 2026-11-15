@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWResultsWin.pas.
 using Aow.Engine.Collections;
 using Aow.Game.Audio;

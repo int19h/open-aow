@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWHeroJoinDlg.pas.
 using Aow.Game.Draw;
 

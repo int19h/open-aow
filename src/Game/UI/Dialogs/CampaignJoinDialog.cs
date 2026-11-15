@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWCampaignJoin.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;

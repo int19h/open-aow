@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWSendEmailGameDlg.pas.
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;

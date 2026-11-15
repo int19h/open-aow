@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWTC.pas.
 
 namespace Aow.Game.Combat;

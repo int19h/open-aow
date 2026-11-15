@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from BloodShrine.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;

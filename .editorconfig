@@ -68,19 +68,371 @@ csharp_preserve_single_line_statements = true
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
-# Style preferences. The code mixes these forms (the units keep the shape of the Delphi source),
-# so they are silent: `dotnet format` applies none of them and the build raises none.
-csharp_style_namespace_declarations = file_scoped:warning
-csharp_using_directive_placement = outside_namespace:silent
-csharp_prefer_braces = when_multiline:silent
-csharp_style_var_for_built_in_types = true:silent
-csharp_style_var_when_type_is_apparent = true:silent
-csharp_style_var_elsewhere = true:silent
-csharp_style_expression_bodied_methods = when_on_single_line:silent
-csharp_style_expression_bodied_properties = true:silent
-csharp_style_expression_bodied_accessors = true:silent
-csharp_style_expression_bodied_lambdas = true:silent
-dotnet_style_qualification_for_field = false:silent
-dotnet_style_qualification_for_property = false:silent
-dotnet_style_qualification_for_method = false:silent
-dotnet_style_qualification_for_event = false:silent
+# Decided language rules (issue 256, decisions of 2026-11-15). Every option of the
+# decided table is set. A rule with no remaining sites on the code of 2026-11-15, after
+# the folder opt-outs below, is warning and fails the build under EnforceCodeStyleInBuild.
+# A rule with remaining sites is suggestion for now. Its comment names the fix group
+# from style1-status.md that fixes its sites and raises it to warning.
+
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_property = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_event = false
+dotnet_style_predefined_type_for_locals_parameters_members = true
+dotnet_style_predefined_type_for_member_access = true
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary
+dotnet_style_require_accessibility_modifiers = for_non_interface_members
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async
+csharp_prefer_static_local_function = true
+csharp_prefer_static_anonymous_function = true
+csharp_style_prefer_readonly_struct = true
+csharp_style_prefer_readonly_struct_member = true
+csharp_style_var_for_built_in_types = false
+csharp_style_var_when_type_is_apparent = false
+csharp_style_var_elsewhere = false
+csharp_style_implicit_object_creation_when_type_is_apparent = true
+csharp_style_expression_bodied_constructors = when_on_single_line
+csharp_style_expression_bodied_methods = when_on_single_line
+csharp_style_expression_bodied_operators = when_on_single_line
+csharp_style_expression_bodied_properties = true
+csharp_style_expression_bodied_indexers = true
+csharp_style_expression_bodied_accessors = true
+csharp_style_expression_bodied_lambdas = true
+csharp_style_expression_bodied_local_functions = when_on_single_line
+csharp_style_pattern_matching_over_as_with_null_check = true
+csharp_style_pattern_matching_over_is_with_cast_check = true
+csharp_style_prefer_extended_property_pattern = true
+csharp_style_prefer_not_pattern = true
+csharp_style_prefer_pattern_matching = true
+csharp_style_prefer_switch_expression = true
+csharp_style_conditional_delegate_call = true
+dotnet_style_coalesce_expression = true
+dotnet_style_null_propagation = true
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true
+csharp_prefer_braces = true
+csharp_prefer_simple_using_statement = true
+csharp_style_namespace_declarations = file_scoped
+csharp_style_prefer_method_group_conversion = true
+csharp_style_prefer_primary_constructors = true
+csharp_style_prefer_top_level_statements = false
+csharp_prefer_system_threading_lock = true
+csharp_style_prefer_labeled_jump_statements = true
+dotnet_style_object_initializer = true
+dotnet_style_collection_initializer = true
+dotnet_style_prefer_collection_expression = when_types_exactly_match
+dotnet_style_explicit_tuple_names = true
+dotnet_style_namespace_match_folder = true
+dotnet_style_prefer_auto_properties = true
+dotnet_style_prefer_compound_assignment = true
+dotnet_style_prefer_conditional_expression_over_assignment = true
+dotnet_style_prefer_conditional_expression_over_return = true
+dotnet_style_prefer_inferred_anonymous_type_member_names = true
+dotnet_style_prefer_inferred_tuple_names = true
+dotnet_style_prefer_non_hidden_explicit_cast_in_source = true
+dotnet_style_prefer_simplified_boolean_expressions = true
+dotnet_style_prefer_simplified_interpolation = true
+dotnet_prefer_system_hash_code = true
+dotnet_style_readonly_field = true
+csharp_prefer_simple_default_expression = true
+csharp_style_deconstructed_variable_declaration = true
+csharp_style_inlined_variable_declaration = true
+csharp_style_prefer_index_operator = true
+csharp_style_prefer_local_over_anonymous_function = true
+csharp_style_prefer_null_check_over_type_check = true
+csharp_style_prefer_range_operator = true
+csharp_style_prefer_tuple_swap = true
+csharp_style_throw_expression = true
+csharp_style_unused_value_assignment_preference = discard_variable
+csharp_style_unused_value_expression_statement_preference = discard_variable
+csharp_style_prefer_simple_property_accessors = true
+csharp_style_prefer_implicitly_typed_lambda_expression = true
+csharp_style_prefer_unbound_generic_type_in_nameof = true
+dotnet_code_quality_unused_parameters = non_public
+dotnet_remove_unnecessary_suppression_exclusions = none
+csharp_using_directive_placement = outside_namespace
+file_header_template = unset
+csharp_style_prefer_utf8_string_literals = false
+
+# IDE0001 raises to warning in fix group 2 (qualification and name simplification).
+dotnet_diagnostic.IDE0001.severity = suggestion
+# IDE0002 raises to warning in fix group 2 (qualification and name simplification).
+dotnet_diagnostic.IDE0002.severity = suggestion
+# IDE0003 raises to warning in fix group 2 (qualification and name simplification).
+dotnet_diagnostic.IDE0003.severity = suggestion
+# IDE0004 raises to warning in fix group 3 (casts and related).
+dotnet_diagnostic.IDE0004.severity = suggestion
+# IDE0005 raises to warning in fix group 4 (unused usings).
+dotnet_diagnostic.IDE0005.severity = suggestion
+# IDE0007 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0007.severity = warning
+# IDE0008 raises to warning in fix group 8 (explicit types and target-typed new).
+dotnet_diagnostic.IDE0008.severity = suggestion
+# IDE0009 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0009.severity = warning
+# IDE0010 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0010.severity = suggestion
+# IDE0011 raises to warning in fix group 6 (braces).
+dotnet_diagnostic.IDE0011.severity = suggestion
+# IDE0016 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0016.severity = warning
+# IDE0017 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0017.severity = suggestion
+# IDE0018 raises to warning in fix group 9 (inline out declarations).
+dotnet_diagnostic.IDE0018.severity = suggestion
+# IDE0019 raises to warning in fix group 17 (pattern matching).
+dotnet_diagnostic.IDE0019.severity = suggestion
+# IDE0020 raises to warning in fix group 17 (pattern matching).
+dotnet_diagnostic.IDE0020.severity = suggestion
+# IDE0021 raises to warning in fix group 7 (expression bodies).
+dotnet_diagnostic.IDE0021.severity = suggestion
+# IDE0022 raises to warning in fix group 7 (expression bodies).
+dotnet_diagnostic.IDE0022.severity = suggestion
+# IDE0023 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0023.severity = warning
+# IDE0024 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0024.severity = warning
+# IDE0025 raises to warning in fix group 7 (expression bodies).
+dotnet_diagnostic.IDE0025.severity = suggestion
+# IDE0026 raises to warning in fix group 7 (expression bodies).
+dotnet_diagnostic.IDE0026.severity = suggestion
+# IDE0027 raises to warning in fix group 7 (expression bodies).
+dotnet_diagnostic.IDE0027.severity = suggestion
+# IDE0028 raises to warning in fix group 10 (collection initializers and collection expressions).
+dotnet_diagnostic.IDE0028.severity = suggestion
+# IDE0029 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0029.severity = warning
+# IDE0030 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0030.severity = warning
+# IDE0031 raises to warning in fix group 12 (null propagation and related).
+dotnet_diagnostic.IDE0031.severity = suggestion
+# IDE0032 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0032.severity = suggestion
+# IDE0033 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0033.severity = warning
+# IDE0034 raises to warning in fix group 3 (casts and related).
+dotnet_diagnostic.IDE0034.severity = suggestion
+# IDE0035 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0035.severity = warning
+# IDE0036 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0036.severity = warning
+# IDE0037 raises to warning in fix group 3 (casts and related).
+dotnet_diagnostic.IDE0037.severity = suggestion
+# IDE0038 raises to warning in fix group 17 (pattern matching).
+dotnet_diagnostic.IDE0038.severity = suggestion
+# IDE0039 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0039.severity = suggestion
+# IDE0040 raises to warning in fix group 1 (accessibility modifiers).
+dotnet_diagnostic.IDE0040.severity = suggestion
+# IDE0041 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0041.severity = warning
+# IDE0042 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0042.severity = suggestion
+# IDE0043 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0043.severity = warning
+# IDE0044 raises to warning in fix group 14 (static local functions and readonly).
+dotnet_diagnostic.IDE0044.severity = suggestion
+# IDE0045 raises to warning in fix group 11 (conditional expressions).
+dotnet_diagnostic.IDE0045.severity = suggestion
+# IDE0046 raises to warning in fix group 11 (conditional expressions).
+dotnet_diagnostic.IDE0046.severity = suggestion
+# IDE0047 raises to warning in fix group 5 (parentheses).
+dotnet_diagnostic.IDE0047.severity = suggestion
+# IDE0048 raises to warning in fix group 5 (parentheses).
+dotnet_diagnostic.IDE0048.severity = suggestion
+# IDE0049 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0049.severity = warning
+# IDE0050 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0050.severity = warning
+# IDE0051 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0051.severity = suggestion
+# IDE0052 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0052.severity = suggestion
+# IDE0053 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0053.severity = warning
+# IDE0054 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0054.severity = suggestion
+# IDE0056 raises to warning in fix group 13 (index from the end).
+dotnet_diagnostic.IDE0056.severity = suggestion
+# IDE0057 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0057.severity = suggestion
+# IDE0058 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0058.severity = suggestion
+# IDE0059 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0059.severity = suggestion
+# IDE0060 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0060.severity = suggestion
+# IDE0061 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0061.severity = warning
+# IDE0062 raises to warning in fix group 14 (static local functions and readonly).
+dotnet_diagnostic.IDE0062.severity = suggestion
+# IDE0063 raises to warning in fix group 16 (simple using).
+dotnet_diagnostic.IDE0063.severity = suggestion
+# IDE0065 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0065.severity = warning
+# IDE0066 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0066.severity = suggestion
+# IDE0070 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0070.severity = warning
+# IDE0071 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0071.severity = warning
+# IDE0072 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0072.severity = suggestion
+# IDE0074 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0074.severity = suggestion
+# IDE0075 raises to warning in fix group 3 (casts and related).
+dotnet_diagnostic.IDE0075.severity = suggestion
+# IDE0078 raises to warning in fix group 17 (pattern matching).
+dotnet_diagnostic.IDE0078.severity = suggestion
+# IDE0079 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0079.severity = warning
+# IDE0080 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0080.severity = warning
+# IDE0082 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0082.severity = warning
+# IDE0083 raises to warning in fix group 17 (pattern matching).
+dotnet_diagnostic.IDE0083.severity = suggestion
+# IDE0090 raises to warning in fix group 8 (explicit types and target-typed new).
+dotnet_diagnostic.IDE0090.severity = suggestion
+# IDE0100 raises to warning in fix group 3 (casts and related).
+dotnet_diagnostic.IDE0100.severity = suggestion
+# IDE0110 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0110.severity = warning
+# IDE0120 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0120.severity = warning
+# IDE0121 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0121.severity = warning
+# IDE0130 is clean on the code of 2026-11-15. Folder opt-outs below remove its remaining sites.
+dotnet_diagnostic.IDE0130.severity = warning
+# IDE0150 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0150.severity = suggestion
+# IDE0160 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0160.severity = warning
+# IDE0161 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0161.severity = warning
+# IDE0170 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0170.severity = warning
+# IDE0180 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0180.severity = suggestion
+# IDE0200 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0200.severity = suggestion
+# IDE0210 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0210.severity = warning
+# IDE0211 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0211.severity = warning
+# IDE0221 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0221.severity = warning
+# IDE0240 is clean on the code of 2026-11-15. Folder opt-outs below remove its remaining sites.
+dotnet_diagnostic.IDE0240.severity = warning
+# IDE0241 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0241.severity = warning
+# IDE0250 raises to warning in fix group 14 (static local functions and readonly).
+dotnet_diagnostic.IDE0250.severity = suggestion
+# IDE0251 raises to warning in fix group 14 (static local functions and readonly).
+dotnet_diagnostic.IDE0251.severity = suggestion
+# IDE0260 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0260.severity = warning
+# IDE0270 raises to warning in fix group 12 (null propagation and related).
+dotnet_diagnostic.IDE0270.severity = suggestion
+# IDE0280 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0280.severity = warning
+# IDE0290 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0290.severity = suggestion
+# IDE0300 raises to warning in fix group 10 (collection initializers and collection expressions).
+dotnet_diagnostic.IDE0300.severity = suggestion
+# IDE0301 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0301.severity = suggestion
+# IDE0302 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0302.severity = warning
+# IDE0303 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0303.severity = warning
+# IDE0304 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0304.severity = warning
+# IDE0305 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0305.severity = suggestion
+# IDE0306 raises to warning in fix group 10 (collection initializers and collection expressions).
+dotnet_diagnostic.IDE0306.severity = suggestion
+# IDE0320 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0320.severity = warning
+# IDE0330 raises to warning in the manual remainder.
+dotnet_diagnostic.IDE0330.severity = suggestion
+# IDE0340 raises to warning in fix group 3 (casts and related).
+dotnet_diagnostic.IDE0340.severity = suggestion
+# IDE0350 raises to warning in fix group 15 (implicit lambda parameters).
+dotnet_diagnostic.IDE0350.severity = suggestion
+# IDE0360 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0360.severity = warning
+# IDE0370 raises to warning in fix group 18 (unnecessary null-forgiving operator outside Game and Engine).
+dotnet_diagnostic.IDE0370.severity = suggestion
+# IDE0380 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0380.severity = warning
+# IDE0390 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0390.severity = warning
+# IDE0410 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE0410.severity = warning
+# IDE1005 raises to warning in fix group 12 (null propagation and related).
+dotnet_diagnostic.IDE1005.severity = suggestion
+# IDE2000 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE2000.severity = warning
+# IDE2001 raises to warning in newline fix group (experimental newline rules, after the format groups).
+dotnet_diagnostic.IDE2001.severity = suggestion
+# IDE2002 raises to warning in newline fix group (experimental newline rules, after the format groups).
+dotnet_diagnostic.IDE2002.severity = suggestion
+# IDE2004 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE2004.severity = warning
+# IDE2005 is clean on the code of 2026-11-15.
+dotnet_diagnostic.IDE2005.severity = warning
+# IDE2006 raises to warning in newline fix group (experimental newline rules, after the format groups).
+dotnet_diagnostic.IDE2006.severity = suggestion
+
+# Exclusions. Severity none. The reason for each one is in style1-status.md, as
+# amended by the decisions of 2026-11-15 (IDE2003 stays off).
+dotnet_diagnostic.IDE0064.severity = none
+dotnet_diagnostic.IDE0073.severity = none
+dotnet_diagnostic.IDE0081.severity = none
+dotnet_diagnostic.IDE0084.severity = none
+dotnet_diagnostic.IDE0140.severity = none
+dotnet_diagnostic.IDE0220.severity = none
+dotnet_diagnostic.IDE0230.severity = none
+dotnet_diagnostic.IDE0391.severity = none
+dotnet_diagnostic.IDE1007.severity = none
+dotnet_diagnostic.IDE2003.severity = none
+
+# Case opt-outs. The rule stays at its severity everywhere else.
+# IDE0130. These folders are not namespace segments.
+[src/Rtl/Delphi/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl/Legacy/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl/Host/Localize/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl/Host/{ConsoleOutput,Installation}.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl.Tests/Delphi/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl.Tests/Host/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl.Tests/Legacy/*.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Rtl.Tests/GeneratedStyleSample.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+[src/Formats/Tree/EnumCatalog.cs]
+dotnet_diagnostic.IDE0130.severity = none
+
+# IDE0240, IDE0241, IDE0370, IDE0080. The game library carries a file-level
+# nullable disable and a null-forgiving operator records a known non-null.
+[{src/Game/*.cs,src/Game/**/*.cs,src/Engine/*.cs,src/Engine/**/*.cs}]
+dotnet_diagnostic.IDE0240.severity = none
+dotnet_diagnostic.IDE0241.severity = none
+dotnet_diagnostic.IDE0370.severity = none
+dotnet_diagnostic.IDE0080.severity = none

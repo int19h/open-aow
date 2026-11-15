@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWConstructDlg.pas.
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;

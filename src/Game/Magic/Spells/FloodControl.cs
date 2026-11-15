@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from GlobalEnchantmentSpells.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;

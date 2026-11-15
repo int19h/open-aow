@@ -225,9 +225,16 @@ The C# sources under `src/` follow one format, and the gate's product layer chec
 - `.editorconfig` at the repository root sets the whitespace (four spaces, braces on their own
   lines, the spacing around operators and commas), LF line endings, UTF-8 without a byte order
   mark, and the order of using directives (plain directives with the System namespaces first,
-  then static directives, then aliases). `dotnet format` applies these. The style preferences in the file (file-scoped
-  namespaces, `var`, expression bodies) are silent: they guide new code, and neither the build nor
-  `dotnet format` enforces them.
+  then static directives, then aliases). `dotnet format` applies these.
+- The same file sets the decided language rules of issue 256. `Directory.Build.props` sets
+  `EnforceCodeStyleInBuild`, so the build enforces every rule at warning and
+  `dotnet format --verify-no-changes` checks the same rules. A rule at suggestion has remaining
+  sites. The comment next to it in `.editorconfig` names the fix group that fixes the sites and
+  raises the rule to warning.
+- Nullable reference types are on in every project. A new file is nullable-checked. An existing
+  file that is not nullable-clean carries a file-level `#nullable disable` as its first
+  directive until conversion removes it. The private tool `tools/rewrite/nullable` adds the
+  directive from build diagnostics.
 - The blank lines between members are kept by MemberSpacing, a Roslyn tool in the private
   repository (`tools/format`). Every member of a type, a namespace or a file is separated from the
   next by exactly one blank line. Consecutive single-line members of one kind (fields, properties,

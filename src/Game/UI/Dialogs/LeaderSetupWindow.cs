@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWLeaderSetup.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from ImageLib.pas.
 
 namespace Aow.Game.Draw.Images;

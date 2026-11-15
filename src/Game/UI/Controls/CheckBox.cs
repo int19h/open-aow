@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWCheckBox.pas.
 using Aow.Rtl;
 

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWUnitBanner.pas.
 using Aow.Game.Combat;
 using Aow.Game.UI.Controls;

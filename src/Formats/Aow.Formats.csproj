@@ -2,6 +2,7 @@
   <!-- The port's own save and map formats and the original-format converter (own-formats.md).
        References only Aow.Rtl. Unit mappings enter with 9.7-3. -->
   <PropertyGroup>
+    <Nullable>enable</Nullable>
     <RootNamespace>Aow.Formats</RootNamespace>
   </PropertyGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from Sign.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;

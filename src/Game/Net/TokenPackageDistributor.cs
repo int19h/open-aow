@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from NetworkE.pas.
 
 namespace Aow.Game.Net;

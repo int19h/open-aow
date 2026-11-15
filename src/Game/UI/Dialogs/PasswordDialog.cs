@@ -1,3 +1,4 @@
+#nullable disable
 // Translated from AoWPasswordDlg.pas.
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;

@@ -1,3 +1,4 @@
+#nullable disable
 using Aow.Game.Draw;
 
 namespace Aow.Game.Host;
