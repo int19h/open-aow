@@ -126,7 +126,7 @@ public partial class UnitSpell : Spell
                 caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
                 if (source.Owner is IHeroHolder)
                 {
-                    var empty = new UnitUserList(null) { Holder = CreationHolder() };
+                    UnitUserList empty = new(null) { Holder = CreationHolder() };
                     SetupUnitSelectionControl(caster, source, empty.Units);
                     empty.Dispose();
                 }
@@ -210,7 +210,7 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1228
     public virtual void ValidateUnitSelection(Troop source, UnitUserList targets, ref byte selection)
     {
-        var count = targets.GetCount();
+        int count = targets.GetCount();
         selection = (byte)(selection & SelectionMasks[count]);
         for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
         {
@@ -235,7 +235,7 @@ public partial class UnitSpell : Spell
             // troops is concealed.
             if (targets.Holder is not Army holder || !holder.GetUnitConcealedForPlayer(i, source.Player))
             {
-                var troop = targets.GetUnit(i);
+                Troop troop = targets.GetUnit(i);
                 caster.TargetUnits.AddUnit(troop);
             }
         }
@@ -426,7 +426,7 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1310
     public void ResetTargetSelection()
     {
-        var targetSelectionControl = StrategicMap.Current.TargetSelection;
+        TargetSelectionControl targetSelectionControl = StrategicMap.Current.TargetSelection;
         targetSelectionControl.Changed -= OnTargetSelectionChange;
         targetSelectionControl.Deactivate();
     }
@@ -449,14 +449,14 @@ public partial class UnitSpell : Spell
             control.Range = 0;
         }
 
-        var coordinate85 = source.GetLocation();
+        MapCoordinate coordinate85 = source.GetLocation();
         x = coordinate85.X;
         y = coordinate85.Y;
         l = coordinate85.MapLevel;
         control.SourceLocation = new MapCoordinate(x, y, l);
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetPartyFormat), [SpellName]);
+        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetPartyFormat), [SpellName]);
         control.Text.Text = format;
         control.Title = SpellName;
         control.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);

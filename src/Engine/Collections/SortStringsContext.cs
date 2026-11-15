@@ -29,8 +29,8 @@ public struct SortStringsContext
             {
                 while (true)
                 {
-                    var item = context.Strings.Objects[i];
-                    var stringsItem = context.Strings[i];
+                    object item = context.Strings.Objects[i];
+                    string stringsItem = context.Strings[i];
                     if (!(context.Compare(stringsItem, p, item, po) < 0))
                     {
                         break;
@@ -41,8 +41,8 @@ public struct SortStringsContext
 
                 while (true)
                 {
-                    var item = context.Strings.Objects[j];
-                    var stringsItem = context.Strings[j];
+                    object item = context.Strings.Objects[j];
+                    string stringsItem = context.Strings[j];
                     if (!(context.Compare(stringsItem, p, item, po) > 0))
                     {
                         break;

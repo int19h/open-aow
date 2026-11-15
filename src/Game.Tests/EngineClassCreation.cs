@@ -14,8 +14,8 @@ internal static class EngineClassCreation
     internal static Delegate Substitute(EngineClass engineClass, Delegate next)
     {
         ArgumentNullException.ThrowIfNull(next);
-        ref var create = ref CreateField(engineClass);
-        var previous = create;
+        ref Delegate create = ref CreateField(engineClass);
+        Delegate previous = create;
         create = next;
         return previous;
     }

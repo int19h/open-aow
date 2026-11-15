@@ -116,7 +116,7 @@ public partial class SByteList : Persistent
     {
         if (source is SByteList)
         {
-            var sByteList = (SByteList)source;
+            SByteList sByteList = (SByteList)source;
             _count = sByteList._count;
             SetCapacity(sByteList._count);
             Array.Copy(sByteList._list, 0, _list, 0, _count * 1);

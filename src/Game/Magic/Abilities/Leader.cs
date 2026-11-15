@@ -63,7 +63,7 @@ public partial class Leader : Hero
                 // { reload FPlayer }
                 if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).PlayerRace != Race)
                 {
-                    var players = StrategicMap.Current.Players.GetPlayers(Player);
+                    Player players = StrategicMap.Current.Players.GetPlayers(Player);
                     SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, HeroType.HeroLeader));
                     Changed();
                 }

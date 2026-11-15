@@ -131,7 +131,7 @@ public partial class MeleeRound : IDisposable
             bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
@@ -144,7 +144,7 @@ public partial class MeleeRound : IDisposable
             bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
@@ -161,12 +161,12 @@ public partial class MeleeRound : IDisposable
             }
 
             // { Original uses the attacker's damage types for both sides. }
-            var defense = target.GetDefense();
-            var resistance = target.GetResistance();
-            var immunityTypes = target.GetImmunityTypes();
-            var protectionTypes = target.GetProtectionTypes();
-            var damage = source.GetDamage();
-            var statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
+            sbyte defense = target.GetDefense();
+            sbyte resistance = target.GetResistance();
+            Set<DamageType> immunityTypes = target.GetImmunityTypes();
+            Set<DamageType> protectionTypes = target.GetProtectionTypes();
+            sbyte damage = source.GetDamage();
+            int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
             switch (side)
             {
@@ -291,7 +291,7 @@ public partial class MeleeRound : IDisposable
             bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
@@ -304,7 +304,7 @@ public partial class MeleeRound : IDisposable
             bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = target.GetAlignment();
+                Alignment alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
@@ -321,12 +321,12 @@ public partial class MeleeRound : IDisposable
             }
 
             // { Original uses the attacker's damage types for both sides. }
-            var defense = target.GetDefense();
-            var resistance = target.GetResistance();
-            var immunityTypes = target.GetImmunityTypes();
-            var protectionTypes = target.GetProtectionTypes();
-            var damage = source.GetDamage();
-            var statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
+            sbyte defense = target.GetDefense();
+            sbyte resistance = target.GetResistance();
+            Set<DamageType> immunityTypes = target.GetImmunityTypes();
+            Set<DamageType> protectionTypes = target.GetProtectionTypes();
+            sbyte damage = source.GetDamage();
+            int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
             switch (side)
             {
@@ -426,8 +426,8 @@ public partial class MeleeRound : IDisposable
                     if (!_attacker.GetLocked())
                     {
                         result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
-                        var damage = _attacker.GetDamage();
-                        var attack = _attacker.GetAttack();
+                        sbyte damage = _attacker.GetDamage();
+                        sbyte attack = _attacker.GetAttack();
                         result.Generate(_attacker, _defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
                         if (_attacker.GetAbilityEnabled(118))
                         {
@@ -441,8 +441,8 @@ public partial class MeleeRound : IDisposable
                     {
                         result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
                         result.SetDefensive(true);
-                        var damage = _defender.GetDamage();
-                        var attack = _defender.GetAttack();
+                        sbyte damage = _defender.GetDamage();
+                        sbyte attack = _defender.GetAttack();
                         result.Generate(_defender, _attacker, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), _defenderDamageTypes);
                     }
 

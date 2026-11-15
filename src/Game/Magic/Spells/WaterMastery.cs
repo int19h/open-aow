@@ -35,7 +35,7 @@ public partial class WaterMastery : GlobalEnchantmentSpell
         sbyte l = default;
         // { Original ignores the event step. }
         base.ExecuteTokenEvent(eventValue, source, 0);
-        var coordinate86 = source.GetLocation();
+        MapCoordinate coordinate86 = source.GetLocation();
         x = coordinate86.X;
         y = coordinate86.Y;
         l = coordinate86.MapLevel;

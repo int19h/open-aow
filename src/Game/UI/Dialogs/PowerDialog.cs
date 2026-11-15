@@ -2,7 +2,7 @@
 // Translated from AoWPowerDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -35,7 +35,7 @@ public partial class PowerDialog : UIModule
         Window.Visible = true;
         control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         PowerSlider.Position = control.ResearchPercentage;
-        var netPower = control.GetNetPower();
+        int netPower = control.GetNetPower();
         PowerLabel.Text = IntToStr(netPower);
         UpdatePower();
     }
@@ -58,14 +58,14 @@ public partial class PowerDialog : UIModule
         if (spellId != 0)
         {
             turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
-            var spell = GamePack.Current.SpellControl.GetSpell(spellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(spellId);
             SpellNameLabel.Text = spell.SpellName;
-            var formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
+            string formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
             ResearchLeftLabel.Text = formatTurnsString;
         }
         else
         {
-            var none = UI.Engine.TranslateResourceString(GameTables.NoneText);
+            string none = UI.Engine.TranslateResourceString(GameTables.NoneText);
             SpellNameLabel.Text = none;
             ResearchLeftLabel.Text = "-";
         }

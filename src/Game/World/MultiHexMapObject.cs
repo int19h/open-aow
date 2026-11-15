@@ -151,7 +151,7 @@ public partial class MultiHexMapObject : MapObject
 
             if (!GetEditMode())
             {
-                var hexNumberToRadius = HexGeometry.HexNumberToRadius(count);
+                int hexNumberToRadius = HexGeometry.HexNumberToRadius(count);
                 mapLevel.Map.TerrainChangedRadius(StoredHexX, StoredHexY, (sbyte)mapLevel.HexLevel, hexNumberToRadius);
             }
         }
@@ -197,7 +197,7 @@ public partial class MultiHexMapObject : MapObject
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                var hexNumberToRadius = HexGeometry.HexNumberToRadius(count);
+                int hexNumberToRadius = HexGeometry.HexNumberToRadius(count);
                 mapLevel.Map.TerrainChangedRadius(StoredHexX, StoredHexY, (sbyte)mapLevel.HexLevel, hexNumberToRadius);
             }
         }
@@ -268,7 +268,7 @@ public partial class MultiHexMapObject : MapObject
         HexNumberWalkData.InitializeHexNumberWalk(out walk, StoredHexX, StoredHexY, 0);
         while (true)
         {
-            var terrainCount = GetTerrainCount();
+            int terrainCount = GetTerrainCount();
             if (!(walk.HexNumber < terrainCount))
             {
                 break;
@@ -381,9 +381,9 @@ public partial class MultiHexMapObject : MapObject
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                var terrain = GetTerrain(walk.HexNumber);
+                sbyte terrain = GetTerrain(walk.HexNumber);
                 terrainAndOverlay[0] = terrain;
-                var overlay = GetOverlay(walk.HexNumber);
+                sbyte overlay = GetOverlay(walk.HexNumber);
                 terrainAndOverlay[1] = overlay;
                 mapField = mapLevel.GetField(walk.X, walk.Y);
                 if (terrainAndOverlay[0] >= 0)

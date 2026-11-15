@@ -112,8 +112,8 @@ public partial class AIGroupProductionControl : AIGroupTask
                                 bool condition = _producibleUnits.Count > index + 1;
                                 if (condition)
                                 {
-                                    var unitProductions = _producibleUnits.GetUnitProductions(index + 1);
-                                    var fProducibleUnitsUnitProductions = _producibleUnits.GetUnitProductions(0);
+                                    AIGroupUnitProduction unitProductions = _producibleUnits.GetUnitProductions(index + 1);
+                                    AIGroupUnitProduction fProducibleUnitsUnitProductions = _producibleUnits.GetUnitProductions(0);
                                     condition = unitProductions.Priority > fProducibleUnitsUnitProductions.Priority - _priorityRange;
                                 }
 
@@ -158,7 +158,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                             production.Mana = 0;
                             production.GoldUpkeep = 0;
                             production.ManaUpkeep = 0;
-                            var productions = _control.Group.Productions.GetProductions(i);
+                            AIGroupProduction productions = _control.Group.Productions.GetProductions(i);
                             production.SetProductionLocation(_control.ProductionLocations.FindPC(productions.Control));
                             production.Priority = 0;
                             production.Research = false;
@@ -273,7 +273,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         int result = GetCurrentProductionTime();
         if (result != -1 && _remainingStrength > 0 && GetProducedStrength() > 0)
         {
-            var producedStrength = GetProducedStrength();
+            int producedStrength = GetProducedStrength();
             result += (int)((double)((double)((double)_remainingStrength / producedStrength) * result) + 0.999);
         }
 
@@ -320,7 +320,7 @@ public partial class AIGroupProductionControl : AIGroupTask
             control = production.ProductionLocation.ProductionControl;
             if (!production.Research)
             {
-                var unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
+                int unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
                 if (control.ExecuteAIProduction(control.UnitProductions.IndexOf(unitResourceIndex), groupId))
                 {
                     StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
@@ -332,7 +332,7 @@ public partial class AIGroupProductionControl : AIGroupTask
             }
             else
             {
-                var unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
+                int unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
                 if (control.ExecuteAIResearch(control.UnitProductions.IndexOf(unitResourceIndex)))
                 {
                     StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
@@ -356,11 +356,11 @@ public partial class AIGroupProductionControl : AIGroupTask
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             d = (DamageType)dOrdinal;
-            var strength = production.Unit.GetStrength(d);
+            int strength = production.Unit.GetStrength(d);
             _remainingStrengths[(int)d] -= strength;
         }
 
-        var strengthMax = production.Unit.GetStrengthMax(_damageTypes);
+        int strengthMax = production.Unit.GetStrengthMax(_damageTypes);
         _remainingStrength -= strengthMax;
         if (Superiority != -1)
         {
@@ -385,11 +385,11 @@ public partial class AIGroupProductionControl : AIGroupTask
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 d = (DamageType)dOrdinal;
-                var strength = production.Unit.GetStrength(d);
+                int strength = production.Unit.GetStrength(d);
                 _remainingStrengths[(int)d] += strength;
             }
 
-            var strengthMax = production.Unit.GetStrengthMax(_damageTypes);
+            int strengthMax = production.Unit.GetStrengthMax(_damageTypes);
             _remainingStrength += strengthMax;
             if (Superiority != -1)
             {
@@ -445,19 +445,19 @@ public partial class AIGroupProductionControl : AIGroupTask
                 {
                     if (location.ProductionControl.UnitProductions.GetItem(i).Researched)
                     {
-                        var unitProductionManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(i);
-                        var unitProductionMana = location.ProductionControl.UnitProductionMana(i);
-                        var unitProductionGoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(i);
-                        var unitProductionGold = location.ProductionControl.UnitProductionGold(i);
+                        int unitProductionManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(i);
+                        int unitProductionMana = location.ProductionControl.UnitProductionMana(i);
+                        int unitProductionGoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(i);
+                        int unitProductionGold = location.ProductionControl.UnitProductionGold(i);
                         if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitProductionGold + _gold, unitProductionGoldUpkeep + _goldUpkeep, unitProductionMana + _mana, unitProductionManaUpkeep + _manaUpkeep))
                         {
-                            var unitProduction = location.ProductionControl.UnitProductions.GetItem(i);
+                            UnitProduction unitProduction = location.ProductionControl.UnitProductions.GetItem(i);
                             testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                             priority = UnitProductionPriority(testUnit);
                             if (priority != -1)
                             {
                                 newUnit = new Unit(null) { Holder = CreationHolder() };
-                                var fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
+                                UnitProduction fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
                                 newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
                                 production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                                 production.SetU(newUnit);
@@ -480,17 +480,17 @@ public partial class AIGroupProductionControl : AIGroupTask
                     {
                         if (_allowResearch)
                         {
-                            var unitResearchMana = location.ProductionControl.UnitResearchMana(i);
-                            var unitResearchGold = location.ProductionControl.UnitResearchGold(i);
+                            int unitResearchMana = location.ProductionControl.UnitResearchMana(i);
+                            int unitResearchGold = location.ProductionControl.UnitResearchGold(i);
                             if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitResearchGold + _gold, _goldUpkeep, unitResearchMana + _mana, _manaUpkeep))
                             {
-                                var item = location.ProductionControl.UnitProductions.GetItem(i);
+                                UnitProduction item = location.ProductionControl.UnitProductions.GetItem(i);
                                 testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(item.UnitIndex));
                                 priority = UnitProductionPriority(testUnit);
                                 if (priority != -1)
                                 {
                                     newUnit = new Unit(null) { Holder = CreationHolder() };
-                                    var fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
+                                    UnitProduction fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
                                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
                                     production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                                     production.SetU(newUnit);

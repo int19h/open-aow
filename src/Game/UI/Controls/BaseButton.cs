@@ -89,12 +89,12 @@ public partial class BaseButton : Control
         switch (_buttonType)
         {
             case UIComponentButtonType.Text:
-                var imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
-                var imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
+                LibraryImage imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
+                LibraryImage imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
                 if (imageLibraryButtonWidth.Width + imageLibraryButton.Width > WinWidth)
                 {
-                    var imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
-                    var imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
+                    LibraryImage imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
+                    LibraryImage imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryButton2.Width + imageLibraryButton3.Width);
                 }
 
@@ -133,19 +133,19 @@ public partial class BaseButton : Control
                 {
                     if (_buttonType == UIComponentButtonType.Text)
                     {
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
                     else
                     {
-                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
 
                     if (base.Font != null)
                     {
                         base.Font.Color = SelectedColor;
-                        var textWidth = base.Font.GetTextWidth(base.Text);
+                        int textWidth = base.Font.GetTextWidth(base.Text);
                         base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + _borderHeightSelected, base.Text, lockedSurface);
                     }
                 }
@@ -155,12 +155,12 @@ public partial class BaseButton : Control
                     {
                         if (Lit)
                         {
-                            var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexLit, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         }
                     }
@@ -168,12 +168,12 @@ public partial class BaseButton : Control
                     {
                         if (Lit)
                         {
-                            var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryIcon.DrawImage(_imageLibraryIndexLit, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryIcon.DrawImage(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         }
                     }
@@ -181,7 +181,7 @@ public partial class BaseButton : Control
                     if (base.Font != null)
                     {
                         base.Font.Color = Color;
-                        var textWidth = base.Font.GetTextWidth(base.Text);
+                        int textWidth = base.Font.GetTextWidth(base.Text);
                         base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + BorderHeight, base.Text, lockedSurface);
                     }
                 }

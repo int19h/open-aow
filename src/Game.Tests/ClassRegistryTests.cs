@@ -24,12 +24,12 @@ public sealed class ClassRegistryTests
     [Fact]
     public void EveryProductClassHasItsDescriptor()
     {
-        var types = typeof(EngineObject).Assembly.GetTypes();
-        var engineTypes = types.Where(t => t.IsClass && typeof(EngineObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
+        Type[] types = typeof(EngineObject).Assembly.GetTypes();
+        IOrderedEnumerable<Type> engineTypes = types.Where(t => t.IsClass && typeof(EngineObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
         Assert.Equal(engineTypes, EngineClass.All.Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
-        foreach (var type in engineTypes)
+        foreach (Type? type in engineTypes)
         {
-            var descriptor = EngineClass.Of(type);
+            EngineClass descriptor = EngineClass.Of(type);
             Assert.Equal(type, descriptor.Type);
             Assert.Equal((int)type.GetField("ClassId", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassId);
             if (type != typeof(EngineObject))
@@ -51,26 +51,26 @@ public sealed class ClassRegistryTests
     [Fact]
     public void EverySchemaClassRequiringAUnitMappingHasItsLine()
     {
-        var schema = GameFiles.Schema;
+        FormatSchema schema = GameFiles.Schema;
         Assert.Equal(FormatVersions.UnitMappings.Order(StringComparer.Ordinal), FormatMapping.All.Keys.Order(StringComparer.Ordinal));
-        foreach (var (name, rules) in FormatMapping.All)
+        foreach ((string? name, ContentRule[]? rules) in FormatMapping.All)
         {
-            var classValue = schema.Find(name);
+            SchemaClass? classValue = schema.Find(name);
             Assert.True(classValue is not null, "The format mapping names no schema class: " + name);
             Assert.NotEmpty(rules);
-            foreach (var member in rules.SelectMany(r => r.Members))
+            foreach (string? member in rules.SelectMany(r => r.Members))
             {
                 Assert.True(member == "Children" ? classValue.KeepsChildren : classValue.PropertyByName(member) is not null, $"{name} has no member {member}.");
             }
         }
-        foreach (var name in FormatVersions.FlatMappings)
+        foreach (string name in FormatVersions.FlatMappings)
         {
             Assert.NotNull(schema.Find(name));
             Assert.False(FormatMapping.All.ContainsKey(name), name + " keeps its flat mapping in version 1.");
         }
         // A schema class with a case table has its line, and its line gives the converter the
         // kind family's FromFields and ToFields.
-        foreach (var classValue in schema.Classes.Where(c => c.Mapping is not null))
+        foreach (SchemaClass? classValue in schema.Classes.Where(c => c.Mapping is not null))
         {
             Assert.Contains(classValue.Name, FormatVersions.UnitMappings);
             Assert.Contains(FormatMapping.All[classValue.Name], r => r is KindCases);
@@ -83,25 +83,25 @@ public sealed class ClassRegistryTests
     [Fact]
     public void CaseTablesMatchTheRegisteredKinds()
     {
-        var schema = GameFiles.Schema;
-        var production = schema.Get("ProductionItem").Mapping!;
+        FormatSchema schema = GameFiles.Schema;
+        SchemaMapping production = schema.Get("ProductionItem").Mapping!;
         Assert.Equal(Enumerable.Range(0, 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
-        foreach (var c in production.Cases)
+        foreach (SchemaCase c in production.Cases)
         {
-            var order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
+            ProductionOrder order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
             Assert.Equal(c.Name, NameTable.Delphi(order.GetType()));
-            var (kind, parameter, groupId) = order.ToFields();
+            (int kind, int parameter, int groupId) = order.ToFields();
             Assert.Equal(c.Key, kind);
             Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
             Assert.Equal(c.Fields.Any(f => f.Member == "GroupId"), groupId == 3);
         }
-        var diplomacy = schema.Get("DiplomaticAction").Mapping!;
+        SchemaMapping diplomacy = schema.Get("DiplomaticAction").Mapping!;
         Assert.Equal(Enumerable.Range(0, 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
-        foreach (var c in diplomacy.Cases)
+        foreach (SchemaCase c in diplomacy.Cases)
         {
-            var proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, 70, 30);
+            DiplomaticProposal proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, 70, 30);
             Assert.Equal(c.Name, NameTable.Delphi(proposal.GetType()));
-            var (kind, gold, mana) = proposal.ToFields();
+            (byte kind, int gold, int mana) = proposal.ToFields();
             Assert.Equal(c.Key, kind);
             Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), gold == 70);
             Assert.Equal(c.Fields.Any(f => f.Member == "Mana"), mana == 30);
@@ -129,13 +129,13 @@ public sealed class ClassRegistryTests
             Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine));
             return;
         }
-        var instance = EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
+        EngineObject instance = EngineClass.Of(type).CreateInstance(null!, holder: EngineFixture.Engine);
         try { Assert.IsType(type, instance); }
         finally
         {
             // Construction alone leaves abstract nodes and world-linked objects incomplete.
             // Keep those existing teardown outcomes explicit, separate from factory identity.
-            var error = Record.Exception(instance.Dispose);
+            Exception error = Record.Exception(instance.Dispose);
             if (cleanupError is null)
             {
                 Assert.Null(error);

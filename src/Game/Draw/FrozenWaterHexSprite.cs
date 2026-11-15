@@ -56,13 +56,13 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     {
         int x = default;
         int y = default;
-        var hexY = HexY;
+        sbyte hexY = HexY;
         HexGeometry.HexToPixel(HexX, hexY, out x, out y);
         x = x - pixelXSurface + 16;
         y = y - pixelYSurface + 16;
-        var hexX = HexX;
-        var hexY2 = HexY;
-        var hexY3 = HexY;
+        sbyte hexX = HexX;
+        sbyte hexY2 = HexY;
+        sbyte hexY3 = HexY;
         GamePack.Current.ImageSequences.ShowLooped(70, x, y, StrategicMap.Current.Frame, hexX + hexY2 + (hexY3 * 2), lockedSurface);
     }
 
@@ -71,16 +71,16 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     {
         if (Owner.TerrainType == 6)
         {
-            var hexY = HexY;
-            var hexX = HexX;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
         }
         else
         {
             if (Owner.TerrainType == 13)
             {
-                var hexY = HexY;
-                var hexX = HexX;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
             }
             else

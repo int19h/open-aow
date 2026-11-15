@@ -87,7 +87,7 @@ public partial class Mine : PlayerStructure
     // Mine.pas:93
     public override string GetCurrentActivityText()
     {
-        var income = GetIncome();
+        int income = GetIncome();
         return Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 

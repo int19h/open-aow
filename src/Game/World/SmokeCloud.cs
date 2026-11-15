@@ -128,7 +128,7 @@ public partial class SmokeCloud : MultiHexMapObject
         {
             if (message.MessageId == 4392 && Status.Contains(MapObjectStatusElement.Activated))
             {
-                var param = message.Param;
+                MapFieldMessageParameters param = message.Param;
                 param[0] = 1;
                 message.Param = param;
             }
@@ -151,7 +151,7 @@ public partial class SmokeCloud : MultiHexMapObject
             _direction = (byte)(StrategicMap.Current.Random(6) + 1);
         }
 
-        var smokeCloudEnchantment = Enchantment;
+        SmokeCloudEnchantment smokeCloudEnchantment = Enchantment;
         if (smokeCloudEnchantment.PlayerIndex > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
         {
             smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
@@ -230,9 +230,9 @@ public partial class SmokeCloud : MultiHexMapObject
     public void UpdateVisibleForSeatedPlayer()
     {
         bool visible;
-        var hexLevel = GetHexLevel();
-        var hexY = GetHexY();
-        var hexX = GetHexX();
+        sbyte hexLevel = GetHexLevel();
+        sbyte hexY = GetHexY();
+        sbyte hexX = GetHexX();
         visible = StrategicMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
@@ -248,7 +248,7 @@ public partial class SmokeCloud : MultiHexMapObject
         int hexY = default;
         MapLevel level;
         level = Owner.Owner;
-        var yhx = GetHexY();
+        sbyte yhx = GetHexY();
         HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && level.Width >= hexX + 10 && level.Height >= hexY + 10;
@@ -322,7 +322,7 @@ public partial class SmokeCloud : MultiHexMapObject
                 {
                     _direction = (byte)direction;
                     hexLevel = GetHexLevel();
-                    var yhx = GetHexY();
+                    sbyte yhx = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();

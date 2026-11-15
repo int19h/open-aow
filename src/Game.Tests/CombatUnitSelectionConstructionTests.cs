@@ -17,7 +17,7 @@ public sealed class CombatUnitSelectionConstructionTests
     {
         try
         {
-            var factory = typeof(CombatUnitSelectionControl).GetMethod("Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            MethodInfo? factory = typeof(CombatUnitSelectionControl).GetMethod("Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
             return factory is not null ? (CombatUnitSelectionControl)factory.Invoke(null, null)! : new CombatUnitSelectionControl(EngineFixture.Engine);
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -30,13 +30,13 @@ public sealed class CombatUnitSelectionConstructionTests
     [Fact]
     public void StateVirtualSettingsLinkCountOffsetsAndFailureMatchBaseCommit()
     {
-        var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        SortedDictionary<string, string> actual = new(StringComparer.Ordinal);
         for (int fail = 0; fail < 2; fail++)
         {
-            using var fixture = new OrderingRecording.Fixture();
-            var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
+            using OrderingRecording.Fixture fixture = new();
+            ImageLibraryManagerObject entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
             entry.ImageLibrary = new ImageLibrary(null!);
-            var set = GamePack.Current;
+            GamePack set = GamePack.Current;
             if (fail == 1)
             {
                 GamePack.Current = null!;

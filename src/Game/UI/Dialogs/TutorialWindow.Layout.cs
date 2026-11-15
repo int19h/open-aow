@@ -93,7 +93,7 @@ public partial class TutorialWindow : ILayoutModule
         MessageMemo.ColorChangeChar = 0;
         MessageMemo.TextAlign = TextAlignment.Center;
         session.EndRead(MessageMemo);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -199,7 +199,7 @@ public partial class TutorialWindow : ILayoutModule
         AbilityScrollBar.ImageLibraryIndexBack = 47;
         AbilityScrollBar.ThumbImageIndex = 44;
         session.EndRead(AbilityScrollBar);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

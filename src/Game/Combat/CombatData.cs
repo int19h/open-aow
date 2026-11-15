@@ -73,7 +73,7 @@ public partial class CombatData : EngineObject
         while (!result && i != 0)
         {
             i -= 1;
-            var item = InvolvedLeaders[i];
+            byte item = InvolvedLeaders[i];
             result = Players.GetPlayers((sbyte)item).SideIndex == side;
         }
 

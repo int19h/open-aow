@@ -17,8 +17,8 @@ public sealed class PersistRefusalTests
     [Fact]
     public void EveryEngineClassPersistsThroughTheTree()
     {
-        var found = new List<string>();
-        foreach (var engineClass in EngineClass.All)
+        List<string> found = new();
+        foreach (EngineClass? engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(EngineObject).Assembly)
             {
@@ -37,8 +37,8 @@ public sealed class PersistRefusalTests
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(UnitList)));
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(ArmyView)));
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(DataPackage)));
-        using var package = new DataPackage(null!) { Holder = EngineFixture.Engine };
-        var tree = TreeWriter.Write(package, factory: new EnginePersistableFactory(EngineFixture.Engine));
+        using DataPackage package = new(null!) { Holder = EngineFixture.Engine };
+        ObjectNode tree = TreeWriter.Write(package, factory: new EnginePersistableFactory(EngineFixture.Engine));
         Assert.NotNull(tree);
     }
 }

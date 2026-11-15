@@ -29,7 +29,7 @@ public sealed partial record BreakAlliance : DiplomaticProposal
         StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            var allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
+            string allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
             StrategicMap.Current.ShowMessage(allianceBroken);
         }
 

@@ -78,25 +78,25 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                 {
                     _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
                     _control.SetupME();
-                    var targetLocation = _targets.GetTargets(0);
+                    AIGroupControlTarget targetLocation = _targets.GetTargets(0);
                     if (targetLocation.Location == _control.Location)
                     {
                         _control.MoveExecutor.Mode = _control.MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
                     }
 
-                    var target = _targets.GetTargets(0);
-                    var target2 = _targets.GetTargets(0);
-                    var target3 = _targets.GetTargets(0);
+                    AIGroupControlTarget target = _targets.GetTargets(0);
+                    AIGroupControlTarget target2 = _targets.GetTargets(0);
+                    AIGroupControlTarget target3 = _targets.GetTargets(0);
                     _control.ExecuteME(target3.Location.X, target2.Location.Y, target.Location.MapLevel);
                     State = 2;
                 }
                 else
                 {
                     _control.SetupME();
-                    var aiMoveExecutor = _control.MoveExecutor;
+                    AIMoveExecutor aiMoveExecutor = _control.MoveExecutor;
                     aiMoveExecutor.Mode = aiMoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
 
-                    var aiGroupControl = _control;
+                    AIGroupControl aiGroupControl = _control;
                     aiGroupControl.ExecuteME(aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel);
 
                     _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
@@ -124,7 +124,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         _selector.SetTargetFoundHandler(TargetFoundEvent);
         _selector.MovePointsMax = 150;
         _selector.MovePointsMin = 0;
-        var targetInfo = _selector.TargetInfo;
+        AITargetInfo targetInfo = _selector.TargetInfo;
         targetInfo.Mode = AITargetMode.Defend;
         _selector.TargetInfo = targetInfo;
 
@@ -151,9 +151,9 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
             while (i < path.Count)
             {
                 info.Strength = 0;
-                var pathL = path[i];
-                var pathY = path[i];
-                var pathX = path[i];
+                PathStep pathL = path[i];
+                PathStep pathY = path[i];
+                PathStep pathX = path[i];
                 StrategicMap.Current.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, _battleFieldRadius, ref info);
                 if (result < info.Strength)
                 {
@@ -181,7 +181,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         newTarget.Data = target.Data;
         newTarget.Location = target.Location;
         newTarget.MovePoints = target.MovePoints;
-        var data = newTarget.Data;
+        AITargetData data = newTarget.Data;
         data.Priority += Round((double)target.MovePoints * _movePointsFactor);
         newTarget.Data = data;
         if (_mode.Contains(ModeElement.CalculateMovePathBfs))
@@ -208,10 +208,10 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         Reset();
         _selector.SourceLocation = control.Location;
         _selector.MovePointTable = control.MovePointTable;
-        var targetInfo = _selector.TargetInfo;
+        AITargetInfo targetInfo = _selector.TargetInfo;
         targetInfo.Player = control.Group.Player;
         _selector.TargetInfo = targetInfo;
-        var targetInfo2 = _selector.TargetInfo;
+        AITargetInfo targetInfo2 = _selector.TargetInfo;
         targetInfo2.IndependentRelation = control.Group.IndependentRelation;
         _selector.TargetInfo = targetInfo2;
         switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)

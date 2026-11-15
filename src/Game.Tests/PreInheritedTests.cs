@@ -66,7 +66,7 @@ public sealed class PreInheritedTests
     {
         s_events.Clear();
         s_fail = false;
-        var owner = new HookOwner();
+        HookOwner owner = new();
         _ = new Leaf(null, owner);
         Assert.Equal(["leaf field", "hook", "owner", "first body", "middle body", "leaf body"], s_events);
     }
@@ -81,7 +81,7 @@ public sealed class PreInheritedTests
         s_destroyed = 0;
         try
         {
-            var error = Assert.Throws<InvalidDataException>(() => guarded
+            InvalidDataException error = Assert.Throws<InvalidDataException>(() => guarded
                 ? ConstructionContext.Create(static context => new Leaf(context, null) { Holder = EngineFixture.Engine })
                 : new Leaf(null, null) { Holder = EngineFixture.Engine });
             Assert.Equal("hook failure", error.Message);

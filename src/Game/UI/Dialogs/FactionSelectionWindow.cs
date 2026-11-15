@@ -124,7 +124,7 @@ public partial class FactionSelectionWindow : UIModule
         {
             DarkSphereImage.Visible = false;
             LightSphereImage.Visible = false;
-            var chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
+            string chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
             TopLabel.Text = chooseFaction;
         }
     }
@@ -136,7 +136,7 @@ public partial class FactionSelectionWindow : UIModule
         {
             DarkSphereImage.Visible = true;
             LightSphereImage.Visible = false;
-            var cultOfStorms = UI.Engine.TranslateResourceString(LobbyText.CultOfStormsText);
+            string cultOfStorms = UI.Engine.TranslateResourceString(LobbyText.CultOfStormsText);
             TopLabel.Text = cultOfStorms;
         }
     }
@@ -148,7 +148,7 @@ public partial class FactionSelectionWindow : UIModule
         {
             DarkSphereImage.Visible = false;
             LightSphereImage.Visible = true;
-            var keepers = UI.Engine.TranslateResourceString(LobbyText.KeepersText);
+            string keepers = UI.Engine.TranslateResourceString(LobbyText.KeepersText);
             TopLabel.Text = keepers;
         }
     }
@@ -177,7 +177,7 @@ public partial class FactionSelectionWindow : UIModule
                     LightStartButton.Visible = false;
                     LightSphereImage.Visible = false;
                     TopLabel.Visible = true;
-                    var chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
+                    string chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
                     TopLabel.Text = chooseFaction;
                     FactionPanel.ImageLibraryIndexTexture = 0;
                 }
@@ -191,7 +191,7 @@ public partial class FactionSelectionWindow : UIModule
                         DarkStartButton.Visible = false;
                         DarkSphereImage.Visible = false;
                         TopLabel.Visible = true;
-                        var chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
+                        string chooseFaction = UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
                         TopLabel.Text = chooseFaction;
                         FactionPanel.ImageLibraryIndexTexture = 0;
                     }
@@ -220,7 +220,7 @@ public partial class FactionSelectionWindow : UIModule
         dialog.ResetCampaignJoin();
         dialog.Faction = faction;
         dialog.Stage = 0;
-        StringList value = new StringList();
+        StringList value = new();
         switch (dialog.Faction)
         {
             case 0:

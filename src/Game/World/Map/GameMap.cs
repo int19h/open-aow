@@ -229,7 +229,7 @@ public partial class GameMap : OwningNode
 
         if (!persister.Preview && (persister.Loading || translating) && !IsEmpty(_hssFileName))
         {
-            var engine = PersistSupport.Engine(persister);
+            GameEngine engine = PersistSupport.Engine(persister);
             engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: PersistSupport.Progress(persister));
         }
 
@@ -319,11 +319,11 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:141, then AoWHSMap.PAS:440.
     public virtual void TriggerTerrainChangedEvent(in Rect R, sbyte L)
     {
-        var notification = new TerrainChangedNotification();
+        TerrainChangedNotification notification = new();
         TerrainChangedNotification.TerrainChangedInfo info = notification.Info;
         info.Rectangle = R;
         info.Level = L;
-        var mapLevel = _mapContainer.GetMapLevel(L);
+        MapLevel mapLevel = _mapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
         TerrainChangedEventsStore.Raise(notification);
@@ -639,9 +639,9 @@ public partial class GameMap : OwningNode
                 {
                     if (changed[walk.HexNumber])
                     {
-                        var item = newList[walk.HexNumber * 2];
+                        sbyte item = newList[walk.HexNumber * 2];
                         mapLevel.GetField(walk.X, walk.Y).TerrainType = item;
-                        var newListItem = newList[(walk.HexNumber * 2) + 1];
+                        sbyte newListItem = newList[(walk.HexNumber * 2) + 1];
                         mapLevel.GetField(walk.X, walk.Y).OverlayType = newListItem;
                         mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                         count += 1;
@@ -959,7 +959,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:231
     public void SetHssFileName(string fileName)
     {
-        var expandFileName = ExpandFileName(fileName);
+        string expandFileName = ExpandFileName(fileName);
         _hssFileName = ExtractRelativePath(_engine.StartupDirectory, expandFileName);
     }
 
@@ -1300,7 +1300,7 @@ public partial class GameMap : OwningNode
                 {
                     if (hexSprite.GetShowPriority() > 1744830464)
                     {
-                        var showPriority = hexSprite.GetShowPriority();
+                        int showPriority = hexSprite.GetShowPriority();
                         _frontHexSelector.ShowPriority = showPriority + 100;
                     }
                     else
@@ -1355,7 +1355,7 @@ public partial class GameMap : OwningNode
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate30 = hero.GetLocation();
+        MapCoordinate coordinate30 = hero.GetLocation();
         x = coordinate30.X;
         y = coordinate30.Y;
         l = coordinate30.MapLevel;
@@ -1370,7 +1370,7 @@ public partial class GameMap : OwningNode
         sbyte l = default;
         ItemHexSprite items;
         ItemList result = null;
-        var coordinate31 = hero.GetLocation();
+        MapCoordinate coordinate31 = hero.GetLocation();
         x = coordinate31.X;
         y = coordinate31.Y;
         l = coordinate31.MapLevel;
@@ -1389,8 +1389,8 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:578
     public virtual void ShowMessage(string text)
     {
-        var notification = new ShowMessageNotification();
-        var info = notification.Info;
+        ShowMessageNotification notification = new();
+        ShowMessageInfo info = notification.Info;
         if (!GetEngine().Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO1.WAV");
@@ -1407,8 +1407,8 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:566
     public virtual void ShowWarning(string text)
     {
-        var notification = new ShowMessageNotification();
-        var info = notification.Info;
+        ShowMessageNotification notification = new();
+        ShowMessageInfo info = notification.Info;
         if (!GetEngine().Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO2.WAV");
@@ -1501,11 +1501,11 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:480
     public void TriggerMapChangedEvent(in Rect R, int L)
     {
-        var notification = new MapChangedNotification();
-        var info = notification.Info;
+        MapChangedNotification notification = new();
+        MapChangedInfo info = notification.Info;
         info.Bounds = R;
         info.Level = L;
-        var mapLevel = MapContainer.GetMapLevel(L);
+        MapLevel mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
         _mapChangedEventsStore.Raise(notification);
@@ -1580,11 +1580,11 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:533
     public void TriggerScannerIconsChangedEvent(in Rect R, int L)
     {
-        var notification = new MapChangedNotification();
-        var info = notification.Info;
+        MapChangedNotification notification = new();
+        MapChangedInfo info = notification.Info;
         info.Bounds = R;
         info.Level = L;
-        var mapLevel = MapContainer.GetMapLevel(L);
+        MapLevel mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
         notification.Info = info;
         _scannerIconsChangedEventsStore.Raise(notification);
@@ -1593,8 +1593,8 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:542
     public void UpdateShowMessage()
     {
-        var notification = new ShowMessageNotification();
-        var info = notification.Info;
+        ShowMessageNotification notification = new();
+        ShowMessageInfo info = notification.Info;
         if (_messageFrame != 0)
         {
             _messageFrame = (byte)(_messageFrame - 1);
@@ -1769,7 +1769,7 @@ public partial class GameMap : OwningNode
             return;
         }
 
-        var level = MapContainer.GetMapLevel(ViewMapLevel);
+        MapLevel level = MapContainer.GetMapLevel(ViewMapLevel);
         for (int x = ViewHexX; x < ViewHexX + ViewWidthHex; x++)
         {
             int pixelX = 0, pixelY = 0;
@@ -1778,7 +1778,7 @@ public partial class GameMap : OwningNode
             pixelY -= ViewPixelY + 4;
             for (int y = ViewHexY; y < ViewHexY + ViewHeightHex; y++, pixelY += 32)
             {
-                var field = level.GetField(x, y);
+                MapField field = level.GetField(x, y);
                 bool unexplored = exploration && (SeatedPlayer == -1 || !field.GetExplored(SeatedPlayer));
                 if (unexplored)
                 {
@@ -1794,7 +1794,7 @@ public partial class GameMap : OwningNode
 
     public void DrawGrid(in LockedSurface surface)
     {
-        var level = MapContainer.GetMapLevel(ViewMapLevel);
+        MapLevel level = MapContainer.GetMapLevel(ViewMapLevel);
         int maxX = ViewHexX + ViewWidthHex - 1, maxY = ViewHexY + ViewHeightHex - 1;
         for (int x = ViewHexX; x <= maxX; x++)
         {

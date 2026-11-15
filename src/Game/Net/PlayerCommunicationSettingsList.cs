@@ -25,6 +25,6 @@ public partial class PlayerCommunicationSettingsList : OwningNode, IChildList<Pl
         public PlayerCommunicationSettings this[int index] => target.GetPlayers(index);
     }
 
-    public PlayersAccessor Players => new PlayersAccessor(this);
+    public PlayersAccessor Players => new(this);
 
 }

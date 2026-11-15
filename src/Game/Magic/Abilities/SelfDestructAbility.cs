@@ -43,11 +43,11 @@ public partial class SelfDestructAbility : TouchAbility
         int result;
         if (CanTouchUnit(attacker, defender))
         {
-            var hitPoints = defender.GetHitPoints();
-            var defense = defender.GetDefense();
-            var resistance = defender.GetResistance();
-            var immunityTypes = defender.GetImmunityTypes();
-            var protectionTypes = defender.GetProtectionTypes();
+            sbyte hitPoints = defender.GetHitPoints();
+            sbyte defense = defender.GetDefense();
+            sbyte resistance = defender.GetResistance();
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
             result = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
         }
         else
@@ -64,18 +64,18 @@ public partial class SelfDestructAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender))
         {
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
-            var hitPoints = defender.GetHitPoints();
-            var defense = defender.GetDefense();
-            var resistance = defender.GetResistance();
-            var immunityTypes = defender.GetImmunityTypes();
-            var protectionTypes = defender.GetProtectionTypes();
-            var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            sbyte hitPoints = defender.GetHitPoints();
+            sbyte defense = defender.GetDefense();
+            sbyte resistance = defender.GetResistance();
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
-            var attackerHitPoints = attacker.GetHitPoints();
+            sbyte attackerHitPoints = attacker.GetHitPoints();
             damageValues.TargetDamage = attackerHitPoints * 100;
-            var hitPoints2 = attacker.GetHitPoints();
+            sbyte hitPoints2 = attacker.GetHitPoints();
             damageValues.TargetCost = hitPoints2;
         }
         else
@@ -101,18 +101,18 @@ public partial class SelfDestructAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
-            var hitPoints = defender.GetHitPoints();
-            var defense = defender.GetDefense();
-            var resistance = defender.GetResistance();
-            var immunityTypes = defender.GetImmunityTypes();
-            var protectionTypes = defender.GetProtectionTypes();
-            var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            sbyte hitPoints = defender.GetHitPoints();
+            sbyte defense = defender.GetDefense();
+            sbyte resistance = defender.GetResistance();
+            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
+            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
-            var attackerHitPoints = attacker.GetHitPoints();
+            sbyte attackerHitPoints = attacker.GetHitPoints();
             damageValues.TargetDamage = attackerHitPoints * 100;
-            var hitPoints2 = attacker.GetHitPoints();
+            sbyte hitPoints2 = attacker.GetHitPoints();
             damageValues.TargetCost = hitPoints2;
         }
         else
@@ -171,7 +171,7 @@ public partial class SelfDestructAbility : TouchAbility
     // AoWAb.PAS:2216
     public SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject source, CombatObject target)
     {
-        SelfDestructCombatAction result = new SelfDestructCombatAction(null) { Holder = CreationHolder() };
+        SelfDestructCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, 8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
         return result;
     }

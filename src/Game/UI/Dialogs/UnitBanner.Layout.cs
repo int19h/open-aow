@@ -36,7 +36,7 @@ public partial class UnitBanner : ILayoutModule
         UnitNameLabel.Masked = true;
         UnitNameLabel.TextColor = 1321830;
         session.EndRead(UnitNameLabel);
-        Image attackIcon = new Image(this);
+        Image attackIcon = new(this);
         session.BeginRead(attackIcon);
         attackIcon.Name = "AttackIcon";
         attackIcon.Priority = 0;
@@ -64,7 +64,7 @@ public partial class UnitBanner : ILayoutModule
         attackIcon.Animate = false;
         attackIcon.AnimationFrameDelay = 0;
         session.EndRead(attackIcon);
-        Image defenseIcon = new Image(this);
+        Image defenseIcon = new(this);
         session.BeginRead(defenseIcon);
         defenseIcon.Name = "DefenseIcon";
         defenseIcon.Priority = 0;
@@ -120,7 +120,7 @@ public partial class UnitBanner : ILayoutModule
         MovesIcon.Animate = false;
         MovesIcon.AnimationFrameDelay = 0;
         session.EndRead(MovesIcon);
-        Image damageIcon = new Image(this);
+        Image damageIcon = new(this);
         session.BeginRead(damageIcon);
         damageIcon.Name = "DamageIcon";
         damageIcon.Priority = 0;
@@ -148,7 +148,7 @@ public partial class UnitBanner : ILayoutModule
         damageIcon.Animate = false;
         damageIcon.AnimationFrameDelay = 0;
         session.EndRead(damageIcon);
-        Image resistanceIcon = new Image(this);
+        Image resistanceIcon = new(this);
         session.BeginRead(resistanceIcon);
         resistanceIcon.Name = "ResistanceIcon";
         resistanceIcon.Priority = 0;
@@ -176,7 +176,7 @@ public partial class UnitBanner : ILayoutModule
         resistanceIcon.Animate = false;
         resistanceIcon.AnimationFrameDelay = 0;
         session.EndRead(resistanceIcon);
-        Image hitsIcon = new Image(this);
+        Image hitsIcon = new(this);
         session.BeginRead(hitsIcon);
         hitsIcon.Name = "HitsIcon";
         hitsIcon.Priority = 0;
@@ -413,7 +413,7 @@ public partial class UnitBanner : ILayoutModule
         AbilityList.ItemHeight = 10;
         AbilityList.TextAlign = TextAlignment.Center;
         session.EndRead(AbilityList);
-        VerticalScrollBar abVSB = new VerticalScrollBar(this);
+        VerticalScrollBar abVSB = new(this);
         session.BeginRead(abVSB);
         abVSB.Name = "AbVSB";
         abVSB.Priority = 0;

@@ -61,7 +61,7 @@ public partial class AIMoveExecutorUnit : EngineObject
         {
             if (Status == AIMoveExecutorUnitStatus.Moving)
             {
-                var coordinate105 = Troop.GetLocation();
+                MapCoordinate coordinate105 = Troop.GetLocation();
                 sbyte locationX = coordinate105.X;
                 sbyte locationY = coordinate105.Y;
                 sbyte locationMapLevel = coordinate105.MapLevel;

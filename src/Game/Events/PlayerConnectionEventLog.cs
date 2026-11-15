@@ -50,36 +50,36 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         {
             case 3:
                 Buttons = MessageEventLogButtons.YesNo;
-                var outOfSync = AbilityRules.TranslateResourceString(GetEngine(), s_outOfSyncText);
+                string outOfSync = AbilityRules.TranslateResourceString(GetEngine(), s_outOfSyncText);
                 Message.Text = outOfSync;
-                var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
+                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 Message.Add(translatedText);
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
-                var name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionTimeOutFormat), [name]);
+                string name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionTimeOutFormat), [name]);
                 Message.Text = format;
                 Message.Add("");
-                var terminateGameSave = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
+                string terminateGameSave = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 Message.Add(terminateGameSave);
                 break;
             case 2:
                 Buttons = MessageEventLogButtons.YesNo;
                 if (_disconnectedPlayer != -1)
                 {
-                    var name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostFormat), [name2]);
+                    string name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostFormat), [name2]);
                     Message.Text = formattedText;
                 }
                 else
                 {
-                    var connectionLost = AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostText);
+                    string connectionLost = AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostText);
                     Message.Text = connectionLost;
                 }
 
                 Message.Add("");
-                var terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
+                string terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
                 Message.Add(terminateGameSaveText);
                 break;
         }

@@ -35,9 +35,9 @@ public sealed class MessageSlotTests
     // priority in front, so the handlers run in the order given.
     private static (MapField Field, Handler[] Handlers) Field(params Proc[] procs)
     {
-        var field = new MapField(null!) { Holder = EngineFixture.Engine };
-        var handlers = procs.Select(p => new Handler(p)).ToArray();
-        foreach (var handler in handlers)
+        MapField field = new(null!) { Holder = EngineFixture.Engine };
+        Handler[] handlers = procs.Select(p => new Handler(p)).ToArray();
+        foreach (Handler? handler in handlers)
         {
             field.AddHexSprite(handler, 0);
         }
@@ -54,8 +54,8 @@ public sealed class MessageSlotTests
         Assert.Equal(4, MapFieldMessageParameters.Arity);
         EngineMessage engineMessage = default;
         MapFieldMessage fieldMessage = default;
-        var engineParam = engineMessage.Param;
-        var fieldParam = fieldMessage.Param;
+        EngineMessageParameters engineParam = engineMessage.Param;
+        MapFieldMessageParameters fieldParam = fieldMessage.Param;
         Assert.Equal(EngineMessageParameters.Arity, ((Span<MsgArg>)engineParam).Length);
         Assert.Equal(MapFieldMessageParameters.Arity, ((Span<MsgArg>)fieldParam).Length);
         Assert.Equal(typeof(MsgArg), typeof(EngineMessage).GetProperty(nameof(EngineMessage.Payload))!.PropertyType);
@@ -65,9 +65,9 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheDispatcherStopsAtTheFirstAnswerOfEitherCase()
     {
-        var control = new object();
+        object control = new();
         // No answer: every handler runs.
-        var (field, handlers) = Field(None, None, None);
+        (MapField? field, Handler[]? handlers) = Field(None, None, None);
         MapFieldMessage message = default;
         field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
@@ -113,7 +113,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
-        using GameEngine engine = new GameEngine(null!);
+        using GameEngine engine = new(null!);
         EngineMessage message = default;
         EngineMessage.InitializeMessage(out message, 0x20000008, engine);
         message.Payload = engine;
@@ -131,10 +131,10 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheFirstParameterCarriesAnArmyOrADistance()
     {
-        var army = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
+        ArmyHexSprite army = new(null!) { Holder = EngineFixture.Engine };
         ArmyHexSprite? placed = null;
         int distance = -1;
-        var (field, _) = Field((ref m) =>
+        (MapField? field, Handler[] _) = Field((ref m) =>
         {
             if (m.MessageId == 0x1102)
             {
@@ -147,7 +147,7 @@ public sealed class MessageSlotTests
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1102;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[0] = army;
         message.Param = param;
         field.SendMapFieldMessage(ref message);
@@ -155,7 +155,7 @@ public sealed class MessageSlotTests
         Assert.Throws<InvalidCastException>(() => message.Param[0].Int);
         message = default;
         message.MessageId = 0x110a;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[0] = 4;
         message.Param = param2;
         field.SendMapFieldMessage(ref message);
@@ -167,28 +167,28 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheSecondParameterCarriesAQueryOrAMoveAction()
     {
-        var query = new DefenseRequirementsQuery();
-        var (field, _) = Field((ref m) =>
+        DefenseRequirementsQuery query = new();
+        (MapField? field, Handler[] _) = Field((ref m) =>
         {
             if (m.MessageId == 0x1127)
             {
-                var requirements = m.Param[1].As<DefenseRequirementsQuery>()!.Requirements;
+                DefenseRequirements requirements = m.Param[1].As<DefenseRequirementsQuery>()!.Requirements;
                 requirements.Strength = 9;
                 m.Param[1].As<DefenseRequirementsQuery>()!.Requirements = requirements;
             }
             else if (m.MessageId == 0x1101)
             {
-                var param = m.Param;
+                MapFieldMessageParameters param = m.Param;
                 param[1] = param[1].Int + 2;
                 m.Param = param;
             }
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1127;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[0] = 1;
         message.Param = param2;
-        var param3 = message.Param;
+        MapFieldMessageParameters param3 = message.Param;
         param3[1] = query;
         message.Param = param3;
         field.SendMapFieldMessage(ref message);
@@ -196,7 +196,7 @@ public sealed class MessageSlotTests
         Assert.Throws<InvalidCastException>(() => message.Param[1].Int);
         message = default;
         message.MessageId = 0x1101;
-        var param4 = message.Param;
+        MapFieldMessageParameters param4 = message.Param;
         param4[1] = 1;
         message.Param = param4;
         field.SendMapFieldMessage(ref message);
@@ -207,13 +207,13 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheThirdParameterCarriesAQueryOrAPlayer()
     {
-        var query = new StormDamageQuery();
+        StormDamageQuery query = new();
         sbyte player = 0;
-        var (field, _) = Field((ref m) =>
+        (MapField? field, Handler[] _) = Field((ref m) =>
         {
             if (m.MessageId == 0x1151)
             {
-                var info = m.Param[2].As<StormDamageQuery>()!.Info;
+                StormDamageInfo info = m.Param[2].As<StormDamageQuery>()!.Info;
                 info.Player = 7;
                 m.Param[2].As<StormDamageQuery>()!.Info = info;
             }
@@ -224,7 +224,7 @@ public sealed class MessageSlotTests
         });
         MapFieldMessage message = default;
         message.MessageId = 0x1151;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[2] = query;
         message.Param = param;
         field.SendMapFieldMessage(ref message);
@@ -232,7 +232,7 @@ public sealed class MessageSlotTests
         Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
         message = default;
         message.MessageId = 0x1150;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[2] = 3;
         message.Param = param2;
         field.SendMapFieldMessage(ref message);
@@ -244,8 +244,8 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheResultCarriesAControlOrAPlayer()
     {
-        var control = new ProductionControl(null!) { Holder = EngineFixture.Engine };
-        var (field, handlers) = Field((ref m) =>
+        ProductionControl control = new(null!) { Holder = EngineFixture.Engine };
+        (MapField? field, Handler[]? handlers) = Field((ref m) =>
         {
             if (m.MessageId == 0x1201)
             {
@@ -278,10 +278,10 @@ public sealed class MessageSlotTests
     public void NoStorageMethodTakesAMessageRecord()
     {
         Type[] message = [typeof(EngineMessage), typeof(MapFieldMessage), typeof(EngineMessageParameters), typeof(MapFieldMessageParameters), typeof(MsgArg)];
-        var found = new List<string>();
-        foreach (var type in typeof(EngineMessage).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
+        List<string> found = new();
+        foreach (Type? type in typeof(EngineMessage).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
         {
-            foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             {
                 if (!method.Name.StartsWith("rw", StringComparison.Ordinal) && !method.Name.StartsWith("Read", StringComparison.Ordinal)
                     && !method.Name.StartsWith("Write", StringComparison.Ordinal))
@@ -289,9 +289,9 @@ public sealed class MessageSlotTests
                     continue;
                 }
 
-                foreach (var parameter in method.GetParameters())
+                foreach (ParameterInfo parameter in method.GetParameters())
                 {
-                    var parameterType = parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType()! : parameter.ParameterType;
+                    Type parameterType = parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType()! : parameter.ParameterType;
                     if (message.Contains(parameterType))
                     {
                         found.Add($"{type.FullName}.{method.Name}({parameter.Name})");

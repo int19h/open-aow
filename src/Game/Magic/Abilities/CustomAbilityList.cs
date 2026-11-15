@@ -96,7 +96,7 @@ public partial class CustomAbilityList : EngineObject
         newSize = (int)(((uint)(value + 7)) >> 3);
         if (newSize != oldSize)
         {
-            var abilityBits = AbilityBits;
+            byte[] abilityBits = AbilityBits;
             Array.Resize(ref abilityBits, newSize);
             AbilityBits = abilityBits;
             if (newSize > oldSize)
@@ -136,7 +136,7 @@ public partial class CustomAbilityList : EngineObject
         bool result = source.GetAbCount() == AbilityCount;
         if (result)
         {
-            var abilityCount = GetAbCount();
+            int abilityCount = GetAbCount();
             result = CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
         }
 
@@ -215,7 +215,7 @@ public partial class CustomAbilityList : EngineObject
             SetAbilityCount(index + 1);
         }
 
-        var bits = AbilityBits;
+        byte[] bits = AbilityBits;
         byte mask = (byte)(1 << (index & 7));
         if (value != 0)
         {

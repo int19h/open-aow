@@ -53,20 +53,20 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
         ImageSequenceAnimation animation;
         base.Process(source, value);
         done = false;
-        var coordinate11 = source.GetLocation();
+        MapCoordinate coordinate11 = source.GetLocation();
         x = coordinate11.X;
         y = coordinate11.Y;
         l = coordinate11.MapLevel;
         for (int i = 0, last = UnitIndices.Count - 1; i <= last; i++)
         {
             u = new Unit(null) { Holder = CreationHolder() };
-            var unitIndex = UnitIndices[i];
+            int unitIndex = UnitIndices[i];
             u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
             army = u.Place(x, y, l, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             if (army != null)
             {
-                var hexY = army.GetHexY();
-                var hexX = army.GetHexX();
+                sbyte hexY = army.GetHexY();
+                sbyte hexX = army.GetHexX();
                 if (HexGeometry.DeltaHexToRadius(x, y, hexX, hexY) <= 2)
                 {
                     if (u.ExpandAbility(155))
@@ -116,14 +116,14 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                 }
             }
 
-            var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         }
         else
         {
             if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
-                var noSummonLocationFound = AbilityRules.TranslateResourceString(GetEngine(), s_noSummonLocationFoundText);
+                string noSummonLocationFound = AbilityRules.TranslateResourceString(GetEngine(), s_noSummonLocationFoundText);
                 StrategicMap.Current.ShowMessage(noSummonLocationFound);
             }
         }

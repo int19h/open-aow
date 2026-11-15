@@ -72,7 +72,7 @@ public partial class MultiWindow : UIModule
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
             UI.MessageDialog.MessageMemo.Items.Add("");
-            var pleaseSetupEmailSettingsFirst = UI.Engine.TranslateResourceString(s_pleaseSetupEmailSettingsFirstText);
+            string pleaseSetupEmailSettingsFirst = UI.Engine.TranslateResourceString(s_pleaseSetupEmailSettingsFirstText);
             UI.MessageDialog.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;

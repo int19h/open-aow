@@ -36,22 +36,22 @@ public partial class DurationAbility : AdjustableAbility
                     result = base.GetName(owner);
                     if (GetDuration(owner) != 0)
                     {
-                        var duration = GetDuration(owner);
-                        var totalDuration = GetTotalDuration();
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        byte duration = GetDuration(owner);
+                        int totalDuration = GetTotalDuration();
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
                         result = result + " " + format;
                     }
 
                     break;
                 case DurationMode.CombatTurn:
-                    var duration2 = GetDuration(owner);
-                    var totalDuration2 = GetTotalDuration();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    byte duration2 = GetDuration(owner);
+                    int totalDuration2 = GetTotalDuration();
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
                     result = base.GetName(owner) + " " + formattedText;
                     break;
                 case DurationMode.EntireCombat:
-                    var name = base.GetName(owner);
-                    var durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
+                    string name = base.GetName(owner);
+                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
                     result = name + " " + durationEntireCombat;
                     break;
             }
@@ -189,7 +189,7 @@ public partial class DurationAbility : AdjustableAbility
 
     public override bool Remove(AbilityOwner owner)
     {
-        var data = owner.GetAbilityData(AbilityId);
+        AbilityData data = owner.GetAbilityData(AbilityId);
         SetAbility(owner, AbilityId, 0);
         if (data == null)
         {

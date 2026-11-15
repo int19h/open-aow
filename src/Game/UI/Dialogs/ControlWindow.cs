@@ -3,11 +3,13 @@
 using System.Collections.Immutable;
 
 using Aow.Game.Draw;
-
+using Aow.Game.Draw.Images;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -93,13 +95,13 @@ public partial class ControlWindow : UIModule
                 // { Original tests the unsorted index when checking the background library. }
                 if ((int)UI.General.UnitList.Units.GetUnit(index).GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
                 {
-                    var alignment = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
-                    var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
+                    Units.Alignment alignment = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
+                    LibraryImage unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                     unitBackground.ShowClipped(R.Left + ((R.Right - R.Left - unitBackground.Width) / 2), R.Top + ((R.Bottom - R.Top - unitBackground.Height) / 2), lockedSurface);
                 }
 
-                var previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                var previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                LibraryImage previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                LibraryImage previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
                 UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, UI.General.UnitShowInfo);
             }
         }
@@ -132,7 +134,7 @@ public partial class ControlWindow : UIModule
     {
         if (UI.General.UnitList != null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]) != null)
         {
-            var troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]);
+            Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
@@ -286,16 +288,16 @@ public partial class ControlWindow : UIModule
             Unit8Frame.ImageLibraryIndexFrame = 12;
         }
 
-        var selection = StrategicMap.Current.SelectedArmy.GetSelection();
-        var partyMove = UI.General.UnitList.GetPartyMoves(selection);
-        var moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
+        byte selection = StrategicMap.Current.SelectedArmy.GetSelection();
+        Set<MoveType> partyMove = UI.General.UnitList.GetPartyMoves(selection);
+        int moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
-        var fSelectedArmySelection = StrategicMap.Current.SelectedArmy.GetSelection();
-        var movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
+        byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.GetSelection();
+        sbyte movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
         MovesLabel.Text = IntToStr(movePoints);
-        var selection2 = StrategicMap.Current.SelectedArmy.GetSelection();
-        var partyStatus = StrategicMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
-        var partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
+        byte selection2 = StrategicMap.Current.SelectedArmy.GetSelection();
+        Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
+        string partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLabel.Text = partyStatusText;
     }
 
@@ -314,10 +316,10 @@ public partial class ControlWindow : UIModule
     public void CenterClick()
     {
         UI.General.PlayButtonSound(0);
-        var army = UI.General.UnitList;
+        Army army = UI.General.UnitList;
         StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
-        var army2 = UI.General.UnitList;
+        Army army2 = UI.General.UnitList;
         StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, army2.Location.MapLevel);
     }
 
@@ -330,7 +332,7 @@ public partial class ControlWindow : UIModule
         {
             component = sender;
             saveRectangle = lockedSurface.ClipRectangle;
-            var rectangle = new Rect(component.OwnerComponent.WinLeft + component.WinLeft + 4, component.OwnerComponent.WinTop + component.WinTop + 3, component.OwnerComponent.WinLeft + component.WinLeft + component.WinWidth - 3, component.OwnerComponent.WinTop + component.WinTop + component.WinHeight - 7);
+            Rect rectangle = new(component.OwnerComponent.WinLeft + component.WinLeft + 4, component.OwnerComponent.WinTop + component.WinTop + 3, component.OwnerComponent.WinLeft + component.WinLeft + component.WinWidth - 3, component.OwnerComponent.WinTop + component.WinTop + component.WinHeight - 7);
             DrawUnit(slot, rectangle, ref lockedSurface);
             lockedSurface.ClipRectangle = saveRectangle;
         }

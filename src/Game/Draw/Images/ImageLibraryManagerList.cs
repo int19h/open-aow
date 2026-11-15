@@ -80,7 +80,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
             objectValue.ImageLibrary?.Dispose();
         }
 
-        var item = Strings[index];
+        string item = Strings[index];
         HashTable.Remove(item);
         base.Delete(index);
     }

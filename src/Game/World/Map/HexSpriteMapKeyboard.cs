@@ -119,12 +119,12 @@ public partial class HexSpriteMapKeyboard : EngineObject
                                 StrategicMap.Current.ShowIndependentMoves = !StrategicMap.Current.ShowIndependentMoves;
                                 if (StrategicMap.Current.ShowIndependentMoves)
                                 {
-                                    var observeEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeEnabledText);
+                                    string observeEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeEnabledText);
                                     StrategicMap.Current.ShowMessage(observeEnabled);
                                 }
                                 else
                                 {
-                                    var observeDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeDisabledText);
+                                    string observeDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeDisabledText);
                                     StrategicMap.Current.ShowMessage(observeDisabled);
                                 }
 
@@ -183,7 +183,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
                             case 73:
                                 if (GetEngine().Debug)
                                 {
-                                    var heapStatus = GetHeapStatus();
+                                    HeapStatus heapStatus = GetHeapStatus();
                                     StrategicMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
                                 }
 

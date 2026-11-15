@@ -274,8 +274,8 @@ public partial class PlayerMagicControl : EngineObject
             while (i != 0)
             {
                 i -= 1;
-                var enchantments = Enchantments.GetEnchantments(i);
-                var fEnchantmentsEnchantments = Enchantments.GetEnchantments(index);
+                Enchantment enchantments = Enchantments.GetEnchantments(i);
+                Enchantment fEnchantmentsEnchantments = Enchantments.GetEnchantments(index);
                 if (enchantments.Upkeep < fEnchantmentsEnchantments.Upkeep)
                 {
                     index = i;
@@ -288,7 +288,7 @@ public partial class PlayerMagicControl : EngineObject
                 log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                 log.Player = Player.PlayerIndex;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
-                var coordinate25 = Enchantments.GetEnchantments(index).GetLocation();
+                MapCoordinate coordinate25 = Enchantments.GetEnchantments(index).GetLocation();
                 sbyte locationX = coordinate25.X;
                 sbyte locationY = coordinate25.Y;
                 sbyte locationMapLevel = coordinate25.MapLevel;
@@ -320,8 +320,8 @@ public partial class PlayerMagicControl : EngineObject
     {
         bool result;
         int balance;
-        var manaIncome = GetManaIncome();
-        var manaUpkeep = GetManaUpkeep();
+        int manaIncome = GetManaIncome();
+        int manaUpkeep = GetManaUpkeep();
         balance = Mana + manaIncome - manaUpkeep;
         if (balance < 0 && GetManaUpkeep() != 0)
         {
@@ -379,7 +379,7 @@ public partial class PlayerMagicControl : EngineObject
                 if (candidates.Count > 0)
                 {
                     index = StrategicMap.Current.Random(candidates.Count);
-                    var item = candidates[index];
+                    int item = candidates[index];
                     Spells.Add(item);
                 }
             }
@@ -391,7 +391,7 @@ public partial class PlayerMagicControl : EngineObject
         {
             if (Spells.IndexOf(ResearchSpellId) == -1)
             {
-                var netPowerToResearch = GetNetPowerToResearch();
+                int netPowerToResearch = GetNetPowerToResearch();
                 ResearchPointsLeft -= netPowerToResearch;
                 if (ResearchPointsLeft <= 0)
                 {
@@ -417,18 +417,18 @@ public partial class PlayerMagicControl : EngineObject
             else
             {
                 ResearchSpellId = 0;
-                var netPowerToResearch = GetNetPowerToResearch();
+                int netPowerToResearch = GetNetPowerToResearch();
                 Mana += netPowerToResearch;
             }
         }
         else
         {
-            var netPowerToResearch = GetNetPowerToResearch();
+            int netPowerToResearch = GetNetPowerToResearch();
             Mana += netPowerToResearch;
         }
 
-        var manaIncome = GetManaIncome();
-        var manaUpkeep = GetManaUpkeep();
+        int manaIncome = GetManaIncome();
+        int manaUpkeep = GetManaUpkeep();
         Mana = Mana + manaIncome - manaUpkeep;
         if (Mana < 0)
         {
@@ -522,7 +522,7 @@ public partial class PlayerMagicControl : EngineObject
             counts.Clear();
             for (int i = Spells.Count - 1; i >= 0; i--)
             {
-                var item = Spells[i];
+                int item = Spells[i];
                 known = GamePack.Current.SpellControl.GetSpell(item);
                 if (known.SpellLevel > 0 && known.GetEnabled() && spell.MagicSphere == known.MagicSphere)
                 {
@@ -584,7 +584,7 @@ public partial class PlayerMagicControl : EngineObject
         {
             for (int i = 0, last = Spells.Count - 1; i <= last; i++)
             {
-                var item = Spells[i];
+                int item = Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
@@ -728,7 +728,7 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2306
     public ChangePlayerMagicTokenEvent CreateChangeMagicTokenEvent()
     {
-        ChangePlayerMagicTokenEvent result = new ChangePlayerMagicTokenEvent(null) { Holder = CreationHolder() };
+        ChangePlayerMagicTokenEvent result = new(null) { Holder = CreationHolder() };
         result.PlayerIndex = (byte)Player.PlayerIndex;
         return result;
     }
@@ -897,20 +897,20 @@ public partial class PlayerMagicControl : EngineObject
 
     public int AIOverrideUpkeep(int priority, int amount)
     {
-        var list = new RecordList<UpkeepCandidate>();
+        RecordList<UpkeepCandidate> list = new();
         for (int i = 0; i < Enchantments.GetCount(); i++)
         {
-            var enchantment = Enchantments.GetEnchantments(i);
+            Enchantment enchantment = Enchantments.GetEnchantments(i);
             int order = enchantment.GetAIUpkeepPriority();
             if (order <= priority)
             {
                 list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
             }
         }
-        var global = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl global = StrategicMap.Current.GlobalMagicControl;
         for (int i = global.Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            var enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
+            GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
             if (enchantment.PlayerIndex != Player.PlayerIndex)
             {
                 continue;
@@ -928,7 +928,7 @@ public partial class PlayerMagicControl : EngineObject
             list.Sort(static (in item1, in item2) => item1.Order - item2.Order);
             while (total < amount && list.Count != 0 && Player.GameOverStatus != GameOverStatus.Lost)
             {
-                var item = list[0];
+                UpkeepCandidate item = list[0];
                 total += item.Upkeep;
                 if (item.Enchantment != null)
                 {
@@ -936,7 +936,7 @@ public partial class PlayerMagicControl : EngineObject
                 }
                 else
                 {
-                    var enchantment = item.GlobalEnchantment;
+                    GlobalEnchantment enchantment = item.GlobalEnchantment;
                     enchantment.AddRef();
                     enchantment.Remove((byte)Player.PlayerIndex);
                     enchantment.Release();

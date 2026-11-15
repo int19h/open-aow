@@ -3,6 +3,7 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
+using Aow.Game.Draw;
 using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
@@ -45,7 +46,7 @@ public sealed class ClassFamilyTests
     {
         static void Verify(Type contract, IEnumerable<Type> registered)
         {
-            var expected = typeof(EngineObject).Assembly.GetTypes().Where(t => t.IsClass && contract.IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal);
+            IOrderedEnumerable<string?> expected = typeof(EngineObject).Assembly.GetTypes().Where(t => t.IsClass && contract.IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal);
             Assert.Equal(expected, registered.Where(t => t.Assembly == typeof(EngineObject).Assembly).Select(t => t.FullName).Order(StringComparer.Ordinal));
         }
         Verify(typeof(IAIPlayerActionClass), AIPlayerActionClass.All.Select(c => c.Class.Type));
@@ -64,7 +65,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void ActionDescriptorsAreOnePerClassAndReadTheStatics()
     {
-        var endTurn = AIPlayerActionClass.Of<EndTurnAIPlayerAction>();
+        AIPlayerActionClass endTurn = AIPlayerActionClass.Of<EndTurnAIPlayerAction>();
         Assert.Same(endTurn, AIPlayerActionClass.Of(typeof(EndTurnAIPlayerAction)));
         Assert.Same(EngineClass.Of<EndTurnAIPlayerAction>(), endTurn.Class);
         Assert.Equal(EndTurnAIPlayerAction.Priority, endTurn.Priority);
@@ -72,13 +73,13 @@ public sealed class ClassFamilyTests
         // the phases are inherited from TAIPlayerAction, the loop action declares its own
         Assert.True(endTurn.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
         Assert.False(endTurn.SupportedPhases.Contains(AIPlayerProcessPhase.Loop));
-        var loop = AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>();
+        AIPlayerActionClass loop = AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>();
         Assert.True(loop.SupportedPhases.Contains(AIPlayerProcessPhase.Loop));
         Assert.False(loop.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
         // the base statics are abstract and the default
         Assert.Throws<AbstractErrorException>(() => AIPlayerAction.Priority);
         Assert.True(AIPlayerAction.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
-        using var instance = new EndTurnAIPlayerAction(null!) { Holder = EngineFixture.Engine };
+        using EndTurnAIPlayerAction instance = new(null!) { Holder = EngineFixture.Engine };
         Assert.Same(endTurn, instance.ActionClass);
         Assert.Same(instance.ActionClass, instance.ActionClass);
     }
@@ -91,7 +92,7 @@ public sealed class ClassFamilyTests
         static object? Nearest(Type type, string name)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
-            for (var t = type; t != null; t = t.BaseType)
+            for (Type? t = type; t != null; t = t.BaseType)
             {
                 if (t.GetProperty(name, flags) is { } property)
                 {
@@ -101,21 +102,21 @@ public sealed class ClassFamilyTests
 
             throw new InvalidOperationException(name);
         }
-        var types = typeof(AIPlayerAction).Assembly.GetTypes();
-        var actions = types.Where(t => typeof(AIPlayerAction).IsAssignableFrom(t) && t != typeof(AIPlayerAction) && t != typeof(StructureAIPlayerAction)).ToList();
+        Type[] types = typeof(AIPlayerAction).Assembly.GetTypes();
+        List<Type> actions = types.Where(t => typeof(AIPlayerAction).IsAssignableFrom(t) && t != typeof(AIPlayerAction) && t != typeof(StructureAIPlayerAction)).ToList();
         Assert.Equal(13, actions.Count);
-        foreach (var type in actions)
+        foreach (Type type in actions)
         {
-            var descriptor = AIPlayerActionClass.Of(type);
+            AIPlayerActionClass descriptor = AIPlayerActionClass.Of(type);
             Assert.Same(EngineClass.Of(type), descriptor.Class);
             Assert.Equal(Nearest(type, nameof(AIPlayerAction.Priority)), descriptor.Priority);
             Assert.Equal(Nearest(type, nameof(AIPlayerAction.SupportedPhases)), descriptor.SupportedPhases);
         }
-        var groups = types.Where(t => typeof(AIGroup).IsAssignableFrom(t)).ToList();
+        List<Type> groups = types.Where(t => typeof(AIGroup).IsAssignableFrom(t)).ToList();
         Assert.Equal(19, groups.Count);
-        foreach (var type in groups)
+        foreach (Type type in groups)
         {
-            var descriptor = AIGroupClass.Of(type);
+            AIGroupClass descriptor = AIGroupClass.Of(type);
             Assert.Same(EngineClass.Of(type), descriptor.Class);
             Assert.Equal(Nearest(type, nameof(AIGroup.Behavior)), descriptor.Behavior);
         }
@@ -124,12 +125,12 @@ public sealed class ClassFamilyTests
     [Fact]
     public void ActionManagerRegistersSortsAndUnregistersDescriptors()
     {
-        using var manager = new AIPlayerActionManager(null!) { Holder = EngineFixture.Engine };
+        using AIPlayerActionManager manager = new(null!) { Holder = EngineFixture.Engine };
         AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>()];
         manager.RegisterClasses(classes);
         Assert.Equal(3, manager.GetCount());
-        var registered = Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses).ToList();
-        foreach (var c in classes)
+        List<AIPlayerActionClass> registered = Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses).ToList();
+        foreach (AIPlayerActionClass c in classes)
         {
             Assert.Contains(c, registered);
         }
@@ -139,7 +140,7 @@ public sealed class ClassFamilyTests
             Assert.True(registered[i - 1].Priority >= registered[i].Priority);
         }
 
-        var error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>()]));
+        InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>()]));
         Assert.Equal("AIPlayerAction already Registered", error.Message);
         manager.UnregisterClasses(classes);
         Assert.Equal(0, manager.GetCount());
@@ -148,13 +149,13 @@ public sealed class ClassFamilyTests
     [Fact]
     public void GroupManagerRegistersOnceAndUnregistersDescriptors()
     {
-        var hunt = AIGroupClass.Of<HuntAIGroup>();
+        AIGroupClass hunt = AIGroupClass.Of<HuntAIGroup>();
         Assert.Same(hunt, AIGroupClass.Of(typeof(HuntAIGroup)));
         Assert.Same(EngineClass.Of<HuntAIGroup>(), hunt.Class);
         Assert.Equal(GroupBehavior.Hunt, hunt.Behavior);
         Assert.Equal(GroupBehavior.None, AIGroup.Behavior);
         Assert.Equal(GroupBehavior.Defensive, AIGroupClass.Of<DefenderAIGroup>().Behavior);
-        using var manager = new AIGroupManager(null!) { Holder = EngineFixture.Engine };
+        using AIGroupManager manager = new(null!) { Holder = EngineFixture.Engine };
         AIGroupClass[] classes = [hunt, AIGroupClass.Of<DefenderAIGroup>()];
         manager.RegisterAIGroupClasses(classes);
         manager.RegisterAIGroupClasses(classes);
@@ -167,21 +168,21 @@ public sealed class ClassFamilyTests
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
-        using GameEngine engine = new GameEngine(null!);
-        var mapObjectEditor = EditorClass.Of<MapObjectEditor>();
+        using GameEngine engine = new(null!);
+        EditorClass mapObjectEditor = EditorClass.Of<MapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(MapObjectEditor)));
         Assert.Same(EngineClass.Of<MapObjectEditor>(), mapObjectEditor.Class);
         Assert.Equal(MapObject.ClassId, mapObjectEditor.EditorClassId);
         Assert.Equal(0, EditorClass.Of<EngineObjectEditor>().EditorClassId);
         engine.Editors.RegisterClass(mapObjectEditor);
-        var error = Assert.Throws<InvalidOperationException>(() => engine.Editors.RegisterClass(mapObjectEditor));
+        InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => engine.Editors.RegisterClass(mapObjectEditor));
         Assert.Equal("EObjectEditor Double Defined!", error.Message);
         Assert.Equal(1, engine.Editors.Count);
         Assert.Same(mapObjectEditor, engine.Editors.FindEditor(MapObject.ClassId));
         Assert.Null(engine.Editors.FindEditor(EngineObject.ClassId));
 
-        var mapObject = new MapObject(new EngineField(engine));
-        var node = EngineClass.Of<OwningNode>().CreateInstance(engine.ControlNode, holder: EngineFixture.Engine);
+        MapObject mapObject = new(new EngineField(engine));
+        EngineObject node = EngineClass.Of<OwningNode>().CreateInstance(engine.ControlNode, holder: EngineFixture.Engine);
         try
         {
             Assert.Same(mapObjectEditor, mapObject.Editor());
@@ -202,20 +203,20 @@ public sealed class ClassFamilyTests
     [Fact]
     public void IsometricHexBuildsItsDynamicSpriteInOneConstructor()
     {
-        using var map = new GameMap(null!) { Holder = EngineFixture.Engine };
-        using var container = new MapContainer(map);
-        using var level = new MapLevel(container);
+        using GameMap map = new(null!) { Holder = EngineFixture.Engine };
+        using MapContainer container = new(map);
+        using MapLevel level = new(container);
         level.CreateMapFieldList(3, 3);
-        var field = level.GetField(1, 1);
-        using var resource = new LowerIsometricHex.Resource(null!) { Holder = EngineFixture.Engine };
-        var hex = new LowerIsometricHex(field);
+        MapField field = level.GetField(1, 1);
+        using LowerIsometricHex.Resource resource = new(null!) { Holder = EngineFixture.Engine };
+        LowerIsometricHex hex = new(field);
         hex.SetResourceWithoutOverrides(resource);
         try
         {
             hex.UpdateTransitions();
             // no neighbour of its kind: the sides in range are open and the dynamic sprite exists
             Assert.NotEqual(0, hex.OpenSides);
-            var dynamic = hex.Dynamic;
+            DynamicIsometricHex dynamic = hex.Dynamic;
             Assert.NotNull(dynamic);
             Assert.Null(dynamic.Owner);
             Assert.Contains(dynamic, field.HexSpriteList.Take(field.StoredCount));
@@ -236,9 +237,9 @@ public sealed class ClassFamilyTests
     [Fact]
     public void WaterHexReadsTheShoreOfItsOpenSides()
     {
-        using var map = new GameMap(null!) { Holder = EngineFixture.Engine };
-        using var container = new MapContainer(map);
-        using var level = new MapLevel(container);
+        using GameMap map = new(null!) { Holder = EngineFixture.Engine };
+        using MapContainer container = new(map);
+        using MapLevel level = new(container);
         level.CreateMapFieldList(3, 3);
         for (int y = 0; y < 3; y++)
         {
@@ -248,9 +249,9 @@ public sealed class ClassFamilyTests
             }
         }
 
-        var field = level.GetField(1, 1);
-        using var resource = new WaterHex.Resource(null!) { Holder = EngineFixture.Engine };
-        using var water = new WaterHex(field);
+        MapField field = level.GetField(1, 1);
+        using WaterHex.Resource resource = new(null!) { Holder = EngineFixture.Engine };
+        using WaterHex water = new(field);
         water.SetResourceWithoutOverrides(resource);
         water.UpdateTransitions();
         Assert.NotNull(water.Dynamic);

@@ -60,7 +60,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         MainWindow.WinHeight = 216;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Button min = new Button(this);
+        Button min = new(this);
         session.BeginRead(min);
         min.Name = "Min";
         min.Priority = 0;
@@ -94,7 +94,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         min.WinWidth = 15;
         min.OnClick += _ => MinClick();
         session.EndRead(min);
-        Label iwTitle = new Label(this);
+        Label iwTitle = new(this);
         session.BeginRead(iwTitle);
         iwTitle.Name = "IWTitle";
         iwTitle.Priority = 0;
@@ -117,7 +117,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         iwTitle.Text = "Events";
         iwTitle.TextColor = 0;
         session.EndRead(iwTitle);
-        Image sIcon = new Image(this);
+        Image sIcon = new(this);
         session.BeginRead(sIcon);
         sIcon.Name = "SIcon";
         sIcon.Priority = 0;
@@ -259,7 +259,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         RaceShield.Animate = false;
         RaceShield.AnimationFrameDelay = 0;
         session.EndRead(RaceShield);
-        Panel eventFr = new Panel(this);
+        Panel eventFr = new(this);
         session.BeginRead(eventFr);
         eventFr.Name = "EventFr";
         eventFr.Priority = 0;
@@ -286,7 +286,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         eventFr.MinWidth = 0;
         eventFr.MinHeight = 0;
         session.EndRead(eventFr);
-        VerticalScrollBar eventSB = new VerticalScrollBar(this);
+        VerticalScrollBar eventSB = new(this);
         session.BeginRead(eventSB);
         eventSB.Name = "EventSB";
         eventSB.Visible = false;
@@ -323,7 +323,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         eventSB.ImageLibraryIndexBack = 101;
         eventSB.ThumbImageIndex = 98;
         session.EndRead(eventSB);
-        Panel pInfoPnl = new Panel(this);
+        Panel pInfoPnl = new(this);
         session.BeginRead(pInfoPnl);
         pInfoPnl.Name = "PInfoPnl";
         pInfoPnl.Priority = 50000;
@@ -350,7 +350,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         pInfoPnl.MinWidth = 0;
         pInfoPnl.MinHeight = 0;
         session.EndRead(pInfoPnl);
-        CheckBox leaderCB = new CheckBox(this);
+        CheckBox leaderCB = new(this);
         session.BeginRead(leaderCB);
         leaderCB.Name = "LeaderCB";
         leaderCB.Tag = 1;
@@ -416,7 +416,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         FaceFrame.MinWidth = 0;
         FaceFrame.MinHeight = 0;
         session.EndRead(FaceFrame);
-        Label eventLbl = new Label(this);
+        Label eventLbl = new(this);
         session.BeginRead(eventLbl);
         eventLbl.Name = "EventLbl";
         eventLbl.Priority = 0;
@@ -439,7 +439,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         eventLbl.Text = "Event History";
         eventLbl.TextColor = 0;
         session.EndRead(eventLbl);
-        Panel shieldFr = new Panel(this);
+        Panel shieldFr = new(this);
         session.BeginRead(shieldFr);
         shieldFr.Name = "ShieldFr";
         shieldFr.Priority = 0;
@@ -466,7 +466,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         shieldFr.MinWidth = 0;
         shieldFr.MinHeight = 0;
         session.EndRead(shieldFr);
-        Panel turnFr = new Panel(this);
+        Panel turnFr = new(this);
         session.BeginRead(turnFr);
         turnFr.Name = "TurnFr";
         turnFr.Priority = 0;
@@ -493,7 +493,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         turnFr.MinWidth = 0;
         turnFr.MinHeight = 0;
         session.EndRead(turnFr);
-        Panel infoFr = new Panel(this);
+        Panel infoFr = new(this);
         session.BeginRead(infoFr);
         infoFr.Name = "InfoFr";
         infoFr.Priority = 0;
@@ -572,7 +572,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         RaceLabel.Masked = true;
         RaceLabel.TextColor = 9415072;
         session.EndRead(RaceLabel);
-        CheckBox raceCB = new CheckBox(this);
+        CheckBox raceCB = new(this);
         session.BeginRead(raceCB);
         raceCB.Name = "RaceCB";
         raceCB.Tag = 1;
@@ -609,7 +609,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         raceCB.Checked = false;
         raceCB.RadioIndex = 1;
         session.EndRead(raceCB);
-        Button center = new Button(this);
+        Button center = new(this);
         session.BeginRead(center);
         center.Name = "Center";
         center.Priority = 0;
@@ -643,7 +643,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         center.WinWidth = 15;
         center.OnClick += _ => CenterButtonClick();
         session.EndRead(center);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Priority = 0;
@@ -677,7 +677,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         help.WinWidth = 15;
         help.OnClick += _ => HelpClick();
         session.EndRead(help);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

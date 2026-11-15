@@ -41,7 +41,7 @@ public readonly struct PathStepImage : IRecordImage<PathStepImage, PathStep>
     /// <summary>Writes the four bytes of a stored item.</summary>
     public void Write(Stream stream)
     {
-        var image = this;
+        PathStepImage image = this;
         stream.Write(Bytes.Of(ref image, 4));
     }
 

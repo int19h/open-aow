@@ -46,7 +46,7 @@ public partial class TextControl : OwningNode, IChildList<TextControlItem>
     }
 
     // Structur.PAS:4431
-    public TextControlItem New() => new TextControlItem(this);
+    public TextControlItem New() => new(this);
 
     // Structur.PAS:4436
     public TextControlItem FindId(int id)

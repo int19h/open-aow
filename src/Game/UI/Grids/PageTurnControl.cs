@@ -56,7 +56,7 @@ public partial class PageTurnControl
         }
         else
         {
-            var pi = Math.PI;
+            double pi = Math.PI;
             result = (float)((double)pi - _inverseCos[Round((double)-value * 511)]);
         }
 
@@ -131,7 +131,7 @@ public partial class PageTurnControl
                     sourcePitch = _source2.Pitch;
                 }
 
-                var destinationLocal = destination.Data;
+                byte[] destinationLocal = destination.Data;
                 int destinationP = destination.DataIndex + (destinationX * 2) + (destination.Pitch * y);
                 BlitColumn(source, sourceP, sourcePitch, destinationLocal, destinationP, destination.Pitch, height);
             }
@@ -183,7 +183,7 @@ public partial class PageTurnControl
                 {
                     if ((double)_radius > 0)
                     {
-                        var pi = Math.PI;
+                        double pi = Math.PI;
                         _radius = (float)(_radius - ((double)((double)(Speed * 1.25) * 2) / pi));
                         if ((double)_radius < 1)
                         {
@@ -200,7 +200,7 @@ public partial class PageTurnControl
                 _shade = 2;
                 if ((double)_radius < _halfWidth)
                 {
-                    var pi = Math.PI;
+                    double pi = Math.PI;
                     _radius = (float)(_radius + ((double)((double)(Speed * 1.5) * 2) / pi));
                     if ((double)_radius > _halfWidth)
                     {
@@ -279,9 +279,9 @@ public partial class PageTurnControl
             r.Right = (_width * 2) + _sourceX2;
             r.Bottom = _sourceY2 + _height;
             LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width + _position, Y);
-            var pi = Math.PI;
+            double pi = Math.PI;
             originalLength = Round((double)((double)pi * _radius) * 0.25);
-            var mathPI = Math.PI;
+            double mathPI = Math.PI;
             arcLength = Round((double)((double)mathPI * _radius) * 0.25);
             sourceBase = _width + _position;
             radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
@@ -313,7 +313,7 @@ public partial class PageTurnControl
                 i += 1;
             }
 
-            var pi2 = Math.PI;
+            double pi2 = Math.PI;
             arcLength = Round((double)((double)pi2 * _radius) * 0.25);
             sourceBase = (_width * 3) - _position - arcLength;
             radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
@@ -336,7 +336,7 @@ public partial class PageTurnControl
                 i -= 1;
             }
 
-            var pi3 = Math.PI;
+            double pi3 = Math.PI;
             arcLength = Round((double)((double)((double)pi3 * _radius) * 0.25) * _shade);
             sourceBase = (_width * 3) - _position - (originalLength * 2) - arcLength;
             span = Round((double)_shadow * _shade);
@@ -356,8 +356,8 @@ public partial class PageTurnControl
             while (sourceOffset >= limit && i >= 0)
             {
                 angle = GetInverseCos(cosValue);
-                var pi4 = Math.PI;
-                var pi5 = Math.PI;
+                double pi4 = Math.PI;
+                double pi5 = Math.PI;
                 sourceOffset = Round((double)(arcLength * ((double)angle - ((double)pi4 / 4))) * (4 / pi5));
                 offset = Round((double)((double)Math.Sin(angle) * height) - width);
                 if (sourceOffset >= limit)
@@ -376,8 +376,8 @@ public partial class PageTurnControl
             {
                 cosValue = (float)((double)cosValue - step);
                 angle = GetInverseCos(cosValue);
-                var pi4 = Math.PI;
-                var pi5 = Math.PI;
+                double pi4 = Math.PI;
+                double pi5 = Math.PI;
                 sourceOffset = -Round((double)(arcLength * (4 / pi4)) * ((double)angle - ((double)pi5 / 4)));
                 offset = Round((double)(1 - Math.Sin(angle)) * height);
                 if (sourceOffset >= limit)
@@ -415,9 +415,9 @@ public partial class PageTurnControl
         r.Right = _sourceX2 + (_width * 2);
         r.Bottom = _sourceY2 + _height;
         LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
-        var pi = Math.PI;
+        double pi = Math.PI;
         height = Round((double)Math.Sin((double)(_position * pi) / 180) * _width);
-        var mathPI = Math.PI;
+        double mathPI = Math.PI;
         width = Round((double)Math.Cos((double)(_position * mathPI) / 180) * _width);
         if (width > 0)
         {
@@ -491,8 +491,8 @@ public partial class PageTurnControl
                 RenderOpenCloseScene(X, Y, destination);
                 R.Left = X;
                 R.Right = X + (_width * 2);
-                var pi = Math.PI;
-                var sin = Math.Sin((double)(_position * pi) / 180);
+                double pi = Math.PI;
+                double sin = Math.Sin((double)(_position * pi) / 180);
                 R.Top = Y - Round((double)((double)((double)sin * _scale) * _width) + 1);
                 R.Bottom = Y + _height;
                 break;
@@ -506,8 +506,8 @@ public partial class PageTurnControl
                 RenderOpenCloseScene(X, Y, destination);
                 R.Left = X;
                 R.Right = X + (_width * 2);
-                var mathPI = Math.PI;
-                var mathSin = Math.Sin((double)(_position * mathPI) / 180);
+                double mathPI = Math.PI;
+                double mathSin = Math.Sin((double)(_position * mathPI) / 180);
                 R.Top = Y - Round((double)((double)((double)mathSin * _scale) * _width) + 1);
                 R.Bottom = Y + _height;
                 break;

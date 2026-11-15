@@ -47,11 +47,11 @@ internal static class SweepFailureFixture
 
     internal static void CheckPlainState(string name, int route)
     {
-        var type = typeof(Spell).Assembly.GetType(name)!;
-        using var fixture = new OrderingRecording.Fixture(type);
-        var owner = new FailureOwner(false);
-        var given = EngineFixture.OwnerFor(type, owner);
-        var value = OrderingRecording.Create(type, given, route, fixture.Engine);
+        Type type = typeof(Spell).Assembly.GetType(name)!;
+        using OrderingRecording.Fixture fixture = new(type);
+        FailureOwner owner = new(false);
+        CustomNode given = EngineFixture.OwnerFor(type, owner);
+        EngineObject value = OrderingRecording.Create(type, given, route, fixture.Engine);
         Assert.IsType(type, value);
         Assert.Same(given, value.Owner);
         Assert.Same(value, Assert.Single(owner.Members));

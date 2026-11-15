@@ -58,7 +58,7 @@ public partial class StormSpell : Spell
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                var coordinate80 = source.GetLocation();
+                MapCoordinate coordinate80 = source.GetLocation();
                 x = coordinate80.X;
                 y = coordinate80.Y;
                 l = coordinate80.MapLevel;
@@ -105,7 +105,7 @@ public partial class StormSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            var coordinate81 = source.GetLocation();
+            MapCoordinate coordinate81 = source.GetLocation();
             x = coordinate81.X;
             y = coordinate81.Y;
             l = coordinate81.MapLevel;
@@ -132,7 +132,7 @@ public partial class StormSpell : Spell
         if (CanActivate(source, ref reason))
         {
             _source = source;
-            var coordinate82 = source.GetLocation();
+            MapCoordinate coordinate82 = source.GetLocation();
             x = coordinate82.X;
             y = coordinate82.Y;
             l = coordinate82.MapLevel;
@@ -142,8 +142,8 @@ public partial class StormSpell : Spell
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             selection.SourceLocation = new MapCoordinate(x, y, l);
             StrategicMap.Current.MakeVisible(x, y, l, 5);
-            var name = _targetStorm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
+            string name = _targetStorm.Name();
+            string format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = SpellName;
             selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
@@ -204,7 +204,7 @@ public partial class StormSpell : Spell
         if (CanActivate(source, ref reason))
         {
             result = -1;
-            var coordinate83 = source.GetLocation();
+            MapCoordinate coordinate83 = source.GetLocation();
             x = coordinate83.X;
             y = coordinate83.Y;
             l = coordinate83.MapLevel;

@@ -84,7 +84,7 @@ public partial class AIMoveExecutorControl : EngineObject
             if (candidates.Count != 0)
             {
                 candidates.Sort(static (in first, in second) => first.MovePoints - second.MovePoints);
-                var location = candidates[0].Location;
+                MapCoordinate location = candidates[0].Location;
                 x = location.X;
                 y = location.Y;
                 mapLevel = location.MapLevel;
@@ -131,8 +131,8 @@ public partial class AIMoveExecutorControl : EngineObject
                     bool condition = position != settings.Path.Count - 1;
                     if (condition)
                     {
-                        var item = settings.Path[position];
-                        var fPathItem = settings.Path[position];
+                        PathStep item = settings.Path[position];
+                        PathStep fPathItem = settings.Path[position];
                         condition = CanMoveTo(army, selection, settings.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != selection;
                     }
 
@@ -154,7 +154,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     move.AddUnits(army, selection);
                     for (int i = position, last = settings.Path.Count - 1; i <= last; i++)
                     {
-                        var item = settings.Path[i];
+                        PathStep item = settings.Path[i];
                         move.Path.Add(item);
                     }
 

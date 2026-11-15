@@ -29,7 +29,7 @@ public partial class UnitHexSprite
             HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
             if ((Status & 16) == 0)
             {
-                var moveSteps = GetMoveSteps();
+                int moveSteps = GetMoveSteps();
                 progress = (float)((double)MoveStep / moveSteps);
                 pixelXSurface += Round((double)deltaX * progress);
                 pixelYSurface += Round((double)deltaY * progress);
@@ -88,7 +88,7 @@ public partial class UnitHexSprite
         if (MoveStep != -1)
         {
             HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
-            var moveSteps = GetMoveSteps();
+            int moveSteps = GetMoveSteps();
             progress = (float)((double)MoveStep / moveSteps);
             X += Round((double)deltaX * progress);
             Y += Round((double)deltaY * progress);

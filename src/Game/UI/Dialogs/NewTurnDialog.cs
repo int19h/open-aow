@@ -4,6 +4,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
@@ -78,12 +79,12 @@ public partial class NewTurnDialog : UIModule
                 _newTurn = eventValue;
                 _newTurn.AddRef();
                 TurnMessageLabel.Text = eventValue.Text;
-                var name = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
+                string name = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
                 PlayerNameLabel.Text = name;
                 if (eventValue.TurnPlayer != 0)
                 {
-                    var player = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
-                    var raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
+                    Player player = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
+                    string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                     PlayerRaceLabel.Text = raceNamesPlural;
                 }
                 else
@@ -100,7 +101,7 @@ public partial class NewTurnDialog : UIModule
                     day2 = 1;
                 }
 
-                var day = UI.Engine.TranslateResourceString(GameText.DayText);
+                string day = UI.Engine.TranslateResourceString(GameText.DayText);
                 TurnLabel.Text = day + " " + IntToStr(day2);
                 race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
@@ -114,12 +115,12 @@ public partial class NewTurnDialog : UIModule
                 Window.Visible = true;
                 if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
                 {
-                    var clickToBegin = UI.Engine.TranslateResourceString(s_clickToBeginText);
+                    string clickToBegin = UI.Engine.TranslateResourceString(s_clickToBeginText);
                     ClickMessageLabel.Text = clickToBegin;
                 }
                 else
                 {
-                    var hiddenMovementPleaseWait = UI.Engine.TranslateResourceString(s_hiddenMovementPleaseWaitText);
+                    string hiddenMovementPleaseWait = UI.Engine.TranslateResourceString(s_hiddenMovementPleaseWaitText);
                     ClickMessageLabel.Text = hiddenMovementPleaseWait;
                 }
 

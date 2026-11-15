@@ -180,7 +180,7 @@ public partial class GlobalMagicControl : EngineObject
         ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
         for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            var enchantments = Enchantments.GetEnchantments(i);
+            GlobalEnchantment enchantments = Enchantments.GetEnchantments(i);
             ActiveEnchantments = ActiveEnchantments + Set<GlobalEnchantmentType>.Of(enchantments.EnchantmentType);
         }
     }
@@ -241,7 +241,7 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2708
-    public ChangeGlobalMagicTokenEvent CreateChangeMagicTokenEvent() => new ChangeGlobalMagicTokenEvent(null) { Holder = CreationHolder() };
+    public ChangeGlobalMagicTokenEvent CreateChangeMagicTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // Spells.PAS:2710
     public bool ExecuteDispelEnchantment(sbyte player, int enchantmentId)

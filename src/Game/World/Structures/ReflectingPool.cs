@@ -178,7 +178,7 @@ public partial class ReflectingPool : PlayerStructure
                         if (base.Resource.TerrainList.GetTerrain(i) >= 0)
                         {
                             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
-                            var visibilityRange = VisibilityRange();
+                            int visibilityRange = VisibilityRange();
                             StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)p, visibilityRange);
                         }
                     }
@@ -197,7 +197,7 @@ public partial class ReflectingPool : PlayerStructure
         {
             for (int i = StrategicMap.Current.Players.GetPlayers(p).KnownStructures.Count - 1; i >= 0; i--)
             {
-                var structure = StrategicMap.Current.Players.GetPlayers(p).KnownStructures.GetStructure(i);
+                PlayerStructure structure = StrategicMap.Current.Players.GetPlayers(p).KnownStructures.GetStructure(i);
                 list.AddChild(structure);
             }
         }
@@ -217,20 +217,20 @@ public partial class ReflectingPool : PlayerStructure
                 ListReflectingPools(ref list);
                 list.RemoveChild(this);
                 list.SortStable(ComparePools);
-                var count = list.Count;
+                int count = list.Count;
                 if (_centerFrame / 8 < count)
                 {
                     pool = list.GetStructure(_centerFrame / 8);
-                    var hexLevel = pool.GetHexLevel();
-                    var hexY = pool.GetHexY();
-                    var hexX = pool.GetHexX();
+                    sbyte hexLevel = pool.GetHexLevel();
+                    sbyte hexY = pool.GetHexY();
+                    sbyte hexX = pool.GetHexX();
                     StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    var hexLevel = GetHexLevel();
-                    var hexY = GetHexY();
-                    var hexX = GetHexX();
+                    sbyte hexLevel = GetHexLevel();
+                    sbyte hexY = GetHexY();
+                    sbyte hexX = GetHexX();
                     StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                     DeactivatePoolCentering();
                 }
@@ -302,7 +302,7 @@ public partial class ReflectingPool : PlayerStructure
         {
             if (PoolVisionPlayer((sbyte)p))
             {
-                var trueVisionRange = TrueVisionRange();
+                int trueVisionRange = TrueVisionRange();
                 StrategicMap.Current.UpdatePlayerSeen(p, mapField.HexX, mapField.HexY, mapField.HexLevel, distance, trueVisionRange);
             }
         }

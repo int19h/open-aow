@@ -66,12 +66,12 @@ public partial class Edit : Control
     // AoWEdit.pas:96
     public override void SetSize()
     {
-        var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex];
-        var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
+        LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex];
+        LibraryImage imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
         if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > WinWidth)
         {
-            var imageLibraryEdit2 = _imageLibraryEdit[_imageLibraryIndex];
-            var imageLibraryEdit3 = _imageLibraryEdit[_imageLibraryIndex + 2];
+            LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_imageLibraryIndex];
+            LibraryImage imageLibraryEdit3 = _imageLibraryEdit[_imageLibraryIndex + 2];
             SetWinWidthWithoutInvalidate(imageLibraryEdit2.Width + imageLibraryEdit3.Width);
         }
 
@@ -128,14 +128,14 @@ public partial class Edit : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
                 oldClip = lockedSurface.ClipRectangle;
-                var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
+                LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
                 if (Window.WinLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
-                    var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
-                    var clipRectangle = lockedSurface.ClipRectangle;
+                    LibraryImage imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
+                    Rect clipRectangle = lockedSurface.ClipRectangle;
                     clipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
@@ -159,7 +159,7 @@ public partial class Edit : Control
                 lockedSurface.ClipRectangle = oldClip;
                 if (_editable && Redraw && _cursorShown)
                 {
-                    var textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
+                    int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
                     base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth + textWidth, Window.WinTop + WinTop + BorderHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
@@ -194,7 +194,7 @@ public partial class Edit : Control
                         Redraw = true;
                     }
 
-                    var textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length));
+                    int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length));
                     if (X > Window.WinLeft + WinLeft + BorderWidth + textWidth)
                     {
                         FirstChar = 1;

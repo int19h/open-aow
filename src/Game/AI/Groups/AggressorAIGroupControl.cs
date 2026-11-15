@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from BehaviorAG.pas.
 using Aow.Engine.Nodes;
-
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -37,7 +37,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
                 finder.Setup(this);
                 if (Group.Transporter == null)
                 {
-                    var availableTransporter = FindAvailableTransporter();
+                    Troop availableTransporter = FindAvailableTransporter();
                     finder.Selector.SetTransporter(availableTransporter);
                 }
                 else
@@ -120,7 +120,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 6:
-                var player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+                Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
                 if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
                 {
                     State = 0;

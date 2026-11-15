@@ -76,7 +76,7 @@ public partial class ItemLibraryManager : EngineObject
         Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (var listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.ItemList))
+        foreach (string listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.ItemList))
         {
             itemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
             try
@@ -98,7 +98,7 @@ public partial class ItemLibraryManager : EngineObject
         for (int i = 1, last = Libraries.Count - 1; i <= last; i++)
         {
             itemLibrary = GetLibrary(i);
-            var name = itemLibrary.GetName();
+            string name = itemLibrary.GetName();
             itemLibrary.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.ItemList));
         }
     }
@@ -172,7 +172,7 @@ public partial class ItemLibraryManager : EngineObject
     {
         if (index < Libraries.Count && index > 0)
         {
-            var name = GetLibrary(index).GetName();
+            string name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
             DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
             DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);

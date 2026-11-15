@@ -19,8 +19,8 @@ public sealed class MapCoordinateEqualityTests
     [Fact]
     public void AStepComparesItsCost()
     {
-        var location = new MapCoordinate(X: 3, Y: 4, MapLevel: 1);
-        var step = new PathStep(Location: location, MoveCost: 7);
+        MapCoordinate location = new(X: 3, Y: 4, MapLevel: 1);
+        PathStep step = new(Location: location, MoveCost: 7);
         Assert.True(location == HexGeometry.PackMapCoordinate(x: 3, y: 4, mapLevel: 1));
         Assert.True(step != new PathStep(Location: location, MoveCost: 0));
         Assert.Equal(0x0701_0403, PathStepImage.From(step).ToInt32());
@@ -42,7 +42,7 @@ public sealed class MapCoordinateEqualityTests
     {
         foreach (int value in new[] { 0, -1, 0x00FF_FFFF, int.MinValue, int.MaxValue, unchecked((int)0xA501_FE05) })
         {
-            var (location, unknownBytes) = StoredCoordinateImage.FromInt32(value);
+            (MapCoordinate location, byte unknownBytes) = StoredCoordinateImage.FromInt32(value);
             Assert.Equal(value, StoredCoordinateImage.From(location, unknownBytes).ToInt32());
         }
     }
@@ -52,7 +52,7 @@ public sealed class MapCoordinateEqualityTests
     {
         // HexSprite.GetMapCoordinate and MapField.GetMapCoordinate computed HexX + HexY shl 8 +
         // HexLevel shl 16. For a map position, whose components are not negative, those are the bytes.
-        foreach (var (x, y, level) in new (sbyte, sbyte, sbyte)[] { (0, 0, 0), (113, 97, 2), (127, 127, 4) })
+        foreach ((sbyte x, sbyte y, sbyte level) in new (sbyte, sbyte, sbyte)[] { (0, 0, 0), (113, 97, 2), (127, 127, 4) })
         {
             Assert.Equal(x + (y << 8) + (level << 16), StoredCoordinateImage.From(HexGeometry.PackMapCoordinate(x, y, level), unknownBytes: 0).ToInt32());
         }

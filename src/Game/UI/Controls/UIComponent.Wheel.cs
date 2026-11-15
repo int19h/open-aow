@@ -30,19 +30,19 @@ public partial class UIComponent
 
     internal VerticalScrollBar WheelScrollBar
     {
-        get => s_wheelLinks.TryGetValue(this, out var link) ? link.Bar : null;
+        get => s_wheelLinks.TryGetValue(this, out WheelLink link) ? link.Bar : null;
         set => Link().Bar = value;
     }
 
     internal Button PageBack
     {
-        get => s_wheelLinks.TryGetValue(this, out var link) ? link.Back : null;
+        get => s_wheelLinks.TryGetValue(this, out WheelLink link) ? link.Back : null;
         set => Link().Back = value;
     }
 
     internal Button PageForward
     {
-        get => s_wheelLinks.TryGetValue(this, out var link) ? link.Forward : null;
+        get => s_wheelLinks.TryGetValue(this, out WheelLink link) ? link.Forward : null;
         set => Link().Forward = value;
     }
 
@@ -52,7 +52,7 @@ public partial class UIComponent
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            var child = Children[i];
+            UIComponent child = Children[i];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y))
             {
                 return child;
@@ -66,7 +66,7 @@ public partial class UIComponent
     // bar, exactly one visible enabled vertical scroll bar among the direct children is used.
     protected bool ScrollOwnedBar(int steps)
     {
-        if (s_wheelLinks.TryGetValue(this, out var link) && link.Bar != null)
+        if (s_wheelLinks.TryGetValue(this, out WheelLink link) && link.Bar != null)
         {
             if (!link.Bar._visible || !link.Bar._captureInput)
             {

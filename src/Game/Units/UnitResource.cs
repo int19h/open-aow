@@ -32,8 +32,8 @@ public partial class UnitResource : TroopResource
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
             rank = (Unit.Rank)rankOrdinal;
-            var unitResourceAbilityOwner = new UnitResourceAbilityOwner(null) { Holder = CreationHolder() };
-            var abilities = Abilities;
+            UnitResourceAbilityOwner unitResourceAbilityOwner = new(null) { Holder = CreationHolder() };
+            AbilityOwnerArray3 abilities = Abilities;
             abilities[(int)rank] = unitResourceAbilityOwner;
             Abilities = abilities;
         }

@@ -208,7 +208,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8796
     public void OutputDebugString(string S)
     {
-        var notification = new EngineDebugNotification();
+        EngineDebugNotification notification = new();
         EngineDebugNotification.DebugInfo info = notification.Info;
         info.Channel = DebugChannel.User;
         info.Text = S;
@@ -219,7 +219,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8805
     public void OutputDebugMessage(DebugChannel channel, string S)
     {
-        var notification = new EngineDebugNotification();
+        EngineDebugNotification notification = new();
         EngineDebugNotification.DebugInfo info = notification.Info;
         info.Channel = channel;
         info.Text = S;
@@ -258,7 +258,7 @@ public partial class GameEngine : OwningNode
                 VerifyEngineObjectClass(classes[i]);
             }
 
-            var classId = classes[i].ClassId;
+            int classId = classes[i].ClassId;
             if (_classTable.ContainsKey(classId))
             {
                 throw new InvalidOperationException("EObject Class ID double defined!");
@@ -275,7 +275,7 @@ public partial class GameEngine : OwningNode
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
             _engineClasses.Remove(classes[i]);
-            var classId = classes[i].ClassId;
+            int classId = classes[i].ClassId;
             _classTable.Remove(classId);
         }
     }
@@ -315,7 +315,7 @@ public partial class GameEngine : OwningNode
             stream.Write(GameBoundary.WritePacket(root: null, classId: 0, className: null));
             return;
         }
-        var factory = new EnginePersistableFactory(this, progress: progress);
+        EnginePersistableFactory factory = new(this, progress: progress);
         ObjectNode root;
         try
         {
@@ -335,7 +335,7 @@ public partial class GameEngine : OwningNode
     public EngineObject RetrieveEngineObject(Stream stream, Engine.ProgressEvent progress)
     {
         int count = checked((int)(stream.Length - stream.Position));
-        var image = new byte[count];
+        byte[] image = new byte[count];
         stream.ReadExactly(image);
         int classId = GameBoundary.ReadPacketClassId(image);
         if (classId == 0)
@@ -343,9 +343,9 @@ public partial class GameEngine : OwningNode
             return null;
         }
 
-        var engineClass = GetEngineClass(classId);
-        var factory = new EnginePersistableFactory(this, progress: progress);
-        var root = GameBoundary.ReadPacket(image, className: engineClass.StorageKey);
+        EngineClass engineClass = GetEngineClass(classId);
+        EnginePersistableFactory factory = new(this, progress: progress);
+        ObjectNode root = GameBoundary.ReadPacket(image, className: engineClass.StorageKey);
         return (EngineObject)TreeReader.ReadCreated(root, className: engineClass.StorageKey, factory: factory);
     }
 
@@ -371,7 +371,7 @@ public partial class GameEngine : OwningNode
     // An engine image in a memory stream at position 0, for the routines that read it.
     public static MemoryStream ImageStream(byte[] image)
     {
-        MemoryStream m = new MemoryStream();
+        MemoryStream m = new();
         m.WriteBuffer(image);
         m.Position = 0;
         return m;
@@ -390,7 +390,7 @@ public partial class GameEngine : OwningNode
     // the e-mail game index stay original files.
     public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        var image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
+        byte[] image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
         Stream f = OpenFile(fileName, 65535);
         try
         {
@@ -478,13 +478,13 @@ public partial class GameEngine : OwningNode
             if (m.Length > 8)
             {
                 crc1 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(0, 4));
-                var size = (int)m.Length;
+                int size = (int)m.Length;
                 crc2 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(size - 4, 4));
-                var mSize = (int)m.Length;
+                int mSize = (int)m.Length;
                 bool condition = crc1 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), mSize - 4);
                 if (condition)
                 {
-                    var size2 = (int)m.Length;
+                    int size2 = (int)m.Length;
                     condition = crc2 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), size2 - 8);
                 }
 
@@ -509,7 +509,7 @@ public partial class GameEngine : OwningNode
     // names the engine table of the class ids of the created objects inside.
     public byte[] WriteObjectImage(EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
     {
-        var factory = new EnginePersistableFactory(this, progress: progress);
+        EnginePersistableFactory factory = new(this, progress: progress);
         return GameBoundary.WriteWrittenObject(TreeWriter.Write(objectValue, factory: factory), className: factory.ClassName(objectValue), classTable: classTable);
     }
 
@@ -519,7 +519,7 @@ public partial class GameEngine : OwningNode
     // continues.
     public void ReadObjectImage(byte[] image, EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
     {
-        var factory = new EnginePersistableFactory(this, progress: progress);
+        EnginePersistableFactory factory = new(this, progress: progress);
         TreeReader.ReadObject(GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable), objectValue: objectValue, factory: factory);
     }
 

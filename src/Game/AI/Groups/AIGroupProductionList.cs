@@ -44,7 +44,7 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     // AIGroup.pas:15
     public void Add(ProductionControl control, Troop troop)
     {
-        var aiGroupProduction = new AIGroupProduction(this);
+        AIGroupProduction aiGroupProduction = new(this);
         aiGroupProduction.Control = control;
         aiGroupProduction.Troop = troop;
     }
@@ -66,7 +66,7 @@ public partial class AIGroupProductionList : OwningNode, IChildList<AIGroupProdu
     // AIGroup.pas:37
     public void ChangeGroup(int index, AIGroup group)
     {
-        var aiGroupProduction = GetProductions(index);
+        AIGroupProduction aiGroupProduction = GetProductions(index);
         aiGroupProduction.Control.Settings.GroupId = group.GroupId;
         aiGroupProduction.SetOwner(group.Productions);
     }

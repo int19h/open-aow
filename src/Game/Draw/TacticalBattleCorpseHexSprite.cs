@@ -97,14 +97,14 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         {
             if (message.MessageId == 200712 && message.HexNumber == 0)
             {
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
                 {
-                    var hexY2 = GetHexY();
-                    var hexX2 = GetHexX();
+                    sbyte hexY2 = GetHexY();
+                    sbyte hexX2 = GetHexX();
                     CombatMap.Current.MakeVisible(hexX2, hexY2, 0, 5);
-                    var hexY3 = GetHexY();
+                    sbyte hexY3 = GetHexY();
                     HexGeometry.HexToPixel(GetHexX(), hexY3, out x, out y);
                     for (int ring = 1; ring <= 3; ring++)
                     {
@@ -132,10 +132,10 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                                     break;
                             }
 
-                            var pi = Math.PI;
-                            var sin = Math.Sin((double)(((i * 5) + n) * pi) / 180);
-                            var mathPI = Math.PI;
-                            var path = effect.Path;
+                            double pi = Math.PI;
+                            double sin = Math.Sin((double)(((i * 5) + n) * pi) / 180);
+                            double mathPI = Math.PI;
+                            Point3DList path = effect.Path;
                             EffectPaths.MakeLinePath(Round((double)Math.Cos((double)(((i * 5) + n) * mathPI) / 180) * deltaX) + x + 16, (Round((double)sin * deltaY) / 2) + y + 16, x + 16, y + 16, 100, ref path);
                             effect.Path = path;
                         }
@@ -147,11 +147,11 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
 
             if (message.MessageId == 200713 && message.HexNumber == 0)
             {
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
                 {
-                    var hexY2 = GetHexY();
+                    sbyte hexY2 = GetHexY();
                     HexGeometry.HexToPixel(GetHexX(), hexY2, out x, out y);
                     n = Random(6) + 25;
                     for (int i = 1; i <= n - 1; i++)
@@ -164,7 +164,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         gravity = (float)0.5;
                         vz = (float)((Random(50) + 50) * 0.05);
                         z = 0;
-                        var path2 = effect.Path;
+                        Point3DList path2 = effect.Path;
                         EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, ref speed, ref vz, ref gravity, ref path2);
                         effect.Path = path2;
                     }
@@ -190,8 +190,8 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         unitHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = CreationHolder() };
                         unitHexSprite.Initialize(Unit);
                         unitHexSprite.SetDirection((byte)(Random(6) + 1));
-                        var hexY3 = GetHexY();
-                        var hexX2 = GetHexX();
+                        sbyte hexY3 = GetHexY();
+                        sbyte hexX2 = GetHexX();
                         CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
                     }
 
@@ -227,7 +227,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     {
         ImageSequence sequence;
         sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
-        var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+        int totalSequenceFrames = sequence.GetTotalSequenceFrames();
         if (_sequenceFrame + 1 < totalSequenceFrames)
         {
             _sequenceFrame += 1;

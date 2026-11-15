@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -40,7 +40,7 @@ public partial class RejuvenateTokenEvent : GlobalTargetSpellTokenEvent
         }
 
         StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 2, RejuvenateTerrain, null);
-        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         // The original event result is zero.
         return false;

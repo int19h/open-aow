@@ -66,43 +66,43 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 case 200704:
                     GamePack.Current.AbilityControl.GetAbility(65).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense = GetDefense();
-                    var executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense);
+                    sbyte defense = GetDefense();
+                    int executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense);
                     SetHitPoints(HitPoints - executeDamageRole);
                     break;
                 case 200705:
                     GamePack.Current.AbilityControl.GetAbility(24).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense2 = GetDefense();
-                    var executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense2);
+                    sbyte defense2 = GetDefense();
+                    int executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense2);
                     SetHitPoints(HitPoints - executeDamageRole2);
                     break;
                 case 200706:
                     GamePack.Current.AbilityControl.GetAbility(44).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense3 = GetDefense();
-                    var executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense3);
+                    sbyte defense3 = GetDefense();
+                    int executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense3);
                     SetHitPoints(HitPoints - executeDamageRole3);
                     break;
                 case 200707:
                     GamePack.Current.SpellControl.GetSpell(117).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense4 = GetDefense();
-                    var executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense4);
+                    sbyte defense4 = GetDefense();
+                    int executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense4);
                     SetHitPoints(HitPoints - executeDamageRole4);
                     break;
                 case 200714:
                     GamePack.Current.AbilityControl.GetAbility(31).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense5 = GetDefense();
-                    var executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense5);
+                    sbyte defense5 = GetDefense();
+                    int executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense5);
                     SetHitPoints(HitPoints - executeDamageRole5);
                     break;
                 case 200715:
                     GamePack.Current.SpellControl.GetSpell(113).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense6 = GetDefense();
-                    var executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense6);
+                    sbyte defense6 = GetDefense();
+                    int executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense6);
                     SetHitPoints(HitPoints - executeDamageRole6);
                     break;
                 case 200722:
@@ -110,8 +110,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     {
                         GamePack.Current.AbilityControl.GetAbility(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        var defense7 = GetDefense();
-                        var executeDamageRole7 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense7);
+                        sbyte defense7 = GetDefense();
+                        int executeDamageRole7 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense7);
                         SetHitPoints(HitPoints - executeDamageRole7);
                     }
 
@@ -121,8 +121,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     {
                         GamePack.Current.SpellControl.GetSpell(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        var defense7 = GetDefense();
-                        var executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense7);
+                        sbyte defense7 = GetDefense();
+                        int executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense7);
                         SetHitPoints(HitPoints - executeDamageRole7);
                     }
 
@@ -130,39 +130,39 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 case 200710:
                     GamePack.Current.SpellControl.GetSpell(116).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense8 = GetDefense();
-                    var executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense8);
+                    sbyte defense8 = GetDefense();
+                    int executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense8);
                     SetHitPoints(HitPoints - executeDamageRole8);
                     break;
                 case 200717:
                     GamePack.Current.SpellControl.GetSpell(127).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense9 = GetDefense();
-                    var executeDamageRole9 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense9);
+                    sbyte defense9 = GetDefense();
+                    int executeDamageRole9 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense9);
                     SetHitPoints(HitPoints - executeDamageRole9);
                     break;
                 case 200718:
                     GamePack.Current.SpellControl.GetSpell(128).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense10 = GetDefense();
-                    var executeDamageRole10 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense10);
+                    sbyte defense10 = GetDefense();
+                    int executeDamageRole10 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense10);
                     SetHitPoints(HitPoints - executeDamageRole10);
                     break;
                 case 200708:
                     _playSound = message.Param[1].Int == 0;
                     GamePack.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense11 = GetDefense();
-                    var executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense11);
+                    sbyte defense11 = GetDefense();
+                    int executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense11);
                     SetHitPoints(HitPoints - executeDamageRole11);
-                    var param = message.Param;
+                    MapFieldMessageParameters param = message.Param;
                     param[1] = 1;
                     message.Param = param;
                     break;
                 case 200711:
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    var defense12 = GetDefense();
-                    var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - defense12);
+                    sbyte defense12 = GetDefense();
+                    int executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - defense12);
                     SetHitPoints(HitPoints - executeDamageRole12);
                     break;
             }
@@ -294,8 +294,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
                 point = new Point3D();
                 effect.Path.Add(point);
-                var x = point.X;
-                var y = point.Y;
+                int x = point.X;
+                int y = point.Y;
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
                 point.X = x;
                 point.Y = y;

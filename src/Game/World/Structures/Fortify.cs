@@ -1,6 +1,6 @@
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -24,7 +24,7 @@ public sealed partial record Fortify : ProductionOrder
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return base.CanExecute(control, ref reason);
@@ -41,7 +41,7 @@ public sealed partial record Fortify : ProductionOrder
 
     public override void Executed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;
@@ -51,14 +51,14 @@ public sealed partial record Fortify : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.FortifyCost();
-        var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        Player playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems - control.Settings.Gold);
         control.Status = ProductionControlStatus.Producing;
     }
 
     public override void Completed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;

@@ -45,7 +45,7 @@ public partial class TutorialMessageEvent : FlagEvent
         if (StrategicMap.Current.SeatedPlayer == player)
         {
             log = new TutorialMessageEventLog(null, holder: CreationHolder());
-            var text = _message.Text;
+            string text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
             log.Release();

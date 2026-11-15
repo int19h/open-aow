@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from BehaviorAG.pas.
 using Aow.Engine.Nodes;
-
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -26,7 +26,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
                 finder.Setup(this);
                 if (Group.Transporter == null)
                 {
-                    var availableTransporter = FindAvailableTransporter();
+                    Troop availableTransporter = FindAvailableTransporter();
                     finder.Selector.SetTransporter(availableTransporter);
                 }
                 else
@@ -73,7 +73,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 5:
-                var player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+                Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
                 if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
                 {
                     State = 0;
@@ -90,7 +90,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
                     Group.DeleteUnit(Group.Transporter);
                 }
 
-                var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
                 group.AddUnits(Group.Units);
                 group.Release();

@@ -49,7 +49,7 @@ public partial class ArenaDialog : UIModule
         {
             u = _event.GetUnit(index);
             saveRectangle = lockedSurface.ClipRectangle;
-            var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             alignment = u.GetAlignment();
             if ((byte)alignment < UI.Graphics.UnitBackgrounds.Count)
@@ -72,7 +72,7 @@ public partial class ArenaDialog : UIModule
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) != 0)
             {
                 UI.Fonts.Age8.Color = 0;
-                var unitTrainCost = _event.Arena.UnitTrainCost(u);
+                int unitTrainCost = _event.Arena.UnitTrainCost(u);
                 UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
             }
         }
@@ -165,7 +165,7 @@ public partial class ArenaDialog : UIModule
                 SelectionInfoLabel.TextColor = 149;
             }
 
-            var selectionInfo = _event.GetSelectionInfo();
+            string selectionInfo = _event.GetSelectionInfo();
             SelectionInfoLabel.Text = selectionInfo;
         }
         else
@@ -192,7 +192,7 @@ public partial class ArenaDialog : UIModule
         r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         w = r.Right - r.Left;
         h = r.Bottom - r.Top;
-        var hexY = _event.Arena.GetHexY();
+        sbyte hexY = _event.Arena.GetHexY();
         HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out x, out y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
@@ -207,7 +207,7 @@ public partial class ArenaDialog : UIModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, r, out mapSurfaceDescription);
-        var hexLevel = _event.Arena.GetHexLevel();
+        sbyte hexLevel = _event.Arena.GetHexLevel();
         StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

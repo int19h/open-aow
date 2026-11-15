@@ -18,7 +18,7 @@ public static class GraphicsState
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            var extension = classes[i].Extension;
+            string extension = classes[i].Extension;
             if (ImageFileClassList.FindClass(extension) == null)
             {
                 ImageFileClassList.Add(classes[i]);

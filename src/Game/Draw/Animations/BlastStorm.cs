@@ -31,11 +31,11 @@ public partial class BlastStorm : Storm
         int y = default;
         int frame;
         frame = FrameCounter % _stormImages.Count;
-        var hexY = GetHexY();
+        sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
-        var stormImageWidth = _stormImages[frame];
+        LibraryImage stormImageWidth = _stormImages[frame];
         x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
-        var stormImageHeight = _stormImages[frame];
+        LibraryImage stormImageHeight = _stormImages[frame];
         y = y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
         _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
     }
@@ -59,7 +59,7 @@ public partial class BlastStorm : Storm
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
-        var stormFileName = StormFileName();
+        string stormFileName = StormFileName();
         _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         if (GetVisible())
         {
@@ -87,36 +87,36 @@ public partial class BlastStorm : Storm
         NewFrame();
         if (FrameCounter == 8)
         {
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexLevel = GetHexLevel();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
         }
         else
         {
             if (FrameCounter == 12)
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
                 if (FrameCounter == 18)
                 {
-                    var hexLevel = GetHexLevel();
-                    var hexY = GetHexY();
-                    var hexX = GetHexX();
+                    sbyte hexLevel = GetHexLevel();
+                    sbyte hexY = GetHexY();
+                    sbyte hexX = GetHexX();
                     StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
                     if (FrameCounter == 22)
                     {
-                        var hexLevel = GetHexLevel();
-                        var hexY = GetHexY();
-                        var hexX = GetHexX();
+                        sbyte hexLevel = GetHexLevel();
+                        sbyte hexY = GetHexY();
+                        sbyte hexX = GetHexX();
                         StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
                     }
                 }
@@ -140,7 +140,7 @@ public partial class BlastStorm : Storm
     public override void FinalizeStorm()
     {
         _stormImages.ReleaseDiscardableImageData();
-        var stormFileName = StormFileName();
+        string stormFileName = StormFileName();
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         base.FinalizeStorm();
     }

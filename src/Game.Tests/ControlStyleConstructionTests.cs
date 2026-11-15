@@ -21,18 +21,18 @@ public sealed class ControlStyleConstructionTests
     [InlineData(2, true)]
     public void PlainCreationRoutesKeepTheExactTypeAndOwner(int kind, bool owned)
     {
-        var engine = CreateEngine();
-        var owner = new EngineFixture.Owner();
+        GameEngine engine = CreateEngine();
+        EngineFixture.Owner owner = new();
         CustomNode argument = owned ? owner : null!;
         Type type = kind switch { 0 => typeof(ControlStyleObject), 1 => typeof(ResourceEditSettings), _ => typeof(PadControl) };
-        var meta = EngineClass.Of(type);
+        EngineClass meta = EngineClass.Of(type);
         if (kind == 2)
         {
             // The pad has the inherited ID 81, so isolate its class entry in this test engine.
             engine.UnregisterEngineClasses([EngineClass.Of<ControlStyleObject>()]);
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
         }
-        var direct = kind switch
+        ControlStyleObject direct = kind switch
         {
             0 => new ControlStyleObject(argument),
             1 => new ResourceEditSettings(argument),
@@ -44,7 +44,7 @@ public sealed class ControlStyleConstructionTests
         {
             Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassId);
             Assert.Same(meta, EngineClass.Of(type));
-            foreach (var value in objects)
+            foreach (EngineObject value in objects)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
@@ -76,7 +76,7 @@ public sealed class ControlStyleConstructionTests
         finally
         {
             copy?.Dispose();
-            foreach (var value in objects)
+            foreach (EngineObject value in objects)
             {
                 value.Dispose();
             }
@@ -103,7 +103,7 @@ public sealed class ControlStyleConstructionTests
     [Fact]
     public void NullFlagOwnerFailsBeforeAnUnacquiredLinkIsReleased()
     {
-        using var fixture = new FlagFixture(loaded: true);
+        using FlagFixture fixture = new(loaded: true);
         Assert.Throws<NullReferenceException>(() => FlagControl.Create(null!));
         Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null!, holder: EngineFixture.Engine));
         Assert.Equal(0, fixture.Entry.RefCount);
@@ -127,7 +127,7 @@ public sealed class ControlStyleConstructionTests
     {
         internal FlagOwner Owner { get; }
 
-        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
+        private readonly ImageLibraryManager _manager = new(null!);
 
         internal ImageLibraryManagerObject Entry { get; }
 
@@ -160,7 +160,7 @@ public sealed class ControlStyleConstructionTests
                 Owner = new FlagOwner();
                 Field(typeof(GamePack), "_imageLibraryManager").SetValue(Owner, _manager);
                 Field(typeof(ImageLibraryManager), "_searchPath").SetValue(_manager, "9.3b-2-missing/");
-                var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(_manager)!;
+                ImageLibraryManagerList disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(_manager)!;
                 if (directory is null)
                 {
                     Entry = disk.AddImageLibraryFile("Flags.ILB");
@@ -189,7 +189,7 @@ public sealed class ControlStyleConstructionTests
         {
             try
             {
-                foreach (var child in Owner.Members.ToArray())
+                foreach (EngineObject child in Owner.Members.ToArray())
                 {
                     child.Dispose();
                 }
@@ -276,9 +276,9 @@ public sealed class ControlStyleConstructionTests
     [InlineData(true)]
     public void FlagLinkCountAndOwnerMatchTheLegacyFactory(bool throughMeta)
     {
-        using var fixture = new FlagFixture(loaded: true);
+        using FlagFixture fixture = new(loaded: true);
         Assert.Equal(0, fixture.Entry.RefCount);
-        var control = CreateFlag(fixture.Owner, throughMeta);
+        FlagControl control = CreateFlag(fixture.Owner, throughMeta);
         Assert.IsType<FlagControl>(control);
         Assert.Same(fixture.Owner, control.Owner);
         Assert.Same(fixture.Entry.ImageLibrary, control.Flags);
@@ -295,9 +295,9 @@ public sealed class ControlStyleConstructionTests
     [InlineData(true)]
     public void FlagLoadFailureRestoresTheLinkCountAndOwner(bool throughMeta)
     {
-        using var fixture = new FlagFixture(loaded: false);
+        using FlagFixture fixture = new(loaded: false);
         Assert.Equal(0, fixture.Entry.RefCount);
-        var error = Assert.Throws<IOException>(() => CreateFlag(fixture.Owner, throughMeta));
+        IOException error = Assert.Throws<IOException>(() => CreateFlag(fixture.Owner, throughMeta));
         Assert.Equal("Error loading: 9.3b-2-missing/FLAGS.ILB", error.Message);
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
@@ -310,8 +310,8 @@ public sealed class ControlStyleConstructionTests
     public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication(bool imageClassesInitialized)
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
-        var previousClasses = ImageLibraries.LibraryImageClasses;
-        var classes = imageClassesInitialized ? new List<LibraryImageClass>() : null;
+        List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
+        List<LibraryImageClass>? classes = imageClassesInitialized ? new List<LibraryImageClass>() : null;
         Directory.CreateDirectory(directory);
         try
         {
@@ -320,10 +320,10 @@ public sealed class ControlStyleConstructionTests
             string path = Path.Combine(directory, "FLAGS.ILB");
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
             ImageLibraries.LibraryImageClasses = classes!;
-            using var fixture = new FlagFixture(loaded: false, directory);
-            using (var library = new ImageLibrary(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
+            using FlagFixture fixture = new(loaded: false, directory);
+            using (ImageLibrary library = new(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
             fixture.Files.OpenedPaths.Clear();
-            var error = Assert.Throws<IOException>(() => FlagControl.Create(fixture.Owner));
+            IOException error = Assert.Throws<IOException>(() => FlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);
             Assert.Equal(path.ToUpperInvariant(), Assert.Single(fixture.Files.OpenedPaths).ToUpperInvariant());
             Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, StringComparison.OrdinalIgnoreCase));

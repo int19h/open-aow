@@ -47,7 +47,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         {
             case 0:
                 {
-                    var player = Control.Player;
+                    Player player = Control.Player;
                     if (player.PlayerIndex != 0)
                     {
                         if (FindAvailableTransporter() == null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
@@ -80,7 +80,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                             _goldUpkeep = 0;
                         }
 
-                        var manaIncome = player.MagicControl.GetManaIncome();
+                        int manaIncome = player.MagicControl.GetManaIncome();
                         _manaUpkeep = player.AIBudget.ManaUpkeep - Round(manaIncome * 0.1);
                         if (_manaUpkeep < 0)
                         {
@@ -139,7 +139,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                     }
 
                     i = StrategicMap.Current.Random(i + 1);
-                    var item = _productions[i];
+                    QuadItem<ProductionControl> item = _productions[i];
                     ExecuteProduce(_productions[i].First, item.Second);
                     _productions.Delete(i);
                     if (!(_productions.Count != 0 && (_goldUpkeep > 2 || _manaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
@@ -201,10 +201,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 {
                     if (control.ProduceUnit(index, 0, false))
                     {
-                        var unitProductionManaUpkeep = control.UnitProductionManaUpkeep(index);
-                        var unitProductionMana = control.UnitProductionMana(index);
-                        var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(index);
-                        var unitProductionGold = control.UnitProductionGold(index);
+                        int unitProductionManaUpkeep = control.UnitProductionManaUpkeep(index);
+                        int unitProductionMana = control.UnitProductionMana(index);
+                        int unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(index);
+                        int unitProductionGold = control.UnitProductionGold(index);
                         Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
                         _goldUpkeep -= goldUpkeep;
                         _manaUpkeep -= manaUpkeep;
@@ -232,8 +232,8 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             {
                 if (control.ResearchUnit(index, false))
                 {
-                    var unitResearchMana = control.UnitResearchMana(index);
-                    var unitResearchGold = control.UnitResearchGold(index);
+                    int unitResearchMana = control.UnitResearchMana(index);
+                    int unitResearchGold = control.UnitResearchGold(index);
                     Control.Player.AIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
                     result = true;
                 }
@@ -298,15 +298,15 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                     {
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && !control.UnitProductions.GetItem(j).Researched)
                         {
-                            var unitProduction = control.UnitProductions.GetItem(j);
+                            UnitProduction unitProduction = control.UnitProductions.GetItem(j);
                             resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
-                                var unitResearchMana = control.UnitResearchMana(j);
-                                var unitResearchGold = control.UnitResearchGold(j);
+                                int unitResearchMana = control.UnitResearchMana(j);
+                                int unitResearchGold = control.UnitResearchGold(j);
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
-                                    var coordinate2 = control.GetLocation();
+                                    MapCoordinate coordinate2 = control.GetLocation();
                                     x = coordinate2.X;
                                     y = coordinate2.Y;
                                     l = coordinate2.MapLevel;
@@ -339,7 +339,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             {
                 candidates.Sort(CompareAutoProductions);
                 player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
-                var item = candidates[0];
+                QuadItem<ProductionControl> item = candidates[0];
                 if (ExecuteResearch(candidates[0].First, item.Second))
                 {
                     budget.Gold = 0;
@@ -388,21 +388,21 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                     {
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                         {
-                            var unitProduction = control.UnitProductions.GetItem(j);
+                            UnitProduction unitProduction = control.UnitProductions.GetItem(j);
                             resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
-                                var unitProductionMana = control.UnitProductionMana(j);
-                                var unitProductionGold = control.UnitProductionGold(j);
+                                int unitProductionMana = control.UnitProductionMana(j);
+                                int unitProductionGold = control.UnitProductionGold(j);
                                 if (player.AIBudget.RequestBudgetExpense(unitProductionGold, unitProductionMana, budget, false))
                                 {
-                                    var unitProductionManaUpkeep = control.UnitProductionManaUpkeep(j);
-                                    var controlUnitProductionMana = control.UnitProductionMana(j);
-                                    var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(j);
-                                    var controlUnitProductionGold = control.UnitProductionGold(j);
+                                    int unitProductionManaUpkeep = control.UnitProductionManaUpkeep(j);
+                                    int controlUnitProductionMana = control.UnitProductionMana(j);
+                                    int unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(j);
+                                    int controlUnitProductionGold = control.UnitProductionGold(j);
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
-                                        var coordinate3 = control.GetLocation();
+                                        MapCoordinate coordinate3 = control.GetLocation();
                                         x = coordinate3.X;
                                         y = coordinate3.Y;
                                         l = coordinate3.MapLevel;
@@ -436,7 +436,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             {
                 candidates.Sort(CompareAutoProductions);
                 player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
-                var item = candidates[0];
+                QuadItem<ProductionControl> item = candidates[0];
                 if (ExecuteProduce(candidates[0].First, item.Second))
                 {
                     budget.Gold = 0;
@@ -468,7 +468,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     public Troop FindAvailableTransporter()
     {
         int i;
-        var player = Control.Player;
+        Player player = Control.Player;
         Troop result = null;
         i = player.Armies.Count;
         while (i != 0 && result == null)
@@ -491,7 +491,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         int i;
         ProductionControl control;
         // { locals follow the original stack order }
-        var player = Control.Player;
+        Player player = Control.Player;
         bool result = false;
         i = player.ProductionControls.Count;
         while (i != 0 && !result)
@@ -502,7 +502,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             {
                 if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                 {
-                    var unitProduction = control.UnitProductions.GetItem(j);
+                    UnitProduction unitProduction = control.UnitProductions.GetItem(j);
                     resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     result = result || resource.GetTransportCapacity() != 0;
                 }
@@ -517,7 +517,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     {
         int i;
         ProductionControl control;
-        var player = Control.Player;
+        Player player = Control.Player;
         bool result = false;
         i = player.ProductionControls.Count;
         while (i != 0 && !result)
@@ -542,7 +542,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         int i;
         ProductionControl control;
         UnitResource resource;
-        var player = Control.Player;
+        Player player = Control.Player;
         bool result = false;
         i = player.ProductionControls.Count;
         while (i != 0 && !result)
@@ -553,7 +553,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             {
                 if (control.Queue.GetItem(0).Order is ResearchSpell)
                 {
-                    var unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
+                    UnitProduction unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
                     resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     if (resource != null)
                     {

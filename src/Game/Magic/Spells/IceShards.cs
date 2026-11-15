@@ -18,7 +18,7 @@ public partial class IceShards : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_iceShardsText);
         SpellId = 119;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);

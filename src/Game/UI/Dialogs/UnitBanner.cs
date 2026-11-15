@@ -4,6 +4,7 @@ using Aow.Game.Combat;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -32,32 +33,32 @@ public partial class UnitBanner : UIModule
         CombatAbilityRef a;
         if (UI.General.SelectedUnit != null)
         {
-            var name = UI.General.SelectedUnit.GetName();
+            string name = UI.General.SelectedUnit.GetName();
             UnitNameLabel.Text = name;
             BannerMenu.Aligned = false;
-            var hitPoints = UI.General.SelectedUnit.GetHitPoints();
-            var hits = UI.General.SelectedUnit.GetHits();
+            sbyte hitPoints = UI.General.SelectedUnit.GetHitPoints();
+            sbyte hits = UI.General.SelectedUnit.GetHits();
             HitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-            var movePoints = UI.General.SelectedUnit.GetMovePoints();
-            var moves = UI.General.SelectedUnit.GetMoves();
+            sbyte movePoints = UI.General.SelectedUnit.GetMovePoints();
+            sbyte moves = UI.General.SelectedUnit.GetMoves();
             MovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
-            var attack = UI.General.SelectedUnit.GetAttack();
+            sbyte attack = UI.General.SelectedUnit.GetAttack();
             AttackLabel.Text = IntToStr(attack);
-            var damage = UI.General.SelectedUnit.GetDamage();
+            sbyte damage = UI.General.SelectedUnit.GetDamage();
             DamageLabel.Text = IntToStr(damage);
-            var defense = UI.General.SelectedUnit.GetDefense();
+            sbyte defense = UI.General.SelectedUnit.GetDefense();
             DefenseLabel.Text = IntToStr(defense);
-            var resistance = UI.General.SelectedUnit.GetResistance();
+            sbyte resistance = UI.General.SelectedUnit.GetResistance();
             ResistanceLabel.Text = IntToStr(resistance);
-            var moveTypes = UI.General.SelectedUnit.GetMoveTypes();
-            var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
+            Set<MoveType> moveTypes = UI.General.SelectedUnit.GetMoveTypes();
+            int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
             MovesIcon.CurrentImage = moveTypesToInt32;
             AbilityList.Items.Clear();
             UI.General.BuildAbilities();
             for (int i = 0, last = UI.General.Abilities.Count - 1; i <= last; i++)
             {
                 a = UI.General.Abilities[i];
-                var name2 = GamePack.Current.AbilityControl.GetAbility(a.Ability).GetName(UI.General.SelectedUnit);
+                string name2 = GamePack.Current.AbilityControl.GetAbility(a.Ability).GetName(UI.General.SelectedUnit);
                 AbilityList.Items.Add(name2);
             }
 
@@ -102,7 +103,7 @@ public partial class UnitBanner : UIModule
         {
             if (AbilityList.Selected > -1 && AbilityList.Selected < UI.General.ActiveAbilityCount)
             {
-                var ability = UI.General.Abilities[AbilityList.Selected];
+                CombatAbilityRef ability = UI.General.Abilities[AbilityList.Selected];
                 GamePack.Current.AbilityControl.GetAbility(ability.Ability).Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }

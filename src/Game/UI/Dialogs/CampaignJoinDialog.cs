@@ -71,7 +71,7 @@ public partial class CampaignJoinDialog : UIModule
     public void LeaderCustomized(LeaderSetupControl sender)
     {
         Leader leader;
-        var leaderSetupControl = sender;
+        LeaderSetupControl leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
             leader = (Leader)leaderSetupControl.OriginalLeader.Copy(UI.Engine);
@@ -159,7 +159,7 @@ public partial class CampaignJoinDialog : UIModule
     {
         if (Stage == 0)
         {
-            var count = ScrollText.Count;
+            int count = ScrollText.Count;
             if (_scrollPosition < (count * 20) + ScrollTextView.WinHeight)
             {
                 _scrollDelay -= 1;
@@ -182,23 +182,23 @@ public partial class CampaignJoinDialog : UIModule
     {
         int x;
         int y;
-        var clipRectangle = lockedSurface.ClipRectangle;
+        Rect clipRectangle = lockedSurface.ClipRectangle;
         clipRectangle.Left = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft;
         lockedSurface.ClipRectangle = clipRectangle;
-        var clipRectangle2 = lockedSurface.ClipRectangle;
+        Rect clipRectangle2 = lockedSurface.ClipRectangle;
         clipRectangle2.Right = clipRectangle2.Left + ScrollTextView.WinWidth;
         lockedSurface.ClipRectangle = clipRectangle2;
-        var clipRectangle3 = lockedSurface.ClipRectangle;
+        Rect clipRectangle3 = lockedSurface.ClipRectangle;
         clipRectangle3.Top = CharacterGenerationPanel.WinTop + ScrollTextView.WinTop;
         lockedSurface.ClipRectangle = clipRectangle3;
-        var clipRectangle4 = lockedSurface.ClipRectangle;
+        Rect clipRectangle4 = lockedSurface.ClipRectangle;
         clipRectangle4.Bottom = clipRectangle4.Top + ScrollTextView.WinHeight;
         lockedSurface.ClipRectangle = clipRectangle4;
         x = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + (ScrollTextView.WinWidth / 2);
         y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
         for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)
         {
-            var scrollText = ScrollText[i];
+            string scrollText = ScrollText[i];
             UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, scrollText, lockedSurface);
             y += 20;
         }

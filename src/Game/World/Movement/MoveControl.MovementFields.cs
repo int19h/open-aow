@@ -20,7 +20,7 @@ public partial class MoveControl
         }
 
         SetMapL(Map.MapContainer.GetMapLevel(level));
-        var field = MapLevel.GetField(x, y);
+        MapField field = MapLevel.GetField(x, y);
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
         MapField neighbor = null;
@@ -82,7 +82,7 @@ public partial class MoveControl
 
     private MapField NeighborField(MapField field, int direction)
     {
-        var delta = HexGeometry.HexNumberToXYTable[field.HexX & 1][direction];
+        XYTableEntry delta = HexGeometry.HexNumberToXYTable[field.HexX & 1][direction];
         return field.Owner.GetField(field.HexX + delta.X, field.HexY + delta.Y);
     }
 
@@ -90,7 +90,7 @@ public partial class MoveControl
     {
         int initialOverCode = moveOverCode;
         int count = 0, points = Settings.GetMovePoints(origin.HexX, origin.HexY, origin.HexLevel);
-        var field = origin;
+        MapField field = origin;
         bool continueMove = true;
         while (continueMove)
         {

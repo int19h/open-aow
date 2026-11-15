@@ -63,16 +63,16 @@ public partial class TacticalBattle : Battle
                 }
             }
 
-            var playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
+            CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
             {
                 if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
                 {
-                    var playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
-                    var player = CombatData.Players.GetPlayers((sbyte)i);
+                    PlayerCommunicationSettings playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
                     ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
-                    var playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
-                    var player2 = CombatData.Players.GetPlayers((sbyte)i);
+                    PlayerCommunicationSettings playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
                     ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetSystemId(player2.Player, playerSystemId.SystemId);
                 }
             }
@@ -173,10 +173,10 @@ public partial class TacticalBattle : Battle
                     {
                         for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                         {
-                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
+                            CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
                             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
-                                var player = CombatData.Players.GetPlayers((sbyte)i);
+                                CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
                                 if (StrategicMap.Current.Players.GetPlayers(player.Player).GetLocal())
                                 {
                                     CombatMap.Current.PlaySounds = true;
@@ -191,13 +191,13 @@ public partial class TacticalBattle : Battle
                     {
                         if (seated == -1)
                         {
-                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
+                            CombatPlayer playerPlayer = CombatData.Players.GetPlayers((sbyte)i);
                             if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
-                                var player = CombatData.Players.GetPlayers((sbyte)i);
+                                CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
                                 if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
                                 {
-                                    var player2 = CombatData.Players.GetPlayers((sbyte)i);
+                                    CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
                                     if (StrategicMap.Current.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
                                     {
                                         seated = i;
@@ -210,7 +210,7 @@ public partial class TacticalBattle : Battle
                     CombatMap.Current.SetSeatedCombatPlayer((sbyte)seated);
                     CombatMap.Current.CenterViewTo(32, 29, 0);
                     CombatMap.Current.Combat.NewRound();
-                    var turnOrder = CombatData.TurnOrder[0];
+                    byte turnOrder = CombatData.TurnOrder[0];
                     CombatMap.Current.NewTurn((sbyte)turnOrder);
                     result = CombatResult.Busy;
                     SetTerminatedHandler(_ => CombatMap.Current.EndCombat());

@@ -14,8 +14,8 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void UnitTableHitsMissesAndKeepsTheFirstDuplicate()
     {
-        var control = new UnitControl(null!) { Holder = EngineFixture.Engine };
-        var unit = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
+        UnitControl control = new(null!) { Holder = EngineFixture.Engine };
+        Unit unit = new(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
         control.RegisterUnit(unit);
         Assert.Same(unit, control.FindUnit(7));
         Assert.Same(unit, control.FindUnit<Unit>(7));
@@ -23,7 +23,7 @@ public sealed class HashTableReplacementTests
         Assert.Null(control.FindUnit<Unit>(8));
         Assert.Null(control.FindUnit<Hero>(7));
 
-        var duplicate = Assert.Throws<InvalidOperationException>(() =>
+        InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() =>
             HashTables.Add(control.UnitTable, key: 7, value: new Unit(null!) { Holder = EngineFixture.Engine }));
         Assert.Equal("ID already in HashTable", duplicate.Message);
         Assert.Same(unit, control.FindUnit(7));
@@ -32,10 +32,10 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void UnregisterRemovesOnlyTheStoredUnit()
     {
-        var control = new UnitControl(null!) { Holder = EngineFixture.Engine };
-        var first = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        UnitControl control = new(null!) { Holder = EngineFixture.Engine };
+        Unit first = new(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
         control.RegisterUnit(first);
-        var other = new Unit(null!)
+        Unit other = new(null!)
         {
             Holder = EngineFixture.Engine,
             UnitId = 4,
@@ -52,14 +52,14 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void ClassTableHitsMissesAndRejectsASecondRegistration()
     {
-        var engine = new GameEngine(null!);
+        GameEngine engine = new(null!);
         try
         {
             EngineClass style = EngineClass.Of<ControlStyleObject>();
             Assert.Same(style, engine.GetEngineClass(style.ClassId));
-            var missing = Assert.Throws<KeyNotFoundException>(() => engine.GetEngineClass(-999999));
+            KeyNotFoundException missing = Assert.Throws<KeyNotFoundException>(() => engine.GetEngineClass(-999999));
             Assert.Equal("Unregistered E-ClassID found (-999999)", missing.Message);
-            var duplicate = Assert.Throws<InvalidOperationException>(() => engine.RegisterEngineClasses([style]));
+            InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() => engine.RegisterEngineClasses([style]));
             Assert.Equal("EObject Class ID double defined!", duplicate.Message);
             Assert.Same(style, engine.GetEngineClass(style.ClassId));
             engine.UnregisterEngineClasses([style]);
@@ -74,14 +74,14 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void ImageLibraryNamesHitMissAndRejectASecondFile()
     {
-        var list = new ImageLibraryManagerList(new ImageLibraryManager(null!));
+        ImageLibraryManagerList list = new(new ImageLibraryManager(null!));
         ImageLibraryManagerObject added = list.AddImageLibraryFile("Town.ilb");
         Assert.True(list.HashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
         Assert.Same(added, found);
         Assert.False(list.HashTable.ContainsKey("missing.ilb"));
         Assert.Null(list.LinkToImageLibrary("missing.ilb"));
         Assert.False(list.ReleaseImageLibrary("missing.ilb"));
-        var duplicate = Assert.Throws<InvalidOperationException>(() => list.AddImageLibraryFile("town.ilb"));
+        InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() => list.AddImageLibraryFile("town.ilb"));
         Assert.Equal("ID already in HashTable", duplicate.Message);
         Assert.Same(added, list.HashTable["TOWN.ILB"]);
     }
@@ -89,18 +89,18 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void AnsiCompareKeysKeepTheOriginalCollation()
     {
-        var table = new Dictionary<string, string>(AnsiCompareComparer.Instance);
+        Dictionary<string, string> table = new(AnsiCompareComparer.Instance);
         HashTables.Add(table, key: "A", value: "upper");
         HashTables.Add(table, key: "a", value: "lower");
         Assert.Equal("upper", table["A"]);
         Assert.Equal("lower", table["a"]);
         Assert.False(table.ContainsKey("missing"));
         HashTables.Add(table, key: "\u00ad", value: "soft");
-        var soft = Assert.Throws<InvalidOperationException>(() => HashTables.Add(table, key: "\0", value: "nul"));
+        InvalidOperationException soft = Assert.Throws<InvalidOperationException>(() => HashTables.Add(table, key: "\0", value: "nul"));
         Assert.Equal("ID already in HashTable", soft.Message);
         Assert.Equal("soft", table["\0"]);
         HashTables.Add(table, key: "\u02c6", value: "hat");
-        var hat = Assert.Throws<InvalidOperationException>(() => HashTables.Add(table, key: "^", value: "caret"));
+        InvalidOperationException hat = Assert.Throws<InvalidOperationException>(() => HashTables.Add(table, key: "^", value: "caret"));
         Assert.Equal("ID already in HashTable", hat.Message);
         Assert.Equal("hat", table["^"]);
         Assert.Equal(AnsiCompareComparer.Instance.GetHashCode("\u00ad"), AnsiCompareComparer.Instance.GetHashCode("\0"));

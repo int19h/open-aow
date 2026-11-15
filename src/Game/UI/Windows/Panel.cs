@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWPanel.pas.
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -27,7 +28,7 @@ public partial class Panel : BaseWindow
     {
         if (_tabPanel != null)
         {
-            var indexOf = _tabPanel.Panels.IndexOf(this);
+            int indexOf = _tabPanel.Panels.IndexOf(this);
             _tabPanel.Panels.RemoveAt(indexOf);
         }
 
@@ -48,21 +49,21 @@ public partial class Panel : BaseWindow
         {
             case Style.Normal:
             case Style.Hollow:
-                var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
-                var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                 {
-                    var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                    LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
-                var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                 {
-                    var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                    LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
@@ -252,16 +253,16 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            var oldRectangle = OldRectangle;
+            Rect oldRectangle = OldRectangle;
             oldRectangle.Left = WinLeft;
             OldRectangle = oldRectangle;
-            var oldRectangle2 = OldRectangle;
+            Rect oldRectangle2 = OldRectangle;
             oldRectangle2.Top = WinTop;
             OldRectangle = oldRectangle2;
-            var oldRectangle3 = OldRectangle;
+            Rect oldRectangle3 = OldRectangle;
             oldRectangle3.Right = WinWidth;
             OldRectangle = oldRectangle3;
-            var oldRectangle4 = OldRectangle;
+            Rect oldRectangle4 = OldRectangle;
             oldRectangle4.Bottom = WinHeight;
             OldRectangle = oldRectangle4;
         }
@@ -335,7 +336,7 @@ public partial class Panel : BaseWindow
 
         if (OwnerComponent != sender)
         {
-            var indexOf = OwnerComponent.Children.IndexOf(this);
+            int indexOf = OwnerComponent.Children.IndexOf(this);
             OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
         }
 
@@ -385,16 +386,16 @@ public partial class Panel : BaseWindow
                 Drawn = false;
                 if (!Hidden)
                 {
-                    var backRectangle = BackRectangle;
+                    Rect backRectangle = BackRectangle;
                     backRectangle.Right = WinWidth;
                     BackRectangle = backRectangle;
-                    var backRectangle2 = BackRectangle;
+                    Rect backRectangle2 = BackRectangle;
                     backRectangle2.Bottom = WinHeight;
                     BackRectangle = backRectangle2;
-                    var backRectangle3 = BackRectangle;
+                    Rect backRectangle3 = BackRectangle;
                     backRectangle3.Top = WinTop;
                     BackRectangle = backRectangle3;
-                    var backRectangle4 = BackRectangle;
+                    Rect backRectangle4 = BackRectangle;
                     backRectangle4.Left = WinLeft;
                     BackRectangle = backRectangle4;
                     Hidden = true;
@@ -435,23 +436,23 @@ public partial class Panel : BaseWindow
                 switch (WindowStyle)
                 {
                     case Style.Normal:
-                        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
-                        var imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        var imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-                        var imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        var imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                        var imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        var imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        var rectangle3 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle3 = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        var rectangle4 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle4 = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }
@@ -471,28 +472,28 @@ public partial class Panel : BaseWindow
                 SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 if (WinLeft < lockedSurface.ClipRectangle.Right && WinLeft > lockedSurface.ClipRectangle.Left)
                 {
-                    var clipRectangle = lockedSurface.ClipRectangle;
+                    Rect clipRectangle = lockedSurface.ClipRectangle;
                     clipRectangle.Left = WinLeft;
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 if (WinTop < lockedSurface.ClipRectangle.Bottom && WinTop > lockedSurface.ClipRectangle.Top)
                 {
-                    var clipRectangle2 = lockedSurface.ClipRectangle;
+                    Rect clipRectangle2 = lockedSurface.ClipRectangle;
                     clipRectangle2.Top = WinTop;
                     lockedSurface.ClipRectangle = clipRectangle2;
                 }
 
                 if (WinLeft + WinWidth > lockedSurface.ClipRectangle.Left && WinLeft + WinWidth < lockedSurface.ClipRectangle.Right)
                 {
-                    var clipRectangle3 = lockedSurface.ClipRectangle;
+                    Rect clipRectangle3 = lockedSurface.ClipRectangle;
                     clipRectangle3.Right = WinLeft + WinWidth;
                     lockedSurface.ClipRectangle = clipRectangle3;
                 }
 
                 if (WinTop + WinHeight > lockedSurface.ClipRectangle.Top && WinTop + WinHeight < lockedSurface.ClipRectangle.Bottom)
                 {
-                    var clipRectangle4 = lockedSurface.ClipRectangle;
+                    Rect clipRectangle4 = lockedSurface.ClipRectangle;
                     clipRectangle4.Bottom = WinTop + WinHeight;
                     lockedSurface.ClipRectangle = clipRectangle4;
                 }
@@ -503,13 +504,13 @@ public partial class Panel : BaseWindow
                     {
                         d = DrawList[j];
                         oldClip = lockedSurface.ClipRectangle;
-                        var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
+                        Rect rectangle = new(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                         lockedSurface.ClipRectangle = rectangle;
                         DrawBack();
                         lockedSurface.ClipRectangle = oldClip;
                         SetWinLeftWithoutInvalidate(savedLeft);
                         SetWinTopWithoutInvalidate(savedTop);
-                        var rectangle5 = d.Rectangle;
+                        Rect rectangle5 = d.Rectangle;
                         InvalidateRectangle(0, ref rectangle5, d.Owner);
                         d.Rectangle = rectangle5;
                         SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
@@ -541,7 +542,7 @@ public partial class Panel : BaseWindow
                         for (int j = 0, last = DrawCount - 1; j <= last; j++)
                         {
                             d = DrawList[j];
-                            var rectangle6 = d.Rectangle;
+                            Rect rectangle6 = d.Rectangle;
                             InvalidateRectangle(i + 1, ref rectangle6, null);
                             d.Rectangle = rectangle6;
                         }
@@ -603,7 +604,7 @@ public partial class Panel : BaseWindow
         {
             int ownLeft = WinLeft;
             int ownTop = WinTop;
-            var absolute = AbsoluteArea();
+            SizedRectangle absolute = AbsoluteArea();
             if (_window != null)
             {
                 SetWinLeftWithoutInvalidate(absolute.Left);

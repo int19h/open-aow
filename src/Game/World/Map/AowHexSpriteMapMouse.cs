@@ -47,8 +47,8 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
 
         if (HexSpriteMap.GetEngine().Registry.GetDebugMode())
         {
-            var hexX = HexX;
-            var hexY = HexY;
+            int hexX = HexX;
+            int hexY = HexY;
             HexSpriteMap.GetEngine().OutputDebugString("Location (" + IntToStr(hexX) + "," + IntToStr(hexY) + ") selected");
         }
     }
@@ -102,8 +102,8 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
 
         if (selectStructure && HexX != -1)
         {
-            var hexY = HexY;
-            var hexX = HexX;
+            int hexY = HexY;
+            int hexX = HexX;
             structure = (Structure)StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite(typeof(Structure));
             if (structure != null && structure.CanDoubleClick())
             {

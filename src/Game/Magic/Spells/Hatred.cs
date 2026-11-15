@@ -32,7 +32,7 @@ public partial class Hatred : GlobalEnchantmentSpell
         sbyte y = default;
         sbyte l = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        var coordinate72 = source.GetLocation();
+        MapCoordinate coordinate72 = source.GetLocation();
         x = coordinate72.X;
         y = coordinate72.Y;
         l = coordinate72.MapLevel;

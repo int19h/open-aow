@@ -60,7 +60,7 @@ public partial class NewTurnDialog : ILayoutModule
         Window.WinHeight = 343;
         Window.Dockable = false;
         session.EndRead(Window);
-        Frame tCeltB = new Frame(this);
+        Frame tCeltB = new(this);
         session.BeginRead(tCeltB);
         tCeltB.Name = "TCeltB";
         tCeltB.Priority = 0;
@@ -258,7 +258,7 @@ public partial class NewTurnDialog : ILayoutModule
         RightShield.Animate = false;
         RightShield.AnimationFrameDelay = 0;
         session.EndRead(RightShield);
-        Frame blueFr = new Frame(this);
+        Frame blueFr = new(this);
         session.BeginRead(blueFr);
         blueFr.Name = "BlueFr";
         blueFr.Priority = 0;
@@ -285,7 +285,7 @@ public partial class NewTurnDialog : ILayoutModule
         blueFr.ImageLibraryIndexLine = 0;
         blueFr.ImageLibraryIndexTexture = 14;
         session.EndRead(blueFr);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -313,7 +313,7 @@ public partial class NewTurnDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image tCeltLineR = new Image(this);
+        Image tCeltLineR = new(this);
         session.BeginRead(tCeltLineR);
         tCeltLineR.Name = "TCeltLineR";
         tCeltLineR.Priority = 100;
@@ -341,7 +341,7 @@ public partial class NewTurnDialog : ILayoutModule
         tCeltLineR.Animate = false;
         tCeltLineR.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineR);
-        Image faceFrame = new Image(this);
+        Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
         faceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);

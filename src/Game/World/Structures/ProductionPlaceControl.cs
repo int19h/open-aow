@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.Events;
-
+using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
@@ -23,7 +23,7 @@ public partial class ProductionPlaceControl : ProductionControl
     public ProductionPlace ProductionPlace { get; set; }
 
     // PrdPlace.pas:169
-    public override MapCoordinate GetLocation() => new MapCoordinate(
+    public override MapCoordinate GetLocation() => new(
         ProductionPlace.HexX,
         ProductionPlace.HexY,
         ProductionPlace.HexLevel);
@@ -36,9 +36,9 @@ public partial class ProductionPlaceControl : ProductionControl
     {
         UnitEnchantment enchantment;
         ProductionPlaceEventLog log;
-        var productionPlace = ProductionPlace;
-        var hexY = productionPlace.HexY;
-        var hexX = productionPlace.HexX;
+        ProductionPlace productionPlace = ProductionPlace;
+        sbyte hexY = productionPlace.HexY;
+        sbyte hexX = productionPlace.HexX;
         bool result = Settings.Unit.Place(hexX, hexY, productionPlace.HexLevel, productionPlace.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
@@ -50,8 +50,8 @@ public partial class ProductionPlaceControl : ProductionControl
 
         log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
         log.Player = productionPlace.Player;
-        var name = Settings.Unit.GetName();
-        var fProductionPlaceName = ProductionPlace.GetName();
+        string name = Settings.Unit.GetName();
+        string fProductionPlaceName = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
@@ -65,12 +65,12 @@ public partial class ProductionPlaceControl : ProductionControl
     {
         ProductionPlaceEventLog log;
         base.UnitResearched();
-        var productionPlace = ProductionPlace;
+        ProductionPlace productionPlace = ProductionPlace;
         log = new ProductionPlaceEventLog(null) { Holder = CreationHolder() };
         log.Player = productionPlace.Player;
-        var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
-        var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
-        var name = ProductionPlace.GetName();
+        UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
+        string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        string name = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
@@ -143,7 +143,7 @@ public partial class ProductionPlaceControl : ProductionControl
         int result;
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            var unitProduction = UnitProductions.GetItem(index);
+            UnitProduction unitProduction = UnitProductions.GetItem(index);
             result = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
         }
         else
@@ -166,7 +166,7 @@ public partial class ProductionPlaceControl : ProductionControl
             player = ProductionPlace.Player;
             if (player > 0)
             {
-                var magicSphere = ProductionPlace.GetMagicSphere();
+                MagicSphere magicSphere = ProductionPlace.GetMagicSphere();
                 picks = StrategicMap.Current.Players.GetPlayers(player).Leader.GetSpherePicks(magicSphere);
             }
             else

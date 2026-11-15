@@ -88,7 +88,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         {
             if (DaysBeforeActive() != 0)
             {
-                var daysBeforeActive = DaysBeforeActive();
+                int daysBeforeActive = DaysBeforeActive();
                 result = Format(s_dueInDaysFormat, [result, daysBeforeActive]);
             }
         }

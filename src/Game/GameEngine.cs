@@ -908,7 +908,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     internal static void UnregisterCitySpells(GameEngine engine)
     {
         engine.UnregisterEngineClasses([EngineClass.Of<CityEnchantmentSpellTokenEvent>(), EngineClass.Of<CityTargetSpellTokenEvent>(), EngineClass.Of<TownGateTokenEvent>()]);
-        var spellControl = engine.GameSet.SpellControl;
+        SpellControl spellControl = engine.GameSet.SpellControl;
         spellControl.UnregisterSpellId(72);
         // { Original leaves Town Quake ($47) registered. }
         spellControl.UnregisterSpellId(38);

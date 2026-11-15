@@ -9,6 +9,7 @@ using Aow.Game.Events;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -74,9 +75,9 @@ public partial class ResultsWindow : UIModule
         _maxStrength = 1;
         for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
-            var player = Players[i];
+            byte player = Players[i];
             stats = StrategicMap.Current.Players.GetPlayers(player).Statistics;
-            var count = stats.TurnInfo.GetCount();
+            int count = stats.TurnInfo.GetCount();
             if (_maxTurns < count)
             {
                 _maxTurns = stats.TurnInfo.GetCount();
@@ -84,37 +85,37 @@ public partial class ResultsWindow : UIModule
 
             for (int j = 0, lastJ = stats.TurnInfo.GetCount() - 1; j <= lastJ; j++)
             {
-                var turnInfo = stats.TurnInfo.GetTurnInfo(j);
+                TurnInfoItem turnInfo = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxArmies < turnInfo.ArmyStrength)
                 {
                     _maxArmies = stats.TurnInfo.GetTurnInfo(j).ArmyStrength;
                 }
 
-                var fTurnInfoTurnInfo = stats.TurnInfo.GetTurnInfo(j);
+                TurnInfoItem fTurnInfoTurnInfo = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxGold < fTurnInfoTurnInfo.Gold)
                 {
                     _maxGold = stats.TurnInfo.GetTurnInfo(j).Gold;
                 }
 
-                var turnInfo2 = stats.TurnInfo.GetTurnInfo(j);
+                TurnInfoItem turnInfo2 = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxMana < turnInfo2.Mana)
                 {
                     _maxMana = stats.TurnInfo.GetTurnInfo(j).Mana;
                 }
 
-                var turnInfo3 = stats.TurnInfo.GetTurnInfo(j);
+                TurnInfoItem turnInfo3 = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxHeroes < turnInfo3.Heroes)
                 {
                     _maxHeroes = stats.TurnInfo.GetTurnInfo(j).Heroes;
                 }
 
-                var turnInfo4 = stats.TurnInfo.GetTurnInfo(j);
+                TurnInfoItem turnInfo4 = stats.TurnInfo.GetTurnInfo(j);
                 if (_maxStructures < turnInfo4.Structures)
                 {
                     _maxStructures = stats.TurnInfo.GetTurnInfo(j).Structures;
                 }
 
-                var superiority = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
+                int superiority = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
                 if (_maxStrength < superiority)
                 {
                     _maxStrength = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
@@ -122,7 +123,7 @@ public partial class ResultsWindow : UIModule
             }
         }
 
-        var turn = UI.Engine.TranslateResourceString(s_turnText);
+        string turn = UI.Engine.TranslateResourceString(s_turnText);
         TurnLabel.Text = turn + " " + IntToStr(_maxTurns);
     }
 
@@ -234,7 +235,7 @@ public partial class ResultsWindow : UIModule
             values.Add(info.GetTurnInfo(i).Gold);
         }
 
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxGold, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxGold);
@@ -252,7 +253,7 @@ public partial class ResultsWindow : UIModule
             values.Add(info.GetTurnInfo(i).Mana);
         }
 
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxMana, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxMana);
@@ -270,7 +271,7 @@ public partial class ResultsWindow : UIModule
             values.Add(info.GetTurnInfo(i).Heroes);
         }
 
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxHeroes, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxHeroes);
@@ -288,7 +289,7 @@ public partial class ResultsWindow : UIModule
             values.Add(info.GetTurnInfo(i).ArmyStrength);
         }
 
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxArmies, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxArmies);
@@ -306,7 +307,7 @@ public partial class ResultsWindow : UIModule
             values.Add(info.GetTurnInfo(i).Structures);
         }
 
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStructures, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxStructures);
@@ -324,7 +325,7 @@ public partial class ResultsWindow : UIModule
             values.Add(info.GetTurnInfo(i).GetSuperiority());
         }
 
-        var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStrength, R, surface);
         values?.Dispose();
         // { Original strength graph labels the structures maximum. }
@@ -406,19 +407,19 @@ public partial class ResultsWindow : UIModule
     public void P1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)
     {
         Rect r;
-        var component = sender;
+        CheckBox component = sender;
         if (slot < Players.Count)
         {
             r = new Rect(component.WinLeft + ResultsPanel.WinLeft + 1, component.WinTop + ResultsPanel.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.WinTop - 1);
-            var player = Players[slot];
+            byte player = Players[slot];
             if (StrategicMap.Current.Players.GetPlayers(player).GetFace() != null)
             {
-                var player2 = Players[slot];
+                byte player2 = Players[slot];
                 StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(r, surface);
             }
 
-            var player3 = Players[slot];
-            var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player3);
+            byte player3 = Players[slot];
+            Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player3);
             UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.WinLeft, component.WinTop + ResultsPanel.WinTop, surface);
         }
     }
@@ -432,8 +433,8 @@ public partial class ResultsWindow : UIModule
         {
             if (Players.Count > slot)
             {
-                var player = Players[slot];
-                var nameEx = StrategicMap.Current.Players.GetPlayers(player).GetNameWithRace();
+                byte player = Players[slot];
+                string nameEx = StrategicMap.Current.Players.GetPlayers(player).GetNameWithRace();
                 SideLabel.Text = nameEx;
             }
 

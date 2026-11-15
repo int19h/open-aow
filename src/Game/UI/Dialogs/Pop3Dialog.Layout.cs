@@ -60,7 +60,7 @@ public partial class Pop3Dialog : ILayoutModule
         Window.WinHeight = 340;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label titleLbl = new Label(this);
+        Label titleLbl = new(this);
         session.BeginRead(titleLbl);
         titleLbl.Name = "TitleLbl";
         titleLbl.Priority = 0;
@@ -83,7 +83,7 @@ public partial class Pop3Dialog : ILayoutModule
         titleLbl.Text = "Checking Email";
         titleLbl.TextColor = 0;
         session.EndRead(titleLbl);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -110,7 +110,7 @@ public partial class Pop3Dialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -137,7 +137,7 @@ public partial class Pop3Dialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -165,7 +165,7 @@ public partial class Pop3Dialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -193,7 +193,7 @@ public partial class Pop3Dialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -221,7 +221,7 @@ public partial class Pop3Dialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Label searchingEmailGameLbl = new Label(this);
+        Label searchingEmailGameLbl = new(this);
         session.BeginRead(searchingEmailGameLbl);
         searchingEmailGameLbl.Name = "SearchingEmailGameLbl";
         searchingEmailGameLbl.Priority = 0;
@@ -244,7 +244,7 @@ public partial class Pop3Dialog : ILayoutModule
         searchingEmailGameLbl.Text = "Searching email games for:";
         searchingEmailGameLbl.TextColor = 0;
         session.EndRead(searchingEmailGameLbl);
-        Label emailGameFoundLbl = new Label(this);
+        Label emailGameFoundLbl = new(this);
         session.BeginRead(emailGameFoundLbl);
         emailGameFoundLbl.Name = "EmailGameFoundLbl";
         emailGameFoundLbl.Priority = 0;
@@ -329,7 +329,7 @@ public partial class Pop3Dialog : ILayoutModule
         ExitPanel.MinWidth = 0;
         ExitPanel.MinHeight = 0;
         session.EndRead(ExitPanel);
-        Button exit2Btn = new Button(this);
+        Button exit2Btn = new(this);
         session.BeginRead(exit2Btn);
         exit2Btn.Name = "Exit2Btn";
         exit2Btn.Priority = 1000;
@@ -387,7 +387,7 @@ public partial class Pop3Dialog : ILayoutModule
         StartExitPanel.MinWidth = 0;
         StartExitPanel.MinHeight = 0;
         session.EndRead(StartExitPanel);
-        Button startBtn = new Button(this);
+        Button startBtn = new(this);
         session.BeginRead(startBtn);
         startBtn.Name = "StartBtn";
         startBtn.Priority = 1000;
@@ -418,7 +418,7 @@ public partial class Pop3Dialog : ILayoutModule
         startBtn.WinWidth = 115;
         startBtn.OnClick += _ => StartBtnClick();
         session.EndRead(startBtn);
-        Button exitBtn = new Button(this);
+        Button exitBtn = new(this);
         session.BeginRead(exitBtn);
         exitBtn.Name = "ExitBtn";
         exitBtn.Priority = 1000;
@@ -503,7 +503,7 @@ public partial class Pop3Dialog : ILayoutModule
         AttachmentDirectoryLabel.Text = "###########";
         AttachmentDirectoryLabel.TextColor = 0;
         session.EndRead(AttachmentDirectoryLabel);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -531,7 +531,7 @@ public partial class Pop3Dialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Panel editPnl = new Panel(this);
+        Panel editPnl = new(this);
         session.BeginRead(editPnl);
         editPnl.Name = "EditPnl";
         editPnl.Priority = 100;
@@ -558,7 +558,7 @@ public partial class Pop3Dialog : ILayoutModule
         editPnl.MinWidth = 0;
         editPnl.MinHeight = 0;
         session.EndRead(editPnl);
-        Panel modePnl = new Panel(this);
+        Panel modePnl = new(this);
         session.BeginRead(modePnl);
         modePnl.Name = "ModePnl";
         modePnl.Priority = 3000;
@@ -585,7 +585,7 @@ public partial class Pop3Dialog : ILayoutModule
         modePnl.MinWidth = 0;
         modePnl.MinHeight = 0;
         session.EndRead(modePnl);
-        VerticalScrollBar emailGamesSB = new VerticalScrollBar(this);
+        VerticalScrollBar emailGamesSB = new(this);
         session.BeginRead(emailGamesSB);
         emailGamesSB.Name = "EmailGamesSB";
         emailGamesSB.Visible = false;
@@ -622,7 +622,7 @@ public partial class Pop3Dialog : ILayoutModule
         emailGamesSB.ImageLibraryIndexBack = 101;
         emailGamesSB.ThumbImageIndex = 98;
         session.EndRead(emailGamesSB);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -655,7 +655,7 @@ public partial class Pop3Dialog : ILayoutModule
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
         session.EndRead(close);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

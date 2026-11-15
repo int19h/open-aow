@@ -167,7 +167,7 @@ public partial class Spell : EngineObject
         sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            var coordinate77 = source.GetLocation();
+            MapCoordinate coordinate77 = source.GetLocation();
             x = coordinate77.X;
             y = coordinate77.Y;
             l = coordinate77.MapLevel;
@@ -188,7 +188,7 @@ public partial class Spell : EngineObject
         sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            var coordinate78 = source.GetLocation();
+            MapCoordinate coordinate78 = source.GetLocation();
             x = coordinate78.X;
             y = coordinate78.Y;
             l = coordinate78.MapLevel;
@@ -343,7 +343,7 @@ public partial class Spell : EngineObject
 
     public virtual AICastSpellAction CreateCastSpellAction()
     {
-        var action = new AICastSpellAction(null) { Holder = CreationHolder() };
+        AICastSpellAction action = new(null) { Holder = CreationHolder() };
         // TEObject.Create only calls SetOwner. It bypasses descendant constructor bodies.
         try { action.SetOwner(null); } catch { action.Dispose(); throw; }
         return action;

@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWHeroInfoDlg.pas.
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
@@ -72,7 +73,7 @@ public partial class HeroInfoDialog : UIModule
             alignment = _armyInfo.ArmyView.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
@@ -82,7 +83,7 @@ public partial class HeroInfoDialog : UIModule
             _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
-                var image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
             }
 
@@ -143,10 +144,10 @@ public partial class HeroInfoDialog : UIModule
     // AoWHeroInfoDlg.pas:189
     public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = _armyInfo.ArmyView.Units.Count;
+        int count = _armyInfo.ArmyView.Units.Count;
         if (slot < count)
         {
-            var troop = _armyInfo.ArmyView.Units.GetUnit(slot);
+            Troop troop = _armyInfo.ArmyView.Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
@@ -176,14 +177,14 @@ public partial class HeroInfoDialog : UIModule
         dialog.Done = done;
         dialog._armyInfo = eventValue;
         dialog._armyInfo.AddRef();
-        var text = eventValue.Messages.Text;
+        string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, RosterTables.AllHeroTypes);
         if (hero != null)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
-            var level = hero.GetLevel();
-            var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
+            sbyte level = hero.GetLevel();
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;
         }
         else

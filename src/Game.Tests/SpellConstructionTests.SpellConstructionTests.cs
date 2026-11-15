@@ -49,7 +49,7 @@ public sealed partial class SpellConstructionTests
 
         internal Fixture()
         {
-            var set = EngineFixture.CreateGameSet(Manager);
+            GamePack set = EngineFixture.CreateGameSet(Manager);
             GamePack.Current = set;
         }
 
@@ -103,7 +103,7 @@ public sealed partial class SpellConstructionTests
             throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
         }
 
-        var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
+        SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
         for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)
         {
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
@@ -127,14 +127,14 @@ public sealed partial class SpellConstructionTests
 
     private static string SuccessSnapshot(EngineObject value)
     {
-        var state = (SortedDictionary<string, object?>)State(value)!;
+        SortedDictionary<string, object?> state = (SortedDictionary<string, object?>)State(value)!;
         state["EngineObject._owner"] = "$owner";
         return JsonSerializer.Serialize(state);
     }
 
     private static GameEngine RegisteredEngine(Type type)
     {
-        GameEngine engine = new GameEngine(null!);
+        GameEngine engine = new(null!);
         try { engine.RegisterEngineClasses([EngineClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
         return engine;
@@ -149,7 +149,7 @@ public sealed partial class SpellConstructionTests
             owner = EngineFixture.OwnerFor(type, recorder);
         }
 
-        var meta = EngineClass.Of(type);
+        EngineClass meta = EngineClass.Of(type);
         if (route == 0)
         {
             try
@@ -204,9 +204,9 @@ public sealed partial class SpellConstructionTests
     public void ConstructorsAndAllRegistryRoutesMatchTheLegacyState(string name)
     {
         Type type = typeof(Spell).Assembly.GetType(name)!;
-        using var fixture = new Fixture();
-        var owner = new SpellOwner();
-        var allocated = new List<EngineObject>();
+        using Fixture fixture = new();
+        SpellOwner owner = new();
+        List<EngineObject> allocated = new();
         try
         {
             foreach (bool owned in new[] { false, true })
@@ -244,7 +244,7 @@ public sealed partial class SpellConstructionTests
         }
         finally
         {
-            foreach (var value in allocated)
+            foreach (EngineObject value in allocated)
             {
                 value.Dispose();
             }
@@ -260,9 +260,9 @@ public sealed partial class SpellConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
         for (int route = 0; route < 4; route++)
         {
-            using var fixture = new Fixture();
-            var owner = new SpellOwner();
-            var value = Create(type, owner, route);
+            using Fixture fixture = new();
+            SpellOwner owner = new();
+            EngineObject value = Create(type, owner, route);
             Assert.IsType(type, value);
             Assert.True(EngineFixture.Forwards(value.Owner, owner));
             Assert.Same(value, Assert.Single(owner.Members));
@@ -287,7 +287,7 @@ public sealed partial class SpellConstructionTests
     public void InheritOnlyExclusiveActionHasItsOwnExactCreationRoutes()
     {
         Type type = typeof(ExclusiveCombatSpellCombatAction);
-        var owner = new SpellOwner();
+        SpellOwner owner = new();
         for (int route = 0; route < 4; route++)
         {
             EngineObject value = Create(type, owner, route);
@@ -304,7 +304,7 @@ public sealed partial class SpellConstructionTests
     {
         for (int route = 0; route < 4; route++)
         {
-            var value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), null!, route);
+            NewCombatRoundCombatAction value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), null!, route);
             Assert.IsType<NewCombatRoundCombatAction>(value);
             Assert.Equal(1, value.RefCount);
             value.Dispose();
@@ -314,7 +314,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        var raw = new SummonSpell(null!) { Holder = EngineFixture.Engine };
+        SummonSpell raw = new(null!) { Holder = EngineFixture.Engine };
         Assert.NotNull(raw.SpellText);
         Assert.NotNull(raw.UnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));

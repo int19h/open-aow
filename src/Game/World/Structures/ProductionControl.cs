@@ -133,11 +133,11 @@ public partial class ProductionControl : EngineObject
             player = GetPlayer();
             if (player > -1)
             {
-                var players = StrategicMap.Current.Players.GetPlayers(player);
-                var cancelProductionReturnGold = CancelProductionReturnGold();
+                Player players = StrategicMap.Current.Players.GetPlayers(player);
+                int cancelProductionReturnGold = CancelProductionReturnGold();
                 StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
-                var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-                var cancelProductionReturnMana = CancelProductionReturnMana();
+                Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+                int cancelProductionReturnMana = CancelProductionReturnMana();
                 StrategicMap.Current.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
             }
 
@@ -305,10 +305,10 @@ public partial class ProductionControl : EngineObject
     {
         ProductionTokenEvent eventValue;
         eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
-        var x = eventValue.Location.X;
-        var y = eventValue.Location.Y;
-        var mapLevel = eventValue.Location.MapLevel;
-        var coordinate35 = GetLocation();
+        sbyte x = eventValue.Location.X;
+        sbyte y = eventValue.Location.Y;
+        sbyte mapLevel = eventValue.Location.MapLevel;
+        MapCoordinate coordinate35 = GetLocation();
         x = coordinate35.X;
         y = coordinate35.Y;
         mapLevel = coordinate35.MapLevel;
@@ -373,7 +373,7 @@ public partial class ProductionControl : EngineObject
         if (UnitProductions.GetItem(index) != null)
         {
             unit = new Unit(null) { Holder = CreationHolder() };
-            var unitProduction = UnitProductions.GetItem(index);
+            UnitProduction unitProduction = UnitProductions.GetItem(index);
             unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
             result = unit;
         }
@@ -456,7 +456,7 @@ public partial class ProductionControl : EngineObject
         bool condition = index >= 0 && index < Queue.Count;
         if (condition)
         {
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
@@ -465,7 +465,7 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 1;
             eventValue.Index = index;
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
@@ -486,7 +486,7 @@ public partial class ProductionControl : EngineObject
         bool condition = Queue.Count != 0;
         if (condition)
         {
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
@@ -494,7 +494,7 @@ public partial class ProductionControl : EngineObject
         {
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 2;
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
@@ -527,7 +527,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:585
     public virtual int UnitProductionGoldUpkeep(int index)
     {
-        var unitProduction = UnitProductions.GetItem(index);
+        UnitProduction unitProduction = UnitProductions.GetItem(index);
         return (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
     }
 
@@ -554,7 +554,7 @@ public partial class ProductionControl : EngineObject
         bool condition = CanProduceUnit(index, queue, ref reason);
         if (condition)
         {
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
@@ -567,7 +567,7 @@ public partial class ProductionControl : EngineObject
             // { explicit item receiver }
             eventValue.Item.Order = new ProduceUnit(index, groupId);
 
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
@@ -628,7 +628,7 @@ public partial class ProductionControl : EngineObject
         bool condition = CanResearchUnit(index, queue, ref reason);
         if (condition)
         {
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
@@ -641,7 +641,7 @@ public partial class ProductionControl : EngineObject
             // { explicit item receiver }
             eventValue.Item.Order = new ResearchSpell(index);
 
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             // { Original returns False after successfully queueing research. }
@@ -702,7 +702,7 @@ public partial class ProductionControl : EngineObject
     public void GroupProductionProduced(Troop troop, int groupId)
     {
         AIGroup group;
-        var player = GetPlayer();
+        sbyte player = GetPlayer();
         group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
         if (group != null)
         {
@@ -715,14 +715,14 @@ public partial class ProductionControl : EngineObject
     {
         bool result;
         ProductionTokenEvent eventValue;
-        var player = GetPlayer();
+        sbyte player = GetPlayer();
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = (ProductionItem)item.Copy(GetEngine());
-            var player2 = GetPlayer();
+            sbyte player2 = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
             eventValue.Release();
             // { Original returns False after successfully queueing production. }
@@ -744,7 +744,7 @@ public partial class ProductionControl : EngineObject
         bool condition = Queue.Count != 0 && Status == ProductionControlStatus.Waiting;
         if (condition)
         {
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
@@ -754,7 +754,7 @@ public partial class ProductionControl : EngineObject
             {
                 eventValue = CreateProductionTokenEvent();
                 eventValue.Command = 3;
-                var player = GetPlayer();
+                sbyte player = GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 eventValue.Release();
                 result = true;
@@ -780,7 +780,7 @@ public partial class ProductionControl : EngineObject
         bool condition = value != LoopQueue;
         if (condition)
         {
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
@@ -797,7 +797,7 @@ public partial class ProductionControl : EngineObject
                 eventValue.Index = 0;
             }
 
-            var player = GetPlayer();
+            sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
@@ -816,7 +816,7 @@ public partial class ProductionControl : EngineObject
         BeginUpdate();
         if (LoopQueue && LoopableProduction(Queue.GetItem(0)))
         {
-            var count = Queue.Count;
+            int count = Queue.Count;
             Queue.MoveChild(0, count - 1);
         }
         else
@@ -846,7 +846,7 @@ public partial class ProductionControl : EngineObject
         int priority;
         int minimum;
         bool include;
-        var player = GetPlayer();
+        sbyte player = GetPlayer();
         playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
         unit = new Unit(null) { Holder = CreationHolder() };
         productions = new DoubleItemList();
@@ -857,7 +857,7 @@ public partial class ProductionControl : EngineObject
                 include = UnitResearchGold(i) <= gold;
                 if (predictor != null)
                 {
-                    var unitProduction = UnitProductions.GetItem(i);
+                    UnitProduction unitProduction = UnitProductions.GetItem(i);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                     priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }

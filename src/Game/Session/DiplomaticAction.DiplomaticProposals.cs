@@ -10,7 +10,7 @@ public partial class DiplomaticAction
     // Diplomacy.pas:826, 950).
     public void RetrieveDefaultMessage(sbyte source, sbyte target, sbyte other, DiplomaticActionReaction reaction)
     {
-        using var text = new StringList();
+        using StringList text = new();
         RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text, engine: GetEngine());
         Proposal = Proposal with { Message = DiplomaticProposal.Lines(text) };
     }
@@ -21,11 +21,11 @@ public partial class DiplomaticAction
         StrategicMap.Current.LockRelationsChanged();
         for (int i = 0, last = StrategicMap.Current.Races.Count - 1; i <= last; i++)
         {
-            var playerRelationValue = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Source);
-            var relationModifier = GetRelationModifier(Source, (sbyte)i);
+            int playerRelationValue = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Source);
+            int relationModifier = GetRelationModifier(Source, (sbyte)i);
             StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Source, relationModifier + playerRelationValue);
-            var playerRelationValue2 = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Target);
-            var relationModifier2 = GetRelationModifier(Target, (sbyte)i);
+            int playerRelationValue2 = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Target);
+            int relationModifier2 = GetRelationModifier(Target, (sbyte)i);
             StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Target, relationModifier2 + playerRelationValue2);
         }
 

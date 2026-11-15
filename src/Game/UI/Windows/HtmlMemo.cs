@@ -105,7 +105,7 @@ public partial class HtmlMemo : BaseWindow
                 i = 0;
                 start = 0;
                 length = s.Length;
-                var line = _lines[lineIndex];
+                string line = _lines[lineIndex];
                 w = Font.GetTextWidth(line) + (BorderWidth * 2) + _scrollWidth;
                 while (i < length)
                 {
@@ -121,13 +121,13 @@ public partial class HtmlMemo : BaseWindow
                         if (w + tw > WinWidth)
                         {
                             NewLine();
-                            var line2 = _lines[lineIndex];
+                            string line2 = _lines[lineIndex];
                             _lines[lineIndex] = line2 + word;
                             w = (BorderWidth * 2) + _scrollWidth + tw;
                         }
                         else
                         {
-                            var line2 = _lines[lineIndex];
+                            string line2 = _lines[lineIndex];
                             _lines[lineIndex] = line2 + word;
                             w = w + tw;
                         }
@@ -301,7 +301,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Font:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                var line = _lines[lineIndex];
+                                string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 ci.Font = Copy(item, tagStart + 1, j - tagStart);
@@ -330,7 +330,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.ItemHeight:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                var line = _lines[lineIndex];
+                                string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 try
@@ -358,7 +358,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Color:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                var line = _lines[lineIndex];
+                                string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 if (j - tagStart == 6)
@@ -398,7 +398,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Space:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                var line = _lines[lineIndex];
+                                string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 try
@@ -431,7 +431,7 @@ public partial class HtmlMemo : BaseWindow
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
                                 s = UpperCase(Copy(item, tagStart + 1, j - tagStart));
-                                var line = _lines[lineIndex];
+                                string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
                                 if (s == "RIGHT")
@@ -469,7 +469,7 @@ public partial class HtmlMemo : BaseWindow
                             {
                                 if (FileExists(ExtractFilePath(RtlUnit.Application.ExeName) + Copy(item, tagStart + 1, j - tagStart)))
                                 {
-                                    var filePath = ExtractFilePath(RtlUnit.Application.ExeName);
+                                    string filePath = ExtractFilePath(RtlUnit.Application.ExeName);
                                     _images.LoadFromFile(filePath + Copy(item, tagStart + 1, j - tagStart));
                                 }
 
@@ -697,7 +697,7 @@ public partial class HtmlMemo : BaseWindow
                     else
                     {
                         BackSurface.Lock(ref backSurfaceDescription);
-                        var rectangle = new SizedRectangle(0, 0, _textWidth, _textHeight);
+                        SizedRectangle rectangle = new(0, 0, _textWidth, _textHeight);
                         _images.DrawTiled(ImageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
                     }
 
@@ -731,23 +731,23 @@ public partial class HtmlMemo : BaseWindow
                                 switch (align)
                                 {
                                     case TextAlignment.Left:
-                                        var line = _lines[i];
+                                        string line = _lines[i];
                                         Font.SetText(x, y, Copy(line, position + 1, ci.Position - position), backSurfaceDescription);
-                                        var line2 = _lines[i];
+                                        string line2 = _lines[i];
                                         x = x + Font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
                                         break;
                                     case TextAlignment.Center:
-                                        var line3 = _lines[i];
-                                        var textWidth = Font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
-                                        var line4 = _lines[i];
+                                        string line3 = _lines[i];
+                                        int textWidth = Font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
+                                        string line4 = _lines[i];
                                         Font.SetText((_textWidth / 2) - (textWidth / 2), y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
                                         break;
                                     case TextAlignment.Right:
-                                        var line5 = _lines[i];
-                                        var fontTextWidth = Font.GetTextWidth(Copy(line5, position + 1, ci.Position - position));
-                                        var line6 = _lines[i];
+                                        string line5 = _lines[i];
+                                        int fontTextWidth = Font.GetTextWidth(Copy(line5, position + 1, ci.Position - position));
+                                        string line6 = _lines[i];
                                         Font.SetText(x - fontTextWidth, y, Copy(line6, position + 1, ci.Position - position), backSurfaceDescription);
-                                        var line7 = _lines[i];
+                                        string line7 = _lines[i];
                                         x = x - Font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
                                         break;
                                 }
@@ -794,24 +794,24 @@ public partial class HtmlMemo : BaseWindow
                             switch (align)
                             {
                                 case TextAlignment.Left:
-                                    var lineLength = _lines[i];
-                                    var line = _lines[i];
+                                    string lineLength = _lines[i];
+                                    string line = _lines[i];
                                     Font.SetText(x, y, Copy(line, position + 1, lineLength.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Center:
-                                    var line2 = _lines[i];
-                                    var line3 = _lines[i];
-                                    var textWidth = Font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
-                                    var line4 = _lines[i];
-                                    var line5 = _lines[i];
+                                    string line2 = _lines[i];
+                                    string line3 = _lines[i];
+                                    int textWidth = Font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
+                                    string line4 = _lines[i];
+                                    string line5 = _lines[i];
                                     Font.SetText((_textWidth / 2) - (textWidth / 2), y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Right:
-                                    var line6 = _lines[i];
-                                    var line7 = _lines[i];
-                                    var fontTextWidth = Font.GetTextWidth(Copy(line7, position + 1, line6.Length - position));
-                                    var line8 = _lines[i];
-                                    var line9 = _lines[i];
+                                    string line6 = _lines[i];
+                                    string line7 = _lines[i];
+                                    int fontTextWidth = Font.GetTextWidth(Copy(line7, position + 1, line6.Length - position));
+                                    string line8 = _lines[i];
+                                    string line9 = _lines[i];
                                     Font.SetText(x - fontTextWidth, y, Copy(line9, position + 1, line8.Length - position), backSurfaceDescription);
                                     break;
                             }
@@ -836,28 +836,28 @@ public partial class HtmlMemo : BaseWindow
                         r = DrawList[i];
                         if (OwnerComponent.WinLeft + WinLeft > r.Rectangle.Left)
                         {
-                            var rectangle2 = r.Rectangle;
+                            Rect rectangle2 = r.Rectangle;
                             rectangle2.Left = OwnerComponent.WinLeft + WinLeft;
                             r.Rectangle = rectangle2;
                         }
 
                         if (OwnerComponent.WinTop + WinTop > r.Rectangle.Top)
                         {
-                            var rectangle3 = r.Rectangle;
+                            Rect rectangle3 = r.Rectangle;
                             rectangle3.Top = OwnerComponent.WinTop + WinTop;
                             r.Rectangle = rectangle3;
                         }
 
                         if (OwnerComponent.WinLeft + WinLeft + WinWidth < r.Rectangle.Right)
                         {
-                            var rectangle4 = r.Rectangle;
+                            Rect rectangle4 = r.Rectangle;
                             rectangle4.Right = OwnerComponent.WinLeft + WinLeft + WinWidth;
                             r.Rectangle = rectangle4;
                         }
 
                         if (OwnerComponent.WinTop + WinTop + WinHeight < r.Rectangle.Bottom)
                         {
-                            var rectangle5 = r.Rectangle;
+                            Rect rectangle5 = r.Rectangle;
                             rectangle5.Bottom = OwnerComponent.WinTop + WinTop + WinHeight;
                             r.Rectangle = rectangle5;
                         }

@@ -35,7 +35,7 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
-        var name = source.GetName();
+        string name = source.GetName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText), [name]);
     }
 

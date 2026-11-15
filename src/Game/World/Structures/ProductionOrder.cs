@@ -3,7 +3,7 @@
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -21,7 +21,7 @@ public abstract partial record ProductionOrder
     // The order the three stored fields name. An id no kind registered reads as UnknownOrder,
     // which writes the three fields back unchanged.
     public static ProductionOrder FromFields(int kind, int parameter, int groupId) =>
-        s_kinds.TryGet(kind, out var create) ? create(kind, parameter, groupId) : new UnknownOrder(kind, parameter, groupId);
+        s_kinds.TryGet(kind, out Func<int, int, int, ProductionOrder> create) ? create(kind, parameter, groupId) : new UnknownOrder(kind, parameter, groupId);
 
     // Registers the kind of a production id. A second registration of an id throws.
     internal static void Register(int id, Func<int, int, int, ProductionOrder> create) => s_kinds.Add(id, create);
@@ -108,14 +108,14 @@ public abstract partial record ProductionOrder
     // Changes the relation of City's race to the control's player by Change.
     protected static void ChangeRelation(ProductionControl control, City city, int change)
     {
-        var playerRelationValue = StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
+        int playerRelationValue = StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
         StrategicMap.Current.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), playerRelationValue + change);
     }
 
     // Adds Text at City to the logbook of the control's player.
     protected static void Log(ProductionControl control, City city, string text)
     {
-        var eventValue = new CityProductionEventLog(null) { Holder = control };
+        CityProductionEventLog eventValue = new(null) { Holder = control };
         eventValue.Player = control.GetPlayer();
         eventValue.Text = text;
         eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
@@ -126,7 +126,7 @@ public abstract partial record ProductionOrder
     // Charges the settings' costs to the settings' player.
     protected static void Pay(ProductionControl control)
     {
-        var player = StrategicMap.Current.Players.GetPlayers(control.Settings.Player);
+        Player player = StrategicMap.Current.Players.GetPlayers(control.Settings.Player);
         player.SetGems(player.Gems - control.Settings.Gold);
         player.MagicControl.SetMana(player.MagicControl.Mana - control.Settings.Mana);
     }

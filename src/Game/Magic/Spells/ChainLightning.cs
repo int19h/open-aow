@@ -18,7 +18,7 @@ public partial class ChainLightning : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_chainLightningText);
         SpellId = 107;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Lightning);

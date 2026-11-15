@@ -32,10 +32,10 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
     public override bool Activate()
     {
         bool result = base.Activate();
-        var player = Control.Player;
+        Player player = Control.Player;
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
-            var groups = player.AIGroups.GetGroups(i);
+            AIGroup groups = player.AIGroups.GetGroups(i);
             player.AIGroups.GetGroups(i).Status = groups.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
         }
 

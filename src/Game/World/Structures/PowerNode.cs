@@ -90,7 +90,7 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:93
     public override string GetCurrentActivityText()
     {
-        var power = GetPower();
+        int power = GetPower();
         return Format(AbilityRules.TranslateResourceString(GetEngine(), s_generatingPowerFormat), [IntToStr(power)]);
     }
 

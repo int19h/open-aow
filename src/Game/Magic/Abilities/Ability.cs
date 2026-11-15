@@ -326,7 +326,7 @@ public partial class Ability : EngineObject
             text.Add("ID: " + IntToStr(AbilityId));
         }
 
-        var abilityType = GetAbilityType();
+        AbilityType abilityType = GetAbilityType();
         text.Add("Type: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
         if (GetAttack(null) != 0)
         {
@@ -356,7 +356,7 @@ public partial class Ability : EngineObject
 
         if (GetCombatMode(null) != CombatMode.None)
         {
-            var combatMode = GetCombatMode(null);
+            CombatMode combatMode = GetCombatMode(null);
             text.Add("Combat mode: " + AbilityRules.TranslateResourceString(GetEngine(), s_combatModeTexts[(int)combatMode]));
         }
 
@@ -412,7 +412,7 @@ public partial class Ability : EngineObject
     // Ability.PAS:1331
     public virtual void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        ref var abilityCombatInfo = ref info;
+        ref AbilityCombatInfo abilityCombatInfo = ref info;
         abilityCombatInfo.Attack = -1;
         abilityCombatInfo.Damage = -1;
         abilityCombatInfo.DamageTypes = Set<DamageType>.Of();

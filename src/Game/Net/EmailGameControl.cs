@@ -66,7 +66,7 @@ public partial class EmailGameControl : EngineObject
         {
             fileName = GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs";
             GetEngine().WriteToFile(GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs", _games, null);
-            var fileCrc = GetFileCrc32(fileName);
+            int fileCrc = GetFileCrc32(fileName);
             GetEngine().Registry.SetEmailGamesCrc(fileCrc);
         }
         catch
@@ -138,7 +138,7 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2564
     public EmailGame CreateEmailGame(string name, string emailAddress)
     {
-        EmailGame result = new EmailGame(null) { Holder = CreationHolder() };
+        EmailGame result = new(null) { Holder = CreationHolder() };
         result.EmailAddress = emailAddress;
         result.UniqueLocalId = CreateUniqueLocalId();
         result.UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
@@ -167,7 +167,7 @@ public partial class EmailGameControl : EngineObject
             bool condition = map != null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
-                var count = map.Players.Count;
+                int count = map.Players.Count;
                 condition = map.CurrentPlayer < count;
             }
 
@@ -190,19 +190,19 @@ public partial class EmailGameControl : EngineObject
                                     bool test = previousMap.CurrentPlayer > 0;
                                     if (test)
                                     {
-                                        var count = map.Players.Count;
+                                        int count = map.Players.Count;
                                         test = previousMap.CurrentPlayer < count;
                                     }
 
                                     if (test)
                                     {
-                                        var players = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
-                                        var fPlayersPlayers = map.Players.GetPlayers(map.CurrentPlayer);
+                                        Player players = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
+                                        Player fPlayersPlayers = map.Players.GetPlayers(map.CurrentPlayer);
                                         bool passed = players.PbemSettings.EmailGame.UniqueLocalId == fPlayersPlayers.PbemSettings.EmailGame.UniqueLocalId;
                                         if (passed)
                                         {
-                                            var players2 = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
-                                            var players3 = map.Players.GetPlayers(map.CurrentPlayer);
+                                            Player players2 = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
+                                            Player players3 = map.Players.GetPlayers(map.CurrentPlayer);
                                             passed = players2.PbemSettings.EmailGame.UniqueId == players3.PbemSettings.EmailGame.UniqueId;
                                         }
 
@@ -245,7 +245,7 @@ public partial class EmailGameControl : EngineObject
     private static int GetFileCrc32(string fileName)
     {
         int result = 0;
-        MemoryStream value = new MemoryStream();
+        MemoryStream value = new();
         try
         {
             Stream value2 = OpenFile(fileName, 0);

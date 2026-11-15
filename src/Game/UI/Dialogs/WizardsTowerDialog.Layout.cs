@@ -15,7 +15,7 @@ public partial class WizardsTowerDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "WizardsTowerDlg";
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -43,7 +43,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -77,7 +77,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -100,7 +100,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         title.Text = "Wizards Tower";
         title.TextColor = 0;
         session.EndRead(title);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -127,7 +127,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 99999;
@@ -158,7 +158,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         cancelBtn.WinWidth = 120;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Button buyBtn = new Button(this);
+        Button buyBtn = new(this);
         session.BeginRead(buyBtn);
         buyBtn.Name = "BuyBtn";
         buyBtn.Priority = 99999;
@@ -234,7 +234,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         Window.WinHeight = 325;
         Window.Dockable = false;
         session.EndRead(Window);
-        Panel researchPnl = new Panel(this);
+        Panel researchPnl = new(this);
         session.BeginRead(researchPnl);
         researchPnl.Name = "ResearchPnl";
         researchPnl.Priority = 100;
@@ -284,7 +284,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         SpellNameLabel.Text = "###########";
         SpellNameLabel.TextColor = 1254460;
         session.EndRead(SpellNameLabel);
-        Image spellIcn = new Image(this);
+        Image spellIcn = new(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
         spellIcn.OnDraw += SpellIcnDraw;
@@ -416,7 +416,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         PriceLabel.Text = "########";
         PriceLabel.TextColor = 5908276;
         session.EndRead(PriceLabel);
-        Label offerText = new Label(this);
+        Label offerText = new(this);
         session.BeginRead(offerText);
         offerText.Name = "OfferText";
         offerText.Priority = 100;
@@ -439,7 +439,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         offerText.Text = "the wizards offer:";
         offerText.TextColor = 5908276;
         session.EndRead(offerText);
-        Panel picPnl = new Panel(this);
+        Panel picPnl = new(this);
         session.BeginRead(picPnl);
         picPnl.Name = "PicPnl";
         picPnl.Priority = 0;
@@ -466,7 +466,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         picPnl.MinWidth = 0;
         picPnl.MinHeight = 0;
         session.EndRead(picPnl);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

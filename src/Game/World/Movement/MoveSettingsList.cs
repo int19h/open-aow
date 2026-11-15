@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
@@ -30,7 +31,7 @@ public partial class MoveSettingsList : OwningNode, IChildList<MoveSettings>
         minPriority = 16777215;
         for (int i = GetCount() - 1; i >= 0; i--)
         {
-            var moveSettings = this[i];
+            MoveSettings moveSettings = this[i];
             if (!moveSettings.Valid)
             {
                 priority = moveSettings.GetMovePrio();
@@ -83,8 +84,8 @@ public partial class MoveSettingsList : OwningNode, IChildList<MoveSettings>
                 {
                     if (index != i)
                     {
-                        var moveLocation = GetMoveSettings(index).GetMoveLocation();
-                        var moveLocation2 = GetMoveSettings(i).GetMoveLocation();
+                        MapCoordinate moveLocation = GetMoveSettings(index).GetMoveLocation();
+                        MapCoordinate moveLocation2 = GetMoveSettings(i).GetMoveLocation();
                         if (moveLocation == moveLocation2)
                         {
                             if (GetMoveSettings(index).GetMovePrio() < GetMoveSettings(i).GetMovePrio())
@@ -97,10 +98,10 @@ public partial class MoveSettingsList : OwningNode, IChildList<MoveSettings>
             }
             else
             {
-                var moveSettings = GetMoveSettings(index);
+                MoveSettings moveSettings = GetMoveSettings(index);
                 moveSettings.MovePosition += 1;
-                var moveSettings2 = GetMoveSettings(index);
-                var moveSettings3 = GetMoveSettings(index);
+                MoveSettings moveSettings2 = GetMoveSettings(index);
+                MoveSettings moveSettings3 = GetMoveSettings(index);
                 GetMoveSettings(index).Valid = moveSettings2.MovePosition == moveSettings3.Path.Count - 1;
             }
 

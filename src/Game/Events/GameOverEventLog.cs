@@ -43,11 +43,11 @@ public partial class GameOverEventLog : EventLog
         switch (StrategicMap.Current.Players.GetPlayers(Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                var name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
+                string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
                 break;
             case GameOverStatus.Won:
-                var name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
+                string name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
                 break;
         }

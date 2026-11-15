@@ -41,7 +41,7 @@ public partial class MagicSanctuary : Structure
         {
             if (message.MessageId == 4393)
             {
-                var param = message.Param;
+                MapFieldMessageParameters param = message.Param;
                 param[0] = 1;
                 message.Param = param;
             }

@@ -8,9 +8,9 @@ public partial class GameMap
     public bool CanChangeTerrain(MapObject sender, int x, int y, int level, TerrainList terrain)
     {
         bool result = true;
-        var saved = new TerrainList();
+        TerrainList saved = new();
         saved.SetCount(terrain.Count);
-        var mapLevel = _mapContainer.GetMapLevel(level);
+        MapLevel mapLevel = _mapContainer.GetMapLevel(level);
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         bool InRange() => terrain.GetUsed(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height;
@@ -18,7 +18,7 @@ public partial class GameMap
         {
             if (InRange())
             {
-                var field = mapLevel.GetField(walk.X, walk.Y);
+                MapField field = mapLevel.GetField(walk.X, walk.Y);
                 saved.SetTandO(walk.HexNumber, (ushort)((byte)field.TerrainType | ((byte)field.OverlayType << 8)));
                 sbyte value = terrain.GetTerrain(walk.HexNumber);
                 if (value >= 0)
@@ -49,7 +49,7 @@ public partial class GameMap
         {
             if (InRange())
             {
-                var field = mapLevel.GetField(walk.X, walk.Y);
+                MapField field = mapLevel.GetField(walk.X, walk.Y);
                 ushort pair = saved.GetTandO(walk.HexNumber);
                 field.TerrainType = (sbyte)pair;
                 field.OverlayType = (sbyte)(pair >> 8);

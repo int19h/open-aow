@@ -39,19 +39,19 @@ public partial class HuntAIGroupControl : AIGroupControl
                 while (!found && i != 0)
                 {
                     i -= 1;
-                    var item = group.TargetUnitIds[i];
+                    int item = group.TargetUnitIds[i];
                     found = army.Army.Units.IndexOfId(item) != -1;
                 }
 
                 if (found)
                 {
                     SetupCP(target);
-                    var execute = CombatPredictor.Execute();
+                    CombatResult execute = CombatPredictor.Execute();
                     if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
                     {
                         if (CombatPredictor.GetEfficiency() != 0)
                         {
-                            var data = target.Data;
+                            AITargetData data = target.Data;
                             data.Priority = 1000 - target.MovePoints;
                             target.Data = data;
                             base.TargetFoundEvent(sender, target, ref searchDone);
@@ -76,7 +76,7 @@ public partial class HuntAIGroupControl : AIGroupControl
                 {
                     for (int i = group.TargetUnitIds.Count - 1; i >= 0; i--)
                     {
-                        var item = group.TargetUnitIds[i];
+                        int item = group.TargetUnitIds[i];
                         troop = StrategicMap.Current.UnitControl.FindUnit(item);
                         if (troop == null || troop.Player == 0)
                         {
@@ -89,7 +89,7 @@ public partial class HuntAIGroupControl : AIGroupControl
                 {
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
-                    var targetInfo = finder.Selector.TargetInfo;
+                    AITargetInfo targetInfo = finder.Selector.TargetInfo;
                     targetInfo.Mode = AITargetMode.Hunt;
                     finder.Selector.TargetInfo = targetInfo;
                     ActivatePlugin(finder);
@@ -109,8 +109,8 @@ public partial class HuntAIGroupControl : AIGroupControl
                 if (Targets.Count != 0)
                 {
                     SetupME();
-                    var targets = Targets.GetTargets(0);
-                    var fTargetsTargets = Targets.GetTargets(0);
+                    AIGroupControlTarget targets = Targets.GetTargets(0);
+                    AIGroupControlTarget fTargetsTargets = Targets.GetTargets(0);
                     ExecuteME(Targets.GetTargets(0).Location.X, fTargetsTargets.Location.Y, targets.Location.MapLevel);
                     Targets.Delete(0);
                 }

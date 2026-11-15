@@ -43,7 +43,7 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
         PoisonPlant plant = default;
         ImageSequenceAnimation animation = default;
         TwinkleAnimation twinkle = default;
-        ref var walk = ref hexNumberWalkData;
+        ref HexNumberWalkData walk = ref hexNumberWalkData;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
         resource = (PoisonPlant.Resource)GamePack.Current.MapObjectResourceList.FindChild(131999);

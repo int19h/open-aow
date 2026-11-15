@@ -45,12 +45,12 @@ public partial class AbilityOwner : CustomAbilityList
                 return;
             }
 
-            var ids = new Int32List();
+            Int32List ids = new();
             PersistSupport.Int32List(persister, "AbilityDataIds", ids);
             AbilityData previous = null;
             for (int i = 0; i < ids.Count; i++)
             {
-                var data = persister.CreatedSlot<AbilityData>("AbilityData", slot: ids[i], objectValue: null);
+                AbilityData data = persister.CreatedSlot<AbilityData>("AbilityData", slot: ids[i], objectValue: null);
                 if (previous != null)
                 {
                     previous.Next = data;
@@ -72,14 +72,14 @@ public partial class AbilityOwner : CustomAbilityList
             return;
         }
 
-        var stored = new Int32List();
-        for (var data = AbilityData; data != null; data = data.Next)
+        Int32List stored = new();
+        for (AbilityData data = AbilityData; data != null; data = data.Next)
         {
             stored.Add(data.GetAbilityId());
         }
 
         PersistSupport.Int32List(persister, "AbilityDataIds", stored);
-        for (var data = AbilityData; data != null; data = data.Next)
+        for (AbilityData data = AbilityData; data != null; data = data.Next)
         {
             persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
         }

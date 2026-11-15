@@ -59,7 +59,7 @@ public sealed class MapViewerCenteringTests
         {
             LockedSurface lockedSurface = default;
             _target.Lock(ref lockedSurface);
-            var data = lockedSurface.Data;
+            byte[] data = lockedSurface.Data;
             int at = lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (x * 2);
             int value = data[at] | (data[at + 1] << 8);
             _target.Unlock();
@@ -109,8 +109,8 @@ public sealed class MapViewerCenteringTests
     [Fact]
     public void WiderSceneCentersTheMapHorizontally()
     {
-        using var fixture = new Fixture(400, 200);
-        var viewer = fixture.Viewer;
+        using Fixture fixture = new(400, 200);
+        HexSpriteMapViewer viewer = fixture.Viewer;
         Assert.True(viewer.GetSceneExceedsMap());
         // The original clamp: MaxXhp - SceneWidth - 16, and SceneY as asked.
         Assert.Equal(336 - 400 - 16, viewer.SceneX);
@@ -134,7 +134,7 @@ public sealed class MapViewerCenteringTests
         Assert.False(viewer.SceneToMapMouse(ref x, ref y));
 
         // The scene point 390 lies past MaxXhp 336 and inside the map at 310.
-        var mouse = fixture.Map.Mouse;
+        HexSpriteMapMouse mouse = fixture.Map.Mouse;
         mouse.Move(default, 390, 5);
         Assert.Equal(310, mouse.GetPixelX());
         Assert.Equal(35, mouse.GetPixelY());
@@ -143,8 +143,8 @@ public sealed class MapViewerCenteringTests
     [Fact]
     public void LargerSceneCentersTheMapOnBothAxes()
     {
-        using var fixture = new Fixture(400, 300);
-        var viewer = fixture.Viewer;
+        using Fixture fixture = new(400, 300);
+        HexSpriteMapViewer viewer = fixture.Viewer;
         Assert.True(viewer.GetSceneExceedsMap());
         Assert.Equal(-80, viewer.SceneX);
         Assert.Equal(272 - 300 - 16, viewer.SceneY);
@@ -162,8 +162,8 @@ public sealed class MapViewerCenteringTests
     [Fact]
     public void SceneInsideTheMapKeepsTheOriginalClampAndPicture()
     {
-        using var fixture = new Fixture(300, 200);
-        var viewer = fixture.Viewer;
+        using Fixture fixture = new(300, 200);
+        HexSpriteMapViewer viewer = fixture.Viewer;
         Assert.False(viewer.GetSceneExceedsMap());
         Assert.Equal(336 - 300 - 16, viewer.SceneX);
         Assert.Equal(30, viewer.SceneY);
@@ -185,9 +185,9 @@ public sealed class MapViewerCenteringTests
     [Fact]
     public void TheBottomEdgeHasPointsWithAColumnAndNoRow()
     {
-        using var fixture = new Fixture(300, 200);
+        using Fixture fixture = new(300, 200);
         fixture.Viewer.ChangeScene(100, 1000, 0);
-        var mouse = fixture.Map.Mouse;
+        HexSpriteMapMouse mouse = fixture.Map.Mouse;
         bool found = false;
         for (int x = 0; x < 300 && !found; x++)
         {

@@ -20,7 +20,7 @@ public sealed class StringBufferTests
 
     private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
     {
-        var stream = new MemoryStream();
+        MemoryStream stream = new();
         stream.Write(Bytes.Of(ref length));
         stream.Write(bytes);
         stream.Position = 0;
@@ -33,7 +33,7 @@ public sealed class StringBufferTests
     public void StringReadersKeepEveryByteAndIndependentAliases(int shape)
     {
         byte[] bytes = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
-        using var stream = Input(shape, bytes.Length, bytes);
+        using MemoryStream stream = Input(shape, bytes.Length, bytes);
         string text = "old", alias = text;
         Read(shape, ref text, stream);
         Assert.Equal(bytes, Cp1252.Encode(text).ToArray());
@@ -44,7 +44,7 @@ public sealed class StringBufferTests
     [Fact]
     public void ShortStringFromStreamKeepsTheResizedTail()
     {
-        using var stream = Input(0, 6, [0, 0x80, 0xFF]);
+        using MemoryStream stream = Input(0, 6, [0, 0x80, 0xFF]);
         string text = "seedtail";
         GameEngine.StringFromStream(ref text, stream);
         Assert.Equal(new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Cp1252.Encode(text).ToArray());
@@ -54,7 +54,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void ShortStringBodiesThrowAndKeepTheResize(int shape)
     {
-        using var stream = Input(shape, 6, [0, 0x80, 0xFF]);
+        using MemoryStream stream = Input(shape, 6, [0, 0x80, 0xFF]);
         string text = "seedtail";
         Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
         Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
@@ -65,7 +65,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void NegativeLengthsKeepTheRangeErrorAndOutput(int shape)
     {
-        using var stream = Input(shape, -1, []);
+        using MemoryStream stream = Input(shape, -1, []);
         string text = "old";
         Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
         Assert.Equal("old", text);
@@ -96,8 +96,8 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void FailingReadsPublishOnlyTheResize(int shape)
     {
-        using var input = Input(shape, 6, []);
-        using var stream = new FailingBodyStream { BodyPosition = (int)input.Length };
+        using MemoryStream input = Input(shape, 6, []);
+        using FailingBodyStream stream = new() { BodyPosition = (int)input.Length };
         stream.Write(input.ToArray());
         stream.Position = 0;
         string text = "seedtail";
@@ -108,8 +108,8 @@ public sealed class StringBufferTests
     [Fact]
     public void MemoWalkKeepsWrappingColorsAndNulTermination()
     {
-        var font = new ImageLibraryFont(null!);
-        var memo = new Memo(null!)
+        ImageLibraryFont font = new(null!);
+        Memo memo = new(null!)
         {
             NoFrame = true,
             Font = font,
@@ -124,7 +124,7 @@ public sealed class StringBufferTests
         Assert.Equal("A B", memo.Lines[0]);
         Assert.Equal("\u20AC ", memo.Lines[1]);
         Assert.Equal("\u00FF\u00FF\u00FF", memo.Lines[2]);
-        var color = Assert.IsType<ColorChange>(memo.ColorList[0]);
+        ColorChange color = Assert.IsType<ColorChange>(memo.ColorList[0]);
         Assert.True(color.HasColor);
         Assert.Equal(0x80FF00, color.Color);
     }
@@ -132,15 +132,15 @@ public sealed class StringBufferTests
     [Fact]
     public void HtmlWalkKeepsTagOffsetsAndNulTermination()
     {
-        var memo = new HtmlMemo(null!);
+        HtmlMemo memo = new(null!);
         memo.SetWinWidthWithoutInvalidate(100);
         memo.SetWinHeightWithoutInvalidate(30);
         memo.Items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
         Assert.Equal(4, memo.Changes.Count);
-        var color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[1]);
-        var spacing = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[2]);
-        var alignment = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[3]);
+        HtmlMemo.ChangeInfo color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[1]);
+        HtmlMemo.ChangeInfo spacing = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[2]);
+        HtmlMemo.ChangeInfo alignment = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[3]);
         Assert.Equal(0x80FF00, color.Color);
         Assert.Equal(3, spacing.Spacing);
         Assert.Equal(TextAlignment.Right, alignment.Align);
@@ -150,7 +150,7 @@ public sealed class StringBufferTests
     [Fact]
     public void HtmlWordWrappingKeepsItsExistingRangeError()
     {
-        var memo = new HtmlMemo(null!)
+        HtmlMemo memo = new(null!)
         {
             Font = new ImageLibraryFont(null!)
         };

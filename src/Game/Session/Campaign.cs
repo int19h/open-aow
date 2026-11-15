@@ -76,7 +76,7 @@ public partial class Campaign : EngineObject
         base.PersistFields(persister);
         if (persister.Loading)
         {
-            var image = persister.NestedDocument("Map", profile: "world-hsm", image: []);
+            byte[] image = persister.NestedDocument("Map", profile: "world-hsm", image: []);
             Stream.SetLength(image.Length);
             image.CopyTo(Stream.GetBuffer().AsSpan(start: 0, length: image.Length));
         }
@@ -101,7 +101,7 @@ public partial class Campaign : EngineObject
             {
                 if (Scenarios.GetScenario(i).Id == 0)
                 {
-                    var uniqueId = Scenarios.CreateUniqueId();
+                    int uniqueId = Scenarios.CreateUniqueId();
                     Scenarios.GetScenario(i).Id = uniqueId;
                 }
             }
@@ -126,7 +126,7 @@ public partial class Campaign : EngineObject
     }
 
     // Diplomacy.pas:2282
-    public virtual CampaignScenario CreateScenario() => new CampaignScenario(null) { Holder = CreationHolder() };
+    public virtual CampaignScenario CreateScenario() => new(null) { Holder = CreationHolder() };
 
     // Diplomacy.pas:2413
     // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
@@ -171,7 +171,7 @@ public partial class Campaign : EngineObject
                     bool condition = spell != null && spell.SpellLevel <= level;
                     if (condition)
                     {
-                        var spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
+                        byte spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
                         condition = spell.SpellLevel <= spherePicks;
                     }
 
@@ -286,10 +286,10 @@ public partial class Campaign : EngineObject
             player = (sbyte)(player - 1);
         }
 
-        var players = StrategicMap.Current.Players.GetPlayers(player);
+        Player players = StrategicMap.Current.Players.GetPlayers(player);
         if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
         }
 

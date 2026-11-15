@@ -52,15 +52,15 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
         switch (reason)
         {
             case AddUnitsResult.InvalidMoveType:
-                var cannotCombineArmies = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineArmiesText);
+                string cannotCombineArmies = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineArmiesText);
                 StrategicMap.Current.ShowMessage(cannotCombineArmies);
                 break;
             case AddUnitsResult.TooManyUnits:
-                var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineArmiesText);
+                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineArmiesText);
                 StrategicMap.Current.ShowMessage(translatedText);
                 break;
             case AddUnitsResult.MultipleTransporters:
-                var cannotCombineTransporters = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineTransportersText);
+                string cannotCombineTransporters = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineTransportersText);
                 StrategicMap.Current.ShowMessage(cannotCombineTransporters);
                 break;
         }

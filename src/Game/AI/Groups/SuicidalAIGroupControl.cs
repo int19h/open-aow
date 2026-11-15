@@ -39,13 +39,13 @@ public partial class SuicidalAIGroupControl : AIGroupControl
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
         SetupCP(target);
-        var execute = CombatPredictor.Execute();
+        CombatResult execute = CombatPredictor.Execute();
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
         {
             if (CombatPredictor.GetEfficiency() > 0)
             {
-                var efficiency = CombatPredictor.GetEfficiency();
-                var data = target.Data;
+                int efficiency = CombatPredictor.GetEfficiency();
+                AITargetData data = target.Data;
                 data.Priority = efficiency + ((data.Priority * 100) - (target.MovePoints * 5));
                 target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
@@ -73,8 +73,8 @@ public partial class SuicidalAIGroupControl : AIGroupControl
                 {
                     Targets.SortOnPriority();
                     SetupME();
-                    var targetLocation = Targets.GetTargets(0);
-                    var target = Targets.GetTargets(0);
+                    AIGroupControlTarget targetLocation = Targets.GetTargets(0);
+                    AIGroupControlTarget target = Targets.GetTargets(0);
                     ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
                     Targets.Delete(0);
                 }

@@ -11,7 +11,7 @@ public partial class TitleScene
 {
     public void ShowScene(bool playMusic)
     {
-        var player = AudioHost.SongPlayer;
+        SongPlayer player = AudioHost.SongPlayer;
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();

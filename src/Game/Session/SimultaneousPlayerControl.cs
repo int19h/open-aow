@@ -131,7 +131,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
 
         StrategicMap.Current.Players.Update();
         StrategicMap.Current.CurrentPlayer = 0;
-        var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+        byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
         StrategicMap.Current.NotifySeatedPlayerChanged();
         Assert(StrategicMap.Current.SeatedPlayer != 0, "", "PlayerC.PAS", 1584);
@@ -160,10 +160,10 @@ public partial class SimultaneousPlayerControl : PlayerControl
     // PlayerC.PAS:1639
     public override void StartLoadedMap()
     {
-        var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+        byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(item).Settings))
         {
-            var fLocalHumanPlayersItem = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            byte fLocalHumanPlayersItem = StrategicMap.Current.Players.LocalHumanPlayers[0];
             ValidatePassword(StrategicMap.Current.Players.GetPlayers(fLocalHumanPlayersItem).Settings);
         }
         else
@@ -267,7 +267,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
         NewTurnEventLog log = default;
         Player player = default;
         StrategicMap.Current.ShowIndependentMoves = false;
-        var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+        byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
         StrategicMap.Current.NotifySeatedPlayerChanged();
         StrategicMap.Current.ResetSeatedPlayerView();

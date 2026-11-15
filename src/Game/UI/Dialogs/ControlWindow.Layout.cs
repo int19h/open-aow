@@ -60,7 +60,7 @@ public partial class ControlWindow : ILayoutModule
         MainWindow.WinHeight = 216;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Label cwTitle = new Label(this);
+        Label cwTitle = new(this);
         session.BeginRead(cwTitle);
         cwTitle.Name = "CWTitle";
         cwTitle.Priority = 0;
@@ -83,7 +83,7 @@ public partial class ControlWindow : ILayoutModule
         cwTitle.Text = "Party";
         cwTitle.TextColor = 0;
         session.EndRead(cwTitle);
-        Button cwMinIcon = new Button(this);
+        Button cwMinIcon = new(this);
         session.BeginRead(cwMinIcon);
         cwMinIcon.Name = "CWMinIcon";
         cwMinIcon.Priority = 0;
@@ -356,7 +356,7 @@ public partial class ControlWindow : ILayoutModule
         Unit8Frame.ImageLibraryIndexLine = 0;
         Unit8Frame.ImageLibraryIndexTexture = 0;
         session.EndRead(Unit8Frame);
-        Image cTitleIcon = new Image(this);
+        Image cTitleIcon = new(this);
         session.BeginRead(cTitleIcon);
         cTitleIcon.Name = "CTitleIcon";
         cTitleIcon.Priority = 0;
@@ -436,7 +436,7 @@ public partial class ControlWindow : ILayoutModule
         PartyStatusLabel.Masked = true;
         PartyStatusLabel.TextColor = 16777215;
         session.EndRead(PartyStatusLabel);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -694,7 +694,7 @@ public partial class ControlWindow : ILayoutModule
         Unit8MovesIcon.Animate = false;
         Unit8MovesIcon.AnimationFrameDelay = 0;
         session.EndRead(Unit8MovesIcon);
-        Image moraleMask = new Image(this);
+        Image moraleMask = new(this);
         session.BeginRead(moraleMask);
         moraleMask.Name = "MoraleMask";
         moraleMask.Visible = false;
@@ -755,7 +755,7 @@ public partial class ControlWindow : ILayoutModule
         MoveIcon.Animate = false;
         MoveIcon.AnimationFrameDelay = 0;
         session.EndRead(MoveIcon);
-        Panel partyT1Pnl = new Panel(this);
+        Panel partyT1Pnl = new(this);
         session.BeginRead(partyT1Pnl);
         partyT1Pnl.Name = "PartyT1Pnl";
         partyT1Pnl.Priority = 0;
@@ -809,7 +809,7 @@ public partial class ControlWindow : ILayoutModule
         PartyMovesPanel.MinWidth = 0;
         PartyMovesPanel.MinHeight = 0;
         session.EndRead(PartyMovesPanel);
-        Panel partyT2Pnl = new Panel(this);
+        Panel partyT2Pnl = new(this);
         session.BeginRead(partyT2Pnl);
         partyT2Pnl.Name = "PartyT2Pnl";
         partyT2Pnl.Priority = 0;
@@ -836,7 +836,7 @@ public partial class ControlWindow : ILayoutModule
         partyT2Pnl.MinWidth = 0;
         partyT2Pnl.MinHeight = 0;
         session.EndRead(partyT2Pnl);
-        Panel partyT3Pnl = new Panel(this);
+        Panel partyT3Pnl = new(this);
         session.BeginRead(partyT3Pnl);
         partyT3Pnl.Name = "PartyT3Pnl";
         partyT3Pnl.Priority = 0;
@@ -863,7 +863,7 @@ public partial class ControlWindow : ILayoutModule
         partyT3Pnl.MinWidth = 0;
         partyT3Pnl.MinHeight = 0;
         session.EndRead(partyT3Pnl);
-        Panel partyT4Pnl = new Panel(this);
+        Panel partyT4Pnl = new(this);
         session.BeginRead(partyT4Pnl);
         partyT4Pnl.Name = "PartyT4Pnl";
         partyT4Pnl.Priority = 0;
@@ -1899,7 +1899,7 @@ public partial class ControlWindow : ILayoutModule
         PartyInfoLabel.Masked = true;
         PartyInfoLabel.TextColor = 9236989;
         session.EndRead(PartyInfoLabel);
-        Button center = new Button(this);
+        Button center = new(this);
         session.BeginRead(center);
         center.Name = "Center";
         center.Priority = 0;
@@ -1933,7 +1933,7 @@ public partial class ControlWindow : ILayoutModule
         center.WinWidth = 15;
         center.OnClick += _ => CenterClick();
         session.EndRead(center);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Priority = 0;
@@ -1967,7 +1967,7 @@ public partial class ControlWindow : ILayoutModule
         help.WinWidth = 15;
         help.OnClick += _ => HelpClick();
         session.EndRead(help);
-        Button pPrev = new Button(this);
+        Button pPrev = new(this);
         session.BeginRead(pPrev);
         pPrev.Name = "PPrev";
         pPrev.Priority = 100;
@@ -2002,7 +2002,7 @@ public partial class ControlWindow : ILayoutModule
         pPrev.WinWidth = 29;
         pPrev.OnClick += _ => PPrevClick();
         session.EndRead(pPrev);
-        Button pMove = new Button(this);
+        Button pMove = new(this);
         session.BeginRead(pMove);
         pMove.Name = "PMove";
         pMove.Priority = 100;
@@ -2037,7 +2037,7 @@ public partial class ControlWindow : ILayoutModule
         pMove.WinWidth = 69;
         pMove.OnClick += _ => PMoveClick();
         session.EndRead(pMove);
-        Button pNext = new Button(this);
+        Button pNext = new(this);
         session.BeginRead(pNext);
         pNext.Name = "PNext";
         pNext.Priority = 100;
@@ -2136,7 +2136,7 @@ public partial class ControlWindow : ILayoutModule
         PartyGuardCheckBox.OnChange += _ => PGuardChange();
         PartyGuardCheckBox.RadioIndex = 0;
         session.EndRead(PartyGuardCheckBox);
-        Frame frame2 = new Frame(this);
+        Frame frame2 = new(this);
         session.BeginRead(frame2);
         frame2.Name = "AoWFrame2";
         frame2.Priority = 0;
@@ -2163,7 +2163,7 @@ public partial class ControlWindow : ILayoutModule
         frame2.ImageLibraryIndexLine = 9;
         frame2.ImageLibraryIndexTexture = 0;
         session.EndRead(frame2);
-        Panel partyB2Pbl = new Panel(this);
+        Panel partyB2Pbl = new(this);
         session.BeginRead(partyB2Pbl);
         partyB2Pbl.Name = "PartyB2Pbl";
         partyB2Pbl.Priority = 0;
@@ -2190,7 +2190,7 @@ public partial class ControlWindow : ILayoutModule
         partyB2Pbl.MinWidth = 0;
         partyB2Pbl.MinHeight = 0;
         session.EndRead(partyB2Pbl);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -2217,7 +2217,7 @@ public partial class ControlWindow : ILayoutModule
         frame1.ImageLibraryIndexLine = 9;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

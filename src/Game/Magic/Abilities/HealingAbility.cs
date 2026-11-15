@@ -39,7 +39,7 @@ public partial class HealingAbility : TouchAbility
         }
         else
         {
-            var used = AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText);
+            string used = AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText);
             result = AbilityName + " (" + LowerCase(used) + ")";
         }
 
@@ -126,7 +126,7 @@ public partial class HealingAbility : TouchAbility
         HealingUnitSelector selector;
         if (CanActivate(owner, ref reason))
         {
-            var troop = owner as Troop;
+            Troop troop = owner as Troop;
             info = new UnitSelectionActivation(null) { Holder = CreationHolder() };
             info.AbilityId = AbilityId;
             if (troop != null)
@@ -139,13 +139,13 @@ public partial class HealingAbility : TouchAbility
             }
 
             selector = new HealingUnitSelector(this);
-            var healing = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
+            string healing = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
             selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [healing]);
             if (troop != null)
             {
                 if (troop.Owner is IHeroHolder)
                 {
-                    var empty = new UnitUserList(null) { Holder = CreationHolder() };
+                    UnitUserList empty = new(null) { Holder = CreationHolder() };
                     selector.Setup(troop, empty.Units);
                     empty.Dispose();
                 }
@@ -204,8 +204,8 @@ public partial class HealingAbility : TouchAbility
     {
         if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            var hits = defender.GetHits();
-            var hitPoints = defender.GetHitPoints();
+            sbyte hits = defender.GetHits();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hits - hitPoints;
             if (damageValues.SourceCost > 5)
             {
@@ -275,7 +275,7 @@ public partial class HealingAbility : TouchAbility
         bool result = base.CanTouchUnit(source, target);
         if (result)
         {
-            var unitType = target.GetUnitType();
+            UnitType unitType = target.GetUnitType();
             result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
         }
 
@@ -311,7 +311,7 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3680
     public HealingCombatAction CreateHealingCombatAction(CombatObject source, CombatObject target)
     {
-        HealingCombatAction result = new HealingCombatAction(null) { Holder = CreationHolder() };
+        HealingCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(source.Id, target.Id);
         return result;
     }

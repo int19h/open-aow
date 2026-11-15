@@ -334,7 +334,7 @@ public partial class ItemBanner : ILayoutModule
         AbilityList.ItemHeight = 12;
         AbilityList.TextAlign = TextAlignment.Center;
         session.EndRead(AbilityList);
-        VerticalScrollBar abVSB = new VerticalScrollBar(this);
+        VerticalScrollBar abVSB = new(this);
         session.BeginRead(abVSB);
         abVSB.Name = "AbVSB";
         abVSB.Priority = 0;

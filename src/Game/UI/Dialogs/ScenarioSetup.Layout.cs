@@ -49,7 +49,7 @@ public partial class ScenarioSetup : ILayoutModule
         ChatMemo.ColorChangeChar = 0;
         ChatMemo.TextAlign = TextAlignment.Left;
         session.EndRead(ChatMemo);
-        Panel chatPnl = new Panel(this);
+        Panel chatPnl = new(this);
         session.BeginRead(chatPnl);
         chatPnl.Name = "ChatPnl";
         chatPnl.Priority = 1;
@@ -146,7 +146,7 @@ public partial class ScenarioSetup : ILayoutModule
         ChatEdit.OnReturn += _ => ChatEditReturn();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
-        Panel sidesPnl = new Panel(this);
+        Panel sidesPnl = new(this);
         session.BeginRead(sidesPnl);
         sidesPnl.Name = "SidesPnl";
         sidesPnl.Priority = 10;
@@ -173,7 +173,7 @@ public partial class ScenarioSetup : ILayoutModule
         sidesPnl.MinWidth = 0;
         sidesPnl.MinHeight = 0;
         session.EndRead(sidesPnl);
-        Panel settingsPnl = new Panel(this);
+        Panel settingsPnl = new(this);
         session.BeginRead(settingsPnl);
         settingsPnl.Name = "SettingsPnl";
         settingsPnl.Priority = 1;
@@ -274,7 +274,7 @@ public partial class ScenarioSetup : ILayoutModule
         EjectButton.WinWidth = 70;
         EjectButton.OnClick += _ => EjectBtnClick();
         session.EndRead(EjectButton);
-        Panel r1Pnl = new Panel(this);
+        Panel r1Pnl = new(this);
         session.BeginRead(r1Pnl);
         r1Pnl.Name = "R1Pnl";
         r1Pnl.Priority = 0;
@@ -302,7 +302,7 @@ public partial class ScenarioSetup : ILayoutModule
         r1Pnl.MinWidth = 0;
         r1Pnl.MinHeight = 0;
         session.EndRead(r1Pnl);
-        Panel r5Pnl = new Panel(this);
+        Panel r5Pnl = new(this);
         session.BeginRead(r5Pnl);
         r5Pnl.Name = "R5Pnl";
         r5Pnl.Tag = 4;
@@ -331,7 +331,7 @@ public partial class ScenarioSetup : ILayoutModule
         r5Pnl.MinWidth = 0;
         r5Pnl.MinHeight = 0;
         session.EndRead(r5Pnl);
-        Panel r9Pnl = new Panel(this);
+        Panel r9Pnl = new(this);
         session.BeginRead(r9Pnl);
         r9Pnl.Name = "R9Pnl";
         r9Pnl.Tag = 8;
@@ -360,7 +360,7 @@ public partial class ScenarioSetup : ILayoutModule
         r9Pnl.MinWidth = 0;
         r9Pnl.MinHeight = 0;
         session.EndRead(r9Pnl);
-        Panel r2Pnl = new Panel(this);
+        Panel r2Pnl = new(this);
         session.BeginRead(r2Pnl);
         r2Pnl.Name = "R2Pnl";
         r2Pnl.Tag = 1;
@@ -389,7 +389,7 @@ public partial class ScenarioSetup : ILayoutModule
         r2Pnl.MinWidth = 0;
         r2Pnl.MinHeight = 0;
         session.EndRead(r2Pnl);
-        Panel r6Pnl = new Panel(this);
+        Panel r6Pnl = new(this);
         session.BeginRead(r6Pnl);
         r6Pnl.Name = "R6Pnl";
         r6Pnl.Tag = 5;
@@ -418,7 +418,7 @@ public partial class ScenarioSetup : ILayoutModule
         r6Pnl.MinWidth = 0;
         r6Pnl.MinHeight = 0;
         session.EndRead(r6Pnl);
-        Panel r10Pnl = new Panel(this);
+        Panel r10Pnl = new(this);
         session.BeginRead(r10Pnl);
         r10Pnl.Name = "R10Pnl";
         r10Pnl.Tag = 9;
@@ -447,7 +447,7 @@ public partial class ScenarioSetup : ILayoutModule
         r10Pnl.MinWidth = 0;
         r10Pnl.MinHeight = 0;
         session.EndRead(r10Pnl);
-        Panel r3Pnl = new Panel(this);
+        Panel r3Pnl = new(this);
         session.BeginRead(r3Pnl);
         r3Pnl.Name = "R3Pnl";
         r3Pnl.Tag = 2;
@@ -476,7 +476,7 @@ public partial class ScenarioSetup : ILayoutModule
         r3Pnl.MinWidth = 0;
         r3Pnl.MinHeight = 0;
         session.EndRead(r3Pnl);
-        Panel r7Pnl = new Panel(this);
+        Panel r7Pnl = new(this);
         session.BeginRead(r7Pnl);
         r7Pnl.Name = "R7Pnl";
         r7Pnl.Tag = 6;
@@ -505,7 +505,7 @@ public partial class ScenarioSetup : ILayoutModule
         r7Pnl.MinWidth = 0;
         r7Pnl.MinHeight = 0;
         session.EndRead(r7Pnl);
-        Panel r11Pnl = new Panel(this);
+        Panel r11Pnl = new(this);
         session.BeginRead(r11Pnl);
         r11Pnl.Name = "R11Pnl";
         r11Pnl.Tag = 10;
@@ -534,7 +534,7 @@ public partial class ScenarioSetup : ILayoutModule
         r11Pnl.MinWidth = 0;
         r11Pnl.MinHeight = 0;
         session.EndRead(r11Pnl);
-        Panel r4Pnl = new Panel(this);
+        Panel r4Pnl = new(this);
         session.BeginRead(r4Pnl);
         r4Pnl.Name = "R4Pnl";
         r4Pnl.Tag = 3;
@@ -563,7 +563,7 @@ public partial class ScenarioSetup : ILayoutModule
         r4Pnl.MinWidth = 0;
         r4Pnl.MinHeight = 0;
         session.EndRead(r4Pnl);
-        Panel r8Pnl = new Panel(this);
+        Panel r8Pnl = new(this);
         session.BeginRead(r8Pnl);
         r8Pnl.Name = "R8Pnl";
         r8Pnl.Tag = 7;
@@ -592,7 +592,7 @@ public partial class ScenarioSetup : ILayoutModule
         r8Pnl.MinWidth = 0;
         r8Pnl.MinHeight = 0;
         session.EndRead(r8Pnl);
-        Panel r12Pnl = new Panel(this);
+        Panel r12Pnl = new(this);
         session.BeginRead(r12Pnl);
         r12Pnl.Name = "R12Pnl";
         r12Pnl.Tag = 11;
@@ -621,7 +621,7 @@ public partial class ScenarioSetup : ILayoutModule
         r12Pnl.MinWidth = 0;
         r12Pnl.MinHeight = 0;
         session.EndRead(r12Pnl);
-        Button exitGame = new Button(this);
+        Button exitGame = new(this);
         session.BeginRead(exitGame);
         exitGame.Name = "ExitGame";
         exitGame.Priority = 99980;
@@ -726,7 +726,7 @@ public partial class ScenarioSetup : ILayoutModule
         StartButton.WinWidth = 114;
         StartButton.OnClick += _ => StartBtnClick();
         session.EndRead(StartButton);
-        Label miscLbl = new Label(this);
+        Label miscLbl = new(this);
         session.BeginRead(miscLbl);
         miscLbl.Name = "MiscLbl";
         miscLbl.Priority = 0;
@@ -806,7 +806,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side1PlayerIcon.Animate = false;
         Side1PlayerIcon.AnimationFrameDelay = 0;
         session.EndRead(Side1PlayerIcon);
-        Label r1Lbl = new Label(this);
+        Label r1Lbl = new(this);
         session.BeginRead(r1Lbl);
         r1Lbl.Name = "R1Lbl";
         r1Lbl.Priority = 0;
@@ -866,7 +866,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side1PlayerComboBox.ImageLibraryTsIndex = 16;
         Side1PlayerComboBox.ItemHeight = 15;
         session.EndRead(Side1PlayerComboBox);
-        Panel r1CenterPnl = new Panel(this);
+        Panel r1CenterPnl = new(this);
         session.BeginRead(r1CenterPnl);
         r1CenterPnl.Name = "R1CenterPnl";
         r1CenterPnl.Priority = 10;
@@ -893,7 +893,7 @@ public partial class ScenarioSetup : ILayoutModule
         r1CenterPnl.MinWidth = 0;
         r1CenterPnl.MinHeight = 0;
         session.EndRead(r1CenterPnl);
-        Label turnLbl = new Label(this);
+        Label turnLbl = new(this);
         session.BeginRead(turnLbl);
         turnLbl.Name = "TurnLbl";
         turnLbl.Priority = 0;
@@ -916,7 +916,7 @@ public partial class ScenarioSetup : ILayoutModule
         turnLbl.Text = "Turns ";
         turnLbl.TextColor = 12632256;
         session.EndRead(turnLbl);
-        Label durationLbl = new Label(this);
+        Label durationLbl = new(this);
         session.BeginRead(durationLbl);
         durationLbl.Name = "DurationLbl";
         durationLbl.Priority = 0;
@@ -939,7 +939,7 @@ public partial class ScenarioSetup : ILayoutModule
         durationLbl.Text = "Duration";
         durationLbl.TextColor = 12632256;
         session.EndRead(durationLbl);
-        Label turnsLbl = new Label(this);
+        Label turnsLbl = new(this);
         session.BeginRead(turnsLbl);
         turnsLbl.Name = "TurnsLbl";
         turnsLbl.Priority = 100;
@@ -966,7 +966,7 @@ public partial class ScenarioSetup : ILayoutModule
         turnsLbl.Text = "Turns";
         turnsLbl.TextColor = 8421504;
         session.EndRead(turnsLbl);
-        Label turnTimeLbl = new Label(this);
+        Label turnTimeLbl = new(this);
         session.BeginRead(turnTimeLbl);
         turnTimeLbl.Name = "TurnTimeLbl";
         turnTimeLbl.Priority = 100;
@@ -1061,7 +1061,7 @@ public partial class ScenarioSetup : ILayoutModule
         TurnTimeValueLabel.Text = "#######";
         TurnTimeValueLabel.TextColor = 8421504;
         session.EndRead(TurnTimeValueLabel);
-        Frame durFr = new Frame(this);
+        Frame durFr = new(this);
         session.BeginRead(durFr);
         durFr.Name = "DurFr";
         durFr.Priority = 0;
@@ -1193,7 +1193,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side1BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side1BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side1BehaviorComboBox);
-        VerticalScrollBar r1BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r1BehaviorSB = new(this);
         session.BeginRead(r1BehaviorSB);
         r1BehaviorSB.Name = "R1BehaviorSB";
         r1BehaviorSB.Visible = false;
@@ -1230,7 +1230,7 @@ public partial class ScenarioSetup : ILayoutModule
         r1BehaviorSB.ImageLibraryIndexBack = 63;
         r1BehaviorSB.ThumbImageIndex = 60;
         session.EndRead(r1BehaviorSB);
-        VerticalScrollBar r1PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r1PlayerSB = new(this);
         session.BeginRead(r1PlayerSB);
         r1PlayerSB.Name = "R1PlayerSB";
         r1PlayerSB.Visible = false;
@@ -1304,7 +1304,7 @@ public partial class ScenarioSetup : ILayoutModule
         PlayModeComboBox.ImageLibraryTsIndex = 16;
         PlayModeComboBox.ItemHeight = 13;
         session.EndRead(PlayModeComboBox);
-        VerticalScrollBar turnVSB = new VerticalScrollBar(this);
+        VerticalScrollBar turnVSB = new(this);
         session.BeginRead(turnVSB);
         turnVSB.Name = "TurnVSB";
         turnVSB.Visible = false;
@@ -1363,7 +1363,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side1InfoLabel.Masked = true;
         Side1InfoLabel.TextColor = 14316400;
         session.EndRead(Side1InfoLabel);
-        Panel r3CenterPnl = new Panel(this);
+        Panel r3CenterPnl = new(this);
         session.BeginRead(r3CenterPnl);
         r3CenterPnl.Name = "R3CenterPnl";
         r3CenterPnl.Priority = 10;
@@ -1390,7 +1390,7 @@ public partial class ScenarioSetup : ILayoutModule
         r3CenterPnl.MinWidth = 0;
         r3CenterPnl.MinHeight = 0;
         session.EndRead(r3CenterPnl);
-        Label r3Lbl = new Label(this);
+        Label r3Lbl = new(this);
         session.BeginRead(r3Lbl);
         r3Lbl.Name = "R3Lbl";
         r3Lbl.Priority = 0;
@@ -1451,7 +1451,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side3BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side3BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side3BehaviorComboBox);
-        VerticalScrollBar r3BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r3BehaviorSB = new(this);
         session.BeginRead(r3BehaviorSB);
         r3BehaviorSB.Name = "R3BehaviorSB";
         r3BehaviorSB.Visible = false;
@@ -1576,7 +1576,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side3PlayerComboBox.ImageLibraryTsIndex = 16;
         Side3PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side3PlayerComboBox);
-        VerticalScrollBar r3PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r3PlayerSB = new(this);
         session.BeginRead(r3PlayerSB);
         r3PlayerSB.Name = "R3PlayerSB";
         r3PlayerSB.Visible = false;
@@ -1635,7 +1635,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side3InfoLabel.Masked = true;
         Side3InfoLabel.TextColor = 9347661;
         session.EndRead(Side3InfoLabel);
-        Panel r2CenterPnl = new Panel(this);
+        Panel r2CenterPnl = new(this);
         session.BeginRead(r2CenterPnl);
         r2CenterPnl.Name = "R2CenterPnl";
         r2CenterPnl.Priority = 10;
@@ -1662,7 +1662,7 @@ public partial class ScenarioSetup : ILayoutModule
         r2CenterPnl.MinWidth = 0;
         r2CenterPnl.MinHeight = 0;
         session.EndRead(r2CenterPnl);
-        Label r2Lbl = new Label(this);
+        Label r2Lbl = new(this);
         session.BeginRead(r2Lbl);
         r2Lbl.Name = "R2Lbl";
         r2Lbl.Priority = 0;
@@ -1723,7 +1723,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side2BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side2BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side2BehaviorComboBox);
-        VerticalScrollBar r2BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r2BehaviorSB = new(this);
         session.BeginRead(r2BehaviorSB);
         r2BehaviorSB.Name = "R2BehaviorSB";
         r2BehaviorSB.Visible = false;
@@ -1848,7 +1848,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side2PlayerComboBox.ImageLibraryTsIndex = 16;
         Side2PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side2PlayerComboBox);
-        VerticalScrollBar r2PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r2PlayerSB = new(this);
         session.BeginRead(r2PlayerSB);
         r2PlayerSB.Name = "R2PlayerSB";
         r2PlayerSB.Visible = false;
@@ -1951,7 +1951,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side4PlayerLabel.Masked = true;
         Side4PlayerLabel.TextColor = 15188376;
         session.EndRead(Side4PlayerLabel);
-        Panel r4CenterPnl = new Panel(this);
+        Panel r4CenterPnl = new(this);
         session.BeginRead(r4CenterPnl);
         r4CenterPnl.Name = "R4CenterPnl";
         r4CenterPnl.Priority = 10;
@@ -1978,7 +1978,7 @@ public partial class ScenarioSetup : ILayoutModule
         r4CenterPnl.MinWidth = 0;
         r4CenterPnl.MinHeight = 0;
         session.EndRead(r4CenterPnl);
-        Label r4Lbl = new Label(this);
+        Label r4Lbl = new(this);
         session.BeginRead(r4Lbl);
         r4Lbl.Name = "R4Lbl";
         r4Lbl.Priority = 0;
@@ -2001,7 +2001,7 @@ public partial class ScenarioSetup : ILayoutModule
         r4Lbl.Text = "Frostlings";
         r4Lbl.TextColor = 15188376;
         session.EndRead(r4Lbl);
-        VerticalScrollBar r4BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r4BehaviorSB = new(this);
         session.BeginRead(r4BehaviorSB);
         r4BehaviorSB.Name = "R4BehaviorSB";
         r4BehaviorSB.Visible = false;
@@ -2076,7 +2076,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side4PlayerComboBox.ImageLibraryTsIndex = 16;
         Side4PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side4PlayerComboBox);
-        VerticalScrollBar r4PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r4PlayerSB = new(this);
         session.BeginRead(r4PlayerSB);
         r4PlayerSB.Name = "R4PlayerSB";
         r4PlayerSB.Visible = false;
@@ -2169,7 +2169,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side5PlayerIcon.Animate = false;
         Side5PlayerIcon.AnimationFrameDelay = 0;
         session.EndRead(Side5PlayerIcon);
-        Label r5Lbl = new Label(this);
+        Label r5Lbl = new(this);
         session.BeginRead(r5Lbl);
         r5Lbl.Name = "R5Lbl";
         r5Lbl.Priority = 0;
@@ -2230,7 +2230,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side5PlayerComboBox.ImageLibraryTsIndex = 16;
         Side5PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side5PlayerComboBox);
-        Panel r5CenterPnl = new Panel(this);
+        Panel r5CenterPnl = new(this);
         session.BeginRead(r5CenterPnl);
         r5CenterPnl.Name = "R5CenterPnl";
         r5CenterPnl.Priority = 10;
@@ -2295,7 +2295,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side5BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side5BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side5BehaviorComboBox);
-        VerticalScrollBar r5BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r5BehaviorSB = new(this);
         session.BeginRead(r5BehaviorSB);
         r5BehaviorSB.Name = "R5BehaviorSB";
         r5BehaviorSB.Visible = false;
@@ -2332,7 +2332,7 @@ public partial class ScenarioSetup : ILayoutModule
         r5BehaviorSB.ImageLibraryIndexBack = 63;
         r5BehaviorSB.ThumbImageIndex = 60;
         session.EndRead(r5BehaviorSB);
-        VerticalScrollBar r5PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r5PlayerSB = new(this);
         session.BeginRead(r5PlayerSB);
         r5PlayerSB.Name = "R5PlayerSB";
         r5PlayerSB.Visible = false;
@@ -2413,7 +2413,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side5PlayerLabel.Masked = true;
         Side5PlayerLabel.TextColor = 4830826;
         session.EndRead(Side5PlayerLabel);
-        Panel r6CenterPnl = new Panel(this);
+        Panel r6CenterPnl = new(this);
         session.BeginRead(r6CenterPnl);
         r6CenterPnl.Name = "R6CenterPnl";
         r6CenterPnl.Priority = 10;
@@ -2440,7 +2440,7 @@ public partial class ScenarioSetup : ILayoutModule
         r6CenterPnl.MinWidth = 0;
         r6CenterPnl.MinHeight = 0;
         session.EndRead(r6CenterPnl);
-        Label r6Lbl = new Label(this);
+        Label r6Lbl = new(this);
         session.BeginRead(r6Lbl);
         r6Lbl.Name = "R6Lbl";
         r6Lbl.Priority = 0;
@@ -2501,7 +2501,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side6BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side6BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side6BehaviorComboBox);
-        VerticalScrollBar r6BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r6BehaviorSB = new(this);
         session.BeginRead(r6BehaviorSB);
         r6BehaviorSB.Name = "R6BehaviorSB";
         r6BehaviorSB.Visible = false;
@@ -2626,7 +2626,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side6PlayerComboBox.ImageLibraryTsIndex = 16;
         Side6PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side6PlayerComboBox);
-        VerticalScrollBar r6PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r6PlayerSB = new(this);
         session.BeginRead(r6PlayerSB);
         r6PlayerSB.Name = "R6PlayerSB";
         r6PlayerSB.Visible = false;
@@ -2685,7 +2685,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side6InfoLabel.Masked = true;
         Side6InfoLabel.TextColor = 7464174;
         session.EndRead(Side6InfoLabel);
-        Panel r7CenterPnl = new Panel(this);
+        Panel r7CenterPnl = new(this);
         session.BeginRead(r7CenterPnl);
         r7CenterPnl.Name = "R7CenterPnl";
         r7CenterPnl.Priority = 10;
@@ -2712,7 +2712,7 @@ public partial class ScenarioSetup : ILayoutModule
         r7CenterPnl.MinWidth = 0;
         r7CenterPnl.MinHeight = 0;
         session.EndRead(r7CenterPnl);
-        Label r7Lbl = new Label(this);
+        Label r7Lbl = new(this);
         session.BeginRead(r7Lbl);
         r7Lbl.Name = "R7Lbl";
         r7Lbl.Priority = 0;
@@ -2773,7 +2773,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side7BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side7BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side7BehaviorComboBox);
-        VerticalScrollBar r7BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r7BehaviorSB = new(this);
         session.BeginRead(r7BehaviorSB);
         r7BehaviorSB.Name = "R7BehaviorSB";
         r7BehaviorSB.Visible = false;
@@ -2898,7 +2898,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side7PlayerComboBox.ImageLibraryTsIndex = 16;
         Side7PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side7PlayerComboBox);
-        VerticalScrollBar r7PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r7PlayerSB = new(this);
         session.BeginRead(r7PlayerSB);
         r7PlayerSB.Name = "R7PlayerSB";
         r7PlayerSB.Visible = false;
@@ -3001,7 +3001,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side8PlayerLabel.Masked = true;
         Side8PlayerLabel.TextColor = 14346733;
         session.EndRead(Side8PlayerLabel);
-        Panel r8CenterPnl = new Panel(this);
+        Panel r8CenterPnl = new(this);
         session.BeginRead(r8CenterPnl);
         r8CenterPnl.Name = "R8CenterPnl";
         r8CenterPnl.Priority = 10;
@@ -3028,7 +3028,7 @@ public partial class ScenarioSetup : ILayoutModule
         r8CenterPnl.MinWidth = 0;
         r8CenterPnl.MinHeight = 0;
         session.EndRead(r8CenterPnl);
-        Label r8Lbl = new Label(this);
+        Label r8Lbl = new(this);
         session.BeginRead(r8Lbl);
         r8Lbl.Name = "R8Lbl";
         r8Lbl.Priority = 0;
@@ -3089,7 +3089,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side8BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side8BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side8BehaviorComboBox);
-        VerticalScrollBar r8BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r8BehaviorSB = new(this);
         session.BeginRead(r8BehaviorSB);
         r8BehaviorSB.Name = "R8BehaviorSB";
         r8BehaviorSB.Visible = false;
@@ -3164,7 +3164,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side8PlayerComboBox.ImageLibraryTsIndex = 16;
         Side8PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side8PlayerComboBox);
-        VerticalScrollBar r8PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r8PlayerSB = new(this);
         session.BeginRead(r8PlayerSB);
         r8PlayerSB.Name = "R8PlayerSB";
         r8PlayerSB.Visible = false;
@@ -3257,7 +3257,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9PlayerIcon.Animate = false;
         Side9PlayerIcon.AnimationFrameDelay = 0;
         session.EndRead(Side9PlayerIcon);
-        Label r9Lbl = new Label(this);
+        Label r9Lbl = new(this);
         session.BeginRead(r9Lbl);
         r9Lbl.Name = "R9Lbl";
         r9Lbl.Priority = 0;
@@ -3318,7 +3318,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9PlayerComboBox.ImageLibraryTsIndex = 16;
         Side9PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side9PlayerComboBox);
-        Panel r9CenterPnl = new Panel(this);
+        Panel r9CenterPnl = new(this);
         session.BeginRead(r9CenterPnl);
         r9CenterPnl.Name = "R9CenterPnl";
         r9CenterPnl.Priority = 10;
@@ -3383,7 +3383,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side9BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side9BehaviorComboBox);
-        VerticalScrollBar r9BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r9BehaviorSB = new(this);
         session.BeginRead(r9BehaviorSB);
         r9BehaviorSB.Name = "R9BehaviorSB";
         r9BehaviorSB.Visible = false;
@@ -3420,7 +3420,7 @@ public partial class ScenarioSetup : ILayoutModule
         r9BehaviorSB.ImageLibraryIndexBack = 63;
         r9BehaviorSB.ThumbImageIndex = 60;
         session.EndRead(r9BehaviorSB);
-        VerticalScrollBar r9PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r9PlayerSB = new(this);
         session.BeginRead(r9PlayerSB);
         r9PlayerSB.Name = "R9PlayerSB";
         r9PlayerSB.Visible = false;
@@ -3501,7 +3501,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9PlayerLabel.Masked = true;
         Side9PlayerLabel.TextColor = 12215222;
         session.EndRead(Side9PlayerLabel);
-        Panel r10CenterPnl = new Panel(this);
+        Panel r10CenterPnl = new(this);
         session.BeginRead(r10CenterPnl);
         r10CenterPnl.Name = "R10CenterPnl";
         r10CenterPnl.Priority = 10;
@@ -3528,7 +3528,7 @@ public partial class ScenarioSetup : ILayoutModule
         r10CenterPnl.MinWidth = 0;
         r10CenterPnl.MinHeight = 0;
         session.EndRead(r10CenterPnl);
-        Label r10Lbl = new Label(this);
+        Label r10Lbl = new(this);
         session.BeginRead(r10Lbl);
         r10Lbl.Name = "R10Lbl";
         r10Lbl.Priority = 0;
@@ -3589,7 +3589,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side10BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side10BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side10BehaviorComboBox);
-        VerticalScrollBar r10BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r10BehaviorSB = new(this);
         session.BeginRead(r10BehaviorSB);
         r10BehaviorSB.Name = "R10BehaviorSB";
         r10BehaviorSB.Visible = false;
@@ -3714,7 +3714,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side10PlayerComboBox.ImageLibraryTsIndex = 16;
         Side10PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side10PlayerComboBox);
-        VerticalScrollBar s10sb2 = new VerticalScrollBar(this);
+        VerticalScrollBar s10sb2 = new(this);
         session.BeginRead(s10sb2);
         s10sb2.Name = "s10sb2";
         s10sb2.Visible = false;
@@ -3773,7 +3773,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side10InfoLabel.Masked = true;
         Side10InfoLabel.TextColor = 4408305;
         session.EndRead(Side10InfoLabel);
-        Panel r11CenterPnl = new Panel(this);
+        Panel r11CenterPnl = new(this);
         session.BeginRead(r11CenterPnl);
         r11CenterPnl.Name = "R11CenterPnl";
         r11CenterPnl.Priority = 10;
@@ -3800,7 +3800,7 @@ public partial class ScenarioSetup : ILayoutModule
         r11CenterPnl.MinWidth = 0;
         r11CenterPnl.MinHeight = 0;
         session.EndRead(r11CenterPnl);
-        Label r11Lbl = new Label(this);
+        Label r11Lbl = new(this);
         session.BeginRead(r11Lbl);
         r11Lbl.Name = "R11Lbl";
         r11Lbl.Priority = 0;
@@ -3861,7 +3861,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side11BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side11BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side11BehaviorComboBox);
-        VerticalScrollBar r11BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r11BehaviorSB = new(this);
         session.BeginRead(r11BehaviorSB);
         r11BehaviorSB.Name = "R11BehaviorSB";
         r11BehaviorSB.Visible = false;
@@ -3986,7 +3986,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side11PlayerComboBox.ImageLibraryTsIndex = 16;
         Side11PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side11PlayerComboBox);
-        VerticalScrollBar r11PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r11PlayerSB = new(this);
         session.BeginRead(r11PlayerSB);
         r11PlayerSB.Name = "R11PlayerSB";
         r11PlayerSB.Visible = false;
@@ -4089,7 +4089,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side12PlayerLabel.Masked = true;
         Side12PlayerLabel.TextColor = 7765394;
         session.EndRead(Side12PlayerLabel);
-        Panel r12CenterPnl = new Panel(this);
+        Panel r12CenterPnl = new(this);
         session.BeginRead(r12CenterPnl);
         r12CenterPnl.Name = "R12CenterPnl";
         r12CenterPnl.Priority = 10;
@@ -4116,7 +4116,7 @@ public partial class ScenarioSetup : ILayoutModule
         r12CenterPnl.MinWidth = 0;
         r12CenterPnl.MinHeight = 0;
         session.EndRead(r12CenterPnl);
-        Label r12Lbl = new Label(this);
+        Label r12Lbl = new(this);
         session.BeginRead(r12Lbl);
         r12Lbl.Name = "R12Lbl";
         r12Lbl.Priority = 0;
@@ -4177,7 +4177,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side12BehaviorComboBox.ImageLibraryTsIndex = 16;
         Side12BehaviorComboBox.ItemHeight = 13;
         session.EndRead(Side12BehaviorComboBox);
-        VerticalScrollBar r12BehaviorSB = new VerticalScrollBar(this);
+        VerticalScrollBar r12BehaviorSB = new(this);
         session.BeginRead(r12BehaviorSB);
         r12BehaviorSB.Name = "R12BehaviorSB";
         r12BehaviorSB.Visible = false;
@@ -4252,7 +4252,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side12PlayerComboBox.ImageLibraryTsIndex = 16;
         Side12PlayerComboBox.ItemHeight = 13;
         session.EndRead(Side12PlayerComboBox);
-        VerticalScrollBar r12PlayerSB = new VerticalScrollBar(this);
+        VerticalScrollBar r12PlayerSB = new(this);
         session.BeginRead(r12PlayerSB);
         r12PlayerSB.Name = "R12PlayerSB";
         r12PlayerSB.Visible = false;
@@ -4359,7 +4359,7 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceComboBox.ImageLibraryTsIndex = 16;
         PreferredRaceComboBox.ItemHeight = 13;
         session.EndRead(PreferredRaceComboBox);
-        VerticalScrollBar preferredRaceSB = new VerticalScrollBar(this);
+        VerticalScrollBar preferredRaceSB = new(this);
         session.BeginRead(preferredRaceSB);
         preferredRaceSB.Name = "PreferredRaceSB";
         preferredRaceSB.Visible = false;
@@ -4419,7 +4419,7 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceLabel.Text = "Preferred Side";
         PreferredRaceLabel.TextColor = 8421504;
         session.EndRead(PreferredRaceLabel);
-        Frame lFr = new Frame(this);
+        Frame lFr = new(this);
         session.BeginRead(lFr);
         lFr.Name = "LFr";
         lFr.Priority = 0;
@@ -4893,7 +4893,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9FogPanel.MinWidth = 0;
         Side9FogPanel.MinHeight = 0;
         session.EndRead(Side9FogPanel);
-        Button preferredRaceSort = new Button(this);
+        Button preferredRaceSort = new(this);
         session.BeginRead(preferredRaceSort);
         preferredRaceSort.Name = "PreferredRaceSort";
         preferredRaceSort.Priority = 300;
@@ -4923,7 +4923,7 @@ public partial class ScenarioSetup : ILayoutModule
         preferredRaceSort.TextSelectedColor = 16777215;
         preferredRaceSort.WinWidth = 61;
         session.EndRead(preferredRaceSort);
-        Button playerListSort = new Button(this);
+        Button playerListSort = new(this);
         session.BeginRead(playerListSort);
         playerListSort.Name = "PlayerListSort";
         playerListSort.Priority = 500;
@@ -4953,7 +4953,7 @@ public partial class ScenarioSetup : ILayoutModule
         playerListSort.TextSelectedColor = 16777215;
         playerListSort.WinWidth = 71;
         session.EndRead(playerListSort);
-        Panel connectionPnl = new Panel(this);
+        Panel connectionPnl = new(this);
         session.BeginRead(connectionPnl);
         connectionPnl.Name = "ConnectionPnl";
         connectionPnl.Priority = 1;
@@ -5018,7 +5018,7 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceList.ItemHeight = 15;
         PreferredRaceList.TextAlign = TextAlignment.Left;
         session.EndRead(PreferredRaceList);
-        Button button1 = new Button(this);
+        Button button1 = new(this);
         session.BeginRead(button1);
         button1.Name = "AOWButton1";
         button1.Priority = 301;
@@ -5148,7 +5148,7 @@ public partial class ScenarioSetup : ILayoutModule
         SettingsFogPanel.MinWidth = 0;
         SettingsFogPanel.MinHeight = 0;
         session.EndRead(SettingsFogPanel);
-        Label explorationLbl = new Label(this);
+        Label explorationLbl = new(this);
         session.BeginRead(explorationLbl);
         explorationLbl.Name = "ExplorationLbl";
         explorationLbl.Priority = 100;
@@ -5426,7 +5426,7 @@ public partial class ScenarioSetup : ILayoutModule
         LeadersOnMapCheckBox.OnChange += LeadersOnMapCBChange;
         LeadersOnMapCheckBox.RadioIndex = 0;
         session.EndRead(LeadersOnMapCheckBox);
-        Label label1 = new Label(this);
+        Label label1 = new(this);
         session.BeginRead(label1);
         label1.Name = "AOWLabel1";
         label1.Priority = 100;
@@ -5516,7 +5516,7 @@ public partial class ScenarioSetup : ILayoutModule
         AlliedVictoryLabel.Text = "Allied victory";
         AlliedVictoryLabel.TextColor = 8421504;
         session.EndRead(AlliedVictoryLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
@@ -5524,7 +5524,7 @@ public partial class ScenarioSetup : ILayoutModule
         translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
         translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
         session.EndRead(translator);
-        VerticalScrollBar vScrollBar1 = new VerticalScrollBar(this);
+        VerticalScrollBar vScrollBar1 = new(this);
         session.BeginRead(vScrollBar1);
         vScrollBar1.Name = "AOWVScrollBar1";
         vScrollBar1.Visible = false;

@@ -52,8 +52,8 @@ public sealed class FileDialogSortTests
     [Fact]
     public void SortKeepsTheSelectedNameAndNullDatesStayFirst()
     {
-        var older = new FileTime { Time = 1 };
-        var newer = new FileTime { Time = 2 };
+        FileTime older = new() { Time = 1 };
+        FileTime newer = new() { Time = 2 };
         Assert.Equal(-1, FileDialogWindow.CompareFileDates("beta", "aaa.asg", null, older));
         Assert.Equal(1, FileDialogWindow.CompareFileDates("aaa.asg", "beta", older, null));
         Assert.True(FileDialogWindow.CompareFileDates("beta", "alpha", null, null) > 0);
@@ -102,7 +102,7 @@ public sealed class FileDialogSortTests
 
     private static string[] Names(ListBox list)
     {
-        var names = new string[list.Items.Count];
+        string[] names = new string[list.Items.Count];
         for (int i = 0; i < names.Length; i++)
         {
             names[i] = list.Items[i];
@@ -117,9 +117,9 @@ public sealed class FileDialogSortTests
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDirectory = Path.Combine(directory, "settings");
-        var previousDirectories = FileDialogWindow.Directories;
-        var previousFiles = FileDialogWindow.Files;
-        var previousDrives = FileDialogWindow.Drives;
+        StringList previousDirectories = FileDialogWindow.Directories;
+        StringList<FileTime> previousFiles = FileDialogWindow.Files;
+        StringList previousDrives = FileDialogWindow.Drives;
         FileDialogWindow? dialog = null;
         try
         {
@@ -188,8 +188,8 @@ public sealed class FileDialogSortTests
 
     private static FileDialogWindow Dialog()
     {
-        var ui = new UIContext(EngineFixture.Engine);
-        var dialog = ui.Add(new FileDialogWindow(ui));
+        UIContext ui = new(EngineFixture.Engine);
+        FileDialogWindow dialog = ui.Add(new FileDialogWindow(ui));
         dialog.Mode = 0;
         dialog.FileList = new ListBox<FileTime>(null);
         dialog.SaveList = new ListBox<FileTime>(null);

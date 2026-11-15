@@ -12,10 +12,10 @@ public sealed class PlayerSlots : ReferenceDomain
 
     public override IReadOnlySet<long> Collect(JsonObject root)
     {
-        var slots = new HashSet<long>();
+        HashSet<long> slots = new();
         if (root["Players"] is JsonObject players && players["Children"] is JsonArray children)
         {
-            foreach (var child in children.Items)
+            foreach (JsonValue child in children.Items)
             {
                 if (child is JsonObject { } player && player["$slot"] is JsonInteger slot)
                 {

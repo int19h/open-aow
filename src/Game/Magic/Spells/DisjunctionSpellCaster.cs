@@ -36,8 +36,8 @@ public partial class DisjunctionSpellCaster : SpellCaster
                 {
                     if (source is Hero hero)
                     {
-                        var spell = GamePack.Current.SpellControl.GetSpell(51);
-                        var mana = GetMana();
+                        Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+                        int mana = GetMana();
                         if (StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
                         {
                             result = true;
@@ -81,7 +81,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
             if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
             {
                 eventValue = new DisjunctionTokenEvent(null) { Holder = CreationHolder() };
-                var spell = GamePack.Current.SpellControl.GetSpell(51);
+                Spell spell = GamePack.Current.SpellControl.GetSpell(51);
                 eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
@@ -175,8 +175,8 @@ public partial class DisjunctionSpellCaster : SpellCaster
                 if (source is Hero hero)
                 {
                     mana2 = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
-                    var spell = GamePack.Current.SpellControl.GetSpell(51);
-                    var mana = GetMana();
+                    Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+                    int mana = GetMana();
                     if (mana2 >= spell.BaseManaCost + mana)
                     {
                         result = true;

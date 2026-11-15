@@ -7,7 +7,7 @@ internal static class MemorySurfaces
 {
     public static LockedSurface Describe(int w, int h, int pitch, int format, byte[] bits, Palette palette = null)
     {
-        var lockedSurface = new LockedSurface
+        LockedSurface lockedSurface = new()
         {
             Width = w,
             Height = h,
@@ -18,10 +18,10 @@ internal static class MemorySurfaces
             Palette = palette,
             ClipRectangle = new Rect(0, 0, w, h)
         };
-        var rMask = lockedSurface.RMask;
-        var gMask = lockedSurface.GMask;
-        var bMask = lockedSurface.BMask;
-        var aMask = lockedSurface.AMask;
+        int rMask = lockedSurface.RMask;
+        int gMask = lockedSurface.GMask;
+        int bMask = lockedSurface.BMask;
+        int aMask = lockedSurface.AMask;
         PixelFormatIdToMask(format, out rMask, out gMask, out bMask, out aMask);
         lockedSurface.RMask = rMask;
         lockedSurface.GMask = gMask;
@@ -47,7 +47,7 @@ internal static class MemorySurfaces
             return null;
         }
 
-        var result = new byte[size];
+        byte[] result = new byte[size];
         if (memory != null)
         {
             memory.AsSpan(0, Math.Min(memory.Length, size)).CopyTo(result);

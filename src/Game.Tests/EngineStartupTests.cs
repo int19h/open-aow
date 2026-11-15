@@ -87,26 +87,26 @@ public sealed class EngineStartupTests
         // The base recording starts in a fresh process. Earlier tests populate lazy class caches.
         if (Environment.GetEnvironmentVariable("AOW_ENGINE_STARTUP_ISOLATED") is null)
         {
-            var start = new ProcessStartInfo("dotnet") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
+            ProcessStartInfo start = new("dotnet") { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true };
             start.ArgumentList.Add("vstest");
             start.ArgumentList.Add(typeof(EngineStartupTests).Assembly.Location);
             start.ArgumentList.Add("/TestCaseFilter:FullyQualifiedName~EngineStartupTests");
             start.Environment["AOW_ENGINE_STARTUP_ISOLATED"] = "1";
-            using var process = Process.Start(start)!;
-            var stdout = process.StandardOutput.ReadToEndAsync();
-            var stderr = process.StandardError.ReadToEndAsync();
-            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            using Process process = Process.Start(start)!;
+            Task<string> stdout = process.StandardOutput.ReadToEndAsync();
+            Task<string> stderr = process.StandardError.ReadToEndAsync();
+            using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(60));
             try { await process.WaitForExitAsync(timeout.Token); }
             catch (OperationCanceledException) { process.Kill(entireProcessTree: true); throw; }
             Assert.True(process.ExitCode == 0, await stdout + await stderr);
             return;
         }
-        var actual = new JsonObject();
+        JsonObject actual = new();
         foreach (string route in new[] { "AoW", "HS", "Engine", "debug", "dictionary", "images" })
         {
-            using var fixture = new EngineFixture.RecordingHost(route);
+            using EngineFixture.RecordingHost fixture = new(route);
             Runtime.InstallHost(fixture);
-            var events = fixture.Events;
+            List<EngineFixture.Entry> events = fixture.Events;
             GameEngine? value = null;
             Exception? caught = null;
             void Thrown(object? sender, FirstChanceExceptionEventArgs arguments)
@@ -137,7 +137,7 @@ public sealed class EngineStartupTests
                 // A failed construction leaves no reference to the partial engine, so the caller
                 // records its objects only for an engine that was built.
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
-                var result = new JsonObject
+                JsonObject result = new()
                 {
                     ["ExceptionType"] = caught?.GetType().FullName,
                     ["ExceptionMessage"] = caught is null ? null : fixture.Relative(caught.Message),
@@ -181,9 +181,9 @@ public sealed class EngineStartupTests
             throw new InvalidOperationException("Startup baseline recording ended with constructor conversion.");
         }
 
-        using var baseline = typeof(EngineStartupTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.EngineStartupSnapshot.json")!;
-        var expected = JsonNode.Parse(baseline)!.AsObject();
-        foreach (var pair in actual)
+        using Stream baseline = typeof(EngineStartupTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.EngineStartupSnapshot.json")!;
+        JsonObject expected = JsonNode.Parse(baseline)!.AsObject();
+        foreach (KeyValuePair<string, JsonNode?> pair in actual)
         {
             Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), pair.Key + " startup recording differs from the base commit.");
         }
@@ -193,8 +193,8 @@ public sealed class EngineStartupTests
 
     private static JsonObject Objects(object root)
     {
-        var result = new JsonObject();
-        var seen = new HashSet<object>(ReferenceEqualityComparer.Instance);
+        JsonObject result = new();
+        HashSet<object> seen = new(ReferenceEqualityComparer.Instance);
         void Visit(object value, string path)
         {
             if (!seen.Add(value))
@@ -225,7 +225,7 @@ public sealed class EngineStartupTests
             }
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             {
-                foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo? field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
                     if (field.Name == "_owner" || field.GetValue(value) is not object child)
                     {
@@ -255,7 +255,7 @@ public sealed class EngineStartupTests
                 continue;
             }
 
-            var items = (Array)type.GetProperty("List")!.GetValue(value)!;
+            Array items = (Array)type.GetProperty("List")!.GetValue(value)!;
             return [.. items.Cast<object?>().Take((int)type.GetProperty("Count")!.GetValue(value)!)];
         }
         return null;
@@ -279,13 +279,13 @@ public sealed class EngineStartupTests
 
     private static JsonObject MovePoints()
     {
-        var result = new JsonObject();
+        JsonObject result = new();
         for (int mask = 0; mask < 256; mask++)
         {
-            var terrain = new JsonObject();
+            JsonObject terrain = new();
             for (int t = 0; t < 16; t++)
             {
-                var overlay = new JsonObject();
+                JsonObject overlay = new();
                 for (int o = -1; o < 15; o++)
                 {
                     overlay[$"Overlay[{o}]"] = (int)MovementTables.MovePointTables[mask][t][o + 1];

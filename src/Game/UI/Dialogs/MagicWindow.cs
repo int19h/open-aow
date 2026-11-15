@@ -84,7 +84,7 @@ public partial class MagicWindow : UIModule
         if (index != -1)
         {
             enchantment = GlobalEnchantmentList.Items.Objects[index];
-            var canRemove = enchantment.CanRemove(StrategicMap.Current.SeatedPlayer, ref reason);
+            bool canRemove = enchantment.CanRemove(StrategicMap.Current.SeatedPlayer, ref reason);
             GlobalDispelButton.Visible = canRemove;
         }
         else
@@ -183,7 +183,7 @@ public partial class MagicWindow : UIModule
         bool condition = EnchantmentList.Selected >= 0;
         if (condition)
         {
-            var count = EnchantmentList.Items.Count;
+            int count = EnchantmentList.Items.Count;
             condition = EnchantmentList.Selected < count;
         }
 
@@ -201,7 +201,7 @@ public partial class MagicWindow : UIModule
             bool condition = EnchantmentList.Selected >= 0;
             if (condition)
             {
-                var count = EnchantmentList.Items.Count;
+                int count = EnchantmentList.Items.Count;
                 condition = EnchantmentList.Selected < count;
             }
 
@@ -219,13 +219,13 @@ public partial class MagicWindow : UIModule
         bool condition = EnchantmentList.Selected >= 0;
         if (condition)
         {
-            var count = EnchantmentList.Items.Count;
+            int count = EnchantmentList.Items.Count;
             condition = EnchantmentList.Selected < count;
         }
 
         if (condition)
         {
-            var enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
+            Enchantment enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
         }
     }
@@ -246,13 +246,13 @@ public partial class MagicWindow : UIModule
         bool condition = GlobalEnchantmentList.Selected >= 0;
         if (condition)
         {
-            var count = GlobalEnchantmentList.Items.Count;
+            int count = GlobalEnchantmentList.Items.Count;
             condition = GlobalEnchantmentList.Selected < count;
         }
 
         if (condition)
         {
-            var globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
+            GlobalEnchantment globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
             StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, globalEnchantment);
         }
     }
@@ -315,7 +315,7 @@ public partial class MagicWindow : UIModule
         bool condition = PowerSourceList.Selected >= 0;
         if (condition)
         {
-            var count = PowerSourceList.Items.Count;
+            int count = PowerSourceList.Items.Count;
             condition = PowerSourceList.Selected < count;
         }
 
@@ -332,7 +332,7 @@ public partial class MagicWindow : UIModule
         {
             if (PowerSourceList.Selected >= 0)
             {
-                var count = PowerSourceList.Items.Count;
+                int count = PowerSourceList.Items.Count;
                 if (PowerSourceList.Selected < count)
                 {
                     PowerSourceList.Items.Objects[PowerSourceList.Selected].CenterToLocation();
@@ -530,7 +530,7 @@ public partial class MagicWindow : UIModule
             bool condition = GlobalEnchantmentList.Selected >= 0;
             if (condition)
             {
-                var count = GlobalEnchantmentList.Items.Count;
+                int count = GlobalEnchantmentList.Items.Count;
                 condition = GlobalEnchantmentList.Selected < count;
             }
 
@@ -573,12 +573,12 @@ public partial class MagicWindow : UIModule
             window.UpkeepList.Items.Clear();
             for (int i = 0, last = control.Enchantments.Count - 1; i <= last; i++)
             {
-                var name = control.Enchantments.GetEnchantments(i).GetName();
-                var enchantment = control.Enchantments.GetEnchantments(i);
+                string name = control.Enchantments.GetEnchantments(i).GetName();
+                Enchantment enchantment = control.Enchantments.GetEnchantments(i);
                 window.EnchantmentList.Items.AddObject(name, enchantment);
-                var binding = control.Enchantments.GetEnchantments(i).GetBinding();
+                string binding = control.Enchantments.GetEnchantments(i).GetBinding();
                 window.BindingList.Items.Add(binding);
-                var enchantmentUpkeep = control.Enchantments.GetEnchantments(i);
+                Enchantment enchantmentUpkeep = control.Enchantments.GetEnchantments(i);
                 window.UpkeepList.Items.Add(IntToStr(enchantmentUpkeep.Upkeep));
             }
 
@@ -588,42 +588,42 @@ public partial class MagicWindow : UIModule
             {
                 if (control.PowerSources.GetItems(i).Power() > 0)
                 {
-                    var name = control.PowerSources.GetItems(i).Name();
-                    var powerSource = control.PowerSources.GetItems(i);
+                    string name = control.PowerSources.GetItems(i).Name();
+                    PowerSource powerSource = control.PowerSources.GetItems(i);
                     window.PowerSourceList.Items.AddObject(name, powerSource);
-                    var power = control.PowerSources.GetItems(i).Power();
+                    int power = control.PowerSources.GetItems(i).Power();
                     window.PowerValueList.Items.Add(IntToStr(power));
                 }
             }
 
-            var controlPower = control.GetPower();
+            int controlPower = control.GetPower();
             window.PowerLabel.Text = IntToStr(controlPower);
-            var manaIncome = control.GetManaIncome();
-            var manaUpkeep = control.GetManaUpkeep();
-            var controlManaIncome = control.GetManaIncome();
-            var controlManaUpkeep = control.GetManaUpkeep();
+            int manaIncome = control.GetManaIncome();
+            int manaUpkeep = control.GetManaUpkeep();
+            int controlManaIncome = control.GetManaIncome();
+            int controlManaUpkeep = control.GetManaUpkeep();
             window.NetManaLabel.Text = IntToStr(manaIncome) + "-" + IntToStr(manaUpkeep) + "=" + IntToStr(controlManaIncome - controlManaUpkeep);
-            var netPowerToResearch = control.GetNetPowerToResearch();
+            int netPowerToResearch = control.GetNetPowerToResearch();
             window.ResearchPointsLabel.Text = IntToStr(netPowerToResearch);
             if (control.ResearchSpellId != 0)
             {
                 spell = GamePack.Current.SpellControl.GetSpell(control.ResearchSpellId);
                 window.SpellNameLabel.Text = spell.SpellName;
-                var magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
-                var level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
+                string magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
+                string level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
                 window.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-                var castingCost = window.UI.Engine.TranslateResourceString(GameText.CastingCostText);
-                var mana = window.UI.Engine.TranslateResourceString(GameText.ManaText);
+                string castingCost = window.UI.Engine.TranslateResourceString(GameText.CastingCostText);
+                string mana = window.UI.Engine.TranslateResourceString(GameText.ManaText);
                 window.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
                 turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
                 {
-                    var formatTurnsLeftString = DurationText.FormatTurnsLeftString(window.UI.Engine, turns: turns);
+                    string formatTurnsLeftString = DurationText.FormatTurnsLeftString(window.UI.Engine, turns: turns);
                     window.ResearchTurnsLeftLabel.Text = formatTurnsLeftString;
                 }
                 else
                 {
-                    var format = AbilityRules.Format(window.UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
+                    string format = AbilityRules.Format(window.UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
                     window.ResearchTurnsLeftLabel.Text = format;
                 }
 
@@ -652,13 +652,13 @@ public partial class MagicWindow : UIModule
         {
             if (control.Enchantments.GetEnchantments(i).VisibleForPlayer(StrategicMap.Current.SeatedPlayer))
             {
-                var name = control.Enchantments.GetEnchantments(i).GetName();
-                var enchantment = control.Enchantments.GetEnchantments(i);
+                string name = control.Enchantments.GetEnchantments(i).GetName();
+                GlobalEnchantment enchantment = control.Enchantments.GetEnchantments(i);
                 window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
-                var enchantmentPlayerIndex = control.Enchantments.GetEnchantments(i);
-                var player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                GlobalEnchantment enchantmentPlayerIndex = control.Enchantments.GetEnchantments(i);
+                Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                 window.GlobalNameList.Items.Add(player.Leader.HeroName);
-                var upkeep = control.Enchantments.GetEnchantments(i).GetUpkeep();
+                int upkeep = control.Enchantments.GetEnchantments(i).GetUpkeep();
                 window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
             }
         }

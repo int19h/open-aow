@@ -60,7 +60,7 @@ public partial class HelpWindow : ILayoutModule
         MainWindow.WinHeight = 400;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -83,7 +83,7 @@ public partial class HelpWindow : ILayoutModule
         title.Text = "Help";
         title.TextColor = 0;
         session.EndRead(title);
-        Button closeBtn = new Button(this);
+        Button closeBtn = new(this);
         session.BeginRead(closeBtn);
         closeBtn.Name = "CloseBtn";
         closeBtn.Priority = 0;
@@ -117,7 +117,7 @@ public partial class HelpWindow : ILayoutModule
         closeBtn.WinWidth = 15;
         closeBtn.OnClick += _ => CloseBtnClick();
         session.EndRead(closeBtn);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -145,7 +145,7 @@ public partial class HelpWindow : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Image bBarEnd = new Image(this);
+        Image bBarEnd = new(this);
         session.BeginRead(bBarEnd);
         bBarEnd.Name = "BBarEnd";
         bBarEnd.Priority = 0;
@@ -173,7 +173,7 @@ public partial class HelpWindow : ILayoutModule
         bBarEnd.Animate = false;
         bBarEnd.AnimationFrameDelay = 0;
         session.EndRead(bBarEnd);
-        Image bBarBegin = new Image(this);
+        Image bBarBegin = new(this);
         session.BeginRead(bBarBegin);
         bBarBegin.Name = "BBarBegin";
         bBarBegin.Priority = 0;
@@ -201,7 +201,7 @@ public partial class HelpWindow : ILayoutModule
         bBarBegin.Animate = false;
         bBarBegin.AnimationFrameDelay = 0;
         session.EndRead(bBarBegin);
-        Button bCloseBut = new Button(this);
+        Button bCloseBut = new(this);
         session.BeginRead(bCloseBut);
         bCloseBut.Name = "BCloseBut";
         bCloseBut.Priority = 250;
@@ -232,7 +232,7 @@ public partial class HelpWindow : ILayoutModule
         bCloseBut.WinWidth = 134;
         bCloseBut.OnClick += _ => CloseBtnClick();
         session.EndRead(bCloseBut);
-        Image celtLineR = new Image(this);
+        Image celtLineR = new(this);
         session.BeginRead(celtLineR);
         celtLineR.Name = "CeltLineR";
         celtLineR.Priority = 10;
@@ -260,7 +260,7 @@ public partial class HelpWindow : ILayoutModule
         celtLineR.Animate = false;
         celtLineR.AnimationFrameDelay = 0;
         session.EndRead(celtLineR);
-        Image bBar = new Image(this);
+        Image bBar = new(this);
         session.BeginRead(bBar);
         bBar.Name = "BBar";
         bBar.Priority = 0;
@@ -288,7 +288,7 @@ public partial class HelpWindow : ILayoutModule
         bBar.Animate = false;
         bBar.AnimationFrameDelay = 0;
         session.EndRead(bBar);
-        Image celtLineL = new Image(this);
+        Image celtLineL = new(this);
         session.BeginRead(celtLineL);
         celtLineL.Name = "CeltLineL";
         celtLineL.Priority = 0;
@@ -420,7 +420,7 @@ public partial class HelpWindow : ILayoutModule
         HelpMemo.ColorChangeChar = 0;
         HelpMemo.TextAlign = TextAlignment.Left;
         session.EndRead(HelpMemo);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

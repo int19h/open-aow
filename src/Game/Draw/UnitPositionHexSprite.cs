@@ -62,14 +62,14 @@ public partial class UnitPositionHexSprite : SingleHexSprite
         base.Activate();
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index))
         {
-            var packMapCoordinate = HexGeometry.PackMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: 0);
+            MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: 0);
             CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, new UnitPosition(Location: packMapCoordinate, Facing: 0));
             _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
             UpdateImageIndex();
         }
         else
         {
-            var location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: 0);
+            MapCoordinate location = new(X: GetHexX(), Y: GetHexY(), MapLevel: 0);
             CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, new UnitPosition(Location: location, Facing: _direction));
             Dispose();
         }
@@ -81,13 +81,13 @@ public partial class UnitPositionHexSprite : SingleHexSprite
         if (Activated() && Owner.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
-            var unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
-            var hexX = GetHexX();
+            UnitPosition unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
+            sbyte hexX = GetHexX();
             bool condition = unitPosition.Location.X == hexX;
             if (condition)
             {
-                var fUnitPositionsUnitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
-                var hexY = GetHexY();
+                UnitPosition fUnitPositionsUnitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
+                sbyte hexY = GetHexY();
                 condition = fUnitPositionsUnitPosition.Location.Y == hexY;
             }
 

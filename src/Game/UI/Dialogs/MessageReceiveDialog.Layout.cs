@@ -98,7 +98,7 @@ public partial class MessageReceiveDialog : ILayoutModule
         MessageMemo.ColorChangeChar = 0;
         MessageMemo.TextAlign = TextAlignment.Center;
         session.EndRead(MessageMemo);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -129,7 +129,7 @@ public partial class MessageReceiveDialog : ILayoutModule
         close.WinWidth = 140;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        VerticalScrollBar messageSB = new VerticalScrollBar(this);
+        VerticalScrollBar messageSB = new(this);
         session.BeginRead(messageSB);
         messageSB.Name = "MessageSB";
         messageSB.Visible = false;
@@ -268,7 +268,7 @@ public partial class MessageReceiveDialog : ILayoutModule
         HeaderMemo.ColorChangeChar = 0;
         HeaderMemo.TextAlign = TextAlignment.Center;
         session.EndRead(HeaderMemo);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

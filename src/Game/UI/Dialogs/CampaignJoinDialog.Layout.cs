@@ -74,7 +74,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         LeaderTypePanel.MinWidth = 0;
         LeaderTypePanel.MinHeight = 0;
         session.EndRead(LeaderTypePanel);
-        Button customBtn = new Button(this);
+        Button customBtn = new(this);
         session.BeginRead(customBtn);
         customBtn.Name = "CustomBtn";
         customBtn.Priority = 250;
@@ -105,7 +105,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         customBtn.WinWidth = 150;
         customBtn.OnClick += _ => CustomBtnClick();
         session.EndRead(customBtn);
-        Button defaultBtn = new Button(this);
+        Button defaultBtn = new(this);
         session.BeginRead(defaultBtn);
         defaultBtn.Name = "DefaultBtn";
         defaultBtn.Priority = 250;
@@ -136,7 +136,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         defaultBtn.WinWidth = 150;
         defaultBtn.OnClick += _ => DefaultBtnClick();
         session.EndRead(defaultBtn);
-        Memo leaderTypeMsg = new Memo(this);
+        Memo leaderTypeMsg = new(this);
         session.BeginRead(leaderTypeMsg);
         leaderTypeMsg.Name = "LeaderTypeMsg";
         leaderTypeMsg.Priority = 0;
@@ -203,7 +203,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         DefaultFacePanel.MinWidth = 0;
         DefaultFacePanel.MinHeight = 0;
         session.EndRead(DefaultFacePanel);
-        Panel customFacePnl = new Panel(this);
+        Panel customFacePnl = new(this);
         session.BeginRead(customFacePnl);
         customFacePnl.Name = "CustomFacePnl";
         customFacePnl.Priority = 0;
@@ -255,7 +255,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         ScrollTextView.WinWidth = 340;
         ScrollTextView.WinHeight = 100;
         session.EndRead(ScrollTextView);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

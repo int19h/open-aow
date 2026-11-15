@@ -65,7 +65,7 @@ public partial class FastBattleWindow : ILayoutModule
         MainWindow.WinHeight = 460;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Panel lNamePnl = new Panel(this);
+        Panel lNamePnl = new(this);
         session.BeginRead(lNamePnl);
         lNamePnl.Name = "LNamePnl";
         lNamePnl.Priority = 0;
@@ -115,7 +115,7 @@ public partial class FastBattleWindow : ILayoutModule
         LeftSideLabel.Text = "######";
         LeftSideLabel.TextColor = 16777215;
         session.EndRead(LeftSideLabel);
-        Panel rNamePnl = new Panel(this);
+        Panel rNamePnl = new(this);
         session.BeginRead(rNamePnl);
         rNamePnl.Name = "RNamePnl";
         rNamePnl.Priority = 0;
@@ -165,7 +165,7 @@ public partial class FastBattleWindow : ILayoutModule
         RightSideLabel.Text = "#####";
         RightSideLabel.TextColor = 16777215;
         session.EndRead(RightSideLabel);
-        Panel lCtrlPnl = new Panel(this);
+        Panel lCtrlPnl = new(this);
         session.BeginRead(lCtrlPnl);
         lCtrlPnl.Name = "LCtrlPnl";
         lCtrlPnl.Priority = 0;
@@ -192,7 +192,7 @@ public partial class FastBattleWindow : ILayoutModule
         lCtrlPnl.MinWidth = 0;
         lCtrlPnl.MinHeight = 0;
         session.EndRead(lCtrlPnl);
-        Panel rCtrlPnl = new Panel(this);
+        Panel rCtrlPnl = new(this);
         session.BeginRead(rCtrlPnl);
         rCtrlPnl.Name = "RCtrlPnl";
         rCtrlPnl.Priority = 0;
@@ -219,7 +219,7 @@ public partial class FastBattleWindow : ILayoutModule
         rCtrlPnl.MinWidth = 0;
         rCtrlPnl.MinHeight = 0;
         session.EndRead(rCtrlPnl);
-        CheckBox playBtn2 = new CheckBox(this);
+        CheckBox playBtn2 = new(this);
         session.BeginRead(playBtn2);
         playBtn2.Name = "PlayBtn2";
         playBtn2.Priority = 0;
@@ -254,7 +254,7 @@ public partial class FastBattleWindow : ILayoutModule
         playBtn2.Checked = false;
         playBtn2.RadioIndex = 0;
         session.EndRead(playBtn2);
-        CheckBox pauseBtn2 = new CheckBox(this);
+        CheckBox pauseBtn2 = new(this);
         session.BeginRead(pauseBtn2);
         pauseBtn2.Name = "PauseBtn2";
         pauseBtn2.Priority = 0;
@@ -289,7 +289,7 @@ public partial class FastBattleWindow : ILayoutModule
         pauseBtn2.Checked = false;
         pauseBtn2.RadioIndex = 0;
         session.EndRead(pauseBtn2);
-        CheckBox startBtn = new CheckBox(this);
+        CheckBox startBtn = new(this);
         session.BeginRead(startBtn);
         startBtn.Name = "StartBtn";
         startBtn.Priority = 0;
@@ -324,7 +324,7 @@ public partial class FastBattleWindow : ILayoutModule
         startBtn.Checked = false;
         startBtn.RadioIndex = 0;
         session.EndRead(startBtn);
-        CheckBox endBtn = new CheckBox(this);
+        CheckBox endBtn = new(this);
         session.BeginRead(endBtn);
         endBtn.Name = "EndBtn";
         endBtn.Priority = 0;
@@ -359,7 +359,7 @@ public partial class FastBattleWindow : ILayoutModule
         endBtn.Checked = false;
         endBtn.RadioIndex = 0;
         session.EndRead(endBtn);
-        Button closeBut = new Button(this);
+        Button closeBut = new(this);
         session.BeginRead(closeBut);
         closeBut.Name = "CloseBut";
         closeBut.Priority = 0;
@@ -449,7 +449,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party1Background.Animate = false;
         Party1Background.AnimationFrameDelay = 0;
         session.EndRead(Party1Background);
-        Image part1Dead = new Image(this);
+        Image part1Dead = new(this);
         session.BeginRead(part1Dead);
         part1Dead.Name = "Part1Dead";
         part1Dead.Visible = false;
@@ -533,7 +533,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party2Background.Animate = false;
         Party2Background.AnimationFrameDelay = 0;
         session.EndRead(Party2Background);
-        Image party2Dead = new Image(this);
+        Image party2Dead = new(this);
         session.BeginRead(party2Dead);
         party2Dead.Name = "Party2Dead";
         party2Dead.Visible = false;
@@ -617,7 +617,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party3Background.Animate = false;
         Party3Background.AnimationFrameDelay = 0;
         session.EndRead(Party3Background);
-        Image party3Dead = new Image(this);
+        Image party3Dead = new(this);
         session.BeginRead(party3Dead);
         party3Dead.Name = "Party3Dead";
         party3Dead.Visible = false;
@@ -701,7 +701,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party4Background.Animate = false;
         Party4Background.AnimationFrameDelay = 0;
         session.EndRead(Party4Background);
-        Image party4Dead = new Image(this);
+        Image party4Dead = new(this);
         session.BeginRead(party4Dead);
         party4Dead.Name = "Party4Dead";
         party4Dead.Visible = false;
@@ -785,7 +785,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party5Background.Animate = false;
         Party5Background.AnimationFrameDelay = 0;
         session.EndRead(Party5Background);
-        Image party5Dead = new Image(this);
+        Image party5Dead = new(this);
         session.BeginRead(party5Dead);
         party5Dead.Name = "Party5Dead";
         party5Dead.Visible = false;
@@ -869,7 +869,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party6Background.Animate = false;
         Party6Background.AnimationFrameDelay = 0;
         session.EndRead(Party6Background);
-        Image party6Dead = new Image(this);
+        Image party6Dead = new(this);
         session.BeginRead(party6Dead);
         party6Dead.Name = "Party6Dead";
         party6Dead.Visible = false;
@@ -953,7 +953,7 @@ public partial class FastBattleWindow : ILayoutModule
         Party7Background.Animate = false;
         Party7Background.AnimationFrameDelay = 0;
         session.EndRead(Party7Background);
-        Image party7Dead = new Image(this);
+        Image party7Dead = new(this);
         session.BeginRead(party7Dead);
         party7Dead.Name = "Party7Dead";
         party7Dead.Visible = false;
@@ -982,7 +982,7 @@ public partial class FastBattleWindow : ILayoutModule
         party7Dead.Animate = false;
         party7Dead.AnimationFrameDelay = 0;
         session.EndRead(party7Dead);
-        Panel lSidePnl = new Panel(this);
+        Panel lSidePnl = new(this);
         session.BeginRead(lSidePnl);
         lSidePnl.Name = "LSidePnl";
         lSidePnl.Priority = 0;
@@ -1009,7 +1009,7 @@ public partial class FastBattleWindow : ILayoutModule
         lSidePnl.MinWidth = 0;
         lSidePnl.MinHeight = 0;
         session.EndRead(lSidePnl);
-        Panel rSidePnl = new Panel(this);
+        Panel rSidePnl = new(this);
         session.BeginRead(rSidePnl);
         rSidePnl.Name = "RSidePnl";
         rSidePnl.Priority = 0;
@@ -1036,7 +1036,7 @@ public partial class FastBattleWindow : ILayoutModule
         rSidePnl.MinWidth = 0;
         rSidePnl.MinHeight = 0;
         session.EndRead(rSidePnl);
-        Panel fightPnl = new Panel(this);
+        Panel fightPnl = new(this);
         session.BeginRead(fightPnl);
         fightPnl.Name = "FightPnl";
         fightPnl.Priority = 0;
@@ -1063,7 +1063,7 @@ public partial class FastBattleWindow : ILayoutModule
         fightPnl.MinWidth = 0;
         fightPnl.MinHeight = 0;
         session.EndRead(fightPnl);
-        Image lShield = new Image(this);
+        Image lShield = new(this);
         session.BeginRead(lShield);
         lShield.Name = "LShield";
         lShield.Visible = false;
@@ -1092,7 +1092,7 @@ public partial class FastBattleWindow : ILayoutModule
         lShield.Animate = false;
         lShield.AnimationFrameDelay = 0;
         session.EndRead(lShield);
-        Image rShield = new Image(this);
+        Image rShield = new(this);
         session.BeginRead(rShield);
         rShield.Name = "RShield";
         rShield.Visible = false;
@@ -1121,7 +1121,7 @@ public partial class FastBattleWindow : ILayoutModule
         rShield.Animate = false;
         rShield.AnimationFrameDelay = 0;
         session.EndRead(rShield);
-        Button initialView = new Button(this);
+        Button initialView = new(this);
         session.BeginRead(initialView);
         initialView.Name = "InitialView";
         initialView.Priority = 0;
@@ -1155,7 +1155,7 @@ public partial class FastBattleWindow : ILayoutModule
         initialView.WinWidth = 24;
         initialView.OnClick += _ => InitialViewClick();
         session.EndRead(initialView);
-        Button finalView = new Button(this);
+        Button finalView = new(this);
         session.BeginRead(finalView);
         finalView.Name = "FinalView";
         finalView.Priority = 0;
@@ -1189,7 +1189,7 @@ public partial class FastBattleWindow : ILayoutModule
         finalView.WinWidth = 24;
         finalView.OnClick += _ => FinalViewClick();
         session.EndRead(finalView);
-        Button playBtn = new Button(this);
+        Button playBtn = new(this);
         session.BeginRead(playBtn);
         playBtn.Name = "PlayBtn";
         playBtn.Priority = 0;
@@ -1223,7 +1223,7 @@ public partial class FastBattleWindow : ILayoutModule
         playBtn.WinWidth = 48;
         playBtn.OnClick += _ => PlayBtnClick();
         session.EndRead(playBtn);
-        Button pauseBtn = new Button(this);
+        Button pauseBtn = new(this);
         session.BeginRead(pauseBtn);
         pauseBtn.Name = "PauseBtn";
         pauseBtn.Priority = 0;
@@ -1331,7 +1331,7 @@ public partial class FastBattleWindow : ILayoutModule
         SequenceSpeedSlider.ImageLibraryIndexBack = 25;
         SequenceSpeedSlider.ThumbImageIndex = 28;
         session.EndRead(SequenceSpeedSlider);
-        ImageLibrary glowAnimation = new ImageLibrary(this);
+        ImageLibrary glowAnimation = new(this);
         session.BeginRead(glowAnimation);
         glowAnimation.Name = "GlowAnimation";
         glowAnimation.LoadOnDemand = true;
@@ -1365,7 +1365,7 @@ public partial class FastBattleWindow : ILayoutModule
         GlowImage.Animate = false;
         GlowImage.AnimationFrameDelay = 0;
         session.EndRead(GlowImage);
-        Button prevSeqBtn = new Button(this);
+        Button prevSeqBtn = new(this);
         session.BeginRead(prevSeqBtn);
         prevSeqBtn.Name = "PrevSeqBtn";
         prevSeqBtn.Visible = false;
@@ -1399,7 +1399,7 @@ public partial class FastBattleWindow : ILayoutModule
         prevSeqBtn.TextSelectedColor = 0;
         prevSeqBtn.WinWidth = 24;
         session.EndRead(prevSeqBtn);
-        Button nextSeqBtn = new Button(this);
+        Button nextSeqBtn = new(this);
         session.BeginRead(nextSeqBtn);
         nextSeqBtn.Name = "NextSeqBtn";
         nextSeqBtn.Visible = false;
@@ -1433,7 +1433,7 @@ public partial class FastBattleWindow : ILayoutModule
         nextSeqBtn.TextSelectedColor = 0;
         nextSeqBtn.WinWidth = 24;
         session.EndRead(nextSeqBtn);
-        Label startLBl = new Label(this);
+        Label startLBl = new(this);
         session.BeginRead(startLBl);
         startLBl.Name = "StartLBl";
         startLBl.Priority = 0;
@@ -1456,7 +1456,7 @@ public partial class FastBattleWindow : ILayoutModule
         startLBl.Text = "start";
         startLBl.TextColor = 9872276;
         session.EndRead(startLBl);
-        Label endLbl = new Label(this);
+        Label endLbl = new(this);
         session.BeginRead(endLbl);
         endLbl.Name = "EndLbl";
         endLbl.Priority = 0;
@@ -1479,7 +1479,7 @@ public partial class FastBattleWindow : ILayoutModule
         endLbl.Text = "end";
         endLbl.TextColor = 9872276;
         session.EndRead(endLbl);
-        Label slowLbl = new Label(this);
+        Label slowLbl = new(this);
         session.BeginRead(slowLbl);
         slowLbl.Name = "SlowLbl";
         slowLbl.Priority = 0;
@@ -1502,7 +1502,7 @@ public partial class FastBattleWindow : ILayoutModule
         slowLbl.Text = "slow";
         slowLbl.TextColor = 9872276;
         session.EndRead(slowLbl);
-        Label fastLbl = new Label(this);
+        Label fastLbl = new(this);
         session.BeginRead(fastLbl);
         fastLbl.Name = "FastLbl";
         fastLbl.Priority = 0;
@@ -1596,7 +1596,7 @@ public partial class FastBattleWindow : ILayoutModule
         RightShieldView.WinWidth = 40;
         RightShieldView.WinHeight = 53;
         session.EndRead(RightShieldView);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

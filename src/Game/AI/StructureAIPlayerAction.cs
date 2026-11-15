@@ -35,7 +35,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
         {
             for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
             {
-                var structure = StrategicMap.Current.StructureControl.GetStructure(i);
+                Structure structure = StrategicMap.Current.StructureControl.GetStructure(i);
                 _structureIds.Add(structure.StructureId);
             }
 
@@ -57,7 +57,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
         waiting = false;
         while (!waiting && _structureIds.Count != 0 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !Control.Player.GetBusy())
         {
-            var item = _structureIds[_structureIds.Count - 1];
+            int item = _structureIds[_structureIds.Count - 1];
             structure = StrategicMap.Current.StructureControl.FindId(item);
             if (structure != null)
             {

@@ -39,7 +39,7 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Road>(), EngineClass.Of<Road.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<HexBridge>(), EngineClass.Of<HexBridge.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<MountainMapObject>(), EngineClass.Of<MountainMapObjectResource>(), EngineClass.Of<RaiseTerrainTokenEvent>(), EngineClass.Of<RaisedMountain>(), EngineClass.Of<RaisedMountain.Resource>()]);
-        var raiseTerrain = new RaiseTerrain(null, holder: engine);
+        RaiseTerrain raiseTerrain = new(null, holder: engine);
         engine.GameSet.SpellControl.RegisterSpell(raiseTerrain);
         engine.RegisterEngineClasses([EngineClass.Of<Bridge>(), EngineClass.Of<Bridge.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<SpringOfLife>(), EngineClass.Of<SpringOfLife.Resource>()]);
@@ -55,10 +55,10 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Cave>(), EngineClass.Of<Cave.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Mine>(), EngineClass.Of<Mine.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Tower>(), EngineClass.Of<Tower.Resource>()]);
-        var towerConstructionControl = new TowerConstructionControl(null) { Holder = engine };
+        TowerConstructionControl towerConstructionControl = new(null) { Holder = engine };
         ((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(towerConstructionControl);
         engine.RegisterEngineClasses([EngineClass.Of<PoisonPlant>(), EngineClass.Of<PoisonPlant.Resource>(), EngineClass.Of<PoisonPlantSpellTokenEvent>()]);
-        var poisonPlantSpell = new PoisonPlantSpell(null, holder: engine);
+        PoisonPlantSpell poisonPlantSpell = new(null, holder: engine);
         engine.GameSet.SpellControl.RegisterSpell(poisonPlantSpell);
         engine.RegisterEngineClasses([EngineClass.Of<Gems>(), EngineClass.Of<Gems.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<ProductionPlace>(), EngineClass.Of<ProductionPlaceResource>(), EngineClass.Of<ProductionPlaceEventLog>()]);
@@ -75,13 +75,13 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<Ruin>(), EngineClass.Of<Ruin.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Pyramid>(), EngineClass.Of<Pyramid.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<Shipyard>(), EngineClass.Of<Shipyard.Resource>()]);
-        var shipyardConstructionControl = new ShipyardConstructionControl(null) { Holder = engine };
+        ShipyardConstructionControl shipyardConstructionControl = new(null) { Holder = engine };
         ((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
         engine.RegisterEngineClasses([EngineClass.Of<HolyGround>(), EngineClass.Of<HolyGround.Resource>(), EngineClass.Of<HolyGroundSpellTokenEvent>()]);
-        var holyGroundSpell = new HolyGroundSpell(null, holder: engine);
+        HolyGroundSpell holyGroundSpell = new(null, holder: engine);
         engine.GameSet.SpellControl.RegisterSpell(holyGroundSpell);
         engine.RegisterEngineClasses([EngineClass.Of<UnholyGround>(), EngineClass.Of<UnholyGround.Resource>(), EngineClass.Of<UnholyGroundSpellTokenEvent>()]);
-        var unholyGroundSpell = new UnholyGroundSpell(null, holder: engine);
+        UnholyGroundSpell unholyGroundSpell = new(null, holder: engine);
         engine.GameSet.SpellControl.RegisterSpell(unholyGroundSpell);
         engine.RegisterEngineClasses([EngineClass.Of<AltarOfFire>(), EngineClass.Of<AltarOfFire.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<AltarOfIce>(), EngineClass.Of<AltarOfIce.Resource>()]);
@@ -103,7 +103,7 @@ internal static class GameClasses
         spells.RegisterSpell(new PestilenceStormSpell(null, holder: engine));
         engine.RegisterEngineClasses([EngineClass.Of<PoisonCloud>(), EngineClass.Of<PoisonCloud.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<CityEnchantmentSpellTokenEvent>(), EngineClass.Of<CityTargetSpellTokenEvent>(), EngineClass.Of<TownGateTokenEvent>()]);
-        var spellControl = engine.GameSet.SpellControl;
+        SpellControl spellControl = engine.GameSet.SpellControl;
         spellControl.RegisterSpell(new Anarchy(null, holder: engine));
         spellControl.RegisterSpell(new TownQuake(null, holder: engine));
         spellControl.RegisterSpell(new TownGate(null, holder: engine));

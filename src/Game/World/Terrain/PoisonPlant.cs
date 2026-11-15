@@ -77,8 +77,8 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -193,7 +193,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         log.Player = armyHexSprite.Army.Player;
-        var poisonPlantDamage = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
+        string poisonPlantDamage = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
         log.ArmyView.Setup(armyHexSprite.Army, 255);
@@ -293,18 +293,18 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         MapField mapField;
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(131998) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                var hexLevel2 = GetHexLevel();
-                var hexY2 = GetHexY();
-                var hexX2 = GetHexX();
+                sbyte hexLevel2 = GetHexLevel();
+                sbyte hexY2 = GetHexY();
+                sbyte hexX2 = GetHexX();
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
@@ -318,10 +318,10 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     // PoisonP.pas:279
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
-        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131998) && frameCounter == 9)
         {
             PlantStatus = PlantStatus - Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);

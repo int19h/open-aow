@@ -7,6 +7,7 @@ using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using static Aow.Rtl.RtlUnit;
 
@@ -61,20 +62,20 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         {
             if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                var query = message.Param[0].As<AITargetQuery>();
-                var info = new CrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
-                var data = query.Data;
-                var priority = data.Priority;
+                AITargetQuery query = message.Param[0].As<AITargetQuery>();
+                CrystalAIInfo info = new() { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
+                AITargetData data = query.Data;
+                int priority = data.Priority;
                 UpdateAITarget(ref info, ref priority);
                 data.Priority = priority;
                 query.Data = data;
-                var info2 = query.Info;
+                AITargetInfo info2 = query.Info;
                 info2.Player = info.Player;
                 query.Info = info2;
-                var info3 = query.Info;
+                AITargetInfo info3 = query.Info;
                 info3.IndependentRelation = info.OtherPlayer;
                 query.Info = info3;
-                var info4 = query.Info;
+                AITargetInfo info4 = query.Info;
                 info4.Mode = (AITargetMode)info.Kind;
                 query.Info = info4;
                 // { Original marks the message only when the resulting priority is negative. }
@@ -149,9 +150,9 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         bool condition = (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player;
         if (!condition)
         {
-            var hexLevel = GetHexLevel();
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexLevel = GetHexLevel();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
@@ -160,7 +161,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        var player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+        Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
         log = new LocationTextEventLog(null) { Holder = CreationHolder() };

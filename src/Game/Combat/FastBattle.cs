@@ -199,7 +199,7 @@ public partial class FastBattle : Battle
         NewRound();
         idle = true;
         objects = new CombatObjectList();
-        var round = GetRound();
+        int round = GetRound();
         SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_roundFormat), [IntToStr(round)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {

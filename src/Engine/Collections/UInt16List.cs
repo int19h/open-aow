@@ -116,7 +116,7 @@ public partial class UInt16List : Persistent
     {
         if (source is UInt16List)
         {
-            var uInt16List = (UInt16List)source;
+            UInt16List uInt16List = (UInt16List)source;
             _count = uInt16List._count;
             SetCapacity(uInt16List._count);
             Array.Copy(uInt16List._list, 0, _list, 0, _count);

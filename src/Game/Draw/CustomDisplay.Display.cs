@@ -65,7 +65,7 @@ public partial class CustomDisplay
             return;
         }
 
-        var screen = _activeDisplayController.GetSurface(0);
+        Surface screen = _activeDisplayController.GetSurface(0);
         if (_options.Contains(AutoResizeBackSurface))
         {
             ResizeBackSurfaces(screen.Width, screen.Height);
@@ -161,8 +161,8 @@ public partial class CustomDisplay
             return 0;
         }
 
-        var previous = _activeDisplayController;
-        var saved = new DataSurface[3];
+        DisplayController previous = _activeDisplayController;
+        DataSurface[] saved = new DataSurface[3];
         PauseFrameUpdateLoop();
         try
         {
@@ -215,7 +215,7 @@ public partial class CustomDisplay
         }
         finally
         {
-            foreach (var surface in saved)
+            foreach (DataSurface surface in saved)
             {
                 surface?.Dispose();
             }

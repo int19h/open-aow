@@ -49,7 +49,7 @@ public partial class WarpParty : Spell
             eventValue = new WarpPartyTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.ArmyId = armyOwner.CreateId(255);
-            var warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
+            MapCoordinate warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
             eventValue.WarpLocation = warpLocation;
             StrategicMap.Current.SelectedArmy.Unselect();
             if (eventValue.WarpLocation != MapCoordinate.None)
@@ -82,7 +82,7 @@ public partial class WarpParty : Spell
         if (result)
         {
             message.MessageId = 4384;
-            var param = message.Param;
+            MapFieldMessageParameters param = message.Param;
             param[0] = army;
             message.Param = param;
             message.Result = 0;
@@ -106,8 +106,8 @@ public partial class WarpParty : Spell
         bool found;
         candidates = new DelphiList<MapField>();
         army.Army.CreateMovePointTable(255, out table);
-        var hexY = army.HexY;
-        var hexX = army.HexX;
+        sbyte hexY = army.HexY;
+        sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 10);
         level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 20)
@@ -129,8 +129,8 @@ public partial class WarpParty : Spell
             if (Math.Abs(l - army.HexLevel) == 1)
             {
                 level = StrategicMap.Current.MapContainer.MapLevels[l];
-                var armyHexY = army.HexY;
-                var armyHexX = army.HexX;
+                sbyte armyHexY = army.HexY;
+                sbyte armyHexX = army.HexX;
                 HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, 0);
                 while (walk.Radius < 10)
                 {
@@ -157,7 +157,7 @@ public partial class WarpParty : Spell
             if (field.GetArmyHexSprite() == null && field.GetPlayer() == -1)
             {
                 message.MessageId = 4384;
-                var param = message.Param;
+                MapFieldMessageParameters param = message.Param;
                 param[0] = army;
                 message.Param = param;
                 message.Result = 0;

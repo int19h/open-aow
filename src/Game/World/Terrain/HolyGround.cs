@@ -70,8 +70,8 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -167,19 +167,19 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
-        var holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
+        string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
         log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
         log.Player = army.Army.Player;
         log.ArmyView.Setup(army.Army, 255);
-        var armyLocal = army.Army;
+        Army armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
             troop = armyLocal.Units.GetUnit(i);
             bool condition = troop.GetAlignment() != Alignment.None;
             if (condition)
             {
-                var alignment = troop.GetAlignment();
+                Alignment alignment = troop.GetAlignment();
                 condition = AlignmentTables.PureEvilAlignments.Contains(alignment);
             }
 
@@ -274,7 +274,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
             bool condition = !troop.GetImmunityTypes().Contains(DamageType.Holy) && troop.GetAlignment() != Alignment.None;
             if (condition)
             {
-                var alignment = troop.GetAlignment();
+                Alignment alignment = troop.GetAlignment();
                 condition = AlignmentTables.PureEvilAlignments.Contains(alignment);
             }
 
@@ -288,18 +288,18 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         MapField field;
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                var hexLevel2 = GetHexLevel();
-                var hexY2 = GetHexY();
-                var hexX2 = GetHexX();
+                sbyte hexLevel2 = GetHexLevel();
+                sbyte hexY2 = GetHexY();
+                sbyte hexX2 = GetHexX();
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
@@ -313,10 +313,10 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     // HolyG.pas:265
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
-        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && frameCounter == 9)
         {
             Mode = Mode - Set<HolySummoning>.Of(HolySummoning.Summoning);

@@ -173,7 +173,7 @@ public partial class CombatUnit : CombatObject
         if (TargetPriorityInvalid)
         {
             base.GetTargetPriority();
-            var commandingTargetPriority = CommandingTargetPriority();
+            int commandingTargetPriority = CommandingTargetPriority();
             TargetPriority += commandingTargetPriority;
             return TargetPriority;
         }
@@ -187,7 +187,7 @@ public partial class CombatUnit : CombatObject
         if (TargetStrengthInvalid)
         {
             base.GetTargetStrength();
-            var commandingTargetStrength = CommandingTargetStrength();
+            int commandingTargetStrength = CommandingTargetStrength();
             TargetStrength += commandingTargetStrength;
             return TargetStrength;
         }
@@ -410,14 +410,14 @@ public partial class CombatUnit : CombatObject
                     party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
                     if (party != null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
-                        var player = GetPlayer();
+                        sbyte player = GetPlayer();
                         if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
                             placed = Troop.Place(party.Location.X, party.Location.Y, party.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
                         else
                         {
-                            var player2 = GetPlayer();
+                            sbyte player2 = GetPlayer();
                             placed = Troop.Place(party.Location.X, party.Location.Y, party.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
 
@@ -441,14 +441,14 @@ public partial class CombatUnit : CombatObject
 
                 if (party == null || party.Location.X != -1)
                 {
-                    var player = GetPlayer();
+                    sbyte player = GetPlayer();
                     if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
                         Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                     else
                     {
-                        var player2 = GetPlayer();
+                        sbyte player2 = GetPlayer();
                         Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
 
@@ -458,7 +458,7 @@ public partial class CombatUnit : CombatObject
                 {
                     if (party != null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
-                        var player = GetPlayer();
+                        sbyte player = GetPlayer();
                         Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                 }
@@ -504,23 +504,23 @@ public partial class CombatUnit : CombatObject
         switch (sound)
         {
             case 0:
-                var unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
-                var unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                int unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                 unitGraphicsResource.SfxLibraries[2].Play(0);
                 break;
             case 1:
-                var fUnitUnitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
-                var fUnitGraphicsResourcesUnitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
+                int fUnitUnitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                UnitGraphicsResource fUnitGraphicsResourcesUnitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
                 fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
                 break;
             case 2:
-                var unitGraphicsResourceIndex2 = Troop.GetUnitGraphicsResourceIndex();
-                var unitGraphicsResource2 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
+                int unitGraphicsResourceIndex2 = Troop.GetUnitGraphicsResourceIndex();
+                UnitGraphicsResource unitGraphicsResource2 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
                 unitGraphicsResource2.SfxLibraries[3].Play(0);
                 break;
             case 3:
-                var unitGraphicsResourceIndex3 = Troop.GetUnitGraphicsResourceIndex();
-                var unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
+                int unitGraphicsResourceIndex3 = Troop.GetUnitGraphicsResourceIndex();
+                UnitGraphicsResource unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
                 unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
         }
@@ -710,7 +710,7 @@ public partial class CombatUnit : CombatObject
 
         if (Troop != null)
         {
-            var name = Troop.GetName();
+            string name = Troop.GetName();
             result = result + "(" + IntToStr(Position) + ")=" + name;
         }
         else

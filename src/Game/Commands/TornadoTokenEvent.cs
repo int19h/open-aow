@@ -64,7 +64,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         if (value == 0)
         {
             _angle = 0;
-            var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
             StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
@@ -140,9 +140,9 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     log = new ArmyEventLog(null) { Holder = CreationHolder() };
                     log.Player = source.Player;
-                    var tornado = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
+                    string tornado = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
                     log.ArmyText = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [tornado]);
-                    var tornadoText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
+                    string tornadoText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
                     log.ArmyMessages.Add(tornadoText);
                     log.ArmyIcon = 2;
                     log.ArmyView.Setup(army.Army, selection);
@@ -203,7 +203,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
                         if (owner == 0)
                         {
-                            var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, 5);
+                            sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, 5);
                             group = StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
                             group.AddUnits(movedUnits.Units);
                             ((HuntAIGroup)group).TargetUnitIds.Add(source.UnitId);
@@ -254,7 +254,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 7;
                     height = 200 - i - 16;
                     xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + (i * 0.02)) * (200 - i)) * 0.25) + 16;
-                    var pi = Math.PI;
+                    double pi = Math.PI;
                     angle = (float)((double)((direction + _angle) * pi) / 180);
                     if (GetEngine().AnimationDetail == 0)
                     {

@@ -61,7 +61,7 @@ public partial class CombatScanner : ILayoutModule
         CombatScannerWindow.WinHeight = 170;
         CombatScannerWindow.Dockable = false;
         session.EndRead(CombatScannerWindow);
-        Frame scannerFr = new Frame(this);
+        Frame scannerFr = new(this);
         session.BeginRead(scannerFr);
         scannerFr.Name = "ScannerFr";
         scannerFr.Priority = 0;
@@ -122,7 +122,7 @@ public partial class CombatScanner : ILayoutModule
         Scanner.MapDrawSteps = 5;
         Scanner.ImageLibraryIndexFrame = 20;
         session.EndRead(Scanner);
-        Image sTitleIcon = new Image(this);
+        Image sTitleIcon = new(this);
         session.BeginRead(sTitleIcon);
         sTitleIcon.Name = "STitleIcon";
         sTitleIcon.Priority = 0;
@@ -150,7 +150,7 @@ public partial class CombatScanner : ILayoutModule
         sTitleIcon.Animate = false;
         sTitleIcon.AnimationFrameDelay = 0;
         session.EndRead(sTitleIcon);
-        Label sTitleLabel = new Label(this);
+        Label sTitleLabel = new(this);
         session.BeginRead(sTitleLabel);
         sTitleLabel.Name = "STitleLabel";
         sTitleLabel.Priority = 0;
@@ -173,7 +173,7 @@ public partial class CombatScanner : ILayoutModule
         sTitleLabel.Text = "Battle Map";
         sTitleLabel.TextColor = 0;
         session.EndRead(sTitleLabel);
-        Button sMinIcon = new Button(this);
+        Button sMinIcon = new(this);
         session.BeginRead(sMinIcon);
         sMinIcon.Name = "SMinIcon";
         sMinIcon.Priority = 1000;
@@ -207,7 +207,7 @@ public partial class CombatScanner : ILayoutModule
         sMinIcon.WinWidth = 15;
         sMinIcon.OnClick += _ => SMinIconClick();
         session.EndRead(sMinIcon);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

@@ -4,6 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
@@ -61,11 +62,11 @@ public partial class DisjunctionDialog : UIModule
                     if (magic.Enchantments.GetEnchantments(i).CanDispel(StrategicMap.Current.SeatedPlayer, ref reason))
                     {
                         reason = magic.Enchantments.GetEnchantments(i).GetName();
-                        var name = magic.Enchantments.GetEnchantments(i).GetName();
-                        var enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
+                        string name = magic.Enchantments.GetEnchantments(i).GetName();
+                        GlobalEnchantment enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
                         EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId.EnchantmentId));
-                        var enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
-                        var player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                        GlobalEnchantment enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
+                        Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         OwnerList.Items.Add(player.Leader.HeroName);
                     }
                 }
@@ -108,13 +109,13 @@ public partial class DisjunctionDialog : UIModule
             DisjunctionManaLabel.TextColor = 255;
         }
 
-        var spell = GamePack.Current.SpellControl.GetSpell(51);
-        var mana = _caster.GetMana();
-        var fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(51);
-        var fCasterMana = _caster.GetMana();
+        Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+        int mana = _caster.GetMana();
+        Spell fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(51);
+        int fCasterMana = _caster.GetMana();
         DisjunctionManaLabel.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
         DisjunctionChanceLabel.Text = IntToStr(_caster.DispelChance) + "%";
-        var dispelChanceMax = _caster.GetDispelChanceMax();
+        int dispelChanceMax = _caster.GetDispelChanceMax();
         ChanceSlider.Max = dispelChanceMax;
         ChanceSlider.Position = _caster.DispelChance;
     }
@@ -128,7 +129,7 @@ public partial class DisjunctionDialog : UIModule
         {
             EnchantmentList.Selected = index;
             OwnerList.Selected = index;
-            var objectValue = EnchantmentList.Items.Objects[index];
+            object objectValue = EnchantmentList.Items.Objects[index];
             _caster.SetEnchantmentId(ObjectToInt(objectValue));
             enchantment = _caster.SelectedEnchantment();
             if (enchantment != null)
@@ -144,7 +145,7 @@ public partial class DisjunctionDialog : UIModule
             if (Location.X == -1)
             {
                 {
-                    var coordinate41 = _caster.GetSource().GetLocation();
+                    MapCoordinate coordinate41 = _caster.GetSource().GetLocation();
                     sbyte coordinateX = coordinate41.X;
                     sbyte coordinateY = coordinate41.Y;
                     sbyte coordinateMapLevel = coordinate41.MapLevel;

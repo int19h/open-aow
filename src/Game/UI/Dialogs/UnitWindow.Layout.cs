@@ -68,7 +68,7 @@ public partial class UnitWindow : ILayoutModule
         MainWindow.WinHeight = 417;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Image unitFrameLeft = new Image(this);
+        Image unitFrameLeft = new(this);
         session.BeginRead(unitFrameLeft);
         unitFrameLeft.Name = "UnitFrameLeft";
         unitFrameLeft.Priority = 200;
@@ -126,7 +126,7 @@ public partial class UnitWindow : ILayoutModule
         UnitTabs.ImageLibraryIndexUp = 70;
         UnitTabs.BorderHeightSelected = 7;
         session.EndRead(UnitTabs);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -160,7 +160,7 @@ public partial class UnitWindow : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CloseClick();
         session.EndRead(close);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -183,7 +183,7 @@ public partial class UnitWindow : ILayoutModule
         title.Text = "Unit ";
         title.TextColor = 0;
         session.EndRead(title);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Visible = false;
@@ -218,7 +218,7 @@ public partial class UnitWindow : ILayoutModule
         help.WinWidth = 15;
         help.OnClick += _ => HelpClick();
         session.EndRead(help);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -277,7 +277,7 @@ public partial class UnitWindow : ILayoutModule
         BottomCloseButton.WinWidth = 119;
         BottomCloseButton.OnClick += _ => CloseClick();
         session.EndRead(BottomCloseButton);
-        Image celtLineR = new Image(this);
+        Image celtLineR = new(this);
         session.BeginRead(celtLineR);
         celtLineR.Name = "CeltLineR";
         celtLineR.Priority = 100;
@@ -465,7 +465,7 @@ public partial class UnitWindow : ILayoutModule
         AbilityUseButton.WinWidth = 250;
         AbilityUseButton.OnClick += _ => UseAbility();
         session.EndRead(AbilityUseButton);
-        Button t1SortName = new Button(this);
+        Button t1SortName = new(this);
         session.BeginRead(t1SortName);
         t1SortName.Name = "T1SortName";
         t1SortName.Priority = 1000;
@@ -496,7 +496,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortName.WinWidth = 168;
         t1SortName.OnClick += _ => T1SortNameClick(default);
         session.EndRead(t1SortName);
-        Button t1SortType = new Button(this);
+        Button t1SortType = new(this);
         session.BeginRead(t1SortType);
         t1SortType.Name = "T1SortType";
         t1SortType.Priority = 1000;
@@ -527,7 +527,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortType.WinWidth = 85;
         t1SortType.OnClick += _ => T1SortTypeClick(default);
         session.EndRead(t1SortType);
-        Button t1SortSource = new Button(this);
+        Button t1SortSource = new(this);
         session.BeginRead(t1SortSource);
         t1SortSource.Name = "T1SortSource";
         t1SortSource.Priority = 1000;
@@ -558,7 +558,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortSource.WinWidth = 118;
         t1SortSource.OnClick += _ => T1SortSourceClick(default);
         session.EndRead(t1SortSource);
-        Label t1UseMsg = new Label(this);
+        Label t1UseMsg = new(this);
         session.BeginRead(t1UseMsg);
         t1UseMsg.Name = "T1UseMsg";
         t1UseMsg.Visible = false;
@@ -582,7 +582,7 @@ public partial class UnitWindow : ILayoutModule
         t1UseMsg.Text = "Can only be used in Combat!";
         t1UseMsg.TextColor = 13165253;
         session.EndRead(t1UseMsg);
-        Panel t1Panel = new Panel(this);
+        Panel t1Panel = new(this);
         session.BeginRead(t1Panel);
         t1Panel.Name = "T1Panel";
         t1Panel.Priority = 900;
@@ -609,7 +609,7 @@ public partial class UnitWindow : ILayoutModule
         t1Panel.MinWidth = 0;
         t1Panel.MinHeight = 0;
         session.EndRead(t1Panel);
-        Panel t2Panel = new Panel(this);
+        Panel t2Panel = new(this);
         session.BeginRead(t2Panel);
         t2Panel.Name = "T2Panel";
         t2Panel.Visible = false;
@@ -711,7 +711,7 @@ public partial class UnitWindow : ILayoutModule
         AbilitySourceList.ItemHeight = 17;
         AbilitySourceList.TextAlign = TextAlignment.Left;
         session.EndRead(AbilitySourceList);
-        Panel t1ListPnl = new Panel(this);
+        Panel t1ListPnl = new(this);
         session.BeginRead(t1ListPnl);
         t1ListPnl.Name = "T1ListPnl";
         t1ListPnl.Priority = 100;
@@ -1147,7 +1147,7 @@ public partial class UnitWindow : ILayoutModule
         AlignmentLabel.Masked = true;
         AlignmentLabel.TextColor = 9415072;
         session.EndRead(AlignmentLabel);
-        Panel t2Alignnl = new Panel(this);
+        Panel t2Alignnl = new(this);
         session.BeginRead(t2Alignnl);
         t2Alignnl.Name = "T2Alignnl";
         t2Alignnl.Priority = 10;
@@ -1174,7 +1174,7 @@ public partial class UnitWindow : ILayoutModule
         t2Alignnl.MinWidth = 0;
         t2Alignnl.MinHeight = 0;
         session.EndRead(t2Alignnl);
-        Frame alFr = new Frame(this);
+        Frame alFr = new(this);
         session.BeginRead(alFr);
         alFr.Name = "AlFr";
         alFr.Priority = 0;
@@ -1251,7 +1251,7 @@ public partial class UnitWindow : ILayoutModule
         TypeValueLabel.Masked = true;
         TypeValueLabel.TextColor = 9415072;
         session.EndRead(TypeValueLabel);
-        Panel t2TypePnl = new Panel(this);
+        Panel t2TypePnl = new(this);
         session.BeginRead(t2TypePnl);
         t2TypePnl.Name = "T2TypePnl";
         t2TypePnl.Priority = 10;
@@ -1278,7 +1278,7 @@ public partial class UnitWindow : ILayoutModule
         t2TypePnl.MinWidth = 0;
         t2TypePnl.MinHeight = 0;
         session.EndRead(t2TypePnl);
-        Frame typeFr = new Frame(this);
+        Frame typeFr = new(this);
         session.BeginRead(typeFr);
         typeFr.Name = "TypeFr";
         typeFr.Priority = 0;
@@ -1305,7 +1305,7 @@ public partial class UnitWindow : ILayoutModule
         typeFr.ImageLibraryIndexLine = 0;
         typeFr.ImageLibraryIndexTexture = 0;
         session.EndRead(typeFr);
-        Frame ldrFr = new Frame(this);
+        Frame ldrFr = new(this);
         session.BeginRead(ldrFr);
         ldrFr.Name = "LdrFr";
         ldrFr.Priority = 0;
@@ -1421,7 +1421,7 @@ public partial class UnitWindow : ILayoutModule
         Backpack1CheckBox.OnChange += Gnd1Change;
         Backpack1CheckBox.RadioIndex = 1;
         session.EndRead(Backpack1CheckBox);
-        Label bpLbl1 = new Label(this);
+        Label bpLbl1 = new(this);
         session.BeginRead(bpLbl1);
         bpLbl1.Name = "BPLbl1";
         bpLbl1.Visible = false;
@@ -1711,7 +1711,7 @@ public partial class UnitWindow : ILayoutModule
         Backpack8CheckBox.OnChange += Gnd1Change;
         Backpack8CheckBox.RadioIndex = 1;
         session.EndRead(Backpack8CheckBox);
-        Label bpLbl2 = new Label(this);
+        Label bpLbl2 = new(this);
         session.BeginRead(bpLbl2);
         bpLbl2.Name = "BPLbl2";
         bpLbl2.Visible = false;
@@ -1735,7 +1735,7 @@ public partial class UnitWindow : ILayoutModule
         bpLbl2.Text = "Backpack";
         bpLbl2.TextColor = 2370853;
         session.EndRead(bpLbl2);
-        Label bodyLbl = new Label(this);
+        Label bodyLbl = new(this);
         session.BeginRead(bodyLbl);
         bodyLbl.Name = "BodyLbl";
         bodyLbl.Priority = 10;
@@ -2178,7 +2178,7 @@ public partial class UnitWindow : ILayoutModule
         Ground5CheckBox.OnChange += Gnd1Change;
         Ground5CheckBox.RadioIndex = 1;
         session.EndRead(Ground5CheckBox);
-        Label gndLbl = new Label(this);
+        Label gndLbl = new(this);
         session.BeginRead(gndLbl);
         gndLbl.Name = "GndLbl";
         gndLbl.Priority = 1000;
@@ -2201,7 +2201,7 @@ public partial class UnitWindow : ILayoutModule
         gndLbl.Text = "Items on the Ground";
         gndLbl.TextColor = 2370853;
         session.EndRead(gndLbl);
-        Image slotBack = new Image(this);
+        Image slotBack = new(this);
         session.BeginRead(slotBack);
         slotBack.Name = "SlotBack";
         slotBack.Priority = 0;
@@ -2260,7 +2260,7 @@ public partial class UnitWindow : ILayoutModule
         DisbandButton.WinWidth = 119;
         DisbandButton.OnClick += _ => DisbandBtnClick();
         session.EndRead(DisbandButton);
-        Panel itemUsePnl = new Panel(this);
+        Panel itemUsePnl = new(this);
         session.BeginRead(itemUsePnl);
         itemUsePnl.Name = "ItemUsePnl";
         itemUsePnl.Visible = false;
@@ -2322,7 +2322,7 @@ public partial class UnitWindow : ILayoutModule
         ItemUseButton.WinWidth = 210;
         ItemUseButton.OnClick += _ => UseItemClick();
         session.EndRead(ItemUseButton);
-        Image itemPic = new Image(this);
+        Image itemPic = new(this);
         session.BeginRead(itemPic);
         itemPic.Name = "ItemPic";
         itemPic.Priority = 0;
@@ -2350,7 +2350,7 @@ public partial class UnitWindow : ILayoutModule
         itemPic.Animate = false;
         itemPic.AnimationFrameDelay = 0;
         session.EndRead(itemPic);
-        Panel unitMainPnl = new Panel(this);
+        Panel unitMainPnl = new(this);
         session.BeginRead(unitMainPnl);
         unitMainPnl.Name = "UnitMainPnl";
         unitMainPnl.Priority = 0;
@@ -2399,7 +2399,7 @@ public partial class UnitWindow : ILayoutModule
         UnitNameLabel.Masked = true;
         UnitNameLabel.TextColor = 13299411;
         session.EndRead(UnitNameLabel);
-        Image unitFrRight = new Image(this);
+        Image unitFrRight = new(this);
         session.BeginRead(unitFrRight);
         unitFrRight.Name = "UnitFrRight";
         unitFrRight.Priority = 200;
@@ -2427,7 +2427,7 @@ public partial class UnitWindow : ILayoutModule
         unitFrRight.Animate = false;
         unitFrRight.AnimationFrameDelay = 0;
         session.EndRead(unitFrRight);
-        Image uAttackIcon = new Image(this);
+        Image uAttackIcon = new(this);
         session.BeginRead(uAttackIcon);
         uAttackIcon.Name = "UAttackIcon";
         uAttackIcon.Priority = 0;
@@ -2459,7 +2459,7 @@ public partial class UnitWindow : ILayoutModule
         uAttackIcon.Animate = false;
         uAttackIcon.AnimationFrameDelay = 0;
         session.EndRead(uAttackIcon);
-        Image uDefenseIcon = new Image(this);
+        Image uDefenseIcon = new(this);
         session.BeginRead(uDefenseIcon);
         uDefenseIcon.Name = "UDefenseIcon";
         uDefenseIcon.Priority = 0;
@@ -2523,7 +2523,7 @@ public partial class UnitWindow : ILayoutModule
         UnitMovesIcon.Animate = false;
         UnitMovesIcon.AnimationFrameDelay = 0;
         session.EndRead(UnitMovesIcon);
-        Image uDamageIcon = new Image(this);
+        Image uDamageIcon = new(this);
         session.BeginRead(uDamageIcon);
         uDamageIcon.Name = "UDamageIcon";
         uDamageIcon.Priority = 0;
@@ -2555,7 +2555,7 @@ public partial class UnitWindow : ILayoutModule
         uDamageIcon.Animate = false;
         uDamageIcon.AnimationFrameDelay = 0;
         session.EndRead(uDamageIcon);
-        Image uResistanceIcon = new Image(this);
+        Image uResistanceIcon = new(this);
         session.BeginRead(uResistanceIcon);
         uResistanceIcon.Name = "UResistanceIcon";
         uResistanceIcon.Priority = 0;
@@ -2587,7 +2587,7 @@ public partial class UnitWindow : ILayoutModule
         uResistanceIcon.Animate = false;
         uResistanceIcon.AnimationFrameDelay = 0;
         session.EndRead(uResistanceIcon);
-        Image uHitsIcon = new Image(this);
+        Image uHitsIcon = new(this);
         session.BeginRead(uHitsIcon);
         uHitsIcon.Name = "UHitsIcon";
         uHitsIcon.Priority = 0;
@@ -2775,7 +2775,7 @@ public partial class UnitWindow : ILayoutModule
         UnitHitsLabel.Masked = true;
         UnitHitsLabel.TextColor = 16777215;
         session.EndRead(UnitHitsLabel);
-        Panel uStatPnl = new Panel(this);
+        Panel uStatPnl = new(this);
         session.BeginRead(uStatPnl);
         uStatPnl.Name = "UStatPnl";
         uStatPnl.Priority = 0;
@@ -2802,7 +2802,7 @@ public partial class UnitWindow : ILayoutModule
         uStatPnl.MinWidth = 0;
         uStatPnl.MinHeight = 0;
         session.EndRead(uStatPnl);
-        Panel uStatP1 = new Panel(this);
+        Panel uStatP1 = new(this);
         session.BeginRead(uStatP1);
         uStatP1.Name = "UStatP1";
         uStatP1.Priority = 0;
@@ -2829,7 +2829,7 @@ public partial class UnitWindow : ILayoutModule
         uStatP1.MinWidth = 0;
         uStatP1.MinHeight = 0;
         session.EndRead(uStatP1);
-        Panel uStatP2 = new Panel(this);
+        Panel uStatP2 = new(this);
         session.BeginRead(uStatP2);
         uStatP2.Name = "UStatP2";
         uStatP2.Priority = 0;
@@ -2856,7 +2856,7 @@ public partial class UnitWindow : ILayoutModule
         uStatP2.MinWidth = 0;
         uStatP2.MinHeight = 0;
         session.EndRead(uStatP2);
-        Panel unitFr = new Panel(this);
+        Panel unitFr = new(this);
         session.BeginRead(unitFr);
         unitFr.Name = "UnitFr";
         unitFr.Priority = 0;
@@ -2905,7 +2905,7 @@ public partial class UnitWindow : ILayoutModule
         LevelLabel.Masked = true;
         LevelLabel.TextColor = 1514524;
         session.EndRead(LevelLabel);
-        Image unitLine1 = new Image(this);
+        Image unitLine1 = new(this);
         session.BeginRead(unitLine1);
         unitLine1.Name = "UnitLine1";
         unitLine1.Priority = 1000;
@@ -2933,7 +2933,7 @@ public partial class UnitWindow : ILayoutModule
         unitLine1.Animate = false;
         unitLine1.AnimationFrameDelay = 0;
         session.EndRead(unitLine1);
-        Image unitLine2 = new Image(this);
+        Image unitLine2 = new(this);
         session.BeginRead(unitLine2);
         unitLine2.Name = "UnitLine2";
         unitLine2.Priority = 1000;
@@ -2961,7 +2961,7 @@ public partial class UnitWindow : ILayoutModule
         unitLine2.Animate = false;
         unitLine2.AnimationFrameDelay = 0;
         session.EndRead(unitLine2);
-        Image frLSh = new Image(this);
+        Image frLSh = new(this);
         session.BeginRead(frLSh);
         frLSh.Name = "FrLSh";
         frLSh.OnPreDraw += FrLShPreDraw;
@@ -2990,7 +2990,7 @@ public partial class UnitWindow : ILayoutModule
         frLSh.Animate = false;
         frLSh.AnimationFrameDelay = 0;
         session.EndRead(frLSh);
-        Image frRSh = new Image(this);
+        Image frRSh = new(this);
         session.BeginRead(frRSh);
         frRSh.Name = "FrRSh";
         frRSh.OnPreDraw += FrRShPreDraw;
@@ -3019,7 +3019,7 @@ public partial class UnitWindow : ILayoutModule
         frRSh.Animate = false;
         frRSh.AnimationFrameDelay = 0;
         session.EndRead(frRSh);
-        Panel rightFramePnl = new Panel(this);
+        Panel rightFramePnl = new(this);
         session.BeginRead(rightFramePnl);
         rightFramePnl.Name = "RightFramePnl";
         rightFramePnl.Priority = 0;
@@ -3130,7 +3130,7 @@ public partial class UnitWindow : ILayoutModule
         UpkeepLabel.Masked = true;
         UpkeepLabel.TextColor = 16777215;
         session.EndRead(UpkeepLabel);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -3157,7 +3157,7 @@ public partial class UnitWindow : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Image celtLineL = new Image(this);
+        Image celtLineL = new(this);
         session.BeginRead(celtLineL);
         celtLineL.Name = "CeltLineL";
         celtLineL.Priority = 100;
@@ -3305,7 +3305,7 @@ public partial class UnitWindow : ILayoutModule
         RelationValueLabel.Masked = true;
         RelationValueLabel.TextColor = 9415072;
         session.EndRead(RelationValueLabel);
-        Panel t2RelPnl = new Panel(this);
+        Panel t2RelPnl = new(this);
         session.BeginRead(t2RelPnl);
         t2RelPnl.Name = "T2RelPnl";
         t2RelPnl.Priority = 10;
@@ -3332,7 +3332,7 @@ public partial class UnitWindow : ILayoutModule
         t2RelPnl.MinWidth = 0;
         t2RelPnl.MinHeight = 0;
         session.EndRead(t2RelPnl);
-        Frame relFr = new Frame(this);
+        Frame relFr = new(this);
         session.BeginRead(relFr);
         relFr.Name = "RelFr";
         relFr.Priority = 0;
@@ -3359,7 +3359,7 @@ public partial class UnitWindow : ILayoutModule
         relFr.ImageLibraryIndexLine = 0;
         relFr.ImageLibraryIndexTexture = 0;
         session.EndRead(relFr);
-        Image relRing = new Image(this);
+        Image relRing = new(this);
         session.BeginRead(relRing);
         relRing.Name = "RelRing";
         relRing.Priority = 0;
@@ -3387,7 +3387,7 @@ public partial class UnitWindow : ILayoutModule
         relRing.Animate = false;
         relRing.AnimationFrameDelay = 0;
         session.EndRead(relRing);
-        Label relationLbl = new Label(this);
+        Label relationLbl = new(this);
         session.BeginRead(relationLbl);
         relationLbl.Name = "RelationLbl";
         relationLbl.Priority = 0;
@@ -3410,7 +3410,7 @@ public partial class UnitWindow : ILayoutModule
         relationLbl.Text = "Race Relation";
         relationLbl.TextColor = 9415072;
         session.EndRead(relationLbl);
-        Label alignLbl = new Label(this);
+        Label alignLbl = new(this);
         session.BeginRead(alignLbl);
         alignLbl.Name = "AlignLbl";
         alignLbl.Priority = 0;
@@ -3433,7 +3433,7 @@ public partial class UnitWindow : ILayoutModule
         alignLbl.Text = "Alignment";
         alignLbl.TextColor = 9415072;
         session.EndRead(alignLbl);
-        Label typeLbl = new Label(this);
+        Label typeLbl = new(this);
         session.BeginRead(typeLbl);
         typeLbl.Name = "TypeLbl";
         typeLbl.Priority = 0;
@@ -3550,7 +3550,7 @@ public partial class UnitWindow : ILayoutModule
         PreviousUnitButton.WinWidth = 12;
         PreviousUnitButton.OnClick += _ => PPrevClick();
         session.EndRead(PreviousUnitButton);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

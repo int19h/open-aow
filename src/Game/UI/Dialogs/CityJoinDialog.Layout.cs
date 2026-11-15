@@ -84,7 +84,7 @@ public partial class CityJoinDialog : ILayoutModule
         ApproachLabel.Text = "##########";
         ApproachLabel.TextColor = 7921903;
         session.EndRead(ApproachLabel);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Visible = false;
@@ -140,7 +140,7 @@ public partial class CityJoinDialog : ILayoutModule
         CelticFrame.ImageLibraryIndexLine = 0;
         CelticFrame.ImageLibraryIndexTexture = 0;
         session.EndRead(CelticFrame);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Visible = false;
@@ -202,7 +202,7 @@ public partial class CityJoinDialog : ILayoutModule
         Memo.ColorChangeChar = 0;
         Memo.TextAlign = TextAlignment.Center;
         session.EndRead(Memo);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 500;
@@ -233,7 +233,7 @@ public partial class CityJoinDialog : ILayoutModule
         cancelBtn.WinWidth = 119;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Button attackBtn = new Button(this);
+        Button attackBtn = new(this);
         session.BeginRead(attackBtn);
         attackBtn.Name = "AttackBtn";
         attackBtn.Priority = 500;
@@ -264,7 +264,7 @@ public partial class CityJoinDialog : ILayoutModule
         attackBtn.WinWidth = 125;
         attackBtn.OnClick += _ => AttackBtnClick();
         session.EndRead(attackBtn);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -292,7 +292,7 @@ public partial class CityJoinDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -315,7 +315,7 @@ public partial class CityJoinDialog : ILayoutModule
         title.Text = "City Requester";
         title.TextColor = 0;
         session.EndRead(title);
-        Button acceptBtn = new Button(this);
+        Button acceptBtn = new(this);
         session.BeginRead(acceptBtn);
         acceptBtn.Name = "AcceptBtn";
         acceptBtn.Priority = 450;
@@ -346,7 +346,7 @@ public partial class CityJoinDialog : ILayoutModule
         acceptBtn.WinWidth = 119;
         acceptBtn.OnClick += _ => AcceptBtnClick();
         session.EndRead(acceptBtn);
-        Label whatLbl = new Label(this);
+        Label whatLbl = new(this);
         session.BeginRead(whatLbl);
         whatLbl.Name = "WhatLbl";
         whatLbl.Priority = 1000;
@@ -391,7 +391,7 @@ public partial class CityJoinDialog : ILayoutModule
         CityPictureLine.Masked = false;
         CityPictureLine.WinHeight = 125;
         session.EndRead(CityPictureLine);
-        Button closeBtn = new Button(this);
+        Button closeBtn = new(this);
         session.BeginRead(closeBtn);
         closeBtn.Name = "CloseBtn";
         closeBtn.Priority = 0;
@@ -425,7 +425,7 @@ public partial class CityJoinDialog : ILayoutModule
         closeBtn.WinWidth = 15;
         closeBtn.OnClick += _ => CloseBtnClick();
         session.EndRead(closeBtn);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

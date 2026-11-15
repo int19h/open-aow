@@ -1,6 +1,7 @@
 // Translated from AoWHex.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
@@ -14,7 +15,7 @@ public partial class WaterHex : LowerIsometricHex
     public WaterHex(CustomNode owner) : base(owner)
     {
         _animationFrame = (sbyte)(-1 - Random(20));
-        var random = Random(4);
+        int random = Random(4);
         Sides = (byte)(Sides | (random << 6));
     }
 
@@ -32,12 +33,12 @@ public partial class WaterHex : LowerIsometricHex
     // AoWHex.pas:315. The base texture includes an owner-address phase.
     public override void Show(int xSurface, int ySurface, in LockedSurface surface)
     {
-        var field = Owner;
+        MapField field = Owner;
         int x = 0, y = 0;
         HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         x -= xSurface + 8;
         y -= ySurface;
-        var library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        CustomImageLibrary library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         int phase = FrameFixtureInputs.WaterBasePhase(Owner);
         library[((phase + field.HexX + (field.HexY * 2) + (Sides >> 6)) & 15) + 140].Show(x, y, surface);
         x -= 6;

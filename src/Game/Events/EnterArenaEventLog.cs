@@ -36,7 +36,7 @@ public partial class EnterArenaEventLog : EventLog
         Troop result;
         if (index >= 0 && index < UnitIds.Count)
         {
-            var unitId = UnitIds[index];
+            int unitId = UnitIds[index];
             result = StrategicMap.Current.UnitControl.FindUnit(unitId);
         }
         else
@@ -97,7 +97,7 @@ public partial class EnterArenaEventLog : EventLog
         {
             if (((1 << i) & Selection) != 0)
             {
-                var unitId = UnitIds[i];
+                int unitId = UnitIds[i];
                 troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                 if (troop != null)
                 {

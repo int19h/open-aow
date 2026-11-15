@@ -107,16 +107,16 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        var rleWidth = RleWidth;
+        int rleWidth = RleWidth;
         stream.ReadExactly(Bytes.Of(ref rleWidth, 4));
         RleWidth = rleWidth;
-        var rleHeight = RleHeight;
+        int rleHeight = RleHeight;
         stream.ReadExactly(Bytes.Of(ref rleHeight, 4));
         RleHeight = rleHeight;
-        var rleLeft = RleLeft;
+        int rleLeft = RleLeft;
         stream.ReadExactly(Bytes.Of(ref rleLeft, 4));
         RleLeft = rleLeft;
-        var rleTop = RleTop;
+        int rleTop = RleTop;
         stream.ReadExactly(Bytes.Of(ref rleTop, 4));
         RleTop = rleTop;
         stream.ReadExactly(Bytes.Of(ref _transparentColor, 4));
@@ -127,16 +127,16 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        var rleWidth = RleWidth;
+        int rleWidth = RleWidth;
         stream.Write(Bytes.Of(ref rleWidth, 4));
         RleWidth = rleWidth;
-        var rleHeight = RleHeight;
+        int rleHeight = RleHeight;
         stream.Write(Bytes.Of(ref rleHeight, 4));
         RleHeight = rleHeight;
-        var rleLeft = RleLeft;
+        int rleLeft = RleLeft;
         stream.Write(Bytes.Of(ref rleLeft, 4));
         RleLeft = rleLeft;
-        var rleTop = RleTop;
+        int rleTop = RleTop;
         stream.Write(Bytes.Of(ref rleTop, 4));
         RleTop = rleTop;
         stream.Write(Bytes.Of(ref _transparentColor, 4));

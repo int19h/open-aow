@@ -42,9 +42,9 @@ public partial class EndTurnTokenEvent : TokenEvent
                 StrategicMap.Current.PlayerControl.EndTurn(Player);
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && StrategicMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
                 {
-                    var players = StrategicMap.Current.Players.GetPlayers(Player);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                    var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_finishedTheirTurnText);
+                    Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                    string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_finishedTheirTurnText);
                     StrategicMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
                 }
             }

@@ -17,7 +17,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     // Shipyard.pas:93
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        var shipyard = AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
+        string shipyard = AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
         text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BuildFormat), [shipyard]);
         gold = 50;
         days = 2;
@@ -35,7 +35,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         if (result)
         {
             result = false;
-            var coordinate37 = troop.GetLocation();
+            MapCoordinate coordinate37 = troop.GetLocation();
             x = coordinate37.X;
             y = coordinate37.Y;
             l = coordinate37.MapLevel;
@@ -45,7 +45,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var fieldValue = mapLevel.GetField(walk.X, walk.Y);
+                    MapField fieldValue = mapLevel.GetField(walk.X, walk.Y);
                     result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
                 }
 
@@ -68,7 +68,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        var coordinate38 = troop.GetLocation();
+        MapCoordinate coordinate38 = troop.GetLocation();
         x = coordinate38.X;
         y = coordinate38.Y;
         l = coordinate38.MapLevel;

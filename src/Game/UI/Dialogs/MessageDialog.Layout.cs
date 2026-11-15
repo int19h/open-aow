@@ -110,7 +110,7 @@ public partial class MessageDialog : ILayoutModule
         YesNoPanel.MinWidth = 0;
         YesNoPanel.MinHeight = 0;
         session.EndRead(YesNoPanel);
-        Button yesBtn = new Button(this);
+        Button yesBtn = new(this);
         session.BeginRead(yesBtn);
         yesBtn.Name = "YesBtn";
         yesBtn.Priority = 1000;
@@ -141,7 +141,7 @@ public partial class MessageDialog : ILayoutModule
         yesBtn.WinWidth = 105;
         yesBtn.OnClick += _ => YesBtnClick();
         session.EndRead(yesBtn);
-        Button noBtn = new Button(this);
+        Button noBtn = new(this);
         session.BeginRead(noBtn);
         noBtn.Name = "NoBtn";
         noBtn.Priority = 1000;
@@ -172,7 +172,7 @@ public partial class MessageDialog : ILayoutModule
         noBtn.WinWidth = 105;
         noBtn.OnClick += _ => NoBtnClick();
         session.EndRead(noBtn);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -199,7 +199,7 @@ public partial class MessageDialog : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -226,7 +226,7 @@ public partial class MessageDialog : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -254,7 +254,7 @@ public partial class MessageDialog : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -282,7 +282,7 @@ public partial class MessageDialog : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -310,7 +310,7 @@ public partial class MessageDialog : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Button okBtn = new Button(this);
+        Button okBtn = new(this);
         session.BeginRead(okBtn);
         okBtn.Name = "OKBtn";
         okBtn.Priority = 1000;
@@ -397,7 +397,7 @@ public partial class MessageDialog : ILayoutModule
         OKCancelPanel.MinWidth = 0;
         OKCancelPanel.MinHeight = 0;
         session.EndRead(OKCancelPanel);
-        Button okBtn2 = new Button(this);
+        Button okBtn2 = new(this);
         session.BeginRead(okBtn2);
         okBtn2.Name = "OKBtn2";
         okBtn2.Priority = 1000;
@@ -428,7 +428,7 @@ public partial class MessageDialog : ILayoutModule
         okBtn2.WinWidth = 105;
         okBtn2.OnClick += _ => OKBtn2Click();
         session.EndRead(okBtn2);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 1000;
@@ -493,7 +493,7 @@ public partial class MessageDialog : ILayoutModule
         MessageMemo.ColorChangeChar = 0;
         MessageMemo.TextAlign = TextAlignment.Center;
         session.EndRead(MessageMemo);
-        VerticalScrollBar messageMemoSB = new VerticalScrollBar(this);
+        VerticalScrollBar messageMemoSB = new(this);
         session.BeginRead(messageMemoSB);
         messageMemoSB.Name = "MessageMemoSB";
         messageMemoSB.Visible = false;
@@ -557,7 +557,7 @@ public partial class MessageDialog : ILayoutModule
         YesNoCancelPanel.MinWidth = 0;
         YesNoCancelPanel.MinHeight = 0;
         session.EndRead(YesNoCancelPanel);
-        Button yesBtn2 = new Button(this);
+        Button yesBtn2 = new(this);
         session.BeginRead(yesBtn2);
         yesBtn2.Name = "YesBtn2";
         yesBtn2.Priority = 1000;
@@ -588,7 +588,7 @@ public partial class MessageDialog : ILayoutModule
         yesBtn2.WinWidth = 105;
         yesBtn2.OnClick += _ => YesBtnClick();
         session.EndRead(yesBtn2);
-        Button noBtn2 = new Button(this);
+        Button noBtn2 = new(this);
         session.BeginRead(noBtn2);
         noBtn2.Name = "NoBtn2";
         noBtn2.Priority = 1000;
@@ -619,7 +619,7 @@ public partial class MessageDialog : ILayoutModule
         noBtn2.WinWidth = 105;
         noBtn2.OnClick += _ => NoBtnClick();
         session.EndRead(noBtn2);
-        Button cancelBtn2 = new Button(this);
+        Button cancelBtn2 = new(this);
         session.BeginRead(cancelBtn2);
         cancelBtn2.Name = "CancelBtn2";
         cancelBtn2.Priority = 1000;
@@ -739,7 +739,7 @@ public partial class MessageDialog : ILayoutModule
         HeaderMemo.ColorChangeChar = 0;
         HeaderMemo.TextAlign = TextAlignment.Center;
         session.EndRead(HeaderMemo);
-        VerticalScrollBar headerMemoSB = new VerticalScrollBar(this);
+        VerticalScrollBar headerMemoSB = new(this);
         session.BeginRead(headerMemoSB);
         headerMemoSB.Name = "HeaderMemoSB";
         headerMemoSB.Visible = false;
@@ -798,7 +798,7 @@ public partial class MessageDialog : ILayoutModule
         HeaderLabel.Masked = true;
         HeaderLabel.TextColor = 0;
         session.EndRead(HeaderLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

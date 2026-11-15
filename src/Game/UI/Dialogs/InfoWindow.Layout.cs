@@ -60,7 +60,7 @@ public partial class InfoWindow : ILayoutModule
         MainWindow.WinHeight = 216;
         MainWindow.Dockable = false;
         session.EndRead(MainWindow);
-        Button min = new Button(this);
+        Button min = new(this);
         session.BeginRead(min);
         min.Name = "Min";
         min.Priority = 0;
@@ -94,7 +94,7 @@ public partial class InfoWindow : ILayoutModule
         min.WinWidth = 15;
         min.OnClick += _ => MinClick();
         session.EndRead(min);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -151,7 +151,7 @@ public partial class InfoWindow : ILayoutModule
         TitleLabel.Text = "Structure";
         TitleLabel.TextColor = 0;
         session.EndRead(TitleLabel);
-        Image sIcon = new Image(this);
+        Image sIcon = new(this);
         session.BeginRead(sIcon);
         sIcon.Name = "SIcon";
         sIcon.Priority = 0;
@@ -210,7 +210,7 @@ public partial class InfoWindow : ILayoutModule
         MainButton.WinWidth = 108;
         MainButton.OnClick += _ => MainBtnClick();
         session.EndRead(MainButton);
-        Frame celtFrame = new Frame(this);
+        Frame celtFrame = new(this);
         session.BeginRead(celtFrame);
         celtFrame.Name = "CeltFrame";
         celtFrame.Priority = 13;
@@ -310,7 +310,7 @@ public partial class InfoWindow : ILayoutModule
         ProductionPlacePanel.MinWidth = 0;
         ProductionPlacePanel.MinHeight = 0;
         session.EndRead(ProductionPlacePanel);
-        Panel namePnl = new Panel(this);
+        Panel namePnl = new(this);
         session.BeginRead(namePnl);
         namePnl.Name = "NamePnl";
         namePnl.Priority = 400;
@@ -433,7 +433,7 @@ public partial class InfoWindow : ILayoutModule
         SignTextMemo.ColorChangeChar = 0;
         SignTextMemo.TextAlign = TextAlignment.Center;
         session.EndRead(SignTextMemo);
-        Label signLbl = new Label(this);
+        Label signLbl = new(this);
         session.BeginRead(signLbl);
         signLbl.Name = "SignLbl";
         signLbl.Priority = 2500;
@@ -456,7 +456,7 @@ public partial class InfoWindow : ILayoutModule
         signLbl.Text = "The sign reads:";
         signLbl.TextColor = 16777215;
         session.EndRead(signLbl);
-        Frame signTLine = new Frame(this);
+        Frame signTLine = new(this);
         session.BeginRead(signTLine);
         signTLine.Name = "SignTLine";
         signTLine.Priority = 500;
@@ -483,7 +483,7 @@ public partial class InfoWindow : ILayoutModule
         signTLine.ImageLibraryIndexLine = 55;
         signTLine.ImageLibraryIndexTexture = 0;
         session.EndRead(signTLine);
-        Image signTDecoL = new Image(this);
+        Image signTDecoL = new(this);
         session.BeginRead(signTDecoL);
         signTDecoL.Name = "SignTDecoL";
         signTDecoL.Priority = 1000;
@@ -511,7 +511,7 @@ public partial class InfoWindow : ILayoutModule
         signTDecoL.Animate = false;
         signTDecoL.AnimationFrameDelay = 0;
         session.EndRead(signTDecoL);
-        Image signTDecoR = new Image(this);
+        Image signTDecoR = new(this);
         session.BeginRead(signTDecoR);
         signTDecoR.Name = "SignTDecoR";
         signTDecoR.Priority = 1000;
@@ -539,7 +539,7 @@ public partial class InfoWindow : ILayoutModule
         signTDecoR.Animate = false;
         signTDecoR.AnimationFrameDelay = 0;
         session.EndRead(signTDecoR);
-        Frame signBLine = new Frame(this);
+        Frame signBLine = new(this);
         session.BeginRead(signBLine);
         signBLine.Name = "SignBLine";
         signBLine.Priority = 500;
@@ -566,7 +566,7 @@ public partial class InfoWindow : ILayoutModule
         signBLine.ImageLibraryIndexLine = 55;
         signBLine.ImageLibraryIndexTexture = 0;
         session.EndRead(signBLine);
-        Image signBDecoL = new Image(this);
+        Image signBDecoL = new(this);
         session.BeginRead(signBDecoL);
         signBDecoL.Name = "SignBDecoL";
         signBDecoL.Priority = 1000;
@@ -594,7 +594,7 @@ public partial class InfoWindow : ILayoutModule
         signBDecoL.Animate = false;
         signBDecoL.AnimationFrameDelay = 0;
         session.EndRead(signBDecoL);
-        Image singBDemoR = new Image(this);
+        Image singBDemoR = new(this);
         session.BeginRead(singBDemoR);
         singBDemoR.Name = "SingBDemoR";
         singBDemoR.Priority = 1000;
@@ -622,7 +622,7 @@ public partial class InfoWindow : ILayoutModule
         singBDemoR.Animate = false;
         singBDemoR.AnimationFrameDelay = 0;
         session.EndRead(singBDemoR);
-        VerticalScrollBar signTextSB = new VerticalScrollBar(this);
+        VerticalScrollBar signTextSB = new(this);
         session.BeginRead(signTextSB);
         signTextSB.Name = "SignTextSB";
         signTextSB.Priority = 500;
@@ -885,7 +885,7 @@ public partial class InfoWindow : ILayoutModule
         AltarChargeBar.ImageLibraryIndexTNormal = 14;
         AltarChargeBar.ImageLibraryIndexTSelected = 6;
         session.EndRead(AltarChargeBar);
-        Label chargeLbl = new Label(this);
+        Label chargeLbl = new(this);
         session.BeginRead(chargeLbl);
         chargeLbl.Name = "ChargeLbl";
         chargeLbl.Priority = 0;
@@ -954,7 +954,7 @@ public partial class InfoWindow : ILayoutModule
         ChargePercentLabel.Text = "##";
         ChargePercentLabel.TextColor = 0;
         session.EndRead(ChargePercentLabel);
-        Image t2GemI = new Image(this);
+        Image t2GemI = new(this);
         session.BeginRead(t2GemI);
         t2GemI.Name = "T2GemI";
         t2GemI.Priority = 10;
@@ -982,7 +982,7 @@ public partial class InfoWindow : ILayoutModule
         t2GemI.Animate = false;
         t2GemI.AnimationFrameDelay = 0;
         session.EndRead(t2GemI);
-        Image t2TurnI = new Image(this);
+        Image t2TurnI = new(this);
         session.BeginRead(t2TurnI);
         t2TurnI.Name = "T2TurnI";
         t2TurnI.Priority = 10;
@@ -1122,7 +1122,7 @@ public partial class InfoWindow : ILayoutModule
         NotYoursMemo.ColorChangeChar = 0;
         NotYoursMemo.TextAlign = TextAlignment.Center;
         session.EndRead(NotYoursMemo);
-        Label ownerlbl = new Label(this);
+        Label ownerlbl = new(this);
         session.BeginRead(ownerlbl);
         ownerlbl.Name = "Ownerlbl";
         ownerlbl.Priority = 0;
@@ -1191,7 +1191,7 @@ public partial class InfoWindow : ILayoutModule
         ProductionOrbTurnsLabel.Text = "##";
         ProductionOrbTurnsLabel.TextColor = 2829099;
         session.EndRead(ProductionOrbTurnsLabel);
-        Label orLbl = new Label(this);
+        Label orLbl = new(this);
         session.BeginRead(orLbl);
         orLbl.Name = "orLbl";
         orLbl.Priority = 0;
@@ -1214,7 +1214,7 @@ public partial class InfoWindow : ILayoutModule
         orLbl.Text = "or";
         orLbl.TextColor = 7921903;
         session.EndRead(orLbl);
-        Panel altarInfoPnl = new Panel(this);
+        Panel altarInfoPnl = new(this);
         session.BeginRead(altarInfoPnl);
         altarInfoPnl.Name = "AltarInfoPnl";
         altarInfoPnl.Priority = 100;
@@ -1269,7 +1269,7 @@ public partial class InfoWindow : ILayoutModule
         ProductionOrbTimeImage.Animate = false;
         ProductionOrbTimeImage.AnimationFrameDelay = 0;
         session.EndRead(ProductionOrbTimeImage);
-        Button center = new Button(this);
+        Button center = new(this);
         session.BeginRead(center);
         center.Name = "Center";
         center.Priority = 0;
@@ -1365,7 +1365,7 @@ public partial class InfoWindow : ILayoutModule
         ConstructionMemo.ColorChangeChar = 0;
         ConstructionMemo.TextAlign = TextAlignment.Center;
         session.EndRead(ConstructionMemo);
-        Label underConstructionLbl = new Label(this);
+        Label underConstructionLbl = new(this);
         session.BeginRead(underConstructionLbl);
         underConstructionLbl.Name = "UnderConstructionLbl";
         underConstructionLbl.Priority = 0;
@@ -1438,7 +1438,7 @@ public partial class InfoWindow : ILayoutModule
         RazePanel.MinWidth = 0;
         RazePanel.MinHeight = 0;
         session.EndRead(RazePanel);
-        Image razeBg = new Image(this);
+        Image razeBg = new(this);
         session.BeginRead(razeBg);
         razeBg.Name = "RazeBg";
         razeBg.Priority = 0;
@@ -1579,7 +1579,7 @@ public partial class InfoWindow : ILayoutModule
         CityIncomeLabel.Text = "##";
         CityIncomeLabel.TextColor = 16777215;
         session.EndRead(CityIncomeLabel);
-        Image goldIcn = new Image(this);
+        Image goldIcn = new(this);
         session.BeginRead(goldIcn);
         goldIcn.Name = "GoldIcn";
         goldIcn.Priority = 10;
@@ -1611,7 +1611,7 @@ public partial class InfoWindow : ILayoutModule
         goldIcn.Animate = false;
         goldIcn.AnimationFrameDelay = 0;
         session.EndRead(goldIcn);
-        Image ugradeI = new Image(this);
+        Image ugradeI = new(this);
         session.BeginRead(ugradeI);
         ugradeI.Name = "UgradeI";
         ugradeI.Priority = 10;
@@ -1667,7 +1667,7 @@ public partial class InfoWindow : ILayoutModule
         CityLevelLabel.Text = "##";
         CityLevelLabel.TextColor = 16777215;
         session.EndRead(CityLevelLabel);
-        Panel infoPnl = new Panel(this);
+        Panel infoPnl = new(this);
         session.BeginRead(infoPnl);
         infoPnl.Name = "InfoPnl";
         infoPnl.Priority = 100;
@@ -1694,7 +1694,7 @@ public partial class InfoWindow : ILayoutModule
         infoPnl.MinWidth = 0;
         infoPnl.MinHeight = 0;
         session.EndRead(infoPnl);
-        Panel productionPlaceInfoPnl = new Panel(this);
+        Panel productionPlaceInfoPnl = new(this);
         session.BeginRead(productionPlaceInfoPnl);
         productionPlaceInfoPnl.Name = "ProductionPlaceInfoPnl";
         productionPlaceInfoPnl.Priority = 100;
@@ -1814,7 +1814,7 @@ public partial class InfoWindow : ILayoutModule
         ActiveCityActionMemo.ColorChangeChar = 0;
         ActiveCityActionMemo.TextAlign = TextAlignment.Center;
         session.EndRead(ActiveCityActionMemo);
-        Label costToFireLbl = new Label(this);
+        Label costToFireLbl = new(this);
         session.BeginRead(costToFireLbl);
         costToFireLbl.Name = "CostToFireLbl";
         costToFireLbl.Priority = 0;
@@ -1837,7 +1837,7 @@ public partial class InfoWindow : ILayoutModule
         costToFireLbl.Text = "Cost to Fire:";
         costToFireLbl.TextColor = 7921903;
         session.EndRead(costToFireLbl);
-        Label currentActivityLbl = new Label(this);
+        Label currentActivityLbl = new(this);
         session.BeginRead(currentActivityLbl);
         currentActivityLbl.Name = "CurrentActivityLbl";
         currentActivityLbl.Priority = 0;
@@ -1966,7 +1966,7 @@ public partial class InfoWindow : ILayoutModule
         IncomePanel.MinWidth = 0;
         IncomePanel.MinHeight = 0;
         session.EndRead(IncomePanel);
-        Panel incomInfoPnl = new Panel(this);
+        Panel incomInfoPnl = new(this);
         session.BeginRead(incomInfoPnl);
         incomInfoPnl.Name = "IncomInfoPnl";
         incomInfoPnl.Priority = 100;
@@ -2052,7 +2052,7 @@ public partial class InfoWindow : ILayoutModule
         IncomeAmountLabel.Text = "20";
         IncomeAmountLabel.TextColor = 16777215;
         session.EndRead(IncomeAmountLabel);
-        Label incomeTextLbl = new Label(this);
+        Label incomeTextLbl = new(this);
         session.BeginRead(incomeTextLbl);
         incomeTextLbl.Name = "IncomeTextLbl";
         incomeTextLbl.Priority = 0;
@@ -2288,7 +2288,7 @@ public partial class InfoWindow : ILayoutModule
         ItemBagMemo.ColorChangeChar = 0;
         ItemBagMemo.TextAlign = TextAlignment.Center;
         session.EndRead(ItemBagMemo);
-        VerticalScrollBar sbsb = new VerticalScrollBar(this);
+        VerticalScrollBar sbsb = new(this);
         session.BeginRead(sbsb);
         sbsb.Name = "SBSB";
         sbsb.Priority = 0;
@@ -2324,7 +2324,7 @@ public partial class InfoWindow : ILayoutModule
         sbsb.ImageLibraryIndexBack = 101;
         sbsb.ThumbImageIndex = 98;
         session.EndRead(sbsb);
-        VerticalScrollBar notYoursMemoSB = new VerticalScrollBar(this);
+        VerticalScrollBar notYoursMemoSB = new(this);
         session.BeginRead(notYoursMemoSB);
         notYoursMemoSB.Name = "NotYoursMemoSB";
         notYoursMemoSB.Visible = false;
@@ -2423,7 +2423,7 @@ public partial class InfoWindow : ILayoutModule
         ExplorationSiteMemo.ColorChangeChar = 0;
         ExplorationSiteMemo.TextAlign = TextAlignment.Center;
         session.EndRead(ExplorationSiteMemo);
-        VerticalScrollBar essb = new VerticalScrollBar(this);
+        VerticalScrollBar essb = new(this);
         session.BeginRead(essb);
         essb.Name = "ESSB";
         essb.Visible = false;
@@ -2507,7 +2507,7 @@ public partial class InfoWindow : ILayoutModule
         ExplorationSiteStatusLabel.Text = "#####";
         ExplorationSiteStatusLabel.TextColor = 16777215;
         session.EndRead(ExplorationSiteStatusLabel);
-        Button help = new Button(this);
+        Button help = new(this);
         session.BeginRead(help);
         help.Name = "Help";
         help.Priority = 0;
@@ -2587,7 +2587,7 @@ public partial class InfoWindow : ILayoutModule
         PopulationLabel.Text = "Population:";
         PopulationLabel.TextColor = 9236989;
         session.EndRead(PopulationLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

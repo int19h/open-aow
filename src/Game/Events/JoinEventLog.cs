@@ -84,12 +84,12 @@ public partial class JoinEventLog : EventLog
         while (result && i != 0)
         {
             i -= 1;
-            var item = UnitIds[i];
+            int item = UnitIds[i];
             troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop != null && troop.Player == 0)
             {
-                var coordinate20 = troop.GetLocation();
+                MapCoordinate coordinate20 = troop.GetLocation();
                 sbyte locationX = coordinate20.X;
                 sbyte locationY = coordinate20.Y;
                 sbyte locationMapLevel = coordinate20.MapLevel;
@@ -107,7 +107,7 @@ public partial class JoinEventLog : EventLog
         Troop troop;
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
-            var item = UnitIds[i];
+            int item = UnitIds[i];
             troop = StrategicMap.Current.UnitControl.FindUnit(item);
             units.AddUnit(troop);
         }
@@ -152,11 +152,11 @@ public partial class JoinEventLog : EventLog
             if (FirstUnitId == 0 && ((1 << i) & Selection) != 0)
             {
                 FirstUnitId = army.Units.GetUnit(i).UnitId;
-                var selectionCount = army.SelectionCount(Selection);
+                int selectionCount = army.SelectionCount(Selection);
                 army.Units.GetUnit(i).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
             }
 
-            var troop = army.Units.GetUnit(i);
+            Troop troop = army.Units.GetUnit(i);
             UnitIds.Add(troop.UnitId);
         }
 

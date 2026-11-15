@@ -174,7 +174,7 @@ public partial class CampaignTransferSettings : EngineObject
                 while (levelCounts[level - 1] != 0 && candidates.Count != 0 && Units.Count != maxUnits)
                 {
                     index = Random(candidates.Count);
-                    var abstractUnit = candidates[index];
+                    Troop abstractUnit = candidates[index];
                     Units.AddUnit(abstractUnit);
                     candidates.Delete(index);
                 }
@@ -281,7 +281,7 @@ public partial class CampaignTransferSettings : EngineObject
             }
 
             _researchPercentage = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
-            var players = StrategicMap.Current.Players.GetPlayers(player);
+            Player players = StrategicMap.Current.Players.GetPlayers(player);
             _spells.Assign(players.MagicControl.Spells);
             _researchSpellId = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
             _researchPointsLeft = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
@@ -309,7 +309,7 @@ public partial class CampaignTransferSettings : EngineObject
         bool result;
         if (index >= 0 && index < Items.Count && SelectedItems.IndexOf(index) == -1 && Items.GetItem(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
-            var campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
+            int campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             SelectedItems.Add(index);
             result = true;
@@ -328,7 +328,7 @@ public partial class CampaignTransferSettings : EngineObject
         bool result;
         if (SelectedItems.Remove(index) != -1)
         {
-            var campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
+            int campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
             result = true;
         }
@@ -346,7 +346,7 @@ public partial class CampaignTransferSettings : EngineObject
         bool result;
         if (index >= 0 && index < Heroes.Count && SelectedHeroes.IndexOf(index) == -1 && Heroes.GetHero(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
-            var campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
+            int campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             SelectedHeroes.Add(index);
             result = true;
@@ -365,7 +365,7 @@ public partial class CampaignTransferSettings : EngineObject
         bool result;
         if (SelectedHeroes.Remove(index) != -1)
         {
-            var campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
+            int campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
             result = true;
         }
@@ -383,7 +383,7 @@ public partial class CampaignTransferSettings : EngineObject
         bool result;
         if (index >= 0 && index < Units.Count && SelectedUnits.IndexOf(index) == -1 && Units.GetUnit(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
-            var campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
+            int campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             SelectedUnits.Add(index);
             result = true;
@@ -402,7 +402,7 @@ public partial class CampaignTransferSettings : EngineObject
         bool result;
         if (SelectedUnits.Remove(index) != -1)
         {
-            var campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
+            int campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
             result = true;
         }
@@ -579,12 +579,12 @@ public partial class CampaignTransferSettings : EngineObject
             StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
             StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
             StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
-            var players = StrategicMap.Current.Players.GetPlayers(player);
+            Player players = StrategicMap.Current.Players.GetPlayers(player);
             players.InitialGold += SelectedTransferGold;
-            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
             leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
-            var coordinate23 = leader.GetLocation();
+            MapCoordinate coordinate23 = leader.GetLocation();
             x = coordinate23.X;
             y = coordinate23.Y;
             l = coordinate23.MapLevel;
@@ -600,11 +600,11 @@ public partial class CampaignTransferSettings : EngineObject
 
                 for (int j = SelectedItems.Count - 1; j >= 0; j--)
                 {
-                    var item = SelectedItems[j];
+                    int item = SelectedItems[j];
                     itemItem = Items.GetItem(item);
                     if (leader.UnitId == itemItem.ItemId)
                     {
-                        var fSelectedItemsItem = SelectedItems[j];
+                        int fSelectedItemsItem = SelectedItems[j];
                         itemItem = (Item)Items.GetItem(fSelectedItemsItem).Copy(GetEngine());
                         if (leader.AutoPlaceItem(itemItem))
                         {
@@ -622,7 +622,7 @@ public partial class CampaignTransferSettings : EngineObject
 
             for (int i = SelectedUnits.Count - 1; i >= 0; i--)
             {
-                var item = SelectedUnits[i];
+                int item = SelectedUnits[i];
                 troop = (Troop)Units.GetUnit(item).Copy(GetEngine());
                 troop.UnitId = -1;
                 troop.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
@@ -631,15 +631,15 @@ public partial class CampaignTransferSettings : EngineObject
 
             for (int i = SelectedHeroes.Count - 1; i >= 0; i--)
             {
-                var item = SelectedHeroes[i];
+                int item = SelectedHeroes[i];
                 hero = Heroes.GetHero(item).Copy<Hero>(GetEngine());
                 for (int j = SelectedItems.Count - 1; j >= 0; j--)
                 {
-                    var fSelectedItemsItem = SelectedItems[j];
+                    int fSelectedItemsItem = SelectedItems[j];
                     itemItem = Items.GetItem(fSelectedItemsItem);
                     if (hero.UnitId == itemItem.ItemId)
                     {
-                        var item2 = SelectedItems[j];
+                        int item2 = SelectedItems[j];
                         itemItem = (Item)Items.GetItem(item2).Copy(GetEngine());
                         if (hero.AutoPlaceItem(itemItem))
                         {
@@ -659,7 +659,7 @@ public partial class CampaignTransferSettings : EngineObject
 
             for (int i = SelectedItems.Count - 1; i >= 0; i--)
             {
-                var item = SelectedItems[i];
+                int item = SelectedItems[i];
                 itemItem = (Item)Items.GetItem(item).Copy(GetEngine());
                 StrategicMap.Current.ItemControl.RegisterItem(itemItem);
                 itemItem.PlaceOnMap(StrategicMap.Current, x, y, l);

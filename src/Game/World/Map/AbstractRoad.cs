@@ -32,22 +32,22 @@ public partial class AbstractRoad : MapObject
         MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            var classId = Resource.EngineClass.ClassId;
+            int classId = Resource.EngineClass.ClassId;
             r = ((AbstractRoadResource)Resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
             if (r != null)
             {
                 SetResource(r);
                 UpdateTransitions();
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
             }
             else
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 if (((AbstractRoadResource)Resource).GetRoadControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
                 {
                     Dispose();
@@ -70,8 +70,8 @@ public partial class AbstractRoad : MapObject
         bool condition = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount;
         if (condition)
         {
-            var fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
-            var terrain = Resource.TerrainList.GetTerrain(0);
+            MapField fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
+            sbyte terrain = Resource.TerrainList.GetTerrain(0);
             condition = fieldValue.TerrainType == terrain;
         }
 

@@ -48,7 +48,7 @@ public partial class FlagMessageEvent : FlagEvent
         {
             log = new FlagMessageEventLog(null, holder: CreationHolder());
             log.HelpFileName = _helpFileName;
-            var text = _message.Text;
+            string text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
             log.Release();

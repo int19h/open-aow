@@ -35,7 +35,7 @@ public partial class DisplayController : Component
         if (GetInverseMatrix() != null)
         {
             result = 0;
-            var inverseMatrix = GetInverseMatrix();
+            Matrix inverseMatrix = GetInverseMatrix();
             m = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
             for (int i = 0, last = GetInverseMatrix().Width - 1; i <= last; i++)
             {
@@ -67,8 +67,8 @@ public partial class DisplayController : Component
                         if (m.GetValue((byte)i, (byte)j) != 0)
                         {
                             GetInverseBlockSize(i, j, m, ref bw, ref bh);
-                            var left = sourceR.Left;
-                            var top = sourceR.Top;
+                            int left = sourceR.Left;
+                            int top = sourceR.Top;
                             GetPixelPositionOfBlock(i, j, clipR, out left, out top, out blockWidth, out blockHeight);
                             sourceR.Left = left;
                             sourceR.Top = top;
@@ -84,23 +84,23 @@ public partial class DisplayController : Component
                                 sourceR.Bottom = sourceR.Top + blockHeight;
                             }
 
-                            var primarySurfaceRegion = GetPrimarySurfaceRegion();
-                            var left2 = destinationR.Left;
-                            var top2 = destinationR.Top;
+                            Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
+                            int left2 = destinationR.Left;
+                            int top2 = destinationR.Top;
                             GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out left2, out top2, out blockWidth, out blockHeight);
                             destinationR.Left = left2;
                             destinationR.Top = top2;
-                            var primarySurfaceRegion2 = GetPrimarySurfaceRegion();
+                            Rect? primarySurfaceRegion2 = GetPrimarySurfaceRegion();
                             destinationR.Left += primarySurfaceRegion2.Value.Left;
-                            var primarySurfaceRegion3 = GetPrimarySurfaceRegion();
+                            Rect? primarySurfaceRegion3 = GetPrimarySurfaceRegion();
                             destinationR.Top += primarySurfaceRegion3.Value.Top;
                             if (bw > 1 || bh > 1)
                             {
-                                var primarySurfaceRegion4 = GetPrimarySurfaceRegion();
+                                Rect? primarySurfaceRegion4 = GetPrimarySurfaceRegion();
                                 GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, primarySurfaceRegion4.Value, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
-                                var primarySurfaceRegion5 = GetPrimarySurfaceRegion();
+                                Rect? primarySurfaceRegion5 = GetPrimarySurfaceRegion();
                                 destinationR.Right = pixelX2 + blockWidth + primarySurfaceRegion5.Value.Left;
-                                var primarySurfaceRegion6 = GetPrimarySurfaceRegion();
+                                Rect? primarySurfaceRegion6 = GetPrimarySurfaceRegion();
                                 destinationR.Bottom = pixelY2 + blockHeight + primarySurfaceRegion6.Value.Top;
                             }
                             else
@@ -109,7 +109,7 @@ public partial class DisplayController : Component
                                 destinationR.Bottom = destinationR.Top + blockHeight;
                             }
 
-                            var surface = GetSurface(0);
+                            Surface surface = GetSurface(0);
                             result = GetSurface(index).BlitStretch(surface, sourceR, destinationR);
                             for (int x = 0, lastX = bw - 1; x <= lastX; x++)
                             {
@@ -185,16 +185,16 @@ public partial class DisplayController : Component
     // DisplayC.pas:647
     public virtual int BlitSurface(int index)
     {
-        var primarySurfaceRegion = GetPrimarySurfaceRegion();
-        var surface = GetSurface(0);
+        Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
+        Surface surface = GetSurface(0);
         return GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
     }
 
     // DisplayC.pas:652
     public virtual int FlipSurface(int index)
     {
-        var primarySurfaceRegion = GetPrimarySurfaceRegion();
-        var surface = GetSurface(0);
+        Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
+        Surface surface = GetSurface(0);
         int result = GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
         if (Succeeded(result))
         {

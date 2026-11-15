@@ -32,7 +32,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
                 selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
                 if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
                 {
-                    var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                    GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                     group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
                     for (int i = Group.Units.Count - 1; i >= 0; i--)
                     {

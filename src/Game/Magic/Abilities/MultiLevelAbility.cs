@@ -62,7 +62,7 @@ public partial class MultiLevelAbility : AdjustableAbility
 
     public override bool Expand(AbilityOwner owner)
     {
-        var data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        MultiLevelAbilityData data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
             data = (MultiLevelAbilityData)AbilityDataClass().CreateInstance(null, holder: CreationHolder());
@@ -83,7 +83,7 @@ public partial class MultiLevelAbility : AdjustableAbility
 
     public override bool Remove(AbilityOwner owner)
     {
-        var data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        MultiLevelAbilityData data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null) { SetAbility(owner, AbilityId, 0); return false; }
         if (data.Level == 1) { SetAbility(owner, AbilityId, 0); owner.RemoveAbilityData(data); }
         else

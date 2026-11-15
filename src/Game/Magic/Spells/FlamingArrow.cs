@@ -18,7 +18,7 @@ public partial class FlamingArrow : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_flamingArrowText);
         SpellId = 123;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Physical);

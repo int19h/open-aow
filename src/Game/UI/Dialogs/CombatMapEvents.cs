@@ -7,6 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 
 using Aow.Game.UI.Windows;
@@ -41,41 +42,41 @@ public partial class CombatMapEvents : UIModule
             UI.ChatWindow.MainWindow.WinHeight = _chatHeight;
         }
 
-        var chatWindow = UI.ChatWindow;
+        ChatWindow chatWindow = UI.ChatWindow;
         chatWindow.MainWindow.Alignment.AlignHeight = AlignHeight.Bottom;
         chatWindow.MainWindow.Visible = false;
 
         UI.ChatWindow.ScrollPending = true;
         UI.MapWindow.MapAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
         UI.MapWindow.MapAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;
-        var mapRectangle = UI.MapWindow.MapRectangle;
+        Rect mapRectangle = UI.MapWindow.MapRectangle;
         mapRectangle.Left = UI.MapWindow.MainWindow.Alignment.LeftOffset;
         UI.MapWindow.MapRectangle = mapRectangle;
-        var mapRectangle2 = UI.MapWindow.MapRectangle;
+        Rect mapRectangle2 = UI.MapWindow.MapRectangle;
         mapRectangle2.Top = UI.MapWindow.MainWindow.Alignment.TopOffset;
         UI.MapWindow.MapRectangle = mapRectangle2;
         if (UI.MapWindow.MapAlignWidth == AlignWidth.Both)
         {
-            var mapRectangle3 = UI.MapWindow.MapRectangle;
+            Rect mapRectangle3 = UI.MapWindow.MapRectangle;
             mapRectangle3.Right = UI.MapWindow.MainWindow.Alignment.RightOffset;
             UI.MapWindow.MapRectangle = mapRectangle3;
         }
         else
         {
-            var mapRectangle4 = UI.MapWindow.MapRectangle;
+            Rect mapRectangle4 = UI.MapWindow.MapRectangle;
             mapRectangle4.Right = UI.MapWindow.MainWindow.WinWidth;
             UI.MapWindow.MapRectangle = mapRectangle4;
         }
 
         if (UI.MapWindow.MapAlignHeight == AlignHeight.Both)
         {
-            var mapRectangle5 = UI.MapWindow.MapRectangle;
+            Rect mapRectangle5 = UI.MapWindow.MapRectangle;
             mapRectangle5.Bottom = UI.MapWindow.MainWindow.Alignment.BottomOffset;
             UI.MapWindow.MapRectangle = mapRectangle5;
         }
         else
         {
-            var mapRectangle6 = UI.MapWindow.MapRectangle;
+            Rect mapRectangle6 = UI.MapWindow.MapRectangle;
             mapRectangle6.Bottom = UI.MapWindow.MainWindow.WinHeight;
             UI.MapWindow.MapRectangle = mapRectangle6;
         }
@@ -92,7 +93,7 @@ public partial class CombatMapEvents : UIModule
         UI.General.Manager.Aligned = false;
         UI.TaskBar.WorldPanel.Visible = true;
         UI.TaskBar.CombatPanel.Visible = false;
-        var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         UI.TaskBar.WorldTurnButton.ButtonChecked = player.SingleProcessCycle;
         UI.CombatScanner.CombatScannerWindow.Visible = false;
         UI.CombatUnitInfo.MainWindow.Visible = false;
@@ -132,24 +133,24 @@ public partial class CombatMapEvents : UIModule
                 if (hexSprite is TacticalBattleUnitHexSprite)
                 {
                     u = ((TacticalBattleUnitHexSprite)hexSprite).Unit.Troop;
-                    var name = u.GetName();
+                    string name = u.GetName();
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
-                    var hitPoints = u.GetHitPoints();
-                    var hits = u.GetHits();
+                    sbyte hitPoints = u.GetHitPoints();
+                    sbyte hits = u.GetHits();
                     UI.CombatUnitInfo.TargetHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-                    var movePoints = u.GetMovePoints();
-                    var moves = u.GetMoves();
+                    sbyte movePoints = u.GetMovePoints();
+                    sbyte moves = u.GetMoves();
                     UI.CombatUnitInfo.TargetMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
-                    var attack = u.GetAttack();
+                    sbyte attack = u.GetAttack();
                     UI.CombatUnitInfo.TargetAttackLabel.Text = IntToStr(attack);
-                    var damage = u.GetDamage();
+                    sbyte damage = u.GetDamage();
                     UI.CombatUnitInfo.TargetDamageLabel.Text = IntToStr(damage);
-                    var defense = u.GetDefense();
+                    sbyte defense = u.GetDefense();
                     UI.CombatUnitInfo.TargetDefenseLabel.Text = IntToStr(defense);
-                    var resistance = u.GetResistance();
+                    sbyte resistance = u.GetResistance();
                     UI.CombatUnitInfo.TargetResistanceLabel.Text = IntToStr(resistance);
-                    var moveTypes = u.GetMoveTypes();
-                    var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
+                    Set<MoveType> moveTypes = u.GetMoveTypes();
+                    int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UI.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
                     u.ListAbilities(UI.CombatUnitInfo.TargetAbilityList.Items);
                 }
@@ -168,7 +169,7 @@ public partial class CombatMapEvents : UIModule
         }
         else
         {
-            var playerLocal = CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer);
+            TacticalBattlePlayer playerLocal = CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer);
             UI.TaskBar.AutoCombatCheckBox.Checked = playerLocal.Auto;
         }
 
@@ -206,7 +207,7 @@ public partial class CombatMapEvents : UIModule
     // aowTCMapEvents.pas:230
     public void CombatMapCastSpell(CombatSpellCaster caster)
     {
-        var selectSpell = UI.General.CombatUnit.SelectSpell(caster.CombatCasterSpellId);
+        int selectSpell = UI.General.CombatUnit.SelectSpell(caster.CombatCasterSpellId);
         UI.CombatUnitInfo.UnitAbilityList.Selected = selectSpell;
     }
 
@@ -222,7 +223,7 @@ public partial class CombatMapEvents : UIModule
     // aowTCMapEvents.pas:240
     public void CombatMapTurnChanged()
     {
-        var player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
+        Player player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
         UI.TaskBar.CombatTurnButton.CurrentPlayer = player.PlayerRace;
         if (UI.TaskBar.CombatTurnButton.CurrentPlayer == -1)
         {

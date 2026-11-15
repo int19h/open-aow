@@ -32,7 +32,7 @@ public partial class SpellWard : GlobalEnchantmentSpell
         sbyte y = default;
         sbyte l = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        var coordinate79 = source.GetLocation();
+        MapCoordinate coordinate79 = source.GetLocation();
         x = coordinate79.X;
         y = coordinate79.Y;
         l = coordinate79.MapLevel;

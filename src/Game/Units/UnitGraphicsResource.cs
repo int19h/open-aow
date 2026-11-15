@@ -30,15 +30,15 @@ public partial class UnitGraphicsResource : EngineResource
     {
         Sequences = new ImageSequenceList(null, null);
         _refCount = 0;
-        var sfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
+        SfxLibrary sfxLibrary = new(null) { Holder = CreationHolder() };
         SfxLibraries[0] = sfxLibrary;
-        var sfxLibrary2 = new SfxLibrary(null) { Holder = CreationHolder() };
+        SfxLibrary sfxLibrary2 = new(null) { Holder = CreationHolder() };
         SfxLibraries[1] = sfxLibrary2;
-        var sfxLibrary3 = new SfxLibrary(null) { Holder = CreationHolder() };
+        SfxLibrary sfxLibrary3 = new(null) { Holder = CreationHolder() };
         SfxLibraries[2] = sfxLibrary3;
-        var sfxLibrary4 = new SfxLibrary(null) { Holder = CreationHolder() };
+        SfxLibrary sfxLibrary4 = new(null) { Holder = CreationHolder() };
         SfxLibraries[3] = sfxLibrary4;
-        var sfxLibrary5 = new SfxLibrary(null) { Holder = CreationHolder() };
+        SfxLibrary sfxLibrary5 = new(null) { Holder = CreationHolder() };
         SfxLibraries[4] = sfxLibrary5;
     }
 

@@ -101,17 +101,17 @@ public partial class HeroUpgradeDialog : UIModule
     // AoWHeroUpgradeDlg.pas:257
     public void UpdateStatistics()
     {
-        var inherentAttack = _hero.GetInherentAttack();
+        sbyte inherentAttack = _hero.GetInherentAttack();
         AttackBaseLabel.Text = IntToStr(inherentAttack);
-        var inherentDefense = _hero.GetInherentDefense();
+        sbyte inherentDefense = _hero.GetInherentDefense();
         DefenseBaseLabel.Text = IntToStr(inherentDefense);
-        var inherentDamage = _hero.GetInherentDamage();
+        sbyte inherentDamage = _hero.GetInherentDamage();
         DamageBaseLabel.Text = IntToStr(inherentDamage);
-        var inherentResistance = _hero.GetInherentResistance();
+        sbyte inherentResistance = _hero.GetInherentResistance();
         ResistanceBaseLabel.Text = IntToStr(inherentResistance);
-        var hits = _hero.GetHits();
+        sbyte hits = _hero.GetHits();
         HitsBaseLabel.Text = IntToStr(hits);
-        var moves = _hero.GetMoves();
+        sbyte moves = _hero.GetMoves();
         MovesBaseLabel.Text = IntToStr(moves);
         AttackAddedLabel.Text = IntToStr(_editedHero.UnitAttack - _hero.UnitAttack);
         DefenseAddedLabel.Text = IntToStr(_editedHero.UnitDefense - _hero.UnitDefense);
@@ -119,20 +119,20 @@ public partial class HeroUpgradeDialog : UIModule
         ResistanceAddedLabel.Text = IntToStr(_editedHero.UnitResistance - _hero.UnitResistance);
         HitsAddedLabel.Text = IntToStr(_editedHero.UnitHits - _hero.UnitHits);
         MovesAddedLabel.Text = IntToStr(_editedHero.UnitMoves - _hero.UnitMoves);
-        var fEditedHeroInherentAttack = _editedHero.GetInherentAttack();
+        sbyte fEditedHeroInherentAttack = _editedHero.GetInherentAttack();
         AttackValueLabel.Text = IntToStr(fEditedHeroInherentAttack);
-        var fEditedHeroInherentDefense = _editedHero.GetInherentDefense();
+        sbyte fEditedHeroInherentDefense = _editedHero.GetInherentDefense();
         DefenseValueLabel.Text = IntToStr(fEditedHeroInherentDefense);
-        var fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
+        sbyte fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
         DamageValueLabel.Text = IntToStr(fEditedHeroInherentDamage);
-        var fEditedHeroInherentResistance = _editedHero.GetInherentResistance();
+        sbyte fEditedHeroInherentResistance = _editedHero.GetInherentResistance();
         ResistanceValueLabel.Text = IntToStr(fEditedHeroInherentResistance);
-        var fEditedHeroHits = _editedHero.GetHits();
+        sbyte fEditedHeroHits = _editedHero.GetHits();
         HitsValueLabel.Text = IntToStr(fEditedHeroHits);
-        var fEditedHeroMoves = _editedHero.GetMoves();
+        sbyte fEditedHeroMoves = _editedHero.GetMoves();
         MovesValueLabel.Text = IntToStr(fEditedHeroMoves);
-        var skillPoints = _editedHero.GetSkillPoints();
-        var fHeroSkillPoints = _hero.GetSkillPoints();
+        int skillPoints = _editedHero.GetSkillPoints();
+        int fHeroSkillPoints = _hero.GetSkillPoints();
         SkillPointsLabel.Text = IntToStr(skillPoints) + "/" + IntToStr(fHeroSkillPoints);
     }
 
@@ -192,9 +192,9 @@ public partial class HeroUpgradeDialog : UIModule
             ability = GamePack.Current.AbilityControl.GetAbility(i);
             if (ability != null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
-                var expandName = ability.ExpandName(_editedHero);
+                string expandName = ability.ExpandName(_editedHero);
                 AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
-                var expandCost = ability.ExpandCost(_editedHero);
+                int expandCost = ability.ExpandCost(_editedHero);
                 AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
             }
         }
@@ -222,9 +222,9 @@ public partial class HeroUpgradeDialog : UIModule
             }
         }
 
-        var count = AvailableAbilitiesList.Items.Count;
+        int count = AvailableAbilitiesList.Items.Count;
         AvailableAbilitiesScrollBar.Max = count - 1;
-        var itemsCount = SelectedAbilitiesList.Items.Count;
+        int itemsCount = SelectedAbilitiesList.Items.Count;
         SelectedAbilitiesScrollBar.Max = itemsCount - 1;
         SortAvailable();
         SortSelected();
@@ -273,7 +273,7 @@ public partial class HeroUpgradeDialog : UIModule
         Rect r;
         if (ValidateHero())
         {
-            var image = sender;
+            UIComponent image = sender;
             r = new Rect(TopPanel.WinLeft + image.WinLeft + 2, TopPanel.WinTop + image.WinTop, TopPanel.WinLeft + image.WinLeft + image.WinWidth - 2, TopPanel.WinTop + image.WinTop + image.WinHeight - 2);
 
             _hero.GetFace().ShowStretched(r, lockedSurface);
@@ -570,7 +570,7 @@ public partial class HeroUpgradeDialog : UIModule
         Ability ability;
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
-            var objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
+            object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
@@ -585,7 +585,7 @@ public partial class HeroUpgradeDialog : UIModule
         Ability ability;
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
-            var objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
+            object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
@@ -614,17 +614,17 @@ public partial class HeroUpgradeDialog : UIModule
             dialog.UpdateStatistics();
             dialog.RefreshAbilities();
             dialog.UnitNameEdit.Text = dialog._hero.HeroName;
-            var level = dialog._hero.GetLevel();
-            var levelText = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
+            sbyte level = dialog._hero.GetLevel();
+            string levelText = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
             dialog.LevelLabel.Text = levelText + " " + IntToStr(level);
             if (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel > 1)
             {
-                var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
+                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
                 dialog.HeaderLabel.Text = format + "!";
             }
             else
             {
-                var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelFormat), [dialog._hero.HeroName]);
+                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelFormat), [dialog._hero.HeroName]);
                 dialog.HeaderLabel.Text = format + "!";
             }
 

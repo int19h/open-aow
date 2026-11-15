@@ -68,8 +68,8 @@ public partial class PoisonCloud : MultiHexMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -236,22 +236,22 @@ public partial class PoisonCloud : MultiHexMapObject
         HexNumberWalkData hexNumberWalkData = default;
         MapLevel level;
         level = Owner.Owner;
-        var hexY = GetHexY();
-        var hexX = GetHexX();
+        sbyte hexY = GetHexY();
+        sbyte hexX = GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
         message.MessageId = 4432;
-        var param = message.Param;
+        MapFieldMessageParameters param = message.Param;
         param[0] = (int)StormType.Pestilence;
         message.Param = param;
-        var param2 = message.Param;
+        MapFieldMessageParameters param2 = message.Param;
         param2[2] = Player;
         message.Param = param2;
-        ref var walk = ref hexNumberWalkData;
+        ref HexNumberWalkData walk = ref hexNumberWalkData;
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
-                var param3 = message.Param;
+                MapFieldMessageParameters param3 = message.Param;
                 param3[1] = walk.Radius;
                 message.Param = param3;
                 level.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
@@ -268,7 +268,7 @@ public partial class PoisonCloud : MultiHexMapObject
         int hexY = default;
         MapLevel level;
         level = Owner.Owner;
-        var yhx = GetHexY();
+        sbyte yhx = GetHexY();
         HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && hexX + 10 <= level.Width && hexY + 10 <= level.Height;
@@ -346,7 +346,7 @@ public partial class PoisonCloud : MultiHexMapObject
                     oldHexY = GetHexY();
                     _direction = (byte)direction;
                     hexLevel = GetHexLevel();
-                    var yhx = GetHexY();
+                    sbyte yhx = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();

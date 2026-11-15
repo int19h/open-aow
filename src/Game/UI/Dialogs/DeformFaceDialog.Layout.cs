@@ -60,7 +60,7 @@ public partial class DeformFaceDialog : ILayoutModule
         Window.WinHeight = 250;
         Window.Dockable = false;
         session.EndRead(Window);
-        Frame faceFrame = new Frame(this);
+        Frame faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
         faceFrame.OnDraw += (sender, surface) => DrawFace(sender, surface, 0);
@@ -88,7 +88,7 @@ public partial class DeformFaceDialog : ILayoutModule
         faceFrame.ImageLibraryIndexLine = 0;
         faceFrame.ImageLibraryIndexTexture = 0;
         session.EndRead(faceFrame);
-        Button cancelBtn = new Button(this);
+        Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
         cancelBtn.Name = "CancelBtn";
         cancelBtn.Priority = 500;
@@ -119,7 +119,7 @@ public partial class DeformFaceDialog : ILayoutModule
         cancelBtn.WinWidth = 100;
         cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
-        Image titleIcon = new Image(this);
+        Image titleIcon = new(this);
         session.BeginRead(titleIcon);
         titleIcon.Name = "TitleIcon";
         titleIcon.Priority = 0;
@@ -147,7 +147,7 @@ public partial class DeformFaceDialog : ILayoutModule
         titleIcon.Animate = false;
         titleIcon.AnimationFrameDelay = 0;
         session.EndRead(titleIcon);
-        Label title = new Label(this);
+        Label title = new(this);
         session.BeginRead(title);
         title.Name = "Title";
         title.Priority = 0;
@@ -170,7 +170,7 @@ public partial class DeformFaceDialog : ILayoutModule
         title.Text = "Cosmagic Surgery";
         title.TextColor = 0;
         session.EndRead(title);
-        Button castBtn = new Button(this);
+        Button castBtn = new(this);
         session.BeginRead(castBtn);
         castBtn.Name = "CastBtn";
         castBtn.Priority = 450;
@@ -201,7 +201,7 @@ public partial class DeformFaceDialog : ILayoutModule
         castBtn.WinWidth = 100;
         castBtn.OnClick += _ => CastBtnClick();
         session.EndRead(castBtn);
-        Label selectNewFaceLbl = new Label(this);
+        Label selectNewFaceLbl = new(this);
         session.BeginRead(selectNewFaceLbl);
         selectNewFaceLbl.Name = "SelectNewFaceLbl";
         selectNewFaceLbl.Priority = 1000;
@@ -224,7 +224,7 @@ public partial class DeformFaceDialog : ILayoutModule
         selectNewFaceLbl.Text = "Select New Face for:";
         selectNewFaceLbl.TextColor = 7921903;
         session.EndRead(selectNewFaceLbl);
-        Button close = new Button(this);
+        Button close = new(this);
         session.BeginRead(close);
         close.Name = "Close";
         close.Priority = 0;
@@ -258,7 +258,7 @@ public partial class DeformFaceDialog : ILayoutModule
         close.WinWidth = 15;
         close.OnClick += _ => CastBtnClick();
         session.EndRead(close);
-        Frame leftFace = new Frame(this);
+        Frame leftFace = new(this);
         session.BeginRead(leftFace);
         leftFace.Name = "LeftFace";
         leftFace.Tag = -1;
@@ -287,7 +287,7 @@ public partial class DeformFaceDialog : ILayoutModule
         leftFace.ImageLibraryIndexLine = 0;
         leftFace.ImageLibraryIndexTexture = 0;
         session.EndRead(leftFace);
-        Frame rightFace = new Frame(this);
+        Frame rightFace = new(this);
         session.BeginRead(rightFace);
         rightFace.Name = "RightFace";
         rightFace.Tag = 1;
@@ -316,7 +316,7 @@ public partial class DeformFaceDialog : ILayoutModule
         rightFace.ImageLibraryIndexLine = 0;
         rightFace.ImageLibraryIndexTexture = 0;
         session.EndRead(rightFace);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -343,7 +343,7 @@ public partial class DeformFaceDialog : ILayoutModule
         frame1.ImageLibraryIndexLine = 55;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Image celtM = new Image(this);
+        Image celtM = new(this);
         session.BeginRead(celtM);
         celtM.Name = "CeltM";
         celtM.Priority = 100;
@@ -371,7 +371,7 @@ public partial class DeformFaceDialog : ILayoutModule
         celtM.Animate = false;
         celtM.AnimationFrameDelay = 0;
         session.EndRead(celtM);
-        Image celtL = new Image(this);
+        Image celtL = new(this);
         session.BeginRead(celtL);
         celtL.Name = "CeltL";
         celtL.Priority = 100;
@@ -399,7 +399,7 @@ public partial class DeformFaceDialog : ILayoutModule
         celtL.Animate = false;
         celtL.AnimationFrameDelay = 0;
         session.EndRead(celtL);
-        Image celtR = new Image(this);
+        Image celtR = new(this);
         session.BeginRead(celtR);
         celtR.Name = "CeltR";
         celtR.Priority = 100;
@@ -427,7 +427,7 @@ public partial class DeformFaceDialog : ILayoutModule
         celtR.Animate = false;
         celtR.AnimationFrameDelay = 0;
         session.EndRead(celtR);
-        Button prevFaceBtn = new Button(this);
+        Button prevFaceBtn = new(this);
         session.BeginRead(prevFaceBtn);
         prevFaceBtn.Name = "PrevFaceBtn";
         prevFaceBtn.Priority = 450;
@@ -458,7 +458,7 @@ public partial class DeformFaceDialog : ILayoutModule
         prevFaceBtn.WinWidth = 50;
         prevFaceBtn.OnClick += _ => PrevFaceBtnClick();
         session.EndRead(prevFaceBtn);
-        Button nextFaceBtn = new Button(this);
+        Button nextFaceBtn = new(this);
         session.BeginRead(nextFaceBtn);
         nextFaceBtn.Name = "NextFaceBtn";
         nextFaceBtn.Priority = 450;
@@ -512,7 +512,7 @@ public partial class DeformFaceDialog : ILayoutModule
         UnitNameLabel.Text = "########";
         UnitNameLabel.TextColor = 7921903;
         session.EndRead(UnitNameLabel);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

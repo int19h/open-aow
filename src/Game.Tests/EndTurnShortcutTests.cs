@@ -20,7 +20,7 @@ public sealed class EndTurnShortcutTests
     [Fact]
     public void ShortcutChecksTheButtonAndASecondPressCancels()
     {
-        using var play = new Play();
+        using Play play = new();
 
         play.Press(69);
 
@@ -43,7 +43,7 @@ public sealed class EndTurnShortcutTests
     [Fact]
     public void ShortcutDoesNothingWhileTheButtonAnimates()
     {
-        using var play = new Play();
+        using Play play = new();
         play.Button.Animating = true;
 
         play.Press(69);
@@ -57,7 +57,7 @@ public sealed class EndTurnShortcutTests
     [Fact]
     public void CombatKeepsItsOwnShortcut()
     {
-        using var play = new Play();
+        using Play play = new();
         play.BeginCombat();
 
         play.Press(69);
@@ -88,7 +88,7 @@ public sealed class EndTurnShortcutTests
         {
             Map = new StrategicMap(null!, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
-            var playerCommunicationControl = new LocalPlayerCommunicationControl(EngineFixture.Engine);
+            LocalPlayerCommunicationControl playerCommunicationControl = new(EngineFixture.Engine);
             playerCommunicationControl.Setup(Map.Players.Count);
             for (int i = 0; i < Map.Players.Count; i++)
             {
@@ -121,14 +121,14 @@ public sealed class EndTurnShortcutTests
 
         public EndTurnTokenEventMode QueuedMode()
         {
-            var events = Control().Events;
+            TokenEventList events = Control().Events;
             Assert.Equal(1, events.Count);
             return Assert.IsType<EndTurnTokenEvent>(events.GetEvent(0)).Mode;
         }
 
         public void LeaveTurnWaiting()
         {
-            var events = Control().Events;
+            TokenEventList events = Control().Events;
             while (events.Count != 0)
             {
                 events.Delete(0);

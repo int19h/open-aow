@@ -45,7 +45,7 @@ public partial class ConcealArea : Spell
         ConcealAreaHexSprite conceal;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        var coordinate60 = source.GetLocation();
+        MapCoordinate coordinate60 = source.GetLocation();
         x = coordinate60.X;
         y = coordinate60.Y;
         layer = coordinate60.MapLevel;
@@ -75,7 +75,7 @@ public partial class ConcealArea : Spell
                                 log = new LocationTextEventLog(null) { Holder = CreationHolder() };
                                 log.Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, layer);
                                 log.Player = source.Player;
-                                var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
+                                string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                                 StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                                 log.Release();
@@ -93,7 +93,7 @@ public partial class ConcealArea : Spell
                     log = new LocationTextEventLog(null) { Holder = CreationHolder() };
                     log.Location = new MapCoordinate(x, y, layer);
                     log.Player = source.Player;
-                    var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
+                    string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                     log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                     log.Release();
@@ -122,7 +122,7 @@ public partial class ConcealArea : Spell
 
             if (!war)
             {
-                var concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
+                string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                 messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_warRelationIsRequiredFormat), [concealArea]);
                 result = false;
             }

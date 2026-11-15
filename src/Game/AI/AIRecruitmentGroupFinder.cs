@@ -77,13 +77,13 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
         Reset();
         _selector.SourceLocation = control.Location;
         _selector.MovePointTable = control.MovePointTable;
-        var targetInfo = _selector.TargetInfo;
+        AITargetInfo targetInfo = _selector.TargetInfo;
         targetInfo.Player = control.Group.Player;
         _selector.TargetInfo = targetInfo;
-        var targetInfo2 = _selector.TargetInfo;
+        AITargetInfo targetInfo2 = _selector.TargetInfo;
         targetInfo2.IndependentRelation = control.Group.IndependentRelation;
         _selector.TargetInfo = targetInfo2;
-        var targetInfo3 = _selector.TargetInfo;
+        AITargetInfo targetInfo3 = _selector.TargetInfo;
         targetInfo3.Mode = AITargetMode.Recruit;
         _selector.TargetInfo = targetInfo3;
         _selector.MovePointsMax = 75;

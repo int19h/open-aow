@@ -22,7 +22,7 @@ public static class FormatMapping
             throw new InvalidOperationException("The persisted class " + persistedName + " has two format mappings.");
         }
 
-        foreach (var rule in rules)
+        foreach (ContentRule rule in rules)
         {
             rule.Attach(persistedName);
         }

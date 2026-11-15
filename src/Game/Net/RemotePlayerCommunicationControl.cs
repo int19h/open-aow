@@ -57,7 +57,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
         if (PackageDataList.Count != 0)
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
-            var size = (int)stream.Length;
+            int size = (int)stream.Length;
             Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
             PackageDataList.Delete(0);
             result = true;

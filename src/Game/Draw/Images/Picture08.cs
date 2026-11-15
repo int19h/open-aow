@@ -216,8 +216,8 @@ public partial class Picture08 : Image08, ILibraryImageClass
             LoadDiscardableImageData();
         }
 
-        var source = View.At(sourceX + (sourceY * _pitch));
-        var destination = lockedSurface.View(destinationX + (destinationY * lockedSurface.Pitch));
+        SurfaceView source = View.At(sourceX + (sourceY * _pitch));
+        SurfaceView destination = lockedSurface.View(destinationX + (destinationY * lockedSurface.Pitch));
         if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
         {
             BlitRects.BlitRectangle(source, destination, width, height);

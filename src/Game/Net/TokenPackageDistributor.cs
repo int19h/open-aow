@@ -1,6 +1,8 @@
 #nullable disable
 // Translated from NetworkE.pas.
 
+using Aow.Game.Commands;
+
 namespace Aow.Game.Net;
 
 // FTokenManager, FPC. Sends the token events of the local players in token packages and files
@@ -23,10 +25,10 @@ public partial class TokenPackageDistributor
                 {
                     if (tp.TokenEvents[i].TokenCounter >= TokenManager.TokenExecutor.TokenCounter)
                     {
-                        var tokenEvent = tp.TokenEvents[i];
+                        TokenEvent tokenEvent = tp.TokenEvents[i];
                         if (TokenManager.GetTokenControl(tp.Sender).Events.IndexOfTokenCounter(tokenEvent.TokenCounter) == -1)
                         {
-                            var fTokenEventsItem = tp.TokenEvents[i];
+                            TokenEvent fTokenEventsItem = tp.TokenEvents[i];
                             TokenManager.GetTokenControl(tp.Sender).Add(fTokenEventsItem);
                             TokenManager.GetTokenControl(tp.Sender).Events.SortOnTokenCounter();
                         }

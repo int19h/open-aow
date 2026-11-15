@@ -77,7 +77,7 @@ public partial class HeroLibraryManager : EngineObject
         _libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (var listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.HeroList))
+        foreach (string listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.HeroList))
         {
             library = new HeroLibrary(null) { Holder = CreationHolder() };
             try
@@ -99,7 +99,7 @@ public partial class HeroLibraryManager : EngineObject
         for (int i = 1, last = _libraries.GetCount() - 1; i <= last; i++)
         {
             library = GetLibrary(i);
-            var name = library.GetName();
+            string name = library.GetName();
             library.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
     }
@@ -172,7 +172,7 @@ public partial class HeroLibraryManager : EngineObject
     {
         if (index < _libraries.GetCount() && index > 0)
         {
-            var name = GetLibrary(index).GetName();
+            string name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
             DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
             DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);

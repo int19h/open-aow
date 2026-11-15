@@ -70,8 +70,8 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         bool result = base.PlaceOnMap();
         if (result)
         {
-            var hexY = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY = GetHexY();
+            sbyte hexX = GetHexX();
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -167,17 +167,17 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
-        var unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
+        string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
         log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
-        var armyLocal = army.Army;
+        Army armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
             troop = armyLocal.Units.GetUnit(i);
             bool condition = troop.GetAlignment() != Alignment.None;
             if (condition)
             {
-                var alignment = troop.GetAlignment();
+                Alignment alignment = troop.GetAlignment();
                 condition = AlignmentTables.PureGoodAlignments.Contains(alignment);
             }
 
@@ -206,7 +206,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         }
 
         log.Player = armyLocal.Player;
-        var armyHexSprite = armyLocal.GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = armyLocal.GetArmyHexSprite();
         log.ArmyView.Setup(armyHexSprite.Army, 255);
 
         log.ValidateGameOver();
@@ -276,7 +276,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
             bool condition = !troop.GetImmunityTypes().Contains(DamageType.Death) && troop.GetAlignment() != Alignment.None;
             if (condition)
             {
-                var alignment = troop.GetAlignment();
+                Alignment alignment = troop.GetAlignment();
                 condition = AlignmentTables.PureGoodAlignments.Contains(alignment);
             }
 
@@ -290,18 +290,18 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         MapField field;
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131985) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                var hexLevel2 = GetHexLevel();
-                var hexY2 = GetHexY();
-                var hexX2 = GetHexX();
+                sbyte hexLevel2 = GetHexLevel();
+                sbyte hexY2 = GetHexY();
+                sbyte hexX2 = GetHexX();
                 condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
@@ -315,10 +315,10 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     // UnHolyG.pas:265
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        var hexLevel = animation.GetHexLevel();
-        var hexY = animation.GetHexY();
-        var hexX = animation.GetHexX();
-        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        sbyte hexLevel = animation.GetHexLevel();
+        sbyte hexY = animation.GetHexY();
+        sbyte hexX = animation.GetHexX();
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131985) && frameCounter == 9)
         {
             Mode = Mode - Set<UnholySummoning>.Of(UnholySummoning.Summoning);

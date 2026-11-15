@@ -7,6 +7,7 @@ using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using static Aow.Rtl.RtlUnit;
 
@@ -60,9 +61,9 @@ public partial class Gems : ImageLibraryTerrainMapObject
 
         if (message.MessageId == 4608 && message.HexNumber == 0)
         {
-            var info = message.Param[0].As<AITargetQuery>().Info;
-            var data = message.Param[0].As<AITargetQuery>().Data;
-            var priority = data.Priority;
+            AITargetInfo info = message.Param[0].As<AITargetQuery>().Info;
+            AITargetData data = message.Param[0].As<AITargetQuery>().Data;
+            int priority = data.Priority;
             UpdateAITarget(ref info, ref priority);
             message.Param[0].As<AITargetQuery>().Info = info;
             data.Priority = priority;
@@ -134,9 +135,9 @@ public partial class Gems : ImageLibraryTerrainMapObject
             bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
             }
 
@@ -145,7 +146,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
                 AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            var player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+            Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
             eventValue = new LocationTextEventLog(null) { Holder = CreationHolder() };

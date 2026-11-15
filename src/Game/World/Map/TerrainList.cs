@@ -173,7 +173,7 @@ public partial class TerrainList : IDisposable
         int hexX = default;
         int hexY = default;
         HexNumberWalkData walk = default;
-        UInt16List result = new UInt16List();
+        UInt16List result = new();
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
             if (GetTerrain(i) >= 0)
@@ -251,20 +251,20 @@ public partial class TerrainList : IDisposable
         public sbyte this[int index] { get => target.GetTerrain(index); set => target.SetTerrain(index, value); }
     }
 
-    public TerrainAccessor Terrain => new TerrainAccessor(this);
+    public TerrainAccessor Terrain => new(this);
 
     public sealed class OverlayAccessor(TerrainList target)
     {
         public sbyte this[int index] { get => target.GetOverlay(index); set => target.SetOverlay(index, value); }
     }
 
-    public OverlayAccessor Overlay => new OverlayAccessor(this);
+    public OverlayAccessor Overlay => new(this);
 
     public sealed class UsedAccessor(TerrainList target)
     {
         public bool this[int index] => target.GetUsed(index);
     }
 
-    public UsedAccessor Used => new UsedAccessor(this);
+    public UsedAccessor Used => new(this);
 
 }

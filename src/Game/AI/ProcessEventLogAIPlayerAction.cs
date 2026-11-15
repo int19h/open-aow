@@ -34,7 +34,7 @@ public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerAc
                 _logIndex += 1;
             }
 
-            var count = Control.Player.EventLogbook.GetCount();
+            int count = Control.Player.EventLogbook.GetCount();
             if (_logIndex < count)
             {
                 log = Control.Player.EventLogbook.GetLogs(_logIndex);

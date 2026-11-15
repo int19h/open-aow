@@ -64,7 +64,7 @@ public partial class DiplomaticActionEventLog : EventLog
             bool condition = Action.OtherPlayer > 0;
             if (condition)
             {
-                var count = StrategicMap.Current.Players.Count;
+                int count = StrategicMap.Current.Players.Count;
                 condition = Action.OtherPlayer < count;
             }
 
@@ -86,7 +86,7 @@ public partial class DiplomaticActionEventLog : EventLog
                 bool condition = Action.Target > 0;
                 if (condition)
                 {
-                    var count = StrategicMap.Current.Players.Count;
+                    int count = StrategicMap.Current.Players.Count;
                     condition = Action.Target < count;
                 }
 
@@ -108,7 +108,7 @@ public partial class DiplomaticActionEventLog : EventLog
                     bool condition = Action.Source > 0;
                     if (condition)
                     {
-                        var count = StrategicMap.Current.Players.Count;
+                        int count = StrategicMap.Current.Players.Count;
                         condition = Action.Source < count;
                     }
 
@@ -128,7 +128,7 @@ public partial class DiplomaticActionEventLog : EventLog
                     bool condition = Action.Target > 0;
                     if (condition)
                     {
-                        var count = StrategicMap.Current.Players.Count;
+                        int count = StrategicMap.Current.Players.Count;
                         condition = Action.Target < count;
                     }
 
@@ -160,7 +160,7 @@ public partial class DiplomaticActionEventLog : EventLog
             bool condition = action.Source > 0;
             if (condition)
             {
-                var count = StrategicMap.Current.Players.Count;
+                int count = StrategicMap.Current.Players.Count;
                 condition = action.Source < count;
             }
 
@@ -178,7 +178,7 @@ public partial class DiplomaticActionEventLog : EventLog
             bool condition = action.OtherPlayer > 0;
             if (condition)
             {
-                var count = StrategicMap.Current.Players.Count;
+                int count = StrategicMap.Current.Players.Count;
                 condition = action.OtherPlayer < count;
             }
 
@@ -205,7 +205,7 @@ public partial class DiplomaticActionEventLog : EventLog
         bool condition = action.Target > 0;
         if (condition)
         {
-            var count = StrategicMap.Current.Players.Count;
+            int count = StrategicMap.Current.Players.Count;
             condition = action.Target < count;
         }
 

@@ -5,6 +5,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -58,7 +59,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
             resource = control.StructureResource(troop);
             if (resource != null)
             {
-                var coordinate4 = troop.GetLocation();
+                MapCoordinate coordinate4 = troop.GetLocation();
                 x = coordinate4.X;
                 y = coordinate4.Y;
                 l = coordinate4.MapLevel;
@@ -76,13 +77,13 @@ public partial class ConstructStructureTokenEvent : TokenEvent
 
                 bool locked = troop.Owner is not IHeroHolder;
                 owner = locked ? troop.OwnerUnits.Holder : null;
-                using var batch = locked ? owner.BeginUpdate() : default;
+                using ObservableNode.UpdateBatch batch = locked ? owner.BeginUpdate() : default;
                 structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, x, y, l);
                 if (structure != null)
                 {
                     control.GetInfo(troop, out text, out gold, out days);
                     structure.ExecuteBuild(troop, days);
-                    var players = StrategicMap.Current.Players.GetPlayers(troop.Player);
+                    Player players = StrategicMap.Current.Players.GetPlayers(troop.Player);
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
                     result = ExecuteResult.Done;

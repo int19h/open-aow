@@ -138,7 +138,7 @@ public partial class ImageSequence : IDisposable
                     {
                         for (int i = 0, last = _frameTable.Count - 1; i <= last; i++)
                         {
-                            var item = _frameTable[i];
+                            int item = _frameTable[i];
                             image = _imageLibrary.GetSafe(item);
                             if (image != null)
                             {
@@ -472,8 +472,8 @@ public partial class ImageSequence : IDisposable
     /// <summary>The layers of this chain as <see cref="SaveToStream"/> writes them.</summary>
     internal List<SequenceLayer> SaveLayers()
     {
-        var layers = new List<SequenceLayer>();
-        for (var sequence = this; sequence != null; sequence = sequence._next)
+        List<SequenceLayer> layers = new();
+        for (ImageSequence sequence = this; sequence != null; sequence = sequence._next)
         {
             FrameTable frames = null;
             if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(sequence._sequenceMode))
@@ -504,7 +504,7 @@ public partial class ImageSequence : IDisposable
     /// </summary>
     internal void LoadLayers(IReadOnlyList<SequenceLayer> layers, int index)
     {
-        var stored = layers[index];
+        SequenceLayer stored = layers[index];
         ReleaseImageLibrary();
         _imageLibraryName = stored.Library;
         _layer = stored.Layer;

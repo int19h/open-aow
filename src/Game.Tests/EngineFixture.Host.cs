@@ -46,7 +46,7 @@ public sealed partial class EngineFixture
                 typeof(ImageLibraries), typeof(AudioHost),
             })
             {
-                foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                foreach (FieldInfo field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     if (!field.IsLiteral && !field.IsInitOnly)
                     {
@@ -161,7 +161,7 @@ public sealed partial class EngineFixture
 
         public void Dispose()
         {
-            foreach (var pair in _globals)
+            foreach (KeyValuePair<FieldInfo, object?> pair in _globals)
             {
                 pair.Key.SetValue(null, pair.Value);
             }

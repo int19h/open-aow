@@ -23,7 +23,7 @@ public partial class TurnUndead : CombatSpell
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
         SpellId = 101;
         DamageMode = 1;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);

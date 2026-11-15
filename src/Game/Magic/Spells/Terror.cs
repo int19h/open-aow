@@ -21,7 +21,7 @@ public partial class Terror : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_terrorText);
         SpellId = 105;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
@@ -84,7 +84,7 @@ public partial class Terror : CombatSpell
         int value;
         FastBattleSpellCommand command;
         value = 0;
-        var opponentSide = commands.Source.GetOpponentSide();
+        CombatSideIndex opponentSide = commands.Source.GetOpponentSide();
         side = commands.Combat.Sides[(int)opponentSide];
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
@@ -129,7 +129,7 @@ public partial class Terror : CombatSpell
         CombatSide side;
         CombatObject opponent;
         value = 0;
-        var opponentSide = source.GetOpponentSide();
+        CombatSideIndex opponentSide = source.GetOpponentSide();
         side = source.Combat.Sides[(int)opponentSide];
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {

@@ -30,7 +30,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     {
         EngineResource resource;
         SmokeCloud cloud;
-        var sourceLocal = eventValue.GetSource();
+        Troop sourceLocal = eventValue.GetSource();
         StrategicMap.Current.ValidateObservation(sourceLocal.Player, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2);
         if (eventValue.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2))
         {

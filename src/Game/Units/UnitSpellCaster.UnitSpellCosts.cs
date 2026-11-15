@@ -8,14 +8,14 @@ public partial class UnitSpellCaster
     // Spells.PAS:909. The recovered casting view aliases the hero.
     public int GetRequiredMana()
     {
-        var hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
+        Hero? hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
         return hero is null ? -1 : hero.CastingMana(GamePack.Current.SpellControl.GetSpell(CasterSpellId)) * GetSelectionCount();
     }
 
     // Spells.PAS:925. The remainder uses current points, as in the original.
     public int GetRequiredDays()
     {
-        var hero = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop? hero = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (hero is null || hero.GetCastingPointsMax() == 0)
         {
             return 0;

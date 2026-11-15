@@ -57,10 +57,10 @@ public partial class MoveSelector : IDisposable
         }
         else
         {
-            var hexSpriteMapMouse = Map.Mouse;
+            HexSpriteMapMouse hexSpriteMapMouse = Map.Mouse;
             if (capture == this && hexSpriteMapMouse.Button == MouseButton.Left)
             {
-                var hexY = Map.Mouse.HexY;
+                int hexY = Map.Mouse.HexY;
                 SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, (sbyte)Map.ViewMapLevel);
             }
         }
@@ -77,7 +77,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4126
-    public virtual MoveControlSettings CreateMoveControlSettings() => new MoveControlSettings(null) { Holder = Creator.CreationHolder() };
+    public virtual MoveControlSettings CreateMoveControlSettings() => new(null) { Holder = Creator.CreationHolder() };
 
     // Structur.PAS:4138
     public virtual void SetCurrentMove(int value) => CurrentMove = value;
@@ -87,7 +87,7 @@ public partial class MoveSelector : IDisposable
     {
         if (CurrentMove != -1 && X != -1)
         {
-            var moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
+            MoveSettings moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
             if (moveSettings.Path.Count != 0 && moveSettings.Path[0].Location.X == X && moveSettings.Path[0].Location.Y == Y && moveSettings.Path[0].Location.MapLevel == L)
             {
                 ExecuteMove();
@@ -285,9 +285,9 @@ public partial class MoveSelector : IDisposable
 
                     if (settings.Path[0].Location.X >= Map.ViewHexX && settings.Path[0].Location.X <= maxX && settings.Path[0].Location.Y >= Map.ViewHexY && settings.Path[0].Location.Y <= maxY && settings.Path[0].Location.MapLevel == Map.ViewMapLevel)
                     {
-                        var item = settings.Path[0];
-                        var fPathItem = settings.Path[0];
-                        var item2 = settings.Path[0];
+                        PathStep item = settings.Path[0];
+                        PathStep fPathItem = settings.Path[0];
+                        PathStep item2 = settings.Path[0];
                         mapField = Map.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
@@ -322,7 +322,7 @@ public partial class MoveSelector : IDisposable
                         j = settings.Path.MovePointsToPosition(settings.MovePoints);
                         if (j > 0 && j < settings.Path.Count - 1 && settings.Path[j].Location.X >= Map.ViewHexX && settings.Path[j].Location.X <= maxX && settings.Path[j].Location.Y >= Map.ViewHexY && settings.Path[j].Location.Y <= maxY && settings.Path[j].Location.MapLevel == Map.ViewMapLevel)
                         {
-                            var item = settings.Path[j];
+                            PathStep item = settings.Path[j];
                             HexGeometry.HexToPixel(settings.Path[j].Location.X, item.Location.Y, out pixelX, out pixelY);
                             pixelX = pixelX - Map.ViewPixelX - 8;
                             pixelY = pixelY - Map.ViewPixelY - 8;
@@ -342,9 +342,9 @@ public partial class MoveSelector : IDisposable
                 {
                     if (settings.Path.Count == 1 && StrategicMap.Current.Combat != null)
                     {
-                        var item = settings.Path[0];
-                        var fPathItem = settings.Path[0];
-                        var item2 = settings.Path[0];
+                        PathStep item = settings.Path[0];
+                        PathStep fPathItem = settings.Path[0];
+                        PathStep item2 = settings.Path[0];
                         mapField = Map.MapContainer.GetField(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;

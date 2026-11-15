@@ -8,7 +8,7 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -302,9 +302,9 @@ public partial class Cave : Structure
                 l = GetHexLevel() - 1;
             }
 
-            var visibilityRange = armyHexSprite.Army.VisibilityRange();
-            var hexY = armyHexSprite.GetHexY();
-            var hexX = armyHexSprite.GetHexX();
+            byte visibilityRange = armyHexSprite.Army.VisibilityRange();
+            sbyte hexY = armyHexSprite.GetHexY();
+            sbyte hexX = armyHexSprite.GetHexX();
             StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
         }
     }
@@ -323,8 +323,8 @@ public partial class Cave : Structure
             l = GetHexLevel() - 1;
         }
 
-        var hexY = GetHexY();
-        var hexX = GetHexX();
+        sbyte hexY = GetHexY();
+        sbyte hexX = GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
     }
@@ -344,8 +344,8 @@ public partial class Cave : Structure
             l = GetHexLevel() - 1;
         }
 
-        var hexY = GetHexY();
-        var hexX = GetHexX();
+        sbyte hexY = GetHexY();
+        sbyte hexX = GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         byte result = 0;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
@@ -395,17 +395,17 @@ public partial class Cave : Structure
                     break;
             }
             path.AddMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: l);
-            var enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
+            sbyte enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
             path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
             path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
-            var hexY3 = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexY3 = GetHexY();
+            sbyte hexX = GetHexX();
             field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
             bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
             if (!condition)
             {
-                var player = field.GetPlayer();
-                var diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
+                sbyte player = field.GetPlayer();
+                DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
                 condition = Set<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)(int)diplomaticRelation);
             }
 
@@ -449,9 +449,9 @@ public partial class Cave : Structure
                 // { Original only warns the seated player. }
                 if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    var player = field.GetPlayer();
-                    var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    sbyte player = field.GetPlayer();
+                    Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
+                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                 }
@@ -483,7 +483,7 @@ public partial class Cave : Structure
             {
                 log = new EnterCaveEventLog(null, holder: CreationHolder());
                 log.Cave = this;
-                var splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), s_splitOnEnterCaveWarningText);
+                string splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), s_splitOnEnterCaveWarningText);
                 log.Message.Text = splitOnEnterCaveWarning;
                 log.Buttons = MessageEventLogButtons.YesNo;
                 log.Execute(true, ExecuteTrigger.User, null);

@@ -192,7 +192,7 @@ public partial class TargetSelectionControl : IDisposable
             bool condition = StrategicMap.Current.Mouse.GetHexX() != -1 && StrategicMap.Current.Mouse.GetHexY() != -1;
             if (condition)
             {
-                var hexY = StrategicMap.Current.Mouse.GetHexY();
+                int hexY = StrategicMap.Current.Mouse.GetHexY();
                 condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)StrategicMap.Current.ViewMapLevel);
             }
 
@@ -237,7 +237,7 @@ public partial class TargetSelectionControl : IDisposable
                     }
                     else
                     {
-                        var item = HexNumbers[i];
+                        sbyte item = HexNumbers[i];
                         ImageLibrary.Get(item).Show(xs - 8, ys, lockedSurface);
                     }
                 }

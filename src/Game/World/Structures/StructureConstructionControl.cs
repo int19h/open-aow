@@ -59,7 +59,7 @@ public partial class StructureConstructionControl : ConstructionControl
         HexNumberWalkData walk = default;
         bool result = true;
         resource = StructureResource(troop);
-        var coordinate39 = troop.GetLocation();
+        MapCoordinate coordinate39 = troop.GetLocation();
         x = coordinate39.X;
         y = coordinate39.Y;
         l = coordinate39.MapLevel;

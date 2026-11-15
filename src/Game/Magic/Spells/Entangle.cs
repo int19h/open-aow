@@ -21,7 +21,7 @@ public partial class Entangle : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
         SpellId = 111;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
@@ -46,7 +46,7 @@ public partial class Entangle : CombatSpell
 
         if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {
-            var resistance = target.GetResistance();
+            sbyte resistance = target.GetResistance();
             action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 
@@ -58,11 +58,11 @@ public partial class Entangle : CombatSpell
     {
         if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {
-            var resistance = target.GetResistance();
-            var hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
-            var hitPoints = target.GetHitPoints();
+            sbyte resistance = target.GetResistance();
+            float hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
+            sbyte hitPoints = target.GetHitPoints();
             values.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
-            var targetHitPoints = target.GetHitPoints();
+            sbyte targetHitPoints = target.GetHitPoints();
             values.SourceCost = targetHitPoints;
             values.TargetDamage = 0;
             values.TargetCost = 0;

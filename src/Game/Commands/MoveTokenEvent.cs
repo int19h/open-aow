@@ -35,7 +35,7 @@ public partial class MoveTokenEvent : TokenEvent
     {
         base.PersistFields(persister);
         bool present = persister.Has("Path");
-        var items = new List<int>(Path.Count);
+        List<int> items = new(Path.Count);
         for (int index = 0; index < Path.Count; index++)
         {
             items.Add(PathStepImage.From(Path[index]).ToInt32());
@@ -190,22 +190,22 @@ public partial class MoveTokenEvent : TokenEvent
         int result;
         if (index > 0 && index < Path.Count)
         {
-            var item = Path[index];
-            var fPathItem = Path[index - 1];
+            PathStep item = Path[index];
+            PathStep fPathItem = Path[index - 1];
             bool condition = item.Location.MapLevel == fPathItem.Location.MapLevel;
             if (condition)
             {
-                var item2 = Path[index - 1];
-                var item3 = Path[index - 1];
-                var item4 = Path[index];
+                PathStep item2 = Path[index - 1];
+                PathStep item3 = Path[index - 1];
+                PathStep item4 = Path[index];
                 condition = HexGeometry.DeltaHexToRadius(Path[index].Location.X, item4.Location.Y, item3.Location.X, item2.Location.Y) == 1;
             }
 
             if (condition)
             {
-                var item2 = Path[index - 1];
-                var item3 = Path[index - 1];
-                var item4 = Path[index];
+                PathStep item2 = Path[index - 1];
+                PathStep item3 = Path[index - 1];
+                PathStep item4 = Path[index];
                 result = HexGeometry.DeltaHexToHexNumberFast(Path[index].Location.X, item4.Location.Y, item3.Location.X, item2.Location.Y);
             }
             else
@@ -227,9 +227,9 @@ public partial class MoveTokenEvent : TokenEvent
         int result;
         if (index > 0 && index < Path.Count)
         {
-            var item = Path[index - 1];
-            var fPathItem = Path[index - 1];
-            var item2 = Path[index];
+            PathStep item = Path[index - 1];
+            PathStep fPathItem = Path[index - 1];
+            PathStep item2 = Path[index];
             result = HexGeometry.DeltaHexToHexDirection(Path[index].Location.X, item2.Location.Y, fPathItem.Location.X, item.Location.Y);
         }
         else

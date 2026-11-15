@@ -16,7 +16,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     static byte ILibraryImageClass.ClassVersion => 3;
     static string ILibraryImageClass.Name => "Abstract Library Image";
 
-    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new LibraryImage(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new(owner);
 
     private LibraryImageClass _imageClass;
 
@@ -145,7 +145,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
         if (_version >= 3)
         {
-            var showInfoValue = ShowInfoValue;
+            ShowInfo showInfoValue = ShowInfoValue;
             showInfoValue.ReadImage(stream, false);
             ShowInfoValue = showInfoValue;
         }
@@ -168,7 +168,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         stream.Write(Bytes.Of(ref _dataPosition, 4));
         stream.Write(Bytes.Of(ref _width, 4));
         stream.Write(Bytes.Of(ref _height, 4));
-        var showInfoValue = ShowInfoValue;
+        ShowInfo showInfoValue = ShowInfoValue;
         showInfoValue.WriteImage(stream, false);
         ShowInfoValue = showInfoValue;
     }
@@ -285,10 +285,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         _dataPosition = -1;
         _reloadingEnabled = false;
         _loadMode = LoadMode.LoadOnDemand;
-        var showInfoValue = ShowInfoValue;
+        ShowInfo showInfoValue = ShowInfoValue;
         showInfoValue.ShowMode = ShowMode.Opaque;
         ShowInfoValue = showInfoValue;
-        var showInfoValue2 = ShowInfoValue;
+        ShowInfo showInfoValue2 = ShowInfoValue;
         showInfoValue2.BlendMode = BlendMode.Alpha;
         ShowInfoValue = showInfoValue2;
         SetOwner(owner);
@@ -557,7 +557,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo) => false;
 
     // ImageLib.pas:1920
-    public virtual GrabInfo CreateGrabInfo() => new GrabInfo();
+    public virtual GrabInfo CreateGrabInfo() => new();
 
     // ImageLib.pas:1607
     public override void Dispose()

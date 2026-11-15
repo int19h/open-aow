@@ -185,12 +185,12 @@ public partial class AIGroupCooperationControl : AIGroupTask
         for (int i = group.Group.Units.Count - 1; i >= 0; i--)
         {
             troop = group.Group.Units.GetUnit(i);
-            var strengthMax = troop.GetStrengthMax(_damageTypes);
+            int strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 d = (DamageType)dOrdinal;
-                var strength = troop.GetStrength(d);
+                int strength = troop.GetStrength(d);
                 _remainingStrengths[(int)d] -= strength;
             }
 

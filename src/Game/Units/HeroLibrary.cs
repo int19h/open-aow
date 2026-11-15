@@ -44,7 +44,7 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
     {
         CheckChild(child);
         // CheckChild refuses a non-hero. The cast names the child the library id is written on.
-        var hero = (Hero)child;
+        Hero hero = (Hero)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
         if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) != null)
         {

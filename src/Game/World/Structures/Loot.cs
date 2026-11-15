@@ -2,6 +2,7 @@
 using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 using static Aow.Rtl.RtlUnit;
 
@@ -24,13 +25,13 @@ public sealed partial record Loot : ProductionOrder
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         return city != null ? city.CanLoot(ref reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;
@@ -41,7 +42,7 @@ public sealed partial record Loot : ProductionOrder
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = 0;
         ChangeRelation(control, city, -30);
-        var log = new LocationTextEventLog(null) { Holder = control };
+        LocationTextEventLog log = new(null) { Holder = control };
         log.Player = control.GetPlayer();
         log.Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
@@ -53,7 +54,7 @@ public sealed partial record Loot : ProductionOrder
 
     public override void Completed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;
@@ -61,7 +62,7 @@ public sealed partial record Loot : ProductionOrder
 
         control.BeginUpdate();
         Log(control, city, Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
-        var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        Player playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         city.SetRazed(true);
@@ -70,7 +71,7 @@ public sealed partial record Loot : ProductionOrder
 
     public override void Cancel(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city != null)
         {
             ChangeRelation(control, city, control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 30 : 20);

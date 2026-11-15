@@ -21,7 +21,7 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
 
     public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceProposalText);
+        string subject = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceProposalText);
         return Outcome(accepted: action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), MadeAllianceText), action: action, proposed: subject, subject: subject, otherwise: subject);
     }
 

@@ -74,7 +74,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
                     j = count - 1;
                 }
 
-                var blendTable = _tables.Tables[j];
+                BlendTable blendTable = _tables.Tables[j];
                 Lookup[i] = blendTable;
             }
 
@@ -95,7 +95,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
         public BlendTable this[int index] => target.GetLookupTables(index);
     }
 
-    public LookupTablesAccessor LookupTables => new LookupTablesAccessor(this);
+    public LookupTablesAccessor LookupTables => new(this);
 
     public delegate void GenerateBlendTableProc(BlendTable Table, float Value);
 

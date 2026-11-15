@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
@@ -32,7 +32,7 @@ public partial class SpellCastEventLog : EventLog
     // Spells.PAS:855
     public override string GetText()
     {
-        var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingReadyFormat), [spell.SpellName]);
     }
 
@@ -46,7 +46,7 @@ public partial class SpellCastEventLog : EventLog
         show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
         if (show)
         {
-            var hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
             if (hero != null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
                 GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
@@ -66,7 +66,7 @@ public partial class SpellCastEventLog : EventLog
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null)
         {
-            var coordinate21 = troop.GetLocation();
+            MapCoordinate coordinate21 = troop.GetLocation();
             x = coordinate21.X;
             y = coordinate21.Y;
             l = coordinate21.MapLevel;

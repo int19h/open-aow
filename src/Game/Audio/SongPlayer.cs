@@ -31,7 +31,7 @@ public partial class SongPlayer : IDisposable
         {
             try
             {
-                var songName = AudioPlayback.GetSongName(_songs[i]);
+                string songName = AudioPlayback.GetSongName(_songs[i]);
                 _songNames.Insert(0, songName);
             }
             catch
@@ -46,7 +46,7 @@ public partial class SongPlayer : IDisposable
             {
                 if (_currentIndex != -1)
                 {
-                    var count = _songs.Count;
+                    int count = _songs.Count;
                     if (_currentIndex >= count || _songs[_currentIndex] != _currentSong)
                     {
                         _currentIndex = _songs.IndexOf(_currentSong);
@@ -103,7 +103,7 @@ public partial class SongPlayer : IDisposable
                 _currentIndex = 0;
             }
 
-            var count = _songs.Count;
+            int count = _songs.Count;
             if (_currentIndex < count)
             {
                 Play(_currentIndex);
@@ -122,7 +122,7 @@ public partial class SongPlayer : IDisposable
         if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
             _status = _status + Set<StatusElement>.Of(StatusElement.Playing);
-            var item = _songs[index];
+            string item = _songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, false);
             if (result)
             {
@@ -154,7 +154,7 @@ public partial class SongPlayer : IDisposable
         if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
             _status = _status + Set<StatusElement>.Of(StatusElement.Playing);
-            var item = _songs[index];
+            string item = _songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, 2, 0, false);
             if (result)
             {

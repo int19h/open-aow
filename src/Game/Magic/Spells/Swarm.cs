@@ -18,7 +18,7 @@ public partial class Swarm : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_swarmText);
         SpellId = 115;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 2;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);

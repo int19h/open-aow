@@ -20,7 +20,7 @@ public partial class Geyser : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_geyserText);
         SpellId = 118;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);

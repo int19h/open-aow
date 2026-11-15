@@ -36,13 +36,13 @@ public sealed class ArmySpriteConstructionTests
     [Fact]
     public void StateOwnerEventsAndOffsetsMatchBaseCommit()
     {
-        var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        SortedDictionary<string, string> actual = new(StringComparer.Ordinal);
         for (int owned = 0; owned < 2; owned++)
         {
             for (int route = 0; route < 4; route++)
             {
-                using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
-                var owner = owned == 0 ? null : new ArmyOwner();
+                using OrderingRecording.Fixture fixture = new(typeof(ArmyHexSprite));
+                ArmyOwner? owner = owned == 0 ? null : new ArmyOwner();
                 ArmyHexSprite? value = null;
                 string state;
                 int destroyEntries = 0;
@@ -77,16 +77,16 @@ public sealed class ArmySpriteConstructionTests
     [Fact]
     public void SavedArmyReturnsThroughCreateEngineObject()
     {
-        using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
+        using OrderingRecording.Fixture fixture = new(typeof(ArmyHexSprite));
         EngineObject source = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
         EngineObject loaded = null!;
         try
         {
             ((ArmyHexSprite)source).Army.Player = 2;
-            var factory = new EnginePersistableFactory(fixture.Engine);
-            var schema = FormatSchema.Current;
-            var classValue = schema.Get(factory.ClassName(source));
-            var image = OriginalBackend.Write(TreeWriter.Write(source, factory: factory), classValue: classValue, schema: schema, engine: "game");
+            EnginePersistableFactory factory = new(fixture.Engine);
+            FormatSchema schema = FormatSchema.Current;
+            SchemaClass classValue = schema.Get(factory.ClassName(source));
+            byte[] image = OriginalBackend.Write(TreeWriter.Write(source, factory: factory), classValue: classValue, schema: schema, engine: "game");
             loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
             TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: "game"), objectValue: loaded, factory: factory);
             Assert.IsType<ArmyHexSprite>(loaded);

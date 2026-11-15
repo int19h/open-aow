@@ -38,13 +38,13 @@ public sealed partial class PersistEquivalenceTests
     [InlineData(77, 3, 4)]
     public void ADiplomaticActionStoresItsCaseOnBothPaths(int kind, int gold, int mana)
     {
-        var proposal = DiplomaticProposal.FromFields((byte)kind, gold: gold, mana: mana) with { Message = ["Hail", "Neighbor"] };
-        var classValue = s_schema.Get("DiplomaticAction");
-        var action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
-        var document = DocumentBackend.Write(TreeWriter.Write(action, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
+        DiplomaticProposal proposal = DiplomaticProposal.FromFields((byte)kind, gold: gold, mana: mana) with { Message = ["Hail", "Neighbor"] };
+        SchemaClass classValue = s_schema.Get("DiplomaticAction");
+        DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Proposal = proposal, Source = 1, Target = 2, OtherPlayer = 3, Day = 9 };
+        JsonObject document = DocumentBackend.Write(TreeWriter.Write(action, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
         Assert.IsType<JsonString>(document["$case"]);
         Check("DiplomaticAction", objectValue: action);
-        using var loaded = new DiplomaticAction(null!) { Holder = EngineFixture.Engine };
+        using DiplomaticAction loaded = new(null!) { Holder = EngineFixture.Engine };
         TreeReader.Read(DocumentBackend.Read(document, classValue: classValue, schema: s_schema, engine: "game"), objectValue: loaded, factory: Factory);
         Assert.Equal(proposal, loaded.Proposal);
     }
@@ -57,19 +57,19 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(map =>
         {
-            var classValue = s_schema.Get("Player");
-            var editing = map.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
-            var plain = map.Status;
+            SchemaClass classValue = s_schema.Get("Player");
+            Set<HexSpriteMapStatusElement> editing = map.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+            Set<HexSpriteMapStatusElement> plain = map.Status;
             map.Status = editing;
-            var edited = NewPlayer(index: 1);
-            var leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Chosen" };
+            Player edited = NewPlayer(index: 1);
+            Leader leader = new(null!) { Holder = EngineFixture.Engine, HeroName = "Chosen" };
             edited.Leader = leader;
-            var editedDocument = DocumentBackend.Write(TreeWriter.Write(edited, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
+            JsonObject editedDocument = DocumentBackend.Write(TreeWriter.Write(edited, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
             Check("Player", objectValue: edited, converterRead: false);
             map.Status = plain;
-            var stored = NewPlayer(index: 1);
+            Player stored = NewPlayer(index: 1);
             stored.Leader = leader;
-            var storedDocument = DocumentBackend.Write(TreeWriter.Write(stored, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
+            JsonObject storedDocument = DocumentBackend.Write(TreeWriter.Write(stored, factory: Factory), classValue: classValue, schema: s_schema, engine: "game");
             Check("Player", objectValue: stored, converterRead: false);
             Assert.NotEqual(JsonWriter.ToUtf8(editedDocument["LeaderSetup"]!), JsonWriter.ToUtf8(storedDocument["LeaderSetup"]!));
             leader.Dispose();
@@ -83,14 +83,14 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            using var source = NewPlayer(index: 1);
+            using Player source = NewPlayer(index: 1);
             source.LeaderSetup.HeroName = "Setup";
-            var document = PilotImage.Decode(Image(source), className: "Player");
+            JsonObject document = PilotImage.Decode(Image(source), className: "Player");
             Assert.NotNull(document["LeaderSetup"]);
             document.Members.RemoveAll(member => member.Name == "PlayerIndex");
-            var image = PilotImage.Encode(document, className: "Player");
-            using var viaReadWrite = NewPlayer(index: -1);
-            using var viaPersist = NewPlayer(index: -1);
+            byte[] image = PilotImage.Encode(document, className: "Player");
+            using Player viaReadWrite = NewPlayer(index: -1);
+            using Player viaPersist = NewPlayer(index: -1);
             Load(viaReadWrite, image: image);
             TreeReader.Read(OriginalBackend.Read(image, classValue: s_schema.Get("Player"), schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
             Assert.Equal(0, viaPersist.PlayerIndex);
@@ -114,9 +114,9 @@ public sealed partial class PersistEquivalenceTests
                 map.ConnectionType = PlayerConnectionType.Network;
             }
 
-            var player = NewPlayer(index: 2);
+            Player player = NewPlayer(index: 2);
             player.BaseHeroJoinDay = 6;
-            var document = DocumentBackend.Write(TreeWriter.Write(player, factory: Factory), classValue: s_schema.Get("Player"), schema: s_schema, engine: "game");
+            JsonObject document = DocumentBackend.Write(TreeWriter.Write(player, factory: Factory), classValue: s_schema.Get("Player"), schema: s_schema, engine: "game");
             Assert.Equal(network, document["View"] is null);
             Assert.Equal(network, document["BaseHeroJoinDay"] is null);
             Check("Player", objectValue: player, converterRead: false);
@@ -129,10 +129,10 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            using var source = NewPlayer(index: 1);
-            var image = Image(source);
-            using var viaReadWrite = NewPlayer(index: -1);
-            using var viaPersist = NewPlayer(index: -1);
+            using Player source = NewPlayer(index: 1);
+            byte[] image = Image(source);
+            using Player viaReadWrite = NewPlayer(index: -1);
+            using Player viaPersist = NewPlayer(index: -1);
             LoadPreview(viaReadWrite, image: image);
             TreeReader.Read(OriginalBackend.Read(image, classValue: s_schema.Get("Player"), schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory, preview: true);
             EqualBytes(Image(viaReadWrite), actual: Image(viaPersist), label: "Player preview read");
@@ -149,18 +149,18 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            using var source = NewPlayer(index: 1);
-            var document = PilotImage.Decode(Image(source), className: "Player");
-            using (var leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Stored" })
+            using Player source = NewPlayer(index: 1);
+            JsonObject document = PilotImage.Decode(Image(source), className: "Player");
+            using (Leader leader = new(null!) { Holder = EngineFixture.Engine, HeroName = "Stored" })
             {
-                var leaderDocument = PilotImage.Decode(Image(leader), className: "Leader");
+                JsonObject leaderDocument = PilotImage.Decode(Image(leader), className: "Leader");
                 leaderDocument.Members.Insert(0, item: new JsonMember("$class", value: new JsonString("Leader")));
                 int at = document.Members.FindIndex(member => member.Name == "View");
                 document.Members.Insert(at < 0 ? document.Members.Count : at, item: new JsonMember("Leader", value: leaderDocument));
             }
-            var image = PilotImage.Encode(document, className: "Player");
-            using var viaReadWrite = NewPlayer(index: -1);
-            using var viaPersist = NewPlayer(index: -1);
+            byte[] image = PilotImage.Encode(document, className: "Player");
+            using Player viaReadWrite = NewPlayer(index: -1);
+            using Player viaPersist = NewPlayer(index: -1);
             WithEngineStatus(loadingMap ? Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm) : default, body: () =>
             {
                 LoadPreview(viaReadWrite, image: image);
@@ -179,8 +179,8 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void CampaignTransferSettingsWithALeaderMatchesTheConverter()
     {
-        var settings = new CampaignTransferSettings(null!) { Holder = EngineFixture.Engine };
-        var leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Carried" };
+        CampaignTransferSettings settings = new(null!) { Holder = EngineFixture.Engine };
+        Leader leader = new(null!) { Holder = EngineFixture.Engine, HeroName = "Carried" };
         settings.SetLeader(leader);
         leader.Release();
         Check("CampaignTransferSettings", objectValue: settings);
@@ -194,7 +194,7 @@ public sealed partial class PersistEquivalenceTests
     [InlineData(true)]
     public void ARaceMatchesTheConverter(bool enabled)
     {
-        var race = new Race(null!) { Holder = EngineFixture.Engine, RaceIndex = 3, Enabled = enabled };
+        Race race = new(null!) { Holder = EngineFixture.Engine, RaceIndex = 3, Enabled = enabled };
         Check("Race", objectValue: race, converterRead: false);
     }
 
@@ -203,7 +203,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ACampaignMatchesTheConverter()
     {
-        var campaign = new Campaign(null!) { Holder = EngineFixture.Engine, CurrentScenarioId = 2, ScenarioStarted = true };
+        Campaign campaign = new(null!) { Holder = EngineFixture.Engine, CurrentScenarioId = 2, ScenarioStarted = true };
         campaign.CompletedScenarios.Add(1);
         Check("Campaign", objectValue: campaign);
     }
@@ -212,7 +212,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AnEventLogListWithLogsMatchesTheConverter()
     {
-        var list = new EventLogList(null!) { Holder = EngineFixture.Engine };
+        EventLogList list = new(null!) { Holder = EngineFixture.Engine };
         new TextEventLog(null!) { Holder = EngineFixture.Engine, Text = "First" }.SetOwner(list);
         new TextEventLog(null!) { Holder = EngineFixture.Engine, Text = "Second" }.SetOwner(list);
         Check("EventLogList", objectValue: list);
@@ -225,7 +225,7 @@ public sealed partial class PersistEquivalenceTests
     [MemberData(nameof(SessionClasses))]
     public void ASessionClassWritesAndLoadsAlikeOnBothPaths(string className)
     {
-        var enlisted = EnlistSessionClasses();
+        EngineClass[] enlisted = EnlistSessionClasses();
         try
         {
             WriteAndLoadAlike(className);
@@ -240,10 +240,10 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            var classValue = s_schema.Get(className);
+            SchemaClass classValue = s_schema.Get(className);
             // The campaign classes belong to the campaign engine's table only.
             string engine = classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0];
-            var source = Blank(className);
+            EngineObject source = Blank(className);
             EngineObject? viaReadWrite = null;
             EngineObject? viaPersist = null;
             try
@@ -258,8 +258,8 @@ public sealed partial class PersistEquivalenceTests
 
                 EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " write");
                 EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " original");
-                var stream = viaReadWrite = Blank(className);
-                var persisted = viaPersist = Blank(className);
+                EngineObject stream = viaReadWrite = Blank(className);
+                EngineObject persisted = viaPersist = Blank(className);
                 bool loaded = AlikeOutcome(() => Load(stream, image: image), viaPersist: () => TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: engine), objectValue: persisted, factory: Factory), label: className + " load");
                 if (loaded)
                 {
@@ -280,10 +280,10 @@ public sealed partial class PersistEquivalenceTests
 
     public static TheoryData<string> SessionClasses()
     {
-        var names = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var engineClass in EngineClass.All)
+        SortedSet<string> names = new(StringComparer.Ordinal);
+        foreach (EngineClass engineClass in EngineClass.All)
         {
-            var type = engineClass.Type;
+            Type type = engineClass.Type;
             if (type.Assembly != typeof(GamePack).Assembly || type.IsAbstract)
             {
                 continue;
@@ -316,8 +316,8 @@ public sealed partial class PersistEquivalenceTests
 
             names.Add(engineClass.StorageKey);
         }
-        var data = new TheoryData<string>();
-        foreach (var name in names)
+        TheoryData<string> data = new();
+        foreach (string name in names)
         {
             data.Add(name);
         }
@@ -330,9 +330,9 @@ public sealed partial class PersistEquivalenceTests
     // class id is enlisted once.
     private static EngineClass[] EnlistSessionClasses()
     {
-        var table = EngineFixture.Engine.ClassTable;
-        var added = new Dictionary<int, EngineClass>();
-        foreach (var engineClass in EngineClass.All)
+        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass> added = new();
+        foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(GamePack).Assembly || engineClass.Type.Namespace is not { } space)
             {
@@ -351,7 +351,7 @@ public sealed partial class PersistEquivalenceTests
 
             added[engineClass.ClassId] = engineClass;
         }
-        var classes = added.Values.ToArray();
+        EngineClass[] classes = added.Values.ToArray();
         EngineFixture.Engine.RegisterEngineClasses(classes);
         return classes;
     }
@@ -366,7 +366,7 @@ public sealed partial class PersistEquivalenceTests
     {
         WithDestroyingMap(map =>
         {
-            var dictionary = new Dictionary<string, string>
+            Dictionary<string, string> dictionary = new()
             {
                 ["Lord"] = "Herr",
                 ["Easy"] = "Leicht",
@@ -378,11 +378,11 @@ public sealed partial class PersistEquivalenceTests
                 ["bell.wav"] = "glocke.wav",
             };
             map.SeatedPlayer = 2;
-            using var player = NewPlayer(index: 2);
+            using Player player = NewPlayer(index: 2);
             player.Settings = "Easy";
             player.View = player.View with { X = 7 };
             typeof(Player).GetField("_description", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(player, value: "Lord");
-            using (var stream = new DictionaryStream(dictionary))
+            using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(player, 0);
                 Assert.Contains("Lord", stream.Visited);
@@ -393,12 +393,12 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal("Easy", player.Settings);
             Assert.Equal(7, unchecked((byte)player.View.X));
 
-            using var list = new EventLogList(null!) { Holder = EngineFixture.Engine };
-            var log = new TextEventLog(null!) { Holder = EngineFixture.Engine, Text = "First" };
+            using EventLogList list = new(null!) { Holder = EngineFixture.Engine };
+            TextEventLog log = new(null!) { Holder = EngineFixture.Engine, Text = "First" };
             log.SetOwner(list);
             int changes = 0;
             list.OnChanged += _ => changes++;
-            using (var stream = new DictionaryStream(dictionary))
+            using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(list, 0);
                 Assert.Equal(["First"], stream.Visited);
@@ -408,19 +408,19 @@ public sealed partial class PersistEquivalenceTests
             Assert.Same(log, list.GetChild(0));
             Assert.Equal(1, changes);
 
-            using var action = new DiplomaticAction(null!) { Holder = EngineFixture.Engine, Proposal = DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Hail"] } };
-            using (var stream = new DictionaryStream(dictionary))
+            using DiplomaticAction action = new(null!) { Holder = EngineFixture.Engine, Proposal = DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Hail"] } };
+            using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(action, 0);
                 Assert.Equal(["lines 1"], stream.Visited);
             }
             Assert.Equal(DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Heil"] }, action.Proposal);
 
-            using var page = new CampaignScenarioPage(null!) { Holder = EngineFixture.Engine };
+            using CampaignScenarioPage page = new(null!) { Holder = EngineFixture.Engine };
             page.Text.Add("Once upon a time");
             typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.Heading))!.SetValue(page, value: "Intro");
             typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.ImageLibrary))!.SetValue(page, value: "pages.ilb");
-            using (var stream = new DictionaryStream(dictionary))
+            using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(page, 0);
                 Assert.Equal(["lines 1", "Intro"], stream.Visited);
@@ -429,11 +429,11 @@ public sealed partial class PersistEquivalenceTests
             Assert.Equal("Einleitung", page.Heading);
             Assert.Equal("pages.ilb", page.ImageLibrary);
 
-            using var sequence = new SfxSequence(null!) { Holder = EngineFixture.Engine };
-            var sound = new Sfx(null!) { Holder = EngineFixture.Engine };
+            using SfxSequence sequence = new(null!) { Holder = EngineFixture.Engine };
+            Sfx sound = new(null!) { Holder = EngineFixture.Engine };
             typeof(Sfx).GetField("_fileName", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.SetValue(sound, value: "bell.wav");
             sound.SetOwner(sequence);
-            using (var stream = new DictionaryStream(dictionary))
+            using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(sequence, 0);
                 Assert.Empty(stream.Visited);
@@ -451,26 +451,26 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ASetupPackageWithItsSettingsRoundTripsAsAPacket()
     {
-        var enlisted = EnlistSessionClasses();
+        EngineClass[] enlisted = EnlistSessionClasses();
         try
         {
-            using var settings = new SetupSettings(null!) { Holder = EngineFixture.Engine, MapName = "Islands", FileName = "islands.hsm", RandomSeed = 77, DayLimit = 40 };
+            using SetupSettings settings = new(null!) { Holder = EngineFixture.Engine, MapName = "Islands", FileName = "islands.hsm", RandomSeed = 77, DayLimit = 40 };
             new RemotePlayer(null!) { Holder = EngineFixture.Engine, Name = "Host", RemoteId = 5, Version = 136 }.SetOwner(settings.RemotePlayers);
             new PlayerSetupSettings(null!) { Holder = EngineFixture.Engine, PlayerId = 1, Race = 3 }.SetOwner(settings);
-            using var package = new SetupPackage(null!) { Holder = EngineFixture.Engine, MessageId = 5, Param1 = 2, Param2 = 9 };
+            using SetupPackage package = new(null!) { Holder = EngineFixture.Engine, MessageId = 5, Param1 = 2, Param2 = 9 };
             package.Data = settings.Copy(EngineFixture.Engine);
-            using var memory = new MemoryStream();
+            using MemoryStream memory = new();
             EngineFixture.Engine.StoreEngineObject(memory, objectValue: package, progress: null);
-            var sent = memory.ToArray();
+            byte[] sent = memory.ToArray();
             memory.Position = 0;
-            using var received = Assert.IsType<SetupPackage>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            using SetupPackage received = Assert.IsType<SetupPackage>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
             Assert.Equal((5, 2, 9), (received.MessageId, received.Param1, received.Param2));
-            var data = Assert.IsType<SetupSettings>(received.Data);
+            SetupSettings data = Assert.IsType<SetupSettings>(received.Data);
             Assert.Equal(("Islands", "islands.hsm", 77, 40), (data.MapName, data.FileName, data.RandomSeed, data.DayLimit));
             Assert.Equal(("Host", 5, 136), (data.RemotePlayers[0].Name, data.RemotePlayers[0].RemoteId, data.RemotePlayers[0].Version));
             Assert.Equal((byte)1, ((PlayerSetupSettings)data.GetChild(0)).PlayerId);
             Assert.True(package.Compare(received, engine: EngineFixture.Engine));
-            using var again = new MemoryStream();
+            using MemoryStream again = new();
             EngineFixture.Engine.StoreEngineObject(again, objectValue: received, progress: null);
             EqualBytes(sent, actual: again.ToArray(), label: "setup package resent");
         }
@@ -485,7 +485,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ADiplomaticActionTokenEventRoundTripsAsAPacket()
     {
-        var descriptor = EngineClass.Of<DiplomaticActionTokenEvent>();
+        EngineClass descriptor = EngineClass.Of<DiplomaticActionTokenEvent>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId);
         if (added)
         {
@@ -494,7 +494,7 @@ public sealed partial class PersistEquivalenceTests
 
         try
         {
-            using var tokenEvent = new DiplomaticActionTokenEvent(null!) { Holder = EngineFixture.Engine, Operation = 3 };
+            using DiplomaticActionTokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine, Operation = 3 };
             tokenEvent.Action = new DiplomaticAction(null!)
             {
                 Holder = EngineFixture.Engine,
@@ -503,10 +503,10 @@ public sealed partial class PersistEquivalenceTests
                 Target = 2,
                 Day = 9,
             };
-            using var memory = new MemoryStream();
+            using MemoryStream memory = new();
             EngineFixture.Engine.StoreEngineObject(memory, objectValue: tokenEvent, progress: null);
             memory.Position = 0;
-            using var received = Assert.IsType<DiplomaticActionTokenEvent>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
+            using DiplomaticActionTokenEvent received = Assert.IsType<DiplomaticActionTokenEvent>(EngineFixture.Engine.RetrieveEngineObject(memory, progress: null));
             Assert.Equal(3, received.Operation);
             Assert.Equal(tokenEvent.Action.Proposal, received.Action.Proposal);
             Assert.Equal(((sbyte)1, (sbyte)2, 9), (received.Action.Source, received.Action.Target, received.Action.Day));
@@ -531,9 +531,9 @@ public sealed partial class PersistEquivalenceTests
     // body and puts the previous status back.
     private static void WithEngineStatus(Set<HexSpriteEngineStatusElement> status, Action body)
     {
-        var field = typeof(GameEngine).GetField("_status", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)
+        FieldInfo field = typeof(GameEngine).GetField("_status", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)
             ?? throw new InvalidOperationException("GameEngine has no _status field.");
-        var previous = field.GetValue(EngineFixture.Engine);
+        object previous = field.GetValue(EngineFixture.Engine);
         field.SetValue(EngineFixture.Engine, value: status);
         try
         {

@@ -73,7 +73,7 @@ public partial class PossessAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
             probability = TouchRoleProbability(attacker, defender);
-            var hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
             if (attacker.GetAbilityEnabled(106))
             {
@@ -81,7 +81,7 @@ public partial class PossessAbility : TouchAbility
             }
             else
             {
-                var attackerHitPoints = attacker.GetHitPoints();
+                sbyte attackerHitPoints = attacker.GetHitPoints();
                 damageValues.TargetDamage = Round((double)((double)attackerHitPoints * probability) * 100);
             }
 
@@ -115,9 +115,9 @@ public partial class PossessAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
             probability = CombatTouchRoleProbability(attackerUnit, defender);
-            var hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
-            var defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints * 2;
             if (attacker.GetAbilityEnabled(106))
             {
@@ -125,11 +125,11 @@ public partial class PossessAbility : TouchAbility
             }
             else
             {
-                var attackerHitPoints = attacker.GetHitPoints();
+                sbyte attackerHitPoints = attacker.GetHitPoints();
                 damageValues.TargetDamage = Round((double)((double)attackerHitPoints * probability) * 100);
             }
 
-            var damage = defender.GetDamage();
+            sbyte damage = defender.GetDamage();
             damageValues.TargetCost = damage;
             damageValues.DamageTypes = Set<DamageType>.Of();
         }
@@ -160,7 +160,7 @@ public partial class PossessAbility : TouchAbility
     // AoWAb.PAS:2640
     public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
     {
-        PossessCombatAction result = new PossessCombatAction(null) { Holder = CreationHolder() };
+        PossessCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }

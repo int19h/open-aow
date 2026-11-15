@@ -126,7 +126,7 @@ public partial class AIGroupControl : EngineObject
         bool result;
         if (!Group.Status.Contains(AIGroupStatusElement.Done))
         {
-            var coordinate97 = Group.GetLocation();
+            MapCoordinate coordinate97 = Group.GetLocation();
             sbyte locationX = coordinate97.X;
             sbyte locationY = coordinate97.Y;
             sbyte locationMapLevel = coordinate97.MapLevel;
@@ -134,8 +134,8 @@ public partial class AIGroupControl : EngineObject
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
-                var army = Army;
-                var selection = Selection;
+                Army army = Army;
+                byte selection = Selection;
                 RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out army, out selection);
                 Army = army;
                 Selection = selection;
@@ -183,7 +183,7 @@ public partial class AIGroupControl : EngineObject
             while (!found && i != 0)
             {
                 i -= 1;
-                var coordinate98 = Group.Units.GetUnit(i).GetLocation();
+                MapCoordinate coordinate98 = Group.Units.GetUnit(i).GetLocation();
                 x = coordinate98.X;
                 y = coordinate98.Y;
                 l = coordinate98.MapLevel;
@@ -192,13 +192,13 @@ public partial class AIGroupControl : EngineObject
 
             if (found)
             {
-                var behavior = Group.GroupClass.Behavior;
+                GroupBehavior behavior = Group.GroupClass.Behavior;
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
                 group.Status = group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
                 {
-                    var coordinate99 = Group.Units.GetUnit(i).GetLocation();
+                    MapCoordinate coordinate99 = Group.Units.GetUnit(i).GetLocation();
                     unitX = coordinate99.X;
                     unitY = coordinate99.Y;
                     unitL = coordinate99.MapLevel;
@@ -263,7 +263,7 @@ public partial class AIGroupControl : EngineObject
         {
             if (Group.Units.GetUnit(i) != Group.Leader)
             {
-                var unit = Group.Units.GetUnit(i);
+                Troop unit = Group.Units.GetUnit(i);
                 MoveExecutor.AddUnit(unit);
             }
         }
@@ -330,13 +330,13 @@ public partial class AIGroupControl : EngineObject
             Array.Clear(_strength);
             if (Group.Units.Count != 0)
             {
-                var movePointTable2 = MovePointTable;
+                MovePointTable movePointTable2 = MovePointTable;
                 movePointTable2.Fill(1);
                 MovePointTable = movePointTable2;
             }
             else
             {
-                var movePointTable3 = MovePointTable;
+                MovePointTable movePointTable3 = MovePointTable;
                 movePointTable3.Fill(-1);
                 MovePointTable = movePointTable3;
             }
@@ -346,17 +346,17 @@ public partial class AIGroupControl : EngineObject
                 troop = Group.Units.GetUnit(i);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(out movePointTable);
-                var movePointTable4 = MovePointTable;
+                MovePointTable movePointTable4 = MovePointTable;
                 movePointTable4.Maximize(movePointTable);
                 MovePointTable = movePointTable4;
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
                     damageType = (DamageType)damageTypeOrdinal;
-                    var strength = troop.GetStrength(damageType);
+                    int strength = troop.GetStrength(damageType);
                     _strength[(int)damageType] += strength;
                 }
 
-                var strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes);
+                int strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes);
                 StrengthMax += strengthMax;
             }
 
@@ -419,20 +419,20 @@ public partial class AIGroupControl : EngineObject
         CombatPredictor.DeleteOpponents();
         for (int i = CombatPredictor.Sides[0].Count - 1; i >= 0; i--)
         {
-            var units = CombatPredictor.Sides[0].GetUnits(i);
+            CombatPredictorUnit units = CombatPredictor.Sides[0].GetUnits(i);
             if (Group.Units.IndexOf(units.Troop) == -1)
             {
-                var units2 = CombatPredictor.Sides[0].GetUnits(i);
+                CombatPredictorUnit units2 = CombatPredictor.Sides[0].GetUnits(i);
                 CombatPredictor.DeleteUnit(units2.Troop);
             }
         }
 
         for (int i = Group.Units.Count - 1; i >= 0; i--)
         {
-            var troop = Group.Units.GetUnit(i);
+            Troop troop = Group.Units.GetUnit(i);
             if (CombatPredictor.Sides[0].IndexOfUnit(troop) == -1)
             {
-                var fGroupUnit = Group.Units.GetUnit(i);
+                Troop fGroupUnit = Group.Units.GetUnit(i);
                 CombatPredictor.AddUnit(fGroupUnit);
             }
         }
@@ -551,7 +551,7 @@ public partial class AIGroupControl : EngineObject
             troop = player.Armies.GetArmy(i).Transporter(255);
             if (troop != null && (troop.Group == null || troop.Group.EngineClass.ClassId == 136295))
             {
-                var coordinate100 = troop.GetLocation();
+                MapCoordinate coordinate100 = troop.GetLocation();
                 sbyte locationX = coordinate100.X;
                 sbyte locationY = coordinate100.Y;
                 sbyte locationMapLevel = coordinate100.MapLevel;

@@ -32,7 +32,7 @@ public partial class FireStorm : Storm
         int y = default;
         int frame;
         ImageSequence sequence;
-        var hexY = GetHexY();
+        sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
         x = x - pixelXSurface + 8;
         y = y - pixelYSurface;
@@ -87,9 +87,9 @@ public partial class FireStorm : Storm
         if (FrameCounter == 20)
         {
             AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Fire, x: GetHexX(), innerRadius: 0, outerRadius: 2, player: StrategicMap.Current.CurrentPlayer);
-            var hexLevel2 = GetHexLevel();
-            var hexY2 = GetHexY();
-            var hexX = GetHexX();
+            sbyte hexLevel2 = GetHexLevel();
+            sbyte hexY2 = GetHexY();
+            sbyte hexX = GetHexX();
             StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
         }
 
@@ -106,15 +106,15 @@ public partial class FireStorm : Storm
             bool condition = StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer;
             if (!condition)
             {
-                var hexLevel = GetHexLevel();
-                var hexY = GetHexY();
-                var hexX = GetHexX();
+                sbyte hexLevel = GetHexLevel();
+                sbyte hexY = GetHexY();
+                sbyte hexX = GetHexX();
                 condition = StrategicMap.Current.TerrainVisible(hexX, hexY, hexLevel, 2);
             }
 
             if (condition)
             {
-                var random = Random(2);
+                int random = Random(2);
                 AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
             }
         }

@@ -59,7 +59,7 @@ public partial class TaskBar : ILayoutModule
         TaskWindow.WinHeight = 48;
         TaskWindow.Dockable = false;
         session.EndRead(TaskWindow);
-        Button tbNextButton = new Button(this);
+        Button tbNextButton = new(this);
         session.BeginRead(tbNextButton);
         tbNextButton.Name = "TBNextButton";
         tbNextButton.Priority = 5;
@@ -249,7 +249,7 @@ public partial class TaskBar : ILayoutModule
         WorldTurnButton.OnChange += _ => TurnButtonChange();
         WorldTurnButton.Checked = false;
         session.EndRead(WorldTurnButton);
-        Button wmButton = new Button(this);
+        Button wmButton = new(this);
         session.BeginRead(wmButton);
         wmButton.Name = "WMButton";
         wmButton.Priority = 5;
@@ -284,7 +284,7 @@ public partial class TaskBar : ILayoutModule
         wmButton.WinWidth = 70;
         wmButton.OnClick += _ => WMButtonClick();
         session.EndRead(wmButton);
-        Button ovButton = new Button(this);
+        Button ovButton = new(this);
         session.BeginRead(ovButton);
         ovButton.Name = "OVButton";
         ovButton.Priority = 5;
@@ -391,7 +391,7 @@ public partial class TaskBar : ILayoutModule
         StructureButton.WinWidth = 70;
         StructureButton.OnClick += _ => StructButtonClick();
         session.EndRead(StructureButton);
-        Button oV2Btn = new Button(this);
+        Button oV2Btn = new(this);
         session.BeginRead(oV2Btn);
         oV2Btn.Name = "OV2Btn";
         oV2Btn.Priority = 0;
@@ -426,7 +426,7 @@ public partial class TaskBar : ILayoutModule
         oV2Btn.WinWidth = 70;
         oV2Btn.OnClick += _ => OV2BtnClick();
         session.EndRead(oV2Btn);
-        Button infoBtn = new Button(this);
+        Button infoBtn = new(this);
         session.BeginRead(infoBtn);
         infoBtn.Name = "InfoBtn";
         infoBtn.Priority = 0;
@@ -498,7 +498,7 @@ public partial class TaskBar : ILayoutModule
         ChatButton.WinWidth = 70;
         ChatButton.OnClick += _ => ChatBtnClick();
         session.EndRead(ChatButton);
-        Panel taskPanel = new Panel(this);
+        Panel taskPanel = new(this);
         session.BeginRead(taskPanel);
         taskPanel.Name = "TaskPanel";
         taskPanel.Priority = 5;
@@ -525,7 +525,7 @@ public partial class TaskBar : ILayoutModule
         taskPanel.MinWidth = 0;
         taskPanel.MinHeight = 0;
         session.EndRead(taskPanel);
-        Panel wgiPnl = new Panel(this);
+        Panel wgiPnl = new(this);
         session.BeginRead(wgiPnl);
         wgiPnl.Name = "WGIPnl";
         wgiPnl.Priority = 10;
@@ -552,7 +552,7 @@ public partial class TaskBar : ILayoutModule
         wgiPnl.MinWidth = 0;
         wgiPnl.MinHeight = 0;
         session.EndRead(wgiPnl);
-        Frame tBbk = new Frame(this);
+        Frame tBbk = new(this);
         session.BeginRead(tBbk);
         tBbk.Name = "TBbk";
         tBbk.Priority = 0;
@@ -579,7 +579,7 @@ public partial class TaskBar : ILayoutModule
         tBbk.ImageLibraryIndexLine = 0;
         tBbk.ImageLibraryIndexTexture = 0;
         session.EndRead(tBbk);
-        Image timerImg = new Image(this);
+        Image timerImg = new(this);
         session.BeginRead(timerImg);
         timerImg.Name = "TimerImg";
         timerImg.Priority = 50;
@@ -611,7 +611,7 @@ public partial class TaskBar : ILayoutModule
         timerImg.Animate = false;
         timerImg.AnimationFrameDelay = 0;
         session.EndRead(timerImg);
-        Image timeIcn = new Image(this);
+        Image timeIcn = new(this);
         session.BeginRead(timeIcn);
         timeIcn.Name = "TimeIcn";
         timeIcn.Priority = 5;
@@ -750,7 +750,7 @@ public partial class TaskBar : ILayoutModule
         WorldPanel.MinWidth = 0;
         WorldPanel.MinHeight = 0;
         session.EndRead(WorldPanel);
-        Button tcNextBtn = new Button(this);
+        Button tcNextBtn = new(this);
         session.BeginRead(tcNextBtn);
         tcNextBtn.Name = "TCNextBtn";
         tcNextBtn.Priority = 5;
@@ -960,7 +960,7 @@ public partial class TaskBar : ILayoutModule
         CombatUnitButton.WinWidth = 70;
         CombatUnitButton.OnClick += _ => TCUnitBtnClick();
         session.EndRead(CombatUnitButton);
-        Frame frame1 = new Frame(this);
+        Frame frame1 = new(this);
         session.BeginRead(frame1);
         frame1.Name = "AoWFrame1";
         frame1.Priority = 0;
@@ -987,7 +987,7 @@ public partial class TaskBar : ILayoutModule
         frame1.ImageLibraryIndexLine = 0;
         frame1.ImageLibraryIndexTexture = 0;
         session.EndRead(frame1);
-        Image tcTimerImg = new Image(this);
+        Image tcTimerImg = new(this);
         session.BeginRead(tcTimerImg);
         tcTimerImg.Name = "TCTimerImg";
         tcTimerImg.Priority = 5;
@@ -1019,7 +1019,7 @@ public partial class TaskBar : ILayoutModule
         tcTimerImg.Animate = false;
         tcTimerImg.AnimationFrameDelay = 0;
         session.EndRead(tcTimerImg);
-        Image tcTimeImg = new Image(this);
+        Image tcTimeImg = new(this);
         session.BeginRead(tcTimeImg);
         tcTimeImg.Name = "TCTimeImg";
         tcTimeImg.Priority = 5;
@@ -1159,7 +1159,7 @@ public partial class TaskBar : ILayoutModule
         CombatPanel.MinWidth = 0;
         CombatPanel.MinHeight = 0;
         session.EndRead(CombatPanel);
-        Panel tcPnl = new Panel(this);
+        Panel tcPnl = new(this);
         session.BeginRead(tcPnl);
         tcPnl.Name = "TCPnl";
         tcPnl.Priority = 5;
@@ -1223,7 +1223,7 @@ public partial class TaskBar : ILayoutModule
         CombatChatButton.WinWidth = 70;
         CombatChatButton.OnClick += _ => ChatBtnClick();
         session.EndRead(CombatChatButton);
-        Panel wGoldPnl = new Panel(this);
+        Panel wGoldPnl = new(this);
         session.BeginRead(wGoldPnl);
         wGoldPnl.Name = "WGoldPnl";
         wGoldPnl.Priority = 100;
@@ -1324,7 +1324,7 @@ public partial class TaskBar : ILayoutModule
         WorldManaTotalLabel.Masked = true;
         WorldManaTotalLabel.TextColor = 0;
         session.EndRead(WorldManaTotalLabel);
-        Panel wmiPnl = new Panel(this);
+        Panel wmiPnl = new(this);
         session.BeginRead(wmiPnl);
         wmiPnl.Name = "WMIPnl";
         wmiPnl.Priority = 10;
@@ -1351,7 +1351,7 @@ public partial class TaskBar : ILayoutModule
         wmiPnl.MinWidth = 0;
         wmiPnl.MinHeight = 0;
         session.EndRead(wmiPnl);
-        Panel wManaPnl = new Panel(this);
+        Panel wManaPnl = new(this);
         session.BeginRead(wManaPnl);
         wManaPnl.Name = "WManaPnl";
         wManaPnl.Priority = 100;
@@ -1452,7 +1452,7 @@ public partial class TaskBar : ILayoutModule
         CombatGoldTotalLabel.Masked = true;
         CombatGoldTotalLabel.TextColor = 0;
         session.EndRead(CombatGoldTotalLabel);
-        Image tgIcn = new Image(this);
+        Image tgIcn = new(this);
         session.BeginRead(tgIcn);
         tgIcn.Name = "TGIcn";
         tgIcn.Priority = 5;
@@ -1484,7 +1484,7 @@ public partial class TaskBar : ILayoutModule
         tgIcn.Animate = false;
         tgIcn.AnimationFrameDelay = 0;
         session.EndRead(tgIcn);
-        Panel tgiPnl = new Panel(this);
+        Panel tgiPnl = new(this);
         session.BeginRead(tgiPnl);
         tgiPnl.Name = "TGIPnl";
         tgiPnl.Priority = 10;
@@ -1511,7 +1511,7 @@ public partial class TaskBar : ILayoutModule
         tgiPnl.MinWidth = 0;
         tgiPnl.MinHeight = 0;
         session.EndRead(tgiPnl);
-        Panel tGoldPnl = new Panel(this);
+        Panel tGoldPnl = new(this);
         session.BeginRead(tGoldPnl);
         tGoldPnl.Name = "TGoldPnl";
         tGoldPnl.Priority = 100;
@@ -1612,7 +1612,7 @@ public partial class TaskBar : ILayoutModule
         CombatManaTotalLabel.Masked = true;
         CombatManaTotalLabel.TextColor = 0;
         session.EndRead(CombatManaTotalLabel);
-        Image twmIcn = new Image(this);
+        Image twmIcn = new(this);
         session.BeginRead(twmIcn);
         twmIcn.Name = "TWMIcn";
         twmIcn.Priority = 5;
@@ -1644,7 +1644,7 @@ public partial class TaskBar : ILayoutModule
         twmIcn.Animate = false;
         twmIcn.AnimationFrameDelay = 0;
         session.EndRead(twmIcn);
-        Panel tmiPnl = new Panel(this);
+        Panel tmiPnl = new(this);
         session.BeginRead(tmiPnl);
         tmiPnl.Name = "TMIPnl";
         tmiPnl.Priority = 10;
@@ -1671,7 +1671,7 @@ public partial class TaskBar : ILayoutModule
         tmiPnl.MinWidth = 0;
         tmiPnl.MinHeight = 0;
         session.EndRead(tmiPnl);
-        Panel tManaPnl = new Panel(this);
+        Panel tManaPnl = new(this);
         session.BeginRead(tManaPnl);
         tManaPnl.Name = "TManaPnl";
         tManaPnl.Priority = 100;
@@ -1720,7 +1720,7 @@ public partial class TaskBar : ILayoutModule
         CombatManaSignLabel.Masked = true;
         CombatManaSignLabel.TextColor = 7864183;
         session.EndRead(CombatManaSignLabel);
-        Button relationsBtn = new Button(this);
+        Button relationsBtn = new(this);
         session.BeginRead(relationsBtn);
         relationsBtn.Name = "RelationsBtn";
         relationsBtn.Priority = 0;
@@ -1792,7 +1792,7 @@ public partial class TaskBar : ILayoutModule
         AutoCombatCheckBox.OnChange += _ => AutoCombatCheckBoxChange();
         AutoCombatCheckBox.RadioIndex = 0;
         session.EndRead(AutoCombatCheckBox);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

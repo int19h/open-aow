@@ -38,7 +38,7 @@ public partial class PowerLeak : GlobalEnchantmentSpell
         sbyte l = default;
         TwinkleAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        var coordinate74 = source.GetLocation();
+        MapCoordinate coordinate74 = source.GetLocation();
         x = coordinate74.X;
         y = coordinate74.Y;
         l = coordinate74.MapLevel;

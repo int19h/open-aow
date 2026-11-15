@@ -13,6 +13,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
+using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
@@ -70,7 +71,7 @@ public partial class TitleScene : UIModule
         info.BlendMode = BlendMode.Alpha;
         lines = _credits[_creditPage];
         x = surface.Width / 2;
-        var count = lines.Count;
+        int count = lines.Count;
         y = (surface.Height / 2) - ((((count * 25) + _creditsFont.Height) / 2) + 35);
         duration = (lines.Count * 30) + 20 + 50;
         if (lines.Count > 0)
@@ -90,12 +91,12 @@ public partial class TitleScene : UIModule
             {
                 if (alpha < 100)
                 {
-                    var line = lines[0];
+                    string line = lines[0];
                     _creditsFont.SetText(x, y, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                 }
                 else
                 {
-                    var line = lines[0];
+                    string line = lines[0];
                     _creditsFont.SetTextCentered(x, y, line, surface);
                 }
             }
@@ -116,12 +117,12 @@ public partial class TitleScene : UIModule
                     info.Blend = alpha;
                     if (alpha < 100)
                     {
-                        var line = lines[i];
+                        string line = lines[i];
                         _creditsFont.SetText(x, y + (i * 25) + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
-                        var line = lines[i];
+                        string line = lines[i];
                         _creditsFont.SetTextCentered(x, y + (i * 25) + 5, line, surface);
                     }
                 }
@@ -209,37 +210,37 @@ public partial class TitleScene : UIModule
                 case 0:
                     if (TitleSceneImages[4] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneImages[4];
-                        var titleSceneImageLibraryWidth = TitleSceneImages[4];
+                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[4];
+                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[4];
                         TitleSceneImages[4].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
                     }
 
                     if (TitleSceneImages[5] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneImages[5];
-                        var titleSceneImageLibraryWidth = TitleSceneImages[5];
+                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[5];
+                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[5];
                         TitleSceneImages[5].Show(x + 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
                     }
 
                     break;
                 case 1:
-                    var northAmerica = UI.Engine.TranslateResourceString(s_northAmericaText);
-                    var titleSceneImageLibrary = TitleSceneImages[6];
+                    string northAmerica = UI.Engine.TranslateResourceString(s_northAmericaText);
+                    LibraryImage titleSceneImageLibrary = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(x - 75, y - (titleSceneImageLibrary.Height / 2) - 20, northAmerica, surface);
-                    var europe = UI.Engine.TranslateResourceString(s_europeText);
-                    var titleSceneImageLibrary2 = TitleSceneImages[6];
+                    string europe = UI.Engine.TranslateResourceString(s_europeText);
+                    LibraryImage titleSceneImageLibrary2 = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(x + 75 + 15, y - (titleSceneImageLibrary2.Height / 2) - 20, europe, surface);
                     if (TitleSceneImages[6] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneImages[6];
-                        var titleSceneImageLibraryWidth = TitleSceneImages[6];
+                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[6];
+                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[6];
                         TitleSceneImages[6].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
                     }
 
                     if (TitleSceneImages[2] != null)
                     {
-                        var titleSceneImageLibraryHeight = TitleSceneImages[2];
-                        var titleSceneImageLibraryWidth = TitleSceneImages[2];
+                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[2];
+                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[2];
                         TitleSceneImages[2].Show(x + 75 + 15 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
                     }
 
@@ -296,7 +297,7 @@ public partial class TitleScene : UIModule
         if (_redrawBackground)
         {
             r = _sceneRectangle;
-            var titleSceneImageLibrary = TitleSceneImages[0];
+            LibraryImage titleSceneImageLibrary = TitleSceneImages[0];
             r.Top += titleSceneImageLibrary.Height;
             PixelFormats.ColorFillSurfaceDescription(r, 0, surface);
         }
@@ -310,7 +311,7 @@ public partial class TitleScene : UIModule
 
         frame = -((frame + 490) % TitleSceneImages[0].Width);
         TitleSceneImages[0].Show(frame, y, surface);
-        var titleSceneImageLibraryWidth = TitleSceneImages[0];
+        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[0];
         TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, y, surface);
         if (!_showCredits && _frame > 25)
         {
@@ -330,11 +331,11 @@ public partial class TitleScene : UIModule
                 }
             }
 
-            var titleSceneImageLibrary = TitleSceneImages[1];
+            LibraryImage titleSceneImageLibrary = TitleSceneImages[1];
             x = (_sceneRectangle.Right - _sceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
             if (frame < 100)
             {
-                var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(frame);
+                BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(frame);
                 TitleSceneImages[1].ShowBlended(x, y + 10, surface, lookupTable);
             }
             else
@@ -367,8 +368,8 @@ public partial class TitleScene : UIModule
             if (i == HitTest())
             {
                 _font.Color = 16777215;
-                var translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
-                var titleSceneImageLibrary = TitleSceneImages[10];
+                string translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
+                LibraryImage titleSceneImageLibrary = TitleSceneImages[10];
                 _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, translatedText, surface);
             }
 
@@ -488,10 +489,10 @@ public partial class TitleScene : UIModule
     {
         StringList lines;
         ResetScene();
-        var registeredTo = UI.Engine.RegisteredTo();
+        string registeredTo = UI.Engine.RegisteredTo();
         NameLabel.Text = registeredTo;
-        var versionString = UI.Engine.GetVersionString();
-        var format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
+        string versionString = UI.Engine.GetVersionString();
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
         VersionLabel.Text = format;
         _credits = new List<StringList>();
         lines = new StringList();
@@ -687,7 +688,7 @@ public partial class TitleScene : UIModule
         dialog.UI.TitleWindow.MainWindow.Visible = true;
         dialog.UI.FactionSelectionWindow.FactionPanel.Visible = true;
         dialog.TopLabel.Visible = true;
-        var chooseFaction = dialog.UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
+        string chooseFaction = dialog.UI.Engine.TranslateResourceString(LobbyText.ChooseFactionText);
         dialog.TopLabel.Text = chooseFaction;
         dialog.LightNameLabel.Visible = false;
         dialog.LightTextMemo.Visible = false;
@@ -735,8 +736,8 @@ public partial class TitleScene : UIModule
             controller.UI.Engine.CloseHsm(null);
         }
 
-        var loading = controller.UI.Engine.TranslateResourceString(s_loadingText);
-        var fileNameLocal = ExtractFileName(fileName);
+        string loading = controller.UI.Engine.TranslateResourceString(s_loadingText);
+        string fileNameLocal = ExtractFileName(fileName);
         controller.UI.ProgressDialog.TitleLabel.Text = loading + ": " + fileNameLocal + "...";
         controller.UI.ProgressDialog.StatusLabel.Text = "";
         controller.UI.ProgressDialog.ProgressBar.Position = 0;
@@ -776,7 +777,7 @@ public partial class TitleScene : UIModule
                 {
                     if (CompareText(b: controller.UI.Engine.TranslateResourceString(s_fileNotFoundText), a: StrategicMap.Current.StartupSongs.SongNames[i]) != 0)
                     {
-                        var song = StrategicMap.Current.StartupSongs.Songs[i];
+                        string song = StrategicMap.Current.StartupSongs.Songs[i];
                         AudioHost.SongPlayer.Songs.Add(song);
                     }
                 }
@@ -790,11 +791,11 @@ public partial class TitleScene : UIModule
         AudioHost.SongPlayer.Play(0);
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
         controller.UI.TaskBar.WorldStartMenuBar.Items.Clear();
-        var background = controller.UI.Engine.TranslateResourceString(s_backgroundText);
+        string background = controller.UI.Engine.TranslateResourceString(s_backgroundText);
         controller.UI.TaskBar.WorldStartMenuBar.Items.Add(background);
         if (controller.UI.Engine.Campaign != null)
         {
-            var campaign = controller.UI.Engine.TranslateResourceString(s_campaignText);
+            string campaign = controller.UI.Engine.TranslateResourceString(s_campaignText);
             controller.UI.TaskBar.WorldStartMenuBar.Items.Add(campaign);
         }
 
@@ -805,7 +806,7 @@ public partial class TitleScene : UIModule
         controller.UI.ScannerWindow.MainWindow.Visible = true;
         controller.UI.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
         controller.UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
-        var mapLevel = StrategicMap.Current.MapContainer.MapLevels[0];
+        MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[0];
         controller.UI.ScannerWindow.Scanner.SetLevel(mapLevel);
         controller.UI.TaskBar.WorldTurnButton.ButtonChecked = false;
         controller.UI.TaskBar.ChatButton.Visible = controller.UI.SetupEvents.DirectPlay.Connected;
@@ -814,17 +815,17 @@ public partial class TitleScene : UIModule
         controller.UI.ScannerWindow.Scanner.Incremental = false;
         controller.UI.ScannerWindow.Scanner.Sized = false;
         controller.UI.ScannerWindow.ScannerTabs.Items.Clear();
-        var surface = controller.UI.Engine.TranslateResourceString(s_surfaceText);
+        string surface = controller.UI.Engine.TranslateResourceString(s_surfaceText);
         controller.UI.ScannerWindow.ScannerTabs.Items.Add(surface);
         if (StrategicMap.Current.MapContainer.LevelCount > 1)
         {
-            var caverns = controller.UI.Engine.TranslateResourceString(s_cavernsText);
+            string caverns = controller.UI.Engine.TranslateResourceString(s_cavernsText);
             controller.UI.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
         if (StrategicMap.Current.MapContainer.LevelCount > 2)
         {
-            var depths = controller.UI.Engine.TranslateResourceString(s_depthsText);
+            string depths = controller.UI.Engine.TranslateResourceString(s_depthsText);
             controller.UI.ScannerWindow.ScannerTabs.Items.Add(depths);
         }
 
@@ -836,7 +837,7 @@ public partial class TitleScene : UIModule
         controller.UI.ScannerWindow.Scanner.SetTTop(-1);
         controller.UI.ScannerWindow.Scanner.UpdateStep = -1;
         controller.UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
-        var mapLevel2 = StrategicMap.Current.MapContainer.MapLevels[0];
+        MapLevel mapLevel2 = StrategicMap.Current.MapContainer.MapLevels[0];
         controller.UI.ScannerWindow.Scanner.SetLevel(mapLevel2);
         controller.UI.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
         controller.UI.MapWindow.MapViewer.SceneWidth = controller.UI.MapWindow.MainWindow.WinWidth - 24;
@@ -849,7 +850,7 @@ public partial class TitleScene : UIModule
         controller.UI.PlayerInfoWindow.UpdatePlayer();
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            var turnButton = controller.UI.TaskBar.WorldTurnButton;
+            TurnButton turnButton = controller.UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.SeatedPlayer == -1)
             {
                 turnButton.CurrentPlayer = 12;
@@ -912,7 +913,7 @@ public partial class TitleScene : UIModule
             bool condition = AudioHost.SongPlayer.CurrentIndex == -1;
             if (!condition)
             {
-                var count = AudioHost.SongPlayer.Songs.Count;
+                int count = AudioHost.SongPlayer.Songs.Count;
                 condition = AudioHost.SongPlayer.CurrentIndex >= count;
             }
 

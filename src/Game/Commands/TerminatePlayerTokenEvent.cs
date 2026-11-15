@@ -35,7 +35,7 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
     {
         MessageEventLog log = default;
         StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
-        var remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        RemotePlayerCommunicationControl remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         remotePlayerCommunicationControl.SetConnectionMode(Player, ConnectionMode.Global);
         remotePlayerCommunicationControl.SetSystemId(Player, 0);
 
@@ -50,8 +50,8 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
             log = new MessageEventLog(null, holder: CreationHolder());
             log.Buttons = MessageEventLogButtons.Ok;
             log.Layout = MessageEventLogLayout.Normal;
-            var name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_leftGameFormat), [name]);
+            string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
+            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_leftGameFormat), [name]);
             log.Message.Add(format);
             // { Append the departure message, as in the original. }
             StrategicMap.Current.TriggerExecuteEventLog(log, false, null);

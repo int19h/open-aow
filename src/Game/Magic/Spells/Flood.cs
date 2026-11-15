@@ -36,7 +36,7 @@ public partial class Flood : GlobalEnchantmentSpell
         sbyte l = default;
         TwinkleAnimation twinkle;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        var coordinate67 = source.GetLocation();
+        MapCoordinate coordinate67 = source.GetLocation();
         x = coordinate67.X;
         y = coordinate67.Y;
         l = coordinate67.MapLevel;

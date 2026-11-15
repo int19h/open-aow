@@ -25,5 +25,5 @@ public partial class RectangleList : DelphiList<Rectangle>
         public Rectangle this[int index] => target.GetRectangle(index);
     }
 
-    public RectanglesAccessor Rectangles => new RectanglesAccessor(this);
+    public RectanglesAccessor Rectangles => new(this);
 }

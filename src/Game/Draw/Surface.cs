@@ -40,7 +40,7 @@ public partial class Surface : IDisposable
                         result = e.Red + (e.Green << 8) + (e.Blue << 16);
                         break;
                     case PixelFormats.pfRGB24:
-                        var p = lockedSurface.View(X + X + X + (Y * lockedSurface.Pitch));
+                        SurfaceView p = lockedSurface.View(X + X + X + (Y * lockedSurface.Pitch));
                         result = p[2] + (p[1] << 8) + (p[0] << 16);
                         break;
                     case PixelFormats.pfRGB32:
@@ -206,19 +206,19 @@ public partial class Surface : IDisposable
         if (sourceRectangle is null)
         {
             r.Left = 0;
-            var width = GetWidth();
+            int width = GetWidth();
             r.Right = width;
             r.Top = 0;
-            var height = GetHeight();
+            int height = GetHeight();
             r.Bottom = height;
         }
         else
         {
             r = sourceRectangle.Value;
-            var width = GetWidth();
+            int width = GetWidth();
             if (r.Right > width)
             {
-                var width2 = GetWidth();
+                int width2 = GetWidth();
                 r.Right = width2;
             }
 
@@ -241,10 +241,10 @@ public partial class Surface : IDisposable
             w = w - (X + w - destination.GetWidth());
         }
 
-        var height2 = GetHeight();
+        int height2 = GetHeight();
         if (r.Bottom > height2)
         {
-            var height = GetHeight();
+            int height = GetHeight();
             r.Bottom = height;
         }
 
@@ -340,19 +340,19 @@ public partial class Surface : IDisposable
         if (sourceRectangle is null)
         {
             r.Left = 0;
-            var width = GetWidth();
+            int width = GetWidth();
             r.Right = width;
             r.Top = 0;
-            var height = GetHeight();
+            int height = GetHeight();
             r.Bottom = height;
         }
         else
         {
             r = sourceRectangle.Value;
-            var width = GetWidth();
+            int width = GetWidth();
             if (r.Right > width)
             {
-                var width2 = GetWidth();
+                int width2 = GetWidth();
                 r.Right = width2;
             }
 
@@ -375,10 +375,10 @@ public partial class Surface : IDisposable
             w = w - (X + w - destination.GetWidth());
         }
 
-        var height2 = GetHeight();
+        int height2 = GetHeight();
         if (r.Bottom > height2)
         {
-            var height = GetHeight();
+            int height = GetHeight();
             r.Bottom = height;
         }
 
@@ -423,10 +423,10 @@ public partial class Surface : IDisposable
         if (sourceRectangle is null)
         {
             r.Left = 0;
-            var width = GetWidth();
+            int width = GetWidth();
             r.Right = width;
             r.Top = 0;
-            var height = GetHeight();
+            int height = GetHeight();
             r.Bottom = height;
             sourceRectangle = r;
         }
@@ -434,10 +434,10 @@ public partial class Surface : IDisposable
         if (destinationRectangle is null)
         {
             dr.Left = 0;
-            var width = destination.GetWidth();
+            int width = destination.GetWidth();
             dr.Right = width;
             dr.Top = 0;
-            var height = destination.GetHeight();
+            int height = destination.GetHeight();
             dr.Bottom = height;
             destinationRectangle = dr;
         }
@@ -467,14 +467,14 @@ public partial class Surface : IDisposable
         bool condition = R.Left >= 0 && R.Top >= 0;
         if (condition)
         {
-            var height = GetHeight();
+            int height = GetHeight();
             condition = R.Bottom <= height;
         }
 
         bool test = condition;
         if (test)
         {
-            var width = GetWidth();
+            int width = GetWidth();
             test = R.Right <= width;
         }
 
@@ -486,10 +486,10 @@ public partial class Surface : IDisposable
                 lockedSurface.DataIndex = lockedSurface.DataIndex + (int)(((uint)(R.Left * lockedSurface.BitCount)) >> 3) + (R.Top * lockedSurface.Pitch);
                 lockedSurface.Width = R.Right - R.Left;
                 lockedSurface.Height = R.Bottom - R.Top;
-                var clipRectangle = lockedSurface.ClipRectangle;
+                Rect clipRectangle = lockedSurface.ClipRectangle;
                 clipRectangle.Right = lockedSurface.Width;
                 lockedSurface.ClipRectangle = clipRectangle;
-                var clipRectangle2 = lockedSurface.ClipRectangle;
+                Rect clipRectangle2 = lockedSurface.ClipRectangle;
                 clipRectangle2.Bottom = lockedSurface.Height;
                 lockedSurface.ClipRectangle = clipRectangle2;
             }

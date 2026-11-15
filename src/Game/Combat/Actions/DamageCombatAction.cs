@@ -168,7 +168,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes);
         if (Damage != 0)
         {
-            var executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
+            Set<DamageType> executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
             Effects = executeDamageEffectsRole;
         }
         else
@@ -176,7 +176,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
             Effects = Set<DamageType>.Of();
         }
 
-        var immunityTypes = target.GetImmunityTypes();
+        Set<DamageType> immunityTypes = target.GetImmunityTypes();
         DamageTypes = damageTypes - immunityTypes;
     }
 
@@ -188,7 +188,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes, damageMode);
         if (Damage != 0)
         {
-            var executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
+            Set<DamageType> executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
             Effects = executeDamageEffectsRole;
         }
         else
@@ -196,7 +196,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
             Effects = Set<DamageType>.Of();
         }
 
-        var immunityTypes = target.GetImmunityTypes();
+        Set<DamageType> immunityTypes = target.GetImmunityTypes();
         DamageTypes = damageTypes - immunityTypes;
     }
 

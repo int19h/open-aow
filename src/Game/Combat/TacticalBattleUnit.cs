@@ -65,7 +65,7 @@ public partial class TacticalBattleUnit : CombatUnit
             TacticalBattleBloodHexSprite blood;
             if (GetEnabled() && UnitHexSprite != null && Troop.GetBloodType() != BloodType.None)
             {
-                var hitPoints = GetHitPoints();
+                sbyte hitPoints = GetHitPoints();
                 if (damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode))
                 {
                     count = Random(5) + 10;
@@ -83,7 +83,7 @@ public partial class TacticalBattleUnit : CombatUnit
                         direction = 0;
                     }
 
-                    var hexY = UnitHexSprite.GetHexY();
+                    sbyte hexY = UnitHexSprite.GetHexY();
                     HexGeometry.CenterHexNumberToHex(UnitHexSprite.GetHexX(), hexY, direction, ref x2, ref y2);
                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType != 9)
                     {
@@ -113,14 +113,14 @@ public partial class TacticalBattleUnit : CombatUnit
                         effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
-                        var hexY = UnitHexSprite.GetHexY();
+                        sbyte hexY = UnitHexSprite.GetHexY();
                         HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out x, out y);
-                        var xyz = new Point3D();
+                        Point3D xyz = new();
                         effect.Path.Add(xyz);
-                        var path2 = effect.Path;
+                        Point3DList path2 = effect.Path;
                         path2[0].X = x + 16;
                         effect.Path = path2;
-                        var path3 = effect.Path;
+                        Point3DList path3 = effect.Path;
                         path3[0].Y = y + 8;
                         effect.Path = path3;
                         for (int j = 0; j <= 10; j++)
@@ -129,13 +129,13 @@ public partial class TacticalBattleUnit : CombatUnit
                             gravity = (float)1.5;
                             vz = (float)((Random(25) + 25) * 0.05);
                             z = 0;
-                            var count = effect.Path.Count;
-                            var path = effect.Path[count - 1];
-                            var fPathCount = effect.Path.Count;
-                            var pathZ = effect.Path[fPathCount - 1];
-                            var count2 = effect.Path.Count;
-                            var pathX = effect.Path[count2 - 1];
-                            var path4 = effect.Path;
+                            int count = effect.Path.Count;
+                            Point3D path = effect.Path[count - 1];
+                            int fPathCount = effect.Path.Count;
+                            Point3D pathZ = effect.Path[fPathCount - 1];
+                            int count2 = effect.Path.Count;
+                            Point3D pathX = effect.Path[count2 - 1];
+                            Point3DList path4 = effect.Path;
                             EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path4);
                             effect.Path = path4;
                         }
@@ -143,20 +143,20 @@ public partial class TacticalBattleUnit : CombatUnit
                 }
                 else
                 {
-                    var hexY = UnitHexSprite.GetHexY();
-                    var hexX = UnitHexSprite.GetHexX();
+                    sbyte hexY = UnitHexSprite.GetHexY();
+                    sbyte hexX = UnitHexSprite.GetHexX();
                     bool condition = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].TerrainType != 0;
                     if (condition)
                     {
-                        var fUnitHexSpriteHexY = UnitHexSprite.GetHexY();
-                        var fUnitHexSpriteHexX = UnitHexSprite.GetHexX();
+                        sbyte fUnitHexSpriteHexY = UnitHexSprite.GetHexY();
+                        sbyte fUnitHexSpriteHexX = UnitHexSprite.GetHexX();
                         condition = CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY].TerrainType != 9;
                     }
 
                     if (condition)
                     {
-                        var fUnitHexSpriteHexY = UnitHexSprite.GetHexY();
-                        var fUnitHexSpriteHexX = UnitHexSprite.GetHexX();
+                        sbyte fUnitHexSpriteHexY = UnitHexSprite.GetHexY();
+                        sbyte fUnitHexSpriteHexX = UnitHexSprite.GetHexX();
                         corpse = new TacticalBattleCorpseHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY]);
                         corpse.UnitGraphics = UnitHexSprite.UnitGraphicsResource;
                         sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
@@ -202,9 +202,9 @@ public partial class TacticalBattleUnit : CombatUnit
                     }
                 }
 
-                var hexY2 = UnitHexSprite.GetHexY();
-                var hexX2 = UnitHexSprite.GetHexX();
-                var hexY3 = UnitHexSprite.GetHexY();
+                sbyte hexY2 = UnitHexSprite.GetHexY();
+                sbyte hexX2 = UnitHexSprite.GetHexX();
+                sbyte hexY3 = UnitHexSprite.GetHexY();
                 r = new Rect(UnitHexSprite.GetHexX(), hexY3, hexX2 + 1, hexY2 + 1);
                 UnitHexSprite?.Dispose();
                 UnitHexSprite = null;
@@ -215,7 +215,7 @@ public partial class TacticalBattleUnit : CombatUnit
         {
             if (UnitHexSprite != null)
             {
-                var unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
                 UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
             }
         }
@@ -251,7 +251,7 @@ public partial class TacticalBattleUnit : CombatUnit
 
         if (GetAbilityEnabled(43))
         {
-            var hexY = UnitHexSprite.GetHexY();
+            sbyte hexY = UnitHexSprite.GetHexY();
             EffectPaths.CreateFire(false, 50, UnitHexSprite.GetHexX(), hexY, engine: GetEngine());
         }
 
@@ -285,20 +285,20 @@ public partial class TacticalBattleUnit : CombatUnit
                 break;
         }
 
-        var hexY = unitObject.UnitHexSprite.HexY;
-        var x = point.X;
-        var y = point.Y;
+        sbyte hexY = unitObject.UnitHexSprite.HexY;
+        int x = point.X;
+        int y = point.Y;
         HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out x, out y);
         point.X = x;
         point.Y = y;
         point.X = Random(10) + point.X + 11;
-        var unitSize = unitObject.Troop.GetUnitSize();
+        UnitSize unitSize = unitObject.Troop.GetUnitSize();
         point.Y = Random(10) + point.Y + 9 - ((int)unitSize * 10);
     }
 
     internal static CombatMoveTokenEvent CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
-        CombatMoveTokenEvent result = new CombatMoveTokenEvent(null) { Holder = unitObject };
+        CombatMoveTokenEvent result = new(null) { Holder = unitObject };
         if (result != null)
         {
             result.Setup(unitObject, path);
@@ -315,7 +315,7 @@ public partial class TacticalBattleUnit : CombatUnit
         CombatMoveTokenEvent eventValue;
         MovePath newPath;
         bool result = false;
-        var player = unitObject.GetPlayer();
+        sbyte player = unitObject.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
             movePoints = unitObject.MovePoints;
@@ -343,7 +343,7 @@ public partial class TacticalBattleUnit : CombatUnit
                 eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);
                 if (eventValue != null)
                 {
-                    var unitObjectPlayer = unitObject.GetPlayer();
+                    sbyte unitObjectPlayer = unitObject.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);
                     eventValue.Release();
                     result = true;

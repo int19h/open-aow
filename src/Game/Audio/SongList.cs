@@ -37,7 +37,7 @@ public partial class SongList : EngineObject
         {
             try
             {
-                var songName = AudioPlayback.GetSongName(_songs[i]);
+                string songName = AudioPlayback.GetSongName(_songs[i]);
                 _songNames.Insert(0, songName);
             }
             catch
@@ -79,7 +79,7 @@ public partial class SongList : EngineObject
 
         fullPath = AudioHost.BaseSoundEnginePath + path;
         _songs.BeginUpdate();
-        foreach (var entry in Files.FindEntries(fullPath + "*." + ext, attributes: 63 & ~16))
+        foreach (RtlFileEntry entry in Files.FindEntries(fullPath + "*." + ext, attributes: 63 & ~16))
         {
             _songs.Add(UpperCase(path + entry.Name));
         }

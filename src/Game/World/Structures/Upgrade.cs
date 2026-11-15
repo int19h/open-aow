@@ -1,6 +1,6 @@
 
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -24,7 +24,7 @@ public sealed partial record Upgrade : ProductionOrder
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return base.CanExecute(control, ref reason);
@@ -41,7 +41,7 @@ public sealed partial record Upgrade : ProductionOrder
 
     public override void Executed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;
@@ -51,14 +51,14 @@ public sealed partial record Upgrade : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.UpgradeCost();
-        var player = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        Player player = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(player.Gems - control.Settings.Gold);
         control.Status = ProductionControlStatus.Producing;
     }
 
     public override void Completed(ProductionControl control)
     {
-        var city = control.ProductionCity();
+        City city = control.ProductionCity();
         if (city == null)
         {
             return;

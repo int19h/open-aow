@@ -23,7 +23,7 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
         if (PackageDataList.Count != 0)
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
-            var size = (int)stream.Length;
+            int size = (int)stream.Length;
             Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
             PackageDataList.Delete(0);
             result = true;
@@ -62,7 +62,7 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
         base.Setup(count);
         for (int i = PlayerCommunicationSettingsList.Count - 1; i >= 0; i--)
         {
-            var localSystemId = GetLocalSystemId();
+            int localSystemId = GetLocalSystemId();
             PlayerCommunicationSettingsList.Players[i].SystemId = localSystemId;
         }
     }

@@ -15,7 +15,7 @@ public partial class BookWindow
             _pageSurface?.Dispose();
             _pageSurface = null;
         }
-        var area = new Rect(0, 0, WinWidth, WinHeight);
+        Rect area = new(0, 0, WinWidth, WinHeight);
         if (_pageSurface is null)
         {
             _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, null);
@@ -53,17 +53,17 @@ public partial class BookWindow
         _pageSurface.Unlock();
         BackSurface.Unlock();
         surface.Unlock();
-        var backRectangle = BackRectangle;
+        Rect backRectangle = BackRectangle;
         backRectangle.Top = area.Top;
         BackRectangle = backRectangle;
         // AOWTools keeps the area above the window intact
         if (BackRectangle.Top >= WinTop && BackRectangle.Top <= WinTop + FrameTop)
         {
-            var backRectangle2 = BackRectangle;
+            Rect backRectangle2 = BackRectangle;
             backRectangle2.Top = WinTop - 1;
             BackRectangle = backRectangle2;
         }
-        var backRectangle3 = BackRectangle;
+        Rect backRectangle3 = BackRectangle;
         backRectangle3.Bottom = WinTop - area.Top + WinHeight;
         BackRectangle = backRectangle3;
         SurfaceValid = true;

@@ -145,9 +145,9 @@ public sealed partial class SpellConstructionTests
     [InlineData(typeof(PoisonPlantSpell))]
     public void ConvertedGlobalTargetDescendantsUseCompletedConstruction(Type type)
     {
-        using var fixture = new Fixture();
-        var owner = new SpellOwner();
-        var raw = (Spell)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
+        using Fixture fixture = new();
+        SpellOwner owner = new();
+        Spell raw = (Spell)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
         Assert.IsType(type, raw);
         Assert.NotNull(raw.SpellText);
         try

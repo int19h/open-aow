@@ -22,13 +22,13 @@ public partial class TokenManager : IDisposable
     public event NetworkMessageEvent OnMessage;
 
     // NetworkE.pas:1642
-    public virtual TokenExecutor CreateTokenExecutor() => new TokenExecutor(this);
+    public virtual TokenExecutor CreateTokenExecutor() => new(this);
 
     // NetworkE.pas:1647
-    public virtual TokenPackageDistributor CreateTokenPackageDistributor() => new TokenPackageDistributor(this);
+    public virtual TokenPackageDistributor CreateTokenPackageDistributor() => new(this);
 
     // NetworkE.pas:1652
-    public virtual TokenControl CreateTokenControl(int player) => new TokenControl(this, player);
+    public virtual TokenControl CreateTokenControl(int player) => new(this, player);
 
     // NetworkE.pas:1628
     public virtual void Initialize(PlayerCommunicator pc)
@@ -66,7 +66,7 @@ public partial class TokenManager : IDisposable
             bool condition = _tokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
             if (!condition)
             {
-                var item = _tokenControls[player];
+                TokenControl item = _tokenControls[player];
                 condition = _tokenExecutor.PrefetchTacticalBattle == item && _tokenExecutor.State.Contains(TokenExecutorState.Executing);
             }
 
@@ -97,7 +97,7 @@ public partial class TokenManager : IDisposable
                 _tokenControls.Add(null);
             }
 
-            var createTokenControl = CreateTokenControl(player);
+            TokenControl createTokenControl = CreateTokenControl(player);
             _tokenControls[player] = createTokenControl;
         }
     }
@@ -175,7 +175,7 @@ public partial class TokenManager : IDisposable
         public TokenControl this[int player] => target.GetTokenControl(player);
     }
 
-    public TokenControlsAccessor TokenControls => new TokenControlsAccessor(this);
+    public TokenControlsAccessor TokenControls => new(this);
 
     public delegate void NetworkMessageEvent(object Sender, string Msg);
 

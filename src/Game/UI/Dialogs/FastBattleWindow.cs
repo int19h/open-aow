@@ -5,6 +5,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
@@ -120,7 +121,7 @@ public partial class FastBattleWindow : UIModule
                         pixelY += 38;
                     }
 
-                    var combatObject = combat.CombatData.GetObjects(i);
+                    CombatObject combatObject = combat.CombatData.GetObjects(i);
                     _viewer.ShowFieldObject(combatObject, _animationFrame, 3, pixelX, pixelY, surface);
                 }
             }
@@ -220,7 +221,7 @@ public partial class FastBattleWindow : UIModule
             GamePack.Current.CombatImages[image + 1].Show(X + 372, Y + 342, surface);
         }
 
-        var combatData = _viewer.Combat.CombatData;
+        CombatData combatData = _viewer.Combat.CombatData;
         if (combatData.WallType != 0)
         {
             wall = combatData.Wall;
@@ -295,7 +296,7 @@ public partial class FastBattleWindow : UIModule
         }
         else
         {
-            var player = data.Players.GetPlayers(data.AttackerPlayer);
+            CombatPlayer player = data.Players.GetPlayers(data.AttackerPlayer);
             left = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
@@ -319,7 +320,7 @@ public partial class FastBattleWindow : UIModule
         }
         else
         {
-            var player = data.Players.GetPlayers(data.DefenderPlayer);
+            CombatPlayer player = data.Players.GetPlayers(data.DefenderPlayer);
             right = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
@@ -417,7 +418,7 @@ public partial class FastBattleWindow : UIModule
                     SequencePositionSlider.Position = _viewer.Position;
                 }
 
-                var clipRectangle = lockedSurface.ClipRectangle;
+                Rect clipRectangle = lockedSurface.ClipRectangle;
                 clipRectangle.Top = MainWindow.WinTop + 24;
                 lockedSurface.ClipRectangle = clipRectangle;
                 DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, ref lockedSurface);
@@ -475,7 +476,7 @@ public partial class FastBattleWindow : UIModule
                     }
 
                     {
-                        var endPosition = _viewer.GetEndPosition();
+                        int endPosition = _viewer.GetEndPosition();
                         if (_viewer.Position >= endPosition)
                         {
                             SetPhase(2);
@@ -717,34 +718,34 @@ public partial class FastBattleWindow : UIModule
             // { Original refreshes both side labels inside the party loop. }
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player == 0)
             {
-                var independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
+                string independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
                 dialog.LeftSideLabel.Text = independents;
             }
             else
             {
-                var player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
+                CombatPlayer player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
                 raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                var raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
+                RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
                 dialog.LeftSideLabel.Text = raceResource.RaceName;
             }
 
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).Player == 0)
             {
-                var independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
+                string independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
                 dialog.RightSideLabel.Text = independents;
             }
             else
             {
-                var player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
+                CombatPlayer player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
                 raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                var raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
+                RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
                 dialog.RightSideLabel.Text = raceResource.RaceName;
             }
         }
 
         dialog._viewer.Play();
         dialog.MainWindow.Drawn = false;
-        var endPosition = dialog._viewer.GetEndPosition();
+        int endPosition = dialog._viewer.GetEndPosition();
         dialog.SequencePositionSlider.Max = endPosition;
         dialog.SequenceSpeedSlider.Position = 20 - dialog._viewer.Delay;
         if (dialog._viewer.GetEndPosition() != -1)

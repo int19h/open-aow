@@ -43,13 +43,13 @@ public partial class TransportAIGroupControl : AIGroupControl
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
         SetupCP(target);
-        var execute = CombatPredictor.Execute();
+        CombatResult execute = CombatPredictor.Execute();
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
         {
             if (CombatPredictor.GetEfficiency() > 75)
             {
-                var efficiency = CombatPredictor.GetEfficiency();
-                var data = target.Data;
+                int efficiency = CombatPredictor.GetEfficiency();
+                AITargetData data = target.Data;
                 data.Priority = efficiency + ((data.Priority * 100) - (target.MovePoints * 5));
                 target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
@@ -78,8 +78,8 @@ public partial class TransportAIGroupControl : AIGroupControl
                 {
                     Targets.SortOnPriority();
                     SetupME();
-                    var targetLocation = Targets.GetTargets(0);
-                    var target = Targets.GetTargets(0);
+                    AIGroupControlTarget targetLocation = Targets.GetTargets(0);
+                    AIGroupControlTarget target = Targets.GetTargets(0);
                     ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
                     Targets.Delete(0);
                 }
@@ -118,13 +118,13 @@ public partial class TransportAIGroupControl : AIGroupControl
                 bool condition = transporter != army.Units.GetUnit(i);
                 if (condition)
                 {
-                    var troop = army.Units.GetUnit(i);
+                    Troop troop = army.Units.GetUnit(i);
                     condition = MoveExecutor.Units.IndexOfUnit(troop) == -1;
                 }
 
                 if (condition)
                 {
-                    var troop = army.Units.GetUnit(i);
+                    Troop troop = army.Units.GetUnit(i);
                     MoveExecutor.AddUnit(troop);
                 }
             }

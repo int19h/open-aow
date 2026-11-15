@@ -98,14 +98,14 @@ public partial class WatcherHexSprite : SingleHexSprite
         bool condition = StrategicMap.Current.ViewMapLevel == HexLevel;
         if (condition)
         {
-            var hexY = HexY;
-            var hexX = HexX;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             condition = StrategicMap.Current.Visible(hexX, hexY, HexLevel, 0);
         }
 
         if (condition)
         {
-            var hexY = HexY;
+            sbyte hexY = HexY;
             HexGeometry.HexToPixel(HexX, hexY, out x, out y);
             x = x - pixelXSurface + 16;
             y = y - pixelYSurface + 16;
@@ -122,7 +122,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == HexLevel)
                 {
                     intensity = 100 - _animationFrame;
-                    var hexY2 = HexY;
+                    sbyte hexY2 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY2, out x, out y);
                     x = x - pixelXSurface - 8;
                     y = y - pixelYSurface;
@@ -178,7 +178,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         int ownerPlayer;
-        ref var mapFieldMessage = ref message;
+        ref MapFieldMessage mapFieldMessage = ref message;
         base.MapFieldMessageProc(ref message);
         if (mapFieldMessage.MessageId == 4363)
         {
@@ -187,7 +187,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 ownerPlayer = Enchantment.PlayerIndex;
                 if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMessage.Param[1].Int) == 2)
                 {
-                    var visibilityRange = VisibilityRange();
+                    int visibilityRange = VisibilityRange();
                     if (mapFieldMessage.Param[0].Int <= visibilityRange)
                     {
                         mapFieldMessage.Result = 1;
@@ -203,7 +203,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 ownerPlayer = Enchantment.PlayerIndex;
                 if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMessage.Param[1].Int) == 2)
                 {
-                    var visibilityRange = VisibilityRange();
+                    int visibilityRange = VisibilityRange();
                     if (mapFieldMessage.Param[0].Int <= visibilityRange)
                     {
                         mapFieldMessage.Result = 1;
@@ -231,12 +231,12 @@ public partial class WatcherHexSprite : SingleHexSprite
         base.Activate();
         WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
         Enchantment.Activate(Enchantment.PlayerIndex);
-        var mapField = Owner;
+        MapField mapField = Owner;
         StrategicMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, mapField.HexLevel);
 
         mapFieldLocal = Owner;
-        var visibilityRange = VisibilityRange();
-        var visibilityRange2 = VisibilityRange();
+        int visibilityRange = VisibilityRange();
+        int visibilityRange2 = VisibilityRange();
         StrategicMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, mapFieldLocal.HexX, mapFieldLocal.HexY, mapFieldLocal.HexLevel, visibilityRange, visibilityRange2);
         UpdateExploration();
         UpdateUnfog();
@@ -280,7 +280,7 @@ public partial class WatcherHexSprite : SingleHexSprite
             level = StrategicMap.Current.MapContainer.MapLevels[layer];
             while (true)
             {
-                var visibilityRange = VisibilityRange();
+                int visibilityRange = VisibilityRange();
                 if (!(walk.Radius <= visibilityRange))
                 {
                     break;
@@ -318,9 +318,9 @@ public partial class WatcherHexSprite : SingleHexSprite
                 ownerPlayer = Enchantment.PlayerIndex;
                 if (ownerPlayer == i || (byte)StrategicMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)i) == 2)
                 {
-                    var visibilityRange = VisibilityRange();
-                    var hexY = HexY;
-                    var hexX = HexX;
+                    int visibilityRange = VisibilityRange();
+                    sbyte hexY = HexY;
+                    sbyte hexX = HexX;
                     StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)i, visibilityRange);
                 }
             }
@@ -344,16 +344,16 @@ public partial class WatcherHexSprite : SingleHexSprite
         {
             if (_unfogRadius != 0)
             {
-                var hexY = HexY;
-                var hexX = HexX;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 StrategicMap.Current.FogArea(hexX, hexY, HexLevel, _unfogRadius);
             }
 
             _unfogRadius = (byte)radius;
             if (_unfogRadius != 0)
             {
-                var hexY = HexY;
-                var hexX = HexX;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 StrategicMap.Current.UnFogArea(hexX, hexY, HexLevel, _unfogRadius);
             }
         }

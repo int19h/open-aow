@@ -59,7 +59,7 @@ public partial class CombatChoice : ILayoutModule
         Window.WinHeight = 350;
         Window.Dockable = false;
         session.EndRead(Window);
-        Label dTitle = new Label(this);
+        Label dTitle = new(this);
         session.BeginRead(dTitle);
         dTitle.Name = "DTitle";
         dTitle.Priority = 0;
@@ -82,7 +82,7 @@ public partial class CombatChoice : ILayoutModule
         dTitle.Text = "Combat Selection";
         dTitle.TextColor = 0;
         session.EndRead(dTitle);
-        Label dMessage = new Label(this);
+        Label dMessage = new(this);
         session.BeginRead(dMessage);
         dMessage.Name = "DMessage";
         dMessage.Priority = 555;
@@ -175,7 +175,7 @@ public partial class CombatChoice : ILayoutModule
         CancelButton.WinWidth = 130;
         CancelButton.OnClick += _ => CancelBtnClick();
         session.EndRead(CancelButton);
-        Frame bCeltL = new Frame(this);
+        Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
         bCeltL.Name = "BCeltL";
         bCeltL.Priority = 0;
@@ -202,7 +202,7 @@ public partial class CombatChoice : ILayoutModule
         bCeltL.ImageLibraryIndexLine = 55;
         bCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(bCeltL);
-        Frame tCeltL = new Frame(this);
+        Frame tCeltL = new(this);
         session.BeginRead(tCeltL);
         tCeltL.Name = "TCeltL";
         tCeltL.Priority = 0;
@@ -229,7 +229,7 @@ public partial class CombatChoice : ILayoutModule
         tCeltL.ImageLibraryIndexLine = 55;
         tCeltL.ImageLibraryIndexTexture = 0;
         session.EndRead(tCeltL);
-        Image tCeltLineL = new Image(this);
+        Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);
         tCeltLineL.Name = "TCeltLineL";
         tCeltLineL.Priority = 100;
@@ -257,7 +257,7 @@ public partial class CombatChoice : ILayoutModule
         tCeltLineL.Animate = false;
         tCeltLineL.AnimationFrameDelay = 0;
         session.EndRead(tCeltLineL);
-        Image image1 = new Image(this);
+        Image image1 = new(this);
         session.BeginRead(image1);
         image1.Name = "AOWImage1";
         image1.Priority = 100;
@@ -285,7 +285,7 @@ public partial class CombatChoice : ILayoutModule
         image1.Animate = false;
         image1.AnimationFrameDelay = 0;
         session.EndRead(image1);
-        Image image2 = new Image(this);
+        Image image2 = new(this);
         session.BeginRead(image2);
         image2.Name = "AOWImage2";
         image2.Priority = 100;
@@ -313,7 +313,7 @@ public partial class CombatChoice : ILayoutModule
         image2.Animate = false;
         image2.AnimationFrameDelay = 0;
         session.EndRead(image2);
-        Label tactical = new Label(this);
+        Label tactical = new(this);
         session.BeginRead(tactical);
         tactical.Name = "Tactical";
         tactical.Priority = 0;
@@ -336,7 +336,7 @@ public partial class CombatChoice : ILayoutModule
         tactical.Text = "Tactical";
         tactical.TextColor = 13165253;
         session.EndRead(tactical);
-        Label automatic = new Label(this);
+        Label automatic = new(this);
         session.BeginRead(automatic);
         automatic.Name = "Automatic";
         automatic.Priority = 0;
@@ -396,7 +396,7 @@ public partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.RadioIndex = 1;
         TacticalCombatCheckBox.OnDoubleClick += TCchkDoubleClick;
         session.EndRead(TacticalCombatCheckBox);
-        CheckBox fCchk = new CheckBox(this);
+        CheckBox fCchk = new(this);
         session.BeginRead(fCchk);
         fCchk.Name = "FCchk";
         fCchk.Priority = 0;
@@ -433,7 +433,7 @@ public partial class CombatChoice : ILayoutModule
         fCchk.RadioIndex = 1;
         fCchk.OnDoubleClick += FCchkDoubleClick;
         session.EndRead(fCchk);
-        Panel mapViewPnl = new Panel(this);
+        Panel mapViewPnl = new(this);
         session.BeginRead(mapViewPnl);
         mapViewPnl.Name = "MapViewPnl";
         mapViewPnl.Visible = false;
@@ -486,7 +486,7 @@ public partial class CombatChoice : ILayoutModule
         MapView.WinWidth = 381;
         MapView.WinHeight = 114;
         session.EndRead(MapView);
-        Image infoSep = new Image(this);
+        Image infoSep = new(this);
         session.BeginRead(infoSep);
         infoSep.Name = "InfoSep";
         infoSep.Priority = 1500;
@@ -514,7 +514,7 @@ public partial class CombatChoice : ILayoutModule
         infoSep.Animate = false;
         infoSep.AnimationFrameDelay = 0;
         session.EndRead(infoSep);
-        LayoutIvTranslator translator = new LayoutIvTranslator(this);
+        LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";

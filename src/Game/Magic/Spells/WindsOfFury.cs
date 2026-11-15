@@ -20,7 +20,7 @@ public partial class WindsOfFury : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_windsOfFuryText);
         SpellId = 126;
-        var spellCombatInfo = CombatInfo;
+        SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);

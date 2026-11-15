@@ -73,7 +73,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
 
         if (races.Count != 0)
         {
-            var random = Random(races.Count);
+            int random = Random(races.Count);
             result = races.List[random].RaceIndex;
         }
         else
