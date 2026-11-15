@@ -134,7 +134,9 @@ public partial class Edit : Control
                 if (Window.WinLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
                     var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
-                    lockedSurface.ClipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
+                    var clipRectangle = lockedSurface.ClipRectangle;
+                    clipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
+                    lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 base.Font.Color = Color;

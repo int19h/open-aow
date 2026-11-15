@@ -7,14 +7,14 @@ namespace Aow.Game.World.Movement;
 //     ring after ring, 6 * Radius hexagons on ring Radius }
 public struct HexNumberWalkData
 {
-    public int Side;
-    public int Step;
-    public int HexNumber;
-    public int Radius;
-    public int X;
-    public int Y;
-    public int CenterX;
-    public int CenterY;
+    public int Side { get; private set; }
+    public int Step { get; private set; }
+    public int HexNumber { get; private set; }
+    public int Radius { get; private set; }
+    public int X { get; private set; }
+    public int Y { get; private set; }
+    public int CenterX { get; internal set; }
+    public int CenterY { get; internal set; }
 
     internal static void WalkToNextHexNumber(ref HexNumberWalkData walk)
     {
@@ -44,6 +44,8 @@ public struct HexNumberWalkData
 
     internal static void InitializeHexNumberWalk(out HexNumberWalkData walk, int hexX, int hexY, int radius)
     {
+        // The out value is assigned before its members are written.
+        walk = default;
         if (radius == 0)
         {
             walk.HexNumber = 0;

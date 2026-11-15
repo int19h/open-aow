@@ -40,7 +40,9 @@ public partial class MagicSanctuary : Structure
         {
             if (message.MessageId == 4393)
             {
-                message.Param[0] = 1;
+                var param = message.Param;
+                param[0] = 1;
+                message.Param = param;
             }
         }
     }

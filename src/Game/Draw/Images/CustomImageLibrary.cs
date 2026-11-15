@@ -372,7 +372,9 @@ public partial class CustomImageLibrary : Component
                 {
                     stream.Write(Bytes.Of(ref i, 4));
                     LibraryImage.WriteImageToStream(Images[i].Image, stream, swap);
-                    stream.Write(Bytes.Of(ref Images[i].Reference, 4));
+                    var reference = Images[i].Reference;
+                    stream.Write(Bytes.Of(ref reference, 4));
+                    Images[i].Reference = reference;
                 }
             }
 
@@ -1281,7 +1283,7 @@ public partial class CustomImageLibrary : Component
     {
         public LibraryImage Image { get; set; }
 
-        public int Reference;
+        public int Reference { get; internal set; }
     }
 
 }

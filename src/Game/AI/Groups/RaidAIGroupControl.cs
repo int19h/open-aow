@@ -45,7 +45,9 @@ public partial class RaidAIGroupControl : AIGroupControl
             if (CombatPredictor.GetEfficiency() > 0)
             {
                 var efficiency = CombatPredictor.GetEfficiency();
-                target.Data.Priority = efficiency / 10 + (target.Data.Priority * 100 - target.MovePoints * 5);
+                var data = target.Data;
+                data.Priority = efficiency / 10 + (data.Priority * 100 - target.MovePoints * 5);
+                target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }
@@ -59,7 +61,9 @@ public partial class RaidAIGroupControl : AIGroupControl
                 var finder = new AIGroupTargetFinder(null!) { Holder = CreationHolder() };
                 finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
-                finder.Selector.TargetInfo.Mode = AITargetMode.Raid;
+                var targetInfo = finder.Selector.TargetInfo;
+                targetInfo.Mode = AITargetMode.Raid;
+                finder.Selector.TargetInfo = targetInfo;
                 ActivatePlugin(finder);
                 finder.Release();
                 State++;

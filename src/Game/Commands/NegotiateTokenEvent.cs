@@ -39,7 +39,8 @@ public partial class NegotiateTokenEvent : TokenEvent
     public sbyte Player { get; set; }
 
     private byte _ownerPlayer;
-    public ArmyHexSprite ArmyHexSprite;
+
+    public ArmyHexSprite ArmyHexSprite { get; private set; }
 
     public NegotiateObject Object { get; set; }
     public int MovePoints { get; set; }
@@ -102,7 +103,9 @@ public partial class NegotiateTokenEvent : TokenEvent
         if (Validate())
         {
             message.MessageId = 4367;
-            message.Param[0] = this;
+            var param = message.Param;
+            param[0] = this;
+            message.Param = param;
             message.Result = 0;
             StrategicMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel).SendMapFieldMessage(ref message);
         }
@@ -118,7 +121,9 @@ public partial class NegotiateTokenEvent : TokenEvent
         id = ArmyId;
         if (id != null)
         {
-            result = id.RetrieveArmy(ref ArmyHexSprite, ref _selection);
+            var armyHexSprite = ArmyHexSprite;
+            result = id.RetrieveArmy(ref armyHexSprite, ref _selection);
+            ArmyHexSprite = armyHexSprite;
         }
         else
         {

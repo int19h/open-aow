@@ -42,12 +42,13 @@ public partial class AIGroupControl : EngineObject
     public AIGroup Group { get; set; }
 
     private Set<StatusElement> _status;
-    public MapCoordinate Location;
-    public Army Army;
+
+    public MapCoordinate Location { get; private set; }
+    public Army Army { get; private set; }
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
 
-    public byte Selection;
+    public byte Selection { get; private set; }
 
     public AIGroupControlTargetList Targets { get; }
 
@@ -55,7 +56,8 @@ public partial class AIGroupControl : EngineObject
 
     public int StrengthMax { get; private set; }
 
-    public MovePointTable MovePointTable;
+    public MovePointTable MovePointTable { get; private set; }
+
     private Set<DamageType> _immunityTypes;
 
     public CombatPredictor CombatPredictor { get; }
@@ -139,7 +141,11 @@ public partial class AIGroupControl : EngineObject
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
-                RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out Army, out Selection);
+                var army = Army;
+                var selection = Selection;
+                RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out army, out selection);
+                Army = army;
+                Selection = selection;
                 UpdateGroupChanges();
                 result = true;
             }
@@ -331,11 +337,15 @@ public partial class AIGroupControl : EngineObject
             Array.Clear(_strength);
             if (Group.Units.Count != 0)
             {
-                MovePointTable.Fill(1);
+                var movePointTable2 = MovePointTable;
+                movePointTable2.Fill(1);
+                MovePointTable = movePointTable2;
             }
             else
             {
-                MovePointTable.Fill(-1);
+                var movePointTable3 = MovePointTable;
+                movePointTable3.Fill(-1);
+                MovePointTable = movePointTable3;
             }
 
             for (int i = Group.Units.Count - 1; i >= 0; i--)
@@ -343,7 +353,9 @@ public partial class AIGroupControl : EngineObject
                 troop = Group.Units.GetUnit(i);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(out movePointTable);
-                MovePointTable.Maximize(movePointTable);
+                var movePointTable4 = MovePointTable;
+                movePointTable4.Maximize(movePointTable);
+                MovePointTable = movePointTable4;
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
                     damageType = (DamageType)damageTypeOrdinal;

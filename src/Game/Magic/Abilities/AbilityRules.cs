@@ -808,8 +808,12 @@ public static class AbilityRules
         };
         var mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(level);
         var message = new MapFieldMessage { MessageId = 0x1151 };
-        message.Param[0] = (int)storm;
-        message.Param[2] = query;
+        var param = message.Param;
+        param[0] = (int)storm;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[2] = query;
+        message.Param = param2;
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
         try
@@ -818,7 +822,9 @@ public static class AbilityRules
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    message.Param[1] = walk.Radius;
+                    var param3 = message.Param;
+                    param3[1] = walk.Radius;
+                    message.Param = param3;
                     mapLevel.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
                 }
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -838,14 +844,20 @@ public static class AbilityRules
         MapLevel level;
         level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
         message.MessageId = 4432;
-        message.Param[0] = (int)storm;
-        message.Param[2] = player;
+        var param = message.Param;
+        param[0] = (int)storm;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[2] = player;
+        message.Param = param2;
         HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
         while (walk.Radius <= outerRadius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                message.Param[1] = walk.Radius;
+                var param3 = message.Param;
+                param3[1] = walk.Radius;
+                message.Param = param3;
                 level.Field[walk.X, walk.Y].SendMapFieldMessage(ref message);
             }
 

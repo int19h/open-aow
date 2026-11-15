@@ -20,8 +20,8 @@ public partial class MapWindow : UIModule
     public Window MainWindow { get; set; }
     public HexSpriteMapViewer MapViewer { get; set; }
 
-    public Rect WorldRectangle;
-    public Rect MapRectangle;
+    public Rect WorldRectangle { get; internal set; }
+    public Rect MapRectangle { get; internal set; }
 
     public AlignWidth WorldAlignWidth { get; set; }
     public AlignWidth MapAlignWidth { get; set; }

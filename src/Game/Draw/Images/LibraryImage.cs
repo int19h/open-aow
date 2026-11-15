@@ -39,7 +39,8 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     private int _yshift;
     private string _fileName = "";
     private int _fileIndex;
-    internal ShowInfo ShowInfoValue;
+
+    internal ShowInfo ShowInfoValue { get; set; }
 
     // ImageLib.pas:1613
     public virtual void SetOwner(CustomImageLibrary owner)
@@ -125,10 +126,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1640
     public virtual void GetVisualDimensions(out Rect R)
     {
-        R.Left = 0;
-        R.Right = _width;
-        R.Top = 0;
-        R.Bottom = _height;
+        R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
     }
 
     // ImageLib.pas:1702
@@ -161,7 +159,9 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
         if (_version >= 3)
         {
-            ShowInfoValue.ReadImage(stream, false);
+            var showInfoValue = ShowInfoValue;
+            showInfoValue.ReadImage(stream, false);
+            ShowInfoValue = showInfoValue;
         }
     }
 
@@ -182,7 +182,9 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         stream.Write(Bytes.Of(ref _dataPosition, 4));
         stream.Write(Bytes.Of(ref _width, 4));
         stream.Write(Bytes.Of(ref _height, 4));
-        ShowInfoValue.WriteImage(stream, false);
+        var showInfoValue = ShowInfoValue;
+        showInfoValue.WriteImage(stream, false);
+        ShowInfoValue = showInfoValue;
     }
 
     // ImageLib.pas:1747
@@ -306,8 +308,12 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         _dataPosition = -1;
         _reloadingEnabled = false;
         _loadMode = LoadMode.LoadOnDemand;
-        ShowInfoValue.ShowMode = ShowMode.Opaque;
-        ShowInfoValue.BlendMode = BlendMode.Alpha;
+        var showInfoValue = ShowInfoValue;
+        showInfoValue.ShowMode = ShowMode.Opaque;
+        ShowInfoValue = showInfoValue;
+        var showInfoValue2 = ShowInfoValue;
+        showInfoValue2.BlendMode = BlendMode.Alpha;
+        ShowInfoValue = showInfoValue2;
         SetOwner(owner);
     }
 
@@ -586,10 +592,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1648
     public void GetDimensions(out Rect R)
     {
-        R.Left = 0;
-        R.Right = _width;
-        R.Top = 0;
-        R.Bottom = _height;
+        R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
     }
 
     // ImageLib.pas:2061

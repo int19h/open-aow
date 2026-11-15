@@ -32,7 +32,9 @@ public partial class UnitResource : TroopResource
         {
             rank = (Unit.Rank)rankOrdinal;
             var unitResourceAbilityOwner = new UnitResourceAbilityOwner(null) { Holder = CreationHolder() };
-            Abilities[(int)rank] = unitResourceAbilityOwner;
+            var abilities = Abilities;
+            abilities[(int)rank] = unitResourceAbilityOwner;
+            Abilities = abilities;
         }
 
         Moves = 16;
@@ -49,7 +51,8 @@ public partial class UnitResource : TroopResource
 
     public sbyte Race { get; set; }
 
-    public bool Champion;
+    public bool Champion { get; internal set; }
+
     private string _nickname = "";
 
     public Alignment Alignment { get; private set; }
@@ -63,7 +66,8 @@ public partial class UnitResource : TroopResource
     public UnitType UnitType { get; private set; }
     public UnitGender Gender { get; private set; }
 
-    public readonly AbilityOwnerArray3 Abilities;
+    public AbilityOwnerArray3 Abilities { get; }
+
     private byte _transportCapacity;
 
     public StringList Description { get; }

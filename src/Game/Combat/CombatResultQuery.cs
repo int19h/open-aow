@@ -3,5 +3,5 @@ namespace Aow.Game.Combat;
 
 public sealed class CombatResultQuery
 {
-    public string Text = "";
+    public string Text { get; internal set; } = "";
 }

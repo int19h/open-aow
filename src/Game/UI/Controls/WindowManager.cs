@@ -255,10 +255,18 @@ public partial class WindowManager : UIComponent
                                     }
                                 }
 
-                                c.BackRectangle.Top = c.WinTop;
-                                c.BackRectangle.Left = c.WinLeft;
-                                c.BackRectangle.Right = c.WinWidth;
-                                c.BackRectangle.Bottom = c.WinHeight;
+                                var backRectangle = c.BackRectangle;
+                                backRectangle.Top = c.WinTop;
+                                c.BackRectangle = backRectangle;
+                                var backRectangle2 = c.BackRectangle;
+                                backRectangle2.Left = c.WinLeft;
+                                c.BackRectangle = backRectangle2;
+                                var backRectangle3 = c.BackRectangle;
+                                backRectangle3.Right = c.WinWidth;
+                                c.BackRectangle = backRectangle3;
+                                var backRectangle4 = c.BackRectangle;
+                                backRectangle4.Bottom = c.WinHeight;
+                                c.BackRectangle = backRectangle4;
                             }
                         }
                     }
@@ -288,24 +296,36 @@ public partial class WindowManager : UIComponent
                         d = DrawList[j];
                         if (WinLeft > d.Rectangle.Left)
                         {
-                            d.Rectangle.Left = WinLeft;
+                            var rectangle3 = d.Rectangle;
+                            rectangle3.Left = WinLeft;
+                            d.Rectangle = rectangle3;
                         }
 
                         if (WinTop > d.Rectangle.Top)
                         {
-                            d.Rectangle.Top = WinTop;
+                            var rectangle4 = d.Rectangle;
+                            rectangle4.Top = WinTop;
+                            d.Rectangle = rectangle4;
                         }
 
-                        d.Rectangle.Right += 1;
-                        d.Rectangle.Bottom += 1;
+                        var rectangle5 = d.Rectangle;
+                        rectangle5.Right += 1;
+                        d.Rectangle = rectangle5;
+                        var rectangle6 = d.Rectangle;
+                        rectangle6.Bottom += 1;
+                        d.Rectangle = rectangle6;
                         if (WinLeft + WinWidth < d.Rectangle.Right)
                         {
-                            d.Rectangle.Right = WinLeft + WinWidth;
+                            var rectangle7 = d.Rectangle;
+                            rectangle7.Right = WinLeft + WinWidth;
+                            d.Rectangle = rectangle7;
                         }
 
                         if (WinTop + WinHeight < d.Rectangle.Bottom)
                         {
-                            d.Rectangle.Bottom = WinTop + WinHeight;
+                            var rectangle8 = d.Rectangle;
+                            rectangle8.Bottom = WinTop + WinHeight;
+                            d.Rectangle = rectangle8;
                         }
 
                         var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
@@ -317,7 +337,9 @@ public partial class WindowManager : UIComponent
                             _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                         }
 
-                        InvalidateRectangle(0, ref d.Rectangle, null);
+                        var rectangle9 = d.Rectangle;
+                        InvalidateRectangle(0, ref rectangle9, null);
+                        d.Rectangle = rectangle9;
                     }
 
                     DrawCount = 0;
@@ -349,7 +371,9 @@ public partial class WindowManager : UIComponent
                     for (int j = 0, lastJ = BlitCount - 1; j <= lastJ; j++)
                     {
                         d = BlitList[j];
-                        InvalidateRectangle(i + 1, ref d.Rectangle, null);
+                        var rectangle10 = d.Rectangle;
+                        InvalidateRectangle(i + 1, ref rectangle10, null);
+                        d.Rectangle = rectangle10;
                     }
 
                     if (_drawOverlay && c.Priority < _overlayPriority)
@@ -361,24 +385,36 @@ public partial class WindowManager : UIComponent
                                 d = BlitList[j];
                                 if (c.WinLeft > d.Rectangle.Left)
                                 {
-                                    d.Rectangle.Left = c.WinLeft;
+                                    var rectangle11 = d.Rectangle;
+                                    rectangle11.Left = c.WinLeft;
+                                    d.Rectangle = rectangle11;
                                 }
 
                                 if (c.WinTop > d.Rectangle.Top)
                                 {
-                                    d.Rectangle.Top = c.WinTop;
+                                    var rectangle12 = d.Rectangle;
+                                    rectangle12.Top = c.WinTop;
+                                    d.Rectangle = rectangle12;
                                 }
 
-                                d.Rectangle.Right += 1;
-                                d.Rectangle.Bottom += 1;
+                                var rectangle13 = d.Rectangle;
+                                rectangle13.Right += 1;
+                                d.Rectangle = rectangle13;
+                                var rectangle14 = d.Rectangle;
+                                rectangle14.Bottom += 1;
+                                d.Rectangle = rectangle14;
                                 if (c.WinLeft + c.WinWidth < d.Rectangle.Right)
                                 {
-                                    d.Rectangle.Right = c.WinLeft + c.WinWidth;
+                                    var rectangle15 = d.Rectangle;
+                                    rectangle15.Right = c.WinLeft + c.WinWidth;
+                                    d.Rectangle = rectangle15;
                                 }
 
                                 if (c.WinTop + c.WinHeight < d.Rectangle.Bottom)
                                 {
-                                    d.Rectangle.Bottom = c.WinTop + c.WinHeight;
+                                    var rectangle16 = d.Rectangle;
+                                    rectangle16.Bottom = c.WinTop + c.WinHeight;
+                                    d.Rectangle = rectangle16;
                                 }
 
                                 var rectangle = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);

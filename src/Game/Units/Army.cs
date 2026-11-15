@@ -428,7 +428,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             level = StrategicMap.Current.MapContainer.MapLevels[MapLevel];
             message.MessageId = 4363;
             message.Result = 0;
-            message.Param[1] = player;
+            var param = message.Param;
+            param[1] = player;
+            message.Param = param;
             HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (result && walk.Radius < 8)
             {
@@ -437,7 +439,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
                     field = level.GetField(walk.X, walk.Y);
                     if ((field.FieldFlags & MapField.ViewerFlag) != 0)
                     {
-                        message.Param[0] = walk.Radius;
+                        var param2 = message.Param;
+                        param2[0] = walk.Radius;
+                        message.Param = param2;
                         field.SendMapFieldMessage(ref message);
                         result = message.Result.Int == 0;
                     }

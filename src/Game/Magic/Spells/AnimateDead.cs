@@ -19,12 +19,14 @@ public partial class AnimateDead : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateDeadText);
         SpellId = 130;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:2079

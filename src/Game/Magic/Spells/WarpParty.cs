@@ -80,7 +80,9 @@ public partial class WarpParty : Spell
         if (result)
         {
             message.MessageId = 4384;
-            message.Param[0] = army;
+            var param = message.Param;
+            param[0] = army;
+            message.Param = param;
             message.Result = 0;
             field.SendMapFieldMessage(ref message);
             result = message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
@@ -153,7 +155,9 @@ public partial class WarpParty : Spell
             if (field.GetArmyHexSprite() == null && field.GetPlayer() == -1)
             {
                 message.MessageId = 4384;
-                message.Param[0] = army;
+                var param = message.Param;
+                param[0] = army;
+                message.Param = param;
                 message.Result = 0;
                 field.SendMapFieldMessage(ref message);
                 found = message.Result.Int == 0 && army.Army.CanPlace(field.HexX, field.HexY, field.HexLevel);

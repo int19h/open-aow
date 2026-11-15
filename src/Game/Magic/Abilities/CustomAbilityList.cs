@@ -18,7 +18,7 @@ public partial class CustomAbilityList : EngineObject
     public CustomAbilityList(CustomNode owner) : base(owner)
     { }
 
-    public byte[] AbilityBits = [];
+    public byte[] AbilityBits { get; internal set; } = [];
 
     public int AbilityCount { get; set; }
 
@@ -85,7 +85,9 @@ public partial class CustomAbilityList : EngineObject
         newSize = (int)(((uint)(value + 7)) >> 3);
         if (newSize != oldSize)
         {
-            Array.Resize(ref AbilityBits, newSize);
+            var abilityBits = AbilityBits;
+            Array.Resize(ref abilityBits, newSize);
+            AbilityBits = abilityBits;
             if (newSize > oldSize)
             {
                 FillBytes(AbilityBits.AsSpan(oldSize, newSize - oldSize), 0);

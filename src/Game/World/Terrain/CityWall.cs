@@ -148,7 +148,9 @@ public partial class CityWall : CombatImageLibraryTerrain
                     var defense8 = GetDefense();
                     var executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense8);
                     SetHitPoints(HitPoints - executeDamageRole8);
-                    message.Param[1] = 1;
+                    var param = message.Param;
+                    param[1] = 1;
+                    message.Param = param;
                     break;
                 case 200711:
                     if (WallType == 1)
@@ -377,7 +379,11 @@ public partial class CityWall : CombatImageLibraryTerrain
                 effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
                 point = new Point3D();
                 effect.Path.Add(point);
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out point.X, out point.Y);
+                var x = point.X;
+                var y = point.Y;
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+                point.X = x;
+                point.Y = y;
                 point.X = Random(20) + point.X + 6;
                 point.Y = Random(20) + point.Y - 20;
             }

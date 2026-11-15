@@ -24,10 +24,10 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
 
     internal byte[] MaskData { get; private set; }
 
-    internal int MaskLeft;
-    internal int MaskTop;
-    internal int MaskWidth;
-    internal int MaskHeight;
+    internal int MaskLeft { get; private set; }
+    internal int MaskTop { get; private set; }
+    internal int MaskWidth { get; private set; }
+    internal int MaskHeight { get; private set; }
 
     // ImageLib.pas:4662
     public override void SetXshift(int value)
@@ -83,20 +83,36 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref MaskWidth, 4));
-        stream.ReadExactly(Bytes.Of(ref MaskHeight, 4));
-        stream.ReadExactly(Bytes.Of(ref MaskLeft, 4));
-        stream.ReadExactly(Bytes.Of(ref MaskTop, 4));
+        var maskWidth = MaskWidth;
+        stream.ReadExactly(Bytes.Of(ref maskWidth, 4));
+        MaskWidth = maskWidth;
+        var maskHeight = MaskHeight;
+        stream.ReadExactly(Bytes.Of(ref maskHeight, 4));
+        MaskHeight = maskHeight;
+        var maskLeft = MaskLeft;
+        stream.ReadExactly(Bytes.Of(ref maskLeft, 4));
+        MaskLeft = maskLeft;
+        var maskTop = MaskTop;
+        stream.ReadExactly(Bytes.Of(ref maskTop, 4));
+        MaskTop = maskTop;
     }
 
     // ImageLib.pas:4703
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref MaskWidth, 4));
-        stream.Write(Bytes.Of(ref MaskHeight, 4));
-        stream.Write(Bytes.Of(ref MaskLeft, 4));
-        stream.Write(Bytes.Of(ref MaskTop, 4));
+        var maskWidth = MaskWidth;
+        stream.Write(Bytes.Of(ref maskWidth, 4));
+        MaskWidth = maskWidth;
+        var maskHeight = MaskHeight;
+        stream.Write(Bytes.Of(ref maskHeight, 4));
+        MaskHeight = maskHeight;
+        var maskLeft = MaskLeft;
+        stream.Write(Bytes.Of(ref maskLeft, 4));
+        MaskLeft = maskLeft;
+        var maskTop = MaskTop;
+        stream.Write(Bytes.Of(ref maskTop, 4));
+        MaskTop = maskTop;
     }
 
     // ImageLib.pas:4721
@@ -359,20 +375,24 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     {
         public static new GrabInfoClass Descriptor { get; } = new("BitMask.GrabInfo", static () => new GrabInfo());
 
-        public bool Inverse;
+        public bool Inverse { get; internal set; }
 
         // ImageLib.pas:4638
         public override void LoadFromStream(Stream stream)
         {
             base.LoadFromStream(stream);
-            stream.ReadExactly(Bytes.Of(ref Inverse, 1));
+            var inverse = Inverse;
+            stream.ReadExactly(Bytes.Of(ref inverse, 1));
+            Inverse = inverse;
         }
 
         // ImageLib.pas:4644
         public override void SaveToStream(Stream stream)
         {
             base.SaveToStream(stream);
-            stream.Write(Bytes.Of(ref Inverse, 1));
+            var inverse = Inverse;
+            stream.Write(Bytes.Of(ref inverse, 1));
+            Inverse = inverse;
         }
 
         // ImageLib.pas:4633

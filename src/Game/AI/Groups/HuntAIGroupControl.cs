@@ -50,7 +50,9 @@ public partial class HuntAIGroupControl : AIGroupControl
                     {
                         if (CombatPredictor.GetEfficiency() != 0)
                         {
-                            target.Data.Priority = 1000 - target.MovePoints;
+                            var data = target.Data;
+                            data.Priority = 1000 - target.MovePoints;
+                            target.Data = data;
                             base.TargetFoundEvent(sender, target, ref searchDone);
                         }
                     }
@@ -86,7 +88,9 @@ public partial class HuntAIGroupControl : AIGroupControl
                 {
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                     finder.Setup(this);
-                    finder.Selector.TargetInfo.Mode = AITargetMode.Hunt;
+                    var targetInfo = finder.Selector.TargetInfo;
+                    targetInfo.Mode = AITargetMode.Hunt;
+                    finder.Selector.TargetInfo = targetInfo;
                     ActivatePlugin(finder);
                     finder.Release();
                     State += 1;

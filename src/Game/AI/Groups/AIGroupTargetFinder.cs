@@ -94,9 +94,15 @@ public partial class AIGroupTargetFinder : AIGroupTask
         Reset();
         Selector.SourceLocation = control.Location;
         Selector.MovePointTable = control.MovePointTable;
-        Selector.TargetInfo.Player = control.Group.Player;
-        Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
-        Selector.TargetInfo.Mode = AITargetMode.Attack;
+        var targetInfo = Selector.TargetInfo;
+        targetInfo.Player = control.Group.Player;
+        Selector.TargetInfo = targetInfo;
+        var targetInfo2 = Selector.TargetInfo;
+        targetInfo2.IndependentRelation = control.Group.IndependentRelation;
+        Selector.TargetInfo = targetInfo2;
+        var targetInfo3 = Selector.TargetInfo;
+        targetInfo3.Mode = AITargetMode.Attack;
+        Selector.TargetInfo = targetInfo3;
         Selector.Units.AddUnits(control.Group.Units);
         Mode = Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
         return true;

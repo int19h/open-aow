@@ -26,7 +26,7 @@ public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSi
 
     public AITargetData Data { get; set; }
 
-    public MapCoordinate Location;
+    public MapCoordinate Location { get; internal set; }
 
     public int MovePoints { get; set; }
     public int TransporterId { get; set; }

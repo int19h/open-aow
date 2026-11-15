@@ -31,8 +31,8 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
 
     public AITargetInfo Info { get; set; }
 
-    public AITargetData Data;
-    public MapCoordinate Location;
+    public AITargetData Data { get; internal set; }
+    public MapCoordinate Location { get; internal set; }
 
     public int MovePoints { get; set; }
     public int TransporterId { get; set; }

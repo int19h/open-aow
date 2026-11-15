@@ -134,7 +134,9 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                             var pi = Math.PI;
                             var sin = Math.Sin((double)((double)(i * 5 + n) * pi) / 180);
                             var mathPI = Math.PI;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(i * 5 + n) * mathPI) / 180) * deltaX) + (x + 16), Round((double)sin * deltaY) / 2 + (y + 16), x + 16, y + 16, 100, ref effect.Path);
+                            var path = effect.Path;
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(i * 5 + n) * mathPI) / 180) * deltaX) + (x + 16), Round((double)sin * deltaY) / 2 + (y + 16), x + 16, y + 16, 100, ref path);
+                            effect.Path = path;
                         }
                     }
 
@@ -161,7 +163,9 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         gravity = (float)0.5;
                         vz = (float)((double)(Random(50) + 50) * 0.05);
                         z = 0;
-                        EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, ref speed, ref vz, ref gravity, ref effect.Path);
+                        var path2 = effect.Path;
+                        EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, ref speed, ref vz, ref gravity, ref path2);
+                        effect.Path = path2;
                     }
 
                     switch (message.Param[1].Int)

@@ -178,7 +178,9 @@ public partial class Road : AbstractRoad
         level = Owner.Owner;
         Transitions = 0;
         message.MessageId = 4401;
-        message.Param[0] = Owner;
+        var param = message.Param;
+        param[0] = Owner;
+        message.Param = param;
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
             HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
@@ -189,7 +191,9 @@ public partial class Road : AbstractRoad
                 if (mapField.FindOwnedHexSprite(typeof(AbstractRoad)) == null)
                 {
                     // { Original message stores its response in Param[1], rather than Result. }
-                    message.Param[1] = 0;
+                    var param2 = message.Param;
+                    param2[1] = 0;
+                    message.Param = param2;
                     mapField.SendMapFieldMessage(ref message);
                     hasRoad = message.Param[1].Int != 0;
                 }

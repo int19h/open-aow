@@ -552,7 +552,9 @@ public partial class BattleEffectSprite
                     case BattleEffectType.SWComet:
                         var hexY = ((TacticalBattleUnit)Target).UnitHexSprite.GetHexY();
                         HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, out i, out j);
-                        EffectPaths.MakeArcPathXY((short)(lockedSurfaceValue.Width / 2 + pixelXSurface), (short)(lockedSurfaceValue.Height / 2 + pixelYSurface), (short)i, (short)j, 25, 50, ref Path);
+                        var path5 = Path;
+                        EffectPaths.MakeArcPathXY((short)(lockedSurfaceValue.Width / 2 + pixelXSurface), (short)(lockedSurfaceValue.Height / 2 + pixelYSurface), (short)i, (short)j, 25, 50, ref path5);
+                        Path = path5;
                         EffectType = BattleEffectType.Comet;
                         SelectSequence(0);
                         ShowTrail();

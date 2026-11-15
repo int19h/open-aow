@@ -18,12 +18,14 @@ public partial class DeathRay : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_deathRayText);
         SpellId = 103;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_deathRayText = "Death Ray";

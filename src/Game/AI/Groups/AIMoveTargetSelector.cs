@@ -45,9 +45,10 @@ public partial class AIMoveTargetSelector : EngineObject
     internal void SetTargetFoundHandler(MoveTargetFoundEvent handler) => OnTargetFound = handler;
 
     private MovePointTable _transportMovePointTable;
-    public MapCoordinate SourceLocation;
-    public AITargetInfo TargetInfo;
-    public MovePointTable MovePointTable;
+
+    public MapCoordinate SourceLocation { get; internal set; }
+    public AITargetInfo TargetInfo { get; internal set; }
+    public MovePointTable MovePointTable { get; internal set; }
 
     public int MovePointsMax { get; set; }
     public int MovePointsMin { get; set; }
@@ -92,9 +93,13 @@ public partial class AIMoveTargetSelector : EngineObject
         _state = 0;
         Status = AIMoveTargetSelectorStatus.Idle;
         OnTargetFound = null;
-        MovePointTable.Fill(-1);
+        var movePointTable = MovePointTable;
+        movePointTable.Fill(-1);
+        MovePointTable = movePointTable;
         TargetInfo = default;
-        TargetInfo.Player = -1;
+        var targetInfo = TargetInfo;
+        targetInfo.Player = -1;
+        TargetInfo = targetInfo;
         MovePointsMax = 250;
         MovePointsMin = 100;
         SetTransporter(null);
@@ -111,13 +116,19 @@ public partial class AIMoveTargetSelector : EngineObject
         var mapCoordinate = army.GetMapCoordinate();
         SourceLocation = mapCoordinate;
         Units.AddUnits(army.Army.Units, selection);
-        TargetInfo.Player = army.Army.Player;
+        var targetInfo = TargetInfo;
+        targetInfo.Player = army.Army.Player;
+        TargetInfo = targetInfo;
         if (TargetInfo.Player == 0)
         {
-            TargetInfo.IndependentRelation = army.Army.IndependentRelation;
+            var targetInfo2 = TargetInfo;
+            targetInfo2.IndependentRelation = army.Army.IndependentRelation;
+            TargetInfo = targetInfo2;
         }
 
-        army.Army.CreateMovePointTable(selection, out MovePointTable);
+        var movePointTable = MovePointTable;
+        army.Army.CreateMovePointTable(selection, out movePointTable);
+        MovePointTable = movePointTable;
         return true;
     }
 
@@ -357,7 +368,9 @@ public partial class AIMoveTargetSelector : EngineObject
                         {
                             if (_settings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] == -1 && _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay] != -1)
                             {
-                                _settings.MovePointTable[terrain][overlay - MovementTables.FirstOverlay] = 8;
+                                var movePointTable = _settings.MovePointTable;
+                                movePointTable[terrain][overlay - MovementTables.FirstOverlay] = 8;
+                                _settings.MovePointTable = movePointTable;
                             }
                         }
                     }

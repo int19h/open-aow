@@ -21,7 +21,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
 
     public ArmyId ArmyId { get; set; }
 
-    public MapCoordinate WarpLocation;
+    public MapCoordinate WarpLocation { get; internal set; }
 
     // The fourth byte of the packed location stored at id 30, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.

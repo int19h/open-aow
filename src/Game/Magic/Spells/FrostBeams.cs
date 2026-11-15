@@ -18,13 +18,15 @@ public partial class FrostBeams : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_frostBeamsText);
         SpellId = 120;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 3;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
         spellCombatInfo.Radius = 3;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_frostBeamsText = "Frost Beam";

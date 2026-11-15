@@ -36,7 +36,9 @@ public partial class AIGroupRecruitControl : AIGroupTask
 
     private readonly int[] _remainingStrengths = new int[10];
     private int _remainingStrength;
-    public int RecruitStrength;
+
+    public int RecruitStrength { get; internal set; }
+
     private Set<DamageType> _damageTypes;
     private readonly int[] _recruitStrengths = new int[10];
 

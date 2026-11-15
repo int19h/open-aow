@@ -46,7 +46,9 @@ public partial class ScoutAIGroupControl : AIGroupControl
             if (CombatPredictor.GetEfficiency() > 50)
             {
                 var efficiency = CombatPredictor.GetEfficiency();
-                target.Data.Priority = efficiency + (target.Data.Priority * 100 - target.MovePoints * 5);
+                var data = target.Data;
+                data.Priority = efficiency + (data.Priority * 100 - target.MovePoints * 5);
+                target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }

@@ -18,14 +18,16 @@ public partial class FloodControl : EngineObject
     public int Width { get; set; }
     public int Height { get; set; }
 
-    public sbyte[] OriginalTerrain = [];
+    public sbyte[] OriginalTerrain { get; internal set; } = [];
 
     // GlobalEnchantmentSpells.pas:1072
     public override void Dispose()
     {
         if (OriginalTerrain.Length != 0)
         {
-            Array.Resize(ref OriginalTerrain, 0);
+            var originalTerrain = OriginalTerrain;
+            Array.Resize(ref originalTerrain, 0);
+            OriginalTerrain = originalTerrain;
         }
 
         base.Dispose();
@@ -41,7 +43,12 @@ public partial class FloodControl : EngineObject
         {
             int count = Width * Height * 2;
             // The translate stream's mode holds read, so the original ReadWrite sizes the array there too.
-            if (persister.Loading || PersistSupport.Translating(persister)) Array.Resize(ref OriginalTerrain, count);
+            if (persister.Loading || PersistSupport.Translating(persister))
+            {
+                var originalTerrain = OriginalTerrain;
+                Array.Resize(ref originalTerrain, count);
+                OriginalTerrain = originalTerrain;
+            }
             persister.Bytes("OriginalTerrain", MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, count)));
         }
     }
@@ -57,7 +64,9 @@ public partial class FloodControl : EngineObject
     {
         Width = StrategicMap.Current.MapContainer.Width;
         Height = StrategicMap.Current.MapContainer.Height;
-        Array.Resize(ref OriginalTerrain, Width * Height * 2);
+        var originalTerrain = OriginalTerrain;
+        Array.Resize(ref originalTerrain, Width * Height * 2);
+        OriginalTerrain = originalTerrain;
         Array.Clear(OriginalTerrain);
     }
 
@@ -88,8 +97,12 @@ public partial class FloodControl : EngineObject
                             index = (Width * walk.Y + walk.X) * 2;
                             if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null)
                             {
-                                OriginalTerrain[index] = mapField.TerrainType;
-                                OriginalTerrain[index + 1] = mapField.OverlayType;
+                                var originalTerrain = OriginalTerrain;
+                                originalTerrain[index] = mapField.TerrainType;
+                                OriginalTerrain = originalTerrain;
+                                var originalTerrain2 = OriginalTerrain;
+                                originalTerrain2[index + 1] = mapField.OverlayType;
+                                OriginalTerrain = originalTerrain2;
                             }
 
                             if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)mapField.OverlayType))

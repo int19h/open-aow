@@ -322,11 +322,12 @@ public partial class GameMap : OwningNode
     public virtual void TriggerTerrainChangedEvent(in Rect R, sbyte L)
     {
         var notification = new TerrainChangedNotification();
-        ref TerrainChangedNotification.TerrainChangedInfo info = ref notification.Info;
+        TerrainChangedNotification.TerrainChangedInfo info = notification.Info;
         info.Rectangle = R;
         info.Level = L;
         var mapLevel = _mapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
+        notification.Info = info;
         TerrainChangedEventsStore.Raise(notification);
 
         if (MapChangedLockCount == 0)
@@ -1409,7 +1410,7 @@ public partial class GameMap : OwningNode
     public virtual void ShowMessage(string text)
     {
         var notification = new ShowMessageNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         if (!GetEngine().Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO1.WAV");
@@ -1417,6 +1418,7 @@ public partial class GameMap : OwningNode
 
         info.Text = text;
         info.Color = 16777215;
+        notification.Info = info;
         _showMessageEventsStore.Raise(notification);
         _messageText = text;
         _messageFrame = 128;
@@ -1426,7 +1428,7 @@ public partial class GameMap : OwningNode
     public virtual void ShowWarning(string text)
     {
         var notification = new ShowMessageNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         if (!GetEngine().Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO2.WAV");
@@ -1434,6 +1436,7 @@ public partial class GameMap : OwningNode
 
         info.Text = text;
         info.Color = 16777215;
+        notification.Info = info;
         _showMessageEventsStore.Raise(notification);
         _messageText = text;
         _messageFrame = 160;
@@ -1522,11 +1525,12 @@ public partial class GameMap : OwningNode
     public void TriggerMapChangedEvent(in Rect R, int L)
     {
         var notification = new MapChangedNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         info.Bounds = R;
         info.Level = L;
         var mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
+        notification.Info = info;
         _mapChangedEventsStore.Raise(notification);
     }
 
@@ -1603,11 +1607,12 @@ public partial class GameMap : OwningNode
     public void TriggerScannerIconsChangedEvent(in Rect R, int L)
     {
         var notification = new MapChangedNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         info.Bounds = R;
         info.Level = L;
         var mapLevel = MapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
+        notification.Info = info;
         _scannerIconsChangedEventsStore.Raise(notification);
     }
 
@@ -1615,7 +1620,7 @@ public partial class GameMap : OwningNode
     public void UpdateShowMessage()
     {
         var notification = new ShowMessageNotification();
-        ref var info = ref notification.Info;
+        var info = notification.Info;
         if (_messageFrame != 0)
         {
             _messageFrame = (byte)(_messageFrame - 1);
@@ -1626,10 +1631,14 @@ public partial class GameMap : OwningNode
                 if ((_messageFrame & 16) == 0)
                 {
                     info.Color = 3487029;
+
+                    notification.Info = info;
                 }
                 else
                 {
                     info.Color = 16777215;
+
+                    notification.Info = info;
                 }
 
                 _showMessageEventsStore.Raise(notification);
@@ -1639,6 +1648,7 @@ public partial class GameMap : OwningNode
             {
                 info.Text = "";
                 info.Color = 16777215;
+                notification.Info = info;
                 _showMessageEventsStore.Raise(notification);
             }
         }

@@ -136,7 +136,7 @@ public partial class WindowControl : UIComponent
 
     public Surface BackSurface { get; protected set; }
 
-    public Rect BackRectangle;
+    public Rect BackRectangle { get; internal set; }
 
     [Published]
     public event AoWOnDrawBackEvent<WindowControl> OnDrawBack;

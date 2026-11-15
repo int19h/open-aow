@@ -316,13 +316,23 @@ public partial class RealmWindow : UIModule
         if (column < StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.Count)
         {
             oldClip = lockedSurface.ClipRectangle;
-            lockedSurface.ClipRectangle.Left = drawRectangle.Left + 2;
-            lockedSurface.ClipRectangle.Top = drawRectangle.Top + 1;
-            lockedSurface.ClipRectangle.Right = drawRectangle.Right - 2;
-            lockedSurface.ClipRectangle.Bottom = drawRectangle.Top + Unit1List.ItemHeight - 6;
+            var clipRectangle = lockedSurface.ClipRectangle;
+            clipRectangle.Left = drawRectangle.Left + 2;
+            lockedSurface.ClipRectangle = clipRectangle;
+            var clipRectangle2 = lockedSurface.ClipRectangle;
+            clipRectangle2.Top = drawRectangle.Top + 1;
+            lockedSurface.ClipRectangle = clipRectangle2;
+            var clipRectangle3 = lockedSurface.ClipRectangle;
+            clipRectangle3.Right = drawRectangle.Right - 2;
+            lockedSurface.ClipRectangle = clipRectangle3;
+            var clipRectangle4 = lockedSurface.ClipRectangle;
+            clipRectangle4.Bottom = drawRectangle.Top + Unit1List.ItemHeight - 6;
+            lockedSurface.ClipRectangle = clipRectangle4;
             if (drawRectangle.Bottom - drawRectangle.Top < Unit1List.ItemHeight - 6)
             {
-                lockedSurface.ClipRectangle.Bottom = drawRectangle.Bottom;
+                var clipRectangle5 = lockedSurface.ClipRectangle;
+                clipRectangle5.Bottom = drawRectangle.Bottom;
+                lockedSurface.ClipRectangle = clipRectangle5;
             }
 
             u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);

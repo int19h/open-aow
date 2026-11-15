@@ -31,8 +31,10 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public Set<ArmyMoveModeElement> Mode { get; protected set; }
 
     private readonly Int32List _unitIds;
-    public byte Selection;
-    public ArmyHexSprite ArmyHexSprite;
+
+    public byte Selection { get; protected set; }
+    public ArmyHexSprite ArmyHexSprite { get; protected set; }
+
     private sbyte _player;
 
     public sbyte TargetPlayer { get; private set; }
@@ -209,7 +211,9 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             ArmyHexSprite.SetOwner(field);
             if (armyHexSprite != null)
             {
-                ArmyHexSprite.Army.UserMode = ArmyHexSprite.Army.UserMode & armyHexSprite.Army.UserMode;
+                var armyHexSprite2 = ArmyHexSprite;
+                armyHexSprite2.Army.UserMode = ArmyHexSprite.Army.UserMode & armyHexSprite.Army.UserMode;
+                ArmyHexSprite = armyHexSprite2;
                 armyHexSprite.Army.AssignSettings(ArmyHexSprite.Army);
                 armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army.Units, 255);
                 ArmyHexSprite = armyHexSprite;
@@ -220,7 +224,9 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                 }
             }
 
-            ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+            var armyHexSprite3 = ArmyHexSprite;
+            armyHexSprite3.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+            ArmyHexSprite = armyHexSprite3;
             ArmyHexSprite.CancelMove();
             if (selected)
             {

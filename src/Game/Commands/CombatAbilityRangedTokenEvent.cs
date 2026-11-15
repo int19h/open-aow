@@ -231,7 +231,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     {
                                         case 5:
                                             message.MessageId = 200707;
-                                            message.Param[0] = _unit;
+                                            var param = message.Param;
+                                            param[0] = _unit;
+                                            message.Param = param;
                                             message.Result = -1;
                                             var path = effect.Path[0];
                                             HexGeometry.PixelToHex(effect.Path[0].X, path.Y, out endX, out endY);
@@ -288,8 +290,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                         {
                                             case 89:
                                                 message.MessageId = 200708;
-                                                message.Param[0] = _unit;
-                                                message.Param[1] = 0;
+                                                var param2 = message.Param;
+                                                param2[0] = _unit;
+                                                message.Param = param2;
+                                                var param3 = message.Param;
+                                                param3[1] = 0;
+                                                message.Param = param3;
                                                 message.Result = -1;
                                                 {
                                                     i = 6;
@@ -314,8 +320,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                             {
                                                 case 0:
                                                     message.MessageId = 200712;
-                                                    message.Param[0] = _unit;
-                                                    message.Param[1] = SpellId;
+                                                    var param4 = message.Param;
+                                                    param4[0] = _unit;
+                                                    message.Param = param4;
+                                                    var param5 = message.Param;
+                                                    param5[1] = SpellId;
+                                                    message.Param = param5;
                                                     message.Result = -1;
                                                     {
                                                         i = 0;
@@ -329,8 +339,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                     break;
                                                 case 99:
                                                     message.MessageId = 200713;
-                                                    message.Param[0] = _unit;
-                                                    message.Param[1] = SpellId;
+                                                    var param6 = message.Param;
+                                                    param6[0] = _unit;
+                                                    message.Param = param6;
+                                                    var param7 = message.Param;
+                                                    param7[1] = SpellId;
+                                                    message.Param = param7;
                                                     message.Result = -1;
                                                     {
                                                         i = 0;
@@ -352,7 +366,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                 {
                                                     case 199:
                                                         message.MessageId = 200709;
-                                                        message.Param[0] = _unit;
+                                                        var param8 = message.Param;
+                                                        param8[0] = _unit;
+                                                        message.Param = param8;
                                                         message.Result = -1;
                                                         {
                                                             i = 0;
@@ -374,7 +390,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                     {
                                                         case 175:
                                                             message.MessageId = 200717;
-                                                            message.Param[0] = _unit;
+                                                            var param9 = message.Param;
+                                                            param9[0] = _unit;
+                                                            message.Param = param9;
                                                             message.Result = -1;
                                                             {
                                                                 i = 1;
@@ -388,7 +406,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             break;
                                                         case 200:
                                                             message.MessageId = 200717;
-                                                            message.Param[0] = _unit;
+                                                            var param10 = message.Param;
+                                                            param10[0] = _unit;
+                                                            message.Param = param10;
                                                             message.Result = -1;
                                                             {
                                                                 i = 7;
@@ -402,7 +422,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             break;
                                                         case 225:
                                                             message.MessageId = 200717;
-                                                            message.Param[0] = _unit;
+                                                            var param11 = message.Param;
+                                                            param11[0] = _unit;
+                                                            message.Param = param11;
                                                             message.Result = -1;
                                                             {
                                                                 i = 19;
@@ -426,7 +448,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                 var hexY = _unit.UnitHexSprite.HexY;
                                                                 EffectPaths.CreateFire(false, 50, _unit.UnitHexSprite.HexX, hexY, engine: GetEngine());
                                                                 message.MessageId = 200718;
-                                                                message.Param[0] = _unit;
+                                                                var param12 = message.Param;
+                                                                param12[0] = _unit;
+                                                                message.Param = param12;
                                                                 message.Result = -1;
                                                                 var fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
                                                                 var hexX = _unit.UnitHexSprite.HexX;
@@ -434,7 +458,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                 break;
                                                             case 175:
                                                                 message.MessageId = 200718;
-                                                                message.Param[0] = _unit;
+                                                                var param13 = message.Param;
+                                                                param13[0] = _unit;
+                                                                message.Param = param13;
                                                                 message.Result = -1;
                                                                 {
                                                                     i = 0;
@@ -482,7 +508,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                 {
                                                                     case 2999:
                                                                         message.MessageId = 200716;
-                                                                        message.Param[0] = _unit;
+                                                                        var param14 = message.Param;
+                                                                        param14[0] = _unit;
+                                                                        message.Param = param14;
                                                                         message.Result = -1;
                                                                         {
                                                                             i = 0;
@@ -633,8 +661,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                         if (effect.TargetX > 0)
                                                                                         {
                                                                                             message.MessageId = 200722;
-                                                                                            message.Param[0] = _unit;
-                                                                                            message.Param[1] = effect.AbilityIndex;
+                                                                                            var param15 = message.Param;
+                                                                                            param15[0] = _unit;
+                                                                                            message.Param = param15;
+                                                                                            var param16 = message.Param;
+                                                                                            param16[1] = effect.AbilityIndex;
+                                                                                            message.Param = param16;
                                                                                             message.Result = -1;
                                                                                             CombatMap.Current.MapContainer.MapLevels[0].GetField(effect.TargetX, effect.TargetY).SendMapFieldMessage(ref message);
                                                                                         }
@@ -642,19 +674,25 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                         break;
                                                                                     case 24:
                                                                                         message.MessageId = 200705;
-                                                                                        message.Param[0] = _unit;
+                                                                                        var param17 = message.Param;
+                                                                                        param17[0] = _unit;
+                                                                                        message.Param = param17;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         break;
                                                                                     case 44:
                                                                                         message.MessageId = 200706;
-                                                                                        message.Param[0] = _unit;
+                                                                                        var param18 = message.Param;
+                                                                                        param18[0] = _unit;
+                                                                                        message.Param = param18;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         break;
                                                                                     case 31:
                                                                                         message.MessageId = 200714;
-                                                                                        message.Param[0] = _unit;
+                                                                                        var param19 = message.Param;
+                                                                                        param19[0] = _unit;
+                                                                                        message.Param = param19;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         EffectPaths.CreateFire(false, 100, endX, endY, engine: GetEngine());
@@ -666,8 +704,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                 if (effect.TargetX > 0)
                                                                                                 {
                                                                                                     message.MessageId = 200723;
-                                                                                                    message.Param[0] = _unit;
-                                                                                                    message.Param[1] = effect.SpellIndex;
+                                                                                                    var param20 = message.Param;
+                                                                                                    param20[0] = _unit;
+                                                                                                    message.Param = param20;
+                                                                                                    var param21 = message.Param;
+                                                                                                    param21[1] = effect.SpellIndex;
+                                                                                                    message.Param = param21;
                                                                                                     message.Result = -1;
                                                                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(effect.TargetX, effect.TargetY).SendMapFieldMessage(ref message);
                                                                                                 }
@@ -678,7 +720,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                 {
                                                                                                     case 116:
                                                                                                         message.MessageId = 200710;
-                                                                                                        message.Param[0] = _unit;
+                                                                                                        var param22 = message.Param;
+                                                                                                        param22[0] = _unit;
+                                                                                                        message.Param = param22;
                                                                                                         message.Result = -1;
                                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                                         break;
@@ -698,7 +742,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                 {
                                                                                                     case 113:
                                                                                                         message.MessageId = 200715;
-                                                                                                        message.Param[0] = _unit;
+                                                                                                        var param23 = message.Param;
+                                                                                                        param23[0] = _unit;
+                                                                                                        message.Param = param23;
                                                                                                         message.Result = -1;
                                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                                         EffectPaths.CreateFire(false, 100, endX, endY, engine: GetEngine());
@@ -981,13 +1027,19 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                 var hexX = _unit.UnitHexSprite.HexX;
                 var hexY3 = _unit.UnitHexSprite.HexY;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, ref effect.Path, ref obstacles);
+                var path19 = effect.Path;
+                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, ref path19, ref obstacles);
+                effect.Path = path19;
                 if (_strikeIndex < 12)
                 {
                     var hexY4 = _unit.UnitHexSprite.HexY;
                     var deltaHexToHexNumber3 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY4, TargetX, TargetY);
                     var hexY5 = _unit.UnitHexSprite.HexY;
-                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + BreathHit[_strikeIndex] - 12], ref effect.TargetX, ref effect.TargetY);
+                    var targetX = effect.TargetX;
+                    var targetY = effect.TargetY;
+                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + BreathHit[_strikeIndex] - 12], ref targetX, ref targetY);
+                    effect.TargetX = targetX;
+                    effect.TargetY = targetY;
                 }
 
                 break;
@@ -1108,11 +1160,15 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         var pathX = effect.Path[0];
                         var random = Random(30);
                         var count = effect.Path.Count;
-                        effect.Path[count - 1].X = pathX.X + random - 15;
+                        var path20 = effect.Path;
+                        path20[count - 1].X = pathX.X + random - 15;
+                        effect.Path = path20;
                         var pathY = effect.Path[0];
                         var random2 = Random(30);
                         var fPathCount = effect.Path.Count;
-                        effect.Path[fPathCount - 1].Y = pathY.Y + random2 - 15;
+                        var path21 = effect.Path;
+                        path21[fPathCount - 1].Y = pathY.Y + random2 - 15;
+                        effect.Path = path21;
                     }
                 }
 
@@ -1129,7 +1185,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var count6 = effect.Path.Count;
                 var path4 = effect.Path[count6 - 1];
                 var count7 = effect.Path.Count;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50 + 2), 100, ref effect.Path);
+                var path22 = effect.Path;
+                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50 + 2), 100, ref path22);
+                effect.Path = path22;
                 effect.TargetX = effect.Path.Count;
                 j = Random(200);
                 k = Random(200);
@@ -1144,7 +1202,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var count12 = effect.Path.Count;
                 var path9 = effect.Path[count12 - 1];
                 var count13 = effect.Path.Count;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50 + 3), 100, ref effect.Path);
+                var path23 = effect.Path;
+                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50 + 3), 100, ref path23);
+                effect.Path = path23;
                 effect.TargetY = effect.Path.Count;
                 var count14 = effect.Path.Count;
                 var item = effect.Path[count14 - 1];
@@ -1157,7 +1217,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var count18 = effect.Path.Count;
                 var path12 = effect.Path[count18 - 1];
                 var count19 = effect.Path.Count;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50 + 4), 100, ref effect.Path);
+                var path24 = effect.Path;
+                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50 + 4), 100, ref path24);
+                effect.Path = path24;
                 break;
             case BattleEffectType.ScreenNESW:
                 point = new Point3D();
@@ -1193,7 +1255,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
                 x1 = Random(20) + 6;
                 y1 = Random(20) + 6;
-                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, 30, ref effect.Path);
+                var path25 = effect.Path;
+                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, 30, ref path25);
+                effect.Path = path25;
                 switch (SpellId)
                 {
                     case 124:
@@ -1216,9 +1280,13 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var hexY6 = _unit.UnitHexSprite.HexY;
                 HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY6, out x1, out y1);
                 HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
-                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, ref effect.Path);
+                var path26 = effect.Path;
+                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, ref path26);
+                effect.Path = path26;
                 var count20 = effect.Path.Count;
-                effect.Path[count20 - 1].Z = 16;
+                var path27 = effect.Path;
+                path27[count20 - 1].Z = 16;
+                effect.Path = path27;
                 i = 3;
                 used = new DelphiList<CombatObject>();
                 used.Add(_unit);
@@ -1236,7 +1304,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     y1 = y2 + 16;
                     var hexY4 = target.UnitHexSprite.HexY;
                     HexGeometry.HexToPixel(target.UnitHexSprite.HexX, hexY4, out x2, out y2);
-                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, ref effect.Path);
+                    var path28 = effect.Path;
+                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, ref path28);
+                    effect.Path = path28;
                     i -= 1;
                     var hexY5 = target.UnitHexSprite.HexY;
                     target = FindTarget(target.UnitHexSprite.HexX, hexY5);
@@ -1253,7 +1323,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var random6 = Random(2);
                 var random7 = Random(90);
                 var random8 = Random(5);
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + x1 + 6, random5 + y1 - 10, (SwarmDirection)random6, ref effect.Path);
+                var path29 = effect.Path;
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + x1 + 6, random5 + y1 - 10, (SwarmDirection)random6, ref path29);
+                effect.Path = path29;
                 k = effect.Path.Count - 1;
                 {
                     i = 0;
@@ -1275,7 +1347,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var count21 = effect.Path.Count;
                 var path13 = effect.Path[count21 - 1];
                 var count22 = effect.Path.Count;
-                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, 15, ref effect.Path);
+                var path30 = effect.Path;
+                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, 15, ref path30);
+                effect.Path = path30;
                 point3DList = new Point3DList();
                 var random9 = Random(360);
                 var count23 = effect.Path.Count;
@@ -1292,7 +1366,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var count26 = effect.Path.Count;
                 var path17 = effect.Path[count26 - 1];
                 var pathX2 = point3DList[0];
-                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref effect.Path);
+                var path31 = effect.Path;
+                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref path31);
+                effect.Path = path31;
                 {
                     i = 0;
                     int last = point3DList.Count - 1;
@@ -1360,7 +1436,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var random16 = Random(2);
                 var random17 = Random(90);
                 var random18 = Random(10);
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, ref effect.Path);
+                var path32 = effect.Path;
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, ref path32);
+                effect.Path = path32;
                 k = effect.Path.Count - 1;
                 {
                     i = 0;
@@ -1382,7 +1460,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     i = 0;
                     for (; i <= 49; i += 1)
                     {
-                        effect.Path[i + 1].Z = 100 - i * 2;
+                        var path33 = effect.Path;
+                        path33[i + 1].Z = 100 - i * 2;
+                        effect.Path = path33;
                     }
                 }
 
@@ -1392,18 +1472,24 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 effect.TargetX = TargetX;
                 effect.TargetY = TargetY;
                 CombatMap.Current.CenterViewTo(TargetX - 3, TargetY - 3, 0);
-                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), 5, 100, ref effect.Path);
+                var path34 = effect.Path;
+                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), 5, 100, ref path34);
+                effect.Path = path34;
                 break;
             case BattleEffectType.Ray:
                 CombatMap.Current.MakeVisible(TargetX - 3, TargetY - 3, 0, 3);
                 var hexX3 = _unit.UnitHexSprite.HexX;
                 var hexY8 = _unit.UnitHexSprite.HexY;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref effect.Path, ref obstacles);
+                var path35 = effect.Path;
+                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref path35, ref obstacles);
+                effect.Path = path35;
                 break;
             default:
                 var hexX4 = _unit.UnitHexSprite.HexX;
                 var hexY9 = _unit.UnitHexSprite.HexY;
-                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, ref effect.Path, ref obstacles);
+                var path36 = effect.Path;
+                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, ref path36, ref obstacles);
+                effect.Path = path36;
                 break;
         }
 

@@ -19,12 +19,14 @@ public partial class Vaporize : CombatSpell
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_vaporizeText);
         SpellId = 121;
         DamageMode = 1;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_vaporizeText = "Vaporize";

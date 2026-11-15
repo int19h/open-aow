@@ -3,7 +3,7 @@ namespace Aow.Engine;
 
 public sealed class EngineDebugNotification
 {
-    public DebugInfo Info;
+    public DebugInfo Info { get; set; }
 
     // { TEngine.OutputDebugStr / OutputDebugMessage hand this to the debug events }
     public struct DebugInfo

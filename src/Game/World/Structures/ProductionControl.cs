@@ -304,7 +304,13 @@ public partial class ProductionControl : EngineObject
     {
         ProductionTokenEvent eventValue;
         eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
-        GetLocation(out eventValue.X, out eventValue.Y, out eventValue.MapLevel);
+        var x = eventValue.X;
+        var y = eventValue.Y;
+        var mapLevel = eventValue.MapLevel;
+        GetLocation(out x, out y, out mapLevel);
+        eventValue.X = x;
+        eventValue.Y = y;
+        eventValue.MapLevel = mapLevel;
         eventValue.Player = GetPlayer();
         return eventValue;
     }

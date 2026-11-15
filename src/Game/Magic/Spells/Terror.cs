@@ -20,12 +20,14 @@ public partial class Terror : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_terrorText);
         SpellId = 105;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:1775

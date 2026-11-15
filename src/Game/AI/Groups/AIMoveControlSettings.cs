@@ -35,7 +35,7 @@ public partial class AIMoveControlSettings : EngineObject
     public int DestinationY { get; private set; }
     public int DestinationL { get; private set; }
 
-    public MovePointTable MovePointTable;
+    public MovePointTable MovePointTable { get; private set; }
 
     public event NotifyEvent<object> OnDone;
 
@@ -57,10 +57,10 @@ public partial class AIMoveControlSettings : EngineObject
     public int MovePoints { get; set; }
     public MovePath TransportPath { get; }
 
-    public MapCoordinate BoardingPoint;
-    public MapCoordinate ArrivalPoint;
-    public MapCoordinate TransportSource;
-    public MapCoordinate TransportDestination;
+    public MapCoordinate BoardingPoint { get; internal set; }
+    public MapCoordinate ArrivalPoint { get; internal set; }
+    public MapCoordinate TransportSource { get; internal set; }
+    public MapCoordinate TransportDestination { get; internal set; }
 
     // AIGroup.pas:3849
     public override void Dispose()
@@ -134,7 +134,9 @@ public partial class AIMoveControlSettings : EngineObject
         ArmyHexSprite = army;
         Selection = selection;
         Player = army.Army.Player;
-        army.Army.CreateMovePointTable(selection, out MovePointTable);
+        var movePointTable = MovePointTable;
+        army.Army.CreateMovePointTable(selection, out movePointTable);
+        MovePointTable = movePointTable;
     }
 
     // intf_P5_06.inc:154

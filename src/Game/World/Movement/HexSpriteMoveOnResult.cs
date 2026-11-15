@@ -3,7 +3,7 @@ namespace Aow.Game.World.Movement;
 
 public struct HexSpriteMoveOnResult
 {
-    public int Code;
-    public int Data;
-    public bool Done;
+    public int Code { get; internal set; }
+    public int Data { get; init; }
+    public bool Done { get; internal set; }
 }

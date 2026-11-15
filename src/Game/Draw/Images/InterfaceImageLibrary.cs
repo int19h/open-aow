@@ -78,7 +78,9 @@ public partial class InterfaceImageLibrary : ImageLibrary
         if (area.Left + area.Width - item.Width < oldClip.Right)
         {
             var item3 = this[index + 4];
-            lockedSurface.ClipRectangle.Right = area.Left + area.Width - item3.Width;
+            var clipRectangle = lockedSurface.ClipRectangle;
+            clipRectangle.Right = area.Left + area.Width - item3.Width;
+            lockedSurface.ClipRectangle = clipRectangle;
         }
 
         for (int i = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; i <= last; i++)
@@ -98,7 +100,9 @@ public partial class InterfaceImageLibrary : ImageLibrary
         if (area.Top + area.Height - item8.Height < oldClip.Bottom)
         {
             var item3 = this[index + 6];
-            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height - item3.Height;
+            var clipRectangle2 = lockedSurface.ClipRectangle;
+            clipRectangle2.Bottom = area.Top + area.Height - item3.Height;
+            lockedSurface.ClipRectangle = clipRectangle2;
         }
 
         for (int i = 0, last = (area.Height - this[index].Height - this[index + 5].Height) / this[index + 3].Height; i <= last; i++)
@@ -152,12 +156,16 @@ public partial class InterfaceImageLibrary : ImageLibrary
         lockedSurface.ClipRectangle = rectangle;
         if (area.Left + area.Width < oldClip.Right)
         {
-            lockedSurface.ClipRectangle.Right = area.Left + area.Width;
+            var clipRectangle = lockedSurface.ClipRectangle;
+            clipRectangle.Right = area.Left + area.Width;
+            lockedSurface.ClipRectangle = clipRectangle;
         }
 
         if (area.Top + area.Height < oldClip.Bottom)
         {
-            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height;
+            var clipRectangle2 = lockedSurface.ClipRectangle;
+            clipRectangle2.Bottom = area.Top + area.Height;
+            lockedSurface.ClipRectangle = clipRectangle2;
         }
 
         for (int j = 0, last = area.Height / this[index].Height; j <= last; j++)
@@ -239,7 +247,9 @@ public partial class InterfaceImageLibrary : ImageLibrary
         if (area.Left + area.Width - libraryImage.Width < oldClip.Right)
         {
             var item = this[index + 2];
-            lockedSurface.ClipRectangle.Right = area.Left + area.Width - item.Width;
+            var clipRectangle = lockedSurface.ClipRectangle;
+            clipRectangle.Right = area.Left + area.Width - item.Width;
+            lockedSurface.ClipRectangle = clipRectangle;
         }
 
         for (int i = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; i <= last; i++)
@@ -290,7 +300,9 @@ public partial class InterfaceImageLibrary : ImageLibrary
         if (area.Top + area.Height - libraryImage.Height < oldClip.Bottom)
         {
             var item = this[index + 2];
-            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height - item.Height;
+            var clipRectangle = lockedSurface.ClipRectangle;
+            clipRectangle.Bottom = area.Top + area.Height - item.Height;
+            lockedSurface.ClipRectangle = clipRectangle;
         }
 
         for (int i = 0, last = (area.Height - this[index].Height - this[index + 2].Height) / this[index + 1].Height; i <= last; i++)

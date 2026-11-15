@@ -17,7 +17,7 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
     // GlobalTargetSpells.pas:401
     public new const int ClassId = 135976;
 
-    public MapCoordinate Location;
+    public MapCoordinate Location { get; private set; }
 
     // The fourth byte of the packed location stored at id 20, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.

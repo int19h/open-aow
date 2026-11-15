@@ -321,12 +321,19 @@ public sealed class GraphicsConstructionTests
 
     private sealed class DisplayObservingOwner : Component
     {
-        public int X, Y;
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
         {
             if (operation == Aow.Rtl.Component.Operation.Insert && component is SdlDisplayController controller)
-                controller.GetMousePosition(ref X, ref Y);
+            {
+                var x = X;
+                var y = Y;
+                controller.GetMousePosition(ref x, ref y);
+                X = x;
+                Y = y;
+            }
             base.Notification(component, operation);
         }
     }

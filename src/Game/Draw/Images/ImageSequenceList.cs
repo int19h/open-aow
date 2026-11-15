@@ -432,10 +432,8 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         ImageSequence sequence;
         Rect sr = default;
-        R.Left = 0;
-        R.Right = 0;
-        R.Top = 0;
-        R.Bottom = 0;
+        // The out value is assigned before its members are written.
+        R = default;
         if (index < Count && index >= 0)
         {
             sequence = List[index];

@@ -3,5 +3,5 @@ namespace Aow.Game.World.Structures;
 
 public sealed class DefenseRequirementsQuery
 {
-    public DefenseRequirements Requirements;
+    public DefenseRequirements Requirements { get; internal set; }
 }

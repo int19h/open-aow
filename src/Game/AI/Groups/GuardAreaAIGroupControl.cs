@@ -59,7 +59,9 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
             if (CombatPredictor.GetEfficiency() > 0)
             {
                 var efficiency = CombatPredictor.GetEfficiency();
-                target.Data.Priority = efficiency + (target.Data.Priority * 100 - target.MovePoints * 5);
+                var data = target.Data;
+                data.Priority = efficiency + (data.Priority * 100 - target.MovePoints * 5);
+                target.Data = data;
                 base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }
@@ -83,7 +85,9 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 finder.Setup(this);
                 {
                     finder.Selector.SourceLocation = ((GuardAreaAIGroup)Group).GuardLocation;
-                    finder.Selector.TargetInfo.Mode = AITargetMode.GuardArea;
+                    var targetInfo = finder.Selector.TargetInfo;
+                    targetInfo.Mode = AITargetMode.GuardArea;
+                    finder.Selector.TargetInfo = targetInfo;
                 }
 
                 var moves = Army.Moves(Selection);

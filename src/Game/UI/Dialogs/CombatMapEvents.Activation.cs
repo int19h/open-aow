@@ -45,24 +45,36 @@ public partial class CombatMapEvents
         UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
         UI.MapWindow.WorldAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
         UI.MapWindow.WorldAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;
-        UI.MapWindow.WorldRectangle.Left = UI.MapWindow.MainWindow.Alignment.LeftOffset;
-        UI.MapWindow.WorldRectangle.Top = UI.MapWindow.MainWindow.Alignment.TopOffset;
+        var worldRectangle = UI.MapWindow.WorldRectangle;
+        worldRectangle.Left = UI.MapWindow.MainWindow.Alignment.LeftOffset;
+        UI.MapWindow.WorldRectangle = worldRectangle;
+        var worldRectangle2 = UI.MapWindow.WorldRectangle;
+        worldRectangle2.Top = UI.MapWindow.MainWindow.Alignment.TopOffset;
+        UI.MapWindow.WorldRectangle = worldRectangle2;
         if (UI.MapWindow.WorldAlignWidth == AlignWidth.Both)
         {
-            UI.MapWindow.WorldRectangle.Right = UI.MapWindow.MainWindow.Alignment.RightOffset;
+            var worldRectangle3 = UI.MapWindow.WorldRectangle;
+            worldRectangle3.Right = UI.MapWindow.MainWindow.Alignment.RightOffset;
+            UI.MapWindow.WorldRectangle = worldRectangle3;
         }
         else
         {
-            UI.MapWindow.WorldRectangle.Right = UI.MapWindow.MainWindow.WinWidth;
+            var worldRectangle4 = UI.MapWindow.WorldRectangle;
+            worldRectangle4.Right = UI.MapWindow.MainWindow.WinWidth;
+            UI.MapWindow.WorldRectangle = worldRectangle4;
         }
 
         if (UI.MapWindow.WorldAlignHeight == AlignHeight.Both)
         {
-            UI.MapWindow.WorldRectangle.Bottom = UI.MapWindow.MainWindow.Alignment.BottomOffset;
+            var worldRectangle5 = UI.MapWindow.WorldRectangle;
+            worldRectangle5.Bottom = UI.MapWindow.MainWindow.Alignment.BottomOffset;
+            UI.MapWindow.WorldRectangle = worldRectangle5;
         }
         else
         {
-            UI.MapWindow.WorldRectangle.Bottom = UI.MapWindow.MainWindow.WinHeight;
+            var worldRectangle6 = UI.MapWindow.WorldRectangle;
+            worldRectangle6.Bottom = UI.MapWindow.MainWindow.WinHeight;
+            UI.MapWindow.WorldRectangle = worldRectangle6;
         }
 
         UI.MapWindow.MainWindow.Alignment.LeftOffset = UI.MapWindow.MapRectangle.Left;

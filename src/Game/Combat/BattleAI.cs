@@ -2268,7 +2268,9 @@ public partial class BattleAI : IDisposable
                                     settings.SetSourcePosition(u.UnitHexSprite.GetHexX(), hexY, 0);
                                     settings.ArmyHexSprite = u.UnitHexSprite;
                                     settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
-                                    u.Troop.CreateMovePointTable(out settings.MovePointTable);
+                                    var movePointTable = settings.MovePointTable;
+                                    u.Troop.CreateMovePointTable(out movePointTable);
+                                    settings.MovePointTable = movePointTable;
                                     settings.Player = u.GetPlayer();
                                     settings.MovePointsMax = 200;
                                     CombatMap.Current.MoveControl.ProcessMove(settings);
@@ -2531,7 +2533,9 @@ public partial class BattleAI : IDisposable
                                             settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                         }
 
-                                        u.Troop.CreateMovePointTable(out settings.MovePointTable);
+                                        var movePointTable2 = settings.MovePointTable;
+                                        u.Troop.CreateMovePointTable(out movePointTable2);
+                                        settings.MovePointTable = movePointTable2;
                                         settings.Player = u.GetPlayer();
                                         settings.MovePointsMax = 200;
                                         CombatMap.Current.MoveControl.ProcessMove(settings);
@@ -2722,7 +2726,9 @@ public partial class BattleAI : IDisposable
                                     settings.SetDestinationPosition(((TacticalBattleUnit)_units[n]).UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, 0);
                                     settings.ArmyHexSprite = u.UnitHexSprite;
                                     settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
-                                    u.Troop.CreateMovePointTable(out settings.MovePointTable);
+                                    var movePointTable3 = settings.MovePointTable;
+                                    u.Troop.CreateMovePointTable(out movePointTable3);
+                                    settings.MovePointTable = movePointTable3;
                                     settings.Player = u.GetPlayer();
                                     CombatMap.Current.MoveControl.ProcessMove(settings);
                                     if (settings.Path.Count > 2)
@@ -2874,7 +2880,9 @@ public partial class BattleAI : IDisposable
                                             }
                                         }
 
-                                        move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out settings.MovePointTable);
+                                        var movePointTable4 = settings.MovePointTable;
+                                        move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out movePointTable4);
+                                        settings.MovePointTable = movePointTable4;
                                         settings.Player = move.UnitHexSprite.Unit.GetPlayer();
                                         CombatMap.Current.MoveControl.ProcessMove(settings);
                                         if (settings.Path.Count < 2 && !settings.MoveFlags.Contains(CombatMoveModeElement.Wall))
@@ -2948,7 +2956,9 @@ public partial class BattleAI : IDisposable
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
                                     settings.ArmyHexSprite = move.UnitHexSprite;
                                     settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
-                                    move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out settings.MovePointTable);
+                                    var movePointTable5 = settings.MovePointTable;
+                                    move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out movePointTable5);
+                                    settings.MovePointTable = movePointTable5;
                                     settings.Player = move.UnitHexSprite.Unit.GetPlayer();
                                     CombatMap.Current.MoveControl.ProcessMove(settings);
                                     if (settings.Path.Count > 1)
@@ -2987,7 +2997,9 @@ public partial class BattleAI : IDisposable
                                         settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                     }
 
-                                    move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out settings.MovePointTable);
+                                    var movePointTable6 = settings.MovePointTable;
+                                    move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out movePointTable6);
+                                    settings.MovePointTable = movePointTable6;
                                     settings.Player = move.UnitHexSprite.Unit.GetPlayer();
                                     move.UnitHexSprite.SelectedAbility = move.Ability;
                                     CombatMap.Current.MoveControl.ProcessMove(settings);

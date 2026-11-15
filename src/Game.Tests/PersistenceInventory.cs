@@ -34,8 +34,7 @@ internal static class PersistenceInventory
     private const string ImageTreeName = "Aow.Formats.Tree.ImageTree";
     private const string TreeNamespace = "Aow.Formats.Tree";
 
-    internal static readonly AllowedSite[] AllowedSites =
-    [
+    internal static AllowedSite[] AllowedSites { get; } = [
         new("Aow.Formats.GameBoundary", "ReadImageTree",
             "Import reads an original image the game already holds, such as a campaign map that is still an image, a preview or an imported file."),
         new("Aow.Formats.GameBoundary", "WriteImage",

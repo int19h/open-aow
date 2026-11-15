@@ -32,7 +32,7 @@ public partial class Animation : HexSprite
 
     public int FrameCounter { get; set; }
 
-    public Rect Dimensions;
+    public Rect Dimensions { get; internal set; }
 
     public event ShowAnimationEvent OnShow;
 

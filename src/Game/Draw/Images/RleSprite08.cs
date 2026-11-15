@@ -29,10 +29,10 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
 
     internal byte[] Data { get; private set; }
 
-    internal int RleLeft;
-    internal int RleTop;
-    internal int RleWidth;
-    internal int RleHeight;
+    internal int RleLeft { get; private set; }
+    internal int RleTop { get; private set; }
+    internal int RleWidth { get; private set; }
+    internal int RleHeight { get; private set; }
 
     // ImageLib.pas:7512
     public override void ReleaseDiscardableImageData()
@@ -97,20 +97,27 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     // ImageLib.pas:7553
     public override void GetVisualDimensions(out Rect R)
     {
-        R.Left = Xshift + RleLeft;
-        R.Right = R.Left + RleWidth;
-        R.Top = Yshift + RleTop;
-        R.Bottom = R.Top + RleHeight;
+        int left = Xshift + RleLeft;
+        int top = Yshift + RleTop;
+        R = new() { Left = left, Right = left + RleWidth, Top = top, Bottom = top + RleHeight };
     }
 
     // ImageLib.pas:7561
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref RleWidth, 4));
-        stream.ReadExactly(Bytes.Of(ref RleHeight, 4));
-        stream.ReadExactly(Bytes.Of(ref RleLeft, 4));
-        stream.ReadExactly(Bytes.Of(ref RleTop, 4));
+        var rleWidth = RleWidth;
+        stream.ReadExactly(Bytes.Of(ref rleWidth, 4));
+        RleWidth = rleWidth;
+        var rleHeight = RleHeight;
+        stream.ReadExactly(Bytes.Of(ref rleHeight, 4));
+        RleHeight = rleHeight;
+        var rleLeft = RleLeft;
+        stream.ReadExactly(Bytes.Of(ref rleLeft, 4));
+        RleLeft = rleLeft;
+        var rleTop = RleTop;
+        stream.ReadExactly(Bytes.Of(ref rleTop, 4));
+        RleTop = rleTop;
         stream.ReadExactly(Bytes.Of(ref _transparentColor, 4));
         stream.ReadExactly(Bytes.Of(ref _unknownBytes, 4));
     }
@@ -119,10 +126,18 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref RleWidth, 4));
-        stream.Write(Bytes.Of(ref RleHeight, 4));
-        stream.Write(Bytes.Of(ref RleLeft, 4));
-        stream.Write(Bytes.Of(ref RleTop, 4));
+        var rleWidth = RleWidth;
+        stream.Write(Bytes.Of(ref rleWidth, 4));
+        RleWidth = rleWidth;
+        var rleHeight = RleHeight;
+        stream.Write(Bytes.Of(ref rleHeight, 4));
+        RleHeight = rleHeight;
+        var rleLeft = RleLeft;
+        stream.Write(Bytes.Of(ref rleLeft, 4));
+        RleLeft = rleLeft;
+        var rleTop = RleTop;
+        stream.Write(Bytes.Of(ref rleTop, 4));
+        RleTop = rleTop;
         stream.Write(Bytes.Of(ref _transparentColor, 4));
         stream.Write(Bytes.Of(ref _unknownBytes, 4));
     }

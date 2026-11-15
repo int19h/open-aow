@@ -8,15 +8,15 @@ namespace Aow.Game.Combat;
 // Each set keeps the width of its Delphi set: a value is cut to that width when it is assigned.
 public struct StormDamageInfo
 {
-    public sbyte Player;
-    public sbyte IndependentRelation;
+    public sbyte Player { get; internal set; }
+    public sbyte IndependentRelation { get; }
 
     public Set<byte> FriendlyRelations { get; set => field = Set<byte>.FromMask((byte)value.Image); }
 
     public Set<byte> EnemyRelations { get; set => field = Set<byte>.FromMask((byte)value.Image); }
 
-    public int FriendlyValue;
-    public int EnemyValue;
-    public int FriendlyDamage;
-    public int EnemyDamage;
+    public int FriendlyValue { get; internal set; }
+    public int EnemyValue { get; internal set; }
+    public int FriendlyDamage { get; internal set; }
+    public int EnemyDamage { get; internal set; }
 }

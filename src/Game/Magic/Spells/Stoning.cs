@@ -18,12 +18,14 @@ public partial class Stoning : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_stoningText);
         SpellId = 122;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 2;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
         spellCombatInfo.RepeatCount = 6;
         spellCombatInfo.Range = 12;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_stoningText = "Stoning";

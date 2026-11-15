@@ -422,7 +422,9 @@ public partial class FastBattleWindow : UIModule
                     SequencePositionSlider.Position = _viewer.Position;
                 }
 
-                lockedSurface.ClipRectangle.Top = MainWindow.WinTop + 24;
+                var clipRectangle = lockedSurface.ClipRectangle;
+                clipRectangle.Top = MainWindow.WinTop + 24;
+                lockedSurface.ClipRectangle = clipRectangle;
                 DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, ref lockedSurface);
                 surface.Unlock();
             }

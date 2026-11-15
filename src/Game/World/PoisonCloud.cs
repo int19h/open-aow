@@ -242,14 +242,20 @@ public partial class PoisonCloud : MultiHexMapObject
         var hexX = GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
         message.MessageId = 4432;
-        message.Param[0] = (int)StormType.Pestilence;
-        message.Param[2] = Player;
+        var param = message.Param;
+        param[0] = (int)StormType.Pestilence;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[2] = Player;
+        message.Param = param2;
         ref var walk = ref hexNumberWalkData;
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
-                message.Param[1] = walk.Radius;
+                var param3 = message.Param;
+                param3[1] = walk.Radius;
+                message.Param = param3;
                 level.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
             }
 

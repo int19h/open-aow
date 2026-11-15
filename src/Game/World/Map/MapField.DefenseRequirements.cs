@@ -11,9 +11,15 @@ public partial class MapField
     {
         var query = new AITargetQuery { Info = info };
         var message = new MapFieldMessage { MessageId = 0x1200, Result = 0 };
-        message.Param[0] = query;
-        message.Param[1] = query;
-        message.Param[2] = control;
+        var param = message.Param;
+        param[0] = query;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[1] = query;
+        message.Param = param2;
+        var param3 = message.Param;
+        param3[2] = control;
+        message.Param = param3;
         try { SendMapFieldMessage(ref message); }
         finally { data = query.Data; }
         return data.Priority != 0;
@@ -23,8 +29,12 @@ public partial class MapField
     {
         var query = new DefenseRequirementsQuery();
         var message = new MapFieldMessage { MessageId = 0x1127, Result = 0 };
-        message.Param[0] = player;
-        message.Param[1] = query;
+        var param = message.Param;
+        param[0] = player;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[1] = query;
+        message.Param = param2;
         try { SendMapFieldMessage(ref message); }
         finally { requirements = query.Requirements; }
     }

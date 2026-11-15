@@ -575,7 +575,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         {
             if (!Validate(message.Payload.As<StringCollection>()))
             {
-                message.Data[0] = 1;
+                var data = message.Data;
+                data[0] = 1;
+                message.Data = data;
             }
         }
 

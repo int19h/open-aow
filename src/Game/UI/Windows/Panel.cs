@@ -254,10 +254,18 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            OldRectangle.Left = WinLeft;
-            OldRectangle.Top = WinTop;
-            OldRectangle.Right = WinWidth;
-            OldRectangle.Bottom = WinHeight;
+            var oldRectangle = OldRectangle;
+            oldRectangle.Left = WinLeft;
+            OldRectangle = oldRectangle;
+            var oldRectangle2 = OldRectangle;
+            oldRectangle2.Top = WinTop;
+            OldRectangle = oldRectangle2;
+            var oldRectangle3 = OldRectangle;
+            oldRectangle3.Right = WinWidth;
+            OldRectangle = oldRectangle3;
+            var oldRectangle4 = OldRectangle;
+            oldRectangle4.Bottom = WinHeight;
+            OldRectangle = oldRectangle4;
         }
         else
         {
@@ -382,10 +390,18 @@ public partial class Panel : BaseWindow
                 Drawn = false;
                 if (!Hidden)
                 {
-                    BackRectangle.Right = WinWidth;
-                    BackRectangle.Bottom = WinHeight;
-                    BackRectangle.Top = WinTop;
-                    BackRectangle.Left = WinLeft;
+                    var backRectangle = BackRectangle;
+                    backRectangle.Right = WinWidth;
+                    BackRectangle = backRectangle;
+                    var backRectangle2 = BackRectangle;
+                    backRectangle2.Bottom = WinHeight;
+                    BackRectangle = backRectangle2;
+                    var backRectangle3 = BackRectangle;
+                    backRectangle3.Top = WinTop;
+                    BackRectangle = backRectangle3;
+                    var backRectangle4 = BackRectangle;
+                    backRectangle4.Left = WinLeft;
+                    BackRectangle = backRectangle4;
                     Hidden = true;
                 }
 
@@ -460,22 +476,30 @@ public partial class Panel : BaseWindow
                 SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 if (WinLeft < lockedSurface.ClipRectangle.Right && WinLeft > lockedSurface.ClipRectangle.Left)
                 {
-                    lockedSurface.ClipRectangle.Left = WinLeft;
+                    var clipRectangle = lockedSurface.ClipRectangle;
+                    clipRectangle.Left = WinLeft;
+                    lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 if (WinTop < lockedSurface.ClipRectangle.Bottom && WinTop > lockedSurface.ClipRectangle.Top)
                 {
-                    lockedSurface.ClipRectangle.Top = WinTop;
+                    var clipRectangle2 = lockedSurface.ClipRectangle;
+                    clipRectangle2.Top = WinTop;
+                    lockedSurface.ClipRectangle = clipRectangle2;
                 }
 
                 if (WinLeft + WinWidth > lockedSurface.ClipRectangle.Left && WinLeft + WinWidth < lockedSurface.ClipRectangle.Right)
                 {
-                    lockedSurface.ClipRectangle.Right = WinLeft + WinWidth;
+                    var clipRectangle3 = lockedSurface.ClipRectangle;
+                    clipRectangle3.Right = WinLeft + WinWidth;
+                    lockedSurface.ClipRectangle = clipRectangle3;
                 }
 
                 if (WinTop + WinHeight > lockedSurface.ClipRectangle.Top && WinTop + WinHeight < lockedSurface.ClipRectangle.Bottom)
                 {
-                    lockedSurface.ClipRectangle.Bottom = WinTop + WinHeight;
+                    var clipRectangle4 = lockedSurface.ClipRectangle;
+                    clipRectangle4.Bottom = WinTop + WinHeight;
+                    lockedSurface.ClipRectangle = clipRectangle4;
                 }
 
                 if (SurfaceValid)
@@ -490,7 +514,9 @@ public partial class Panel : BaseWindow
                         lockedSurface.ClipRectangle = oldClip;
                         SetWinLeftWithoutInvalidate(savedLeft);
                         SetWinTopWithoutInvalidate(savedTop);
-                        InvalidateRectangle(0, ref d.Rectangle, d.Owner);
+                        var rectangle5 = d.Rectangle;
+                        InvalidateRectangle(0, ref rectangle5, d.Owner);
+                        d.Rectangle = rectangle5;
                         SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
                         SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                     }
@@ -520,7 +546,9 @@ public partial class Panel : BaseWindow
                         for (int j = 0, last = DrawCount - 1; j <= last; j++)
                         {
                             d = DrawList[j];
-                            InvalidateRectangle(i + 1, ref d.Rectangle, null);
+                            var rectangle6 = d.Rectangle;
+                            InvalidateRectangle(i + 1, ref rectangle6, null);
+                            d.Rectangle = rectangle6;
                         }
 
                         DrawCount = 0;

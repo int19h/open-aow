@@ -20,12 +20,14 @@ public partial class Entangle : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
         SpellId = 111;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
+
+        CombatInfo = spellCombatInfo;
     }
 
     // CombatSpells.pas:1368

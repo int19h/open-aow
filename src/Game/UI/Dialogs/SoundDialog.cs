@@ -39,7 +39,7 @@ public partial class SoundDialog : UIModule
 
     public int SoundQuality { get; set; }
 
-    public SoundSettings Settings;
+    public SoundSettings Settings { get; internal set; }
 
     // AoWSoundDlg.pas:108
     public void CloseClick()
@@ -241,14 +241,22 @@ public partial class SoundDialog : UIModule
             SoundQuality = 1;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                Settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
-                Settings.SampleRate = 22050;
+                var settings = Settings;
+                settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
+                Settings = settings;
+                var settings2 = Settings;
+                settings2.SampleRate = 22050;
+                Settings = settings2;
                 SetSoundSettings(Settings);
             }
             else
             {
-                Settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
-                Settings.SampleRate = 22050;
+                var settings3 = Settings;
+                settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
+                Settings = settings3;
+                var settings4 = Settings;
+                settings4.SampleRate = 22050;
+                Settings = settings4;
                 AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
         }
@@ -271,14 +279,22 @@ public partial class SoundDialog : UIModule
             SoundQuality = 2;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                Settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
-                Settings.SampleRate = 44100;
+                var settings = Settings;
+                settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
+                Settings = settings;
+                var settings2 = Settings;
+                settings2.SampleRate = 44100;
+                Settings = settings2;
                 SetSoundSettings(Settings);
             }
             else
             {
-                Settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
-                Settings.SampleRate = 44100;
+                var settings3 = Settings;
+                settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
+                Settings = settings3;
+                var settings4 = Settings;
+                settings4.SampleRate = 44100;
+                Settings = settings4;
                 AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
         }
@@ -301,14 +317,22 @@ public partial class SoundDialog : UIModule
             SoundQuality = 3;
             if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                Settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
-                Settings.SampleRate = 44100;
+                var settings = Settings;
+                settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
+                Settings = settings;
+                var settings2 = Settings;
+                settings2.SampleRate = 44100;
+                Settings = settings2;
                 SetSoundSettings(Settings);
             }
             else
             {
-                Settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
-                Settings.SampleRate = 44100;
+                var settings3 = Settings;
+                settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
+                Settings = settings3;
+                var settings4 = Settings;
+                settings4.SampleRate = 44100;
+                Settings = settings4;
                 AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
         }
@@ -335,7 +359,9 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:322
     public void MusicEnabledChkChange(CheckBox sender)
     {
-        Settings.MusicEnabled = MusicEnabledCheckBox.Checked;
+        var settings = Settings;
+        settings.MusicEnabled = MusicEnabledCheckBox.Checked;
+        Settings = settings;
         SetMusicEnabled(Settings.MusicEnabled);
         if (Settings.MusicEnabled && SoundQuality != 0)
         {
@@ -355,7 +381,9 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:331
     public void SFXEnabledChkChange(CheckBox sender)
     {
-        Settings.SfxEnabled = EffectsEnabledCheckBox.Checked;
+        var settings = Settings;
+        settings.SfxEnabled = EffectsEnabledCheckBox.Checked;
+        Settings = settings;
         SetSfxEnabled(Settings.SfxEnabled);
         if (sender.Checked)
         {
@@ -370,7 +398,9 @@ public partial class SoundDialog : UIModule
     // AoWSoundDlg.pas:339
     public void DirectSoundEnabledChkChange(CheckBox sender)
     {
-        Settings.UseDirectSound = DirectSoundEnabledCheckBox.Checked;
+        var settings = Settings;
+        settings.UseDirectSound = DirectSoundEnabledCheckBox.Checked;
+        Settings = settings;
         if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
         {
             SetSoundSettings(Settings);

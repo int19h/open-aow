@@ -36,8 +36,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public bool ActionDone { get; private set; }
     public short ActionFrame { get; private set; }
 
-    public int OffsetX;
-    public int OffsetY;
+    public int OffsetX { get; internal set; }
+    public int OffsetY { get; internal set; }
 
     public int SelectedAbility { get; set; }
     public int SelectedSpell { get; set; }
@@ -70,11 +70,15 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 {
                     var player = Unit.GetPlayer();
                     var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
-                    message.Param[0] = message.Param[0].Int | (playerPlayerRace.PlayerRace + 1);
+                    var param = message.Param;
+                    param[0] = param[0].Int | (playerPlayerRace.PlayerRace + 1);
+                    message.Param = param;
                 }
                 else
                 {
-                    message.Param[0] = message.Param[0].Int | 13;
+                    var param2 = message.Param;
+                    param2[0] = param2[0].Int | 13;
+                    message.Param = param2;
                 }
             }
         }

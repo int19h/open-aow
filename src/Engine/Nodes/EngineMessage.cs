@@ -11,11 +11,11 @@ public struct EngineMessage
     public int Sequence { get; set; }
     public EngineObject Sender { get; set; }
 
-    public EngineMessageParameters Param;
+    public EngineMessageParameters Param { get; set; }
 
     public MsgArg Payload { get; set; }
 
-    public Array4<int> Data;
+    public Array4<int> Data { get; set; }
 
     public int Result { get; set; }
 

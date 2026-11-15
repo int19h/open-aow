@@ -66,7 +66,9 @@ public partial class ArnoLine : Control
                 oldClip = lockedSurface.ClipRectangle;
                 if (WinTop > lockedSurface.ClipRectangle.Top)
                 {
-                    lockedSurface.ClipRectangle.Top = WinTop;
+                    var clipRectangle = lockedSurface.ClipRectangle;
+                    clipRectangle.Top = WinTop;
+                    lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);

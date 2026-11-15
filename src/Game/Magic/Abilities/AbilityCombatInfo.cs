@@ -10,10 +10,10 @@ public struct AbilityCombatInfo
 {
     public Set<CombatTargetTypeElement> TargetTypes { get; set => field = Set<CombatTargetTypeElement>.FromMask((byte)value.Image); }
 
-    public sbyte Attack;
-    public sbyte Damage;
+    public sbyte Attack { get; internal set; }
+    public sbyte Damage { get; internal set; }
 
     public Set<DamageType> DamageTypes { get; set => field = Set<DamageType>.FromMask((ushort)value.Image); }
 
-    public sbyte RepeatCount;
+    public sbyte RepeatCount { get; internal set; }
 }

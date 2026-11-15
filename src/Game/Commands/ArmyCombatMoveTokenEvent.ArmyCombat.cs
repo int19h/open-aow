@@ -58,7 +58,9 @@ public partial class ArmyCombatMoveTokenEvent
         {
             using (ArmyHexSprite.Army.BeginUpdate())
             {
-                ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
+                var armyHexSprite2 = ArmyHexSprite;
+                armyHexSprite2.Army.Mode = ArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
+                ArmyHexSprite = armyHexSprite2;
                 for (int i = otherArmyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                 {
                     troop = otherArmyHexSprite.Army.Units.GetUnit(i);
@@ -66,7 +68,9 @@ public partial class ArmyCombatMoveTokenEvent
                     ArmyHexSprite.Army.AddUnit(troop);
                 }
 
-                ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
+                var armyHexSprite3 = ArmyHexSprite;
+                armyHexSprite3.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
+                ArmyHexSprite = armyHexSprite3;
             }
         }
 
@@ -92,8 +96,12 @@ public partial class ArmyCombatMoveTokenEvent
         combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, _combatType == CombatType.Fast);
         combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
-        message.Param[0] = combat;
-        message.Param[1] = ArmyHexSprite;
+        var param = message.Param;
+        param[0] = combat;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[1] = ArmyHexSprite;
+        message.Param = param2;
         message.Result = 0;
         field.SendMapFieldMessage(ref message);
         if (message.Result.Int == 0)
@@ -193,7 +201,9 @@ public partial class ArmyCombatMoveTokenEvent
                         }
                     }
 
-                    ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+                    var armyHexSprite4 = ArmyHexSprite;
+                    armyHexSprite4.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+                    ArmyHexSprite = armyHexSprite4;
                 }
 
                 if (moved)

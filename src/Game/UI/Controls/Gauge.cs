@@ -134,7 +134,9 @@ public partial class Gauge : Control
                         if (Window.WinLeft + p + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
                             var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            lockedSurface.ClipRectangle.Left = Window.WinLeft + p + WinLeft + imageLibraryFrame3.Width;
+                            var clipRectangle = lockedSurface.ClipRectangle;
+                            clipRectangle.Left = Window.WinLeft + p + WinLeft + imageLibraryFrame3.Width;
+                            lockedSurface.ClipRectangle = clipRectangle;
                         }
 
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
@@ -157,7 +159,9 @@ public partial class Gauge : Control
                         p = _position * WinWidth / (_max - _min);
                         if (Window.WinLeft + p + WinLeft > lockedSurface.ClipRectangle.Left)
                         {
-                            lockedSurface.ClipRectangle.Left = Window.WinLeft + p + WinLeft;
+                            var clipRectangle2 = lockedSurface.ClipRectangle;
+                            clipRectangle2.Left = Window.WinLeft + p + WinLeft;
+                            lockedSurface.ClipRectangle = clipRectangle2;
                         }
 
                         var rectangle4 = new SizedRectangle(Window.WinLeft + p + WinLeft, Window.WinTop + WinTop, WinWidth - p, WinHeight);

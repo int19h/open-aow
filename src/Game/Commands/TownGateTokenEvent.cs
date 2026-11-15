@@ -22,7 +22,7 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
 
     public ArmyId ArmyId { get; set; }
 
-    public MapCoordinate TeleportLocation;
+    public MapCoordinate TeleportLocation { get; internal set; }
 
     // The fourth byte of the packed teleport location stored at id 30 (UnknownBytes keeps the one of
     // id 20), 0 from every writer and in every corpus file, kept so that a loaded value saves back

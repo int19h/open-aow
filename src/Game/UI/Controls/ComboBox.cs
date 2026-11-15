@@ -242,7 +242,9 @@ public partial class ComboBox : Control
 
                     if (Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth < oldClip.Right)
                     {
-                        lockedSurface.ClipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth;
+                        var clipRectangle = lockedSurface.ClipRectangle;
+                        clipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - _scrollBarWidth;
+                        lockedSurface.ClipRectangle = clipRectangle;
                     }
 
                     for (int i = 0, last = _openListRows - 1; i <= last; i++)

@@ -18,12 +18,14 @@ public partial class SolarFlare : CombatSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_solarFlareText);
         SpellId = 100;
-        ref var spellCombatInfo = ref CombatInfo;
+        var spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
+
+        CombatInfo = spellCombatInfo;
     }
 
     private static readonly string s_solarFlareText = "Solar Flare";

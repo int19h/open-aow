@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
 public partial class CombatSpell : Spell
 {
-    public SpellCombatInfo CombatInfo;
+    public SpellCombatInfo CombatInfo { get; protected set; }
 
     public byte DamageMode { get; protected set; }
 
@@ -24,8 +24,12 @@ public partial class CombatSpell : Spell
     {
         SpellType = SpellType.Combat;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat);
-        CombatInfo.Radius = 1;
-        CombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        var combatInfo = CombatInfo;
+        combatInfo.Radius = 1;
+        CombatInfo = combatInfo;
+        var combatInfo2 = CombatInfo;
+        combatInfo2.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        CombatInfo = combatInfo2;
         CastDuration = 5;
         DamageMode = 0;
     }

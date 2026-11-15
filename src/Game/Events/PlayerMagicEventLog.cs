@@ -24,7 +24,7 @@ public partial class PlayerMagicEventLog : EventLog
 
     public EventMode Mode { get; set; }
 
-    public MapCoordinate Location;
+    public MapCoordinate Location { get; internal set; }
 
     // The fourth byte of the packed location stored at id 24, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.

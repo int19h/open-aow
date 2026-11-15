@@ -490,7 +490,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         MapFieldMessage message = default;
         message.MessageId = 4364;
-        message.Param[0] = 0;
+        var param = message.Param;
+        param[0] = 0;
+        message.Param = param;
         message.Result = 0;
         SendMapFieldMessage(ref message);
         return message.Param[0].Int;
@@ -512,7 +514,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         MapFieldMessage message = default;
         message.MessageId = 4392;
         message.Result = 0;
-        message.Param[0] = 0;
+        var param = message.Param;
+        param[0] = 0;
+        message.Param = param;
         SendMapFieldMessage(ref message);
         return message.Param[0].Int != 0;
     }
@@ -523,7 +527,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         MapFieldMessage message = default;
         message.MessageId = 4393;
         message.Result = 0;
-        message.Param[0] = 0;
+        var param = message.Param;
+        param[0] = 0;
+        message.Param = param;
         SendMapFieldMessage(ref message);
         return message.Param[0].Int != 0;
     }
@@ -543,8 +549,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         MapFieldMessage message = default;
         message.MessageId = 4353;
-        message.Param[0] = player;
-        message.Param[1] = 0;
+        var param = message.Param;
+        param[0] = player;
+        message.Param = param;
+        var param2 = message.Param;
+        param2[1] = 0;
+        message.Param = param2;
         SendMapFieldMessage(ref message);
         return (MoveAction)message.Param[1].Int;
     }
@@ -574,7 +584,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         MapFieldMessage message = default;
         message.MessageId = 4387;
-        message.Param[0] = this;
+        var param = message.Param;
+        param[0] = this;
+        message.Param = param;
         message.Result = 0;
         SendMapFieldMessage(ref message);
         return (WallType)message.Result.Int;
@@ -588,7 +600,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         MapFieldMessage message = default;
         message.MessageId = 4402;
-        message.Param[0] = this;
+        var param = message.Param;
+        param[0] = this;
+        message.Param = param;
         message.Result = 0;
         SendMapFieldMessage(ref message);
     }
