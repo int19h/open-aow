@@ -325,11 +325,11 @@ public partial class ExplorationSite : Structure
         for (int i = 0, last = data.GetCount() - 1; i <= last; i++)
         {
             objectValue = data.GetObjects(i);
-            if (objectValue is CombatUnit && objectValue.GetPlayer() == 0)
+            if (objectValue is CombatUnit combatUnit && objectValue.GetPlayer() == 0)
             {
-                troop = ((CombatUnit)objectValue).Troop;
+                troop = combatUnit.Troop;
                 troop.AddRef();
-                ((CombatUnit)objectValue).SetUnit(null);
+                combatUnit.SetUnit(null);
                 _defenders.AddUnit(troop);
                 troop.Release();
             }

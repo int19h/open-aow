@@ -24,11 +24,11 @@ public partial class SlowCombatAction : ExclusiveCombatSpellCombatAction
         base.Execute(combat);
         if (Succeeded)
         {
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             source = combat.CombatData.FindId(SourceId);
             if (target.Troop.ExpandAbility(132))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.Troop.GetAbilityData(132)).Enchantment;
+                enchantment = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(132).Enchantment;
                 enchantment.SetUpkeep(0);
                 enchantment.SetSource(source.GetPlayer());
             }

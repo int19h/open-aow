@@ -24,7 +24,7 @@ public partial class MindDecayCombatAction : ExclusiveCombatSpellCombatAction
         if (Succeeded)
         {
             source = combat.CombatData.FindId(SourceId);
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int i = 0; i <= 2; i++)
             {

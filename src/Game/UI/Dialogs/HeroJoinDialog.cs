@@ -37,7 +37,7 @@ public partial class HeroJoinDialog : UIModule
     private bool _detailsOpen;
     private byte _selection;
     private UnitUserList _units;
-    private Troop _faceUnit;
+    private Hero _faceUnit;
 
     // AoWHeroJoinDlg.pas:68
     public bool ValidateJoin()
@@ -235,12 +235,12 @@ public partial class HeroJoinDialog : UIModule
         if (dialog.ValidateJoin())
         {
             dialog._units.Clear();
-            dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
+            dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
             dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
-            var level = ((Hero)dialog._faceUnit).GetLevel();
+            var level = dialog._faceUnit.GetLevel();
             var format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;
-            dialog.HeroNameLabel.Text = ((Hero)dialog._faceUnit).HeroName;
+            dialog.HeroNameLabel.Text = dialog._faceUnit.HeroName;
             var text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
         }

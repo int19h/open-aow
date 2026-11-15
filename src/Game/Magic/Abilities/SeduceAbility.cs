@@ -27,14 +27,12 @@ public partial class SeduceAbility : CommandAbility
     // AoWAb.PAS:5389
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool result = base.CanTouch(source, target);
-        if (result)
+        if (base.CanTouch(source, target) && target is CombatUnit combatUnit)
         {
-            var combatUnit = (CombatUnit)target;
-            result = combatUnit.Troop.GetGender() == UnitGender.Male && combatUnit.Troop.GetUnitType() == UnitType.Humanoid;
+            return combatUnit.Troop.GetGender() == UnitGender.Male && combatUnit.Troop.GetUnitType() == UnitType.Humanoid;
         }
 
-        return result;
+        return false;
     }
 
     // AoWAb.PAS:5384

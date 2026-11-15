@@ -230,6 +230,10 @@ public partial class AbilityOwner : CustomAbilityList
         return data;
     }
 
+    // The data for one ability, typed by the caller. Each call site names the
+    // data class its ability id stores, so the lookup keeps the single cast.
+    public T GetAbilityData<T>(int abilityId) where T : AbilityData => (T)GetAbilityData(abilityId);
+
     // Ability.PAS:1696
     public void AssignAbility(AbilityOwner source)
     {

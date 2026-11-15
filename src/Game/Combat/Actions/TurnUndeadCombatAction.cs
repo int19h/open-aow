@@ -25,12 +25,12 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
         base.Execute(combat);
         if (Damage != 0)
         {
-            source = (CombatUnit)combat.CombatData.FindId(SourceId);
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
-                data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(34);
+                data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
 
                 if (data != null)
                 {

@@ -66,24 +66,26 @@ public partial class PossessedAbility : PossessAbility
     {
         Unit newUnit;
         PossessedAbilityData data;
-        var combatUnit = (CombatUnit)combatObject;
-        combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-        newUnit = new Unit(null) { Holder = CreationHolder() };
-        newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
-        data = (PossessedAbilityData)combatUnit.Troop.GetAbilityData(107);
-        if (data != null)
+        if (combatObject is CombatUnit combatUnit)
         {
-            newUnit.SetExperience(data.SourceExperience);
-        }
+            combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
+            newUnit = new Unit(null) { Holder = CreationHolder() };
+            newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
+            data = (PossessedAbilityData)combatUnit.Troop.GetAbilityData(107);
+            if (data != null)
+            {
+                newUnit.SetExperience(data.SourceExperience);
+            }
 
-        if (combatUnit.Troop.UnitStatus.Contains(UnitStatusElement.Moving))
-        {
-            newUnit.UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Moving) + newUnit.UnitStatus;
-        }
+            if (combatUnit.Troop.UnitStatus.Contains(UnitStatusElement.Moving))
+            {
+                newUnit.UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Moving) + newUnit.UnitStatus;
+            }
 
-        combatUnit.Troop.Killed();
-        combatUnit.SetUnit(newUnit);
-        newUnit.Release();
+            combatUnit.Troop.Killed();
+            combatUnit.SetUnit(newUnit);
+            newUnit.Release();
+        }
     }
 
     // AoWAb.PAS:2592

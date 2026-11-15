@@ -148,15 +148,15 @@ public partial class CombatUnit : CombatObject
     public override int GetTargetWallCombatValue(CombatObject target)
     {
         int result;
-        if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1)
             {
-                result = Troop.GetCombatValue(((CombatUnit)target).Troop, 1);
+                result = Troop.GetCombatValue(targetUnit.Troop, 1);
             }
             else
             {
-                result = Troop.GetCombatValue(((CombatUnit)target).Troop, 2);
+                result = Troop.GetCombatValue(targetUnit.Troop, 2);
             }
         }
         else
@@ -374,14 +374,12 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1396
     public override void ObjectDestroyed(CombatObject objectValue)
     {
-        CombatUnit c;
         Troop u;
         base.ObjectDestroyed(objectValue);
-        if (Disabled && objectValue is CombatUnit)
+        if (Disabled && objectValue is CombatUnit combatUnit)
         {
-            c = (CombatUnit)objectValue;
-            u = c.Troop;
-            if (u != null && u.GetTransporter() && (int)(((uint)c.Position) >> 4) == (int)(((uint)Position) >> 4))
+            u = combatUnit.Troop;
+            if (u != null && u.GetTransporter() && (int)(((uint)combatUnit.Position) >> 4) == (int)(((uint)Position) >> 4))
             {
                 DestroyObject();
             }

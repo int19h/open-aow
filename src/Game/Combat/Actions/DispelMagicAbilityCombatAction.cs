@@ -19,7 +19,7 @@ public partial class DispelMagicAbilityCombatAction : DispelMagicCombatAction
     {
         CombatUnit source;
         base.Execute(combat);
-        source = (CombatUnit)combat.CombatData.FindId(SourceId);
+        source = combat.CombatData.FindId<CombatUnit>(SourceId);
         ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60)).SetEnabled(source.Troop, false);
     }
 

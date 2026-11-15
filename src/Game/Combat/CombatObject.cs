@@ -795,9 +795,9 @@ public partial class CombatObject : EngineObject
     internal static Set<DamageType> MeleeDamageTypes(CombatObject source)
     {
         Set<DamageType> result;
-        if (source is CombatUnit)
+        if (source is CombatUnit sourceUnit)
         {
-            result = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(((CombatUnit)source).Troop);
+            result = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(sourceUnit.Troop);
         }
         else
         {

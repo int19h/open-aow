@@ -468,7 +468,7 @@ public partial class MeleeRound : IDisposable
         if (source != null)
         {
             lifeStealing = source.GetAbilityEnabled(118);
-            if (lifeStealing && _defender is CombatUnit && ((CombatUnit)_defender).Troop.GetUnitType() == UnitType.Machine)
+            if (lifeStealing && _defender is CombatUnit defender && defender.Troop.GetUnitType() == UnitType.Machine)
             {
                 lifeStealing = false;
             }

@@ -110,9 +110,9 @@ public partial class InvokeDeathAbility : TouchAbility
     {
         float probability;
         int hitPoints;
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
-            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            probability = CombatTouchRoleProbability(attackerUnit, defender);
             hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
@@ -152,14 +152,7 @@ public partial class InvokeDeathAbility : TouchAbility
         bool result = base.CanTouch(source, target);
         if (result)
         {
-            bool condition = target is CombatUnit;
-            if (condition)
-            {
-                var unitType = ((CombatUnit)target).Troop.GetUnitType();
-                condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
-            }
-
-            result = condition && (ushort)((CombatUnit)target).Troop.GetRace() != 11 && !((CombatUnit)target).Troop.GetAbilityEnabled(129);
+            result = target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (ushort)targetUnit.Troop.GetRace() != 11 && !targetUnit.Troop.GetAbilityEnabled(129);
         }
 
         return result;
@@ -182,7 +175,7 @@ public partial class InvokeDeathAbility : TouchAbility
     public InvokeDeathCombatAction CreateCombatAction(CombatObject source, CombatObject target)
     {
         InvokeDeathCombatAction result = new InvokeDeathCombatAction(null) { Holder = CreationHolder() };
-        result.Initialize(successful: CombatTouchRole((CombatUnit)source, target), sourceId: source.Id, targetId: target.Id);
+        result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }
 

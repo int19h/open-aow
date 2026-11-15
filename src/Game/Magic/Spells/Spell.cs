@@ -261,19 +261,18 @@ public partial class Spell : EngineObject
     // Spells.PAS:193
     public void CastingDone(Troop source, int mana)
     {
-        if (source is Hero)
+        if (source is Hero hero)
         {
-            ((Hero)source).CastingDone(SpellId, mana);
+            hero.CastingDone(SpellId, mana);
         }
     }
 
     // Spells.PAS:198
     public void CombatCastingDone(CombatObject source, int mana)
     {
-        if (source is CombatUnit && ((CombatUnit)source).Troop is Hero)
+        if (source is CombatUnit combatUnit && combatUnit.Troop is Hero hero)
         {
-            var combatUnit = (CombatUnit)source;
-            ((Hero)combatUnit.Troop).CastingDone(SpellId, mana);
+            hero.CastingDone(SpellId, mana);
             combatUnit.UpdateWallCombatFeatures();
             if (source.Combat is FastBattle)
             {
@@ -355,5 +354,5 @@ public partial class Spell : EngineObject
 
     // Spells.PAS:215. The casting view aliases the combat unit's hero.
     public void CombatSpellCast(CombatUnit source) =>
-        CombatCastingDone(source, ((Hero)source.Troop).CastingMana(this));
+        CombatCastingDone(source, source.Troop.CastingMana(this));
 }

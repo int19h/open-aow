@@ -1883,9 +1883,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
             if ((selection & 1) != 0)
             {
                 troop = Units[i];
-                if (troop is Hero && types.Contains(((Hero)troop).GetHeroType()))
+                if (troop is Hero hero && types.Contains(hero.GetHeroType()))
                 {
-                    result = (Hero)troop;
+                    result = hero;
                 }
             }
 

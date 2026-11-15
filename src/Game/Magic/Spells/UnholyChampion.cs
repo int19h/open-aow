@@ -41,7 +41,7 @@ public partial class UnholyChampion : UnitSpell
         {
             if (target.ExpandAbility(161))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(161)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(161).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

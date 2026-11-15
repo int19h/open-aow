@@ -26,8 +26,8 @@ public partial class RecallSpiritCombatAction : ExclusiveCombatSpellCombatAction
         base.Execute(combat);
         if (Succeeded)
         {
-            source = (CombatUnit)combat.CombatData.FindId(SourceId);
-            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            target = combat.CombatData.FindId<CombatUnit>(TargetId);
             newUnit = new Unit(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(130));
             newUnit.SetPlayer(source.Troop.Player);

@@ -86,6 +86,9 @@ public partial class CombatData : EngineObject
     // Combat2.pas:234
     public CombatObject GetObjects(int index) => (CombatObject)CombatObjects.GetChild(index);
 
+    // The caller holds the guard that admits only the named kind, so the cast never fails there.
+    public T GetObjects<T>(int index) where T : CombatObject => (T)GetObjects(index);
+
     // Combat2.pas:246
     public int IndexOfId(int id)
     {
@@ -116,6 +119,9 @@ public partial class CombatData : EngineObject
 
         return null;
     }
+
+    // The id names a unit in the caller's combat action, so the cast never fails there.
+    public T FindId<T>(int id) where T : CombatObject => (T)FindId(id);
 
     // Combat2.pas:269
     public CombatObject FindPosition(byte position)

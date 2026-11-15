@@ -35,7 +35,7 @@ public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
         {
             if (GamePack.Current.SpellControl.GetSpell(SpellId) != null)
             {
-                source = (CombatUnit)combat.CombatData.FindId(SourceId);
+                source = combat.CombatData.FindId<CombatUnit>(SourceId);
                 GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source.Troop, ManaCost);
             }
         }

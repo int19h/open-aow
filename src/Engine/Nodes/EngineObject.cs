@@ -225,6 +225,10 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         return result;
     }
 
+    // A copy of this object, typed by the caller. Copy preserves the runtime
+    // class, so the typed copy keeps the single cast.
+    public T Copy<T>(GameEngine engine) where T : EngineObject => (T)Copy(engine);
+
     public CustomNode Owner { get => _owner; set => SetOwner(value); }
 
     IOwner IOwned.Owner => _owner;

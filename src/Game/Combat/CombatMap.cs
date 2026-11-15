@@ -333,10 +333,10 @@ public partial class CombatMap : GameMap
         while (i != 0 && x == -1)
         {
             i -= 1;
-            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(i)).Troop == hero)
+            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit unit && unit.Troop == hero)
             {
-                x = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX();
-                y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
+                x = unit.UnitHexSprite.GetHexX();
+                y = unit.UnitHexSprite.GetHexY();
                 l = 0;
             }
         }
@@ -600,9 +600,9 @@ public partial class CombatMap : GameMap
 
         while (index < Combat.CombatData.GetCount() && index > -1)
         {
-            if (Combat.CombatData.GetObjects(index) != null && Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || ((TacticalBattleUnit)Combat.CombatData.GetObjects(index)).MovePoints > 0) && Combat.CombatData.GetObjects(index).GetEnabled() && Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
+            if (Combat.CombatData.GetObjects(index) != null && Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || Combat.CombatData.GetObjects<TacticalBattleUnit>(index).MovePoints > 0) && Combat.CombatData.GetObjects(index).GetEnabled() && Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
             {
-                result = (TacticalBattleUnit)Combat.CombatData.GetObjects(index);
+                result = Combat.CombatData.GetObjects<TacticalBattleUnit>(index);
                 index = -10;
             }
 
@@ -622,9 +622,9 @@ public partial class CombatMap : GameMap
 
             while (index != start && index > -1 && index < Combat.CombatData.GetCount())
             {
-                if (Combat.CombatData.GetObjects(index) != null && Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || ((TacticalBattleUnit)Combat.CombatData.GetObjects(index)).MovePoints > 0) && Combat.CombatData.GetObjects(index).GetEnabled() && Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
+                if (Combat.CombatData.GetObjects(index) != null && Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || Combat.CombatData.GetObjects<TacticalBattleUnit>(index).MovePoints > 0) && Combat.CombatData.GetObjects(index).GetEnabled() && Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
                 {
-                    result = (TacticalBattleUnit)Combat.CombatData.GetObjects(index);
+                    result = Combat.CombatData.GetObjects<TacticalBattleUnit>(index);
                     index = -10;
                 }
 
@@ -721,10 +721,10 @@ public partial class CombatMap : GameMap
         i = 0;
         while (i < Combat.CombatData.GetCount())
         {
-            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(i)).Troop == unit && Combat.CombatData.GetObjects(i).GetEnabled())
+            if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit combatUnit && combatUnit.Troop == unit && Combat.CombatData.GetObjects(i).GetEnabled())
             {
-                x = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexX();
-                y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(i)).UnitHexSprite.GetHexY();
+                x = combatUnit.UnitHexSprite.GetHexX();
+                y = combatUnit.UnitHexSprite.GetHexY();
                 level = 0;
                 i = Combat.CombatData.GetCount();
             }

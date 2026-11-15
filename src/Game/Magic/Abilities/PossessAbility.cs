@@ -112,9 +112,9 @@ public partial class PossessAbility : TouchAbility
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         float probability;
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
-            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            probability = CombatTouchRoleProbability(attackerUnit, defender);
             var hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
             var defenderHitPoints = defender.GetHitPoints();
@@ -147,7 +147,7 @@ public partial class PossessAbility : TouchAbility
     public override sbyte GetTouchAttack(int level) => 5;
 
     // AoWAb.PAS:2646
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(106) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !(((CombatUnit)target).Troop is Leader);
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit targetUnit && !target.GetAbilityEnabled(106) && targetUnit.Troop.GetUnitType() != UnitType.Machine && !(targetUnit.Troop is Leader);
 
     // AoWAb.PAS:2656
     public override bool CanTouchUnit(Troop source, Troop target)
@@ -161,7 +161,7 @@ public partial class PossessAbility : TouchAbility
     public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
     {
         PossessCombatAction result = new PossessCombatAction(null) { Holder = CreationHolder() };
-        result.Initialize(successful: CombatTouchRole((CombatUnit)source, target), sourceId: source.Id, targetId: target.Id);
+        result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);
         return result;
     }
 

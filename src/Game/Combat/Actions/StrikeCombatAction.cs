@@ -43,20 +43,20 @@ public partial class StrikeCombatAction : DamageCombatAction
             target.ExecuteDamageEffects(Effects);
         }
 
-        if (DamageDone != 0 && StrikeMode.Contains(StrikeModeElement.LifeStealing) && target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine)
+        if (DamageDone != 0 && StrikeMode.Contains(StrikeModeElement.LifeStealing) && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine)
         {
             source.SetHitPoints((byte)(source.GetHitPoints() + 1));
         }
 
-        if (StrikeMode.Contains(StrikeModeElement.CausedFear) && target is CombatUnit)
+        if (StrikeMode.Contains(StrikeModeElement.CausedFear) && target is CombatUnit fearTarget)
         {
-            GamePack.Current.AbilityControl.GetAbility(108).Expand(((CombatUnit)target).Troop);
+            GamePack.Current.AbilityControl.GetAbility(108).Expand(fearTarget.Troop);
         }
 
-        if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit)
+        if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit entangledTarget)
         {
-            GamePack.Current.AbilityControl.GetAbility(94).Expand(((CombatUnit)target).Troop);
-            data = (UnitEnchantmentAbilityData)((CombatUnit)target).Troop.GetAbilityData(94);
+            GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
+            data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             if (data != null)
             {
                 data.EnchantmentPlayerIndex = source.CombatPlayer;

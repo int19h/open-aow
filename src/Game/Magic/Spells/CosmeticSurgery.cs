@@ -55,9 +55,9 @@ public partial class CosmeticSurgery : UnitSpell
             caster.CasterSourceId = source.UnitId;
             caster.CasterSpellId = SpellId;
             caster.TargetUnitId = targets.GetUnit(0).UnitId;
-            if (targets.GetUnit(0) is Hero)
+            if (targets.GetUnit(0) is Hero faceTarget)
             {
-                caster.FaceIndex = ((Hero)targets.GetUnit(0)).FaceIndex;
+                caster.FaceIndex = faceTarget.FaceIndex;
             }
             else
             {
@@ -95,7 +95,7 @@ public partial class CosmeticSurgery : UnitSpell
 
             if (expanded)
             {
-                enchantment = (CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)target.GetAbilityData(126)).Enchantment;
+                enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.FaceIndex = data[0];
                 enchantment.SetSource(source.Player);

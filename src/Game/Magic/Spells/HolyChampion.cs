@@ -41,7 +41,7 @@ public partial class HolyChampion : UnitSpell
         {
             if (target.ExpandAbility(160))
             {
-                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(160)).Enchantment;
+                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(160).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

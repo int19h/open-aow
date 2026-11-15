@@ -119,11 +119,11 @@ public partial class UnitWindow : UIModule
         u = UI.General.SelectedUnit;
         if (u != null)
         {
-            if (u is Hero)
+            if (u is Hero hero)
             {
-                if (((Hero)u).GetItemsOnGround() != null)
+                if (hero.GetItemsOnGround() != null)
                 {
-                    _groundCount = ((Hero)u).GetItemsOnGround().Count;
+                    _groundCount = hero.GetItemsOnGround().Count;
                     _groundOffset = offset;
                     // { Original last-page clamp leaves only four items visible. }
                     if (_groundCount < offset + 5)
@@ -138,38 +138,38 @@ public partial class UnitWindow : UIModule
 
                     GroundPreviousButton.Visible = _groundOffset > 0;
                     GroundNextButton.Visible = _groundOffset + 5 <= _groundCount;
-                    var count = ((Hero)u).GetItemsOnGround().Count;
+                    var count = hero.GetItemsOnGround().Count;
                     if (_groundOffset < count)
                     {
-                        var item = ((Hero)u).GetItemsOnGround().GetItem(_groundOffset);
+                        var item = hero.GetItemsOnGround().GetItem(_groundOffset);
                         Ground1CheckBox.Tag = item.ItemId;
                     }
 
-                    var count2 = ((Hero)u).GetItemsOnGround().Count;
+                    var count2 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 1 < count2)
                     {
-                        var item = ((Hero)u).GetItemsOnGround().GetItem(_groundOffset + 1);
+                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 1);
                         Ground2CheckBox.Tag = item.ItemId;
                     }
 
-                    var count3 = ((Hero)u).GetItemsOnGround().Count;
+                    var count3 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 2 < count3)
                     {
-                        var item = ((Hero)u).GetItemsOnGround().GetItem(_groundOffset + 2);
+                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 2);
                         Ground3CheckBox.Tag = item.ItemId;
                     }
 
-                    var count4 = ((Hero)u).GetItemsOnGround().Count;
+                    var count4 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 3 < count4)
                     {
-                        var item = ((Hero)u).GetItemsOnGround().GetItem(_groundOffset + 3);
+                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 3);
                         Ground4CheckBox.Tag = item.ItemId;
                     }
 
-                    var count5 = ((Hero)u).GetItemsOnGround().Count;
+                    var count5 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 4 < count5)
                     {
-                        var item = ((Hero)u).GetItemsOnGround().GetItem(_groundOffset + 4);
+                        var item = hero.GetItemsOnGround().GetItem(_groundOffset + 4);
                         Ground5CheckBox.Tag = item.ItemId;
                     }
                 }
@@ -459,11 +459,11 @@ public partial class UnitWindow : UIModule
     {
         string reason = "";
         UI.General.PlayButtonSound(0);
-        if (s_selectedItem != null && UI.General.SelectedUnit is Hero)
+        if (s_selectedItem != null && UI.General.SelectedUnit is Hero hero)
         {
-            if (((Hero)UI.General.SelectedUnit).CanUseItem(s_selectedItem.Tag, ref reason))
+            if (hero.CanUseItem(s_selectedItem.Tag, ref reason))
             {
-                ((Hero)UI.General.SelectedUnit).UseItem(s_selectedItem.Tag);
+                hero.UseItem(s_selectedItem.Tag);
             }
             else
             {
@@ -504,9 +504,9 @@ public partial class UnitWindow : UIModule
         Item item;
         UIComponent component;
         component = sender;
-        if (component.Tag != -1)
+        if (component.Tag != -1 && UI.General.SelectedUnit is Hero heroUnit)
         {
-            u = (Hero)UI.General.SelectedUnit;
+            u = heroUnit;
             item = u.Inventory.Items.FindItem(component.Tag);
             if (item == null)
             {

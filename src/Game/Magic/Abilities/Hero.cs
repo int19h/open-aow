@@ -82,6 +82,9 @@ public partial class Hero : Troop
 
     public sbyte CastingPoints { get; private set; }
     public int CastingSpellId { get; private set; }
+
+    public override int GetCastingSpellId() => CastingSpellId;
+
     public int CastingManaValue { get; private set; }
     public int CastingProgress { get; private set; }
     public int LibraryId { get; set; }
@@ -500,7 +503,7 @@ public partial class Hero : Troop
         }
         else
         {
-            index = ((CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)GetAbilityData(126)).Enchantment).FaceIndex;
+            index = ((CosmeticSurgeryEnchantment)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
             result = GamePack.Current.FaceResources.GetFaceResource(index).GetCellImage();
         }
 
@@ -2146,7 +2149,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1876
-    public bool ExecuteStartCasting(int spellId)
+    public override bool ExecuteStartCasting(int spellId)
     {
         bool result;
         Spell spell;
@@ -2256,18 +2259,6 @@ public partial class Hero : Troop
         }
     }
 
-    // Hero.PAS:2098
-    public int CastingMana(Spell spell)
-    {
-        int result = spell.BaseManaCost;
-        if (StrategicMap.Current.GlobalMagicControl.GetSphereManaDoubled(spell.MagicSphere))
-        {
-            result = result * 2;
-        }
-
-        return result;
-    }
-
     // Hero.PAS:2104
     public int CastingTurns(Spell spell)
     {
@@ -2333,7 +2324,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:2136
-    public bool CanCastSpellInstantly(int spellId, int mana, ref string reason)
+    public override bool CanCastSpellInstantly(int spellId, int mana, ref string reason)
     {
         bool result;
         if (!StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
@@ -2357,7 +2348,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:2149
-    public bool CanCastSpell(int spellId, ref string reason)
+    public override bool CanCastSpell(int spellId, ref string reason)
     {
         bool result;
         Spell spell;

@@ -42,9 +42,9 @@ public partial class CombatSpell : Spell
         action = new CombatSpellCombatAction(null) { Holder = CreationHolder() };
         action.SpellId = SpellId;
         action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
-        if (chargeMana)
+        if (chargeMana && source is CombatUnit sourceUnit)
         {
-            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
+            action.ManaCost = sourceUnit.Troop.CastingMana(this);
         }
 
         return action;
@@ -110,8 +110,8 @@ public partial class CombatSpell : Spell
         CombatObject target;
         FastBattleSpellCommand command;
         AbilityDamageValues values = default;
-        hero = ((CombatUnit)commands.Source).Troop;
-        if (hero is Hero && ((Hero)hero).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+        hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
+        if (hero != null && hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
         {
             distance = commands.Combat.GetRoundDistance();
             if (CombatInfo.Range == -1)
