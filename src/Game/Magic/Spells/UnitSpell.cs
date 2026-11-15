@@ -231,7 +231,9 @@ public partial class UnitSpell : Spell
         caster.CasterSpellId = SpellId;
         for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
-            if (!((Army)targets.Holder).GetUnitConcealedForPlayer(i, source.Player))
+            // Concealment lives on an army. Another holder keeps no such record, so none of its
+            // troops is concealed.
+            if (targets.Holder is not Army holder || !holder.GetUnitConcealedForPlayer(i, source.Player))
             {
                 var troop = targets.GetUnit(i);
                 caster.TargetUnits.AddUnit(troop);
